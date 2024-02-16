@@ -10,6 +10,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
+import { TableModule } from 'primeng/table';
 
 
 
@@ -26,7 +27,8 @@ import { DropdownModule } from 'primeng/dropdown';
     TabViewModule,
     SelectButtonModule,
     FormsModule,
-    DropdownModule
+    DropdownModule,
+    TableModule
   ]
 })
 export class ReferralModule { }
