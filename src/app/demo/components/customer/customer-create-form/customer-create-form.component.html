@@ -1,0 +1,408 @@
+<div class="card">
+    <div class="grid">
+        <div class="col-12 sm:col-6">
+          <h3 class="mr-3">Create Customer</h3>
+          <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
+        </div>
+        <div class="col-12 sm:col-6">
+            <div class="flex justify-content-start xl:justify-content-end align-items-center flex-wrap">
+                <div class="flex align-items-center mr-4 flex-wrap">
+                    <h5 class="mr-3 mb-2">Account Type:</h5>
+                    <p-selectButton [options]="policyHolderList" (click)="setPolicyType()" [(ngModel)]="productItem.IdType" optionLabel="CodeDesc" optionValue="Code"></p-selectButton>
+                </div>
+                <p-button class="mt-4 lg:mt-0" label="Change Customer" size="small" (click)="navigateToCustomer()"></p-button>
+            </div>
+        </div>
+    </div>
+</div> 
+<p-messages [(value)]="messages" [enableService]="false"></p-messages>
+<div class="grid">
+   
+    <div class="col-12 lg:col-6 py-0" *ngIf="productItem.IdType == '1'; else coporatePersonalForm">
+        <div class="card">
+            <h4 class="ml-3">Personal Information</h4>
+            <div class="flex justify-content-start flex-wrap w-full form-container">
+                <div class="flex flex-column m-3">
+                    <label for="username">Customer Title*</label>
+                    <p-dropdown inputId="make" 
+                        class="w-full" 
+                        styleClass="w-full" 
+                        (onChange)="onTitleChange()"
+                        [options]="titleList" 
+                        [(ngModel)]="productItem.Title" 
+                        optionLabel="CodeDesc" 
+                        optionValue="Code" 
+                        placeholder="Select Customer Title">
+                    </p-dropdown>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="username">Customer Name*</label>
+                    <input pInputText id="username" maxlength="150" [(ngModel)]="productItem.ClientName" placeholder="Enter Customer Name"/>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="username">Occupation*</label>
+                    <p-dropdown inputId="make" 
+                        class="w-full" 
+                        styleClass="w-full" 
+                        [options]="occupationList" 
+                        [(ngModel)]="productItem.Occupation" 
+                        optionLabel="CodeDesc" 
+                        optionValue="Code" 
+                        placeholder="Select Occupation">
+                    </p-dropdown>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="username">Gender*</label>
+                    <p-dropdown inputId="make" 
+                        class="w-full" 
+                        styleClass="w-full" 
+                        [options]="genderList" 
+                        [(ngModel)]="productItem.Gender"
+                        optionLabel="CodeDesc" 
+                        optionValue="Code" 
+                        placeholder="Select Code">
+                    </p-dropdown>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="username">Country Code*</label>
+                    <p-dropdown inputId="make" 
+                        class="w-full" 
+                        styleClass="w-full" 
+                        [options]="mobileCodeList" 
+                        [(ngModel)]="productItem.MobileCode" 
+                        optionLabel="CodeDesc" 
+                        optionValue="Code" 
+                        placeholder="Select Code">
+                    </p-dropdown>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="username">Mobile Number*</label>
+                    <p-inputNumber mode="decimal" maxlength="10"
+                        inputId="withoutgrouping" 
+                        styleClass="w-full"
+                        class="w-full"
+                        [(ngModel)]="productItem.MobileNo"
+                        placeholder="Enter Phone Number"
+                        [useGrouping]="false"> 
+                    </p-inputNumber>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="username">Email ID</label>
+                    <input pInputText id="username" [(ngModel)]="productItem.EmailId" placeholder="Enter Email ID"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 py-0" *ngIf="productItem.IdType == '1'; else coporateAdditionalForm">
+        <div class="card">
+            <h4 class="ml-3">Additional Information</h4>
+            <div class="flex justify-content-start flex-wrap w-full form-container">
+                <div class="flex flex-column m-3">
+                    <label for="username">Identity Type*</label>
+                    <p-dropdown inputId="make" 
+                        class="w-full" 
+                        styleClass="w-full" 
+                        [options]="policyHolderTypeList" 
+                        [(ngModel)]="productItem.PolicyHolderTypeid" 
+                        optionLabel="CodeDesc" 
+                        optionValue="Code"
+                        placeholder="Select Identity Type">
+                    </p-dropdown>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="username">ID Number*</label>
+                    <input pInputText id="username" [(ngModel)]="productItem.IdNumber"  placeholder="Enter ID Number"/>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="username">Date Of Birth</label>
+                    <p-calendar class="w-full" 
+                        styleClass="w-full" 
+                        [(ngModel)]="productItem.dobOrRegDate"
+                        dateFormat="dd/mm/yy"
+                        placeholder="Enter Registration Date">
+                    </p-calendar>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="username">Prefered Notification*</label>
+                    <p-dropdown inputId="make" 
+                        class="w-full" 
+                        styleClass="w-full" 
+                        [options]="notificationList" 
+                        [(ngModel)]="productItem.PreferredNotification" 
+                        optionLabel="CodeDesc" 
+                        optionValue="Code"
+                        placeholder="Select Perferred Notification">
+                    </p-dropdown>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="username">Tax Excempted*</label>
+                    <div class="flex justify-content-start gap-3">
+                        <div class="flex align-items-center">
+                            <p-radioButton name="Yes" value="Y" [(ngModel)]="productItem.isTaxExempted" inputId="ingredient1"></p-radioButton>
+                            <span for="ingredient1" class="ml-2">Yes</span>
+                        </div>
+                        <div class="flex align-items-center">
+                            <p-radioButton name="No" value="N" [(ngModel)]="productItem.isTaxExempted" inputId="ingredient2"></p-radioButton>
+                            <span for="ingredient2" class="ml-2">No</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-column m-3" *ngIf="productItem.isTaxExempted=='Y'">
+                    <label for="username">Tax Excempted No*</label>
+                    <input pInputText id="username" placeholder="Enter Tax Excempted No"/>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="username">Status*</label>
+                    <div class="flex justify-content-start gap-3">
+                        <div class="flex align-items-center">
+                            <p-radioButton name="Yes" value="Y" [(ngModel)]="productItem.Clientstatus" inputId="ingredient1"></p-radioButton>
+                            <span for="ingredient1" class="ml-2">Active</span>
+                        </div>
+                        <div class="flex align-items-center">
+                            <p-radioButton name="No" value="N" [(ngModel)]="productItem.Clientstatus" inputId="ingredient2"></p-radioButton>
+                            <span for="ingredient2" class="ml-2">DeActive</span>
+                        </div>
+                        <div class="flex align-items-center">
+                            <p-radioButton name="Pending" value="P" [(ngModel)]="productItem.Clientstatus" inputId="ingredient3"></p-radioButton>
+                            <span for="ingredient3" class="ml-2">Pending</span>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-12 py-0">
+        <div class="card">
+            <h4 class="ml-3">Address Details</h4>
+            <div class="flex justify-content-start flex-wrap w-full form-container">
+                <div class="flex flex-column m-3">
+                    <label for="username">Street*</label>
+                    <input pInputText id="username" placeholder="Enter Street"/>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="username">Country*</label>
+                    <p-dropdown inputId="make" 
+                        class="w-full" 
+                        styleClass="w-full" 
+                        [options]="countryList" 
+                        (onChange)="getRegionList('change')"
+                        [(ngModel)]="productItem.Country" 
+                        optionLabel="CodeDesc"
+                        optionValue="Code" 
+                        placeholder="Select Country">
+                    </p-dropdown>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="username">Region*</label>
+                    <p-dropdown inputId="make" 
+                        class="w-full" 
+                        styleClass="w-full" 
+                        [options]="regionList" 
+                        (onChange)="getStateList('change')"
+                        [(ngModel)]="productItem.state" 
+                        optionLabel="CodeDesc"
+                        optionValue="Code" 
+                        placeholder="Select Region">
+                    </p-dropdown>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="username">District</label>
+                    <p-dropdown inputId="make" 
+                        class="w-full" 
+                        styleClass="w-full" 
+                        [options]="stateList" 
+                        [(ngModel)]="productItem.CityName" 
+                        optionLabel="CodeDesc"
+                        optionValue="Code" 
+                        placeholder="Select District">
+                    </p-dropdown>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="username">Pincode</label>
+                    <p-inputNumber mode="decimal" 
+                        inputId="withoutgrouping" 
+                        maxlength="15"
+                        styleClass="w-full"
+                        class="w-full"
+                        placeholder="Enter Pincode"
+                        [(ngModel)]="productItem.PinCode"
+                        [useGrouping]="false"> 
+                    </p-inputNumber>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #coporateAdditionalForm>
+        <div class="col-12 lg:col-6 py-0">
+            <div class="card">
+                <h4 class="ml-3">Additional Information</h4>
+                <div class="flex justify-content-start flex-wrap w-full form-container">
+                    <div class="flex flex-column m-3">
+                        <label for="username">Identity Type*</label>
+                        <p-dropdown inputId="make" 
+                            class="w-full" 
+                            styleClass="w-full" 
+                            [options]="policyHolderTypeList" 
+                            [(ngModel)]="productItem.PolicyHolderTypeid" 
+                            optionLabel="CodeDesc" 
+                            optionValue="Code"
+                            placeholder="Select Identity Type">
+                        </p-dropdown>
+                    </div>
+                    <div class="flex flex-column m-3">
+                        <label for="username">ID Number*</label>
+                        <input pInputText id="username" placeholder="Enter ID Number"/>
+                    </div>
+                    <div class="flex flex-column m-3">
+                        <label for="username">Registration Date*</label>
+                        <p-calendar class="w-full" 
+                            styleClass="w-full" 
+                            [(ngModel)]="productItem.dobOrRegDate"
+                            dateFormat="dd/mm/yy"
+                            placeholder="Enter Registration Date">
+                        </p-calendar>
+                    </div>
+                    <div class="flex flex-column m-3">
+                        <label for="username">Prefered Notification*</label>
+                        <p-dropdown inputId="make" 
+                            class="w-full" 
+                            styleClass="w-full" 
+                            [options]="notificationList" 
+                            [(ngModel)]="productItem.PreferredNotification"
+                            optionLabel="CodeDesc" 
+                        optionValue="Code"
+                            placeholder="Select Perferred Notification">
+                        </p-dropdown>
+                    </div>
+                    <div class="flex flex-column m-3">
+                        <label for="username">Status*</label>
+                        <div class="flex justify-content-start gap-3">
+                            <div class="flex align-items-center">
+                                <p-radioButton name="Yes" value="Y" [(ngModel)]="productItem.Clientstatus" inputId="ingredient1"></p-radioButton>
+                                <span for="ingredient1" class="ml-2">Active</span>
+                            </div>
+                            <div class="flex align-items-center">
+                                <p-radioButton name="No" value="N" [(ngModel)]="productItem.Clientstatus" inputId="ingredient2"></p-radioButton>
+                                <span for="ingredient2" class="ml-2">DeActive</span>
+                            </div>
+                            <div class="flex align-items-center">
+                                <p-radioButton name="Pending" value="P" [(ngModel)]="productItem.Clientstatus" inputId="ingredient3"></p-radioButton>
+                                <span for="ingredient3" class="ml-2">Pending</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-column m-3">
+                        <label for="username">VRN/ GST Number*</label>
+                        <input pInputText id="username" [(ngModel)]="productItem.vrngst" maxlength="20" placeholder="Enter VRN/ GST Number"/>
+                    </div>
+                    <div class="flex flex-column m-3">
+                        <label for="username">Tax Excempted*</label>
+                        <div class="flex justify-content-start gap-3">
+                            <div class="flex align-items-center">
+                                <p-radioButton name="Yes" value="Y" [(ngModel)]="productItem.isTaxExempted" inputId="ingredient1"></p-radioButton>
+                                <span for="ingredient1" class="ml-2">Yes</span>
+                            </div>
+                            <div class="flex align-items-center">
+                                <p-radioButton name="No" value="N" [(ngModel)]="productItem.isTaxExempted" inputId="ingredient2"></p-radioButton>
+                                <span for="ingredient2" class="ml-2">No</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-column m-3" *ngIf="productItem.isTaxExempted=='Y'">
+                        <label for="username">Tax Excempted No*</label>
+                        <input pInputText id="username" placeholder="Enter Tax Excempted No"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #coporatePersonalForm>
+        <div class="col-12 lg:col-6 py-0">
+            <div class="card">
+                <h4 class="ml-3">Personal Information</h4>
+                <div class="flex justify-content-start flex-wrap w-full form-container">
+                    <div class="flex flex-column m-3">
+                        <label for="username">Customer Title*</label>
+                        <p-dropdown inputId="make" 
+                            class="w-full" 
+                            styleClass="w-full" 
+                            (onChange)="onTitleChange()"
+                            [options]="titleList" 
+                            [(ngModel)]="productItem.Title" 
+                            optionLabel="CodeDesc" 
+                            optionValue="Code" 
+                            placeholder="Select Customer Title">
+                        </p-dropdown>
+                    </div>
+                    <div class="flex flex-column m-3">
+                        <label for="username">Customer Name*</label>
+                    <input pInputText id="username" maxlength="150" [(ngModel)]="productItem.ClientName" placeholder="Enter Customer Name"/>
+                    </div>
+                    <div class="flex flex-column m-3">
+                        <label for="username">Occupation*</label>
+                        <p-dropdown inputId="make" 
+                            class="w-full" 
+                            styleClass="w-full" 
+                            [options]="occupationList" 
+                            [(ngModel)]="productItem.Occupation" 
+                            optionLabel="CodeDesc" 
+                            optionValue="Code" 
+                            placeholder="Select Occupation">
+                        </p-dropdown>
+                    </div>
+                    <div class="flex flex-column m-3">
+                        <label for="username">Business Type*</label>
+                        <p-dropdown inputId="make" 
+                            class="w-full" 
+                            styleClass="w-full" 
+                            [options]="businessTypeList" 
+                            [(ngModel)]="productItem.BusinessType" 
+                            optionLabel="CodeDesc" 
+                            optionValue="Code" 
+                            placeholder="Select BusinessType">
+                        </p-dropdown>
+                    </div>
+                    <div class="flex flex-column m-3">
+                        <label for="username">Country Code*</label>
+                        <p-dropdown inputId="make" 
+                            class="w-full" 
+                            styleClass="w-full" 
+                            [options]="mobileCodeList" 
+                            [(ngModel)]="productItem.MobileCode" 
+                            optionLabel="CodeDesc" 
+                            optionValue="Code" 
+                            placeholder="Select Code">
+                        </p-dropdown>
+                    </div>
+                    <div class="flex flex-column m-3">
+                        <label for="username">Mobile Number*</label>
+                        <p-inputNumber mode="decimal" maxlength="10"
+                            inputId="withoutgrouping" 
+                            styleClass="w-full"
+                            class="w-full"
+                            [(ngModel)]="productItem.MobileNo"
+                            placeholder="Enter Phone Number"
+                            [useGrouping]="false"> 
+                        </p-inputNumber>
+                    </div>
+                    <div class="flex flex-column m-3">
+                        <label for="username">Email ID</label>
+                        <input pInputText id="username" [(ngModel)]="productItem.EmailId" placeholder="Enter Email ID"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>
+
+<div class="flex justify-content-between">
+    <p-button label="Back" [routerLink]="['/customer']" class="p-3 mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+    <p-button class="p-3 text-l pi-button mr-0" (click)="onSubmit(productItem)">Submit</p-button>
+</div>
+
+
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+    

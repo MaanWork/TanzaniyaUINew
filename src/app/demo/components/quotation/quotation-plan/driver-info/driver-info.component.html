@@ -1,0 +1,28 @@
+<h2>Driver Info for Verification</h2>
+<p>Hi, We need your attention to start your Insurance</p>
+
+<div class="grid align-items-center mt-4 p-4">
+    <p-inputSwitch class="mr-4"></p-inputSwitch><label for="">Use same Customer details</label>
+</div>
+
+<div class="grid">
+    <div class="flex flex-column m-3">
+        <label for="username">Driver Name*</label>
+        <input pInputText id="username" placeholder="Enter Driver Name"/>
+    </div>
+    <div class="flex flex-column m-3">
+        <label for="username">Chasis Number*</label>
+        <input pInputText id="username" placeholder="Enter Chasis Number"/>
+    </div>
+    <div class="flex flex-column m-3">
+        <label for="username">Licence Number*</label>
+        <input pInputText id="username" placeholder="Enter Licence Number"/>
+    </div>
+    <div class="flex flex-column m-3">
+        <label for="username">Date of Birth*</label>
+        <input pInputText type="date" id="username" placeholder="Enter Date Of Birth"/>
+    </div>
+</div>
+
+<p-button label="Back" [routerLink]="['/quotation/plan/main/accessories']" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+<p-button label="Proceed" [routerLink]="['/quotation/plan/main/payment']" class="text-l pi-button mt-6"></p-button>

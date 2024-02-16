@@ -1,0 +1,160 @@
+<div class="flex flex-wrap justify-content-between">
+    <h2>Choose Your Accessories Plan</h2>
+</div>
+
+<p class="mt-1">According to your budget you can pay monthly or one time* with %10 discount.</p>
+
+    <div class="grid" >
+        <div class="lg:col-6 md:col-6 col-12">
+            <div class="mb-3" *ngIf="ChassisList.length>2">
+                <label for="username">Chassis No*</label><br>
+                <p-dropdown [options]="ChassisList" optionLabel="CodeDesc" [(ngModel)]="productItem.AccessoriesChassisNo" optionValue="Code" [showClear]="true" styleClass="w-20rem"></p-dropdown>
+            </div>
+            <div class="mb-3">
+                <label for="username">Accessories*</label><br>
+                <p-dropdown [options]="AccLists" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="productItem.AccessoriesType" [showClear]="true" styleClass="w-20rem"></p-dropdown>
+            </div>
+            <div class="mb-3">
+                <label for="username">Serial No*</label><br>
+                <input type="text" [(ngModel)]="productItem.AccessoriesSerialNo" pInputText class="w-20rem"/>
+            </div>
+            <div class="mb-3">
+                <label for="username">Sum Insured*</label><br>
+                <input type="text" pInputText class="w-20rem" [(ngModel)]="productItem.AccessoriesSI" (keyup)="individualCommaFormatted('accessories')"  />
+            </div>
+            <div class="flex flex-wrap justify-content-center">
+                <p-button label="Save Accessories" (click)="onAccessoriesSubmit()" class="text-l pi-button"></p-button>
+            </div>
+        </div>
+        <div class="lg:col-6 md:col-6 col-12">
+                <div class="flex flex-wrap justify-content-between">
+                    <h4 class="m-0 p-0">Existing Accessories</h4>
+                    <!-- <p-chip label="Customer ID" icon="pi pi-user"></p-chip>
+                    <div class="button-group">
+                        <p-button styleClass="p-button-outlined" icon="pi pi-phone"></p-button>
+                        <p-button styleClass="p-button-outlined" icon="pi pi-whatsapp"></p-button>
+                        <p-button styleClass="p-button-outlined" icon="pi pi-envelope"></p-button>
+                    </div> -->
+                </div>
+                <hr class="m-0 p-0">
+                <div class="card w-full p-0 m-0 mt-1">
+                    <ng-container *ngFor="let entry of accessoriesList;let i=index">
+                        
+                            <p-table [value]="accessoriesList" [tableStyle]="{ 'min-width': '50rem' }">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Chassis No</th>
+                                        <th>Name</th>
+                                        <th>Serial No</th>
+                                        <th>SumInsured</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-product let-i="rowIndex">
+                                    <ng-container *ngIf="product.RiskId && product.ItemId">
+                                        <tr>
+                                            <td>{{getAssName(product.RiskId)}}</td>
+                                            <td>{{getAssCont(product.ItemId)}}</td>
+                                            <td>{{product.SerialNoDesc}}</td>
+                                            <td>{{product.SumInsured | commaseparator }}</td>
+                                            <td>
+                                                <p-button icon="pi pi-pencil" severity="danger" (click)="onEditAccessories(i,product)" styleClass="p-button-outlined"></p-button>&nbsp;
+                                                <p-button icon="pi pi-trash" severity="danger" (click)="AccessoriesDelete(product)"  styleClass="p-button-outlined"></p-button>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                    
+                                </ng-template>
+                            </p-table>
+                    </ng-container>
+                    
+                    
+                </div>
+        </div>
+    </div>
+
+
+<div class="flex flex-wrap justify-content-end">
+    <div class="text-white surface-900 px-6 py-3 border-round-lg" (click)="showSidebar()">
+        <div class="flex flex-wrap justify-content-between" >
+            <div >
+                <h5 class="text-white mb-1 mr-3">Total SumInsured</h5>
+            </div>
+            <div >
+                <h6 class="text-white my-0">{{totalAccessoriesSI | commaseparator }}</h6>
+            </div>
+        </div>
+        <div class="flex flex-wrap justify-content-between" >
+            <div><h5 class="text-white mb-1 mr-3">Actual SumInsured</h5></div>
+            <div><h6 class="text-white my-0">{{actualAccessoriesSI | commaseparator }}</h6></div>
+        </div>
+    </div>
+</div>
+<div class="flex flex-wrap justify-content-center mt-4">
+    <div class="mb-4">
+        <p-button label="Back" [routerLink]="['/quotation/plan/main/quote-type']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+        <p-button label="Proceed" (click)="onSaveAccessories()" class="text-l pi-button mr-0"></p-button>
+    </div>
+    <!-- <div class="card grid text-white surface-900 px-4 py-2" (click)="showSidebar()">
+        <div class="col-6">
+            <p class="mb-0"><s>$455</s></p>
+            <h6 class="text-white mt-0">$400/ yearly</h6>
+        </div>
+        <p-button class="col-6" styleClass="surface-900" label="View Cart" severity="primary"></p-button>
+    </div> -->
+</div>
+
+
+
+<p-sidebar [(visible)]="sidebarVisible" position="right" styleClass="sm:20rem md:w-30rem">
+    <ng-template pTemplate="header">
+        <h3>Jared Black</h3>
+    </ng-template>
+    <ng-template pTemplate="content">
+        <div class="flex flex-wrap justify-content-between">
+            <p-chip label="Customer ID" icon="pi pi-user"></p-chip>
+            <div class="button-group">
+                <p-button styleClass="p-button-outlined" icon="pi pi-phone"></p-button>
+                <p-button styleClass="p-button-outlined" icon="pi pi-whatsapp"></p-button>
+                <p-button styleClass="p-button-outlined" icon="pi pi-envelope"></p-button>
+            </div>
+        </div>
+        <hr>
+        <div class="card w-full">
+            <h4>Accessories 1</h4>
+            <div class="grid">
+                <div class="col-9">
+                    <p>JRED</p>
+                    <div class="flex flex-wrap mb-3">
+                        <p-dropdown [options]="years" optionLabel="label" [showClear]="true"></p-dropdown>
+                    </div>
+                </div>
+                <div class="col-3 text-right">
+                    <h4 class="text-orange-500 mb-0">$100</h4>
+                    <p><s>$140</s></p>
+                    <p class="text-orange-500">40% Off</p>
+                </div>
+            </div>
+            <div class="grid justify-content-between px-3">
+                <p>40% discount is applied for Accessories</p>
+                <p-button icon="pi pi-trash" severity="danger" styleClass="p-button-outlined"></p-button>
+            </div>
+        </div>
+    </ng-template>
+    
+    
+    <ng-template pTemplate="footer">
+        <div class="flex flex-wrap justify-content-between">
+            <div class="mr-0">
+                <p-button class="p-3 text-l pi-button">Proceed</p-button>
+            </div>
+            <div class="text-white surface-900 px-6 py-3 border-round-lg flex" (click)="showSidebar()">
+                <h5 class="text-white mb-1 mr-3">Total</h5>
+                <div>
+                    <p class="mb-0"><s>$455</s></p>
+                    <h6 class="text-white my-0">$400/ yearly</h6>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-sidebar>

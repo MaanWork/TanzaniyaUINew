@@ -1,0 +1,86 @@
+/* You can add global styles to this file, and also import other style files */
+
+$gutter: 1rem; //for primeflex grid system
+@import "assets/layout/styles/layout/layout.scss";
+
+/* PrimeNG */
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+
+/* Demos */
+@import "assets/demo/styles/flags/flags.css";
+@import "assets/demo/styles/badges.scss";
+@import "assets/demo/styles/code.scss";
+
+.disabled{
+    cursor: not-allowed !important;
+}
+.customFont{
+    font-size: 15px !important;
+}
+.customFont2{
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #FC4412 !important;
+}
+.customLabel{
+    font-size: 17px !important;
+}
+.customValue{
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #FC4412 !important;
+}
+.customValue2{
+    font-size: 2rem !important;
+    font-weight: 600 !important;
+    color: #FC4412 !important;
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1100 !important;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(1px);
+    height: 100vh;
+    width: 100%;
+}
+.visionloading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1110;
+}
+.loader-box .spinner-loader-gif img {
+    position: absolute;
+    width: 240px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.loader-box .spinner-loader-img .img-tag {
+    width: 100px;
+    height: 100px;
+    border-radius: 1rem;
+    background-color: white;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+ .input-form-error {
+    font-size: 100%;
+    color: red;
+    font-weight: 500;
+}
+
+.input-form-error .error-text {
+    font-family: var(--our-font-family-new) !important;
+    font-size: 1rem !important;
+}
+.searchText{
+    text-transform: uppercase;
+}

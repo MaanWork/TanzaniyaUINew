@@ -1,0 +1,191 @@
+<ng-container *ngIf="!draftSection">
+    <div class="grid" >
+        <div class="lg:col-9 md:col-9 col-12">
+            <h2>Just more one more step!</h2>
+            <p>Hi, Please provide your Payment detials to complete the payment</p>
+            <h4>Payment Type</h4>
+        </div>
+        <div class="lg:col-3 md:col-3 col-12">
+            <div class="card grid text-white surface-900 px-4 py-2" (click)="showSidebar()">
+                <div class="col-12">
+                    <p class="mb-0">Total Premium</p>
+                    <h6 class="text-white mt-0">{{totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <p-selectButton [options]="paymentTypeList" [(ngModel)]="selectedPaymentOption" (click)="onRedirect()" optionLabel="CodeDesc" optionValue="Code"></p-selectButton>
+    
+    <h4>Payment Details</h4> 
+    <ng-container *ngIf="Third">
+        <div class="my-4">
+            <div class="mb-3">
+                <label for="username">Payee Name*</label><br>
+                <input type="text" [(ngModel)]="payeeName" maxlength="100" pInputText class="md:w-full lg:w-25rem"/>
+            </div>
+            <div class="mb-3">
+                <label for="username">Amount</label><br>
+                <input type="text" [(ngModel)]="payAmount" (keydown)="onAmountChange($event)" (keyup)="CommaFormatted()"  maxlength="50" pInputText class="md:w-full lg:w-25rem"/>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="Fourth">
+        <div class="grid" >
+            <div class="lg:col-5 md:col-5 col-12">
+                <label for="username">Bank Name</label>
+                <p-dropdown inputId="make" 
+                    class="w-full" 
+                    styleClass="w-full" 
+                    [options]="bankList" 
+                    [(ngModel)]="bankName" 
+                    optionLabel="CodeDesc" 
+                    optionValue="Code" 
+                    placeholder="Select Bank">
+                </p-dropdown>
+            </div>
+        </div>
+        <div class="grid" >
+            <div class="lg:col-5 md:col-5 col-12">
+                <label for="username">MICR Number*</label><br>
+                <input type="text" [(ngModel)]="micrNo"  maxlength="100" pInputText class="md:w-full"/>
+            </div>
+        </div>
+        <div class="grid" >
+            <div class="lg:col-5 md:col-5 col-12">
+                <label for="username">Cheque Number*</label><br>
+                <input type="text" [(ngModel)]="chequeNo"  maxlength="6" pInputText class="md:w-full"/>
+            </div>
+        </div>
+        <div class="grid" >
+            <div class="lg:col-5 md:col-5 col-12">
+                <label for="username">Cheque Date*</label><br>
+                <p-calendar class="md:w-full lg:w-25rem" 
+                    styleClass="w-full" 
+                    [minDate]="minDate" 
+                    [(ngModel)]="chequeDate"
+                    dateFormat="dd/mm/yy"
+                    placeholder="Select Start Date">
+                </p-calendar>
+            </div>
+        </div>
+    </ng-container>
+    <!-- <div class="my-4">
+        <div class="mb-3">
+            <label for="username">Bank Name*</label><br>
+            <input type="text" pInputText class="md:w-full lg:w-25rem"/>
+        </div>
+        <div class="mb-3">
+            <label for="username">MICR Number*</label><br>
+            <input type="text" pInputText class="md:w-full lg:w-25rem"/>
+        </div>
+    </div>
+    <div class="grid px-3 mt-4">
+        <div class="mr-4">
+            <label for="username">Cheque Number*</label><br>
+            <input pInputText class="md:w-full lg:w-12rem"/>
+        </div>
+        <div class="">
+            <label for="username">Cheque Date*</label><br>
+            <input type="date" pInputText class="md:w-full lg:w-11rem"/>
+        </div>
+    </div>
+    <div class="my-4">
+        <div class="mb-3">
+            <label for="username">Amount*</label><br>
+            <input type="text" pInputText class="md:w-full lg:w-25rem"/>
+        </div>
+    </div>
+    <p-fileUpload class="mb-3" mode="basic" chooseLabel="Upload Cheque Document" styleClass="p-button-outlined" name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000"></p-fileUpload>
+    -->
+    <div class="grid p-3 justify-content-between" style="max-width: 35rem;">
+        
+        <p-button label="Back" [routerLink]="['/quotation/plan/main/document-info']" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+        <p-button label="Convert To Draft" (click)="convertDraft()" class="text-l pi-button"></p-button>
+        <p-button label="Make Payment" *ngIf="!draftSection" (click)="onCashPayment()" class="text-l pi-button"></p-button>
+    </div>
+</ng-container>
+<ng-container *ngIf="draftSection">
+    <h2>Your Quote Has Been Successfully Saved As Draft...</h2>
+    <hr class="m-0 p-0">
+    <div class="grid" >
+        <div class="lg:col-6 md:col-6 col-12">
+            <div class="grid p-3 justify-content-center" >
+                <label for="username" class="customLabel"><b>Reference No</b></label><br>
+            </div>
+            <div class="grid p-3 justify-content-center" >
+                <span class="customValue">{{requestReferenceNo}}</span>
+            </div>
+        </div>
+        <div class="lg:col-6 md:col-6 col-12">
+            <div class="grid p-3 justify-content-center" >
+                <label for="username" class="customLabel"><b>Quote No</b></label><br>
+            </div>
+            <div class="grid p-3 justify-content-center" >
+                <span class="customValue">{{quoteNo}}</span>
+            </div>
+        </div>
+    </div>
+    <hr class="m-0 p-0">
+    <div class="grid p-3" >
+        <div class="lg:col-12 md:col-12 col-12 m-0 p-0">
+            <div class="grid p-3 justify-content-center" >
+                    <label for="username" class="customLabel"><b>Total Premium</b></label><br>
+            </div>
+            <div class="grid p-3 justify-content-center" >
+                <span class="customValue2">{{totalPremium|commaseparator}}&nbsp;({{currencyCode}})</span>
+            </div>
+        </div>
+    </div>
+    <hr class="m-0 p-0">
+    <div class="grid p-3 justify-content-center">
+        <p-button label="Back" [routerLink]="['/quotation/plan/main/document-info']" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+        <p-button label="Broker Quotation" (click)="onBrokerQuotation()" class="mr-6 text-l pi-button"></p-button>
+        <p-button label="Proceed"  (click)="onProceed()"  class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+    </div>
+</ng-container>
+
+
+<p-dialog [(visible)]="displayPayment" position="center" styleClass="lg:w-30rem">
+    <ng-template pTemplate="header">
+        <div class="inline-flex align-items-center justify-content-between gap-2 w-full">
+            <h4 class="text-green-400">Policy Generated Successfully</h4>
+        </div>
+    </ng-template>
+    <div class="container p-3">
+        <div class="grid">
+            <b class="col-12 md:col-6 p-0 mb-0">Reference Number</b>
+            <p class="col-12 md:col-6 md:text-right p-0 mb-0">test</p>
+            <b class="col-12 md:col-6 p-0 mb-0">Quote Number</b>
+            <p class="col-12 md:col-6 md:text-right p-0 mb-0">test</p>
+            <b class="col-12 md:col-6 p-0 mb-0">Policy Number</b>
+            <p class="col-12 md:col-6 md:text-right p-0 mb-0">test</p>
+            <b class="col-12 md:col-6 p-0 mb-0">Credit Quote Number</b>
+            <p class="col-12 md:col-6 md:text-right p-0 mb-0">test</p>
+            <b class="col-12 md:col-6 p-0 mb-0">Debit Quote Number</b>
+            <p class="col-12 md:col-6 md:text-right p-0 mb-0">test</p>
+        </div>
+        <div class="grid mt-5 justify-content-between">
+            <div>
+                <b>Need Help</b>
+                <p class="mt-2"><span class="pi pi-exclamation-circle"></span> Policy Issues</p>
+                <p><span class="pi pi-money-bill"></span> Payment Issues</p>
+                <p><span class="pi pi-box"></span> Others</p>
+            </div>
+            <div>
+                <b>Payment</b>
+                <p>Visa 90***</p>
+                <p-button label="Debit Note PDF" styleClass="p-button-outlined"></p-button>
+            </div>
+            <div>
+                <p-button label="Schedule PDF"></p-button>
+                <br>
+                <p-button label="Credit Note PDF" styleClass="p-button-outlined mt-4"></p-button>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="visible = false" label="Proceed" pAutoFocus [autofocus]="true"></p-button>
+    </ng-template>
+</p-dialog>
+<p-toast></p-toast>

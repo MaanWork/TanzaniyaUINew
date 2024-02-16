@@ -1,0 +1,336 @@
+<p-toast></p-toast>
+<div class="card">
+    <div class="grid">
+      <div class="col-12 sm:col-6 md:col-4">
+        <h3 class="mr-3">Quote Details</h3>
+      </div>
+      <div class="col-12 sm:col-6 md:col-8">
+        <div class="flex flex-wrap">
+            
+        </div>
+        <div class="flex justify-content-start sm:justify-content-end  flex-wrap">
+            <input pInputText id="username" maxlength="50" [(ngModel)]="regNo" placeholder="Search By Reg.No"/>&nbsp;
+            <p-button label="Search Vehicle" (onClick)="onSearchVehicle()"></p-button>&nbsp;
+            <p-button label="Create Vehicle Details" (click)="onCreateVehicle()"></p-button>
+        </div>
+      </div>
+    </div>
+    
+    <p-divider></p-divider>
+    <p-messages [(value)]="messages" [enableService]="false"></p-messages>
+    <p-tabView [activeIndex]="tabIndex" (onChange)="onTabClicked($event)">
+      <p-tabPanel header="Personal Details">
+        <div class="grid" *ngIf="customerDetails">
+            <div class="lg:col-6 md:col-6 col-12">
+                <h3>Personal Information</h3>
+                <div class="flex flex-wrap">
+                    <div class="lg:col-4 md:col-6 col-12">
+                        <b>Customer Name</b>
+                        <p>{{customerDetails.TitleDesc}}&nbsp;{{customerDetails.ClientName}}</p>
+                    </div>
+                    <div class="lg:col-4 md:col-6 col-12">
+                        <b>Customer Type</b>
+                        <p>{{customerDetails.PolicyHolderTypeDesc}}</p>
+                    </div>
+                    <div class="lg:col-4 md:col-6 col-12">
+                        <b>Occupation</b>
+                        <p>{{customerDetails.OccupationDesc}}</p>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="lg:col-6 md:col-6 col-12">
+                <h3>Address Details</h3>
+                <div class="flex flex-wrap">
+                    <div class="lg:col-4 md:col-6 col-12">
+                        <b>Address</b>
+                        <p>{{customerDetails.Address1}}</p>
+                    </div>
+                    <div class="lg:col-4 md:col-6 col-12">
+                        <b>Country</b>
+                        <p>{{customerDetails.Nationality}}</p>
+                    </div>
+                    <div class="lg:col-4 md:col-6 col-12">
+                        <b>District</b>
+                        <p>{{customerDetails.StateName}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <p-divider></p-divider>
+        <div class="grid">
+            <div class="lg:col-12 md:col-12 col-12">
+                <h3>Policy Details</h3>
+                <div class="flex flex-wrap">
+                    <div class="lg:col-2 md:col-2 col-3">
+                        <label for="username">Currency*</label>
+                        <p-dropdown inputId="make" 
+                            class="w-full" 
+                            styleClass="w-full" 
+                            [options]="currencyList" 
+                            [(ngModel)]="currencyCode" 
+                            (onChange)="onCurrencyChange('change')"
+                            optionLabel="CodeDesc" 
+                            optionValue="Code" 
+                            placeholder="Select Currency">
+                        </p-dropdown>
+                        <div class="input-form-error" *ngIf="currencyCodeError">
+                            <div class="error-text">
+                                Please Select Currency
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div> -->
+        <p-divider></p-divider>
+            <div class="grid">
+                <div class="lg:col-12 md:col-12 col-12">
+                    <h3>Period Of Insurance</h3>
+                    <div class="flex flex-wrap">
+                        <div class="lg:col-2 md:col-2 col-3">
+                            <label for="username">Start Date</label>
+                            <p-calendar class="w-full" 
+                                styleClass="w-full" 
+                                [minDate]="minDate" 
+                                [(ngModel)]="policyStartDate"
+                                (onSelect)="onStartDateChange('change')"
+                                dateFormat="dd/mm/yy"
+                                placeholder="Select Start Date">
+                            </p-calendar>
+                            <div class="input-form-error" *ngIf="policyStartError || policyPassDate" style="bottom: 1.4rem;">
+                                <div class="error-text text-danger" *ngIf="policyStartError">
+                                    <span class="spancommon span_font_size"> Please Enter Policy Start Date</span>
+                                </div>
+                                <div class="error-text text-danger" *ngIf="policyPassDate">
+                                    <span class="spancommon span_font_size">Please Select Future Date</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:col-2 md:col-2 col-3">
+                            <label for="username">End Date</label>
+                            <p-calendar class="w-full" 
+                                styleClass="w-full" 
+                                [(ngModel)]="policyEndDate"
+                                (onSelect)="onStartDateChange('change')"
+                                dateFormat="dd/mm/yy"
+                                placeholder="Select End Date">
+                            </p-calendar>
+                            <div class="input-form-error" *ngIf="policyEndError">
+                                <div class="error-text  text-danger">
+                                    <span class="spancommon span_font_size">Please Enter Policy End Date</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:col-2 md:col-2 col-3">
+                            <label for="username">Currency*</label>
+                            <p-dropdown inputId="make" 
+                                class="w-full" 
+                                styleClass="w-full" 
+                                [options]="currencyList" 
+                                [(ngModel)]="currencyCode" 
+                                (onChange)="onCurrencyChange('change')"
+                                optionLabel="CodeDesc" 
+                                optionValue="Code" 
+                                placeholder="Select Currency">
+                            </p-dropdown>
+                            <div class="input-form-error" *ngIf="currencyCodeError">
+                                <div class="error-text">
+                                    Please Select Currency
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:col-2 md:col-2 col-3">
+                            <label for="username">Exchange Rate</label>
+                            <input pInputText id="username" maxlength="50" [(ngModel)]="exchangeRate" (change)="onCommonDetailsChange()" />
+                        </div>
+                        <div class="lg:col-2 md:col-2 col-3">
+                            <label for="username">PromoCode&nbsp;(Optional)</label>
+                            <input pInputText id="username" maxlength="50" [(ngModel)]="promocode" (change)="onCommonDetailsChange()"  placeholder="Enter Customer Name"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-content-center">
+                <p-button (click)="navigateTo('back')" styleClass="p-button-outlined" label="Back" size="small"></p-button>&nbsp;
+                <p-button (click)="navigateTo('quote-plan')" *ngIf="customerData.length!=0" label="Next" size="small"></p-button>
+            </div>
+      </p-tabPanel>
+      <ng-container *ngFor="let veh of customerData">
+        <p-tabPanel header="Vehicle ({{veh?.Registrationnumber}})" >
+            <div class="grid" *ngIf="customerDetails">
+                <div class="lg:col-6 md:col-6 col-12">
+                    <h3>Motor Details</h3>
+                    <div class="flex flex-wrap">
+                        <div class="lg:col-4 md:col-6 col-12">
+                            <b>Make</b>
+                            <p>{{vehicleDetails?.Vehiclemake}}</p>
+                        </div>
+                        <div class="lg:col-4 md:col-6 col-12">
+                            <b>Model</b>
+                            <p>{{vehicleDetails?.Vehcilemodel}}</p>
+                        </div>
+                        <div class="lg:col-4 md:col-6 col-12">
+                            <b>Body Type</b>
+                            <p>{{vehicleDetails?.TiraBodyType}}</p>
+                        </div>
+                        <div class="lg:col-4 md:col-6 col-12">
+                            <b>Vehicle Usagey</b>
+                            <p>{{vehicleDetails?.TiraMotorUsage}}</p>
+                        </div>
+                        <div class="lg:col-4 md:col-6 col-12">
+                            <b>Motor Category</b>
+                            <p>{{vehicleDetails?.MotorCategoryDesc}}</p>
+                        </div>
+                        <div class="lg:col-4 md:col-6 col-12">
+                            <b>Engine No</b>
+                            <p>{{vehicleDetails?.EngineNumber}}</p>
+                        </div>
+                        <div class="lg:col-4 md:col-6 col-12">
+                            <b>Engine Capacity</b>
+                            <p>{{vehicleDetails?.EngineCapacity}}</p>
+                        </div>
+                        <div class="lg:col-4 md:col-6 col-12">
+                            <b>Manufacture Year</b>
+                            <p>{{vehicleDetails?.ManufactureYear}}</p>
+                        </div>
+                        
+                        <div class="lg:col-4 md:col-6 col-12">
+                            <b>Owner Category</b>
+                            <p>{{vehicleDetails?.OwnerCategory}}</p>
+                        </div>
+                        <div class="lg:col-4 md:col-6 col-12">
+                            <b>Seating Capacity</b>
+                            <p>{{vehicleDetails?.SeatingCapacity}}</p>
+                        </div>
+                        <div class="lg:col-4 md:col-6 col-12">
+                            <b>Gross Weight</b>
+                            <p>{{vehicleDetails?.GrossWeight}}</p>
+                        </div>
+                        <div class="lg:col-4 md:col-6 col-12">
+                            <b>Tare Weight</b>
+                            <p>{{vehicleDetails?.TareWeight}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-6 md:col-6 col-12">
+                    <h3>Insured Details</h3>
+                    <div class="flex flex-wrap">
+                        <div class="lg:col-4 md:col-4 col-4">
+                            <label for="username">Insurance Type</label>
+                            <p-dropdown inputId="make" 
+                                class="w-full" 
+                                styleClass="w-full" 
+                                [options]="typeList" 
+                                [(ngModel)]="typeValue" 
+                                optionLabel="CodeDesc" 
+                                optionValue="Code" 
+                                (onChange)="getMotorTypeList('change')"
+                                placeholder="---Select---">
+                            </p-dropdown>
+                        </div>
+                        <div class="lg:col-4 md:col-4 col-4">
+                            <label for="username">Insurance Class</label>
+                            <p-dropdown inputId="make" 
+                                class="w-full" 
+                                styleClass="w-full" 
+                                [options]="classList" 
+                                [(ngModel)]="classValue" 
+                                optionLabel="CodeDesc" 
+                                optionValue="Code" 
+                                (onChange)="onChangeClassType()"
+                                placeholder="---Select---">
+                            </p-dropdown>
+                        </div>
+                        <div class="lg:col-4 md:col-4 col-4">
+                            <label for="username">Body Type</label>
+                            <p-dropdown inputId="make" 
+                                class="w-full" 
+                                styleClass="w-full" 
+                                [options]="motorTypeList" 
+                                [(ngModel)]="bodyTypeValue" 
+                                (onChange)="onChangeBodyType()"
+                                optionLabel="CodeDesc" 
+                                optionValue="Code" 
+                                placeholder="---Select---">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap">
+                        <div class="lg:col-4 md:col-4 col-4">
+                            <label for="username">Motor Usage</label>
+                            <p-dropdown inputId="make" 
+                                class="w-full" 
+                                styleClass="w-full" 
+                                [options]="motorUsageList" 
+                                [(ngModel)]="motorUsageValue" 
+                                optionLabel="CodeDesc" 
+                                optionValue="Code" 
+                                placeholder="---Select---">
+                            </p-dropdown>
+                        </div>
+                        <div class="lg:col-4 md:col-4 col-4">
+                            <label for="username">Claims YN?</label>
+                            <div class="flex justify-content-start gap-3">
+                                <div class="flex align-items-center">
+                                    <p-radioButton name="Yes" value="Y" [(ngModel)]="claimsYN" inputId="claimsYN"></p-radioButton>
+                                    <span for="claimsYN" class="ml-2">Yes</span>
+                                </div>
+                                <div class="flex align-items-center">
+                                    <p-radioButton name="No" value="N" [(ngModel)]="claimsYN" inputId="claimsNo"></p-radioButton>
+                                    <span for="claimsNo" class="ml-2">No</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:col-4 md:col-4 col-4">
+                            <label for="username">GPS Tracking Enabled?</label>
+                            <div class="flex justify-content-start gap-3">
+                                <div class="flex align-items-center">
+                                    <p-radioButton name="Yes" value="Y" [(ngModel)]="gpsYn" inputId="orginwarehouse_Yes"></p-radioButton>
+                                    <span for="orginwarehouse_Yes" class="ml-2">Yes</span>
+                                </div>
+                                <div class="flex align-items-center">
+                                    <p-radioButton name="No" value="N" [(ngModel)]="gpsYn" inputId="orginwarehouse_No"></p-radioButton>
+                                    <span for="orginwarehouse_No" class="ml-2">No</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap" *ngIf="classValue=='1' || classValue=='2'">
+                        <div class="lg:col-4 md:col-4 col-4">
+                            <label for="username">Vehicle SumInsued ({{currencyCode}}) &nbsp;<span class="text-danger">*</span></label>
+                            <input pInputText id="username" maxlength="50" [(ngModel)]="vehicleSI" (keydown)="onVehicleValueChange($event)" (keyup)="CommaFormatted()" placeholder="Enter Vehicle SumInsured"/>
+                        </div>
+                        <div class="lg:col-4 md:col-4 col-4" *ngIf="classValue=='1' || classValue=='2'">
+                            <label for="username">Accessories SumInsued ({{currencyCode}})</label>
+                            <input pInputText id="username" maxlength="50" [(ngModel)]="accessoriesSI" (keydown)="onVehicleValueChange($event)" (keyup)="accessoriesCommaFormatted()" placeholder="Enter Accessories SumInsured"/>
+                        </div>
+                        <div class="lg:col-4 md:col-4 col-4" *ngIf="(classValue=='1' || classValue=='2') && insuranceId!='100004'">
+                            <label for="username">WindShield SumInsued ({{currencyCode}})</label>
+                            <input pInputText id="username" maxlength="50" [(ngModel)]="windShieldSI" (keydown)="onVehicleValueChange($event)" (keyup)="WindSICommaFormatted()" placeholder="Enter WindShield SumInsured"/>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap">
+                        <div class="lg:col-4 md:col-4 col-4" *ngIf="(classValue=='1' || classValue=='2') && insuranceId!='100004'">
+                            <label for="username">Extended TPPD Sum Insured </label>
+                            <input pInputText id="username" maxlength="50" [(ngModel)]="tppdSI" (keydown)="onVehicleValueChange($event)" (keyup)="TppdCommaFormatted()" placeholder="Enter Tppd SumInsured"/>
+                        </div>
+                        <div class="lg:col-4 md:col-4 col-4">
+                            <label for="username">TIRA Cover Note No (If Exist) </label>
+                            <input pInputText id="username" maxlength="50" [(ngModel)]="tiraCoverNoteNo" placeholder="Enter TIRA Cover No"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-content-center">
+                <p-button (click)="navigateTo('back')" styleClass="p-button-outlined" label="Back" size="small"></p-button>&nbsp;
+                <p-button (click)="navigateTo('quote-plan')" *ngIf="customerData.length!=tabIndex" label="Next" size="small"></p-button>&nbsp;
+                <p-button (click)="onProceed()" *ngIf="customerData.length==tabIndex" label="View Premium" size="small"></p-button>&nbsp;
+                <p-button (click)="onProceed()" *ngIf="checkActiveVehicles() && customerData.length!=tabIndex" label="View Premium" size="small"></p-button>
+            </div>
+          </p-tabPanel>
+      </ng-container>
+    </p-tabView>
+   
+</div> 

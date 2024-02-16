@@ -1,0 +1,65 @@
+<div class="card">
+  <div class="grid">
+    <div class="col-12 sm:col-6 md:col-4">
+      <h3 class="mr-3">Tira Search</h3>
+      <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
+    </div>
+    <div class="col-12 sm:col-6 md:col-8">
+      <div class="flex justify-content-start sm:justify-content-end  flex-wrap">
+        <span class="p-input-icon-right mr-3 mb-3">
+          <i class="pi pi-search"></i>
+          <input type="text" placeholder="Search" pInputText/>
+        </span>
+        <p-button icon="pi pi-cloud-download" label="Export" styleClass="p-button-outlined" class="mr-3" size="small"></p-button>
+        <p-button icon="pi pi-plus" label="Add New Quote" severity="warning" size="small"></p-button>
+      </div>
+    </div>
+  </div>
+  
+  <p-divider></p-divider>
+  <div class="grid mt-4">
+    <div class="col-12 md:col-6 lg:col-4">
+      <h3 class="ml-3">Vehicle Information</h3>
+      <div class="flex flex-column m-3">
+        <label for="source-code">Division</label>
+        <p-dropdown inputId="make" 
+          class="w-full" 
+          styleClass="w-full" 
+          optionLabel="CodeDesc" 
+          optionValue="Code"
+          placeholder="Select Identity Type">
+        </p-dropdown>
+      </div>
+      <div class="flex flex-column m-3">
+        <label for="source-code">Source</label>
+        <p-dropdown inputId="make" 
+          class="w-full" 
+          styleClass="w-full" 
+          optionLabel="CodeDesc" 
+          optionValue="Code"
+          placeholder="Select Identity Type">
+        </p-dropdown>
+      </div>
+      <div class="flex flex-column m-3">
+          <label for="source-code">Source Code</label>
+          <input pInputText id="source-code" maxlength="150" placeholder="Enter Source Code"/>
+      </div>
+      <div class="flex flex-column m-3">
+        <label for="source-name">Source Name</label>
+        <input pInputText id="source-name" maxlength="150" placeholder="Enter Source Name"/>
+      </div>
+    </div>
+    <div class="col-12 md:col-6 lg:col-4">
+      <h3 class="ml-3">Registration Number</h3>
+      <div class="flex flex-column m-3">
+        <input pInputText id="source-code" maxlength="150" placeholder="Enter Registration Number"/>
+      </div>
+    </div>
+    <div class="col-12 md:col-6 lg:col-4">
+      <h3 class="h-2rem"></h3>
+      <div class="flex flex-column m-3">
+        <p-button styleClass="p-button-outlined" label="Get Quotes"></p-button>
+      </div>
+    </div>
+  </div>
+</div> 
