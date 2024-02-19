@@ -161,7 +161,14 @@
         <p-tabPanel header="Vehicle ({{veh?.Registrationnumber}})" >
             <div class="grid" *ngIf="customerDetails">
                 <div class="lg:col-6 md:col-6 col-12">
-                    <h3>Motor Details</h3>
+                    <div class="flex flex-wrap">
+                        <div class="lg:col-6 md:col-6 col-12">
+                            <h3>Motor Details</h3>
+                        </div>
+                        <div class="lg:col-6 md:col-6 col-12 text-end">
+                            <p-button  label="Edit" icon="pi pi-pencil" size="small"></p-button>
+                        </div>
+                    </div>
                     <div class="flex flex-wrap">
                         <div class="lg:col-4 md:col-6 col-12">
                             <b>Make</b>
@@ -325,7 +332,7 @@
             </div>
             <div class="flex justify-content-center">
                 <p-button (click)="navigateTo('back')" styleClass="p-button-outlined" label="Back" size="small"></p-button>&nbsp;
-                <p-button (click)="navigateTo('quote-plan')" *ngIf="customerData.length!=tabIndex" label="Next" size="small"></p-button>&nbsp;
+                <p-button (click)="navigateTo('quote-plan')" label="Next" size="small"></p-button>&nbsp;
                 <p-button (click)="onProceed()" *ngIf="customerData.length==tabIndex" label="View Premium" size="small"></p-button>&nbsp;
                 <p-button (click)="onProceed()" *ngIf="checkActiveVehicles() && customerData.length!=tabIndex" label="View Premium" size="small"></p-button>
             </div>

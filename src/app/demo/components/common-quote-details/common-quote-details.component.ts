@@ -1720,7 +1720,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         "promoCode": this.promocode
       }
       sessionStorage.setItem('commonDetails',JSON.stringify(entry));
-      sessionStorage.setItem('vehicleLength',String(this.customerData.length))
+      sessionStorage.setItem('vehicleLength',String(this.customerData.length+1))
       sessionStorage.setItem('vehicleDetailsList',JSON.stringify(this.customerData));
       this.router.navigate(['/quotation/plan/motor-details'])
     }
@@ -1749,7 +1749,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
         this.onFormSubmit('proceedSave');
       }
       else{
-        alert(1);
         this.onFinalProceed();
       }
     }
@@ -1805,6 +1804,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if(this.tppdSI==undefined) tppSI = null;
         else if(this.tppdSI.includes(',')){ tppSI = this.tppdSI.replace(/,/g, '') }
         else tppSI = this.tppdSI
+        this.vehicleId = this.customerData[0]?.Vehicleid;
         if(this.policyStartDate){
           if(this.endorsementSection && (this.enableAddVehicle && this.endorsementYn=='Y')){
              startDate = this.endorseEffectiveDate;
@@ -1829,8 +1829,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           else{
             let dateList = this.policyStartDate.split('/');
-            if(dateList.length==1) startDate = this.policyStartDate;
-            else startDate = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");
+            if(dateList.length==1)  startDate = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");
+            else startDate = this.policyStartDate;
             // if(this.policyStartDate.includes('/')) startDate = this.policyStartDate;
             // else startDate = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");
             
@@ -1850,8 +1850,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
             endDate = this.endorseEffectiveDate;
           }
           else{
-            if(this.policyEndDate.includes('/')) endDate = this.policyEndDate;
-            else endDate = this.datePipe.transform(this.policyEndDate, "dd/MM/yyyy");
+            let dateList = this.policyEndDate.split('/');
+            if(dateList.length==1)  endDate = this.datePipe.transform(this.policyEndDate, "dd/MM/yyyy");
+            else endDate = this.policyEndDate;
           }
         }
         let quoteStatus = sessionStorage.getItem('QuoteStatus');
