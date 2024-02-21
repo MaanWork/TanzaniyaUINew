@@ -48,6 +48,7 @@ export class VehicleCreateFormComponent implements OnInit {
   subuserType: any;customerDetails:any;endorsementRemarks:any=null;
   endorsePolicyNo: any=null;years:any[]=[];
   referenceNo: string;
+  commonDetails: any;
   constructor(private messageService: MessageService,private sharedService: SharedService,
     private datePipe:DatePipe,private router:Router) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -216,12 +217,11 @@ export class VehicleCreateFormComponent implements OnInit {
         }
       }
       if(this.userType!='Broker' && this.userType!='User'){
-        // this.sourceType = null;
-        // this.bdmCode = null;
-        // this.brokerCode = null;
-        // brokerbranchCode =  null;
-        // this.customerCode = null;
-        // this.customerName = null;
+        this.sourceType = this.commonDetails?.SourceCode;
+        this.customerCode = this.commonDetails?.CustomerCode;
+        this.brokerCode = this.commonDetails?.BrokerCode;
+        brokerbranchCode =  this.commonDetails?.BrokerBranchCode;
+        this.customerName = this.commonDetails?.CustomerName;
         }
         else {
           this.sourceType = this.subuserType;
@@ -861,6 +861,7 @@ export class VehicleCreateFormComponent implements OnInit {
               this.vehicleDetails['ExchangeRate'] = this.exchangeRate;
               let commonDetails = JSON.parse(sessionStorage.getItem('commonDetails'));
               if(commonDetails){
+                this.commonDetails = commonDetails;
                 if(this.vehicleDetails==null || this.vehicleDetails==undefined) this.vehicleDetails={};
                 if(this.vehicleDetails.PolicyStartDate==null || this.vehicleDetails.PolicyStartDate==undefined){
                   let dateList = commonDetails.policyStartDate.split('/');

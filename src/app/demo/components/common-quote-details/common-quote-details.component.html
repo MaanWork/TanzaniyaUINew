@@ -57,33 +57,111 @@
                 </div>
             </div>
         </div>
-        <!-- <p-divider></p-divider>
-        <div class="grid">
+        <p-divider></p-divider>
+        <div class="grid" *ngIf="issuerSection">
             <div class="lg:col-12 md:col-12 col-12">
                 <h3>Policy Details</h3>
                 <div class="flex flex-wrap">
                     <div class="lg:col-2 md:col-2 col-3">
-                        <label for="username">Currency*</label>
-                        <p-dropdown inputId="make" 
+                        <label for="username">Source Type *</label>
+                        <p-dropdown inputId="sourceType" 
                             class="w-full" 
                             styleClass="w-full" 
-                            [options]="currencyList" 
-                            [(ngModel)]="currencyCode" 
-                            (onChange)="onCurrencyChange('change')"
+                            [options]="sourceTypeList" 
+                            [(ngModel)]="Code" 
+                            (onChange)="onSourceTypeChange('change')"
                             optionLabel="CodeDesc" 
                             optionValue="Code" 
-                            placeholder="Select Currency">
+                            placeholder="Select SourceType">
                         </p-dropdown>
-                        <div class="input-form-error" *ngIf="currencyCodeError">
+                        <div class="input-form-error" *ngIf="sourceCodeError">
                             <div class="error-text">
-                                Please Select Currency
+                                Please Select Source Type
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-2 md:col-2 col-3"  *ngIf="issuerSection && (sourceCodeDesc=='Premia Agent' || sourceCodeDesc=='Premia Broker' || sourceCodeDesc=='Premia Direct')">
+                        <label for="username">Source Code *</label>
+                        <input pInputText id="username" maxlength="50" (change)="onCommonDetailsChange()" [disabled]="(endorsementSection) || checkDisableField()" [(ngModel)]="customerCode" type="text" (keyup)="onGetCustomerList('change',$event.target.value)" autocomplete="off" placeholder="Search here" data-toggle="dropdown"/>
+                        <ul class="dropdown-menu dropdown-list-style CustomerInput" appendTo="body"   [ngClass]="{dropdownDisplay: showCustomerList, dropdownNotDisplay: !showCustomerList}">
+                            <li *ngFor="let item of customerList" (click)="setCustomerValue(item.Code, item.Name,'change')">
+                                {{item.Code}} - {{ item.Name }}
+                            </li>
+                            <div class="text-center" *ngIf="customerList.length == 0">
+                                <p>Enter any code to Search...</p>
+                            </div>
+                        </ul>
+                        <div class="input-form-error" *ngIf="customerCodeError">
+                            <div class="error-text text-danger">
+                                Please Select Valid Customer Code
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-2 md:col-2 col-3" *ngIf="issuerSection && (sourceCodeDesc=='Premia Agent' || sourceCodeDesc=='Premia Broker' || sourceCodeDesc=='Premia Direct')">
+                        <label for="username">Source Name *</label>
+                        <input pInputText id="username" [(ngModel)]="customerName" disabled type="text" placeholder="Source Name"/>
+                    </div>
+                    <div class="lg:col-2 md:col-2 col-3"  *ngIf="issuerSection && (sourceCodeDesc=='agent' || sourceCodeDesc=='Agent' || sourceCodeDesc=='broker' || sourceCodeDesc=='direct' || sourceCodeDesc=='Direct' || sourceCodeDesc=='bank' || sourceCodeDesc=='Bank' || sourceCodeDesc=='Broker' || sourceCodeDesc=='whatsapp' || sourceCodeDesc=='Whatsapp')">
+                        <label for="username">Source Code *</label>
+                        <ng-container *ngIf="sourceCodeDesc!='broker' && sourceCodeDesc!='Broker'">
+                            <p-dropdown inputId="sourceCode" 
+                            class="w-full" 
+                            styleClass="w-full" 
+                            [options]="brokerList" 
+                            [(ngModel)]="brokerCode" 
+                            (onChange)="onBrokerChange()"
+                            [disabled]="endorsementSection || finalizeYN=='Y'"
+                            optionLabel="Name" 
+                            optionValue="Code" 
+                            placeholder="Select Source Code">
+                        </p-dropdown>
+                            <!-- <ng-select class="input-form-select" appendTo="body" [(ngModel)]="brokerCode"  [disabled]="endorsementSection || finalizeYN=='Y'" [items]="brokerList" (change)="onBrokerChange()" bindValue="Code" bindLabel="Name">
+                            </ng-select> -->
+                        </ng-container>
+                        <ng-container *ngIf="sourceCodeDesc=='broker' || sourceCodeDesc=='Broker'">
+                            <p-dropdown inputId="sourceCode" 
+                            class="w-full" 
+                            styleClass="w-full" 
+                            [options]="brokerList" 
+                            [(ngModel)]="brokerCode" 
+                            (onChange)="onBrokerChange()"
+                            [disabled]="endorsementSection || finalizeYN=='Y'"
+                            optionLabel="Name" 
+                            optionValue="Code" 
+                            placeholder="Select Source Code">
+                        </p-dropdown>
+                            <!-- <ng-select class="input-form-select" appendTo="body" [(ngModel)]="brokerCode"  [disabled]="endorsementSection || finalizeYN=='Y'" (change)="onBrokerChange()">
+                                <ng-option *ngFor="let item of brokerList" [value]="item.Code">{{item.Name}}</ng-option>
+                            </ng-select> -->
+                        </ng-container>
+                        <div class="input-form-error" *ngIf="brokerCodeError">
+                            <div class="error-text text-danger">
+                                Please Select Source Code
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-2 md:col-2 col-3" *ngIf="issuerSection && brokerCode && (sourceCodeDesc=='agent' || sourceCodeDesc=='Agent' || sourceCodeDesc=='broker' || sourceCodeDesc=='direct' || sourceCodeDesc=='Direct' || sourceCodeDesc=='bank' || sourceCodeDesc=='Bank' || sourceCodeDesc=='Broker' || sourceCodeDesc=='whatsapp' || sourceCodeDesc=='Whatsapp')">
+                        <label for="username">Broker Branch *</label>
+                        <p-dropdown inputId="sourceCode" 
+                        class="w-full" 
+                        styleClass="w-full" 
+                        [options]="brokerBranchList" 
+                        [(ngModel)]="brokerBranchCode" 
+                        (onChange)="onBrokerBranchChange()"
+                        [disabled]="endorsementSection || finalizeYN=='Y'"
+                        optionLabel="CodeDesc" 
+                        optionValue="Code" 
+                        placeholder="Select Broker Branch">
+                        </p-dropdown>
+                        <div class="input-form-error" *ngIf="brokerBranchCodeError">
+                            <div class="error-text text-danger">
+                                Please Select BrokerBranchCode
                             </div>
                         </div>
                     </div>
                 </div>
-                
             </div>
-        </div> -->
+        </div>
         <p-divider></p-divider>
             <div class="grid">
                 <div class="lg:col-12 md:col-12 col-12">

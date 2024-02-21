@@ -37,10 +37,22 @@ import { SpeedDialModule } from 'primeng/speeddial';
 import { CalendarModule } from 'primeng/calendar';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { ExcessDiscountComponent } from './excess-discount/excess-discount.component';
 
 
 @NgModule({
-  declarations: [VehicleCreateFormComponent,PolicyInfoComponent,CoverDetailsComponent,VehiclePlanComponent, AccesoriesComponent,DocumentInfoComponent, DriverInfoComponent, QuotationTypeInfoComponent, PaymentInfoComponent],
+  declarations: [
+    VehicleCreateFormComponent,
+    PolicyInfoComponent,
+    CoverDetailsComponent,
+    VehiclePlanComponent, 
+    AccesoriesComponent,
+    DocumentInfoComponent, 
+    DriverInfoComponent, 
+    QuotationTypeInfoComponent, 
+    PaymentInfoComponent,
+    ExcessDiscountComponent
+  ],
   imports: [
     CommonModule,
     QuotationPlanRoutingModule,

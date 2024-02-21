@@ -84,3 +84,10 @@ $gutter: 1rem; //for primeflex grid system
 .searchText{
     text-transform: uppercase;
 }
+.dropdownNotDisplay{
+    display: none !important;
+}
+.dropdownDisplay{
+    display: block !important;
+    z-index: 200 !important;
+}

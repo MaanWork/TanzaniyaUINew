@@ -84,7 +84,7 @@ export class LoginComponent {
                       }
                     }
                     else{
-                      this.router.navigate(['/Admin']);
+                      this.router.navigate(['/auth/login/product']);
                     }
                   }
                   else  if (res?.ErrorMessage && res?.ErrorMessage.length > 0 || res?.Result?.ErrorMessage && res?.Result?.ErrorMessage.length > 0) {
