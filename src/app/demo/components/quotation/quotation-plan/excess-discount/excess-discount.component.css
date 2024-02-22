@@ -11,7 +11,34 @@ td.mat-cell,
 td.mat-footer-cell {
     border: 0.1px solid #ccc !important;
 }
+.popover-card{
+    background-color: #fff !important;
+}
+.card-body{
+    background-color: #fff !important;
+}
+.list-group .list-group-item {
+    font-size: 12.5px;
+    padding: 4px 12px;
+    align-items: center;
+    text-transform: capitalize;
+    border: 0;
+}
 
+.list-group-login-field {
+    display: flex-root;
+    justify-content: space-between;
+    font-size: 12.5px;
+    padding: 4px 12px;
+    align-items: center;
+    text-transform: capitalize;
+    border: 0;
+}
+
+.list-seperate {
+    display: flex !important;
+    justify-content: space-between!important;
+}
 .input-control-container .input-form-label{
     letter-spacing: 1.5px !important;
     line-height: normal !important;
@@ -67,7 +94,9 @@ td.mat-footer-cell {
     max-width: 70px !important;
     font-size: 11px;
 }
-
+.p-dialog .p-dialog-content {
+        overflow-x: clip !important;
+}
 
 /* .customTemplate {
     width: 400px;
@@ -101,7 +130,9 @@ th.mat-header-cell {
     background: white;
     padding: 0.2rem;
 }
-
+.shawdowcustom {
+    box-shadow: inset 0px 0px 8px #b8b9be, inset -1px 5px 0px #fff !important;
+}
 table {
     width: 100% !important;
 }

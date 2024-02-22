@@ -28,6 +28,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { DocumentInfoComponent } from './document-info/document-info.component';
 import { SharedModule } from 'primeng/api';
+import { MatDialogModule } from '@angular/material/dialog';
 import { DirectivesModule } from 'src/app/demo/service/directives.module';
 import { PolicyInfoComponent } from './policy-info/policy-info.component';
 import { VehicleCreateFormComponent } from './vehicle-create-form/vehicle-create-form.component';
@@ -38,7 +39,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ExcessDiscountComponent } from './excess-discount/excess-discount.component';
-
+import { MaterialModule } from 'src/app/material/material.module';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -82,7 +84,10 @@ import { ExcessDiscountComponent } from './excess-discount/excess-discount.compo
     SpeedDialModule,
     CalendarModule,
     ConfirmDialogModule,
-    InputNumberModule
+    InputNumberModule,
+    MatDialogModule,
+    MaterialModule,
+    NgbModule
   ]
 })
 export class QuotationPlanModule { }

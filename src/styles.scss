@@ -91,3 +91,22 @@ $gutter: 1rem; //for primeflex grid system
     display: block !important;
     z-index: 200 !important;
 }
+
+.firstclass {
+    border-spacing: 0px;
+    border: 2px solid #eaecf1;
+    outline: none;
+    box-sizing: border-box;
+    transition: all .3s;
+    height: max-content;
+    background: rgb(255, 255, 255);
+    box-shadow: 1px 2px 2px #1f26875e;
+    // box-shadow: inset 0 0 0px #b8b9be,inset 0px 0px 1px #000!important;
+    backdrop-filter: blur(18.5px);
+}
+.spancommon {
+    font-family: var(--our-font-family-new) !important;
+}
+.span_font_size {
+    font-size: 0.93rem;
+}

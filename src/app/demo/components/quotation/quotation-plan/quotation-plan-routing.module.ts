@@ -10,6 +10,7 @@ import { CoverDetailsComponent } from './cover-details/cover-details.component';
 import { DocumentInfoComponent } from './document-info/document-info.component';
 import { VehicleCreateFormComponent } from './vehicle-create-form/vehicle-create-form.component';
 import { PolicyInfoComponent } from './policy-info/policy-info.component';
+import { ExcessDiscountComponent } from './excess-discount/excess-discount.component';
 
 const routes: Routes = [
   { 
@@ -27,6 +28,7 @@ const routes: Routes = [
     ] 
   },
   { path: 'motor-details', component: VehicleCreateFormComponent },
+  { path: 'premium-info', component: ExcessDiscountComponent },
   { 
     path: 'premium-details', 
     component: CoverDetailsComponent,

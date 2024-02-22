@@ -6,20 +6,17 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import * as Mydatas from '../../../../../app-config.json';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
-import { UpdateCustomerDetailsComponent } from '../../update-customer-details.component';
-import { SharedService } from '../../../../../shared/shared.service';
 import { DatePipe } from '@angular/common';
-import {NgbModule, NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {
   MatDialog,
   MAT_DIALOG_DATA,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { DialogComponent } from '../../../dialog/dialog.component';
-import { CustomerModelComponent } from 'src/app/modules/Customer/customer-model/customer-model.component';
 import Swal from 'sweetalert2';
-import { AuthService } from 'src/app/Auth/auth.service';
-//import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from '../../../auth/Auth/auth.service';
+import { SharedService } from 'src/app/demo/service/shared.service';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { DialogComponent } from '../dialog/dialog.component';
 
 declare var $:any;
 
@@ -248,9 +245,10 @@ emiyn="N";
   minimumPremiumYN: any;finalizeYN:any='N';
   factorViewList: any[]=[];
   factorPremiumDetails: any=null;
-
+  showDiscountSection:boolean=false;
+  showExcessSection: boolean=false;
   constructor(public sharedService: SharedService,private authService: AuthService,private router:Router,private modalService: NgbModal,
-    private updateComponent:UpdateCustomerDetailsComponent,private datePipe:DatePipe,public dialog: MatDialog) {
+    private datePipe:DatePipe,public dialog: MatDialog) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     let loginType = sessionStorage.getItem('resetLoginDetails');
     this.userType = this.userDetails?.Result?.UserType;
@@ -265,15 +263,13 @@ emiyn="N";
     this.loginType = this.userDetails.Result.LoginType;
     let finalize = sessionStorage.getItem('FinalizeYN');
       if(finalize) this.finalizeYN = finalize;
-    this.updateComponent.showStepperSection = true;
-    this.updateComponent.modifiedYN = 'N';
     if(loginType){
       sessionStorage.removeItem('resetLoginDetails');
       let sectionType = sessionStorage.getItem('riskSection');
-      if(sectionType=='additional' ) this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
+      if(sectionType=='additional' ) this.router.navigate(['quotation/plan/main/accessories']);
       else if(this.productId=='4') this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/travel-quote-details'])
-      else if(this.productId!='5' && this.productId!='46' && this.productId!='29') this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
-      else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/premium-details'])
+      else if(this.productId!='5' && this.productId!='46' && this.productId!='29') this.router.navigate(['quotation/plan/main/accessories']);
+      else this.router.navigate(['/quotation/plan/main/document-info'])
     }
    
     console.log("Received Session",this.userDetails)
@@ -779,7 +775,7 @@ getInsuranceClassList(){
     }
     else{
       loginId = this.vehicleDetailsList[0].LoginId;
-      if(this.updateComponent.brokerLoginId) loginId = this.updateComponent.brokerLoginId
+      //if(this.updateComponent.brokerLoginId) loginId = this.updateComponent.brokerLoginId
     }
   let ReqObj = {
     "InsuranceId": this.insuranceId,
@@ -842,10 +838,10 @@ onStartDateChange(){
     var day = d.getDate();
     this.endMinDate = new Date(this.policyStartDate);
     this.policyEndDate = new Date(year + 1, month, day-1);
-    this.updateComponent.policyStartDate = this.policyStartDate;
-    this.updateComponent.policyEndDate = this.policyEndDate;
-    this.updateComponent.HavePromoCode = this.havePromoCode;
-    this.updateComponent.PromoCode = this.promoCode;
+    // this.updateComponent.policyStartDate = this.policyStartDate;
+    // this.updateComponent.policyEndDate = this.policyEndDate;
+    // this.updateComponent.HavePromoCode = this.havePromoCode;
+    // this.updateComponent.PromoCode = this.promoCode;
     this.onChangeEndDate();
   }
 }
@@ -2133,7 +2129,7 @@ getMotorUsageList(vehicleValue){
                     
                     if(n==vehicles.length){
                       if(this.quoteNo!="null" && this.quoteNo!=null){
-                        this.updateComponent.quoteNo = this.quoteNo;
+                        //this.updateComponent.quoteNo = this.quoteNo;
                         //this.getEditQuoteDetails();
                       }
                        if(this.quoteRefNo!="null" && this.quoteRefNo!=null){
@@ -2151,7 +2147,7 @@ getMotorUsageList(vehicleValue){
               }
               else{
                 if(this.quoteNo!="null" && this.quoteNo!=null){
-                  this.updateComponent.quoteNo = this.quoteNo;
+                  //this.updateComponent.quoteNo = this.quoteNo;
                   //this.getEditQuoteDetails();
                 }
                  if(this.quoteRefNo!="null" && this.quoteRefNo!=null){
@@ -2168,7 +2164,7 @@ getMotorUsageList(vehicleValue){
           }
           else{
             if(this.quoteNo!="null" && this.quoteNo!=null){
-              this.updateComponent.quoteNo = this.quoteNo;
+              //this.updateComponent.quoteNo = this.quoteNo;
               //this.getEditQuoteDetails();
             }
              if(this.quoteRefNo!="null" && this.quoteRefNo!=null){
@@ -2246,7 +2242,7 @@ getMotorUsageList(vehicleValue){
           }
           else{
             if(this.statusValue=='RA') this.router.navigate(['/Home/referralApproved']);
-            else if(this.statusValue=='RE') this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/customer-details']);
+            else if(this.statusValue=='RE') this.router.navigate(['/policyDetails']);
             else{
               this.onSetBackPage();
             } 
@@ -2265,9 +2261,9 @@ getMotorUsageList(vehicleValue){
   }
   onSetBackPage(){
     if(this.productId=='5' || this.productId=='29'){
-      this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/vehicle-details']);
+      this.router.navigate(['/policyDetails']);
     }
-    else if(this.productId=='4') this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/customer-details']);
+    else if(this.productId=='4') this.router.navigate(['/policyDetails']);
     else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/personal-accident']);
   }
   updateFinalizeYN(type){
@@ -2292,7 +2288,7 @@ getMotorUsageList(vehicleValue){
                   }
                   else{
                     if(this.statusValue=='RA') this.router.navigate(['/Home/referralApproved']);
-                    else if(this.statusValue=='RE') this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/customer-details']);
+                    else if(this.statusValue=='RE') this.router.navigate(['/policyDetails']);
                     else{
                       this.onSetBackPage();
                      
@@ -2334,7 +2330,7 @@ getMotorUsageList(vehicleValue){
         }
         else{
           if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
-            this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/vehicle-details']);
+            this.router.navigate(['/policyDetails']);
           }
           else if(this.productId=='3'){
             this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-quote-details']);
@@ -3023,21 +3019,23 @@ getMotorUsageList(vehicleValue){
       this.beforeDiscount = rowData.PremiumBeforeDiscount;
       this.afterDiscount = rowData.PremiumAfterDiscount;
     }
-    this.discountOpen(modal);
+    // this.discountOpen(modal);
+    if(modal=='discount') this.showDiscountSection = true;
+    else this.showExcessSection = true;
   }
-  SaveLoadingDetails(modal){
+  SaveLoadingDetails(){
     if(this.loadingList.length!=0){
       let i=0;
       for(let load of this.loadingList){
         console.log("Entry Load",load)
         if(load.LoadingAmount!=0 && String(load.LoadingAmount).includes(',')) load['LoadingAmount'] = Number(load.LoadingAmount.replaceAll(',',''));
         i+=1;
-        if(i==this.loadingList.length) this.finalSaveLoading(modal)
+        if(i==this.loadingList.length) this.finalSaveLoading()
       }
     }
-    else this.finalSaveLoading(modal)
+    else this.finalSaveLoading()
   }
-  finalSaveLoading(modal){
+  finalSaveLoading(){
     let vehData = this.vehicleDetailsList.filter(ele=>ele.VehicleId==this.selectedVehId);
     let secData = vehData.filter(ele=>ele.SectionId==this.selectedSectionId);
     console.log("Final Sellec",vehData,secData,this.selectedSectionId)
@@ -3066,8 +3064,10 @@ getMotorUsageList(vehicleValue){
     this.beforeDiscount = null;this.loadingList =[];
     this.afterDiscount = null;this.discountList =[];
     if(coverData){
-      modal.dismiss('Cross click');
-      $('#discountModal').modal('hide');
+      this.showDiscountSection = false;
+      this.showExcessSection = false;
+      // modal.dismiss('Cross click');
+      // $('#discountModal').modal('hide');
     }
   }
   premiumComma(i,LoadingAmount){
@@ -3387,7 +3387,7 @@ getMotorUsageList(vehicleValue){
   }
   onFormSubmit(){
     console.log("Selected Covers",this.selectedCoverList);
-    this.updateComponent.modifiedYN = 'N';
+    //this.updateComponent.modifiedYN = 'N';
     this.subuserType = sessionStorage.getItem('typeValue');
     if(this.selectedCoverList.length!=0){
       let coverList:any[]=[];
@@ -3829,8 +3829,8 @@ getMotorUsageList(vehicleValue){
             this.quoteNo = data.Result?.QuoteNo;
             sessionStorage.setItem('quoteNo',data.Result?.QuoteNo);
             sessionStorage.setItem('quoteReferenceNo',data.Result?.RequestReferenceNo);
-            this.updateComponent.quoteNo = data.Result?.QuoteNo;
-            this.updateComponent.quoteRefNo = data.Result?.RequestReferenceNo;
+            // this.updateComponent.quoteNo = data.Result?.QuoteNo;
+            // this.updateComponent.quoteRefNo = data.Result?.RequestReferenceNo;
             let clausesList: any[] = [],
             exclusionList: any[] = [],
             warrantiesList: any[] = [];
@@ -4214,7 +4214,7 @@ getMotorUsageList(vehicleValue){
               if(this.productId=='3'){
                 let homeSession = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
                 if(homeSession){
-                  this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
+                  this.router.navigate(['quotation/plan/main/accessories']);
                 }
                 else{
                   this.getExistingBuildingList();
@@ -4230,7 +4230,7 @@ getMotorUsageList(vehicleValue){
               }
          
               else if(this.productId=='32' || this.productId=='39' || this.productId=='14' || this.productId=='15' || this.productId=='19' || this.productId=='1' || this.productId=='6' || this.productId=='16' || this.productId =='21' || this.productId =='26' || this.productId =='25' || this.productId =='24'|| this.productId=='42' || this.productId=='43' || this.productId=='13' || this.productId=='27'){
-                this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
+                this.router.navigate(['quotation/plan/main/accessories']);
               }
               else if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
                 this.coverlist=[];let i=0;
@@ -4255,14 +4255,14 @@ getMotorUsageList(vehicleValue){
                       window.location.reload();
                 }
                 else if(this.coverlist.length!=0){
-                  this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details']);
+                  this.router.navigate(['quotation/plan/main/accessories']);
                  }
                  else {
-                  this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/premium-details']);
+                  this.router.navigate(['/quotation/plan/main/document-info'])
                  }
               }
               else{
-                  this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/premium-details']);
+                this.router.navigate(['/quotation/plan/main/document-info'])
               }
             }
           },
@@ -4295,7 +4295,7 @@ getMotorUsageList(vehicleValue){
           "Promocode": customerDatas.Promocode,
         }]
         sessionStorage.setItem('homeCommonDetails',JSON.stringify(commonDetails));
-        this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
+        this.router.navigate(['quotation/plan/main/accessories']);
       },
       (err) => { },
     );
@@ -4324,13 +4324,13 @@ getMotorUsageList(vehicleValue){
         if(this.loginType=='B2CFlow' && this.loginId=='guest'){
           window.location.reload();
         }
-        else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
+        else this.router.navigate(['quotation/plan/main/accessories']);
       },
       (err) => { },
     );
   }
   onUpdateFactor(type){
-    this.updateComponent.modifiedYN = 'N';
+    //this.updateComponent.modifiedYN = 'N';
     if((this.statusValue!='' && this.statusValue!=null) || (this.endorsementSection && this.endorseCovers) || this.userType=='Issuer'){
       if(this.statusValue=='RA' || type=='calculate' || this.userType=='Issuer'){
         if(this.selectedCoverList.length!=0){
