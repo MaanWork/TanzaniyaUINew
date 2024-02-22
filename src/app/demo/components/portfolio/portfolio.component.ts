@@ -21,9 +21,14 @@ export class PortfolioComponent implements OnInit {
   brokerList:any[]=[];totalQuoteRecords:any=null;limit:any=0;
   pageCount:any=null;quoteData:any[]=[];quotePageNo:any=null;
   startIndex:any=null;endIndex:any=null;
+  totalCancelRecords:any;
   public AppConfig: any = (Mydatas as any).default;
   public ApiUrl1: any = this.AppConfig.ApiUrl1;
   public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
+  cancelbrokerList: any;
+  CancelbrokerCode: any;CancelledquoteData:any[]=[];
+  pageCount1: number;
+  quotePageNo1: number;
   constructor(private router:Router,private sharedService: SharedService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -47,6 +52,7 @@ export class PortfolioComponent implements OnInit {
     ];
     this.columns = ['PolicyNo','Quote No','Customer Name','Currency','Start Date','End Date','Premium','Actions']
     this.getBrokerList();
+    this.getCancelledList();
   }
   getBrokerList(){
     let appId = "1",loginId="",brokerbranchCode="";
@@ -96,6 +102,53 @@ export class PortfolioComponent implements OnInit {
       },
       (err) => { },
     );
+  }
+
+
+  getCancelledList(){
+    let appId = "1",loginId="",brokerbranchCode="";
+    if(this.userType!='Issuer'){
+      appId = "1"; loginId = this.brokerCode;
+      brokerbranchCode = this.brokerbranchCode;
+    }
+    else{
+      appId = this.loginId;
+      loginId=this.brokerCode;
+      brokerbranchCode = '';
+    }
+    let ReqObj = {
+      "ProductId": this.productId,
+      "InsuranceId": this.insuranceId,
+      "LoginId": loginId,
+      "ApplicationId":appId,
+      "UserType":this.userType,
+      "BranchCode": this.branchCode,
+      "Status": "Y",
+    }
+    let urlLink = `${this.CommonApiUrl}api/cancelpolicyportfoliodropdown`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+          let defaultObj = []
+          this.cancelbrokerList = defaultObj.concat(data.Result);
+          if(this.cancelbrokerList.length==0){this.CancelbrokerCode = ''; this.cancelbrokerList = []}
+          else this.CancelbrokerCode = this.loginId;
+          if(this.CancelbrokerCode!=null && this.CancelbrokerCode!=''){
+            if(!this.cancelbrokerList.some(ele=>ele.Code==this.CancelbrokerCode)) this.CancelbrokerCode = this.cancelbrokerList[0].Code;
+            this.getCancelledQuotes(null,'change');
+            //this.getExistingQuotes(null,'change')
+          }
+          else{
+            this.CancelbrokerCode = this.cancelbrokerList[0].Code;
+            this.getCancelledQuotes(null,'change');
+            //this.getExistingQuotes(null,'change')
+          }
+        }
+        
+      },
+      (err) => { },
+    );
+
   }
   getPolicyItems(rowData){
     let entry:MenuItem[] =  [{
@@ -233,6 +286,98 @@ export class PortfolioComponent implements OnInit {
               else {
                 this.quoteData = []; 
               }
+            }
+          }
+        },
+        (err) => { },
+      );
+    }
+  }
+
+
+  getCancelledQuotes(element,entryType){
+    if(element==null) this.quoteData=[];
+    let appId = "1",loginId="",brokerbranchCode="",bdmCode=null;
+    if(this.userType!='Issuer'){
+      appId = "1"; loginId = this.CancelbrokerCode;
+      brokerbranchCode = this.brokerbranchCode;
+      bdmCode=this.agencyCode;
+    }
+    else{
+      appId = this.loginId;
+      loginId=this.CancelbrokerCode;
+      brokerbranchCode = '';
+    }
+    let entry = this.cancelbrokerList.find(ele=>ele.Code==this.CancelbrokerCode);
+    if(entry){
+      console.log("Entry Received",entry) 
+      if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
+      && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+        loginId = '';
+        bdmCode=this.brokerCode;
+      }
+      else{
+        loginId=entry.Code;
+        bdmCode=null;
+      }
+      let ReqObj = {
+        "BrokerBranchCode": brokerbranchCode,
+        "BranchCode":this.branchCode,
+          "InsuranceId": this.insuranceId,
+          "LoginId":loginId,
+          "ApplicationId":appId,
+          "UserType":this.userType,
+          "SubUserType":sessionStorage.getItem('typeValue'),
+          "SourceType":"",
+          "BdmCode": bdmCode,
+          "ProductId":this.productId,
+          "Limit":this.limit,
+          "Offset": 60
+      }
+      let urlLink = `${this.CommonApiUrl}api/portfolio/cancelled`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          sessionStorage.removeItem('loadingType');
+          if(data.Result){
+            if (data.Result?.PortfolioList) {
+              // this.CancelledquoteData = data.Result?.PortfolioList;
+              if (data.Result?.PortfolioList.length != 0) {
+                this.totalCancelRecords = data.Result?.Count;
+                this.pageCount1 = 10;
+                if (entryType == 'change') {
+                  this.quotePageNo1 = 1;
+                  let startCount = 1, endCount = this.pageCount1;
+                  startCount = endCount + 1;
+                    let quoteData = data.Result?.PortfolioList;
+                    this.CancelledquoteData = data.Result?.PortfolioList;
+                    if (quoteData.length <= this.pageCount1) {
+                      endCount = quoteData.length
+                    }
+                    else endCount = this.pageCount;
+                  
+                  this.startIndex = startCount; this.endIndex = endCount;
+                }
+                else {
+
+                  let startCount = element.startCount, endCount = element.endCount;
+                  this.pageCount = element.n;
+                  startCount = endCount + 1;
+                    let quoteData = data.Result?.PortfolioList;
+                    this.CancelledquoteData = this.CancelledquoteData.concat(data.Result?.PortfolioList);
+                  if (this.totalCancelRecords <= endCount + (element.n)) {
+                    endCount = this.totalQuoteRecords
+                  }
+                  else endCount = endCount + (element.n);
+                  this.startIndex = startCount; this.endIndex = endCount;
+                }
+              }
+              else {
+                this.CancelledquoteData = []; 
+              }
+            }
+            else {
+              this.CancelledquoteData = [];
             }
           }
         },

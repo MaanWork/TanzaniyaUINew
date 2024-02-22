@@ -19,6 +19,8 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { CalendarModule } from 'primeng/calendar';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { MessagesModule } from 'primeng/messages';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+
 
 @NgModule({
   declarations: [CommonQuoteDetailsComponent],
@@ -42,7 +44,8 @@ import { MessagesModule } from 'primeng/messages';
     ToastModule,
     CalendarModule,
     MessagesModule,
-    RadioButtonModule
+    RadioButtonModule,
+    AutoCompleteModule
   ]
 })
 export class CommonQuoteDetailsModule { }

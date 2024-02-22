@@ -36,6 +36,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   promocode:any=null;currencyList:any[]=[];
   years:MenuItem[] = [];currencyCode:any=null;
   vehicles: MenuItem[] = [];agencyCode:any=null;
+  customerFilterSuggestions:any[] = [];
   exchangeRate:any=null;minDate:any=null;countryId:any=null;
   sidebarVisible:boolean = false;userType:any=null;
   userDetails:any=null;loginId:any=null;branchCode:any=null;
@@ -75,7 +76,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   acExecutiveId: any=null;
   commissionType: any=null;messages: Message[] = [];
   endMinDate: Date;
-  endMaxDate: Date;
+  endMaxDate: Date;selectedCustomer:any=null;
   minCurrencyRate: any=null;
   maxCurrencyRate: any;typeValue:any=null;
   motorTypeList: any[]=[]; drivenBy:any="D";
@@ -94,6 +95,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   collateralName: any=null;
   firstLossPayee: any=null;
   endorseCoverModification:any=null;
+  isSearchFormVisible = false;
   enableRemoveVehicle: boolean;
   adminSection: boolean=false;
   changeUwSection: boolean=false;
@@ -103,6 +105,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   noOfCompPolicy: any;
   claimRatio: any;
   enableFieldsSection: boolean=false;
+  customers:any[]=[];
   currentIndex: number;
   collateralValue: boolean=false;
   fleetYN: any='';
@@ -198,7 +201,18 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.getCustomerDetails(referenceNo);
       this.referenceNo = referenceNo;
     }
-    
+    else{
+      this.showSearchForm();
+    }
+    // let s = sessionStorage.getItem('Addnew');
+    // if(s='Addnew'){
+    //   console.log('Half page',s)
+    //   this.showSearchForm();
+    // }
+    // else{
+    //   console.log('End page',s)
+    //   this.hideSearchForm();
+    // }
   }
   getSourceList(){
     let ReqObj = {
@@ -919,6 +933,93 @@ export class CommonQuoteDetailsComponent implements OnInit {
       (err) => { },
     );
   }
+
+  EditData(){
+    this.policyStartError=false;this.policyEndError = false;this.currencyCodeError=false;
+      this.policyPassDate = false;
+      
+      let i=0;
+      if(this.policyStartDate==null || this.policyStartDate=='' || this.policyStartDate==undefined){
+        i+=1;
+        this.policyStartError = true;
+      }
+      else{
+        let dateList = String(this.policyStartDate).split('/');
+        if(dateList.length>0){
+          let date = dateList[2]+'-'+dateList[1]+'-'+dateList[0];
+          var firstRepaymentDate = new Date(date);
+          var today = new Date();
+           if( (this.productId=='5' || this.productId=='4' || this.productId=='46' || this.productId=='29') && (firstRepaymentDate.getTime() < today.setHours(0,0,0,0))){
+              i+=1;
+              this.policyPassDate = true;
+          }
+        }
+      }
+      
+     
+      if(this.policyEndDate==null || this.policyEndDate=='' || this.policyEndDate==undefined){
+        i+=1;
+        this.policyEndError = true;
+      }
+      if(this.currencyCode==null || this.currencyCode=='' || this.currencyCode==undefined){
+        i+=1;
+        this.currencyCodeError = false;
+      }
+      if(this.issuerSection){
+        if(this.Code=='' || this.Code==null || this.Code==undefined){
+          i+=1;
+          this.sourceCodeError = true;
+        }
+        else{
+          if(this.sourceCodeDesc=='Premia Agent' || this.sourceCodeDesc=='Premia Broker' || this.sourceCodeDesc=='Premia Direct'){
+            if(this.customerName=='' || this.customerName==undefined || this.customerName==null){
+                this.customerCodeError = true;
+                i+=1;
+            }
+            this.brokerCode = null;
+            this.brokerBranchCode = null;
+            this.brokerLoginId = null;
+          }
+          else{
+            if(this.brokerCode=='' || this.brokerCode==undefined || this.brokerCode==null){
+              this.brokerCodeError = true;
+              i+=1;
+            }
+            if(this.brokerBranchCode=='' && this.brokerBranchCode==undefined && this.brokerBranchCode==null){
+              this.brokerBranchCodeError = true;
+              i+=1;
+            }
+          }
+        }
+      }
+      if(i==0){
+      sessionStorage.setItem('editVehicleId',String(this.customerData.length+1));
+      let startDate=null,endDate=null;
+      let startDateList = String(this.policyStartDate).split('/');
+      if(startDateList.length>1) startDate = this.policyStartDate
+      else startDate = this.datePipe.transform(this.policyStartDate,'dd/MM/yyyy');
+      let endDateList = String(this.policyEndDate).split('/');
+      if(endDateList.length>1) endDate = this.policyEndDate
+      else endDate = this.datePipe.transform(this.policyEndDate,'dd/MM/yyyy');
+      let entry = {
+        "policyStartDate": startDate,
+        "policyEndDate": endDate,
+        "currencyCode": this.currencyCode,
+        "exchangeRate": this.exchangeRate,
+        "promoCode": this.promocode,
+        "BrokerCode": this.brokerCode,
+        "SourceType": this.sourceType,
+        "CustomerCode": this.customerCode,
+        "CustomerName": this.customerName,
+        "BrokerBranchCode": this.brokerBranchCode,
+        "SourceCode":this.Code,
+      }
+      sessionStorage.setItem('commonDetails',JSON.stringify(entry));
+      sessionStorage.setItem('vehicleLength',String(this.customerData.length+1))
+      sessionStorage.setItem('vehicleDetailsList',JSON.stringify(this.customerData));
+      this.router.navigate(['/quotation/plan/motor-details'])
+    }
+  }
   getCurrencyList(){
     let ReqObj = {
       "InsuranceId":this.insuranceId,
@@ -1040,6 +1141,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if(data.Result){
           let customerDetails:any = data.Result;
           this.customerDetails = customerDetails;
+          console.log('customerDatacustomerDatacustomerData',this.customerData)
         }
 
       });
@@ -1917,6 +2019,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
       }
     }
   }
+  
+  customerSearch(event) {
+    this.customerFilterSuggestions = [{'name':'Customer 1'}, {'name':'Customer 2'}];
+  }
   saveExistData(){
     let i = 0;
     console.log("Received VehicleDetails",this.customerData)
@@ -2392,6 +2498,57 @@ export class CommonQuoteDetailsComponent implements OnInit {
   }
   showSidebar() {
     this.sidebarVisible = true;
+  }
+
+  showSearchForm() {
+    sessionStorage.removeItem('QuoteStatus');
+    sessionStorage.removeItem('vehicleDetailsList');
+    sessionStorage.removeItem('customerReferenceNo');
+    sessionStorage.removeItem('quoteReferenceNo');
+    sessionStorage.removeItem('TravelQuoteRefNo')
+    sessionStorage.removeItem('endorsePolicyNo');
+    let appId = "1",loginId="",brokerbranchCode="";
+    if(this.userType!='Issuer'){
+      appId = "1"; loginId = this.loginId;
+      brokerbranchCode = this.brokerbranchCode;
+    }
+    else{
+      appId = this.loginId;
+      brokerbranchCode = null;
+    }
+    let ReqObj = {
+        "BrokerBranchCode": brokerbranchCode,
+        "InsuranceId":this.insuranceId,
+        "ProductId": this.productId,
+        "CreatedBy":this.loginId,
+        "BranchCode":this.branchCode,
+        "UserType": this.userType,
+        "Limit":"0",
+        "Offset":"1000"
+    }
+    let urlLink = `${this.CommonApiUrl}api/getallcustomerdetails`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            this.customers = data?.Result;
+            this.isSearchFormVisible = true;
+        }
+      });
+  }
+  hideSearchForm() {
+    this.isSearchFormVisible = false;
+    this.selectedCustomer=null;
+  }
+  onSelectCustomer(rowData){
+    this.selectedCustomer = rowData.CustomerReferenceNo;
+    sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
+  }
+  navigateToCustomerDetail() {
+    sessionStorage.setItem('customerReferenceNo',this.selectedCustomer);
+ this.isSearchFormVisible = false;
+ this.getCustomerDetails(this.selectedCustomer);
+    // this.router.navigate(['/policyDetails']);
   }
   checkActiveVehicles(){
     if(this.customerData.length==0) return false;
