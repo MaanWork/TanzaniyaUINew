@@ -53,7 +53,40 @@
 
         </ng-template>
       </p-tabPanel>
-      <p-tabPanel header="Approved">
+      <p-tabPanel header="Cancelled Policies">
+
+
+        <div class="flex justify-content-end mb-4">
+          <p-button icon="pi pi-list" class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
+          <p-button icon="pi pi-table" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
+        </div>
+        <p-table *ngIf="tableView == 'table' else cardTableView" [value]="CancelledquoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+          <ng-template pTemplate="header">
+              <tr>
+                  <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+              </tr>
+          </ng-template>
+            <ng-template pTemplate="body" let-customer>
+              <tr>
+                <td>{{ customer.PolicyNo }}</td>
+                <td>{{ customer.QuoteNo }}</td>
+                <td>{{ customer.ClientName }}</td>
+                <td>{{ customer.Currency }}</td>
+                <td>{{ customer.PolicyStartDate }}</td>
+                <td>{{ customer.PolicyEndDate }}</td>
+                <td>{{ customer.OverallPremiumLc }}</td>
+                <td>
+                  <span class="p-buttonset">
+                    <button type="button" pButton pRipple icon="pi pi-th-large" (click)="menu.toggle($event)"></button>
+                    <p-menu #menu [popup]="true" appendTo="body" [model]="getPolicyItems(customer)"></p-menu>
+                  </span>
+                </td>
+              </tr>
+            </ng-template>
+        </p-table>
+        <ng-template #cardTableView>
+
+        </ng-template>
       </p-tabPanel>
       <p-tabPanel header="Cancelled">
       </p-tabPanel>
