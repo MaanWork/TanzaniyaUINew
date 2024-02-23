@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { SharedService } from 'src/app/demo/service/shared.service';
 import * as Mydatas from '../../../../../app-config.json';
 interface Plan {
@@ -13,6 +13,7 @@ interface Plan {
 @Component({
   selector: 'app-cover-details',
   templateUrl: './cover-details.component.html',
+  providers: [MessageService]
 })
 export class CoverDetailsComponent {
   plans:Plan[] = [
@@ -56,7 +57,7 @@ export class CoverDetailsComponent {
   statusValue: string;
   adminSection: boolean;
   vehicleDetailsList: any[]=[];
-  isMannualReferal: string;
+  isMannualReferal: any='N';
   selectedRowData: any;
   coverSection: boolean;
   vehicleData: any[];
@@ -93,7 +94,7 @@ export class CoverDetailsComponent {
   localPremiumCost: any=null;
   totalPremium: any=null;
   emiYN: any='N';
-  emiPeriod: any;
+  emiPeriod:any="0";
   gridshow: boolean=false;
   yearlySection: boolean=false;
   nineMonthSection: boolean=false;
@@ -129,7 +130,8 @@ export class CoverDetailsComponent {
   newcoverlist: any[]=[];
   inserts: any=null;
   noOfDays: any=null;
-  constructor(private router:Router,private sharedService:SharedService){
+  EmiDetails: any[]=[];
+  constructor(private router:Router,private sharedService:SharedService,private messageService: MessageService){
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     let loginType = sessionStorage.getItem('resetLoginDetails');
     this.userType = this.userDetails?.Result?.UserType;
@@ -1172,12 +1174,12 @@ export class CoverDetailsComponent {
           this.emiYN = this.vehicleData[0].EmiYn;
           this.emiPeriod = this.vehicleData[0].InstallmentPeriod;
           if(!this.endorsementSection && this.emiYN=='Y'){
-            //this.EmiInstallment();
+            this.EmiInstallment();
           }
         }
         else if(!this.endorsementSection) {
           this.emiYN = "N";
-          //this.EmiInstallment();
+          this.EmiInstallment();
         }
     }
     console.log("Total Premium",this.vehicleDetailsList)
@@ -1267,6 +1269,16 @@ export class CoverDetailsComponent {
       },
       (err) => { },
     );
+  }
+  onEMIChange(){
+    if(this.emiPeriod!='N'){
+      console.log("Entered Level",this.emiPeriod,this.EmiDetails)
+      if(this.EmiDetails==null || this.EmiDetails==undefined || this.EmiDetails.length==0){
+      }
+    }
+  }
+  onEmiYNChange(){
+    if(this.emiYN == 'Y') this.EmiInstallment();
   }
   setEmiTableValues(yearlyList,nineList,sixList,threeList,fiveList,eightList){
     if(this.yearlySection){
@@ -2268,7 +2280,8 @@ export class CoverDetailsComponent {
               //   'Referral Quote',
               //   'Quote Moved to Referral Pending',
               //   config);
-              this.router.navigate(['Home/referralPending']);
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Your Quote Move To Referral' });
+              this.router.navigate(['/referral']);
           }
         }
       },
@@ -2585,5 +2598,8 @@ export class CoverDetailsComponent {
   }
   showSidebar() {
     this.sidebarVisible = true;
+  }
+  checkManualReferral(){
+    return this.vehicleDetailsList.some(ele=>ele.ManualReferalYn=='Y')
   }
 }

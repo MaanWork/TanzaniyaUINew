@@ -57,7 +57,7 @@
                 </div>
             </div>
         </div>
-        <p-divider></p-divider>
+        <p-divider *ngIf="customerDetails"></p-divider>
         <div class="grid" *ngIf="issuerSection">
             <div class="lg:col-12 md:col-12 col-12">
                 <h3>Policy Details</h3>
@@ -162,7 +162,7 @@
                 </div>
             </div>
         </div>
-        <p-divider></p-divider>
+        <p-divider *ngIf="issuerSection"></p-divider>
             <div class="grid">
                 <div class="lg:col-12 md:col-12 col-12">
                     <h3>Period Of Insurance</h3>
@@ -243,9 +243,9 @@
                         <div class="lg:col-6 md:col-6 col-12">
                             <h3>Motor Details</h3>
                         </div>
-                        <div class="lg:col-6 md:col-6 col-12 text-end">
+                        <!-- <div class="lg:col-6 md:col-6 col-12 text-end">
                             <p-button  label="Edit" icon="pi pi-pencil" size="small" (click)="EditData()"></p-button>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="flex flex-wrap">
                         <div class="lg:col-4 md:col-6 col-12">
@@ -410,7 +410,7 @@
             </div>
             <div class="flex justify-content-center">
                 <p-button (click)="navigateTo('back')" styleClass="p-button-outlined" label="Back" size="small"></p-button>&nbsp;
-                <p-button (click)="navigateTo('quote-plan')" label="Next" size="small"></p-button>&nbsp;
+                <p-button (click)="navigateTo('quote-plan')" *ngIf="customerData.length!=tabIndex" label="Next" size="small"></p-button>&nbsp;
                 <p-button (click)="onProceed()" *ngIf="customerData.length==tabIndex" label="View Premium" size="small"></p-button>&nbsp;
                 <p-button (click)="onProceed()" *ngIf="checkActiveVehicles() && customerData.length!=tabIndex" label="View Premium" size="small"></p-button>
             </div>

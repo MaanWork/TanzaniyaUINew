@@ -6,7 +6,7 @@
         <div style="height: 2.5rem">
             <p-inputSwitch [ngModel]="isMenuExpandedStatic" (ngModelChange)="toggleMenuExpandStatic()" class="mb-3 flex justify-content-end" *ngIf="!layoutService.state.staticMenuMobileActive && isMenuExpanded"></p-inputSwitch>
         </div>
-        <ng-container *ngIf="typeValue">
+        <ng-container *ngIf="typeValue!=null && typeValue!=undefined">
             <app-sidebar ></app-sidebar>
         </ng-container>
     </div>

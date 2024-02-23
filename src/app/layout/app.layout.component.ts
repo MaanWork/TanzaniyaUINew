@@ -123,27 +123,35 @@ export class AppLayoutComponent implements OnDestroy {
       onTypeValueChange(value){
         this.typeValue = null;
         if(value){
-          let types = this.typeList.find(ele=>ele.CodeDesc==this.typeValue);
+          let typeValue = sessionStorage.getItem('typeValue')
+          let types = this.typeList.find(ele=>ele.CodeDesc==typeValue);
           if(types) this.finaliseTypeValue(types, 'change');
         }
       }
       finaliseTypeValue(types, changeType) {
         if(changeType=='change'){
-           types = this.typeList.find(ele=>ele.CodeDesc==this.typeValue);
+          
+          types = this.typeList.find(ele=>ele.CodeDesc==this.typeValue);
+          this.typeValue = sessionStorage.getItem('typeValue')
+           window.location.reload();
+           
         }
-        if(types.CodeDesc!='B2C Broker'){ this.typeValue = types.CodeDesc; this.loginService.typeValue = this.typeValue}
+        else if(types.CodeDesc!='B2C Broker'){ this.typeValue = types.CodeDesc; this.loginService.typeValue = this.typeValue}
+        
         this.typeName = types.DisplayName;
         
-        console.log("Setted Type Value", this.typeValue);
+        if(changeType!='change') this.onTypeChange('direct');
         // $("#subUserTypes").hide();
-        this.onTypeChange(changeType);
+       
       }
       onTypeChange(changeType) {
         let type = sessionStorage.getItem('typeValue');
         console.log("1", type)
+        
         if (type != undefined) {
           sessionStorage.setItem('typeValue', this.typeValue);
           type = sessionStorage.getItem('typeValue');
+          this.typeValue = type;
           console.log("2", type)
           //this.getMenuList(changeType);
         }
@@ -153,10 +161,11 @@ export class AppLayoutComponent implements OnDestroy {
         }
         if (changeType == 'direct') {
           this.getBranchList();
-        }
-        else {
-          this.router.navigate(['/'])
-        }
+         }
+         
+        // else {
+        //   this.router.navigate(['/'])
+        // }
       }
       getBranchList() {
         let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));

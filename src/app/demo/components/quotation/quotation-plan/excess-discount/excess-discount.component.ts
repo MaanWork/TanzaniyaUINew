@@ -17,6 +17,7 @@ import { AuthService } from '../../../auth/Auth/auth.service';
 import { SharedService } from 'src/app/demo/service/shared.service';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { DialogComponent } from '../dialog/dialog.component';
+import { MessageService } from 'primeng/api';
 
 declare var $:any;
 
@@ -34,6 +35,7 @@ declare var $:any;
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
+  providers: [MessageService]
 })
 export class ExcessDiscountComponent implements OnInit {
 
@@ -248,7 +250,7 @@ emiyn="N";
   showDiscountSection:boolean=false;
   showExcessSection: boolean=false;
   constructor(public sharedService: SharedService,private authService: AuthService,private router:Router,private modalService: NgbModal,
-    private datePipe:DatePipe,public dialog: MatDialog) {
+    private datePipe:DatePipe,public dialog: MatDialog,private messageService: MessageService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     let loginType = sessionStorage.getItem('resetLoginDetails');
     this.userType = this.userDetails?.Result?.UserType;
@@ -2241,8 +2243,8 @@ getMotorUsageList(vehicleValue){
               else this.router.navigate(['/Admin/referralPending']);
           }
           else{
-            if(this.statusValue=='RA') this.router.navigate(['/Home/referralApproved']);
-            else if(this.statusValue=='RE') this.router.navigate(['/policyDetails']);
+            if(this.statusValue=='RA')  this.router.navigate(['referral']);
+            else if(this.statusValue=='RE') this.router.navigate(['/quotation/plan/premium-details']);
             else{
               this.onSetBackPage();
             } 
@@ -2261,9 +2263,9 @@ getMotorUsageList(vehicleValue){
   }
   onSetBackPage(){
     if(this.productId=='5' || this.productId=='29'){
-      this.router.navigate(['/policyDetails']);
+      this.router.navigate(['/quotation/plan/premium-details']);
     }
-    else if(this.productId=='4') this.router.navigate(['/policyDetails']);
+    else if(this.productId=='4') this.router.navigate(['/quotation/plan/premium-details']);
     else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/personal-accident']);
   }
   updateFinalizeYN(type){
@@ -2287,8 +2289,8 @@ getMotorUsageList(vehicleValue){
                       else this.router.navigate(['/Admin/referralPending']);
                   }
                   else{
-                    if(this.statusValue=='RA') this.router.navigate(['/Home/referralApproved']);
-                    else if(this.statusValue=='RE') this.router.navigate(['/policyDetails']);
+                    if(this.statusValue=='RA')  this.router.navigate(['referral']);
+                    else if(this.statusValue=='RE') this.router.navigate(['/quotation/plan/premium-details']);
                     else{
                       this.onSetBackPage();
                      
@@ -2330,7 +2332,7 @@ getMotorUsageList(vehicleValue){
         }
         else{
           if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
-            this.router.navigate(['/policyDetails']);
+            this.router.navigate(['/quotation/plan/premium-details']);
           }
           else if(this.productId=='3'){
             this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-quote-details']);
@@ -3915,7 +3917,8 @@ getMotorUsageList(vehicleValue){
               //   'Referral Quote',
               //   'Quote Moved to Referral Pending',
               //   config);
-              this.router.navigate(['Home/referralPending']);
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Your Quote Move To Referral' });
+              this.router.navigate(['referral']);
           }
         }
       },

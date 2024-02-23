@@ -20,6 +20,8 @@
                     styleClass="w-full" 
                     (onChange)="finaliseTypeValue(null,'change')"
                     [options]="typeList" 
+                    optionLabel="DisplayName" 
+                    optionValue="CodeDesc" 
                     [(ngModel)]="typeValue"  >
                 </p-dropdown>&nbsp;&nbsp;
             </ng-container>
@@ -41,13 +43,10 @@
         <!-- <p-splitButton [label]="branchName" [model]="branchList" (onClick)="finaliseBranchValue(null,null)" styleClass="mr-4 my-auto"></p-splitButton> -->
         <div class="flex justify-content-center align-items-center username-section">
             <p-overlayPanel #op>
-                <h6>Username</h6>
-                <p>email</p>
-                <hr>
                 <p-button *ngFor="let userOption of userOptions" [icon]="userOption.icon" [label]="userOption.label" styleClass="p-button-text" (click)="userOption.command()" [style]="{'width':'15rem'}"></p-button>
             </p-overlayPanel>
             <p-avatar image="https://as2.ftcdn.net/v2/jpg/05/88/79/93/1000_F_588799375_LDGtoXMynP1XMNkzJhkvCoJ0kcpS3RkH.jpg" styleClass="mr-2" size="medium" shape="circle"></p-avatar>
-            <p-button (click)="op.toggle($event)" label="name"></p-button>
+            <p-button (click)="op.toggle($event)" [label]="loginId"></p-button>
         </div>
     </div>
 </div>

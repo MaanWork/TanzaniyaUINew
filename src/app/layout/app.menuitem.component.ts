@@ -139,7 +139,8 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
         sessionStorage.removeItem('endorsePolicyNo');
         sessionStorage.removeItem('quoteNo');
         sessionStorage.removeItem('updatebar');
-        sessionStorage.removeItem('endorseTypeId')
+        sessionStorage.removeItem('endorseTypeId');
+        sessionStorage.removeItem('commonDetails');
         if (this.item.disabled) {
             event.preventDefault();
             return;

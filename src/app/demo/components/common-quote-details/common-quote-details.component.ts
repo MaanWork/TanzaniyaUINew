@@ -2025,7 +2025,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
   }
   saveExistData(){
     let i = 0;
-    console.log("Received VehicleDetails",this.customerData)
     for(let veh of this.customerData){
       let refNo = veh?.MSRefNo;
       if((refNo==undefined && (veh?.modifiedYN=='Y' || this.quoteRefNo==null || this.quoteRefNo==undefined || this.endorsementSection || this.changeUwSection))){
@@ -2563,7 +2562,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   onProceed(){
     if(this.checkDisableField()){
       
-      this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
+      this.router.navigate(['/quotation/plan/premium-details']);
     }
     else if(this.customerData.length!=0){
       if(this.customerData.length==1 && this.finalizeYN!='Y'){
@@ -2650,7 +2649,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             this.noOfDays = Math.round(Math.abs((Number(momentDate)  - Number(formattedDatecurrent) )/oneday)+1);
           }
           else{
-            let dateList = this.policyStartDate.split('/');
+            let dateList = String(this.policyStartDate).split('/');
             if(dateList.length==1)  startDate = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");
             else startDate = this.policyStartDate;
             // if(this.policyStartDate.includes('/')) startDate = this.policyStartDate;
@@ -2672,7 +2671,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             endDate = this.endorseEffectiveDate;
           }
           else{
-            let dateList = this.policyEndDate.split('/');
+            let dateList = String(this.policyEndDate).split('/');
             if(dateList.length==1)  endDate = this.datePipe.transform(this.policyEndDate, "dd/MM/yyyy");
             else endDate = this.policyEndDate;
           }
@@ -2970,7 +2969,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                     this.onFinalProceed();
                   }
                   else if(type=='finalProceed'){
-                    if(this.currentIndex-1==this.customerData.length) this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
+                    if(this.currentIndex-1==this.customerData.length) this.router.navigate(['/quotation/plan/premium-details']);
                   }
                   else{
                     if(type==null){

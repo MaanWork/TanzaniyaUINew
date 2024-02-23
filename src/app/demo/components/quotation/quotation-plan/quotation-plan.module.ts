@@ -38,9 +38,11 @@ import { SpeedDialModule } from 'primeng/speeddial';
 import { CalendarModule } from 'primeng/calendar';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ExcessDiscountComponent } from './excess-discount/excess-discount.component';
 import { MaterialModule } from 'src/app/material/material.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -66,6 +68,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     TableModule,
     FormsModule,
     InputTextModule,
+    InputTextareaModule,
     DialogModule,
     CheckboxModule,
     SidebarModule,
@@ -87,7 +90,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     InputNumberModule,
     MatDialogModule,
     MaterialModule,
-    NgbModule
+    NgbModule,
+    NgSelectModule
   ]
 })
 export class QuotationPlanModule { }

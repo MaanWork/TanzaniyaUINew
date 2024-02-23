@@ -1,11 +1,13 @@
+<p-toast></p-toast>
 <div class="card">
     <div class="grid">
       <div class="col-12 sm:col-6 md:col-4">
         <h3 class="mr-3 p-0 m-0">Quote Details</h3>
       </div>
       <div class="col-12 sm:col-6 md:col-8">
-        <div class="flex flex-wrap">
-            
+        <div class="flex flex-wrap justify-content-end">
+                <div *ngIf="quoteNo"><b>QuoteNo- <span style="color: #FC4412 !important;">{{quoteNo}}</span></b>&nbsp;|&nbsp;</div>
+                <div *ngIf="quoteRefNo">RefNo- <span style="color: #FC4412 !important;">{{quoteRefNo}}</span></div>
         </div>
         
       </div>
@@ -153,9 +155,7 @@
                                     <div></div>
                                     <div></div>
                                     <div class="mb-4">
-                                        <p-button label="Back" [routerLink]="['/policyDetails']" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
                                         <p-button label="Next" *ngIf="!checkNextBtn(menu,i)" (click)="onNext()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>&nbsp;
-                                        <p-button label="Buy Policy"   (click)="onFormSubmit()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                                     </div>
                                     <div class="card grid text-white surface-900 px-4 py-2" (click)="showSidebar()">
                                         <div class="col-6">
@@ -172,6 +172,209 @@
             </ng-container>
         </p-tabView>
     </ng-container>
+    <div class="grid" *ngIf="(coverSection && (((!statusValue || checkManualReferral()) && !adminSection) || (statusValue && adminSection ))) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
+        <div class="lg:col-12 md:col-12 col-12 ml-3 p-0">
+            <div class="flex flex-wrap">
+                <h4><i class="fa fa-user"></i>&nbsp;Referral Details</h4>
+            </div>
+        </div>
+    </div>
+     <div class="flex flex-wrap mb-3" *ngIf="((!statusValue || checkManualReferral()) && !adminSection) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
+        <div class="lg:col-3 md:col-3 col-12">
+                <label class="input-form-label">Move this Quote to Referral Manually?</label>
+                <div class="flex justify-content-start gap-3 mt-1">
+                    <div class="flex align-items-center">
+                        <p-radioButton name="referral" value="Y" [(ngModel)]="isMannualReferal"
+                            inputId="referral_Yes"></p-radioButton>
+                        <span for="referral_Yes" class="ml-2">Yes</span>
+                    </div>
+                    <div class="flex align-items-center">
+                        <p-radioButton name="referral" value="N" [(ngModel)]="isMannualReferal"
+                            inputId="referral_No"></p-radioButton>
+                        <span for="referral_No" class="ml-2">No</span>
+                    </div>
+                </div>
+                <!-- <div class="custom-radio-btn" style="position: relative;top: 1rem;right: 0.3rem;">
+                    <div class="radio-toolbar">
+                        <input id="referral_Yes" type="radio" [(ngModel)]="isMannualReferal" name="referral"
+                            value="Y">
+                        <label for="referral_Yes" class="yes">Yes</label>
+                        <input type="radio" id="referral_No" [(ngModel)]="isMannualReferal" name="referral"
+                            value="N">
+                        <label for="referral_No" class="no">No</label>
+                    </div>
+                </div> -->
+        </div>
+        <ng-container *ngIf="isMannualReferal == 'Y'">
+            <div class="lg:col-3 md:col-3 col-12">
+                <div class="mb-3">
+                        <label class="input-form-label">Remarks</label>
+                        <textarea pInputTextarea cols="40" rows="2" [(ngModel)]="remarks"
+                            style="height: 45px;"></textarea>
+                </div>
+            </div>
+        </ng-container>
+        
+    </div>
+    <p-divider  *ngIf="(coverSection && (((!statusValue || checkManualReferral()) && !adminSection) || (statusValue && adminSection ))) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))"></p-divider>
+    <div class="grid mt-2" *ngIf="isMannualReferal != 'Y' && (coverSection && (((!statusValue || checkManualReferral()) && !adminSection) || (statusValue && adminSection ))) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
+        <div class="lg:col-12 md:col-12 col-12 ml-3 p-0">
+            <div class="flex flex-wrap">
+                <h4><i class="fa fa-credit-card-alt"></i>&nbsp;EMI Details</h4>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-wrap"
+        *ngIf="isMannualReferal != 'Y' && ((!statusValue || checkManualReferral()) && !adminSection) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
+        <ng-container *ngIf=" !endorsementSection && Emilist1.length!=0">
+            <div class="lg:col-4 md:col-4 col-4">
+                <div class="mb-3">
+                        <label class="input-form-label">Do You Like to Choose EMI Option?</label>
+                        <div class="flex justify-content-start gap-3 mt-1">
+                            <div class="flex align-items-center">
+                                <p-radioButton name="emiYN" value="Y" (change)="onEmiYNChange()" [(ngModel)]="emiYN"
+                                    inputId="emi_Yes"></p-radioButton>
+                                <span for="emi_Yes" class="ml-2">Yes</span>
+                            </div>
+                            <div class="flex align-items-center">
+                                <p-radioButton name="emiYN" value="N" (change)="onEmiYNChange()" [(ngModel)]="emiYN"
+                                    inputId="emi_No"></p-radioButton>
+                                <span for="emi_No" class="ml-2">No</span>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    
+    <div class="lg:col-12 md:col-12 col-12 ml-3" *ngIf="emiSection && Emilist1.length!=0 && emiYN=='Y' && isMannualReferal != 'Y'">
+        <table class="firstclass" style="width:70%;">
+            <thead>
+                <tr class="firstclass">
+                    <th scope="col" colspan="3"></th>
+                    <th scope="col" colspan="4" style="text-align:center;" class="spancommon span_font_size">
+                        Installment Amount ({{localCurrency}})
+                    </th>
+                </tr>
+                <tr class="firstclass">
+                    <th scope="col" class="spancommon span_font_size" style="text-align:center;">EMI Month
+                    </th>
+                    <th scope="col" class="spancommon span_font_size" style="text-align:center;">
+                        Installment Type</th>
+                    <th scope="col" class="spancommon span_font_size" style="text-align:center;">Due Date
+                    </th>
+                    <th scope="col" class="spancommon span_font_size" *ngIf="yearlySection" id="first"
+                        style="text-align:center">(12 Months)
+                    </th>
+                    <th scope="col" class="spancommon span_font_size" *ngIf="nineMonthSection" id="second"
+                        style="text-align:center">(9 Months)
+                    </th>
+                    <th scope="col" class="spancommon span_font_size" id="sixth" style="text-align:center"
+                        *ngIf="eightMonthSection">(8 Months)
+                    </th>
+                    <th scope="col" class="spancommon span_font_size" id="third" style="text-align:center"
+                        *ngIf="sixMonthSection">(6 Months)
+                    </th>
+                    <th scope="col" class="spancommon span_font_size" id="fifth" style="text-align:center"
+                        *ngIf="fiveMonthSection">(5 Months)
+                    </th>
+                    <th scope="col" class="spancommon span_font_size" id="fourth" style="text-align:center"
+                        *ngIf="threeMonthSection">(3 Months)
+                    </th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container>
+                    <tr *ngFor="let list of Emilist1;let i=index" class="firstclass">
+                        <td class="spancommon span_font_size"
+                            style="text-align:center;border: 0.5px solid grey;">
+                            {{list.EmiMonth}}</td>
+                        <td class="spancommon span_font_size"
+                            style="text-align:center;border: 0.5px solid grey;">
+                            {{list.InstallmentDesc}}</td>
+                        <td class="spancommon span_font_size"
+                            style="text-align:center;border: 0.5px solid grey;">
+                            {{list.DueDate}}</td>
+                        <td class="spancommon span_font_size" *ngIf="yearlySection" id="first"
+                            style="text-align:center;border: 0.5px solid grey;">
+                            {{list.yearlyAmount | commaseparator}}</td>
+                        <td class="spancommon span_font_size" *ngIf="nineMonthSection" id="second"
+                            style="text-align:center;border: 0.5px solid grey;">
+                            {{list.nineAmount|commaseparator}}</td>
+                        <td class="spancommon span_font_size" *ngIf="eightMonthSection"
+                            style="text-align:center;border: 0.5px solid grey;" id="sixth">
+                            {{list.eightAmount | commaseparator}}</td>
+                        <td class="spancommon span_font_size" *ngIf="sixMonthSection" id="third"
+                            style="text-align:center;border: 0.5px solid grey;">
+                            {{list.sixAmount | commaseparator}}</td>
+                        <td class="spancommon span_font_size" *ngIf="fiveMonthSection"
+                            style="text-align:center;border: 0.5px solid grey;" id="fifth">
+                            {{list.fiveAmount | commaseparator}}</td>
+                        <td class="spancommon span_font_size" *ngIf="threeMonthSection"
+                            style="text-align:center;border: 0.5px solid grey;" id="fourth">
+                            {{list.threeAmount | commaseparator}}</td>
+                    </tr>
+                </ng-container>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="col-12 col-md-6" *ngIf="isMannualReferal != 'Y' && emiYN=='Y' && Emilist1.length!=0">
+        <div class="mb-3 mt-3">
+                <label class="input-form-label spancommon span_font_size">EMI Period</label>
+                <div class="flex justify-content-start gap-3 mt-1">
+                    <div class="flex align-items-center">
+                        <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="0" [(ngModel)]="emiPeriod"
+                            inputId="emi_None"></p-radioButton>
+                        <span for="emi_None" class="ml-2">None</span>
+                    </div>
+                    <div class="flex align-items-center">
+                        <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="3" [(ngModel)]="emiPeriod"
+                            inputId="emi_three"></p-radioButton>
+                        <span for="emi_three" class="ml-2">3 Months</span>
+                    </div>
+                    <div class="flex align-items-center">
+                        <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="5" [(ngModel)]="emiPeriod"
+                            inputId="emi_five"></p-radioButton>
+                        <span for="emi_five" class="ml-2">5 Months</span>
+                    </div>
+                    <div class="flex align-items-center">
+                        <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="6" [(ngModel)]="emiPeriod"
+                            inputId="emi_six"></p-radioButton>
+                        <span for="emi_six" class="ml-2">6 Months</span>
+                    </div>
+                    <div class="flex align-items-center">
+                        <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="8" [(ngModel)]="emiPeriod"
+                            inputId="emi_eight"></p-radioButton>
+                        <span for="emi_eight" class="ml-2">8 Months</span>
+                    </div>
+                    <div class="flex align-items-center">
+                        <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="9" [(ngModel)]="emiPeriod"
+                            inputId="emi_nine"></p-radioButton>
+                        <span for="emi_nine" class="ml-2">9 Months</span>
+                    </div>
+                    <div class="flex align-items-center">
+                        <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="12" [(ngModel)]="emiPeriod"
+                            inputId="emi_twelve"></p-radioButton>
+                        <span for="emi_twelve" class="ml-2">12 Months</span>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="flex flex-wrap justify-content-center mt-2">
+        <div></div>
+        <div></div>
+        <div class="mb-4">
+            <p-button label="Back" [routerLink]="['/policyDetails']" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
+            <p-button label="Modify Rate Details" *ngIf="userType!='broker' && userType!='user'"   [routerLink]="['/quotation/plan/premium-info']" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+            <p-button label="Buy Policy"   (click)="onFormSubmit()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+        </div>
+        <div></div>
+        
+    </div>
 </div>
 
 <p-sidebar [(visible)]="sidebarVisible" position="right" styleClass="sm:20rem md:w-30rem">

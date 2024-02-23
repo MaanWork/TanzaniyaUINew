@@ -130,6 +130,34 @@ export class AppTopBarComponent implements OnInit {
         if (type == 'change'){this.router.navigate(['/auth/login/product']);}
       }
     }
+    finaliseTypeValue(types, changeType) {
+      if(types==null) types = this.typeList.find(ele=>ele.CodeDesc  = this.typeValue)  
+      else if(types.CodeDesc!='B2C Broker') this.typeValue = types.CodeDesc;
+      this.typeName = types.DisplayName;
+      console.log("Setted Type Value", this.typeValue);
+      //$("#subUserTypes").hide();
+      this.onTypeChange(changeType);
+    }
+    onTypeChange(changeType) {
+      let type = sessionStorage.getItem('typeValue');
+      console.log("1", type)
+      if (type != undefined) {
+        sessionStorage.setItem('typeValue', this.typeValue);
+        type = sessionStorage.getItem('typeValue');
+        console.log("2", type)
+        this.onTypeValueChange.emit('change');
+      }
+      else {
+        sessionStorage.setItem('typeValue', this.typeValue);
+        this.onTypeValueChange.emit('change');
+      }
+      if (changeType == 'direct') {
+        this.getBranchList();
+      }
+      // else {
+      //   this.router.navigate(['/Home'])
+      // }
+    }
     onRedirect(){
       if(this.loginId!='guest'){
         if(this.typeValue=='SuperAdmin'){this.router.navigate(['/Admin'])}

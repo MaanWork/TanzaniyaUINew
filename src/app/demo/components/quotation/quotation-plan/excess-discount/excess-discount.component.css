@@ -54,7 +54,7 @@ td.mat-footer-cell {
 }
 .mat-header-cell {
     padding: 0px !important;
-    background-color: #333b85 !important;
+    background-color: #FC4412 !important;
     color: white !important;
    
 }
@@ -71,7 +71,7 @@ td.mat-footer-cell {
 .outerHead {
     font-size: 13px;
     color: white !important;
-    background-color: #333b85;
+    background-color: #FC4412 !important;
     white-space: normal !important;
 }
 .customPadding{
