@@ -1162,6 +1162,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   }
   getMotorDetails(index){
         let vehicleDetails = this.customerData[index];
+        this.vehicleId = vehicleDetails?.Vehicleid;
         let ReqObj =  {
           "RequestReferenceNo": this.quoteRefNo,
            "Idnumber": this.customerDetails?.IdNumber,
@@ -2559,7 +2560,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
 
   }
-  onProceed(){
+  onProceed(type){
     if(this.checkDisableField()){
       
       this.router.navigate(['/quotation/plan/premium-details']);
@@ -2570,7 +2571,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
         this.onFormSubmit('proceedSave');
       }
       else{
-        this.onFinalProceed();
+        if(type=='save') this.onFormSubmit('proceedSave');
+        else this.onFinalProceed();
       }
     }
   }
@@ -2625,7 +2627,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if(this.tppdSI==undefined) tppSI = null;
         else if(this.tppdSI.includes(',')){ tppSI = this.tppdSI.replace(/,/g, '') }
         else tppSI = this.tppdSI
-        this.vehicleId = this.customerData[0]?.Vehicleid;
+        this.vehicleId = this.vehicleDetails?.Vehicleid;
         if(this.policyStartDate){
           if(this.endorsementSection && (this.enableAddVehicle && this.endorsementYn=='Y')){
              startDate = this.endorseEffectiveDate;

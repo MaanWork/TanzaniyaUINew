@@ -243,7 +243,7 @@
                         <div class="lg:col-6 md:col-6 col-12">
                             <h3>Motor Details</h3>
                         </div>
-                        <!-- <div class="lg:col-6 md:col-6 col-12 text-end">
+                        <!-- <div class="lg:col-6 md:col-6 col-12 flex flex-wrap justify-content-end">
                             <p-button  label="Edit" icon="pi pi-pencil" size="small" (click)="EditData()"></p-button>
                         </div> -->
                     </div>
@@ -411,8 +411,8 @@
             <div class="flex justify-content-center">
                 <p-button (click)="navigateTo('back')" styleClass="p-button-outlined" label="Back" size="small"></p-button>&nbsp;
                 <p-button (click)="navigateTo('quote-plan')" *ngIf="customerData.length!=tabIndex" label="Next" size="small"></p-button>&nbsp;
-                <p-button (click)="onProceed()" *ngIf="customerData.length==tabIndex" label="View Premium" size="small"></p-button>&nbsp;
-                <p-button (click)="onProceed()" *ngIf="checkActiveVehicles() && customerData.length!=tabIndex" label="View Premium" size="small"></p-button>
+                <p-button (click)="onProceed('save')" *ngIf="customerData.length==tabIndex" label="View Premium" size="small"></p-button>&nbsp;
+                <p-button (click)="onProceed('default')" *ngIf="checkActiveVehicles() && customerData.length!=tabIndex" label="View Premium" size="small"></p-button>
             </div>
           </p-tabPanel>
       </ng-container>
