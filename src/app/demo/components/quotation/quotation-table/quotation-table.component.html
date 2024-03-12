@@ -54,31 +54,32 @@
         </p-table>
         <ng-template #cardTableView>
           <div class="grid">
-            <div class="card w-25rem mr-4" *ngFor="let quotation of quotations">
+            <div class="card w-25rem mr-4" *ngFor="let quote of quoteData">
               <table>
                 <tr>
-                  <td><p-chip label="Category" styleClass="bg-orange-500 text-white"></p-chip></td>
-                  <td class="text-right"><span class="pi pi-circle-fill text-teal-600"></span> Status</td>
-                </tr>
-                <tr>
-                  <td><h5>Customer Number</h5></td>
-                </tr>
-                <tr>
-                  <td><b>Reference No</b></td>
-                  <td class="text-right"><b>VirTin No</b></td>
-                </tr>
-                <tr>
-                  <td>Jared</td>
-                  <td class="text-right">William</td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <span class="p-buttonset">
-                      <button pButton pRipple icon="pi pi-envelope" class="p-button-outlined"></button>
-                      <button pButton pRipple icon="pi pi-inbox" class="p-button-outlined"></button>
-                      <button pButton pRipple icon="pi pi-user" class="p-button-outlined"></button>
-                    </span>
+                  <td>
+                    <label><b>Quote No</b></label><br>
+                    <p-chip [label]="quote.QuoteNo" styleClass="bg-orange-500 text-white"></p-chip></td>
+                  <td class="text-right">
+                    <label><b> Reference No</b></label><br>
+                    <span class="pi pi-circle-fill text-teal-600"></span>
+                      {{ quote.RequestReferenceNo }}
                   </td>
+                </tr>
+                <tr>
+                  <td><h5>{{quote.ClientName}}</h5></td>
+                </tr>
+                <tr>
+                  <td><b>Start Date</b></td>
+                  <td class="text-right"><b>End Date</b></td>
+                </tr>
+                <tr>
+                  <td>{{quote.PolicyStartDate}}</td>
+                  <td class="text-right">{{quote?.PolicyEndDate}}</td>
+                </tr>
+                <tr>
+                  <td><span class="pi pi-phone mr-2"></span>{{quote.OverallPremiumLc}}&nbsp;({{quote?.currencyCode}})</td>
+                  <td class="text-right"><span class="pi pi-envelope mr-2" *ngIf="customer.Email1!=''"></span>{{quote?.Email1}}</td>
                 </tr>
               </table>
             </div>

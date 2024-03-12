@@ -154,4 +154,14 @@
 }
 .productBtn{
     font-size: 12px ;
+    
+}
+.productBtn button:hover{
+    color: #fff !important;
+    background-color: #FC4412 !important;
+}
+.productBtn button{
+    min-width: 200px !important;
+    background-color: #fff !important;
+    color: #FC4412 !important;
 }

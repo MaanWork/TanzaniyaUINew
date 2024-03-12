@@ -5,6 +5,7 @@ import { SharedService } from '../../service/shared.service';
 import * as Mydatas from '../../../app-config.json';
 import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
+import Swal from 'sweetalert2';
 declare var $:any;
 interface Plan {
   title:string;
@@ -49,8 +50,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
 	public motorApiUrl: any = this.AppConfig.MotorApiUrl;
   vehicleDetails: any;customerData:any[]=[];
   havePromoCodeYN: any=null;typeList:any[]=[];
-  noOfDays: any=null;
-  sourceType: any=null;
+  noOfDays: any=null;industryList:any[]=[];
+  sourceType: any=null;IndustryId:any=null;
   sourceTypeDesc: any=null;
   subuserType: any=null;
   brokerCode: any=null;
@@ -90,7 +91,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   enableAddVehicle: boolean=false;
   endorsementYn: any=null;
   endorseEffectiveDate: any=null;
-  collateralYN: any='N';
+  collateralYN: any='N';buildingOwnerYN: any = 'N';
   borrowerValue: any=null;
   collateralName: any=null;
   firstLossPayee: any=null;
@@ -125,10 +126,15 @@ export class CommonQuoteDetailsComponent implements OnInit {
   commonSection: boolean=false;
   showCustomerList: boolean=false;
   issuerSection: boolean=false;
-  commissionValue: any;
-  executiveValue: any;
+  commissionValue: any;vehicleValue:any='';
+  executiveValue: any;deductibleList:any[]=[];
   noOfDaysVlaue: string;sourceCodeError:boolean=false;
-  brokerCodeError: boolean;
+  brokerCodeError: boolean;endorsementId:any=null;
+  showSectionSeltion: boolean=false;industryError:boolean=false;
+  executiveSection: boolean=false;deductibleValue:any='';
+  endorsementDetails: any=null;vehicleValueList:any[]=[];inflationValue:any=null;
+  currentStatus: any='Y';extendedTppdList:any[]=[];extendedTppdValue:any='';
+  commonData: any=null;pACoversList:any[]=[];pACoverValue:any='';
   constructor(private router:Router,private sharedService:SharedService,private datePipe:DatePipe,private messageService: MessageService){
       this.minDate = new Date();
       this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -145,14 +151,34 @@ export class CommonQuoteDetailsComponent implements OnInit {
     this.branchList = this.userDetails.Result.LoginBranchDetails;
     this.loginType = this.userDetails.Result.LoginType;
     let loginType = this.userDetails.Result.LoginType;
+    this.vehicleValueList = [
+      {"Code":"","CodeDesc":"---Select---"},
+      {"Code":"1","CodeDesc":"Market"},
+      {"Code":"2","CodeDesc":"Agreed"},
+    ];
+    this.extendedTppdList = [
+      {"Code":"","CodeDesc":"---Select---"},
+      {"Code":"1","CodeDesc":"10,000 - 25,000"},
+      {"Code":"2","CodeDesc":"25,001 - 50,000"},
+      {"Code":"2","CodeDesc":"50,001 - 1,00,000"},
+    ]
+    this.pACoversList=[
+      {"Code":"","CodeDesc":"---Select---"},
+      {"Code":"1","CodeDesc":"Driver"},
+      {"Code":"2","CodeDesc":"Famiy With Driver"},
+      {"Code":"3","CodeDesc":"Famiy Without Driver"},
+      {"Code":"4","CodeDesc":"All Occupant"}
+    ]
     this.getSourceList();
     this.getCurrencyList();
   }
   ngOnInit() {
     
-    
-    this.getInsuranceTypeList();
-    this.getInsuranceClassList();
+    if(this.productId=='5'){
+      this.getInsuranceTypeList();
+      this.getInsuranceClassList();
+    }
+    else if(this.productId=='6' || this.productId=='13' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='32' || this.productId=='1' || this.productId=='21' || this.productId=='26' || this.productId == '25' || this.productId=='57'){this.getIndustryList()}
     // $(document).ready(function () {
 
     //   $('#CustomerInput').focus(function(){
@@ -186,16 +212,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
     else if(this.userType!='Broker' && this.userType!='User'){ this.issuerSection = true;this.adminSection=false; }
     else this.issuerSection = false
-    let quoteNo =  sessionStorage.getItem('quoteReferenceNo');
-    if(quoteNo){
-      this.quoteRefNo = quoteNo;
-    }
-    if(this.quoteRefNo){
-      this.getExistingVehiclesList();
-    }
-    else{ this.currencyCode = this.userDetails?.Result?.CurrencyId;
-      
-    }
+     this.currencyCode = this.userDetails?.Result?.CurrencyId;
+     this.setCustomerValues(null);
     let referenceNo =  sessionStorage.getItem('customerReferenceNo');
     if(referenceNo){
       this.getCustomerDetails(referenceNo);
@@ -213,6 +231,23 @@ export class CommonQuoteDetailsComponent implements OnInit {
     //   console.log('End page',s)
     //   this.hideSearchForm();
     // }
+  }
+  getIndustryList(){
+    this.industryList = [];
+    let ReqObj = {
+      "CategoryId": null,
+      "BranchCode": this.branchCode,
+      "InsuranceId": this.insuranceId,
+      "ProductId": this.productId,
+    }
+    let urlLink = `${this.CommonApiUrl}master/dropdown/industry`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        let defaultObj = [{ 'CodeDesc': '-Select-', 'Code': '' }]
+        this.industryList = defaultObj.concat(data.Result);
+      },
+      (err) => { },
+    );
   }
   getSourceList(){
     let ReqObj = {
@@ -416,7 +451,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       let referenceNo =  sessionStorage.getItem('quoteReferenceNo');
       if(referenceNo){
         this.quoteRefNo = referenceNo;
-        //this.getExistingBuildingList();
+        this.getExistingBuildingList();
       }
       else{
         this.quoteRefNo=null;
@@ -442,7 +477,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       }
       if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
         vehicleDetails = JSON.parse(sessionStorage.getItem('vehicleDetailsList'));
-        //this.getExistingVehiclesList();
+        this.getExistingVehiclesList();
         //this.setCommonValues('direct');
       }
       else if(this.productId!='5' && this.productId!='29'){
@@ -458,7 +493,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           if(referenceNo){
             this.quoteRefNo = referenceNo;
            if(this.productId=='5' || this.productId=='46' || this.productId=='29') this.getExistingVehiclesList();
-           //if(this.productId!='5' && this.productId!='4' && this.productId!='46' && this.productId!='29') this.getExistingBuildingList();
+           if(this.productId!='5' && this.productId!='4' && this.productId!='46' && this.productId!='29') this.getExistingBuildingList();
           }
           else{
             let loadType = sessionStorage.getItem('firstLoad');
@@ -482,7 +517,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if(referenceNo){
           this.quoteRefNo = referenceNo;
          if(this.productId=='5' || this.productId=='46' || this.productId=='29') this.getExistingVehiclesList();
-         //if(this.productId!='5' && this.productId!='4' && this.productId!='46' && this.productId!='29') this.getExistingBuildingList();
+         if(this.productId!='5' && this.productId!='4' && this.productId!='46' && this.productId!='29') this.getExistingBuildingList();
         }
         else{
           let loadType = sessionStorage.getItem('firstLoad');
@@ -546,6 +581,90 @@ export class CommonQuoteDetailsComponent implements OnInit {
         else this.issuerSection = false
       }
     }
+  }
+  getExistingBuildingList(){
+    let urlLink:any;
+    let ReqObj = {
+      "RequestReferenceNo": this.quoteRefNo,
+      "RiskId":"1",
+      "ProductId": this.productId,
+      "InsuranceId": this.insuranceId
+    }
+    //if(this.productId=='3') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
+    if(this.productId=='6' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='13'  || this.productId=='19' || this.productId=='32' || this.productId=='1' || this.productId=='26' || this.productId=='21' || this.productId == '25' || this.productId=='42' || this.productId=='3' || this.productId=='24') urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
+    else urlLink =  `${this.motorApiUrl}api/geteservicebyriskid`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            this.commonData = data.Result;
+              let entry:any;
+              //if(this.productId=='3') entry = this.customerData[0];
+               entry = this.commonData
+               if(entry?.FinalizeYn!=null){
+                this.finalizeYN== entry?.FinalizeYn;
+                sessionStorage.setItem('FinalizeYN',this.finalizeYN);
+               }
+               else this.finalizeYN='N';
+                if(entry?.EndorsementDate!=null){
+                  this.endorsementDetails['EndorsementDate'] = entry?.EndorsementDate;
+                  this.endorsementDetails['EndorsementEffectiveDate'] = entry?.EndorsementEffectiveDate;
+                  this.endorsementDetails['EndorsementRemarks'] = entry?.EndorsementRemarks;
+                  this.endorsementDetails['EndorsementType'] = entry?.EndorsementType;
+                  this.endorsementDetails['EndorsementTypeDesc'] = entry?.EndorsementTypeDesc;
+                  this.endorsementDetails['EndtCategoryDesc'] = entry?.EndtCategoryDesc;
+                  this.endorsementDetails['EndtCount'] = entry?.EndtCount;
+                  this.endorsementDetails['EndtPrevPolicyNo'] = entry?.EndtPrevPolicyNo;
+                  this.endorsementDetails['EndtPrevQuoteNo'] = entry?.EndtPrevQuoteNo;
+                  this.endorsementDetails['EndtStatus'] = entry?.EndtStatus;
+                  this.endorsementDetails['IsFinanceEndt'] = entry?.IsFinanceEndt;
+                  this.endorsementDetails['OrginalPolicyNo'] = entry?.OrginalPolicyNo;
+                  sessionStorage.setItem('endorseTypeId',JSON.stringify(this.endorsementDetails));
+                }
+              this.applicationId = entry.ApplicationId;
+              if(entry?.PolicyStartDate != null ){
+                var dateParts = entry?.PolicyStartDate.split("/");
+                // month is 0-based, that's why we need dataParts[1] - 1
+                this.policyStartDate = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
+                //this.policyStartDate = dateObject.toString()
+              }
+              if(entry?.PolicyEndDate != null ){
+                var dateParts = entry?.PolicyEndDate.split("/");
+                // month is 0-based, that's why we need dataParts[1] - 1
+                this.policyEndDate = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
+                this.onChangeEndDate();
+              }
+              //this.executiveValue = entry?.AcExecutiveId;
+              this.currencyCode = entry?.Currency;
+              this.onCurrencyChange('direct');
+              this.exchangeRate = entry?.ExchangeRate;
+              this.IndustryId = entry?.IndustryId;
+              this.executiveValue= entry?.AcExecutiveId;
+              this.havePromoCodeYN=entry?.Havepromocode;
+              if(entry.BuildingOwnerYn!=null && entry?.BuildingOwnerYn!='') this.buildingOwnerYN = entry?.BuildingOwnerYn;
+              this.promocode=entry?.Promocode;
+              if(entry.SourceTypeId!=null) this.Code = entry?.SourceTypeId;
+              this.branchCode = entry?.BranchCode;
+              this.brokerBranchCode = entry?.BrokerBranchCode;
+              this.customerCode = entry?.CustomerCode;
+              this.brokerCode = entry?.BrokerCode;
+              this.currentStatus = entry?.Status;
+              this.onSourceTypeChange('direct');
+              let quoteStatus = sessionStorage.getItem('QuoteStatus');
+              if(quoteStatus=='AdminRP' || quoteStatus=='AdminRA' || quoteStatus=='AdminRR'){
+                this.adminSection = true;this.issuerSection = false;
+              }
+              else if(this.userType!='Broker' && this.userType!='User'){ this.issuerSection = true;this.adminSection=false; }
+              else this.issuerSection = false
+            }
+            console.log(
+              "Code",this.Code,this.branchCode,this.brokerBranchCode,this.customerCode,this.brokerCode
+            )
+            //this.onGetCustomerList('direct',this.customerCode);
+          
+      },
+      (err) => { },
+    );
   }
   setTiraVehicleValues(entry){
     console.log("Entry Values",entry);
@@ -933,8 +1052,76 @@ export class CommonQuoteDetailsComponent implements OnInit {
       (err) => { },
     );
   }
-
-  EditData(){
+  onDelete(rowData){
+    if(rowData.Active){
+      Swal.fire({
+          title: '<strong> &nbsp;Delete Vehicle!</strong>',
+          iconHtml: '<i class="fa-solid fa-trash fa-fade"></i>',
+          icon: 'info',
+          html:
+            `<ul class="list-group errorlist">
+            Are You Sure Want to Delete this Vehicle Details?
+        </ul>`,
+          showCloseButton: true,
+          focusConfirm: false,
+          showCancelButton:true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          cancelButtonText: 'Cancel',
+          confirmButtonText: 'Delete!',
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+              this.proceedDeleteVehicle(rowData);
+        }
+      });
+    }
+  }
+  proceedDeleteVehicle(rowData){
+    let endtType = null;
+    if(this.endorsementSection){
+      endtType = this.endorsementId
+    }
+    let ReqObj = {
+      "RequestReferenceNo": rowData.RequestReferenceNo,
+      "Vehicleid": rowData.Vehicleid,
+      "EndtType": endtType
+    }
+    let urlLink = `${this.motorApiUrl}api/deletemotordetails`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+             if(this.endorsementSection){
+              Swal.fire({
+                title: '<strong> &nbsp;Delete Vehicle!</strong>',
+                iconHtml: '<i class="fa-solid fa-trash fa-fade"></i>',
+                icon: 'success',
+                html:
+                  `<ul class="list-group errorlist">
+                      Your Vehicle Delete Entry Stored Successfully,Proceed Further to Confirm
+                  </ul>`,
+                    showCloseButton: true,
+                    focusConfirm: false,
+                    showCancelButton:false,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Okay',
+                })
+                .then((result) => {
+                  if (result.isConfirmed) {
+                    this.getExistingVehiclesList();
+                  }
+                });
+             }
+             else{
+              this.getExistingVehiclesList();
+             }
+        }
+      },
+      (err) => { },
+    );
+  }
+  EditData(rowData){
     this.policyStartError=false;this.policyEndError = false;this.currencyCodeError=false;
       this.policyPassDate = false;
       
@@ -1015,7 +1202,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
         "SourceCode":this.Code,
       }
       sessionStorage.setItem('commonDetails',JSON.stringify(entry));
-      sessionStorage.setItem('vehicleLength',String(this.customerData.length+1))
+      console.log("Row Data",rowData)
+      sessionStorage.setItem('EditCarDetails',JSON.stringify(rowData));
+      sessionStorage.setItem('vehicleLength',String(rowData.Vehicleid))
+      sessionStorage.setItem('Editcars','SavedFroms');
       sessionStorage.setItem('vehicleDetailsList',JSON.stringify(this.customerData));
       this.router.navigate(['/quotation/plan/motor-details'])
     }
@@ -1395,10 +1585,15 @@ export class CommonQuoteDetailsComponent implements OnInit {
       }
       let startDate = null,endDate=null;
       if(this.policyStartDate!=null && this.policyStartDate!='' && this.policyStartDate!=undefined){
-        startDate = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");
-        endDate = this.datePipe.transform(this.policyEndDate, "dd/MM/yyyy");
+          let dateList = String(this.policyStartDate).split('/');
+          if(dateList.length>1) startDate = this.policyStartDate;
+          else startDate = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");
       }
-      
+      if(this.policyEndDate!=null && this.policyEndDate!='' && this.policyEndDate!=undefined){
+        let dateList = String(this.policyEndDate).split('/');
+        if(dateList.length>1) endDate = this.policyEndDate;
+        else endDate = this.datePipe.transform(this.policyEndDate, "dd/MM/yyyy");
+    }
       let sumInsured = null;
       if(this.vehicleDetails?.SUM_INSURED) sumInsured = this.vehicleDetails?.SUM_INSURED;
     let ReqObj = {
@@ -1558,6 +1753,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   }
   getExistingVehiclesList(){
     this.customerData = [];
+    this.tabIndex=0;
     let ReqObj = {
       "RequestReferenceNo": this.quoteRefNo
     }
@@ -2025,7 +2221,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     this.customerFilterSuggestions = [{'name':'Customer 1'}, {'name':'Customer 2'}];
   }
   saveExistData(){
-    let i = 0;
+    let i = 0,calcIndex=0;
     for(let veh of this.customerData){
       let refNo = veh?.MSRefNo;
       if((refNo==undefined && (veh?.modifiedYN=='Y' || this.quoteRefNo==null || this.quoteRefNo==undefined || this.endorsementSection || this.changeUwSection))){
@@ -2556,7 +2752,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     else {
       var exist=this.customerData.some(ele=>ele?.MSRefNo==undefined || ele?.MSRefNo==null);
       console.log("Final Entry ",exist)
-      return exist;
+      return !exist;
     }
 
   }
@@ -2874,7 +3070,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               entry['VehicleId'] = data.Result?.VehicleId;
               if(this.currentIndex<this.customerData.length){
                 this.collateralYN = "N";
-                sessionStorage.setItem('loadingType','load');
+                //sessionStorage.setItem('loadingType','load');
                 this.currentIndex = this.currentIndex+1;
                   if(this.customerData[this.currentIndex-1]?.Active==true){
                     if(this.endorsementSection && this.enableAddVehicle){
@@ -3225,6 +3421,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           this.sourceCodeError = true;
         }
         else{
+          this.sourceCodeError = false;
           if(this.sourceCodeDesc=='Premia Agent' || this.sourceCodeDesc=='Premia Broker' || this.sourceCodeDesc=='Premia Direct'){
             if(this.customerName=='' || this.customerName==undefined || this.customerName==null){
                 this.customerCodeError = true;
@@ -3246,37 +3443,385 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
         }
       }
+      if(this.productId=='6' || this.productId=='13' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='32' || this.productId=='1' || this.productId=='21' || this.productId=='26' || this.productId == '25' || this.productId=='57'){
+        if(this.IndustryId=='' || this.IndustryId==null || this.IndustryId==undefined){
+          i+=1;
+          this.industryError = true;
+        }
+        else this.industryError=false;
+      }
       if(i==0){
         let startDate=null,endDate=null;
         let startDateList = String(this.policyStartDate).split('/');
         if(startDateList.length>1) startDate = this.policyStartDate
         else startDate = this.datePipe.transform(this.policyStartDate,'dd/MM/yyyy');
         let endDateList = String(this.policyEndDate).split('/');
-        if(endDateList.length>1) endDate = this.policyEndDate
+        if(endDateList.length>1) endDate = this.policyEndDate;
         else endDate = this.datePipe.transform(this.policyEndDate,'dd/MM/yyyy');
         let entry = {
           "policyStartDate": startDate,
           "policyEndDate": endDate,
-        "currencyCode": this.currencyCode,
-        "exchangeRate": this.exchangeRate,
-        "promoCode": this.promocode,
-        "BrokerCode": this.brokerCode,
-        "SourceType": this.sourceType,
-        "SourceCode":this.Code,
-        "CustomerCode": this.customerCode,
-        "CustomerName": this.customerName,
-        "BrokerBranchCode": this.brokerBranchCode,
+          "currencyCode": this.currencyCode,
+          "exchangeRate": this.exchangeRate,
+          "promoCode": this.promocode,
+          "BrokerCode": this.brokerCode,
+          "SourceType": this.sourceType,
+          "SourceCode":this.Code,
+          "CustomerCode": this.customerCode,
+          "CustomerName": this.customerName,
+          "BrokerBranchCode": this.brokerBranchCode,
+          "IndustryId": this.IndustryId
         
       }
-          sessionStorage.setItem('commonDetails',JSON.stringify(entry));
-          if(this.tabIndex==0){this.tabIndex+=1;this.getMotorDetails(this.tabIndex-1)}
-          else if(this.customerData.length==this.tabIndex){this.saveMotorDetails(this.tabIndex)}
-          else{this.saveMotorDetails(this.tabIndex);}
+          if(this.productId=='5'){
+            sessionStorage.setItem('commonDetails',JSON.stringify(entry));
+            if(this.tabIndex==0){this.tabIndex+=1;this.getMotorDetails(this.tabIndex-1)}
+            else if(this.customerData.length==this.tabIndex){this.saveMotorDetails(this.tabIndex)}
+            else{this.saveMotorDetails(this.tabIndex);}
+          }
+          else if(this.productId=='3' || this.productId=='19'){
+            this.showSectionSeltion = true;
+          }
+          else{
+            let vehicle = {};
+            if(this.executiveSection){
+              vehicle['AcExecutiveId'] = this.executiveValue;
+              vehicle['CommissionType'] = this.commissionValue;
+            }
+            else{
+              vehicle['AcExecutiveId'] = null;
+              vehicle['CommissionType'] = null;
+            }
+            if(this.issuerSection){
+              vehicle['SourceType'] = this.Code;
+              vehicle['BrokerCode'] = this.brokerCode;
+              vehicle['BranchCode'] = this.branchCode;
+              vehicle['BrokerBranchCode'] = this.brokerBranchCode;
+              vehicle['CustomerCode'] = this.customerCode;
+              vehicle['CustomerName'] = this.customerName;
+              vehicle['LoginId'] = this.brokerLoginId;
+            }
+            else{
+              vehicle['SourceType'] = 'Agent';
+              vehicle['BrokerCode'] = this.brokerCode;
+              vehicle['BranchCode'] = this.branchCode;
+              vehicle['BrokerBranchCode'] = this.brokerBranchCode;
+              vehicle['CustomerCode'] = this.customerCode;
+              vehicle['CustomerName'] = this.customerName;
+              vehicle['LoginId'] = this.loginId;
+            }
+            vehicle['modifiedYN'] = this.modifiedYN;
+            vehicle['PolicyStartDate'] = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");
+            vehicle['PolicyEndDate'] = this.datePipe.transform(this.policyEndDate, "dd/MM/yyyy");
+            vehicle['PolicyPeriod'] = this.noOfDays;
+            vehicle['Currency'] = this.currencyCode;
+            vehicle['HavePromoCode'] = null;
+            vehicle['PromoCode'] = this.promocode;
+            vehicle['ExchangeRate'] = this.exchangeRate;
+            vehicle['RiskId'] = String(1);
+            vehicle['Active'] = false;
+            sessionStorage.setItem('homeCommonDetails',JSON.stringify([vehicle]));
+            if(this.productId=='19' || this.productId=='3' || this.productId=='24'){
+              let loginType = this.loginType;
+              if(loginType){
+                // if(loginType=='B2CFlow' || loginType=='B2CFlow2'){
+                //   let i=0;
+                //   this.customerTitleError = false;this.customerNameError=false;this.customerMobileCodeError = false;this.customerTypeError=false;
+                //   this.customerMobileNoError = false;this.customerIdNumberError = false;this.customerPolicyTypeError = false;
+                //     if(this.updateComponent.Title==null || this.updateComponent.Title==undefined || this.updateComponent.Title ==''){this.customerTitleError = true;i+=1;}
+                //     if(this.updateComponent.UserName==null || this.updateComponent.UserName==undefined || this.updateComponent.UserName ==''){this.customerNameError = true;i+=1;}
+                //     if(this.updateComponent.MobileCode==null || this.updateComponent.MobileCode==undefined || this.updateComponent.MobileCode ==''){this.customerMobileCodeError = true;i+=1;}
+                //     if(this.updateComponent.MobileNo==null || this.updateComponent.MobileNo==undefined || this.updateComponent.MobileNo =='') {this.customerMobileNoError = true;i+=1;}
+                //     if(this.updateComponent.IdNumber==null || this.updateComponent.IdNumber==undefined || this.updateComponent.IdNumber =='') {this.customerIdNumberError = true;i+=1;}
+                //     if(this.updateComponent.PolicyHolderTypeid==null || this.updateComponent.PolicyHolderTypeid==undefined || this.updateComponent.PolicyHolderTypeid =='') {this.customerPolicyTypeError = true;i+=1;}
+                //     if(this.updateComponent.CustomerType==null || this.updateComponent.CustomerType==undefined || this.updateComponent.CustomerType =='') {this.customerTypeError = true;i+=1;}
+                //     if(i>0) this.errorSection = true;
+                //     if(i==0){
+                //       let customerObj = {
+                //         "Title":this.updateComponent.Title,
+                //         "ClientName":this.updateComponent.UserName,
+                //         "MobileCode":this.updateComponent.MobileCode,
+                //         "MobileNo":this.updateComponent.MobileNo,
+                //         "MobileCodeDesc": this.updateComponent.MobileCodeDesc,
+                //         "IdNumber":this.updateComponent.IdNumber,
+                //         "IdType": this.updateComponent.CustomerType,
+                //         "PolicyHolderTypeid":this.updateComponent.PolicyHolderTypeid,
+                //         "EmailId":this.updateComponent.EmailId,
+                //         "PreferredNotification": this.updateComponent.PreferredNotification
+                        
+                //       }
+                //       sessionStorage.setItem('b2cCustomerObj',JSON.stringify(customerObj));
+                //       // this.modifiedCustomer = this.updateComponent.ModifiedCustomer;
+                //       // if(this.modifiedCustomer){
+                //       //     this.saveCustomerDetails(customerObj,'proceed');
+                //       // }
+                //       // else{
+                //           this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/risk-selection']);
+                //       //}
+                //     }
+                //   }
+                //   else  this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/risk-selection']);
+                this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/risk-selection']); 
+              }
+              else{
+                  this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/risk-selection']);
+              }
+            }
+            else if(this.productId=='6' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='32' || this.productId=='1' || this.productId=='21'  || this.productId=='26' || this.productId == '25' || this.productId=='43' || this.productId=='13' || this.productId=='27' || this.productId=='57') this.saveCommonDetails([vehicle]); 
+            else{
+              
+              let loginType = this.loginType;
+                  if(loginType){
+                    // if(loginType=='B2CFlow' || loginType=='B2CFlow2'){
+                    //   let i=0;
+                    //   this.customerTitleError = false;this.customerNameError=false;this.customerMobileCodeError = false;this.customerTypeError=false;
+                    //   this.customerMobileNoError = false;this.customerIdNumberError = false;this.customerPolicyTypeError = false;
+                    //     if(this.updateComponent.Title==null || this.updateComponent.Title==undefined || this.updateComponent.Title ==''){this.customerTitleError = true;i+=1;}
+                    //     if(this.updateComponent.UserName==null || this.updateComponent.UserName==undefined || this.updateComponent.UserName ==''){this.customerNameError = true;i+=1;}
+                    //     if(this.updateComponent.MobileCode==null || this.updateComponent.MobileCode==undefined || this.updateComponent.MobileCode ==''){this.customerMobileCodeError = true;i+=1;}
+                    //     if(this.updateComponent.MobileNo==null || this.updateComponent.MobileNo==undefined || this.updateComponent.MobileNo =='') {this.customerMobileNoError = true;i+=1;}
+                    //     if(this.updateComponent.IdNumber==null || this.updateComponent.IdNumber==undefined || this.updateComponent.IdNumber =='') {this.customerIdNumberError = true;i+=1;}
+                    //     if(this.updateComponent.PolicyHolderTypeid==null || this.updateComponent.PolicyHolderTypeid==undefined || this.updateComponent.PolicyHolderTypeid =='') {this.customerPolicyTypeError = true;i+=1;}
+                    //     if(this.updateComponent.CustomerType==null || this.updateComponent.CustomerType==undefined || this.updateComponent.CustomerType =='') {this.customerTypeError = true;i+=1;}
+                    //     if(i>0) this.errorSection = true;
+                    //     if(i==0){
+                    //       let customerObj = {
+                    //         "Title":this.updateComponent.Title,
+                    //         "ClientName":this.updateComponent.UserName,
+                    //         "MobileCode":this.updateComponent.MobileCode,
+                    //         "MobileNo":this.updateComponent.MobileNo,
+                    //         "MobileCodeDesc": this.updateComponent.MobileCodeDesc,
+                    //         "IdNumber":this.updateComponent.IdNumber,
+                    //         "IdType": this.updateComponent.CustomerType,
+                    //         "PolicyHolderTypeid":this.updateComponent.PolicyHolderTypeid,
+                    //         "EmailId":this.updateComponent.EmailId,
+                    //         "PreferredNotification": this.updateComponent.PreferredNotification
+                            
+                    //       }
+                    //       sessionStorage.setItem('b2cCustomerObj',JSON.stringify(customerObj));
+                    //       // this.modifiedCustomer = this.updateComponent.ModifiedCustomer;
+                    //       // if(this.modifiedCustomer){
+                    //       //     this.saveCustomerDetails(customerObj,'proceed');
+                    //       // }
+                    //       // else{
+                    //           this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/personal-accident']);
+                    //       //}
+                    //     }
+                    //   }
+                     // else  this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/personal-accident']);
+                     this.router.navigate(['/quotation/plan/personal-quote-details'])
+                  }
+                  else{
+                    this.router.navigate(['/quotation/plan/personal-quote-details'])
+                  }
+            }
+          }
       }
       // else{
       
       // }
       
     } 
+  }
+  saveCommonDetails(commonDetails){
+    let sourcecode:any;
+    let endorsementDate=null,EndorsementEffectiveDate=null,EndorsementRemarks=null,
+    EndorsementType=null,EndorsementTypeDesc=null,EndtCategoryDesc=null,EndtCount=null,
+    EndtPrevPolicyNo=null,EndtPrevQuoteNo=null,EndtStatus=null,IsFinanceEndt=null,OrginalPolicyNo=null;
+    if(this.endorsementDetails){
+      endorsementDate = this.endorsementDetails['EndorsementDate'];
+      EndorsementEffectiveDate = this.endorsementDetails['EndorsementEffectiveDate'];
+      EndorsementRemarks = this.endorsementDetails['EndorsementRemarks'];
+      EndorsementType = this.endorsementDetails['EndorsementType'];
+      EndorsementTypeDesc = this.endorsementDetails['EndorsementTypeDesc'];
+      EndtCategoryDesc = this.endorsementDetails['EndtCategoryDesc'];
+      EndtCount = this.endorsementDetails['EndtCount'];
+      EndtPrevPolicyNo = this.endorsementDetails['EndtPrevPolicyNo'];
+      EndtPrevQuoteNo = this.endorsementDetails['EndtPrevQuoteNo'];
+      EndtStatus = this.endorsementDetails['EndtStatus'];
+      IsFinanceEndt = this.endorsementDetails['IsFinanceEndt'];
+      OrginalPolicyNo = this.endorsementDetails['OrginalPolicyNo'];
+    }
+    let promocode = null;
+    let appId = "1", loginId = "", brokerbranchCode = "";let createdBy = "";
+    let quoteStatus = sessionStorage.getItem('QuoteStatus');
+    let referenceNo =  sessionStorage.getItem('quoteReferenceNo');
+      if(referenceNo){
+        this.quoteRefNo = referenceNo;
+      }
+      else this.quoteRefNo = null;
+    if (quoteStatus == 'AdminRP' || quoteStatus == 'AdminRA' || quoteStatus == 'AdminRR') {
+      //createdBy = this.vehicleDetailsList[0].CreatedBy;
+    }
+    else {
+      createdBy = this.loginId;
+      if (this.userType != 'Issuer') {
+        this.brokerCode = this.agencyCode;
+        appId = "1"; loginId = this.loginId;
+      }
+      else {
+        appId = this.loginId;
+        loginId = this.brokerLoginId
+        brokerbranchCode = null;
+      }
+    }
+    this.applicationId = appId;
+    if (quoteStatus == 'AdminRP' || quoteStatus == 'AdminRA' || quoteStatus == 'AdminRR') {
+      if (this.applicationId != '01' && this.applicationId != '1') { this.issuerSection = true; }
+      else { this.issuerSection = false; }
+    }
+    else if (this.userType != 'Broker' && this.userType != 'User') { 
+      brokerbranchCode =  commonDetails[0]['BrokerBranchCode']
+      this.issuerSection = true;
+     }
+    else{ this.issuerSection = false; brokerbranchCode = this.userDetails.Result.BrokerBranchCode; }
+    if (quoteStatus == 'AdminRP' || quoteStatus == 'AdminRA' || quoteStatus == 'AdminRR') {
+    }
+    if(this.userType!= 'Broker' && this.userType != 'User'){
+      sourcecode=this.Code
+    }
+    else{
+      sourcecode=sessionStorage.getItem('typeValue')
+    }
+    if(this.promocode!=null && this.promocode!='' && this.promocode!=undefined) this.havePromoCodeYN = 'Y';
+    else this.havePromoCodeYN = 'N';
+    let section = [];
+    if(this.productId=='6'){section.push('40');};
+    if(this.productId=='39'){section.push('41'); };
+    if(this.productId=='16'){section.push('42');};
+    if(this.productId=='14'){section.push('45');};
+    if(this.productId=='32'){section.push('43');};
+    if(this.productId=='1'){section.push('52');};
+    if(this.productId=='21'){section.push('3');};
+    if(this.productId=='26'){section.push('3');};
+    if(this.productId=='25'){section.push('39');};
+    if(this.productId=='13'){section.push('35');};
+    // if(this.productId=='56'){section.push('82');this.IndustryId='99999'};
+    if( this.productId=='57'){section.push('50')};
+    if(this.productId=='43'){section.push('70');this.IndustryId='44'};
+    if( this.productId=='27'){section.push('54');this.IndustryId='44'};
+    let ReqObj = { 
+        "AcexecutiveId": "",
+        "PolicyNo": this.endorsePolicyNo,
+        "ProductId": this.productId,
+        "ProductType": null,
+        "TiraCoverNoteNo": null,
+        "RequestReferenceNo": this.quoteRefNo,
+        "AgencyCode": this.agencyCode,
+        "ApplicationId": this.applicationId,
+        "BdmCode": this.customerCode,
+        "BranchCode": this.branchCode,
+        "BrokerBranchCode": brokerbranchCode,
+        "BrokerCode": this.brokerCode,
+        "BuildingOwnerYn": this.buildingOwnerYN,
+        "Createdby": this.loginId,
+        "SourceTypeId":sourcecode,//this.Code
+        "Currency": this.currencyCode,
+        "CustomerReferenceNo": this.customerDetails?.CustomerReferenceNo,
+        "CustomerCode": this.customerCode,
+        "CustomerName": this.customerName,
+        "ExchangeRate": this.exchangeRate,
+        "Havepromocode": this.havePromoCodeYN,
+        "Promocode": this.promocode,
+        "InsuranceId": this.insuranceId,
+        "LoginId": loginId,
+        "UserType": this.userType,
+        "PolicyEndDate": this.datePipe.transform(this.policyEndDate, "dd/MM/yyyy"),
+        "PolicyStartDate": this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy"),
+        "SectionIds": section,
+        "SubUsertype": sessionStorage.getItem('typeValue'),
+        "RiskId":"1",
+        "IndustryId": this.IndustryId,
+        "EndorsementDate": endorsementDate,
+        "EndorsementEffectiveDate": EndorsementEffectiveDate,
+        "EndorsementRemarks": EndorsementRemarks,
+        "EndorsementType": EndorsementType,
+        "EndorsementTypeDesc": EndorsementTypeDesc,
+        "EndtCategoryDesc": EndtCategoryDesc,
+        "EndtCount": EndtCount,
+        "EndtPrevPolicyNo": EndtPrevPolicyNo,
+        "EndtPrevQuoteNo": EndtPrevQuoteNo,
+        "EndtStatus": EndtStatus,
+        "IsFinanceEndt": IsFinanceEndt,
+        "OrginalPolicyNo": OrginalPolicyNo,
+        "Status": "Y"
+    }
+    if (this.endorsementSection) {
+      if (this.currentStatus == undefined || this.currentStatus == null || this.currentStatus == 'Y') {
+        ReqObj['Status'] = 'E';
+      }
+      else {
+        ReqObj['Status'] = this.currentStatus;
+      }
+      ReqObj['PolicyNo'] = this.endorsePolicyNo
+    }
+    else {
+      ReqObj['Status'] = 'Y';
+    }
+    let urlLink = `${this.motorApiUrl}api/slide/savecommondetails`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if (data.Result) {
+                let sections = data.Result?.SectionIds;
+                let refNo = data.Result?.RequestReferenceNo;
+                this.referenceNo = data.Result?.RequestReferenceNo;
+                // this.updateComponent.referenceNo = data.Result?.RequestReferenceNo;
+                sessionStorage.setItem('quoteReferenceNo',data.Result?.RequestReferenceNo);
+                let homeDetails = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
+                if (homeDetails) {
+                    if (homeDetails[0].SectionId == undefined || homeDetails[0].SectionId == "undefined") homeDetails[0]['SectionId'] = sections;
+                    else homeDetails[0].SectionId = sections;
+                    if(this.IndustryId && this.industryList!=null)
+                    homeDetails[0]['IndustryName'] = this.industryList.find(ele=>ele.Code==this.IndustryId).CodeDesc;
+                    sessionStorage.setItem('homeCommonDetails', JSON.stringify(homeDetails))
+                    let loginType = this.loginType;
+                    // if(loginType){
+                    //   if(loginType=='B2CFlow' || loginType=='B2CFlow2'){
+                    //     let i=0;
+                    //     this.customerTitleError = false;this.customerNameError=false;this.customerMobileCodeError = false;this.customerTypeError=false;
+                    //     this.customerMobileNoError = false;this.customerIdNumberError = false;this.customerPolicyTypeError = false;
+                    //       if(this.updateComponent.Title==null || this.updateComponent.Title==undefined || this.updateComponent.Title ==''){this.customerTitleError = true;i+=1;}
+                    //       if(this.updateComponent.UserName==null || this.updateComponent.UserName==undefined || this.updateComponent.UserName ==''){this.customerNameError = true;i+=1;}
+                    //       if(this.updateComponent.MobileCode==null || this.updateComponent.MobileCode==undefined || this.updateComponent.MobileCode ==''){this.customerMobileCodeError = true;i+=1;}
+                    //       if(this.updateComponent.MobileNo==null || this.updateComponent.MobileNo==undefined || this.updateComponent.MobileNo =='') {this.customerMobileNoError = true;i+=1;}
+                    //       if(this.updateComponent.IdNumber==null || this.updateComponent.IdNumber==undefined || this.updateComponent.IdNumber =='') {this.customerIdNumberError = true;i+=1;}
+                    //       if(this.updateComponent.PolicyHolderTypeid==null || this.updateComponent.PolicyHolderTypeid==undefined || this.updateComponent.PolicyHolderTypeid =='') {this.customerPolicyTypeError = true;i+=1;}
+                    //       if(this.updateComponent.CustomerType==null || this.updateComponent.CustomerType==undefined || this.updateComponent.CustomerType =='') {this.customerTypeError = true;i+=1;}
+                    //       if(i>0) this.errorSection = true;
+                    //       if(i==0){
+                    //         let customerObj = {
+                    //           "Title":this.updateComponent.Title,
+                    //           "ClientName":this.updateComponent.UserName,
+                    //           "MobileCode":this.updateComponent.MobileCode,
+                    //           "MobileNo":this.updateComponent.MobileNo,
+                    //           "MobileCodeDesc": this.updateComponent.MobileCodeDesc,
+                    //           "IdNumber":this.updateComponent.IdNumber,
+                    //           "IdType": this.updateComponent.CustomerType,
+                    //           "PolicyHolderTypeid":this.updateComponent.PolicyHolderTypeid,
+                    //           "EmailId":this.updateComponent.EmailId,
+                    //           "PreferredNotification": this.updateComponent.PreferredNotification
+                              
+                    //         }
+                    //         sessionStorage.setItem('b2cCustomerObj',JSON.stringify(customerObj));
+                    //         this.modifiedCustomer = this.updateComponent.ModifiedCustomer;
+                    //         if(this.modifiedCustomer){
+                    //             this.saveCustomerDetails(customerObj,'proceed');
+                    //         }
+                    //         else{
+                    //             this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/personal-accident']);
+                    //         }
+                    //       }
+                    //     }
+                    //     else  this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/personal-accident']);
+                    // }
+                    // else{
+                      this.router.navigate(['/quotation/plan/personal-quote-details'])
+                    //}
+                }
+        }
+      },
+      (err) => { },
+    );
   }
 }

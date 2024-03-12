@@ -1,0 +1,420 @@
+<div class="card pl-2">
+    <div class="grid" *ngIf="customerDetails">
+        <div class="col-12 pl-5 pr-5 pb-0">
+            <div>
+                <h4 class="m-0 p-0">Customer Details</h4>
+            </div>
+                
+        </div> 
+        </div>
+        <div class="grid mt-2 ml-2" *ngIf="customerDetails">
+        <div class="lg:col-6 md:col-6 col-12">
+            <h3>Personal Information</h3>
+            <div class="flex flex-wrap">
+                <div class="lg:col-4 md:col-6 col-12">
+                    <b>Customer Name</b>
+                    <p>{{customerDetails.TitleDesc}}&nbsp;{{customerDetails.ClientName}}</p>
+                </div>
+                <div class="lg:col-4 md:col-6 col-12">
+                    <b>Customer Type</b>
+                    <p>{{customerDetails.PolicyHolderTypeDesc}}</p>
+                </div>
+                <div class="lg:col-4 md:col-6 col-12">
+                    <b>Occupation</b>
+                    <p>{{customerDetails.OccupationDesc}}</p>
+                </div>
+    
+            </div>
+        </div>
+        <div class="lg:col-6 md:col-6 col-12">
+            <h3>Address Details</h3>
+            <div class="flex flex-wrap">
+                <div class="lg:col-4 md:col-6 col-12">
+                    <b>Address</b>
+                    <p>{{customerDetails.Address1}}</p>
+                </div>
+                <div class="lg:col-4 md:col-6 col-12">
+                    <b>Country</b>
+                    <p>{{customerDetails.Nationality}}</p>
+                </div>
+                <div class="lg:col-4 md:col-6 col-12">
+                    <b>District</b>
+                    <p>{{customerDetails.StateName}}</p>
+                </div>
+            </div>
+        </div>
+        </div>
+        <p-divider *ngIf="customerDetails" class="m-0 p-0"></p-divider>
+        <div class="grid m-0 p-0">
+        <ng-container *ngIf="issuerSection">
+            <div class="col-6 pl-3 pr-2 pb-0" >
+                <div>
+                    <h4 class="m-0 p-0">Policy Details</h4>
+                </div>
+                <div class="grid mt-1">
+                    <div class="lg:col-3 md:col-3 col-12">
+                        <label for="username">Start Date</label>
+                        <p-calendar class="w-full" styleClass="w-full"
+                            dateFormat="dd/mm/yy" placeholder="Select Start Date">
+                        </p-calendar>
+                    </div>
+                    <div class="lg:col-3 md:col-3 col-12">
+                            <label for="username">End Date</label>
+                            <p-calendar class="w-full" styleClass="w-full"  dateFormat="dd/mm/yy"
+                                placeholder="Select End Date">
+                            </p-calendar>
+                    </div>
+                    <div class="lg:col-4 md:col-4 col-12">
+                        <label for="username">PromoCode&nbsp;(Optional)</label>
+                        <input pInputText id="username" maxlength="50"  placeholder="Enter Customer Name" />
+                    </div>
+                    <div class="lg:col-4 md:col-4 col-12">
+                        <label for="username">Currency*</label>
+                        <p-dropdown inputId="make" class="w-full" styleClass="w-full" 
+                            optionLabel="CodeDesc" optionValue="Code" placeholder="Select Currency">
+                        </p-dropdown>
+                    </div>
+                    <div class="lg:col-3 md:col-3 col-3">
+                        <label for="username">Exchange Rate</label>
+                        <input pInputText id="username" maxlength="50"  />
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-6 pl-0 pr-2 pb-0">
+                <div>
+                    <h4 class="m-0 p-0">Period Of Insurance</h4>
+                </div>
+                <div class="grid mt-1">
+                    <div class="flex flex-wrap">
+                        <div class="lg:col-6 md:col-6 col-12">
+                            <label for="username">Source Type *</label>
+                            <p-dropdown inputId="sourceType" class="w-full" styleClass="w-full"
+                                optionLabel="CodeDesc" optionValue="Code" placeholder="Select SourceType">
+                            </p-dropdown>
+                        </div>
+                        <div class="lg:col-6 md:col-6 col-12">
+                            <label for="username">Source Code *</label>
+                            <ng-container >
+                                <p-dropdown inputId="sourceCode" class="w-full" styleClass="w-full"
+                                        optionLabel="Name"
+                                    optionValue="Code" placeholder="Select Source Code">
+                                </p-dropdown>
+                                <!-- <ng-select class="input-form-select" appendTo="body" [(ngModel)]="brokerCode"  [disabled]="endorsementSection || finalizeYN=='Y'" [items]="brokerList" (change)="onBrokerChange()" bindValue="Code" bindLabel="Name">
+                            </ng-select> -->
+                            </ng-container>
+                            <!-- <ng-container *ngIf="sourceCodeDesc=='broker' || sourceCodeDesc=='Broker'">
+                                <p-dropdown inputId="sourceCode" class="w-full" styleClass="w-full"
+                                    [options]="brokerList" [(ngModel)]="brokerCode" (onChange)="onBrokerChange()"
+                                    [disabled]="endorsementSection || finalizeYN=='Y'" optionLabel="Name"
+                                    optionValue="Code" placeholder="Select Source Code">
+                                </p-dropdown>
+                            </ng-container> -->
+                        </div>
+                        <div class="lg:col-6 md:col-6 col-12">
+                            <label for="username">Broker Branch *</label>
+                            <p-dropdown inputId="sourceCode" class="w-full" styleClass="w-full"
+                                optionLabel="CodeDesc" optionValue="Code" placeholder="Select Broker Branch">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="!issuerSection">
+            <div class="col-12 pl-3 pr-2 pb-0" >
+                <div>
+                    <h4 class="m-0 p-0">Policy Details</h4>
+                </div>
+                <div class="grid mt-1">
+                    <div class="lg:col-2 md:col-2 col-2"></div>
+                    <div class="lg:col-2 md:col-2 col-12">
+                        <label for="username">Start Date</label>
+                        <p-calendar class="w-full" styleClass="w-full" [(ngModel)]="policyStartDate"
+                        (onSelect)="onStartDateChange('change')"
+                            dateFormat="dd/mm/yy" placeholder="Select Start Date">
+                        </p-calendar>
+                    </div>
+                    <div class="lg:col-2 md:col-2 col-12">
+                            <label for="username">End Date</label>
+                            <p-calendar class="w-full" styleClass="w-full"  [(ngModel)]="policyEndDate"
+                            (onSelect)="onChangeEndDate()" dateFormat="dd/mm/yy"
+                                placeholder="Select End Date">
+                            </p-calendar>
+                    </div>
+                    <div class="lg:col-3 md:col-3 col-12">
+                        <label for="username">Currency*</label>
+                        <p-dropdown inputId="make" class="w-full" styleClass="w-full"  [options]="currencyList"
+                        [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')"
+                            optionLabel="CodeDesc" optionValue="Code" placeholder="Select Currency">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="grid mt-1">
+                    <div class="lg:col-2 md:col-2 col-2"></div>
+                    <div class="lg:col-2 md:col-2 col-12">
+                        <label for="username">Exchange Rate</label>
+                        <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="exchangeRate" />
+                    </div>
+                    <div class="lg:col-2 md:col-2 col-12">
+                        <label for="username">PromoCode&nbsp;(Optional)</label>
+                        <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="promocode" placeholder="Enter Customer Name" />
+                    </div>
+                    <div class="lg:col-3 md:col-3 col-12" *ngIf="productId=='6' || this.productId=='16' || productId=='39' || productId=='14' || productId=='32' || productId=='1' || productId=='21'
+                    || productId=='26' || this.productId=='25' || productId=='13' || productId=='57'">
+                            <label for="username">Industry</label>
+                            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="industryList"
+                                [(ngModel)]="IndustryId" 
+                                optionLabel="CodeDesc" optionValue="Code" placeholder="Select Industry">
+                            </p-dropdown>
+                            <div class="input-form-error" *ngIf="industryError">
+                                <div class="error-text">
+                                    Please Select Industry
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        </div>
+        <p-divider class="m-0 p-0"></p-divider>
+        <div *ngIf="formSection && productId!='45'">
+            <div class="row" *ngIf="productId=='14' && employeeError">
+                <div class="input-form-error text-center">
+                    <div class="error-text  text-danger">
+                        <b>Please Add Atleast One Employee Details</b>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="productId=='14'">
+                <div class="grid pl-5 pr-5 pb-0">
+                    <div class="md:col-6 lg:col-6 col-12">
+                        <h4 class="m-0 p-0">Employers Details</h4>
+                    </div>
+                </div>
+                <div class="grid pl-5 pr-2 pb-0">
+                    <div class="lg:col-10 xl:col-10 md:col-10 col-10 m-0 p-0">
+                        <div class="flex flex-wrap justify-content-end">
+                            <div>
+                                <p-button  styleClass="p-button-outlined"
+                                    size="small" (click)="createCover(null,myModal2)" > <i class="fas fa-plus"></i>&nbsp;Add New Employee
+                                </p-button>&nbsp;
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="grid ml-5 mt-2">
+                    <div class="lg:col-10 xl:col-10 md:col-10 col-10 m-0 p-0 ">
+                        <ng-container *ngIf="EmployeeListNew.length!=0">
+                            <p-table [value]="EmployeeListNew" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th [pSortableColumn]="queryHeader1" *ngFor="let column of queryHeader1">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-emp>
+                                  <tr>
+                                    <td>
+                                            {{emp.TotalNoOfEmployees}}
+                                    </td>
+                                    <td>{{emp?.EmpLiabilitySi}}</td>
+                                    <td>{{emp?.OtherOccupation}}</td>
+                                    <td>
+                                        <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditBuilding(emp)"></button>  
+                                    </td>
+                                    <td>
+                                        <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="delete(emp)"></button>  
+                                    </td>
+                                  </tr>
+                                </ng-template>
+                              </p-table>
+                        </ng-container>
+                        <ng-container *ngIf="EmployeeListNew.length==0">
+                                <div class="flex flex-wrap justify-content-center">
+                                    <b>No Employees Avaliabe</b>
+                                </div>
+                        </ng-container>
+                    </div>
+                </div>
+                        
+                         
+            </div>
+            <div *ngIf="productId=='32'">
+                <div class="grid pl-5 pr-5 pb-0">
+                    <div class="md:col-6 lg:col-6 col-12">
+                        <h4 class="m-0 p-0">Fidelity Details</h4>
+                    </div>
+                </div>
+                <div class="grid pl-5 pr-2 pb-0">
+                    <div class="lg:col-10 xl:col-10 md:col-10 col-10 m-0 p-0">
+                        <div class="flex flex-wrap justify-content-end">
+                            <div>
+                                <p-button  styleClass="p-button-outlined"
+                                    size="small" (click)="createCover1(null,myModal3)" > <i class="fas fa-plus"></i>&nbsp;Add New Employee
+                                </p-button>&nbsp;
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+                    <!-- <div class="row" *ngIf="listSectionFed">
+                        <div class="col-12 col-md-10 offset-lg-1">
+                           <app-grid-table [cols]="queryHeader2" [data]="FidelityListNew" [filterValue]="filterValue" (onEdit)="onEditBuildingFed($event,myModal3)" (onDeleteNew)="deleteFed($event,myModal2)">
+                           </app-grid-table>
+                        </div>
+                   </div>
+                   <div class="row" *ngIf="listnFed">
+                       <div class="col-12 col-md-10 offset-lg-1">
+                          <app-grid-table [cols]="queryHeader2" [data]="FidelityListNew" [filterValue]="filterValue" (onEdit)="onEditBuildingFed($event,myModal3)">
+                          </app-grid-table>
+                       </div>
+                  </div> -->
+
+            </div>
+            <div class="grid mt-2 pl-5 pr-2 pb-0" *ngIf="(productId=='21' || productId=='26'|| productId=='6' || productId=='16' || productId=='25' || productId=='43' || productId=='13' || (productId=='1' && insuranceId!='100004') || (productId=='39' && insuranceId!='100004') || (productId=='27' && insuranceId!='100004')) && formSection">
+                <ng-container *ngFor="let step of fields; let index = index; let last = last">
+                <ng-container *ngIf="step.props.label=='Plant All Risk'||step.props.label=='Fire And Material Damage' || step.props.label=='Fire & Allied Perils' || step.props.label=='Burglary' || step.props.label=='Money' || step.props.label=='Machinery BreakDown' || step.props.label=='Medical Insurance' || step.props.label=='Public Liability'">
+                    <div class="col-12 sm:col-9 md:col-9 m-0 p-0">
+                        <div>
+                            <div class="col-12 sm:col-4 md:col-4 m-0 p-0 d-flex justify-content-between" (click)="selectedIndex=index">
+                                <div (click)="selectedIndex=index"><h4 class="headings m-0 p-0">{{ step.props.label }}</h4></div>
+                                <div class="pr-3 pt-1">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body pl-5">
+                            <div class="grid">
+                                <div class="lg:col-2 md:col-2 col-12"></div>
+                                <div class="lg:col-9 md:col-9 col-12">
+                                    <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
+                                        <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="step.props.label=='Business All Risk' || step.props.label=='Electronic Equipment' || step.props.label=='Personal Accident'">
+                    <div class="col-md-6 col-lg-5 col-xl-5 col-12 ml-2 splitCard">
+                        <div class="col-md-12 col-lg-12 col-xl-12 splitCardHeader d-flex justify-content-between m-0 p-0" (click)="selectedIndex=index">
+                            <div (click)="selectedIndex=index" class="mt-2 pl-4"><h1 class="headings2 m-0 p-0">{{ step.props.label }}</h1></div>
+                            <div class="pr-3 pt-1">
+                                
+                            </div>
+                        </div>
+                        <div>
+                            <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
+                                <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
+                            </form>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+            </div>
+            <div class="grid pl-5 pr-5 pb-0" *ngIf="productId=='42'">
+                <div class="md:col-6 lg:col-6 col-12">
+                    <h4 class="m-0 p-0"><u>Cyber Insurance Details</u></h4>
+                </div>
+            </div>
+            <div class="grid pl-5 pr-5 pb-0" *ngIf="productId=='42'">
+                <div class="md:col-6 lg:col-6 col-12">
+                    <div class="input-control-container">
+                        <label class="input-form-label"><b>Occupation Type</b></label><span class="text-danger">*</span>
+                        <div style="width:400px;">
+                            <div class="flex flex-wrap  justify-content-between"> 
+                                <div *ngFor="let pro of CyperNewList;let i=index;"> 
+                                    <div class="input-form-radio-box">
+                                            <div class="radio-toolbar">
+                                                    <input [id]="'claims_Own'+i" type="radio" name="SampleType" [(ngModel)]="CyberCode" [value]='pro.Code'>
+                                                    <label [for]="'claims_Own'+i" class="yes_alt">{{pro.CodeDesc}}</label>
+                                                </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                    </div>
+                </div>
+                <div class="md:col-6 lg:col-6 col-12">
+                                
+                    <div class="input-control-container">
+                        <label class="input-form-label"><b>Plan Type</b></label><span class="text-danger">*</span>
+                        <div style="width:300px;">
+                        <div class="flex flex-wrap justify-content-between">  
+                        <div *ngFor="let products of ProductsList;let j=index">
+                        <div class="input-form-radio-box">
+                            <div class="radio-toolbar">
+                                <input [id]="'Silver'+j" type="radio" name="PlanType" [(ngModel)]="ProductCode" [value]='products.Code'>
+                                <label [for]="'Silver'+j" class="no">{{products.CodeDesc}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-content-center mt-3" *ngIf="productId=='1' || productId=='6' || productId=='39' || productId=='43' || productId=='16' || productId=='42' || productId=='21' || productId=='14'">
+        <p-button  styleClass="p-button-outlined" label="Back"
+            size="small" [routerLink]="['/quotation']" routerLinkActive="router-link-active" ></p-button>&nbsp;
+        <p-button 
+            label="Proceed" size="small" (click)="onSubmit()"></p-button>
+        </div>
+</div>
+    
+
+<p-dialog header="Select a Customer" [(visible)]="isSearchFormVisible" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+    <div class="flex flex-wrap mt-2">
+      <p-autoComplete field="name" class="mr-3 mb-3" styleClass="w-22rem md:w-25rem" inputStyleClass="w-22rem md:w-25rem" [suggestions]="customerFilterSuggestions" (completeMethod)="customerSearch($event)"></p-autoComplete>
+      <p-button label="Search" class="mr-3" size="small"></p-button>
+    </div>
+    <div class="body mt-3">
+      <p-table [value]="customers" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+        <ng-template pTemplate="header">
+            <tr>
+                <th [pSortableColumn]="customerColumn" *ngFor="let column of customerColumn">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customer>
+          <tr>
+            <td>
+              <input type="radio" [id]="customer?.CustomerReferenceNo" name="fav_language" (change)="onSelectCustomer(customer)" [value]="customer.CustomerReferenceNo">
+              <label for="html"></label>
+              <!-- <p-radioButton  [value]="customer.CustomerReferenceNo" name="city" [(ngModel)]="selectedCustomer" [inputId]="customer.CustomerReferenceNo"></p-radioButton>
+              <label for="ingredient1" class="ml-2"></label> -->
+            </td>
+            <td>{{customer?.CustomerReferenceNo}}</td>
+            <td>{{customer?.ClientName}}</td>
+            <td>{{customer?.PolicyHolderTypeDesc }}</td>
+            <td>{{ customer?.IdNumber }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="flex flex-wrap mt-5 justify-content-center">
+      <p-button (click) = "hideSearchForm()" label="Close" styleClass="p-button-outlined" class="mr-3"></p-button>&nbsp;
+      <p-button (click) = "navigateToCustomerDetail()" *ngIf="selectedCustomer" label="Proceed" severity="warning" class="mb-3"></p-button>
+    </div>
+</p-dialog>
+<p-dialog header="Employee Details" [(visible)]="isEmployeeForm" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+    <div class="body mt-1">
+        <div class="grid p-2">
+            <div class="col-12 lg:col-12 xl:col-12">
+                <form [formGroup]="form">
+                    <formly-form [form]="form" [fields]="fieldsEmployee" [model]="productItem"></formly-form>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+    <div class="flex flex-wrap justify-content-center">
+        <p-button  styleClass="p-button-outlined" label="Cancel"
+        size="small" *ngIf="editss" (click)="cancelnes()"></p-button>&nbsp;
+        <p-button  styleClass="p-button-outlined" label="Cancel"
+            size="small" *ngIf="!editss" (click)="cancelnew()"></p-button>&nbsp;
+        <p-button 
+            label="Submit" size="small" (click)="onsubmitnewemp()"></p-button>
+    </div>
+</p-dialog>

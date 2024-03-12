@@ -13,7 +13,7 @@
     
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
         <ng-container *ngIf="showUserDetails()">
-            <p-button [label]="productname" icon="pi pi-home" class="productBtn" (click)="onProductRedirect()" severity="warning"></p-button>
+            <p-button [label]="productname" icon="pi pi-home" class="productBtn" (click)="onProductRedirect()" severity="warning"></p-button>&nbsp;
             <ng-container *ngIf="typeList.length!=0">
                 <p-dropdown inputId="make" 
                     class="w-full min300" 

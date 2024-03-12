@@ -119,3 +119,25 @@ $gutter: 1rem; //for primeflex grid system
     background: #fbf6ef;
     box-shadow: inset 6px 6px 12px #c1bdb8, inset -6px -6px 12px #ffffff;
 }
+
+
+
+.p-su-header .p-dialog-mask .p-component .p-dialog-header{
+    border-bottom: 0 none;
+    background: gainsboro !important;
+    color: black !important;
+    padding: 0.7rem !important;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+}
+
+.maan-btn-blue{
+    background: rgba(255, 171, 145, 0.4588235294) !important;
+    border: 1px solid #F4511E !important;
+    color: #c91111 !important;
+    padding: 2px 8px;
+    border-radius: 1px;
+ }
+ .endText{
+    text-align: end !important;
+ }

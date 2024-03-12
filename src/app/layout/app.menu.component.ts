@@ -104,7 +104,7 @@ export class AppMenuComponent implements OnInit {
           this.getBranchList();
         }
         else {
-          this.router.navigate(['/Home'])
+          this.router.navigate(['/'])
         }
       }
       getBranchList() {
@@ -252,7 +252,10 @@ export class AppMenuComponent implements OnInit {
               entry["icon"] = menu.icon;
               if(menu.title=='Quote Register') entry["routerLink"] =  ['/quotation'];
               else if(menu.title=='Customer') entry["routerLink"] =  ['/customer'];
-              else if(menu.title=='New Quote') entry['routerLink'] = ['/policyDetails']
+              else if(menu.title=='New Quote'){
+                if(this.productId=='5')  entry['routerLink'] = ['/policyDetails']
+                else entry['routerLink'] = ['/quotation/plan/quote-details']
+              }
               else if(menu.title=='Customer') entry["routerLink"] =  ['/customer']
               else if(menu.title=='Referral') entry["routerLink"] =  ['/referral']
               else if(menu.title=='Portfolio') entry["routerLink"] =  ['/portfolio']

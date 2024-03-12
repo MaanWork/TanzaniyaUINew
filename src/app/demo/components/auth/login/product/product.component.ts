@@ -92,7 +92,7 @@ export class ProductComponent implements OnInit {
       else if(product.ProductId=='43') return '../../../../../../assets/layout/images/Medical_Mal.png';
       else if(product.ProductId=='16') return '../../../../../../assets/layout/images/money.webp';
       else if(product.ProductId=='26') return '../../../../../../assets/layout/images/plantrisk.avif';
-      else if(product.ProductId=='21') return '../../../../../../assets/layout/images/risk.png';
+      else if(product.ProductId=='21') return '../../../../../../assets/layout/images/risk2.png';
       else if(product.ProductId=='25') return '../../../../../../assets/layout/images/electronicequipment.jpg';
       else if(product.ProductId=='27') return '../../../../../../assets/layout/images/publicliablity.png';
       else if(product.ProductId=='45') return '../../../../../../assets/layout/images/LifeIns.webp';

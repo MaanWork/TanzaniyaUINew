@@ -1,0 +1,38 @@
+.form-control{
+    width: 100% !important;
+    max-width: 100% !important;
+    border: 1px solid gray;
+    border-radius: 15px;
+    padding:8px 12px !important
+}
+.ui-ex{
+    font-weight: 500;
+    font-size: 14px;
+}
+.customCard{
+    max-width: 350px !important;
+    min-width: 350px !important;
+}
+
+.p-dialog.p-element.p-su-header .p-dialog-mask .p-component .p-dialog-header{
+    border-bottom: 0 none;
+    background: gainsboro !important;
+    color: black !important;
+    padding: 0.7rem !important;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+}
+
+
+table.table.table-bordered {
+    border: 1px solid gainsboro;
+    border-collapse: collapse;
+}
+
+.table-bordered th{
+    border: 1px solid gainsboro;
+
+}
+.table-bordered td{
+    border: 1px solid gainsboro;
+}

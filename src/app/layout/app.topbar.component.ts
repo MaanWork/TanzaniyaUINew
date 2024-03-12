@@ -160,8 +160,8 @@ export class AppTopBarComponent implements OnInit {
     }
     onRedirect(){
       if(this.loginId!='guest'){
-        if(this.typeValue=='SuperAdmin'){this.router.navigate(['/Admin'])}
-        else{this.router.navigate(['/Home'])}
+        if(this.typeValue=='SuperAdmin'){this.router.navigate(['/'])}
+        else{this.router.navigate(['/'])}
       }
       else{
         sessionStorage.clear();

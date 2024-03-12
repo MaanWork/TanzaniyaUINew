@@ -1,9 +1,8 @@
-<div class="flex flex-wrap justify-content-between">
-    <h2>Choose Your Accessories Plan</h2>
-</div>
-
-<p class="mt-1">According to your budget you can pay monthly or one time* with %10 discount.</p>
-
+<ng-container *ngIf="productId=='5'">
+    <div class="flex flex-wrap justify-content-between">
+        <h2>Choose Your Accessories Plan</h2>
+    </div>
+    <p class="mt-1">According to your budget you can pay monthly or one time* with %10 discount.</p>
     <div class="grid" >
         <div class="lg:col-6 md:col-6 col-12">
             <div class="mb-3" *ngIf="ChassisList.length>2">
@@ -69,28 +68,73 @@
                 </div>
         </div>
     </div>
-
-
-<div class="flex flex-wrap justify-content-end">
-    <div class="text-white surface-900 px-6 py-3 border-round-lg" (click)="showSidebar()">
-        <div class="flex flex-wrap justify-content-between" >
-            <div >
-                <h5 class="text-white mb-1 mr-3">Total SumInsured</h5>
+    <div class="flex flex-wrap justify-content-end">
+        <div class="text-white surface-900 px-6 py-3 border-round-lg" (click)="showSidebar()">
+            <div class="flex flex-wrap justify-content-between" >
+                <div >
+                    <h5 class="text-white mb-1 mr-3">Total SumInsured</h5>
+                </div>
+                <div >
+                    <h6 class="text-white my-0">{{totalAccessoriesSI | commaseparator }}</h6>
+                </div>
             </div>
-            <div >
-                <h6 class="text-white my-0">{{totalAccessoriesSI | commaseparator }}</h6>
+            <div class="flex flex-wrap justify-content-between" >
+                <div><h5 class="text-white mb-1 mr-3">Actual SumInsured</h5></div>
+                <div><h6 class="text-white my-0">{{actualAccessoriesSI | commaseparator }}</h6></div>
             </div>
-        </div>
-        <div class="flex flex-wrap justify-content-between" >
-            <div><h5 class="text-white mb-1 mr-3">Actual SumInsured</h5></div>
-            <div><h6 class="text-white my-0">{{actualAccessoriesSI | commaseparator }}</h6></div>
         </div>
     </div>
-</div>
+</ng-container>
+<ng-container *ngIf="productId!='5'">
+    <p-tabView [activeIndex]="tabIndex" (onChange)="onTabClicked($event)" *ngIf="buildingDetailsSection">
+        <p-tabPanel header="Location">
+            <div class="grid" >
+                <div class="lg:col-6 md:col-6 col-12">
+                    <form [formGroup]="form">
+                        <formly-form [form]="form" [fields]="fieldss" [model]="productItem"></formly-form>
+                    </form>
+                    <div class="flex flex-wrap justify-content-center mt-2">
+                        <p-button label="Save" (click)="onSaveLocation()" class="text-l pi-button mr-0"></p-button>
+                    </div>
+                </div>
+                <div class="lg:col-6 md:col-6 col-12">
+                    <ng-container *ngIf="building.length!=0">
+                        <p-table [value]="building" [tableStyle]="{ 'min-width': '50rem' }">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Location Name</th>
+                                    <th>Address</th>
+                                    <th>SumInsured</th>
+                                    <th>Action</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-build let-i="rowIndex">
+                                <ng-container>
+                                    <tr>
+                                        <td>{{build.LocationName}}</td>
+                                        <td>{{build.BuildingAddress}}</td>
+                                        <td>{{build.BuildingSuminsured | commaseparator }}</td>
+                                        <td>
+                                            <p-button icon="pi pi-pencil" severity="danger" (click)="onEditBuilding(i)" styleClass="p-button-outlined"></p-button>&nbsp;
+                                            <p-button icon="pi pi-trash" severity="danger" (click)="delete(build)"  styleClass="p-button-outlined"></p-button>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </ng-template>
+                        </p-table>
+                    </ng-container>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</ng-container>
+
+
+
 <div class="flex flex-wrap justify-content-center mt-4">
     <div class="mb-4">
         <p-button label="Back" [routerLink]="['/quotation/plan/main/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
-        <p-button label="Proceed" (click)="onSaveAccessories()" class="text-l pi-button mr-0"></p-button>
+        <p-button label="Proceed" (click)="onFormSubmit()" class="text-l pi-button mr-0"></p-button>
     </div>
     <!-- <div class="card grid text-white surface-900 px-4 py-2" (click)="showSidebar()">
         <div class="col-6">

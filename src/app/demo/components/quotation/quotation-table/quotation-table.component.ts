@@ -74,9 +74,9 @@ export class QuotationTableComponent implements OnInit {
     this.items = [{ label: 'Home', routerLink:'/' }, {label:'Quotation'}];
     this.customerColumn = [ 'Select','Reference No','Customer Name',  'Customer Type','ID Number'];
     if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
-      this.columns = ['Reference No','Quote No','Customer Name','Start Date','End Date','Premium','Actions']
+      this.columns = [ 'Quotate No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium', 'Actions'];
     }
-    else this.columns = [ 'Quotate No', 'Reference No', 'Vehicle No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Vehicle Count', 'Contacts'];
+    else this.columns = ['Reference No','Quote No','Customer Name','Start Date','End Date','Premium','Actions'] 
     this.quotations = [{referenceNo:'123'}, {referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'}];
     this.getBrokerList();
     this.getLapsedBrokerList();
@@ -476,7 +476,8 @@ export class QuotationTableComponent implements OnInit {
       appId = this.loginId;
       brokerbranchCode = null;
     }
-    let ReqObj = {
+   
+      let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "InsuranceId":this.insuranceId,
         "ProductId": this.productId,
@@ -495,6 +496,8 @@ export class QuotationTableComponent implements OnInit {
             this.isSearchFormVisible = true;
         }
       });
+    
+    
   }
   onEditQuotes(rowData){
     sessionStorage.removeItem('vehicleDetailsList');
@@ -514,7 +517,13 @@ export class QuotationTableComponent implements OnInit {
         sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
         sessionStorage.setItem('TravelQuoteRefNo',rowData.RequestReferenceNo);
         sessionStorage.removeItem('quoteNo');
-        this.router.navigate(['/policyDetails']);
+        if(this.productId=='5'){
+          this.router.navigate(['/policyDetails']);
+        }
+        else{
+          this.router.navigate(['/quotation/plan/quote-details']);
+        }
+        
       }
       // if((rowData.QuoteNo!=null && rowData.QuoteNo!='' && rowData.QuoteNo!=undefined) && date2>=date1){
       
@@ -573,7 +582,12 @@ export class QuotationTableComponent implements OnInit {
               sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
               sessionStorage.setItem('quoteNo',rowData.QuoteNo);
               sessionStorage.setItem('updatebar',rowData.QuoteNo);
-              this.router.navigate(['/policyDetails']);
+              if(this.productId=='5'){
+                this.router.navigate(['/policyDetails']);
+              }
+              else{
+                this.router.navigate(['/quotation/plan/quote-details']);
+              }
             
 
           }
@@ -583,14 +597,24 @@ export class QuotationTableComponent implements OnInit {
             sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
             sessionStorage.setItem('TravelQuoteRefNo',rowData.RequestReferenceNo);
             sessionStorage.removeItem('quoteNo');
-            this.router.navigate(['/policyDetails']);
+            if(this.productId=='5'){
+              this.router.navigate(['/policyDetails']);
+            }
+            else{
+              this.router.navigate(['/quotation/plan/quote-details']);
+            }
           }
         }
         else{
             sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
               sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
               sessionStorage.setItem('quoteNo',rowData.QuoteNo);
-              this.router.navigate(['/policyDetails']);
+              if(this.productId=='5'){
+                this.router.navigate(['/policyDetails']);
+              }
+              else{
+                this.router.navigate(['/quotation/plan/quote-details']);
+              }
         }
       })
 
@@ -602,8 +626,12 @@ export class QuotationTableComponent implements OnInit {
 
   navigateToCustomerDetail() {
     sessionStorage.setItem('customerReferenceNo',this.selectedCustomer);
-
-    this.router.navigate(['/policyDetails']);
+    if(this.productId=='5'){
+      this.router.navigate(['/policyDetails']);
+    }
+    else{
+      this.router.navigate(['/quotation/plan/quote-details'])
+    }
   }
 
   customerSearch(event) {

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { SharedService } from 'src/app/demo/service/shared.service';
 import * as Mydatas from '../../../../../app-config.json';
 import Swal from 'sweetalert2';
+import { QuotationPlanComponent } from '../quotation-plan.component';
 @Component({
   selector: 'app-document-info',
   templateUrl: './document-info.component.html',
@@ -40,7 +41,7 @@ export class DocumentInfoComponent {
   viewImageSection: boolean;
   driverDetailsList: any[]=[];
   coverlist: any[]=[];
-  constructor(private sharedService: SharedService,
+  constructor(private sharedService: SharedService,private quoteComponent:QuotationPlanComponent,
     private router:Router,
     private datePipe:DatePipe) {
     //this.vehicleId = sessionStorage.getItem('editVehicleId');
@@ -162,7 +163,8 @@ export class DocumentInfoComponent {
       (data: any) => {
           if(data?.Result){
 
-            this.Riskdetails = data?.Result?.RiskDetails
+            this.Riskdetails = data?.Result?.RiskDetails;
+            this.quoteComponent.setRiskDetails(this.Riskdetails);
           for (let cover of this.Riskdetails) {
             let j = 0;
             if(cover?.SectionDetails){
@@ -379,7 +381,7 @@ export class DocumentInfoComponent {
               }
     }
     else if(this.productId=='5' || this.productId=='32' || this.productId=='39' || this.productId=='14' || this.productId=='15' || this.productId=='19' || this.productId=='1' || this.productId=='6' || this.productId=='16' || this.productId =='21' || this.productId =='26' || this.productId =='25' || this.productId =='24' || this.productId=='42' || this.productId=='43' || this.productId=='13' || this.productId=='27'){
-      this.router.navigate(['quotation/plan/main/accessories']);
+      this.router.navigate(['/quotation/plan/premium-details']);
     }
     else{
       this.router.navigate(['/quotation/plan/premium-details']);

@@ -11,6 +11,8 @@ import { DocumentInfoComponent } from './document-info/document-info.component';
 import { VehicleCreateFormComponent } from './vehicle-create-form/vehicle-create-form.component';
 import { PolicyInfoComponent } from './policy-info/policy-info.component';
 import { ExcessDiscountComponent } from './excess-discount/excess-discount.component';
+import { PersonalQuoteDetailsComponent } from './personal-quote-details/personal-quote-details.component';
+import { CommonProductDetailsComponent } from './common-product-details/common-product-details.component';
 
 const routes: Routes = [
   { 
@@ -20,15 +22,19 @@ const routes: Routes = [
       { path: 'vehicle', component: VehiclePlanComponent },
       { path: 'accessories', component: AccesoriesComponent },
       { path: 'quote-type', component: QuotationTypeInfoComponent },
+      
       { path: 'driver-info', component: DriverInfoComponent },
       { path: 'document-info', component: DocumentInfoComponent },
       { path: 'payment', component: PaymentInfoComponent },
       { path: 'policy-info', component: PolicyInfoComponent },
+     
       
     ] 
   },
   { path: 'motor-details', component: VehicleCreateFormComponent },
   { path: 'premium-info', component: ExcessDiscountComponent },
+  { path: 'quote-details', component:  CommonProductDetailsComponent},
+  { path: 'personal-quote-details', component: PersonalQuoteDetailsComponent },
   { 
     path: 'premium-details', 
     component: CoverDetailsComponent,

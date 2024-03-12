@@ -70,8 +70,8 @@ td.mat-footer-cell {
 
 .outerHead {
     font-size: 13px;
-    color: white !important;
-    background-color: #FC4412 !important;
+    color: black !important;
+    background-color: #f6f8fa !important;
     white-space: normal !important;
 }
 .customPadding{
@@ -131,7 +131,9 @@ th.mat-header-cell {
     padding: 0.2rem;
 }
 .shawdowcustom {
-    box-shadow: inset 0px 0px 8px #b8b9be, inset -1px 5px 0px #fff !important;
+    /* box-shadow: inset 0px 0px 8px #b8b9be, inset -1px 5px 0px #fff !important; */
+    box-shadow: 0px 0px 8px #b8b9be, inset -1px 5px 0px #fff !important;
+    padding: 5px;
 }
 table {
     width: 100% !important;
@@ -591,3 +593,99 @@ th.mat-header-cell {
             }
           
         }
+
+
+
+
+
+
+ .ui-cards{
+    background:"white";
+    border-radius:8px;
+    border-color:#e0e6ed;
+    padding:1.25rem !important;
+    box-shadow:2px 3px 11px 4px #f3ebeb;
+ }       
+
+ .maan-btn-blue{
+    background: #ffab9175 !important;
+    border: 1px solid #F4511E !important;
+    color: #c91111 !important;
+ }
+ .ui-bg-cu{
+    background-color: #E9F6FF;
+    margin-top: 12px;
+    border-radius: 10px;
+ }
+ h3.ui-cu-header{
+    font-size: 15px;
+    color: #03285e;
+    background: white;
+    width: 100%;
+    padding: 7px;
+    box-shadow: 2px 3px #cccccc59;
+}
+.ui-b{
+    font-weight: 600;
+    color: #04043c;
+}
+.fa-question-circle{
+border-radius: 50%;
+background-color: inherit !important;
+}
+.mdc-data-table__row{
+    height: 0px !important;
+}
+
+ .mat-mdc-footer-row {
+    background-color: inherit;
+    height: 43px !important;
+}
+
+.form-control{
+    width: 100% !important;
+    max-width: 100% !important;
+    border: 1px solid gray;
+    border-radius: 15px;
+    padding:8px 12px !important
+}
+.ui-ex{
+    font-weight: 500;
+    font-size: 14px;
+}
+
+
+.p-dialog.p-element.p-su-header .p-dialog-mask .p-component .p-dialog-header{
+    border-bottom: 0 none;
+    background: gainsboro !important;
+    color: black !important;
+    padding: 0.7rem !important;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+}
+
+
+table.table.table-bordered {
+    border: 1px solid gainsboro;
+    border-collapse: collapse;
+}
+
+
+.ui-btn{
+    margin-top: 12px;
+    background: #ff000026;
+    color: red;
+    border: none;
+    padding: 7px 25px;
+    border-radius: 3px;
+
+}
+.ui-btn-2{
+    background: #033e2826;
+    color: #1e640a;
+    /* color: red; */
+    border: none;
+    padding: 7px 25px;
+    border-radius: 3px;
+    margin-top:12px;
+}

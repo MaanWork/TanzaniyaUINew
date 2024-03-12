@@ -6,10 +6,10 @@
 <div class="grid">
     <div class="col-12 md:col-6 lg:col-8 px-5 offset-2">
         <input style="display: none;" type="file" (change)="onUploadListDocuments($event,null,'direct','select')" #doc>
-        <div class="imag-card my-3" style="width:250px !important;height:60px !important;" appDragDropFileUpload (fileDropped)="onUploadListDocuments($event,null,'direct','drag')" (click)="doc.click()">
+        <div class="imag-card my-3" style="width:250px !important;height:80px !important;width:100% !important;border:1px dashed;background-color: whitesmoke;" appDragDropFileUpload (fileDropped)="onUploadListDocuments($event,null,'direct','drag')" (click)="doc.click()">
             <div>
                 <div class="center">
-                    <b class="text-dark" style="font-size:1rem">
+                    <b class="text-dark" style="font-size:1rem;position: relative;top:25px">
                         <i class="far fa-images"></i> Drag or Click</b>
                 </div>
             </div>

@@ -2266,7 +2266,7 @@ getMotorUsageList(vehicleValue){
       this.router.navigate(['/quotation/plan/premium-details']);
     }
     else if(this.productId=='4') this.router.navigate(['/quotation/plan/premium-details']);
-    else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/personal-accident']);
+    else this.router.navigate(['/quotation/plan/premium-details']);
   }
   updateFinalizeYN(type){
     let ReqObj = {
