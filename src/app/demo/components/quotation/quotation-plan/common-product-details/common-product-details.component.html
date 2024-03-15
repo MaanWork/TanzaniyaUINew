@@ -272,6 +272,73 @@
                   </div> -->
 
             </div>
+
+            <div *ngIf="productId=='59'">
+                <div class="col-12 pl-3 pr-2 pb-0" >
+                    <div>
+                        <h4 class="m-0 p-0">Section Modification</h4>
+                    </div>
+                    <div class="grid mt-1">
+                        <div class="lg:col-2 md:col-2 col-2"></div>
+                  
+                        <div class="lg:col-10 md:col-10 col-12">
+                            <div>
+                            <span style="width: 126px;
+                            height: 24px;
+                            top: 833px;
+                            left: 438px;">
+                                <label style="font-family: Inter;
+                                font-size: 16px;
+                                font-weight: 700;
+                                line-height: 30px;
+                                letter-spacing: 0px;
+                                text-align: left;">Cover Required</label>&nbsp;&nbsp;
+                            </span>
+                            <p-button  styleClass="p-button-outlined" label="Contents"
+                            size="small"></p-button>&nbsp;
+                        <p-button styleClass="p-button-outlined" label="Building"></p-button>&nbsp;
+                        <p-button styleClass="p-button-outlined" label="Building & Contents"></p-button>
+                            </div>
+                            <div class="grid layout1 mt-3">
+                                  <div class="layout2 lg:col-3 md:col-3 col-12 mt-3" *ngFor="let Section of productList">
+                                  <div class="layout3" (click)="sectionselect(Section?.CodeDesc,Section?.Code)">
+                                   
+                                            <label class="layout4">{{Section?.CodeDesc}}
+                                            <span><i class="fa fa-check" style="
+                                                top: 5px !important;
+                                                right: 10px !important;"></i></span>
+                                            </label>
+                                            <!-- <label class="check">✔</label> -->
+                                 </div>
+                                  </div>
+                                  <!-- <div class="layout2 lg:col-3 md:col-3 col-12">
+                                    <div class="layout3">
+                                        <label class="layout4">Business Interruption</label>
+                                    </div>
+                                  </div>
+                                  <div class="layout2 lg:col-3 md:col-3 col-12">
+                                    <div class="layout3">
+                                        <label class="layout4">Electronic Equipment</label>
+                                    </div>
+                                  </div>
+                                  <div class="layout2 lg:col-3 md:col-3 col-12">
+                                    <div class="layout3">
+                                        <label class="layout4">Fidelity Guarantee</label>
+                                    </div>
+                                  </div> -->
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+                <!-- <div> Section Modification </div> -->
+                <!-- <div class="grid mt-1">
+                    <p-button  styleClass="p-button-outlined" label="CoverRequired"
+                    size="small"></p-button>&nbsp;
+                <p-button 
+                    label="contents" size="small"></p-button>
+                </div> -->
+            </div>
             <div class="grid mt-2 pl-5 pr-2 pb-0" *ngIf="(productId=='21' || productId=='26'|| productId=='6' || productId=='16' || productId=='25' || productId=='43' || productId=='13' || (productId=='1' && insuranceId!='100004') || (productId=='39' && insuranceId!='100004') || (productId=='27' && insuranceId!='100004')) && formSection">
                 <ng-container *ngFor="let step of fields; let index = index; let last = last">
                 <ng-container *ngIf="step.props.label=='Plant All Risk'||step.props.label=='Fire And Material Damage' || step.props.label=='Fire & Allied Perils' || step.props.label=='Burglary' || step.props.label=='Money' || step.props.label=='Machinery BreakDown' || step.props.label=='Medical Insurance' || step.props.label=='Public Liability'">
@@ -418,3 +485,70 @@
             label="Submit" size="small" (click)="onsubmitnewemp()"></p-button>
     </div>
 </p-dialog>
+
+<p-dialog header="Insured Details" [(visible)]="Products" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+    <!-- <div class="flex flex-wrap mt-2">
+      <p-autoComplete field="name" class="mr-3 mb-3" styleClass="w-22rem md:w-25rem" inputStyleClass="w-22rem md:w-25rem" [suggestions]="customerFilterSuggestions" (completeMethod)="customerSearch($event)"></p-autoComplete>
+      <p-button label="Search" class="mr-3" size="small"></p-button>
+    </div> -->
+    <div class="body mt-3">
+        <div class="grid mt-2 pl-5 pr-2 pb-0">
+            <!--*ngIf="(productId=='3' || productId=='21' || productId=='26'|| productId=='6' || productId=='16' || productId=='25' || productId=='43' || productId=='13' || (productId=='1' && insuranceId!='100004') || (productId=='39' && insuranceId!='100004') || (productId=='27' && insuranceId!='100004')) && formSection"-->
+            <ng-container *ngFor="let step of fields; let index = index; let last = last">
+            <ng-container *ngIf="step.props.label=='Plant All Risk'||step.props.label=='Fire And Material Damage' || step.props.label=='Fire & Allied Perils' || step.props.label=='Burglary' || step.props.label=='Money' || step.props.label=='Machinery BreakDown' || step.props.label=='Medical Insurance' || step.props.label=='Public Liability'">
+                <div class="col-12 sm:col-9 md:col-9 m-0 p-0">
+                    <div>
+                        <div class="col-12 sm:col-4 md:col-4 m-0 p-0 d-flex justify-content-between" (click)="selectedIndex=index">
+                            <div (click)="selectedIndex=index"><h4 class="headings m-0 p-0">{{ step.props.label }}</h4></div>
+                            <div class="pr-3 pt-1">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body pl-5">
+                        <div class="grid">
+                            <div class="lg:col-2 md:col-2 col-12"></div>
+                            <div class="lg:col-9 md:col-9 col-12">
+                                <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
+                                    <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="step.props.label=='Business All Risk' || step.props.label=='Electronic Equipment' || step.props.label=='Personal Accident'">
+                <div class="col-md-6 col-lg-5 col-xl-5 col-12 ml-2 splitCard">
+                    <div class="col-md-12 col-lg-12 col-xl-12 splitCardHeader d-flex justify-content-between m-0 p-0" (click)="selectedIndex=index">
+                        <div (click)="selectedIndex=index" class="mt-2 pl-4"><h1 class="headings2 m-0 p-0">{{ step.props.label }}</h1></div>
+                        <div class="pr-3 pt-1">
+                            
+                        </div>
+                    </div>
+                    <div>
+                        <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
+                            <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
+                        </form>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="(step.props.label=='Contents Risk' && insuranceId!='100004') || (step.props.label=='Contents Risk' && insuranceId=='100004' && productId=='24') || step.props.label=='Personal Liability' || step.props.label=='Personal Accident' || step.props.label=='All Risk' || step.props.label=='Business All Risk' || step.props.label=='Electronic Equipment'">
+                <div class="col-md-6 col-lg-4 col-xl-4 col-12 ml-2 splitCard">
+                    <div class="col-md-12 col-lg-12 col-xl-12 splitCardHeader d-flex justify-content-between" (click)="selectedIndex=index">
+                        <div (click)="selectedIndex=index" class="mt-2 pl-4"><h1 class="headings2"><u>{{ step.props.label }}</u></h1></div>
+                        <div class="pr-3 pt-1">
+                        </div>
+                    </div>
+                    <div>
+                        <form [formGroup]="form">
+                            <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
+                        </form>
+                    </div>
+                 
+                </div>
+                
+            </ng-container>
+        </ng-container>
+        </div>
+    </div>
+  </p-dialog>

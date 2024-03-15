@@ -122,6 +122,9 @@ export class CommonProductDetailsComponent {
   editss: boolean=false;
   editEmp: boolean=false;
   employeeError: boolean=false;
+  productList: any[]=[];
+  Products: boolean = false;
+  productnames: any;
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -168,6 +171,7 @@ export class CommonProductDetailsComponent {
     if(this.productId=='6' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='32' || this.productId=='1' || this.productId=='21'
     || this.productId=='26' || this.productId=='25' || this.productId=='13' || this.productId=='57'){this.getIndustryList();}
     this.setProductSections();
+    this.onproductdisplay();
   }
   setProductSections(){
     var d = new Date();
@@ -836,6 +840,9 @@ export class CommonProductDetailsComponent {
             this.formSection = true; this.viewSection = false;
         }
 
+     }
+     else if(this.productId == '59'){
+      this.formSection = true;
      }
     else if(this.productId=='16' && this.insuranceId != '100004'){
       console.log('MMMMMMMMMMMMMMMM',this.productId,this.insuranceId)
@@ -5956,6 +5963,46 @@ export class CommonProductDetailsComponent {
         }
       });
   }
+
+  onproductdisplay(){
+    let ReqObj = {
+      "InsuranceId":this.insuranceId,
+      "ProductId": this.productId
+    }
+    let urlLink = `${this.ApiUrl1}master/dropdown/productsection`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log('IIIIII',data);
+        if(data.Result){
+          this.productList = data.Result;
+            // if(products.length!=0){
+            //   let i=0;
+            //   for(let product of products){
+            //       if(this.selectedSections.length!=0){
+            //         product['checked'] = this.selectedSections.some(ele=>ele==product.Code);
+            //       }
+            //       else product['checked']=false;
+            //       i+=1;
+            //       if(i==products.length) this.productList = products
+            //   }
+            // }
+            console.log('KKKKKKKKKKKKKK',this.productList)
+            //this.premiunDropdown()
+  
+        }
+        
+      },
+  
+      (err) => { },
+    );
+  }
+
+  sectionselect(type,code){
+    this.productnames= type;
+    this.Products=true;
+console.log('Selected',type);
+this.sections(code);
+  }
   getgeographicalLimit(){
     let ReqObj = {
       "InsuranceId": this.insuranceId,
@@ -6958,6 +7005,7 @@ export class CommonProductDetailsComponent {
     hideSearchForm() {
       this.isSearchFormVisible = false;
       this.selectedCustomer=null;
+      this.Products = false;
     }
     navigateToCustomerDetail() {
       if(this.selectedCustomer){
@@ -6978,5 +7026,152 @@ export class CommonProductDetailsComponent {
     }
     customerSearch(event) {
       this.customerFilterSuggestions = [{'name':'Customer 1'}, {'name':'Customer 2'}];
+    }
+    
+
+    sections(sections){
+      console.log('Sectionsssss',sections);
+      if(sections){
+        console.log('sectionssss',sections)
+        //this.updateComponent.setTabCountSection(0);
+        this.showSection = true;
+        if(sections=='1'){
+          
+          let contentData 
+          if(this.insuranceId=='100004'){
+            contentData = new Buildingss();
+          }
+          else{
+            contentData = new Building();
+          }
+          this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData?.fields]);
+          this.getWallMaterialList();
+          this.getRoofMaterialList();
+          this.getbuildingpurposeList();
+          if(this.insuranceId =='100004'){
+            this.getTypeOfProperty();
+          }
+          
+        }
+        if(sections=='47' && this.insuranceId!='100004'){
+          let contentData = new HouseHoldContents();
+          this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData?.fields]);
+          // alert(this.fields[0].fieldGroup.concat([contentData?.fields]));
+        }
+        if(sections=='3'){
+          //alert(sections)
+          let contentData 
+          if(this.insuranceId=='100004'){
+            contentData = new AllRiskss();
+          }
+          else {
+            contentData = new AllRisk();
+          }
+          this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData?.fields])
+        }
+        if(sections=='36'){
+          //alert(sections)
+          let contentData = new PersonalLiability();
+          this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData?.fields])
+        }
+        if(sections.some(ele=>ele=='76')){
+          let fireData = new ElectronicEquipment();
+          this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([fireData?.fields]);
+          }
+        if(sections.some(ele=>ele=='35')){
+          //alert(sections)
+          let contentData = new PersonalAccident();
+          this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData?.fields]);
+          // let modelHooks = { onInit: (field: FormlyFieldConfig) => {
+          //   field.formControl.valueChanges.subscribe(() => {
+          //     this.onoccChangepersonal('change');
+          //   });
+          // } }
+          // console.log('HHHHHHHHHHHHHH',this.fields[0].fieldGroup);
+          // console.log('Field groups',contentData.fields.fieldGroup)
+          // let groupLists = contentData.fields.fieldGroup;
+          // let i=0;
+          // for(let group of groupLists){
+          //    group.fieldGroup[0].hooks = modelHooks;
+          //    i+=1;
+          //    if(i==groupLists.length){this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData?.fields]); this.onoccChangepersonal('change');}
+          // }
+          // this.fields[0].fieldGroup.fieldGroup[0].fieldGroup[0].hooks = modelHooks;
+          
+        }
+        if(sections.some(ele=>ele=='69')){
+          let fireData = new BussinessAllRisk();
+          this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([fireData?.fields]);
+        }
+       
+        if(sections.some(ele=>(ele=='47' || ele=='74') && this.insuranceId=='100004')){
+          let contentData
+          if(this.productId!='24'){
+            contentData = new HouseHoldContentsss();
+          }
+          else{
+            contentData = new HouseHoldContents();
+          }
+          this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData?.fields]);
+        }
+        if(sections.some(ele=>(ele=='54'))){
+          let contentData = new PublicLiability();
+         this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData?.fields]);
+       }
+        if(sections.some(ele=>ele=='40')){
+          let fireData = new FireAlliedPerils();
+          let entry = [];
+          entry.push(fireData?.fields);
+          this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([fireData?.fields]);
+          //this.fields[0].fieldGroup = entry.concat(this.fields[0].fieldGroup);
+          this.getIndemityPeriodList();
+        }
+       
+        
+          if(sections.some(ele=>ele=='41')){
+          let contentData = new MachineryBreakDown();
+          let checkYnHooks ={ onInit: (field: FormlyFieldConfig) => {
+            field.formControl.valueChanges.subscribe(() => {
+                this.checkMachineryYNChanges()
+            });
+          }};
+          let groupList = contentData.fields.fieldGroup[0].fieldGroup[0].fieldGroup[1].fieldGroup;
+          let i=0;
+          for(let group of groupList){
+             group.fieldGroup[0].hooks = checkYnHooks;
+             i+=1;
+             if(i==groupList.length){this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData?.fields]); this.checkMachineryYNChanges()}
+          }
+          }
+          if(sections.some(ele=>ele=='45')){
+            //let employeeData = new EmployersLiability();
+            let employeeData = new EmployersLiabilitytwo();
+            let field = {
+              props: { label: 'Employers Liability' },
+              fieldGroup: employeeData.fields
+            }
+            let modelHooks = { onInit: (field: FormlyFieldConfig) => {
+              field.formControl.valueChanges.subscribe(() => {
+                this.onoccChange('change');
+              });
+            } }
+            this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([field]);
+            console.log('SectionEmployeers', this.fields[0].fieldGroup);
+            for(let field of this.fields[0].fieldGroup){
+              console.log('Formly Fields',field.props.label)
+              if(field.props.label=='Employers Liability'){
+                this.fieldsEmployee = field.fieldGroup;
+                console.log('Fedilitysss',field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[0]);
+                console.log('Empliablity',this.fieldsEmployee[0].fieldGroup[0].fieldGroup[0].fieldGroup[0]);
+              }
+            }
+            if(this.fieldsEmployee){
+              this.fieldsEmployee[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].hooks = modelHooks;
+            }
+        
+          }
+       
+        
+      }
     }
 }
