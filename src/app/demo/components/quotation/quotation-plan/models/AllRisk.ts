@@ -26,12 +26,13 @@ export class AllRisk{
                 fieldGroupClassName: 'row',
                 fieldGroup: [
                   {
-                    className: 'col-12',
+                    className: 'col-6',
                     type: 'commaSeparator',
                     key: 'AllriskSumInsured',
   
                     props: {
-                      label: `Sum Insured (${this.commonDetails[0].Currency})`,
+                      label: `Sum Insured`,
+                      //(${this.commonDetails[0].Currency})`,
                       maxLength: 15,
                       disabled: this.checkDisable('AllriskSumInsured'),
                       required: true,

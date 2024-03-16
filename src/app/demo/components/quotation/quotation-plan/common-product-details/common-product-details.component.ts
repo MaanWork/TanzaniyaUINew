@@ -81,6 +81,7 @@ export class CommonProductDetailsComponent {
   customerColumn:any[]=[];selectedCustomer:any=null;customerFilterSuggestions:any[] = [];
   adminSection:boolean=false;issuerSection:boolean=false;minCurrencyRate:any=null;
   referenceNo: string;currencyList:any[]=[];exchangeRate:any=null;maxCurrencyRate:any=null;
+  selectedIndex:number=0;
   noOfDays: any=null;policyStartDate:any=null;endMinDate:any=null;policyEndDate:any=null;
   endMaxDate:any=null;promocode:any=null;productItem:any=null;industryList:any[]=[];employeeCountList:any[]=[];
   industryError:boolean=false;IndustryId:any=null;fields: any[] = [];emailId:any=null;
@@ -125,6 +126,7 @@ export class CommonProductDetailsComponent {
   productList: any[]=[];
   Products: boolean = false;
   productnames: any;
+  newsections: any;
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -152,7 +154,8 @@ export class CommonProductDetailsComponent {
       this.getCustomerDetails(this.referenceNo);
     }
     this.getCurrencyList();
-    if (this.productId != '3' && this.productId != '19' && this.productId != '46' && this.productId != '42' && this.productId != '43' && this.productId!='39' && this.productId!='16' && this.productId!='1' && this.productId!='25' && this.productId!='21' && this.productId!='26' && this.productId!='27' && this.productId!='56') {
+    //this.productId != '3'
+    if ( this.productId != '3' && this.productId != '19' && this.productId != '46' && this.productId != '42' && this.productId != '43' && this.productId!='39' && this.productId!='16' && this.productId!='1' && this.productId!='25' && this.productId!='21' && this.productId!='26' && this.productId!='27' && this.productId!='56') {
       this.getOccupationList(null);
     }
   }
@@ -4115,6 +4118,580 @@ export class CommonProductDetailsComponent {
     );
   
   }
+  onNextProceed(){
+    console.log('this.newsections',this.newsections);
+    let count = this.selectedIndex;
+    let totalCount = 0;
+    if(this.fields[0].fieldGroup.length!=0) totalCount = this.fields[0].fieldGroup.length-1;
+    let rowData:any = this.fields[0].fieldGroup[count];
+    console.log('rowData222',rowData)
+    let type="";
+    if(count!=totalCount) type='save';
+    else type ='proceed';
+    console.log('rowData',rowData.props.label)
+    if(this.newsections == '35'){
+      this.onSavePersonalAccidentDetails(type,'Group');
+    }
+    if(rowData.fieldGroup.props.label=='Building Risk'){
+      if(this.finalizeYN=='Y'){
+          if(type=='save'){
+            this.selectedIndex +=1;
+            this.onNextProceed();
+          }
+          else if(type!='save'){ this.onFinalProceed();}
+      }
+      else this.onSaveBuildingDetails(type,'Group');
+    }
+    if(rowData.props.label=='Fire & Allied Perils'){
+      if(this.finalizeYN=='Y'){
+        if(type=='save'){
+          this.selectedIndex +=1;
+          this.onNextProceed();
+        }
+        else if(type!='save'){ this.onFinalProceed();}
+      }
+      else this.onSaveFireAlliedDetails(type,'Group');
+    }
+    else if(rowData.props.label=='Contents Risk'){
+      if(this.finalizeYN=='Y'){
+        if(type=='save'){
+          this.selectedIndex +=1;
+          this.onNextProceed();
+        }
+        else if(type!='save'){ this.onFinalProceed();}
+      }
+      else this.onSaveContentRiskDetails(type,'Group');
+    }
+    else if(rowData.props.label=='All Risk'){
+      if(this.finalizeYN=='Y'){
+        if(type=='save'){
+          this.selectedIndex +=1;
+          this.onNextProceed();
+        }
+        else if(type!='save'){ this.onFinalProceed();}
+      }
+      else this.onSaveAllRiskDetails(type,'Group');
+    }
+    else if(rowData.props.label=='Personal Accident'){
+      if(this.finalizeYN=='Y'){
+        if(type=='save'){
+          this.selectedIndex +=1;
+          this.onNextProceed();
+        }
+        else if(type!='save'){ this.onFinalProceed();}
+      }
+      else this.onSavePersonalAccidentDetails(type,'Group');
+    }
+     else if(rowData.props.label=='Personal Liability'){
+      if(this.finalizeYN=='Y'){
+        if(type=='save'){
+          this.selectedIndex +=1;
+          this.onNextProceed();
+        }
+        else if(type!='save'){ this.onFinalProceed();}
+      }
+      else this.onSavePersonalLiability(type,'Group');
+    }
+    else if(rowData.props.label=='Public Liability'){
+      if(this.finalizeYN=='Y'){
+        if(type=='save'){
+          this.selectedIndex +=1;
+          this.onNextProceed();
+        }
+        else if(type!='save'){ this.onFinalProceed();}
+      }
+      else this.onSavePublicLiability(type,'Group');
+    }
+    else if(rowData.props.label=='Machinery BreakDown'){
+      if(this.finalizeYN=='Y'){
+        if(type=='save'){
+          this.selectedIndex +=1;
+          this.onNextProceed();
+        }
+        else if(type!='save'){ this.onFinalProceed();}
+      }
+      else this.onSaveMachineryDetails(type,'Group');
+    }
+    else if(rowData.props.label=='Employers Liability'){
+      if(this.finalizeYN=='Y'){
+        if(type=='save'){
+          this.selectedIndex +=1;
+          this.onNextProceed();
+        }
+        else if(type!='save'){ this.onFinalProceed();}
+      }
+      else this.onsaveemployeenew(type,'Group'); //this.onSaveEmployeeDetails(type,'Group');
+    }
+    else if(rowData.props.label=='Fidelity'){
+      if(this.finalizeYN=='Y'){
+        if(type=='save'){
+          this.selectedIndex +=1;
+          this.onNextProceed();
+        }
+        else if(type!='save'){ this.onFinalProceed();}
+      }
+      else this.onsavenewFedilityDetails(type,'Group');//this.onSaveFidelityDetails(type,'Group');
+    }
+    else if(rowData.props.label=='Machinery BreakDown'){
+      if(this.finalizeYN=='Y'){
+        if(type=='save'){
+          this.selectedIndex +=1;
+          this.onNextProceed();
+        }
+        else if(type!='save'){ this.onFinalProceed();}
+      }
+      else this.onSaveMachineryDetails(type,'Group');
+    }
+    else if(rowData.props.label=='Money'){
+      if(this.finalizeYN=='Y'){
+        if(type=='save'){
+          this.selectedIndex +=1;
+          this.onNextProceed();
+        }
+        else if(type!='save'){ this.onFinalProceed();}
+      }
+      else this.onSaveMoneyDetails(type,'Group');
+    }
+    else if(rowData.props.label=='Burglary'){
+      if(this.finalizeYN=='Y'){
+        if(type=='save'){
+          this.selectedIndex +=1;
+          this.onNextProceed();
+        }
+        else if(type!='save'){ this.onFinalProceed();}
+      }
+      else this.onSaveBurglaryDetails(type,'Group');
+    }
+    else if(rowData.props.label=='Business All Risk'){
+      if(this.finalizeYN=='Y'){
+        if(type=='save'){
+          this.selectedIndex +=1;
+          this.onNextProceed();
+        }
+        else if(type!='save'){ this.onFinalProceed();}
+      }
+      else this.onSaveBussinessrisk(type,'Group');
+    }
+    else if(rowData.props.label=='Business Interruption'){
+      if(this.finalizeYN=='Y'){
+        if(type=='save'){
+          this.selectedIndex +=1;
+          this.onNextProceed();
+        }
+        else if(type!='save'){ this.onFinalProceed();}
+      }
+      else this.onSaveBusinessInterruption(type,'Group');
+    }
+    else if(rowData.props.label=='Goods in Transit'){
+      if(this.finalizeYN=='Y'){
+        if(type=='save'){
+          this.selectedIndex +=1;
+          this.onNextProceed();
+        }
+        else if(type!='save'){ this.onFinalProceed();}
+      }
+      else this.onSaveGoodsTransitDetails(type,'Group');
+    }
+    if(rowData.props.label=='Electronic Equipment'){
+      if(this.finalizeYN=='Y'){
+        if(type=='save'){
+          this.selectedIndex +=1;
+          this.onNextProceed();
+        }
+        else if(type!='save'){ this.onFinalProceed();}
+      }
+      else this.onSaveElectronicEquipment(type,'Group');
+    }
+  }
+  onSaveElectronicEquipment(type,formType){
+    let sectionId=null;
+    if(this.productId=='25') sectionId='39';
+    else sectionId = '76';
+    let ReqObj={
+      "CreatedBy": this.loginId,
+      "InsuranceId": this.insuranceId,
+      "ProductId": this.productId,
+      "RequestReferenceNo":sessionStorage.getItem('quoteReferenceNo'),
+      "RiskId": "1",
+      "SectionId": sectionId,
+      "ElecEquipSuminsured":this.productItem.ElectronicEquipSuminsured
+    }
+    if (this.endorsementSection) {
+      if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
+        ReqObj['Status'] = 'E';
+      }
+      else {
+        ReqObj['Status'] = this.productItem?.Status;
+      }
+      ReqObj['PolicyNo'] = this.endorsePolicyNo
+    }
+    else {
+      ReqObj['Status'] = 'Y';
+    }
+    let urlLink = `${this.motorApiUrl}api/slide6/saveelectronicequip`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if (data?.Result) {
+          this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+          // this.updateComponent.quoteRefNo = data?.Result[0]?.RequestReferenceNo;
+          sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+          if(type=='proceed'){
+            if(this.productId!='25' && this.insuranceId=='100004'){
+              if(this.commonDetails){
+                if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                  if(!this.commonDetails[0].SectionId.some(ele=>ele=='3')) this.commonDetails[0].SectionId.push('3');
+                }
+                else  this.commonDetails[0]['SectionId']=['3'];
+              }
+            }
+            if(this.productId!='25' && this.insuranceId!='100004'){
+              if(this.commonDetails){
+                if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                  if(!this.commonDetails[0].SectionId.some(ele=>ele=='76')) this.commonDetails[0].SectionId.push('76');
+                }
+                else  this.commonDetails[0]['SectionId']=['76'];
+              }
+            }
+            else if(this.productId=='25'){
+              if(this.commonDetails){
+                if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                  if(!this.commonDetails[0].SectionId.some(ele=>ele=='39')) this.commonDetails[0].SectionId.push('39');
+                }
+                else  this.commonDetails[0]['SectionId']=['39'];
+              }
+            }
+          
+          sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
+          }
+           this.onCheckUWQuestionProceed(data.Result,type,formType);
+        }
+    },
+    (err) => { },
+  );
+  }
+  onSaveBuildingDetails(type,formType){
+    this.subuserType = sessionStorage.getItem('typeValue');
+    let quoteStatus = sessionStorage.getItem('QuoteStatus');
+    let appId = "1",loginId="",brokerbranchCode="";
+    let createdBy="";
+      if(quoteStatus=='AdminRP' || quoteStatus=='AdminRA' || quoteStatus=='AdminRR'){
+        brokerbranchCode = this.commonDetails[0].BrokerBranchCode;
+          createdBy = this.commonDetails[0].CreatedBy;
+      }
+      else{
+        createdBy = this.loginId;
+        if(this.userType!='Issuer'){
+          this.brokerCode = this.agencyCode;
+          appId = "1"; loginId=this.loginId;
+          brokerbranchCode = this.brokerbranchCode;
+        }
+        else{
+          appId = this.loginId;
+          loginId = this.commonDetails[0].LoginId;
+          // loginId = this.updateComponent.brokerLoginId
+          brokerbranchCode = this.commonDetails[0].BrokerBranchCode;
+        }
+      }
+      if(this.userType!='Broker' && this.userType!='User'){
+        this.sourceType = this.commonDetails[0].SourceType;
+        this.bdmCode = this.commonDetails[0].BrokerCode;
+        this.brokerCode = this.commonDetails[0].BrokerCode;
+        this.brokerbranchCode =  this.commonDetails[0].BrokerBranchCode;
+        this.customerCode = this.commonDetails[0].CustomerCode;
+      }
+      let insuranceForList = [];
+      if (this.productItem.InsuranceForId != null) {
+        insuranceForList = Object.keys(this.productItem.InsuranceForId);
+      }
+      let reqRefNo = null,refNo = sessionStorage.getItem('quoteReferenceNo')
+      if (refNo!=undefined && refNo!="undefined") {
+        reqRefNo = sessionStorage.getItem('quoteReferenceNo')
+      }
+      if (reqRefNo == 'undefined' || reqRefNo == undefined) reqRefNo = null;
+    let ReqObj = {
+      "CreatedBy": createdBy,
+      "InsuranceId": this.insuranceId,
+      "ProductId": this.productId,
+      "RequestReferenceNo": reqRefNo,
+      "RiskId": "1",
+      "SectionId":  "1",
+      "RoofType": this.productItem.RoofType,
+      "WallType": this.productItem.WallType,
+      "BuildingBuildYear": this.productItem.BuildingBuildYear,
+      "BuildingOwnerYn": this.productItem.BuildingOwnerYn,
+      "BuildingSumInsured": this.productItem.BuildingSuminsured,
+      "BuildingUsageId": this.productItem.BuildingUsageId,
+      "WaterTankSi": this.productItem?.WaterTankSi,
+      "ArchitectsSi": this.productItem?.ArchitectsSi,
+      "LossOfRentSi":this.productItem?.LossOfRentSi,
+      "TypeOfProperty":this.productItem?.TypeOfProperty,
+      "EndorsementDate": this.endorsementDate,
+      "EndorsementEffectiveDate": this.endorsementEffectiveDate,
+      "EndorsementRemarks": this.endorsementRemarks,
+      "EndorsementType": this.endorsementType,
+      "EndorsementTypeDesc": this.endorsementTypeDesc,
+      "EndtCategoryDesc": this.endtCategoryDesc,
+      "EndtCount": this.endtCount,
+      "EndtPrevPolicyNo": this.endtPrevPolicyNo,
+      "EndtPrevQuoteNo": this.endtPrevQuoteNo,
+      "EndtStatus": this.endtStatus,
+      "IsFinanceEndt": this.isFinanceEndt,
+      "OrginalPolicyNo": this.orginalPolicyNo,
+      "PolicyNo": this.endorsePolicyNo,
+      "Status": "Y",
+    }
+    if (this.endorsementSection) {
+      if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
+        ReqObj['Status'] = 'E';
+      }
+      else {
+        ReqObj['Status'] = this.productItem?.Status;
+      }
+      ReqObj['PolicyNo'] = this.endorsePolicyNo
+    }
+    else {
+      ReqObj['Status'] = 'Y';
+    }
+    let urlLink = `${this.motorApiUrl}api/slide14/savebuilding`;
+        this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+          (data: any) => {
+            if (data?.Result) {
+              if(data.Result.length!=0){
+                this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+                // this.updateComponent.quoteRefNo = data?.Result[0]?.RequestReferenceNo;
+                sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                if(type=='proceed'){
+                  if(this.commonDetails){
+                    if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                      if(!this.commonDetails[0].SectionId.some(ele=>ele=='1')) this.commonDetails[0].SectionId.push('1');
+                    }
+                    else  this.commonDetails[0]['SectionId']=['1'];
+                  }
+                  sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
+                }
+                this.onCheckUWQuestionProceed(data.Result,type,formType);
+              }
+              
+            }
+        },
+        (err) => { },
+      );
+  }
+  onSaveGoodsTransitDetails(type,formType){
+    this.subuserType = sessionStorage.getItem('typeValue');
+    let quoteStatus = sessionStorage.getItem('QuoteStatus');
+    let appId = "1",loginId="",brokerbranchCode="";
+    let createdBy="";
+      if(quoteStatus=='AdminRP' || quoteStatus=='AdminRA' || quoteStatus=='AdminRR'){
+        brokerbranchCode = this.commonDetails[0].BrokerBranchCode;
+          createdBy = this.commonDetails[0].CreatedBy;
+      }
+      else{
+        createdBy = this.loginId;
+        if(this.userType!='Issuer'){
+          this.brokerCode = this.agencyCode;
+          appId = "1"; loginId=this.loginId;
+          brokerbranchCode = this.brokerbranchCode;
+        }
+        else{
+          appId = this.loginId;
+          loginId = this.commonDetails[0].LoginId;
+          // loginId = this.updateComponent.brokerLoginId
+          brokerbranchCode = this.commonDetails[0].BrokerBranchCode;
+        }
+      }
+      if(this.userType!='Broker' && this.userType!='User'){
+        this.sourceType = this.commonDetails[0].SourceType;
+        this.bdmCode = this.commonDetails[0].BrokerCode;
+        this.brokerCode = this.commonDetails[0].BrokerCode;
+        this.brokerbranchCode =  this.commonDetails[0].BrokerBranchCode;
+        this.customerCode = this.commonDetails[0].CustomerCode;
+      }
+      let insuranceForList = [];
+      if (this.productItem.InsuranceForId != null) {
+        insuranceForList = Object.keys(this.productItem.InsuranceForId);
+      }
+      let reqRefNo = null,refNo = sessionStorage.getItem('quoteReferenceNo')
+      if (refNo!=undefined && refNo!="undefined") {
+        reqRefNo = sessionStorage.getItem('quoteReferenceNo')
+      }
+      if (reqRefNo == 'undefined' || reqRefNo == undefined) reqRefNo = null;
+      if(this.productItem.SingleRoadSiLc == 0){
+        this.productItem.SingleRoadSiLc=0;
+      }
+      if(this.productItem.EstAnnualCarriesSiLc == 0){
+        this.productItem.EstAnnualCarriesSiLc=0;
+      }
+      let ReqObj = { 
+        "TransportedBy" : this.productItem.TransportedBy ,
+        "ModeOfTransport" : this.productItem.ModeOfTransport,
+        "SingleRoadSiFc" : this.productItem.SingleRoadSiLc,
+        "SingleRoadSiLc" : this.productItem.SingleRoadSiLc,
+        "GeographicalCoverage" : this.productItem.GeographicalCoverage,
+        "EstAnnualCarriesSiFc" : this.productItem.EstAnnualCarriesSiLc,
+        "EstAnnualCarriesSiLc" : this.productItem.EstAnnualCarriesSiLc,
+          "CreatedBy": createdBy,
+          "InsuranceId": this.insuranceId,
+          "ProductId": this.productId,
+          "RequestReferenceNo": reqRefNo,
+          "RiskId": "1",
+          "SectionId": "46",
+          "EndorsementDate": this.endorsementDate,
+          "EndorsementEffectiveDate": this.endorseEffectiveDate,
+          "EndorsementRemarks": this.endorsementRemarks,
+          "EndorsementType": this.endorsementType,
+          "EndorsementTypeDesc": this.endorsementTypeDesc,
+          "EndtCategoryDesc": this.endtCategoryDesc,
+          "EndtCount": this.endtCount,
+          "EndtPrevPolicyNo": this.endtPrevPolicyNo,
+          "EndtPrevQuoteNo": this.endtPrevQuoteNo,
+          "EndtStatus": this.endtStatus,
+          "IsFinanceEndt": this.isFinanceEndt,
+          "OrginalPolicyNo": this.orginalPolicyNo,
+          "PolicyNo": this.endorsePolicyNo,
+          "Status": "Y"
+      }
+      if (this.endorsementSection) {
+        if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
+          ReqObj['Status'] = 'E';
+        }
+        else {
+          ReqObj['Status'] = this.productItem?.Status;
+        }
+        ReqObj['PolicyNo'] = this.endorsePolicyNo
+      }
+      else {
+        ReqObj['Status'] = 'Y';
+      }
+      let urlLink = `${this.motorApiUrl}api/slide14/savegoodsintransit`;
+          this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+            (data: any) => {
+              if (data?.Result) {
+                if(data.Result.length!=0){
+                  this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+                  //this.updateComponent.quoteRefNo = data?.Result[0]?.RequestReferenceNo;
+                  sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                  if(type=='proceed'){
+                    if(this.commonDetails){
+                      if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                        if(!this.commonDetails[0].SectionId.some(ele=>ele=='46')) this.commonDetails[0].SectionId.push('46');
+                      }
+                      else  this.commonDetails[0]['SectionId']=['46'];
+                    }
+                    sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
+                  }
+                  this.onCheckUWQuestionProceed(data.Result,type,formType);
+                }
+              }
+            },
+            (err) => { },
+          );
+    }
+  onSaveBusinessInterruption(type,formType){
+    this.subuserType = sessionStorage.getItem('typeValue');
+    let quoteStatus = sessionStorage.getItem('QuoteStatus');
+    let appId = "1",loginId="",brokerbranchCode="";
+    let createdBy="";
+      if(quoteStatus=='AdminRP' || quoteStatus=='AdminRA' || quoteStatus=='AdminRR'){
+        brokerbranchCode = this.commonDetails[0].BrokerBranchCode;
+          createdBy = this.commonDetails[0].CreatedBy;
+      }
+      else{
+        createdBy = this.loginId;
+        if(this.userType!='Issuer'){
+          this.brokerCode = this.agencyCode;
+          appId = "1"; loginId=this.loginId;
+          brokerbranchCode = this.brokerbranchCode;
+        }
+        else{
+          appId = this.loginId;
+          loginId = this.commonDetails[0].LoginId;
+          // loginId = this.updateComponent.brokerLoginId
+          brokerbranchCode = this.commonDetails[0].BrokerBranchCode;
+        }
+      }
+      if(this.userType!='Broker' && this.userType!='User'){
+        this.sourceType = this.commonDetails[0].SourceType;
+        this.bdmCode = this.commonDetails[0].BrokerCode;
+        this.brokerCode = this.commonDetails[0].BrokerCode;
+        this.brokerbranchCode =  this.commonDetails[0].BrokerBranchCode;
+        this.customerCode = this.commonDetails[0].CustomerCode;
+      }
+      let insuranceForList = [];
+      if (this.productItem.InsuranceForId != null) {
+        insuranceForList = Object.keys(this.productItem.InsuranceForId);
+      }
+      let reqRefNo = null,refNo = sessionStorage.getItem('quoteReferenceNo')
+      if (refNo!=undefined && refNo!="undefined") {
+        reqRefNo = sessionStorage.getItem('quoteReferenceNo')
+      }
+      if (reqRefNo == 'undefined' || reqRefNo == undefined) reqRefNo = null;
+      if(this.productItem?.GrossProfitSi==0 && this.productItem?.GrossProfitSi==''){
+        this.productItem.GrossProfitSi= 0;
+      }
+      if(this.productItem?.IndemnityPeriodSi==0 && this.productItem?.IndemnityPeriodSi==''){
+        this.productItem.IndemnityPeriodSi= 0;
+      }
+      let ReqObj = {
+        "CreatedBy": createdBy,
+        "InsuranceId": this.insuranceId,
+        "ProductId": this.productId,
+        "RequestReferenceNo": reqRefNo,
+        "RiskId": "1",
+        "SectionId": "75",
+        "GrossProfitSi" : this.productItem?.GrossProfitSi,
+        "IndemnityPeriodSi" : this.productItem?.IndemnityPeriodSi,
+        "EndorsementDate": this.endorsementDate,
+        "EndorsementEffectiveDate": this.endorseEffectiveDate,
+        "EndorsementRemarks": this.endorsementRemarks,
+        "EndorsementType": this.endorsementType,
+        "EndorsementTypeDesc": this.endorsementTypeDesc,
+        "EndtCategoryDesc": this.endtCategoryDesc,
+        "EndtCount": this.endtCount,
+        "EndtPrevPolicyNo": this.endtPrevPolicyNo,
+        "EndtPrevQuoteNo": this.endtPrevQuoteNo,
+        "EndtStatus": this.endtStatus,
+        "IsFinanceEndt": this.isFinanceEndt,
+        "OrginalPolicyNo": this.orginalPolicyNo,
+        "PolicyNo": this.endorsePolicyNo,
+        "Status": "Y"
+    }
+    if (this.endorsementSection) {
+      if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
+        ReqObj['Status'] = 'E';
+      }
+      else {
+        ReqObj['Status'] = this.productItem?.Status;
+      }
+      ReqObj['PolicyNo'] = this.endorsePolicyNo
+    }
+    else {
+      ReqObj['Status'] = 'Y';
+    }
+    let urlLink = `${this.motorApiUrl}api/slide13/savebusinessinterruption`;
+        this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+          (data: any) => {
+            if (data?.Result) {
+              if(data.Result.length!=0){
+                this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+                // this.updateComponent.quoteRefNo = data?.Result[0]?.RequestReferenceNo;
+                sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                if(type=='proceed'){
+                  if(this.commonDetails){
+                    if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                      if(!this.commonDetails[0].SectionId.some(ele=>ele=='75')) this.commonDetails[0].SectionId.push('75');
+                    }
+                    else  this.commonDetails[0]['SectionId']=['75'];
+                  }
+                  sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
+                }
+                this.onCheckUWQuestionProceed(data.Result,type,formType);
+              }
+            }
+          },
+          (err) => { },
+        );
+  }
   getBurglaryDetails(sections){
     let sectionId = null;
     if(this.productId=='19' || this.productId=='24') sectionId='52';
@@ -4428,6 +5005,35 @@ export class CommonProductDetailsComponent {
       (err) => { },
     );
   }
+  onSaveAllRiskDetails(type,formType){
+    let ReqObj = {
+      "CreatedBy": this.loginId,
+      "InsuranceId": this.insuranceId,
+      "ProductId": this.productId,
+      "RequestReferenceNo": this.requestReferenceNo,
+      "RiskId": "1",
+      "SectionId": "3",
+       "AllriskSumInsured": this.productItem?.AllriskSumInsured
+    }
+    let urlLink = `${this.motorApiUrl}api/slide2/saveallriskdetails`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if (data?.Result) {
+          this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+          // this.updateComponent.quoteRefNo = data?.Result[0]?.RequestReferenceNo;
+          sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+          if(type=='proceed'){  
+            if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+            if(!this.commonDetails[0].SectionId.some(ele=>ele=='3')) this.commonDetails[0].SectionId.push('3');
+          }
+          else  this.commonDetails[0]['SectionId']=['3'];
+          sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails)) }
+          this.onCheckUWQuestionProceed(data.Result,type,formType);
+        }
+      },
+      (err) => { },
+    );
+  }
   getAllRiskDetails(sections){
     let ReqObj = {
       "RequestReferenceNo": this.requestReferenceNo,
@@ -4463,6 +5069,95 @@ export class CommonProductDetailsComponent {
       },
       (err) => { },
     );
+  }
+  onsavenewFedilityDetails(type,formType){
+    if(this.FidelityListNew.length!=0){
+      this.employeeError = false;
+      let i=0;
+      for(let emp of this.FidelityListNew){
+          emp['CreatedBy'] = this.loginId;
+          emp['InsuranceId'] = this.insuranceId;
+          emp['ProductId'] = this.productId;
+          emp['RequestReferenceNo'] = this.requestReferenceNo;
+          emp['RiskId'] = "1";
+          emp['EndorsementDate'] = this.endorsementDate;
+          emp['EndorsementEffectiveDate'] = this.endorsementEffectiveDate;
+          emp['EndorsementRemarks'] = this.endorsementRemarks;
+          emp['EndorsementType'] = this.endorsementType;
+          emp['EndorsementTypeDesc'] = this.endorsementTypeDesc;
+          emp['EndtCategoryDesc'] = this.endtCategoryDesc;
+          emp['EndtCount'] = this.endtCount;
+          emp['EndtPrevPolicyNo'] = this.endtPrevPolicyNo;
+          emp['EndtPrevQuoteNo'] = this.endtPrevQuoteNo;
+          emp['EndtStatus'] = this.endtStatus;
+          emp['IsFinanceEndt'] = this.isFinanceEndt;
+          emp['OrginalPolicyNo'] = this.orginalPolicyNo;
+          if (this.endorsementSection) {
+            if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
+              emp['Status'] = 'E';
+            }
+            else {
+              emp['Status'] = this.productItem?.Status;
+            }
+            emp['PolicyNo'] = this.endorsePolicyNo
+          }
+          else {
+            emp['Status'] = 'Y';
+          }
+          if(this.productId=='14') emp['SectionId'] = "45";
+          else if(this.productId=='32' || this.productId=='19' || this.productId=='24') emp['SectionId'] = "43";
+          i+=1;
+          if(i==this.FidelityListNew.length){
+            let urlLink = `${this.motorApiUrl}api/slide8/savefidelityemp`;
+            this.sharedService.onPostMethodSync(urlLink, this.FidelityListNew).subscribe(
+              (data: any) => {
+                if (data?.Result.length!=0) {
+                  this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+                  // this.updateComponent.quoteRefNo = data?.Result[0]?.RequestReferenceNo;
+                  sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                  if(type=='proceed'){  
+                  if(this.productId=='14'){
+                    if(this.commonDetails){
+                      if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                        if(!this.commonDetails[0].SectionId.some(ele=>ele=='45')) this.commonDetails[0].SectionId.push('45');
+                      }
+                      else  this.commonDetails[0]['SectionId']=['45'];
+                    }
+                  } 
+                  else if(this.productId=='32'){
+                    if(this.commonDetails){
+                      if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                        if(!this.commonDetails[0].SectionId.some(ele=>ele=='43')) this.commonDetails[0].SectionId.push('43');
+                      }
+                      else  this.commonDetails[0]['SectionId']=['43'];
+                    }
+                  }
+                  sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails)) }
+                  this.onCheckUWQuestionProceed(data.Result,type,formType);
+                }
+            },
+            (err) => { },
+          );
+          }
+      }
+    }
+    else{
+      this.employeeError = true;
+        Swal.fire({
+          title: '<strong>Fidelity Details</strong>',
+          icon: 'error',
+          html:
+            `Please Enter Atleast one Fidelity Detail`,
+          //showCloseButton: true,
+          //focusConfirm: false,
+          showCancelButton: false,
+  
+          //confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          cancelButtonText: 'Cancel',
+        })
+      
+    }
   }
   getContentDetails(sections){
     let sectionId = null;
@@ -4511,6 +5206,210 @@ export class CommonProductDetailsComponent {
       (err) => { },
     );
   }
+  onSavePersonalAccidentDetails(type,formType){
+    this.subuserType = sessionStorage.getItem('typeValue');
+    let quoteStatus = sessionStorage.getItem('QuoteStatus');
+    this.requestReferenceNo = sessionStorage.getItem('quoteReferenceNo')
+    let appId = "1",loginId="",brokerbranchCode="";
+    let createdBy="";
+      if(quoteStatus=='AdminRP' || quoteStatus=='AdminRA' || quoteStatus=='AdminRR'){
+        brokerbranchCode = this.commonDetails[0].BrokerBranchCode;
+          createdBy = this.commonDetails[0].CreatedBy;
+      }
+      else{
+        createdBy = this.loginId;
+        if(this.userType!='Issuer'){
+          this.brokerCode = this.agencyCode;
+          appId = "1"; 
+          //loginId=this.loginId;
+          brokerbranchCode = this.brokerbranchCode;
+        }
+        else{
+          appId = this.loginId;
+          //loginId = this.commonDetails[0].LoginId;
+          // loginId = this.updateComponent.brokerLoginId
+          //brokerbranchCode = this.commonDetails[0].BrokerBranchCode;
+        }
+      }
+        let emp = [ {
+          "InsuranceId": this.insuranceId,
+        "CreatedBy": createdBy,
+        "ProductId": this.productId,
+        "RequestReferenceNo": this.requestReferenceNo,
+        "RiskId": "1",
+        "SectionId": "35",
+         "OccupationType": this.productItem.OccupationType,
+             "SumInsured": this.productItem.PersonalAccidentSuminsured,
+             "OtherOccupation":this.productItem.otheroptionPer,
+          "TotalNoOfPersons": "1",
+          "EndorsementDate": this.endorsementDate,
+          "EndorsementEffectiveDate": this.endorsementEffectiveDate,
+          "EndorsementRemarks": this.endorsementRemarks,
+          "EndorsementType": this.endorsementType,
+          "EndorsementTypeDesc": this.endorsementTypeDesc,
+          "EndtCategoryDesc": this.endtCategoryDesc,
+          "EndtCount": this.endtCount,
+          "EndtPrevPolicyNo": this.endtPrevPolicyNo,
+          "EndtPrevQuoteNo": this.endtPrevQuoteNo,
+          "EndtStatus": this.endtStatus,
+          "IsFinanceEndt": this.isFinanceEndt,
+          "OrginalPolicyNo": this.orginalPolicyNo,
+        
+      } ]
+      if (this.endorsementSection) {
+        if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
+          emp[0]['Status'] = 'E';
+        }
+        else {
+          emp[0]['Status'] = this.productItem?.Status;
+        }
+        emp[0]['PolicyNo'] = this.endorsePolicyNo
+      }
+      else {
+        emp[0]['Status'] = 'Y';
+      }
+      let urlLink = `${this.motorApiUrl}api/slide13/savepersonlaccident`;
+      this.sharedService.onPostMethodSync(urlLink, emp).subscribe(
+        (data: any) => {
+          if (data?.Result) {
+            this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+            // this.updateComponent.quoteRefNo = data?.Result[0]?.RequestReferenceNo;
+            sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+            if(type=='proceed'){
+              // if(this.commonDetails){
+              //   if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+              //     if(!this.commonDetails[0].SectionId.some(ele=>ele=='35')) this.commonDetails[0].SectionId.push('35');
+              //   }
+              //   else  this.commonDetails[0]['SectionId']=['35'];
+              // }
+              sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
+            }
+             this.onCheckUWQuestionProceed(data.Result,type,formType);
+          }
+      },
+      (err) => { },
+    );
+  
+  }
+  onSavePublicLiability(type,formType){
+    let ReqObj = {
+      "CreatedBy": this.loginId,
+      "InsuranceId": this.insuranceId,
+      "ProductId": this.productId,
+      "RequestReferenceNo": this.requestReferenceNo,
+      "RiskId": "1",
+      "SectionId": "54",
+      "LiabilitySi": this.productItem?.LegalLiabilityAnnualAggreagte,
+      "ProductTurnoverSi": this.productItem?.ProductTurnover,
+      "InsurancePeriodSi":this.productItem.InsurancePeriodSi,
+      "AnyAccidentSi": this.productItem.AnyAccidentSi,
+       "EndorsementDate": this.endorsementDate,
+      "EndorsementEffectiveDate": this.endorsementEffectiveDate,
+      "EndorsementRemarks": this.endorsementRemarks,
+      "EndorsementType": this.endorsementType,
+      "EndorsementTypeDesc": this.endorsementTypeDesc,
+      "EndtCategoryDesc": this.endtCategoryDesc,
+      "EndtCount": this.endtCount,
+      "EndtPrevPolicyNo": this.endtPrevPolicyNo,
+      "EndtPrevQuoteNo": this.endtPrevQuoteNo,
+      "EndtStatus": this.endtStatus,
+      "IsFinanceEndt": this.isFinanceEndt,
+      "OrginalPolicyNo": this.orginalPolicyNo,
+      "PolicyNo": this.endorsePolicyNo,
+     
+    }
+    if (this.endorsementSection) {
+      if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
+        ReqObj['Status'] = 'E';
+      }
+      else {
+        ReqObj['Status'] = this.productItem?.Status;
+      }
+      ReqObj['PolicyNo'] = this.endorsePolicyNo
+    }
+    else {
+      ReqObj['Status'] = 'Y';
+    }
+    let urlLink = `${this.motorApiUrl}api/slide12/savepublicliability`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if (data?.Result) {
+          if (data?.Result.length!=0) {
+            this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+            // this.updateComponent.quoteRefNo = data?.Result[0]?.RequestReferenceNo;
+            sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+            if(type=='proceed'){ 
+              if(this.commonDetails){
+                if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                  if(!this.commonDetails[0].SectionId.some(ele=>ele=='54')) this.commonDetails[0].SectionId.push('54');
+                }
+                else  this.commonDetails[0]['SectionId']=['54'];
+              }
+            sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails)) }
+            this.onCheckUWQuestionProceed(data.Result,type,formType);
+          }
+        }
+      },
+      (err) => { },
+    );
+      
+  }
+  onSavePersonalLiability(type,formType){
+    let emp = {};
+    emp['CreatedBy'] = this.loginId;
+    emp['InsuranceId'] = this.insuranceId;
+    emp['ProductId'] = this.productId;
+    emp['RequestReferenceNo'] = this.requestReferenceNo;
+    emp['RiskId'] = "1";
+    emp['EndorsementDate'] = this.endorsementDate;
+    emp['EndorsementEffectiveDate'] = this.endorsementEffectiveDate;
+    emp['EndorsementRemarks'] = this.endorsementRemarks;
+    emp['EndorsementType'] = this.endorsementType;
+    emp['EndorsementTypeDesc'] = this.endorsementTypeDesc;
+    emp['EndtCategoryDesc'] = this.endtCategoryDesc;
+    emp['EndtCount'] = this.endtCount;
+    emp['EndtPrevPolicyNo'] = this.endtPrevPolicyNo;
+    emp['EndtPrevQuoteNo'] = this.endtPrevQuoteNo;
+    emp['EndtStatus'] = this.endtStatus;
+    emp['IsFinanceEndt'] = this.isFinanceEndt;
+    emp['TotalNoOfEmployees'] = '1';
+    emp['OrginalPolicyNo'] = this.orginalPolicyNo;
+    emp['LiabilityOccupationId'] = this.productItem.LiabilityOccupationId;
+    emp['EmpLiabilitySi'] = this.productItem.EmpLiabilitySi;
+    emp['SectionId'] = "36";
+    if (this.endorsementSection) {
+      if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
+        emp['Status'] = 'E';
+      }
+      else {
+        emp['Status'] = this.productItem?.Status;
+      }
+      emp['PolicyNo'] = this.endorsePolicyNo
+    }
+    else {
+      emp['Status'] = 'Y';
+    }
+    let urlLink = `${this.motorApiUrl}api/slide7/saveempliablity`;
+    this.sharedService.onPostMethodSync(urlLink, [emp]).subscribe(
+        (data: any) => {
+          if (data?.Result.length!=0) {
+            this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+            // this.updateComponent.quoteRefNo = data?.Result[0]?.RequestReferenceNo;
+            sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+            if(type=='proceed'){ 
+              if(this.commonDetails){
+                if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                  if(!this.commonDetails[0].SectionId.some(ele=>ele=='36')) this.commonDetails[0].SectionId.push('36');
+                }
+                else  this.commonDetails[0]['SectionId']=['36'];
+              }
+            sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails)) }
+            this.onCheckUWQuestionProceed(data.Result,type,formType);
+          }
+      },
+      (err) => { },
+    );
+  } 
   getEmployeeRiskDetails(sections){
     let sectionId = null;
     if(this.productId=='19' || this.productId=='24') sectionId='45';
@@ -4559,6 +5458,75 @@ export class CommonProductDetailsComponent {
       (err) => { },
     );
   }
+  onSaveContentRiskDetails(type,formType){
+    let sectionId = null;
+    if(this.productId=='24') sectionId='47';
+    else sectionId='47';
+    let ReqObj = {
+      "CreatedBy": this.loginId,
+      "InsuranceId": this.insuranceId,
+      "ProductId": this.productId,
+      "RequestReferenceNo": this.requestReferenceNo,
+      "RiskId": "1",
+      "SectionId": sectionId,
+       "ContentSuminsured": this.productItem?.ContentSuminsured,
+       "EndorsementDate": this.endorsementDate,
+      "EndorsementEffectiveDate": this.endorsementEffectiveDate,
+      "EndorsementRemarks": this.endorsementRemarks,
+      "EndorsementType": this.endorsementType,
+      "EndorsementTypeDesc": this.endorsementTypeDesc,
+      "EndtCategoryDesc": this.endtCategoryDesc,
+      "EndtCount": this.endtCount,
+      "EndtPrevPolicyNo": this.endtPrevPolicyNo,
+      "EndtPrevQuoteNo": this.endtPrevQuoteNo,
+      "EndtStatus": this.endtStatus,
+      "IsFinanceEndt": this.isFinanceEndt,
+      "OrginalPolicyNo": this.orginalPolicyNo,
+      "PolicyNo": this.endorsePolicyNo,
+      "JewellerySi": this.productItem?.JewellerySi,
+      "PaitingsSi": this.productItem?.PaitingsSi,
+      "CarpetsSi": this.productItem?.CarpetsSi,
+      "EquipmentSi":  this.productItem?.EquipmentSis,
+    }
+    if (this.endorsementSection) {
+      if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
+        ReqObj['Status'] = 'E';
+      }
+      else {
+        ReqObj['Status'] = this.productItem?.Status;
+      }
+      ReqObj['PolicyNo'] = this.endorsePolicyNo
+    }
+    else {
+      ReqObj['Status'] = 'Y';
+    }
+    let urlLink = `${this.motorApiUrl}api/slide5/savecontent`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if (data?.Result) {
+          this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+          //this.updateComponent.quoteRefNo = data?.Result[0]?.RequestReferenceNo;
+          sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+          if(type=='proceed'){ 
+            if(this.commonDetails){
+              if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                if(this.productId=='24'){
+                  if(!this.commonDetails[0].SectionId.some(ele=>ele=='47')) this.commonDetails[0].SectionId.push('47');  
+                }
+                else if(!this.commonDetails[0].SectionId.some(ele=>ele=='47')) this.commonDetails[0].SectionId.push('47');
+              }
+              else{
+                if(this.productId=='24')  this.commonDetails[0]['SectionId']=['47'];
+                else  this.commonDetails[0]['SectionId']=['47'];
+              }
+            }
+          sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails)) }
+          this.onCheckUWQuestionProceed(data.Result,type,formType);
+        }
+    },
+    (err) => { },
+  );
+  }
   getPersonalAccidentDetails(sections){
     let ReqObj = {
       "RequestReferenceNo": this.requestReferenceNo,
@@ -4603,6 +5571,64 @@ export class CommonProductDetailsComponent {
       (err) => { },
     );
   }
+
+  onSaveBussinessrisk(type,formType){
+
+    let productsi:any;
+     if(this.productItem.EquipmentSi == '' || this.productItem.EquipmentSi ==null){
+       productsi='0'
+     }
+     else{
+       productsi=this.productItem.EquipmentSi;
+     }
+     let sectionId=null;
+     if(this.productId=='26') sectionId='3';
+     else sectionId = '69';
+     let ReqObj={
+       "CreatedBy": this.loginId,
+       "InsuranceId": this.insuranceId,
+       "ProductId": this.productId,
+       "RequestReferenceNo":sessionStorage.getItem('quoteReferenceNo'),
+       "RiskId": "1",
+       "SectionId":  sectionId,
+       "AllriskSumInsured": productsi
+     }
+     if(this.productId=='26') ReqObj['EquipmentSi'] = productsi
+     if (this.endorsementSection) {
+       if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
+         ReqObj['Status'] = 'E';
+       }
+       else {
+         ReqObj['Status'] = this.productItem?.Status;
+       }
+       ReqObj['PolicyNo'] = this.endorsePolicyNo
+     }
+     else {
+       ReqObj['Status'] = 'Y';
+     }
+     let urlLink = `${this.motorApiUrl}api/slide2/saveallriskdetails`;
+     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+       (data: any) => {
+         if (data?.Result) {
+           this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+          //  this.updateComponent.quoteRefNo = data?.Result[0]?.RequestReferenceNo;
+           sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+           if(type=='proceed'){
+           if(this.commonDetails){
+             if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+               if(!this.commonDetails[0].SectionId.some(ele=>ele==sectionId)) this.commonDetails[0].SectionId.push(sectionId);
+             }
+             else  this.commonDetails[0]['SectionId']=[sectionId];
+           }
+          
+           sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
+           }
+            this.onCheckUWQuestionProceed(data.Result,type,formType);
+         }
+     },
+     (err) => { },
+   );
+   }
   getOccupationList(sections) {
     let ReqObj = {
       "InsuranceId": this.insuranceId,
@@ -4616,41 +5642,54 @@ export class CommonProductDetailsComponent {
         if (data.Result) {
           let defaultObj = [{ 'label': '-Select-', 'value': '' }]
           this.occupationList = data.Result;
+         
           if (this.occupationList.length != 0) {
+           
             for (let i = 0; i < this.occupationList.length; i++) {
               this.occupationList[i].label = this.occupationList[i]['CodeDesc'];
               this.occupationList[i].value = this.occupationList[i]['Code'];
               delete this.occupationList[i].CodeDesc;
               if (i == this.occupationList.length - 1) {
                 console.log("Fields",this.fields)
-                if(this.productId=='19' || this.productId=='3' || this.productId=='24'){
-                      let fields = this.fields[0].fieldGroup;
+             
+                if(this.productId=='19' || this.productId=='59' || this.productId=='24'){
+                  console.log('this.fields',this.fields[0].fieldGroup[0])
+                      let fields = this.fields;
                       for(let field of fields){
-                            if(field.props.label=='Employers Liability' || field.props.label=='Fidelity'){
-                              let defaultObj = [{ 'label': '-Select-', 'value': null }]
-                              console.log('Checking',field);
-                              field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
-                              // field.fieldGroup[0].fieldArray.fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
-                              this.sectionCount +=1;
-                              if(sections.length==this.sectionCount){
-                                this.formSection = true; this.viewSection = false;
-                              }
-                            }
-                            else if(field.props.label=='Personal Liability' || field.props.label=='Personal Accident'){
-                              let defaultObj = [{ 'label': '-Select-', 'value': '' }]
-                              field.fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
-                              this.sectionCount +=1;
-                              if(sections.length==this.sectionCount){
-                                this.formSection = true; this.viewSection = false;
-                              }
-                            }
+                        if(field.props.label=='Personal Liability' || field.props.label=='Personal Accident'){
+                          let defaultObj = [{ 'label': '-Select-', 'value': '' }]
+                          field.fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
+                          this.sectionCount +=1;
+                          if(sections.length==this.sectionCount){
+                            this.formSection = true; this.viewSection = false;
+                          }
+                        }
+                            // if(field.props.label=='Employers Liability' || field.props.label=='Fidelity'){
+                            //   let defaultObj = [{ 'label': '-Select-', 'value': null }]
+                            //   console.log('Checking',field);
+                            //   field.fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
+                            //   // field.fieldGroup[0].fieldArray.fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
+                            //   this.sectionCount +=1;
+                            //   if(sections.length==this.sectionCount){
+                            //     this.formSection = true; this.viewSection = false;
+                            //   }
+                            // }
+                            // else if(field.props.label=='Personal Liability' || field.props.label=='Personal Accident'){
+                            //   let defaultObj = [{ 'label': '-Select-', 'value': '' }]
+                            //   field.fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
+                            //   this.sectionCount +=1;
+                            //   if(sections.length==this.sectionCount){
+                            //     this.formSection = true; this.viewSection = false;
+                            //   }
+                            // }
                       }
                       console.log("Fields in Occupation",this.productItem,this.fields)
                 }
                 else if(this.productId=='13'){
                   this.fields[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
                 }
-                if (this.productId != '19' && this.productId!='24' && this.productId != '3' && this.productId!='6' && this.productId != '1' && this.productId != '32' && this.productId!='14' && this.productId!='16' && this.productId!='25' && this.productId!='26' && this.productId!='21' && this.productId!='27' && this.productId!='13' && this.productId!='57') this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.occupationList);
+                
+                //if (this.productId != '19' && this.productId!='24' && this.productId != '3' && this.productId!='6' && this.productId != '1' && this.productId != '32' && this.productId!='14' && this.productId!='16' && this.productId!='25' && this.productId!='26' && this.productId!='21' && this.productId!='27' && this.productId!='13' && this.productId!='57') this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.occupationList);
                 if(this.productId=='14'){
                   //let fireData = new EmployersLiability();
                   let fireData = new EmployersLiabilitytwo();
@@ -6002,6 +7041,7 @@ export class CommonProductDetailsComponent {
     this.Products=true;
 console.log('Selected',type);
 this.sections(code);
+this.newsections= code;
   }
   getgeographicalLimit(){
     let ReqObj = {
@@ -7030,6 +8070,7 @@ this.sections(code);
     
 
     sections(sections){
+      this.fields=[];
       console.log('Sectionsssss',sections);
       if(sections){
         console.log('sectionssss',sections)
@@ -7055,7 +8096,7 @@ this.sections(code);
         }
         if(sections=='47' && this.insuranceId!='100004'){
           let contentData = new HouseHoldContents();
-          this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData?.fields]);
+          this.fields[0] = contentData?.fields;
           // alert(this.fields[0].fieldGroup.concat([contentData?.fields]));
         }
         if(sections=='3'){
@@ -7067,21 +8108,29 @@ this.sections(code);
           else {
             contentData = new AllRisk();
           }
-          this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData?.fields])
+          this.fields[0] = contentData?.fields;
+          console.log('contents',this.fields,contentData?.fields);
+          // this.fields = contentData?.fields;
+          //this.fields[0].fieldGroup = contentData?.fields;
+          //this.fields[0].fieldGroup.concat([contentData?.fields])
         }
         if(sections=='36'){
           //alert(sections)
           let contentData = new PersonalLiability();
-          this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData?.fields])
+          this.fields[0] = contentData?.fields;
+          this.getOccupationList(sections);
         }
-        if(sections.some(ele=>ele=='76')){
+        if(sections=='76'){
           let fireData = new ElectronicEquipment();
-          this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([fireData?.fields]);
+          this.fields[0] = fireData?.fields;
           }
-        if(sections.some(ele=>ele=='35')){
+        if(sections=='35'){
           //alert(sections)
+         
           let contentData = new PersonalAccident();
-          this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData?.fields]);
+          this.fields[0] =contentData?.fields;
+          this.getOccupationList(sections);
+        
           // let modelHooks = { onInit: (field: FormlyFieldConfig) => {
           //   field.formControl.valueChanges.subscribe(() => {
           //     this.onoccChangepersonal('change');
@@ -7099,12 +8148,12 @@ this.sections(code);
           // this.fields[0].fieldGroup.fieldGroup[0].fieldGroup[0].hooks = modelHooks;
           
         }
-        if(sections.some(ele=>ele=='69')){
+        if(sections =='69'){
           let fireData = new BussinessAllRisk();
           this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([fireData?.fields]);
         }
        
-        if(sections.some(ele=>(ele=='47' || ele=='74') && this.insuranceId=='100004')){
+        if(sections =='47' || sections=='74' && this.insuranceId=='100004'){
           let contentData
           if(this.productId!='24'){
             contentData = new HouseHoldContentsss();
@@ -7114,11 +8163,11 @@ this.sections(code);
           }
           this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData?.fields]);
         }
-        if(sections.some(ele=>(ele=='54'))){
+        if(sections=='54'){
           let contentData = new PublicLiability();
          this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData?.fields]);
        }
-        if(sections.some(ele=>ele=='40')){
+        if(sections=='40'){
           let fireData = new FireAlliedPerils();
           let entry = [];
           entry.push(fireData?.fields);
@@ -7128,7 +8177,7 @@ this.sections(code);
         }
        
         
-          if(sections.some(ele=>ele=='41')){
+          if(sections=='41'){
           let contentData = new MachineryBreakDown();
           let checkYnHooks ={ onInit: (field: FormlyFieldConfig) => {
             field.formControl.valueChanges.subscribe(() => {
@@ -7143,7 +8192,7 @@ this.sections(code);
              if(i==groupList.length){this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData?.fields]); this.checkMachineryYNChanges()}
           }
           }
-          if(sections.some(ele=>ele=='45')){
+          if(sections=='45'){
             //let employeeData = new EmployersLiability();
             let employeeData = new EmployersLiabilitytwo();
             let field = {
