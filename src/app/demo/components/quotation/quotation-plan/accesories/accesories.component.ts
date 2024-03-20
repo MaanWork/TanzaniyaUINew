@@ -71,6 +71,7 @@ export class AccesoriesComponent {
 	public ApiUrl1: any = this.AppConfig.ApiUrl1;
 	public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
 	public motorApiUrl: any = this.AppConfig.MotorApiUrl;productItem:any=null;
+  contentId: null;buildingSection: boolean = false;
   quoteDetails:any=null;Riskdetails:any=null;customerDetails:any;building:any[]=[];
   accessoriesSection: boolean=false;tabIndex:any=0;currentBuildingIndex:any=null;fieldsRisk:any[]=[];CyberItem:any[]=[];
   editBuildingSection:boolean=false;enableBuildingEditSection:boolean=false;fieldsDevice:any[]=[];fieldsElectronic:any[]=[];
@@ -78,13 +79,16 @@ export class AccesoriesComponent {
   liabilityOccupation: any=null;accidentOccupationId: any=null;accidentOccupation: any=null;currencyValue: any=null;
   six:boolean=false;ElectronicList:any[]=[];allriskList:any[]=[];fieldsMachinery:any[]=[];CyperList:any[]=[];
   formSection: boolean=false;viewSection: boolean=false; form = new FormGroup({});field:any[]=[];
-  cyberSectionId: any=null;ten: boolean=false;sumInsured:boolean=false;
+  cyberSectionId: any=null;ten: boolean=false;sumInsured:boolean=false; editContentSection: boolean;
   fieldss:any[]=[];first:boolean=false;fieldsContent:any[]=[];eight:boolean=false;
   fieldsPersonalAccident: any;second:boolean=false;third:boolean=false;fieldFEFields:any[]=[];
-  fifth: boolean=false;seven:boolean=false;fieldsEmpFields:any[]=[];
-  fieldsPersonalInd: any[]=[];monthList: any[]=[];employeeList:any[]=[];
-  SectionId: any=null;fidelityList: any[]=[];originalFidelityList: any[];
-  nine: boolean=false;risk: any=null;originalEmployeeList: any[]=[];LocationList:any[]=[];
+  contentRiskDesc: any=''; dropList:any[]=[];
+  fifth: boolean=false;seven:boolean=false;fieldsEmpFields:any[]=[];selectedTab: any = 0;
+  fieldsPersonalInd: any[]=[];monthList: any[]=[];employeeList:any[]=[]; Cotentrisk: any[] = [];
+  SectionId: any=null;fidelityList: any[]=[];originalFidelityList: any[];contentRiskSection: boolean=false;
+  currentContentIndex: number;enableContentEditSection:boolean = false;LocationId: any;  contentSI: any='0';
+  nine: boolean=false;risk: any=null;originalEmployeeList: any[]=[];LocationList:any[]=[];fourth: boolean = false;
+  fidelityOccupationList: any[]=[];  occupationList: any[] = []; enableEmployeeUploadSection: boolean=false;
   constructor(private router: Router,private datePipe:DatePipe,
     private sharedService: SharedService,public http: HttpClient) {
    let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
@@ -166,11 +170,15 @@ export class AccesoriesComponent {
     this.individualCommaFormatted('building');
   }
   onTabClicked(event){
-    let index = event.index;
-    this.tabIndex = index;
-    if(index!=0){
+    // let index = event.index;
+    // this.tabIndex = index;
+    // if(index!=0){
       
       
+    // }
+    console.log("Source Event",event,event.tab.textLabel);
+    if(event.index!=0){
+    if(this.productId!='19' && this.selectedTab!=1 && this.LocationList.length==0) this.onSave(event.tab.textLabel)
     }
 
     console.log('Tab event',event);
@@ -193,6 +201,7 @@ export class AccesoriesComponent {
           // }
           // else{
             this.newjsonfile();
+           
             //this.setTabSections();
           //}
          
@@ -316,6 +325,115 @@ export class AccesoriesComponent {
   }
   onFormSubmit(){
     if(this.productId=='5') this.onSaveAccessories();
+
+  }
+
+  onSave(type) {
+    if (this.building.length != 0) {
+      console.log("Building Details",this.building);
+      let i = 0, buildReqList: any[] = [];
+      for (let build of this.building) {
+        if (i == 0) {
+          this.LocationList = [];
+        }
+        let sumInsured = null;
+        if(this.sumInsured == true){
+           if(build.BuildingSuminsured==undefined || build.BuildingSuminsured==null) sumInsured = null;
+          // else if(build.BuildingSuminsured.includes(',')){ sumInsured = build.BuildingSuminsured.replace(/,/g, '') }
+          else sumInsured = build.BuildingSuminsured;
+        }
+        else{
+          sumInsured = 0;
+        }
+
+        this.LocationList.push({ "Code": String(i + 1), "CodeDesc": build.LocationName })
+       
+        let ReqObj = {
+
+          "BuildingSuminsured":sumInsured,
+          "BuildingAddress": build.BuildingAddress,
+          "Createdby": this.loginId,
+          "InbuildConstructType":"W",
+          "QuoteNo":sessionStorage.getItem('quoteNo'),
+          "RequestReferenceNo":this.quoteRefNo,
+          "SectionId": build.SectionId,
+          "LocationName":build.LocationName,
+
+          /*"ApartmentOrBorder": null,
+          "BuildingAreaSqm": null,
+          "BuildingBuildYear": build.BuildingBuildYear,
+          "BuildingCondition": null,
+          "BuildingFloors": build.BuildingFloors,
+          "BuildingOccupationType": null,
+          "BuildingType": null,
+          "BuildingUsageId": null,
+          "BuildingUsageYn": null,
+          "BuildingSuminsured": sumInsured,
+          "BuildingAddress": build.BuildingAddress,
+          "Createdby": this.loginId,
+          "CustomerId": null,
+          "InbuildConstructType": build.InbuildConstructType,
+          "QuoteNo": sessionStorage.getItem('quoteNo'),
+          "RequestReferenceNo": this.quoteRefNo,
+          "RiskId": null,
+          "SectionId": build.SectionId,
+          "UpdatedDate": null,
+          "Updatedby": this.loginId,
+          "WithoutInhabitantDays": null,
+          "LocationName":build.LocationName,*/
+
+
+        }
+        buildReqList.push(ReqObj);
+        i += 1;
+        if (i == this.building.length) {
+          this.saveBuildingDetails(buildReqList,type);
+        }
+      }
+      console.log('TTTTTTTTTTTTTTTT',this.LocationList)
+      if(this.first || this.second || this.fifth || this.ten || this.third || this.nine || this.seven || this.eight || this.six){
+        if(this.LocationList.length !=0){
+          for (let j = 0; j < this.LocationList.length; j++) {
+            this.LocationList[j].label = this.LocationList[j]['CodeDesc'];
+            this.LocationList[j].value = this.LocationList[j]['Code'];
+            delete this.LocationList[j].CodeDesc;
+            if (j == this.LocationList.length - 1) {
+              if(this.first){
+                this.fieldsContent[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+              }
+              if(this.second){
+                this.fieldsPersonalAccident[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+              }
+             if(this.fifth){
+              this.fieldsPersonalInd[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+             }
+             if(this.six){
+              this.fieldsElectronic[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+            }
+             if(this.ten){
+              this.fieldsDevice[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+             }
+             if(this.third){
+              this.fieldsRisk[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+            }
+            if(this.nine){
+              this.fieldsMachinery[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+            }
+            if(this.seven){
+              if(this.productId=='57' && this.sectionDetails.find((ele) => ele.SectionId==45)) this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[3].props.options = this.LocationList;
+              else  this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = this.LocationList;
+            }
+            if(this.eight){
+
+              this.fieldFEFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = this.LocationList;
+            }
+            }
+          }
+        }
+      }
+    }
+
+    //this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
 
   }
   getcontenttype(){
@@ -621,7 +739,7 @@ export class AccesoriesComponent {
             this.sumInsured =false;
             let fireData = new LocationDetails();
             this.fieldss = fireData?.fields;  
-            console.log('dddddddddddddddddd')
+            alert('Details');
             this.productItem = new ProductData();
             this.formSection = true; this.viewSection = false;
           }
@@ -1292,6 +1410,21 @@ export class AccesoriesComponent {
         }
       });
   }
+  // getbuilding() {
+  //   let urlLink = `${this.motorApiUrl}api/getallbuildingdetails`;
+  //   let ReqObj = {
+  //     "QuoteNo": sessionStorage.getItem('quoteNo'),
+  //   }
+  //   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+  //     (data: any) => {
+  //       console.log(data);
+  //       let res: any = data;
+  //       if (res.Result.length != 0) {
+  //       }
+  //       else {
+  //       }
+  //     })
+  // }
   getbuilding() {
     let urlLink = `${this.motorApiUrl}api/getallbuildingdetails`;
     let ReqObj = {
@@ -1302,10 +1435,147 @@ export class AccesoriesComponent {
         console.log(data);
         let res: any = data;
         if (res.Result.length != 0) {
+          if(this.endorsementSection){
+            console.log('Enable Building Suminsureds',this.enableFieldsList);
+            //this.buildingSection = !this.enableFieldsList.some(ele=>ele=='BuildingSuminsured');
+            this.buildingSection = this.enableFieldsList.some(ele=>ele=='BuildingSuminsured');
+          }
+          else this.buildingSection = false;
+          //else this.buildingSection = false;
+          this.building = res.Result;
+          let i=0;
+          for(let entry of this.building){
+            if (i == 0) {
+              this.LocationList = [];
+            }
+            this.LocationList.push({ "Code": String(this.LocationList.length+1), "CodeDesc": entry.LocationName })
+            i+=1;
+          }
+
+          if(this.first || this.second || this.fifth || this.ten || this.third || this.nine || this.seven || this.eight || this.six){
+            if(this.LocationList.length !=0){
+              for (let j = 0; j < this.LocationList.length; j++) {
+                this.LocationList[j].label = this.LocationList[j]['CodeDesc'];
+                this.LocationList[j].value = this.LocationList[j]['Code'];
+                delete this.LocationList[j].CodeDesc;
+                if (j == this.LocationList.length - 1) {
+                  if(this.first){
+                    this.fieldsContent[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+                  }
+                  if(this.six){
+                    this.fieldsElectronic[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+                  }
+                  if(this.second){
+                    this.fieldsPersonalAccident[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+                  }
+                  if(this.fifth){
+                    this.fieldsPersonalInd[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+                  }
+                  if(this.ten){
+                    this.fieldsDevice[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+                  }
+                  if(this.third){
+                    this.fieldsRisk[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+                  }
+                  if(this.nine){
+                    this.fieldsMachinery[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+                  }
+                  if(this.seven){
+                    this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = this.LocationList;
+                  }
+                  if(this.eight){
+                    this.fieldFEFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = this.LocationList;
+                  }
+                }
+              }
+            }
+          }
+   
+       
+          this.fourth = true;
+          this.getTotalSICost('building');
         }
         else {
+          this.building=[];
+          this.AddNew();
+          // this.building = [
+          //   {
+          //     "BuildingAddress": null,
+          //     "BuildingBuildYear": null,
+          //     "BuildingFloors": null,
+          //     "InbuildConstructType": null,
+          //     "BuildingSuminsured": null,
+          //     "RiskId": null,
+          //     SectionId: "1"
+          //   }
+          // ]
         }
+        if(this.first){
+          this.getdropList();
+          this.getContentDetails();
+        }
+        else if(this.second){
+          //this.getPersonalAccidentDetails();
+        }
+        else if(this.third){
+          //this.getallriskDetails();
+        }
+        else if(this.fifth){
+          //this.getPersonalIntermediaryDetails();
+        }
+        else if(this.six){
+          //this.getElectronicEquipment();
+          }
+          else if(this.nine){
+            //this.getMachineryRisk();
+            }
       })
+  }
+  getdropList(){
+    let ReqObj = {
+      "InsuranceId":this.insuranceId,
+      "BranchCode": this.branchCode
+    }
+    let urlLink = `${this.CommonApiUrl}dropdown/content`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+          let defaultObj = [{ 'label': '-Select-', 'value': null }]
+          this.dropList = data.Result;
+          for (let i = 0; i < this.dropList.length; i++) {
+            this.dropList[i].label = this.dropList[i]['CodeDesc'];
+            this.dropList[i].value = this.dropList[i]['Code'];
+            delete this.dropList[i].CodeDesc;
+            if (i == this.dropList.length - 1) {
+              this.fieldsContent[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.dropList);
+            }
+          }
+            
+
+            //this.getOccupationList();
+        }
+      },
+      (err) => { },
+    );
+  }
+  AddNew() {
+    this.productItem.LocationAddress=null;
+    this.productItem.LocationNameBuilding=null;
+    this.productItem.BuildingSumInsureds=null;
+    let entry = {
+      "BuildingAddress": null,
+      "BuildingBuildYear": null,
+      "BuildingFloors": null,
+      "InbuildConstructType": null,
+      "BuildingSuminsured": null,
+      "RiskId": null,
+      "SectionId": "1"
+    }
+    this.currentBuildingIndex = this.building.length;
+    this.editBuildingSection = false;
+    this.enableBuildingEditSection = true;
+    this.building.push(entry);
   }
   getEditQuoteDetails(){
     let ReqObj = {
@@ -1556,7 +1826,46 @@ export class AccesoriesComponent {
         console.log(data);
         if(data.Result){
           
-          
+          if(this.productId=='14' || sectionId=='45'){
+            this.employeeOccupationList = data.Result;
+            for (let i = 0; i < this.employeeOccupationList.length; i++) {
+              this.employeeOccupationList[i].label = this.employeeOccupationList[i]['CodeDesc'];
+              this.employeeOccupationList[i].value = this.employeeOccupationList[i]['Code'];
+              delete this.employeeOccupationList[i].CodeDesc;
+              if (i == this.employeeOccupationList.length - 1) {
+                this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = this.employeeOccupationList;
+              }
+            }
+    }
+    else if(this.productId=='32' || sectionId=='43'){
+      this.fidelityOccupationList = data.Result;
+      for (let i = 0; i < this.fidelityOccupationList.length; i++) {
+        this.fidelityOccupationList[i].label = this.fidelityOccupationList[i]['CodeDesc'];
+        this.fidelityOccupationList[i].value = this.fidelityOccupationList[i]['Code'];
+        delete this.fidelityOccupationList[i].CodeDesc;
+        if (i == this.fidelityOccupationList.length - 1) {
+          this.fieldFEFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = this.fidelityOccupationList;
+        }
+        // console.log('JJJJJJJJJJJJJJJJJJJ',this.fieldFEFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options)
+      }
+    }
+    else 
+    {
+      this.occupationList = data.Result;
+      for (let i = 0; i < this.occupationList.length; i++) {
+        this.occupationList[i].label = this.occupationList[i]['CodeDesc'];
+        this.occupationList[i].value = this.occupationList[i]['Code'];
+        delete this.occupationList[i].CodeDesc;
+        if (i == this.occupationList.length - 1) {
+          if(this.eight){
+            this.fieldFEFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = this.occupationList;
+          }
+          if(this.seven){
+            this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = this.occupationList;
+          }
+        }
+      }
+    }
         }
       },
       (err) => { },
@@ -1705,5 +2014,369 @@ export class AccesoriesComponent {
   }
   showSidebar() {
     this.sidebarVisible = true;
+  }
+
+  getBack(type){
+    if(this.endorsementSection){
+      if(type=='Building'){
+        this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount'])
+      }
+      else if(type=='Health Insurance'){
+        this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
+        // this.fourth = true;
+        // this.selectedTab -=1; 
+      }
+      else if(type=='Content Risk'){
+        this.fourth = true;
+        this.getContentDetails();
+        this.selectedTab -=1; 
+        
+      }
+      else if(type=='Personal Accident'){
+        this.fourth = true;
+        //this.getPersonalAccidentDetails();
+        this.selectedTab -=1; 
+      }
+      else if(type=='All Risk'){
+        this.fourth = true;
+        //this.getallriskDetails();
+        this.selectedTab -=1; 
+      }
+      else if(type=='Personal Indemenity'){
+        this.fourth = true;
+        //this.getPersonalIntermediaryDetails();
+        this.selectedTab -=1; 
+      }
+      else if(type=='ElectricalEquipment'){
+        this.fourth = true;
+        //this.getElectronicEquipment();
+        this.selectedTab -=1; 
+      }
+      else if(type== 'Machinery Breakdown'){
+        this.nine =true;
+        this.getMachineryRisk();
+        this.selectedTab -=1; 
+        }
+        else if(type== 'employers'){
+          this.selectedTab -=1; 
+          }
+          else if(type== 'Fedility'){
+            this.selectedTab -=1; 
+            }
+            else if(type== 'Accessories'){
+              this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount'])
+              }
+              else if(type== 'Device Details'){
+                this.selectedTab -=1; 
+                }
+    }
+    else if(!this.endorsementSection){
+      if(type=='Building'){
+        this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount'])
+      }
+      else if(type=='Health Insurance'){
+        this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
+      }
+      if(type=='Content Risk'){
+        this.fourth = true;
+        this.getContentDetails();
+        this.selectedTab -=1; 
+        
+      }
+      else if(type=='Personal Accident'){
+        this.fourth = true;
+        //this.getPersonalAccidentDetails();
+        this.selectedTab -=1; 
+      }
+      else if(type=='All Risk'){
+        this.fourth = true;
+        //this.getallriskDetails();
+        this.selectedTab -=1; 
+      }
+      else if(type=='Personal Indemenity'){
+        this.fourth = true;
+        //this.getPersonalIntermediaryDetails();
+        this.selectedTab -=1; 
+      }
+      else if(type=='ElectricalEquipment'){
+        this.fourth = true;
+        //this.getElectronicEquipment();
+        this.selectedTab -=1; 
+      }
+      else if(type== 'Machinery Breakdown'){
+        this.nine =true;
+        this.getMachineryRisk();
+        this.selectedTab -=1; 
+        }
+        else if(type== 'employers'){
+          this.selectedTab -=1; 
+          }
+          else if(type== 'Fedility'){
+            this.selectedTab -=1; 
+            }
+            else if(type== 'Accessories'){
+              this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount'])
+              }
+              else if(type== 'Device Details'){
+                this.selectedTab -=1; 
+                }
+                else if(type=='Medical'){
+                  this.selectedTab-=1;
+                }
+    }
+
+    
+  }
+
+  onSaveEmployeeDetails(type){
+    
+    let urlLink = null;
+    if(type=='save') urlLink = `${this.motorApiUrl}api/saveemployees`;
+    else urlLink = `${this.motorApiUrl}api/proceedemployees`;
+    if(this.employeeList.length!=0){
+        let empList = [],i=0;
+        for(let emp of this.employeeList){
+          let entry = emp;
+           if(entry.DateOfBirth!=null){
+              if(!entry.DateOfBirth.includes('/')) entry['DateOfBirth']= this.datePipe.transform(entry.DateOfBirth, "dd/MM/yyyy");
+          }
+          if(emp.LocationName==undefined) emp['LocationName'] = this.LocationList.find(ele=>ele.Code==emp['LocationId']).CodeDesc;
+          if(entry['EmployeeId']==null || entry['EmployeeId']==undefined || entry['EmployeeId']=='') entry['EmployeeId'] = null;
+          else entry['EmployeeId'] = String(entry.EmployeeId);
+          empList.push(entry);
+          i+=1;
+          if(i==this.employeeList.length){
+            let SectionId = null;
+            if(this.productId=='14' || this.productId=='19' || this.productId=='57') SectionId = '45';
+            let validYN='N';
+            if(type=='alter') validYN = 'Y';
+            let ReqObj = {
+              "Createdby": this.loginId,
+              "SectionId": SectionId,
+              "ProductId": this.productId,
+              "InsuranceId": this.insuranceId,
+              "ProductEmployeeSaveReq": empList,
+              "QuoteNo": this.quoteNo,
+               // "EmpcountSIvalidYN": validYN,
+              // "ExcelUploadYN": "N",
+              // "RequestReferenceNo": this.quoteRefNo
+            }
+            //let urlLink = `${this.motorApiUrl}api/saveproductemployees`;
+            this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+              (data: any) => {
+                console.log(data);
+                let res: any = data;
+                if (data.ErrorMessage.length != 0) {
+                  if (res.ErrorMessage) {
+                    let entry = res.ErrorMessage.some(ele=>ele.Code=='333' || ele.Code=='111' || ele.Code=='222');
+                    if(entry){
+                      let ulList = '';
+                      for (let index = 0; index < res.ErrorMessage.length; index++) {
+                        const element = res.ErrorMessage[index];
+                
+                         ulList +=`<li class="list-group-login-field">
+                          <div style="color: darkgreen;">Field<span class="mx-2">:</span>${element?.Field}</div>
+                          <div style="color: red;">Message<span class="mx-2">:</span>${element?.Message}</div>
+                        </li>`
+                        
+                      }
+                      
+                    }
+                    
+                }
+              }
+              else{
+                if(this.productId=='19' && this.eight)  this.selectedTab +=1; 
+                else if(this.productId=='19' && this.nine)this.selectedTab +=1; 
+                else this.checkValidation();
+              }
+        
+            },
+            (err) => { },
+            );
+          }
+        }
+    }
+    else{alert("No Employees Found")}
+  }
+
+  saveBuildingDetails(ReqObj,type) {
+    let urlLink = `${this.motorApiUrl}api/buildingdetails`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        let res: any = data;
+        if (data.ErrorMessage.length != 0) {
+          if (res.ErrorMessage) {
+
+          }
+        }
+        else {
+          if (data.Result) {
+            console.log('PPPPPPPPP',data.Result);
+            console.log('SSSSSSSSSSSS',type);
+            //this.first=true;
+            if(type=='Content Risk'){
+              this.fourth = true;
+              this.getContentDetails();
+              this.selectedTab = 1;
+            }
+            else if(type=='Personal Accident'){
+              this.fourth = true;
+              // this.getPersonalAccidentDetails();
+            }
+            else if(type=='All Risk'){
+              this.fourth = true;
+              // this.getallriskDetails();
+            }
+            else if(type=='Personal Indemenity'){
+              this.fourth = true;
+              //this.getPersonalIntermediaryDetails();
+            }
+            else if(type=='ElectricalEquipment'){
+              this.fourth = true;
+              //this.getElectronicEquipment();
+            }
+            else if(type== 'Machinery Breakdown'){
+              this.nine =true;
+              this.getMachineryRisk();
+              }
+            else if (this.first||this.second || this.third || this.fifth || this.six || this.seven || this.eight || this.nine) {
+              this.fourth = true;
+              if(this.first){
+                this.getContentDetails();
+              }
+              else if(this.second){
+                //this.getPersonalAccidentDetails();
+              }
+              else if(this.third){
+                //this.getallriskDetails();
+              }
+              else if(this.fifth){
+                //this.getPersonalIntermediaryDetails();
+              }
+              else if(this.six){
+                //this.getElectronicEquipment();
+                }
+                else if(this.nine){
+                  this.getMachineryRisk();
+                  }
+              this.selectedTab = 1;
+            }
+            else if(this.productId=='42') this.selectedTab = 1;
+            else if(this.productId=='56') this.selectedTab = 1;
+            else{
+              this.checkValidation();
+            }
+          }
+        }
+
+      },
+      (err) => { },
+    );
+  }
+
+  getContentDetails(){
+    let sectionId=null;
+    if(this.productId=='19') sectionId = '47';
+    else sectionId = '47';
+    let urlLink = `${this.motorApiUrl}api/getallcontentrisk`;
+    let ReqObj = {
+      "QuoteNo": sessionStorage.getItem('quoteNo'),
+      "SectionId": sectionId
+    }
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        let res: any = data;
+        if(res.Result){
+          if (res.Result.ContentRiskDetails) {
+           if(res.Result.ContentRiskDetails.length!=0){
+            if(this.endorsementSection){
+              this.contentRiskSection = !this.enableFieldsList.some(ele=>ele=='ContentSuminsured');
+            }
+            else this.contentRiskSection = true;
+             this.Cotentrisk = res.Result.ContentRiskDetails;
+             console.log('Get details',this.Cotentrisk);
+             this.getTotalSICost('content');
+           }
+           else{
+            this.Cotentrisk=[];
+            this.ContentAdd();
+            //this.ContentAdd();
+            // this.Cotentrisk = [{
+            //   "ItemId":null,
+            //   "RiskId":null,
+            //   "MakeAndModel":null,
+            //   "ContentRiskDesc":null,
+            //   "SerialNoDesc": null,
+            //   "SerialNo":null,
+            //   "ItemValue":null,
+            //   "SumInsured":null,
+            // }]
+           }
+          }
+          else {
+            this.Cotentrisk=[];
+            this.ContentAdd();
+            // this.Cotentrisk = [{
+            //   "ItemId":null,
+            //   "RiskId":null,
+            //   "MakeAndModel":null,
+            //   "ContentRiskDesc":null,
+            //   "SerialNoDesc": null,
+            //   "SerialNo":null,
+            //   "ItemValue":null,
+            //   "SumInsured":null,
+            // }]
+          }
+        }
+        else {
+          // this.Cotentrisk = [{
+          //   "ItemId":null,
+          //   "RiskId":null,
+          //   "MakeAndModel":null,
+          //   "ContentRiskDesc":null,
+          //   "SerialNoDesc": null,
+          //   "SerialNo":null,
+          //   "ItemValue":null,
+          //   "SumInsured":null,
+          // }]
+        }
+        // if(this.second){
+        //   this.getPersonalAccidentDetails();
+          
+        // }
+        // else if(this.third){
+        //   this.getallriskDetails();
+        // }
+        // else if(this.fifth){
+        //   this.getPersonalIntermediaryDetails();
+        // }
+        // else if(this.six){
+        //   this.getElectronicEquipment();
+        // }
+      })
+  }
+  ContentAdd() {
+    this.productItem.ContentDesc=null;
+    this.productItem.ContentLocation =null;this.productItem.ContentSI=null;
+    this.productItem.ContentSerialNo =null;this.productItem.ContentSuminsured=null;
+    this.productItem.ContentType =null;
+    let entry = [{
+      "ItemId":null,
+      "RiskId":null,
+      "MakeAndModel":null,
+      "ContentRiskDesc":null,
+      "SerialNoDesc": null,
+      "SerialNo":null,
+      "ItemValue":null,
+      "SumInsured":null,
+    }]
+    this.currentContentIndex = this.Cotentrisk.length;
+    this.Cotentrisk.push(entry);
+    this.editContentSection = false;this.enableContentEditSection = true;
+    this.LocationId = null;this.serialNoDesc = null;this.contentRiskDesc = null;
+    this.contentSI = null;this.contentId = null;
   }
 }

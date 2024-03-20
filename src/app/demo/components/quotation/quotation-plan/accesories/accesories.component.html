@@ -86,7 +86,7 @@
     </div>
 </ng-container>
 <ng-container *ngIf="productId!='5'">
-    <p-tabView [activeIndex]="tabIndex" (onChange)="onTabClicked($event)" *ngIf="buildingDetailsSection">
+    <p-tabView [activeIndex]="tabIndex" (selectedTabChange)="onTabClicked($event)" *ngIf="buildingDetailsSection">
         <p-tabPanel header="Location">
             <div class="grid" >
                 <div class="lg:col-6 md:col-6 col-12">
@@ -126,6 +126,59 @@
                 </div>
             </div>
         </p-tabPanel>
+        <p-tabPanel header="Content Risk" [disabled]="!fourth" *ngIf="first">
+            <div class="grid">
+                <div class="lg:col-6 md:col-6 col-12">
+                    <form [formGroup]="form">
+                        <formly-form [form]="form" [fields]="fieldsContent" [model]="productItem"></formly-form>
+                    </form>
+                    <div class="flex flex-wrap justify-content-center mt-2">
+                        <p-button label="Save" (click)="onSaveLocation()" class="text-l pi-button mr-0"></p-button>
+                    </div>
+                </div>
+               
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="Employer's Liablity" [disabled]="!fourth" *ngIf="seven">
+            <div class="grid">
+                <div class="lg:col-4 md:col-4 col-12">
+                    <form [formGroup]="form">
+                        <formly-form [form]="form" [fields]="fieldsEmpFields" [model]="productItem"></formly-form>
+                    </form>
+                    <div class="flex flex-wrap justify-content-center mt-2">
+                        <p-button label="Save" (click)="onSaveLocation()" class="text-l pi-button mr-0"></p-button>
+                    </div>
+                </div>
+                <div class="lg:col-6 md:col-6 col-12">
+                    <ng-container *ngIf="employeeList.length!=0">
+                        <p-table [value]="employeeList" [tableStyle]="{ 'min-width': '50rem' }">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Location Name</th>
+                                    <th>Address</th>
+                                    <th>SumInsured</th>
+                                    <th>Action</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-build let-i="rowIndex">
+                                <ng-container>
+                                    <tr>
+                                        <td>{{build.LocationName}}</td>
+                                        <td>{{build.BuildingAddress}}</td>
+                                        <td>{{build.BuildingSuminsured | commaseparator }}</td>
+                                        <td>
+                                            <p-button icon="pi pi-pencil" severity="danger" (click)="onEditBuilding(i)" styleClass="p-button-outlined"></p-button>&nbsp;
+                                            <p-button icon="pi pi-trash" severity="danger" (click)="delete(build)"  styleClass="p-button-outlined"></p-button>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </ng-template>
+                        </p-table>
+                    </ng-container>
+                </div>
+               
+            </div>
+        </p-tabPanel>
     </p-tabView>
 </ng-container>
 
@@ -134,7 +187,13 @@
 <div class="flex flex-wrap justify-content-center mt-4">
     <div class="mb-4">
         <p-button label="Back" [routerLink]="['/quotation/plan/main/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
-        <p-button label="Proceed" (click)="onFormSubmit()" class="text-l pi-button mr-0"></p-button>
+        <p-button label="Proceed" (click)="onSave(null)" class="text-l pi-button mr-0"></p-button>
+    </div>
+    <div class="text-center mt-2">
+        <p-button label="Back" *ngIf="!enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="getBack('employers')" routerLinkActive="router-link-active"><<&nbsp;Back</p-button>
+        <p-button label="Save & Proceed" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('save')">Save & Proceed</p-button>
+        <p-button label="Proceed" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('proceed')" routerLinkActive="router-link-active" routerLinkActive="router-link-active">Proceed</p-button>
+        <!-- <button class="custom-btn btn-6 maan-button-data mx-2" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" matRipple (click)="onSaveEmployeeDetails('direct')" routerLinkActive="router-link-active" routerLinkActive="router-link-active">Proceed</button> -->
     </div>
     <!-- <div class="card grid text-white surface-900 px-4 py-2" (click)="showSidebar()">
         <div class="col-6">
