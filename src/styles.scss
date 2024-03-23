@@ -92,7 +92,15 @@ $gutter: 1rem; //for primeflex grid system
     display: block !important;
     z-index: 200 !important;
 }
-
+.customTableWidth{
+   width: 100%;margin-top:14px;
+}
+.customDangerColor{
+    color:#d81b60;
+ }
+.textEnd{
+   text-align: end;
+}
 .firstclass {
     border-spacing: 0px;
     border: 2px solid #eaecf1;
@@ -105,13 +113,27 @@ $gutter: 1rem; //for primeflex grid system
     // box-shadow: inset 0 0 0px #b8b9be,inset 0px 0px 1px #000!important;
     backdrop-filter: blur(18.5px);
 }
+.marginRight10{
+    margin-right:10px !important;
+}
+.tableRowWidth{
+    width:70%;
+}
+.textAlignCenter{
+    text-align: center;
+}
+.tableDataCustomBorder{
+    text-align:center;border: 0.5px solid grey;
+}
 .spancommon {
     font-family: var(--our-font-family-new) !important;
 }
 .span_font_size {
     font-size: 0.93rem;
 }
-
+.textAreaHeight{
+    height: 45px;
+}
 .customRowBg {
     background-color: #e73f3f!important;
     color: #fff;
@@ -141,3 +163,155 @@ $gutter: 1rem; //for primeflex grid system
  .endText{
     text-align: end !important;
  }
+ /* Login Component */
+    .loginCard1{
+        border-radius:56px; 
+        padding:0.3rem; 
+        background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);
+    }
+    .loginCardBorder{
+        border-radius:53px; max-width: 440px
+    }
+    .padding1Rem{
+        padding:1rem
+    }
+    .primaryTextColor{
+        color: var(--primary-color)
+    }
+ /* Personal Quote Details Component */
+ .p-su-header{
+    border-bottom: 0 none;
+    background: gainsboro !important;
+    color: black !important;
+    padding: 0.7rem !important;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+  }
+  
+ /* Cover Details Component */
+
+ .form-control{
+    width: 100% !important;
+    max-width: 100% !important;
+    border: 1px solid gray;
+    border-radius: 15px;
+    padding:8px 12px !important
+}
+.ui-ex{
+    font-weight: 500;
+    font-size: 14px;
+}
+.customCard{
+    max-width: 350px !important;
+    min-width: 350px !important;
+}
+
+.p-dialog.p-element.p-su-header .p-dialog-mask .p-component .p-dialog-header{
+    border-bottom: 0 none;
+    background: gainsboro !important;
+    color: black !important;
+    padding: 0.7rem !important;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+}
+
+
+table.table.table-bordered {
+    border: 1px solid gainsboro;
+    border-collapse: collapse;
+}
+
+.table-bordered th{
+    border: 1px solid gainsboro;
+
+}
+.table-bordered td{
+    border: 1px solid gainsboro;
+}
+
+/* Common Product Details */
+
+.p-su-header{
+    border-bottom: 0 none;
+    background: gainsboro !important;
+    color: black !important;
+    padding: 0.7rem !important;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;  
+}
+.bottomSpacing{
+    bottom: 1.4rem;
+}
+.layout1{
+    width: 900px !important;
+    // height: 90px !important;
+    top: 910px !important;
+    left: 354px !important;
+   border-radius: 10 !important; 
+}
+.layout2{
+    width: 175px !important;
+    height: 90px !important;
+    top: 910px !important;
+    left: 354px !important;
+    border-radius: 10px !important; 
+    border: 1px solid #E8E2E0 !important;
+    box-shadow: 0px 4px 4px 0px #00000040 !important;
+    margin-left:10px !important;
+    cursor:  pointer !important;
+}
+.layout3{
+    width: 170px !important;
+    height: 26px !important;
+    top: 942px !important;
+    left: 384px !important;
+    cursor:  pointer !important;
+}
+.layout4{
+    margin:auto !important;
+font-family: Inter !important;
+font-size: 14px !important;
+font-weight: 500 !important;
+line-height: 26px !important;
+letter-spacing: 0em !important;
+text-align: center !important;
+cursor:  pointer !important;
+}
+.check{
+    margin-top:-20px !important
+}
+.customText{
+    color: red !important;
+    font-size: 14px !important;
+    max-width: 370px !important;
+}
+:host ::ng-deep .pi-eye,
+:host ::ng-deep .pi-eye-slash {
+    transform:scale(1.6);
+    margin-right: 1rem;
+    color: var(--primary-color) !important;
+}
+
+/* Dashboard Component */
+    .customCellWidth1{
+        width: 15%; min-width: 5rem;
+    }
+    .customCellWidth2{
+        width: 35%; min-width: 7rem;
+    }
+    .customCellWidth3{
+        width: 35%; min-width: 8rem;
+    }
+    .customCellWidth4{
+        width: 15%;
+    }
+/* Cover Details Component */
+   .viewDetailsText{
+        text-decoration: underline;
+        cursor: pointer !important;
+        color: #f57c00;
+   }
+   .viewDetailsText2{
+    text-decoration: underline;
+    cursor: pointer !important;
+   }

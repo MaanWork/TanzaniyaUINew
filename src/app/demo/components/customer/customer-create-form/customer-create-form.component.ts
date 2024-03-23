@@ -261,10 +261,7 @@ export class CustomerCreateFormComponent implements OnInit {
 							//this.messages = [{ severity: 'error', summary: 'Error', detail: 'Incorrect Credentials' }];
 							this.messages.push({ severity: 'error', summary: 'Error', detail: element?.Message });
 							console.log('Final Messages',this.messages)
-							// ulList +=`<li class="list-group-login-field">
-							// 	<div style="color: darkgreen;">Field<span class="mx-2">:</span>${element?.Field}</div>
-							// 	<div style="color: red;">Message<span class="mx-2">:</span>${element?.Message}</div>
-							// </li>`
+							
 							 }
 							// Swal.fire({
 							// title: '<strong>Form Validation</strong>',

@@ -177,8 +177,8 @@
                                     [(ngModel)]="policyStartDate" (onSelect)="onStartDateChange('change')"
                                     dateFormat="dd/mm/yy" placeholder="Select Start Date">
                                 </p-calendar>
-                                <div class="input-form-error" *ngIf="policyStartError || policyPassDate"
-                                    style="bottom: 1.4rem;">
+                                <div class="input-form-error bottomSpacing" *ngIf="policyStartError || policyPassDate"
+                                    >
                                     <div class="error-text text-danger" *ngIf="policyStartError">
                                         <span class="spancommon span_font_size"> Please Enter Policy Start Date</span>
                                     </div>
@@ -302,156 +302,166 @@
                     </div>
                     <div class="lg:col-6 md:col-6 col-12">
                         <h3>Insured Details</h3>
-                        <div class="flex flex-wrap" *ngIf="insuranceId=='100027'">
-                            <div class="lg:col-4 md:col-4 col-4">
-                                <label for="username">Insurance Type</label>
-                                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="typeList"
-                                    [(ngModel)]="typeValue" optionLabel="CodeDesc" optionValue="Code"
-                                    (onChange)="getMotorTypeList('change')" placeholder="---Select---">
-                                </p-dropdown>
+                        <ng-container *ngIf="insuranceId=='100027'">
+                            <ng-container *ngFor="let step of fields">
+                                <form [formGroup]="form">
+                                    <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
+                                </form>
+                            </ng-container>
+                        </ng-container>
+                        <ng-container *ngIf="insuranceId!='100027'">
+                            <div class="flex flex-wrap" *ngIf="insuranceId=='100027'">
+                                <div class="lg:col-4 md:col-4 col-4">
+                                    <label for="username">Insurance Type</label>
+                                    <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="typeList"
+                                        [(ngModel)]="typeValue" optionLabel="CodeDesc" optionValue="Code"
+                                        (onChange)="getMotorTypeList('change')" placeholder="---Select---">
+                                    </p-dropdown>
+                                </div>
+                                <div class="lg:col-4 md:col-4 col-4">
+                                    <label for="username">Motor Usage</label>
+                                    <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="motorUsageList"
+                                        [(ngModel)]="motorUsageValue" optionLabel="CodeDesc" optionValue="Code"
+                                        placeholder="---Select---">
+                                    </p-dropdown>
+                                </div>
+                                <div class="lg:col-4 md:col-4 col-4">
+                                    <label for="username">Deductibles</label>
+                                    <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="deductibleList"
+                                        [(ngModel)]="deductibleValue" optionLabel="CodeDesc" optionValue="Code"
+                                        placeholder="---Select---">
+                                    </p-dropdown>
+                                </div>
                             </div>
-                            <div class="lg:col-4 md:col-4 col-4">
-                                <label for="username">Motor Usage</label>
-                                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="motorUsageList"
-                                    [(ngModel)]="motorUsageValue" optionLabel="CodeDesc" optionValue="Code"
-                                    placeholder="---Select---">
-                                </p-dropdown>
+                            <div class="flex flex-wrap" *ngIf="insuranceId!='100027'">
+                                <div class="lg:col-4 md:col-4 col-4">
+                                    <label for="username">Insurance Type</label>
+                                    <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="typeList"
+                                        [(ngModel)]="typeValue" optionLabel="CodeDesc" optionValue="Code"
+                                        (onChange)="getMotorTypeList('change')" placeholder="---Select---">
+                                    </p-dropdown>
+                                </div>
+                                <div class="lg:col-4 md:col-4 col-4" >
+                                    <label for="username">Insurance Class</label>
+                                    <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="classList"
+                                        [(ngModel)]="classValue" optionLabel="CodeDesc" optionValue="Code"
+                                        (onChange)="onChangeClassType()" placeholder="---Select---">
+                                    </p-dropdown>
+                                </div>
+                                <div class="lg:col-4 md:col-4 col-4">
+                                    <label for="username">Body Type</label>
+                                    <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="motorTypeList"
+                                        [(ngModel)]="bodyTypeValue" (onChange)="onChangeBodyType()" optionLabel="CodeDesc"
+                                        optionValue="Code" placeholder="---Select---">
+                                    </p-dropdown>
+                                </div>
                             </div>
-                            <div class="lg:col-4 md:col-4 col-4">
-                                <label for="username">Deductibles</label>
-                                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="deductibleList"
-                                    [(ngModel)]="deductibleValue" optionLabel="CodeDesc" optionValue="Code"
-                                    placeholder="---Select---">
-                                </p-dropdown>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap" *ngIf="insuranceId!='100027'">
-                            <div class="lg:col-4 md:col-4 col-4">
-                                <label for="username">Insurance Type</label>
-                                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="typeList"
-                                    [(ngModel)]="typeValue" optionLabel="CodeDesc" optionValue="Code"
-                                    (onChange)="getMotorTypeList('change')" placeholder="---Select---">
-                                </p-dropdown>
-                            </div>
-                            <div class="lg:col-4 md:col-4 col-4" >
-                                <label for="username">Insurance Class</label>
-                                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="classList"
-                                    [(ngModel)]="classValue" optionLabel="CodeDesc" optionValue="Code"
-                                    (onChange)="onChangeClassType()" placeholder="---Select---">
-                                </p-dropdown>
-                            </div>
-                            <div class="lg:col-4 md:col-4 col-4">
-                                <label for="username">Body Type</label>
-                                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="motorTypeList"
-                                    [(ngModel)]="bodyTypeValue" (onChange)="onChangeBodyType()" optionLabel="CodeDesc"
-                                    optionValue="Code" placeholder="---Select---">
-                                </p-dropdown>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap">
-                            <div class="lg:col-4 md:col-4 col-4" *ngIf="insuranceId!='100027'">
-                                <label for="username">Motor Usage</label>
-                                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="motorUsageList"
-                                    [(ngModel)]="motorUsageValue" optionLabel="CodeDesc" optionValue="Code"
-                                    placeholder="---Select---">
-                                </p-dropdown>
-                            </div>
-                            <div class="lg:col-4 md:col-4 col-4" *ngIf="insuranceId=='100027'">
-                                <label for="username">Vehicle Value</label>
-                                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="vehicleValueList"
-                                    [(ngModel)]="vehicleValue" optionLabel="CodeDesc" optionValue="Code"
-                                    placeholder="---Select---">
-                                </p-dropdown>
-                            </div>
-                            <div class="lg:col-4 md:col-4 col-4">
-                                <label for="username">Claims YN?</label>
-                                <div class="flex justify-content-start gap-3">
-                                    <div class="flex align-items-center">
-                                        <p-radioButton name="Yes" value="Y" [(ngModel)]="claimsYN"
-                                            inputId="claimsYN"></p-radioButton>
-                                        <span for="claimsYN" class="ml-2">Yes</span>
+                            <div class="flex flex-wrap">
+                                <div class="lg:col-4 md:col-4 col-4" *ngIf="insuranceId!='100027'">
+                                    <label for="username">Motor Usage</label>
+                                    <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="motorUsageList"
+                                        [(ngModel)]="motorUsageValue" optionLabel="CodeDesc" optionValue="Code"
+                                        placeholder="---Select---">
+                                    </p-dropdown>
+                                </div>
+                                <div class="lg:col-4 md:col-4 col-4" *ngIf="insuranceId=='100027'">
+                                    <label for="username">Vehicle Value</label>
+                                    <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="vehicleValueList"
+                                        [(ngModel)]="vehicleValue" optionLabel="CodeDesc" optionValue="Code"
+                                        placeholder="---Select---">
+                                    </p-dropdown>
+                                </div>
+                                <div class="lg:col-4 md:col-4 col-4">
+                                    <label for="username">Claims YN?</label>
+                                    <div class="flex justify-content-start gap-3">
+                                        <div class="flex align-items-center">
+                                            <p-radioButton name="Yes" value="Y" [(ngModel)]="claimsYN"
+                                                inputId="claimsYN"></p-radioButton>
+                                            <span for="claimsYN" class="ml-2">Yes</span>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <p-radioButton name="No" value="N" [(ngModel)]="claimsYN"
+                                                inputId="claimsNo"></p-radioButton>
+                                            <span for="claimsNo" class="ml-2">No</span>
+                                        </div>
                                     </div>
-                                    <div class="flex align-items-center">
-                                        <p-radioButton name="No" value="N" [(ngModel)]="claimsYN"
-                                            inputId="claimsNo"></p-radioButton>
-                                        <span for="claimsNo" class="ml-2">No</span>
+                                </div>
+                                <div class="lg:col-4 md:col-4 col-4" *ngIf="typeValue=='10'">
+                                    <label for="username">GPS Tracking Enabled?</label>
+                                    <div class="flex justify-content-start gap-3">
+                                        <div class="flex align-items-center">
+                                            <p-radioButton name="Yes" value="Y" [(ngModel)]="gpsYn"
+                                                inputId="orginwarehouse_Yes"></p-radioButton>
+                                            <span for="orginwarehouse_Yes" class="ml-2">Yes</span>
+                                        </div>
+                                        <div class="flex align-items-center">
+                                            <p-radioButton name="No" value="N" [(ngModel)]="gpsYn"
+                                                inputId="orginwarehouse_No"></p-radioButton>
+                                            <span for="orginwarehouse_No" class="ml-2">No</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="lg:col-4 md:col-4 col-4" *ngIf="typeValue=='10'">
-                                <label for="username">GPS Tracking Enabled?</label>
-                                <div class="flex justify-content-start gap-3">
-                                    <div class="flex align-items-center">
-                                        <p-radioButton name="Yes" value="Y" [(ngModel)]="gpsYn"
-                                            inputId="orginwarehouse_Yes"></p-radioButton>
-                                        <span for="orginwarehouse_Yes" class="ml-2">Yes</span>
-                                    </div>
-                                    <div class="flex align-items-center">
-                                        <p-radioButton name="No" value="N" [(ngModel)]="gpsYn"
-                                            inputId="orginwarehouse_No"></p-radioButton>
-                                        <span for="orginwarehouse_No" class="ml-2">No</span>
-                                    </div>
+                            <div class="flex flex-wrap" *ngIf="(classValue=='1' || classValue=='2') || (insuranceId=='100027' && (typeValue!='102' && typeValue!='95'))">
+                                <div class="lg:col-4 md:col-4 col-4">
+                                    <label for="username">Vehicle SumInsued ({{currencyCode}}) &nbsp;<span
+                                            class="text-danger">*</span></label>
+                                    <input pInputText id="username" maxlength="50" [(ngModel)]="vehicleSI"
+                                        (keydown)="onVehicleValueChange($event)" (keyup)="CommaFormatted()"
+                                        placeholder="Enter Vehicle SumInsured" />
+                                </div>
+                                <div class="lg:col-4 md:col-4 col-4" *ngIf="(classValue=='1' || classValue=='2')|| (insuranceId=='100027' && (typeValue!='102' && typeValue!='95'))">
+                                    <label for="username">Accessories SumInsued ({{currencyCode}})</label>
+                                    <input pInputText id="username" maxlength="50" [(ngModel)]="accessoriesSI"
+                                        (keydown)="onVehicleValueChange($event)" (keyup)="accessoriesCommaFormatted()"
+                                        placeholder="Enter Accessories SumInsured" />
+                                </div>
+                                <div class="lg:col-4 md:col-4 col-4"
+                                *ngIf="((classValue=='1' || classValue=='2') && insuranceId!='100004') || (insuranceId=='100027' && (typeValue!='102' && typeValue!='95'))">
+                                    <label for="username">WindShield SumInsued ({{currencyCode}})</label>
+                                    <input pInputText id="username" maxlength="50" [(ngModel)]="windShieldSI"
+                                        (keydown)="onVehicleValueChange($event)" (keyup)="WindSICommaFormatted()"
+                                        placeholder="Enter WindShield SumInsured" />
                                 </div>
                             </div>
-                        </div>
-                        <div class="flex flex-wrap" *ngIf="(classValue=='1' || classValue=='2') || (insuranceId=='100027' && (typeValue!='102' && typeValue!='95'))">
-                            <div class="lg:col-4 md:col-4 col-4">
-                                <label for="username">Vehicle SumInsued ({{currencyCode}}) &nbsp;<span
-                                        class="text-danger">*</span></label>
-                                <input pInputText id="username" maxlength="50" [(ngModel)]="vehicleSI"
-                                    (keydown)="onVehicleValueChange($event)" (keyup)="CommaFormatted()"
-                                    placeholder="Enter Vehicle SumInsured" />
+                            <div class="flex flex-wrap" *ngIf="insuranceId!='100027'">
+                                <div class="lg:col-4 md:col-4 col-4"
+                                    *ngIf="(classValue=='1' || classValue=='2') && insuranceId!='100004'">
+                                    <label for="username">Extended TPPD Sum Insured </label>
+                                    <input pInputText id="username" maxlength="50" [(ngModel)]="tppdSI"
+                                        (keydown)="onVehicleValueChange($event)" (keyup)="TppdCommaFormatted()"
+                                        placeholder="Enter Tppd SumInsured" />
+                                </div>
+                                <div class="lg:col-4 md:col-4 col-4">
+                                    <label for="username">TIRA Cover Note No (If Exist) </label>
+                                    <input pInputText id="username" maxlength="50" [(ngModel)]="tiraCoverNoteNo"
+                                        placeholder="Enter TIRA Cover No" />
+                                </div>
                             </div>
-                            <div class="lg:col-4 md:col-4 col-4" *ngIf="(classValue=='1' || classValue=='2')|| (insuranceId=='100027' && (typeValue!='102' && typeValue!='95'))">
-                                <label for="username">Accessories SumInsued ({{currencyCode}})</label>
-                                <input pInputText id="username" maxlength="50" [(ngModel)]="accessoriesSI"
-                                    (keydown)="onVehicleValueChange($event)" (keyup)="accessoriesCommaFormatted()"
-                                    placeholder="Enter Accessories SumInsured" />
+                            <div class="flex flex-wrap" *ngIf="insuranceId=='100027'">
+                                <div class="lg:col-4 md:col-4 col-4" >
+                                    <label for="username">Extended TPPD SumInsured</label>
+                                    <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="extendedTppdList"
+                                        [(ngModel)]="extendedTppdValue" optionLabel="CodeDesc" optionValue="Code"
+                                        placeholder="---Select---">
+                                    </p-dropdown>
+                                </div>
+                                <div class="lg:col-4 md:col-4 col-4">
+                                    <label for="username">Personal Accident Covers</label>
+                                    <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="pACoversList"
+                                        [(ngModel)]="pACoverValue" optionLabel="CodeDesc" optionValue="Code"
+                                        placeholder="---Select---">
+                                    </p-dropdown>
+                                </div>
+                                <div class="lg:col-4 md:col-4 col-4">
+                                    <label for="username">Inflation&nbsp;<span
+                                            class="text-danger">*</span></label>
+                                    <input pInputText id="username" maxlength="50" [(ngModel)]="inflationValue"
+                                        placeholder="Enter Inflation" />
+                                </div>
                             </div>
-                            <div class="lg:col-4 md:col-4 col-4"
-                            *ngIf="((classValue=='1' || classValue=='2') && insuranceId!='100004') || (insuranceId=='100027' && (typeValue!='102' && typeValue!='95'))">
-                                <label for="username">WindShield SumInsued ({{currencyCode}})</label>
-                                <input pInputText id="username" maxlength="50" [(ngModel)]="windShieldSI"
-                                    (keydown)="onVehicleValueChange($event)" (keyup)="WindSICommaFormatted()"
-                                    placeholder="Enter WindShield SumInsured" />
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap" *ngIf="insuranceId!='100027'">
-                            <div class="lg:col-4 md:col-4 col-4"
-                                *ngIf="(classValue=='1' || classValue=='2') && insuranceId!='100004'">
-                                <label for="username">Extended TPPD Sum Insured </label>
-                                <input pInputText id="username" maxlength="50" [(ngModel)]="tppdSI"
-                                    (keydown)="onVehicleValueChange($event)" (keyup)="TppdCommaFormatted()"
-                                    placeholder="Enter Tppd SumInsured" />
-                            </div>
-                            <div class="lg:col-4 md:col-4 col-4">
-                                <label for="username">TIRA Cover Note No (If Exist) </label>
-                                <input pInputText id="username" maxlength="50" [(ngModel)]="tiraCoverNoteNo"
-                                    placeholder="Enter TIRA Cover No" />
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap" *ngIf="insuranceId=='100027'">
-                            <div class="lg:col-4 md:col-4 col-4" >
-                                <label for="username">Extended TPPD SumInsured</label>
-                                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="extendedTppdList"
-                                    [(ngModel)]="extendedTppdValue" optionLabel="CodeDesc" optionValue="Code"
-                                    placeholder="---Select---">
-                                </p-dropdown>
-                            </div>
-                            <div class="lg:col-4 md:col-4 col-4">
-                                <label for="username">Personal Accident Covers</label>
-                                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="pACoversList"
-                                    [(ngModel)]="pACoverValue" optionLabel="CodeDesc" optionValue="Code"
-                                    placeholder="---Select---">
-                                </p-dropdown>
-                            </div>
-                            <div class="lg:col-4 md:col-4 col-4">
-                                <label for="username">Inflation&nbsp;<span
-                                        class="text-danger">*</span></label>
-                                <input pInputText id="username" maxlength="50" [(ngModel)]="inflationValue"
-                                    placeholder="Enter Inflation" />
-                            </div>
-                        </div>
+                        </ng-container>
+                        
                     </div>
                 </div>
                 <div class="flex justify-content-center">

@@ -1,244 +1,254 @@
 <div class="card">
-    <div class="grid">
-      <div class="col-12 sm:col-6 md:col-4">
-        <h3 class="mr-3">Quotation</h3>
-        <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
-      </div>
-      <div class="col-12 sm:col-6 md:col-8">
-        <div class="flex justify-content-start sm:justify-content-end  flex-wrap">
-          <span class="p-input-icon-right mr-3 mb-3">
-            <i class="pi pi-search"></i>
-            <input type="text" placeholder="Search" pInputText/>
-          </span>
-          <p-button icon="pi pi-cloud-download" label="Export" styleClass="p-button-outlined" class="mr-3" size="small"></p-button>
-          <p-button (click) = "showSearchForm()" icon="pi pi-plus" label="Add New Quote" severity="warning" size="small"></p-button>
-        </div>
+  <div class="grid">
+    <div class="col-12 sm:col-6 md:col-4">
+      <h3 class="mr-3">Quotation</h3>
+      <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
+    </div>
+    <div class="col-12 sm:col-6 md:col-8">
+      <div class="flex justify-content-start sm:justify-content-end  flex-wrap">
+        <span class="p-input-icon-right mr-3 mb-3">
+          <i class="pi pi-search"></i>
+          <input type="text" placeholder="Search" pInputText/>
+        </span>
+        <p-button icon="pi pi-cloud-download" label="Export" styleClass="p-button-outlined" class="mr-3" size="small"></p-button>
+        <p-button (click) = "showSearchForm()" icon="pi pi-plus" label="Add New Quote" severity="warning" size="small"></p-button>
       </div>
     </div>
-    
-    <p-divider></p-divider>
-    
-    <p-tabView>
-      <p-tabPanel header="Existing">
-        <div class="flex justify-content-end mb-4">
-          <p-button icon="pi pi-list" class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
-          <p-button icon="pi pi-table" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
-        </div>
-        <p-table *ngIf="tableView == 'table' else cardTableView" [value]="quoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
-          <ng-template pTemplate="header">
-              <tr>
-                  <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
-              </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-customer>
+  </div>
+  
+  <p-divider></p-divider>
+  
+  <p-tabView>
+    <p-tabPanel header="Existing">
+      <div class="flex justify-content-end mb-4">
+        <p-button icon="pi pi-list" class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
+        <p-button icon="pi pi-table" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
+      </div>
+      <p-table *ngIf="tableView == 'table' else cardTableView" [value]="quoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+        <ng-template pTemplate="header">
             <tr>
-              <!-- <td><p-checkbox [binary]="true"></p-checkbox></td> -->
-              <td>{{ customer.RequestReferenceNo }}</td>
-              <td>{{ customer.QuoteNo }}</td>
-              <td>{{ customer.ClientName }}</td>
-              <td>{{ customer.PolicyStartDate }}</td>
-              <td>{{ customer.PolicyEndDate }}</td>
-              <td>{{ customer.OverallPremiumLc }}</td>
-              <td>
-                <span class="p-buttonset">
-                  <!-- <button pButton pRipple icon="pi pi-envelope" class="p-button-outlined"></button>
-                  <button pButton pRipple icon="pi pi-inbox" class="p-button-outlined"></button> -->
-                  <button pButton pRipple icon="pi pi-pencil" (click)="onEditQuotes(customer)" title="Edit" class="p-button-outlined"></button>
-                  <button pButton pRipple icon="pi pi-envelope" title="Mail" class="p-button-outlined"></button>
-                  <button pButton pRipple icon="pi pi-inbox" title="SMS" class="p-button-outlined"></button>
-                  <button pButton pRipple icon="pi pi-user" title="Followup" class="p-button-outlined"></button>
-                </span>
-              </td>
+                <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
             </tr>
-          </ng-template>
-        </p-table>
-        <ng-template #cardTableView>
-          <div class="grid">
-            <div class="card w-25rem mr-4" *ngFor="let quote of quoteData">
-              <table>
-                <tr>
-                  <td>
-                    <label><b>Quote No</b></label><br>
-                    <p-chip [label]="quote.QuoteNo" styleClass="bg-orange-500 text-white"></p-chip></td>
-                  <td class="text-right">
-                    <label><b> Reference No</b></label><br>
-                    <span class="pi pi-circle-fill text-teal-600"></span>
-                      {{ quote.RequestReferenceNo }}
-                  </td>
-                </tr>
-                <tr>
-                  <td><h5>{{quote.ClientName}}</h5></td>
-                </tr>
-                <tr>
-                  <td><b>Start Date</b></td>
-                  <td class="text-right"><b>End Date</b></td>
-                </tr>
-                <tr>
-                  <td>{{quote.PolicyStartDate}}</td>
-                  <td class="text-right">{{quote?.PolicyEndDate}}</td>
-                </tr>
-                <tr>
-                  <td><span class="pi pi-phone mr-2"></span>{{quote.OverallPremiumLc}}&nbsp;({{quote?.currencyCode}})</td>
-                  <td class="text-right"><span class="pi pi-envelope mr-2" *ngIf="customer.Email1!=''"></span>{{quote?.Email1}}</td>
-                </tr>
-              </table>
-            </div>
-          </div>
         </ng-template>
-      </p-tabPanel>
-      <p-tabPanel header="Lapsed">
-        <div class="flex justify-content-end mb-4">
-          <p-button icon="pi pi-list" class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
-          <p-button icon="pi pi-table" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
-        </div>
-        <p-table *ngIf="tableView == 'table' else cardTableView" [value]="lapsedQuoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
-          <ng-template pTemplate="header">
+        <ng-template pTemplate="body" let-customer>
+          <tr>
+            <!-- <td><p-checkbox [binary]="true"></p-checkbox></td> -->
+            <td>{{ customer.RequestReferenceNo }}</td>
+            <td>{{ customer.QuoteNo }}</td>
+            <td>{{ customer.ClientName }}</td>
+            <td>{{ customer.PolicyStartDate }}</td>
+            <td>{{ customer.PolicyEndDate }}</td>
+            <td>{{ customer.OverallPremiumLc }}</td>
+            <td>
+              <span class="p-buttonset">
+                <button pButton pRipple icon="pi pi-pencil" (click)="onEditQuotes(customer)" title="Edit" class="p-button-outlined"></button>
+                <button pButton pRipple icon="pi pi-envelope" title="Mail" class="p-button-outlined"></button>
+                <button pButton pRipple icon="pi pi-inbox" title="SMS" class="p-button-outlined"></button>
+                <button pButton pRipple icon="pi pi-user" title="Followup" class="p-button-outlined"></button>
+              </span>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <ng-template #cardTableView>
+        <div class="grid">
+          <div class="card  mr-4" *ngFor="let quote of quoteData">
+            <table>
               <tr>
-                  <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+                <td><h5>{{quote.ClientName}}</h5></td>
               </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-customer>
-            <tr>
-              <!-- <td><p-checkbox [binary]="true"></p-checkbox></td> -->
-              <td>{{ customer.RequestReferenceNo }}</td>
-              <td>{{ customer.QuoteNo }}</td>
-              <td>{{ customer.ClientName }}</td>
-              <td>{{ customer.PolicyStartDate }}</td>
-              <td>{{ customer.PolicyEndDate }}</td>
-              <td>{{ customer.OverallPremiumLc }}</td>
-              <td>
-                <span class="p-buttonset">
-                  <button pButton pRipple icon="pi pi-check" class="p-button-outlined"></button>
-                </span>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-        <ng-template #cardTableView>
-          <div class="grid">
-            <div class="card w-25rem mr-4" *ngFor="let quotation of quotations">
-              <table>
-                <tr>
-                  <td><p-chip label="Category" styleClass="bg-orange-500 text-white"></p-chip></td>
-                  <td class="text-right"><span class="pi pi-circle-fill text-teal-600"></span> Status</td>
-                </tr>
-                <tr>
-                  <td><h5>Customer Number</h5></td>
-                </tr>
-                <tr>
-                  <td><b>Reference No</b></td>
-                  <td class="text-right"><b>VirTin No</b></td>
-                </tr>
-                <tr>
-                  <td>Jared</td>
-                  <td class="text-right">William</td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <span class="p-buttonset">
-                      <button pButton pRipple icon="pi pi-envelope" class="p-button-outlined"></button>
-                      <button pButton pRipple icon="pi pi-inbox" class="p-button-outlined"></button>
-                      <button pButton pRipple icon="pi pi-user" class="p-button-outlined"></button>
-                    </span>
+              <tr class="justify-content-between">
+                <td><b>Quote No</b>
+                <p>{{quote.RequestReferenceNo
+                }}</p>
+                  <td><b>Reference No</b>
+                    <p> {{ quote.RequestReferenceNo }}</p>
                   </td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </ng-template>
-      </p-tabPanel>
-      <p-tabPanel header="Rejected">
-        <div class="flex justify-content-end mb-4">
-          <p-button icon="pi pi-list" class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
-          <p-button icon="pi pi-table" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
-        </div>
-        <p-table *ngIf="tableView == 'table' else cardTableView" [value]="quoteRejectedData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
-          <ng-template pTemplate="header">
+              </tr>
+              <!-- <tr class="">
+                <td >
+                  <b>Quote No</b>
+                  <p-chip [label]="quote.QuoteNo" styleClass="bg-orange-500 text-white"></p-chip>
+                </td>
+                <td class="text-right">
+                  <b> Reference No</b>
+                  <p class="text-teal-600"></p>
+                    {{ quote.RequestReferenceNo }}
+                </td>
+              </tr> -->
+              <tr class="justify-content-between">
+                <td><b>Start Date</b>
+                <p>{{quote.PolicyStartDate}}</p>
+                </td>
+                <td class=""><b>End Date</b>
+                <p>{{quote.PolicyEndDate}}</p></td>
+              </tr>               
               <tr>
-                  <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+                <td><span class="pi pi-phone mr-2"></span>{{quote.OverallPremiumLc}}&nbsp;({{quote.currencyCode}})</td>
               </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-customer>
-            <tr>
-              <!-- <td><p-checkbox [binary]="true"></p-checkbox></td> -->
-              <td>{{ customer.RequestReferenceNo }}</td>
-              <td>{{ customer.QuoteNo }}</td>
-              <td>{{ customer.ClientName }}</td>
-              <td>{{ customer.PolicyStartDate }}</td>
-              <td>{{ customer.PolicyEndDate }}</td>
-              <td>{{ customer.OverallPremiumLc }}</td>
-              <td>
-                
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-        <ng-template #cardTableView>
-          <div class="grid">
-            <div class="card w-25rem mr-4" *ngFor="let quotation of quotations">
-              <table>
-                <tr>
-                  <td><p-chip label="Category" styleClass="bg-orange-500 text-white"></p-chip></td>
-                  <td class="text-right"><span class="pi pi-circle-fill text-teal-600"></span> Status</td>
-                </tr>
-                <tr>
-                  <td><h5>Customer Number</h5></td>
-                </tr>
-                <tr>
-                  <td><b>Reference No</b></td>
-                  <td class="text-right"><b>VirTin No</b></td>
-                </tr>
-                <tr>
-                  <td>Jared</td>
-                  <td class="text-right">William</td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <span class="p-buttonset">
-                      <button pButton pRipple icon="pi pi-envelope" class="p-button-outlined"></button>
-                      <button pButton pRipple icon="pi pi-inbox" class="p-button-outlined"></button>
-                      <button pButton pRipple icon="pi pi-user" class="p-button-outlined"></button>
-                    </span>
-                  </td>
-                </tr>
-              </table>
-            </div>
+              <tr>
+                <td></td>
+              </tr>
+            </table>
+          
           </div>
+
+        </div>
+      </ng-template>
+    </p-tabPanel>
+    <p-tabPanel header="Lapsed">
+      <div class="flex justify-content-end mb-4">
+        <p-button icon="pi pi-list" class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
+        <p-button icon="pi pi-table" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
+      </div>
+      <p-table *ngIf="tableView == 'table' else cardTableView" [value]="lapsedQuoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+        <ng-template pTemplate="header">
+            <tr>
+                <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+            </tr>
         </ng-template>
-      </p-tabPanel>
-    </p-tabView>
-  </div> 
+        <ng-template pTemplate="body" let-customer>
+          <tr>
+            <!-- <td><p-checkbox [binary]="true"></p-checkbox></td> -->
+            <td>{{ customer.RequestReferenceNo }}</td>
+            <td>{{ customer.QuoteNo }}</td>
+            <td>{{ customer.ClientName }}</td>
+            <td>{{ customer.PolicyStartDate }}</td>
+            <td>{{ customer.PolicyEndDate }}</td>
+            <td>{{ customer.OverallPremiumLc }}</td>
+            <td>
+              <span class="p-buttonset">
+                <button pButton pRipple icon="pi pi-check" class="p-button-outlined"></button>
+              </span>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <ng-template #cardTableView>
+        <div class="grid">
+          <div class="card w-25rem mr-4" *ngFor="let quotation of quotations">
+            <table>
+              <tr>
+                <td><p-chip label="Category" styleClass="bg-orange-500 text-white"></p-chip></td>
+                <td class="text-right"><span class="pi pi-circle-fill text-teal-600"></span> Status</td>
+              </tr>
+              <tr>
+                <td><h5>Customer Number</h5></td>
+              </tr>
+              <tr>
+                <td><b>Reference No</b></td>
+                <td class="text-right"><b>VirTin No</b></td>
+              </tr>
+              <tr>
+                <td>Jared</td>
+                <td class="text-right">William</td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <span class="p-buttonset">
+                    <button pButton pRipple icon="pi pi-envelope" class="p-button-outlined"></button>
+                    <button pButton pRipple icon="pi pi-inbox" class="p-button-outlined"></button>
+                    <button pButton pRipple icon="pi pi-user" class="p-button-outlined"></button>
+                  </span>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </ng-template>
+    </p-tabPanel>
+    <p-tabPanel header="Rejected">
+      <div class="flex justify-content-end mb-4">
+        <p-button icon="pi pi-list" class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
+        <p-button icon="pi pi-table" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
+      </div>
+      <p-table *ngIf="tableView == 'table' else cardTableView" [value]="quoteRejectedData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+        <ng-template pTemplate="header">
+            <tr>
+                <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customer>
+          <tr>
+            <!-- <td><p-checkbox [binary]="true"></p-checkbox></td> -->
+            <td>{{ customer.RequestReferenceNo }}</td>
+            <td>{{ customer.QuoteNo }}</td>
+            <td>{{ customer.ClientName }}</td>
+            <td>{{ customer.PolicyStartDate }}</td>
+            <td>{{ customer.PolicyEndDate }}</td>
+            <td>{{ customer.OverallPremiumLc }}</td>
+            <td>
+              
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <ng-template #cardTableView>
+        <div class="grid">
+          <div class="card w-25rem mr-4" *ngFor="let quotation of quotations">
+            <table>
+              <tr>
+                <td><p-chip label="Category" styleClass="bg-orange-500 text-white"></p-chip></td>
+                <td class="text-right"><span class="pi pi-circle-fill text-teal-600"></span> Status</td>
+              </tr>
+              <tr>
+                <td><h5>Customer Number</h5></td>
+              </tr>
+              <tr>
+                <td><b>Reference No</b></td>
+                <td class="text-right"><b>VirTin No</b></td>
+              </tr>
+              <tr>
+                <td>Jared</td>
+                <td class="text-right">William</td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <span class="p-buttonset">
+                    <button pButton pRipple icon="pi pi-envelope" class="p-button-outlined"></button>
+                    <button pButton pRipple icon="pi pi-inbox" class="p-button-outlined"></button>
+                    <button pButton pRipple icon="pi pi-user" class="p-button-outlined"></button>
+                  </span>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </ng-template>
+    </p-tabPanel>
+  </p-tabView>
+</div> 
 
 <p-dialog header="Select a Customer" [(visible)]="isSearchFormVisible" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
-  <div class="flex flex-wrap mt-2">
-    <p-autoComplete field="name" class="mr-3 mb-3" styleClass="w-22rem md:w-25rem" inputStyleClass="w-22rem md:w-25rem" [suggestions]="customerFilterSuggestions" (completeMethod)="customerSearch($event)"></p-autoComplete>
-    <p-button label="Search" class="mr-3" size="small"></p-button>
-  </div>
-  <div class="body mt-3">
-    <p-table [value]="customers" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
-      <ng-template pTemplate="header">
-          <tr>
-              <th [pSortableColumn]="customerColumn" *ngFor="let column of customerColumn">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
-          </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-customer>
+<div class="flex flex-wrap mt-2">
+  <p-autoComplete field="name" class="mr-3 mb-3" styleClass="w-22rem md:w-25rem" inputStyleClass="w-22rem md:w-25rem" [suggestions]="customerFilterSuggestions" (completeMethod)="customerSearch($event)"></p-autoComplete>
+  <p-button label="Search" class="mr-3" size="small"></p-button>
+</div>
+<div class="body mt-3">
+  <p-table [value]="customers" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+    <ng-template pTemplate="header">
         <tr>
-          <td>
-            <input type="radio" [id]="customer?.CustomerReferenceNo" name="fav_language" (change)="onSelectCustomer(customer)" [value]="customer.CustomerReferenceNo">
-            <label for="html"></label>
-            <!-- <p-radioButton  [value]="customer.CustomerReferenceNo" name="city" [(ngModel)]="selectedCustomer" [inputId]="customer.CustomerReferenceNo"></p-radioButton>
-            <label for="ingredient1" class="ml-2"></label> -->
-          </td>
-          <td>{{customer?.CustomerReferenceNo}}</td>
-          <td>{{customer?.ClientName}}</td>
-          <td>{{customer?.PolicyHolderTypeDesc }}</td>
-          <td>{{ customer?.IdNumber }}</td>
+            <th [pSortableColumn]="customerColumn" *ngFor="let column of customerColumn">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
         </tr>
-      </ng-template>
-    </p-table>
-  </div>
-  <div class="flex flex-wrap mt-5 justify-content-center">
-    <p-button (click) = "hideSearchForm()" label="Close" styleClass="p-button-outlined" class="mr-3"></p-button>&nbsp;
-    <p-button (click) = "navigateToCustomerDetail()" *ngIf="selectedCustomer" label="Proceed" severity="warning" class="mb-3"></p-button>
-  </div>
+    </ng-template>
+    <ng-template pTemplate="body" let-customer>
+      <tr>
+        <td>
+          <input type="radio" [id]="customer?.CustomerReferenceNo" name="fav_language" (change)="onSelectCustomer(customer)" [value]="customer.CustomerReferenceNo">
+          <label for="html"></label>
+          <!-- <p-radioButton  [value]="customer.CustomerReferenceNo" name="city" [(ngModel)]="selectedCustomer" [inputId]="customer.CustomerReferenceNo"></p-radioButton>
+          <label for="ingredient1" class="ml-2"></label> -->
+        </td>
+        <td>{{customer?.CustomerReferenceNo}}</td>
+        <td>{{customer?.ClientName}}</td>
+        <td>{{customer?.PolicyHolderTypeDesc }}</td>
+        <td>{{ customer?.IdNumber }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<div class="flex flex-wrap mt-5 justify-content-center">
+  <p-button (click) = "hideSearchForm()" label="Close" styleClass="p-button-outlined" class="mr-3"></p-button>&nbsp;
+  <p-button (click) = "navigateToCustomerDetail()" *ngIf="selectedCustomer" label="Proceed" severity="warning" class="mb-3"></p-button>
+</div>
 </p-dialog>

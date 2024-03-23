@@ -14,6 +14,9 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ChipModule } from 'primeng/chip';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { CardModule } from 'primeng/card';
+import { TreeSelectModule } from 'primeng/treeselect';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [QuotationPlanComponent ],
@@ -30,7 +33,10 @@ import { RadioButtonModule } from 'primeng/radiobutton';
     CheckboxModule,
     ChipModule,
     AutoCompleteModule,
-    RadioButtonModule
+    RadioButtonModule,
+    CardModule,
+    TreeSelectModule,
+    DropdownModule
   ]
 })
 export class QuotationModule { }

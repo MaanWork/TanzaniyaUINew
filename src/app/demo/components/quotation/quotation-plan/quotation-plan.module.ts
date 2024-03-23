@@ -69,6 +69,8 @@ import { InputFieldType } from './formlyTypes/inputFieldType';
 import { DateFieldType } from './formlyTypes/dateFieldType';
 import { CommonProductDetailsComponent } from './common-product-details/common-product-details.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { CardModule } from 'primeng/card';
+import { TreeSelect, TreeSelectModule } from 'primeng/treeselect';
 export function maxlengthValidationMessage(err, field) {
   return `This value should be less than ${field.templateOptions.maxLength} characters`;
 }
@@ -111,6 +113,8 @@ export function maxlengthValidationMessage(err, field) {
     DividerModule,
     TabViewModule,
     TableModule,
+    CardModule,
+    TreeSelectModule,
     FormsModule,
     InputTextModule,
     InputTextareaModule,
