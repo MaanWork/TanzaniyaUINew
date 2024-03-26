@@ -258,18 +258,6 @@
                        
                     </div>
                 </div>
-                    <!-- <div class="row" *ngIf="listSectionFed">
-                        <div class="col-12 col-md-10 offset-lg-1">
-                           <app-grid-table [cols]="queryHeader2" [data]="FidelityListNew" [filterValue]="filterValue" (onEdit)="onEditBuildingFed($event,myModal3)" (onDeleteNew)="deleteFed($event,myModal2)">
-                           </app-grid-table>
-                        </div>
-                   </div>
-                   <div class="row" *ngIf="listnFed">
-                       <div class="col-12 col-md-10 offset-lg-1">
-                          <app-grid-table [cols]="queryHeader2" [data]="FidelityListNew" [filterValue]="filterValue" (onEdit)="onEditBuildingFed($event,myModal3)">
-                          </app-grid-table>
-                       </div>
-                  </div> -->
 
             </div>
 
@@ -302,42 +290,17 @@
                             <div class="grid layout1 mt-3">
                                   <div class="layout2 lg:col-3 md:col-3 col-12 mt-3" *ngFor="let Section of productList">
                                   <div class="layout3" (click)="sectionselect(Section?.CodeDesc,Section?.Code)">
-                                   
-                                            <label class="layout4">{{Section?.CodeDesc}}
+                                        <label class="layout4">{{Section?.CodeDesc}}
                                             <span><i class="fa fa-check" style="
                                                 top: 5px !important;
                                                 right: 10px !important;"></i></span>
-                                            </label>
-                                            <!-- <label class="check">✔</label> -->
-                                 </div>
-                                  </div>
-                                  <!-- <div class="layout2 lg:col-3 md:col-3 col-12">
-                                    <div class="layout3">
-                                        <label class="layout4">Business Interruption</label>
+                                        </label>
                                     </div>
-                                  </div>
-                                  <div class="layout2 lg:col-3 md:col-3 col-12">
-                                    <div class="layout3">
-                                        <label class="layout4">Electronic Equipment</label>
-                                    </div>
-                                  </div>
-                                  <div class="layout2 lg:col-3 md:col-3 col-12">
-                                    <div class="layout3">
-                                        <label class="layout4">Fidelity Guarantee</label>
-                                    </div>
-                                  </div> -->
+                                </div>
                             </div>
                         </div>
                     </div>
-                   
                 </div>
-                <!-- <div> Section Modification </div> -->
-                <!-- <div class="grid mt-1">
-                    <p-button  styleClass="p-button-outlined" label="CoverRequired"
-                    size="small"></p-button>&nbsp;
-                <p-button 
-                    label="contents" size="small"></p-button>
-                </div> -->
             </div>
             <div class="grid mt-2 pl-5 pr-2 pb-0" *ngIf="(productId=='21' || productId=='26'|| productId=='6' || productId=='16' || productId=='25' || productId=='43' || productId=='13' || (productId=='1' && insuranceId!='100004') || (productId=='39' && insuranceId!='100004') || (productId=='27' && insuranceId!='100004')) && formSection">
                 <ng-container *ngFor="let step of fields; let index = index; let last = last">
@@ -449,8 +412,6 @@
             <td>
               <input type="radio" [id]="customer?.CustomerReferenceNo" name="fav_language" (change)="onSelectCustomer(customer)" [value]="customer.CustomerReferenceNo">
               <label for="html"></label>
-              <!-- <p-radioButton  [value]="customer.CustomerReferenceNo" name="city" [(ngModel)]="selectedCustomer" [inputId]="customer.CustomerReferenceNo"></p-radioButton>
-              <label for="ingredient1" class="ml-2"></label> -->
             </td>
             <td>{{customer?.CustomerReferenceNo}}</td>
             <td>{{customer?.ClientName}}</td>

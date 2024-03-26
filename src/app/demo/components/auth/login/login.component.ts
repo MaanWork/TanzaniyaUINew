@@ -9,20 +9,7 @@ import { LoginService } from './login.service';
     selector: 'app-login',
     templateUrl: './login.component.html',
     styles: [`
-        .customText{
-            color: red !important;
-            font-size: 14px !important;
-            max-width: 370px !important;
-        }
-        :host ::ng-deep .pi-eye,
-        :host ::ng-deep .pi-eye-slash {
-            transform:scale(1.6);
-            margin-right: 1rem;
-            color: var(--primary-color) !important;
-        }
-        .card {
-            border: 5px solid #002b5c;
-        }
+        
     `]
 })
 export class LoginComponent {
@@ -101,10 +88,7 @@ export class LoginComponent {
                             for (let index = 0; index < errorList.length; index++) {
                               const element = errorList[index];
                               this.messages.push({ severity: 'error', summary: 'Error', detail: element?.Message });
-                              // ulList +=`<li class="list-group-login-field">
-                              //     <div style="color: darkgreen;">Field<span class="mx-2">:</span>${element?.Field}</div>
-                              //     <div style="color: red;">Message<span class="mx-2">:</span>${element?.Message}</div>
-                              // </li>`
+                             
                             }
                           }
                           else{
