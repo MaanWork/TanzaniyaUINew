@@ -36,7 +36,7 @@ export class EmployeeLiablityss{
                     fieldGroupClassName: 'row',
                     fieldGroup: [
                         {
-                            className: 'col-sm-4',
+                            className: 'col-sm-3',
                             type: 'input',
                             key: 'EmpsName',
                             templateOptions: {
@@ -52,7 +52,7 @@ export class EmployeeLiablityss{
                         type: 'ngselect',
                         key: 'EmpsOccupation',
                         defaultValue: '',
-                        className: 'col-sm-8',
+                        className: 'col-sm-3 mb-2',
                         props: {
                           label: `Occupation`,
                           required: true,
@@ -70,7 +70,7 @@ export class EmployeeLiablityss{
                         },
                       },
                       {
-                        className: 'col-sm-4',
+                        className: 'col-sm-3 mb-1',
                         type: 'input',
                         key: 'EmpsAddress',
                         templateOptions: {
@@ -83,7 +83,7 @@ export class EmployeeLiablityss{
                       
                       }, 
                       {
-                        className: 'col-sm-4',
+                        className: 'col-sm-3 mb-1',
                         type: 'input',
                         key: 'EmpsNationality',
                         templateOptions: {
@@ -96,7 +96,7 @@ export class EmployeeLiablityss{
                       
                       }, 
                       {
-                        className: 'col-sm-4',
+                        className: 'col-sm-3 mb-1',
                         key: 'EmpsDob',
                         type: 'datepicker',
                         props: {
@@ -112,7 +112,7 @@ export class EmployeeLiablityss{
                         type: 'ngselect',
                         key: 'EmpsJoin',
                         defaultValue: '',
-                        className: 'col-sm-4',
+                        className: 'col-sm-3 mb-1',
                         props: {
                           label: `Joining Period`,
                           required: true,
@@ -130,7 +130,7 @@ export class EmployeeLiablityss{
                         },
                       },
                       {
-                        className: 'col-sm-4',
+                        className: 'col-sm-3 mb-1',
                         type: 'input',
                         key: 'EmpsPeriod',
                         templateOptions: {
@@ -146,7 +146,7 @@ export class EmployeeLiablityss{
                         type: 'ngselect',
                         key: 'EmpsLocation',
                         defaultValue: '',
-                        className: 'col-sm-4',
+                        className: 'col-sm-3 mb-1',
                         props: {
                           label: `Location`,
                           required: true,
@@ -164,7 +164,7 @@ export class EmployeeLiablityss{
                         },
                       },
                       {
-                        className: 'col-sm-4',
+                        className: 'col-sm-3 mb-2',
                         type: 'commaSeparator',
                         key: 'EmpsSI',
                         templateOptions: {
