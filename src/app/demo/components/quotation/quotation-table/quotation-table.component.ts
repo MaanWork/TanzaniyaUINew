@@ -577,19 +577,16 @@ export class QuotationTableComponent implements OnInit {
             }
           } 
           if((rowData.QuoteNo!=null && rowData.QuoteNo!='' && rowData.QuoteNo!=undefined) && date2>=date1){
-      
               sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
               sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
               sessionStorage.setItem('quoteNo',rowData.QuoteNo);
               sessionStorage.setItem('updatebar',rowData.QuoteNo);
-              if(this.productId=='5'){
-                this.router.navigate(['/policyDetails']);
-              }
-              else{
-                this.router.navigate(['/quotation/plan/quote-details']);
-              }
-            
-
+              //if(this.productId=='5'){
+                this.router.navigate(['/quotation/plan/premium-details']);
+              // }
+              // else{
+              //   this.router.navigate(['/quotation/plan/quote-details']);
+              // }
           }
           else{
             sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);

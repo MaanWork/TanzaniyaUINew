@@ -34,9 +34,15 @@ export class AppTopBarComponent implements OnInit {
     public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
     branchValue:any=null;branchList:any[]=[];typeName:any=null;
     loginType:any=null;customerCode:any=null;customerName:any=null;
+    insuranceid: any;
     constructor(public layoutService: LayoutService, private router: Router,private loginService: LoginService,
         private authService: AuthService,private SharedService: SharedService) { 
         this.productName = sessionStorage.getItem('productName');
+        this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+        console.log("UserDetails",this.userDetails);
+        this.loginId = this.userDetails.Result.LoginId;
+        this.userType = this.userDetails?.Result?.UserType;
+        this.insuranceid = this.userDetails.Result.InsuranceId;
         if(sessionStorage.getItem('Userdetails')){
           this.productName = sessionStorage.getItem('productName');
           this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));

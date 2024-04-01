@@ -1,8 +1,17 @@
-<h2>Document Info for Verification</h2>
-<p>Hi, We need your attention to start your Insurance</p>
-
-
-
+<div class="grid" >
+    <div class="lg:col-9 md:col-9 col-12">
+        <h2>Document Info for Verification</h2>
+        <p>Hi, We need your attention to start your Insurance</p>
+    </div>
+    <div class="lg:col-3 md:col-3 col-12">
+        <div class="card grid text-white surface-900 px-2 py-2" >
+            <div class="col-12">
+                <p class="mb-0">Total Premium</p>
+                <h6 class="text-white mt-0">{{totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="grid">
     <div class="col-12 md:col-6 lg:col-8 px-5 offset-2">
         <input style="display: none;" type="file" (change)="onUploadListDocuments($event,null,'direct','select')" #doc>

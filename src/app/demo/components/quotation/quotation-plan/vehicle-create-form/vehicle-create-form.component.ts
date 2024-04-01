@@ -65,6 +65,7 @@ export class VehicleCreateFormComponent implements OnInit {
       let vehicleList = JSON.parse(sessionStorage.getItem('vehicleDetailsList'));
       if(vehicleList) this.vehicleDetailsList = vehicleList;
     this.getOwnerCategoryList();
+    this.getBodyTypeList();
   }
 
   ngOnInit(): void {
@@ -151,6 +152,18 @@ export class VehicleCreateFormComponent implements OnInit {
                   this.vehicleDetails.PolicyEndDate = this.datePipe.transform(commonDetails.policyEndDate, "dd/MM/yyyy");
                 }
                 else{
+                  this.vehicleDetails.PolicyStartDate = commonDetails.policyStartDate;
+                  this.vehicleDetails.PolicyEndDate = commonDetails.policyEndDate;
+                }
+              }
+              else{
+                let dateList = commonDetails.policyStartDate.split('/');
+                if(dateList.length==1){
+                 
+                  this.vehicleDetails.PolicyStartDate = this.datePipe.transform(commonDetails.policyStartDate, "dd/MM/yyyy");
+                  this.vehicleDetails.PolicyEndDate = this.datePipe.transform(commonDetails.policyEndDate, "dd/MM/yyyy");
+                }
+                else{ 
                   this.vehicleDetails.PolicyStartDate = commonDetails.policyStartDate;
                   this.vehicleDetails.PolicyEndDate = commonDetails.policyEndDate;
                 }
@@ -277,6 +290,10 @@ export class VehicleCreateFormComponent implements OnInit {
       "RequestReferenceNo": quoteReferenceNo,
       "Idnumber": IdNo,
       "VehicleId": this.vehicleDetails.Vehicleid,
+      "Deductibles": this.vehicleDetails.Deductibles,
+      "VehicleValueType": this.vehicleDetails.VehicleValueType,
+      "DefenceValue": this.vehicleDetails.DefenceValue,
+      "Inflation": this.vehicleDetails.Inflation,
       "AcccessoriesSumInsured": this.vehicleDetails?.AcccessoriesSumInsured,
       "AccessoriesInformation": this.vehicleDetails?.AccessoriesInformation,
       "AdditionalCircumstances": this.vehicleDetails?.AdditionalCircumstances,
@@ -398,14 +415,17 @@ export class VehicleCreateFormComponent implements OnInit {
           if(data.ErrorMessage.length!=0){
           }
           else{
-            this.quoteRefNo = data?.Result?.RequestReferenceNo;
-              sessionStorage.setItem('quoteReferenceNo',data?.Result?.RequestReferenceNo);
+            if(data.Result.length!=0){
+              this.quoteRefNo = data?.Result[0]?.RequestReferenceNo;
+              sessionStorage.setItem('quoteReferenceNo',data?.Result[0]?.RequestReferenceNo);
               this.vehicleDetails = null;
               sessionStorage.setItem('vehicleExist','true');
               sessionStorage.removeItem('vehicleDetailsList');
               sessionStorage.removeItem('editCars');
               this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Motor Details Updated Successfully' });
               this.router.navigate(['/policyDetails'])
+            }
+            
 
           }
         },
@@ -457,7 +477,7 @@ export class VehicleCreateFormComponent implements OnInit {
       (data: any) => {
         if(data.Result){
             this.colorList = data.Result;
-            this.getBodyTypeList();
+            
         }
       },
       (err) => { },
@@ -503,7 +523,7 @@ export class VehicleCreateFormComponent implements OnInit {
     if(this.bodyTypeValue!=null && this.bodyTypeValue!=''){
       this.bodyTypeId = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeValue)?.Code;
       if(type=='change' && this.insuranceId!='100020'){this.makeValue=null;this.modelValue=null;}
-      if(this.bodyTypeId && this.insuranceId!='100020') this.getMakeList();
+      if(this.bodyTypeId && this.insuranceId!='100020'){ this.getMakeList(); } 
       
     }
   }
@@ -874,6 +894,17 @@ export class VehicleCreateFormComponent implements OnInit {
                     this.vehicleDetails.PolicyEndDate = commonDetails.policyEndDate;
                   }
                 } 
+                else{
+                  let dateList = commonDetails.policyStartDate.split('/');
+                  if(dateList.length==1){
+                    this.vehicleDetails.PolicyStartDate = this.datePipe.transform(commonDetails.policyStartDate, "dd/MM/yyyy");
+                    this.vehicleDetails.PolicyEndDate = this.datePipe.transform(commonDetails.policyEndDate, "dd/MM/yyyy");
+                  }
+                  else{
+                    this.vehicleDetails.PolicyStartDate = commonDetails.policyStartDate;
+                    this.vehicleDetails.PolicyEndDate = commonDetails.policyEndDate;
+                  }
+                }
                 this.currencyCode = commonDetails?.currencyCode;
                 this.exchangeRate = commonDetails?.exchangeRate;
                 if(commonDetails?.promoCode!=null && commonDetails?.promoCode!=undefined) this.promoCode = commonDetails?.promoCode;

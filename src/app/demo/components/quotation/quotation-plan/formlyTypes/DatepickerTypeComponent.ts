@@ -5,20 +5,12 @@ import { MatInput } from '@angular/material/input';
 @Component({
   selector: 'app-form-datepicker-type',
   template: `
-  <mat-form-field>
-    <input matInput
-      
-      [formControl]="formControl"
-      [matDatepicker]="picker"
-      [matDatepickerFilter]="to.datepickerOptions?.filter"
-      [min]="to.datepickerOptions?.min"
-      [max]="to.datepickerOptions?.max"
-      [formlyAttributes]="field">
-    
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    
-    <mat-datepicker #picker></mat-datepicker>
-</mat-form-field>
+  <p-calendar class="w-full" styleClass="w-full"
+        [formControl]="formControl"
+        [formlyAttributes]="field"
+        [minDate]="to.datepickerOptions?.min"
+        dateFormat="dd/mm/yy">
+    </p-calendar>
   `,
 })
 export class DatepickerTypeComponent extends FieldType {

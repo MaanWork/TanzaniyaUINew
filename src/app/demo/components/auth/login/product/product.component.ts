@@ -27,7 +27,10 @@ export class ProductComponent implements OnInit {
       this.branches = this.userDetails?.Result?.LoginBranchDetails;
       this.userType = this.userDetails.Result.UserType;
       this.products =  this.userDetails.Result.BrokerCompanyProducts;
-      if(this.userType=='Issuer'){
+      if(this.branches.length==1){
+        if(this.userType=='Issuer'){ this.selectBranch(this.branches[0]); }
+      }
+      else if(this.userType=='Issuer'){
         if(this.userDetails.Result.BranchCode){
           this.selectedBranch = this.userDetails.Result.BranchCode;
           let branch = this.branches.find(ele=>ele.BranchCode==this.selectedBranch);

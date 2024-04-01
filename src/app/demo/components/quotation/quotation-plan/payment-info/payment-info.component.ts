@@ -5,6 +5,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { SharedService } from 'src/app/demo/service/shared.service';
 import * as Mydatas from '../../../../../app-config.json';
 import Swal from 'sweetalert2';
+import { QuotationPlanComponent } from '../quotation-plan.component';
 @Component({
   selector: 'app-payment-info',
   templateUrl: './payment-info.component.html',
@@ -51,7 +52,9 @@ export class PaymentInfoComponent {
   payeeName: any=null;
   activeMenu: any=null;
   iBanNo: any=null;accNo: any=null;micrNo: any=null;
-  constructor(private messageService: MessageService,private router:Router,private sharedService: SharedService,private route:ActivatedRoute,
+  Riskdetails: any=null;
+  constructor(private messageService: MessageService,private quoteComponent:QuotationPlanComponent,
+    private router:Router,private sharedService: SharedService,private route:ActivatedRoute,
    private datePipe:DatePipe) {
     this.minDate = new Date();
     sessionStorage.removeItem('buyPolicyDetails');
@@ -133,6 +136,9 @@ export class PaymentInfoComponent {
             this.vehicleList = data?.Result?.ProductDetails;
             let quoteDetails = data?.Result?.QuoteDetails;
             this.quoteDetails = data?.Result?.QuoteDetails;
+            this.Riskdetails = data?.Result?.RiskDetails;
+            this.quoteComponent.currencyCode =  this.quoteDetails?.Currency;
+            this.quoteComponent.setRiskDetails(this.Riskdetails);
             this.orgPolicyNo = quoteDetails?.OriginalPolicyNo;
             this.endorsePolicyNo = quoteDetails?.policyNo;
             this.quoteLoginId = quoteDetails?.LoginId;

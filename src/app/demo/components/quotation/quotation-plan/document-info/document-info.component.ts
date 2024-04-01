@@ -162,9 +162,21 @@ export class DocumentInfoComponent {
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
           if(data?.Result){
-
+            this.quoteDetails = data?.Result?.QuoteDetails;
             this.Riskdetails = data?.Result?.RiskDetails;
+            if(this.endorsementSection){
+              this.totalPremium = this.quoteDetails?.TotalEndtPremium;
+            }
+            else {
+              if(this.EmiYn !='Y'){
+                this.totalPremium = this.quoteDetails?.OverallPremiumFc;
+              }
+              else{
+                this.totalPremium = this.quoteDetails?.DueAmount;
+              }   
+            }
             this.quoteComponent.setRiskDetails(this.Riskdetails);
+            this.quoteComponent.currencyCode = data?.Result?.QuoteDetails?.Currency;
           for (let cover of this.Riskdetails) {
             let j = 0;
             if(cover?.SectionDetails){

@@ -25,13 +25,13 @@ export class MotorVehicleSanlam{
             props: { label: 'All Risk' },
             fieldGroup: [
               {
-                fieldGroupClassName: 'row',
+                fieldGroupClassName: 'grid',
                 fieldGroup: [
                   {
                     type: 'ngselect',
                     key: 'InsuranceType',
                     defaultValue: '',
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     props: {
                       label: `Insurance Type`,
                       disabled: this.checkDisable('InsuranceType'),
@@ -53,7 +53,7 @@ export class MotorVehicleSanlam{
                     type: 'ngselect',
                     key: 'MotorUsage',
                     defaultValue: '',
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     props: {
                       label: `Motor Usage`,
                       disabled: this.checkDisable('MotorUsage'),
@@ -75,7 +75,7 @@ export class MotorVehicleSanlam{
                     type: 'ngselect',
                     key: 'Deductibles',
                     defaultValue: '',
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     props: {
                       label: `Deductibles`,
                       disabled: this.checkDisable('Deductibles'),
@@ -97,7 +97,7 @@ export class MotorVehicleSanlam{
                     type: 'ngselect',
                     key: 'VehicleValue',
                     defaultValue: '',
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     props: {
                       label: `Vehicle Value`,
                       disabled: this.checkDisable('VehicleValue'),
@@ -116,7 +116,7 @@ export class MotorVehicleSanlam{
                     },
                   },
                   {
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'input',
                     key: 'Inflation',
   
@@ -138,7 +138,7 @@ export class MotorVehicleSanlam{
                     },
                   },
                   {
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'commaSeparator',
                     key: 'VehicleSI',
                     hide: true,
@@ -161,7 +161,7 @@ export class MotorVehicleSanlam{
                     },
                   },
                   {
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'commaSeparator',
                     key: 'AccessoriesSI',
                     hide: true,
@@ -184,7 +184,7 @@ export class MotorVehicleSanlam{
                     },
                   },
                   {
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'commaSeparator',
                     key: 'WindShieldSI',
                     hide: true,
@@ -231,7 +231,7 @@ export class MotorVehicleSanlam{
                   //   },
                   // },
                   {
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                       key: 'PurchaseDate',
                       type: 'datepicker',
                       defaultValue: '',
@@ -252,7 +252,7 @@ export class MotorVehicleSanlam{
                       type: 'ngselect',
                       key: 'DefenceCost',
                       defaultValue: '',
-                      className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                       props: {
                         label: `Defence Cost`,
                         disabled: this.checkDisable('DefenceCost'),
@@ -271,7 +271,7 @@ export class MotorVehicleSanlam{
                       },
                     },
                     {
-                      className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                       key: 'ClaimsYN',
                       type: 'radio',
                       templateOptions: {

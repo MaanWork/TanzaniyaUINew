@@ -1,7 +1,7 @@
 
 
 import { FormlyFieldConfig } from "@ngx-formly/core";
-import { ForceLengthValidators } from "../../personal-quote-details/personal-quote-details.component";
+import { ForceLengthValidators } from "src/app/demo/components/common-quote-details/common-quote-details.component";
 
 export class MotorVehicleMadison{
     customerDetails: any;
@@ -24,13 +24,13 @@ export class MotorVehicleMadison{
             props: { label: 'Policy Details' },
             fieldGroup: [
               {
-                fieldGroupClassName: 'row',
+                fieldGroupClassName: 'grid',
                 fieldGroup: [
                   {
                     type: 'ngselect',
                     key: 'InsuranceClass',
                     defaultValue: '',
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     props: {
                       label: `Insurance Class`,
                       disabled: this.checkDisable('InsuranceClass'),
@@ -52,7 +52,7 @@ export class MotorVehicleMadison{
                     type: 'ngselect',
                     key: 'MotorUsage',
                     defaultValue: '',
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     props: {
                       label: `Motor Usage`,
                       disabled: this.checkDisable('MotorUsage'),
@@ -74,7 +74,7 @@ export class MotorVehicleMadison{
                     type: 'ngselect',
                     key: 'BodyType',
                     defaultValue: '',
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     props: {
                       label: `Body Type`,
                       disabled: this.checkDisable('BodyType'),
@@ -94,7 +94,7 @@ export class MotorVehicleMadison{
                   },
                  
                   {
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     type: 'commaSeparator',
                     key: 'VehicleSI',
                     hide: true,
@@ -117,7 +117,7 @@ export class MotorVehicleMadison{
                     },
                   },
                   {
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     type: 'commaSeparator',
                     key: 'AccessoriesSI',
                     hide: true,

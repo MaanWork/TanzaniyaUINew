@@ -315,3 +315,32 @@ cursor:  pointer !important;
     text-decoration: underline;
     cursor: pointer !important;
    }
+   .customOptCoverCard{
+        cursor: pointer !important;
+   }
+   .customOptCoverBg{
+            background-color: #e9dbcb;
+   }
+   .customReferralBorder{
+     color: red;
+     font-size: 1.4rem !important;
+   }
+   .customCard2{
+        background: var(--surface-card);
+        border: 1px solid var(--surface-border);
+        padding: 0.5rem !important;
+        margin-bottom: 0.5rem;
+        box-shadow: var(--card-shadow);
+        border-radius: 12px;
+   }
+   .customCard3{
+        min-width: 300px;
+        max-width: 300px;
+   }
+   .customSizeDiv{
+    min-height: 20px;
+    min-width: 20px;
+   }
+   .customWidth{
+    min-width: 100px;
+   }

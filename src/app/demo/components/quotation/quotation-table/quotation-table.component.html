@@ -21,8 +21,8 @@
   <p-tabView>
     <p-tabPanel header="Existing">
       <div class="flex justify-content-end mb-4">
-        <p-button icon="pi pi-list" class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
-        <p-button icon="pi pi-table" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
+        <p-button icon="pi pi-table"  class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
+        <p-button icon="pi pi-list" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
       </div>
       <p-table *ngIf="tableView == 'table' else cardTableView" [value]="quoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
         <ng-template pTemplate="header">
@@ -58,11 +58,15 @@
                 <td><h5>{{quote.ClientName}}</h5></td>
               </tr>
               <tr class="justify-content-between">
-                <td><b>Quote No</b>
-                <p>{{quote.RequestReferenceNo
-                }}</p>
+                
                   <td><b>Reference No</b>
                     <p> {{ quote.RequestReferenceNo }}</p>
+                  </td>
+                  <td>
+                    <ng-container *ngIf="quote.QuoteNo">
+                      <b>Quote No</b>
+                      <p>{{quote.QuoteNo}}</p>
+                    </ng-container>
                   </td>
               </tr>
               <!-- <tr class="">
@@ -88,11 +92,17 @@
               </tr>
               <tr>
                 <td></td>
+                <td>
+                  <span class="p-buttonset">
+                    <button pButton pRipple icon="pi pi-pencil" (click)="onEditQuotes(quote)" title="Edit" class="p-button-outlined"></button>
+                    <button pButton pRipple icon="pi pi-envelope" title="Mail" class="p-button-outlined"></button>
+                    <button pButton pRipple icon="pi pi-inbox" title="SMS" class="p-button-outlined"></button>
+                    <button pButton pRipple icon="pi pi-user" title="Followup" class="p-button-outlined"></button>
+                  </span>
+                </td>
               </tr>
             </table>
-          
           </div>
-
         </div>
       </ng-template>
     </p-tabPanel>
