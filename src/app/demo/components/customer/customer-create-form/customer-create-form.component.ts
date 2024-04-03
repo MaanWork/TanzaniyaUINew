@@ -23,7 +23,7 @@ export class CustomerCreateFormComponent implements OnInit {
   currentCustomerType:string = 'personal';
   ownerCategoryOptions: any[] | undefined;
   selectedOwnerCategory: any | undefined;
-  statusOptions: string = '';
+  statusOptions: string = '';maxTextLen:any='10';
   date: Date | undefined;
   userDetails:any=null;maxDate:any=null;
   maxDobDate:any=null;loginId:any=null;
@@ -170,7 +170,10 @@ export class CustomerCreateFormComponent implements OnInit {
 		
 		if(data.state!=null && data.state!='') stateName = this.regionList.find(ele=>ele.Code==data.state)?.CodeDesc;
 		if (data.dobOrRegDate != undefined && data.dobOrRegDate != null && data.dobOrRegDate != '') {
-			dobOrRegDate = data.dobOrRegDate;
+			if(String(dobOrRegDate).includes('/')){
+				dobOrRegDate = data.dobOrRegDate;
+			}
+			else dobOrRegDate = this.datePipe.transform(data.dobOrRegDate,'dd/MM/yyyy')
 		}
 		if (this.productItem.isTaxExempted == 'Y') taxExemptedId = this.productItem.TaxExemptedId;
 		if (this.productItem.IdType == '2') businessType = this.productItem.BusinessType;
@@ -534,6 +537,18 @@ export class CustomerCreateFormComponent implements OnInit {
 			this.productItem.IdType = '';
 		}
 	}
+	newidtype(){
+		if(this.productItem.PolicyHolderTypeid=='1'){
+			this.shows=true;
+		}
+		else {
+		this.shows=false;
+		}
+		this.productItem.IdNumber='';
+		if(this.productItem.PolicyHolderTypeid=='7') this.maxTextLen = '14';
+		else this.maxTextLen = '10';
+		alert(this.maxTextLen)
+	  }
 	getRegionList(type){
 		let ReqObj = {
 			"CountryId": this.productItem.Country
@@ -555,7 +570,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			(err) => { },
 		);
 	}
-  setValues() {
+	setValues() {
 		let ReqObj = {
 			"CustomerReferenceNo": this.customerReferenceNo
 		}
@@ -590,9 +605,9 @@ export class CustomerCreateFormComponent implements OnInit {
 					if(this.productItem.Country==null) this.productItem.Country='';
 					this.productItem.PinCode = customerDetails.PinCode;
 					this.productItem.Gender = customerDetails.Gender;
-					this.productItem.IdNumber = customerDetails.IdNumber;
+					//this.productItem.IdNumber = customerDetails.IdNumber;
 					if(customerDetails.PolicyHolderType!=null && customerDetails.PolicyHolderType!=''){
-						this.productItem.IdType = String(customerDetails.PolicyHolderType);
+						this.productItem.IdType = customerDetails.PolicyHolderType;
 					}
 					this.getPolicyIdTypeList(null);
 					this.productItem.isTaxExempted = customerDetails.IsTaxExempted;
@@ -602,6 +617,17 @@ export class CustomerCreateFormComponent implements OnInit {
 					this.productItem.MobileCodeDesc = customerDetails.MobileCodeDesc1;
 
 					this.productItem.PolicyHolderTypeid = customerDetails.PolicyHolderTypeid;
+
+					if(this.productItem.PolicyHolderTypeid =='1'){
+						this.shows=true;
+						this.Idnumber= customerDetails.IdNumber.substr(0, 5);
+						this.Idnumber1= customerDetails.IdNumber.substr(5, 3);
+						this.Idnumber2= customerDetails.IdNumber.substr(8, 1);
+					}
+					else{
+						this.shows=false;
+						this.productItem.IdNumber = customerDetails.IdNumber;
+					}
 					this.productItem.PreferredNotification = customerDetails.PreferredNotification;
 					if(this.productItem.PreferredNotification==null) this.productItem.PreferredNotification='Sms';
 					this.productItem.state = customerDetails.StateCode;
@@ -611,17 +637,15 @@ export class CustomerCreateFormComponent implements OnInit {
 					}
 					this.getStateList(null);
 					this.getRegionList(null);
-					
 					if (customerDetails.DobOrRegDate != null && customerDetails.DobOrRegDate != undefined) {
-						this.productItem.dobOrRegDate = customerDetails.DobOrRegDate
-						// if(new Date(this.maxDobDate).setHours(0,0,0,0) >= (new Date(customerDetails.DobOrRegDate)).setHours(0,0,0,0) ){
-						// 	var dateParts = customerDetails.DobOrRegDate.split("/");
-						// 	this.productItem.dobOrRegDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
-						// }
-						// else{
-						// 	var dateParts = customerDetails.DobOrRegDate.split("/");
-						// 	this.productItem.dobOrRegDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
-						// }
+						if(new Date(this.maxDobDate).setHours(0,0,0,0) >= (new Date(customerDetails.DobOrRegDate)).setHours(0,0,0,0) ){
+							var dateParts = customerDetails.DobOrRegDate.split("/");
+							this.productItem.dobOrRegDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
+						}
+						else{
+							var dateParts = customerDetails.DobOrRegDate.split("/");
+							this.productItem.dobOrRegDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
+						}
 					}
 					this.productItem.Street = customerDetails.Street;
 					this.productItem.TelephoneNo = customerDetails.TelephoneNo1;

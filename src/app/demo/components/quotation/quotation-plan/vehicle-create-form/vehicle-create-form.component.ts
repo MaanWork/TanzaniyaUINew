@@ -64,8 +64,9 @@ export class VehicleCreateFormComponent implements OnInit {
       this.insuranceId = this.userDetails.Result.InsuranceId;
       let vehicleList = JSON.parse(sessionStorage.getItem('vehicleDetailsList'));
       if(vehicleList) this.vehicleDetailsList = vehicleList;
+      this.getBodyTypeList();
     this.getOwnerCategoryList();
-    this.getBodyTypeList();
+   
   }
 
   ngOnInit(): void {

@@ -114,7 +114,7 @@
                         styleClass="w-full" 
                         [options]="policyHolderTypeList" 
                         [(ngModel)]="productItem.PolicyHolderTypeid" 
-                        optionLabel="CodeDesc" (change)="newidtype()"
+                        optionLabel="CodeDesc" (onChange)="newidtype()"
                         optionValue="Code"
                         placeholder="Select Identity Type">
                     </p-dropdown>
@@ -122,13 +122,13 @@
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.IDNumber' | translate}}*</label>
                     <ng-container *ngIf="!shows">
-                        <input pInputText id="username" [(ngModel)]="productItem.IdNumber" (keypress)="omit_special_char($event)"   placeholder="Enter ID Number"/>
+                        <input pInputText id="username" [(ngModel)]="productItem.IdNumber"   [maxLength]="maxTextLen" placeholder="Enter ID Number"/>
                     </ng-container>
                     <ngcontainer *ngIf="shows">
                         <div class="d-flex">
-                            <input type="text" pInputText style="max-width:100px !important;margin-right:5px !important" class="layout" [disabled]="checkDisableFields('IdNumber')" [(ngModel)]="Idnumber" maxlength="5"><b>/</b>
-                            <input type="text" pInputText style="max-width:70px !important;margin-right:5px !important" class="layout" [disabled]="checkDisableFields('IdNumber')"  [(ngModel)]="Idnumber1" maxlength="3"><b>/</b>
-                            <input type="text" pInputText style="max-width:30px !important;margin-right:5px !important" class="layout" [disabled]="checkDisableFields('IdNumber')" [(ngModel)]="Idnumber2" maxlength="1"><b>/</b>
+                            <input type="text" pInputText style="max-width:100px !important;margin-right:5px !important" class="layout"  [(ngModel)]="Idnumber" maxlength="5"><b>/</b>
+                            <input type="text" pInputText style="max-width:70px !important;margin-right:5px !important" class="layout"  [(ngModel)]="Idnumber1" maxlength="3"><b>/</b>
+                            <input type="text" pInputText style="max-width:30px !important;margin-right:5px !important" class="layout" [(ngModel)]="Idnumber2" maxlength="1"><b>/</b>
                         </div>
                     </ngcontainer>
                 </div>
@@ -197,7 +197,7 @@
             <div class="flex justify-content-start flex-wrap w-full form-container">
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.Street' | translate}} *</label>
-                    <input pInputText id="username" placeholder="Enter Street"/>
+                    <input pInputText id="username"  maxlength="100" (onChange)="onsavedatas('Address',null)" [(ngModel)]="productItem.Address1" placeholder="Enter Street"/>
                 </div>
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.Country' | translate}}*</label>
@@ -239,7 +239,7 @@
                 </div>
                 <div class="flex flex-column m-3" *ngIf="productItem.CityName=='99999'">
                     <label for="username">Other District<span class="star">*</span></label>
-                    <input pInputText type="text" maxlength="200" class="w-full" [disabled]="checkDisableFields('District')" [(ngModel)]="productItem.districtcode">
+                    <input pInputText type="text" maxlength="200" class="w-full" [(ngModel)]="productItem.districtcode">
                 
                 </div>
                 <div class="flex flex-column m-3">
@@ -417,7 +417,7 @@
 
 <div class="flex justify-content-between">
     <p-button label="Back" [routerLink]="['/customer']" class="p-3 mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
-    <p-button class="p-3 text-l pi-button mr-0" (click)="onSubmit(productItem)">Submit</p-button>
+    <p-button class="p-3 text-l pi-button mr-0" (keyup)="onsavedatas('direct',productItem)" (click)="onsavedatas('direct',productItem)">Submit</p-button>
 </div>
 
 
