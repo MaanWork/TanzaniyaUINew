@@ -845,8 +845,12 @@
                                                                                     (click)="ongetTaxDetails(element)">?</button> -->
                                                                             </ng-container>
                                                                         </div>
-                                                                        <div>{{ element.DiffPremiumIncludedTax |
-                                                                            commaseparator }}</div>
+                                                                         <ng-container *ngIf="checkPremiumIncludedTax(element,menu)">
+                                                                            {{ element[col.key]|commaseparator }}
+                                                                        </ng-container>
+                                                                        <ng-container *ngIf="!checkPremiumIncludedTax(element,menu)">
+                                                                            0
+                                                                        </ng-container>
                                                                     </div>
                                                                 </ng-container>
                                                                 <ng-container
@@ -1020,7 +1024,12 @@
                                                                             </ng-container>
                                                                         </div>
                                                                         <div>
-                                                                            {{ element[col.key]|commaseparator }}
+                                                                            <ng-container *ngIf="checkPremiumIncludedTax(element,menu)">
+                                                                                {{ element[col.key]|commaseparator }}
+                                                                            </ng-container>
+                                                                            <ng-container *ngIf="!checkPremiumIncludedTax(element,menu)">
+                                                                                0
+                                                                            </ng-container>
                                                                         </div>
                                                                     </div>
                                                                 </ng-container>
@@ -1304,10 +1313,11 @@
                                                                                     <ng-container
                                                                                         *ngIf="subElement.MultiSelectYn!='Y'">
                                                                                         <mat-radio-button
-                                                                                            [value]="subElement[col.key]"
+                                                                                            [value]="subElement.SubCoverId"
+                                                                                            [checked]="subElement.selected"
                                                                                             id="customRadio{{subElement[col.key]}}"
                                                                                             [name]="'customRadio'+i"
-                                                                                            (change)="onSelectCustomer.emit(subElement)">
+                                                                                            (change)="onChangeSubCover(subElement,element,menu,$event.checked)">
                                                                                         </mat-radio-button>
                                                                                     </ng-container>
                                                                                 </ng-container>
@@ -2436,10 +2446,11 @@
                                                                                     <ng-container
                                                                                         *ngIf="subElement.MultiSelectYn!='Y'">
                                                                                         <mat-radio-button
-                                                                                            [value]="subElement[col.key]"
+                                                                                            [value]="subElement.SubCoverId"
+                                                                                            [checked]="subElement.selected"
                                                                                             id="customRadio{{subElement[col.key]}}"
                                                                                             [name]="'customRadio'+i"
-                                                                                            (change)="onSelectCustomer.emit(subElement)">
+                                                                                            (change)="onChangeSubCover(subElement,element,menu,$event.checked)">
                                                                                         </mat-radio-button>
                                                                                     </ng-container>
                                                                                 </ng-container>
@@ -3101,11 +3112,13 @@
                                     <tr *ngFor="let menu of vehicleDetailsList">
                                         <td>
                                             <ng-container *ngIf="productId=='5'">
-                                                <span class="spancommon"
-                                                    style="color:navy;font-size: 13px;cursor: pointer;"
-                                                    (click)="onSelectSectionIndex(menu)">
-                                                    &nbsp;<u>{{ menu.RiskDetails.Registrationnumber }}</u></span>
-
+                                                <span class="spancommon" style="color:navy;font-size: 13px;cursor: pointer;" (click)="onSelectSectionIndex(menu)">
+                                                &nbsp;<u>
+                                                    <ng-container *ngIf="menu.SectionName">
+                                                        {{menu.SectionName}}  &nbsp;|&nbsp;
+                                                    </ng-container> 
+                                                    {{ menu.RiskDetails.Registrationnumber }}
+                                                </u></span>
                                             </ng-container>
                                             <ng-container *ngIf="productId=='4'">
                                                 <ng-container *ngIf="menu.RiskDetails.TravelId=='1'">

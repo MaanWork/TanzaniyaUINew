@@ -52,14 +52,15 @@
                 </div>
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.CustomerName' | translate }}*</label>
-                    <input pInputText id="username" maxlength="150" [(ngModel)]="productItem.ClientName" placeholder="Enter Customer Name"/>
+                    <input pInputText id="username" maxlength="150" [(ngModel)]="productItem.ClientName" 
+                    (onChange)="onsavedatas('Customer',null)" placeholder="Enter Customer Name"/>
                 </div>
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.Occupation' | translate }}*</label>
                     <p-dropdown inputId="make" 
                         class="w-full" 
                         styleClass="w-full" 
-                        [options]="occupationList" 
+                        [options]="occupationList"  (onChange)="onsavedatas('Occupation',null)"
                         [(ngModel)]="productItem.Occupation" 
                         optionLabel="CodeDesc" 
                         optionValue="Code" 
@@ -71,7 +72,7 @@
                     <p-dropdown inputId="make" 
                         class="w-full" 
                         styleClass="w-full" 
-                        [options]="genderList" 
+                        [options]="genderList" (onChange)="onGenderChange()"
                         [(ngModel)]="productItem.Gender"
                         optionLabel="CodeDesc" 
                         optionValue="Code" 
@@ -92,14 +93,8 @@
                 </div>
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.MobileNumber' | translate }}*</label>
-                    <p-inputNumber mode="decimal" maxlength="10"
-                        inputId="withoutgrouping" 
-                        styleClass="w-full"
-                        class="w-full"
-                        [(ngModel)]="productItem.MobileNo"
-                        placeholder="Enter Phone Number"
-                        [useGrouping]="false"> 
-                    </p-inputNumber>
+                    <input pInputText id="username" maxlength="9" [(ngModel)]="productItem.MobileNo"
+                        placeholder="Enter Phone Number">
                 </div>
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.EmailId' | translate }}</label>
@@ -119,24 +114,33 @@
                         styleClass="w-full" 
                         [options]="policyHolderTypeList" 
                         [(ngModel)]="productItem.PolicyHolderTypeid" 
-                        optionLabel="CodeDesc" 
+                        optionLabel="CodeDesc" (change)="newidtype()"
                         optionValue="Code"
                         placeholder="Select Identity Type">
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.IDNumber' | translate}}*</label>
-                    <input pInputText id="username" [(ngModel)]="productItem.IdNumber"  placeholder="Enter ID Number"/>
+                    <ng-container *ngIf="!shows">
+                        <input pInputText id="username" [(ngModel)]="productItem.IdNumber" (keypress)="omit_special_char($event)"   placeholder="Enter ID Number"/>
+                    </ng-container>
+                    <ngcontainer *ngIf="shows">
+                        <div class="d-flex">
+                            <input type="text" pInputText style="max-width:100px !important;margin-right:5px !important" class="layout" [disabled]="checkDisableFields('IdNumber')" [(ngModel)]="Idnumber" maxlength="5"><b>/</b>
+                            <input type="text" pInputText style="max-width:70px !important;margin-right:5px !important" class="layout" [disabled]="checkDisableFields('IdNumber')"  [(ngModel)]="Idnumber1" maxlength="3"><b>/</b>
+                            <input type="text" pInputText style="max-width:30px !important;margin-right:5px !important" class="layout" [disabled]="checkDisableFields('IdNumber')" [(ngModel)]="Idnumber2" maxlength="1"><b>/</b>
+                        </div>
+                    </ngcontainer>
                 </div>
-                <div class="flex flex-column m-3">
+                <!-- <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.DateOfBirth' | translate}}</label>
                     <p-calendar class="w-full" 
                         styleClass="w-full" 
                         [(ngModel)]="productItem.dobOrRegDate"
                         dateFormat="dd/mm/yy"
-                        placeholder="Enter Registration Date">
+                        placeholder="Enter  Date Of Birth">
                     </p-calendar>
-                </div>
+                </div> -->
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.PreferedNotification' | translate}}*</label>
                     <p-dropdown inputId="make" 
@@ -233,8 +237,13 @@
                         placeholder="Select District">
                     </p-dropdown>
                 </div>
+                <div class="flex flex-column m-3" *ngIf="productItem.CityName=='99999'">
+                    <label for="username">Other District<span class="star">*</span></label>
+                    <input pInputText type="text" maxlength="200" class="w-full" [disabled]="checkDisableFields('District')" [(ngModel)]="productItem.districtcode">
+                
+                </div>
                 <div class="flex flex-column m-3">
-                    <label for="username">{{ 'HOME.Pincode' | translate}}</label>
+                    <label for="username">{{ 'HOME.PoBox' | translate}}</label>
                     <p-inputNumber mode="decimal" 
                         inputId="withoutgrouping" 
                         maxlength="15"
@@ -393,14 +402,8 @@
                     </div>
                     <div class="flex flex-column m-3">
                         <label for="username">Mobile Number*</label>
-                        <p-inputNumber mode="decimal" maxlength="10"
-                            inputId="withoutgrouping" 
-                            styleClass="w-full"
-                            class="w-full"
-                            [(ngModel)]="productItem.MobileNo"
-                            placeholder="Enter Phone Number"
-                            [useGrouping]="false"> 
-                        </p-inputNumber>
+                        <input pInputText id="username" maxlength="9" [(ngModel)]="productItem.MobileNo"
+                        placeholder="Enter Phone Number">
                     </div>
                     <div class="flex flex-column m-3">
                         <label for="username">Email ID</label>

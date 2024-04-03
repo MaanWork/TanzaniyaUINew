@@ -25,6 +25,7 @@
       "Region": "Region",
       "District": "District",
       "Pincode": "Pincode",
+      "PoBox":"PoBox",
       "CARDONE": "Welcome Message",
       "CARDTWO": "Language",
       "CARDLAST": "My language",

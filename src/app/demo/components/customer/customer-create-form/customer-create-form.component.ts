@@ -6,6 +6,7 @@ import { SharedService } from 'src/app/demo/service/shared.service';
 import { ProductData } from './product';
 import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-customer-create-form',
   templateUrl: './customer-create-form.component.html',
@@ -42,7 +43,12 @@ export class CustomerCreateFormComponent implements OnInit {
   occupationList:any[]=[];mobileCodeList:any[]=[];
   businessTypeList:any[]=[];productItem:any=null;
   policyHolderTypeList:any[]=[];dob:any=null;stateOptions: any[]=[];
-  value1: string = 'en';
+  value1: string = 'en';final1: boolean=false;final2: any=false;final3: any=false;final4: any=false;final5: any=false;
+  final6: any=false;final7: any=false;
+  shows: boolean=false;final:boolean=false;
+	Idnumber: any;
+	Idnumber1: any;
+	Idnumber2: any;
   constructor(private confirmationService: ConfirmationService, private sharedService: SharedService,private datePipe: DatePipe,
     private messageService: MessageService, private router: Router, private translate: TranslateService,
     private primeNGConfig: PrimeNGConfig) {
@@ -65,9 +71,9 @@ export class CustomerCreateFormComponent implements OnInit {
 		this.stateOptions = [
 			{ label: 'English', value: 'en' },
 			{ label: 'Portugese', value: 'po' },
-			{ label: 'French', value: 'fr' },
-			{ label: 'Telugu', value: 'te' },
-			{ label: 'Urdu', value: 'ur' },
+			// { label: 'French', value: 'fr' },
+			// { label: 'Telugu', value: 'te' },
+			// { label: 'Urdu', value: 'ur' },
 		  ];
 		  // this language will be used as a fallback when a translation isn't found in the current language
 		  translate.setDefaultLang('en');
@@ -510,8 +516,12 @@ export class CustomerCreateFormComponent implements OnInit {
 				(err) => { },
 			);
 	}
+	omit_special_char(event){   
+		var k;  
+		k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+		return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57) || k == 47); 
+	}
 	onTitleChange(){
-    alert(this.productItem.Title)
 		let title = this.productItem.Title;
 		if(title!='' && title!=null && title!=undefined){
 				if(title=='2') this.productItem.IdType = '2';
@@ -629,6 +639,359 @@ export class CustomerCreateFormComponent implements OnInit {
 				}
 			},
 			(err) => { },
+		);
+	}
+	idfieldvalidate(){
+		let customer:any;
+		if(this.productItem.IdType=='1'){
+			customer='corporate'
+		}
+		else if(this.productItem.IdType=='2'){
+			customer='Individual'
+		}
+		let policy:any;
+		if(this.productItem.PolicyHolderTypeid!=null && this.productItem.PolicyHolderTypeid!='' && this.productItem.PolicyHolderTypeid!=undefined){
+			let p=this.policyHolderTypeList.find(ele => ele.Code == this.productItem.PolicyHolderTypeid);
+			if(p){
+				policy=p.CodeDesc;
+			}
+			else{
+				policy=null;
+			}
+		}	
+		if(this.productItem.PolicyHolderTypeid=='3'){
+			let urlLink = `${this.CommonApiUrl}api/validatecustomerid?accounttype=${customer}&identifytype=${policy}&companyid=${this.insuranceId}&id=${this.productItem.IdNumber}&saveOrsubmit=Submit`;
+			this.sharedService.onGetMethodSync(urlLink).subscribe(
+				(data: any) => {
+					console.log(data);
+					if (data.Message== "Success") {
+						this.final1=false;
+						this.final=false;
+					}
+					else {
+						this.final1=true;
+						this.final=true;
+					}
+				},
+				(err) => { },
+			);
+		}
+	}
+	Adressvalidate(){
+			let urlLink = `${this.CommonApiUrl}api/validateaddress?address=${this.productItem.Address1}&companyid=${this.insuranceId}&saveOrsubmit=Submit`;
+			this.sharedService.onGetMethodSync(urlLink).subscribe(
+				(data: any) => {
+					console.log(data);
+					if (data.Message== "Success") {
+						this.final2=false;
+						this.final=false;
+					}
+					else {
+						this.final2=true;
+						this.final=true;
+					}
+				},
+				(err) => { },
+			);
+	}
+	occupationchange(){
+
+		let occupation:any;
+		if(this.productItem.Occupation!=null){
+		let occupationa = this.occupationList.find(ele => ele.Code == this.productItem?.Occupation);
+		if(occupationa){
+           occupation = occupationa?.CodeDesc;
+		}
+		}
+		let urlLink = `${this.CommonApiUrl}api/validateOccupation?occupation=${occupation}&companyid=${this.insuranceId}&otheroccupation=${this.productItem.occupationdesc}&saveOrsubmit=Submit`;
+		this.sharedService.onGetMethodSync(urlLink).subscribe(
+			(data: any) => {
+				console.log(data);
+				if (data.Message== "Success") {
+					this.final3=false;
+					this.final=false;
+				}
+				else {
+					this.final3=true;
+					this.final=true;
+				}
+			},
+			(err) => { },
+		);
+	}
+
+	StatusChange(){
+		let urlLink = `${this.CommonApiUrl}api/validatestatus?status=${this.productItem.Clientstatus}&companyid=${this.insuranceId}&saveOrsubmit=Submit`;
+		this.sharedService.onGetMethodSync(urlLink).subscribe(
+			(data: any) => {
+				console.log(data);
+				if (data.Message== "Success") {
+					this.final4=false;
+					this.final=false;
+				}
+				else {
+					this.final4=true;
+					this.final=true;
+				}
+			},
+			(err) => { },
+		);
+	}
+
+	Customervalidate(){	
+		let urlLink = `${this.CommonApiUrl}api/validateCustomerName?name=${this.productItem.ClientName}&companyid=${this.insuranceId}&saveOrsubmit=Submit`;
+		this.sharedService.onGetMethodSync(urlLink).subscribe(
+			(data: any) => {
+				console.log(data);
+				if (data.Message== "Success") {
+					this.final5=false;
+					this.final=false;
+				}
+				else {
+					this.final5=true;
+					this.final=true;
+				}
+			},
+			(err) => { },
+		);
+	}
+	Emailvalidate(){	
+			let urlLink = `${this.CommonApiUrl}api/ValidateEmail?email=${this.productItem.EmailId}&companyid=${this.insuranceId}&saveOrsubmit=Submit`;
+			this.sharedService.onGetMethodSync(urlLink).subscribe(
+				(data: any) => {
+					console.log(data);
+					if (data.Message== "Success") {
+						this.final6=false;
+						this.final=false;
+					}
+					else {
+						this.final6=true;
+						this.final=true;
+					}
+				},
+				(err) => { },
+			);
+	
+	}
+	Mobilevalidate(){	
+				let urlLink = `${this.CommonApiUrl}api/validatemobilenumber?number=${this.productItem.MobileNo}&companyid=${this.insuranceId}&code=${this.productItem.MobileCode}&saveOrsubmit=Submit`;
+				this.sharedService.onGetMethodSync(urlLink).subscribe(
+					(data: any) => {
+						console.log(data);
+						if (data.Message== "Success") {
+							this.final7=false;
+							this.final=false;
+						}
+						else {
+							this.final7=true;
+							this.final=true;
+						}
+					},
+					(err) => { },
+				);
+	}
+	onsavedatas(type,data){
+
+		console.log('GGGGGGG',type)
+		if(type=='Address'){
+			this.Adressvalidate();
+		}
+		else if(type=='IdValue'){
+			this.idfieldvalidate();
+		}
+		else if(type=='Email'){
+			this.Emailvalidate();
+		}
+		else if(type=='Mobile'){
+			this.Mobilevalidate();
+		}
+		else if(type=='Occupation'){
+			this.occupationchange();
+		}
+		else if(type=='Status'){
+			this.StatusChange();
+		}
+		else if(type=='Customer'){
+			this.Customervalidate();
+		}
+		else if(type=='direct' && !this.final){
+			this.blankvalidationcheck(data);
+		}
+		else if(type=='direct' && this.final){
+       if(this.final1)this.idfieldvalidate();
+	   if(this.final2) this.Adressvalidate();
+	   if(this.final3) this.occupationchange();
+	   if(this.final4) this.StatusChange();
+	   if(this.final5) this.Customervalidate();
+	   if(this.final6) this.Emailvalidate();
+	   if(this.final7) this.Mobilevalidate();
+		}
+	}
+	blankvalidationcheck(datas){
+		console.log("Total Data", datas);
+		
+		let appointmentDate = "", dobOrRegDate = "", taxExemptedId = null,cityName=null, stateName=null,businessType = null;
+		//  if(data.AppointmentDate!= undefined && data.AppointmentDate!=null && data.AppointmentDate!=''){
+		// 	appointmentDate = this.datePipe.transform(data.AppointmentDate, "dd/MM/yyyy");
+		//  }
+		if(this.insuranceId!='100004'){
+			if(datas.CityName!=null && datas.CityName!='') cityName = this.stateList.find(ele=>ele.Code==datas.CityName)?.CodeDesc;
+		}
+		else if(this.insuranceId=='100004'){
+			if(datas?.districtcode==null || datas?.districtcode=='' || datas?.districtcode==undefined){
+				if(datas.CityName!='' && datas.CityName!=null && datas.CityName!='99999'){
+					cityName = this.stateList.find(ele=>ele.Code==datas.CityName)?.CodeDesc;
+				}
+				else cityName = '';
+			}
+			else if(datas.CityName!='99999'){
+				if(datas.CityName!='' && datas.CityName!=null){
+					cityName = this.stateList.find(ele=>ele.Code==datas.CityName)?.CodeDesc;
+				}
+				else cityName = '';
+			}
+			else cityName=datas?.districtcode;
+		}
+		
+		if(datas.state!=null && datas.state!='') stateName = this.regionList.find(ele=>ele.Code==datas.state)?.CodeDesc;
+		var d= new Date();
+		var year = d.getFullYear();
+		var month = d.getMonth();
+		var day = d.getDate();
+		if(this.productItem.IdType != 2){
+			
+			datas.dobOrRegDate = new Date(year - 18,month, day-2 );
+		}
+		if (datas.dobOrRegDate != undefined && datas.dobOrRegDate != null && datas.dobOrRegDate != '') {
+			dobOrRegDate = this.datePipe.transform(datas.dobOrRegDate, "dd/MM/yyyy");
+		}
+		if (this.productItem.isTaxExempted == 'Y') taxExemptedId = this.productItem.TaxExemptedId;
+		if (this.productItem.IdType == '2') businessType = this.productItem.BusinessType;
+		let codes = this.productItem.MobileCode
+		if (this.productItem.MobileCode != undefined && this.productItem.MobileCode != null && this.productItem.MobileCode != '') {
+			//let code = this.productItem
+			let code = this.mobileCodeList.find(ele => ele.Code == codes)
+			if(code){ 
+				if(code?.label) this.productItem.MobileCodeDesc = code.label;
+				else this.productItem.MobileCodeDesc = '';
+			}
+			else this.productItem.MobileCodeDesc = '';
+
+			//this.mobileCodeList.label = this.productItem.MobileCod['CodeDesc'];
+		}
+		let type = null;
+		if(datas.vrngst=='' || datas.vrngst== undefined || datas.vrngst==null){datas.vrngst=null};
+		if(this.loginType=='B2CFlow') datas.Clientstatus = 'Y';
+		if(this.productId=='46' && (this.productItem?.PolicyHolderTypeid==null || this.productItem?.PolicyHolderTypeid=='' || this.productItem?.PolicyHolderTypeid==undefined)){
+		  	if(this.productItem.IdType==1 || this.productItem.IdType=='1'){ this.productItem.PolicyHolderTypeid = '3';}
+			else{this.productItem.PolicyHolderTypeid = '6';}
+			var minm = 1000000000; 
+    		var maxm = 9876543210; 
+			this.productItem.IdNumber = Math.floor(Math 
+				.random() * (maxm - minm + 1)) + minm; 
+		}
+		let policyid:any;
+		if(datas?.PolicyHolderTypeid == '1'){
+         policyid = this.Idnumber.concat(this.Idnumber1).concat(this.Idnumber2);
+		}
+		else{
+			policyid = datas?.IdNumber;
+		}
+            
+		let ReqObj = {
+			"BrokerBranchCode": this.brokerbranchCode,
+			"CustomerReferenceNo": this.customerReferenceNo,
+			"InsuranceId": this.insuranceId,
+			"BranchCode": this.branchCode,
+			"ProductId": "5",
+			"AppointmentDate": appointmentDate,
+			"Address1": datas?.Address1,
+			"Address2": datas?.Address2,
+			"BusinessType": businessType,
+			"CityCode": datas?.CityName,
+			"CityName": cityName,
+			"ClientName": datas?.ClientName,
+			"Clientstatus": datas?.Clientstatus,
+			"CreatedBy": this.loginId,
+			"DobOrRegDate": dobOrRegDate,
+			"Email1": datas?.EmailId,
+			"Email2": null,
+			"Email3": null,
+			"Fax": null,
+			"Gender": datas?.Gender,
+			"IdNumber": policyid,
+			"IdType": datas.IdType,
+			"IsTaxExempted": datas.isTaxExempted,
+			"Language": "1",
+			"MobileNo1": datas.MobileNo,
+			"MobileNo2": null,
+			"MobileNo3": null,
+			"Nationality": datas.Country,
+			"Occupation": datas?.Occupation,
+			"OtherOccupation":datas?.occupationdesc,
+			"Placeofbirth": "Chennai",
+			"PolicyHolderType": datas.IdType,
+			"PolicyHolderTypeid": datas?.PolicyHolderTypeid,
+			"PreferredNotification": datas?.PreferredNotification,
+			"RegionCode": "01",
+			"MobileCode1": datas?.MobileCode,
+			"WhatsappCode": datas?.MobileCode,
+			"MobileCodeDesc1": "1",
+			"WhatsappDesc": "1",
+			"WhatsappNo": datas.MobileNo,
+			"StateCode": datas?.state,
+			"StateName": stateName,
+			"Status": datas?.Clientstatus,
+			"Street": datas?.Street,
+			"Type":type,
+			"TaxExemptedId": taxExemptedId,
+			"TelephoneNo1": datas?.TelephoneNo,
+			"PinCode": datas?.PinCode,
+			"TelephoneNo2": null,
+			"TelephoneNo3": null,
+			"Title": datas.Title,
+			"VrTinNo": datas.vrngst,
+			"SaveOrSubmit": 'Submit',
+		}
+		let urlLink = `${this.CommonApiUrl}api/blankvalidation`;
+		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+			(data: any) => {
+				let res: any = data;
+				console.log(data);
+				if (data.ErrorMessage.length != 0) {
+					if (res.ErrorMessage) {
+						const errorList: any[] = res.ErrorMessage || res?.Result?.ErrorMessage;
+            				let ulList:any='';
+							for (let index = 0; index < errorList.length; index++) {
+			
+							const element = errorList[index];
+							ulList +=`<li class="list-group-login-field">
+								<div style="color: darkgreen;">Field<span class="mx-2">:</span>${element?.Field}&nsp;(${element?.Code})</div>
+								<div style="color: red;">Message<span class="mx-2">:</span>${element?.Message}</div>
+							</li>`
+							}
+							Swal.fire({
+							title: '<strong>Form Validation</strong>',
+							icon: 'info',
+							html:
+								`<ul class="list-group errorlist">
+								${ulList}
+							</ul>`,
+							showCloseButton: true,
+							focusConfirm: false,
+							confirmButtonText:
+								'<i class="fa fa-thumbs-down"></i> Errors!',
+							confirmButtonAriaLabel: 'Thumbs down, Errors!',
+							})
+						}
+				}
+				else{
+					this.onSubmit(datas);
+				}
+				
+			},
+
+			(err: any) => { console.log(err); },
 		);
 	}
   setPolicyType(){
