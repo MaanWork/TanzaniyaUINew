@@ -60,7 +60,7 @@ export class ReferralCasesComponent implements OnInit {
     ];
     if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
       this.columns = ['ReferenceNo','Customer Name','Start Date','End Date','Actions'];
-      this.columnss = ['ReferenceNo','Customer Name','Start Date','End Date','Actions']
+      this.columnss = ['ReferenceNo','Customer Name','Start Date','End Date']
     }
     this.getBrokerList();
     this.getApprovedList();
@@ -249,6 +249,7 @@ export class ReferralCasesComponent implements OnInit {
 
 
   getApprovedQuotes(element,entryType){
+    
     if(element==null) this.ApprovedquoteData=[];
     let appId = "1",loginId="",brokerbranchCode="",bdmCode=null;
     if(this.userType!='Issuer'){
@@ -261,13 +262,13 @@ export class ReferralCasesComponent implements OnInit {
       loginId=this.ApproverbrokerCode;
       brokerbranchCode = '';
     }
-    let entry = this.ApproveredList.find(ele=>ele.Code==this.brokerCode);
+    let entry = this.ApproveredList.find(ele=>ele.Code==this.ApproverbrokerCode);
     if(entry){
       console.log("Entry Received",entry) 
       if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
       && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
         loginId='';
-        bdmCode=this.brokerCode;
+        bdmCode=this.ApproverbrokerCode;
       }
       else{
         bdmCode=null;
@@ -344,8 +345,11 @@ export class ReferralCasesComponent implements OnInit {
             //this.getExistingQuotes(null,'change')
           }
           else{
-            this.Rejecedbrokercode = this.RejectedList[0].Code;
-            this.getRejectedQuotes(null,'change');
+            if(this.RejectedList.length!=0){
+              this.Rejecedbrokercode = this.RejectedList[0].Code;
+              this.getRejectedQuotes(null,'change');
+            }
+            
           }
         }
         
@@ -444,6 +448,7 @@ export class ReferralCasesComponent implements OnInit {
     }
   }
   onEditQuotes(rowData){
+    sessionStorage.removeItem('QuoteStatus');
     sessionStorage.setItem('QuoteStatus','AdminRP');
     sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
     sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);

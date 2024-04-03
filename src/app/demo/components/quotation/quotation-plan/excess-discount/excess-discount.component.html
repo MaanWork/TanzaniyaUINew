@@ -2950,9 +2950,8 @@
             <p-divider  *ngIf="isMannualReferal != 'Y' && (coverSection && (((!statusValue || checkManualReferral()) && !adminSection) || (statusValue && adminSection ))) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))"></p-divider>
             <div 
                 *ngIf="(coverSection && (((!statusValue || checkManualReferral()) && !adminSection) || (statusValue && adminSection ))) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
-                <h2>Entered</h2>
+                
                 <div *ngIf="statusValue && adminSection">
-
                     <div class="grid">
                         <div class="col-12 md:col-4 lg:col-4 xl:xol-4">
                             <div class="input-control-container">

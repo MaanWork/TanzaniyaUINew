@@ -5030,10 +5030,8 @@ emiyn="N";
                 //   'Referral Quote Status',
                 //   'Referral Status Updated Successfully',
                 //   config);
-                if(this.statusValue=='RP') this.router.navigate(['Admin/referralPending']);
-                if(this.statusValue=='RR') this.router.navigate(['Admin/referralRejected']);
-                if(this.statusValue=='RA') this.router.navigate(['Admin/referralApproved']);
-                if(this.statusValue=='RE') this.router.navigate(['Admin/referralReQuote']);
+                if(this.statusValue=='RP' || this.statusValue=='RR' || this.statusValue=='RA' || this.statusValue=='RE') this.router.navigate(['/referralCases'])
+                
               }
             },
             (err) => { },
