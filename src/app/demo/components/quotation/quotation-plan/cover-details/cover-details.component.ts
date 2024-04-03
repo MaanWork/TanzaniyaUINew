@@ -130,7 +130,7 @@ export class CoverDetailsComponent {
   remarks: any=null;
   newcoverlist: any[]=[];subCoverDetailModal:boolean=false;
   inserts: any=null;subCoverColumns:any[]=[];
-  noOfDays: any=null;verticalSection:boolean =true;
+  noOfDays: any=null;verticalSection:boolean =false;
   EmiDetails: any[]=[];showCoverList:boolean=false;
   MinimumPremium: any=null;premiumExcluedTax: any=null;
   premiumIncluedTax: any=null;dependantTaxList: any[]=[];taxList: any[]=[];premiumBeforeTax: any=null;
@@ -2677,6 +2677,35 @@ export class CoverDetailsComponent {
 
   }
   finalFormSubmit(ReqObj){
+    if(this.insuranceId=='100028'){
+      let duplicateId = null;
+          let i=0,j=0;
+          for(let veh of this.vehicleDetailsList){
+            let duplicateVehicle = [];
+            duplicateVehicle = this.vehicleDetailsList.filter((val) => val.Vehicleid === veh.Vehicleid);
+            if (duplicateVehicle.length > 1) {
+                duplicateId = duplicateVehicle[0].Vehicleid;
+            }
+            j+=1;
+            if(j==this.vehicleDetailsList.length){
+              if (duplicateId!=null) {
+                this.selectedRowData=this.vehicleDetailsList[this.tabIndex];
+                console.log(this.selectedRowData)
+                let entry = ReqObj.Vehicles.find(ele=>ele.Id==duplicateId && ele.SectionId==this.selectedRowData.SectionId);
+                console.log(ReqObj,entry);
+                if(entry){
+                  ReqObj['Vehicles'] = [entry];
+                  this.onProceedBuyPolicy(ReqObj);
+                }
+              }
+              else{ this.onProceedBuyPolicy(ReqObj);}
+            }
+          }
+    }
+    else this.onProceedBuyPolicy(ReqObj);
+    
+  }
+  onProceedBuyPolicy(ReqObj){
     let urlLink = `${this.CommonApiUrl}quote/buypolicy`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
     (data: any) => {
@@ -2769,7 +2798,9 @@ export class CoverDetailsComponent {
               //   'Referral Quote',
               //   'Quote Moved to Referral Pending',
               //   config);
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Your Quote Move To Referral' });
+              sessionStorage.setItem('referralRefNo',this.quoteRefNo);
+              this.messageService.add({ severity: 'error', summary: 'Referral Quote', detail: 'Quote Moved to Referral Pending' });
+              //this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Your Quote Move To Referral' });
               this.router.navigate(['/referral']);
           }
         }
@@ -2779,7 +2810,6 @@ export class CoverDetailsComponent {
        },
     );
   }
-
   CommonMethod(rowdata,i) {
     console.log('GHJK',rowdata,i);
     console.log('TTTTHHHHJ',this.vehicleDetailsList);
@@ -3092,5 +3122,8 @@ export class CoverDetailsComponent {
   }
   checkManualReferral(){
     return this.vehicleDetailsList.some(ele=>ele.ManualReferalYn=='Y')
+  }
+  show() {
+    this.messageService.add({ severity: 'error', summary: 'Referral Quote', detail: 'Quote Moved to Referral Pending' });
   }
 }

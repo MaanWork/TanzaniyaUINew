@@ -22,7 +22,13 @@ import { CustomerDetailComponent } from './customer-detail/customer-detail.compo
 import { ChipModule } from 'primeng/chip';
 import { MessagesModule } from 'primeng/messages';
 import { SharedModule } from 'primeng/api';
-
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { CardModule } from 'primeng/card';
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
+}
 @NgModule({
   declarations: [CustomerCreateFormComponent, CustomerDetailComponent],
   imports: [
@@ -44,7 +50,15 @@ import { SharedModule } from 'primeng/api';
     RadioButtonModule,
     CalendarModule,
     ConfirmDialogModule,
-    ChipModule
+    ChipModule,
+    CardModule,
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
+  })
   ]
 })
 export class CustomerModule { }

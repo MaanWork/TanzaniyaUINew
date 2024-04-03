@@ -115,86 +115,17 @@ export class MotorVehicleEagle{
                     expressions: {
                     },
                   },
+                  
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
-                    type: 'commaSeparator',
-                    key: 'AccessoriesSI',
-                    hide: true,
-                    hideExpression:true,
-                    props: {
-                      label: `Accessories SumInured`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('AccessoriesSI'),
-                      required: false,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4',
-                    type: 'commaSeparator',
-                    key: 'WindShieldSI',
-                    hide: true,
-                    hideExpression:true,
-                    props: {
-                      label: `WindShield SumInured`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('WindShieldSI'),
-                      required: false,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    type: 'commaSeparator',
-                    key: 'ExtendedTPPDSI',
-                    defaultValue: '',
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4',
-                    hide: true,
-                    hideExpression:true,
-                    props: {
-                      label: `Extended TPPD SumInsured`,
-                      disabled: this.checkDisable('ExtendedTPPDSI'),
-                      required: false,
-                      options: [
-      
-                      ],
-      
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4',
-                    key: 'ClaimsYN',
-                    type: 'radio',
+                    key: 'RenewalYn',
+                    type: 'radioList',
                     templateOptions: {
-                      type: 'radio',
-                      label: 'Claims YN ?',
+                      type: 'radioList',
+                      label: 'Renewal YN ?',
                       required: true,
-                      disabled: this.checkDisable('ClaimsYN'),
-                      name: 'ClaimsYN',
+                      disabled: this.checkDisable('RenewalYn'),
+                      name: 'RenewalYn',
                       options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
                     }
                   },

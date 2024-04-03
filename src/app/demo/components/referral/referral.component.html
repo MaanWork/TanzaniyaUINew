@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <div class="card">
     <div class="grid">
       <div class="col-12 sm:col-6 md:col-4">
@@ -21,6 +22,10 @@
       <!-- <p-tabPanel header="All">
       </p-tabPanel> -->
       <p-tabPanel header="Pending">
+        <div class="flex justify-content-end mb-4">
+          <p-button icon="pi pi-table"  class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
+          <p-button icon="pi pi-list" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
+        </div>
         <p-table [value]="quoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
           <ng-template pTemplate="header">
               <tr>
@@ -47,6 +52,10 @@
         </p-table>
       </p-tabPanel>
       <p-tabPanel header="Approved">
+        <div class="flex justify-content-end mb-4">
+          <p-button icon="pi pi-table"  class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
+          <p-button icon="pi pi-list" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
+        </div>
         <p-table [value]="ApprovedquoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
           <ng-template pTemplate="header">
               <tr>
@@ -73,6 +82,10 @@
         </p-table>
       </p-tabPanel>
       <p-tabPanel header="Cancelled">
+        <div class="flex justify-content-end mb-4">
+          <p-button icon="pi pi-table"  class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
+          <p-button icon="pi pi-list" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
+        </div>
         <p-table [value]="RejectedquoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
           <ng-template pTemplate="header">
               <tr>

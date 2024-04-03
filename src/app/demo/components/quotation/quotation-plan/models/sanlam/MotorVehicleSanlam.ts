@@ -273,9 +273,9 @@ export class MotorVehicleSanlam{
                     {
                       className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                       key: 'ClaimsYN',
-                      type: 'radio',
+                      type: 'radioList',
                       templateOptions: {
-                        type: 'radio',
+                        type: 'radioList',
                         label: 'Claims YN ?',
                         required: true,
                         disabled: this.checkDisable('ClaimsYN'),

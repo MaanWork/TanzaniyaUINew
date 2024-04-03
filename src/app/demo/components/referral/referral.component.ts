@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/demo/service/shared.service';
 import * as Mydatas from '../../../app-config.json';
 
 @Component({
   selector: 'app-referral',
-  templateUrl: './referral.component.html'
+  templateUrl: './referral.component.html',
+  providers: [MessageService]
 })
 export class ReferralComponent implements OnInit {
   items: MenuItem[] | undefined;
@@ -36,10 +37,10 @@ export class ReferralComponent implements OnInit {
   ApproveredList:any[]=[];
   tableView = 'table'; 
   ApproverbrokerCode: any;
-  Rejecedbrokercode: any;
+  Rejecedbrokercode: any;sampleRefNo:any=null;
   RejectedList: any[];RejectedquoteData:any[]=[];
   
-  constructor(private router: Router,private sharedService: SharedService) {
+  constructor(private router: Router,private sharedService: SharedService,private messageService: MessageService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
     this.agencyCode = this.userDetails.Result.OaCode;
@@ -49,7 +50,7 @@ export class ReferralComponent implements OnInit {
     this.userType = this.userDetails?.Result?.UserType;
     this.insuranceId = this.userDetails.Result.InsuranceId;
     if(this.userType!='Issuer')this.brokerCode = this.loginId;
-
+    
   }
   ngOnInit() {
     this.items = [{ label: 'Home', routerLink:'/' }, {label:'Referral'}];
@@ -60,6 +61,12 @@ export class ReferralComponent implements OnInit {
     if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
       this.columns = ['ReferenceNo','Customer Name','Start Date','End Date','Actions'];
       this.columnss = ['ReferenceNo','Customer Name','Start Date','End Date','Actions']
+    }
+    let refNo = sessionStorage.getItem('referralRefNo');
+    if(refNo){
+      this.sampleRefNo = refNo;
+      this.messageService.add({ severity: 'error', summary: 'Referral Quote', detail: `Reference No ${this.sampleRefNo} Moved to Referral Pending` });
+      sessionStorage.removeItem('referralRefNo');
     }
     this.getBrokerList();
     this.getApprovedList();
@@ -335,17 +342,21 @@ export class ReferralComponent implements OnInit {
       (data: any) => {
         if(data.Result){
           let defaultObj = []
-          this.RejectedList = defaultObj.concat(data.Result);
-          if(this.RejectedList.length==0){this.Rejecedbrokercode = ''; this.RejectedList = []}
+          
+          if(data.Result.length==0){this.Rejecedbrokercode = ''; this.RejectedList = []}
           else this.Rejecedbrokercode = this.loginId;
           if(this.Rejecedbrokercode!=null && this.Rejecedbrokercode!=''){
+            this.RejectedList = defaultObj.concat(data.Result);
             if(!this.RejectedList.some(ele=>ele.Code==this.Rejecedbrokercode)) this.Rejecedbrokercode = this.RejectedList[0].Code;
             this.getRejectedQuotes(null,'change');
             //this.getExistingQuotes(null,'change')
           }
           else{
-            this.Rejecedbrokercode = this.RejectedList[0].Code;
-            this.getRejectedQuotes(null,'change');
+            if(this.RejectedList.length!=0){
+              this.Rejecedbrokercode = this.RejectedList[0].Code;
+              this.getRejectedQuotes(null,'change');
+            }
+            
           }
         }
         
@@ -442,5 +453,45 @@ export class ReferralComponent implements OnInit {
       (err) => { },
     );
     }
+  }
+  onEditQuotes(rowData){
+    if(rowData.QuoteNo!=null && rowData.QuoteNo!='' && rowData.QuoteNo!=undefined){
+      this.checkStatus(rowData);
+    } 
+    else{
+      sessionStorage.removeItem('endorsePolicyNo');
+          sessionStorage.removeItem('endorseTypeId');
+          sessionStorage.setItem('QuoteStatus','RP');
+          sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
+          sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
+          sessionStorage.setItem('quoteNo',rowData.QuoteNo);
+          this.router.navigate(['/quotation/plan/premium-details']);
+    }
+  }
+  checkStatus(rowData){
+    let ReqObj = {
+      "InsuranceId": this.insuranceId
+    }
+    let urlLink = `${this.CommonApiUrl}selcom/v1/checkout/order-status/${rowData.QuoteNo}`;
+    
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.result=='FAIL'){
+          sessionStorage.removeItem('endorsePolicyNo');
+          sessionStorage.removeItem('endorseTypeId');
+          sessionStorage.setItem('QuoteStatus','RP');
+          sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
+          sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
+          sessionStorage.setItem('quoteNo',rowData.QuoteNo);
+          this.router.navigate(['/quotation/plan/premium-details']);
+        }
+        else{
+          sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
+          sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
+          sessionStorage.setItem('quoteNo',rowData.QuoteNo);
+          //this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/make-payment']);
+        }
+      });
   }
 }

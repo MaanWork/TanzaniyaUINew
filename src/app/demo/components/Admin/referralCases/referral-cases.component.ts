@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/demo/service/shared.service';
 import * as Mydatas from '../../../../app-config.json';
 
 @Component({
   selector: 'app-referral-cases',
-  templateUrl: './referral-cases.component.html'
+  templateUrl: './referral-cases.component.html',
+  providers: [MessageService]
 })
 export class ReferralCasesComponent implements OnInit {
   items: MenuItem[] | undefined;
@@ -30,7 +31,7 @@ export class ReferralCasesComponent implements OnInit {
   quotePageNo: any=null;
   startIndex: any=null;
   endIndex: any=null;
-  section: string;
+  section: any='quote';
   columns:string[] = [];
   columnss:string[] = [];
   ApproveredList:any[]=[];
@@ -68,13 +69,12 @@ export class ReferralCasesComponent implements OnInit {
 
 
   getBrokerList(){
-    let type='Q';
-    // if(this.section=='quote'){type='Q'}
-    // else type='E';
+    let type=null;
+    if(this.section=='quote'){type='Q'}
+    else type='E';
     let appId = "1",loginId="",brokerbranchCode="";
     if(this.userType!='Issuer'){
       appId = "1"; loginId = this.brokerCode;
-      brokerbranchCode = this.brokerbranchCode;
     }
     else{
       appId = this.loginId;
@@ -90,7 +90,7 @@ export class ReferralCasesComponent implements OnInit {
       "BranchCode": this.branchCode,
       "Type": type
     }
-    let urlLink = `${this.CommonApiUrl}api/referralpendingsdropdown`;
+    let urlLink = `${this.CommonApiUrl}api/adminreferralpendingsdropdown`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if(data.Result){
@@ -442,5 +442,13 @@ export class ReferralCasesComponent implements OnInit {
       (err) => { },
     );
     }
+  }
+  onEditQuotes(rowData){
+    sessionStorage.setItem('QuoteStatus','AdminRP');
+    sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
+    sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
+    sessionStorage.setItem('quoteNo',rowData.QuoteNo);
+    sessionStorage.removeItem('vehicleDetailsList')
+    this.router.navigate(['quotation/plan/premium-info']);
   }
 }

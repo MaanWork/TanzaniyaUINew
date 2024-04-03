@@ -248,7 +248,7 @@ emiyn="N";
   factorViewList: any[]=[];
   factorPremiumDetails: any=null;
   showDiscountSection:boolean=false;
-  showExcessSection: boolean=false;
+  showExcessSection: boolean=false;modifyOptions:any[]=[];
   constructor(public sharedService: SharedService,private authService: AuthService,private router:Router,private modalService: NgbModal,
     private datePipe:DatePipe,public dialog: MatDialog,private messageService: MessageService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -313,6 +313,10 @@ emiyn="N";
         this.endorsementSection = false;
         this.endorseCovers = false;
       }
+    this.modifyOptions = [
+      {label:'Yes',value:'Y'},
+      {label:'No',value:'N'},
+    ]
     this.statusList = [
       {"Code":"RP","CodeDesc":"Referral Pending"},
       {"Code":"RA","CodeDesc":"Referral Approved"},
@@ -2237,14 +2241,14 @@ getMotorUsageList(vehicleValue){
       }
       else if(this.statusValue){
           if(this.adminSection){
-              if(this.statusValue=='RA') this.router.navigate(['/Admin/referralApproved']);
+              if(this.statusValue=='RA') this.router.navigate(['/referralCases']);
               //else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/customer-details']);
-              else if(this.statusValue=='RE') this.router.navigate(['/Admin/referralReQuote']);
-              else this.router.navigate(['/Admin/referralPending']);
+              else if(this.statusValue=='RE') this.router.navigate(['/referralCases']);
+              else this.router.navigate(['/referralCases']);
           }
           else{
             if(this.statusValue=='RA')  this.router.navigate(['referral']);
-            else if(this.statusValue=='RE') this.router.navigate(['/quotation/plan/premium-details']);
+            else if(this.statusValue=='RE') this.router.navigate(['referral']);
             else{
               this.onSetBackPage();
             } 
@@ -4552,10 +4556,10 @@ getMotorUsageList(vehicleValue){
               //   'Referral Quote Status',
               //   'Referral Status Updated Successfully',
               //   config);
-              if(this.statusValue=='RP') this.router.navigate(['Admin/referralPending']);
-              if(this.statusValue=='RR') this.router.navigate(['Admin/referralRejected']);
-              if(this.statusValue=='RA') this.router.navigate(['Admin/referralApproved']);
-              if(this.statusValue=='RE') this.router.navigate(['Admin/referralReQuote']);
+              if(this.statusValue=='RP') this.router.navigate(['/referralCases']);
+              if(this.statusValue=='RR') this.router.navigate(['/referralCases']);
+              if(this.statusValue=='RA') this.router.navigate(['/referralCases']);
+              if(this.statusValue=='RE') this.router.navigate(['/referralCases']);
             }
           },
           (err) => { },

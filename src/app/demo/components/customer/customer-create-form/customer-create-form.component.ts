@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmEventType, ConfirmationService, MenuItem, Message, MessageService } from 'primeng/api';
+import { ConfirmEventType, ConfirmationService, MenuItem, Message, MessageService, PrimeNGConfig } from 'primeng/api';
 import * as Mydatas from '../../../../app-config.json';
 import { SharedService } from 'src/app/demo/service/shared.service';
 import { ProductData } from './product';
 import { DatePipe } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-customer-create-form',
   templateUrl: './customer-create-form.component.html',
@@ -12,7 +13,7 @@ import { DatePipe } from '@angular/common';
   .card .form-container .flex-column { min-width: 200px; }
   .card .form-container div label { font-weight: bold; }
   `],
-  providers: [MessageService, ConfirmationService] 
+  providers: [MessageService, ConfirmationService,TranslateService] 
 })
 export class CustomerCreateFormComponent implements OnInit {
   messages: Message[] = [];
@@ -40,9 +41,11 @@ export class CustomerCreateFormComponent implements OnInit {
   countryList:any[]=[];genderList:any[]=[];
   occupationList:any[]=[];mobileCodeList:any[]=[];
   businessTypeList:any[]=[];productItem:any=null;
-  policyHolderTypeList:any[]=[];dob:any=null;
+  policyHolderTypeList:any[]=[];dob:any=null;stateOptions: any[]=[];
+  value1: string = 'en';
   constructor(private confirmationService: ConfirmationService, private sharedService: SharedService,private datePipe: DatePipe,
-    private messageService: MessageService, private router: Router) {
+    private messageService: MessageService, private router: Router, private translate: TranslateService,
+    private primeNGConfig: PrimeNGConfig) {
       this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.maxDate = new Date();
 		var d= new Date();
@@ -59,7 +62,16 @@ export class CustomerCreateFormComponent implements OnInit {
 		this.userType = this.userDetails.Result.UserType;
 		this.brokerbranchCode = this.userDetails.Result.BrokerBranchCode;
 		this.typeValue = sessionStorage.getItem('typeValue')
-    this.statusList = [
+		this.stateOptions = [
+			{ label: 'English', value: 'en' },
+			{ label: 'Portugese', value: 'po' },
+			{ label: 'French', value: 'fr' },
+			{ label: 'Telugu', value: 'te' },
+			{ label: 'Urdu', value: 'ur' },
+		  ];
+		  // this language will be used as a fallback when a translation isn't found in the current language
+		  translate.setDefaultLang('en');
+    	this.statusList = [
 			{ CodeDesc: '-Select-', Code: '' },
 			{ CodeDesc: 'Active', Code: 'Y' },
 			{ CodeDesc: 'DeActive', Code: 'N' },
@@ -97,29 +109,34 @@ export class CustomerCreateFormComponent implements OnInit {
       this.getMobileCodeList();
       this.getPolicyHolderList('change');
     }
-  getTitleList(){
-    let ReqObj = {
-			"InsuranceId": this.insuranceId,
-			"BranchCode": this.branchCode
-		}
-		let urlLink = `${this.CommonApiUrl}dropdown/title`;
-		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-			(data: any) => {
-				if (data.Result) {
-					let obj = [{ "Code": '', "CodeDesc": "-Select-" }]
-					this.titleList = obj.concat(data.Result);
-					
-				}
-			},
-			(err) => { },
-		);
-  }
-  ngOnInit(): void {
-    this.ownerCategoryOptions = [{name: 'Category', code: 'category'}];
-    this.customerTypes = [{label: 'Personal', value: 'personal'}, {label: 'Corporate', value: 'corporate'}];
-    this.items = [{ label: 'Home', routerLink:'/' }, {label:'Customer', routerLink: '/customer'}, { label: 'Create Customer' }];
-  }
-  public async onSubmit(data) {
+	
+	onLanguageChange(item: any) {
+		this.translate.use(item.value);
+	}
+	getTitleList(){
+		let ReqObj = {
+				"InsuranceId": this.insuranceId,
+				"BranchCode": this.branchCode
+			}
+			let urlLink = `${this.CommonApiUrl}dropdown/title`;
+			this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+				(data: any) => {
+					if (data.Result) {
+						let obj = [{ "Code": '', "CodeDesc": "-Select-" }]
+						this.titleList = obj.concat(data.Result);
+						
+					}
+				},
+				(err) => { },
+			);
+	}
+	ngOnInit(): void {
+		this.primeNGConfig.ripple = true;
+		this.ownerCategoryOptions = [{name: 'Category', code: 'category'}];
+		this.customerTypes = [{label: 'Personal', value: 'personal'}, {label: 'Corporate', value: 'corporate'}];
+		this.items = [{ label: 'Home', routerLink:'/' }, {label:'Customer', routerLink: '/customer'}, { label: 'Create Customer' }];
+	}
+  	public async onSubmit(data) {
 		console.log("Total Data", data);
 		this.messages=[];
 		let appointmentDate = "", dobOrRegDate = "", taxExemptedId = null,cityName=null, stateName=null,businessType = null;
@@ -299,199 +316,199 @@ export class CustomerCreateFormComponent implements OnInit {
 			(err: any) => { console.log(err); },
 		);
 	}
-  submit() {
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Customer Added Successfully' });
-  }
-  getPolicyHolderList(type){
-    let ReqObj = {
-			"InsuranceId": this.insuranceId,
-			"BranchCode": this.branchCode
-		}
+	submit() {
+		this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Customer Added Successfully' });
+	}
+	getPolicyHolderList(type){
+		let ReqObj = {
+				"InsuranceId": this.insuranceId,
+				"BranchCode": this.branchCode
+			}
 
-		let urlLink = `${this.CommonApiUrl}dropdown/policyholdertype`;
-		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-			(data: any) => {
-				console.log(data);
-				if (data.Result) {
-					this.policyHolderList = data.Result;
-							let defaultRow = []
-							this.policyHolderList = defaultRow.concat(this.policyHolderList);
-        }
-      });  
-  }
-  getPolicyIdTypeList(type) {
-		let ReqObj = {
-			"InsuranceId": this.insuranceId,
-			"BranchCode": this.branchCode,
-			"PolicyTypeId": this.productItem.IdType
-		}
-		let urlLink = `${this.CommonApiUrl}dropdown/policyholderidtype`;
-		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-			(data: any) => {
-				console.log(data);
-				if (data.Result) {
-					//this.holderTypeValue = null;
-					this.policyHolderTypeList = data.Result;
-					let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
-					this.policyHolderTypeList = defaultRow.concat(this.policyHolderTypeList)
-					//this.fields[0].fieldGroup[0].fieldGroup[1].fieldGroup[0].props.options = defaultRow.concat(this.policyHolderTypeList);
-					if (type == 'change'){this.dob = "";this.productItem.PolicyHolderTypeid='';this.productItem.IdNumber=null}
-				}
-			},
-			(err) => { },
-		);
+			let urlLink = `${this.CommonApiUrl}dropdown/policyholdertype`;
+			this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+				(data: any) => {
+					console.log(data);
+					if (data.Result) {
+						this.policyHolderList = data.Result;
+								let defaultRow = []
+								this.policyHolderList = defaultRow.concat(this.policyHolderList);
+			}
+		});  
 	}
-  getGenderList() {
-		let ReqObj = {
-			"InsuranceId": this.insuranceId,
-			"BranchCode": this.branchCode,
-		}
-		let urlLink = `${this.CommonApiUrl}dropdown/policyholdergender`;
-		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-			(data: any) => {
-				console.log(data);
-				if (data.Result) {
-					this.genderList = data.Result;
-					let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
-					this.genderList = defaultRow.concat(this.genderList)
-					//this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[2].props.options = defaultRow.concat(this.genderList);
-					
-				}
-			},
-			(err) => { },
-		);
+	getPolicyIdTypeList(type) {
+			let ReqObj = {
+				"InsuranceId": this.insuranceId,
+				"BranchCode": this.branchCode,
+				"PolicyTypeId": this.productItem.IdType
+			}
+			let urlLink = `${this.CommonApiUrl}dropdown/policyholderidtype`;
+			this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+				(data: any) => {
+					console.log(data);
+					if (data.Result) {
+						//this.holderTypeValue = null;
+						this.policyHolderTypeList = data.Result;
+						let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
+						this.policyHolderTypeList = defaultRow.concat(this.policyHolderTypeList)
+						//this.fields[0].fieldGroup[0].fieldGroup[1].fieldGroup[0].props.options = defaultRow.concat(this.policyHolderTypeList);
+						if (type == 'change'){this.dob = "";this.productItem.PolicyHolderTypeid='';this.productItem.IdNumber=null}
+					}
+				},
+				(err) => { },
+			);
 	}
-  getCountryList() {
-		let ReqObj = {
-			"InsuranceId": this.insuranceId,
-			"BranchCode": this.branchCode
-		}
-		let urlLink = `${this.CommonApiUrl}master/dropdown/country`;
-		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-			(data: any) => {
-				console.log(data);
-				if (data.Result) {
-					this.countryList = data.Result;
-							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
-							this.countryList = defaultRow.concat(this.countryList);
-							//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[6].props.options = defaultRow.concat(this.countryList);
-							
-					//this.getGenderList();
-				}
-			},
-			(err) => { },
-		);
+	getGenderList() {
+			let ReqObj = {
+				"InsuranceId": this.insuranceId,
+				"BranchCode": this.branchCode,
+			}
+			let urlLink = `${this.CommonApiUrl}dropdown/policyholdergender`;
+			this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+				(data: any) => {
+					console.log(data);
+					if (data.Result) {
+						this.genderList = data.Result;
+						let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
+						this.genderList = defaultRow.concat(this.genderList)
+						//this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[2].props.options = defaultRow.concat(this.genderList);
+						
+					}
+				},
+				(err) => { },
+			);
 	}
-  getOccupationList(){
-    let ReqObj = {
-			"InsuranceId": this.insuranceId,
-			"BranchCode": this.branchCode,
-		}
-		let urlLink = `${this.CommonApiUrl}master/dropdown/occupation`;
-		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-			(data: any) => {
-				console.log(data);
-				if (data.Result) {
-					this.occupationList = data.Result;
-							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
-							this.occupationList = defaultRow.concat(this.occupationList)
-							//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[0].props.options = defaultRow.concat(this.occupationList);
-							
-							//this.getBusinessTypeList();
-				}
-			},
-			(err) => { },
-		);
-  }
-  getBusinessTypeList(){
-    let ReqObj = {
-			"InsuranceId": this.insuranceId,
-			"BranchCode": this.branchCode,
-		}
-		let urlLink = `${this.CommonApiUrl}dropdown/businesstype`;
-		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-			(data: any) => {
-				console.log(data);
-				if (data.Result) {
-					this.businessTypeList = data.Result;
-					let defaulObj = [{ 'CodeDesc': '-Select-', 'Code': '' }]
-					this.businessTypeList = defaulObj.concat(this.businessTypeList);
-					//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[10].props.options = defaulObj.concat(this.businessTypeList);
-					
-					
-				}
-			},
-			(err) => { },
-		);
-  }
-  getMobileCodeList() {
-		let ReqObj = { "InsuranceId": this.insuranceId }
-		let urlLink = `${this.CommonApiUrl}dropdown/mobilecodes`;
-		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-			(data: any) => {
-				console.log(data);
-				if (data.Result) {
+	getCountryList() {
+			let ReqObj = {
+				"InsuranceId": this.insuranceId,
+				"BranchCode": this.branchCode
+			}
+			let urlLink = `${this.CommonApiUrl}master/dropdown/country`;
+			this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+				(data: any) => {
+					console.log(data);
+					if (data.Result) {
+						this.countryList = data.Result;
+								let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
+								this.countryList = defaultRow.concat(this.countryList);
+								//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[6].props.options = defaultRow.concat(this.countryList);
+								
+						//this.getGenderList();
+					}
+				},
+				(err) => { },
+			);
+	}
+	getOccupationList(){
+		let ReqObj = {
+				"InsuranceId": this.insuranceId,
+				"BranchCode": this.branchCode,
+			}
+			let urlLink = `${this.CommonApiUrl}master/dropdown/occupation`;
+			this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+				(data: any) => {
+					console.log(data);
+					if (data.Result) {
+						this.occupationList = data.Result;
+								let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
+								this.occupationList = defaultRow.concat(this.occupationList)
+								//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[0].props.options = defaultRow.concat(this.occupationList);
+								
+								//this.getBusinessTypeList();
+					}
+				},
+				(err) => { },
+			);
+	}
+	getBusinessTypeList(){
+		let ReqObj = {
+				"InsuranceId": this.insuranceId,
+				"BranchCode": this.branchCode,
+			}
+			let urlLink = `${this.CommonApiUrl}dropdown/businesstype`;
+			this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+				(data: any) => {
+					console.log(data);
+					if (data.Result) {
+						this.businessTypeList = data.Result;
+						let defaulObj = [{ 'CodeDesc': '-Select-', 'Code': '' }]
+						this.businessTypeList = defaulObj.concat(this.businessTypeList);
+						//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[10].props.options = defaulObj.concat(this.businessTypeList);
+						
+						
+					}
+				},
+				(err) => { },
+			);
+	}
+	getMobileCodeList() {
+			let ReqObj = { "InsuranceId": this.insuranceId }
+			let urlLink = `${this.CommonApiUrl}dropdown/mobilecodes`;
+			this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+				(data: any) => {
+					console.log(data);
+					if (data.Result) {
 
-					let obj = [{ "Code": '', "CodeDesc": "-Select-" }]
-					this.mobileCodeList = obj.concat(data.Result);
-							if (this.customerReferenceNo) {
-								this.setValues();
-							}
-							else {
-								this.productItem = new ProductData();
-								this.productItem.Clientstatus = 'Y';
-								this.productItem.isTaxExempted = 'N'; 
-								this.productItem.PreferredNotification = 'Sms';
-								this.productItem.Gender = '';
-								this.productItem.PolicyHolderTypeid = '';
-								this.productItem.IdType = '1';
-								if(this.mobileCodeList.length!=0 && this.mobileCodeList.length>1){
-									this.productItem.MobileCode = this.mobileCodeList[1].Code;
+						let obj = [{ "Code": '', "CodeDesc": "-Select-" }]
+						this.mobileCodeList = obj.concat(data.Result);
+								if (this.customerReferenceNo) {
+									this.setValues();
 								}
-								if(this.countryList.length!=0 && this.countryList.length>1){
-									this.productItem.Country = this.countryList[1].Code;
-										this.getRegionList('change');
+								else {
+									this.productItem = new ProductData();
+									this.productItem.Clientstatus = 'Y';
+									this.productItem.isTaxExempted = 'N'; 
+									this.productItem.PreferredNotification = 'Sms';
+									this.productItem.Gender = '';
+									this.productItem.PolicyHolderTypeid = '';
+									this.productItem.IdType = '1';
+									if(this.mobileCodeList.length!=0 && this.mobileCodeList.length>1){
+										this.productItem.MobileCode = this.mobileCodeList[1].Code;
+									}
+									if(this.countryList.length!=0 && this.countryList.length>1){
+										this.productItem.Country = this.countryList[1].Code;
+											this.getRegionList('change');
+									}
+									this.productItem.state = '';
+									this.productItem.CityName = '';
+									this.productItem.Occupation = '';
+									this.productItem.BusinessType='';
+									this.productItem.Title='';
+									this.getPolicyIdTypeList('change');
+									if(sessionStorage.getItem('VechileDetails')){
+										let motorDetails = JSON.parse(sessionStorage.getItem('VechileDetails'));
+										this.productItem.ClientName = motorDetails.ResOwnerName;
+										this.productItem.Title = '1';
+										this.onTitleChange();
+									}
 								}
-								this.productItem.state = '';
-								this.productItem.CityName = '';
-								this.productItem.Occupation = '';
-								this.productItem.BusinessType='';
-								this.productItem.Title='';
-                				this.getPolicyIdTypeList('change');
-								if(sessionStorage.getItem('VechileDetails')){
-									let motorDetails = JSON.parse(sessionStorage.getItem('VechileDetails'));
-									this.productItem.ClientName = motorDetails.ResOwnerName;
-									this.productItem.Title = '1';
-									this.onTitleChange();
-								}
-							}
 
-				}
-			},
-			(err) => { },
-		);
+					}
+				},
+				(err) => { },
+			);
 	}
-  getStateList(type) {
-		let ReqObj = {
-			"CountryId": this.productItem.Country,
-			"RegionCode": this.productItem.state
-		}
-		let urlLink = `${this.CommonApiUrl}master/dropdown/regionstate`;
-		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-			(data: any) => {
-				console.log(data);
-				if (data.Result) {
-					this.stateList = data.Result;
-							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
-							//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[8].props.options = defaultRow.concat(this.stateList);
-							this.stateList = defaultRow.concat(this.stateList)
-							if(type=='change'){ this.productItem.CityName = '';}
-							// this.getGenderList();
-					//this.getCityList();
-				}
-			},
-			(err) => { },
-		);
+	getStateList(type) {
+			let ReqObj = {
+				"CountryId": this.productItem.Country,
+				"RegionCode": this.productItem.state
+			}
+			let urlLink = `${this.CommonApiUrl}master/dropdown/regionstate`;
+			this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+				(data: any) => {
+					console.log(data);
+					if (data.Result) {
+						this.stateList = data.Result;
+								let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
+								//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[8].props.options = defaultRow.concat(this.stateList);
+								this.stateList = defaultRow.concat(this.stateList)
+								if(type=='change'){ this.productItem.CityName = '';}
+								// this.getGenderList();
+						//this.getCityList();
+					}
+				},
+				(err) => { },
+			);
 	}
 	onTitleChange(){
     alert(this.productItem.Title)

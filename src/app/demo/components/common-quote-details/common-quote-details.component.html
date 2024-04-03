@@ -9,9 +9,17 @@
 
             </div>
             <div class="flex justify-content-start sm:justify-content-end  flex-wrap" *ngIf="productId=='5'">
-                <input pInputText id="username" maxlength="50" [(ngModel)]="regNo"
-                    placeholder="Search By Reg.No" />&nbsp;
-                <p-button label="Search Vehicle" (onClick)="onSearchVehicle()"></p-button>&nbsp;
+                <div>
+                    <input pInputText id="username" maxlength="50" [(ngModel)]="regNo"
+                    placeholder="Search By Reg.No" />
+                    <div class="input-form-error" *ngIf="regNoError">
+                        <div class="error-text text-danger">
+                            Please Enter Valid Reg No
+                        </div>
+                    </div>
+                </div>
+                
+                &nbsp;<p-button label="Search Vehicle" (onClick)="onSearchVehicle()"></p-button>&nbsp;
                 <p-button label="Create Vehicle Details" (click)="onCreateVehicle()"></p-button>
             </div>
         </div>
@@ -75,33 +83,48 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="lg:col-2 md:col-2 col-3"
+                        <div class="lg:col-3 md:col-3 col-3"
                             *ngIf="issuerSection && (sourceCodeDesc=='Premia Agent' || sourceCodeDesc=='Premia Broker' || sourceCodeDesc=='Premia Direct')">
                             <label for="username">Source Code *</label>
-                            <input pInputText id="username" maxlength="50" (change)="onCommonDetailsChange()"
+                            <!-- <p-autoComplete [(ngModel)]="customerCode" [suggestions]="customerList" field="CustomerName" (completeMethod)="onGetCustomerList('change',$event.query)"></p-autoComplete> 
+                            <p-autoComplete  class="w-full" styleClass="w-full" [suggestions]="customerList"  (onSelect)="onCommonDetailsChange();onChangeCustomer($event)"
+                                (completeMethod)="onGetCustomerList('change',$event.query)" [field]="CustomerCode+'-'+CustomerName">
+                                    <ng-container *ngIf="customer">
+                                            <ng-template let-customer pTemplate="item">
+                                                <ng-container *ngIf="customer.CustomerName!=null">
+                                                    {{customer.CustomerName}}&nbsp;-&nbsp;{{customer.CustomerCode}}
+                                                </ng-container>
+                                                <ng-container *ngIf="customer.CustomerName==null">
+                                                    No Data Found
+                                                </ng-container>
+                                            </ng-template>
+                                    </ng-container>
+                                    
+                            </p-autoComplete>-->
+                            <input pInputText id="username" class="w-full" maxlength="50" (change)="onCommonDetailsChange();"
                                 [disabled]="(endorsementSection) || checkDisableField()" [(ngModel)]="customerCode"
                                 type="text" (keyup)="onGetCustomerList('change',$event.target.value)" autocomplete="off"
                                 placeholder="Search here" data-toggle="dropdown" />
-                            <ul class="dropdown-menu dropdown-list-style CustomerInput" appendTo="body"
-                                [ngClass]="{dropdownDisplay: showCustomerList, dropdownNotDisplay: !showCustomerList}">
-                                <li *ngFor="let item of customerList"
-                                    (click)="setCustomerValue(item.Code, item.Name,'change')">
-                                    {{item.Code}} - {{ item.Name }}
-                                </li>
-                                <div class="text-center" *ngIf="customerList.length == 0">
-                                    <p>Enter any code to Search...</p>
-                                </div>
-                            </ul>
+                                <ul class="dropdown-menu dropdown-list-style CustomerInput" appendTo="body"
+                                    [ngClass]="{dropdownDisplay: showCustomerList, dropdownNotDisplay: !showCustomerList}">
+                                    <li *ngFor="let item of customerList"
+                                        (click)="setCustomerValue(item.Code, item.Name,'change')">
+                                        {{item.Code}} - {{ item.Name }}
+                                    </li>
+                                    <div class="text-center" *ngIf="customerList.length == 0">
+                                        <p>Enter any code to Search...</p>
+                                    </div>
+                                </ul> 
                             <div class="input-form-error" *ngIf="customerCodeError">
                                 <div class="error-text text-danger">
-                                    Please Select Valid Customer Code
+                                    Please Enter Valid Source Code
                                 </div>
                             </div>
                         </div>
-                        <div class="lg:col-2 md:col-2 col-3"
+                        <div class="lg:col-4 md:col-4 col-12"
                             *ngIf="issuerSection && (sourceCodeDesc=='Premia Agent' || sourceCodeDesc=='Premia Broker' || sourceCodeDesc=='Premia Direct')">
                             <label for="username">Source Name *</label>
-                            <input pInputText id="username" [(ngModel)]="customerName" disabled type="text"
+                            <input pInputText id="username" class="w-full" [(ngModel)]="customerName" disabled type="text"
                                 placeholder="Source Name" />
                         </div>
                         <div class="lg:col-2 md:col-2 col-3"
@@ -496,7 +519,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid" *ngIf="customerDetails && (insuranceId=='100020' || insuranceId=='100028')">
+                <div class="grid" *ngIf="customerDetails && (insuranceId=='100020')">
                     <div class="lg:col-12 md:col-12 xl:col-12 col-12">
                         <h3>Driver Details</h3>
                         <div class="grid">
@@ -506,17 +529,19 @@
                             </div>
                             <div class="col-12 lg:col-3 md:col-3 xl:col-3">
                                 <label for="username">License Number&nbsp;<span class="text-danger">*</span></label><br>
-                                <input pInputText id="username" class="w-full" styleClass="w-full" maxlength="50" [(ngModel)]="licenseNo" placeholder="Enter License Number" />
+                                <input pInputText id="username" class="w-full" styleClass="w-full" maxlength="14" [(ngModel)]="licenseNo" placeholder="Enter License Number" />
                             </div>
-                            <div class="col-12 lg:col-2 md:col-2 xl:col-2">
+                            <div class="col-12 lg:col-3 md:col-3 xl:col-3">
                                 <label for="username">Driving Experience(Years)&nbsp;<span class="text-danger">*</span></label><br>
-                                <input pInputText id="username" maxlength="3" [(ngModel)]="driveExperience" placeholder="Enter License Number" />
+                                <input pInputText id="username" class="w-full" styleClass="w-full" maxlength="3" [(ngModel)]="driveExperience" placeholder="Enter Driving Experience" />
                             </div>
                            
                             <div class="col-12 lg:col-2 md:col-2 xl:col-2">
                                 <label for="username">Driver Type</label>
                                 <div class="flex justify-content-start gap-3">
-                                    <div class="flex align-items-center">
+                                    <p-selectButton [options]="driverOptions" [(ngModel)]="driverType"
+                                    optionLabel="label" optionValue="value"></p-selectButton>
+                                    <!-- <div class="flex align-items-center">
                                         <p-radioButton name="Yes" value="2" [(ngModel)]="driverType"
                                             inputId="driver_Yes"></p-radioButton>
                                         <span for="driver_Yes" class="ml-2">Driver</span>
@@ -525,13 +550,15 @@
                                         <p-radioButton name="No" value="1" [(ngModel)]="driverType"
                                             inputId="driver_No"></p-radioButton>
                                         <span for="driver_No" class="ml-2">Owner</span>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="col-12 lg:col-2 md:col-2 xl:col-2">
                                 <label for="username">Gender</label>
                                 <div class="flex justify-content-start gap-3">
-                                    <div class="flex align-items-center">
+                                    <p-selectButton [options]="genderOptions" [(ngModel)]="gender"
+                                    optionLabel="label" optionValue="value"></p-selectButton>
+                                    <!-- <div class="flex align-items-center">
                                         <p-radioButton name="gender" value="M" [(ngModel)]="gender"
                                             inputId="gender_Yes"></p-radioButton>
                                         <span for="gender_Yes" class="ml-2">Male</span>
@@ -540,12 +567,12 @@
                                         <p-radioButton name="gender" value="F" [(ngModel)]="gender"
                                             inputId="gender_No"></p-radioButton>
                                         <span for="gender_No" class="ml-2">Female</span>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="col-12 lg:col-2 md:col-2 xl:col-2">
                                 <label for="username">Date Of Birth</label>
-                                <p-calendar class="w-full" styleClass="w-full" [minDate]="minDobDate"
+                                <p-calendar class="w-full" styleClass="w-full" [maxDate]="minDobDate"
                                     [(ngModel)]="driverDob"
                                     dateFormat="dd/mm/yy" placeholder="Select Date Of Birth">
                                 </p-calendar>
@@ -578,6 +605,79 @@
                                 </p-dropdown>
                             </div>
                             
+                        </div>
+                    </div>
+                </div>
+                <div class="grid" *ngIf="customerDetails && (insuranceId=='100028')">
+                    <div class="lg:col-12 md:col-12 xl:col-12 col-12">
+                        <h3>Driver Details</h3>
+                        <div class="grid">
+                            <div class="col-12 lg:col-3 md:col-3 xl:col-3">
+                                <label for="username">Driver Name&nbsp;<span class="text-danger">*</span></label><br>
+                                <input pInputText id="username" class="w-full" styleClass="w-full" maxlength="50" [(ngModel)]="driverName" placeholder="Enter Driver Name" />
+                            </div>
+                            <div class="col-12 lg:col-3 md:col-3 xl:col-3">
+                                <label for="username">License Number&nbsp;<span class="text-danger">*</span></label><br>
+                                <input pInputText id="username" class="w-full" styleClass="w-full" maxlength="50" [(ngModel)]="licenseNo" placeholder="Enter License Number" />
+                            </div>
+                            <div class="col-12 lg:col-3 md:col-3 xl:col-3">
+                                <label for="username">Driving Experience(Years)&nbsp;<span class="text-danger">*</span></label><br>
+                                <input pInputText id="username" class="w-full" styleClass="w-full" maxlength="3" [(ngModel)]="driveExperience" placeholder="Enter Driving Experience" />
+                            </div>
+                           
+                            <div class="col-12 lg:col-3 md:col-3 xl:col-3">
+                                <label for="username">Driver Type</label>
+                                <div class="flex justify-content-start gap-3">
+                                    <p-selectButton [options]="driverOptions" [(ngModel)]="driverType"
+                                    optionLabel="label" optionValue="value"></p-selectButton>
+                                    <!-- <div class="flex align-items-center">
+                                       
+                                        <p-radioButton name="Yes" value="2" [(ngModel)]="driverType"
+                                            inputId="driver_Yes"></p-radioButton>
+                                        <span for="driver_Yes" class="ml-2">Driver</span>
+                                    </div>
+                                    <div class="flex align-items-center">
+                                        <p-radioButton name="No" value="1" [(ngModel)]="driverType"
+                                            inputId="driver_No"></p-radioButton>
+                                        <span for="driver_No" class="ml-2">Owner</span>
+                                    </div> -->
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 lg:col-3 md:col-3 xl:col-3">
+                                <label for="username">Date Of Birth</label>
+                                <p-calendar class="w-full" styleClass="w-full" [maxDate]="minDobDate"
+                                    [(ngModel)]="driverDob"
+                                    dateFormat="dd/mm/yy" placeholder="Select Date Of Birth">
+                                </p-calendar>
+                            </div>
+                            <div class="col-12 lg:col-3 md:col-3 xl:col-3">
+                                <label for="username">Martial Status</label><span class="text-danger">*</span>
+                                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="martialList" [(ngModel)]="martialStatus"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
+                                </p-dropdown>
+                            </div>
+                            <div class="col-12 lg:col-3 md:col-3 xl:col-3" *ngIf="insuranceId=='100028'">
+                                <label for="username">Claim Type</label><span class="text-danger">*</span>
+                                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="claimTypeList" [(ngModel)]="claimTypeValue" optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
+                                </p-dropdown>
+                            </div>
+                            <div class="col-12 lg:col-3 md:col-3 xl:col-3">
+                                <label for="username">Gender</label>
+                                <div class="flex justify-content-start gap-3">
+                                    <p-selectButton [options]="genderOptions" [(ngModel)]="gender"
+                                    optionLabel="label" optionValue="value"></p-selectButton>
+                                    <!-- <div class="flex align-items-center">
+                                        <p-radioButton name="gender" value="M" [(ngModel)]="gender"
+                                            inputId="gender_Yes"></p-radioButton>
+                                        <span for="gender_Yes" class="ml-2">Male</span>
+                                    </div>
+                                    <div class="flex align-items-center">
+                                        <p-radioButton name="gender" value="F" [(ngModel)]="gender"
+                                            inputId="gender_No"></p-radioButton>
+                                        <span for="gender_No" class="ml-2">Female</span>
+                                    </div> -->
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

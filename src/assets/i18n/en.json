@@ -1,0 +1,36 @@
+{
+    "HOME": {
+      "PersonalInformation": "Personal Information",
+      "AdditionalInformation": "Additional Information",
+      "AddressDetails": "Address Details",
+      "IdentityType": "Identity Type",
+      "IDNumber": "ID Number",
+      "DateOfBirth": "Date Of Birth",
+      "PreferedNotification": "Prefered Notification",
+      "TaxExcempted": "Tax Excempted",
+      "TaxExcemptedNo": "Tax Excempted No",
+      "CountryCode": "Country Code",
+      "CustomerTitle": "Customer Title",
+      "CustomerName":"Customer Name",
+      "Gender":"Gender",
+      "Occupation":"Occupation",
+      "MobileNumber": "Mobile Number",
+      "EmailId":"Email Id",
+      "Status":"Statut",
+      "Active":"Active",
+      "DeActive": "DeActive",
+      "Pending": "Pending",
+      "Street": "Street",
+      "Country":"Country",
+      "Region": "Region",
+      "District": "District",
+      "Pincode": "Pincode",
+      "CARDONE": "Welcome Message",
+      "CARDTWO": "Language",
+      "CARDLAST": "My language",
+      "DETAILONE": "Hello All, Welcome to my youtube channel, I hope you like my video, if you like please don't forget to subscribe my channel",
+      "DETAILTWO": "If you talk to a man in a language he understands, that goes to his head. If you talk to him in his own language, that goes to his heart.",
+      "DETAILLAST": "My main language was music, and my teacher was nature."
+    }
+  }
+  

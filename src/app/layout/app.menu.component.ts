@@ -215,7 +215,7 @@ export class AppMenuComponent implements OnInit {
               "icon": 'pi pi-car',
               "routerLink": [menu.link]
             }
-            if (menu.children && menu.title!='Quote Register' && menu.title!='Referral' && menu.title!='Portfolio') {
+            if (menu.children && menu.title!='Quote Register' && menu.title!='Referral' && menu.title!='Portfolio' && menu.title!='Referal Management') {
 
               entry['items'] = [];
               let j = 0;
@@ -256,6 +256,7 @@ export class AppMenuComponent implements OnInit {
                 if(this.productId=='5')  entry['routerLink'] = ['/policyDetails']
                 else entry['routerLink'] = ['/quotation/plan/quote-details']
               }
+              else if(menu.title=='Referal Management') entry["routerLink"] =  ['/referralCases']
               else if(menu.title=='Customer') entry["routerLink"] =  ['/customer']
               else if(menu.title=='Referral') entry["routerLink"] =  ['/referral']
               else if(menu.title=='Portfolio') entry["routerLink"] =  ['/portfolio']

@@ -117,9 +117,9 @@ export class MotorVehicleOromia{
                   {
                     className: 'col-12 col-md-4 col-lg-4 col-xl-4',
                     key: 'ClaimsYN',
-                    type: 'radio',
+                    type: 'radioList',
                     templateOptions: {
-                      type: 'radio',
+                      type: 'radioList',
                       label: 'Claims YN ?',
                       required: true,
                       disabled: this.checkDisable('ClaimsYN'),
@@ -130,9 +130,9 @@ export class MotorVehicleOromia{
                   {
                     className: 'col-12 col-md-4 col-lg-4 col-xl-4',
                     key: 'GpsYN',
-                    type: 'radio',
+                    type: 'radioList',
                     templateOptions: {
-                      type: 'radio',
+                      type: 'radioList',
                       label: 'Gps YN ?',
                       required: true,
                       disabled: this.checkDisable('ClaimsYN'),

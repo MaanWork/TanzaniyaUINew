@@ -1,0 +1,36 @@
+{
+    "HOME": {
+      "PersonalInformation": "Informations Personnelles",
+      "AdditionalInformation": "Informations Complémentaires",
+      "AddressDetails": "Détails de l'adresse",
+      "DateOfBirth": "Date de naissance",
+      "IdentityType": "Type d'identité",
+      "IDNumber": "Numéro d'identification",
+      "PreferedNotification": "Notification préférée",
+      "TaxExcempted": "Exonéré d'impôt",
+      "TaxExcemptedNo": "Numéro exonéré de taxe",
+      "CountryCode": "Code postal",
+      "CustomerTitle": "Titre du client",
+      "CustomerName":"Nom du client",
+      "Gender":"Genre",
+      "Occupation":"Profession",
+      "MobileNumber": "Numéro de portable",
+      "EmailId":"ID e-mail",
+      "Status":"Status",
+      "Active":"Active",
+      "DeActive": "DésActivé",
+      "Pending": "En attente",
+      "Street": "Rue",
+      "Country":"Pays",
+      "Region": "Région",
+      "District": "District",
+      "Pincode": "Code PIN",
+      "CARDONE": "message de bienvenue",
+      "CARDTWO": "Langue",
+      "CARDLAST": "Ma langue",
+      "DETAILONE": "Bonjour à tous, Bienvenue sur ma chaîne youtube, j'espère que vous aimez ma vidéo, si vous aimez n'oubliez pas de vous abonner à ma chaîne",
+      "DETAILTWO": "Si vous parlez à un homme dans une langue qu'il comprend, cela lui monte à la tête. Si vous lui parlez dans sa propre langue, cela lui touche le cœur.",
+      "DETAILLAST": "Ma langue principale était la musique et mon professeur était la nature."
+    }
+  }
+  
