@@ -238,7 +238,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
     var month = d.getMonth();
     var day = d.getDate();
     this.minDobDate = new Date(year - 18,month, day );
-    alert(this.minDobDate)
     this.years = [{label: '1 Year'}, {label: '2 Year'}];
     this.vehicles = [{label: 'Vehicle 1'}, {label: 'Vehicle 2'}];
     let quoteStatus = sessionStorage.getItem('QuoteStatus');
@@ -1841,6 +1840,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           (data: any) => {
             if(data.Result){
               this.vehicleDetails = data.Result;
+              if(this.vehicleDetails.Grossweight) this.vehicleDetails.Grossweight = String(this.vehicleDetails.Grossweight)
               this.vehicleDetails['OldExchangeRate'] = data?.Result.ExchangeRate;
               this.vehicleDetails['OldAcccessoriesSumInsured'] = data?.Result.AcccessoriesSumInsured;
               this.vehicleDetails['OldCurrency'] = data?.Result.Currency;
@@ -1855,6 +1855,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 this.tiraCoverNoteNo = this.vehicleDetails?.TiraCoverNoteNo;
                 this.motorUsageValue = this.vehicleDetails?.Motorusage;
                 this.collateralYN = this.vehicleDetails?.CollateralYn;
+                if(this.collateralYN=='Y') this.collateralValue = true;
+                else this.collateralValue = false;
                 if(this.vehicleDetails?.NcdYn) this.claimsYN = this.vehicleDetails?.NcdYn;
                 else this.claimsYN = 'N';
                 if(this.vehicleDetails?.Gpstrackinginstalled) this.gpsYn = this.vehicleDetails?.Gpstrackinginstalled;
@@ -3399,6 +3401,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
       if(this.checkDisableField()){
         if(this.currentIndex<this.vehicleDetailsList.length){
           this.collateralYN = "N";
+          if(this.collateralYN=='Y') this.collateralValue = true;
+          else this.collateralValue = false;
           this.currentIndex = this.currentIndex+1;
             if(this.vehicleDetailsList[this.currentIndex-1]?.Active==true){
               if(this.endorsementSection && this.enableAddVehicle){
@@ -4473,6 +4477,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.tiraCoverNoteNo = this.vehicleDetails?.TiraCoverNoteNo;
       this.motorUsageValue = this.vehicleDetails?.Motorusage;
       this.collateralYN = this.vehicleDetails?.CollateralYn;
+      if(this.collateralYN=='Y') this.collateralValue = true;
+      else this.collateralValue = false;
       this.PurchaseDate = this.onDateFormatInEdit(this.vehicleDetails?.PurchaseDate);
       this.deductibleValue = this.vehicleDetails?.Deductibles;
       this.vehicleValue = this.vehicleDetails?.VehicleValueType;

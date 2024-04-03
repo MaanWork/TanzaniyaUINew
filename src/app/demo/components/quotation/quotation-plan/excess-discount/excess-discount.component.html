@@ -79,8 +79,13 @@
                                 <ng-option [value]="menu">
                                     <ng-container *ngIf="productId=='5'">
                                         <span class="spancommon" style="color:navy;font-size: 1rem;">
-                                            {{menu.RiskDetails.PolicyTypeDesc}} &nbsp;|&nbsp; {{
-                                            menu.RiskDetails.Registrationnumber }} &nbsp;</span>
+                                            <ng-container *ngIf="menu.RiskDetails.PolicyTypeDesc && insuranceId!='100027'">
+                                                {{menu.RiskDetails.PolicyTypeDesc}} &nbsp;|&nbsp;
+                                            </ng-container>
+                                            <ng-container *ngIf="menu.SectionName">
+                                                {{menu.SectionName}}  &nbsp;|&nbsp;
+                                            </ng-container>
+                                             {{ menu.RiskDetails.Registrationnumber }} &nbsp;</span>
 
                                     </ng-container>
                                     <ng-container *ngIf="productId=='4'">
@@ -230,8 +235,14 @@
                             <div class="display2">
                                 <ng-container *ngIf="productId=='5'">
                                     <span class="spancommon" style="color:navy;font-size: 1rem;">
-                                        {{menu.RiskDetails.PolicyTypeDesc}}&nbsp;|&nbsp;{{
-                                        menu.RiskDetails.Registrationnumber }} | &nbsp;</span>
+                                        <ng-container *ngIf="menu.RiskDetails.PolicyTypeDesc  && insuranceId!='100027'">
+                                            {{menu.RiskDetails.PolicyTypeDesc}} &nbsp;|&nbsp;
+                                        </ng-container>
+                                        <ng-container *ngIf="menu.SectionName">
+                                            {{menu.SectionName}}  &nbsp;|&nbsp;
+                                        </ng-container> 
+                                        {{ menu.RiskDetails.Registrationnumber }}
+                                    </span>
 
                                     <ng-container *ngIf="menu.Status!='D'">
                                         <button class="fa fa-eye"

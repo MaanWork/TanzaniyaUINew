@@ -47,7 +47,7 @@ export class VehicleCreateFormComponent implements OnInit {
   sourceType: any;endorsementSection:boolean=false;endtCount:any=null;
   subuserType: any;customerDetails:any;endorsementRemarks:any=null;
   endorsePolicyNo: any=null;years:any[]=[];
-  referenceNo: string;
+  referenceNo: string;mainBodyTypeList:any[]=[];
   commonDetails: any;
   constructor(private messageService: MessageService,private sharedService: SharedService,
     private datePipe:DatePipe,private router:Router) {
@@ -74,19 +74,31 @@ export class VehicleCreateFormComponent implements OnInit {
     this.items = [{ label: 'Home', routerLink:'/' }, {label:'Vehicle', routerLink: '/vehicle'}, { label: 'Create Vehicle' }];
     this.getdetails= sessionStorage.getItem('Editcars');
     this.years = this.getYearList();
-    if(this.getdetails== 'SavedFroms'){
-      this.getExistingVehiclesList();
-    }
-    else{
-
-    }
+    
     let referenceNo =  sessionStorage.getItem('customerReferenceNo');
     if(referenceNo){
       this.referenceNo = referenceNo;
       this.getCustomerDetails(referenceNo);
       
     }
+    else{
 
+    }
+    this.quoteRefNo = sessionStorage.getItem('quoteReferenceNo')
+    if(this.getdetails== 'SavedFroms' && this.quoteRefNo){
+      this.getExistingVehiclesList();
+    }
+  }
+  onChangeMotorUsage(type){
+    if(this.bodyTypeList.length!=0 && this.usageValue!=null && this.usageValue!='' && this.usageValue!=undefined){
+     
+      let entry = this.usageList.find(ele=>ele.CodeDesc==this.usageValue);
+          if(entry){   
+            let bodyTypeStatus = entry?.BodyType;
+            this.mainBodyTypeList = this.bodyTypeList.filter(ele=>ele.BodyType==bodyTypeStatus);
+            if(type=='change') this.bodyTypeValue = null;
+          }
+    }
   }
   getCustomerDetails(refNo){
     let ReqObj = {
@@ -640,7 +652,7 @@ export class VehicleCreateFormComponent implements OnInit {
     //   "CreatedBy": this.loginId,
     //   "SavedFrom": 'WEB'
     // }
-    this.quoteRefNo = sessionStorage.getItem('quoteReferenceNo')
+    
     let ReqObj = {
       "RequestReferenceNo": this.quoteRefNo,
       "Idnumber": sessioncar?.Idnumber,

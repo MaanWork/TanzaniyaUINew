@@ -13,64 +13,32 @@
           </div>
         </div>
     </div>
-</div>  
-<p-accordion [multiple]="true" [activeIndex]="[0,1,2]">
-    <p-accordionTab header="Vehicle Details">
+    <ng-container *ngIf="insuranceId=='100028'">
         <div class="flex justify-content-start flex-wrap w-full form-container">
             <div class="flex flex-column m-3">
-                <label for="registration-no">Registration No* <span
-                    class="text-success" *ngIf="validSection">&nbsp;<i class="pi pi-check-circle"></i></span></label>
-                <input pInputText id="registration-no" class="searchText" [(ngModel)]="regNo" (keypress)="omit_special_char($event)" maxlength="25"
-                (change)="onRegistrationSearch()" placeholder="Enter Registration No"/>
-                <div class="input-form-error" *ngIf="editSection && !duplicateSection">
-                    <div class="text-primary" style="font-size: 12px;">
-                        Validating Registration Number..Please Wait
-                    </div>
-                </div>
-                <div class="input-form-error" *ngIf="duplicateSection">
-                    <div class="text-danger" style="font-size: 12px;">
-                        Registration Number Already Exist in this Quote...
-                    </div>
-                </div>
-            </div>
-            <!-- <div class="flex flex-column m-3">
-                <label for="ownername">Owner Name*</label>
-                <input pInputText id="ownername" placeholder="Enter Owner Name"/>
-            </div> -->
-            <div class="flex flex-column m-3">
-                <label for="chasis-no">Chasis No*</label>
-                <input pInputText id="chasis-no" [(ngModel)]="chassisNo" [disabled]="editSection" maxlength="25" placeholder="Enter Chasis No"/>
-            </div>
-            <div class="flex flex-column m-3">
-                <label for="engine-no">Engine Number*</label>
-                <input pInputText id="engine-no" [(ngModel)]="engineNo" [disabled]="editSection" maxlength="20" placeholder="Enter Engine Number"/>
+                <label for="motor-usage">Motor Usage*</label>
+                <p-dropdown inputId="motor-usage" 
+                    class="w-full" 
+                    styleClass="w-full" 
+                    [options]="usageList" 
+                    [(ngModel)]="usageValue" 
+                    optionLabel="CodeDesc" 
+                    optionValue="CodeDesc" 
+                    placeholder="Select Motor Usage">
+                </p-dropdown>
             </div>
             <div class="flex flex-column m-3">
                 <label for="body-type">Body Type*</label>
                 <p-dropdown inputId="body-type" 
                     class="w-full" 
                     styleClass="w-full" 
-                    [options]="bodyTypeList" 
+                    [options]="mainBodyTypeList" 
                     (onChange)="onBodyTypeChange('change')"
                     [(ngModel)]="bodyTypeValue" 
                     [disabled]="editSection"
                     optionLabel="CodeDesc" 
                     optionValue="CodeDesc" 
                     placeholder="Select Body Type">
-                </p-dropdown>
-            </div>
-            <div class="flex flex-column m-3">
-                <label for="manufacture-year">Manufacture Year*</label>
-                <p-dropdown  
-                    class="w-full"
-                    styleClass="w-full"
-                    [(ngModel)]="manufactureYear"
-                    [options]="years" 
-                    [disabled]="editSection"
-                    inputId="manufacture-year" 
-                    optionLabel="CodeDesc" 
-                    optionValue="Code" 
-                    placeholder="Enter Manufacture Year">
                 </p-dropdown>
             </div>
             <div class="flex flex-column m-3">
@@ -104,39 +72,55 @@
                 <label for="model">Model Description *</label>
                 <input pInputText id="model-desc" placeholder="Enter Model Description" maxlength="50"  [(ngModel)]="modelDesc"  />
             </div>
-            
         </div>
-        <!-- <div class="flex justify-content-start flex-wrap w-full form-container">
-             <div class="flex flex-column m-3">
-                <label for="owner-category">Owner Category*</label>
-                <p-dropdown id="owner-category" 
-                    class="w-full" 
-                    styleClass="w-full" 
-                    [options]="ownerCategoryOptions" 
-                    [(ngModel)]="selectedOwnerCategory" 
-                    optionLabel="name" 
-                    placeholder="Select Category">
-                </p-dropdown>
-            </div> 
-            
-        </div> -->
-    </p-accordionTab>
-    <p-accordionTab header="Engine Details">
         <div class="flex justify-content-start flex-wrap w-full form-container">
+            <div class="flex flex-column m-3">
+                <label for="registration-no">Registration No* <span
+                    class="text-success" *ngIf="validSection">&nbsp;<i class="pi pi-check-circle"></i></span></label>
+                <input pInputText id="registration-no" class="searchText" [(ngModel)]="regNo" (keypress)="omit_special_char($event)" maxlength="25"
+                (change)="onRegistrationSearch()" placeholder="Enter Registration No"/>
+                <div class="input-form-error" *ngIf="editSection && !duplicateSection">
+                    <div class="text-primary" style="font-size: 12px;">
+                        Validating Registration Number..Please Wait
+                    </div>
+                </div>
+                <div class="input-form-error" *ngIf="duplicateSection">
+                    <div class="text-danger" style="font-size: 12px;">
+                        Registration Number Already Exist in this Quote...
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-column m-3">
+                <label for="chasis-no">Chassis No*</label>
+                <input pInputText id="chasis-no" [(ngModel)]="chassisNo" [disabled]="editSection" maxlength="25" placeholder="Enter Chasis No"/>
+            </div>
+            <div class="flex flex-column m-3">
+                <label for="engine-no">Engine Number*</label>
+                <input pInputText id="engine-no" [(ngModel)]="engineNo" [disabled]="editSection" maxlength="20" placeholder="Enter Engine Number"/>
+            </div>
             <div class="flex flex-column m-3">
                 <label for="engine-capacity">Engine Capacity*</label>
                 <input pInputText id="engine-capacity" [(ngModel)]="engineCapacity" maxlength="5" [disabled]="editSection" placeholder="Enter Engine Capacity"/>
             </div>
             <div class="flex flex-column m-3">
-                <label for="fuel-type">Fuel Type*</label>
-                <p-dropdown inputId="fuel-type" 
-                    class="w-full" 
-                    styleClass="w-full" 
-                    [options]="fuelTypeList" [disabled]="editSection"
-                    [(ngModel)]="fuelType" 
+                <label for="seating-capacity">Seating Capacity*</label>
+                <input pInputText id="seating-capacity" [(ngModel)]="seatingCapacity" maxlength="3" [disabled]="editSection" placeholder="Enter Seating Capacity"/>
+            </div>
+        </div>
+        <div class="flex justify-content-start flex-wrap w-full form-container">
+            
+            <div class="flex flex-column m-3">
+                <label for="manufacture-year">Manufacture Year*</label>
+                <p-dropdown  
+                    class="w-full"
+                    styleClass="w-full"
+                    [(ngModel)]="manufactureYear"
+                    [options]="years" 
+                    [disabled]="editSection"
+                    inputId="manufacture-year" 
                     optionLabel="CodeDesc" 
                     optionValue="Code" 
-                    placeholder="Select Fuel Type">
+                    placeholder="Enter Manufacture Year">
                 </p-dropdown>
             </div>
             <div class="flex flex-column m-3">
@@ -153,39 +137,17 @@
                 </p-dropdown>
             </div>
             <div class="flex flex-column m-3">
-                <label for="motor-category">Motor Category*</label>
-                <p-dropdown inputId="motor-category" 
+                <label for="fuel-type">Fuel Type*</label>
+                <p-dropdown inputId="fuel-type" 
                     class="w-full" 
                     styleClass="w-full" 
-                    [options]="motorCategoryList" 
-                    [(ngModel)]="motorCategory" 
-                    [disabled]="editSection"
+                    [options]="fuelTypeList" [disabled]="editSection"
+                    [(ngModel)]="fuelType" 
                     optionLabel="CodeDesc" 
                     optionValue="Code" 
-                    placeholder="Select Motor Category">
+                    placeholder="Select Fuel Type">
                 </p-dropdown>
             </div>
-            <div class="flex flex-column m-3">
-                <label for="motor-usage">Motor Usage*</label>
-                <p-dropdown inputId="motor-usage" 
-                    class="w-full" 
-                    styleClass="w-full" 
-                    [options]="usageList" 
-                    [(ngModel)]="usageValue" 
-                    optionLabel="CodeDesc" 
-                    optionValue="Code" 
-                    placeholder="Select Motor Usage">
-                </p-dropdown>
-            </div>
-        </div>
-    </p-accordionTab>
-    <p-accordionTab header="Other Details">
-        <div class="flex justify-content-start flex-wrap w-full form-container">
-            <div class="flex flex-column m-3">
-                <label for="seating-capacity">Seating Capacity*</label>
-                <input pInputText id="seating-capacity" [(ngModel)]="seatingCapacity" maxlength="3" [disabled]="editSection" placeholder="Enter Seating Capacity"/>
-            </div>
-            
             <div class="flex flex-column m-3">
                 <label for="tare-weight">Tare Weight (Kg)</label>
                 <p-inputNumber class="w-full" styleClass="w-full" [(ngModel)]="tareWeight" maxlength="10" [disabled]="editSection" inputId="tare-weight" mode="decimal" placeholder="Enter Tare Weight" [minFractionDigits]="1"> </p-inputNumber>
@@ -194,21 +156,209 @@
                 <label for="gross-weight">Gross Weight*</label>
                 <input pInputText id="gross-weight" [(ngModel)]="grossWeight" maxlength="10" [disabled]="editSection" placeholder="Enter Gross Weight"/>
             </div>
-            <div class="flex flex-column m-3">
-                <label for="no-of-axis">No of Axis*</label>
-                <input pInputText id="no-of-axis" digitOnly [(ngModel)]="noOfAxels" maxlength="10" [disabled]="editSection" placeholder="Enter No of Axis"/>
-            </div>
-            <div class="flex flex-column m-3">
-                <label for="axis-distance">Axis Distance*</label>
-                <input pInputText id="axis-distance" digitOnly [(ngModel)]="axelDistance" maxlength="50" [disabled]="editSection" placeholder="Enter Axis Distance"/>
-            </div>
         </div>
-    </p-accordionTab>
-</p-accordion>
+        <div class="flex justify-content-center mt-2">
+            <p-button styleClass="p-button-outlined"  label="Back" class="p-3 text-l mr-0" icon="pi pi-chevron-left" [routerLink]="['/policyDetails']"></p-button>&nbsp;
+            <p-button label="Submit" class="p-3 text-l mr-0" (click)="onFormSubmit()"></p-button>
+        </div>
+    </ng-container>
+   
+</div>  
+<ng-container *ngIf="insuranceId!='100028'">
+    <p-accordion [multiple]="true" [activeIndex]="[0,1,2]">
+        <p-accordionTab header="Vehicle Details">
+            <div class="flex justify-content-start flex-wrap w-full form-container">
+                <div class="flex flex-column m-3">
+                    <label for="registration-no">Registration No* <span
+                        class="text-success" *ngIf="validSection">&nbsp;<i class="pi pi-check-circle"></i></span></label>
+                    <input pInputText id="registration-no" class="searchText" [(ngModel)]="regNo" (keypress)="omit_special_char($event)" maxlength="25"
+                    (change)="onRegistrationSearch()" placeholder="Enter Registration No"/>
+                    <div class="input-form-error" *ngIf="editSection && !duplicateSection">
+                        <div class="text-primary" style="font-size: 12px;">
+                            Validating Registration Number..Please Wait
+                        </div>
+                    </div>
+                    <div class="input-form-error" *ngIf="duplicateSection">
+                        <div class="text-danger" style="font-size: 12px;">
+                            Registration Number Already Exist in this Quote...
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="chasis-no">Chassis No*</label>
+                    <input pInputText id="chasis-no" [(ngModel)]="chassisNo" [disabled]="editSection" maxlength="25" placeholder="Enter Chasis No"/>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="engine-no">Engine Number*</label>
+                    <input pInputText id="engine-no" [(ngModel)]="engineNo" [disabled]="editSection" maxlength="20" placeholder="Enter Engine Number"/>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="body-type">Body Type*</label>
+                    <p-dropdown inputId="body-type" 
+                        class="w-full" 
+                        styleClass="w-full" 
+                        [options]="bodyTypeList" 
+                        (onChange)="onBodyTypeChange('change')"
+                        [(ngModel)]="bodyTypeValue" 
+                        [disabled]="editSection"
+                        optionLabel="CodeDesc" 
+                        optionValue="CodeDesc" 
+                        placeholder="Select Body Type">
+                    </p-dropdown>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="manufacture-year">Manufacture Year*</label>
+                    <p-dropdown  
+                        class="w-full"
+                        styleClass="w-full"
+                        [(ngModel)]="manufactureYear"
+                        [options]="years" 
+                        [disabled]="editSection"
+                        inputId="manufacture-year" 
+                        optionLabel="CodeDesc" 
+                        optionValue="Code" 
+                        placeholder="Enter Manufacture Year">
+                    </p-dropdown>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="make">Make</label>
+                    <p-dropdown inputId="make" 
+                        class="w-full" 
+                        styleClass="w-full" 
+                        [options]="makeList" 
+                        [disabled]="editSection"
+                        [(ngModel)]="makeValue" 
+                        (onChange)="onMakeChange()"
+                        optionLabel="CodeDesc" 
+                        optionValue="Code" 
+                        placeholder="Select Make">
+                    </p-dropdown>
+                </div>
+                <div class="flex flex-column m-3" *ngIf="bodyTypeId=='1' || bodyTypeId=='2' || bodyTypeId=='3' || bodyTypeId=='4' || bodyTypeId=='5' || bodyTypeId=='' || bodyTypeId==null">
+                    <label for="model">Model*</label>
+                    <p-dropdown inputId="model" 
+                        class="w-full" 
+                        styleClass="w-full" 
+                        [options]="modelList" 
+                        [(ngModel)]="modelValue" 
+                        (onChange)="onModelChange()"
+                        optionLabel="CodeDesc" 
+                        optionValue="Code" 
+                        placeholder="Select Model">
+                    </p-dropdown>
+                </div>
+                <div class="flex flex-column m-3" *ngIf="(bodyTypeId!='1' && bodyTypeId!='2' && bodyTypeId!='3' && bodyTypeId!='4' && bodyTypeId!='5' && bodyTypeId!='' && bodyTypeId!=null) || modelValue=='99999'">
+                    <label for="model">Model Description *</label>
+                    <input pInputText id="model-desc" placeholder="Enter Model Description" maxlength="50"  [(ngModel)]="modelDesc"  />
+                </div>
+                
+            </div>
+            <!-- <div class="flex justify-content-start flex-wrap w-full form-container">
+                 <div class="flex flex-column m-3">
+                    <label for="owner-category">Owner Category*</label>
+                    <p-dropdown id="owner-category" 
+                        class="w-full" 
+                        styleClass="w-full" 
+                        [options]="ownerCategoryOptions" 
+                        [(ngModel)]="selectedOwnerCategory" 
+                        optionLabel="name" 
+                        placeholder="Select Category">
+                    </p-dropdown>
+                </div> 
+                
+            </div> -->
+        </p-accordionTab>
+        <p-accordionTab header="Engine Details">
+            <div class="flex justify-content-start flex-wrap w-full form-container">
+                <div class="flex flex-column m-3">
+                    <label for="engine-capacity">Engine Capacity*</label>
+                    <input pInputText id="engine-capacity" [(ngModel)]="engineCapacity" maxlength="5" [disabled]="editSection" placeholder="Enter Engine Capacity"/>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="fuel-type">Fuel Type*</label>
+                    <p-dropdown inputId="fuel-type" 
+                        class="w-full" 
+                        styleClass="w-full" 
+                        [options]="fuelTypeList" [disabled]="editSection"
+                        [(ngModel)]="fuelType" 
+                        optionLabel="CodeDesc" 
+                        optionValue="Code" 
+                        placeholder="Select Fuel Type">
+                    </p-dropdown>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="color">Color</label>
+                    <p-dropdown inputId="color" 
+                        class="w-full" 
+                        styleClass="w-full" 
+                        [options]="colorList" 
+                        [disabled]="editSection"
+                        [(ngModel)]="colorValue" 
+                        optionLabel="CodeDesc" 
+                        optionValue="Code" 
+                        placeholder="Select Color">
+                    </p-dropdown>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="motor-category">Motor Category*</label>
+                    <p-dropdown inputId="motor-category" 
+                        class="w-full" 
+                        styleClass="w-full" 
+                        [options]="motorCategoryList" 
+                        [(ngModel)]="motorCategory" 
+                        [disabled]="editSection"
+                        optionLabel="CodeDesc" 
+                        optionValue="Code" 
+                        placeholder="Select Motor Category">
+                    </p-dropdown>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="motor-usage">Motor Usage*</label>
+                    <p-dropdown inputId="motor-usage" 
+                        class="w-full" 
+                        styleClass="w-full" 
+                        [options]="usageList" 
+                        [(ngModel)]="usageValue" 
+                        optionLabel="CodeDesc" 
+                        optionValue="CodeDesc" 
+                        placeholder="Select Motor Usage">
+                    </p-dropdown>
+                </div>
+            </div>
+        </p-accordionTab>
+        <p-accordionTab header="Other Details">
+            <div class="flex justify-content-start flex-wrap w-full form-container">
+                <div class="flex flex-column m-3">
+                    <label for="seating-capacity">Seating Capacity*</label>
+                    <input pInputText id="seating-capacity" [(ngModel)]="seatingCapacity" maxlength="3" [disabled]="editSection" placeholder="Enter Seating Capacity"/>
+                </div>
+                
+                <div class="flex flex-column m-3">
+                    <label for="tare-weight">Tare Weight (Kg)</label>
+                    <p-inputNumber class="w-full" styleClass="w-full" [(ngModel)]="tareWeight" maxlength="10" [disabled]="editSection" inputId="tare-weight" mode="decimal" placeholder="Enter Tare Weight" [minFractionDigits]="1"> </p-inputNumber>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="gross-weight">Gross Weight*</label>
+                    <input pInputText id="gross-weight" [(ngModel)]="grossWeight" maxlength="10" [disabled]="editSection" placeholder="Enter Gross Weight"/>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="no-of-axis">No of Axis*</label>
+                    <input pInputText id="no-of-axis" digitOnly [(ngModel)]="noOfAxels" maxlength="10" [disabled]="editSection" placeholder="Enter No of Axis"/>
+                </div>
+                <div class="flex flex-column m-3">
+                    <label for="axis-distance">Axis Distance*</label>
+                    <input pInputText id="axis-distance" digitOnly [(ngModel)]="axelDistance" maxlength="50" [disabled]="editSection" placeholder="Enter Axis Distance"/>
+                </div>
+            </div>
+        </p-accordionTab>
+    </p-accordion>
+    <div class="flex justify-content-center">
+        <p-button styleClass="p-button-outlined"  label="Back" class="p-3 text-l mr-0" icon="pi pi-chevron-left" [routerLink]="['/policyDetails']"></p-button>&nbsp;
+        <p-button label="Submit" class="p-3 text-l mr-0" (click)="onFormSubmit()"></p-button>
+    </div>
+</ng-container>
 
-<div class="flex justify-content-center">
-    <p-button styleClass="p-button-outlined"  label="Back" class="p-3 text-l mr-0" icon="pi pi-chevron-left" [routerLink]="['/policyDetails']"></p-button>&nbsp;
-    <p-button label="Submit" class="p-3 text-l mr-0" (click)="onFormSubmit()"></p-button>
-</div>
+
+
 
     
