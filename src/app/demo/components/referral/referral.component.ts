@@ -454,14 +454,32 @@ export class ReferralComponent implements OnInit {
     );
     }
   }
-  onEditQuotes(rowData){
+  onEditQuotes(rowData,type){
+    sessionStorage.removeItem('QuoteStatus');
     if(rowData.QuoteNo!=null && rowData.QuoteNo!='' && rowData.QuoteNo!=undefined){
       this.checkStatus(rowData);
     } 
     else{
       sessionStorage.removeItem('endorsePolicyNo');
           sessionStorage.removeItem('endorseTypeId');
-          sessionStorage.setItem('QuoteStatus','RP');
+          
+          sessionStorage.setItem('QuoteStatus',type);
+          sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
+          sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
+          sessionStorage.setItem('quoteNo',rowData.QuoteNo);
+          this.router.navigate(['/quotation/plan/premium-details']);
+    }
+  }
+  onEditApprovedQuotes(rowData,type){
+    sessionStorage.removeItem('QuoteStatus');
+    if(rowData.QuoteNo!=null && rowData.QuoteNo!='' && rowData.QuoteNo!=undefined){
+      this.checkStatus(rowData);
+    } 
+    else{
+      sessionStorage.removeItem('endorsePolicyNo');
+          sessionStorage.removeItem('endorseTypeId');
+          
+          sessionStorage.setItem('QuoteStatus',type);
           sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
           sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
           sessionStorage.setItem('quoteNo',rowData.QuoteNo);

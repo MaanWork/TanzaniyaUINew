@@ -767,9 +767,16 @@
         <div></div>
         <div class="mb-4">
             <p-button label="Back" *ngIf="productId!='5'" [routerLink]="['/quotation/plan/quote-details']" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
-            <p-button label="Back" *ngIf="productId=='5'" [routerLink]="['/policyDetails']" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
+            <p-button label="Back" *ngIf="productId=='5'" (click)="ongetBack()" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
             <p-button label="Modify Rate Details" *ngIf="userType=='issuer' || userType=='Issuer'"   [routerLink]="['/quotation/plan/premium-info']" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-            <p-button label="Buy Policy"   (click)="onFormSubmit()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+           
+            <p-button label="Buy Policy"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
+             (click)="onFormSubmit()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+            <p-button label="Buy Policy" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+            <p-button label="Buy Policy"   *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
+            (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+            <p-button label="Proceed"  *ngIf="adminSection"
+            (click)="onUpdateFactor('',null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
         </div>
         <div></div>
         
