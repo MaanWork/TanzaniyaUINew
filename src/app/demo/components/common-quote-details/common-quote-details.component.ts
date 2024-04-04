@@ -1751,6 +1751,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
     let index = event.index;
     this.tabIndex = index;
     if(index!=0){
+      this.productItem = new ProductData();
+      this.driverName = null;this.driverType='1';this.gender='M';this.licenseNo=null;
+      this.driverDob=null;this.stateValue=null;this.cityCode=null;this.subUrbanCode=null;
+      this.claimTypeValue=null;
       
       this.getMotorDetails(index-1);
     }
@@ -2598,7 +2602,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               if(this.subUrbanCode!=null && this.subUrbanCode!='' && this.subUrbanCode!=undefined){
                 areaGroup = this.districtList.find(ele=>ele.Code==this.subUrbanCode)?.AreaGroup;
               }
-              if(this.insuranceId=='100028'){this.stateValue='1';this.cityCode='1';this.subUrbanCode='2'; areaGroup='2';}
+              if(this.insuranceId=='100028'){this.stateValue=null;this.cityCode=null;this.subUrbanCode=null; areaGroup=null;}
                 ReqObj['DriverDetails']={
                   'DriverName':this.driverName,
                   'DriverType':this.driverType,
@@ -2732,6 +2736,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               "MSRefNo": vehicleDetails?.MSRefNo,
               "VehicleId": vehicleDetails?.VehicleId,
               "CdRefNo": vehicleDetails?.CdRefNo,
+              "DdRefNo": vehicleDetails?.DdRefNo,
               "VdRefNo": vehicleDetails?.VdRefNo,
               "CreatedBy": createdBy,
               "productId": this.productId,
@@ -3379,17 +3384,17 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
   }
   onProceed(type){
+   
     if(this.checkDisableField()){
       
       this.router.navigate(['/quotation/plan/premium-details']);
     }
     else if(this.vehicleDetailsList.length!=0){
       if(this.vehicleDetailsList.length==1 && this.finalizeYN!='Y'){
-        
         this.onFormSubmit('proceedSave');
       }
       else{
-        if(type=='save') this.onFormSubmit('proceedSave');
+        if(type=='save'){ this.onFormSubmit('proceedSave');}
         else this.onFinalProceed();
       }
     }
@@ -3725,6 +3730,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               if(this.subUrbanCode!=null && this.subUrbanCode!='' && this.subUrbanCode!=undefined){
                 areaGroup = this.districtList.find(ele=>ele.Code==this.subUrbanCode)?.AreaGroup;
               }
+              if(this.insuranceId=='100028'){this.stateValue=null;this.cityCode=null;this.subUrbanCode=null; areaGroup=null;}
                 ReqObj['DriverDetails']={
                   'DriverName':this.driverName,
                   'DriverType':this.driverType,
@@ -3779,6 +3785,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             }
             else{
               if(data.Result?.length!=0){
+                this.currentIndex = Number(this.vehicleId);
                 let entry = this.vehicleDetailsList[this.currentIndex-1];
                 entry['PolicyEndDate'] = endDate;
                 entry['PolicyStartDate'] = startDate;
@@ -3882,130 +3889,130 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   }
                 }
               }
-              else if(data.Result){
-                  let entry = this.vehicleDetailsList[this.currentIndex-1];
-                  entry['PolicyEndDate'] = endDate;
-                  entry['PolicyStartDate'] = startDate;
+              // else if(data.Result){
+              //     let entry = this.vehicleDetailsList[this.currentIndex-1];
+              //     entry['PolicyEndDate'] = endDate;
+              //     entry['PolicyStartDate'] = startDate;
         
-                  entry['InsuranceType'] = data?.Result?.SectionId;
-                  entry['MSRefNo'] = data?.Result?.MSRefNo;
-                  entry['VdRefNo'] = data?.Result?.VdRefNo;
-                  entry['CdRefNo'] = data?.Result?.CdRefNo;
-                  entry['RequestReferenceNo'] = data?.Result?.RequestReferenceNo;
-                  entry['Active'] = true;
-                  entry['VehicleId'] = data.Result?.VehicleId;
-                  if(this.currentIndex<this.vehicleDetailsList.length){
-                    this.collateralYN = "N";
-                    //sessionStorage.setItem('loadingType','load');
-                    this.currentIndex = this.currentIndex+1;
-                      if(this.vehicleDetailsList[this.currentIndex-1]?.Active==true){
-                        if(this.endorsementSection && this.enableAddVehicle){
-                          if(this.vehicleDetailsList[this.currentIndex-1]?.EndorsementYn){
-                            if(this.vehicleDetailsList[this.currentIndex-1].EndorsementYn=='Y'){ this.enableFieldsSection = true;}
-                            else{ this.enableFieldsSection = false; }
-                          }
-                          else this.enableFieldsSection = false;
-                        } 
-                        this.vehicleId = String(this.vehicleDetailsList[this.currentIndex-1].Vehicleid);
-                        this.getEditVehicleDetails(this.vehicleId,'direct');
-                        this.vehicleDetailsList.length = this.vehicleDetailsList.length;
-                      }
-                      else{
-                        this.vehicleDetails = this.vehicleDetailsList[this.currentIndex-1];
-                        if(this.endorsementSection && this.enableAddVehicle){
-                          if(this.vehicleDetails?.EndorsementYn){
-                            if(this.vehicleDetails.EndorsementYn=='Y') this.enableFieldsSection = true;
-                            else this.enableFieldsSection = false;
-                          }
-                        } 
-                        this.vehicleDetails = this.vehicleDetailsList[this.currentIndex-1];
-                        this.vehicleDetailsList.length = this.vehicleDetailsList.length;
-                        this.setVehicleValues('direct');
-                        //this.currencyValue = this.vehicleDetailsList[this.currentIndex-1].Currency;
-                        //this.onCurrencyChange();
-                      }
-                  }
-                  else{
-                      if(this.currentIndex-1==this.vehicleDetailsList.length) this.onFinalProceed();
-                  }
-                  this.quoteRefNo = data?.Result?.RequestReferenceNo;
-                  sessionStorage.setItem('quoteReferenceNo',data?.Result?.RequestReferenceNo);
+              //     entry['InsuranceType'] = data?.Result?.SectionId;
+              //     entry['MSRefNo'] = data?.Result?.MSRefNo;
+              //     entry['VdRefNo'] = data?.Result?.VdRefNo;
+              //     entry['CdRefNo'] = data?.Result?.CdRefNo;
+              //     entry['RequestReferenceNo'] = data?.Result?.RequestReferenceNo;
+              //     entry['Active'] = true;
+              //     entry['VehicleId'] = data.Result?.VehicleId;
+              //     if(this.currentIndex<this.vehicleDetailsList.length){
+              //       this.collateralYN = "N";
+              //       //sessionStorage.setItem('loadingType','load');
+              //       this.currentIndex = this.currentIndex+1;
+              //         if(this.vehicleDetailsList[this.currentIndex-1]?.Active==true){
+              //           if(this.endorsementSection && this.enableAddVehicle){
+              //             if(this.vehicleDetailsList[this.currentIndex-1]?.EndorsementYn){
+              //               if(this.vehicleDetailsList[this.currentIndex-1].EndorsementYn=='Y'){ this.enableFieldsSection = true;}
+              //               else{ this.enableFieldsSection = false; }
+              //             }
+              //             else this.enableFieldsSection = false;
+              //           } 
+              //           this.vehicleId = String(this.vehicleDetailsList[this.currentIndex-1].Vehicleid);
+              //           this.getEditVehicleDetails(this.vehicleId,'direct');
+              //           this.vehicleDetailsList.length = this.vehicleDetailsList.length;
+              //         }
+              //         else{
+              //           this.vehicleDetails = this.vehicleDetailsList[this.currentIndex-1];
+              //           if(this.endorsementSection && this.enableAddVehicle){
+              //             if(this.vehicleDetails?.EndorsementYn){
+              //               if(this.vehicleDetails.EndorsementYn=='Y') this.enableFieldsSection = true;
+              //               else this.enableFieldsSection = false;
+              //             }
+              //           } 
+              //           this.vehicleDetails = this.vehicleDetailsList[this.currentIndex-1];
+              //           this.vehicleDetailsList.length = this.vehicleDetailsList.length;
+              //           this.setVehicleValues('direct');
+              //           //this.currencyValue = this.vehicleDetailsList[this.currentIndex-1].Currency;
+              //           //this.onCurrencyChange();
+              //         }
+              //     }
+              //     else{
+              //         if(this.currentIndex-1==this.vehicleDetailsList.length) this.onFinalProceed();
+              //     }
+              //     this.quoteRefNo = data?.Result?.RequestReferenceNo;
+              //     sessionStorage.setItem('quoteReferenceNo',data?.Result?.RequestReferenceNo);
                   
-                  if(type=='proceedSave'){
+              //     if(type=='proceedSave'){
                   
-                    if(this.uwQuestionList.length!=0 && this.changeUwSection){
-                      let j = 0;
-                      let uwList:any[]=new Array();
-                      for(let ques of this.uwQuestionList){
-                        ques['BranchCode'] = this.branchCode;
-                        let createdBy="";
-                          let quoteStatus = sessionStorage.getItem('QuoteStatus');
-                          if(quoteStatus=='AdminRP'){
-                              createdBy = this.vehicleDetailsList[0].CreatedBy;
-                          }
-                          else{
-                            createdBy = this.loginId;
-                          }
-                          let status = null,loading = null;
-                          if(ques.QuestionType == '01' && ques.Value!=null && ques.Value!='' && ques.Options!=null){
-                            let obj = ques.Options.find(ele=>ele.UwQuesOptionDesc==ques.Value);
-                            console.log("Found Obj",ques,obj)
-                            if(obj){
-                              loading = obj.LoadingPercent
-                              if(obj.ReferralYn=='Y') status = 'R';
-                              else status = 'Y';
-                            }
-                            else status = 'Y';
-                          }
-                          else status = ques.Status;
-                          let entry = {
-                            "InsuranceId": this.insuranceId,
-                            "ProductId": this.productId,
-                            "UwQuestionId": ques.UwQuestionId,
-                            "UwQuestionDesc": ques.UwQuestionDesc,
-                            "QuestionType": ques.QuestionType,
-                            "EffectiveDateStart": ques.EffectiveDateStart,
-                            "Status": status,
-                            "LoadingPercent": loading,
-                            "MandatoryYn": ques.MandatoryYn,
-                            "DataType": ques.DataType,
-                            "CreatedBy": createdBy,
-                            "UpdatedBy":  this.loginId,
-                            "Value": ques.Value,
-                            "BranchCode": this.branchCode,
-                            "RequestReferenceNo": this.quoteRefNo,
-                            "VehicleId": this.vehicleId
-                          }
-                          uwList.push(entry);
-                        j+=1;
-                        if(j==this.uwQuestionList.length) this.onSaveUWQues(uwList,entry,type,this.currentIndex-1);
-                      }
-                    }
-                    else if(this.finalizeYN!='Y'){
-                      this.getCalculationDetails(entry,type,this.currentIndex-1,'proceedSave');
-                    }
-                    else{
-                      if(type=='save'){
+              //       if(this.uwQuestionList.length!=0 && this.changeUwSection){
+              //         let j = 0;
+              //         let uwList:any[]=new Array();
+              //         for(let ques of this.uwQuestionList){
+              //           ques['BranchCode'] = this.branchCode;
+              //           let createdBy="";
+              //             let quoteStatus = sessionStorage.getItem('QuoteStatus');
+              //             if(quoteStatus=='AdminRP'){
+              //                 createdBy = this.vehicleDetailsList[0].CreatedBy;
+              //             }
+              //             else{
+              //               createdBy = this.loginId;
+              //             }
+              //             let status = null,loading = null;
+              //             if(ques.QuestionType == '01' && ques.Value!=null && ques.Value!='' && ques.Options!=null){
+              //               let obj = ques.Options.find(ele=>ele.UwQuesOptionDesc==ques.Value);
+              //               console.log("Found Obj",ques,obj)
+              //               if(obj){
+              //                 loading = obj.LoadingPercent
+              //                 if(obj.ReferralYn=='Y') status = 'R';
+              //                 else status = 'Y';
+              //               }
+              //               else status = 'Y';
+              //             }
+              //             else status = ques.Status;
+              //             let entry = {
+              //               "InsuranceId": this.insuranceId,
+              //               "ProductId": this.productId,
+              //               "UwQuestionId": ques.UwQuestionId,
+              //               "UwQuestionDesc": ques.UwQuestionDesc,
+              //               "QuestionType": ques.QuestionType,
+              //               "EffectiveDateStart": ques.EffectiveDateStart,
+              //               "Status": status,
+              //               "LoadingPercent": loading,
+              //               "MandatoryYn": ques.MandatoryYn,
+              //               "DataType": ques.DataType,
+              //               "CreatedBy": createdBy,
+              //               "UpdatedBy":  this.loginId,
+              //               "Value": ques.Value,
+              //               "BranchCode": this.branchCode,
+              //               "RequestReferenceNo": this.quoteRefNo,
+              //               "VehicleId": this.vehicleId
+              //             }
+              //             uwList.push(entry);
+              //           j+=1;
+              //           if(j==this.uwQuestionList.length) this.onSaveUWQues(uwList,entry,type,this.currentIndex-1);
+              //         }
+              //       }
+              //       else if(this.finalizeYN!='Y'){
+              //         this.getCalculationDetails(entry,type,this.currentIndex-1,'proceedSave');
+              //       }
+              //       else{
+              //         if(type=='save'){
 
-                      }
-                      else if(type=='proceedSave'){
+              //         }
+              //         else if(type=='proceedSave'){
                         
-                        this.onFinalProceed();
-                      }
-                      else if(type=='finalProceed'){
-                        if(this.currentIndex-1==this.vehicleDetailsList.length) this.router.navigate(['/quotation/plan/premium-details']);
-                      }
-                      else{
-                        if(type==null){
-                          if(this.currentIndex-1==this.vehicleDetailsList.length) this.onFinalProceed();
-                        }
+              //           this.onFinalProceed();
+              //         }
+              //         else if(type=='finalProceed'){
+              //           if(this.currentIndex-1==this.vehicleDetailsList.length) this.router.navigate(['/quotation/plan/premium-details']);
+              //         }
+              //         else{
+              //           if(type==null){
+              //             if(this.currentIndex-1==this.vehicleDetailsList.length) this.onFinalProceed();
+              //           }
                         
                         
-                      }
-                    }
-                  }
-                  else this.getCalculationDetails(entry,type,null,'proceedSave');
-                }
+              //         }
+              //       }
+              //     }
+              //     else this.getCalculationDetails(entry,type,null,'proceedSave');
+              //   }
               
             }
           },
@@ -4121,6 +4128,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       "MSRefNo": res?.MSRefNo,
       "VehicleId": res?.VehicleId,
       "CdRefNo": res?.CdRefNo,
+      "DdRefNo": res?.DdRefNo,
       "VdRefNo": res?.VdRefNo,
       "CreatedBy": res?.CreatedBy,
       "productId": this.productId,
@@ -4144,6 +4152,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     // 
   }
   onCalculateVehDetails(vehicleDetails,type,entry,totalCount,sectionCount){
+    console.log(this.individualCalcIndex,totalCount)
     let createdBy="";
           let coverModificationYN = 'N';
           if(this.endorsementSection){
@@ -4193,6 +4202,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               "MSRefNo": vehicleDetails?.MSRefNo,
               "VehicleId": vehicleDetails?.VehicleId,
               "CdRefNo": vehicleDetails?.CdRefNo,
+              "DdRefNo": vehicleDetails?.DdRefNo,
               "VdRefNo": vehicleDetails?.VdRefNo,
               "CreatedBy": createdBy,
               "productId": this.productId,
@@ -4206,9 +4216,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
           this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             (data: any) => {
               this.individualCalcIndex +=1;
-             
-                  if(this.individualCalcIndex==totalCount){
+                  if(this.individualCalcIndex==totalCount){ 
                     if(type=='ProceedSave'){
+                     
                       console.log('Vehicle Details',this.vehicleDetailsList);
                       this.onFinalProceed();
                     }
@@ -4225,6 +4235,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
                             else this.enableFieldsSection = false;
                           } 
                           this.vehicleId = String(this.vehicleDetailsList[this.currentIndex-1].Vehicleid);
+                          this.productItem=new ProductData();
+                          this.driverName = null;this.driverType='1';this.gender='M';this.licenseNo=null;
+                          this.driverDob=null;this.stateValue=null;this.cityCode=null;this.subUrbanCode=null;
+                          this.claimTypeValue=null;
+                          if(this.vehicleDetailsList.length!=this.tabIndex) this.tabIndex+=1;
                           this.getEditVehicleDetails(this.vehicleId,'direct');
                           //this.totalCount = this.vehicleDetailsList.length;
                           $('#slider_0').removeClass('active w3-animate-left');
@@ -4264,6 +4279,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if(data.Result){
+          this.productItem = new ProductData();
+          this.driverName = null;this.driverDob = null;this.licenseNo=null; this.martialStatus =null;
+          this.gender='M';this.stateValue=null;this.cityCode=null;this.subUrbanCode=null;
+          this.driveExperience = null;this.licenseIssuedDate = null;
           this.vehicleDetails = data.Result;
           this.vehicleDetails['OldExchangeRate'] = data?.Result.ExchangeRate;
           this.vehicleDetails['OldAcccessoriesSumInsured'] = data?.Result.AcccessoriesSumInsured;
@@ -4295,6 +4314,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 // if(dateList.length>1) this.driverDob = dateList[2]+'-'+dateList[1]+'-'+dateList[0];
               }
               if(type!='save'){
+            
                 this.setVehicleValues('edit');
               }
               else{
@@ -4626,7 +4646,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
       if(this.tabIndex==0) this.router.navigate(['/quotation']);
       else if(this.tabIndex!=0){
         this.tabIndex-=1;
-        this.getMotorDetails(this.tabIndex);
+        this.productItem=new ProductData();
+        this.driverName = null;this.driverType='1';this.gender='M';this.licenseNo=null;
+        this.driverDob=null;this.stateValue=null;this.cityCode=null;this.subUrbanCode=null;
+        this.claimTypeValue=null;
+        if(this.tabIndex!=0) this.getEditVehicleDetails(this.tabIndex,'direct');
       }
       
     }

@@ -663,6 +663,32 @@ export class CoverDetailsComponent {
       );
     }
   }
+  checkCurrentSection(){
+    if(this.insuranceId=='100028'){
+      let duplicateId = null;
+      let i=0,j=0;
+      for(let veh of this.vehicleDetailsList){
+        let duplicateVehicle = [];
+        duplicateVehicle = this.vehicleDetailsList.filter((val) => val.Vehicleid === veh.Vehicleid);
+        if (duplicateVehicle.length > 1) {
+            duplicateId = duplicateVehicle[0].Vehicleid;
+        }
+        j+=1;
+        if(j==this.vehicleDetailsList.length){
+          alert(duplicateId)
+            if (duplicateId!=null) {
+              
+              this.selectedRowData=this.vehicleDetailsList[this.tabIndex];
+              console.log(this.selectedRowData)
+              return true;
+            }
+            else return false
+          }
+          else{ return false;}
+      }
+    }
+    else return false;
+  }
   checkPremiumIncludedTax(coverData,rowData){
     let entry = this.selectedCoverList.find(ele=>ele.Id==rowData.Vehicleid);
     if(coverData.SubCovers){
@@ -2704,6 +2730,10 @@ export class CoverDetailsComponent {
     }
     else this.onProceedBuyPolicy(ReqObj);
     
+  }
+  onTabClicked(event){
+    let index = event.index;
+    this.tabIndex = index;
   }
   onProceedBuyPolicy(ReqObj){
     let urlLink = `${this.CommonApiUrl}quote/buypolicy`;

@@ -3179,20 +3179,17 @@ emiyn="N";
                     {
                       "CoverId": rowData.CoverId,
                       "SubCoverId": null,
-                      "SubCoverYn": "N",
-                      //"isReferal": rowData.isReferal
+                      "SubCoverYn": "N"
                     }
                   ],
                   "Id": vehicleId,
-                  "SectionId": rowData.SectionId,
-  
+                  "SectionId": rowData.SectionId
                 }
                 this.selectedCoverList.push(element);
                 console.log("Selected Cover",this.selectedCoverList)
               }
             
             if(directType=='change' && this.endorsementSection){
-              console.log('Endorsement section1')
               if((this.endorseAddOnCovers || this.endorseCovers) && (rowData.Modifiable==undefined || rowData.Modifiable!='N')){
                 rowData['ModifiedYN'] = 'Y';
               }
@@ -3218,7 +3215,6 @@ emiyn="N";
                 vehicle['totalLcPremium'] = vehicle['totalLcPremium'] + rowData.PremiumIncludedTaxFC;
                 vehicle['totalPremium'] =  vehicle['totalPremium']+rowData.PremiumIncludedTax;
               }
-              
             }
             else if(vehicle?.totalPremium){
               console.log('Endorsement section2')
@@ -3389,7 +3385,8 @@ emiyn="N";
         this.beforeDiscount = rowData.PremiumBeforeDiscount;
         this.afterDiscount = rowData.PremiumAfterDiscount;
       }
-      this.discountOpen(modal);
+      // this.discountOpen(modal);
+      this.showExcessSection = true;
     }
     SaveLoadingDetails(modal){
       if(this.loadingList.length!=0){
