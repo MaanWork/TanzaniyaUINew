@@ -288,6 +288,15 @@ export class VehicleCreateFormComponent implements OnInit {
       }
       else this.endorsementYN = 'N';
       if(sessionStorage.getItem('quoteReferenceNo')) quoteReferenceNo = sessionStorage.getItem('quoteReferenceNo');
+      let grossweight=null,tareweight=null;
+      if(this.vehicleDetails?.Grossweight!=null && this.vehicleDetails?.Grossweight!=undefined){
+        if(String(this.vehicleDetails?.Grossweight).includes(',')) grossweight = String(this.vehicleDetails?.Grossweight).replace(',','');
+        grossweight = this.vehicleDetails?.Grossweight;
+      }
+      if(this.tareWeight!=null && this.tareWeight!=undefined){
+        if(String(this.tareWeight).includes(',')) tareweight = String(this.tareWeight).replace(',','');
+        tareweight = this.tareWeight;
+      }
     let ReqObj = {
       "BrokerBranchCode": brokerbranchCode,
       "AcExecutiveId": this.vehicleDetails?.AcExecutiveId,
@@ -316,13 +325,13 @@ export class VehicleCreateFormComponent implements OnInit {
       "CityLimit": this.vehicleDetails?.CityLimit,
       "CoverNoteNo": this.vehicleDetails?.CoverNoteNo,
       "OwnerCategory": this.vehicleDetails?.OwnerCategory,
-      "CubicCapacity": this.vehicleDetails?.Grossweight,
+      "CubicCapacity": grossweight,
       "CreatedBy": createdBy,
       "DrivenByDesc": 'D',
       "EngineNumber": this.vehicleDetails?.EngineNumber?.toUpperCase(),
       "FuelType": this.vehicleDetails?.FuelType,
       "Gpstrackinginstalled": this.vehicleDetails?.Gpstrackinginstalled,
-      "Grossweight": this.vehicleDetails?.Grossweight,
+      "Grossweight": grossweight,
       "HoldInsurancePolicy": "N",
       "Insurancetype": this.vehicleDetails?.Insurancetype,
       "InsuranceId": this.insuranceId,
@@ -351,7 +360,7 @@ export class VehicleCreateFormComponent implements OnInit {
       "SpotFogLamp": null,
       "Stickerno": null,
       "SumInsured": this.vehicleDetails?.SumInsured,
-      "Tareweight": this.tareWeight,
+      "Tareweight": tareweight,
       "TppdFreeLimit": this.vehicleDetails?.TppdFreeLimit,
       "TppdIncreaeLimit": this.vehicleDetails?.TppdIncreaeLimit,
       "TrailerDetails": null,
@@ -734,6 +743,15 @@ export class VehicleCreateFormComponent implements OnInit {
     
     if(this.insuranceId=='100004') this.usageValue = null;
     this.ownerCategory = this.customerDetails?.PolicyHolderType;
+    let grossweight=null,tareweight=null;
+    if(this.grossWeight!=null && this.grossWeight!=undefined){
+      if(String(this.grossWeight).includes(',')) grossweight = String(this.grossWeight).replace(',','');
+      grossweight = this.grossWeight;
+    }
+    if(this.tareWeight!=null && this.tareWeight!=undefined){
+      if(String(this.tareWeight).includes(',')) tareweight = String(this.tareWeight).replace(',','');
+      tareweight = this.tareWeight;
+    }
     let ReqObj = {
       "Insuranceid": this.insuranceId,
       "BranchCode": this.branchCode,
@@ -743,7 +761,7 @@ export class VehicleCreateFormComponent implements OnInit {
       "CreatedBy": this.loginId,
       "EngineNumber": this.engineNo?.toUpperCase(),
       "FuelType": this.fuelType,
-      "Grossweight": this.grossWeight,
+      "Grossweight": grossweight,
       "ManufactureYear": this.manufactureYear,
       "MotorCategory": this.motorCategory,
       "Motorusage": this.usageValue,
@@ -755,7 +773,7 @@ export class VehicleCreateFormComponent implements OnInit {
       "ResStatusCode": "Y",
       "ResStatusDesc": "None",
       "SeatingCapacity": this.seatingCapacity,
-      "Tareweight": this.tareWeight,
+      "Tareweight": tareweight,
       "Vehcilemodel": modelDesc,
       "VehicleType": this.bodyTypeValue,
       "Vehiclemake": make
