@@ -569,7 +569,6 @@
                                     </div>
                                     <div class="flex flex-wrap justify-content-between mt-2">
                                         <div></div>
-                                        <div></div>
                                         <div class="mb-4">
                                             <p-button label="Next" *ngIf="!checkNextBtn(menu,i)" (click)="onNext()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>&nbsp;
                                         </div>
@@ -578,6 +577,13 @@
                                                 <h6 class="text-white mt-0">{{totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
                                             </div>
                                             <p-button class="col-6" styleClass="surface-900" label="View Cart" severity="primary"></p-button>
+                                        </div>
+                                        <div class="card grid text-white surface-900 px-4 py-2" *ngIf="checkCurrentSection()">
+                                            <div class="col-10">
+                                                <label>Total Premium</label>
+                                                <h6 class="text-white mt-0">{{vehicleDetailsList[tabIndex].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
+                                            </div>
+                                            
                                         </div>
                                     </div>
                             </ng-container>

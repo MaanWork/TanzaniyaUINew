@@ -153,9 +153,9 @@ export class CoverDetailsComponent {
     if(loginType){
       sessionStorage.removeItem('resetLoginDetails');
       let sectionType = sessionStorage.getItem('riskSection');
-      if(sectionType=='additional' ) this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
+      if(sectionType=='additional' ) this.router.navigate(['quotation/plan/main/accessories']);
       else if(this.productId=='4') this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/travel-quote-details'])
-      else if(this.productId!='5' && this.productId!='46' && this.productId!='29') this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
+      else if(this.productId!='5' && this.productId!='46' && this.productId!='29') this.router.navigate(['quotation/plan/main/accessories']);
       else this.router.navigate(['/quotation/plan/main/document-info'])
     }
    
@@ -670,21 +670,15 @@ export class CoverDetailsComponent {
       for(let veh of this.vehicleDetailsList){
         let duplicateVehicle = [];
         duplicateVehicle = this.vehicleDetailsList.filter((val) => val.Vehicleid === veh.Vehicleid);
+      
         if (duplicateVehicle.length > 1) {
             duplicateId = duplicateVehicle[0].Vehicleid;
         }
         j+=1;
-        if(j==this.vehicleDetailsList.length){
-          alert(duplicateId)
             if (duplicateId!=null) {
-              
-              this.selectedRowData=this.vehicleDetailsList[this.tabIndex];
-              console.log(this.selectedRowData)
               return true;
             }
-            else return false
-          }
-          else{ return false;}
+            else return false;
       }
     }
     else return false;
@@ -979,7 +973,7 @@ export class CoverDetailsComponent {
     if(subCover.MultiSelectYn=='Y'){
         if(event){
           if(this.selectedCoverList.length!=0){
-            let entry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.VehicleId);
+            let entry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.VehicleId && ele.SectionId==vehicle.SectionId);
             if(entry.length==0){
               let element = {
                   "Covers": [
@@ -1220,7 +1214,7 @@ export class CoverDetailsComponent {
         }
         else{
           if(this.selectedCoverList.length!=0){
-            let entry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.VehicleId);
+            let entry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.VehicleId && ele.SectionId==vehicle.SectionId);
             console.log("Entry List",entry);
             let sectionEntry = entry.find(ele=>ele.SectionId==cover.SectionId);
             sectionEntry.Covers = sectionEntry.Covers.filter(ele=>ele.SubCoverId!=subCover.SubCoverId )
@@ -1249,7 +1243,7 @@ export class CoverDetailsComponent {
     else{
       
       if(this.selectedCoverList.length!=0){
-        let entry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.VehicleId);
+        let entry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.VehicleId && ele.SectionId==vehicle.SectionId);
         
         if(entry.length==0){
           let element = {
@@ -1806,7 +1800,7 @@ export class CoverDetailsComponent {
           vehicle = this.vehicleDetailsList.find(ele=>(ele.Vehicleid==vehicleId || ele.VehicleId==vehicleId) && (ele.SectionId==rowData.SectionId));
         }
         else{
-          vehicle = this.vehicleDetailsList.find(ele=>ele.Vehicleid==vehicleId);
+          vehicle = this.vehicleDetailsList.find(ele=>ele.Vehicleid==vehicleId && ele.SectionId==rowData.SectionId);
           console.log('Vechiles2',vehicle)
         }
         
@@ -3056,7 +3050,7 @@ export class CoverDetailsComponent {
             if(this.productId=='3'){
               let homeSession = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
               if(homeSession){
-                this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
+                this.router.navigate(['quotation/plan/main/accessories']);
               }
               else{
                 this.getExistingBuildingList();
@@ -3138,7 +3132,7 @@ export class CoverDetailsComponent {
         if(this.loginType=='B2CFlow' && this.loginId=='guest'){
           window.location.reload();
         }
-        else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
+        else this.router.navigate(['quotation/plan/main/accessories']);
       },
       (err) => { },
     );

@@ -18,7 +18,7 @@
     <p-divider></p-divider>
     
     <p-tabView>
-      <p-tabPanel header="Pending">
+      <p-tabPanel header="Active">
         <div class="flex justify-content-end mb-4">
           <p-button icon="pi pi-list" class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
           <p-button icon="pi pi-table" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
@@ -53,7 +53,7 @@
 
         </ng-template>
       </p-tabPanel>
-      <p-tabPanel header="Cancelled Policies">
+      <p-tabPanel header="Cancelled">
 
 
         <div class="flex justify-content-end mb-4">
@@ -88,7 +88,7 @@
 
         </ng-template>
       </p-tabPanel>
-      <p-tabPanel header="Cancelled">
+      <p-tabPanel header="Rejected">
       </p-tabPanel>
     </p-tabView>
   </div>  

@@ -276,7 +276,7 @@ emiyn="N";
       if(sectionType=='additional' ) this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
       else if(this.productId=='4') this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/travel-quote-details'])
       else if(this.productId!='5' && this.productId!='46' && this.productId!='29') this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
-      else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/premium-details'])
+      else  this.router.navigate(['/quotation/plan/main/document-info']);
     }
    
     console.log("Received Session",this.userDetails)
@@ -2602,14 +2602,14 @@ emiyn="N";
         }
         else if(this.statusValue){
             if(this.adminSection){
-                if(this.statusValue=='RA') this.router.navigate(['/Admin/referralApproved']);
+                if(this.statusValue=='RA') this.router.navigate(['/referralCases']);
                 //else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/customer-details']);
-                else if(this.statusValue=='RE') this.router.navigate(['/Admin/referralReQuote']);
-                else this.router.navigate(['/Admin/referralPending']);
+                else if(this.statusValue=='RE') this.router.navigate(['/referralCases']);
+                else this.router.navigate(['/referralCases']);
             }
             else{
-              if(this.statusValue=='RA') this.router.navigate(['/Home/referralApproved']);
-              else if(this.statusValue=='RE') this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/customer-details']);
+              if(this.statusValue=='RA') this.router.navigate(['/referral']);
+              else if(this.statusValue=='RE') this.router.navigate(['quotation/plan/premium-details']);
               else{
                 this.onSetBackPage();
               } 
@@ -2628,10 +2628,10 @@ emiyn="N";
     }
     onSetBackPage(){
       if(this.productId=='5' || this.productId=='29'){
-        this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/vehicle-details']);
+        this.router.navigate(['/quotation/plan/premium-details']);
       }
-      else if(this.productId=='4') this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/customer-details']);
-      else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/personal-accident']);
+      else if(this.productId=='4') this.router.navigate(['quotation/plan/premium-details']);
+      else this.router.navigate(['quotation/plan/premium-details']);
     }
     updateFinalizeYN(type){
       let ReqObj = {
@@ -3386,7 +3386,9 @@ emiyn="N";
         this.afterDiscount = rowData.PremiumAfterDiscount;
       }
       // this.discountOpen(modal);
-      this.showExcessSection = true;
+      if(modal=='excess') this.showExcessSection = true;
+      else this.showDiscountSection = true;
+      
     }
     SaveLoadingDetails(modal){
       if(this.loadingList.length!=0){
@@ -4040,14 +4042,14 @@ emiyn="N";
               if(this.loginType=='B2CFlow' && this.loginId=='guest'){
                 window.location.reload();
               }
-              else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
+              else  this.router.navigate(['quotation/plan/main/accessories']);
             }
             else{
               if(this.productId=='3') this.getExistingBuildingList();
               else  if(this.loginType=='B2CFlow' && this.loginId=='guest'){
                 window.location.reload();
               }
-              else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
+              else  this.router.navigate(['quotation/plan/main/accessories']);
             }
   
           }
@@ -4068,17 +4070,17 @@ emiyn="N";
            if(coverlist.length!=0){
             console.log('if entry of cover id 55',coverlist);
               sessionStorage.setItem('riskSection','additional');
-              this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details']);
+              this.router.navigate(['quotation/plan/main/accessories']);
              }
              else {
               sessionStorage.setItem('riskSection','normal');
-              this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/premium-details']);
+              this.router.navigate(['/quotation/plan/main/document-info']);
              }
           }
     
           else{
             sessionStorage.setItem('riskSection','normal');
-            this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/premium-details'])
+            this.router.navigate(['/quotation/plan/main/document-info']);
           }
           //this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/premium-details']);
   
@@ -4598,7 +4600,7 @@ emiyn="N";
                 if(this.productId=='59'){
                   let homeSession = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
                   if(homeSession){
-                    this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
+                    this.router.navigate(['quotation/plan/main/accessories']);
                   }
                   else{
                     this.getExistingBuildingList();
@@ -4614,7 +4616,7 @@ emiyn="N";
                 }
            
                 else if(this.productId=='32' || this.productId=='39' || this.productId=='14' || this.productId=='15' || this.productId=='19' || this.productId=='1' || this.productId=='6' || this.productId=='16' || this.productId =='21' || this.productId =='26' || this.productId =='25' || this.productId =='24'|| this.productId=='42' || this.productId=='43' || this.productId=='13' || this.productId=='27' || this.productId=='57' || this.productId=='56'){
-                  this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
+                  this.router.navigate(['quotation/plan/main/accessories']);
                 }
                 else if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
   
@@ -4642,14 +4644,14 @@ emiyn="N";
                         window.location.reload();
                   }
                   else if(this.coverlist.length!=0){
-                    this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details']);
+                    this.router.navigate(['quotation/plan/main/accessories']);
                    }
                    else {
-                    this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/premium-details']);
+                    this.router.navigate(['/quotation/plan/main/document-info']);
                    }
                 }
                 else{
-                    this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/premium-details']);
+                  this.router.navigate(['/quotation/plan/main/document-info']);
                 }
               }
             },
@@ -4682,7 +4684,7 @@ emiyn="N";
             "Promocode": customerDatas.Promocode,
           }]
           sessionStorage.setItem('homeCommonDetails',JSON.stringify(commonDetails));
-          this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
+          this.router.navigate(['quotation/plan/main/accessories']);
         },
         (err) => { },
       );
