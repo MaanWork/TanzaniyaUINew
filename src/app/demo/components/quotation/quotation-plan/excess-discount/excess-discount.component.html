@@ -2967,9 +2967,9 @@
                             *ngIf="statusValue && adminSection && statusValue!='RE' && statusValue!='RR' && SourceType!='Premia Broker' && SourceType!='Premia Direct' && SourceType!='Premia Agent'">
                             <div class="input-control-container">
                                 <label class="input-form-label">Modify Commission (%)</label>
-                                <p-selectButton [options]="modifyOptions" [(ngModel)]="modifyCommissionYN"
-                                    optionLabel="label" optionValue="value"></p-selectButton>
-                                <!-- <div class="custom-radio-btn" style="position: relative;top: 1rem;right: 0.3rem;">
+                                <!-- <p-selectButton [options]="modifyOptions" [(ngModel)]="modifyCommissionYN"
+                                    optionLabel="label" optionValue="value"></p-selectButton> -->
+                                <div class="custom-radio-btn" style="position: relative;top: 1rem;right: 0.3rem;">
                                     <div class="radio-toolbar">
                                         <input id="commission_Yes" type="radio" [(ngModel)]="modifyCommissionYN"
                                             name="commission" value="Y">
@@ -2978,7 +2978,7 @@
                                             name="commission" value="N">
                                         <label for="commission_No" class="no">No</label>
                                     </div>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4"

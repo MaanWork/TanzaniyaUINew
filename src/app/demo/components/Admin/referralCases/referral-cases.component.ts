@@ -151,7 +151,7 @@ export class ReferralCasesComponent implements OnInit {
           "Type":'Q',
           "Offset":1000
     }
-    let urlLink = `${this.CommonApiUrl}api/referralpending`;
+    let urlLink = `${this.CommonApiUrl}api/adminreferralpending`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         console.log(data);
@@ -222,7 +222,7 @@ export class ReferralCasesComponent implements OnInit {
       "BranchCode": this.branchCode,
       "Type": type
     }
-    let urlLink = `${this.CommonApiUrl}api/referralapproveddropdown`;
+    let urlLink = `${this.CommonApiUrl}api/adminreferralapprovedropdown`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if(data.Result){
@@ -288,7 +288,7 @@ export class ReferralCasesComponent implements OnInit {
           "Type":'Q',
           "Offset":1000
     }
-    let urlLink = `${this.CommonApiUrl}api/referralapproved`;
+    let urlLink = `${this.CommonApiUrl}api/adminreferralapproved`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         console.log(data);

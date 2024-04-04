@@ -3431,8 +3431,7 @@ emiyn="N";
       this.beforeDiscount = null;this.loadingList =[];
       this.afterDiscount = null;this.discountList =[];
       if(coverData){
-        modal.dismiss('Cross click');
-        $('#discountModal').modal('hide');
+        this.showExcessSection = false; this.showDiscountSection=false;
       }
     }
     premiumComma(i,LoadingAmount){

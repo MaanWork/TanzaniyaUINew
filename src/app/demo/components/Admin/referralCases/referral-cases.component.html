@@ -28,7 +28,7 @@
         <div class="grid">
           <div class="col-12 md:col-4 lg:col-4">
             <label for="username">Broker</label><span class="text-danger">*</span>
-            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="brokerCode"  [options]="brokerList" [(ngModel)]="brokerCode" (onChange)="getExistingQuotes(null,'change')"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
+            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="brokerCode"  [options]="brokerList" (onChange)="getExistingQuotes(null,'change')"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
             </p-dropdown>
           </div>
         </div>
@@ -69,6 +69,13 @@
         <div class="flex justify-content-end mb-4">
           <p-button icon="pi pi-table"  class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
           <p-button icon="pi pi-list" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
+        </div>
+        <div class="grid">
+          <div class="col-12 md:col-4 lg:col-4">
+            <label for="username">Broker</label><span class="text-danger">*</span>
+            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="ApproverbrokerCode"  [options]="ApproveredList" (onChange)="getApprovedQuotes(null,'change')"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
+            </p-dropdown>
+          </div>
         </div>
         <p-table [value]="ApprovedquoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
           <ng-template pTemplate="header">
