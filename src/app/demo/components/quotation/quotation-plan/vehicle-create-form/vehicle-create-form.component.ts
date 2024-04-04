@@ -136,87 +136,59 @@ export class VehicleCreateFormComponent implements OnInit {
    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
   }
   onRegistrationSearch(){
-  this.duplicateSection=false;this.editSection=false;this.validSection=false;
-    if(this.regNo!=null && this.regNo!='' && this.regNo!=undefined){
-      this.regNo = this.regNo.toUpperCase();
-      this.editSection = true;
-      sessionStorage.setItem('loadingType','motorSearch');
-      let ReqObj = {
-        "ReqChassisNumber": '',
-        "ReqRegNumber": this.regNo,
-        "InsuranceId": this.insuranceId,
-        "BranchCode": this.branchCode,
-        "BrokerBranchCode": this.branchCode,
-        "ProductId": this.productId,
-        "CreatedBy": this.loginId,
-        "SavedFrom": 'API'
-      }
-      let urlLink = `${this.motorApiUrl}regulatory/showvehicleinfo`;
-    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-      (data: any) => {
-          if(data.Result){
-            let commonDetails = JSON.parse(sessionStorage.getItem('commonDetails'));
-            if(commonDetails){
-              if(this.vehicleDetails==null || this.vehicleDetails==undefined) this.vehicleDetails={};
-              if(this.vehicleDetails.PolicyStartDate==null || this.vehicleDetails.PolicyStartDate==undefined){
-                let dateList = commonDetails.policyStartDate.split('/');
-                if(dateList.length==1){
-                  this.vehicleDetails.PolicyStartDate = this.datePipe.transform(commonDetails.policyStartDate, "dd/MM/yyyy");
-                  this.vehicleDetails.PolicyEndDate = this.datePipe.transform(commonDetails.policyEndDate, "dd/MM/yyyy");
-                }
-                else{
-                  this.vehicleDetails.PolicyStartDate = commonDetails.policyStartDate;
-                  this.vehicleDetails.PolicyEndDate = commonDetails.policyEndDate;
-                }
-              }
-              else{
-                let dateList = commonDetails.policyStartDate.split('/');
-                if(dateList.length==1){
-                 
-                  this.vehicleDetails.PolicyStartDate = this.datePipe.transform(commonDetails.policyStartDate, "dd/MM/yyyy");
-                  this.vehicleDetails.PolicyEndDate = this.datePipe.transform(commonDetails.policyEndDate, "dd/MM/yyyy");
-                }
-                else{ 
-                  this.vehicleDetails.PolicyStartDate = commonDetails.policyStartDate;
-                  this.vehicleDetails.PolicyEndDate = commonDetails.policyEndDate;
-                }
-              } 
-               this.currencyCode = commonDetails?.currencyCode;
-               this.exchangeRate = commonDetails?.exchangeRate;
-               if(commonDetails?.promoCode!=null && commonDetails?.promoCode!=undefined) this.promoCode = commonDetails?.promoCode;
-               if(this.promoCode!=null) this.havePromoCode = 'Y';
-            }
-            // if(this.policyStartDate){
-            //   if(this.vehicleDetails==null || this.vehicleDetails==undefined) this.vehicleDetails={};
-            //   this.vehicleDetails.PolicyStartDate = this.datePipe.transform(this.updateComponent.policyStartDate, "dd/MM/yyyy");
-            //   this.vehicleDetails.PolicyEndDate = this.datePipe.transform(this.updateComponent.policyEndDate, "dd/MM/yyyy");
-            // }
-            sessionStorage.removeItem('loadingType');
-            if(this.vehicleDetailsList.length!=0){
-                let entry = this.vehicleDetailsList.some(ele=>ele.Registrationnumber==this.regNo);
-                if(entry){
-                    this.duplicateSection = true;
-                    this.validSection = false;
+    this.duplicateSection=false;this.editSection=false;this.validSection=false;
+      if(this.regNo!=null && this.regNo!='' && this.regNo!=undefined){
+        if(this.insuranceId=='100002'){
+          this.regNo = this.regNo.toUpperCase();
+          this.editSection = true;
+          sessionStorage.setItem('loadingType','motorSearch');
+          let ReqObj = {
+            "ReqChassisNumber": '',
+            "ReqRegNumber": this.regNo,
+            "InsuranceId": this.insuranceId,
+            "BranchCode": this.branchCode,
+            "BrokerBranchCode": this.branchCode,
+            "ProductId": this.productId,
+            "CreatedBy": this.loginId,
+            "SavedFrom": 'API'
+          }
+          let urlLink = `${this.motorApiUrl}regulatory/showvehicleinfo`;
+          this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+          (data: any) => {
+              if(data.Result){
+                if(this.vehicleDetails.Chassisnumber) this.chassisNo = this.vehicleDetails?.Chassisnumber;
+                sessionStorage.removeItem('loadingType');
+                if(this.vehicleDetailsList.length!=0){
+                    let entry = this.vehicleDetailsList.some(ele=>ele.Registrationnumber==this.regNo);
+                    if(entry){
+                        this.duplicateSection = true;
+                        this.validSection = false;
+                    }
+                    else this.onSaveSearchVehicles();
                 }
                 else this.onSaveSearchVehicles();
-            }
-            else this.onSaveSearchVehicles();
-         }
-          else if(data.ErrorMessage!=null){
-            if(data.ErrorMessage.length!=0){
-              sessionStorage.removeItem('loadingType');
-              this.duplicateSection = false;
-              this.editSection = false;
-              this.validSection = true;
-            }
-          }
-        },
-        (err) => {
-          
-         },
-        );
-    }
-  }
+             }
+              else if(data.ErrorMessage!=null){
+                if(data.ErrorMessage.length!=0){
+                  sessionStorage.removeItem('loadingType');
+                  this.duplicateSection = false;
+                  this.editSection = false;
+                  this.validSection = true;
+                }
+              }
+            },
+            (err) => {
+              
+             },
+            );
+        }
+        else{
+          this.duplicateSection = false;
+          this.editSection = false;
+          this.validSection = true;
+        }
+      }
+}
   onSaveSearchVehicles(){
 
     sessionStorage.removeItem('loadingType');
