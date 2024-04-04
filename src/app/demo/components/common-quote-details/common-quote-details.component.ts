@@ -1361,6 +1361,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   }
   getMotorUsageList(vehicleValue){
     let sectionId = null;
+    this.motorUsageList =[];
     if(this.insuranceId=='100027') sectionId='91';
     else{
       if(Array.isArray(this.productItem?.InsuranceType)) sectionId = null;
@@ -1386,7 +1387,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                         let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
                         for(let field of fieldList){
                           if(field.key=='MotorUsage'){
-                                field.props.options= this.motorUsageList;
+                                field.props.options= defaultObj.concat(this.motorUsageList);
                           }
                         }
                 }
@@ -1398,6 +1399,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               let value = this.motorUsageList.find(ele=>ele.CodeDesc == this.vehicleDetails?.Motorusage || ele.Code==this.vehicleDetails?.Motorusage);
               if(value){ this.motorUsageValue = value.Code;this.productItem.MotorUsage = value.Code;}
               else this.productItem.MotorUsage = this.vehicleDetails.Motorusage;
+              
             }
             // if(this.motorDetails){
             //   let value = this.motorTypeList.find(ele=>ele.CodeDesc == this.motorDetails?.Motorusage);
@@ -2313,7 +2315,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   }
   saveMotorDetails(index){
     sessionStorage.removeItem('loadingType');
-
+    
     if(this.finalizeYN!='Y'){
         if(this.insuranceId=='100004') this.typeValue = this.classValue;
         let createdBy="";
@@ -3384,7 +3386,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
   }
   onProceed(type){
-   
+    
     if(this.checkDisableField()){
       
       this.router.navigate(['/quotation/plan/premium-details']);
@@ -3577,6 +3579,13 @@ export class CommonQuoteDetailsComponent implements OnInit {
             else this.productItem.InsuranceClass = insuranceType
             this.classValue = this.typeValue;
           }
+          let PurchaseDate= null;
+          if(this.productItem.PurchaseDate!=null && this.productItem.PurchaseDate!='' && this.productItem.PurchaseDate!=undefined){
+            if(String(this.productItem.PurchaseDate).includes('/')){
+              PurchaseDate = this.productItem.PurchaseDate;
+            }
+            else PurchaseDate = this.datePipe.transform(this.productItem.PurchaseDate,'dd/MM/yyyy');
+          }
           let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,
@@ -3684,7 +3693,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "Inflation": this.productItem.Inflation,
             "Ncb":"0",
             "DefenceValue":this.productItem.DefenceCost,
-            "PurchaseDate":this.productItem.PurchaseDate,
+            "PurchaseDate":PurchaseDate,
             "RegistrationDate": this.vehicleDetails?.RegistrationDate,
             "Scenarios": {
               "ExchangeRateScenario": {
@@ -3698,12 +3707,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
             }
             }
             ReqObj['FleetOwnerYn'] = "N";
-            if(this.PurchaseDate!=null){
-              ReqObj['PurchaseDate'] = this.datePipe.transform(this.PurchaseDate, "dd/MM/yyyy");
-            }
-            else{
-              ReqObj['PurchaseDate'] = '';
-            }
+            // if(this.PurchaseDate!=null){
+            //   ReqObj['PurchaseDate'] = this.datePipe.transform(this.PurchaseDate, "dd/MM/yyyy");
+            // }
+            // else{
+            //   ReqObj['PurchaseDate'] = '';
+            // }
             if(this.endorsementSection){
               if(this.vehicleDetails?.Status == undefined || this.vehicleDetails?.Status == null || this.vehicleDetails?.Status == 'Y' || (this.vehicleDetails?.Status =='RP' && !this.adminSection)){
                 ReqObj['Status'] = 'E';
