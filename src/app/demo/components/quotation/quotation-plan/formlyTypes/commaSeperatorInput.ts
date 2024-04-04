@@ -5,7 +5,7 @@ import { FieldType } from '@ngx-formly/core';
  selector: 'formly-field-input',
  template: `
  <input pInputText 
-        type="input" class="w-full"
+        type="input" class="w-full w-full1"
         [formControl]="formControl" 
         [formlyAttributes]="field"
         mask="separator" thousandSeparator=","

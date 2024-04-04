@@ -24,12 +24,52 @@ export class HouseHoldContents{
         }
         this.fields={
           props: { label: 'Contents Risk' },
+          // fieldGroup: [
+          //   {
+          //     fieldGroupClassName: 'grid mt-2',
+          //     fieldGroup: [
+          //       {
+          //         className: 'col-12 md:col-6 lg:col-6 p-2',
+          //         type: 'displays',
+          
+          //         templateOptions: {
+          //           label: `Contents Value`,
+          //           required: true,
+
+          //         },
+          //       },
+          //       {
+          //         className: 'col-12 md:col-4 lg:col-4',
+          //         type: 'commaSeparator',
+          //         key: 'ContentSuminsured',
+    
+          //         props: {
+          //           //label: `Contents Value`,
+          //           maxLength: 15,
+          //           disabled: this.checkDisable('ContentSuminsured'),
+          //           //required: true,
+          //           options: [
+    
+          //           ],
+    
+          //         },
+          //         validators: {
+          //           validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+          //         },
+          //         hooks: {
+          //         },
+          //         expressions: {
+          //         },
+          //       },
+          //     ]
+          //   }
+          // ]
           fieldGroup: [
             {
-              fieldGroupClassName: 'row',
+              fieldGroupClassName: 'newclassname',
               fieldGroup: [
                 {
-                  className: 'col-12',
+                  className: 'w-full md:mt-0 mt-3 mdw4',
                   type: 'commaSeparator',
                   key: 'ContentSuminsured',
     
@@ -38,9 +78,7 @@ export class HouseHoldContents{
                     maxLength: 15,
                     disabled: this.checkDisable('ContentSuminsured'),
                     required: true,
-                    options: [
-    
-                    ],
+                    options: [],
     
                   },
                   validators: {
