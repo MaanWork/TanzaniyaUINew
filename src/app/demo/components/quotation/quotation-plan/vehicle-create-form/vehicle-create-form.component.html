@@ -151,7 +151,7 @@
             </div>
             <div class="flex flex-column m-3">
                 <label for="tare-weight">Tare Weight (Kg)</label>
-                <p-inputNumber class="w-full" styleClass="w-full" [(ngModel)]="tareWeight" maxlength="10" [disabled]="editSection" inputId="tare-weight" mode="decimal" placeholder="Enter Tare Weight" [minFractionDigits]="1"> </p-inputNumber>
+                <input pInputText id class="w-full" styleClass="w-full" [(ngModel)]="tareWeight" maxlength="10" [disabled]="editSection" inputId="tare-weight" placeholder="Enter Tare Weight" />
             </div>
             <div class="flex flex-column m-3">
                 <label for="gross-weight">Gross Weight*</label>
@@ -336,7 +336,7 @@
                 
                 <div class="flex flex-column m-3">
                     <label for="tare-weight">Tare Weight (Kg)</label>
-                    <p-inputNumber class="w-full" styleClass="w-full" [(ngModel)]="tareWeight" maxlength="10" [disabled]="editSection" inputId="tare-weight" mode="decimal" placeholder="Enter Tare Weight" [minFractionDigits]="1"> </p-inputNumber>
+                    <input pInputText id class="w-full" styleClass="w-full" [(ngModel)]="tareWeight" maxlength="10" [disabled]="editSection" inputId="tare-weight" placeholder="Enter Tare Weight" />
                 </div>
                 <div class="flex flex-column m-3">
                     <label for="gross-weight">Gross Weight*</label>
