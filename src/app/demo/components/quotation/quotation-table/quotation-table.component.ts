@@ -76,7 +76,7 @@ export class QuotationTableComponent implements OnInit {
     if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
       this.columns = [ 'Quotate No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium', 'Actions'];
     }
-    else this.columns = ['Reference No','Quote No','Customer Name','Start Date','End Date','Premium','Actions'] 
+    else this.columns = ['Quote No','Reference No','Customer Name','Start Date','End Date','Premium','Actions'] 
     this.quotations = [{referenceNo:'123'}, {referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'}];
     this.getBrokerList();
     this.getLapsedBrokerList();
