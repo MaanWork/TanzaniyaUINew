@@ -2402,7 +2402,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           else{
             appId = this.loginId;
-            loginId = this.brokerLoginId;
+            loginId = this.vehicleDetails?.LoginId;
+            brokerbranchCode = this.vehicleDetails.BrokerBranchCode;
           //  if(this.updateComponent.brokerLoginId) loginId = this.updateComponent.brokerLoginId
           //   brokerbranchCode = this.vehicleDetailsList[0].BrokerBranchCode;
           // }
@@ -3540,8 +3541,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           else{
             appId = this.loginId;
-            loginId = this.vehicleDetailsList[0].LoginId;
-            brokerbranchCode = this.vehicleDetailsList[0].BrokerBranchCode;
+            loginId = this.vehicleDetails?.LoginId;
+            brokerbranchCode = this.vehicleDetails?.BrokerBranchCode;
           }
         }
         if(this.userType!='Broker' && this.userType!='User'){
