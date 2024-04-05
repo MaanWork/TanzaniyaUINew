@@ -3311,6 +3311,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       }
       if(i==0){
       sessionStorage.setItem('editVehicleId',String(this.vehicleDetailsList.length+1));
+      sessionStorage.removeItem('EditCarDetails');
       let startDate=null,endDate=null;
       let startDateList = String(this.policyStartDate).split('/');
       if(startDateList.length>1) startDate = this.policyStartDate

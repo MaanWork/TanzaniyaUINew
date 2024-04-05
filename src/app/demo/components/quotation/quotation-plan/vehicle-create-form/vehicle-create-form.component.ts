@@ -92,8 +92,7 @@ export class VehicleCreateFormComponent implements OnInit {
   }
   onChangeMotorUsage(type){
     if(this.bodyTypeList.length!=0 && this.usageValue!=null && this.usageValue!='' && this.usageValue!=undefined){
-     
-      let entry = this.usageList.find(ele=>ele.CodeDesc==this.usageValue);
+    let entry = this.usageList.find(ele=>ele.CodeDesc==this.usageValue);
           if(entry){   
             let bodyTypeStatus = entry?.BodyType;
             this.mainBodyTypeList = this.bodyTypeList.filter(ele=>ele.BodyType==bodyTypeStatus);
