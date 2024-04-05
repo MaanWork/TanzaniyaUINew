@@ -136,8 +136,9 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';
 	EstAnnualCarriesSiLc: any='0';SingleRoadSiLc:any='0';
 	otheroptionPer: any = '';patientList:any[]=[];
   TTDSumInsured: any=null;
-  MESumInsured: any=null;
-  FESumInsured: any=null;
+  MESumInsured: any=null;EmployeeCounts:any;
+  FESumInsured: any=null;ProfessionalOccupation:any;ProfessionalType:any;GISI:any;
+  ProfessionalSI:any;IndemnityTypes:any;
 	constructor(data?) {
 		this.id = data?.id ?? ''
 		this.CustomerName = data?.CustomerName ?? '';
