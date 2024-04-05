@@ -2739,74 +2739,74 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
           }
         
 
-          onprofessionalsave(){
-            let endorsementDate=null,EndorsementEffectiveDate=null,EndorsementRemarks=null,
-          EndorsementType=null,EndorsementTypeDesc=null,EndtCategoryDesc=null,EndtCount=null,
-          EndtPrevPolicyNo=null,EndtPrevQuoteNo=null,EndtStatus=null,IsFinanceEndt=null,OrginalPolicyNo=null;
-            if(this.endorsementDetails){
-              endorsementDate = this.endorsementDetails['EndorsementDate'];
-              EndorsementEffectiveDate = this.endorsementDetails['EndorsementEffectiveDate'];
-              EndorsementRemarks = this.endorsementDetails['EndorsementRemarks'];
-              EndorsementType = this.endorsementDetails['EndorsementType'];
-              EndorsementTypeDesc = this.endorsementDetails['EndorsementTypeDesc'];
-              EndtCategoryDesc = this.endorsementDetails['EndtCategoryDesc'];
-              EndtCount = this.endorsementDetails['EndtCount'];
-              EndtPrevPolicyNo = this.endorsementDetails['EndtPrevPolicyNo'];
-              EndtPrevQuoteNo = this.endorsementDetails['EndtPrevQuoteNo'];
-              EndtStatus = this.endorsementDetails['EndtStatus'];
-              IsFinanceEndt = this.endorsementDetails['IsFinanceEndt'];
-              OrginalPolicyNo = this.endorsementDetails['OrginalPolicyNo'];
-            }
-            let ReqObj={
-              "RequestReferenceNo": this.requestReferenceNo,
-              "RiskId": "1",
-              "ProductId": this.productId,
-              "SectionId": "106",
-              "InsuranceId": this.insuranceId,
-              "CreatedBy":this.loginId,
-              "OccupationId":this.productItem?.ProfessionalOccupation,
-              "OccupationDesc":"Adocate",
-              "ProfessionalType":this.productItem?.ProfessionalType,
-               "EmployeeCount": this.productItem?.EmployeeCounts,
-               "IndemnityType": this.productItem?.IndemnityTypes,
-               "IndemnitySi":this.productItem?.ProfessionalSI,
-               "GrossIncome":this.productItem?.GISI,
-               "EndorsementDate": endorsementDate,
-               "EndorsementEffectiveDate": EndorsementEffectiveDate,
-               "EndorsementRemarks": EndorsementRemarks,
-               "EndorsementType": EndorsementType,
-               "EndorsementTypeDesc": EndorsementTypeDesc,
-               "EndtCategoryDesc": EndtCategoryDesc,
-               "EndtCount": EndtCount,
-               "EndtPrevPolicyNo": EndtPrevPolicyNo,
-               "EndtPrevQuoteNo": EndtPrevQuoteNo,
-               "EndtStatus": EndtStatus,
-               "IsFinanceEndt": IsFinanceEndt,
-               "OrginalPolicyNo": OrginalPolicyNo,
+          // onprofessionalsave(){
+          //   let endorsementDate=null,EndorsementEffectiveDate=null,EndorsementRemarks=null,
+          // EndorsementType=null,EndorsementTypeDesc=null,EndtCategoryDesc=null,EndtCount=null,
+          // EndtPrevPolicyNo=null,EndtPrevQuoteNo=null,EndtStatus=null,IsFinanceEndt=null,OrginalPolicyNo=null;
+          //   if(this.endorsementDetails){
+          //     endorsementDate = this.endorsementDetails['EndorsementDate'];
+          //     EndorsementEffectiveDate = this.endorsementDetails['EndorsementEffectiveDate'];
+          //     EndorsementRemarks = this.endorsementDetails['EndorsementRemarks'];
+          //     EndorsementType = this.endorsementDetails['EndorsementType'];
+          //     EndorsementTypeDesc = this.endorsementDetails['EndorsementTypeDesc'];
+          //     EndtCategoryDesc = this.endorsementDetails['EndtCategoryDesc'];
+          //     EndtCount = this.endorsementDetails['EndtCount'];
+          //     EndtPrevPolicyNo = this.endorsementDetails['EndtPrevPolicyNo'];
+          //     EndtPrevQuoteNo = this.endorsementDetails['EndtPrevQuoteNo'];
+          //     EndtStatus = this.endorsementDetails['EndtStatus'];
+          //     IsFinanceEndt = this.endorsementDetails['IsFinanceEndt'];
+          //     OrginalPolicyNo = this.endorsementDetails['OrginalPolicyNo'];
+          //   }
+          //   let ReqObj={
+          //     "RequestReferenceNo": this.requestReferenceNo,
+          //     "RiskId": "1",
+          //     "ProductId": this.productId,
+          //     "SectionId": "106",
+          //     "InsuranceId": this.insuranceId,
+          //     "CreatedBy":this.loginId,
+          //     "OccupationId":this.productItem?.ProfessionalOccupation,
+          //     "OccupationDesc":"Adocate",
+          //     "ProfessionalType":this.productItem?.ProfessionalType,
+          //      "EmployeeCount": this.productItem?.EmployeeCounts,
+          //      "IndemnityType": this.productItem?.IndemnityTypes,
+          //      "IndemnitySi":this.productItem?.ProfessionalSI,
+          //      "GrossIncome":this.productItem?.GISI,
+          //      "EndorsementDate": endorsementDate,
+          //      "EndorsementEffectiveDate": EndorsementEffectiveDate,
+          //      "EndorsementRemarks": EndorsementRemarks,
+          //      "EndorsementType": EndorsementType,
+          //      "EndorsementTypeDesc": EndorsementTypeDesc,
+          //      "EndtCategoryDesc": EndtCategoryDesc,
+          //      "EndtCount": EndtCount,
+          //      "EndtPrevPolicyNo": EndtPrevPolicyNo,
+          //      "EndtPrevQuoteNo": EndtPrevQuoteNo,
+          //      "EndtStatus": EndtStatus,
+          //      "IsFinanceEndt": IsFinanceEndt,
+          //      "OrginalPolicyNo": OrginalPolicyNo,
             
-            }
-            let urlLink = `${this.motorApiUrl}api/saveAllSection`;
-            this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-              (data: any) => {
-                if (data?.Result) {
-                  if(data.Result.length!=0){
-                    this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
-                    sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
-                    this.onCalculate(data.Result);
+          //   }
+          //   let urlLink = `${this.motorApiUrl}api/saveAllSection`;
+          //   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+          //     (data: any) => {
+          //       if (data?.Result) {
+          //         if(data.Result.length!=0){
+          //           this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+          //           sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+          //           this.onCalculate(data.Result);
                    
-                    //this.onCheckUWQuestionProceed(data.Result);
-                  }
+          //           //this.onCheckUWQuestionProceed(data.Result);
+          //         }
                   
-                // }
-                // else {
-                //   this.nextslide=false;
-                // }
-                }
-            },
-            (err) => { },
-          );
+          //       // }
+          //       // else {
+          //       //   this.nextslide=false;
+          //       // }
+          //       }
+          //   },
+          //   (err) => { },
+          // );
           
-          }
+          // }
 
 
           onSavePersonalAccidentDetails(){
