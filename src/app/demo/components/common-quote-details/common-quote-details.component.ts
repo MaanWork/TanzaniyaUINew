@@ -1384,12 +1384,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 this.motorUsageList[i].label = this.motorUsageList[i]['CodeDesc'];
                 this.motorUsageList[i].value = this.motorUsageList[i]['Code'];
                 if (i == this.motorUsageList.length - 1) {
-                        let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
-                        for(let field of fieldList){
-                          if(field.key=='MotorUsage'){
-                                field.props.options= defaultObj.concat(this.motorUsageList);
-                          }
-                        }
+                  let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                  for(let field of fieldList){
+                    if(field.key=='MotorUsage'){
+                          field.props.options= defaultObj.concat(this.motorUsageList);
+                    }
+                  }
                 }
               }
             }
@@ -1399,7 +1399,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               let value = this.motorUsageList.find(ele=>ele.CodeDesc == this.vehicleDetails?.Motorusage || ele.Code==this.vehicleDetails?.Motorusage);
               if(value){ this.motorUsageValue = value.Code;this.productItem.MotorUsage = value.Code;}
               else this.productItem.MotorUsage = this.vehicleDetails.Motorusage;
-              
+             
             }
             // if(this.motorDetails){
             //   let value = this.motorTypeList.find(ele=>ele.CodeDesc == this.motorDetails?.Motorusage);
@@ -2444,7 +2444,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
           if(this.typeValue==null || this.typeValue==undefined){
 
           }
-          else insuranceType.push(this.typeValue)
+          else{
+            if(Array.isArray(this.productItem.InsuranceType)) insuranceType = this.productItem.InsuranceType;
+            else insuranceType.push(this.productItem.InsuranceType);
+          }
         }
         if(this.insuranceId=='100027' || this.insuranceId=='100028'){
           if(Array.isArray(insuranceType)){
@@ -3578,7 +3581,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
             if(this.typeValue==null || this.typeValue==undefined){
 
             }
-            else insuranceType.push(this.productItem.InsuranceType)
+            else{
+              
+              if(Array.isArray(this.productItem.InsuranceType)) insuranceType = this.productItem.InsuranceType;
+              else insuranceType.push(this.productItem.InsuranceType);
+            }
           }
           if(this.insuranceId=='100027' || this.insuranceId=='100028'){
             if(Array.isArray(insuranceType)){
