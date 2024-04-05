@@ -44,9 +44,9 @@ export class QuotationTableComponent implements OnInit {
   pageRejectedCount: any=null;
   quoteRejectedPageNo: any=null;
   quoteRejectedData: any[]=[];
-  startRejectedIndex: any=null;
+  startRejectedIndex: any=null;quoteDataList:any[]=[];
   endRejectedIndex: any=null;selectedCustomer:any=null;
-
+  cols:any[]=[];
   constructor(private router: Router,private sharedService: SharedService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -74,9 +74,14 @@ export class QuotationTableComponent implements OnInit {
     this.items = [{ label: 'Home', routerLink:'/' }, {label:'Quotation'}];
     this.customerColumn = [ 'Select','Reference No','Customer Name',  'Customer Type','ID Number'];
     if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
-      this.columns = [ 'Quotate No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium', 'Actions'];
+      this.columns = [ 'Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium', 'Actions'];
     }
     else this.columns = ['Quote No','Reference No','Customer Name','Start Date','End Date','Premium','Actions'] 
+    this.cols = [ 
+      { field: "QuoteNo", header: "Quote No" }, 
+      { field: "RequestReferenceNo", header: "Reference No" }, 
+      { field: "ClientName", header: "Customer Name" }, 
+    ]; 
     this.quotations = [{referenceNo:'123'}, {referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'}];
     this.getBrokerList();
     this.getLapsedBrokerList();
@@ -177,6 +182,7 @@ export class QuotationTableComponent implements OnInit {
                 startCount = endCount + 1;
                   let quoteData = data.Result?.CustomerDetails;
                   this.quoteData = data.Result?.CustomerDetails;
+                  this.quoteDataList = data.Result?.CustomerDetails;
                   if (quoteData.length <= this.pageCount) {
                     endCount = quoteData.length
                   }

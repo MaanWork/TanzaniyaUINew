@@ -24,88 +24,104 @@
         <p-button icon="pi pi-table"  class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
         <p-button icon="pi pi-list" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
       </div>
-      <p-table *ngIf="tableView == 'table' else cardTableView" [value]="quoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
-        <ng-template pTemplate="header">
-            <tr>
-                <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-customer>
-          <tr>
-            <!-- <td><p-checkbox [binary]="true"></p-checkbox></td> -->
-            <td>{{ customer.QuoteNo }}</td>
-            <td>{{ customer.RequestReferenceNo }}</td>
-            
-            <td>{{ customer.ClientName }}</td>
-            <td>{{ customer.PolicyStartDate }}</td>
-            <td>{{ customer.PolicyEndDate }}</td>
-            <td>{{ customer.OverallPremiumLc }}</td>
-            <td>
-              <span class="p-buttonset">
-                <button pButton pRipple icon="pi pi-pencil" (click)="onEditQuotes(customer)" title="Edit" class="p-button-outlined"></button>
-                <button pButton pRipple icon="pi pi-envelope" title="Mail" class="p-button-outlined"></button>
-                <button pButton pRipple icon="pi pi-inbox" title="SMS" class="p-button-outlined"></button>
-                <button pButton pRipple icon="pi pi-user" title="Followup" class="p-button-outlined"></button>
-              </span>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-      <ng-template #cardTableView>
-        <div class="grid">
-          <div class="card  mr-4" *ngFor="let quote of quoteData">
-            <table>
-              <tr>
-                <td><h5>{{quote.ClientName}}</h5></td>
-              </tr>
-              <tr class="justify-content-between">
-                
-                  <td><b>Reference No</b>
-                    <p> {{ quote.RequestReferenceNo }}</p>
-                  </td>
-                  <td>
-                    <ng-container *ngIf="quote.QuoteNo">
-                      <b>Quote No</b>
-                      <p>{{quote.QuoteNo}}</p>
-                    </ng-container>
-                  </td>
-              </tr>
-              <!-- <tr class="">
-                <td >
-                  <b>Quote No</b>
-                  <p-chip [label]="quote.QuoteNo" styleClass="bg-orange-500 text-white"></p-chip>
-                </td>
-                <td class="text-right">
-                  <b> Reference No</b>
-                  <p class="text-teal-600"></p>
-                    {{ quote.RequestReferenceNo }}
-                </td>
-              </tr> -->
-              <tr class="justify-content-between">
-                <td><b>Start Date</b>
-                <p>{{quote.PolicyStartDate}}</p>
-                </td>
-                <td class=""><b>End Date</b>
-                <p>{{quote.PolicyEndDate}}</p></td>
-              </tr>               
-              <tr>
-                <td><span class="pi pi-phone mr-2"></span>{{quote.OverallPremiumLc}}&nbsp;({{quote.currencyCode}})</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>
-                  <span class="p-buttonset">
-                    <button pButton pRipple icon="pi pi-pencil" (click)="onEditQuotes(quote)" title="Edit" class="p-button-outlined"></button>
-                    <button pButton pRipple icon="pi pi-envelope" title="Mail" class="p-button-outlined"></button>
-                    <button pButton pRipple icon="pi pi-inbox" title="SMS" class="p-button-outlined"></button>
-                    <button pButton pRipple icon="pi pi-user" title="Followup" class="p-button-outlined"></button>
-                  </span>
-                </td>
-              </tr>
-            </table>
-          </div>
+      <div class="grid mb-2 mt-2">
+        <div class="col-12 md:col-4 lg:col-4">
+          <label for="username">Broker</label><span class="text-danger">*</span>
+          <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="brokerCode"  [options]="brokerList" (onChange)="getExistingQuotes(null,'change')"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
+          </p-dropdown>
         </div>
-      </ng-template>
+      </div>
+      <ng-container *ngIf="quoteData.length!=0">
+        <p-table *ngIf="tableView == 'table' else cardTableView" [value]="quoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+          <ng-template pTemplate="header">
+              <tr>
+                  <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+              </tr>
+          </ng-template>
+          <tr> 
+            <th *ngFor="let col of cols"> 
+                <input pInputText type="text" (input)= 
+                "tableref.filter($event.target.value, col.field, col.filterMatchMode)" /> 
+            </th> 
+          </tr> 
+          <ng-template pTemplate="body" let-customer>
+            <tr>
+              <!-- <td><p-checkbox [binary]="true"></p-checkbox></td> -->
+              <td>{{ customer.QuoteNo }}</td>
+              <td>{{ customer.RequestReferenceNo }}</td>
+              
+              <td>{{ customer.ClientName }}</td>
+              <td>{{ customer.PolicyStartDate }}</td>
+              <td>{{ customer.PolicyEndDate }}</td>
+              <td>{{ customer.OverallPremiumLc }}</td>
+              <td>
+                <span class="p-buttonset">
+                  <button pButton pRipple icon="pi pi-pencil" (click)="onEditQuotes(customer)" title="Edit" class="p-button-outlined"></button>
+                  <button pButton pRipple icon="pi pi-envelope" title="Mail" class="p-button-outlined"></button>
+                  <button pButton pRipple icon="pi pi-inbox" title="SMS" class="p-button-outlined"></button>
+                  <button pButton pRipple icon="pi pi-user" title="Followup" class="p-button-outlined"></button>
+                </span>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <ng-template #cardTableView>
+          <div class="grid">
+            <div class="card  mr-4" *ngFor="let quote of quoteData">
+              <table>
+                <tr>
+                  <td><h5>{{quote.ClientName}}</h5></td>
+                </tr>
+                <tr class="justify-content-between">
+                  
+                    <td><b>Reference No</b>
+                      <p> {{ quote.RequestReferenceNo }}</p>
+                    </td>
+                    <td>
+                      <ng-container *ngIf="quote.QuoteNo">
+                        <b>Quote No</b>
+                        <p>{{quote.QuoteNo}}</p>
+                      </ng-container>
+                    </td>
+                </tr>
+                <!-- <tr class="">
+                  <td >
+                    <b>Quote No</b>
+                    <p-chip [label]="quote.QuoteNo" styleClass="bg-orange-500 text-white"></p-chip>
+                  </td>
+                  <td class="text-right">
+                    <b> Reference No</b>
+                    <p class="text-teal-600"></p>
+                      {{ quote.RequestReferenceNo }}
+                  </td>
+                </tr> -->
+                <tr class="justify-content-between">
+                  <td><b>Start Date</b>
+                  <p>{{quote.PolicyStartDate}}</p>
+                  </td>
+                  <td class=""><b>End Date</b>
+                  <p>{{quote.PolicyEndDate}}</p></td>
+                </tr>               
+                <tr>
+                  <td><span class="pi pi-phone mr-2"></span>{{quote.OverallPremiumLc}}&nbsp;({{quote.currencyCode}})</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>
+                    <span class="p-buttonset">
+                      <button pButton pRipple icon="pi pi-pencil" (click)="onEditQuotes(quote)" title="Edit" class="p-button-outlined"></button>
+                      <button pButton pRipple icon="pi pi-envelope" title="Mail" class="p-button-outlined"></button>
+                      <button pButton pRipple icon="pi pi-inbox" title="SMS" class="p-button-outlined"></button>
+                      <button pButton pRipple icon="pi pi-user" title="Followup" class="p-button-outlined"></button>
+                    </span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
+      
     </p-tabPanel>
     <p-tabPanel header="Lapsed">
       <div class="flex justify-content-end mb-4">

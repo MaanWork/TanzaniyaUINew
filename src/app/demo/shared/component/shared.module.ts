@@ -16,6 +16,8 @@ import { ChipModule } from 'primeng/chip';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PolicyTableComponent } from '../../components/policy/policy-table/policy-table.component';
 import { DragDropFileUploadDirective } from '../../service/drag-drop.directive';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -27,6 +29,7 @@ import { DragDropFileUploadDirective } from '../../service/drag-drop.directive';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     TableModule,
     BreadcrumbModule,
     ButtonModule,
@@ -37,7 +40,8 @@ import { DragDropFileUploadDirective } from '../../service/drag-drop.directive';
     DialogModule,
     AutoCompleteModule,
     ChipModule,
-    CheckboxModule
+    CheckboxModule,
+    DropdownModule
     
   ],
   exports: [TableViewComponent]

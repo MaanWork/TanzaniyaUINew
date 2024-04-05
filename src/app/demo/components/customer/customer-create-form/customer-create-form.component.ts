@@ -990,7 +990,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			
 							const element = errorList[index];
 							ulList +=`<li class="list-group-login-field">
-								<div style="color: darkgreen;">Field<span class="mx-2">:</span>${element?.Field}&nsp;(${element?.Code})</div>
+								<div style="color: darkgreen;">Field<span class="mx-2">:</span>${element?.Field}&nbsp;(${element?.Code})</div>
 								<div style="color: red;">Message<span class="mx-2">:</span>${element?.Message}</div>
 							</li>`
 							}
