@@ -1891,6 +1891,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                     this.claimRatio = this.vehicleDetails?.ClaimRatio
                   }
                 }
+                this.setVehicleValues('direct');
             }
           });
   } 
@@ -2452,6 +2453,13 @@ export class CommonQuoteDetailsComponent implements OnInit {
           else this.productItem.InsuranceClass = insuranceType
           this.classValue = this.typeValue;
         } 
+        let PurchaseDate= null;
+        if(this.productItem.PurchaseDate!=null && this.productItem.PurchaseDate!='' && this.productItem.PurchaseDate!=undefined){
+         if(String(this.productItem.PurchaseDate).includes('/')){
+            PurchaseDate = this.productItem.PurchaseDate;
+          }
+          else PurchaseDate = this.datePipe.transform(this.productItem.PurchaseDate,'dd/MM/yyyy');
+        }
           let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,
@@ -2559,7 +2567,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "Inflation": this.productItem.Inflation,
             "Ncb":"0",
             "DefenceValue":this.productItem.DefenceCost,
-            "PurchaseDate":this.productItem.PurchaseDate,
+            "PurchaseDate":PurchaseDate,
             "RegistrationDate": this.vehicleDetails?.RegistrationDate,
             "Scenarios": {
               "ExchangeRateScenario": {
@@ -2573,12 +2581,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
             }
             }
             ReqObj['FleetOwnerYn'] = "N";
-            if(this.PurchaseDate!=null){
-              ReqObj['PurchaseDate'] = this.datePipe.transform(this.PurchaseDate, "dd/MM/yyyy");
-            }
-            else{
-              ReqObj['PurchaseDate'] = '';
-            }
+            // if(this.PurchaseDate!=null){
+            //   ReqObj['PurchaseDate'] = this.datePipe.transform(this.PurchaseDate, "dd/MM/yyyy");
+            // }
+            // else{
+            //   ReqObj['PurchaseDate'] = '';
+            // }
             if(this.endorsementSection){
               if(this.vehicleDetails?.Status == undefined || this.vehicleDetails?.Status == null || this.vehicleDetails?.Status == 'Y' || (this.vehicleDetails?.Status =='RP' && !this.adminSection)){
                 ReqObj['Status'] = 'E';
