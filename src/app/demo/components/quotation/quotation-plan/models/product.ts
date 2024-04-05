@@ -123,7 +123,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';
 	EngineNo: any
 	EngineCapacity: any
 	SeatingCapacity: any
-  	ModelDesc: any=null;
+  	ModelDesc: any=null;RenewalYn:any='N';
   OtherModelDesc: any=null;WaterTankSi:any='0';ArchitectsSi:any='0';LossOfRentSi:any='0';TypeOfProperty:any='';
   JewellerySi:any='0';GroupMemberSi:any='0';
   PaitingsSi:any ='0';TotalNoOfGroupMemeber:any=0;

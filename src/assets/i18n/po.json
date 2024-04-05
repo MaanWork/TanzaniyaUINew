@@ -1,0 +1,36 @@
+{
+    "HOME": {
+      "PersonalInformation": "Informações pessoais",
+      "AdditionalInformation": "Informações adicionais",
+      "AddressDetails": "Detalhes do Endereço",
+      "IdentityType": "Tipo de Identidade",
+      "IDNumber": "Número de identidade",
+      "DateOfBirth": "Data de nascimento",
+      "PreferedNotification": "Notificação preferida",
+      "TaxExcempted": "Imposto isento",
+      "TaxExcemptedNo": "Número isento de imposto",
+      "CountryCode": "Código do país",
+      "CustomerTitle": "Título do cliente",
+      "CustomerName":"Nome do cliente",
+      "Gender":"Gênero",
+      "Occupation":"Ocupação",
+      "MobileNumber": "Número de telemóvel",
+      "EmailId":"Identificação do email",
+      "Status":"Status",
+      "Active":"Active",
+      "DeActive": "Desativo",
+      "Pending": "Pendente",
+      "Street": "Rua",
+      "Country":"País",
+      "Region": "Região",
+      "District": "Distrito",
+      "Pincode": "Código PIN",
+      "CARDONE": "Welcome Message",
+      "CARDTWO": "Language",
+      "CARDLAST": "My language",
+      "DETAILONE": "Hello All, Welcome to my youtube channel, I hope you like my video, if you like please don't forget to subscribe my channel",
+      "DETAILTWO": "If you talk to a man in a language he understands, that goes to his head. If you talk to him in his own language, that goes to his heart.",
+      "DETAILLAST": "My main language was music, and my teacher was nature."
+    }
+  }
+  

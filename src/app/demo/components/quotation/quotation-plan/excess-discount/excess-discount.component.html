@@ -79,8 +79,13 @@
                                 <ng-option [value]="menu">
                                     <ng-container *ngIf="productId=='5'">
                                         <span class="spancommon" style="color:navy;font-size: 1rem;">
-                                            {{menu.RiskDetails.PolicyTypeDesc}} &nbsp;|&nbsp; {{
-                                            menu.RiskDetails.Registrationnumber }} &nbsp;</span>
+                                            <ng-container *ngIf="menu.RiskDetails.PolicyTypeDesc && insuranceId!='100027'">
+                                                {{menu.RiskDetails.PolicyTypeDesc}} &nbsp;|&nbsp;
+                                            </ng-container>
+                                            <ng-container *ngIf="menu.SectionName">
+                                                {{menu.SectionName}}  &nbsp;|&nbsp;
+                                            </ng-container>
+                                             {{ menu.RiskDetails.Registrationnumber }} &nbsp;</span>
 
                                     </ng-container>
                                     <ng-container *ngIf="productId=='4'">
@@ -230,8 +235,14 @@
                             <div class="display2">
                                 <ng-container *ngIf="productId=='5'">
                                     <span class="spancommon" style="color:navy;font-size: 1rem;">
-                                        {{menu.RiskDetails.PolicyTypeDesc}}&nbsp;|&nbsp;{{
-                                        menu.RiskDetails.Registrationnumber }} | &nbsp;</span>
+                                        <ng-container *ngIf="menu.RiskDetails.PolicyTypeDesc  && insuranceId!='100027'">
+                                            {{menu.RiskDetails.PolicyTypeDesc}} &nbsp;|&nbsp;
+                                        </ng-container>
+                                        <ng-container *ngIf="menu.SectionName">
+                                            {{menu.SectionName}}  &nbsp;|&nbsp;
+                                        </ng-container> 
+                                        {{ menu.RiskDetails.Registrationnumber }}
+                                    </span>
 
                                     <ng-container *ngIf="menu.Status!='D'">
                                         <button class="fa fa-eye"
@@ -834,8 +845,12 @@
                                                                                     (click)="ongetTaxDetails(element)">?</button> -->
                                                                             </ng-container>
                                                                         </div>
-                                                                        <div>{{ element.DiffPremiumIncludedTax |
-                                                                            commaseparator }}</div>
+                                                                         <ng-container *ngIf="checkPremiumIncludedTax(element,menu)">
+                                                                            {{ element[col.key]|commaseparator }}
+                                                                        </ng-container>
+                                                                        <ng-container *ngIf="!checkPremiumIncludedTax(element,menu)">
+                                                                            0
+                                                                        </ng-container>
                                                                     </div>
                                                                 </ng-container>
                                                                 <ng-container
@@ -1009,7 +1024,12 @@
                                                                             </ng-container>
                                                                         </div>
                                                                         <div>
-                                                                            {{ element[col.key]|commaseparator }}
+                                                                            <ng-container *ngIf="checkPremiumIncludedTax(element,menu)">
+                                                                                {{ element[col.key]|commaseparator }}
+                                                                            </ng-container>
+                                                                            <ng-container *ngIf="!checkPremiumIncludedTax(element,menu)">
+                                                                                0
+                                                                            </ng-container>
                                                                         </div>
                                                                     </div>
                                                                 </ng-container>
@@ -1293,10 +1313,11 @@
                                                                                     <ng-container
                                                                                         *ngIf="subElement.MultiSelectYn!='Y'">
                                                                                         <mat-radio-button
-                                                                                            [value]="subElement[col.key]"
+                                                                                            [value]="subElement.SubCoverId"
+                                                                                            [checked]="subElement.selected"
                                                                                             id="customRadio{{subElement[col.key]}}"
                                                                                             [name]="'customRadio'+i"
-                                                                                            (change)="onSelectCustomer.emit(subElement)">
+                                                                                            (change)="onChangeSubCover(subElement,element,menu,$event.checked)">
                                                                                         </mat-radio-button>
                                                                                     </ng-container>
                                                                                 </ng-container>
@@ -2425,10 +2446,11 @@
                                                                                     <ng-container
                                                                                         *ngIf="subElement.MultiSelectYn!='Y'">
                                                                                         <mat-radio-button
-                                                                                            [value]="subElement[col.key]"
+                                                                                            [value]="subElement.SubCoverId"
+                                                                                            [checked]="subElement.selected"
                                                                                             id="customRadio{{subElement[col.key]}}"
                                                                                             [name]="'customRadio'+i"
-                                                                                            (change)="onSelectCustomer.emit(subElement)">
+                                                                                            (change)="onChangeSubCover(subElement,element,menu,$event.checked)">
                                                                                         </mat-radio-button>
                                                                                     </ng-container>
                                                                                 </ng-container>
@@ -2806,76 +2828,7 @@
                     </div>
                 </ng-container>
             </div>
-            <!-- <div class="grid"
-            *ngIf="(coverSection && (((!statusValue || checkManualReferral()) && !adminSection) || (statusValue && adminSection ))) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
-            <div class="lg:col-12 md:col-12 col-12 ml-3 p-0">
-                <div class="flex flex-wrap">
-                    <h4><i class="fa fa-user"></i>&nbsp;Referral Details</h4>
-                </div>
-            </div>
-            </div>
-            <div class="flex flex-wrap mb-3"
-                *ngIf="((!statusValue || checkManualReferral()) && !adminSection) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
-                <div class="lg:col-4 md:col-4 col-4">
-                        <label class="input-form-label">Move this Quote to Referral Manually?</label>
-                        <div class="flex justify-content-start gap-3 mt-1">
-                            <div class="flex align-items-center">
-                                <p-radioButton name="referral" value="Y" [(ngModel)]="isMannualReferal"
-                                    inputId="referral_Yes"></p-radioButton>
-                                <span for="referral_Yes" class="ml-2">Yes</span>
-                            </div>
-                            <div class="flex align-items-center">
-                                <p-radioButton name="referral" value="N" [(ngModel)]="isMannualReferal"
-                                    inputId="referral_No"></p-radioButton>
-                                <span for="referral_No" class="ml-2">No</span>
-                            </div>
-                        </div>
-                        
-                </div>
-                <ng-container *ngIf="isMannualReferal == 'Y'">
-                    <div class="lg:col-4 md:col-4 col-4">
-                        <div class="mb-3">
-                            <div class="input-control-container">
-                                <label class="input-form-label">Remarks</label>
-                                <textarea pInputTextarea cols="40" rows="2" [(ngModel)]="remarks"
-                                    style="height: 45px;"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </ng-container>
-                
-            </div>
-            <p-divider  *ngIf="(coverSection && (((!statusValue || checkManualReferral()) && !adminSection) || (statusValue && adminSection ))) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))"></p-divider>
-            <div class="grid mt-2"
-                *ngIf="isMannualReferal != 'Y' && (coverSection && (((!statusValue || checkManualReferral()) && !adminSection) || (statusValue && adminSection ))) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
-                <div class="lg:col-12 md:col-12 col-12 ml-3 p-0">
-                    <div class="flex flex-wrap">
-                        <h4><i class="fa fa-credit-card-alt"></i>&nbsp;EMI Details</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="flex flex-wrap"
-                *ngIf="isMannualReferal != 'Y' && ((!statusValue || checkManualReferral()) && !adminSection) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
-                <ng-container *ngIf=" !endorsementSection && Emilist1.length!=0">
-                    <div class="lg:col-4 md:col-4 col-4">
-                        <div class="mb-3">
-                                <label class="input-form-label">Do You Like to Choose EMI Option?</label>
-                                <div class="flex justify-content-start gap-3 mt-1">
-                                    <div class="flex align-items-center">
-                                        <p-radioButton name="emiYN" value="Y" (change)="onEmiYNChange()" [(ngModel)]="emiYN"
-                                            inputId="emi_Yes"></p-radioButton>
-                                        <span for="emi_Yes" class="ml-2">Yes</span>
-                                    </div>
-                                    <div class="flex align-items-center">
-                                        <p-radioButton name="emiYN" value="N" (change)="onEmiYNChange()" [(ngModel)]="emiYN"
-                                            inputId="emi_No"></p-radioButton>
-                                        <span for="emi_No" class="ml-2">No</span>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
-                </ng-container>
-            </div> -->
+            
             
             <div class="lg:col-12 md:col-12 col-12 ml-3" *ngIf="emiSection && Emilist1.length!=0 && emiYN=='Y' && isMannualReferal != 'Y'">
                 <table class="firstclass" style="width:50%;">
@@ -2995,13 +2948,12 @@
                 </div>
             </div>
             <p-divider  *ngIf="isMannualReferal != 'Y' && (coverSection && (((!statusValue || checkManualReferral()) && !adminSection) || (statusValue && adminSection ))) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))"></p-divider>
-            <div class="maan-grid-item customPadding mt-2"
+            <div 
                 *ngIf="(coverSection && (((!statusValue || checkManualReferral()) && !adminSection) || (statusValue && adminSection ))) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
-
-                <div class="maan-grid-item-body p-1" *ngIf="statusValue && adminSection">
-
-                    <div class="row">
-                        <div class="col-12 col-md-4 col-lg-4 col-xl-4 ml-4">
+                
+                <div *ngIf="statusValue && adminSection">
+                    <div class="grid">
+                        <div class="col-12 md:col-4 lg:col-4 xl:xol-4">
                             <div class="input-control-container">
                                 <label class="input-form-label">Referral Status</label><span
                                     class="text-danger">*</span>
@@ -3011,11 +2963,12 @@
                                 </ng-select>
                             </div>
                         </div>
-
-                        <div class="col-12 col-md-4 col-lg-4 col-xl-4"
+                        <div class="col-12 md:col-4 lg:col-4 xl:xol-4"
                             *ngIf="statusValue && adminSection && statusValue!='RE' && statusValue!='RR' && SourceType!='Premia Broker' && SourceType!='Premia Direct' && SourceType!='Premia Agent'">
                             <div class="input-control-container">
                                 <label class="input-form-label">Modify Commission (%)</label>
+                                <!-- <p-selectButton [options]="modifyOptions" [(ngModel)]="modifyCommissionYN"
+                                    optionLabel="label" optionValue="value"></p-selectButton> -->
                                 <div class="custom-radio-btn" style="position: relative;top: 1rem;right: 0.3rem;">
                                     <div class="radio-toolbar">
                                         <input id="commission_Yes" type="radio" [(ngModel)]="modifyCommissionYN"
@@ -3028,38 +2981,25 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-4 col-lg-4 col-xl-4"
+                        <div class="col-12 md:col-4 lg:col-4 xl:col-4"
                             *ngIf="modifyCommissionYN=='Y' && SourceType!='Premia Broker' && SourceType!='Premia Direct' && SourceType!='Premia Agent'">
-                            <div class="input-control-container">
-                                <label class="input-form-label">Commission (%)<span
-                                        class="text-required">*</span></label>
-                                <div class="input-form-box">
-                                    <input type="text" class="input-form-control without-icon"
-                                        [(ngModel)]="commissionPercent" name="commissionPercent" maxlength="5">
-                                </div>
-                            </div>
+                            <label class="input-form-label">Commission (%)<span class="text-required">*</span></label>
+                                    <input type="text" class="w-full"
+                                        [(ngModel)]="commissionPercent" pInputText name="commissionPercent" maxlength="5">
                         </div>
 
 
                     </div>
-                    <div class="row">
-                        <div class="col-12 col-md-4 ml-4" *ngIf="statusValue=='RR'">
-                            <div class="input-control-container">
+                    <div class="grid">
+                        <div class="col-12 md:col-4 lg:col-4 xl:col-4 ml-4" *ngIf="statusValue=='RR'">
                                 <label class="input-form-label">Rejected Reason</label>
-                                <div class="input-form-box">
-                                    <input type="text" [(ngModel)]="rejectedReason" [disabled]="!adminSection"
-                                        class="input-form-control without-icon">
-                                </div>
-                            </div>
+                                    <input type="text" pInputText [(ngModel)]="rejectedReason" [disabled]="!adminSection"
+                                        class="w-full">
                         </div>
-                        <div class="col-12 col-md-4 col-lg-4 col-xl-4">
-                            <div class="input-control-container">
+                        <div class="col-12 md:col-4 lg:col-4 xl:col-4">
                                 <label class="input-form-label">Remarks<span class="text-required">*</span></label>
-                                <div class="input-form-box">
-                                    <textarea cols="120" rows="2" [(ngModel)]="remarks" [disabled]="!adminSection"
-                                        class="input-form-control without-icon" maxlength="600"></textarea>
-                                </div>
-                            </div>
+                                    <textarea cols="120" rows="2" pInputTextarea  [(ngModel)]="remarks" [disabled]="!adminSection"
+                                        class="w-full" maxlength="600"></textarea>
                         </div>
                     </div>
                 </div>
@@ -3102,11 +3042,13 @@
                                     <tr *ngFor="let menu of vehicleDetailsList">
                                         <td>
                                             <ng-container *ngIf="productId=='5'">
-                                                <span class="spancommon"
-                                                    style="color:navy;font-size: 13px;cursor: pointer;"
-                                                    (click)="onSelectSectionIndex(menu)">
-                                                    &nbsp;<u>{{ menu.RiskDetails.Registrationnumber }}</u></span>
-
+                                                <span class="spancommon" style="color:navy;font-size: 13px;cursor: pointer;" (click)="onSelectSectionIndex(menu)">
+                                                &nbsp;<u>
+                                                    <ng-container *ngIf="menu.SectionName">
+                                                        {{menu.SectionName}}  &nbsp;|&nbsp;
+                                                    </ng-container> 
+                                                    {{ menu.RiskDetails.Registrationnumber }}
+                                                </u></span>
                                             </ng-container>
                                             <ng-container *ngIf="productId=='4'">
                                                 <ng-container *ngIf="menu.RiskDetails.TravelId=='1'">
@@ -3278,7 +3220,7 @@
             <p-button label="Buy Policy"
                 *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
                 (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-3"></p-button>
-            <p-button label="Buy Policy" *ngIf="adminSection" (click)="onUpdateFactor('')" class="p-3 text-l mr-0"
+            <p-button label="Proceed" *ngIf="adminSection" (click)="onUpdateFactor('')" class="p-3 text-l mr-0"
                 styleClass="mb-3"></p-button>
         </div>
     </div>

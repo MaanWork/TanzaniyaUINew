@@ -14,12 +14,18 @@ import { PhotoService } from './demo/service/photo.service';
 import { AuthGuard } from './demo/components/auth/Auth/auth.guard';
 import { AuthService } from './demo/components/auth/Auth/auth.service';
 import { PipesModule } from './demo/pipes/pipes.module';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { HttpInterceptorService } from './demo/components/HttpInterceptors/http-interceptor.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CustomLoadingService } from './demo/shared/custom-loading.service';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function HttpLoaderFactory(httpClient: HttpClient) {
+    return new TranslateHttpLoader(httpClient);
+}
 
 @NgModule({
     declarations: [
@@ -33,7 +39,14 @@ import { CustomLoadingService } from './demo/shared/custom-loading.service';
 		AppRoutingModule,
 		BrowserAnimationsModule,
         AppLayoutModule,
-        PipesModule
+        PipesModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
     ],
     providers: [
         AuthService,

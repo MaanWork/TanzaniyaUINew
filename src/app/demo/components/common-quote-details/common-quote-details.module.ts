@@ -42,6 +42,7 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
 import { FormlyMatToggleModule } from '@ngx-formly/material/toggle';
+import { SelectButtonModule } from 'primeng/selectbutton';
 export function maxlengthValidationMessage(err, field) {
   return `This value should be less than ${field.templateOptions.maxLength} characters`;
 }
@@ -68,6 +69,7 @@ export function maxlengthValidationMessage(err, field) {
     ToastModule,
     CalendarModule,
     MessagesModule,
+    SelectButtonModule,
     RadioButtonModule,
     AutoCompleteModule,
     FormlyModule.forRoot({

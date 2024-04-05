@@ -17,6 +17,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { CardModule } from 'primeng/card';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { DropdownModule } from 'primeng/dropdown';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 @NgModule({
   declarations: [QuotationPlanComponent ],
@@ -36,6 +37,7 @@ import { DropdownModule } from 'primeng/dropdown';
     RadioButtonModule,
     CardModule,
     TreeSelectModule,
+    SelectButtonModule,
     DropdownModule
   ]
 })

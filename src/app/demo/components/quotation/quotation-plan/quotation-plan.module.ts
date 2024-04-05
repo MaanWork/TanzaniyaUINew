@@ -213,6 +213,7 @@ export function maxlengthValidationMessage(err, field) {
     MatNativeDateModule,
     FormlyMatDatepickerModule,
 		FormlyMatToggleModule,
+    SelectButtonModule
   ]
 })
 export class QuotationPlanModule { }

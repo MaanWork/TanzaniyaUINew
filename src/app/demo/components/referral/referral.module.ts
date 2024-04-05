@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
 
 
 
@@ -27,6 +28,7 @@ import { TableModule } from 'primeng/table';
     TabViewModule,
     SelectButtonModule,
     FormsModule,
+    ToastModule,
     DropdownModule,
     TableModule
   ]

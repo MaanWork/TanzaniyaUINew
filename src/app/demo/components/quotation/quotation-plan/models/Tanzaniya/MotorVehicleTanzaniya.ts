@@ -117,9 +117,9 @@ export class MotorVehicleTanzaniya{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     key: 'ClaimsYN',
-                    type: 'radio',
+                    type: 'radioList',
                     templateOptions: {
-                      type: 'radio',
+                      type: 'radioList',
                       label: 'Claims YN ?',
                       required: true,
                       disabled: this.checkDisable('ClaimsYN'),
@@ -130,9 +130,9 @@ export class MotorVehicleTanzaniya{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     key: 'GpsYN',
-                    type: 'radio',
+                    type: 'radioList',
                     templateOptions: {
-                      type: 'radio',
+                      type: 'radioList',
                       label: 'Gps YN ?',
                       required: true,
                       disabled: this.checkDisable('ClaimsYN'),

@@ -20,7 +20,6 @@
         <p-tabView [activeIndex]="tabIndex" (onChange)="onTabClicked($event)">
             <ng-container *ngFor="let menu of vehicleDetailsList;let i = index">
                 <p-tabPanel [header]="getHeaderName(menu)">
-                    
                     <div class="card">
                         <!-- <ng-container *ngIf="insuranceId!='100028'"> -->
                             <ng-container *ngIf="productId=='5'">
@@ -37,6 +36,29 @@
                                 </div>
                                 
                             </ng-container>
+                            <ng-container *ngIf="menu.ReferralList.length!=0">
+                                <div class="flex flex-wrap justify-content-start">
+                                    <div class="flex flex-wrap">
+                                        <div class="customCard4">
+                                            <div class="flex flex-wrap justify-content-start">
+                                                <div class="flex flex-wrap">
+                                                    <span class="spancommon referalRemarksHeading" >Refferal Reasons</span>
+                                                </div>
+                                            </div>
+                                            <div class="mt-1">
+                                                <ul class="b listrefereal" *ngFor="let doc of menu.ReferralList">
+                                                    <li class="p-0 li-custom"><i class="fa-solid fa-circle-check"
+                                                            style="position: relative; right: 1rem;"></i><span
+                                                            class="spancommon"
+                                                            style="font-size: 0.9rem;">{{doc}}</span></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </ng-container>
+                           
                             <ng-container *ngIf="verticalSection">
                                 <!-- <div class="flex flex-wrap" *ngIf="insuranceId!='100027'">
                                     <div class="col-12 md:col-6 lg:col-4 border-right-1 border-500 px-5">
@@ -336,7 +358,7 @@
                                             <div class="mb-4">
                                                 <p-button label="Next" *ngIf="!checkNextBtn(menu,i)" (click)="onNext()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>&nbsp;
                                             </div>
-                                            <div class="card grid text-white surface-900 px-4 py-2" (click)="showSidebar()">
+                                            <div class="card grid text-white surface-900 px-4 py-2" (click)="showSidebar()" *ngIf="!checkCurrentSection()">
                                                 <div class="col-6">
                                                     <h6 class="text-white mt-0">{{totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
                                                 </div>
@@ -547,15 +569,21 @@
                                     </div>
                                     <div class="flex flex-wrap justify-content-between mt-2">
                                         <div></div>
-                                        <div></div>
                                         <div class="mb-4">
                                             <p-button label="Next" *ngIf="!checkNextBtn(menu,i)" (click)="onNext()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>&nbsp;
                                         </div>
-                                        <div class="card grid text-white surface-900 px-4 py-2" (click)="showSidebar()">
+                                        <div class="card grid text-white surface-900 px-4 py-2" style="min-width: 200px !important;" (click)="showSidebar()" *ngIf="!checkCurrentSection()">
                                             <div class="col-6">
                                                 <h6 class="text-white mt-0">{{totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
                                             </div>
                                             <p-button class="col-6" styleClass="surface-900" label="View Cart" severity="primary"></p-button>
+                                        </div>
+                                        <div class="card grid text-white surface-900 px-4 py-2" *ngIf="checkCurrentSection()" style="min-width: 200px !important;">
+                                            <div class="col-10">
+                                                <label>Total Premium</label>
+                                                <h6 class="text-white mt-0">{{vehicleDetailsList[tabIndex].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
+                                            </div>
+                                            
                                         </div>
                                     </div>
                             </ng-container>
@@ -733,14 +761,22 @@
                 </div>
         </div>
     </div>
+    <!-- <button type="button" pButton pRipple (click)="show()" label="Show" class="p-button-success"></button> -->
     <div class="flex flex-wrap justify-content-center mt-2">
         <div></div>
         <div></div>
         <div class="mb-4">
             <p-button label="Back" *ngIf="productId!='5'" [routerLink]="['/quotation/plan/quote-details']" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
-            <p-button label="Back" *ngIf="productId=='5'" [routerLink]="['/policyDetails']" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
+            <p-button label="Back" *ngIf="productId=='5'" (click)="ongetBack()" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
             <p-button label="Modify Rate Details" *ngIf="userType=='issuer' || userType=='Issuer'"   [routerLink]="['/quotation/plan/premium-info']" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-            <p-button label="Buy Policy"   (click)="onFormSubmit()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+           
+            <p-button label="Buy Policy"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
+             (click)="onFormSubmit()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+            <p-button label="Buy Policy" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+            <p-button label="Buy Policy"   *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
+            (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+            <p-button label="Proceed"  *ngIf="adminSection"
+            (click)="onUpdateFactor('',null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
         </div>
         <div></div>
         

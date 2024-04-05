@@ -1,24 +1,27 @@
 <div class="layout-topbar">
-    <!-- <ng-container *ngIf="insuranceid == '100002'">
-        <a class="layout-topbar-logo" (click)="onRedirect()">
-            <img src="./assets/images/logo-2.png" width="170" style="cursor: pointer !important;"  />
-        </a>
+    <ng-container  *ngIf="insuranceid">
+        <ng-container *ngIf="insuranceid=='100002'">
+            <a class="layout-topbar-logo" (click)="onRedirect()">
+                <img src="./assets/images/logo-2.png" width="170" style="cursor: pointer !important;"  />
+            </a>
+        </ng-container>
+        <ng-container *ngIf="insuranceid=='100004'">
+            <a class="layout-topbar-logo" (click)="onRedirect()">
+                <img src="./assets/images/mgen-logo.png" width="170" style="cursor: pointer !important;"  />
+            </a>
+        </ng-container>
+        <ng-container *ngIf="insuranceid=='100027'">
+            <a class="layout-topbar-logo" (click)="onRedirect()">
+                <img src="./assets/images/sanlam-logo.png" width="170" style="cursor: pointer !important;"  />
+            </a>
+        </ng-container>
+        <ng-container *ngIf="insuranceid=='100028'">
+            <a class="layout-topbar-logo" style="background-color: rgb(105, 91, 82);" (click)="onRedirect()">
+                <img src="./assets/images/eagle_logo.png" width="170" style="cursor: pointer !important;"  />
+            </a>
+        </ng-container>
     </ng-container>
-    <ng-container *ngIf="insuranceid == '100004'">
-        <a class="layout-topbar-logo" (click)="onRedirect()">
-            <img src="./assets/images/mgen-logo.png" width="170" style="cursor: pointer !important;"  />
-        </a>
-    </ng-container>
-    <ng-container *ngIf="insuranceid == '1000027'">
-        <a class="layout-topbar-logo" (click)="onRedirect()">
-            <img src="./assets/images/sanlam-logo.png" width="170" style="cursor: pointer !important;"  />
-        </a>
-    </ng-container>
-    <ng-container *ngIf="insuranceid == '1000028'"> -->
-        <a class="layout-topbar-logo" (click)="onRedirect()">
-            <img src="./assets/images/sanlam-logo.png" width="170" style="cursor: pointer !important;"  />
-        </a>
-    <!-- </ng-container> -->
+    
 
     <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
         <i class="pi pi-bars"></i>

@@ -13,6 +13,7 @@ import { TiraSearchComponent } from '../tira-search/tira-search.component';
 import { ReferralComponent } from '../referral/referral.component';
 import { PortfolioComponent } from '../portfolio/portfolio.component';
 import { ReportComponent } from '../report/report.component';
+import { ReferralCasesComponent } from '../Admin/referralCases/referral-cases.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { ReportComponent } from '../report/report.component';
         { path: 'referral', component: ReferralComponent },
         { path: 'portfolio', component: PortfolioComponent },
         { path: 'report', component: ReportComponent },
+        { path: 'referralCases', component: ReferralCasesComponent }
     ])],
     exports: [RouterModule]
 })

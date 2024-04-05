@@ -33,8 +33,9 @@
         <ng-template pTemplate="body" let-customer>
           <tr>
             <!-- <td><p-checkbox [binary]="true"></p-checkbox></td> -->
-            <td>{{ customer.RequestReferenceNo }}</td>
             <td>{{ customer.QuoteNo }}</td>
+            <td>{{ customer.RequestReferenceNo }}</td>
+            
             <td>{{ customer.ClientName }}</td>
             <td>{{ customer.PolicyStartDate }}</td>
             <td>{{ customer.PolicyEndDate }}</td>
@@ -120,8 +121,9 @@
         <ng-template pTemplate="body" let-customer>
           <tr>
             <!-- <td><p-checkbox [binary]="true"></p-checkbox></td> -->
-            <td>{{ customer.RequestReferenceNo }}</td>
+            
             <td>{{ customer.QuoteNo }}</td>
+            <td>{{ customer.RequestReferenceNo }}</td>
             <td>{{ customer.ClientName }}</td>
             <td>{{ customer.PolicyStartDate }}</td>
             <td>{{ customer.PolicyEndDate }}</td>

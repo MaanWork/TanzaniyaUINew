@@ -47,7 +47,7 @@ export class VehicleCreateFormComponent implements OnInit {
   sourceType: any;endorsementSection:boolean=false;endtCount:any=null;
   subuserType: any;customerDetails:any;endorsementRemarks:any=null;
   endorsePolicyNo: any=null;years:any[]=[];
-  referenceNo: string;
+  referenceNo: string;mainBodyTypeList:any[]=[];
   commonDetails: any;
   constructor(private messageService: MessageService,private sharedService: SharedService,
     private datePipe:DatePipe,private router:Router) {
@@ -64,8 +64,9 @@ export class VehicleCreateFormComponent implements OnInit {
       this.insuranceId = this.userDetails.Result.InsuranceId;
       let vehicleList = JSON.parse(sessionStorage.getItem('vehicleDetailsList'));
       if(vehicleList) this.vehicleDetailsList = vehicleList;
+      this.getBodyTypeList();
     this.getOwnerCategoryList();
-    this.getBodyTypeList();
+   
   }
 
   ngOnInit(): void {
@@ -74,19 +75,31 @@ export class VehicleCreateFormComponent implements OnInit {
     this.items = [{ label: 'Home', routerLink:'/' }, {label:'Vehicle', routerLink: '/vehicle'}, { label: 'Create Vehicle' }];
     this.getdetails= sessionStorage.getItem('Editcars');
     this.years = this.getYearList();
-    if(this.getdetails== 'SavedFroms'){
-      this.getExistingVehiclesList();
-    }
-    else{
-
-    }
+    
     let referenceNo =  sessionStorage.getItem('customerReferenceNo');
     if(referenceNo){
       this.referenceNo = referenceNo;
       this.getCustomerDetails(referenceNo);
       
     }
+    else{
 
+    }
+    this.quoteRefNo = sessionStorage.getItem('quoteReferenceNo')
+    if(this.getdetails== 'SavedFroms' && this.quoteRefNo){
+      this.getExistingVehiclesList();
+    }
+  }
+  onChangeMotorUsage(type){
+    if(this.bodyTypeList.length!=0 && this.usageValue!=null && this.usageValue!='' && this.usageValue!=undefined){
+     
+      let entry = this.usageList.find(ele=>ele.CodeDesc==this.usageValue);
+          if(entry){   
+            let bodyTypeStatus = entry?.BodyType;
+            this.mainBodyTypeList = this.bodyTypeList.filter(ele=>ele.BodyType==bodyTypeStatus);
+            if(type=='change') this.bodyTypeValue = null;
+          }
+    }
   }
   getCustomerDetails(refNo){
     let ReqObj = {
@@ -123,87 +136,59 @@ export class VehicleCreateFormComponent implements OnInit {
    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
   }
   onRegistrationSearch(){
-  this.duplicateSection=false;this.editSection=false;this.validSection=false;
-    if(this.regNo!=null && this.regNo!='' && this.regNo!=undefined){
-      this.regNo = this.regNo.toUpperCase();
-      this.editSection = true;
-      sessionStorage.setItem('loadingType','motorSearch');
-      let ReqObj = {
-        "ReqChassisNumber": '',
-        "ReqRegNumber": this.regNo,
-        "InsuranceId": this.insuranceId,
-        "BranchCode": this.branchCode,
-        "BrokerBranchCode": this.branchCode,
-        "ProductId": this.productId,
-        "CreatedBy": this.loginId,
-        "SavedFrom": 'API'
-      }
-      let urlLink = `${this.motorApiUrl}regulatory/showvehicleinfo`;
-    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-      (data: any) => {
-          if(data.Result){
-            let commonDetails = JSON.parse(sessionStorage.getItem('commonDetails'));
-            if(commonDetails){
-              if(this.vehicleDetails==null || this.vehicleDetails==undefined) this.vehicleDetails={};
-              if(this.vehicleDetails.PolicyStartDate==null || this.vehicleDetails.PolicyStartDate==undefined){
-                let dateList = commonDetails.policyStartDate.split('/');
-                if(dateList.length==1){
-                  this.vehicleDetails.PolicyStartDate = this.datePipe.transform(commonDetails.policyStartDate, "dd/MM/yyyy");
-                  this.vehicleDetails.PolicyEndDate = this.datePipe.transform(commonDetails.policyEndDate, "dd/MM/yyyy");
-                }
-                else{
-                  this.vehicleDetails.PolicyStartDate = commonDetails.policyStartDate;
-                  this.vehicleDetails.PolicyEndDate = commonDetails.policyEndDate;
-                }
-              }
-              else{
-                let dateList = commonDetails.policyStartDate.split('/');
-                if(dateList.length==1){
-                 
-                  this.vehicleDetails.PolicyStartDate = this.datePipe.transform(commonDetails.policyStartDate, "dd/MM/yyyy");
-                  this.vehicleDetails.PolicyEndDate = this.datePipe.transform(commonDetails.policyEndDate, "dd/MM/yyyy");
-                }
-                else{ 
-                  this.vehicleDetails.PolicyStartDate = commonDetails.policyStartDate;
-                  this.vehicleDetails.PolicyEndDate = commonDetails.policyEndDate;
-                }
-              } 
-               this.currencyCode = commonDetails?.currencyCode;
-               this.exchangeRate = commonDetails?.exchangeRate;
-               if(commonDetails?.promoCode!=null && commonDetails?.promoCode!=undefined) this.promoCode = commonDetails?.promoCode;
-               if(this.promoCode!=null) this.havePromoCode = 'Y';
-            }
-            // if(this.policyStartDate){
-            //   if(this.vehicleDetails==null || this.vehicleDetails==undefined) this.vehicleDetails={};
-            //   this.vehicleDetails.PolicyStartDate = this.datePipe.transform(this.updateComponent.policyStartDate, "dd/MM/yyyy");
-            //   this.vehicleDetails.PolicyEndDate = this.datePipe.transform(this.updateComponent.policyEndDate, "dd/MM/yyyy");
-            // }
-            sessionStorage.removeItem('loadingType');
-            if(this.vehicleDetailsList.length!=0){
-                let entry = this.vehicleDetailsList.some(ele=>ele.Registrationnumber==this.regNo);
-                if(entry){
-                    this.duplicateSection = true;
-                    this.validSection = false;
+    this.duplicateSection=false;this.editSection=false;this.validSection=false;
+      if(this.regNo!=null && this.regNo!='' && this.regNo!=undefined){
+        if(this.insuranceId=='100002'){
+          this.regNo = this.regNo.toUpperCase();
+          this.editSection = true;
+          sessionStorage.setItem('loadingType','motorSearch');
+          let ReqObj = {
+            "ReqChassisNumber": '',
+            "ReqRegNumber": this.regNo,
+            "InsuranceId": this.insuranceId,
+            "BranchCode": this.branchCode,
+            "BrokerBranchCode": this.branchCode,
+            "ProductId": this.productId,
+            "CreatedBy": this.loginId,
+            "SavedFrom": 'API'
+          }
+          let urlLink = `${this.motorApiUrl}regulatory/showvehicleinfo`;
+          this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+          (data: any) => {
+              if(data.Result){
+                if(this.vehicleDetails.Chassisnumber) this.chassisNo = this.vehicleDetails?.Chassisnumber;
+                sessionStorage.removeItem('loadingType');
+                if(this.vehicleDetailsList.length!=0){
+                    let entry = this.vehicleDetailsList.some(ele=>ele.Registrationnumber==this.regNo);
+                    if(entry){
+                        this.duplicateSection = true;
+                        this.validSection = false;
+                    }
+                    else this.onSaveSearchVehicles();
                 }
                 else this.onSaveSearchVehicles();
-            }
-            else this.onSaveSearchVehicles();
-         }
-          else if(data.ErrorMessage!=null){
-            if(data.ErrorMessage.length!=0){
-              sessionStorage.removeItem('loadingType');
-              this.duplicateSection = false;
-              this.editSection = false;
-              this.validSection = true;
-            }
-          }
-        },
-        (err) => {
-          
-         },
-        );
-    }
-  }
+             }
+              else if(data.ErrorMessage!=null){
+                if(data.ErrorMessage.length!=0){
+                  sessionStorage.removeItem('loadingType');
+                  this.duplicateSection = false;
+                  this.editSection = false;
+                  this.validSection = true;
+                }
+              }
+            },
+            (err) => {
+              
+             },
+            );
+        }
+        else{
+          this.duplicateSection = false;
+          this.editSection = false;
+          this.validSection = true;
+        }
+      }
+}
   onSaveSearchVehicles(){
 
     sessionStorage.removeItem('loadingType');
@@ -275,6 +260,15 @@ export class VehicleCreateFormComponent implements OnInit {
       }
       else this.endorsementYN = 'N';
       if(sessionStorage.getItem('quoteReferenceNo')) quoteReferenceNo = sessionStorage.getItem('quoteReferenceNo');
+      let grossweight=null,tareweight=null;
+      if(this.vehicleDetails?.Grossweight!=null && this.vehicleDetails?.Grossweight!=undefined){
+        if(String(this.vehicleDetails?.Grossweight).includes(',')) grossweight = String(this.vehicleDetails?.Grossweight).replace(',','');
+        grossweight = this.vehicleDetails?.Grossweight;
+      }
+      if(this.tareWeight!=null && this.tareWeight!=undefined){
+        if(String(this.tareWeight).includes(',')) tareweight = String(this.tareWeight).replace(',','');
+        tareweight = this.tareWeight;
+      }
     let ReqObj = {
       "BrokerBranchCode": brokerbranchCode,
       "AcExecutiveId": this.vehicleDetails?.AcExecutiveId,
@@ -303,13 +297,13 @@ export class VehicleCreateFormComponent implements OnInit {
       "CityLimit": this.vehicleDetails?.CityLimit,
       "CoverNoteNo": this.vehicleDetails?.CoverNoteNo,
       "OwnerCategory": this.vehicleDetails?.OwnerCategory,
-      "CubicCapacity": this.vehicleDetails?.Grossweight,
+      "CubicCapacity": grossweight,
       "CreatedBy": createdBy,
       "DrivenByDesc": 'D',
       "EngineNumber": this.vehicleDetails?.EngineNumber?.toUpperCase(),
       "FuelType": this.vehicleDetails?.FuelType,
       "Gpstrackinginstalled": this.vehicleDetails?.Gpstrackinginstalled,
-      "Grossweight": this.vehicleDetails?.Grossweight,
+      "Grossweight": grossweight,
       "HoldInsurancePolicy": "N",
       "Insurancetype": this.vehicleDetails?.Insurancetype,
       "InsuranceId": this.insuranceId,
@@ -321,6 +315,7 @@ export class VehicleCreateFormComponent implements OnInit {
       "MotorCategory": this.vehicleDetails?.MotorCategory,
       "Motorusage": this.vehicleDetails?.TiraMotorUsage,
       "NcdYn": this.vehicleDetails?.NcdYn,
+      "PolicyRenewalYn": this.vehicleDetails.PolicyRenewalYn,
       "NoOfClaims": this.vehicleDetails?.NoOfClaims,
       "NumberOfAxels": this.vehicleDetails?.NumberOfAxels,
       "BranchCode": this.branchCode,
@@ -337,7 +332,7 @@ export class VehicleCreateFormComponent implements OnInit {
       "SpotFogLamp": null,
       "Stickerno": null,
       "SumInsured": this.vehicleDetails?.SumInsured,
-      "Tareweight": this.tareWeight,
+      "Tareweight": tareweight,
       "TppdFreeLimit": this.vehicleDetails?.TppdFreeLimit,
       "TppdIncreaeLimit": this.vehicleDetails?.TppdIncreaeLimit,
       "TrailerDetails": null,
@@ -639,7 +634,7 @@ export class VehicleCreateFormComponent implements OnInit {
     //   "CreatedBy": this.loginId,
     //   "SavedFrom": 'WEB'
     // }
-    this.quoteRefNo = sessionStorage.getItem('quoteReferenceNo')
+    
     let ReqObj = {
       "RequestReferenceNo": this.quoteRefNo,
       "Idnumber": sessioncar?.Idnumber,
@@ -720,6 +715,15 @@ export class VehicleCreateFormComponent implements OnInit {
     
     if(this.insuranceId=='100004') this.usageValue = null;
     this.ownerCategory = this.customerDetails?.PolicyHolderType;
+    let grossweight=null,tareweight=null;
+    if(this.grossWeight!=null && this.grossWeight!=undefined){
+      if(String(this.grossWeight).includes(',')) grossweight = String(this.grossWeight).replace(',','');
+      grossweight = this.grossWeight;
+    }
+    if(this.tareWeight!=null && this.tareWeight!=undefined){
+      if(String(this.tareWeight).includes(',')) tareweight = String(this.tareWeight).replace(',','');
+      tareweight = this.tareWeight;
+    }
     let ReqObj = {
       "Insuranceid": this.insuranceId,
       "BranchCode": this.branchCode,
@@ -729,7 +733,7 @@ export class VehicleCreateFormComponent implements OnInit {
       "CreatedBy": this.loginId,
       "EngineNumber": this.engineNo?.toUpperCase(),
       "FuelType": this.fuelType,
-      "Grossweight": this.grossWeight,
+      "Grossweight": grossweight,
       "ManufactureYear": this.manufactureYear,
       "MotorCategory": this.motorCategory,
       "Motorusage": this.usageValue,
@@ -741,7 +745,7 @@ export class VehicleCreateFormComponent implements OnInit {
       "ResStatusCode": "Y",
       "ResStatusDesc": "None",
       "SeatingCapacity": this.seatingCapacity,
-      "Tareweight": this.tareWeight,
+      "Tareweight": tareweight,
       "Vehcilemodel": modelDesc,
       "VehicleType": this.bodyTypeValue,
       "Vehiclemake": make
@@ -813,6 +817,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "ModelNumber": null,
         "MotorCategory": null,
         "NcdYn": null,
+        "PolicyRenewalYn": 'N',
         "NoOfClaims": null,
         "SectionId": null,
         "PolicyType": null,

@@ -42,7 +42,8 @@ export class AppTopBarComponent implements OnInit {
         console.log("UserDetails",this.userDetails);
         this.loginId = this.userDetails.Result.LoginId;
         this.userType = this.userDetails?.Result?.UserType;
-        this.insuranceid = this.userDetails.Result.InsuranceId;
+        if(this.userDetails.Result.LoginBranchDetails.length!=0) this.insuranceid = this.userDetails.Result.LoginBranchDetails[0].InsuranceId;
+      
         if(sessionStorage.getItem('Userdetails')){
           this.productName = sessionStorage.getItem('productName');
           this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -104,13 +105,13 @@ export class AppTopBarComponent implements OnInit {
         branch = this.branchList.find(ele=>ele.BranchName==this.branchName);
       }
       if (this.userType == 'Issuer') {
-        this.branchValue = branch.BranchCode;
-        this.branchName = branch.BranchName;
+        this.branchValue = branch?.BranchCode;
+        this.branchName = branch?.BranchName;
         this.onBranchChange(type);
       }
       else {
-        this.branchValue = branch.BrokerBranchCode;
-        this.branchName = branch.BranchName;
+        this.branchValue = branch?.BrokerBranchCode;
+        this.branchName = branch?.BranchName;
         this.onBranchChange(type);
       }
     }

@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/demo/service/shared.service';
 import * as Mydatas from '../../../../app-config.json';
 
 @Component({
   selector: 'app-referral-cases',
-  templateUrl: './referral-cases.component.html'
+  templateUrl: './referral-cases.component.html',
+  providers: [MessageService]
 })
 export class ReferralCasesComponent implements OnInit {
   items: MenuItem[] | undefined;
@@ -30,7 +31,7 @@ export class ReferralCasesComponent implements OnInit {
   quotePageNo: any=null;
   startIndex: any=null;
   endIndex: any=null;
-  section: string;
+  section: any='quote';
   columns:string[] = [];
   columnss:string[] = [];
   ApproveredList:any[]=[];
@@ -59,7 +60,7 @@ export class ReferralCasesComponent implements OnInit {
     ];
     if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
       this.columns = ['ReferenceNo','Customer Name','Start Date','End Date','Actions'];
-      this.columnss = ['ReferenceNo','Customer Name','Start Date','End Date','Actions']
+      this.columnss = ['ReferenceNo','Customer Name','Start Date','End Date']
     }
     this.getBrokerList();
     this.getApprovedList();
@@ -68,13 +69,12 @@ export class ReferralCasesComponent implements OnInit {
 
 
   getBrokerList(){
-    let type='Q';
-    // if(this.section=='quote'){type='Q'}
-    // else type='E';
+    let type=null;
+    if(this.section=='quote'){type='Q'}
+    else type='E';
     let appId = "1",loginId="",brokerbranchCode="";
     if(this.userType!='Issuer'){
       appId = "1"; loginId = this.brokerCode;
-      brokerbranchCode = this.brokerbranchCode;
     }
     else{
       appId = this.loginId;
@@ -90,7 +90,7 @@ export class ReferralCasesComponent implements OnInit {
       "BranchCode": this.branchCode,
       "Type": type
     }
-    let urlLink = `${this.CommonApiUrl}api/referralpendingsdropdown`;
+    let urlLink = `${this.CommonApiUrl}api/adminreferralpendingsdropdown`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if(data.Result){
@@ -151,7 +151,7 @@ export class ReferralCasesComponent implements OnInit {
           "Type":'Q',
           "Offset":1000
     }
-    let urlLink = `${this.CommonApiUrl}api/referralpending`;
+    let urlLink = `${this.CommonApiUrl}api/adminreferralpending`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         console.log(data);
@@ -222,7 +222,7 @@ export class ReferralCasesComponent implements OnInit {
       "BranchCode": this.branchCode,
       "Type": type
     }
-    let urlLink = `${this.CommonApiUrl}api/referralapproveddropdown`;
+    let urlLink = `${this.CommonApiUrl}api/adminreferralapprovedropdown`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if(data.Result){
@@ -249,6 +249,7 @@ export class ReferralCasesComponent implements OnInit {
 
 
   getApprovedQuotes(element,entryType){
+    
     if(element==null) this.ApprovedquoteData=[];
     let appId = "1",loginId="",brokerbranchCode="",bdmCode=null;
     if(this.userType!='Issuer'){
@@ -261,13 +262,13 @@ export class ReferralCasesComponent implements OnInit {
       loginId=this.ApproverbrokerCode;
       brokerbranchCode = '';
     }
-    let entry = this.ApproveredList.find(ele=>ele.Code==this.brokerCode);
+    let entry = this.ApproveredList.find(ele=>ele.Code==this.ApproverbrokerCode);
     if(entry){
       console.log("Entry Received",entry) 
       if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
       && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
         loginId='';
-        bdmCode=this.brokerCode;
+        bdmCode=this.ApproverbrokerCode;
       }
       else{
         bdmCode=null;
@@ -287,7 +288,7 @@ export class ReferralCasesComponent implements OnInit {
           "Type":'Q',
           "Offset":1000
     }
-    let urlLink = `${this.CommonApiUrl}api/referralapproved`;
+    let urlLink = `${this.CommonApiUrl}api/adminreferralapproved`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         console.log(data);
@@ -344,8 +345,11 @@ export class ReferralCasesComponent implements OnInit {
             //this.getExistingQuotes(null,'change')
           }
           else{
-            this.Rejecedbrokercode = this.RejectedList[0].Code;
-            this.getRejectedQuotes(null,'change');
+            if(this.RejectedList.length!=0){
+              this.Rejecedbrokercode = this.RejectedList[0].Code;
+              this.getRejectedQuotes(null,'change');
+            }
+            
           }
         }
         
@@ -442,5 +446,14 @@ export class ReferralCasesComponent implements OnInit {
       (err) => { },
     );
     }
+  }
+  onEditQuotes(rowData){
+    sessionStorage.removeItem('QuoteStatus');
+    sessionStorage.setItem('QuoteStatus','AdminRP');
+    sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
+    sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
+    sessionStorage.setItem('quoteNo',rowData.QuoteNo);
+    sessionStorage.removeItem('vehicleDetailsList')
+    this.router.navigate(['quotation/plan/premium-info']);
   }
 }
