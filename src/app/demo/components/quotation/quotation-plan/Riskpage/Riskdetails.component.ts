@@ -2711,7 +2711,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                           }
                         }
                         if(this.productItem?.LiabilityOccupationId==null || this.productItem?.LiabilityOccupationId==undefined || this.productItem?.LiabilityOccupationId==''){
-                          if(this.productItem?.EmpLiabilitySi==null && this.productItem?.EmpLiabilitySi==undefined && this.productItem?.EmpLiabilitySi==''  && this.productItem?.EmpLiabilitySi==0){
+                          if(this.productItem?.EmpLiabilitySi==null && this.productItem?.EmpLiabilitySi==undefined && this.productItem?.EmpLiabilitySi==''  && this.productItem?.EmpLiabilitySi=='0'){
                             ReqObj['EmployeeLiabilityDetails'] = null;    
                           }
                         }
