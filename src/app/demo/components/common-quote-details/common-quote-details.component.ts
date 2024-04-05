@@ -1384,12 +1384,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 this.motorUsageList[i].label = this.motorUsageList[i]['CodeDesc'];
                 this.motorUsageList[i].value = this.motorUsageList[i]['Code'];
                 if (i == this.motorUsageList.length - 1) {
-                  let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
-                  for(let field of fieldList){
-                    if(field.key=='MotorUsage'){
-                          field.props.options= defaultObj.concat(this.motorUsageList);
-                    }
-                  }
+                        let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                        for(let field of fieldList){
+                          if(field.key=='MotorUsage'){
+                                field.props.options= defaultObj.concat(this.motorUsageList);
+                          }
+                        }
                 }
               }
             }
@@ -1399,7 +1399,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               let value = this.motorUsageList.find(ele=>ele.CodeDesc == this.vehicleDetails?.Motorusage || ele.Code==this.vehicleDetails?.Motorusage);
               if(value){ this.motorUsageValue = value.Code;this.productItem.MotorUsage = value.Code;}
               else this.productItem.MotorUsage = this.vehicleDetails.Motorusage;
-             
+              
             }
             // if(this.motorDetails){
             //   let value = this.motorTypeList.find(ele=>ele.CodeDesc == this.motorDetails?.Motorusage);
@@ -1470,7 +1470,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 })
                 .then((result) => {
                   if (result.isConfirmed) {
-                    this.tabIndex = 0;
                     this.getExistingVehiclesList();
                   }
                 });
@@ -1856,6 +1855,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
               this.vehicleDetails['OldWindScreenSumInsured'] = data?.Result.WindScreenSumInsured;
               this.typeValue = this.vehicleDetails?.Insurancetype;
               this.classValue = this.vehicleDetails?.InsuranceClass;
+                if(this.insuranceId!='100004') this.getMotorTypeList('direct',this.vehicleDetails?.VehicleType,this.vehicleDetails?.Motorusage)
+                else{this.motorUsageValue=this.vehicleDetails?.Motorusage; this.getMotorTypeAltList('direct');}
+                this.bodyTypeValue = this.vehicleDetails?.VehicleType;
+                this.tiraCoverNoteNo = this.vehicleDetails?.TiraCoverNoteNo;
+                this.motorUsageValue = this.vehicleDetails?.Motorusage;
                 if(this.insuranceId!='100004') this.getMotorTypeList('direct',this.vehicleDetails?.VehicleType,this.vehicleDetails?.Motorusage)
                 else{this.motorUsageValue=this.vehicleDetails?.Motorusage; this.getMotorTypeAltList('direct');}
                 this.bodyTypeValue = this.vehicleDetails?.VehicleType;
@@ -4376,7 +4380,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     this.vehicleId = String(this.vehicleDetails?.Vehicleid);
     console.log("Vehicle Id Setted",this.vehicleId);
     this.endorsementYn = this.vehicleDetails?.EndorsementYn;
-    this.productItem = new ProductData();
+    //this.productItem = new ProductData();
     let fireData:any=null;
     if(this.insuranceId=='100027' || this.insuranceId=='100002' || this.insuranceId=='100028' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020' || this.insuranceId=='100004'){
       if(this.insuranceId=='100027')  fireData = new MotorVehicleSanlam();
@@ -4519,6 +4523,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
         this.bodyTypeValue = this.vehicleDetails?.TiraBodyType;
       }
       this.productItem.MotorUsage = this.vehicleDetails?.Motorusage;
+      this.tiraCoverNoteNo = this.vehicleDetails?.TiraCoverNoteNo;
+      this.motorUsageValue = this.vehicleDetails?.Motorusage;
+      if(this.insuranceId!='100004') this.getMotorTypeList('direct',this.vehicleDetails?.VehicleType,this.vehicleDetails?.Motorusage)
+      else{this.motorUsageValue=this.vehicleDetails?.Motorusage; this.getMotorTypeAltList('direct');}
+      this.bodyTypeValue = this.vehicleDetails?.VehicleType;
       this.tiraCoverNoteNo = this.vehicleDetails?.TiraCoverNoteNo;
       this.motorUsageValue = this.vehicleDetails?.Motorusage;
       this.collateralYN = this.vehicleDetails?.CollateralYn;

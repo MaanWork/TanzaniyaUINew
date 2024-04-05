@@ -547,7 +547,6 @@ export class CustomerCreateFormComponent implements OnInit {
 		this.productItem.IdNumber='';
 		if(this.productItem.PolicyHolderTypeid=='7') this.maxTextLen = '14';
 		else this.maxTextLen = '10';
-		alert(this.maxTextLen)
 	  }
 	getRegionList(type){
 		let ReqObj = {
