@@ -5,7 +5,7 @@ import { FieldType } from '@ngx-formly/core';
  selector: 'formly-field-radio',
  template: `
         <input type="text" pInputText [formControl]="formControl" 
-        [formlyAttributes]="field"  class="w-full">
+        [formlyAttributes]="field"  class="w-full w-full1">
  `,
 })
 export class InputFieldType extends FieldType {}

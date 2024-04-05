@@ -13,6 +13,7 @@ import { PolicyInfoComponent } from './policy-info/policy-info.component';
 import { ExcessDiscountComponent } from './excess-discount/excess-discount.component';
 import { PersonalQuoteDetailsComponent } from './personal-quote-details/personal-quote-details.component';
 import { CommonProductDetailsComponent } from './common-product-details/common-product-details.component';
+import { RiskDetailsComponent } from './Riskpage/Riskdetails.component';
 
 const routes: Routes = [
   { 
@@ -28,12 +29,14 @@ const routes: Routes = [
       { path: 'payment', component: PaymentInfoComponent },
       { path: 'policy-info', component: PolicyInfoComponent },
      
+     
       
     ] 
   },
   { path: 'motor-details', component: VehicleCreateFormComponent },
   { path: 'premium-info', component: ExcessDiscountComponent },
   { path: 'quote-details', component:  CommonProductDetailsComponent},
+  { path: 'risk-page', component: RiskDetailsComponent },
   { path: 'personal-quote-details', component: PersonalQuoteDetailsComponent },
   { 
     path: 'premium-details', 

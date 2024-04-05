@@ -23,16 +23,15 @@ export class AllRisk{
             props: { label: 'All Risk' },
             fieldGroup: [
               {
-                fieldGroupClassName: 'row',
+                fieldGroupClassName: 'newclassname',
                 fieldGroup: [
                   {
-                    className: 'col-6',
+                    className: 'w-full md:mt-0 mt-3 mdw4',
                     type: 'commaSeparator',
                     key: 'AllriskSumInsured',
   
                     props: {
                       label: `Sum Insured`,
-                      //(${this.commonDetails[0].Currency})`,
                       maxLength: 15,
                       disabled: this.checkDisable('AllriskSumInsured'),
                       required: true,
@@ -51,6 +50,46 @@ export class AllRisk{
                 ]
               }
             ]
+            // fieldGroup: [
+            //   {
+            //     fieldGroupClassName: 'newclassname',
+            //     fieldGroup: [
+            //       {
+            //         className: 'w-full md:mt-0 mt-3 md:w-1/3',
+            //         type: 'displays',
+            
+            //         templateOptions: {
+            //           label: `Sum Insured`,
+            //           required: true,
+  
+            //         },
+            //       },
+            //       {
+            //         className: 'w-full md:mt-0 mt-5 mdw-5',
+            //         type: 'commaSeparator',
+            //         key: 'AllriskSumInsured',
+  
+            //         props: {
+            //           //label: `Sum Insured`,
+            //           //(${this.commonDetails[0].Currency})`,
+            //           maxLength: 15,
+            //           disabled: this.checkDisable('AllriskSumInsured'),
+            //           //required: true,
+            //           options: [
+  
+            //           ],
+  
+            //         },
+            //         validators: {
+            //         },
+            //         hooks: {
+            //         },
+            //         expressions: {
+            //         },
+            //       },
+            //     ]
+            //   }
+            // ]
           }
     }
   fields:FormlyFieldConfig;

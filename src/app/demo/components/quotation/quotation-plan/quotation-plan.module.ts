@@ -71,6 +71,7 @@ import { CommonProductDetailsComponent } from './common-product-details/common-p
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CardModule } from 'primeng/card';
 import { TreeSelect, TreeSelectModule } from 'primeng/treeselect';
+import { RiskDetailsComponent } from './Riskpage/Riskdetails.component';
 export function maxlengthValidationMessage(err, field) {
   return `This value should be less than ${field.templateOptions.maxLength} characters`;
 }
@@ -101,7 +102,8 @@ export function maxlengthValidationMessage(err, field) {
     TablesTypeComponent,
     RadioList,
     NgSelect,
-    CommonProductDetailsComponent
+    CommonProductDetailsComponent,
+    RiskDetailsComponent
   ],
   imports: [
     CommonModule,

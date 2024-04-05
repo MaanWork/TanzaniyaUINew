@@ -24,15 +24,93 @@ export class PersonalAccident{
         }
         this.fields={
             props: { label: 'Personal Accident' },
+            // fieldGroup: [
+            //   {
+            //     fieldGroupClassName: 'newclassname',
+            //       fieldGroup: [
+            //         {
+            //           className: 'w-full md:mt-0 mt-3 md\:w-1\/4',
+            //           type: 'displays',
+              
+            //           templateOptions: {
+            //             label: `Occupation`,
+            //             required: true,
+    
+            //           },
+            //         },
+            //         {
+            //           type: 'ngselect',
+            //         key: 'OccupationType',
+            //         defaultValue: '',
+            //         className: 'w-full md:mt-0 mt-3 md\:w-1\/4',
+            //         props: {
+            //           //label: `Occupation`,
+            //           disabled: this.checkDisable('OccupationType'),
+            //           //required: true,
+            //           options: [
+      
+            //           ],
+      
+            //         },
+            //         validators: {
+            //           validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+            //         },
+            //         hooks: {
+            //         },
+            //         expressions: {
+            //         },
+            //         }
+                   
+            //       ]
+            //   },
+            //   {
+            //     fieldGroupClassName: 'grid mt-2',
+            //       fieldGroup: [
+            //         {
+            //           className: 'col-12 md:col-6 lg:col-6 p-2',
+            //           type: 'displays',
+              
+            //           templateOptions: {
+            //             label: `Sum Insured`,
+            //             required: false,
+    
+            //           },
+            //         },
+            //  {
+            //   type: 'commaSeparator',
+            //         className: 'col-12 md:col-6 lg:col-6',
+            //         key: 'PersonalAccidentSuminsured',
+            //         defaultValue: '0',
+            //         props: {
+            //           //label: `Sum Insured`,
+            //           maxLength: 15,
+            //           disabled: this.checkDisable('PersonalAccidentSuminsured'),
+            //           //required: true,
+            //           options: [
+      
+            //           ],
+      
+            //         },
+            //         validators: {
+            //           validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+            //         },
+            //         hooks: {
+            //         },
+            //         expressions: {
+            //         },
+            //  }
+            //       ]
+            //   },
+            // ]
             fieldGroup: [
               {
-                fieldGroupClassName: 'row',
+                fieldGroupClassName: 'newclassname',
                 fieldGroup: [
                   {
                     type: 'ngselect',
                     key: 'OccupationType',
                     defaultValue: '',
-                    className: 'col-12',
+                    className: 'w-full md:mt-0 mt-3 md\:w-1\/4',
                     props: {
                       label: `Occupation`,
                       disabled: this.checkDisable('OccupationType'),
@@ -52,7 +130,7 @@ export class PersonalAccident{
                   },
                   {
                     type: 'commaSeparator',
-                    className: 'col-12',
+                    className: 'w-full md:mt-0 mt-3 md\:w-1\/4',
                     key: 'PersonalAccidentSuminsured',
                     defaultValue: '0',
                     props: {
@@ -73,24 +151,6 @@ export class PersonalAccident{
                     expressions: {
                     },
                   },
-                  // {
-                  //   type: 'input',
-                  //   key: 'otheroptionPer',
-                  //   defaultValue: '',
-                  //   className: 'col-12',
-                  //   props: {
-                  //     label: `Others Description`,
-                  //     disabled: this.checkDisable('OccupationType'),
-                  //   },
-                  //   validators: {
-                  //     validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
-                  //   },
-                  //   hooks: {
-                  //   },
-                  //   expressions: {
-                  //   },
-                 
-                  // },
                 ]
               }
             ]

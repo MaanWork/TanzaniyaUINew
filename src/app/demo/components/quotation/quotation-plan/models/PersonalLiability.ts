@@ -24,15 +24,16 @@ export class PersonalLiability{
         }
         this.fields={
             props: { label: 'Personal Liability' },
+           
             fieldGroup: [
               {
-                fieldGroupClassName: 'row',
+                fieldGroupClassName: 'newclassname',
                 fieldGroup: [
                   {
                     type: 'ngselect',
                     key: 'LiabilityOccupationId',
                     defaultValue: '',
-                    className: 'col-12',
+                    className: 'w-full md:mt-0 mt-3 md\:w-1\/4',
                     props: {
                       label: `Occupation`,
                       disabled: this.checkDisable('OccupationType'),
@@ -52,7 +53,7 @@ export class PersonalLiability{
                   },
                   {
                     type: 'commaSeparator',
-                    className: 'col-12',
+                    className: 'w-full md:mt-0 mt-3 md\:w-1\/4',
                     key: 'EmpLiabilitySi',
                     defaultValue: '0',
                     props: {
