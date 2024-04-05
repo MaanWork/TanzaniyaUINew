@@ -73,6 +73,19 @@
                 <label for="model">Model Description *</label>
                 <input pInputText id="model-desc" placeholder="Enter Model Description" maxlength="50"  [(ngModel)]="modelDesc"  />
             </div>
+            <div class="flex flex-column m-3" *ngIf="insuranceId!='100028'">
+                <label for="motor-category">Motor Category*</label>
+                <p-dropdown inputId="motor-category" 
+                    class="w-full" 
+                    styleClass="w-full" 
+                    [options]="motorCategoryList" 
+                    [(ngModel)]="motorCategory" 
+                    [disabled]="editSection"
+                    optionLabel="CodeDesc" 
+                    optionValue="Code" 
+                    placeholder="Select Motor Category">
+                </p-dropdown>
+            </div>
         </div>
         <div class="flex justify-content-start flex-wrap w-full form-container">
             <div class="flex flex-column m-3">

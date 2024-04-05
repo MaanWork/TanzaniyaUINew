@@ -1470,6 +1470,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 })
                 .then((result) => {
                   if (result.isConfirmed) {
+                    this.tabIndex = 0;
                     this.getExistingVehiclesList();
                   }
                 });
