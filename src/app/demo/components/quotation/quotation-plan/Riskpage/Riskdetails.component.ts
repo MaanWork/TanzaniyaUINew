@@ -36,7 +36,7 @@ import Swal from 'sweetalert2';
 import { LocationDetails } from '../models/additionalDetails/locationdetails';
 import { HttpClient } from '@angular/common/http';
 import { Building } from '../models/Building';
-import { ProfessionalIndemnity } from '../models/ProfessionalIntermnity';
+// import { ProfessionalIndemnity } from '../models/ProfessionalIntermnity';
 @Component({
   selector: 'app-Riskdetails',
   templateUrl: './Riskdetails.component.html',
@@ -147,11 +147,11 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               this.getCommonDetails();
               this.getBuildingDetails();
             }
-            if(this.productId=='60'){
-              //this.getEditDetails();
-           this.getdetails();
+          //   if(this.productId=='60'){
+          //     //this.getEditDetails();
+          //  this.getdetails();
 
-            }
+          //   }
            
             //this.editsections();
 
@@ -213,13 +213,13 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
           this.individualCommaFormatted('building');
         }
 
-        getdetails(){
-          let  contentData:any;
-          contentData = new ProfessionalIndemnity();
-        this.fields8[0] = contentData?.fields;
-        this.professionaltype();
-        this.Indemitytype();
-        }
+        // getdetails(){
+        //   let  contentData:any;
+        //   contentData = new ProfessionalIndemnity();
+        // this.fields8[0] = contentData?.fields;
+        // this.professionaltype();
+        // this.Indemitytype();
+        // }
     //     getEditDetails(){
     //       let ReqObj = {
     //         "InsuranceId": "100020",
