@@ -24,7 +24,7 @@
                         <!-- <ng-container *ngIf="insuranceId!='100028'"> -->
                             <ng-container *ngIf="productId=='5'">
                                 <div class="flex flex-wrap justify-content-between">
-                                        <div class="flex flex-wrap">
+                                        <div class="flex flex-wrap" *ngIf="insuranceId!='100027'">
                                             <p class="mr-5" *ngIf="menu.RiskDetails.PolicyTypeDesc"><i class="pi pi-tag mr-2"></i>{{menu.RiskDetails.PolicyTypeDesc}}</p>
                                             <p class="mr-5"><i class="pi pi-tag mr-2"></i>{{ menu.RiskDetails.Registrationnumber }}</p>
                                         </div>
@@ -594,7 +594,7 @@
         </p-tabView>
     </ng-container>
     <div class="grid">
-            <div class="lg:col-3 md:col-3 col-12" *ngIf="(subuserType=='low' && !endorsementSection)">
+            <!-- <div class="lg:col-3 md:col-3 col-12" *ngIf="(subuserType=='low' && !endorsementSection)">
                 <label class="input-form-label">Do You Finalize this Quote?</label>
                 <div class="flex justify-content-start gap-3 mt-2">
                     <div class="flex align-items-center">
@@ -608,7 +608,7 @@
                         <span for="finalize_No" class="ml-2">No</span>
                     </div>
                 </div>  
-            </div>
+            </div> -->
             <div class="lg:col-3 md:col-3 col-12" *ngIf="isMannualReferal != 'Y' && (coverSection && (((!statusValue || checkManualReferral()) && !adminSection) || (statusValue && adminSection ))) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
                 <label class="input-form-label">Do You Like to Choose EMI Option?</label>
                 <div class="flex justify-content-start gap-3 mt-1">
@@ -790,11 +790,11 @@
         </ng-container>
     </ng-template>
     <ng-template pTemplate="content">
-        <p-chip label="Customer ID" icon="pi pi-user"></p-chip>
-        <hr>
+        <!-- <p-chip label="Customer ID" icon="pi pi-user"></p-chip>
+        <hr>  -->
         <div class="card w-full">
             <ng-container *ngFor="let menu of vehicleDetailsList">
-                <h4>{{ menu.RiskDetails.Registrationnumber }}&nbsp;({{menu.RiskDetails.PolicyTypeDesc}})</h4>
+                <h4>{{getHeaderName(menu)}}</h4>
                 <div class="grid">
                     <ng-container *ngFor="let cover of menu.CoverList">
                         <ng-container *ngIf="canbeChecked(cover)">

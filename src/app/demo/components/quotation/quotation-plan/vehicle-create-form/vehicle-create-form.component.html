@@ -13,7 +13,7 @@
           </div>
         </div>
     </div>
-    <ng-container *ngIf="insuranceId=='100028'">
+    <ng-container *ngIf="insuranceId=='100028' || insuranceId == '100027'">
         <div class="flex justify-content-start flex-wrap w-full form-container">
             <div class="flex flex-column m-3">
                 <label for="motor-usage">Motor Usage*</label>
@@ -157,6 +157,14 @@
                 <label for="gross-weight">Gross Weight*</label>
                 <input pInputText id="gross-weight" [(ngModel)]="grossWeight" maxlength="10" [disabled]="editSection" placeholder="Enter Gross Weight"/>
             </div>
+            <div class="flex flex-column m-3" *ngIf="insuranceId!='100028'">
+                <label for="no-of-axis">No of Axis*</label>
+                <input pInputText id="no-of-axis" digitOnly [(ngModel)]="noOfAxels" maxlength="10" [disabled]="editSection" placeholder="Enter No of Axis"/>
+            </div>
+            <div class="flex flex-column m-3" *ngIf="insuranceId!='100028'">
+                <label for="axis-distance">Axis Distance*</label>
+                <input pInputText id="axis-distance" digitOnly [(ngModel)]="axelDistance" maxlength="50" [disabled]="editSection" placeholder="Enter Axis Distance"/>
+            </div>
         </div>
         <div class="flex justify-content-center mt-2">
             <p-button styleClass="p-button-outlined"  label="Back" class="p-3 text-l mr-0" icon="pi pi-chevron-left" [routerLink]="['/policyDetails']"></p-button>&nbsp;
@@ -165,7 +173,7 @@
     </ng-container>
    
 </div>  
-<ng-container *ngIf="insuranceId!='100028'">
+<ng-container *ngIf="insuranceId!='100028' && insuranceId!='100027'">
     <p-accordion [multiple]="true" [activeIndex]="[0,1,2]">
         <p-accordionTab header="Vehicle Details">
             <div class="flex justify-content-start flex-wrap w-full form-container">

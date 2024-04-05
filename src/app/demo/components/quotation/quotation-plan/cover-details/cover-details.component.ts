@@ -135,6 +135,10 @@ export class CoverDetailsComponent {
   MinimumPremium: any=null;premiumExcluedTax: any=null;
   premiumIncluedTax: any=null;dependantTaxList: any[]=[];taxList: any[]=[];premiumBeforeTax: any=null;
   proRataPercent: any=null;premiumAfterDiscount:any=null;
+  fleetCoverDetails: any;
+  basePremium: any;
+  premiumIncludedTax: any;
+  premiumExcludedTax: any;
   constructor(private router:Router,private sharedService:SharedService,private messageService: MessageService){
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     let loginType = sessionStorage.getItem('resetLoginDetails');
@@ -2695,6 +2699,277 @@ export class CoverDetailsComponent {
     }
 
 
+  }
+  updateFinalizeYN(type){
+    let ReqObj = {
+      "ProductId" : this.productId,
+      "InsuranceId" : this.insuranceId,
+      "RequestReferenceNo" : this.quoteRefNo,
+      "FinalizeYn" : this.finalizeYN
+    }
+    let urlLink = `${this.CommonApiUrl}quote/changefinalyzestatus`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+          sessionStorage.setItem('FinalizeYN',this.finalizeYN);
+              if(type=='back'){
+                if(this.statusValue){
+                  if(this.adminSection){
+                      if(this.statusValue=='RA') this.router.navigate(['/Admin/referralApproved']);
+                      //else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/customer-details']);
+                      else if(this.statusValue=='RE') this.router.navigate(['/Admin/referralReQuote']);
+                      else this.router.navigate(['/Admin/referralPending']);
+                  }
+                  else{
+                    if(this.statusValue=='RA') this.router.navigate(['/Home/referralApproved']);
+                    else if(this.statusValue=='RE') this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/customer-details']);
+                    else{
+                      this.onSetBackPage();
+                     
+                    } 
+                  }
+                }
+                else{
+                  if(this.endorsementSection && this.enableFieldsList.some(ele=>ele=='Covers' || ele=='AddOnCovers' || ele=='RemoveSection') && !this.endorseSIModification){
+                    this.router.navigate(['/Home/policies/Endorsements/endorsementTypes']);
+                  }
+                  else{
+                    this.onSetBackPage();
+                  }
+                }
+              }
+              else{
+                  this.onUpdateFactor('',null);
+              }
+        }
+      },
+      (err) => { },
+    );
+  }
+  onSetBackPage(){
+    if(this.productId=='5' || this.productId=='29'){
+      this.router.navigate(['/quotation/plan/premium-details']);
+    }
+    else if(this.productId=='4') this.router.navigate(['quotation/plan/premium-details']);
+    else this.router.navigate(['quotation/plan/premium-details']);
+  }
+  onUpdateFactor(type,modal){
+    if((this.statusValue!='' && this.statusValue!=null) || (this.endorsementSection && this.endorseCovers) || this.userType=='Issuer' || type=='fleetSave'){
+      if(this.statusValue=='RA' || type=='calculate' || this.userType=='Issuer' || type=='fleetSave'){
+        if(this.selectedCoverList.length!=0){
+          let i=0;
+          for(let vehicle of this.vehicleDetailsList){
+              let vehEntry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.Vehicleid);
+              if(vehEntry.length!=0){
+                let entry = vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId);
+                if(entry.length!=0){
+                  let j=0; let covers = [];
+                  for(let veh of entry){
+                      let k=0;
+                      for(let selectedCover of veh.Covers){
+                        let coverList = vehicle.CoverList.filter(ele=>ele.CoverId == selectedCover.CoverId)
+                        covers = covers.concat(coverList);
+                        k+=1;
+                        if(k==veh.Covers.length){
+                          j+=1;
+                          if(j==entry.length){
+                              let ReqObj = {
+                                "RequestReferenceNo": this.quoteRefNo,
+                                "VehicleId": veh.Id,
+                                "SectionId": vehicle.SectionId,
+                                "ProductId": this.productId,
+                                "AdminLoginId": this.loginId,
+                                "InsuranceId": this.insuranceId,
+                                "Covers":covers
+                              }
+                              console.log("Final Req",vehicle,veh,ReqObj)
+                              let urlLink = `${this.CommonApiUrl}api/updatefactorrate`;
+                              this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+                                (data: any) => {
+                                    if(data.Result){
+                                      i+=1;
+                                      if(i==this.vehicleDetailsList.length){
+                                        if(type=='calculate'){
+                                          
+                                          // this.getcall();
+                                          //sessionStorage.removeItem('vehicleDetailsList');
+                                          window.location.reload();
+                                        }
+                                        else if(type=='altSave'){ console.log("Finally Updated");}
+                                        else if(type=='fleetSave') this.getViewPremiumCalc(modal);
+                                        else if(this.subuserType=='low') this.onFormSubmit();
+                                        else this.updateReferralStatus();
+                                      }
+                                    }
+                                  },
+                                  (err) => { },
+                                );
+                          }
+                        }
+                      }
+                  }
+                }
+                else{
+                  i+=1;
+                  if(i==this.vehicleDetailsList.length){
+                    if(type=='calculate'){
+                      //this.getcall();
+                      //sessionStorage.removeItem('vehicleDetailsList');
+                        window.location.reload();
+                    }
+                    else this.updateReferralStatus();
+                  }
+                }
+              }
+              else{
+                i+=1;
+                  if(i==this.vehicleDetailsList.length){
+                    if(type=='calculate'){
+                      //this.getcall();
+                      //sessionStorage.removeItem('vehicleDetailsList');
+                        window.location.reload();
+                    }
+                    else this.updateReferralStatus();
+                  }
+              }
+          }
+          // for(let veh of this.selectedCoverList){
+          //  let entry = this.vehicleDetailsList.find(ele=>ele.Vehicleid==veh.Id);
+          //  let ReqObj = {
+          //   "RequestReferenceNo": this.quoteRefNo,
+          //   "VehicleId": veh.Id,
+          //   "SectionId": veh.SectionId,
+          //   "ProductId": this.productId,
+          //   "InsuranceId": this.insuranceId,
+          //   "Covers":[]
+          //  }
+          //  let j=0;
+          //  for(let cover of veh.Covers){
+          //    let coverEntry = entry.CoverList.find(ele=>ele.CoverId==cover.CoverId);
+          //    coverEntry['SubCoverYn'] = cover.IsSubCover;
+          //    ReqObj.Covers.push(coverEntry);
+          //    j+=1;
+          //    if(j==veh.Covers.length){
+          //     console.log("Final Vehicle List",ReqObj)
+          //     let urlLink = `${this.CommonApiUrl}api/updatefactorrate`;
+          //     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+          //       (data: any) => {
+          //           if(data.Result){
+          //             i+=1;
+          //             if(i==this.selectedCoverList.length){
+          //               if(type=='calculate'){
+          //                 //sessionStorage.removeItem('vehicleDetailsList');
+          //                 window.location.reload();
+          //               }
+          //               if(!this.endorsementSection) this.updateReferralStatus();
+          //             }
+          //           }
+          //         },
+          //         (err) => { },
+          //       );
+          //    }
+          //  }
+          // }
+        }
+      }
+      else{
+        this.updateReferralStatus();
+      }
+    }
+
+  }
+  getViewPremiumCalc(modal){
+    let ReqObj = {
+        "InsuranceId" : this.insuranceId,
+        "ProductId" : this.productId,
+        "RequestReferenceNo": this.requestReferenceNo
+    }
+    let urlLink = `${this.CommonApiUrl}api/view/policycalc`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          if(data.Result){
+            this.fleetCoverDetails = data?.Result;
+            if(this.fleetCoverDetails){
+              if(this.fleetCoverDetails.CoverList.length!=0){
+                let cover = this.fleetCoverDetails.CoverList.find(ele=>ele.CoverId=='5');
+                if(cover){
+                  //if(cover?.PremiumBeforeDiscount!=0 && cover?.PremiumBeforeDiscount!="0"){
+                    this.ratePercent = cover.Rate;
+                    this.CoverName = cover.CoverName;
+                    this.minimumPremiumYN = cover.MinimumPremiumYn;
+                    this.basePremium = cover?.PremiumBeforeDiscount;
+                    this.premiumIncludedTax = cover?.PremiumIncludedTax;
+                    this.premiumExcludedTax = cover?.PremiumExcludedTax;
+                    if(cover.Discounts) this.discountList = cover.Discounts;
+                    if(cover.Loadings) this.loadingList = cover.Loadings;
+                    if(cover.Taxes) this.taxList = cover.Taxes;
+                    //this.open(modal);
+                  // }
+                  // else this.onFleetProceed(modal);
+                }
+                else{
+                  this.onFleetProceed(modal);
+                }
+              }
+            }
+            else this.onFleetProceed(modal);
+          }
+        });
+  }
+  onFleetProceed(modal){
+    modal.dismiss('Cross click');
+    if(!this.adminSection && this.userType=='Issuer' && this.statusValue == 'RA' && !this.endorsementSection){
+      this.updateFinalizeYN('proceed')
+    }
+    else if(!this.adminSection && (this.userType!='Issuer'  || (this.userType=='Issuer' && this.subuserType=='low' && this.endorsementSection)) && (this.statusValue == 'RA' || (this.userType=='Issuer' && this.subuserType=='low' && this.endorsementSection))){
+      this.onFormSubmit();
+    }
+    else if(!this.adminSection && (this.userType!='Issuer') && this.statusValue != 'RA'){
+      this.onFormSubmit();
+    }
+    else if(this.userType=='Issuer' && this.subuserType=='low'  && this.statusValue != 'RA' && !this.endorsementSection){
+      this.updateFinalizeYN('proceed');
+    }
+    else if(this.adminSection){
+      this.onUpdateFactor('',null);
+    }
+  }
+  updateReferralStatus(){
+    if(this.remarks == undefined) this.remarks = "";
+    if(this.rejectedReason == undefined) this.rejectedReason = "";
+      let ReqObj = {
+        "RequestReferenceNo": this.quoteRefNo,
+        "AdminLoginId": this.loginId,
+        "ProductId": this.productId,
+        "Status": this.statusValue,
+        "AdminRemarks": this.remarks,
+        "RejectReason": this.rejectedReason,
+        "CommissionModifyYn" : 'N',
+        "CommissionPercent" : this.commissionPercent
+      }
+      let urlLink = `${this.CommonApiUrl}quote/update/referalstatus`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+            if(data.Result){
+              // let type: NbComponentStatus = 'success';
+              // const config = {
+              //   status: type,
+              //   destroyByClick: true,
+              //   duration: 4000,
+              //   hasIcon: true,
+              //   position: NbGlobalPhysicalPosition.TOP_RIGHT,
+              //   preventDuplicates: false,
+              // };
+              // this.toastrService.show(
+              //   'Referral Quote Status',
+              //   'Referral Status Updated Successfully',
+              //   config);
+              if(this.statusValue=='RP' || this.statusValue=='RR' || this.statusValue=='RA' || this.statusValue=='RE') this.router.navigate(['/referralCases'])
+              
+            }
+          },
+          (err) => { },
+        );
   }
   ongetBack(){
     if(this.statusValue=='RA' && !this.adminSection){
