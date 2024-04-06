@@ -72,6 +72,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CardModule } from 'primeng/card';
 import { TreeSelect, TreeSelectModule } from 'primeng/treeselect';
 import { RiskDetailsComponent } from './Riskpage/Riskdetails.component';
+import { NgSelectAlt } from './formlyTypes/ngselectAlt';
 export function maxlengthValidationMessage(err, field) {
   return `This value should be less than ${field.templateOptions.maxLength} characters`;
 }
@@ -102,6 +103,7 @@ export function maxlengthValidationMessage(err, field) {
     TablesTypeComponent,
     RadioList,
     NgSelect,
+    NgSelectAlt,
     CommonProductDetailsComponent,
     RiskDetailsComponent
   ],
@@ -160,6 +162,7 @@ export function maxlengthValidationMessage(err, field) {
         { name: 'displays', component: DisplayLabels },
         { name: 'radioList', component: RadioList },
         {name: 'ngselect', component:NgSelect},
+        {name: 'ngselectAlt', component:NgSelectAlt},
         { name: 'commaSeparator', component: CommaSeparatorInput, wrappers: ['form-field'] },
         //{ name: 'commaSeparators', component: CommaSeparatorsInput, wrappers: ['form-field'] },
         { name: 'table', component: TableTypeComponent, wrappers: ['form-field'] },

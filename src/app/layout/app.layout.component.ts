@@ -133,7 +133,7 @@ export class AppLayoutComponent implements OnDestroy {
           
           types = this.typeList.find(ele=>ele.CodeDesc==this.typeValue);
           this.typeValue = sessionStorage.getItem('typeValue')
-           window.location.reload();
+          // window.location.reload();
            
         }
         else if(types.CodeDesc!='B2C Broker'){ this.typeValue = types.CodeDesc; this.loginService.typeValue = this.typeValue}
@@ -147,7 +147,7 @@ export class AppLayoutComponent implements OnDestroy {
       onTypeChange(changeType) {
         let type = sessionStorage.getItem('typeValue');
         console.log("1", type)
-        
+        //this.router.navigate(['/auth/login/product']);
         if (type != undefined) {
           sessionStorage.setItem('typeValue', this.typeValue);
           type = sessionStorage.getItem('typeValue');
@@ -157,15 +157,15 @@ export class AppLayoutComponent implements OnDestroy {
         }
         else {
           sessionStorage.setItem('typeValue', this.typeValue);
+         
           //this.getMenuList(changeType);
         }
         if (changeType == 'direct') {
           this.getBranchList();
          }
-         
-        // else {
-        //   this.router.navigate(['/'])
-        // }
+        else {
+          
+        }
       }
       getBranchList() {
         let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));

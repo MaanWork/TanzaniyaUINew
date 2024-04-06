@@ -43,6 +43,7 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
 import { FormlyMatToggleModule } from '@ngx-formly/material/toggle';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { NgSelectAlt } from '../quotation/quotation-plan/formlyTypes/ngselectAlt';
 export function maxlengthValidationMessage(err, field) {
   return `This value should be less than ${field.templateOptions.maxLength} characters`;
 }
@@ -87,6 +88,7 @@ export function maxlengthValidationMessage(err, field) {
         { name: 'displays', component: DisplayLabels },
         { name: 'radioList', component: RadioList },
         {name: 'ngselect', component:NgSelect},
+        {name: 'ngselectAlt', component:NgSelectAlt},
         { name: 'commaSeparator', component: CommaSeparatorInput, wrappers: ['form-field'] },
         //{ name: 'commaSeparators', component: CommaSeparatorsInput, wrappers: ['form-field'] },
         { name: 'table', component: TableTypeComponent, wrappers: ['form-field'] },

@@ -85,15 +85,11 @@ export class VehicleCreateFormComponent implements OnInit {
     else{
 
     }
-    this.quoteRefNo = sessionStorage.getItem('quoteReferenceNo')
-    if(this.getdetails== 'SavedFroms' && this.quoteRefNo){
-      this.getExistingVehiclesList();
-    }
+    
   }
   onChangeMotorUsage(type){
-    if(this.bodyTypeList.length!=0 && this.usageValue!=null && this.usageValue!='' && this.usageValue!=undefined){
-     
-      let entry = this.usageList.find(ele=>ele.CodeDesc==this.usageValue);
+     if(this.bodyTypeList.length!=0 && this.usageValue!=null && this.usageValue!='' && this.usageValue!=undefined){
+      let entry = this.usageList.find(ele=>ele.CodeDesc==this.usageValue || ele.Code==this.usageValue);
           if(entry){   
             let bodyTypeStatus = entry?.BodyType;
             this.mainBodyTypeList = this.bodyTypeList.filter(ele=>ele.BodyType==bodyTypeStatus);
@@ -490,6 +486,10 @@ export class VehicleCreateFormComponent implements OnInit {
         if(data.Result){
             this.bodyTypeList = data.Result;
             this.getUsageList();
+            this.quoteRefNo = sessionStorage.getItem('quoteReferenceNo')
+            if(this.getdetails== 'SavedFroms' && this.quoteRefNo){
+              this.getExistingVehiclesList();
+            }
         }
 
       },
@@ -648,7 +648,7 @@ export class VehicleCreateFormComponent implements OnInit {
          this.vehicleDetails = data.Result;
          this.editdata=data.Result;
          this.setVehiclValues(this.editdata);
-
+      
       }
       },
       (err) => { },
@@ -673,6 +673,7 @@ export class VehicleCreateFormComponent implements OnInit {
     this.tareWeight = vehDetails?.Tareweight;
     if(vehDetails?.VehicleType!=null && vehDetails?.VehicleType!=''){
     this.bodyTypeValue = vehDetails?.TiraBodyType;
+
      if(this.insuranceId!='100020') this.onBodyTypeChange('direct');
      else{
       if(vehDetails?.Vehiclemake!=null && vehDetails?.Vehiclemake!='' && this.makeList.length!=0){
@@ -682,9 +683,10 @@ export class VehicleCreateFormComponent implements OnInit {
           // this.editSectionAlt = true;
           // this.onMakeAltChange('direct',vehDetails?.VehicleModelDesc);
       }
+      
      }
     }
-
+    this.onChangeMotorUsage('direct')
   }
   onFormSubmit(){
     let make = "";

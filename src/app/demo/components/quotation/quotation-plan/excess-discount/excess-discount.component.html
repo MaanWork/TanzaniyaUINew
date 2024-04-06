@@ -2773,7 +2773,7 @@
                     styleClass="mb-4"></p-button>
             </div>
             <div class="grid">
-                <div class="lg:col-3 md:col-3 col-12" *ngIf="(subuserType=='low' && !endorsementSection)">
+                <!-- <div class="lg:col-3 md:col-3 col-12" *ngIf="(subuserType=='low' && !endorsementSection)">
                     <label class="input-form-label">Do You Finalize this Quote?</label>
                     <div class="flex justify-content-start gap-3 mt-2">
                         <div class="flex align-items-center">
@@ -2802,7 +2802,7 @@
                             <span for="emi_No" class="ml-2">No</span>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="lg:col-3 md:col-3 col-12" *ngIf="((!statusValue || checkManualReferral()) && !adminSection) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
                     <label class="input-form-label">Do You Like to Move this Quote to Referral Manually?</label>
                     <div class="flex justify-content-start gap-3 mt-2">
