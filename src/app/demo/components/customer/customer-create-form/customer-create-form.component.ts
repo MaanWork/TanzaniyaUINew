@@ -175,7 +175,8 @@ export class CustomerCreateFormComponent implements OnInit {
 			}
 			else dobOrRegDate = this.datePipe.transform(data.dobOrRegDate,'dd/MM/yyyy')
 		}
-		if (this.productItem.isTaxExempted == 'Y') taxExemptedId = this.productItem.TaxExemptedId;
+		if (this.productItem.isTaxExempted == 'Y') taxExemptedId = this.productItem?.TaxExemptedId;
+		//this.productItem.TaxExemptedId;
 		if (this.productItem.IdType == '2') businessType = this.productItem.BusinessType;
 		console.log("Appointment Date", appointmentDate);
 		console.log('mobile code', this.productItem.MobileCode)
@@ -200,6 +201,13 @@ export class CustomerCreateFormComponent implements OnInit {
 			this.productItem.IdNumber = Math.floor(Math 
 				.random() * (maxm - minm + 1)) + minm; 
 		}
+		let policyid:any;
+		if(data?.PolicyHolderTypeid == '1'){
+         policyid = this.Idnumber.concat(this.Idnumber1).concat(this.Idnumber2);
+		}
+		else{
+			policyid = data?.IdNumber;
+		}
 		
 		let ReqObj = {
 			"BrokerBranchCode": this.brokerbranchCode,
@@ -222,7 +230,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			"Email3": null,
 			"Fax": null,
 			"Gender": data?.Gender,
-			"IdNumber": data?.IdNumber,
+			"IdNumber": policyid,
 			"IdType": data.IdType,
 			"IsTaxExempted": data.isTaxExempted,
 			"Language": "1",
@@ -617,7 +625,6 @@ export class CustomerCreateFormComponent implements OnInit {
 					this.productItem.MobileCodeDesc = customerDetails.MobileCodeDesc1;
 
 					this.productItem.PolicyHolderTypeid = customerDetails.PolicyHolderTypeid;
-
 					if(this.productItem.PolicyHolderTypeid =='1'){
 						this.shows=true;
 						this.Idnumber= customerDetails.IdNumber.substr(0, 5);
@@ -814,43 +821,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					(err) => { },
 				);
 	}
-	onsavedatas(type,data){
-
-		console.log('GGGGGGG',type)
-		if(type=='Address'){
-			this.Adressvalidate();
-		}
-		else if(type=='IdValue'){
-			this.idfieldvalidate();
-		}
-		else if(type=='Email'){
-			this.Emailvalidate();
-		}
-		else if(type=='Mobile'){
-			this.Mobilevalidate();
-		}
-		else if(type=='Occupation'){
-			this.occupationchange();
-		}
-		else if(type=='Status'){
-			this.StatusChange();
-		}
-		else if(type=='Customer'){
-			this.Customervalidate();
-		}
-		else if(type=='direct' && !this.final){
-			this.blankvalidationcheck(data);
-		}
-		else if(type=='direct' && this.final){
-       if(this.final1)this.idfieldvalidate();
-	   if(this.final2) this.Adressvalidate();
-	   if(this.final3) this.occupationchange();
-	   if(this.final4) this.StatusChange();
-	   if(this.final5) this.Customervalidate();
-	   if(this.final6) this.Emailvalidate();
-	   if(this.final7) this.Mobilevalidate();
-		}
-	}
+	
 	blankvalidationcheck(datas){
 		console.log("Total Data", datas);
 		
@@ -889,7 +860,8 @@ export class CustomerCreateFormComponent implements OnInit {
 		if (datas.dobOrRegDate != undefined && datas.dobOrRegDate != null && datas.dobOrRegDate != '') {
 			dobOrRegDate = this.datePipe.transform(datas.dobOrRegDate, "dd/MM/yyyy");
 		}
-		if (this.productItem.isTaxExempted == 'Y') taxExemptedId = this.productItem.TaxExemptedId;
+		if (this.productItem.isTaxExempted == 'Y') taxExemptedId = this.productItem?.TaxExemptedId;
+			//taxExemptedId = this.productItem.TaxExemptedId;
 		if (this.productItem.IdType == '2') businessType = this.productItem.BusinessType;
 		let codes = this.productItem.MobileCode
 		if (this.productItem.MobileCode != undefined && this.productItem.MobileCode != null && this.productItem.MobileCode != '') {
@@ -1035,5 +1007,42 @@ export class CustomerCreateFormComponent implements OnInit {
       },
     });
   }
-  
+  onsavedatas(type,data){
+
+	console.log('GGGGGGG',type)
+	if(type=='Address'){
+		this.Adressvalidate();
+	}
+	else if(type=='IdValue'){
+		this.idfieldvalidate();
+	}
+	else if(type=='Email'){
+		this.Emailvalidate();
+	}
+	else if(type=='Mobile'){
+		this.Mobilevalidate();
+	}
+	else if(type=='Occupation'){
+		this.occupationchange();
+	}
+	else if(type=='Status'){
+		this.StatusChange();
+	}
+	else if(type=='Customer'){
+		this.Customervalidate();
+	}
+	else if(type=='direct' && !this.final){
+		this.blankvalidationcheck(data);
+	}
+	else if(type=='direct' && this.final){
+   if(this.final1)this.idfieldvalidate();
+   if(this.final2) this.Adressvalidate();
+   if(this.final3) this.occupationchange();
+   if(this.final4) this.StatusChange();
+   if(this.final5) this.Customervalidate();
+   if(this.final6) this.Emailvalidate();
+   if(this.final7) this.Mobilevalidate();
+	}
+}
+
 }

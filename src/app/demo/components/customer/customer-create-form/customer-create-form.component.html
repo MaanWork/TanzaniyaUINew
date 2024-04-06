@@ -23,7 +23,7 @@
         [(ngModel)]="value1"
         optionLabel="label"
         optionValue="value"
-        (onChange)="onLanguageChange($event)"></p-selectButton><br>
+        (change)="onLanguageChange($event)"></p-selectButton><br>
     </div>
    
     <!-- <p-card  header="{{ 'HOME.CARDONE' | translate }}" [style]="{ width: '25rem', 'margin-bottom': '2em', float: 'left' }">
@@ -42,7 +42,7 @@
                     <p-dropdown inputId="make" 
                         class="w-full" 
                         styleClass="w-full" 
-                        (onChange)="onTitleChange()"
+                        (change)="onTitleChange()"
                         [options]="titleList" 
                         [(ngModel)]="productItem.Title" 
                         optionLabel="CodeDesc" 
@@ -53,14 +53,14 @@
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.CustomerName' | translate }}*</label>
                     <input pInputText id="username" maxlength="150" [(ngModel)]="productItem.ClientName" 
-                    (onChange)="onsavedatas('Customer',null)" placeholder="Enter Customer Name"/>
+                    (change)="onsavedatas('Customer',null)" placeholder="Enter Customer Name"/>
                 </div>
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.Occupation' | translate }}*</label>
                     <p-dropdown inputId="make" 
                         class="w-full" 
                         styleClass="w-full" 
-                        [options]="occupationList"  (onChange)="onsavedatas('Occupation',null)"
+                        [options]="occupationList" (onChange)="onsavedatas('Occupation',null)"
                         [(ngModel)]="productItem.Occupation" 
                         optionLabel="CodeDesc" 
                         optionValue="Code" 
@@ -93,8 +93,8 @@
                 </div>
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.MobileNumber' | translate }}*</label>
-                    <input pInputText id="username" maxlength="9" [(ngModel)]="productItem.MobileNo"
-                        placeholder="Enter Phone Number">
+                    <input pInputText id="username" maxlength="10" [(ngModel)]="productItem.MobileNo"
+                        placeholder="Enter Phone Number" (change)="onsavedatas('Mobile',null)">
                 </div>
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.EmailId' | translate }}</label>
@@ -114,7 +114,7 @@
                         styleClass="w-full" 
                         [options]="policyHolderTypeList" 
                         [(ngModel)]="productItem.PolicyHolderTypeid" 
-                        optionLabel="CodeDesc" (onChange)="newidtype()"
+                        optionLabel="CodeDesc" (change)="newidtype()"
                         optionValue="Code"
                         placeholder="Select Identity Type">
                     </p-dropdown>
@@ -122,7 +122,7 @@
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.IDNumber' | translate}}*</label>
                     <ng-container *ngIf="!shows">
-                        <input pInputText id="username" [(ngModel)]="productItem.IdNumber"   [maxLength]="maxTextLen" placeholder="Enter ID Number"/>
+                        <input pInputText id="username" [(ngModel)]="productItem.IdNumber" (change)="onsavedatas('IdValue',null)" [maxLength]="maxTextLen" placeholder="Enter ID Number"/>
                     </ng-container>
                     <ngcontainer *ngIf="shows">
                         <div class="d-flex">
@@ -168,7 +168,7 @@
                 </div>
                 <div class="flex flex-column m-3" *ngIf="productItem.isTaxExempted=='Y'">
                     <label for="username">{{'HOME.TaxExcemptedNo' | translate}}*</label>
-                    <input pInputText id="username" placeholder="Enter Tax Excempted No"/>
+                    <input pInputText id="username" [(ngModel)]="productItem.TaxExemptedId" placeholder="Enter Tax Excempted No"/>
                 </div>
                 <div class="flex flex-column m-3">
                     <label for="username">{{'HOME.Status' | translate}}*</label>
@@ -197,7 +197,7 @@
             <div class="flex justify-content-start flex-wrap w-full form-container">
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.Street' | translate}} *</label>
-                    <input pInputText id="username"  maxlength="100" (onChange)="onsavedatas('Address',null)" [(ngModel)]="productItem.Address1" placeholder="Enter Street"/>
+                    <input pInputText id="username"  maxlength="100" (change)="onsavedatas('Address',null)" [(ngModel)]="productItem.Address1" placeholder="Enter Street"/>
                 </div>
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.Country' | translate}}*</label>
@@ -277,7 +277,7 @@
                     </div>
                     <div class="flex flex-column m-3">
                         <label for="username">ID Number*</label>
-                        <input pInputText id="username" placeholder="Enter ID Number"/>
+                        <input pInputText id="username" [(ngModel)]="productItem.IdNumber" (change)="onsavedatas('IdValue',null)" placeholder="Enter ID Number"/>
                     </div>
                     <div class="flex flex-column m-3">
                         <label for="username">Registration Date*</label>
@@ -336,7 +336,7 @@
                     </div>
                     <div class="flex flex-column m-3" *ngIf="productItem.isTaxExempted=='Y'">
                         <label for="username">Tax Excempted No*</label>
-                        <input pInputText id="username" placeholder="Enter Tax Excempted No"/>
+                        <input pInputText id="username" [(ngModel)]="productItem.TaxExemptedId" placeholder="Enter Tax Excempted No"/>
                     </div>
                 </div>
             </div>
@@ -352,7 +352,7 @@
                         <p-dropdown inputId="make" 
                             class="w-full" 
                             styleClass="w-full" 
-                            (onChange)="onTitleChange()"
+                            (change)="onTitleChange()"
                             [options]="titleList" 
                             [(ngModel)]="productItem.Title" 
                             optionLabel="CodeDesc" 
@@ -362,7 +362,7 @@
                     </div>
                     <div class="flex flex-column m-3">
                         <label for="username">Customer Name*</label>
-                    <input pInputText id="username" maxlength="150" [(ngModel)]="productItem.ClientName" placeholder="Enter Customer Name"/>
+                    <input pInputText id="username" maxlength="150" [(ngModel)]="productItem.ClientName" (change)="onsavedatas('Customer',null)" placeholder="Enter Customer Name"/>
                     </div>
                     <div class="flex flex-column m-3">
                         <label for="username">Occupation*</label>
@@ -373,7 +373,7 @@
                             [(ngModel)]="productItem.Occupation" 
                             optionLabel="CodeDesc" 
                             optionValue="Code" 
-                            placeholder="Select Occupation">
+                            placeholder="Select Occupation" (change)="onsavedatas('Occupation',null)">
                         </p-dropdown>
                     </div>
                     <div class="flex flex-column m-3">
@@ -392,7 +392,7 @@
                         <label for="username">Country Code*</label>
                         <p-dropdown inputId="make" 
                             class="w-full" 
-                            styleClass="w-full" 
+                            styleClass="w-full"
                             [options]="mobileCodeList" 
                             [(ngModel)]="productItem.MobileCode" 
                             optionLabel="CodeDesc" 
@@ -402,12 +402,12 @@
                     </div>
                     <div class="flex flex-column m-3">
                         <label for="username">Mobile Number*</label>
-                        <input pInputText id="username" maxlength="9" [(ngModel)]="productItem.MobileNo"
-                        placeholder="Enter Phone Number">
+                        <input pInputText id="username" maxlength="10" [(ngModel)]="productItem.MobileNo"
+                        placeholder="Enter Phone Number" (onChange)="onsavedatas('Mobile',null)">
                     </div>
                     <div class="flex flex-column m-3">
                         <label for="username">Email ID</label>
-                        <input pInputText id="username" [(ngModel)]="productItem.EmailId" placeholder="Enter Email ID"/>
+                        <input pInputText id="username" (change)="onsavedatas('Email',null)" [(ngModel)]="productItem.EmailId" placeholder="Enter Email ID"/>
                     </div>
                 </div>
             </div>
