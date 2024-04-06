@@ -739,7 +739,7 @@
     </div>
     <div class="flex flex-wrap mt-5 justify-content-center">
         <p-button (click)="hideSearchForm()" label="Close" styleClass="p-button-outlined" class="mr-3"></p-button>&nbsp;
-        <p-button label="Clear Search" *ngIf="clearSearchSection" (click)="showSearchForm()" class="mr-3"></p-button>&nbsp;
+        <p-button label="Clear Search" *ngIf="clearSearchSection" (click)="showSearchForm('change')" class="mr-3"></p-button>&nbsp;
         <p-button (click)="navigateToCustomerDetail()" *ngIf="selectedCustomer" label="Proceed" severity="warning"
             class="mb-3"></p-button>
     </div>

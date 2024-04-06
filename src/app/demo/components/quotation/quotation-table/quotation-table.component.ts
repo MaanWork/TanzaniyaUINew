@@ -46,7 +46,7 @@ export class QuotationTableComponent implements OnInit {
   quoteRejectedData: any[]=[];
   startRejectedIndex: any=null;quoteDataList:any[]=[];
   endRejectedIndex: any=null;selectedCustomer:any=null;
-  cols:any[]=[];
+  cols:any[]=[];clearSearchSection:boolean = false;searchValue:any=[];
   constructor(private router: Router,private sharedService: SharedService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -462,11 +462,32 @@ export class QuotationTableComponent implements OnInit {
       );
     }
   }
+  onCustomerSearch(){
+    if(this.searchValue){
+      this.customers = [];
+      let ReqObj = {
+        "InsuranceId":this.insuranceId,
+        "SearchValue":this.searchValue,
+        "CreatedBy": ""
+      }
+      let urlLink = `${this.CommonApiUrl}api/searchcustomerdata`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+              this.customers=data.Result;
+              this.clearSearchSection = true;
+          }
+        },
+        (err) => { },
+      );
+    }
+  }
   onSelectCustomer(rowData){
     this.selectedCustomer = rowData.CustomerReferenceNo;
     sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
   }
-  showSearchForm() {
+  showSearchForm(type) {
     sessionStorage.removeItem('QuoteStatus');
     sessionStorage.removeItem('vehicleDetailsList');
     sessionStorage.removeItem('customerReferenceNo');
@@ -499,6 +520,8 @@ export class QuotationTableComponent implements OnInit {
         console.log(data);
         if(data.Result){
             this.customers = data?.Result;
+            this.clearSearchSection = false;
+            this.searchValue = [];
             this.isSearchFormVisible = true;
         }
       });

@@ -11,7 +11,7 @@
           <input type="text" placeholder="Search" pInputText/>
         </span>
         <p-button icon="pi pi-cloud-download" label="Export" styleClass="p-button-outlined" class="mr-3" size="small"></p-button>
-        <p-button (click) = "showSearchForm()" icon="pi pi-plus" label="Add New Quote" severity="warning" size="small"></p-button>
+        <p-button (click) = "showSearchForm('change')" icon="pi pi-plus" label="Add New Quote" severity="warning" size="small"></p-button>
       </div>
     </div>
   </div>
@@ -247,36 +247,49 @@
   </p-tabView>
 </div> 
 
-<p-dialog header="Select a Customer" [(visible)]="isSearchFormVisible" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
-<div class="flex flex-wrap mt-2">
-  <p-autoComplete field="name" class="mr-3 mb-3" styleClass="w-22rem md:w-25rem" inputStyleClass="w-22rem md:w-25rem" [suggestions]="customerFilterSuggestions" (completeMethod)="customerSearch($event)"></p-autoComplete>
-  <p-button label="Search" class="mr-3" size="small"></p-button>
-</div>
-<div class="body mt-3">
-  <p-table [value]="customers" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
-    <ng-template pTemplate="header">
-        <tr>
-            <th [pSortableColumn]="customerColumn" *ngFor="let column of customerColumn">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-customer>
-      <tr>
-        <td>
-          <input type="radio" [id]="customer?.CustomerReferenceNo" name="fav_language" (change)="onSelectCustomer(customer)" [value]="customer.CustomerReferenceNo">
-          <label for="html"></label>
-          <!-- <p-radioButton  [value]="customer.CustomerReferenceNo" name="city" [(ngModel)]="selectedCustomer" [inputId]="customer.CustomerReferenceNo"></p-radioButton>
-          <label for="ingredient1" class="ml-2"></label> -->
-        </td>
-        <td>{{customer?.CustomerReferenceNo}}</td>
-        <td>{{customer?.ClientName}}</td>
-        <td>{{customer?.PolicyHolderTypeDesc }}</td>
-        <td>{{ customer?.IdNumber }}</td>
-      </tr>
-    </ng-template>
-  </p-table>
-</div>
-<div class="flex flex-wrap mt-5 justify-content-center">
-  <p-button (click) = "hideSearchForm()" label="Close" styleClass="p-button-outlined" class="mr-3"></p-button>&nbsp;
-  <p-button (click) = "navigateToCustomerDetail()" *ngIf="selectedCustomer" label="Proceed" severity="warning" class="mb-3"></p-button>
-</div>
+<p-dialog header="Select a Customer" [(visible)]="isSearchFormVisible" [modal]="true" styleClass="w-10 md:w-8 lg:w-6"
+    [draggable]="false" [resizable]="false">
+    <div class="grid mt-2">
+        <div class="col-12 md:col-5 lg:col-5 xl:col-5">
+            <input pInputText id="username" class="w-full" styleClass="w-full" [(ngModel)]="searchValue" maxlength="100" placeholder="Search By Name/TIN No/Passport No" />
+        </div>
+        <div class="col-12 md:col-2 lg:col-2 xl:col-2" *ngIf="searchValue.length > 2 ? '...' : ''">
+            <p-button label="Search" class="mr-3" size="small" (click)="onCustomerSearch()"></p-button>
+        </div>
+        <!-- <p-autoComplete field="name" class="mr-3 mb-3" styleClass="w-22rem md:w-25rem"
+            inputStyleClass="w-22rem md:w-25rem" [suggestions]="customerFilterSuggestions"
+            (completeMethod)="customerSearch($event)"></p-autoComplete> -->
+        
+    </div>
+    <div class="body mt-3">
+        <p-table [value]="customers" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th [pSortableColumn]="customerColumn" *ngFor="let column of customerColumn">{{column}} <p-sortIcon
+                            [field]="column"></p-sortIcon></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer>
+                <tr>
+                    <td>
+                        <input type="radio" [id]="customer?.CustomerReferenceNo" name="fav_language"
+                            (change)="onSelectCustomer(customer)" [value]="customer.CustomerReferenceNo">
+                        <label for="html"></label>
+                        <!-- <p-radioButton  [value]="customer.CustomerReferenceNo" name="city" [(ngModel)]="selectedCustomer" [inputId]="customer.CustomerReferenceNo"></p-radioButton>
+              <label for="ingredient1" class="ml-2"></label> -->
+                    </td>
+                    <td>{{customer?.CustomerReferenceNo}}</td>
+                    <td>{{customer?.ClientName}}</td>
+                    <td>{{customer?.PolicyHolderTypeDesc }}</td>
+                    <td>{{ customer?.IdNumber }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <div class="flex flex-wrap mt-5 justify-content-center">
+        <p-button (click)="hideSearchForm()" label="Close" styleClass="p-button-outlined" class="mr-3"></p-button>&nbsp;
+        <p-button label="Clear Search" *ngIf="clearSearchSection" (click)="showSearchForm('change')" class="mr-3"></p-button>&nbsp;
+        <p-button (click)="navigateToCustomerDetail()" *ngIf="selectedCustomer" label="Proceed" severity="warning"
+            class="mb-3"></p-button>
+    </div>
 </p-dialog>

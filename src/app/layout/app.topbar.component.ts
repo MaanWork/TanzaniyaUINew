@@ -161,9 +161,9 @@ export class AppTopBarComponent implements OnInit {
       if (changeType == 'direct') {
         this.getBranchList();
       }
-      // else {
-      //   this.router.navigate(['/Home'])
-      // }
+      else {
+        this.router.navigate(['/auth/login/product']);
+      }
     }
     onRedirect(){
       if(this.loginId!='guest'){
