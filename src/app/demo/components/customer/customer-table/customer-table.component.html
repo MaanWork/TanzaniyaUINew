@@ -10,7 +10,7 @@
           <i class="pi pi-search"></i>
           <input type="text" placeholder="Search" pInputText/>
         </span>
-        <p-button styleClass="p-button-outlined" icon="pi pi-cloud-download" label="Export" class="mr-3" size="small"></p-button>
+        <!-- <p-button styleClass="p-button-outlined" icon="pi pi-cloud-download" label="Export" class="mr-3" size="small"></p-button> -->
         <p-button icon="pi pi-plus" label="Add New" severity="warning" size="small" (click)="onAddCustomer(null)"></p-button>
       </div>
     </div>
@@ -64,7 +64,7 @@
             <div class="card w-25rem mr-4" *ngFor="let customer of customers">
               <table>
                 <tr>
-                  <td><p-chip label="Category" styleClass="bg-orange-500 text-white"></p-chip></td>
+                  <td><p-chip [label]="customer?.PolicyHolderTypeDesc" styleClass="bg-orange-500 text-white"></p-chip></td>
                   <td class="text-right"><span class="pi pi-circle-fill text-teal-600"></span>
                     <ng-container *ngIf="customer?.Status=='N'">DeActive</ng-container>
                     <ng-container *ngIf="customer?.Status=='Y'">Active</ng-container>
@@ -86,6 +86,16 @@
                   <td><span class="pi pi-phone mr-2"></span>{{customer.MobileCode1}}&nbsp;{{customer?.MobileNo1}}</td>
                   <td class="text-right"><span class="pi pi-envelope mr-2" *ngIf="customer.Email1!=''"></span>{{customer?.Email1}}</td>
                 </tr>
+                <tr>
+                  <td>
+                    <span class="p-buttonset">
+                      <button pButton pRipple icon="pi pi-eye" class="p-button-outlined"></button>
+                      <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onAddCustomer(customer)"></button>
+                      <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-outlined"></button> -->
+                    </span>
+                  </td>
+                </tr>
+                
               </table>
             </div>
           </div>
@@ -142,7 +152,7 @@
             <div class="card w-25rem mr-4" *ngFor="let customer of activeCustomers">
               <table>
                 <tr>
-                  <td><p-chip label="Category" styleClass="bg-orange-500 text-white"></p-chip></td>
+                  <td><p-chip [label]="customer?.PolicyHolderTypeDesc" styleClass="bg-orange-500 text-white"></p-chip></td>
                   <td class="text-right"><span class="pi pi-circle-fill text-teal-600"></span>
                     <ng-container *ngIf="customer?.Status=='N'">DeActive</ng-container>
                     <ng-container *ngIf="customer?.Status=='Y'">Active</ng-container>
@@ -220,7 +230,7 @@
             <div class="card w-25rem mr-4" *ngFor="let customer of deActiveCustomers">
               <table>
                 <tr>
-                  <td><p-chip label="Category" styleClass="bg-orange-500 text-white"></p-chip></td>
+                  <td><p-chip [label]="customer?.PolicyHolderTypeDesc" styleClass="bg-orange-500 text-white"></p-chip></td>
                   <td class="text-right"><span class="pi pi-circle-fill text-teal-600"></span>
                     <ng-container *ngIf="customer?.Status=='N'">DeActive</ng-container>
                     <ng-container *ngIf="customer?.Status=='Y'">Active</ng-container>
@@ -298,7 +308,7 @@
             <div class="card w-25rem mr-4" *ngFor="let customer of pendingCustomers">
               <table>
                 <tr>
-                  <td><p-chip label="Category" styleClass="bg-orange-500 text-white"></p-chip></td>
+                  <td><p-chip [label]="customer?.PolicyHolderTypeDesc" styleClass="bg-orange-500 text-white"></p-chip></td>
                   <td class="text-right"><span class="pi pi-circle-fill text-teal-600"></span>
                     <ng-container *ngIf="customer?.Status=='N'">DeActive</ng-container>
                     <ng-container *ngIf="customer?.Status=='Y'">Active</ng-container>
