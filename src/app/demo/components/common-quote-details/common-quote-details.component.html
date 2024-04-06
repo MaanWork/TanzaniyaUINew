@@ -700,11 +700,17 @@
 
 <p-dialog header="Select a Customer" [(visible)]="isSearchFormVisible" [modal]="true" styleClass="w-10 md:w-8 lg:w-6"
     [draggable]="false" [resizable]="false">
-    <div class="flex flex-wrap mt-2">
-        <p-autoComplete field="name" class="mr-3 mb-3" styleClass="w-22rem md:w-25rem"
+    <div class="grid mt-2">
+        <div class="col-12 md:col-5 lg:col-5 xl:col-5">
+            <input pInputText id="username" class="w-full" styleClass="w-full" [(ngModel)]="searchValue" maxlength="100" placeholder="Search By Name/TIN No/Passport No" />
+        </div>
+        <div class="col-12 md:col-2 lg:col-2 xl:col-2" *ngIf="searchValue.length > 2 ? '...' : ''">
+            <p-button label="Search" class="mr-3" size="small" (click)="onCustomerSearch()"></p-button>
+        </div>
+        <!-- <p-autoComplete field="name" class="mr-3 mb-3" styleClass="w-22rem md:w-25rem"
             inputStyleClass="w-22rem md:w-25rem" [suggestions]="customerFilterSuggestions"
-            (completeMethod)="customerSearch($event)"></p-autoComplete>
-        <p-button label="Search" class="mr-3" size="small"></p-button>
+            (completeMethod)="customerSearch($event)"></p-autoComplete> -->
+        
     </div>
     <div class="body mt-3">
         <p-table [value]="customers" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
@@ -733,6 +739,7 @@
     </div>
     <div class="flex flex-wrap mt-5 justify-content-center">
         <p-button (click)="hideSearchForm()" label="Close" styleClass="p-button-outlined" class="mr-3"></p-button>&nbsp;
+        <p-button label="Clear Search" *ngIf="clearSearchSection" (click)="showSearchForm()" class="mr-3"></p-button>&nbsp;
         <p-button (click)="navigateToCustomerDetail()" *ngIf="selectedCustomer" label="Proceed" severity="warning"
             class="mb-3"></p-button>
     </div>

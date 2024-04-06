@@ -493,7 +493,7 @@ export class QuotationTableComponent implements OnInit {
         "Limit":"0",
         "Offset":"1000"
     }
-    let urlLink = `${this.CommonApiUrl}api/getallcustomerdetails`;
+    let urlLink = `${this.CommonApiUrl}api/getactivecustomerdetails`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         console.log(data);

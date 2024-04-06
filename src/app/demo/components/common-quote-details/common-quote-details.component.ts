@@ -140,7 +140,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   claimTypeValue: any=null;vehicleDetailsList:any[]=[];defenceCostValue:any=null;claimTypeList:any[]=[];
   vehicleClassValue: any=null;motorDetails:any=null;defencecostList:any[]=[];minDobDate:any;vehicleClassList:any[]=[];
   vehicleTypeList: any[]=[];alarmYN:any='Y';deductiblesList:any[]=[];collateralChecked:boolean=false;
-  regNoError: boolean;driverOptions:any[]=[];genderOptions:any[]=[];
+  regNoError: boolean;driverOptions:any[]=[];genderOptions:any[]=[];searchValue:any=[];clearSearchSection:boolean=false;
   constructor(private router:Router,private sharedService:SharedService,private datePipe:DatePipe,private messageService: MessageService){
       this.minDate = new Date();
       this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -254,7 +254,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.referenceNo = referenceNo;
     }
     else{
-      this.showSearchForm();
+      this.showSearchForm('direct');
     }
     // let s = sessionStorage.getItem('Addnew');
     // if(s='Addnew'){
@@ -454,6 +454,27 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
       (err) => { },
     );
+  }
+  onCustomerSearch(){
+    if(this.searchValue){
+      this.customers = [];
+      let ReqObj = {
+        "InsuranceId":this.insuranceId,
+        "SearchValue":this.searchValue,
+        "CreatedBy": ""
+      }
+      let urlLink = `${this.CommonApiUrl}api/searchcustomerdata`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+              this.customers=data.Result;
+              this.clearSearchSection = true;
+          }
+        },
+        (err) => { },
+      );
+    }
   }
   premiunDropdown(){
     let ReqObj = {
@@ -2309,6 +2330,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 veh['Active'] = true;
               }
               this.getInsuranceClassList();
+              this.vehicleId = this.vehicleDetailsList[0].Vehicleid;
               if(this.vehicleId==null || this.vehicleId==undefined || this.vehicleId=='') this.vehicleId = this.vehicleDetailsList[0].Vehicleid;
               this.getEditVehicleDetails(this.vehicleId,'direct')
               this.currentIndex = 1;
@@ -3343,13 +3365,15 @@ export class CommonQuoteDetailsComponent implements OnInit {
     this.sidebarVisible = true;
   }
 
-  showSearchForm() {
-    sessionStorage.removeItem('QuoteStatus');
-    sessionStorage.removeItem('vehicleDetailsList');
-    sessionStorage.removeItem('customerReferenceNo');
-    sessionStorage.removeItem('quoteReferenceNo');
-    sessionStorage.removeItem('TravelQuoteRefNo')
-    sessionStorage.removeItem('endorsePolicyNo');
+  showSearchForm(type) {
+    if(type=='direct'){
+      sessionStorage.removeItem('QuoteStatus');
+      sessionStorage.removeItem('vehicleDetailsList');
+      sessionStorage.removeItem('customerReferenceNo');
+      sessionStorage.removeItem('quoteReferenceNo');
+      sessionStorage.removeItem('TravelQuoteRefNo')
+      sessionStorage.removeItem('endorsePolicyNo');
+    }
     let appId = "1",loginId="",brokerbranchCode="";
     if(this.userType!='Issuer'){
       appId = "1"; loginId = this.loginId;
@@ -3369,12 +3393,14 @@ export class CommonQuoteDetailsComponent implements OnInit {
         "Limit":"0",
         "Offset":"1000"
     }
-    let urlLink = `${this.CommonApiUrl}api/getallcustomerdetails`;
+    let urlLink = `${this.CommonApiUrl}api/getactivecustomerdetails`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         console.log(data);
         if(data.Result){
             this.customers = data?.Result;
+            this.searchValue = [];
+            this.clearSearchSection = false;
             this.isSearchFormVisible = true;
         }
       });
@@ -3817,7 +3843,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             else{
               if(data.Result?.length!=0){
                 this.currentIndex = Number(this.vehicleId);
-                let entry = this.vehicleDetailsList[this.currentIndex-1];
+                let entry = this.vehicleDetailsList.find(ele=>ele.Vehicleid==this.vehicleId);
                 entry['PolicyEndDate'] = endDate;
                 entry['PolicyStartDate'] = startDate;
                 this.quoteRefNo = data?.Result[0]?.RequestReferenceNo;
@@ -3876,6 +3902,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                     // }
                     // else 
                     if(this.finalizeYN!='Y'){
+                   
                         entry['MSRefNo'] = data?.Result[0].MSRefNo;
                         entry['VdRefNo'] = data?.Result[0].VdRefNo;
                         entry['CdRefNo'] = data?.Result[0].CdRefNo;
