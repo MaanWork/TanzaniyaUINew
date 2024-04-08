@@ -40,7 +40,8 @@
             <td>{{ i+1 }}</td>
             <td>{{ doc.filename }}</td>
             <td>
-                <p-dropdown inputId="section" 
+                <p-dropdown inputId="section"
+                    appendTo="body" 
                     class="w-full" 
                     styleClass="w-full" 
                     [options]="doc.sectionList" 
@@ -53,6 +54,7 @@
             </td>
             <td>
                 <p-dropdown inputId="Id" 
+                    appendTo="body"
                     class="w-full" 
                     styleClass="w-full" 
                     [options]="doc.typeList" 
@@ -65,6 +67,7 @@
             </td>
             <td>
                 <p-dropdown inputId="docTypeId" 
+                appendTo="body" 
                     class="w-full" 
                     styleClass="w-full" 
                     [options]="doc.docTypeList" 

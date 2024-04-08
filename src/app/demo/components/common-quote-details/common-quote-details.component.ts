@@ -1198,7 +1198,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 this.defencecostList[i].label = this.defencecostList[i]['CodeDesc'];
                 this.defencecostList[i].value = this.defencecostList[i]['Code'];
                 if (i == this.defencecostList.length - 1) {
-                    this.fields[0].fieldGroup[0].fieldGroup[9].props.options = defaultObj.concat(this.defencecostList);
+                  let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                    for(let field of fieldList){
+                      if(field.key=='DefenceCost'){
+                        field.props.options = defaultObj.concat(this.defencecostList);
+                      }
+                    }
                 }
               }
               // if(this.extendedTppdList.length!=0){

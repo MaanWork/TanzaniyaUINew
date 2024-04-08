@@ -138,6 +138,28 @@ export class MotorVehicleSanlam{
                     },
                   },
                   {
+                    type: 'ngselect',
+                    key: 'DefenceCost',
+                    defaultValue: '',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    props: {
+                      label: `Defence Cost`,
+                      disabled: this.checkDisable('DefenceCost'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'commaSeparator',
                     key: 'VehicleSI',
@@ -170,7 +192,7 @@ export class MotorVehicleSanlam{
                       label: `Accessories SumInured`,
                       maxLength: 15,
                       disabled: this.checkDisable('AccessoriesSI'),
-                      required: true,
+                      required: false,
                       options: [
   
                       ],
@@ -193,7 +215,7 @@ export class MotorVehicleSanlam{
                       label: `WindShield SumInured`,
                       maxLength: 15,
                       disabled: this.checkDisable('WindShieldSI'),
-                      required: true,
+                      required: false,
                       options: [
   
                       ],
@@ -230,46 +252,26 @@ export class MotorVehicleSanlam{
                   //   expressions: {
                   //   },
                   // },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                      key: 'PurchaseDate',
-                      type: 'datepicker',
-                      defaultValue: '',
-                      templateOptions: {
+                  
+                   
+                    {
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                        key: 'PurchaseDate',
+                        type: 'datepicker',
                         defaultValue: '',
-                      },
-                      props: {
-                        label: 'Purchase Date',
-                        
-                        required: true,
-                        type: 'date',
-                        datepickerOptions: {
+                        templateOptions: {
                           defaultValue: '',
                         },
-                      }
-                    },
-                    {
-                      type: 'ngselect',
-                      key: 'DefenceCost',
-                      defaultValue: '',
-                      className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                      props: {
-                        label: `Defence Cost`,
-                        disabled: this.checkDisable('DefenceCost'),
-                        required: true,
-                        options: [
-        
-                        ],
-        
+                        props: {
+                          label: 'Purchase Date',
+                          
+                          required: true,
+                          type: 'date',
+                          datepickerOptions: {
+                            defaultValue: '',
+                          },
+                        }
                       },
-                      validators: {
-                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                      },
-                      hooks: {
-                      },
-                      expressions: {
-                      },
-                    },
                     {
                       className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                       key: 'ClaimsYN',
