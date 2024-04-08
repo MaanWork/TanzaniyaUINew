@@ -133,7 +133,12 @@ export class VehicleCreateFormComponent implements OnInit {
   }
   onRegistrationSearch(){
     this.duplicateSection=false;this.editSection=false;this.validSection=false;
-      if(this.regNo!=null && this.regNo!='' && this.regNo!=undefined){
+      if(this.vehicleDetailsList.some(ele=>ele.Registrationnumber==this.regNo)){
+        this.duplicateSection = true;
+        this.validSection = false;
+        this.editSection = true;
+      }
+      else if(this.regNo!=null && this.regNo!='' && this.regNo!=undefined){
         if(this.insuranceId=='100002'){
           this.regNo = this.regNo.toUpperCase();
           this.editSection = true;
@@ -159,6 +164,7 @@ export class VehicleCreateFormComponent implements OnInit {
                     if(entry){
                         this.duplicateSection = true;
                         this.validSection = false;
+                        
                     }
                     else this.onSaveSearchVehicles();
                 }

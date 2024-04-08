@@ -141,6 +141,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   vehicleClassValue: any=null;motorDetails:any=null;defencecostList:any[]=[];minDobDate:any;vehicleClassList:any[]=[];
   vehicleTypeList: any[]=[];alarmYN:any='Y';deductiblesList:any[]=[];collateralChecked:boolean=false;
   regNoError: boolean;driverOptions:any[]=[];genderOptions:any[]=[];searchValue:any=[];clearSearchSection:boolean=false;
+  duplicateRegister: boolean=false;
   constructor(private router:Router,private sharedService:SharedService,private datePipe:DatePipe,private messageService: MessageService){
       this.minDate = new Date();
       this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -2024,39 +2025,49 @@ export class CommonQuoteDetailsComponent implements OnInit {
     let entry = this.checMandatories()
     this.regNoError = false;
     if(this.regNo==null || this.regNo==undefined || this.regNo=='') this.regNoError = true;
-    if(this.regNo!=null && this.regNo!=undefined && this.regNo!='' && entry){
-      this.regNo = this.regNo.toUpperCase();
-      let ReqObj = {
-        "ReqChassisNumber": '',
-        "ReqRegNumber": this.regNo,
-        "InsuranceId": this.insuranceId,
-        "BranchCode": this.branchCode,
-        "BrokerBranchCode": this.branchCode,
-        "ProductId": this.productId,
-        "CreatedBy": this.loginId,
-        "SavedFrom": 'API'
+    if(!this.vehicleDetailsList.some(ele=>ele.Registrationnumber==this.regNo)){
+      if(this.regNo!=null && this.regNo!=undefined && this.regNo!='' && entry){
+        this.regNo = this.regNo.toUpperCase();
+        let ReqObj = {
+          "ReqChassisNumber": '',
+          "ReqRegNumber": this.regNo,
+          "InsuranceId": this.insuranceId,
+          "BranchCode": this.branchCode,
+          "BrokerBranchCode": this.branchCode,
+          "ProductId": this.productId,
+          "CreatedBy": this.loginId,
+          "SavedFrom": 'API'
+        }
+        let urlLink = `${this.motorApiUrl}regulatory/showvehicleinfo`;
+        this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+          (data: any) => {
+              if(data.Result){
+                this.vehicleDetails = data?.Result;
+                if(this.vehicleDetailsList.length!=0){
+                    let entry = this.vehicleDetailsList.some(ele=>ele.Registrationnumber==this.regNo);
+                    if(entry){
+                        // this.duplicateSection = true;
+                        // this.validSection = false;
+                    }
+                    else this.onSaveSearchVehicles();
+                }
+                else this.onSaveSearchVehicles();
+              }
+              else if(data.ErrorMessage!=null){
+                if(data.ErrorMessage.length!=0){
+                }
+              }
+        });
       }
-      let urlLink = `${this.motorApiUrl}regulatory/showvehicleinfo`;
-      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-        (data: any) => {
-            if(data.Result){
-              this.vehicleDetails = data?.Result;
-              if(this.vehicleDetailsList.length!=0){
-                  let entry = this.vehicleDetailsList.some(ele=>ele.Registrationnumber==this.regNo);
-                  if(entry){
-                      // this.duplicateSection = true;
-                      // this.validSection = false;
-                  }
-                  else this.onSaveSearchVehicles();
-              }
-              else this.onSaveSearchVehicles();
-            }
-            else if(data.ErrorMessage!=null){
-              if(data.ErrorMessage.length!=0){
-              }
-            }
-      });
     }
+    else{
+      this.duplicateRegister = true;
+      setTimeout(() => 
+        {
+         this.duplicateRegister = false;
+      }, (4*1000));
+    }
+   
   }
   onSaveSearchVehicles(){
     this.subuserType = sessionStorage.getItem('typeValue');

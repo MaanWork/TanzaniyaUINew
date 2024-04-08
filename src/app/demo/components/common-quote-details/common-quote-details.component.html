@@ -17,6 +17,11 @@
                             Please Enter Valid Reg No
                         </div>
                     </div>
+                    <div class="input-form-error" *ngIf="duplicateRegister">
+                        <div class="error-text text-danger">
+                           Register No Already Available
+                        </div>
+                    </div>
                 </div>
                 
                 &nbsp;<p-button label="Search Vehicle" (onClick)="onSearchVehicle()"></p-button>&nbsp;

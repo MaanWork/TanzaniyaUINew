@@ -13,7 +13,7 @@
           </div>
         </div>
     </div>
-    <ng-container *ngIf="insuranceId=='100028' || insuranceId == '100027'">
+    <ng-container *ngIf="insuranceId=='100028' || insuranceId == '100027' || insuranceId=='100002'">
         <div class="flex justify-content-start flex-wrap w-full form-container">
             <div class="flex flex-column m-3">
                 <label for="motor-usage">Motor Usage*</label>
@@ -171,11 +171,11 @@
                 <input pInputText id="gross-weight" [(ngModel)]="grossWeight" maxlength="10" [disabled]="editSection" placeholder="Enter Gross Weight"/>
             </div>
             <div class="flex flex-column m-3" *ngIf="insuranceId!='100028'">
-                <label for="no-of-axis">No of Axis*</label>
+                <label for="no-of-axis">No of Axles*</label>
                 <input pInputText id="no-of-axis" digitOnly [(ngModel)]="noOfAxels" maxlength="10" [disabled]="editSection" placeholder="Enter No of Axis"/>
             </div>
             <div class="flex flex-column m-3" *ngIf="insuranceId!='100028'">
-                <label for="axis-distance">Axis Distance*</label>
+                <label for="axis-distance">Axle Distance*</label>
                 <input pInputText id="axis-distance" digitOnly [(ngModel)]="axelDistance" maxlength="50" [disabled]="editSection" placeholder="Enter Axis Distance"/>
             </div>
         </div>
@@ -186,7 +186,7 @@
     </ng-container>
    
 </div>  
-<ng-container *ngIf="insuranceId!='100028' && insuranceId!='100027'">
+<ng-container *ngIf="insuranceId!='100028' && insuranceId!='100027' && insuranceId!='100002'">
     <p-accordion [multiple]="true" [activeIndex]="[0,1,2]">
         <p-accordionTab header="Vehicle Details">
             <div class="flex justify-content-start flex-wrap w-full form-container">
@@ -364,11 +364,11 @@
                     <input pInputText id="gross-weight" [(ngModel)]="grossWeight" maxlength="10" [disabled]="editSection" placeholder="Enter Gross Weight"/>
                 </div>
                 <div class="flex flex-column m-3">
-                    <label for="no-of-axis">No of Axis*</label>
+                    <label for="no-of-axis">No of Axle's *</label>
                     <input pInputText id="no-of-axis" digitOnly [(ngModel)]="noOfAxels" maxlength="10" [disabled]="editSection" placeholder="Enter No of Axis"/>
                 </div>
                 <div class="flex flex-column m-3">
-                    <label for="axis-distance">Axis Distance*</label>
+                    <label for="axis-distance">Axle Distance *</label>
                     <input pInputText id="axis-distance" digitOnly [(ngModel)]="axelDistance" maxlength="50" [disabled]="editSection" placeholder="Enter Axis Distance"/>
                 </div>
             </div>
