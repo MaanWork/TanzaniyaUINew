@@ -1871,6 +1871,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           (data: any) => {
             if(data.Result){
               this.vehicleDetails = data.Result;
+              this.tabIndex = index+1;
               if(this.vehicleDetails.Grossweight) this.vehicleDetails.Grossweight = String(this.vehicleDetails.Grossweight)
               this.vehicleDetails['OldExchangeRate'] = data?.Result.ExchangeRate;
               this.vehicleDetails['OldAcccessoriesSumInsured'] = data?.Result.AcccessoriesSumInsured;
@@ -2296,6 +2297,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 sessionStorage.setItem('quoteReferenceNo',data?.Result[0]?.RequestReferenceNo);
                 this.regNo = null;
                 this.tabIndex = 0;
+                alert('Entered 3')
                 this.getExistingVehiclesList('saveSearch');
             }
             // else if(data.Result){
@@ -2355,7 +2357,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               }
               else if(type=='saveSearch'){
                 
-                this.tabIndex = this.vehicleDetailsList.length;
+                //this.tabIndex = this.vehicleDetailsList.length;
                 this.vehicleId = this.vehicleDetailsList[this.vehicleDetailsList.length-1].Vehicleid;
                 if(this.vehicleId==null || this.vehicleId==undefined || this.vehicleId=='') this.vehicleId = this.vehicleDetailsList[0].Vehicleid;
                   this.getEditVehicleDetails(this.vehicleId,'direct')
@@ -4762,6 +4764,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
   checkDisableField(){
     let status = sessionStorage.getItem('QuoteStatus');
     return ((this.adminSection && (status=='AdminRP' || status=='AdminRA')) || (this.finalizeYN=='Y'))
+  }
+  onResetTabIndex(){
+    this.tabIndex=0;
+    this.navigateTo('quote-plan')
   }
   navigateTo(location) {
     if(location=='back'){

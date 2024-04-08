@@ -259,7 +259,7 @@
                 <div class="flex justify-content-center">
                     <p-button (click)="navigateTo('back')" styleClass="p-button-outlined" label="Back"
                         size="small"></p-button>&nbsp;
-                    <p-button (click)="tabIndex=0;navigateTo('quote-plan')" *ngIf="vehicleDetailsList.length!=0 || productId!='5'"
+                    <p-button (click)="onResetTabIndex()" *ngIf="vehicleDetailsList.length!=0 || productId!='5'"
                         label="Next" size="small"></p-button>
                 </div>
         </p-tabPanel>
