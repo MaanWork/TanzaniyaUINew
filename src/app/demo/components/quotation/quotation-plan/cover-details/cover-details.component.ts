@@ -2600,13 +2600,19 @@ export class CoverDetailsComponent {
            }
            else {
             sessionStorage.setItem('riskSection','normal');
-            this.router.navigate(['/quotation/plan/main/document-info']);
+            if(this.productId=='5' && this.insuranceId!='100028' && this.insuranceId!='100020'){
+              this.router.navigate(['/quotation/plan/main/driver-info'])
+            }
+            else this.router.navigate(['/quotation/plan/main/document-info']);
            }
         }
   
         else{
           sessionStorage.setItem('riskSection','normal');
-          this.router.navigate(['/quotation/plan/main/document-info']);
+          if(this.productId=='5' && this.insuranceId!='100028' && this.insuranceId!='100020'){
+            this.router.navigate(['/quotation/plan/main/driver-info'])
+          }
+          else this.router.navigate(['/quotation/plan/main/document-info']);
         }
         //this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/premium-details']);
 
@@ -3380,11 +3386,17 @@ export class CoverDetailsComponent {
                 //this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details']);
                }
                else {
-                this.router.navigate(['/quotation/plan/main/document-info']);
+                if(this.productId=='5' && this.insuranceId!='100028' && this.insuranceId!='100020'){
+                  this.router.navigate(['/quotation/plan/main/driver-info']);
+                }
+                else this.router.navigate(['/quotation/plan/main/document-info']);
                }
             }
             else{
-                this.router.navigate(['/quotation/plan/main/document-info']);
+              if(this.productId=='5' && this.insuranceId!='100028' && this.insuranceId!='100020'){
+                this.router.navigate(['/quotation/plan/main/driver-info'])
+              }
+              else this.router.navigate(['/quotation/plan/main/document-info']);
             }
           }
         },

@@ -1,28 +1,58 @@
 <h2>Driver Info for Verification</h2>
 <p>Hi, We need your attention to start your Insurance</p>
 
-<div class="grid align-items-center mt-4 p-4">
+<!-- <div class="grid align-items-center mt-4 p-4">
     <p-inputSwitch class="mr-4"></p-inputSwitch><label for="">Use same Customer details</label>
-</div>
-
-<div class="grid">
-    <div class="flex flex-column m-3">
-        <label for="username">Driver Name*</label>
-        <input pInputText id="username" placeholder="Enter Driver Name"/>
-    </div>
-    <div class="flex flex-column m-3">
-        <label for="username">Chasis Number*</label>
-        <input pInputText id="username" placeholder="Enter Chasis Number"/>
-    </div>
-    <div class="flex flex-column m-3">
-        <label for="username">Licence Number*</label>
-        <input pInputText id="username" placeholder="Enter Licence Number"/>
-    </div>
-    <div class="flex flex-column m-3">
-        <label for="username">Date of Birth*</label>
-        <input pInputText type="date" id="username" placeholder="Enter Date Of Birth"/>
+</div> -->
+<div class="flex flex-wrap justify-content-end">
+    <div>
+        <p-button (click) = "onAddNewDriver()" icon="pi pi-plus" label="Add New Driver" severity="warning" size="small"></p-button>
     </div>
 </div>
+<ng-container *ngFor="let row of driverDetailsList;let i = index">
+    <div class="flex flex-wrap justify-content-between mt-2">
+            <div><h3>Driver {{i+1}}</h3></div>
+            <div>
+                <p-button (click) = "onRemove(i)" icon="pi pi-cross" label="Remove Driver" severity="warning" size="small"></p-button>
+            </div>
+    </div>
+    
+    <div class="grid w-full" styleClass="w-full">
+        <div class="col-12 md:col-4 lg:col-4 xl:col-4">
+            <label for="username">Driver Name*</label>
+            <input pInputText id="username" [(ngModel)]="row.DriverName" placeholder="Enter Driver Name"/>
+        </div>
+        <div class="col-12 md:col-4 lg:col-4 xl:col-4">
+            <label for="username">Registration Number*</label>
+            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="LicenseList" (change)="onLicenseChange(row)" [(ngModel)]="row.RiskId"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
+            </p-dropdown>
+        </div>
+        <div class="col-12 md:col-4 lg:col-4 xl:col-4">
+            <label for="username">Licence Number*</label>
+            <input pInputText id="username" [(ngModel)]="row.LicenseNo" placeholder="Enter Licence Number"/>
+        </div>
+        <div class="col-12 md:col-4 lg:col-4 xl:col-4">
+            <label for="username">Date of Birth*</label>
+            <p-calendar class="w-full" [(ngModel)]="row.DriverDob" styleClass="w-full" [maxDate]="minDate"
+                dateFormat="dd/mm/yy" placeholder="Select Date Of Birth">
+            </p-calendar>
+        </div>
+        <div class="col-12 md:col-4 lg:col-4 xl:col-4 m-2">
+            <label for="username">Driver Type</label>
+            <div class="flex justify-content-start gap-3">
+                <p-selectButton [options]="driverOptions" [(ngModel)]="row.DriverType"
+                optionLabel="label" optionValue="value"></p-selectButton>
+            </div>
+        </div>
+    </div>
+</ng-container>
 
-<p-button label="Back" [routerLink]="['/quotation/plan/main/accessories']" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
-<p-button label="Proceed" [routerLink]="['/quotation/plan/main/payment']" class="text-l pi-button mt-6"></p-button>
+<div class="flex flex-wrap justify-content-center mt-2">
+    <div>
+        <p-button label="Back" [routerLink]="['/quotation/plan/main/accessories']" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+    </div>
+   <div>
+    <p-button label="Proceed" (click)="onsave()" class="text-l pi-button mt-6"></p-button>
+   </div>
+    
+</div>

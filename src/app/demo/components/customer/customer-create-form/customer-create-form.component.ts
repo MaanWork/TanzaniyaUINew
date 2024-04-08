@@ -202,12 +202,12 @@ export class CustomerCreateFormComponent implements OnInit {
 				.random() * (maxm - minm + 1)) + minm; 
 		}
 		let policyid:any;
-		if(data?.PolicyHolderTypeid == '1'){
-         policyid = this.Idnumber.concat(this.Idnumber1).concat(this.Idnumber2);
-		}
-		else{
+		// if(data?.PolicyHolderTypeid == '1'){
+        //  policyid = this.Idnumber.concat(this.Idnumber1).concat(this.Idnumber2);
+		// }
+		// else{
 			policyid = data?.IdNumber;
-		}
+		//}
 		
 		let ReqObj = {
 			"BrokerBranchCode": this.brokerbranchCode,
@@ -886,12 +886,12 @@ export class CustomerCreateFormComponent implements OnInit {
 				.random() * (maxm - minm + 1)) + minm; 
 		}
 		let policyid:any;
-		if(datas?.PolicyHolderTypeid == '1'){
-         policyid = this.Idnumber.concat(this.Idnumber1).concat(this.Idnumber2);
-		}
-		else{
+		// if(datas?.PolicyHolderTypeid == '1'){
+        //  policyid = this.Idnumber.concat(this.Idnumber1).concat(this.Idnumber2);
+		// }
+		// else{
 			policyid = datas?.IdNumber;
-		}
+		//}
             
 		let ReqObj = {
 			"BrokerBranchCode": this.brokerbranchCode,
