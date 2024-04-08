@@ -2297,7 +2297,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 sessionStorage.setItem('quoteReferenceNo',data?.Result[0]?.RequestReferenceNo);
                 this.regNo = null;
                 this.tabIndex = 0;
-                alert('Entered 3')
                 this.getExistingVehiclesList('saveSearch');
             }
             // else if(data.Result){
