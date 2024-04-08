@@ -20,6 +20,7 @@ export class DriverInfoComponent {
 	public ApiUrl1: any = this.AppConfig.ApiUrl1;LicenseList:any[]=[];driverOptions:any[]=[];
 	public CommonApiUrl: any = this.AppConfig.CommonApiUrl;vehicleList:any[]=[];driverDetailsList:any[]=[];
 	public motorApiUrl: any = this.AppConfig.MotorApiUrl;EmiYn:any='N';localPremiumCost:any=null;customerRefNo:any=null;
+  coverlist: any[];
   constructor(private sharedService: SharedService,private quoteComponent:QuotationPlanComponent,
     private router:Router,
     private datePipe:DatePipe) {
@@ -213,6 +214,34 @@ export class DriverInfoComponent {
       (err) => { },
     );
 
+  }
+  ongetBack(){
+    if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
+      this.coverlist=[];let i=0;
+      for(let vehicle of this.Riskdetails){
+        let vehEntry = vehicle.SectionDetails;
+        if(vehEntry.length!=0){
+          let j=0;
+          for(let s of vehEntry){
+          let covers = s.Covers;
+          if(covers.length!=0){
+            let entry = covers.filter(ele=>ele.CoverId == '55');
+            if(entry.length!=0){
+              this.coverlist.push(entry)
+            }
+          }
+          j+=1;
+        }
+        }
+        i+=1;
+      }           
+              if(this.coverlist.length!=0){
+                this.router.navigate(['quotation/plan/main/accessories']);
+              }
+              else{
+                 this.router.navigate(['/quotation/plan/premium-details']);
+              }
+    }
   }
   getDriverDetails(){
     let ReqObj = {

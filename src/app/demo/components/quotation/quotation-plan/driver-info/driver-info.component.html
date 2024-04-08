@@ -13,7 +13,7 @@
     <div class="flex flex-wrap justify-content-between mt-2">
             <div><h3>Driver {{i+1}}</h3></div>
             <div>
-                <p-button (click) = "onRemove(i)" icon="pi pi-cross" label="Remove Driver" severity="warning" size="small"></p-button>
+                <p-button *ngIf="i!=0" (click) = "onRemove(i)" icon="pi pi-cross" label="Remove Driver" severity="warning" size="small"></p-button>
             </div>
     </div>
     
@@ -49,7 +49,7 @@
 
 <div class="flex flex-wrap justify-content-center mt-2">
     <div>
-        <p-button label="Back" [routerLink]="['/quotation/plan/main/accessories']" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+        <p-button label="Back" (click)="ongetBack()" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
     </div>
    <div>
     <p-button label="Proceed" (click)="onsave()" class="text-l pi-button mt-6"></p-button>
