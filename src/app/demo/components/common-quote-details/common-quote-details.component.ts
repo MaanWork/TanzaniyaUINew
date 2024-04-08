@@ -1898,7 +1898,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 this.motorUsageValue = this.vehicleDetails?.Motorusage;
                 this.collateralYN = this.vehicleDetails?.CollateralYn;
                 if(this.collateralYN=='Y') this.collateralValue = true;
-                else this.collateralValue = false;
+                else{ this.collateralValue = false; this.borrowerValue=null;this.collateralName=null;this.firstLossPayee = null;}
                 if(this.vehicleDetails?.NcdYn) this.claimsYN = this.vehicleDetails?.NcdYn;
                 else this.claimsYN = 'N';
                 if(this.vehicleDetails?.Gpstrackinginstalled) this.gpsYn = this.vehicleDetails?.Gpstrackinginstalled;
@@ -1917,6 +1917,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   this.firstLossPayee = this.vehicleDetails?.FirstLossPayee;
                   this.borrowerValue = this.vehicleDetails?.BorrowerType;
                 }
+                else{ this.collateralValue = false; this.borrowerValue=null;this.collateralName=null;this.firstLossPayee = null;}
                 if(this.vehicleDetails?.FleetOwnerYn){
                   if(this.fleetYN!='')
                   this.fleetYN = this.vehicleDetails?.FleetOwnerYn;
@@ -3519,7 +3520,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if(this.currentIndex<this.vehicleDetailsList.length){
           this.collateralYN = "N";
           if(this.collateralYN=='Y') this.collateralValue = true;
-          else this.collateralValue = false;
+          else{ this.collateralValue = false; this.borrowerValue=null;this.collateralName=null;this.firstLossPayee = null;}
           this.currentIndex = this.currentIndex+1;
             if(this.vehicleDetailsList[this.currentIndex-1]?.Active==true){
               if(this.endorsementSection && this.enableAddVehicle){
@@ -4627,7 +4628,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.motorUsageValue = this.vehicleDetails?.Motorusage;
       this.collateralYN = this.vehicleDetails?.CollateralYn;
       if(this.collateralYN=='Y') this.collateralValue = true;
-      else this.collateralValue = false;
+      else{ this.collateralValue = false; this.borrowerValue=null;this.collateralName=null;this.firstLossPayee = null;}
       this.PurchaseDate = this.onDateFormatInEdit(this.vehicleDetails?.PurchaseDate);
       this.deductibleValue = this.vehicleDetails?.Deductibles;
       this.vehicleValue = this.vehicleDetails?.VehicleValueType;
@@ -4639,6 +4640,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         this.firstLossPayee = this.vehicleDetails?.FirstLossPayee;
         this.borrowerValue = this.vehicleDetails?.BorrowerType;
       }
+      else{ this.collateralValue = false; this.borrowerValue=null;this.collateralName=null;this.firstLossPayee = null;}
       if(this.vehicleDetails?.FleetOwnerYn){
         if(this.fleetYN!='')
         this.fleetYN = this.vehicleDetails?.FleetOwnerYn;

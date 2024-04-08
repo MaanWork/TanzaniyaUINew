@@ -2746,7 +2746,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-wrap" *ngIf="(subuserType=='low' && !endorsementSection) && !showGrid">
+            <!-- <div class="flex flex-wrap" *ngIf="(subuserType=='low' && !endorsementSection) && !showGrid"> -->
                 <!-- <div class="lg:col-5 md:col-5 xl:col-5 col-12  mb-3" style="margin-left: 0px;">
                     <label class="input-form-label">Finalize this Quote?</label>
                     <div class="flex justify-content-start gap-3">
@@ -2762,14 +2762,18 @@
                         </div>
                     </div>
                 </div> -->
-                <div class="lg:col-2 md:col-2 xl:col-2 col-12 md:offset-5 lg:offset-5 xl:offset-5"
+            <ng-container *ngIf="(subuserType=='low' && !endorsementSection) && !showGrid">
+                <div class="flex flex-wrap justify-content-center mb-2"
                     *ngIf="finalizeYN=='N' && !showGrid">
                     <p-button label="Calculate" (click)="onUpdateFactor('calculate')" class="p-3 text-l mr-0"
                         styleClass="mb-4"></p-button>
                 </div>
-            </div>
+            </ng-container>
+            
+            <!-- </div> -->
+            
             <div class="flex flex-wrap justify-content-center mb-2" *ngIf="adminSection && !showGrid">
-                <p-button label="Calculate" (click)="onUpdateFactor('calculate')" class="p-3 text-l mr-0"
+                <p-button label="Sample Calculate" (click)="onUpdateFactor('calculate')" class="p-3 text-l mr-0"
                     styleClass="mb-4"></p-button>
             </div>
             <div class="grid">

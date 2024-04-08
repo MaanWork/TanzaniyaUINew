@@ -3,7 +3,7 @@
         <ng-container *ngIf="riskDetails.length!=0">
             <p-tabView [activeIndex]="tabIndex" (onChange)="onTabClicked($event)">
                 <ng-container *ngFor="let veh of riskDetails;let i=index">
-                    <p-tabPanel header="Vehicle ({{veh?.Registrationnumber}})">
+                    <p-tabPanel [header]="getHeaderName(veh)">
                         <ng-container *ngFor="let sec of veh.SectionDetails">
                             <ng-container *ngIf="checkCovers(sec,'opted')">
                                 <p><b>Opted Covers</b></p>

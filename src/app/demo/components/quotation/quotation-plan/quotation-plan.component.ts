@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { SharedService } from 'src/app/demo/service/shared.service';
 
 @Component({
   selector: 'app-quotation-plan',
@@ -6,9 +8,24 @@ import { Component } from '@angular/core';
 })
 export class QuotationPlanComponent {
 
-  riskDetails:any[]=[];tabIndex:any=0;
-  vehicleDetailsList:any[]=[];
-  currencyCode:any=null;
+  riskDetails:any[]=[];tabIndex:any=0;productId:any=null;
+  vehicleDetailsList:any[]=[];userType:any=null;agencyCode:any=null;branchList:any[]=[];
+  currencyCode:any=null;userDetails:any=null;subuserType:any=null;branchCode:any=null;productName:any=null;
+  insuranceId:any=null;brokerbranchCode:any=null;loginType:any=null;
+  constructor(private router:Router,private sharedService:SharedService){
+    this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+    let loginType = sessionStorage.getItem('resetLoginDetails');
+    this.userType = this.userDetails?.Result?.UserType;
+    this.subuserType = sessionStorage.getItem('typeValue');
+    this.agencyCode = this.userDetails.Result.OaCode;
+    this.branchCode = this.userDetails.Result.BranchCode;
+    this.branchList = this.userDetails.Result.LoginBranchDetails;
+    this.productId = this.userDetails.Result.ProductId;
+    this.productName =  this.userDetails.Result.ProductName;
+    this.insuranceId = this.userDetails.Result.InsuranceId;
+    this.brokerbranchCode = this.userDetails.Result.BrokerBranchCode;
+    this.loginType = this.userDetails.Result.LoginType;
+  }
   setRiskDetails(riskDetails){
     if(riskDetails.length!=0){
       this.riskDetails = riskDetails;
@@ -32,6 +49,27 @@ export class QuotationPlanComponent {
           return i!=0;
         }
       }
+  }
+  getHeaderName(menu){
+    console.log("Received Menu",menu)
+    if(this.productId=='5'){
+      let name = menu.Registrationnumber;
+      if(menu.SectionName!=null){
+        name = name+` (${menu.SectionName})`
+      }
+      else name = name+`(null)`
+      return name;
+    }
+    else if(this.productId=='4'){
+      if(menu.TravelId=='1') return `Kids (${menu.TotalPassengers})`;
+      if(menu.TravelId=='2') return `Adults (${menu.TotalPassengers})`;
+      if(menu.TravelId=='3') return `Seniors (${menu.TotalPassengers})`;
+      if(menu.TravelId=='4') return `Super Seniors (${menu.TotalPassengers})`;
+      if(menu.TravelId=='5') return `Grand Seniors (${menu.TotalPassengers})`;
+    }
+    else if(this.productId!='3' && this.productId!='4' && this.productId!='5' && this.productId!='19' && this.productId!='14' && this.productId!='32') return this.productName;
+    else if(this.productId=='3' || this.productId=='19' || this.productId=='14' || this.productId=='32') return menu.SectionName;
+    else return '';
   }
   checkCoverSelected(cover){
     if(cover.isSelected=='Y' && cover.CoverageType!='A') return true;

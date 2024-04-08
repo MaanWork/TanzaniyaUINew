@@ -36,8 +36,8 @@ export class ReferralComponent implements OnInit {
   columnss:string[] = [];
   ApproveredList:any[]=[];
   tableView = 'table'; 
-  ApproverbrokerCode: any;
-  Rejecedbrokercode: any;sampleRefNo:any=null;
+  ApproverbrokerCode: any=null;
+  Rejecedbrokercode: any=null;sampleRefNo:any=null;
   RejectedList: any[];RejectedquoteData:any[]=[];
   
   constructor(private router: Router,private sharedService: SharedService,private messageService: MessageService) {
@@ -110,8 +110,10 @@ export class ReferralComponent implements OnInit {
             this.getExistingQuotes(null,'change')
           }
           else{
-            this.brokerCode = this.brokerList[0].Code;
-            this.getExistingQuotes(null,'change')
+            if(this.brokerList.length!=0){
+              this.brokerCode = this.brokerList[0].Code;
+              this.getExistingQuotes(null,'change')
+            }
           }
         }
         
@@ -236,15 +238,18 @@ export class ReferralComponent implements OnInit {
           let defaultObj = []
           this.ApproveredList = defaultObj.concat(data.Result);
           if(this.ApproveredList.length==0){this.ApproverbrokerCode = ''; this.ApproveredList = []}
-          else this.ApproverbrokerCode = this.loginId;
           if(this.ApproverbrokerCode!=null && this.ApproverbrokerCode!=''){
             if(!this.ApproveredList.some(ele=>ele.Code==this.ApproverbrokerCode)) this.ApproverbrokerCode = this.ApproveredList[0].Code;
             //this.getExistingQuotes(null,'change')
+            
             this.getApprovedQuotes(null,'change');
           }
           else{
-            this.ApproverbrokerCode = this.brokerList[0].Code;
-            this.getApprovedQuotes(null,'change');
+            if(this.ApproveredList.length!=0){
+              
+              this.ApproverbrokerCode = this.ApproveredList[0].Code;
+              this.getApprovedQuotes(null,'change');
+            }
             //this.getExistingQuotes(null,'change')
           }
         }
@@ -268,13 +273,13 @@ export class ReferralComponent implements OnInit {
       loginId=this.ApproverbrokerCode;
       brokerbranchCode = '';
     }
-    let entry = this.ApproveredList.find(ele=>ele.Code==this.brokerCode);
+    let entry = this.ApproveredList.find(ele=>ele.Code==this.ApproverbrokerCode);
     if(entry){
       console.log("Entry Received",entry) 
       if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
       && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
         loginId='';
-        bdmCode=this.brokerCode;
+        bdmCode=this.ApproverbrokerCode;
       }
       else{
         bdmCode=null;
@@ -457,7 +462,7 @@ export class ReferralComponent implements OnInit {
   onEditQuotes(rowData,type){
     sessionStorage.removeItem('QuoteStatus');
     if(rowData.QuoteNo!=null && rowData.QuoteNo!='' && rowData.QuoteNo!=undefined){
-      this.checkStatus(rowData);
+      this.checkStatus(rowData,type);
     } 
     else{
       sessionStorage.removeItem('endorsePolicyNo');
@@ -473,20 +478,20 @@ export class ReferralComponent implements OnInit {
   onEditApprovedQuotes(rowData,type){
     sessionStorage.removeItem('QuoteStatus');
     if(rowData.QuoteNo!=null && rowData.QuoteNo!='' && rowData.QuoteNo!=undefined){
-      this.checkStatus(rowData);
+      this.checkStatus(rowData,type);
     } 
     else{
       sessionStorage.removeItem('endorsePolicyNo');
           sessionStorage.removeItem('endorseTypeId');
           
-          sessionStorage.setItem('QuoteStatus',type);
+          sessionStorage.setItem('QuoteStatus','RA');
           sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
           sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
           sessionStorage.setItem('quoteNo',rowData.QuoteNo);
           this.router.navigate(['/quotation/plan/premium-details']);
     }
   }
-  checkStatus(rowData){
+  checkStatus(rowData,type){
     let ReqObj = {
       "InsuranceId": this.insuranceId
     }
@@ -498,7 +503,7 @@ export class ReferralComponent implements OnInit {
         if(data.result=='FAIL'){
           sessionStorage.removeItem('endorsePolicyNo');
           sessionStorage.removeItem('endorseTypeId');
-          sessionStorage.setItem('QuoteStatus','RP');
+          sessionStorage.setItem('QuoteStatus',type);
           sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
           sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
           sessionStorage.setItem('quoteNo',rowData.QuoteNo);
