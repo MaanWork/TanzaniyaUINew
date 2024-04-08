@@ -2517,6 +2517,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
           }
           else{
+            if(this.insuranceId=='100004'){this.productItem.InsuranceType = this.productItem.InsuranceClass;}
             if(Array.isArray(this.productItem.InsuranceType)) insuranceType = this.productItem.InsuranceType;
             else insuranceType.push(this.productItem.InsuranceType);
           }
@@ -3680,7 +3681,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
             }
             else{
-              
+              if(this.insuranceId=='100004'){this.productItem.InsuranceType = this.productItem.InsuranceClass;}
               if(Array.isArray(this.productItem.InsuranceType)) insuranceType = this.productItem.InsuranceType;
               else insuranceType.push(this.productItem.InsuranceType);
             }
