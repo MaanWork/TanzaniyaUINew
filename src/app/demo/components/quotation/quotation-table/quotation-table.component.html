@@ -54,6 +54,7 @@
               <td>{{ customer.PolicyStartDate }}</td>
               <td>{{ customer.PolicyEndDate }}</td>
               <td>{{ customer.OverallPremiumLc }}</td>
+              <td>{{ customer.Currency }}</td>
               <td>
                 <span class="p-buttonset">
                   <button pButton pRipple icon="pi pi-pencil" (click)="onEditQuotes(customer)" title="Edit" class="p-button-outlined"></button>
@@ -103,7 +104,7 @@
                   <p>{{quote.PolicyEndDate}}</p></td>
                 </tr>               
                 <tr>
-                  <td><span class="pi pi-phone mr-2"></span>{{quote.OverallPremiumLc}}&nbsp;({{quote.currencyCode}})</td>
+                  <td>{{quote.OverallPremiumLc}}&nbsp;({{quote.currencyCode}})</td>
                 </tr>
                 <tr>
                   <td></td>
@@ -144,6 +145,7 @@
             <td>{{ customer.PolicyStartDate }}</td>
             <td>{{ customer.PolicyEndDate }}</td>
             <td>{{ customer.OverallPremiumLc }}</td>
+            <td>{{ customer.Currency }}</td>
             <td>
               <span class="p-buttonset">
                 <button pButton pRipple icon="pi pi-check" class="p-button-outlined"></button>
@@ -205,9 +207,7 @@
             <td>{{ customer.PolicyStartDate }}</td>
             <td>{{ customer.PolicyEndDate }}</td>
             <td>{{ customer.OverallPremiumLc }}</td>
-            <td>
-              
-            </td>
+            <td>{{ customer.Currency }}</td>
           </tr>
         </ng-template>
       </p-table>

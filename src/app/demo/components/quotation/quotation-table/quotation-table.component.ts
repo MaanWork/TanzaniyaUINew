@@ -74,9 +74,9 @@ export class QuotationTableComponent implements OnInit {
     this.items = [{ label: 'Home', routerLink:'/' }, {label:'Quotation'}];
     this.customerColumn = [ 'Select','Reference No','Customer Name',  'Customer Type','ID Number'];
     if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
-      this.columns = [ 'Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium', 'Actions'];
+      this.columns = [ 'Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium','CurrencyCode', 'Actions'];
     }
-    else this.columns = ['Quote No','Reference No','Customer Name','Start Date','End Date','Premium','Actions'] 
+    else this.columns = ['Quote No','Reference No','Customer Name','Start Date','End Date','Premium','CurrencyCode','Actions'] 
     this.cols = [ 
       { field: "QuoteNo", header: "Quote No" }, 
       { field: "RequestReferenceNo", header: "Reference No" }, 
