@@ -43,10 +43,15 @@ export class QuotationTableComponent implements OnInit {
   totalRejectedQuoteRecords: any;
   pageRejectedCount: any=null;
   quoteRejectedPageNo: any=null;
-  quoteRejectedData: any[]=[];
+  quoteRejectedData: any[]=[];RejectList:any[]=[];
   startRejectedIndex: any=null;quoteDataList:any[]=[];
   endRejectedIndex: any=null;selectedCustomer:any=null;
   cols:any[]=[];clearSearchSection:boolean = false;searchValue:any=[];
+  quote: any=null;rejectedColumns:any[]=[]
+  quotes: boolean=false;
+  Remarks: any=null;
+  Reference: any=null;isRejectVisible:boolean=false;
+  RejectdList: any;tabIndex:any=0;
   constructor(private router: Router,private sharedService: SharedService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -75,8 +80,11 @@ export class QuotationTableComponent implements OnInit {
     this.customerColumn = [ 'Select','Reference No','Customer Name',  'Customer Type','ID Number'];
     if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
       this.columns = [ 'Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium','CurrencyCode', 'Actions'];
+      this.rejectedColumns = [ 'Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium','CurrencyCode','Reason'];
     }
-    else this.columns = ['Quote No','Reference No','Customer Name','Start Date','End Date','Premium','CurrencyCode','Actions'] 
+    else{ this.columns = ['Quote No','Reference No','Customer Name','Start Date','End Date','Premium','CurrencyCode','Actions'] 
+    this.rejectedColumns = [ 'Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium','CurrencyCode','Reason'];
+    }
     this.cols = [ 
       { field: "QuoteNo", header: "Quote No" }, 
       { field: "RequestReferenceNo", header: "Reference No" }, 
@@ -86,6 +94,10 @@ export class QuotationTableComponent implements OnInit {
     this.getBrokerList();
     this.getLapsedBrokerList();
     this.getRejectedBrokerList();
+  }
+  onTabClicked(event){
+    let index = event.index;
+    this.tabIndex = index;
   }
   getBrokerList(){
     let appId = "1",loginId="",brokerbranchCode="";
@@ -127,6 +139,25 @@ export class QuotationTableComponent implements OnInit {
       },
       (err) => { },
     );
+  }
+  onRejects(rowData){
+   console.log('rrrrrrrrr',rowData)
+    this.isRejectVisible = true;
+   this.RejectList=rowData;
+    
+   this.quote=rowData.QuoteNo;
+    if(this.quote){
+      this.quotes=true;
+    }
+    else{
+      this.quotes=false
+    }
+    this.Reference=rowData.RequestReferenceNo
+
+
+
+   this.Remarks=rowData.RejectReason
+   //this.RejectQuote(this.Remarks,rowData)
   }
   getExistingQuotes(element,entryType){
     if(element==null) this.quoteData=[];
@@ -213,6 +244,31 @@ export class QuotationTableComponent implements OnInit {
       (err) => { },
     );
     }
+  }
+  RejectQuote(){
+    let ReqObj = {
+      "RequestReferenceNo": this.Reference,
+      "LoginId":this.loginId,
+      "ProductId":this.productId,
+      "Status":"R",
+      "RejectReason": this.Remarks
+
+    }
+    let urlLink = `${this.CommonApiUrl}quote/updatestatus`;
+    
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+          this. RejectdList = data.Result;
+          console.log('RRRR',this. RejectList);
+          this.isRejectVisible = false;
+          this.getRejectedBrokerList();
+          this.tabIndex= 2;
+        }
+      },
+      (err) => { },
+    );
   }
   getLapsedBrokerList(){
     let appId = "1",loginId="",brokerbranchCode="";

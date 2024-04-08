@@ -18,7 +18,7 @@
   
   <p-divider></p-divider>
   
-  <p-tabView>
+  <p-tabView [activeIndex]="tabIndex"  (click)="onTabClicked($event)">
     <p-tabPanel header="Existing">
       <div class="flex justify-content-end mb-4">
         <p-button icon="pi pi-table"  class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
@@ -58,6 +58,7 @@
               <td>
                 <span class="p-buttonset">
                   <button pButton pRipple icon="pi pi-pencil" (click)="onEditQuotes(customer)" title="Edit" class="p-button-outlined"></button>
+                  <button pButton pRipple icon="pi pi-times" (click)="onRejects(customer)" title="Reject" class="p-button-outlined"></button>
                   <button pButton pRipple icon="pi pi-envelope" title="Mail" class="p-button-outlined"></button>
                   <button pButton pRipple icon="pi pi-inbox" title="SMS" class="p-button-outlined"></button>
                   <button pButton pRipple icon="pi pi-user" title="Followup" class="p-button-outlined"></button>
@@ -111,6 +112,7 @@
                   <td>
                     <span class="p-buttonset">
                       <button pButton pRipple icon="pi pi-pencil" (click)="onEditQuotes(quote)" title="Edit" class="p-button-outlined"></button>
+                      <button pButton pRipple icon="pi pi-times" (click)="onRejects(quote)" title="Reject" class="p-button-outlined"></button>
                       <button pButton pRipple icon="pi pi-envelope" title="Mail" class="p-button-outlined"></button>
                       <button pButton pRipple icon="pi pi-inbox" title="SMS" class="p-button-outlined"></button>
                       <button pButton pRipple icon="pi pi-user" title="Followup" class="p-button-outlined"></button>
@@ -192,22 +194,31 @@
         <p-button icon="pi pi-list" class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
         <p-button icon="pi pi-table" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
       </div>
+      <div class="grid mb-2 mt-2">
+        <div class="col-12 md:col-4 lg:col-4">
+          <label for="username">Broker</label><span class="text-danger">*</span>
+          <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="brokerRejectedCode"  [options]="brokerRejectedList" (onChange)="getRejectedQuotes(null,'change')"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
+          </p-dropdown>
+        </div>
+      </div>
       <p-table *ngIf="tableView == 'table' else cardTableView" [value]="quoteRejectedData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
         <ng-template pTemplate="header">
             <tr>
-                <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+                <th [pSortableColumn]="column" *ngFor="let column of rejectedColumns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-customer>
           <tr>
             <!-- <td><p-checkbox [binary]="true"></p-checkbox></td> -->
-            <td>{{ customer.RequestReferenceNo }}</td>
+           
             <td>{{ customer.QuoteNo }}</td>
+            <td>{{ customer.RequestReferenceNo }}</td>
             <td>{{ customer.ClientName }}</td>
             <td>{{ customer.PolicyStartDate }}</td>
             <td>{{ customer.PolicyEndDate }}</td>
             <td>{{ customer.OverallPremiumLc }}</td>
             <td>{{ customer.Currency }}</td>
+            <td>{{ customer.RejectReason}}</td>
           </tr>
         </ng-template>
       </p-table>
@@ -276,7 +287,7 @@
                             (change)="onSelectCustomer(customer)" [value]="customer.CustomerReferenceNo">
                         <label for="html"></label>
                         <!-- <p-radioButton  [value]="customer.CustomerReferenceNo" name="city" [(ngModel)]="selectedCustomer" [inputId]="customer.CustomerReferenceNo"></p-radioButton>
-              <label for="ingredient1" class="ml-2"></label> -->
+                        <label for="ingredient1" class="ml-2"></label> -->
                     </td>
                     <td>{{customer?.CustomerReferenceNo}}</td>
                     <td>{{customer?.ClientName}}</td>
@@ -291,5 +302,23 @@
         <p-button label="Clear Search" *ngIf="clearSearchSection" (click)="showSearchForm('change')" class="mr-3"></p-button>&nbsp;
         <p-button (click)="navigateToCustomerDetail()" *ngIf="selectedCustomer" label="Proceed" severity="warning"
             class="mb-3"></p-button>
+    </div>
+</p-dialog>
+
+<p-dialog header="Reject Quote" [(visible)]="isRejectVisible" [modal]="true" styleClass="w-10 md:w-8 lg:w-6"
+    [draggable]="false" [resizable]="false">
+    <div class="flex flex-wrap justify-content-end mt-2">
+          <div  *ngIf="quotes"><b>QuoteNo: {{quote}}</b></div>
+          <div><b>Reference No : {{Reference}}</b></div>
+    </div>
+    <div class="grid">
+        <div class="col-12 md:col-6 lg:col-6 xl:col-6">
+          <label><b>Reject Reason&nbsp;*</b></label>
+          <textarea rows="5" class="w-full" [(ngModel)]="Remarks" placeholder="Enter Reject Reason" pInputText></textarea>
+        </div>
+    </div>
+    <div class="flex flex-wrap justify-content-center">
+      <p-button  label="Submit" (click)="RejectQuote()" severity="warning"
+      class="mb-3"></p-button>
     </div>
 </p-dialog>
