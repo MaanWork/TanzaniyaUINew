@@ -12,6 +12,7 @@
       </div>
     </div>
     <div class="flex justify-content-end mb-4">
+        
         <p-button icon="pi pi-table"  class="mr-3" [styleClass]="verticalSection == false ? '':'p-button-outlined'" (click)="verticalSection=!verticalSection" severity="success "></p-button>
         <p-button icon="pi pi-list" [styleClass]="verticalSection==true ? '':'p-button-outlined'" (click)="verticalSection=!verticalSection"  severity="success "></p-button>
       </div>
@@ -29,6 +30,9 @@
                                             <p class="mr-5"><i class="pi pi-tag mr-2"></i>{{ menu.RiskDetails.Registrationnumber }}</p>
                                         </div>
                                         <div class="flex flex-wrap">
+                                            <ng-container *ngIf="(insuranceId=='100020' || insuranceId=='100028') && productId!='56' ">
+                                                <p-button icon="pi pi-rate" label="View Factor Details" (click)="onViewFactorDetails()"  class="mr-3" styleClass='p-button-outlined' severity="success "></p-button>
+                                            </ng-container>
                                             <div class="bg-blue-800 customSizeDiv"></div> &nbsp; Default Opted Covers &nbsp;
                                             <div class="customOptCoverBg customSizeDiv"></div> &nbsp; Opted Covers &nbsp;
                                             <i class="pi pi-bookmark-fill customReferralBorder"></i> &nbsp; Referral Covers &nbsp;
@@ -1255,6 +1259,125 @@
     </div>
     <div class="flex justify-content-end">
         <p-button class=" text-l pi-button mr-0"  (click)="discountDetailModal=!discountDetailModal">Close</p-button>
+    </div>
+</p-dialog>
+<p-dialog class="p-su-header" header="Factor Details" [(visible)]="factorDetailModal" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+    <div class="grid">
+        <div class="col-12 lg:col-12 md:col-12 xl:col-12">
+            <ng-container *ngIf="factorViewList.length!=0">
+                <table class="table table-bordered" style="width: 100%;margin-top:15px">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="padding: 8px;"><b>Factor Name</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;"><b>Own Damage</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>Wind Screen</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>Theft</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>Fire</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>Third party</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let factor of factorViewList">
+                            <td style="text-align: start;padding: 8px;">
+                                <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
+                                   <b>{{factor.FactorName}}</b>
+                                </ng-container>
+                                <ng-container *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
+                                    {{factor.FactorName}}
+                                </ng-container>
+                            </td>
+                            <td style="text-align: end;padding: 8px;">
+                                <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
+                                    <b>{{factor.OwnDamage | commaseparator}}</b>
+                                </ng-container>
+                                <ng-container *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
+                                   {{factor.OwnDamage | commaseparator}}
+                                </ng-container>
+                            </td>
+                            <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028'">
+                                <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
+                                    <b>{{factor.Windscreen | commaseparator}}</b>
+                                </ng-container>
+                                <ng-container *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
+                                    {{factor.Windscreen | commaseparator}}
+                                </ng-container>
+                            </td>
+                            <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028'">
+                                <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
+                                   <b>{{factor.Theft | commaseparator}}</b>
+                                </ng-container>
+                                <ng-container *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
+                                    {{factor.Theft | commaseparator}}
+                                </ng-container>
+                            </td>
+                            <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028'">
+                                <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
+                                   <b>{{factor.Fire | commaseparator}}</b>
+                                </ng-container>
+                                <ng-container *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
+                                    {{factor.Fire | commaseparator}}
+                                </ng-container>
+                            </td>
+                            <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028'">
+                                <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
+                                    <b>{{factor.ThirdParty | commaseparator}}</b>
+                                </ng-container>
+                                <ng-container *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
+                                    {{factor.ThirdParty | commaseparator}}
+                                </ng-container>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-container>
+            <ng-container *ngIf="factorViewList.length==0">
+                <div class="flex flex-wrap justify-content-center">
+                    No Data Available
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <div class="row" *ngIf="factorPremiumDetails && insuranceId!='100028'">
+        <div class="flex flex-wrap justify-content-center">
+            <b><u>ANNUAL PREMIUM DETAILS</u></b>
+        </div>
+        <div class="col-12 lg:col-7 md:col-7 xl:col-7 md:col-offset-3 lg:col-offset-3 xl:col-offset-3">
+            <table class="table table-bordered" style="width: 100%;margin-top:15px">
+                <tbody>
+                    <tr>
+                        <td style="text-align: start;padding: 8px;"><b>Risk Premium Amount</b></td>
+                        <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.RiskPremiumAmt | commaseparator}}</b></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: start;padding: 8px;"><b>Risk Premium Rate</b></td>
+                        <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.RiskPremiumRate | commaseparator}}</b></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: start;padding: 8px;"><b>Target Loss Ratio</b></td>
+                        <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.TargetLossRatio | commaseparator}}</b></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: start;padding: 8px;"><b>Minimum Rate</b></td>
+                        <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.MinRate | commaseparator}}</b></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: start;padding: 8px;"><b>Minimum Premium</b></td>
+                        <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.MinPremium | commaseparator}}</b></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: start;padding: 8px;"><b>Final Premium Amount (excl VAT)</b></td>
+                        <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.FinalPremiumAmtExclTax | commaseparator}}</b></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: start;padding: 8px;"><b>Final Premium Rate (excl VAT)</b></td>
+                        <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.FinalPremiumRateExclTax | commaseparator}}</b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="flex justify-content-center">
+        <p-button class=" text-l pi-button mr-0"  (click)="factorDetailModal=!factorDetailModal">Close</p-button>
     </div>
 </p-dialog>
 <!-- <p-toast></p-toast>

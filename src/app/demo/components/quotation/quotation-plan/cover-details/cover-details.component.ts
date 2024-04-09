@@ -136,9 +136,7 @@ export class CoverDetailsComponent {
   premiumIncluedTax: any=null;dependantTaxList: any[]=[];taxList: any[]=[];premiumBeforeTax: any=null;
   proRataPercent: any=null;premiumAfterDiscount:any=null;
   fleetCoverDetails: any;
-  basePremium: any;
-  premiumIncludedTax: any;
-  premiumExcludedTax: any;
+  basePremium: any;premiumIncludedTax: any;premiumExcludedTax: any;factorViewList: any[]=[];factorPremiumDetails:any=null;factorDetailModal: boolean=false;
   constructor(private router:Router,private sharedService:SharedService,private messageService: MessageService){
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     let loginType = sessionStorage.getItem('resetLoginDetails');
@@ -307,6 +305,26 @@ export class CoverDetailsComponent {
       if(quoteNo) this.quoteNo = quoteNo;
       this.getUpdatedVehicleDetails();
     }
+  }
+  onViewFactorDetails(){
+    let ReqObj = {
+      "RequestReferenceNo" : this.quoteRefNo, 
+      "VehicleId": this.selectedRowData?.Vehicleid,
+      "ProductId": this.productId,
+      "InsuranceId": this.insuranceId,
+      "SectionId" : this.selectedRowData?.SectionId
+    }
+    let urlLink = `${this.CommonApiUrl}api/getfactorratedetailsList`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+          this.factorViewList = data.Result.FactorCalculationRes;
+          this.factorPremiumDetails = data.Result.FactorResultRes;
+          this.factorDetailModal = true;
+        }
+      },
+      (err) => { },
+    );
   }
   onSelectSection(){
     console.log("Current Id",this.selectedRowData)
