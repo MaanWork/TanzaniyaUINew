@@ -51,7 +51,6 @@ export class QuotationPlanComponent {
       }
   }
   getHeaderName(menu){
-    console.log("Received Menu",menu)
     if(this.productId=='5'){
       let name = menu.Registrationnumber;
       if(menu.SectionName!=null){

@@ -97,7 +97,7 @@ export class DocumentInfoComponent {
     this.vehicleDetails = JSON.parse(sessionStorage.getItem('vehicleDetails'));
    }
    ngOnInit(){
-    this.columns = ['S.No','FileName','Section','Registration Number','Document Type','Progress','Actions'];
+    this.columns = ['S.No','FileName','Section','Registration Number','Document Type','Actions'];
     this.uploadedColumns = ['S.No','FileName','Section','Registration Number','Document Type','Actions'];
       this.getCommonDocTypeList();
       this.getUploadedDocList(null,-1,null);
@@ -140,6 +140,9 @@ export class DocumentInfoComponent {
             this.uploadedDocList = data?.Result?.CommmonDocument;
             this.uploadedDocList = this.uploadedDocList.filter(ele=>ele.DocumentId!='23');
             this.uploadedIndividualList = data?.Result?.InduvidualDocument;
+            if(this.uploadedDocList.length!=0){
+              this.uploadedIndividualList = this.uploadedDocList.concat(this.uploadedIndividualList)
+            }
               let entry = this.uploadedIndividualList.find(ele=>ele.DocumentId=='17' && ele.VerifiedYn!='Y');
               // if(entry){
               //   this.checkMandatoryDocument(entry);
@@ -359,6 +362,13 @@ export class DocumentInfoComponent {
         (data: any) => {
             if(data?.Result){
                     this.individualDocumentList = data?.Result?.InduvidualDocuments;
+                    if(data.Result?.CommonDocuments && this.individualDocumentList.length!=0){
+                      let sectionList = this.individualDocumentList[0].SectionList;
+                      let defaultObj = [{"SectionId":'99999',"SectionName":'ALL',
+                      "IdList":[{RiskId: "99999", Id: "ALL", IdType: "REGISTER_NUMBER"}]
+                      }];
+                      this.individualDocumentList[0].SectionList = defaultObj.concat(sectionList);
+                    }
                     console.log('Indivijual List',data?.Result?.InduvidualDocuments);
             }
           },
@@ -675,6 +685,7 @@ export class DocumentInfoComponent {
           "UploadedBy": this.loginId
           
         }
+        if(ReqObj.Id=='All') ReqObj.Id = '99999';
         // let ReqObj={
         //   "RequestReferenceNo": this.quoteRefNo,
         //   "InsuranceId": this.insuranceId,

@@ -78,7 +78,7 @@
                     placeholder="---Select---">
                 </p-dropdown>
             </td>
-            <td>{{ doc.PolicyEndDate }}</td>
+            <!-- <td>{{ doc.PolicyEndDate }}</td> -->
             <td >
               <span class="p-buttonset">
                 <!-- <button pButton pRipple icon="pi pi-envelope" class="p-button-outlined"></button> -->
@@ -137,7 +137,14 @@
                         <td>{{ i+1 }}</td>
                         <td>{{doc.OriginalFileName}}</td>
                         <td>{{doc.SectionName}}</td>
-                        <td>{{doc.Id}}</td>
+                        <td>
+                            <ng-container *ngIf="doc.Id!='99999'">
+                                {{doc.Id}}
+                            </ng-container>
+                            <ng-container *ngIf="doc.Id=='99999'">
+                                ALL
+                            </ng-container>
+                        </td>
                         <td>{{doc.DocumentDesc}}</td>
                         <td>
                             <span class="p-buttonset">
