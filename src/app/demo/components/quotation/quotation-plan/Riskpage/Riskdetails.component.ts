@@ -36,6 +36,8 @@ import Swal from 'sweetalert2';
 import { LocationDetails } from '../models/additionalDetails/locationdetails';
 import { HttpClient } from '@angular/common/http';
 import { Building } from '../models/Building';
+import { HealthInsurance } from '../models/HealthInsurance';
+import { findIndex } from 'rxjs';
 // import { ProfessionalIndemnity } from '../models/ProfessionalIntermnity';
 @Component({
   selector: 'app-Riskdetails',
@@ -44,7 +46,7 @@ import { Building } from '../models/Building';
 })
 export class RiskDetailsComponent {
         sidebarVisible:boolean = false;Buildings: any;
-  requestReferenceNo: any;fields8:any[]=[];
+  requestReferenceNo: any;fields8:any[]=[];fieldsGroupPa: any=null;currentRelationIndex:any;
 wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductData = null
         loginId:any=null;machineries:any[]=[];fields: any[] = [];BuildingUsageList:any[]=[];
         userDetails:any=null;insuranceId:any=null;productId:any=null;TypeOfPropertyss:any[]=[];
@@ -76,7 +78,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
         fieldsPersonalAccident: any;second:boolean=false;third:boolean=false;fieldFEFields:any[]=[];
         contentRiskDesc: any=''; dropList:any[]=[];endorsementDetails: any=null;
         fifth: boolean=false;seven:boolean=false;fieldsEmpFields:any[]=[];selectedTab: any = 0;
-        promocode:any=null;  customerCode: any=null;
+        promocode:any=null;  customerCode: any=null;relationList:any[]=[];
         fieldsPersonalInd: any[]=[];monthList: any[]=[];employeeList:any[]=[]; Cotentrisk: any[] = [];
         SectionId: any=null;fidelityList: any[]=[];originalFidelityList: any[];contentRiskSection: boolean=false;
         currentContentIndex: number;enableContentEditSection:boolean = false;LocationId: any;  contentSI: any='0';
@@ -89,16 +91,20 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
   endtCount: any = null; endtPrevPolicyNo: any = null;
   endtStatus: any = null; endtPrevQuoteNo: any = null; isFinanceEndt: any = null;
   IndustryId: string;
-  policyStartDate: any;
+  policyStartDate: any;sectionDropdownList:any[]=[];
   policyEndDate: any;
   currencyCode: any; currentStatus: any="Y";
+  GroupListNew: any[]=[];
   brokerbranchCode: any;
-  commonDetails: any;  uwQuestionList: any[] = []; 
+  commonDetails: any;  uwQuestionList: any[] = [];listSectionGroup: boolean;
+  listnGroup: boolean;
   CustomerReferenceNo: any;endorseEffectiveDate: any;endorseCoverModification: any=null;
-  NewSection: any;
+  NewSection: any;  dobminDate: Date;
   newselectedIndex: number;ProfessionalTypes:any[]=[];IndimnityTypes:any[]=[];
   nextslide: boolean= false;nextslide1:boolean = false; nextslide2:boolean = false; nextslide3:boolean=false;
-  nextslide4:boolean = false;
+  nextslide4:boolean = false; ProductCode:any="68";
+  showSection: boolean =false;
+  showsection: boolean = false;
         constructor(private router: Router,private datePipe:DatePipe,
           private sharedService: SharedService,public http: HttpClient) {
          let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails') || '{}');
@@ -147,6 +153,54 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               this.getCommonDetails();
               this.getBuildingDetails();
             }
+
+            if(this.productId=='57'){
+              //let fireData = new EmployersLiability();
+              let fireData = new GroupPersonalAccident();
+              let entry = [];
+              let fields:any = fireData?.fields;
+              console.log('Fieldssssssssss',fields);
+              //fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
+             
+             
+              this.fieldsGroupPa = fields;
+              let referenceNo = sessionStorage.getItem('quoteReferenceNo');
+              if (referenceNo) {
+                this.requestReferenceNo = referenceNo;
+                this.setCommonFormValues();
+                this.productItem = new ProductData();
+               
+              }
+              else {
+                  this.productItem = new ProductData();
+                  this.formSection = true; this.viewSection = false;
+              }
+            }
+
+            // if(this.productId=='56'){
+            //   let referenceNo = sessionStorage.getItem('quoteReferenceNo');
+            //   if (referenceNo) {
+            //     this.requestReferenceNo = referenceNo;
+            //     this.getCommonnDetails();
+            //   }
+            //   else{
+            
+            //         this.AddNewFunc();
+            //         // this.productItem.patientList = [
+            //         //   {
+            //         //     "CreatedBy": this.loginId,
+            //         //     "RiskId": null,
+            //         //     "RelationType": '1',
+            //         //     "RelationTypeDesc": null,
+            //         //     "DateOfBirth": null
+            //         //   }
+            //         // ]
+            //         this.getSectionList();
+            //         this.getRelationTypeList('direct');
+            //         this.formSection = true; this.viewSection = false;
+            //         this.showSection=true;
+            //   }
+            // }
           //   if(this.productId=='60'){
           //     //this.getEditDetails();
           //  this.getdetails();
@@ -272,6 +326,51 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
           );
         }
 
+
+        getRelationTypeList(type){
+          let ReqObj = {
+            "InsuranceId": this.insuranceId
+          }
+          let urlLink = `${this.CommonApiUrl}dropdown/ratingrelationtypes`;
+          this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+            (data: any) => {
+              console.log(data);
+              if(data.Result){
+                let defaultObj = [{ 'label': '-Select-', 'value': '' }]
+                this.relationList = data.Result;
+                if (this.relationList.length != 0) {
+                  for (let i = 0; i < this.relationList.length; i++) {
+                    this.relationList[i].label = this.relationList[i]['CodeDesc'];
+                    this.relationList[i].value = this.relationList[i]['Code'];
+                    delete this.relationList[i].CodeDesc;
+                    // let count = this.productItem?.patientList.length;
+                    // console.log('KKKKKKK',count)
+                    if(type=='direct'){
+                    for(let n=0;n<2;n++){
+                      this.fields[0].fieldGroup[0].fieldGroup[i].fieldGroup[0].props.options = defaultObj.concat(this.relationList);
+                    }
+                  }
+                  else if(type=='change'){
+                    alert('FFFF')
+                    console.log('HHHHHHHH',this.fields[0].fieldGroup[0].fieldGroup[i]);
+                    let f= (this.productItem.patientList.length)-1;
+                      this.fields[0].fieldGroup[0].fieldGroup[f].fieldGroup[0].props.options= defaultObj.concat(this.relationList);
+                  }
+                      //console.log('JJJJJJJJJJ',this.fields[0].fieldGroup[0].fieldGroup[i].fieldGroup[0].props.options);
+                    // if (i == this.relationList.length - 1) {
+                    //   console.log('GGGGGGGGGGGGGGGGGGGGGGG',this.fields[0].fieldGroup[i],i)
+                    //   for(let i=0;i<=this.fields[0].fieldGroup[i].length;i++){
+                    //     this.fields[0].fieldGroup[i].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.relationList);
+                    //   }
+                    //     //this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[i].props.options = defaultObj.concat(this.relationList);
+                        
+                    // }
+                  }
+                }
+              }
+            });
+        }
+
         Indemitytype(){
           let ReqObj = {
             "InsuranceId": this.insuranceId,
@@ -299,13 +398,86 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             (err) => { },
           );
         }
+        AddnewCovers(){
+          let entry3 = {
+            "CreatedBy": this.loginId,
+            "RiskId": null,
+            "RelationType": '3',
+            "RelationTypeDesc": null,
+            "DateOfBirth": null
+      }
+      this.productItem.patientList.push(entry3);
+          let fieldGroup=[
+            {
+              fieldGroupClassName: 'grid',
+              key: 'patientList',
+              fieldGroup: [
+                {
+                  className: 'w-full md:mt-0 mt-5 mdw-5 ml-4 mr-4',
+                  type: 'ngselect',
+                  key: 'RelationType',
+                  defaultValue: '',
+                  props: {
+                    label: 'Relation Type',
+                    required: true,
+                    options: [
+                    ],
+                  },
+  
+                  expressions: {
+  
+                  },
+                },
+                {
+                  className: 'w-full md:mt-0 mt-5 mdw-5 ml-4 mr-4',
+                  type: 'input',
+                  key: 'NickName',
+                  props: {
+                    label: 'Nick Name',
+                    required: false,
+                    options: [
+                    ],
+                  },
+                  expressions: {
+  
+                  },
+                },
+                {
+                  className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-4 mr-4',
+                  type: 'datepicker',
+                  key: 'DateOfBirth',
+                  defaultValue: '',
+                  templateOptions: {
+                   defaultValue: '',
+                    },
+                    props: {
+                    label: 'Date Of Birth',
+                     required: true,
+                    type: 'date',
+                    datepickerOptions: {
+                    defaultValue: '',
+                     max: ''
+                     },
+                },
+              }
+            ]
+            }
+              ];
+              let fire:any=this.fields[0].fieldGroup[0].fieldGroup;
+              console.log('MMMMMMMMM',fire)
+              fire = fire.concat(fieldGroup)
+              console.log('RRRRRRRRRR',fire);
+              this.fields[0] = {
+                "fieldGroup":[
+                  {
+                    "props": {label: 'Health Insurance'},
+                    "fieldGroup": fire
+                  }
+                ]
+              };
+              this.getRelationTypeList('change');
+        }
         onTabClicked(event,header){
-          // let index = event.index;
-          // this.tabIndex = index;
-          // if(index!=0){
-            
-            
-          // }
           console.log("Source Event",event,header);
           if(event.index!=0){
           if(this.productId!='19' && this.selectedTab!=1 && this.LocationList.length==0) this.onSave(event.tab.textLabel)
@@ -1448,23 +1620,135 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             (err) => { },
           );
         }
-        AddNew() {
-          this.productItem.LocationAddress=null;
-          this.productItem.LocationNameBuilding=null;
-          this.productItem.BuildingSumInsureds=null;
+        AddNewFunc() {
+       this.productItem = new ProductData();
+  //      let entry = {
+  //       "CreatedBy": this.loginId,
+  //       "RiskId": null,
+  //       "RelationType": '1',
+  //       "RelationTypeDesc": null,
+  //       "DateOfBirth": null
+  // }
+  // this.productItem.patientList.push(entry);
+  //  let entry1 = {
+  //       "CreatedBy": this.loginId,
+  //       "RiskId": null,
+  //       "RelationType": '2',
+  //       "RelationTypeDesc": null,
+  //       "DateOfBirth": null
+  // }
+  // this.productItem.patientList.push(entry1);
+  console.log('Patients Listsssssssss',this.productItem?.patientList)
+
+          // for(let i=0;i<2;i++){
           let entry = {
-            "BuildingAddress": null,
-            "BuildingBuildYear": null,
-            "BuildingFloors": null,
-            "InbuildConstructType": null,
-            "BuildingSuminsured": null,
-            "RiskId": null,
-            "SectionId": "1"
+        "CreatedBy": this.loginId,
+        "RiskId": null,
+        "RelationType": '1',
+        "RelationTypeDesc": null,
+        "DateOfBirth": null
+  }
+              this.productItem.patientList.push(entry);
+              let entry1 = {"retionType":"","ageBand":null,nickName:null}
+          //     let entry1 = {
+          //       "CreatedBy": this.loginId,
+          //       "RiskId": null,
+          //       "RelationType": '2',
+          //       "RelationTypeDesc": null,
+          //       "DateOfBirth": null
+          // }
+                      this.productItem.patientList.push(entry1);
+            console.log('ENNNNNNN',this.productItem.patientList)
+          // }
+          if(this.productItem.patientList.length==2){
+         let fieldGroup=[
+          {
+            fieldGroupClassName: 'grid',
+            key: 'patientList',
+            fieldGroup: [
+              {
+                className: 'w-full md:mt-0 mt-5 mdw-5 ml-4 mr-4',
+                type: 'ngselect',
+                key: 'RelationType',
+                defaultValue: '',
+                props: {
+                  label: 'Relation Type',
+                  required: true,
+                  options: [
+                  ],
+                },
+
+                expressions: {
+
+                },
+              },
+              {
+                className: 'w-full md:mt-0 mt-5 mdw-5 ml-4 mr-4',
+                type: 'input',
+                key: 'NickName',
+                props: {
+                  label: 'Nick Name',
+                  required: false,
+                  options: [
+                  ],
+                },
+                expressions: {
+
+                },
+              },
+              {
+                className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-4 mr-4',
+                type: 'datepicker',
+                key: 'DateOfBirth',
+                defaultValue: '',
+                templateOptions: {
+                 defaultValue: '',
+                  },
+                  props: {
+                  label: 'Date Of Birth',
+                   required: true,
+                  type: 'date',
+                  datepickerOptions: {
+                  defaultValue: '',
+                   max: ''
+                   },
+              },
+            }
+          ]
           }
-          this.currentBuildingIndex = this.building.length;
-          this.editBuildingSection = false;
-          this.enableBuildingEditSection = true;
-          this.building.push(entry);
+            ];
+            let fireData = new HealthInsurance();
+            
+
+            let fire:any=fireData?.fields[0].fieldGroup[0].fieldGroup;
+            console.log('MMMMMMMMM',fire,fieldGroup)
+            fire = fire.concat(fieldGroup)
+            this.fields[0] = {
+              "fieldGroup":[
+                {
+                  "props": {label: 'Health Insurance'},
+                  //"key":this.productItem.patientList,
+                  //key: 'patientList',
+                  "fieldGroup": fire
+                }
+              ]
+            }
+           console.log('FHHHHHHHHHHHHHH',this.fields[0].fieldGroup[0])
+            let modelHooks = { onInit: (field: FormlyFieldConfig) => {
+              field.formControl.valueChanges.subscribe(() => {
+                this.onoccChange();
+              });
+            } }
+            this.fields[0].fieldGroup[0].fieldGroup[1].hooks = modelHooks;
+            console.log("Final Fields",this.fields[0].fieldGroup[0])
+            this.showsection=true;
+          }
+        }
+        onoccChange(){
+          console.log('HHHHHH',this.productItem);
+        }
+        onChange(type){
+console.log("YYYYYYYYYYYYYY",type)
         }
         getEditQuoteDetails(){
           let ReqObj = {
@@ -1716,13 +2000,15 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               if(data.Result){
                 this.occupationList =[];
                 if(this.productId=='14' || sectionId=='45'){
+                  let defaultObj = [{ 'label': '-Select-', 'value': '' }]
                   this.employeeOccupationList = data.Result;
                   for (let i = 0; i < this.employeeOccupationList.length; i++) {
                     this.employeeOccupationList[i].label = this.employeeOccupationList[i]['CodeDesc'];
                     this.employeeOccupationList[i].value = this.employeeOccupationList[i]['Code'];
                     delete this.employeeOccupationList[i].CodeDesc;
                     if (i == this.employeeOccupationList.length - 1) {
-                      this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = this.employeeOccupationList;
+                      console.log('Itemsss',this.fieldsGroupPa[0].fieldGroup[0])
+                      this.fieldsGroupPa[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.employeeOccupationList);
                     }
                   }
           }
@@ -1754,6 +2040,10 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                 if(type== 'PersonalLiability'){
                   this.fields4[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
                 }
+                // if(this.productId=='57'){
+                //   alert('JJJJJJJJJJJJ')
+                //   this.fieldsGroupPa[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
+                // }
               }
             }
           }
@@ -2180,7 +2470,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                     this.selectedTab = 1;
                   }
                   else if(this.productId=='42') this.selectedTab = 1;
-                  else if(this.productId=='56') this.selectedTab = 1;
+                  // else if(this.productId=='56') this.selectedTab = 1;
                   else{
                     this.checkValidation();
                   }
@@ -2696,13 +2986,13 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               else {
                 ReqObj['Status'] = 'Y';
               }
-              if(this.productItem?.BuildingSuminsured==null || this.productItem?.BuildingSuminsured==undefined || this.productItem?.BuildingSuminsured=='' || this.productItem?.BuildingSuminsured=='0'){
+              if(this.productItem?.BuildingSuminsured==null || this.productItem?.BuildingSuminsured==undefined || this.productItem?.BuildingSuminsured==''){
                 ReqObj['BuildingDetails'] = null;
               }
-              if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured=='' || this.productItem?.ContentSuminsured=='0'){
+              if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
                 ReqObj['ContentDetails'] = null;
                         }
-              if(this.productItem?.AllriskSumInsured==null || this.productItem?.AllriskSumInsured==undefined || this.productItem?.AllriskSumInsured=='' || this.productItem?.AllriskSumInsured=='0'){
+              if(this.productItem?.AllriskSumInsured==null || this.productItem?.AllriskSumInsured==undefined || this.productItem?.AllriskSumInsured==''){
                 ReqObj['AllRiskDetails'] = null;                  
               }
               if(this.productItem?.OccupationType==null || this.productItem?.OccupationType==undefined || this.productItem?.OccupationType==''){
@@ -2711,34 +3001,83 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                           }
                         }
                         if(this.productItem?.LiabilityOccupationId==null || this.productItem?.LiabilityOccupationId==undefined || this.productItem?.LiabilityOccupationId==''){
-                          if(this.productItem?.EmpLiabilitySi==null && this.productItem?.EmpLiabilitySi==undefined && this.productItem?.EmpLiabilitySi==''  && this.productItem?.EmpLiabilitySi=='0'){
+                          if(this.productItem?.EmpLiabilitySi==null || this.productItem?.EmpLiabilitySi==undefined || this.productItem?.EmpLiabilitySi==''  || this.productItem?.EmpLiabilitySi=='0'){
                             ReqObj['EmployeeLiabilityDetails'] = null;    
                           }
                         }
-              let urlLink = `${this.motorApiUrl}api/saveAllSection`;
-                  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-                    (data: any) => {
-                      if (data?.Result) {
-                        if(data.Result.length!=0){
-                          this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
-                          sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
-                          this.onCalculate(data.Result);
-                         
-                          //this.onCheckUWQuestionProceed(data.Result);
+                        if(this.Buildings=='Y'){
+                          if(ReqObj['EmployeeLiabilityDetails']==null && ReqObj['PersonalAccidentDetails'] == null &&  ReqObj['BuildingDetails'] == null && ReqObj['ContentDetails'] == null && ReqObj['AllRiskDetails'] == null){
+                            this.errorproceed();   
+                         }
+                         else {
+                          let urlLink = `${this.motorApiUrl}api/saveAllSection`;
+                          this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+                            (data: any) => {
+                              if (data?.Result) {
+                                if(data?.ErrorMessage==null){
+                                  if(data.Result.length!=0){
+                                    this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+                                    sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                                    this.onCalculate(data.Result);
+                                  }
+                                }
+                              }
+                          },
+                          (err) => { },
+                        );
+                         }
                         }
-                        
-                      // }
-                      // else {
-                      //   this.nextslide=false;
-                      // }
-                      }
-                  },
-                  (err) => { },
-                );
+                        else if(this.Buildings=='N') {
+                          if(ReqObj['EmployeeLiabilityDetails']==null && ReqObj['PersonalAccidentDetails'] == null && ReqObj['ContentDetails'] == null && ReqObj['AllRiskDetails'] == null){
+                            this.errorproceed();   
+                         }
+                         else {
+                          let urlLink = `${this.motorApiUrl}api/saveAllSection`;
+                          this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+                            (data: any) => {
+                              if (data?.Result) {
+                                if(data?.ErrorMessage==null){
+                                  if(data.Result.length!=0){
+                                    this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+                                    sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                                    this.onCalculate(data.Result);
+                                   
+                                    //this.onCheckUWQuestionProceed(data.Result);
+                                  }
+                                }
+                             
+                                
+                              // }
+                              // else {
+                              //   this.nextslide=false;
+                              // }
+                              }
+                          },
+                          (err) => { },
+                        );
+                         }
+                        }
+                       
+                   
+             
                 
           }
         
-
+          errorproceed(){
+            Swal.fire({
+              title: '<strong>Form Validations</strong>',
+              icon: 'info',
+              html:
+                `<ul class="list-group errorlist">
+                 Please Enter One Section Details
+              </ul>`,
+              showCloseButton: true,
+              focusConfirm: false,
+              confirmButtonText:
+                '<i class="fa fa-thumbs-down"></i> Errors!',
+              confirmButtonAriaLabel: 'Thumbs down, Errors!',
+            })
+          }
           // onprofessionalsave(){
           //   let endorsementDate=null,EndorsementEffectiveDate=null,EndorsementRemarks=null,
           // EndorsementType=null,EndorsementTypeDesc=null,EndtCategoryDesc=null,EndtCount=null,
@@ -2995,7 +3334,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                       // }
                       console.log("Products",this.productItem)
                   }
-                  else{this.productItem.LiabilityOccupationId = null;this.productItem.PersonalIntermediarySuminsured='0'; 
+                  else{this.productItem.LiabilityOccupationId = null;this.productItem.PersonalIntermediarySuminsured='0';this.productItem.EmpLiabilitySi=null; 
                   this.getOccupationList('36','PersonalLiability');
                   this.editsections('PersonalLiability');
                 }
@@ -3020,7 +3359,8 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                 if (data.Result) {
                   if(data.Result.length!=0){
                     // this.productItem = new ProductData();
-                    this.productItem.PersonalAccidentSuminsured = data.Result[0].SumInsured;
+                      this.productItem.PersonalAccidentSuminsured = data.Result[0].SumInsured;
+              
                     // alert(this.productItem.PersonalAccidentSuminsured)
                     if(data.Result[0].OccupationType!=null)this.productItem.OccupationType = data.Result[0].OccupationType;
                     else this.productItem.OccupationType = null;
@@ -3044,7 +3384,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                       // }
                       console.log("Products",this.productItem)
                   }
-                  else{this.productItem.OccupationType = null; this.productItem.PersonalAccidentSuminsured='0';
+                  else{this.productItem.OccupationType = null; this.productItem.PersonalAccidentSuminsured=null;
                   this.getOccupationList('35','PersonalAccident');
                 }
                 this.editsections(type);
@@ -3526,6 +3866,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                 console.log(data);
                 if(data.Result){
                   let details = data.Result;
+
                   let startDate=null,endDate=null;
                   this.policyStartDate = details.PolicyStartDate;
                     this.policyEndDate = details.PolicyEndDate;
@@ -3853,5 +4194,207 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               // else this.onCalculate(buildDetails)
               //,type,formType
             }
+          }
+
+          setCommonFormValues(){
+            let refNo = sessionStorage.getItem('quoteReferenceNo');
+            if(refNo==undefined) refNo = this.requestReferenceNo
+            let ReqObj = {
+              "RequestReferenceNo": this.requestReferenceNo,
+              "RiskId": "1",
+              "SectionId":  null
+            }
+            let urlLink = null;
+          if(this.productId=='57'){ReqObj.SectionId='45';urlLink=`${this.motorApiUrl}api/slide13/getpersonlaaccident`;}
+            this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+              (data: any) => {
+                if (data.Result) {
+                    let details = data?.Result;
+                    if(this.productId=='57'){
+                      this.getOccupationList('45','direct')
+                      this.GroupListNew = data.Result.filter(ele=>ele.OccupationType!=null && ele.OccupationType!='');
+                      if(this.GroupListNew.length!=0){
+                        this.listSectionGroup = true;
+                        this.listnGroup = false;
+                      }
+                    }
+                }
+              },
+              (err) => { },
+            );
+          }
+
+          onsaveGroupPADetails(){
+            if(this.GroupListNew.length!=0){
+              let list:any[] = this.GroupListNew.filter(ele=>ele.OccupationType!=null && ele.OccupationType!='');
+              if(list.length!=0){
+                let i=0;
+                  for(let entry of list){
+                    entry["RequestReferenceNo"] = this.requestReferenceNo;
+                    entry["RiskId"] = entry.OccupationType;
+                    entry["ProductId"] = this.productId;
+                    entry["SectionId"]= "45";
+                    entry["InsuranceId"] = this.insuranceId
+                    entry["CreatedBy"] = this.loginId;
+                    i+=1;
+                    if(i==list.length){
+                      let urlLink = `${this.motorApiUrl}api/slide13/savepersonlaccident`;
+                      this.sharedService.onPostMethodSync(urlLink,list).subscribe(
+                      (data: any) => {
+                        if (data?.Result.length!=0) {
+                          this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+                          sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                          if(this.commonDetails){
+                            if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                              if(!this.commonDetails[0].SectionId.some(ele=>ele=='45')) this.commonDetails[0].SectionId.push('45');
+                            }
+                            else  this.commonDetails[0]['SectionId']=['45'];
+                          }
+                          sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails)) 
+                          this.onCheckUWQuestionProceed(data.Result);
+                        }
+                      });
+                    }
+                  }
+              }
+            }
+          }
+
+
+
+          getCommonnDetails(){
+            let urlLink:any;
+            let ReqObj = {
+              "RequestReferenceNo": this.requestReferenceNo,
+              "RiskId":"1",
+              "ProductId": this.productId,
+              "InsuranceId": this.insuranceId
+            }
+            //if(this.productId=='3') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
+            urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
+            this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+              (data: any) => {
+                console.log(data);
+                if(data.Result){
+                  let details = data.Result;
+                  let startDate=null,endDate=null;
+                    startDate = details.PolicyStartDate;
+                    endDate = details.PolicyEndDate;
+                  this.commonDetails = [
+                    {
+                        "PolicyStartDate": startDate,
+                        "PolicyEndDate": endDate,
+                        "Currency": details?.Currency,
+                        "SectionId": details?.SectionIds,
+                        "AcexecutiveId": "",
+                        "ExchangeRate": details?.ExchangeRate,
+                        "StateExtent": "",
+                        "NoOfDays": details?.NoOfDays,
+                        "HavePromoCode": details?.Havepromocode,
+                        "PromoCode": details?.Promocode,
+                        "SourceType": details?.SourceType,
+                        "BrokerCode": details?.BrokerCode,
+                        "BranchCode": details?.BranchCode,
+                        "BrokerBranchCode": details?.BrokerBranchCode,
+                        "CustomerCode": details?.CustomerCode,
+                        "CustomerName": details?.CustomerName,
+                        "LoginId": null,
+                        "IndustryName": null
+                    }
+                  ]
+                  sessionStorage.setItem('homeCommonDetails',JSON.stringify(this.commonDetails));
+                  this.currencyCode = this.commonDetails[0].Currency
+          
+                  this.ProductCode = details.SectionIds[0];
+                  // if(this.productId=='56'){
+                      
+                  //     //let fireData = new EmployersLiability();
+                  //     //let fireData = new HealthInsurance();
+                  //     let entry = [];
+                  //     this.AddNewFunc();
+
+                  //   //   let modelHooks = { onInit: (field: FormlyFieldConfig) => {
+                  //   //     field.formControl.valueChanges.subscribe(() => {
+                  //   //       this.onoccChangepersonalInd('change');
+                  //   //     });
+                  //   //   } 
+                  //   // }
+                  //   // this.fields[0] = fireData?.fields[0];
+              
+                  //     let referenceNo = sessionStorage.getItem('quoteReferenceNo');
+                  //     this.showSection=true;
+                  //     if (referenceNo) {
+                  //       this.requestReferenceNo = referenceNo;
+                  //       this.getSectionList();
+                  //       this.setCommonFormValues();
+                  //       this.getRelationTypeList('direct');
+                  //       console.log('FIIIIIIIIIIIIIII',this.fields[0].fieldGroup[0]);
+                  //       // this.productItem = new ProductData();
+                       
+                  //     }
+                  //     else {
+                  //         // this.productItem = new ProductData();
+                  //         this.formSection = true; this.viewSection = false;
+                  //     }
+                  // }
+                  // this.productItem = new ProductData();
+                  this.productItem.BuildingOwnerYn = 'Y';
+                  this.dobminDate = new Date();
+                }
+                // if(!this.activeSection){this.activeSection=true;this.setProductSections();}
+              });
+          }
+
+          getSectionList(){
+            let ReqObj = {
+              "InsuranceId":this.insuranceId,
+              "ProductId": this.productId
+            }
+            let urlLink = `${this.ApiUrl1}master/dropdown/productsection`;
+            this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+              (data: any) => {
+                if(data.Result){
+                  let defaultObj = [{ 'CodeDesc': '-Select-', 'Code': '' }]
+                  this.sectionDropdownList = defaultObj.concat(data.Result);
+                }
+              });
+          }
+
+          onoccChangepersonalInd(type){
+            let fields = this.fields[0].fieldGroup[0].fieldGroup;
+            console.log('Personal Accident Fieldsss',fields);
+            for(let field of fields){
+               if(field.key=='otheroptionPer'){
+                if(type=='change' && field.formControl) {field.formControl.setValue('');}
+                if(this.productItem.OccupationType=='99999') {
+                  field.hideExpression=false;field.hide=false;
+              }
+                else{field.hideExpression=true;field.hide=true;
+                }
+              }
+              console.log('NNNNNNNNNNN',this.fields[0].fieldGroup[0].fieldGroup[2]);
+            }
+          }
+
+          AddNew() {
+            //this.value;
+            //this.Section=true;
+            //this.jsonList.push(row);
+              this.productItem.LocationAddress=null;
+              this.productItem.LocationNameBuilding=null;
+              this.productItem.BuildingSumInsureds=null;
+              let entry = {
+                "BuildingAddress": null,
+                "BuildingBuildYear": null,
+                "BuildingFloors": null,
+                "InbuildConstructType": null,
+                "BuildingSuminsured": null,
+                "RiskId": null,
+                "SectionId": "1"
+              }
+              this.currentBuildingIndex = this.building.length;
+              this.editBuildingSection = false;
+              this.enableBuildingEditSection = true;
+              this.building.push(entry);
           }
 }

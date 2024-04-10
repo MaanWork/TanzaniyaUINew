@@ -34,87 +34,156 @@ export class HealthInsurance{
                 props: { label: 'Health Insurance' },
                 fieldGroup: [
                   {
-                    key: 'patientList',
-                    type: 'repeat',
-                    
-                    templateOptions: {
-                      addText: 'Add Patient',
-                    },
-                    fieldArray: {
-                      fieldGroup: [
-                        {
-                          fieldGroupClassName: 'row',
-                          fieldGroup: [
-                            {
-                              type: 'ngselect',
-                              key: 'RelationType',
-                              defaultValue: '',
-                              className: 'col-sm-12 col-md-6 col-lg-4',
-                              props: {
-                                label: `Relation Type`,
-                                disabled: this.checkDisable('RelationType'),
-                                required: true,
-                                options: [
-                
-                                ],
-                
-                              },
-                              validators: {
-                                validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                              },
-                              hooks: {
-                              },
-                              expressions: {
-                              },
-                            },
-                            {
-                              className: 'col-sm-12 col-md-6 col-lg-4',
-                                key: 'DateOfBirth',
-                                type: 'datepicker',
-                                defaultValue: '',
-                                templateOptions: {
-                                  defaultValue: '',
-                                },
-                                props: {
-                                  label: 'Date Of Birth',
-                                  
-                                  required: true,
-                                  type: 'date',
-                                  datepickerOptions: {
-                                    defaultValue: '',
-                                    max: ''
-                                  },
-                                }
-                              },
-                            {
-                              type: 'input',
-                              className: 'col-sm-12 col-md-6 col-lg-4',
-                              key: 'NickName',
-                              defaultValue: '',
-                              props: {
-                                label: `Nickname`,
-                                maxLength: 15,
-                                disabled: this.checkDisable('NickName'),
-                                required: true,
-                                options: [
-                
-                                ],
-                
-                              },
-                              validators: {
-                                validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                              },
-                              hooks: {
-                              },
-                              expressions: {
-                              },
-                            },
-                          ]
-                        }
-                      ],
-                    },
-                  },
+                    fieldGroupClassName: 'grid',
+                    // key: 'patientList',
+                    fieldGroup: [
+                      {
+                        className: 'w-full md:mt-0 mt-5 mdw-5 ml-4 mr-4',
+                        type: 'ngselect',
+                        key: 'RelationType',
+                        defaultValue: '',
+                        props: {
+                          label: 'Relation Type',
+                          //hideExpression: "model.BuildingOwnerYn =='N'",
+                          disabled: this.checkDisable('BuildingUsageId'),
+                          required: true,
+                          options: [
+                          ],
+                        },
+      
+                        expressions: {
+        
+                        },
+                        hooks: {
+                      },
+                      },
+                      {
+                        className: 'w-full md:mt-0 mt-5 mdw-5 ml-4 mr-4',
+                        type: 'input',
+                        key: 'NickName',
+                        props: {
+                          label: 'Nick Name',
+                          disabled: this.checkDisable('WallType'),
+                          required: false,
+                          options: [
+                          ],
+                        },
+                        expressions: {
+        
+                        },
+                        hooks: {
+                        },
+                      },
+                      {
+                        className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-4 mr-4',
+                        type: 'datepicker',
+                        key: 'DateOfBirth',
+                        defaultValue: '',
+                        templateOptions: {
+                         defaultValue: '',
+                          },
+                          props: {
+                          label: 'Date Of Birth',
+                           required: true,
+                          type: 'date',
+                          datepickerOptions: {
+                          defaultValue: '',
+                           max: ''
+                           },
+                      },
+                      hooks: {
+                      },
+                    }
+                  
+                    ]
+                  }
                 ]
+                // fieldGroup: [
+                //   {
+                //     key: 'patientList',
+                //     type: 'repeat',
+                    
+                //     templateOptions: {
+                //       addText: 'Add Patient',
+                //     },
+                //     fieldArray: {
+                //       fieldGroup: [
+                //         {
+                //           fieldGroupClassName: 'grid mt-2',
+                //           fieldGroup: [
+                //             {
+                //               type: 'ngselect',
+                //               key: 'RelationType',
+                //               defaultValue: '',
+                //               className: 'w-full md:mt-0 mt-5 mdw-5 ml-5 mr-5',
+                //               //col-sm-12 col-md-6 col-lg-4
+                //               props: {
+                //                 label: `Relation Type`,
+                //                 disabled: this.checkDisable('RelationType'),
+                //                 required: true,
+                //                 options: [
+                
+                //                 ],
+                
+                //               },
+                //               validators: {
+                //                 validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                //               },
+                //               hooks: {
+                //               },
+                //               expressions: {
+                //               },
+                //             },
+                //             {
+                //               type: 'input',
+                //               className: 'w-full md:mt-0 mt-5 mdw-5 ml-5 mr-5',
+                //               //col-sm-12 col-md-6 col-lg-4',
+                //               key: 'NickName',
+                //               defaultValue: '',
+                //               props: {
+                //                 label: `Nickname`,
+                //                 maxLength: 15,
+                //                 disabled: this.checkDisable('NickName'),
+                //                 required: true,
+                //                 options: [
+                
+                //                 ],
+                
+                //               },
+                //               validators: {
+                //                 validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                //               },
+                //               hooks: {
+                //               },
+                //               expressions: {
+                //               },
+                //             },
+                //             {
+                //               className: 'md:mt-0 mt-5 mdw-5 ml-5 mr-4',
+                //               //col-sm-12 col-md-6 col-lg-4
+                //                 key: 'DateOfBirth',
+                //                 type: 'datepicker',
+                //                 defaultValue: '',
+                //                 templateOptions: {
+                //                   defaultValue: '',
+                //                 },
+                //                 props: {
+                //                   label: 'Date Of Birth',
+                                  
+                //                   required: true,
+                //                   type: 'date',
+                //                   datepickerOptions: {
+                //                     defaultValue: '',
+                //                     max: ''
+                //                   },
+                //                 }
+                //               },
+                //           ]
+                //         }
+                //       ],
+                //     },
+                //   },
+                // ]
               }
             ]
           }

@@ -80,8 +80,9 @@
     </div>
 </ng-container>
 <ng-container *ngIf="productId!='5'">
-    <p-tabView [activeIndex]="tabIndex" (selectedTabChange)="onTabClicked($event)" *ngIf="buildingDetailsSection">
-        <p-tabPanel header="Location">
+    <!--tabIndex-->
+    <p-tabView #tabView [activeIndex]="selectedTab" (onChange)="onTabClicked($event,tabView)">
+        <p-tabPanel header="Location" *ngIf="buildingDetailsSection">
             <div class="grid" >
                 <div class="lg:col-6 md:col-6 col-12">
                     <form [formGroup]="form">
@@ -109,13 +110,21 @@
                                         <td>{{build.BuildingAddress}}</td>
                                         <td>{{build.BuildingSuminsured | commaseparator }}</td>
                                         <td>
-                                            <p-button icon="pi pi-pencil" severity="danger" (click)="onEditBuilding(i)" styleClass="p-button-outlined"></p-button>&nbsp;
+                                            <p-button icon="pi pi-pencil" severity="danger" (click)="onEditBuilding(i,build)" styleClass="p-button-outlined"></p-button>&nbsp;
                                             <p-button icon="pi pi-trash" severity="danger" (click)="delete(build)"  styleClass="p-button-outlined"></p-button>
                                         </td>
                                     </tr>
                                 </ng-container>
                             </ng-template>
                         </p-table>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="flex flex-wrap justify-content-center mt-4">
+                <div class="mb-4">
+                    <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                    <ng-container *ngIf="buildingDetailsSection">
+                        <p-button label="Proceed" (click)="onSave()" class="text-l pi-button mr-0"></p-button>
                     </ng-container>
                 </div>
             </div>
@@ -127,20 +136,311 @@
                         <formly-form [form]="form" [fields]="fieldsContent" [model]="productItem"></formly-form>
                     </form>
                     <div class="flex flex-wrap justify-content-center mt-2">
-                        <p-button label="Save" (click)="onSaveLocation()" class="text-l pi-button mr-0"></p-button>
+                        <p-button label="Save" (click)="onSaveContent()" class="text-l pi-button mr-0"></p-button>
+                    </div>
+                </div>
+
+                <div class="lg:col-6 md:col-6 col-12">
+                    <ng-container *ngIf="Cotentrisk.length!=0">
+                        <p-table [value]="Cotentrisk" [tableStyle]="{ 'min-width': '50rem' }">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Location Name</th>
+                                    <th>Content Name</th>
+                                    <th>SumInsured</th>
+                                    <th>Action</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-content let-i="rowIndex">
+                                <ng-container>
+                                    <tr>
+                                        <td>{{getLocationName(content?.RiskId)}}</td>
+                                        <td>{{content.ContentRiskDesc}}</td>
+                                        <td>{{content.SumInsured | commaseparator }}</td>
+                                        <td>
+                                            <p-button icon="pi pi-pencil" severity="danger" (click)="onEditContent(i)" styleClass="p-button-outlined"></p-button>&nbsp;
+                                            <p-button icon="pi pi-trash" severity="danger" (click)="ContentDelete(content)"  styleClass="p-button-outlined"></p-button>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </ng-template>
+                        </p-table>
+                    </ng-container>
+                </div>
+               
+            </div>
+            <div class="flex flex-wrap justify-content-center mt-4">
+                <div class="mb-4">
+                    <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                    <ng-container>
+                        <p-button label="Proceed" (click)="onSaveContentRisk()" class="text-l pi-button mr-0"></p-button>
+                    </ng-container>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="Personal Accident" [disabled]="!fourth" *ngIf="second">
+            <div class="grid">
+                <div class="lg:col-6 md:col-6 col-12">
+                    <form [formGroup]="form">
+                        <formly-form [form]="form" [fields]="fieldsPersonalAccident" [model]="productItem"></formly-form>
+                    </form>
+                    <div class="flex flex-wrap justify-content-center mt-2">
+                        <p-button label="Save" (click)="onSavePersonalAccidentDetails()" class="text-l pi-button mr-0"></p-button>
+                    </div>
+                </div>
+
+                <div class="lg:col-6 md:col-6 col-12">
+                    <ng-container *ngIf="PersonalAssistantList.length!=0">
+                        <p-table [value]="PersonalAssistantList" [tableStyle]="{ 'min-width': '50rem' }">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Location Name</th>
+                                    <th>Salary</th>
+                                    <th>Person Name</th>
+                                    <th>Occupation Desc</th>
+                                    <th>Action</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-Accident let-i="rowIndex">
+                                <ng-container>
+                                    <tr>
+                                        <td>{{getLocationName(Accident.RiskId)}}</td>
+                                        <td>{{Accident.Salary|commaseparator}}</td>
+                                        <td>{{Accident.PersonName}}</td>
+                                        <td>{{Accident.OccupationDesc}}</td>
+                                        <td>
+                                            <p-button icon="pi pi-pencil" severity="danger" (click)="onEditPersonalAccident(i)" styleClass="p-button-outlined"></p-button>&nbsp;
+                                            <p-button icon="pi pi-trash" severity="danger" (click)="PersonalAccidentDelete(Accident)"  styleClass="p-button-outlined"></p-button>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </ng-template>
+                        </p-table>
+                    </ng-container>
+                </div>
+               
+            </div>
+            <div class="flex flex-wrap justify-content-center mt-4">
+                <div class="mb-4">
+                    <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                    <ng-container>
+                        <p-button label="Proceed" (click)="onSavePersonalAccident()" class="text-l pi-button mr-0"></p-button>
+                    </ng-container>
+                </div>
+            </div>
+        </p-tabPanel>
+
+        <p-tabPanel header="All Risk" [disabled]="!fourth" *ngIf="third">
+            <div class="grid">
+                <div class="lg:col-6 md:col-6 col-12">
+                    <form [formGroup]="form">
+                        <formly-form [form]="form" [fields]="fieldsRisk" [model]="productItem"></formly-form>
+                    </form>
+                    <div class="flex flex-wrap justify-content-center mt-2">
+                        <p-button label="Save" (click)="onSaveAllRiskDEtails()" class="text-l pi-button mr-0"></p-button>
+                    </div>
+                </div>
+
+                <div class="lg:col-6 md:col-6 col-12">
+                    <ng-container *ngIf="risk.length!=0">
+                        <p-table [value]="risk" [tableStyle]="{ 'min-width': '50rem' }">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Location Name</th>
+                                    <th>SumInsured</th>
+                                    <th>ContentName</th>
+                                    <th>Action</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-risk let-i="rowIndex">
+                                <ng-container>
+                                    <tr>
+                                        <td>{{getLocationName(risk.RiskId)}}</td>
+                                        <td>{{risk.SumInsured}}</td>
+                                        <td>{{getContentssName(risk.ItemId)}}</td>
+                                        <td>{{risk.SerialNoDesc}}</td>
+                                        <td>
+                                            <p-button icon="pi pi-pencil" severity="danger" (click)="onEditAllRisk(i)" styleClass="p-button-outlined"></p-button>&nbsp;
+                                            <p-button icon="pi pi-trash" severity="danger" (click)="AllRiskDelete(risk)"  styleClass="p-button-outlined"></p-button>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </ng-template>
+                        </p-table>
+                    </ng-container>
+                </div>
+               
+            </div>
+            <div class="flex flex-wrap justify-content-center mt-4">
+                <div class="mb-4">
+                    <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                    <ng-container>
+                        <p-button label="Proceed" (click)="onSaveAllRisk()" class="text-l pi-button mr-0"></p-button>
+                    </ng-container>
+                </div>
+            </div>
+            <!--onSaveAllRisk(-->
+        </p-tabPanel>
+
+        <p-tabPanel header="Personal Indemenity" [disabled]="!fourth" *ngIf="fifth">
+            <div class="grid">
+                <div class="lg:col-6 md:col-6 col-12">
+                    <form [formGroup]="form">
+                        <formly-form [form]="form" [fields]="fieldsPersonalInd" [model]="productItem"></formly-form>
+                    </form>
+                    <div class="flex flex-wrap justify-content-center mt-2">
+                        <p-button label="Save" (click)="onIndSubmit()" class="text-l pi-button mr-0"></p-button>
+                    </div>
+                </div>
+
+                <div class="lg:col-6 md:col-6 col-12">
+                    <ng-container *ngIf="Intermedity.length!=0">
+                        <p-table [value]="Intermedity" [tableStyle]="{ 'min-width': '50rem' }">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Location Name</th>
+                                    <th>Content Name</th>
+                                    <th>SumInsured</th>
+                                    <th>Action</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-Int let-i="rowIndex">
+                                <ng-container>
+                                    <tr>
+                                        <td>{{getLocationName(Int.RiskId)}}</td>
+                                        <td>{{Int.Salary | commaseparator}}</td>
+                                        <td>{{Int.PersonName}}</td>
+                                        <td>
+                                            <p-button icon="pi pi-pencil" severity="danger" (click)="onEditPersonalInd(i)" styleClass="p-button-outlined"></p-button>&nbsp;
+                                            <p-button icon="pi pi-trash" severity="danger" (click)="PersonalIndDelete(Int)"  styleClass="p-button-outlined"></p-button>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </ng-template>
+                        </p-table>
+                    </ng-container>
+                </div>
+
+                <div class="flex flex-wrap justify-content-center mt-4">
+                    <div class="mb-4">
+                        <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                        <ng-container>
+                            <p-button label="Proceed" (click)="onSavePersonalIntermedity()" class="text-l pi-button mr-0"></p-button>
+                        </ng-container>
                     </div>
                 </div>
                
             </div>
         </p-tabPanel>
-        <p-tabPanel header="Employer's Liablity" [disabled]="!fourth" *ngIf="seven">
+        <p-tabPanel header="Professional Indemenity" *ngIf="eleven">
+            <div class="grid">
+                <!-- <div class="lg:col-6 md:col-6 col-12">
+                        <div class="lg:col-6 md:col-6 col-12">
+                        <label for="username">First Name</label>
+                        <input pInputText id="username" maxlength="50"  placeholder="Enter Customer Name" />
+                        </div>
+                    
+                        <div class="lg:col-6 md:col-6 col-12">
+                            <label for="username">Last Name</label>
+                            <input pInputText id="username" maxlength="50"  placeholder="Enter Customer Name" />
+                            </div>
+                  
+                        <div class="lg:col-6 md:col-6 col-12">
+                            <label for="username">Relation Type</label>
+                            <div class="input-control-container">
+                                <ng-select class="custom" [items]="relationList" [(ngModel)]="ProductCode" placeholder="Select SumInsured" appendTo="body" [ngModelOptions]="{standalone: true}" bindValue="Code" bindLabel="CodeDesc">
+                                </ng-select>
+                          </div>
+                        </div>
+                        <div class="lg:col-6 md:col-6 col-12">
+                            <label for="username">Nationality Id</label>
+                            <input pInputText id="username" maxlength="50"  placeholder="Enter Customer Name" />
+                        </div>
+                   
+             <div class="lg:col-6 md:col-6 col-12">
+                <mat-form-field appearance="fill" style="width: 130px;">
+                    <input matInput [matDatepicker]="picker" disabled [ngModelOptions]="{standalone: true}">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            
+                       
+                  
+                    <div class="flex flex-wrap justify-content-center mt-2">
+                        <p-button label="Save" (click)="onSaveContent()" class="text-l pi-button mr-0"></p-button>
+                    </div>
+                </div> -->
+
+                <div class="lg:col-12 md:col-12 col-12">
+                    <ng-container *ngIf="selectedProductList.length!=0">
+                        <p-table [value]="selectedProductList" [tableStyle]="{ 'min-width': '50rem' }">
+                            <ng-template pTemplate="header">
+                                <!-- <tr>
+                                    <th>Location Name</th>
+                                    <th>Content Name</th>
+                                    <th>SumInsured</th>
+                                    <th>Action</th>
+                                </tr> -->
+                            </ng-template>
+                            <ng-template pTemplate="body" let-Health let-i="rowIndex">
+                                <ng-container>
+                                
+                                    <tr style="width:100% !important;">
+                                        <td>
+                                            <!-- <label for="username">First Name</label> -->
+                                            <input pInputText id="username" maxlength="50" [(ngModel)]="Health.FirstName"/>
+                                        </td>
+                                        <td>
+                                            <!-- <label for="username">Last Name</label> -->
+                                            <input pInputText id="username" maxlength="50" [(ngModel)]="Health.LastName"/>
+                                        </td>
+                                        <td>
+                                            <ng-select class="custom" [items]="relationList" [(ngModel)]="Health.RelationType" placeholder="Select SumInsured" appendTo="body" [ngModelOptions]="{standalone: true}" bindValue="Code" bindLabel="CodeDesc">
+                                            </ng-select>
+                                        </td>
+                                        <td>
+                                            
+                            <input pInputText id="username" maxlength="50" [(ngModel)]="Health.NationalityId" placeholder="Enter Nationality Id" />
+                                        </td>
+                                        <td>
+                                            <mat-form-field appearance="fill" style="width: 130px;">
+                                                <input matInput [matDatepicker]="picker" [ngModelOptions]="{standalone: true}" [(ngModel)]="Health.DateOfBirth">
+                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker></mat-datepicker>
+                                            </mat-form-field>
+                                        </td>
+                                        <!-- <td>
+                                            <p-button icon="pi pi-pencil" severity="danger" (click)="onEditBuilding(i)" styleClass="p-button-outlined"></p-button>&nbsp;
+                                            <p-button icon="pi pi-trash" severity="danger" (click)="delete(build)"  styleClass="p-button-outlined"></p-button>
+                                        </td> -->
+                                    </tr>
+                                </ng-container>
+                            </ng-template>
+                        </p-table>
+                    </ng-container>
+                </div>
+                <div class="flex flex-wrap justify-content-center mt-4">
+                    <div class="mb-4">
+                        <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                        <ng-container>
+                            <p-button label="Proceed" (click)="onSaveHealth()" class="text-l pi-button mr-0"></p-button>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+          
+        </p-tabPanel>
+
+
+        <p-tabPanel [header]="checkEmplyeeSection()" [disabled]="!fourth" *ngIf="seven">
             <div class="grid">
                 <div class="lg:col-4 md:col-4 col-12">
                     <form [formGroup]="form">
                         <formly-form [form]="form" [fields]="fieldsEmpFields" [model]="productItem"></formly-form>
                     </form>
                     <div class="flex flex-wrap justify-content-center mt-2">
-                        <p-button label="Save" (click)="onSaveLocation()" class="text-l pi-button mr-0"></p-button>
+                        <p-button label="Save" (click)="onemployeesavelast()" class="text-l pi-button mr-0"></p-button>
                     </div>
                 </div>
                 <div class="lg:col-6 md:col-6 col-12">
@@ -154,15 +454,15 @@
                                     <th>Action</th>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="body" let-build let-i="rowIndex">
+                            <ng-template pTemplate="body" let-employee let-i="rowIndex">
                                 <ng-container>
                                     <tr>
-                                        <td>{{build.LocationName}}</td>
-                                        <td>{{build.BuildingAddress}}</td>
-                                        <td>{{build.BuildingSuminsured | commaseparator }}</td>
+                                        <td>{{employee.EmployeeName}}</td>
+                                        <td>{{employee.OccupationDesc}}</td>
+                                        <td>{{employee.NationalityId}}</td>
                                         <td>
-                                            <p-button icon="pi pi-pencil" severity="danger" (click)="onEditBuilding(i)" styleClass="p-button-outlined"></p-button>&nbsp;
-                                            <p-button icon="pi pi-trash" severity="danger" (click)="delete(build)"  styleClass="p-button-outlined"></p-button>
+                                            <p-button icon="pi pi-pencil" severity="danger" (click)="onEditEmployee(i,employee)" styleClass="p-button-outlined"></p-button>&nbsp;
+                                            <p-button icon="pi pi-trash" severity="danger" (click)="EmployeeDelete(employee)"  styleClass="p-button-outlined"></p-button>
                                         </td>
                                     </tr>
                                 </ng-container>
@@ -172,25 +472,16 @@
                 </div>
                
             </div>
+            <div class="text-center mt-2">
+                <!-- <p-button label="Back" *ngIf="!enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="getBack('employers')" routerLinkActive="router-link-active"><<&nbsp;Back</p-button> -->
+                <p-button label="Save & Proceed" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('save')"></p-button>
+                <p-button label="Proceed" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('proceed')" routerLinkActive="router-link-active" routerLinkActive="router-link-active"></p-button>
+                <!-- <button class="custom-btn btn-6 maan-button-data mx-2" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" matRipple (click)="onSaveEmployeeDetails('direct')" routerLinkActive="router-link-active" routerLinkActive="router-link-active">Proceed</button> -->
+            </div>
         </p-tabPanel>
+
     </p-tabView>
 </ng-container>
-
-
-
-<div class="flex flex-wrap justify-content-center mt-4">
-    <div class="mb-4">
-        <p-button label="Back" [routerLink]="['/quotation/plan/main/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
-        <p-button label="Proceed" (click)="onSave(null)" class="text-l pi-button mr-0"></p-button>
-    </div>
-    <div class="text-center mt-2">
-        <p-button label="Back" *ngIf="!enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="getBack('employers')" routerLinkActive="router-link-active"><<&nbsp;Back</p-button>
-        <p-button label="Save & Proceed" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('save')">Save & Proceed</p-button>
-        <p-button label="Proceed" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('proceed')" routerLinkActive="router-link-active" routerLinkActive="router-link-active">Proceed</p-button>
-        <!-- <button class="custom-btn btn-6 maan-button-data mx-2" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" matRipple (click)="onSaveEmployeeDetails('direct')" routerLinkActive="router-link-active" routerLinkActive="router-link-active">Proceed</button> -->
-    </div>
-</div>
-
 
 
 <p-sidebar [(visible)]="sidebarVisible" position="right" styleClass="sm:20rem md:w-30rem">

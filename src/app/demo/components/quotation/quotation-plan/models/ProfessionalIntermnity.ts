@@ -72,7 +72,7 @@ export class ProfessionalIndemnity{
                         type: 'displays',
                 
                         templateOptions: {
-                          label: `Professional Type`,
+                          label: `Indemnity Type`,
                           required: false,
       
                         },
@@ -80,7 +80,7 @@ export class ProfessionalIndemnity{
                       {
                         className: 'col-12 md:col-4 lg:col-4',
                         type: 'ngselect',
-                        key: 'Professional Type',
+                        key: 'IndemnityTypes',
                         props: { 
                           // label: `Sum Insured`,
                           // maxLength: 15
@@ -217,7 +217,7 @@ export class ProfessionalIndemnity{
                         type: 'displays',
                 
                         templateOptions: {
-                          label: `Indemnity Type`,
+                          label: `Professional Type`,
                           required: false,
       
                         },
@@ -225,7 +225,7 @@ export class ProfessionalIndemnity{
                       {
                         className: 'col-12 md:col-4 lg:col-4',
                         type: 'ngselect',
-                        key: 'Indemnity Types',
+                        key: 'ProfessionalType',
                         props: { 
                           // label: `Sum Insured`,
                           // maxLength: 15
