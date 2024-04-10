@@ -8881,7 +8881,7 @@ this.BuildingOwnerYn = type;
 
     editsections(sections){
       if(sections){
-        this.Products=true;
+        // this.Products=true;
         console.log('sectionssss',sections)
         //this.updateComponent.setTabCountSection(0);
         this.showSection = true;
