@@ -3795,7 +3795,8 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             }
             else if(this.productId=='42') this.selectedTab = 1;
             else if(this.productId=='56') this.selectedTab = 1;
-            else if(this.productId=='60') this.getHealthData();alert(this.selectedTab);this.selectedTab = 1;this.eleven=true;
+            else if(this.productId=='57') this.selectedTab = 1;
+            else if(this.productId=='60') {this.getHealthData();alert(this.selectedTab);this.selectedTab = 1;this.eleven=true;}
             // else{
             //   this.checkValidation();
             // }
@@ -6783,6 +6784,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     if(this.currentEmployeeIndex!=null){
       console.log("Emps Locations",this.employeeList);
       this.employeeList[this.currentEmployeeIndex]['RiskId'] = this.productItem.EmpsLocation;
+      this.employeeList[this.currentEmployeeIndex]['LocationId'] = this.productItem.EmpsLocation;
       this.employeeList[this.currentEmployeeIndex]['EmployeeName'] = this.productItem.EmpsName;
       this.employeeList[this.currentEmployeeIndex]['OccupationId'] = this.productItem.EmpsOccupation;
       // this.employeeList[this.currentEmployeeIndex]['LocationName'] = this.LocationList.find(ele=>ele.Code==this.productItem.EmpsLocation).Code;
@@ -6790,11 +6792,10 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       if(this.productItem.EmpsDob!=null && this.productItem.EmpsDob!='') this.employeeList[this.currentEmployeeIndex]['DateOfBirth'] = this.datePipe.transform(this.productItem.EmpsDob, "dd/MM/yyyy");
       this.employeeList[this.currentEmployeeIndex]['DateOfJoiningYear'] =this.productItem.EmpsPeriod; 
       this.employeeList[this.currentEmployeeIndex]['DateOfJoiningMonth'] = this.productItem.EmpsJoin;
-      this.employeeList[this.currentEmployeeIndex]['LocationId'] = this.productItem.EmpsLocation;
       this.employeeList[this.currentEmployeeIndex]['Salary'] = this.productItem.EmpsSI;
       console.log('JJJJJ',this.employeeList[this.currentEmployeeIndex]['Salary']);
       alert(this.employeeList[this.currentEmployeeIndex]['Salary']);
-      this.employeeList[this.currentEmployeeIndex]['RiskId'] = this.productItem.EmpsLocation;
+    
       this.employeeList[this.currentEmployeeIndex]['NationalityId'] = this.productItem.EmpsNationality; 
       this.employeeList[this.currentEmployeeIndex]['Address'] = this.productItem.EmpsAddress;
       this.employeeList[this.currentEmployeeIndex]['Createdby'] = this.loginId;

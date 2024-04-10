@@ -177,30 +177,30 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               }
             }
 
-            // if(this.productId=='56'){
-            //   let referenceNo = sessionStorage.getItem('quoteReferenceNo');
-            //   if (referenceNo) {
-            //     this.requestReferenceNo = referenceNo;
-            //     this.getCommonnDetails();
-            //   }
-            //   else{
+            if(this.productId=='56'){
+              let referenceNo = sessionStorage.getItem('quoteReferenceNo');
+              if (referenceNo) {
+                this.requestReferenceNo = referenceNo;
+                this.getCommonnDetails();
+              }
+              else{
             
-            //         this.AddNewFunc();
-            //         // this.productItem.patientList = [
-            //         //   {
-            //         //     "CreatedBy": this.loginId,
-            //         //     "RiskId": null,
-            //         //     "RelationType": '1',
-            //         //     "RelationTypeDesc": null,
-            //         //     "DateOfBirth": null
-            //         //   }
-            //         // ]
-            //         this.getSectionList();
-            //         this.getRelationTypeList('direct');
-            //         this.formSection = true; this.viewSection = false;
-            //         this.showSection=true;
-            //   }
-            // }
+                    this.AddNewFunc();
+                    // this.productItem.patientList = [
+                    //   {
+                    //     "CreatedBy": this.loginId,
+                    //     "RiskId": null,
+                    //     "RelationType": '1',
+                    //     "RelationTypeDesc": null,
+                    //     "DateOfBirth": null
+                    //   }
+                    // ]
+                    this.getSectionList();
+                    this.getRelationTypeList('direct');
+                    this.formSection = true; this.viewSection = false;
+                    this.showSection=true;
+              }
+            }
           //   if(this.productId=='60'){
           //     //this.getEditDetails();
           //  this.getdetails();
@@ -2470,7 +2470,7 @@ console.log("YYYYYYYYYYYYYY",type)
                     this.selectedTab = 1;
                   }
                   else if(this.productId=='42') this.selectedTab = 1;
-                  // else if(this.productId=='56') this.selectedTab = 1;
+                  else if(this.productId=='56') this.selectedTab = 1;
                   else{
                     this.checkValidation();
                   }
@@ -4306,37 +4306,37 @@ console.log("YYYYYYYYYYYYYY",type)
                   this.currencyCode = this.commonDetails[0].Currency
           
                   this.ProductCode = details.SectionIds[0];
-                  // if(this.productId=='56'){
+                  if(this.productId=='56'){
                       
-                  //     //let fireData = new EmployersLiability();
-                  //     //let fireData = new HealthInsurance();
-                  //     let entry = [];
-                  //     this.AddNewFunc();
+                      //let fireData = new EmployersLiability();
+                      //let fireData = new HealthInsurance();
+                      let entry = [];
+                      this.AddNewFunc();
 
-                  //   //   let modelHooks = { onInit: (field: FormlyFieldConfig) => {
-                  //   //     field.formControl.valueChanges.subscribe(() => {
-                  //   //       this.onoccChangepersonalInd('change');
-                  //   //     });
-                  //   //   } 
-                  //   // }
-                  //   // this.fields[0] = fireData?.fields[0];
+                    //   let modelHooks = { onInit: (field: FormlyFieldConfig) => {
+                    //     field.formControl.valueChanges.subscribe(() => {
+                    //       this.onoccChangepersonalInd('change');
+                    //     });
+                    //   } 
+                    // }
+                    // this.fields[0] = fireData?.fields[0];
               
-                  //     let referenceNo = sessionStorage.getItem('quoteReferenceNo');
-                  //     this.showSection=true;
-                  //     if (referenceNo) {
-                  //       this.requestReferenceNo = referenceNo;
-                  //       this.getSectionList();
-                  //       this.setCommonFormValues();
-                  //       this.getRelationTypeList('direct');
-                  //       console.log('FIIIIIIIIIIIIIII',this.fields[0].fieldGroup[0]);
-                  //       // this.productItem = new ProductData();
+                      let referenceNo = sessionStorage.getItem('quoteReferenceNo');
+                      this.showSection=true;
+                      if (referenceNo) {
+                        this.requestReferenceNo = referenceNo;
+                        this.getSectionList();
+                        this.setCommonFormValues();
+                        this.getRelationTypeList('direct');
+                        console.log('FIIIIIIIIIIIIIII',this.fields[0].fieldGroup[0]);
+                        // this.productItem = new ProductData();
                        
-                  //     }
-                  //     else {
-                  //         // this.productItem = new ProductData();
-                  //         this.formSection = true; this.viewSection = false;
-                  //     }
-                  // }
+                      }
+                      else {
+                          // this.productItem = new ProductData();
+                          this.formSection = true; this.viewSection = false;
+                      }
+                  }
                   // this.productItem = new ProductData();
                   this.productItem.BuildingOwnerYn = 'Y';
                   this.dobminDate = new Date();

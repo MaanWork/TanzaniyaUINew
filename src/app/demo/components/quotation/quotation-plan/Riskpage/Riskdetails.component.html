@@ -222,7 +222,7 @@
     </div>
 </ng-container> -->
 
-<!-- <ng-container *ngIf="productId=='56'">
+<ng-container *ngIf="productId=='56'">
     <div class="grid pl-5 pr-5 pb-0">
         <div class="lg:col-2 xl:col-2 md:col-2 col-12 text-center">
             <label class="input-form-label">Inpatient SumInsured</label>&nbsp;<ng-container *ngIf="categoryDesc">({{categoryDesc}})</ng-container><span class="text-danger">*</span>
@@ -236,7 +236,7 @@
         </div>
     </div>
 
-    <div *ngIf="showSection">
+    <div>
         <div class="grid mt-1 mb-3">
             <div class="col-1 lg:col-2 xl:col-1">
 
@@ -253,7 +253,7 @@
            
         </div>
        
-        <ng-container *ngIf="showsection">
+        <ng-container>
             <ng-container *ngFor="let step of fields[0].fieldGroup; let index = index; let last = last">
 
                 <ng-container *ngIf="step.props.label=='Employers Liability' || step.props.label=='Health Insurance' || (step.props.label=='Contents Risk' && insuranceId=='100004' && productId!='24') || step.props.label=='Building Risk' || step.props.label=='Money' || step.props.label=='Business Interruption' || (step.props.label=='Burglary' && insuranceId=='100004') || step.props.label=='Fidelity' || step.props.label=='Public Liability' || step.props.label=='Machinery BreakDown' || step.props.label=='Fire & Allied Perils' || (step.props.label=='Burglary' && insuranceId=='100002')  || step.props.label=='Goods in Transit'">
@@ -289,5 +289,5 @@
         
     </div>
 
-</ng-container> -->
+</ng-container>
     </div>
