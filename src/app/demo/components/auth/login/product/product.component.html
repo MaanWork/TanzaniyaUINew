@@ -3,7 +3,7 @@
     <h1 class="text-center mb-6">Select the Branch</h1>
     <div class="flex justify-content-center">
         <ng-container *ngIf="userType=='Issuer'">
-            <button pButton pRipple class="p-button p-button-outlined p-3 mr-2" (click)="selectBranch(branch)" *ngFor="let branch of branches" [style.background-color]="branch.BranchCode == selectedBranch ? '#FC4412':''" [style.color]="branch.BranchCode == selectedBranch ? '#ffffff':''">{{branch.BranchName}}</button>
+            <button pButton pRipple class="p-button p-button-outlined p-3 mr-2" (click)="selectBranch(branch)" *ngFor="let branch of branches" [style.background-color]="branch.BranchCode == selectedBranch ? '#2196f3':''" [style.color]="branch.BranchCode == selectedBranch ? '#ffffff':''">{{branch.BranchName}}</button>
         </ng-container>
         <ng-container *ngIf="userType!='Issuer'">
             <ng-container *ngFor="let branch of branches">

@@ -554,14 +554,14 @@ export class DocumentInfoComponent {
             // entry.sectionList = this.individualDocumentList[0].SectionList;
             this.uploadListDoc.push(entry)
             if(entry.sectionList.length==1){this.uploadListDoc[this.uploadListDoc.length-1].sectionId= entry.sectionList[0].SectionId; this.onChangeSectionType(this.uploadListDoc[this.uploadListDoc.length-1],this.uploadListDoc.length-1)}
-            
           }
-          
             //this.vehicleList[i].docList.push({ 'url': element,'DocTypeId':'','filename':element.name, 'JsonString': {} });
-          
         }
     }
 
+  }
+  onDeleteSelectedDocument(index){
+    this.uploadListDoc.splice(index,1);
   }
   onChangeSectionType(rowData,index){
    let entry = this.individualDocumentList.find(ele=>ele.LocationId==rowData.locationId);
@@ -582,9 +582,8 @@ export class DocumentInfoComponent {
             (data: any) => {
               console.log(data);
               if(data.Result){
-                console.log("Upload Data",this.uploadListDoc[index])
-                    this.uploadListDoc[index].docTypeList = data.Result;
-                    section['docTypeList'] = data.Result;
+                  this.uploadListDoc[index].docTypeList = data.Result;
+                  section['docTypeList'] = data.Result;
               }
             },
             (err) => { },

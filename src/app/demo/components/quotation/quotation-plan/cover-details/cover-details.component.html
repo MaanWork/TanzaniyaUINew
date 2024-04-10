@@ -565,9 +565,9 @@
                                                     
                                             </div>
                                             <div class="flex flex-wrap justify-content-center">
-                                                <p-button label="Clauses" (click)="ClausesStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button>
-                                                <p-button label="Exclusions" styleClass="mr-3 mb-3 p-button-outlined"></p-button>
-                                                <p-button label="Warranties" styleClass="mr-3 mb-3 p-button-outlined"></p-button>
+                                                <ng-container *ngIf="ClausesData.length!=0"> <p-button label="Clauses" (click)="ClausesStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                                <ng-container *ngIf="ExclusionData.length!=0"><p-button label="Exclusions" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                                <ng-container *ngIf="WarrantyData.length!=0"><p-button label="Warranties" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
                                             </div>
                                         </div>
                                     </div>
@@ -796,10 +796,43 @@
     <ng-template pTemplate="content">
         <!-- <p-chip label="Customer ID" icon="pi pi-user"></p-chip>
         <hr>  -->
-        <div class="card w-full">
+        <div class="card w-full m-0 p-0">
             <ng-container *ngFor="let menu of vehicleDetailsList">
-                <h4>{{getHeaderName(menu)}}</h4>
-                <div class="grid">
+                <ng-container *ngIf="canbeChecked3(menu)">
+                    <h4 class="m-0 p-0 mt-2 mb-0">{{getHeaderName(menu)}}</h4>
+                    <div class="grid m-0 p-0">
+                        <div class="col-12 md:col-12 lg:col-12 xl:col-12 m-0 p-0">
+                            <table class="table table-bordered customTableWidth" >
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="p-2" style="min-width: 50px;">
+    
+                                        </th>
+                                        <th scope="col" class="text-center p-2" ><b class="customDangerColor">Cover Name</b></th>
+                                        <th scope="col" class="textEnd p-2"><b style="color:#d81b60">Premium ({{currencyCode}})</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngFor="let cover of menu.CoverList">
+                                        <ng-container *ngIf="canbeChecked2(cover)">
+                                            <tr>
+                                                <td>
+                                                    <p-button icon="pi pi-trash" *ngIf="(cover.isSelected!='D') && ! checkCoverSelection(menu,cover)" (onClick)="onSelectCover(cover,false,menu.Vehicleid,menu,'coverList','change')" severity="danger" styleClass="p-button-outlined"></p-button>
+                                                </td>
+                                                <td style="font-weight: 500;">&nbsp;<p>{{cover.CoverName}}</p></td>
+                                                <td style="text-align: end;">
+                                                    <h4 class="text-orange-500 mb-0">{{cover.PremiumIncludedTax | commaseparator}}</h4>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </ng-container>
+               
+                <!-- <div class="grid">
                     <ng-container *ngFor="let cover of menu.CoverList">
                         <ng-container *ngIf="canbeChecked(cover)">
                             <div class="col-2 m-0 p-0 mt-1" >
@@ -809,11 +842,11 @@
                                 &nbsp;<p>{{cover.CoverName}}</p>
                             </div>
                             <div class="col-3 text-right mt-1">
-                                <h4 class="text-orange-500 mb-0">{{cover.PremiumIncludedTax | commaseparator}}</h4>
+                               
                             </div>
                         </ng-container>
                     </ng-container>
-                </div>
+                </div> -->
             </ng-container>
         </div>
     </ng-template>
@@ -838,7 +871,6 @@
         <div class="flex flex-wrap  justify-content-between maan-grid-item-title">
             <p class="mx-1" st><span class="spancommon span_font_size">Clauses List
                     Details</span>
-
             </p>
             <button type="button" class="custom-btn btn-6 maan-button-data"
                 (click)="editClauses(i)" *ngIf="!endorsementSection">
@@ -1391,14 +1423,14 @@
                 <div *ngIf="quoteNo">
                     <b
                         >QuoteNo-
-                        <span style="color: #fc4412 !important">{{
+                        <span style="color: #2196f3 !important">{{
                             quoteNo
                         }}</span></b
                     >&nbsp;|&nbsp;
                 </div>
                 <div *ngIf="quoteRefNo">
                     RefNo-
-                    <span style="color: #fc4412 !important">{{
+                    <span style="color: #2196f3 !important">{{
                         quoteRefNo
                     }}</span>
                 </div>

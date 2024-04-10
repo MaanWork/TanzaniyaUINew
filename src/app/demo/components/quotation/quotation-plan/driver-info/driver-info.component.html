@@ -20,7 +20,7 @@
     <div class="grid w-full" styleClass="w-full">
         <div class="col-12 md:col-4 lg:col-4 xl:col-4">
             <label for="username">Driver Name*</label>
-            <input pInputText id="username" [(ngModel)]="row.DriverName" placeholder="Enter Driver Name"/>
+            <input pInputText id="username" [(ngModel)]="row.DriverName"  maxlength="100" placeholder="Enter Driver Name"/>
         </div>
         <div class="col-12 md:col-4 lg:col-4 xl:col-4">
             <label for="username">Registration Number*</label>
@@ -29,7 +29,7 @@
         </div>
         <div class="col-12 md:col-4 lg:col-4 xl:col-4">
             <label for="username">Licence Number*</label>
-            <input pInputText id="username" [(ngModel)]="row.LicenseNo" placeholder="Enter Licence Number"/>
+            <input pInputText id="username" [(ngModel)]="row.LicenseNo"  maxlength="14" placeholder="Enter Licence Number"/>
         </div>
         <div class="col-12 md:col-4 lg:col-4 xl:col-4">
             <label for="username">Date of Birth*</label>

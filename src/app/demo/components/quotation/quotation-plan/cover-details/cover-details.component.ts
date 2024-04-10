@@ -1810,10 +1810,22 @@ export class CoverDetailsComponent {
     }
     return false;
   }
+  canbeChecked2(rowData){
+    if(rowData?.selected!=undefined && rowData.CoverageType!='A' && rowData.PremiumIncludedTaxLC!=null && rowData.PremiumIncludedTaxLC!=0){
+      return rowData.selected;
+    }
+    return false;
+  }
+  canbeChecked3(vehicle){
+    let coverList = vehicle.CoverList;
+    let i =0;
+    let entry = coverList.some(ele=>ele.PremiumIncludedTaxLC!=0 && ele.PremiumIncludedTaxLC!=null);
+    console.log('Entry',entry)
+    return entry;
+  }
   onSelectCover(rowData,event,vehicleId,vehicleData,type,directType){
     console.log("Cover Selected received",event)
     if(event==null){
-      
       event = !this.canbeChecked(rowData);
     }
     //if(type=='coverList' && (rowData.SubCovers==null || (rowData.SubCovers!=null && rowData.SubCoverId!=null))){
