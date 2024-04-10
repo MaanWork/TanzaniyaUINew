@@ -2876,7 +2876,6 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
           for (let i = 0; i < this.AccLists.length; i++) {
             this.AccLists[i].label = this.AccLists[i]['CodeDesc'];
             this.AccLists[i].value = this.AccLists[i]['Code'];
-            delete this.AccLists[i].CodeDesc;
             if (i == this.AccLists.length - 1 && !this.newacc) {
               this.Accfieldss[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = this.AccLists;
             }
@@ -2904,7 +2903,6 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             for (let i = 0; i < this.CyperList.length; i++) {
               this.CyperList[i].label = this.CyperList[i]['CodeDesc'];
               this.CyperList[i].value = this.CyperList[i]['Code'];
-              delete this.CyperList[i].CodeDesc;
               if (i == this.CyperList.length - 1) {
                 this.fieldsDevice[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = this.CyperList;
               }
@@ -3797,7 +3795,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             }
             else if(this.productId=='42') this.selectedTab = 1;
             else if(this.productId=='56') this.selectedTab = 1;
-            else if(this.productId=='60') this.selectedTab = 1;
+            else if(this.productId=='60') this.getHealthData();alert(this.selectedTab);this.selectedTab = 1;this.eleven=true;
             // else{
             //   this.checkValidation();
             // }
@@ -4037,10 +4035,6 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
           this.getTotalSICost('building');
         }
         else {
-          this.building=[];
-
-        this.building=[];
-
           this.AddNew();
           // this.building = [
           //   {
@@ -5714,21 +5708,26 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     this.productItem.ContentSerialNo =null;this.productItem.ContentSuminsured=null;
     this.productItem.ContentType =null;
   }
-  onEditContent(index){
+  onEditContent(index,rowdata){
     this.currentContentIndex = index;
+    let edit = this.Cotentrisk.findIndex(ele=>ele.RiskId == rowdata.RiskId && ele.ItemId == rowdata.ItemId);
+    console.log('LLLL',edit,rowdata);
+    this.currentBuildingIndex= edit;
     this.editContentSection = true;
     this.enableContentEditSection = true;
-    this.productItem.ContentLocation = this.Cotentrisk[index].RiskId;
-    this.productItem.ContentSerialNo = this.Cotentrisk[index].SerialNoDesc;
-    this.productItem.ContentDesc = this.Cotentrisk[index].ContentRiskDesc;
-    this.productItem.ContentSI = this.Cotentrisk[index].SumInsured;
-    this.productItem.ContentType = this.Cotentrisk[index].ItemId;
-
+    this.productItem.ContentLocation = rowdata.RiskId;
+    this.productItem.ContentSerialNo = rowdata.SerialNoDesc;
+    this.productItem.ContentDesc = rowdata.ContentRiskDesc;
+    this.productItem.ContentSI = rowdata.SumInsured;
+    this.productItem.ContentType = rowdata.ItemId;
+    if(rowdata.SumInsured !=0){
+      this.individualCommaFormatted('content');
+    }
     // this.LocationId = this.Cotentrisk[index].RiskId;
     // this.serialNoDesc = this.Cotentrisk[index].SerialNoDesc;
     // this.contentRiskDesc = this.Cotentrisk[index].ContentRiskDesc;
     // this.contentSI = this.Cotentrisk[index].SumInsured;this.contentId = this.Cotentrisk[index].ItemId;
-    this.individualCommaFormatted('content');
+    
   }
   onEditPersonalAccident(index,rowdata){
     //this.currentPersonalAccidentIndex= index;
@@ -5962,6 +5961,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         "SectionId": "1"
       }
       this.currentBuildingIndex = this.building.length;
+      alert(this.currentBuildingIndex);
       this.editBuildingSection = false;
       this.enableBuildingEditSection = true;
       this.building.push(entry);
@@ -6014,6 +6014,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     this.currentBuildingIndex= edit;
     this.editBuildingSection = true;
     this.enableBuildingEditSection = true;
+    this.productItem = new ProductData();
     this.productItem.LocationAddress = rowdata.BuildingAddress;
     this.productItem.LocationNameBuilding = rowdata.LocationName;
     console.log('KKKKKKK',this.productItem.LocationNameBuilding)
@@ -6478,18 +6479,23 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
   }
 
   onSaveLocation(){
-    console.log("Final Additional Info",this.form,this.productItem)
+    console.log("Final Additional Info",this.form,this.productItem);
+    alert(this.currentBuildingIndex)
     if(this.currentBuildingIndex!=null){
+      alert('NNNNNNNNNNNNN')
       this.building[this.currentBuildingIndex].BuildingAddress = this.productItem.LocationAddress;
       this.building[this.currentBuildingIndex].LocationName = this.productItem.LocationNameBuilding;
       this.building[this.currentBuildingIndex].BuildingSuminsured = this.productItem.BuildingSumInsureds;
       this.productItem.LocationAddress=null;
       this.productItem.LocationNameBuilding=null;
       this.productItem.BuildingSumInsureds=null;
+      this.currentBuildingIndex = null;
       this.productItem = new ProductData();
+     
       //this.AddNew();
     }
     else{
+      alert('MMMMMMMMMM')
       let entry = {
         "BuildingAddress": this.productItem.LocationAddress,
         "BuildingBuildYear": null,
@@ -6501,6 +6507,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         "SectionId": "1"
       }
       this.building.push(entry);
+      this.currentBuildingIndex = null;
       this.productItem.LocationAddress=null;
       this.productItem.LocationNameBuilding=null;
       this.productItem.BuildingSumInsureds=null;

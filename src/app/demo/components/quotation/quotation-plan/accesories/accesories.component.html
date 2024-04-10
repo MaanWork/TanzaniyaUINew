@@ -158,7 +158,7 @@
                                         <td>{{content.ContentRiskDesc}}</td>
                                         <td>{{content.SumInsured | commaseparator }}</td>
                                         <td>
-                                            <p-button icon="pi pi-pencil" severity="danger" (click)="onEditContent(i)" styleClass="p-button-outlined"></p-button>&nbsp;
+                                            <p-button icon="pi pi-pencil" severity="danger" (click)="onEditContent(i,content)" styleClass="p-button-outlined"></p-button>&nbsp;
                                             <p-button icon="pi pi-trash" severity="danger" (click)="ContentDelete(content)"  styleClass="p-button-outlined"></p-button>
                                         </td>
                                     </tr>
@@ -376,12 +376,14 @@
                     <ng-container *ngIf="selectedProductList.length!=0">
                         <p-table [value]="selectedProductList" [tableStyle]="{ 'min-width': '50rem' }">
                             <ng-template pTemplate="header">
-                                <!-- <tr>
-                                    <th>Location Name</th>
-                                    <th>Content Name</th>
-                                    <th>SumInsured</th>
-                                    <th>Action</th>
-                                </tr> -->
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Relation Type</th>
+                                    <th>Nationality Id</th>
+                                    <th>Date Of Birth</th>
+                                    
+                                </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-Health let-i="rowIndex">
                                 <ng-container>
