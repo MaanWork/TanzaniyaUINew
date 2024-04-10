@@ -118,7 +118,7 @@ export class Buildingss{
                   key: 'BuildingSuminsured',
                   templateOptions: {
                     maxLength:15,
-                    label: `Building Sum Insured (${this.commonDetails[0].Currency})`,
+                    label: `Building Sum Insured`,
                     required: true,
                     disabled: this.checkDisable('BuildingSuminsured'),
                   },
