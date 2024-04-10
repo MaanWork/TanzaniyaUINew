@@ -1,7 +1,6 @@
 import { FormlyJsonschema } from "@ngx-formly/core/json-schema";
-import { SharedService } from "src/app/shared/shared.service";
-import { ForceLengthValidators } from '../../domestic-risk-details/domestic-risk-details.component';
 import { FormlyFieldConfig } from "@ngx-formly/core";
+import { ForceLengthValidators } from "../../personal-quote-details/personal-quote-details.component";
 
 
 export class PersonalAccident{
