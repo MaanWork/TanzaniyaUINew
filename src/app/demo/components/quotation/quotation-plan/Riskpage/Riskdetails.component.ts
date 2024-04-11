@@ -38,14 +38,16 @@ import { HttpClient } from '@angular/common/http';
 import { Building } from '../models/Building';
 import { HealthInsurance } from '../models/HealthInsurance';
 import { findIndex } from 'rxjs';
-// import { ProfessionalIndemnity } from '../models/ProfessionalIntermnity';
+import { ProfessionalIndemnity } from '../models/ProfessionalIntermnity';
+import { ContentProfessionalIndermity } from '../models/ContentProfessional';
+
 @Component({
   selector: 'app-Riskdetails',
   templateUrl: './Riskdetails.component.html',
   styleUrls: ['./Riskdetails.component.scss']
 })
 export class RiskDetailsComponent {
-        sidebarVisible:boolean = false;Buildings: any;
+        sidebarVisible:boolean = false;Buildings: any;fields9:any[]=[];
   requestReferenceNo: any;fields8:any[]=[];fieldsGroupPa: any=null;currentRelationIndex:any;
 wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductData = null
         loginId:any=null;machineries:any[]=[];fields: any[] = [];BuildingUsageList:any[]=[];
@@ -201,11 +203,12 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                     this.showSection=true;
               }
             }
-          //   if(this.productId=='60'){
-          //     //this.getEditDetails();
-          //  this.getdetails();
+            if(this.productId=='60'){
+            // this.getEditDetails();
+           this.getdetails();
+           this.getProfessional();
 
-          //   }
+            }
            
             //this.editsections();
 
@@ -267,36 +270,39 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
           this.individualCommaFormatted('building');
         }
 
-        // getdetails(){
-        //   let  contentData:any;
-        //   contentData = new ProfessionalIndemnity();
-        // this.fields8[0] = contentData?.fields;
+        getdetails(){
+          let  contentData:any;let newcontent:any;
+          contentData = new ProfessionalIndemnity();
+          newcontent = new ContentProfessionalIndermity();
+        this.fields8[0] = contentData?.fields;
+        this.fields9[0] = newcontent?.fields;
         // this.professionaltype();
-        // this.Indemitytype();
-        // }
-    //     getEditDetails(){
-    //       let ReqObj = {
-    //         "InsuranceId": "100020",
-    //  "ProductId": "56",
-    //  "SectionLevelReq":[
-    //     {
-    //  "RequestReferenceNo": "FAK-POI-05046",
-    //    "RiskId": "53",
-    // "SectionId": "106"
-    //     },
-    //  ]
-    //       }
-    //       let urlLink=`${this.CommonApiUrl}dropdown/professionaltype`;
-    //       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-    //         (data: any) => {
-    //           console.log(data);
-    //           if (data.Result) {
+        this.Indemitytype();
+        this.getOccupationList('106','ProfessionalIntermidity');
+        }
+        getEditDetails(){
+          let ReqObj = {
+            "InsuranceId": "100020",
+     "ProductId": "56",
+     "SectionLevelReq":[
+        {
+     "RequestReferenceNo": "FAK-POI-05046",
+       "RiskId": "53",
+    "SectionId": "106"
+        },
+     ]
+          }
+          let urlLink=`${this.CommonApiUrl}dropdown/professionaltype`;
+          this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+            (data: any) => {
+              console.log(data);
+              if (data.Result) {
 
-    //           }
-    //         },
-    //         (err) => { },
-    //       );
-    //     }
+              }
+            },
+            (err) => { },
+          );
+        }
 
         professionaltype(){
           let ReqObj = {
@@ -390,7 +396,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                     this.IndimnityTypes[i].value = this.IndimnityTypes[i]['Code'];
                     delete this.IndimnityTypes[i].CodeDesc;
                     if (i == this.IndimnityTypes.length - 1) {
-                        this.fields8[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.IndimnityTypes);
+                        this.fields8[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.IndimnityTypes);
                   }
                 }
               }
@@ -2040,6 +2046,10 @@ console.log("YYYYYYYYYYYYYY",type)
                 if(type== 'PersonalLiability'){
                   this.fields4[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
                 }
+                if(type== 'ProfessionalIntermidity'){
+                  this.fields8[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.occupationList);
+                  //this.fields4[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
+                }
                 // if(this.productId=='57'){
                 //   alert('JJJJJJJJJJJJ')
                 //   this.fieldsGroupPa[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
@@ -2506,8 +2516,14 @@ console.log("YYYYYYYYYYYYYY",type)
                 }
               }
               if(types=='Content'){
-                let contentData1 = new HouseHoldContents();
-                this.fields1[0] = contentData1?.fields;
+                if(this.insuranceId=='100004'){
+                  let contentData1 = new HouseHoldContentsss();
+                  this.fields1[0] = contentData1?.fields;
+                }
+                else {
+                  let contentData1 = new HouseHoldContents();
+                  this.fields1[0] = contentData1?.fields;
+                }
               }
                   //alert(sections)
                   if(types=='AllRisk'){
@@ -2649,27 +2665,44 @@ console.log("YYYYYYYYYYYYYY",type)
                   if (res.length != 0) {
                     let defaultObj = [{ 'label': '-Select-', 'value': '' }]
                     this.TypeOfPropertyss = data.Result;
+                    console.log('KKKKKKKKKKKKKKKKKKKKK',this.TypeOfPropertyss);
                     for (let i = 0; i < this.TypeOfPropertyss.length; i++) {
                       this.TypeOfPropertyss[i].label = this.TypeOfPropertyss[i]['CodeDesc'];
                       this.TypeOfPropertyss[i].value = this.TypeOfPropertyss[i]['Code'];
                       delete this.TypeOfPropertyss[i].CodeDesc;
                       if (i == this.TypeOfPropertyss.length - 1) {
                         if (this.productId == '1') {
+                      
                           this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
                         }
-                        else if(this.productId!='19' && this.productId!='3'){} 
+                        else if(this.productId!='19' && this.productId!='3' && this.productId!='59'){ } 
                         //this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);
                         else{
+                          // let fields = this.fields[0].fieldGroup;
+                          // for(let field of fields){
+                          //   alert(field.props.label)
+                          //   if(field.props.label=='Burglary'){
+                    
+                          //       //field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
+                          //   }
+                          //   else if(field.props.label=='Building Risk'){
+
+                          //     alert('Types')
+                          //     field.fieldGroup[0].fieldGroup[4].props.options = defaultObj.concat(this.TypeOfPropertyss);
+                          //   }
+                          // }
                           let fields = this.fields[0].fieldGroup;
                           for(let field of fields){
-                            if(field.props.label=='Burglary'){
-                                //field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
-                            }
-                            else if(field.props.label=='Building Risk'){
-                              field.fieldGroup[0].fieldGroup[4].props.options = defaultObj.concat(this.TypeOfPropertyss);
-                            }
-                          }
+                          
+                            console.log('GGGGGGG',field)
+                            // // if(field.props.label=='Burglary'){
+                            //     field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
+                            // }
+                            // else if(field.props.label=='Building Risk'){
+                              field.fieldGroup[4].props.options = defaultObj.concat(this.TypeOfPropertyss);
+                            //}
                         } 
+                      }
                       }
                     }
                   }
@@ -2989,9 +3022,21 @@ console.log("YYYYYYYYYYYYYY",type)
               if(this.productItem?.BuildingSuminsured==null || this.productItem?.BuildingSuminsured==undefined || this.productItem?.BuildingSuminsured==''){
                 ReqObj['BuildingDetails'] = null;
               }
-              if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
-                ReqObj['ContentDetails'] = null;
-                        }
+              if(this.insuranceId=='100004'){
+                if(this.productItem?.JewellerySi==null || this.productItem?.JewellerySi==undefined || this.productItem?.JewellerySi==''){
+                  if(this.productItem?.PaitingsSi==null || this.productItem?.PaitingsSi==undefined || this.productItem?.PaitingsSi==''){
+                    if(this.productItem?.CarpetsSi==null || this.productItem?.CarpetsSi==undefined || this.productItem?.CarpetsSi==''){
+                      ReqObj['ContentDetails'] = null;
+                    }
+                  }
+                }
+              }
+              else {
+                //alert('dddd')
+                if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
+                  ReqObj['ContentDetails'] = null;
+                }
+              }
               if(this.productItem?.AllriskSumInsured==null || this.productItem?.AllriskSumInsured==undefined || this.productItem?.AllriskSumInsured==''){
                 ReqObj['AllRiskDetails'] = null;                  
               }
@@ -3078,74 +3123,117 @@ console.log("YYYYYYYYYYYYYY",type)
               confirmButtonAriaLabel: 'Thumbs down, Errors!',
             })
           }
-          // onprofessionalsave(){
-          //   let endorsementDate=null,EndorsementEffectiveDate=null,EndorsementRemarks=null,
-          // EndorsementType=null,EndorsementTypeDesc=null,EndtCategoryDesc=null,EndtCount=null,
-          // EndtPrevPolicyNo=null,EndtPrevQuoteNo=null,EndtStatus=null,IsFinanceEndt=null,OrginalPolicyNo=null;
-          //   if(this.endorsementDetails){
-          //     endorsementDate = this.endorsementDetails['EndorsementDate'];
-          //     EndorsementEffectiveDate = this.endorsementDetails['EndorsementEffectiveDate'];
-          //     EndorsementRemarks = this.endorsementDetails['EndorsementRemarks'];
-          //     EndorsementType = this.endorsementDetails['EndorsementType'];
-          //     EndorsementTypeDesc = this.endorsementDetails['EndorsementTypeDesc'];
-          //     EndtCategoryDesc = this.endorsementDetails['EndtCategoryDesc'];
-          //     EndtCount = this.endorsementDetails['EndtCount'];
-          //     EndtPrevPolicyNo = this.endorsementDetails['EndtPrevPolicyNo'];
-          //     EndtPrevQuoteNo = this.endorsementDetails['EndtPrevQuoteNo'];
-          //     EndtStatus = this.endorsementDetails['EndtStatus'];
-          //     IsFinanceEndt = this.endorsementDetails['IsFinanceEndt'];
-          //     OrginalPolicyNo = this.endorsementDetails['OrginalPolicyNo'];
-          //   }
-          //   let ReqObj={
-          //     "RequestReferenceNo": this.requestReferenceNo,
-          //     "RiskId": "1",
-          //     "ProductId": this.productId,
-          //     "SectionId": "106",
-          //     "InsuranceId": this.insuranceId,
-          //     "CreatedBy":this.loginId,
-          //     "OccupationId":this.productItem?.ProfessionalOccupation,
-          //     "OccupationDesc":"Adocate",
-          //     "ProfessionalType":this.productItem?.ProfessionalType,
-          //      "EmployeeCount": this.productItem?.EmployeeCounts,
-          //      "IndemnityType": this.productItem?.IndemnityTypes,
-          //      "IndemnitySi":this.productItem?.ProfessionalSI,
-          //      "GrossIncome":this.productItem?.GISI,
-          //      "EndorsementDate": endorsementDate,
-          //      "EndorsementEffectiveDate": EndorsementEffectiveDate,
-          //      "EndorsementRemarks": EndorsementRemarks,
-          //      "EndorsementType": EndorsementType,
-          //      "EndorsementTypeDesc": EndorsementTypeDesc,
-          //      "EndtCategoryDesc": EndtCategoryDesc,
-          //      "EndtCount": EndtCount,
-          //      "EndtPrevPolicyNo": EndtPrevPolicyNo,
-          //      "EndtPrevQuoteNo": EndtPrevQuoteNo,
-          //      "EndtStatus": EndtStatus,
-          //      "IsFinanceEndt": IsFinanceEndt,
-          //      "OrginalPolicyNo": OrginalPolicyNo,
+          onprofessionalsave(){
+            let endorsementDate=null,EndorsementEffectiveDate=null,EndorsementRemarks=null,
+          EndorsementType=null,EndorsementTypeDesc=null,EndtCategoryDesc=null,EndtCount=null,
+          EndtPrevPolicyNo=null,EndtPrevQuoteNo=null,EndtStatus=null,IsFinanceEndt=null,OrginalPolicyNo=null;
+            if(this.endorsementDetails){
+              endorsementDate = this.endorsementDetails['EndorsementDate'];
+              EndorsementEffectiveDate = this.endorsementDetails['EndorsementEffectiveDate'];
+              EndorsementRemarks = this.endorsementDetails['EndorsementRemarks'];
+              EndorsementType = this.endorsementDetails['EndorsementType'];
+              EndorsementTypeDesc = this.endorsementDetails['EndorsementTypeDesc'];
+              EndtCategoryDesc = this.endorsementDetails['EndtCategoryDesc'];
+              EndtCount = this.endorsementDetails['EndtCount'];
+              EndtPrevPolicyNo = this.endorsementDetails['EndtPrevPolicyNo'];
+              EndtPrevQuoteNo = this.endorsementDetails['EndtPrevQuoteNo'];
+              EndtStatus = this.endorsementDetails['EndtStatus'];
+              IsFinanceEndt = this.endorsementDetails['IsFinanceEndt'];
+              OrginalPolicyNo = this.endorsementDetails['OrginalPolicyNo'];
+            }
+            let ReqObj={
+              "RequestReferenceNo": this.requestReferenceNo,
+  "RiskId": "1",
+  "ProductId":this.productId,
+  "InsuranceId": this.insuranceId,
+  "CreatedBy": this.loginId,
+  "OccupationId": this.productItem?.ProfessionalOccupation,
+  "OccupationDesc": "Adocate",
+  "EndorsementDate": endorsementDate,
+  "EndorsementEffectiveDate": EndorsementEffectiveDate,
+  "EndorsementRemarks": EndorsementRemarks,
+  "EndorsementType": EndorsementType,
+  "EndorsementTypeDesc": EndorsementTypeDesc,
+  "EndtCategoryDesc": EndtCategoryDesc,
+ "EndtCount": EndtCount,
+  "EndtPrevPolicyNo": EndtPrevPolicyNo,
+ "EndtPrevQuoteNo": EndtPrevQuoteNo,
+  "EndtStatus": EndtStatus,
+ "IsFinanceEndt": IsFinanceEndt,
+"OrginalPolicyNo": OrginalPolicyNo,
+  "PrincipalDetails": 
+    {
+      "SectionId": "106",
+      "ProfessionalType": '1',
+      "EmployeeCount": this.productItem?.EmployeeCounts,
+      "IndemnityType": this.productItem?.IndemnityTypes,
+      "IndemnitySi": this.productItem?.ProfessionalSI,
+      "GrossIncome": this.productItem?.GISI
+    }
+  ,
+  "ProffesoionalStaffDetails": 
+    {
+      "SectionId": "107",
+      "ProfessionalType": '2',
+      "EmployeeCount": this.productItem.ProfessionalStaff,
+    }
+  ,
+  "NonProffesoionalStaffDetails": 
+    {
+      "SectionId": "108",
+      "ProfessionalType": '3',
+      "EmployeeCount": this.productItem.NonProfessionalStaff
+    }
+  
+              // "RequestReferenceNo": this.requestReferenceNo,
+              // "RiskId": "1",
+              // "ProductId": this.productId,
+              // "SectionId": "106",
+              // "InsuranceId": this.insuranceId,
+              // "CreatedBy":this.loginId,
+              // "OccupationId":this.productItem?.ProfessionalOccupation,
+              // "OccupationDesc":"Adocate",
+              // "ProfessionalType":this.productItem?.ProfessionalType,
+              //  "EmployeeCount": this.productItem?.EmployeeCounts,
+              //  "IndemnityType": this.productItem?.IndemnityTypes,
+              //  "IndemnitySi":this.productItem?.ProfessionalSI,
+              //  "GrossIncome":this.productItem?.GISI,
+              //  "EndorsementDate": endorsementDate,
+              //  "EndorsementEffectiveDate": EndorsementEffectiveDate,
+              //  "EndorsementRemarks": EndorsementRemarks,
+              //  "EndorsementType": EndorsementType,
+              //  "EndorsementTypeDesc": EndorsementTypeDesc,
+              //  "EndtCategoryDesc": EndtCategoryDesc,
+              //  "EndtCount": EndtCount,
+              //  "EndtPrevPolicyNo": EndtPrevPolicyNo,
+              //  "EndtPrevQuoteNo": EndtPrevQuoteNo,
+              //  "EndtStatus": EndtStatus,
+              //  "IsFinanceEndt": IsFinanceEndt,
+              //  "OrginalPolicyNo": OrginalPolicyNo,
             
-          //   }
-          //   let urlLink = `${this.motorApiUrl}api/saveAllSection`;
-          //   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-          //     (data: any) => {
-          //       if (data?.Result) {
-          //         if(data.Result.length!=0){
-          //           this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
-          //           sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
-          //           this.onCalculate(data.Result);
+            }
+            let urlLink = `${this.motorApiUrl}api/slide7/saveprofindernity`;
+            this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+              (data: any) => {
+                if (data?.Result) {
+                  if(data.Result.length!=0){
+                    this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+                    sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                    this.onCalculate(data.Result);
                    
-          //           //this.onCheckUWQuestionProceed(data.Result);
-          //         }
+                    //this.onCheckUWQuestionProceed(data.Result);
+                  }
                   
-          //       // }
-          //       // else {
-          //       //   this.nextslide=false;
-          //       // }
-          //       }
-          //   },
-          //   (err) => { },
-          // );
+                // }
+                // else {
+                //   this.nextslide=false;
+                // }
+                }
+            },
+            (err) => { },
+          );
           
-          // }
+          }
 
 
           onSavePersonalAccidentDetails(){
@@ -4397,4 +4485,45 @@ console.log("YYYYYYYYYYYYYY",type)
               this.enableBuildingEditSection = true;
               this.building.push(entry);
           }
+
+
+          getProfessional(){
+            let ReqObj = {
+              "InsuranceId":this.insuranceId,
+              "ProductId": this.productId,
+              "SectionLevelReq":[
+                 {
+              "RequestReferenceNo": this.requestReferenceNo,
+                "RiskId": "53",
+             "SectionId": '106'
+                 },
+              ]
+            }
+            let urlLink = `${this.motorApiUrl}api/slide15/gethumantype`;
+            this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+              (data: any) => {
+                console.log(data);
+                this.productItem = new ProductData();
+              if(data.Result){
+                let datas= data?.Result[0];
+                this.productItem.ProfessionalOccupation = datas?.OccupationId;
+              
+                this.productItem.ProfessionalType= datas?.ProfessionalType;
+                this.productItem.EmployeeCounts=datas?.EmployeeCount;
+                this.productItem.GISI = datas?.GrossIncome;
+                  this.productItem.IndemnityTypes=datas?.IndernitySI;
+                // "OccupationId":this.productItem?.ProfessionalOccupation,
+                // "OccupationDesc":"Adocate",
+                // "ProfessionalType":this.productItem?.ProfessionalType,
+                //  "EmployeeCount": this.productItem?.EmployeeCounts,
+                //  "IndemnityType": this.productItem?.IndemnityTypes,
+                //  "IndemnitySi":this.productItem?.ProfessionalSI,
+                //  "GrossIncome":this.productItem?.GISI,
+                // console.log('Daaaaaaaaaaaaa',datas);
+              }
+              },
+              (err) => { },
+            );
+          }
+        
 }
