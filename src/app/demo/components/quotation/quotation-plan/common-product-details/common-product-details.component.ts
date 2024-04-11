@@ -1043,25 +1043,25 @@ export class CommonProductDetailsComponent {
 
      }
 
-     else if(this.productId=='60'){
-      let fireData = new ProfessionalIndemnity();
-      let entry = [];
-      this.fields[0] = fireData?.fields;
-      this.formSection=true;
-      console.log('FFFFFFFFFF',this.fields[0]);
-      this.getdetails();
-      let referenceNo = sessionStorage.getItem('quoteReferenceNo');
-        if (referenceNo) {
-          this.requestReferenceNo = referenceNo;
-          this.getExistingBuildingList();
-        this.getProfessional();
-        }
-        else {
-            this.productItem = new ProductData();
-            this.formSection = true; this.viewSection = false;
-        }
+    //  else if(this.productId=='60'){
+    //   let fireData = new ProfessionalIndemnity();
+    //   let entry = [];
+    //   this.fields[0] = fireData?.fields;
+    //   this.formSection=true;
+    //   console.log('FFFFFFFFFF',this.fields[0]);
+    //   this.getdetails();
+    //   let referenceNo = sessionStorage.getItem('quoteReferenceNo');
+    //     if (referenceNo) {
+    //       this.requestReferenceNo = referenceNo;
+    //       this.getExistingBuildingList();
+    //     this.getProfessional();
+    //     }
+    //     else {
+    //         this.productItem = new ProductData();
+    //         this.formSection = true; this.viewSection = false;
+    //     }
 
-     }
+    //  }
      else if(this.productId == '59'){
       this.formSection = true;
      }
@@ -2284,7 +2284,7 @@ export class CommonProductDetailsComponent {
     else if(this.productId=='56'){ReqObj.SectionId=this.ProductCode;urlLink=`${this.motorApiUrl}api/slide15/gethealthinsure`;}
     else if(this.productId=='46'){ReqObj['Vehicleid']='1';urlLink=`${this.motorApiUrl}api/getmotordetails`;}
     else if(this.productId=='57'){ReqObj['SectionId']='45';urlLink=`${this.motorApiUrl}api/slide13/getpersonlaaccident`;}
-    else if(this.productId=='60'){ReqObj.SectionId='106';urlLink=`${this.motorApiUrl}api/slide15/gethumantype`;}
+    //else if(this.productId=='60'){ReqObj.SectionId='106';urlLink=`${this.motorApiUrl}api/slide15/gethumantype`;}
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if (data.Result) {
@@ -3671,9 +3671,9 @@ console.log('Eventsss',event);
     else if(this.productId=='16'){this.onSaveMoneyDetails('proceed','individual')}
     else if(this.productId=='42'){this.anothercyberSave('proceed','individual')}
     else if(this.productId=='14'){this.onsaveemployeenew('proceed','individual')}
-    else if(this.productId=='60'){this.onprofessionalsave('proceed','individual')}
+    //else if(this.productId=='60'){this.onprofessionalsave('proceed','individual')}
     else if(this.productId=='57'){this.onsaveGroupPADetails('proceed','individual')}
-    else if(this.productId == '59' || this.productId == '56'){
+    else if(this.productId == '59' || this.productId == '56' || this.productId=='60'){
       this.onFinalProceed();
       // let i=0;
       // if(this.colorSections.length!=0){
@@ -4438,7 +4438,7 @@ console.log('Eventsss',event);
     }
   }
   onFinalProceed() {
-    if(this.productId=='59' || this.productId=='56'){
+    if(this.productId=='59' || this.productId=='56' || this.productId=='60'){
       sessionStorage.setItem('Buildings',this.BuildingOwnerYn);
       this.router.navigate(['/quotation/plan/risk-page']);
     }
@@ -8709,44 +8709,44 @@ this.BuildingOwnerYn = type;
     }
 
 
-    getProfessional(){
-      let ReqObj = {
-        "InsuranceId":this.insuranceId,
-        "ProductId": this.productId,
-        "SectionLevelReq":[
-           {
-        "RequestReferenceNo": this.requestReferenceNo,
-          "RiskId": "53",
-       "SectionId": '106'
-           },
-        ]
-      }
-      let urlLink = `${this.motorApiUrl}api/slide15/gethumantype`;
-      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-        (data: any) => {
-          console.log(data);
-          this.productItem = new ProductData();
-        if(data.Result){
-          let datas= data?.Result[0];
-          this.productItem.ProfessionalOccupation = datas?.OccupationId;
-          this.getOccupationList('106');
-          this.productItem.ProfessionalType= datas?.ProfessionalType;
-          this.productItem.EmployeeCounts=datas?.EmployeeCount;
-          this.productItem.GISI = datas?.GrossIncome;
-            this.productItem.IndemnityTypes=datas?.IndernitySI;
-          // "OccupationId":this.productItem?.ProfessionalOccupation,
-          // "OccupationDesc":"Adocate",
-          // "ProfessionalType":this.productItem?.ProfessionalType,
-          //  "EmployeeCount": this.productItem?.EmployeeCounts,
-          //  "IndemnityType": this.productItem?.IndemnityTypes,
-          //  "IndemnitySi":this.productItem?.ProfessionalSI,
-          //  "GrossIncome":this.productItem?.GISI,
-          // console.log('Daaaaaaaaaaaaa',datas);
-        }
-        },
-        (err) => { },
-      );
-    }
+    // getProfessional(){
+    //   let ReqObj = {
+    //     "InsuranceId":this.insuranceId,
+    //     "ProductId": this.productId,
+    //     "SectionLevelReq":[
+    //        {
+    //     "RequestReferenceNo": this.requestReferenceNo,
+    //       "RiskId": "53",
+    //    "SectionId": '106'
+    //        },
+    //     ]
+    //   }
+    //   let urlLink = `${this.motorApiUrl}api/slide15/gethumantype`;
+    //   this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+    //     (data: any) => {
+    //       console.log(data);
+    //       this.productItem = new ProductData();
+    //     if(data.Result){
+    //       let datas= data?.Result[0];
+    //       this.productItem.ProfessionalOccupation = datas?.OccupationId;
+    //       this.getOccupationList('106');
+    //       this.productItem.ProfessionalType= datas?.ProfessionalType;
+    //       this.productItem.EmployeeCounts=datas?.EmployeeCount;
+    //       this.productItem.GISI = datas?.GrossIncome;
+    //         this.productItem.IndemnityTypes=datas?.IndernitySI;
+    //       // "OccupationId":this.productItem?.ProfessionalOccupation,
+    //       // "OccupationDesc":"Adocate",
+    //       // "ProfessionalType":this.productItem?.ProfessionalType,
+    //       //  "EmployeeCount": this.productItem?.EmployeeCounts,
+    //       //  "IndemnityType": this.productItem?.IndemnityTypes,
+    //       //  "IndemnitySi":this.productItem?.ProfessionalSI,
+    //       //  "GrossIncome":this.productItem?.GISI,
+    //       // console.log('Daaaaaaaaaaaaa',datas);
+    //     }
+    //     },
+    //     (err) => { },
+    //   );
+    // }
     onCurrencyChange(type){
       let currencyData 
       if(this.currencyCode!=null && this.currencyCode!=''){

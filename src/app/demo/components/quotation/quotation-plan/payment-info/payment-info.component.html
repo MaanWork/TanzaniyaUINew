@@ -1,16 +1,22 @@
 <ng-container *ngIf="!draftSection">
-    <div class="grid" >
-        <div class="lg:col-9 md:col-9 col-12">
+    <div class="grid mb-2">
+        <div class="lg:col-7 md:col-7 col-12">
             <h2>Just more one more step!</h2>
             <p>Hi, Please provide your Payment detials to complete the payment</p>
             <h4>Payment Type</h4>
         </div>
-        <div class="lg:col-3 md:col-3 col-12">
-            <div class="card grid text-white surface-900 px-4 py-2" (click)="showSidebar()">
-                <div class="col-12">
-                    <p class="mb-0">Total Premium</p>
-                    <h6 class="text-white mt-0">{{totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
-                </div>
+        <div class="lg:col-5 md:col-5 col-12">
+            <div class="flex flex-wrap justify-content-start">
+                <div *ngIf="quoteNo"><b>QuoteNo- <span class="primaryTextColor">{{quoteNo}}</span></b>&nbsp;|&nbsp;</div>
+                <div *ngIf="requestReferenceNo">RefNo- <span class="primaryTextColor">{{requestReferenceNo}}</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-wrap justify-content-end">
+        <div class="card grid text-white surface-900 px-4 py-2" (click)="showSidebar()">
+            <div class="col-12">
+                <p class="mb-0">Total Premium</p>
+                <h6 class="text-white mt-0">{{totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
             </div>
         </div>
     </div>

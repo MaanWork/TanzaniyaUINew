@@ -52,6 +52,7 @@ export class QuotationTableComponent implements OnInit {
   Remarks: any=null;
   Reference: any=null;isRejectVisible:boolean=false;
   RejectdList: any;tabIndex:any=0;
+  remarksError: boolean=false;
   constructor(private router: Router,private sharedService: SharedService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -92,12 +93,16 @@ export class QuotationTableComponent implements OnInit {
     ]; 
     this.quotations = [{referenceNo:'123'}, {referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'}];
     this.getBrokerList();
-    this.getLapsedBrokerList();
-    this.getRejectedBrokerList();
+    // this.getLapsedBrokerList();
+    // this.getRejectedBrokerList();
   }
   onTabClicked(event){
+    console.log("Event",event)
     let index = event.index;
     this.tabIndex = index;
+   if(this.tabIndex==0) this.getBrokerList();
+   if(this.tabIndex==1) this.getLapsedBrokerList();
+   if(this.tabIndex==2) this.getRejectedBrokerList();
   }
   getBrokerList(){
     let appId = "1",loginId="",brokerbranchCode="";
@@ -246,29 +251,34 @@ export class QuotationTableComponent implements OnInit {
     }
   }
   RejectQuote(){
-    let ReqObj = {
-      "RequestReferenceNo": this.Reference,
-      "LoginId":this.loginId,
-      "ProductId":this.productId,
-      "Status":"R",
-      "RejectReason": this.Remarks
-
+    if(this.Remarks!=null && this.Remarks!=undefined){
+      this.remarksError = false;
+      let ReqObj = {
+        "RequestReferenceNo": this.Reference,
+        "LoginId":this.loginId,
+        "ProductId":this.productId,
+        "Status":"R",
+        "RejectReason": this.Remarks
+  
+      }
+      let urlLink = `${this.CommonApiUrl}quote/updatestatus`;
+      
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+            this. RejectdList = data.Result;
+            console.log('RRRR',this. RejectList);
+            this.isRejectVisible = false;
+            this.getRejectedBrokerList();
+            this.tabIndex= 2;
+          }
+        },
+        (err) => { },
+      );
     }
-    let urlLink = `${this.CommonApiUrl}quote/updatestatus`;
+    else this.remarksError = true;
     
-    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-      (data: any) => {
-        console.log(data);
-        if(data.Result){
-          this. RejectdList = data.Result;
-          console.log('RRRR',this. RejectList);
-          this.isRejectVisible = false;
-          this.getRejectedBrokerList();
-          this.tabIndex= 2;
-        }
-      },
-      (err) => { },
-    );
   }
   getLapsedBrokerList(){
     let appId = "1",loginId="",brokerbranchCode="";

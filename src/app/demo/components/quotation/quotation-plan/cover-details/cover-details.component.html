@@ -159,7 +159,7 @@
                                 </div> -->
                                 <div class="flex flex-wrap">
                                     <div class="col-12 md:col-6 lg:col-6 border-right-1 border-500">
-                                        <ng-container *ngIf="checkBenefitSection(menu)">
+                                        <ng-container *ngIf="checkBenefitSection2(menu)">
                                             <h3>Default Covers</h3><br>
                                         </ng-container>
                                         <div class="flex flex-wrap justify-content-between">
@@ -236,11 +236,11 @@
                                             </div>
                                                 
                                         </div>
-                                        <div class="flex flex-wrap justify-content-center">
+                                        <!-- <div class="flex flex-wrap justify-content-center">
                                             <p-button label="Clauses" (click)="ClausesStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button>
                                             <p-button label="Exclusions" styleClass="mr-3 mb-3 p-button-outlined"></p-button>
                                             <p-button label="Warranties" styleClass="mr-3 mb-3 p-button-outlined"></p-button>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="col-12 md:col-6 lg:col-6 px-5">
                                         <ng-container *ngIf="checkBenefitSection2(menu)">
@@ -444,7 +444,7 @@
                                             </div>
                                         </div>   
                                         <div class="col-12 md:col-12 lg:col-12 border-500">
-                                            <ng-container *ngIf="checkBenefitSection(menu)">
+                                            <ng-container *ngIf="checkBenefitSection2(menu)">
                                                 <h3>Default Covers</h3><br>
                                             </ng-container>
                                             <div class="flex flex-wrap justify-content-start">
@@ -610,7 +610,7 @@
                             <div class="col-12 md:col-6 lg:col-6">
                                 <ng-container *ngFor="let menu of vehicleDetailsList;let i = index;let last=last">
                                 <!--border-right-1 border-500-->
-                                <ng-container *ngIf="checkBenefitSection(menu)">
+                                <ng-container *ngIf="checkBenefitSection2(menu)">
                                     <h3>Default Covers</h3><br>
                                 </ng-container>
                                 <div class="flex flex-wrap justify-content-between">
@@ -778,11 +778,11 @@
                                     <div class="mb-4" *ngIf="productId!='59'">
                                         <p-button label="Next" *ngIf="!checkNextBtn(menu,i)" (click)="onNext()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>&nbsp;
                                     </div>
-                                    <div class="flex flex-wrap justify-content-center" *ngIf="last">
+                                    <!-- <div class="flex flex-wrap justify-content-center" *ngIf="last">
                                         <p-button label="Clauses" (click)="ClausesStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button>
                                         <p-button label="Exclusions" styleClass="mr-3 mb-3 p-button-outlined"></p-button>
                                         <p-button label="Warranties" styleClass="mr-3 mb-3 p-button-outlined"></p-button>
-                                    </div>
+                                    </div> -->
                                     <div class="card grid text-white surface-900 px-4 py-2" (click)="showSidebar()" *ngIf="productId!='59'">
                                         <div class="col-6">
                                             <h6 class="text-white mt-0">{{totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
@@ -1009,17 +1009,17 @@
         <div class="card w-full m-0 p-0">
             <ng-container *ngFor="let menu of vehicleDetailsList">
                 <ng-container *ngIf="canbeChecked3(menu)">
-                    <h4 class="m-0 p-0 mt-2 mb-0">{{getHeaderName(menu)}}</h4>
+                    <h5 class="m-0 p-0 mt-2 mb-0">&nbsp;{{getHeaderName(menu)}}</h5>
                     <div class="grid m-0 p-0">
                         <div class="col-12 md:col-12 lg:col-12 xl:col-12 m-0 p-0">
-                            <table class="table table-bordered customTableWidth" >
+                            <table class="table table-bordered" style="width: 100%;margin-top:15px">
                                 <thead>
                                     <tr>
-                                        <th scope="col" class="p-2" style="min-width: 50px;">
+                                        <th scope="col" class="p-2" style="min-width: 50px;padding: 8px;">
     
                                         </th>
-                                        <th scope="col" class="text-center p-2" ><b class="customDangerColor">Cover Name</b></th>
-                                        <th scope="col" class="textEnd p-2"><b style="color:#d81b60">Premium ({{currencyCode}})</b></th>
+                                        <th scope="col" class="text-center p-2"><b>Cover Name</b></th>
+                                        <th scope="col" class="text-center p-2"><b>Premium ({{currencyCode}})</b></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1027,17 +1027,43 @@
                                         <ng-container *ngIf="canbeChecked2(cover)">
                                             <tr>
                                                 <td>
-                                                    <p-button icon="pi pi-trash" *ngIf="(cover.isSelected!='D') && ! checkCoverSelection(menu,cover)" (onClick)="onSelectCover(cover,false,menu.Vehicleid,menu,'coverList','change')" severity="danger" styleClass="p-button-outlined"></p-button>
+                                                    &nbsp;<p-button icon="pi pi-trash" *ngIf="(cover.isSelected!='D') && !checkCoverSelection(menu,cover)" (onClick)="onSelectCover(cover,false,menu.Vehicleid,menu,'coverList','change')" severity="danger" styleClass="p-button-outlined"></p-button>
                                                 </td>
-                                                <td style="font-weight: 500;">&nbsp;<p>{{cover.CoverName}}</p></td>
-                                                <td style="text-align: end;">
-                                                    <h4 class="text-orange-500 mb-0">{{cover.PremiumIncludedTax | commaseparator}}</h4>
+                                                <td style="font-weight: 500;">&nbsp;<p class="mb-2">{{cover.CoverName}}</p></td>
+                                                <td style="text-align: end;font-size: 16px;">
+                                                    <p><span class="float-right">{{cover.PremiumIncludedTax | commaseparator}}&nbsp;&nbsp;</span></p>
                                                 </td>
                                             </tr>
                                         </ng-container>
                                     </ng-container>
                                 </tbody>
                             </table>
+                            <!-- <table class="table table-bordered customTableWidth" >
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="p-2" style="min-width: 50px;">
+    
+                                        </th>
+                                        <th scope="col" class="text-center p-2" ><b class="customDangerColor">Cover Name</b></th>
+                                        <th scope="col" class="text-center p-2"><b style="color:#d81b60">Premium ({{currencyCode}})</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngFor="let cover of menu.CoverList">
+                                        <ng-container *ngIf="canbeChecked2(cover)">
+                                            <tr>
+                                                <td>
+                                                    <p-button icon="pi pi-trash" *ngIf="(cover.isSelected!='D') && !checkCoverSelection(menu,cover)" (onClick)="onSelectCover(cover,false,menu.Vehicleid,menu,'coverList','change')" severity="danger" styleClass="p-button-outlined"></p-button>
+                                                </td>
+                                                <td style="font-weight: 500;">&nbsp;<p>{{cover.CoverName}}</p></td>
+                                                <td style="text-align: end;font-size: 16px;">
+                                                    <p><span class="font-bold float-right">{{cover.PremiumIncludedTax | commaseparator}}&nbsp;&nbsp;</span></p>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </ng-container>
+                                </tbody>
+                            </table> -->
                         </div>
                     </div>
                 </ng-container>
@@ -1622,246 +1648,39 @@
         <p-button class=" text-l pi-button mr-0"  (click)="factorDetailModal=!factorDetailModal">Close</p-button>
     </div>
 </p-dialog>
-<!-- <p-toast></p-toast>
-<div class="card">
-    <div class="grid">
-        <div class="col-12 sm:col-6 md:col-4">
-            <h4 class="mr-3 p-0 m-0">Customer Details</h4>
-        </div>
-        <div class="col-12 sm:col-6 md:col-8">
-            <div class="flex flex-wrap justify-content-end">
-                <div *ngIf="quoteNo">
-                    <b
-                        >QuoteNo-
-                        <span style="color: #2196f3 !important">{{
-                            quoteNo
-                        }}</span></b
-                    >&nbsp;|&nbsp;
-                </div>
-                <div *ngIf="quoteRefNo">
-                    RefNo-
-                    <span style="color: #2196f3 !important">{{
-                        quoteRefNo
-                    }}</span>
-                </div>
-            </div>
+<p-dialog class="p-su-header" header="Clauses Details" [(visible)]="onClauses" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+    <div class="flex flex-wrap justify-content-end" *ngIf="userType!='Broker'">
+        <div>
+            <p-button label="Add New Clause" icon="pi pi-plus" (click)="onAddClause()"></p-button>
         </div>
     </div>
-
-    <p-divider></p-divider>
-
-    <ng-container *ngIf="vehicleDetailsList.length != 0">
-        <p-tabView [activeIndex]="tabIndex" (onChange)="onTabClicked($event)">
-            <ng-container
-                *ngFor="let menu of vehicleDetailsList; let i = index"
-            >
-                <p-tabPanel [header]="getHeaderName(menu)">
-                    &nbsp;
-                    <div class="grid">
-                        <div class="col">
-                            <div class="card text-center  w-24rem">
-                                <h4
-                                    class="surface-900 text-white border-round-lg p-2"
-                                >
-                                    Comprehensive
-                                </h4>
-                                <p-divider></p-divider>
-                                <div class="text-center">
-                                    <div
-                                        class="card bg-blue-800 text-white p-2 w-18rem h-0rem m-2"
-                                    >
-                                        <div class="flex">
-                                            <p class="font-bold text-xl">
-                                                Base Cover
-                                            </p>
-                                        </div>
-                                        <div class="text-right">
-                                            <p class="font-bold text-xl">
-                                                7500
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="card bg-blue-800 text-white p-2 w-18rem h-0rem m-2"
-                                    >
-                                        <div>
-                                            <p class="flex font-bold text-xl">
-                                                Death Cover
-                                            </p>
-                                        </div>
-                                        <div class="text-right">
-                                            <p class="font-bold text-xl">
-                                                7500
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="card p-2 w-18rem h-0rem m-2">
-                                        <div class="flex">
-                                            <input type="checkbox" class="" />
-                                            <span
-                                                class="font-bold flex text-xl"
-                                            >
-                                                Optional Cover
-                                            </span>
-                                        </div>
-
-                                        <div class="text-right">
-                                            <p
-                                                class="font-bold text-orange-500 text-2xl"
-                                            >
-                                                7500
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <div
-                                        class="flex flex-wrap font-bold flex-auto p-3 text-2xl justify-content-end"
-                                    >
-                                        <div class="">Total</div>
-                                        &nbsp;
-                                        <div>11,000</div>
-                                    </div>
-                                </div>
-                                <p-button label="Buy Now"></p-button>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card text-center w-24rem">
-                                <h4
-                                    class="surface-900 text-white border-round-lg p-2"
-                                >
-                                    TPL
-                                </h4>
-                                <p-divider></p-divider>
-                                <div class="text-center">
-                                    <div
-                                        class="card bg-blue-800 text-white p-2 w-18rem h-0rem m-2"
-                                    >
-                                        <div class="flex">
-                                            <p class="font-bold text-xl">
-                                                Base Cover
-                                            </p>
-                                        </div>
-                                        <div class=" text-right">
-                                            <p class="font-bold text-xl">
-                                                7500
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="card bg-blue-800 text-white p-2 w-18rem h-0rem m-2"
-                                    >
-                                        <div>
-                                            <p class=" flex font-bold text-xl">
-                                                Death Cover
-                                            </p>
-                                        </div>
-                                        <div class="text-right">
-                                            <p class="font-bold text-xl">
-                                                7500
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="card p-2 w-18rem h-0rem m-2">
-                                        <div class="flex">
-                                            <input type="checkbox" class="" />
-                                            <span
-                                                class="font-bold flex text-xl"
-                                            >
-                                                Optional Cover
-                                            </span>
-                                        </div>
-                                        <div class="text-right">
-                                            <p
-                                                class="font-bold text-orange-500 text-2xl"
-                                            >
-                                                7500
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <div
-                                        class="flex flex-wrap font-bold flex-auto p-3 text-2xl justify-content-end"
-                                    >
-                                        <div class="">Total</div>
-                                        &nbsp;
-                                        <div>11,000</div>
-                                    </div>
-                                </div>
-                                <p-button label="Buy Now"></p-button>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card text-center w-24rem">
-                                <h4
-                                    class="surface-900 text-white border-round-lg p-2"
-                                >
-                                    TPFT
-                                </h4>
-                                <p-divider></p-divider>
-                                <div class="text-center">
-                                    <div
-                                        class="card bg-blue-800 text-white p-2 w-18rem h-0rem m-2"
-                                    >
-                                        <div class="text-center">
-                                            <p class=" flex font-bold text-xl">
-                                                Base Cover
-                                            </p>
-                                        </div>
-                                        <div class="text-right">
-                                            <p class="font-bold text-xl">
-                                                7500
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="card bg-blue-800 text-white p-2 w-18rem h-0rem m-2"
-                                    >
-                                        <div>
-                                            <p class=" flex font-bold text-xl">
-                                                Death Cover
-                                            </p>
-                                        </div>
-                                        <div class="text-right">
-                                            <p class="font-bold text-xl">
-                                                7500
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="card p-2 w-18rem h-0rem m-2">
-                                        <div class="flex">
-                                            <input type="checkbox" class="" />
-                                            <span
-                                                class="font-bold flex text-xl"
-                                            >
-                                                Optional Cover
-                                            </span>
-                                        </div>
-                                        <div class="text-right">
-                                            <p
-                                                class="font-bold text-orange-500 text-2xl"
-                                            >
-                                                7500
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <div
-                                        class="flex flex-wrap font-bold flex-auto p-3 text-2xl justify-content-end"
-                                    >
-                                        <div class="">Total</div>
-                                        &nbsp;
-                                        <div>11,000</div>
-                                    </div>
-                                </div>
-                                <p-button label="Buy Now"></p-button>
-                            </div>
-                        </div>
-                    </div>
-                </p-tabPanel>
-            </ng-container> </p-tabView
-    ></ng-container>
-</div> -->
+    <div class="grid">
+        <div class="col-12 md:col-12 lg:col-12 mt-2">
+            <table class="table table-bordered mt-2 p-2" *ngIf="userType!='Broker'">
+                <thead>
+                    <tr>
+                        <th class="spancommon span_font_size">Select</th>
+    
+                        <th class="spancommon span_font_size">ClauseDescription</th>
+                    </tr>
+                </thead>
+    
+                <tbody
+                    *ngFor="let clause of ClausesData|paginate:{itemsPerPage: 10, currentPage:p,id: 'p'}; let i=index;">
+                    <tr>
+                        <td>
+                            <input type="checkbox" (change)="onCheckUser(i,$event,clause)" [disabled]="endorsementSection"
+                                [checked]="clause.TypeId == 'D' ? true : false">
+                        </td>
+    
+                        <td>
+                            <textarea [(ngModel)]="clause.SubIdDesc" class="w-full" cols="60" pInputText [disabled]="endorsementSection"
+                                rows="2"></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+</p-dialog>

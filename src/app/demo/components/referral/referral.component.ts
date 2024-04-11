@@ -59,8 +59,8 @@ export class ReferralComponent implements OnInit {
       { label: 'Test', target: 'T' },
     ];
     if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
-      this.columns = ['ReferenceNo','Customer Name','Start Date','End Date','Actions'];
-      this.columnss = ['ReferenceNo','Customer Name','Start Date','End Date','Actions']
+      this.columns = ['Quote No','ReferenceNo','Customer Name','Start Date','End Date','Actions'];
+      this.columnss = ['Quote No','ReferenceNo','Customer Name','Start Date','End Date']
     }
     let refNo = sessionStorage.getItem('referralRefNo');
     if(refNo){

@@ -469,7 +469,7 @@
             </div>
             <div class="grid mt-2 pl-5 pr-2 pb-0" *ngIf="(productId=='60' || productId=='21' || productId=='26'|| productId=='6' || productId=='16' || productId=='25' || productId=='43' || productId=='13' || (productId=='1' && insuranceId!='100004') || (productId=='39' && insuranceId!='100004') || (productId=='27' && insuranceId!='100004')) && formSection">
                 <ng-container *ngFor="let step of fields; let index = index; let last = last">
-                <ng-container *ngIf="step.props.label=='Plant All Risk' || step.props.label=='Professional Indemnity' ||step.props.label=='Fire And Material Damage' || step.props.label=='Fire & Allied Perils' || step.props.label=='Burglary' || step.props.label=='Money' || step.props.label=='Machinery BreakDown' || step.props.label=='Medical Insurance' || step.props.label=='Public Liability'">
+                <ng-container *ngIf="step.props.label=='Plant All Risk' ||step.props.label=='Fire And Material Damage' || step.props.label=='Fire & Allied Perils' || step.props.label=='Burglary' || step.props.label=='Money' || step.props.label=='Machinery BreakDown' || step.props.label=='Medical Insurance' || step.props.label=='Public Liability'">
                     <div class="col-12 sm:col-9 md:col-9 m-0 p-0">
                         <div>
                             <div class="col-12 sm:col-4 md:col-4 m-0 p-0 d-flex justify-content-between" (click)="selectedIndex=index">
