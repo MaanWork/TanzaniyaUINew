@@ -248,18 +248,7 @@
 </ng-container>
 
 <ng-container *ngIf="productId=='56'">
-    <div class="grid pl-5 pr-5 pb-0">
-        <div class="lg:col-2 xl:col-2 md:col-2 col-12 text-center">
-            <label class="input-form-label">Inpatient SumInsured</label>&nbsp;<ng-container *ngIf="categoryDesc">({{categoryDesc}})</ng-container><span class="text-danger">*</span>
-        </div>
-        <div class="lg:col-4 xl:col-4 md:col-4 col-12 text-center">
-            <div class="input-control-container">
-                  
-                  <ng-select class="custom" [items]="sectionDropdownList" [(ngModel)]="ProductCode" placeholder="Select SumInsured" appendTo="body" [ngModelOptions]="{standalone: true}" bindValue="Code" bindLabel="CodeDesc">
-                  </ng-select>
-            </div>
-        </div>
-    </div>
+   
 
     <div>
         <div class="grid mt-1 mb-3">
@@ -270,15 +259,27 @@
           <div class="memberDetailCard" style="padding:10px !important;">
         <div class="mb-2 d-flex justify-content-between"> 
             <div><b>Health Insurance</b></div>
-            <div>
+            <!-- <div>
                 <button class="btn btn-warning btn-sm" (click)="AddnewCovers()">
                     <i class="fas fa-plus"></i>&nbsp;Add New
                 </button>
-            </div>
+            </div> -->
            
         </div>
-       
-        <ng-container>
+        <div class="grid pl-5 pr-5 pb-0">
+            <div class="lg:col-2 xl:col-2 md:col-2 col-12 text-center md:col-ffset-2 lg:col-offset-2">
+                <label class="input-form-label">Inpatient SumInsured</label>&nbsp;<ng-container *ngIf="categoryDesc">({{categoryDesc}})</ng-container><span class="text-danger">*</span>
+            </div>
+            <div class="lg:col-4 xl:col-4 md:col-4 col-12 text-center">
+                <div class="input-control-container">
+                      
+                      <ng-select class="custom" [items]="sectionDropdownList" [(ngModel)]="ProductCode" placeholder="Select SumInsured" appendTo="body" [ngModelOptions]="{standalone: true}" bindValue="Code" bindLabel="CodeDesc">
+                      </ng-select>
+                </div>
+            </div>
+        </div>
+        <ng-container *ngIf="showsection">
+            <h2>Entered</h2>
             <ng-container *ngFor="let step of fields[0].fieldGroup; let index = index; let last = last">
 
                 <ng-container *ngIf="step.props.label=='Employers Liability' || step.props.label=='Health Insurance' || (step.props.label=='Contents Risk' && insuranceId=='100004' && productId!='24') || step.props.label=='Building Risk' || step.props.label=='Money' || step.props.label=='Business Interruption' || (step.props.label=='Burglary' && insuranceId=='100004') || step.props.label=='Fidelity' || step.props.label=='Public Liability' || step.props.label=='Machinery BreakDown' || step.props.label=='Fire & Allied Perils' || (step.props.label=='Burglary' && insuranceId=='100002')  || step.props.label=='Goods in Transit'">

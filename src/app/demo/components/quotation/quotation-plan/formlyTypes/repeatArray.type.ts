@@ -4,17 +4,24 @@ import { FieldArrayType } from '@ngx-formly/core';
 @Component({
   selector: 'formly-repeat-section',
   template: `
-  <div class="justify-content-end d-flex">
+  <div class="flex flex-wrap justify-content-end">
       <div >
-          <button class="btn btn-primary" type="button" *ngIf="endorsementId!=850 && endorsementId!=846" (click)="add()"><i class="fa fa-plus"></i>&nbsp;Add New</button>
+          
+          <p-button label="Add New" styleClass="mr-3 p-button-outlined" (click)="add()"></p-button>
+        
       </div>
    </div>
-    <div *ngFor="let field of field.fieldGroup; let i = index;" class="row">
+    <div >
+    <div *ngFor="let field of field.fieldGroup; let i = index;" class="grid">
       <formly-field class="col" [field]="field"></formly-field>
-      <div class="col-sm-2 d-flex align-items-center" >
-        <button class="btn btn-danger mt-3" type="button" *ngIf='i!=0' (click)="remove(i)">&nbsp;<i class="fa fa-trash"></i>&nbsp;</button>
+      <div class="col-12 md:col-3 lg:col-3 xl:col-3" >
+        <p-button label="Delete" styleClass="mr-3 mb-3 p-button-outlined" *ngIf='i!=0' (click)="remove(i)"></p-button>
+       
       </div>
+      <hr class="m-0 p-0">
     </div>
+    </div>
+   
    
   `,
 })
