@@ -21,10 +21,10 @@ export class ProductData {
 	SalaryPerAnnum:any='';
 	BenefitCoverMonth:any='';
 	SumInsured:any='';
-    SectionId: string='';
+    SectionId: string='';ProfessionalStaff:any=null;
     IdProofType:string = '';HighestQualificationHeld:any=null;
     IdNo:string = '';IndustryName:any;UsageType:any='S';
-    JobJoiningMonth:string = '';NatureOfBusinessId:any;
+    JobJoiningMonth:string = '';NatureOfBusinessId:any;NonProfessionalStaff:any=null;
     BetweenDiscontinued:string="N";MoneyInSafeBusinessSIYN:boolean=false;
 	MoneyOutSafeBusinessSIYN:boolean=false;MoneyInPremisesSIYN:boolean=false;
 	CashInTransitSIYN:boolean=false;CashInHandEmployeesSIYN:boolean=false;MoneyAnnualcarrySuminsuredSIYN:boolean=false;
