@@ -11,11 +11,10 @@
             <i class="pi pi-search"></i>
             <p-dropdown [options]="branches" [(ngModel)]="selectedBranch" optionLabel="label" placeholder="Select a Branch"></p-dropdown>
           </span> -->
-          <p-selectButton [options]="quoteOptions" [(ngModel)]="value" optionLabel="label" optionValue="value"></p-selectButton>
+          <!-- <p-selectButton [options]="quoteOptions" [(ngModel)]="value" optionLabel="label" optionValue="value"></p-selectButton> -->
         </div>
       </div>
     </div>
-    
     <p-divider></p-divider>
     
     <p-tabView>
@@ -34,7 +33,16 @@
           </div>
         </div>
         <ng-container *ngIf="quoteData.length!=0">
-          <p-table [value]="quoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+          <p-table #dtEmployeePending *ngIf="tableView == 'table' else cardTableView" [value]="quoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" 
+          [globalFilterFields]="['RequestReferenceNo','ClientName','PolicyStartDate','PolicyEndDate']" [rows]="5">
+          <ng-template pTemplate="caption">
+              <div class="table-header">
+                  <span class="p-input-icon-left">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text" (input)="dtEmployeePending.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                  </span>
+              </div>
+          </ng-template>
             <ng-template pTemplate="header">
                 <tr>
                     <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
@@ -58,13 +66,50 @@
               </tr>
             </ng-template>
           </p-table>
+          <ng-template #cardTableView>
+            <div class="grid mt-2">
+              <div class="card  mr-4" *ngFor="let quote of quoteData">
+                <table>
+                  <tr>
+                    <td><h5>{{quote.ClientName}}</h5></td>
+                  </tr>
+                  <tr class="justify-content-between">
+                    
+                      <td><b>Reference No</b>
+                        <p> {{ quote.RequestReferenceNo }}</p>
+                      </td>
+                  </tr>
+                  <tr class="justify-content-between">
+                    <td><b>Start Date</b>
+                    <p>{{quote.PolicyStartDate}}</p>
+                    </td>
+                    <td class=""><b>End Date</b>
+                    <p>{{quote.PolicyEndDate}}</p></td>
+                  </tr>               
+                  <tr *ngIf="quote.OverallPremiumLc">
+                    <td>{{quote.OverallPremiumLc}}&nbsp;({{quote.currencyCode}})</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>
+                      <span class="p-buttonset">
+                       
+                        <button pButton pRipple icon="pi pi-pencil" (click)="onEditQuotes(customer,'RP')" title="Edit" class="p-button-outlined"></button>
+                        
+                      </span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </ng-template>
         </ng-container>
         <ng-container *ngIf="quoteData.length==0">
               <div class="text-center mt-2">
                   No Data Available
               </div>
         </ng-container>
-       
+        
       </p-tabPanel>
       <p-tabPanel header="Approved">
         <div class="flex justify-content-end mb-4">
@@ -79,7 +124,16 @@
           </div>
         </div>
         <ng-container *ngIf="ApprovedquoteData.length!=0">
-          <p-table [value]="ApprovedquoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+          <p-table #dtEmployeeApproved *ngIf="tableView == 'table' else cardTableView" [value]="ApprovedquoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true"
+          [globalFilterFields]="['RequestReferenceNo','ClientName','PolicyStartDate','PolicyEndDate']" [rows]="5">
+            <ng-template pTemplate="caption">
+              <div class="table-header">
+                  <span class="p-input-icon-left">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text" (input)="dtEmployeeApproved.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                  </span>
+              </div>
+          </ng-template>
             <ng-template pTemplate="header">
                 <tr>
                     <th [pSortableColumn]="column" *ngFor="let column of columnss">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
@@ -103,13 +157,50 @@
               </tr>
             </ng-template>
           </p-table>
+          <ng-template #cardTableView>
+            <div class="grid mt-2">
+              <div class="card  mr-4" *ngFor="let quote of ApprovedquoteData">
+                <table>
+                  <tr>
+                    <td><h5>{{quote.ClientName}}</h5></td>
+                  </tr>
+                  <tr class="justify-content-between">
+                    
+                      <td><b>Reference No</b>
+                        <p> {{ quote.RequestReferenceNo }}</p>
+                      </td>
+                  </tr>
+                  <tr class="justify-content-between">
+                    <td><b>Start Date</b>
+                    <p>{{quote.PolicyStartDate}}</p>
+                    </td>
+                    <td class=""><b>End Date</b>
+                    <p>{{quote.PolicyEndDate}}</p></td>
+                  </tr>               
+                  <tr *ngIf="quote.OverallPremiumLc">
+                    <td>{{quote.OverallPremiumLc}}&nbsp;({{quote.currencyCode}})</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>
+                      <span class="p-buttonset">
+                       
+                        <button pButton pRipple icon="pi pi-pencil" (click)="onEditApprovedQuotes(customer,'RA')" title="Edit" class="p-button-outlined"></button>
+                        
+                      </span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </ng-template>
         </ng-container>
         <ng-container *ngIf="ApprovedquoteData.length==0">
             <div class="text-center mt-2">
                 No Data Available
             </div>
         </ng-container>
-        
+       
       </p-tabPanel>
       <p-tabPanel header="Cancelled">
         <div class="flex justify-content-end mb-4">
@@ -124,7 +215,16 @@
           </div>
         </div>
         <ng-container *ngIf="RejectedquoteData.length!=0">
-          <p-table [value]="RejectedquoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+          <p-table  *ngIf="tableView == 'table' else cardTableView" #dtEmployeeRejected [value]="RejectedquoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" 
+          [rows]="5"  [globalFilterFields]="['RequestReferenceNo','ClientName','PolicyStartDate','PolicyEndDate']">
+            <ng-template pTemplate="caption">
+                <div class="table-header">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dtEmployeeRejected.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                    </span>
+                </div>
+            </ng-template>
             <ng-template pTemplate="header">
                 <tr>
                     <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
@@ -148,6 +248,33 @@
               </tr>
             </ng-template>
           </p-table>
+          <ng-template #cardTableView>
+            <div class="grid mt-2">
+              <div class="card  mr-4" *ngFor="let quote of RejectedquoteData">
+                <table>
+                  <tr>
+                    <td><h5>{{quote.ClientName}}</h5></td>
+                  </tr>
+                  <tr class="justify-content-between">
+                    
+                      <td><b>Reference No</b>
+                        <p> {{ quote.RequestReferenceNo }}</p>
+                      </td>
+                  </tr>
+                  <tr class="justify-content-between">
+                    <td><b>Start Date</b>
+                    <p>{{quote.PolicyStartDate}}</p>
+                    </td>
+                    <td class=""><b>End Date</b>
+                    <p>{{quote.PolicyEndDate}}</p></td>
+                  </tr>               
+                  <tr *ngIf="quote.OverallPremiumLc">
+                    <td>{{quote.OverallPremiumLc}}&nbsp;({{quote.currencyCode}})</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </ng-template>
         </ng-container>
         <ng-container *ngIf="RejectedquoteData.length==0">
             <div class="text-center mt-2">

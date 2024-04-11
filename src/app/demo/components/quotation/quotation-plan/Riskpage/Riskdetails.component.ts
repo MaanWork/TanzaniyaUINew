@@ -345,17 +345,17 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                     delete this.relationList[i].CodeDesc;
                     // let count = this.productItem?.patientList.length;
                     // console.log('KKKKKKK',count)
-                    if(type=='direct'){
-                    for(let n=0;n<2;n++){
-                      this.fields[0].fieldGroup[0].fieldGroup[i].fieldGroup[0].props.options = defaultObj.concat(this.relationList);
-                    }
-                  }
-                  else if(type=='change'){
-                    alert('FFFF')
-                    console.log('HHHHHHHH',this.fields[0].fieldGroup[0].fieldGroup[i]);
-                    let f= (this.productItem.patientList.length)-1;
-                      this.fields[0].fieldGroup[0].fieldGroup[f].fieldGroup[0].props.options= defaultObj.concat(this.relationList);
-                  }
+                  //   if(type=='direct'){
+                  //   for(let n=0;n<2;n++){
+                  //     this.fields[0].fieldGroup[0].fieldGroup[i].fieldGroup[0].props.options = defaultObj.concat(this.relationList);
+                  //   }
+                  // }
+                  // else if(type=='change'){
+                  //   alert('FFFF')
+                  //   console.log('HHHHHHHH',this.fields[0].fieldGroup[0].fieldGroup[i]);
+                  //   let f= (this.productItem.patientList.length)-1;
+                  //     this.fields[0].fieldGroup[0].fieldGroup[f].fieldGroup[0].props.options= defaultObj.concat(this.relationList);
+                  // }
                       //console.log('JJJJJJJJJJ',this.fields[0].fieldGroup[0].fieldGroup[i].fieldGroup[0].props.options);
                     // if (i == this.relationList.length - 1) {
                     //   console.log('GGGGGGGGGGGGGGGGGGGGGGG',this.fields[0].fieldGroup[i],i)
@@ -1660,95 +1660,27 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                       this.productItem.patientList.push(entry1);
             console.log('ENNNNNNN',this.productItem.patientList)
           // }
-          if(this.productItem.patientList.length==2){
-         let fieldGroup=[
-          {
-            fieldGroupClassName: 'grid',
-            key: 'patientList',
-            fieldGroup: [
-              {
-                className: 'w-full md:mt-0 mt-5 mdw-5 ml-4 mr-4',
-                type: 'ngselect',
-                key: 'RelationType',
-                defaultValue: '',
-                props: {
-                  label: 'Relation Type',
-                  required: true,
-                  options: [
-                  ],
-                },
-
-                expressions: {
-
-                },
-              },
-              {
-                className: 'w-full md:mt-0 mt-5 mdw-5 ml-4 mr-4',
-                type: 'input',
-                key: 'NickName',
-                props: {
-                  label: 'Nick Name',
-                  required: false,
-                  options: [
-                  ],
-                },
-                expressions: {
-
-                },
-              },
-              {
-                className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-4 mr-4',
-                type: 'datepicker',
-                key: 'DateOfBirth',
-                defaultValue: '',
-                templateOptions: {
-                 defaultValue: '',
-                  },
-                  props: {
-                  label: 'Date Of Birth',
-                   required: true,
-                  type: 'date',
-                  datepickerOptions: {
-                  defaultValue: '',
-                   max: ''
-                   },
-              },
-            }
-          ]
-          }
-            ];
             let fireData = new HealthInsurance();
             
 
-            let fire:any=fireData?.fields[0].fieldGroup[0].fieldGroup;
-            console.log('MMMMMMMMM',fire,fieldGroup)
-            fire = fire.concat(fieldGroup)
-            this.fields[0] = {
-              "fieldGroup":[
-                {
-                  "props": {label: 'Health Insurance'},
-                  //"key":this.productItem.patientList,
-                  //key: 'patientList',
-                  "fieldGroup": fire
-                }
-              ]
+            this.fields[0]=fireData.fields[0];
+            console.log('HHHHHHHHHHH',this.fields[0])
+            if(this.fields[0]){
+              this.showsection=true;
             }
-           console.log('FHHHHHHHHHHHHHH',this.fields[0].fieldGroup[0])
             let modelHooks = { onInit: (field: FormlyFieldConfig) => {
               field.formControl.valueChanges.subscribe(() => {
                 this.onoccChange();
               });
             } }
-            this.fields[0].fieldGroup[0].fieldGroup[1].hooks = modelHooks;
-            console.log("Final Fields",this.fields[0].fieldGroup[0])
-            this.showsection=true;
-          }
+            // this.fields[0].fieldGroup[0].fieldGroup[1].hooks = modelHooks;
+            // console.log("Final Fields",this.fields[0].fieldGroup[0])
         }
         onoccChange(){
           console.log('HHHHHH',this.productItem);
         }
         onChange(type){
-console.log("YYYYYYYYYYYYYY",type)
+            console.log("YYYYYYYYYYYYYY",type)
         }
         getEditQuoteDetails(){
           let ReqObj = {

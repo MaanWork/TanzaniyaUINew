@@ -11,7 +11,7 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-content-end mb-4">
+    <div class="flex justify-content-end mb-4" *ngIf="productId!='59'">
         
         <p-button icon="pi pi-table"  class="mr-3" [styleClass]="verticalSection == false ? '':'p-button-outlined'" (click)="verticalSection=!verticalSection" severity="success "></p-button>
         <p-button icon="pi pi-list" [styleClass]="verticalSection==true ? '':'p-button-outlined'" (click)="verticalSection=!verticalSection"  severity="success "></p-button>
@@ -604,7 +604,7 @@
             <p-tabPanel [header]="getHeader()">
                 
                 <div class="card">
-                    <ng-container *ngIf="verticalSection">              
+                    <ng-container>              
                         <div class="flex flex-wrap">
                           
                             <div class="col-12 md:col-6 lg:col-6">

@@ -3184,7 +3184,7 @@ export class CommonProductDetailsComponent {
           }
       
       if(sections.some(ele=>ele=='52')){
-        if(this.insuranceId=='100002'){
+        if(this.insuranceId=='100002' || this.insuranceId=='100004'){
         let fireData = new Burglary();
         //let entry = [];
         //entry.push(fireData?.fields);
@@ -3194,9 +3194,9 @@ export class CommonProductDetailsComponent {
         else if(this.insuranceId=='100004'){
           let fireData = new Burglarys();
             let field = {
-          props: { label: 'Burglary' },
-          fieldGroup: [fireData.fields]
-        }
+              props: { label: 'Burglary' },
+              fieldGroup: [fireData.fields]
+            }
         console.log("Burglary Fields",field)
         let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
           field.formControl.valueChanges.subscribe(() => {
