@@ -41,7 +41,7 @@
 
         </div>
         <div class="col-12 lg:col-5 xl:col-5">
-<div class="memberDetailCard" style="padding:10px !important;">
+        <div class="memberDetailCard" style="padding:10px !important;">
     <div class="mb-2"> <b>Content Risk</b></div>
                     <div class="flex md:flex-row flex-col items-center md:space-x-3">
                    
@@ -190,15 +190,40 @@
     label="Proceed" size="small" (click)="onsaveGroupPADetails()"></p-button>
 </div>
 </ng-container>
-<!-- <ng-container *ngIf="productId == '60'">
+<ng-container *ngIf="productId == '60'">
     <div class="grid mt-2 mb-3">
-        <div class="col-12 lg:col-3 xl:col-3"></div>
-        <div class="col-12 lg:col-5 xl:col-5">
+        <div class="col-1 lg:col-1 xl:col-1"></div>
+        <div class="col-10 lg:col-10 xl:col-10">
         <div class="memberDetailCard" style="padding:10px !important;">
             <div class="mb-2"> <b>Professional Indemnity</b></div>
             <div class="flex md:flex-row flex-col items-center md:space-x-3">
            
               <ng-container *ngFor="let stepss of fields8; let index = index; let last = last">
+                          <div>    
+              <div class="row">
+                  <div>
+                      <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
+                          <formly-form [form]="form" [fields]="stepss.fieldGroup" [model]="productItem"></formly-form>
+                  </form>
+                  </div>     
+              </div>
+              
+              </div></ng-container>
+          
+      </div>
+      </div> 
+      </div>
+    </div>
+
+
+    <div class="grid mt-2 mb-3">
+        <div class="col-1 lg:col-1 xl:col-1"></div>
+        <div class="col-10 lg:col-10 xl:col-10">
+        <div class="memberDetailCard mt-2" style="padding:10px !important;">
+            <!-- <div class="mb-2"> <b>Professional Indemnity</b></div> -->
+            <div class="flex md:flex-row flex-col items-center md:space-x-3">
+           
+              <ng-container *ngFor="let stepss of fields9; let index = index; let last = last">
                           <div>    
               <div class="row">
                   <div>
@@ -220,7 +245,7 @@
         <p-button 
         label="Proceed" size="small" (click)="onprofessionalsave()"></p-button>
     </div>
-</ng-container> -->
+</ng-container>
 
 <ng-container *ngIf="productId=='56'">
    
