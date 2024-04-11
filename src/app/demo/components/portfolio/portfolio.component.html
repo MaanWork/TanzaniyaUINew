@@ -133,11 +133,13 @@
         [tableStyle]="{'min-width':'50rem'}" [paginator]="true"
         [globalFilterFields]="['PolicyNo','QuoteNo','ClientName','PolicyStartDate','PolicyEndDate','OverallPremiumLc']" [rows]="5">
           <ng-template pTemplate="caption">
-            <div class="table-header">
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dtEmployeeCancelled.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
-                </span>
+            <div class="flex flex wrap justify-content-end">
+              <div class="table-header">
+                  <span class="p-input-icon-left">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text" (input)="dtEmployeeCancelled.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                  </span>
+              </div>
             </div>
           </ng-template>
           <ng-template pTemplate="header">

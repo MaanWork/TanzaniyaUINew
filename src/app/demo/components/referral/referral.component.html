@@ -36,12 +36,14 @@
           <p-table #dtEmployeePending *ngIf="tableView == 'table' else cardTableView" [value]="quoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" 
           [globalFilterFields]="['RequestReferenceNo','ClientName','PolicyStartDate','PolicyEndDate']" [rows]="5">
           <ng-template pTemplate="caption">
+            <div class="flex flex wrap justify-content-end">
               <div class="table-header">
                   <span class="p-input-icon-left">
                       <i class="pi pi-search"></i>
                       <input pInputText type="text" (input)="dtEmployeePending.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
                   </span>
               </div>
+            </div>
           </ng-template>
             <ng-template pTemplate="header">
                 <tr>
@@ -127,11 +129,13 @@
           <p-table #dtEmployeeApproved *ngIf="tableView == 'table' else cardTableView" [value]="ApprovedquoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true"
           [globalFilterFields]="['RequestReferenceNo','ClientName','PolicyStartDate','PolicyEndDate']" [rows]="5">
             <ng-template pTemplate="caption">
-              <div class="table-header">
-                  <span class="p-input-icon-left">
-                      <i class="pi pi-search"></i>
-                      <input pInputText type="text" (input)="dtEmployeeApproved.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
-                  </span>
+              <div class="flex flex wrap justify-content-end">
+                <div class="table-header">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dtEmployeeApproved.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                    </span>
+                </div>
               </div>
           </ng-template>
             <ng-template pTemplate="header">
@@ -218,12 +222,14 @@
           <p-table  *ngIf="tableView == 'table' else cardTableView" #dtEmployeeRejected [value]="RejectedquoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" 
           [rows]="5"  [globalFilterFields]="['RequestReferenceNo','ClientName','PolicyStartDate','PolicyEndDate']">
             <ng-template pTemplate="caption">
+              <div class="flex flex wrap justify-content-end">
                 <div class="table-header">
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dtEmployeeRejected.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
                     </span>
                 </div>
+              </div>
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>

@@ -32,7 +32,18 @@
           </div>
         </div>
         <ng-container *ngIf="quoteData.length!=0">
-          <p-table [value]="quoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5" class="mt-2">
+          <p-table #dtEmployeePending [value]="quoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true"
+          [globalFilterFields]="['RequestReferenceNo','ClientName','PolicyStartDate','PolicyEndDate']" [rows]="5" class="mt-2">
+            <ng-template pTemplate="caption">
+              <div class="flex flex wrap justify-content-end">
+                <div class="table-header">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dtEmployeePending.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                    </span>
+                </div>
+              </div>
+          </ng-template>
             <ng-template pTemplate="header">
                 <tr>
                     <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
@@ -66,8 +77,8 @@
       </p-tabPanel>
       <p-tabPanel header="Approved">
         <div class="flex justify-content-end mb-4">
-          <p-button icon="pi pi-table"  class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
-          <p-button icon="pi pi-list" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
+          <p-button icon="pi pi-list"  class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
+          <p-button icon="pi pi-table" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
         </div>
         <div class="grid">
           <div class="col-12 md:col-4 lg:col-4">
@@ -76,7 +87,18 @@
             </p-dropdown>
           </div>
         </div>
-        <p-table [value]="ApprovedquoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+        <p-table  #dtEmployeeApproved [value]="ApprovedquoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true"
+        [globalFilterFields]="['RequestReferenceNo','ClientName','PolicyStartDate','PolicyEndDate']" [rows]="5">
+        <ng-template pTemplate="caption">
+            <div class="flex flex wrap justify-content-end">
+              <div class="table-header">
+                  <span class="p-input-icon-left">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text" (input)="dtEmployeeApproved.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                  </span>
+              </div>
+            </div>
+        </ng-template>
           <ng-template pTemplate="header">
               <tr>
                   <th [pSortableColumn]="column" *ngFor="let column of columnss">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
@@ -106,7 +128,18 @@
           <p-button icon="pi pi-table"  class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
           <p-button icon="pi pi-list" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
         </div>
-        <p-table [value]="RejectedquoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+        <p-table #dtEmployeeCancelled [value]="RejectedquoteData" [tableStyle]="{'min-width':'50rem'}" 
+        [globalFilterFields]="['RequestReferenceNo','ClientName','PolicyStartDate','PolicyEndDate']" [paginator]="true" [rows]="5">
+          <ng-template pTemplate="caption">
+            <div class="flex flex wrap justify-content-end">
+              <div class="table-header">
+                  <span class="p-input-icon-left">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text" (input)="dtEmployeeCancelled.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                  </span>
+              </div>
+            </div>
+        </ng-template>
           <ng-template pTemplate="header">
               <tr>
                   <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
