@@ -1826,7 +1826,7 @@ export class AccesoriesComponent {
             console.log("SI Rec",this.sumInsuredDetails);
           }
           if(this.productId!='19') {
-            this.getbuilding();
+            //this.getbuilding();
           } 
           if(this.productId=='5' || this.productId=='29'){
             this.getAccessories();
@@ -5651,8 +5651,8 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     this.employeeSalary = null;this.nationality = null;this.empDob = null;this.empJoiningDate=null;
 }
   EmployeeAdd(){
-   this.productItem.EmpsLocation = null;this.productItem.EmpsName=null;
-  this.productItem.EmpsOccupation = null;this.productItem.EmpsDob=null;
+   this.productItem.EmpsLocation=null;this.productItem.EmpsName=null;
+  this.productItem.EmpsOccupation=null;this.productItem.EmpsDob=null;
     this.productItem.EmpsPeriod =null; this.productItem.EmpsJoin =null;this.productItem.EmpsSI=null;
  this.productItem.EmpsNationality=null; this.productItem.EmpsAddress =null;
       let entry = 
@@ -5672,12 +5672,12 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
           "RequestReferenceNo": this.quoteRefNo,
           "RiskId": null,
           "Salary": null,
-          "NationalityId":null
+          "NationalityId":null,
+          "LocationId":null
         }
       this.currentEmployeeIndex = this.employeeList.length;
     this.employeeList.push(entry);
     console.log('Employeeelist',this.employeeList)
-    this.form = new FormGroup({});
     this.productItem = new ProductData();
     //this.productItem = new ProductData();
     // this.editEmployeeSection = false;this.enableEmployeeEditSection = true;
@@ -5715,6 +5715,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     console.log('LLLL',edit,rowdata);
     this.currentBuildingIndex= edit;
     this.editContentSection = true;
+    this.productItem = new ProductData();
     this.enableContentEditSection = true;
     this.productItem.ContentLocation = rowdata.RiskId;
     this.productItem.ContentSerialNo = rowdata.SerialNoDesc;
@@ -6782,7 +6783,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
   onemployeesavelast(){
     console.log("Final Additional Info",this.currentEmployeeIndex);
     if(this.currentEmployeeIndex!=null){
-      console.log("Emps Locations",this.employeeList);
+      console.log("Emps Locations", this.productItem.EmpsLocation);
       this.employeeList[this.currentEmployeeIndex]['RiskId'] = this.productItem.EmpsLocation;
       this.employeeList[this.currentEmployeeIndex]['LocationId'] = this.productItem.EmpsLocation;
       this.employeeList[this.currentEmployeeIndex]['EmployeeName'] = this.productItem.EmpsName;
