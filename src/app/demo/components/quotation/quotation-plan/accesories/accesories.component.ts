@@ -3924,6 +3924,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
           }
 
           if(this.first || this.second || this.fifth || this.ten || this.third || this.nine || this.seven || this.eight || this.six){
+            let defaultobj=[{'label':'--Select--','value':'--Select--'}]
             if(this.LocationList.length !=0){
               for (let j = 0; j < this.LocationList.length; j++) {
                 this.LocationList[j].label = this.LocationList[j]['CodeDesc'];
@@ -3939,7 +3940,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
                         if(n.type=='ngselect'){
                           
                         if(n.props.label=='Location'){
-                           this.fieldsContent[0].fieldGroup[0].fieldGroup[0].fieldGroup[l].props.options = this.LocationList;
+                           this.fieldsContent[0].fieldGroup[0].fieldGroup[0].fieldGroup[l].props.options = defaultobj.concat(this.LocationList);
                         }
                       }
                         l+=1;
@@ -3954,7 +3955,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
                       for( let n of vars.fieldGroup){            
                         if(n.type=='ngselect'){
                         if(n.props.label=='Location'){
-                           this.fieldsElectronic[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options= this.LocationList;
+                           this.fieldsElectronic[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options= defaultobj.concat(this.LocationList);
                         }
                       }
                         j+=1;
@@ -3969,7 +3970,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
                       for( let n of vars.fieldGroup){            
                         if(n.type=='ngselect'){
                         if(n.props.label=='Location'){
-                           this.fieldsPersonalAccident[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options= this.LocationList;
+                           this.fieldsPersonalAccident[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options= defaultobj.concat(this.LocationList);
                         }
                       }
                         j+=1;
@@ -3984,7 +3985,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
                       for( let n of vars.fieldGroup){            
                         if(n.type=='ngselect'){
                         if(n.props.label=='Location'){
-                           this.fieldsPersonalInd[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options= this.LocationList;
+                           this.fieldsPersonalInd[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options= defaultobj.concat(this.LocationList);
                         }
                       }
                         j+=1;
@@ -3993,7 +3994,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
                     //this.fieldsPersonalInd[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
                   }
                   if(this.ten){
-                    this.fieldsDevice[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+                    this.fieldsDevice[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = defaultobj.concat(this.LocationList);
                   }
                   if(this.third){
                     for(let x of this.fieldsRisk){
@@ -4002,7 +4003,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
                       for( let n of vars.fieldGroup){               
                         if(n.type=='ngselect'){
                         if(n.props.label=='Location'){
-                           this.fieldsRisk[0].fieldGroup[0].fieldGroup[0].fieldGroup[l].props.options = this.LocationList;
+                           this.fieldsRisk[0].fieldGroup[0].fieldGroup[0].fieldGroup[l].props.options = defaultobj.concat(this.LocationList);
                         }
                       }
                         l+=1;
@@ -4018,7 +4019,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
                         if(n.type=='ngselect'){
                           console.log('templates111',n.props.label);
                         if(n.props.label=='Location'){
-                           this.fieldsMachinery[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options = this.LocationList;
+                           this.fieldsMachinery[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options = defaultobj.concat(this.LocationList);
                         }
                       }
                         j+=1;
@@ -4033,7 +4034,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
                       for( let n of vars.fieldGroup){            
                         if(n.type=='ngselect'){
                         if(n.props.label=='Location'){
-                           this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options = this.LocationList;
+                           this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options = defaultobj.concat(this.LocationList);
                         }
                       }
                         j+=1;
@@ -4052,7 +4053,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
                         if(n.type=='ngselect'){
                           console.log('templates111',n.props.label);
                         if(n.props.label=='Location'){
-                           this.fieldFEFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options = this.LocationList;
+                           this.fieldFEFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options = defaultobj.concat(this.LocationList);
                         }
                       }
                         j+=1;
@@ -5863,6 +5864,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     console.log('SSSSSSSSSSSSSSSS',edit);
     this.editEmployeeSection = true;
     this.enableEmployeeEditSection = true;
+    this.productItem = new ProductData();
     console.log('PPPPPPPPP',rowdata);
     this.productItem.EmpsLocation= String(rowdata.RiskId);
     console.log('UUUUUUUU',rowdata.RiskId)//this.employeeList[index] this.empLocation 
@@ -5914,7 +5916,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       let entry = this.originalFidelityList.some(ele=>ele.EmployeeId==rowData.EmployeeId);
       if(entry){
         let SectionId = null;
-        if(this.productId=='32' || this.productId=='19') SectionId = '43';
+        if(this.productId=='32' || this.productId=='19' || this.productId=='57') SectionId = '43';
         let ReqObj = {
           "QuoteNo": this.quoteNo,
           "RiskId": rowData.RiskId,
@@ -5953,7 +5955,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       let entry = this.originalEmployeeList.some(ele=>ele.EmployeeId==rowData.EmployeeId);
       if(entry){
         let SectionId = null;
-        if(this.productId=='14'  || this.productId=='19') SectionId = '45';
+        if(this.productId=='14'  || this.productId=='19' || this.productId=='57') SectionId = '45';
         let ReqObj = {
           "QuoteNo": this.quoteNo,
         //   "RiskId": rowData.RiskId,
