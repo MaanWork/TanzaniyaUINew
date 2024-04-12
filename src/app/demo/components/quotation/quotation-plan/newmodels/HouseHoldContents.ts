@@ -25,10 +25,10 @@ export class HouseHoldContentsss{
           props: { label: 'Contents Risk' },
           fieldGroup: [
             {
-              fieldGroupClassName: 'row',
+              fieldGroupClassName: 'newclassnames',
               fieldGroup: [
                 {
-                  className: 'col-12 col-md-6 col-lg-3',
+                  className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-5 mr-5',
                   type: 'commaSeparator',
                   key: 'PaitingsSi',
     
@@ -51,7 +51,7 @@ export class HouseHoldContentsss{
                   },
                 },
                 {
-                  className: 'col-12 col-md-6 col-lg-3',
+                  className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-5 mr-5',
                   type: 'commaSeparator',
                   key: 'CarpetsSi',
     
@@ -74,7 +74,7 @@ export class HouseHoldContentsss{
                   },
                 },
                 {
-                  className: 'col-12 col-md-6 col-lg-3',
+                  className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-5 mr-5',
                   type: 'commaSeparator',
                   key: 'JewellerySi',
     
@@ -97,7 +97,7 @@ export class HouseHoldContentsss{
                   },
                 },
                 {
-                  className: 'col-12 col-md-6 col-lg-3',
+                  className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-5 mr-5',
                   type: 'commaSeparator',
                   key: 'EquipmentSis',
     

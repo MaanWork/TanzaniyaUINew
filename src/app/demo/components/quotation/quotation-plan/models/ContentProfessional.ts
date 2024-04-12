@@ -1,7 +1,7 @@
 import { ForceLengthValidators } from "../personal-quote-details/personal-quote-details.component";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 
-export class ProfessionalIndemnity{
+export class ContentProfessionalIndermity{
     customerDetails: any;
     commonDetails: any[]=[];
     endorsementSection: boolean=false;
@@ -26,15 +26,15 @@ export class ProfessionalIndemnity{
           props: { label: 'Professional Indemnity'},
           fieldGroup: [
             {
-              fieldGroupClassName: 'newclassname',
+              fieldGroupClassName: 'grid',
               fieldGroup: [
                 {
-                  className: 'w-full md:mt-0 mt-5 mdw-5',
+                  className: 'col-12 md:col-4 lg:col-4',
                   type: 'input',
-                  key: 'EmployeeCounts',
+                  key: 'ProfessionalStaff',
                   props: {
-                    label: 'Principle Partners',
-                    placeholder: "Principle Partners",
+                    label: 'Professional Staff',
+                    placeholder: "Professional Staff",
                     required: false,
                     maxLength: 4,
                     pattern: /[0-9]+/gm,
@@ -51,65 +51,11 @@ export class ProfessionalIndemnity{
                   },
                 },
                 {
-                  className: 'w-full md:mt-0 mt-3 md:w-1/3',
-                  type: 'ngselect',
-                  key: 'ProfessionalOccupation',
-                  props: {
-                    label: 'Occupation',
-                    //hideExpression: "model.BuildingOwnerYn =='N'",
-                    disabled: this.checkDisable('BuildingUsageId'),
-                    required: true,
-                    options: [
-                    ],
-                  },
-
-                  expressions: {
-  
-                  },
-                },
-                {
-                  className: 'w-full md:mt-0 mt-5 mdw-5',
+                  className: 'col-12 md:col-4 lg:col-4',
                   type: 'input',
-                  key: 'GISI',
-                  props: {
-                    label: 'Gross Income (Per Year)',
-                    placeholder: "Gross Income",
-                    required: false,
-                    maxLength: 4,
-                    pattern: /[0-9]+/gm,
-                    disabled: this.checkDisable('BuildingBuildYear'),
-                    options: [
-                    ],
-                  },
-                  validation: {
-                    messages: {
-                    },
-                  },
-                  expressions: {
-  
-                  },
-                },
-                {
-                  className: 'w-full md:mt-0 mt-3 md:w-1/3',
-                  type: 'ngselect',
-                  key: 'IndemnityTypes',
-                  props: {
-                    label: 'Indemnity Type',
-                    disabled: this.checkDisable('WallType'),
-                    required: false,
-                    options: [
-                    ],
-                  },
-                  expressions: {
-  
-                  },
-                },
-                {
-                  className: 'w-full md:mt-0 mt-5 mdw-5',
-                  type: 'commaSeparator',
-                  key: 'ProfessionalSI',
+                  key: 'NonProfessionalStaff',
                   templateOptions: {
-                    label: `Indemnity SI`,
+                    label: `Non Professional staff`,
                     required: true,
                     disabled: this.checkDisable('BuildingSuminsured'),
                     maxLength: 15

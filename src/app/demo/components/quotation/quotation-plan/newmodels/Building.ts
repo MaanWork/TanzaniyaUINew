@@ -23,13 +23,127 @@ export class Buildingss{
         }
         this.fields={
           props: { label: 'Building Risk' },
+          // fieldGroup: [
+          //   {
+          //     fieldGroupClassName: 'newclassname',
+          //     fieldGroup: [
+          //       {
+          //         className: 'w-full md:mt-0 mt-3 md:w-1/3',
+          //         type: 'ngselect',
+          //         key: 'BuildingUsageId',
+          //         props: {
+          //           label: 'Building Usage',
+          //           //hideExpression: "model.BuildingOwnerYn =='N'",
+          //           disabled: this.checkDisable('BuildingUsageId'),
+          //           required: true,
+          //           options: [
+          //           ],
+          //         },
+
+          //         expressions: {
+  
+          //         },
+          //       },
+          //       {
+          //         className: 'w-full md:mt-0 mt-5 mdw-5',
+          //         type: 'input',
+          //         key: 'BuildingBuildYear',
+          //         props: {
+          //           label: 'Built Year',
+          //           placeholder: "YYYY",
+          //           required: false,
+          //           maxLength: 4,
+          //           pattern: /[0-9]+/gm,
+          //           disabled: this.checkDisable('BuildingBuildYear'),
+          //           options: [
+          //           ],
+          //         },
+          //         validation: {
+          //           messages: {
+          //           },
+          //         },
+          //         expressions: {
+  
+          //         },
+          //       },
+          //       {
+          //         className: 'w-full md:mt-0 mt-3 md:w-1/3',
+          //         type: 'ngselect',
+          //         key: 'WallType',
+          //         props: {
+          //           label: 'Construction (Wall)',
+          //           disabled: this.checkDisable('WallType'),
+          //           required: false,
+          //           options: [
+          //           ],
+          //         },
+          //         expressions: {
+  
+          //         },
+          //       },
+          //       {
+          //         className: 'w-full md:mt-0 mt-3 md:w-1/3',
+          //         type: 'ngselect',
+          //         key: 'RoofType',
+          //         props: {
+          //           label: 'Construction (Roof)',
+          //           disabled: this.checkDisable('RoofType'),
+          //           required: false,
+          //           options: [
+          //           ],
+          //         },
+          //         expressions: {
+  
+          //         },
+          //       },
+          //       {
+          //         className: 'w-full md:mt-0 mt-3 md:w-1/3',
+          //         type: 'ngselect',
+          //         key: 'TypeOfProperty',
+          //         props: {
+          //           label: 'Type Of Property',
+          //           //hideExpression: "model.BuildingOwnerYn =='N'",
+          //           disabled: this.checkDisable('BuildingUsageId'),
+          //           required: true,
+          //           options: [
+          //           ],
+          //         },
+
+          //         expressions: {
+  
+          //         },
+          //       },
+          //       {
+          //         className: 'w-full md:mt-0 mt-5 mdw-5',
+          //         type: 'commaSeparator',
+          //         key: 'BuildingSuminsured',
+          //         templateOptions: {
+          //           label: `Building Sum Insured`,
+          //           required: true,
+          //           disabled: this.checkDisable('BuildingSuminsured'),
+          //           maxLength: 15
+          //         },
+          //         validators: {
+          //         },
+          //         hooks: {
+  
+          //         },
+  
+          //         expressions: {
+                    
+          //         },
+          //       }
+  
+          //     ]
+          //   }
+          // ]
   
           fieldGroup: [
             {
-              fieldGroupClassName: 'row',
+              fieldGroupClassName: 'newclassnames',
               fieldGroup: [
                 {
-                  className: 'col-12 col-md-6 col-lg-4',
+                  className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-5 mr-5',
                   type: 'ngselect',
                   key: 'BuildingUsageId',
                   props: {
@@ -45,7 +159,7 @@ export class Buildingss{
                   },
                 },
                 {
-                  className: 'col-12 col-md-6 col-lg-2',
+                  className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-5 mr-5',
                   type: 'input',
                   key: 'BuildingBuildYear',
                   props: {
@@ -67,7 +181,7 @@ export class Buildingss{
                   },
                 },
                 {
-                  className: 'col-12 col-md-6 col-lg-3',
+                  className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-5 mr-5',
                   type: 'ngselect',
                   key: 'WallType',
                   props: {
@@ -82,7 +196,7 @@ export class Buildingss{
                   },
                 },
                 {
-                  className: 'col-12 col-md-6 col-lg-3',
+                  className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-5 mr-5',
                   type: 'ngselect',
                   key: 'RoofType',
                   props: {
@@ -97,7 +211,7 @@ export class Buildingss{
                   },
                 },
                 {
-                  className: 'col-12 col-md-6 col-lg-3',
+                  className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-5 mr-5',
                   type: 'ngselect',
                   key: 'TypeOfProperty',
                   props: {
@@ -113,7 +227,7 @@ export class Buildingss{
                   },
                 },
                 {
-                  className: 'col-12 col-md-6 col-lg-3',
+                  className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-5 mr-5',
                   type: 'commaSeparator',
                   key: 'BuildingSuminsured',
                   templateOptions: {
@@ -133,7 +247,7 @@ export class Buildingss{
                   },
                 },
                 {
-                  className: 'col-12 col-md-6 col-lg-3',
+                  className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-5 mr-5',
                   type: 'commaSeparator',
                   key: 'WaterTankSi',
                   templateOptions: {
@@ -147,7 +261,7 @@ export class Buildingss{
                   },
                 },
                 {
-                  className: 'col-12 col-md-6 col-lg-3',
+                  className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-5 mr-5',
                   type: 'commaSeparator',
                   key: 'LossOfRentSi',
                   templateOptions: {
@@ -162,7 +276,7 @@ export class Buildingss{
   
                 },
                 {
-                  className: 'col-12 col-md-6 col-lg-3',
+                  className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-5 mr-5',
                   type: 'commaSeparator',
                   key: 'ArchitectsSi',
                   templateOptions: {

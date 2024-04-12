@@ -279,12 +279,12 @@
             </div>
         </div>
         <ng-container *ngIf="showsection">
-            <h2>Entered</h2>
+           
             <ng-container *ngFor="let step of fields[0].fieldGroup; let index = index; let last = last">
 
                 <ng-container *ngIf="step.props.label=='Employers Liability' || step.props.label=='Health Insurance' || (step.props.label=='Contents Risk' && insuranceId=='100004' && productId!='24') || step.props.label=='Building Risk' || step.props.label=='Money' || step.props.label=='Business Interruption' || (step.props.label=='Burglary' && insuranceId=='100004') || step.props.label=='Fidelity' || step.props.label=='Public Liability' || step.props.label=='Machinery BreakDown' || step.props.label=='Fire & Allied Perils' || (step.props.label=='Burglary' && insuranceId=='100002')  || step.props.label=='Goods in Transit'">
 
-                    <div class="col-md-12 col-lg-12 col-xl-12" style="margin-top:30px !important;">
+                    <div class="col-md-12 col-lg-12 col-xl-12"><!--style="margin-top:30px !important;"-->
                         <div style="width:100% !important;" class="col-md-4 col-lg-4 col-xl-4 customer-grid maan-grid-item-titles d-flex justify-content-between" (click)="selectedIndex=index">
                            
                         </div>
@@ -306,6 +306,12 @@
                 </ng-container>
             </ng-container>
         </ng-container> 
+        <div class="text-center mt-2">
+            <p-button  styleClass="p-button-outlined" label="Back"
+            size="small" [routerLink]="['/quotation/plan/quote-details']" routerLinkActive="router-link-active"></p-button>&nbsp;
+            <p-button 
+            label="Proceed" size="small" (click)="onSaveHealthInsurance()"></p-button>
+        </div>
                           
        
                   </div> 

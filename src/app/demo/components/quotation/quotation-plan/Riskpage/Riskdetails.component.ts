@@ -184,10 +184,12 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               if (referenceNo) {
                 this.requestReferenceNo = referenceNo;
                 this.getCommonnDetails();
+                this.getCommonDetails();
               }
               else{
             
-                    this.AddNewFunc();
+                this.AddNewFunc();
+                    this.getCommonDetails();
                     // this.productItem.patientList = [
                     //   {
                     //     "CreatedBy": this.loginId,
@@ -205,6 +207,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             }
             if(this.productId=='60'){
             // this.getEditDetails();
+            this.getCommonDetails();
            this.getdetails();
            this.getProfessional();
 
@@ -349,6 +352,32 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                     this.relationList[i].label = this.relationList[i]['CodeDesc'];
                     this.relationList[i].value = this.relationList[i]['Code'];
                     delete this.relationList[i].CodeDesc;
+                    if (i == this.relationList.length - 1) {
+                      // this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.relationList);
+                       this.fields[0].fieldGroup[0].fieldGroup[0].fieldArray.fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.relationList);
+                    
+                   }
+                    // console.log('FFFF',this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[i].fieldGroup[0].fieldGroup[0].props.options )
+                     //this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[i].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.relationList);
+
+                    for(let x of this.fields){
+                      let vars = x.fieldGroup[0].fieldGroup[0];
+                      let j=0;
+                      for( let n of vars.fieldGroup){      
+                        console.log('HHHHHHHHHHHHH',n);  
+                        this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.relationList);       
+                      //   if(n.type=='commaSeparator'){
+                      //   if(n.templateOptions.label=='Sum Insured'){
+                      //      this.fieldsContent[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].hooks = regionHooks;
+                      //   }
+                      // }
+                        j+=1;
+                      }
+                }
+                  //   if (i == this.relationList.length - 1) {
+                  //      this.fields[0].fieldGroup[0].fieldGroup[0].fieldArray.fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.relationList);
+                  //      this.showSection=true;
+                  //  }
                     // let count = this.productItem?.patientList.length;
                     // console.log('KKKKKKK',count)
                   //   if(type=='direct'){
@@ -1655,7 +1684,11 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
         "DateOfBirth": null
   }
               this.productItem.patientList.push(entry);
-              let entry1 = {"retionType":"","ageBand":null,nickName:null}
+              let entry1 = { "CreatedBy": this.loginId,
+              "RiskId": null,
+              "RelationType": '2',
+              "RelationTypeDesc": null,
+              "DateOfBirth": null}
           //     let entry1 = {
           //       "CreatedBy": this.loginId,
           //       "RiskId": null,
@@ -3056,6 +3089,13 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             })
           }
           onprofessionalsave(){
+            let occupations:any;
+            if(this.productItem?.ProfessionalOccupation!=null && this.productItem?.ProfessionalOccupation!='' && this.productItem?.ProfessionalOccupation!=undefined){
+              let occ = this.occupationList.find(ele => ele.Code == this.productItem?.ProfessionalOccupation)
+               if(occ){
+                occupations = occ.label;
+               }
+            }
             let endorsementDate=null,EndorsementEffectiveDate=null,EndorsementRemarks=null,
           EndorsementType=null,EndorsementTypeDesc=null,EndtCategoryDesc=null,EndtCount=null,
           EndtPrevPolicyNo=null,EndtPrevQuoteNo=null,EndtStatus=null,IsFinanceEndt=null,OrginalPolicyNo=null;
@@ -3080,7 +3120,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
   "InsuranceId": this.insuranceId,
   "CreatedBy": this.loginId,
   "OccupationId": this.productItem?.ProfessionalOccupation,
-  "OccupationDesc": "Adocate",
+  "OccupationDesc": occupations,
   "EndorsementDate": endorsementDate,
   "EndorsementEffectiveDate": EndorsementEffectiveDate,
   "EndorsementRemarks": EndorsementRemarks,
@@ -3924,7 +3964,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                 effectiveDate = this.endorseEffectiveDate;
               }
               else {
-                effectiveDate = this.commonDetails[0].PolicyStartDate
+                effectiveDate = this.commonDetails[0].PolicyStartDate;
               }
               let ReqObj = {
                 "InsuranceId": this.insuranceId,
@@ -3973,7 +4013,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                   if(this.endorseCoverModification) coverModificationYN = this.endorseCoverModification
                 }
                 else {
-                  effectiveDate = this.commonDetails[0].PolicyStartDate
+                  effectiveDate = this.commonDetails[0].PolicyStartDate;
                 }
           
                 let ReqObj = {
@@ -4057,7 +4097,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                   if(this.endorseCoverModification) coverModificationYN = this.endorseCoverModification
                 }
                 else {
-                  effectiveDate = this.policyStartDate
+                  effectiveDate = this.policyStartDate;
                 }
                 if(this.productId=='46') build['RiskId'] = '1';
                 let sectionId = '';
@@ -4329,9 +4369,11 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                   if(this.productId=='56'){
                       
                       //let fireData = new EmployersLiability();
-                      //let fireData = new HealthInsurance();
+                    let fireData = new HealthInsurance();
+                    this.fields[0] = fireData?.fields[0];
+                    console.log("Final Fields",this.fields)
                       let entry = [];
-                      this.AddNewFunc();
+                      // this.AddNewFunc();
 
                     //   let modelHooks = { onInit: (field: FormlyFieldConfig) => {
                     //     field.formControl.valueChanges.subscribe(() => {
@@ -4346,7 +4388,8 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                       if (referenceNo) {
                         this.requestReferenceNo = referenceNo;
                         this.getSectionList();
-                        this.setCommonFormValues();
+                        //this.setCommonFormValues();
+                        this.setCommonFormValues1();
                         this.getRelationTypeList('direct');
                         console.log('FIIIIIIIIIIIIIII',this.fields[0].fieldGroup[0]);
                         // this.productItem = new ProductData();
@@ -4429,6 +4472,16 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                 "RiskId": "53",
              "SectionId": '106'
                  },
+                 {
+                  "RequestReferenceNo": this.requestReferenceNo,
+                    "RiskId": "53",
+                 "SectionId": '107'
+                     },
+                     {
+                      "RequestReferenceNo": this.requestReferenceNo,
+                        "RiskId": "53",
+                     "SectionId": '108'
+                         },
               ]
             }
             let urlLink = `${this.motorApiUrl}api/slide15/gethumantype`;
@@ -4443,7 +4496,12 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                 this.productItem.ProfessionalType= datas?.ProfessionalType;
                 this.productItem.EmployeeCounts=datas?.EmployeeCount;
                 this.productItem.GISI = datas?.GrossIncome;
-                  this.productItem.IndemnityTypes=datas?.IndernitySI;
+                  this.productItem.IndemnityTypes=datas?.InternityType;
+                  this.productItem.ProfessionalSI = datas?.IndernitySI;
+                  let datas1= data?.Result[1];
+                  let datas2= data?.Result[2];
+                  this.productItem.ProfessionalStaff=datas1?.EmployeeCount;
+                  this.productItem.NonProfessionalStaff=datas2?.EmployeeCount;
                 // "OccupationId":this.productItem?.ProfessionalOccupation,
                 // "OccupationDesc":"Adocate",
                 // "ProfessionalType":this.productItem?.ProfessionalType,
@@ -4457,5 +4515,116 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               (err) => { },
             );
           }
-        
+          onSaveHealthInsurance(){
+            let list = [],i=0;
+            for(let entry of this.productItem.patientList){
+              let obj = entry;
+              if(entry.DateOfBirth!=null && entry.DateOfBirth!=undefined){
+                let dateList = String(entry.DateOfBirth).split('/');
+                if(dateList.length>1){}
+                else obj.DateOfBirth = this.datePipe.transform(entry.DateOfBirth,'dd/MM/yyyy');
+              }
+              obj['CreatedBy'] = this.loginId;
+              obj['InsuranceId'] = this.insuranceId;
+              obj['ProductId'] = this.productId;
+              obj['RiskId'] = String(i+1);
+              obj['SectionId'] = this.ProductCode;
+              obj['RequestReferenceNo'] = this.requestReferenceNo;
+              list.push(obj);
+              i+=1;
+              if(i==this.productItem.patientList.length){
+                    let urlLink = `${this.motorApiUrl}api/slide15/savehealthinsure`;
+                    this.sharedService.onPostMethodSync(urlLink, list).subscribe(
+                      (data: any) => {
+                          if (data?.Result) {
+                  if(data.Result.length!=0){
+                    this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+                    sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                    this.onCalculate(data.Result);
+                   
+                    //this.onCheckUWQuestionProceed(data.Result);
+                  }
+                  
+                // }
+                // else {
+                //   this.nextslide=false;
+                // }
+                }
+                        // if (data?.Result) {
+                        //   if (data?.Result.length!=0) {
+                        //     this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+                        //     sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                        //       if(this.commonDetails){
+                        //         if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                        //           if(!this.commonDetails[0].SectionId.some(ele=>ele==this.ProductCode)) this.commonDetails[0].SectionId.push(this.ProductCode);
+                        //         }
+                        //         else  this.commonDetails[0]['SectionId']=[this.ProductCode];
+                        //       }
+                        //     sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails)) 
+                           
+                        //   }
+                        // }
+                      });
+              }
+            }
+            console.log("Final List",this.productItem.patientList);
+          }
+
+
+          setCommonFormValues1(){
+            let refNo = sessionStorage.getItem('quoteReferenceNo');
+            if(refNo==undefined) refNo = this.requestReferenceNo
+            let ReqObj = {
+              "RequestReferenceNo": this.requestReferenceNo,
+              "RiskId": "1",
+              "SectionId":  null
+            }
+            let urlLink = null;
+           
+            if(this.productId=='56'){ReqObj.SectionId=this.ProductCode;urlLink=`${this.motorApiUrl}api/slide15/gethealthinsure`;}
+            this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+              (data: any) => {
+                if (data.Result) {
+                    let details = data?.Result;
+                   
+                    if(this.productId=='56'){
+                      let i=0;
+                      let details = data.Result;
+                        for(let s of details){
+                            let entry = {
+                              "RequestReferenceNo": s?.RequestReferenceNo,
+                              "ProductId": s?.ProductId,
+                              "SectionId": s?.SectionId,
+                              "InsuranceId": s?.InsuranceId,
+                              "CreatedBy": this.loginId,
+                              "RiskId": s?.RiskId,
+                              "RelationType": s?.RelationType,
+                              "RelationTypeDesc": s?.RelationTypeDesc,
+                              "DateOfBirth": s?.DateOfBirth,
+                              "NickName": s?.NickName
+                          }
+                          if(entry.DateOfBirth){
+                            let dateList = String(entry.DateOfBirth).split('/');
+                            if(dateList.length>1){
+                              entry.DateOfBirth = dateList[2]+'-'+dateList[1]+'-'+dateList[0];
+                              
+                            }
+                          }
+                          if(i==0){
+                            this.ProductCode = s.SectionId;
+                            if(entry.RelationType==null || entry.RelationType=='') entry.RelationType = '1';
+                          }
+                          else if(entry.RelationType==null || entry.RelationType==undefined) entry.RelationType = '';
+                          this.productItem.patientList.push(entry);
+                          i+=1;
+                          if(i==details.length){this.getRelationTypeList('direct');}
+                          this.showsection=true;
+                        }
+                      
+                    }
+                }
+              },
+              (err) => { },
+            );
+          }
 }
