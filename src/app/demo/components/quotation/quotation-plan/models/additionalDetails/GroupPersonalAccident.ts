@@ -1,6 +1,4 @@
 import { FormlyJsonschema } from "@ngx-formly/core/json-schema";
-import { SharedService } from "src/app/shared/shared.service";
-import { ForceLengthValidators } from '../../domestic-risk-details/domestic-risk-details.component';
 import { FormlyFieldConfig } from "@ngx-formly/core";
 
 
@@ -44,9 +42,9 @@ export class GroupPersonalAccident{
                               label: 'Employee Name',
                               required: true,
                             },
-                            validators: {
-                              validation: [ForceLengthValidators.maxLength(150), ForceLengthValidators.min(1)]
-                            },
+                            // validators: {
+                            //   validation: [ForceLengthValidators.maxLength(150), ForceLengthValidators.min(1)]
+                            // },
                           
                        },
                       {
@@ -62,9 +60,9 @@ export class GroupPersonalAccident{
                           ],
           
                         },
-                        validators: {
-                          validation: [ForceLengthValidators.maxLength(500), ForceLengthValidators.min(1)]
-                        },
+                        // validators: {
+                        //   validation: [ForceLengthValidators.maxLength(500), ForceLengthValidators.min(1)]
+                        // },
                         hooks: {
                         },
                         expressions: {
@@ -156,9 +154,9 @@ export class GroupPersonalAccident{
                           ],
           
                         },
-                        validators: {
-                          validation: [ForceLengthValidators.maxLength(100), ForceLengthValidators.min(1)]
-                        },
+                        // validators: {
+                        //   validation: [ForceLengthValidators.maxLength(100), ForceLengthValidators.min(1)]
+                        // },
                         hooks: {
                         },
                         expressions: {
@@ -173,9 +171,9 @@ export class GroupPersonalAccident{
                           maxLength:15,
                           required: true,
                         },
-                        validators: {
-                          validation: [ForceLengthValidators.maxLength(50), ForceLengthValidators.min(1)]
-                        },
+                        // validators: {
+                        //   validation: [ForceLengthValidators.maxLength(50), ForceLengthValidators.min(1)]
+                        // },
                         hooks: {
                         },
                         expressions: {
