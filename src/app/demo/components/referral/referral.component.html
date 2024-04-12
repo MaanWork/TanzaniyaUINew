@@ -34,7 +34,7 @@
         </div>
         <ng-container *ngIf="quoteData.length!=0">
           <p-table #dtEmployeePending *ngIf="tableView == 'table' else cardTableView" [value]="quoteData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" 
-          [globalFilterFields]="['RequestReferenceNo','ClientName','PolicyStartDate','PolicyEndDate']" [rows]="5">
+          [globalFilterFields]="['QuoteNo','RequestReferenceNo','ClientName','PolicyStartDate','PolicyEndDate']" [rows]="5">
           <ng-template pTemplate="caption">
             <div class="flex flex wrap justify-content-end">
               <div class="table-header">
@@ -53,6 +53,7 @@
             <ng-template pTemplate="body" let-customer>
               <tr>
                 <!-- <td><p-checkbox [binary]="true"></p-checkbox></td> -->
+                <td>{{ customer.QuoteNo}}</td>
                 <td>{{ customer.RequestReferenceNo}}</td>
                 <td>{{ customer.ClientName }}</td>
                 <td>{{ customer.PolicyStartDate }}</td>
@@ -79,6 +80,10 @@
                     
                       <td><b>Reference No</b>
                         <p> {{ quote.RequestReferenceNo }}</p>
+                      </td>
+                      <td *ngIf="quote.QuoteNo">
+                        <b>Quote No</b>
+                        <p> {{ quote.QuoteNo }}</p>
                       </td>
                   </tr>
                   <tr class="justify-content-between">
@@ -145,7 +150,7 @@
             </ng-template>
             <ng-template pTemplate="body" let-customer>
               <tr>
-               
+                <td>{{ customer.QuoteNo}}</td>
                 <td>{{ customer.RequestReferenceNo}}</td>
                 <td>{{ customer.ClientName }}</td>
                 <td>{{ customer.PolicyStartDate }}</td>
@@ -169,11 +174,17 @@
                     <td><h5>{{quote.ClientName}}</h5></td>
                   </tr>
                   <tr class="justify-content-between">
-                    
+                    <td *ngIf="quote.QuoteNo"><b>Quote No</b>
+                      <p> {{ quote.QuoteNo }}</p>
+                    </td>
                       <td><b>Reference No</b>
                         <p> {{ quote.RequestReferenceNo }}</p>
                       </td>
                   </tr>
+                  <tr class="justify-content-between" >
+                    
+                    
+                </tr>
                   <tr class="justify-content-between">
                     <td><b>Start Date</b>
                     <p>{{quote.PolicyStartDate}}</p>
@@ -233,12 +244,13 @@
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+                    <th [pSortableColumn]="column" *ngFor="let column of columnss">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-customer>
               <tr>
                 <!-- <td><p-checkbox [binary]="true"></p-checkbox></td> -->
+                <td>{{ customer.QuoteNo}}</td>
                 <td>{{ customer.RequestReferenceNo}}</td>
                 <td>{{ customer.ClientName }}</td>
                 <td>{{ customer.PolicyStartDate }}</td>
@@ -261,8 +273,11 @@
                   <tr>
                     <td><h5>{{quote.ClientName}}</h5></td>
                   </tr>
+                  
                   <tr class="justify-content-between">
-                    
+                      <td *ngIf="quote.QuoteNo"><b>Quote No</b>
+                        <p> {{ quote.QuoteNo }}</p>
+                      </td>
                       <td><b>Reference No</b>
                         <p> {{ quote.RequestReferenceNo }}</p>
                       </td>

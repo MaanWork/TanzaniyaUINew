@@ -1,6 +1,15 @@
-<h2>Driver Info for Verification</h2>
-<p>Hi, We need your attention to start your Insurance</p>
-
+<div class="grid">
+    <div class="col-12 md:col-7 lg:col-7 xl:col-7">
+        <h2>Driver Info for Verification</h2>
+        <p>Hi, We need your attention to start your Insurance</p>
+    </div>
+    <div class="col-12 md:col-5 lg:col-5 xl:col-5">
+        <div class="flex flex-wrap justify-content-start">
+            <div *ngIf="quoteNo"><b>QuoteNo- <span class="primaryTextColor">{{quoteNo}}</span></b>&nbsp;|&nbsp;</div>
+            <div *ngIf="quoteRefNo">RefNo- <span class="primaryTextColor">{{quoteRefNo}}</span></div>
+        </div>
+    </div>
+</div>
 <!-- <div class="grid align-items-center mt-4 p-4">
     <p-inputSwitch class="mr-4"></p-inputSwitch><label for="">Use same Customer details</label>
 </div> -->

@@ -715,8 +715,9 @@ export class CoverDetailsComponent {
     let entry = this.selectedCoverList.find(ele=>ele.Id==rowData.Vehicleid);
     if(coverData.SubCovers){
        if(coverData.SubCovers.length!=0){
+          console.log(coverData.SubCovers,coverData.SubCovers.some(ele=>ele.isSelected=='D' || ele.isSelected=='O' || ele.isSelected=='Y' || ele?.UserOpt=='Y' || ele?.selected==true))
          return coverData.SubCovers.some(ele=>ele.isSelected=='D' || ele.isSelected=='O' || ele.isSelected=='Y' || ele?.UserOpt=='Y' || ele?.selected==true);
-      }
+        }
     }
     else return true;
   }
@@ -747,6 +748,7 @@ export class CoverDetailsComponent {
   }
   checkBenefitSection2(covers){
     let list:any[] = covers.CoverList.filter(ele=>ele.CoverageType=='A' && ele.isSelected!='D');
+    console.log('Default',list.length!=0);
     return (list.length!=0);
   }
   filterVehicleList(){
@@ -1019,6 +1021,29 @@ export class CoverDetailsComponent {
               cover.PremiumIncludedTaxFC = cover.PremiumIncludedTaxFC+subCover.PremiumIncludedTaxFC;
               cover.PremiumIncludedTax = cover.PremiumIncludedTax+subCover.PremiumIncludedTax;
               cover.selected = true;
+              for(let sub of cover.SubCovers){
+                if(sub.SubCoverId==subCover.SubCoverId){
+                  cover['isReferal'] = sub.isReferal;
+                  cover['SumInsured'] = sub.SumInsured;
+                  cover['Loadings'] = sub.Loadings;
+                  cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+                  cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
+                  cover['Discounts'] = sub?.Discounts;
+                  cover['CalcType'] = sub?.CalcType;
+                  cover['Rate'] = sub?.Rate;
+                  cover['ExcessPercent'] = sub?.ExcessPercent;
+                  cover['ExcessAmount'] = sub?.ExcessAmount;
+                  cover['PremiumBeforeDiscount'] = sub.PremiumBeforeDiscount;
+                  cover['ExchangeRate'] = sub?.ExchangeRate;
+                  cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
+                  cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
+                  cover['Taxes'] = sub.Taxes;
+                  sub['selected'] = true;
+                }
+                else{
+                  sub['selected'] = false;
+                }
+              }
               subCover['selected'] = true;
               this.selectedCoverList.push(element);
               console.log("Selected Covers",this.selectedCoverList)
@@ -1075,6 +1100,29 @@ export class CoverDetailsComponent {
               cover.PremiumIncludedTax = cover.PremiumIncludedTax+subCover.PremiumIncludedTax;
 
               cover.selected = true;
+              for(let sub of cover.SubCovers){
+                if(sub.SubCoverId==subCover.SubCoverId){
+                  cover['isReferal'] = sub.isReferal;
+                  cover['SumInsured'] = sub.SumInsured;
+                  cover['Loadings'] = sub.Loadings;
+                  cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+                  cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
+                  cover['Discounts'] = sub?.Discounts;
+                  cover['CalcType'] = sub?.CalcType;
+                  cover['Rate'] = sub?.Rate;
+                  cover['ExcessPercent'] = sub?.ExcessPercent;
+                  cover['ExcessAmount'] = sub?.ExcessAmount;
+                  cover['PremiumBeforeDiscount'] = sub.PremiumBeforeDiscount;
+                  cover['ExchangeRate'] = sub?.ExchangeRate;
+                  cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
+                  cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
+                  cover['Taxes'] = sub.Taxes;
+                  sub['selected'] = true;
+                }
+                else{
+                  sub['selected'] = false;
+                }
+              }
               subCover['selected'] = true;
               this.selectedCoverList.push(element);
               if(vehicle?.totalPremium){
@@ -1124,6 +1172,29 @@ export class CoverDetailsComponent {
                 cover.PremiumIncludedTaxFC = cover.PremiumIncludedTaxFC+subCover.PremiumIncludedTaxFC;
                 cover.PremiumIncludedTax = cover.PremiumIncludedTax+subCover.PremiumIncludedTax;
                 cover.selected = true;
+                for(let sub of cover.SubCovers){
+                  if(sub.SubCoverId==subCover.SubCoverId){
+                    cover['isReferal'] = sub.isReferal;
+                    cover['SumInsured'] = sub.SumInsured;
+                    cover['Loadings'] = sub.Loadings;
+                    cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+                    cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
+                    cover['Discounts'] = sub?.Discounts;
+                    cover['CalcType'] = sub?.CalcType;
+                    cover['Rate'] = sub?.Rate;
+                    cover['ExcessPercent'] = sub?.ExcessPercent;
+                    cover['ExcessAmount'] = sub?.ExcessAmount;
+                    cover['PremiumBeforeDiscount'] = sub.PremiumBeforeDiscount;
+                    cover['ExchangeRate'] = sub?.ExchangeRate;
+                    cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
+                    cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
+                    cover['Taxes'] = sub.Taxes;
+                    sub['selected'] = true;
+                  }
+                  else{
+                    sub['selected'] = false;
+                  }
+                }
                 subCover['selected'] = true;
                 sectionEntry.Covers.push(newEntry);
                 if(vehicle?.totalPremium){
@@ -1164,6 +1235,29 @@ export class CoverDetailsComponent {
                   cover.PremiumIncludedTaxFC = cover.PremiumIncludedTaxFC+subCover.PremiumIncludedTaxFC;
                   cover.PremiumIncludedTax = cover.PremiumIncludedTax+subCover.PremiumIncludedTax;
                   cover.selected = true;
+                  for(let sub of cover.SubCovers){
+                    if(sub.SubCoverId==subCover.SubCoverId){
+                      cover['isReferal'] = sub.isReferal;
+                      cover['SumInsured'] = sub.SumInsured;
+                      cover['Loadings'] = sub.Loadings;
+                      cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+                      cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
+                      cover['Discounts'] = sub?.Discounts;
+                      cover['CalcType'] = sub?.CalcType;
+                      cover['Rate'] = sub?.Rate;
+                      cover['ExcessPercent'] = sub?.ExcessPercent;
+                      cover['ExcessAmount'] = sub?.ExcessAmount;
+                      cover['PremiumBeforeDiscount'] = sub.PremiumBeforeDiscount;
+                      cover['ExchangeRate'] = sub?.ExchangeRate;
+                      cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
+                      cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
+                      cover['Taxes'] = sub.Taxes;
+                      sub['selected'] = true;
+                    }
+                    else{
+                      sub['selected'] = false;
+                    }
+                  }
                   subCover['selected'] = true;
                   sectionEntry.Covers.push(newEntry);
                   if(vehicle?.totalPremium){
@@ -1213,6 +1307,29 @@ export class CoverDetailsComponent {
             cover.PremiumIncludedTax = cover.PremiumIncludedTax+subCover.PremiumIncludedTax;
 
             cover.selected = true;
+            for(let sub of cover.SubCovers){
+              if(sub.SubCoverId==subCover.SubCoverId){
+                cover['isReferal'] = sub.isReferal;
+                cover['SumInsured'] = sub.SumInsured;
+                cover['Loadings'] = sub.Loadings;
+                cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+                cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
+                cover['Discounts'] = sub?.Discounts;
+                cover['CalcType'] = sub?.CalcType;
+                cover['Rate'] = sub?.Rate;
+                cover['ExcessPercent'] = sub?.ExcessPercent;
+                cover['ExcessAmount'] = sub?.ExcessAmount;
+                cover['PremiumBeforeDiscount'] = sub.PremiumBeforeDiscount;
+                cover['ExchangeRate'] = sub?.ExchangeRate;
+                cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
+                cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
+                cover['Taxes'] = sub.Taxes;
+                sub['selected'] = true;
+              }
+              else{
+                sub['selected'] = false;
+              }
+            }
             subCover['selected'] = true;
             this.selectedCoverList.push(element);
             if(vehicle?.totalPremium){
@@ -1301,7 +1418,21 @@ export class CoverDetailsComponent {
           cover['selected'] = true;
           for(let sub of cover.SubCovers){
             if(sub.SubCoverId==subCover.SubCoverId){
-             
+              cover['isReferal'] = sub.isReferal;
+              cover['SumInsured'] = sub.SumInsured;
+              cover['Loadings'] = sub.Loadings;
+              cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+              cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
+              cover['Discounts'] = sub?.Discounts;
+              cover['CalcType'] = sub?.CalcType;
+              cover['Rate'] = sub?.Rate;
+              cover['ExcessPercent'] = sub?.ExcessPercent;
+              cover['ExcessAmount'] = sub?.ExcessAmount;
+              cover['PremiumBeforeDiscount'] = sub.PremiumBeforeDiscount;
+              cover['ExchangeRate'] = sub?.ExchangeRate;
+              cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
+              cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
+              cover['Taxes'] = sub.Taxes;
               sub['selected'] = true;
             }
             else{
@@ -1370,6 +1501,29 @@ export class CoverDetailsComponent {
           cover.PremiumIncludedTax = subCover.PremiumIncludedTax;
           cover.selected = true;
           cover.SubCoverId = subCover.SubCoverId;
+          for(let sub of cover.SubCovers){
+            if(sub.SubCoverId==subCover.SubCoverId){
+              cover['isReferal'] = sub.isReferal;
+              cover['SumInsured'] = sub.SumInsured;
+              cover['Loadings'] = sub.Loadings;
+              cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+              cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
+              cover['Discounts'] = sub?.Discounts;
+              cover['CalcType'] = sub?.CalcType;
+              cover['Rate'] = sub?.Rate;
+              cover['ExcessPercent'] = sub?.ExcessPercent;
+              cover['ExcessAmount'] = sub?.ExcessAmount;
+              cover['PremiumBeforeDiscount'] = sub.PremiumBeforeDiscount;
+              cover['ExchangeRate'] = sub?.ExchangeRate;
+              cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
+              cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
+              cover['Taxes'] = sub.Taxes;
+              sub['selected'] = true;
+            }
+            else{
+              sub['selected'] = false;
+            }
+          }
           subCover['selected'] = true;
           this.selectedCoverList.push(element);
           if(vehicle?.totalPremium){
@@ -1425,6 +1579,29 @@ export class CoverDetailsComponent {
             cover.PremiumIncludedTaxFC = subCover.PremiumIncludedTaxLC;
             cover.PremiumIncludedTax = subCover.PremiumIncludedTax;
             cover.selected = true;
+            for(let sub of cover.SubCovers){
+              if(sub.SubCoverId==subCover.SubCoverId){
+                cover['isReferal'] = sub.isReferal;
+                cover['SumInsured'] = sub.SumInsured;
+                cover['Loadings'] = sub.Loadings;
+                cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+                cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
+                cover['Discounts'] = sub?.Discounts;
+                cover['CalcType'] = sub?.CalcType;
+                cover['Rate'] = sub?.Rate;
+                cover['ExcessPercent'] = sub?.ExcessPercent;
+                cover['ExcessAmount'] = sub?.ExcessAmount;
+                cover['PremiumBeforeDiscount'] = sub.PremiumBeforeDiscount;
+                cover['ExchangeRate'] = sub?.ExchangeRate;
+                cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
+                cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
+                cover['Taxes'] = sub.Taxes;
+                sub['selected'] = true;
+              }
+              else{
+                sub['selected'] = false;
+              }
+            }
             subCover['selected'] = true;
             sectionEntry.Covers.push(newEntry);
             if(vehicle?.totalPremium){
@@ -1471,7 +1648,31 @@ export class CoverDetailsComponent {
               cover.PremiumIncludedTaxFC = subCover.PremiumIncludedTaxLC;
               cover.PremiumIncludedTax = subCover.PremiumIncludedTax;
               cover.selected = true;
+              for(let sub of cover.SubCovers){
+                if(sub.SubCoverId==subCover.SubCoverId){
+                  cover['isReferal'] = sub.isReferal;
+                  cover['SumInsured'] = sub.SumInsured;
+                  cover['Loadings'] = sub.Loadings;
+                  cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+                  cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
+                  cover['Discounts'] = sub?.Discounts;
+                  cover['CalcType'] = sub?.CalcType;
+                  cover['Rate'] = sub?.Rate;
+                  cover['ExcessPercent'] = sub?.ExcessPercent;
+                  cover['ExcessAmount'] = sub?.ExcessAmount;
+                  cover['PremiumBeforeDiscount'] = sub.PremiumBeforeDiscount;
+                  cover['ExchangeRate'] = sub?.ExchangeRate;
+                  cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
+                  cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
+                  cover['Taxes'] = sub.Taxes;
+                  sub['selected'] = true;
+                }
+                else{
+                  sub['selected'] = false;
+                }
+              }
               subCover['selected'] = true;
+              
               let subIndex = sectionEntry.Covers.findIndex(ele=>ele.CoverId==cover.CoverId);
               sectionEntry.Covers[subIndex] = newEntry;
               if(vehicle?.totalPremium){
@@ -1529,6 +1730,29 @@ export class CoverDetailsComponent {
         cover.PremiumIncludedTax = subCover.PremiumIncludedTax;
 
         cover.selected = true;
+        for(let sub of cover.SubCovers){
+          if(sub.SubCoverId==subCover.SubCoverId){
+            cover['isReferal'] = sub.isReferal;
+            cover['SumInsured'] = sub.SumInsured;
+            cover['Loadings'] = sub.Loadings;
+            cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+            cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
+            cover['Discounts'] = sub?.Discounts;
+            cover['CalcType'] = sub?.CalcType;
+            cover['Rate'] = sub?.Rate;
+            cover['ExcessPercent'] = sub?.ExcessPercent;
+            cover['ExcessAmount'] = sub?.ExcessAmount;
+            cover['PremiumBeforeDiscount'] = sub.PremiumBeforeDiscount;
+            cover['ExchangeRate'] = sub?.ExchangeRate;
+            cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
+            cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
+            cover['Taxes'] = sub.Taxes;
+            sub['selected'] = true;
+          }
+          else{
+            sub['selected'] = false;
+          }
+        }
         subCover['selected'] = true;
         this.selectedCoverList.push(element);
         if(vehicle?.totalPremium){
@@ -2315,6 +2539,9 @@ export class CoverDetailsComponent {
               }
               if(rowData.SubCovers){
                 rowData.SubCoverId=null;
+                for(let sub of rowData.SubCovers){
+                  sub['selected'] = false;
+                }
               }
               // vehicle['totalPremium'] = vehicle['totalPremium'] - rowData.PremiumIncludedTax;
               // vehicle['totalLcPremium'] = vehicle['totalLcPremium'] - rowData.PremiumIncludedTaxFC;
@@ -2352,6 +2579,9 @@ export class CoverDetailsComponent {
     this.onClauses = true;
     this.onWarranty=false;
     this.onExclusion = false;
+  }
+  onAddClause(){
+
   }
   editClauses(id){
   }
@@ -3018,6 +3248,7 @@ export class CoverDetailsComponent {
       this.router.navigate(['/referral']);
     }
     else{
+      sessionStorage.setItem('BackType','Back');
       this.router.navigate(['/policyDetails']);
     }
   }

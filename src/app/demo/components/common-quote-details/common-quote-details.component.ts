@@ -71,7 +71,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     { title: 'Electronic Accessories', excess: 4, totalSum: 50.5, year: 1, discount: 500 },
     { title: 'Other Accessories', excess: 4, totalSum: 50.5, year: 1, discount: 500 },
   ];
-  tabIndex:any=0;claimsYN:any='N';gpsYn:any='N';
+  tabIndex:any;claimsYN:any='N';gpsYn:any='N';
   policyStartDate:any=null;policyEndDate:any=null;
   promocode:any=null;currencyList:any[]=[];
   years:MenuItem[] = [];currencyCode:any=null;
@@ -676,10 +676,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
             let loadType = sessionStorage.getItem('firstLoad');
             if((this.productId=='5' || this.productId=='29') && loadType){
               let motorDetails = JSON.parse(sessionStorage.getItem('VechileDetails'));
+              this.tabIndex = 0;
               //this.setCommonValues(motorDetails);
               }
               else{
                 this.quoteRefNo=null;
+                this.tabIndex = 0;
                 this.currencyCode = this.userDetails.Result.CurrencyId;
                 this.onCurrencyChange('direct');
                 //this.searchSection = true;
@@ -715,6 +717,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 //this.updateComponent.branchValue = this.branchValue;
                 this.currencyCode = this.userDetails.Result.CurrencyId;
                 this.noOfDaysVlaue = '90';
+                this.tabIndex = 0;
                 this.onCurrencyChange('direct');
                   var d= new Date();
                   var year = d.getFullYear();
@@ -2328,7 +2331,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       (data: any) => {
         console.log(data);
         if(data.Result){
-          
+           
             this.vehicleDetailsList = data.Result;
             if(this.vehicleDetailsList.length!=0){
               if(this.vehicleDetailsList[0]?.FinalizeYn!=null){
@@ -2355,10 +2358,28 @@ export class CommonQuoteDetailsComponent implements OnInit {
               }
               this.getInsuranceClassList();
               if(type=='direct'){
-                this.vehicleId = this.vehicleDetailsList[0].Vehicleid;
-                if(this.vehicleId==null || this.vehicleId==undefined || this.vehicleId=='') this.vehicleId = this.vehicleDetailsList[0].Vehicleid;
-                this.getEditVehicleDetails(this.vehicleId,'direct')
-                this.currentIndex = 1;
+                if(this.tabIndex==undefined || this.tabIndex==null){
+                  let entry = sessionStorage.getItem('BackType');
+                  if(entry){
+                    if(entry == 'Back'){
+                      this.tabIndex = this.vehicleDetailsList.length;
+                      this.vehicleId = this.vehicleDetailsList[this.vehicleDetailsList.length-1].Vehicleid;
+                      if(this.vehicleId==null || this.vehicleId==undefined || this.vehicleId=='') this.vehicleId = this.vehicleDetailsList[0].Vehicleid;
+                      this.getEditVehicleDetails(this.vehicleId,'direct')
+                      this.currentIndex = 1;
+                      sessionStorage.removeItem('BackType');
+                    }
+                  }
+                  else{
+                    this.tabIndex = 0;
+                    this.vehicleId = this.vehicleDetailsList[0].Vehicleid;
+                    if(this.vehicleId==null || this.vehicleId==undefined || this.vehicleId=='') this.vehicleId = this.vehicleDetailsList[0].Vehicleid;
+                    this.getEditVehicleDetails(this.vehicleId,'direct')
+                    this.currentIndex = 1;
+                  }
+                }
+                
+               
               }
               else if(type=='saveSearch'){
                 
