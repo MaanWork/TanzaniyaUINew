@@ -37,6 +37,7 @@ import Swal from 'sweetalert2';
 import { ProfessionalIndemnity } from '../models/ProfessionalIntermnity';
 import { HealthInsurance } from '../models/HealthInsurance';
 import { Moneys } from '../newmodels/Moneys';
+import { PublicLiabilitys } from '../newmodels/PublicLiablityCover';
 
 export class ForceLengthValidators {
   static maxLength(maxLength: number) {
@@ -1194,23 +1195,23 @@ export class CommonProductDetailsComponent {
           this.formSection = true; this.viewSection = false;
       }
     }
-    // else if(this.productId=='27' && this.insuranceId=='100004'){
+    else if(this.productId=='27' && this.insuranceId=='100004'){
      
-    //   let fireData = new PublicLiabilitys();
-    //   let entry = [];
-    //   this.fields[0] = fireData?.fields;
-    //   let referenceNo = sessionStorage.getItem('quoteReferenceNo');
-    //   if (referenceNo) {
-    //     this.requestReferenceNo = referenceNo;
-    //     this.productItem = new ProductData();
-    //     this.setCommonFormValues();
+      let fireData = new PublicLiabilitys();
+      let entry = [];
+      this.fields[0] = fireData?.fields;
+      let referenceNo = sessionStorage.getItem('quoteReferenceNo');
+      if (referenceNo) {
+        this.requestReferenceNo = referenceNo;
+        this.productItem = new ProductData();
+        this.setCommonFormValues();
        
-    //   }
-    //   else {
-    //       this.productItem = new ProductData();
-    //       this.formSection = true; this.viewSection = false;
-    //   }
-    // }
+      }
+      else {
+          this.productItem = new ProductData();
+          this.formSection = true; this.viewSection = false;
+      }
+    }
     // else if(this.productId=='27' && this.insuranceId!='100004'){
     //   let fireData = new PublicLiability();
     //   let entry = [];
@@ -3293,7 +3294,7 @@ export class CommonProductDetailsComponent {
   onSubmit(){
     let valid = this.checkValidation();
     if(valid){
-      if(this.productId=='1' || this.productId=='6' || this.productId=='39' || this.productId=='43' || this.productId=='16' || this.productId=='42' || this.productId=='14' || this.productId=='59' || this.productId=='60' || this.productId=='57' || this.productId=='56' || this.productId=='26' || this.productId=='25'){ this.saveCommonDetails('direct')}
+      if(this.productId=='1' || this.productId=='6' || this.productId=='13' || this.productId=='39' || this.productId=='43' || this.productId=='16' || this.productId=='42' || this.productId=='14' || this.productId=='59' || this.productId=='60' || this.productId=='57' || this.productId=='56' || this.productId=='26' || this.productId=='25' || this.productId=='21' || this.productId=='27'){ this.saveCommonDetails('direct')}
       else{this.onFormSubmit();}
     }
   }
@@ -3669,7 +3670,10 @@ console.log('Eventsss',event);
     else if(this.productId=='16'){this.onSaveMoneyDetails('proceed','individual')}
     else if(this.productId=='42'){this.anothercyberSave('proceed','individual')}
     else if(this.productId=='14'){this.onsaveemployeenew('proceed','individual')}
+    else if(this.productId=='13'){this.onSavePersonalAccidentDetails('proceed','individual')}
     //else if(this.productId=='60'){this.onprofessionalsave('proceed','individual')}
+    else if(this.productId=='21'){this.onSaveplantaLLrisk('proceed','individual')}
+    else if(this.productId =='27'){this.onSavePublicLiability('proceed','individual')}
     else if(this.productId=='57'){this.onsaveGroupPADetails('proceed','individual')}
     else if(this.productId=='26'){this.onSaveBussinessrisk('proceed','individual');}
     else if(this.productId=='25'){this.onSaveElectronicEquipment('proceed','individual')}
@@ -3686,7 +3690,41 @@ console.log('Eventsss',event);
       // }
     }
   }
-
+  onSaveplantaLLrisk(type,formType){
+    console.log('JJJJJJJJJJJJ',sessionStorage.getItem('quoteReferenceNo'));
+    let ReqObj={
+      "CreatedBy": this.loginId,
+      "InsuranceId": this.insuranceId,
+      "ProductId": this.productId,
+      "RequestReferenceNo":sessionStorage.getItem('quoteReferenceNo'),
+      "RiskId": "1",
+      "SectionId":  "3",
+      "MiningPlantSi": this.productItem?.MiningPlantSi,
+      "NonminingPlantSi":this.productItem?.NonminingPlantSi,
+      "GensetsSi":this.productItem?.GensetsSi,
+    }
+    let urlLink = `${this.motorApiUrl}api/slide2/saveallriskdetails`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if (data?.Result) {
+          this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+          sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+          if(type=='proceed'){
+            if(this.commonDetails){
+              if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                if(!this.commonDetails[0].SectionId.some(ele=>ele=='3')) this.commonDetails[0].SectionId.push('3');
+              }
+              else  this.commonDetails[0]['SectionId']=['3'];
+            }
+          sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
+          }
+           this.onCheckUWQuestionProceed(data.Result,type,formType);
+        }
+    },
+    (err) => { },
+  );
+  
+  }
   onprofessionalsave(type,formtype){
     let endorsementDate=null,EndorsementEffectiveDate=null,EndorsementRemarks=null,
   EndorsementType=null,EndorsementTypeDesc=null,EndtCategoryDesc=null,EndtCount=null,
