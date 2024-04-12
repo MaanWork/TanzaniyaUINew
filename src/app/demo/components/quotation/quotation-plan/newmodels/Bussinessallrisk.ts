@@ -1,4 +1,5 @@
 import { FormlyFieldConfig } from "@ngx-formly/core";
+import { ForceLengthValidators } from "../personal-quote-details/personal-quote-details.component";
 
 export class BussinessAllRisk{
   customerDetails: any;
@@ -25,38 +26,42 @@ export class BussinessAllRisk{
           props: { label: 'Business All Risk' },
           fieldGroup: [
             {
-              fieldGroupClassName: 'row',
-              fieldGroup: [
-                // {
-                //   className: "splitCardHeaderss",
-                //   type: 'displays',
-
-                //   templateOptions: {
-                //     label: `Equipment`,
-                //     //on premises out of business hrs
-                //     required: false,
-
-                //   },
-                // },
-                {
-                  //className: 'col-12 col-lg-4 col-md-4 offset-lg-2 offset-md-2',
-                  className:"labelsum",
-                  type: 'commaSeparator',
-                  key: 'EquipmentSi',
-                  props: {
-                    label: 'SumInsured',
-                     disabled: this.checkDisable('SumInsured'),
-                    required: true,
-                    maxLength: 15,
-                    options: [
-                    ],
+              fieldGroupClassName: 'grid mt-2',
+                fieldGroup: [
+                  {
+                    className: 'col-12 md:col-6 lg:col-6 p-2',
+                    type: 'displays',
+            
+                    templateOptions: {
+                      label: `Sum Insured`,
+                      required: false,
+  
+                    },
                   },
-                  expressions: {
-    
+                  {
+                    className: 'col-12 md:col-4 lg:col-4',
+                    type: 'commaSeparator',
+                      key: 'EquipmentSi',
+                      
+                      props: { 
+                        maxLength: 15,
+                        label: ``,
+                      },
+                      templateOptions: {
+                        disabled: this.checkDisable('SumInsured')
+                      },
+                      validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      },
+                      hooks: {
+                      },
+      
+                      expressions: {
+                      
+                      },
                   },
-                },
-              ]
-            }
+                ]
+              },
           ]
       }
   }

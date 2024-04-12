@@ -36,6 +36,7 @@ import { PlantAllRisk } from '../newmodels/Plantallrisk';
 import Swal from 'sweetalert2';
 import { ProfessionalIndemnity } from '../models/ProfessionalIntermnity';
 import { HealthInsurance } from '../models/HealthInsurance';
+import { Moneys } from '../newmodels/Moneys';
 
 export class ForceLengthValidators {
   static maxLength(maxLength: number) {
@@ -1114,35 +1115,35 @@ export class CommonProductDetailsComponent {
           this.formSection = true; this.viewSection = false;
       }
     }
-    // else if(this.productId=='16' && this.insuranceId == '100004'){
-    //   console.log('UUUUUUUUUUUUU',this.productId,this.insuranceId)
-    //   let fireData = new Moneys();
-    //   let entry = [];
-    //   let checkYnHooks ={ onInit: (field: FormlyFieldConfig) => {
-    //     field.formControl.valueChanges.subscribe(() => {
-    //         this.checkMoneyYNChanges()
-    //     });
-    //   }};
-    //   let groupList:any = fireData?.fields.fieldGroup[0].fieldGroup[0].fieldGroup[1].fieldGroup;
-    //   let i=0;
-    //     for(let group of groupList){
-    //        group.fieldGroup[0].hooks = checkYnHooks;
-    //        i+=1;
-    //        if(i==groupList.length){
-    //         this.fields[0] = fireData?.fields;
-    //         let referenceNo = sessionStorage.getItem('quoteReferenceNo');
-    //         this.checkMoneyYNChanges();
-    //         if (referenceNo) {
-    //           this.requestReferenceNo = referenceNo;
-    //           this.setCommonFormValues();
-    //         }
-    //         else {
-    //             this.productItem = new ProductData();
-    //             this.formSection = true; this.viewSection = false;
-    //         }
-    //       }
-    //     }
-    // }
+    else if(this.productId=='16' && this.insuranceId == '100004'){
+      console.log('UUUUUUUUUUUUU',this.productId,this.insuranceId)
+      let fireData = new Moneys();
+      let entry = [];
+      let checkYnHooks ={ onInit: (field: FormlyFieldConfig) => {
+        field.formControl.valueChanges.subscribe(() => {
+            this.checkMoneyYNChanges()
+        });
+      }};
+      let groupList:any = fireData?.fields.fieldGroup[0].fieldGroup[0].fieldGroup[1].fieldGroup;
+      let i=0;
+        for(let group of groupList){
+           group.fieldGroup[0].hooks = checkYnHooks;
+           i+=1;
+           if(i==groupList.length){
+            this.fields[0] = fireData?.fields;
+            let referenceNo = sessionStorage.getItem('quoteReferenceNo');
+            this.checkMoneyYNChanges();
+            if (referenceNo) {
+              this.requestReferenceNo = referenceNo;
+              this.setCommonFormValues();
+            }
+            else {
+                this.productItem = new ProductData();
+                this.formSection = true; this.viewSection = false;
+            }
+          }
+        }
+    }
     else if(this.productId=='21'){
       let referenceNo = sessionStorage.getItem('quoteReferenceNo');
       let fireData = new PlantAllRisk();
@@ -1176,23 +1177,23 @@ export class CommonProductDetailsComponent {
           this.formSection = true; this.viewSection = false;
       }
     }
-    // else if(this.productId=='26'){
+    else if(this.productId=='26'){
      
-    //   let fireData = new BussinessAllRisk();
-    //   let entry = [];
-    //   this.fields[0] = fireData?.fields;
-    //   let referenceNo = sessionStorage.getItem('quoteReferenceNo');
-    //   if (referenceNo) {
-    //     this.requestReferenceNo = referenceNo;
-    //     this.productItem = new ProductData();
-    //     this.setCommonFormValues();
+      let fireData = new BussinessAllRisk();
+      let entry = [];
+      this.fields[0] = fireData?.fields;
+      let referenceNo = sessionStorage.getItem('quoteReferenceNo');
+      if (referenceNo) {
+        this.requestReferenceNo = referenceNo;
+        this.productItem = new ProductData();
+        this.setCommonFormValues();
        
-    //   }
-    //   else {
-    //       this.productItem = new ProductData();
-    //       this.formSection = true; this.viewSection = false;
-    //   }
-    // }
+      }
+      else {
+          this.productItem = new ProductData();
+          this.formSection = true; this.viewSection = false;
+      }
+    }
     // else if(this.productId=='27' && this.insuranceId=='100004'){
      
     //   let fireData = new PublicLiabilitys();
@@ -1226,23 +1227,23 @@ export class CommonProductDetailsComponent {
     //       this.formSection = true; this.viewSection = false;
     //   }
     // }
-    // else if(this.productId=='25'){
+    else if(this.productId=='25'){
      
-    //   let fireData = new ElectronicEquipment();
-    //   let entry = [];
-    //   this.fields[0] = fireData?.fields;
-    //   let referenceNo = sessionStorage.getItem('quoteReferenceNo');
-    //   if (referenceNo) {
-    //     this.requestReferenceNo = referenceNo;
-    //     this.productItem = new ProductData();
-    //     this.setCommonFormValues();
+      let fireData = new ElectronicEquipment();
+      let entry = [];
+      this.fields[0] = fireData?.fields;
+      let referenceNo = sessionStorage.getItem('quoteReferenceNo');
+      if (referenceNo) {
+        this.requestReferenceNo = referenceNo;
+        this.productItem = new ProductData();
+        this.setCommonFormValues();
        
-    //   }
-    //   else {
-    //       this.productItem = new ProductData();
-    //       this.formSection = true; this.viewSection = false;
-    //   }
-    // }
+      }
+      else {
+          this.productItem = new ProductData();
+          this.formSection = true; this.viewSection = false;
+      }
+    }
     
     else if(this.productId=='43'){
       let fireData = new MedicalInsurance();
@@ -1323,9 +1324,9 @@ export class CommonProductDetailsComponent {
     //       this.formSection = true; this.viewSection = false;
     //   }
     // }
-    // if(this.productId=='13' && this.insuranceId=='100004'){
-    //   let contentData = new PersonalAccident();
-    //   this.fields = [contentData?.fields];
+    if(this.productId=='13' && this.insuranceId=='100004'){
+      let contentData = new PersonalAccident();
+      this.fields = [contentData?.fields];
     //   // let modelHooks = { onInit: (field: FormlyFieldConfig) => {
     //   //   field.formControl.valueChanges.subscribe(() => {
     //   //     this.onoccChangepersonalInd('change');
@@ -1337,16 +1338,16 @@ export class CommonProductDetailsComponent {
 
     //   //this.fields[0].fieldArray.fieldGroup[0].fieldGroup[0].hooks = modelHooks;
 
-    //   let referenceNo = sessionStorage.getItem('quoteReferenceNo');
-    //   if (referenceNo) {
-    //     this.requestReferenceNo = referenceNo;
-    //     this.setCommonFormValues();
-    //   }
-    //   else {
-    //       this.productItem = new ProductData();
-    //       this.formSection = true; this.viewSection = false;
-    //   }
-    // }
+      let referenceNo = sessionStorage.getItem('quoteReferenceNo');
+      if (referenceNo) {
+        this.requestReferenceNo = referenceNo;
+        this.setCommonFormValues();
+      }
+      else {
+          this.productItem = new ProductData();
+          this.formSection = true; this.viewSection = false;
+      }
+    }
     this.BenifitList = [
       { Code: 1, CodeDescription: '12 Months' },
       { Code: 2, CodeDescription: '24 Months' },
@@ -3292,7 +3293,7 @@ export class CommonProductDetailsComponent {
   onSubmit(){
     let valid = this.checkValidation();
     if(valid){
-      if(this.productId=='1' || this.productId=='6' || this.productId=='39' || this.productId=='43' || this.productId=='16' || this.productId=='42' || this.productId=='14' || this.productId=='59' || this.productId=='60' || this.productId=='57'){ this.saveCommonDetails('direct')}
+      if(this.productId=='1' || this.productId=='6' || this.productId=='39' || this.productId=='43' || this.productId=='16' || this.productId=='42' || this.productId=='14' || this.productId=='59' || this.productId=='60' || this.productId=='57' || this.productId=='56' || this.productId=='26' || this.productId=='25'){ this.saveCommonDetails('direct')}
       else{this.onFormSubmit();}
     }
   }
@@ -3303,28 +3304,23 @@ export class CommonProductDetailsComponent {
     let i=0;
     if(this.referenceNo==null || this.referenceNo==undefined){
         this.customerError = true;
-        alert(1);
          i+=1;
     }
     if(this.policyStartDate==null || this.policyStartDate==undefined || this.policyStartDate==''){
       this.policyStartDateError = true;
-      alert(2);
       i+=1;
     }
     if(this.policyEndDate==null || this.policyEndDate==undefined || this.policyEndDate==''){
       this.policyEndDateError = true;
-      alert(3);
       i+=1;
     }
     if(this.currencyCode==null || this.currencyCode==undefined || this.currencyCode==''){
       this.currencyCodeError = true;
-      alert(4);
       i+=1;
     }
     if((this.productId=='6' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='32' || this.productId=='1' || this.productId=='21'
     || this.productId=='26' || this.productId=='25' || this.productId=='13') && (this.IndustryId==null || this.IndustryId==undefined || this.IndustryId=='')){
       this.industryError = true;
-      alert(5);
       i+=1;
     }
     if(i==0) return true;
@@ -3409,6 +3405,7 @@ export class CommonProductDetailsComponent {
       console.log('NNNNNNNNN',section)
       this.IndustryId='99999';
     }
+   
     // let homeDetails = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
     // alert(homeDetails)
     // if (homeDetails?.CustomerCode != null && homeDetails?.CustomerCode != undefined){
@@ -3427,7 +3424,8 @@ export class CommonProductDetailsComponent {
     if(this.productId=='26'){section.push('3');};
     if(this.productId=='25'){section.push('39');};
     if(this.productId=='13'){section.push('35');};
-    if(this.productId=='60'){section.push('106');this.IndustryId='99999'};
+    if(this.productId=='60'){section.push('106','107','108');this.IndustryId='99999'};
+    if( this.productId=='56'){section.push('96');this.IndustryId='99999'};
     if(this.productId=='43'){section.push('70');this.IndustryId='44'};
     if(this.productId=='42'){section.push('69');this.IndustryId='99999'};
     if( this.productId=='57'){section.push('45');this.IndustryId='99999'};
@@ -3673,6 +3671,8 @@ console.log('Eventsss',event);
     else if(this.productId=='14'){this.onsaveemployeenew('proceed','individual')}
     //else if(this.productId=='60'){this.onprofessionalsave('proceed','individual')}
     else if(this.productId=='57'){this.onsaveGroupPADetails('proceed','individual')}
+    else if(this.productId=='26'){this.onSaveBussinessrisk('proceed','individual');}
+    else if(this.productId=='25'){this.onSaveElectronicEquipment('proceed','individual')}
     else if(this.productId == '59' || this.productId == '56' || this.productId=='60'){
       this.onFinalProceed();
       // let i=0;
@@ -6136,11 +6136,13 @@ let requestNO=null;
      let sectionId=null;
      if(this.productId=='26') sectionId='3';
      else sectionId = '69';
+     let refNo = null;
+     if(sessionStorage.getItem('quoteReferenceNo')) refNo = sessionStorage.getItem('quoteReferenceNo');
      let ReqObj={
        "CreatedBy": this.loginId,
        "InsuranceId": this.insuranceId,
        "ProductId": this.productId,
-       "RequestReferenceNo":sessionStorage.getItem('quoteReferenceNo'),
+       "RequestReferenceNo": refNo,
        "RiskId": "1",
        "SectionId":  sectionId,
        "AllriskSumInsured": productsi

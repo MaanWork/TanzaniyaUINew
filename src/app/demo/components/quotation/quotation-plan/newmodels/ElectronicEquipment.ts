@@ -1,4 +1,5 @@
 import { FormlyFieldConfig } from "@ngx-formly/core";
+import { ForceLengthValidators } from "../personal-quote-details/personal-quote-details.component";
 
 export class ElectronicEquipment{
   customerDetails: any;
@@ -24,26 +25,41 @@ export class ElectronicEquipment{
           props: { label: 'Electronic Equipment' },
           fieldGroup: [
             {
-              fieldGroupClassName: 'row',
-              fieldGroup: [
-                {
-                  className:"labelsum",
-                  // className: 'col-12 col-lg-4 col-md-6',
-                  type: 'commaSeparator',
-                  key: 'ElectronicEquipSuminsured',
-                  props: {
-                    label: 'SumInsured',
-                    disabled: this.checkDisable('SumInsured'),
-                    required: true,
-                    maxLength: 15,
-                    options: [
-                    ],
+              fieldGroupClassName: 'grid mt-2',
+                fieldGroup: [
+                  {
+                    className: 'col-12 md:col-6 lg:col-6 p-2',
+                    type: 'displays',
+            
+                    templateOptions: {
+                      label: `Sum Insured`,
+                      required: false,
+  
+                    },
                   },
-                  expressions: {
-    
+                  {
+                    className: 'col-12 md:col-4 lg:col-4',
+                    type: 'commaSeparator',
+                      key: 'ElectronicEquipSuminsured',
+                      
+                      props: { 
+                        maxLength: 15,
+                        label: ``,
+                      },
+                      templateOptions: {
+                        disabled: this.checkDisable('SumInsured')
+                      },
+                      validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      },
+                      hooks: {
+                      },
+      
+                      expressions: {
+                      
+                      },
                   },
-                },
-              ]
+                ]
             }
           ]
       }

@@ -29,11 +29,11 @@ export class Burglarys{
               props: { label: 'Burglary' },
               fieldGroup: [
                 {
-                  fieldGroupClassName: 'row',
+                  fieldGroupClassName: 'grid',
                   fieldGroup: [
                     {
-                      className: 'col-4',
-                      type: 'select',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4',
+                      type: 'ngselect',
                       key: 'NatureOfTradeId',
                       props: {
                         label: 'Nature Of Trade',
@@ -47,7 +47,7 @@ export class Burglarys{
                     },
                     // {
                     //   className: 'col-6',
-                    //   type: 'select',
+                    //   type: 'ngselect',
                     //   key: 'IndustryId',
                     //   props: {
                     //     label: 'Industry Type',
@@ -60,7 +60,7 @@ export class Burglarys{
                     // },
                     {
                       key: 'InsuranceForId',
-                      className: 'col-4',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                       type: 'multicheckbox',
                       props: {
                         label: 'Insurance For',
@@ -72,7 +72,7 @@ export class Burglarys{
                       },
                     },
                     {
-                      className: 'col-4',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                       key: 'BuildingOwnerYn',
                       type: 'radio',
                       templateOptions: {
@@ -85,7 +85,7 @@ export class Burglarys{
                       }
                     },
                     {
-                      className: 'col-4',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                       type: 'input',
                       key: 'BuildingBuildYear',
                       props: {
@@ -108,7 +108,7 @@ export class Burglarys{
                       },
                     },
                     {
-                      className: 'col-4',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                       type: 'input',
                       key: 'OccupiedYear',
                       props: {
@@ -131,8 +131,8 @@ export class Burglarys{
                       },
                     },
                     {
-                      className: 'col-4',
-                      type: 'select',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4',
+                      type: 'ngselect',
                       key: 'WallType',
                       props: {
                         label: 'External Wall Type',
@@ -145,8 +145,8 @@ export class Burglarys{
                       }
                     },
                     {
-                      className: 'col-4',
-                      type: 'select',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4',
+                      type: 'ngselect',
                       key: 'InternalWallType',
                       props: {
                         label: 'Internal Wall Type',
@@ -160,7 +160,7 @@ export class Burglarys{
                     },
                     {
                       className: 'col-4',
-                      type: 'select',
+                      type: 'col-12 md:col-4 lg:col-4 xl:col-4',
                       key: 'RoofType',
                       props: {
                         label: 'Roof Type',
@@ -173,8 +173,8 @@ export class Burglarys{
                       }
                     },
                     {
-                      className: 'col-4',
-                      type: 'select',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4',
+                      type: 'ngselect',
                       key: 'CeilingType',
                       props: {
                         label: 'Ceiling Type',
@@ -194,10 +194,10 @@ export class Burglarys{
                 props: {label: 'Property Details'},
                 fieldGroup:[
                   {
-                    fieldGroupClassName: 'row',
+                    fieldGroupClassName: 'grid',
                     fieldGroup:[
                       {
-                        className: 'col-4',
+                        className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                         type: 'input',
                         key: 'Address',
                         props: {
@@ -213,8 +213,8 @@ export class Burglarys{
                         }
                       },
                       {
-                        className: 'col-4',
-                        type: 'select',
+                        className: 'col-12 md:col-4 lg:col-4 xl:col-4',
+                        type: 'ngselect',
                         key: 'RegionCode',
                         props: {
                           label: 'Region',
@@ -230,8 +230,8 @@ export class Burglarys{
                         },
                       },
                       {
-                        className: 'col-4',
-                        type: 'select',
+                        className: 'col-12 md:col-4 lg:col-4 xl:col-4',
+                        type: 'ngselect',
                         key: 'DistrictCode',
                         props: {
                           label: 'District',
@@ -244,7 +244,7 @@ export class Burglarys{
                         }
                       },
                       {
-                        className: 'col-4',
+                        className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                         type: 'input',
                         key: 'WatchmanGuardHours',
                         props: {
@@ -275,10 +275,10 @@ export class Burglarys{
               props: { label: 'Doors & Windows in premises' },
               fieldGroup: [
                 {
-                  fieldGroupClassName: 'row',
+                  fieldGroupClassName: 'grid',
                   fieldGroup: [
                     {
-                      className: 'col-4',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                       type: 'input',
                       key: 'AccessibleWindows',
                       props: {
@@ -301,7 +301,7 @@ export class Burglarys{
                       },
                     },
                     {
-                      className: 'col-4',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                       type: 'input',
                       key: 'ShowWindow',
                       props: {
@@ -324,7 +324,7 @@ export class Burglarys{
                       },
                     },
                     {
-                      className: 'col-4',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                       type: 'input',
                       key: 'FrontDoors',
                       props: {
@@ -347,7 +347,7 @@ export class Burglarys{
                       },
                     },
                     {
-                      className: 'col-4',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                       type: 'input',
                       key: 'BackDoors',
                       props: {
@@ -370,7 +370,7 @@ export class Burglarys{
                       },
                     },
                     {
-                      className: 'col-4',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                       type: 'input',
                       key: 'TrapDoors',
                       props: {
@@ -393,8 +393,8 @@ export class Burglarys{
                       },
                     },
                     {
-                      className: 'col-4',
-                      type: 'select',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4',
+                      type: 'ngselect',
                       key: 'WindowsMaterialId',
                       props: {
                         label: 'Windows Construction Material',
@@ -407,8 +407,8 @@ export class Burglarys{
                       }
                     },
                     {
-                      className: 'col-4',
-                      type: 'select',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4',
+                      type: 'ngselect',
                       key: 'DoorsMaterialId',
                       props: {
                         label: 'Doors Construction Material',
@@ -421,8 +421,8 @@ export class Burglarys{
                       }
                     },
                     {
-                      className: 'col-4',
-                      type: 'select',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4',
+                      type: 'ngselect',
                       key: 'NightLeftDoor',
                       props: {
                         label: 'In Night by which door are the premises Left',
@@ -435,8 +435,8 @@ export class Burglarys{
                       }
                     },
                     {
-                      className: 'col-4',
-                      type: 'select',
+                      className: 'col-12 md:col-4 lg:col-4 xl:col-4',
+                      type: 'ngselect',
                       key: 'BuildingOccupied',
                       props: {
                         label: 'Building occupied',
@@ -459,7 +459,7 @@ export class Burglarys{
                   fieldGroupClassName: 'row',
                   fieldGroup: [
                     {
-                      className: 'col-12',
+                      className: 'col-12 md:col-12 lg:col-12 xl:col-12',
                       type: 'table',
                       fieldGroup: [
                         {
@@ -505,7 +505,7 @@ export class Burglarys{
                                       },
                                     },
                                     {
-                                      type: 'select',
+                                      type: 'ngselect',
                                       className:'formlymargin',
                                       key: 'StockLossPercent',
                     
@@ -562,7 +562,7 @@ export class Burglarys{
                                       },
                                     },
                                     {
-                                      type: 'select',
+                                      type: 'ngselect',
                                       key: 'FurnitureLossPercent',
                                       className:'formlymargin',
                                       templateOptions: {

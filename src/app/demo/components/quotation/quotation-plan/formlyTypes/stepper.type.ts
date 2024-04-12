@@ -10,9 +10,9 @@ import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
         <formly-field [field]="step"></formly-field>
 
         <div class="text-center">
-        <!--<button matStepperPrevious *ngIf="index === 0" class="maan-btn maan-btn-red maan-button-data" routerLink="/Home/existingQuotes/customerSelection/customerDetails/customer-details" type="button"><<&nbsp;Back</button>&nbsp;-->
+
         <router-outlet> </router-outlet>
-          <button matStepperPrevious *ngIf="index !== 0" class="maan-btn maan-btn-red maan-button-data" type="button" (click)="onCheckProceed(index)"><<&nbsp;Back</button>&nbsp;
+          <button matStepperPrevious *ngIf="index !== 0" class="p-button-outlined" type="button" (click)="onCheckProceed(index)"><<&nbsp;Back</button>&nbsp;
           <button matStepperNext *ngIf="!last" class="maan-btn btn-primary maan-button-data" type="button" (click)="onSkipForm(step);onCheckProceed(last)">
           Skip
         </button>&nbsp;
