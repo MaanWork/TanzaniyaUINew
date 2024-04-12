@@ -459,8 +459,8 @@
                             <ng-template pTemplate="body" let-employee let-i="rowIndex">
                                 <ng-container>
                                     <tr>
-                                        <td>{{employee.EmployeeName}}</td>
-                                        <td>{{employee.OccupationDesc}}</td>
+                                        <td>{{getLocationName(employee?.RiskId)}}</td>
+                                        <td>{{employee.Address}}</td>
                                         <td>{{employee.NationalityId}}</td>
                                         <td>
                                             <p-button icon="pi pi-pencil" severity="danger" (click)="onEditEmployee(i,employee)" styleClass="p-button-outlined"></p-button>&nbsp;

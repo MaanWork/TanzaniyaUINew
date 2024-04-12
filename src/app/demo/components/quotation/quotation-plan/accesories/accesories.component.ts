@@ -1616,8 +1616,9 @@ export class AccesoriesComponent {
           if(this.productId!=='32'){
             if(data?.Result){
               let employee:any=[];
-              if(employee.length!=0){
+              if(data?.Result){
                 this.employeeList= data?.Result;
+                console.log('EMPLOYEEEEEEEEE',this.employeeList)
               }
               else {
                 console.log('TTTTTTTT',this.employeeList);
@@ -3821,6 +3822,9 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
                 else if(this.nine){
                   this.getMachineryRisk();
                   }
+                  // else if(this.seven){
+                  //   this.getEmployeeDetails();
+                  // }
               this.selectedTab = 1;
             }
             else if(this.productId=='42') this.selectedTab = 1;
@@ -6879,28 +6883,29 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       this.employeeList[this.currentEmployeeIndex]['Createdby'] = this.loginId;
       //this.getTotalSICost('Employee');
       // this.onsubmitemployee();
+      this.currentEmployeeIndex = null;
       this.productItem = new ProductData(); 
       // this.AllAdd();     // this.AddNew();
     }
     else{
       let entry = {
-        "Address": null,
+        "Address": this.productItem.EmpsAddress,
         "Createdby": this.loginId,
-        "EmployeeName": null,
+        "EmployeeName": this.productItem.EmpsName,
         "EmployeeId":null,
         "InsuranceId": this.insuranceId,
-        "OccupationDesc": null,
-        "OccupationId": null,
-        "DateOfBirth": null,
-        "DateOfJoiningYear": null,
-        "DateOfJoiningMonth": null,
+        "OccupationDesc":this.employeeOccupationList.find(ele=>ele.Code==this.productItem.EmpsOccupation).label,
+        "OccupationId":this.productItem.EmpsOccupation,
+        "DateOfBirth": this.datePipe.transform(this.productItem.EmpsDob, "dd/MM/yyyy"),
+        "DateOfJoiningYear": this.productItem.EmpsPeriod,
+        "DateOfJoiningMonth":this.productItem.EmpsJoin,
         "ProductId": this.productId,
         "QuoteNo": this.quoteNo,
         "RequestReferenceNo": this.quoteRefNo,
-        "RiskId": "1",
-        "Salary": null,
-        "NationalityId":null,
-        "LocationId":null,
+        "RiskId":this.productItem.EmpsLocation,
+        "Salary": this.productItem.EmpsSI,
+        "NationalityId":this.productItem.EmpsNationality,
+        "LocationId":this.productItem.EmpsLocation,
         // "LocationName":null
       }
       this.employeeList.push(entry);
