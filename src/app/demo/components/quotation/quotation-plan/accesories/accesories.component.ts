@@ -5656,6 +5656,10 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
   getUWDetails() {
 
   }
+  checkPersonalLimit(){
+    if(this.productId=='56') return 'Health Insurance';
+    else return 'Professional Indemenity';
+  }
   onCalculate() {
 
   }
@@ -6001,7 +6005,6 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         "SectionId": "1"
       }
       this.currentBuildingIndex = this.building.length;
-      alert(this.currentBuildingIndex);
       this.editBuildingSection = false;
       this.enableBuildingEditSection = true;
       this.building.push(entry);
@@ -6520,9 +6523,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
 
   onSaveLocation(){
     console.log("Final Additional Info",this.form,this.productItem);
-    alert(this.currentBuildingIndex)
     if(this.currentBuildingIndex!=null){
-      alert('NNNNNNNNNNNNN')
       this.building[this.currentBuildingIndex].BuildingAddress = this.productItem.LocationAddress;
       this.building[this.currentBuildingIndex].LocationName = this.productItem.LocationNameBuilding;
       this.building[this.currentBuildingIndex].BuildingSuminsured = this.productItem.BuildingSumInsureds;
@@ -6535,7 +6536,6 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       //this.AddNew();
     }
     else{
-      alert('MMMMMMMMMM')
       let entry = {
         "BuildingAddress": this.productItem.LocationAddress,
         "BuildingBuildYear": null,
@@ -6599,7 +6599,6 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
   onSaveContent(){
     if(this.currentContentIndex!=null){
       console.log('KKKKKKKKK',this.LocationList)
-      alert(this.productItem.ContentLocation)
     this.Cotentrisk[this.currentContentIndex]['SumInsured'] = this.productItem.ContentSI;
     this.Cotentrisk[this.currentContentIndex]['RiskId'] = this.productItem.ContentLocation;
     this.Cotentrisk[this.currentContentIndex]['SerialNoDesc'] = this.productItem.ContentSerialNo;
@@ -6610,7 +6609,6 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     // this.ContentAdd();
     }
     else{
-      alert(this.productItem.ContentLocation);
       let entry = {
         "ItemId":this.productItem.ContentType,
       "RiskId":this.productItem.ContentLocation,
@@ -6878,8 +6876,6 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       this.employeeList[this.currentEmployeeIndex]['DateOfJoiningMonth'] = this.productItem.EmpsJoin;
       this.employeeList[this.currentEmployeeIndex]['Salary'] = this.productItem.EmpsSI;
       console.log('JJJJJ',this.employeeList[this.currentEmployeeIndex]['Salary']);
-      alert(this.employeeList[this.currentEmployeeIndex]['Salary']);
-    
       this.employeeList[this.currentEmployeeIndex]['NationalityId'] = this.productItem.EmpsNationality; 
       this.employeeList[this.currentEmployeeIndex]['Address'] = this.productItem.EmpsAddress;
       this.employeeList[this.currentEmployeeIndex]['Createdby'] = this.loginId;

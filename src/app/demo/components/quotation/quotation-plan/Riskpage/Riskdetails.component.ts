@@ -4604,11 +4604,12 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                               "NickName": s?.NickName
                           }
                           if(entry.DateOfBirth){
-                            let dateList = String(entry.DateOfBirth).split('/');
-                            if(dateList.length>1){
-                              entry.DateOfBirth = dateList[2]+'-'+dateList[1]+'-'+dateList[0];
-                              
-                            }
+                            entry.DateOfBirth =this.onDateFormatInEdit(entry.DateOfBirth)
+                            // let dateList = String(entry.DateOfBirth).split('/');
+                            // if(dateList.length>1){
+                            //   entry.DateOfBirth = dateList[2]+'-'+dateList[1]+'-'+dateList[0];
+                            //   alert(entry.DateOfBirth)
+                            // }
                           }
                           if(i==0){
                             this.ProductCode = s.SectionId;
@@ -4616,6 +4617,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                           }
                           else if(entry.RelationType==null || entry.RelationType==undefined) entry.RelationType = '';
                           this.productItem.patientList.push(entry);
+                          console.log('MNNNNNGGGGGGGGGGGGG',this.productItem?.patientList)
                           i+=1;
                           if(i==details.length){this.getRelationTypeList('direct');}
                           this.showsection=true;
@@ -4626,5 +4628,25 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               },
               (err) => { },
             );
+          }
+          onDateFormatInEdit(date) {
+            console.log(date);
+            if (date) {
+              let format = date.split('-');
+              if(format.length >1){
+                var NewDate = new Date(new Date(format[0], format[1], format[2]));
+                NewDate.setMonth(NewDate.getMonth() - 1);
+                return NewDate;
+              }
+              else{
+                format = date.split('/');
+                if(format.length >1){
+                  var NewDate = new Date(new Date(format[2], format[1], format[0]));
+                  NewDate.setMonth(NewDate.getMonth() - 1);
+                  return NewDate;
+                }
+              }
+        
+            }
           }
 }
