@@ -3294,7 +3294,7 @@ export class CommonProductDetailsComponent {
   onSubmit(){
     let valid = this.checkValidation();
     if(valid){
-      if(this.productId=='1' || this.productId=='6' || this.productId=='13' || this.productId=='39' || this.productId=='43' || this.productId=='16' || this.productId=='42' || this.productId=='14' || this.productId=='59' || this.productId=='60' || this.productId=='57' || this.productId=='56' || this.productId=='26' || this.productId=='25' || this.productId=='21' || this.productId=='27'){ this.saveCommonDetails('direct')}
+      if(this.productId=='1' || this.productId=='6' || this.productId=='13' || this.productId=='39' || this.productId=='43' || this.productId=='16' || this.productId=='42' || this.productId=='14' || this.productId=='59' || this.productId=='60' || this.productId=='57' || this.productId=='56' || this.productId=='26' || this.productId=='25' || this.productId=='21' || this.productId=='27' || this.productId=='24'){ this.saveCommonDetails('direct')}
       else{this.onFormSubmit();}
     }
   }
@@ -3422,6 +3422,7 @@ export class CommonProductDetailsComponent {
     if(this.productId=='32'){section.push('43');};
     if(this.productId=='1'){section.push('52');};
     if(this.productId=='21'){section.push('3');};
+    if(this.productId=='24'){section.push('3','47');};
     if(this.productId=='26'){section.push('3');};
     if(this.productId=='25'){section.push('39');};
     if(this.productId=='13'){section.push('35');};
@@ -3677,7 +3678,7 @@ console.log('Eventsss',event);
     else if(this.productId=='57'){this.onsaveGroupPADetails('proceed','individual')}
     else if(this.productId=='26'){this.onSaveBussinessrisk('proceed','individual');}
     else if(this.productId=='25'){this.onSaveElectronicEquipment('proceed','individual')}
-    else if(this.productId == '59' || this.productId == '56' || this.productId=='60'){
+    else if(this.productId == '59' || this.productId == '56' || this.productId=='60' || this.productId=='24'){
       this.onFinalProceed();
       // let i=0;
       // if(this.colorSections.length!=0){
@@ -4476,7 +4477,7 @@ console.log('Eventsss',event);
     }
   }
   onFinalProceed() {
-    if(this.productId=='59' || this.productId=='56' || this.productId=='60'){
+    if(this.productId=='59' || this.productId=='56' || this.productId=='60' || this.productId=='24'){
       sessionStorage.setItem('Buildings',this.BuildingOwnerYn);
       this.router.navigate(['/quotation/plan/risk-page']);
     }
