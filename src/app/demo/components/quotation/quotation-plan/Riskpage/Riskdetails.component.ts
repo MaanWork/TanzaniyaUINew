@@ -4116,6 +4116,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                 }
                 else {
                   effectiveDate = this.policyStartDate;
+                
                 }
                 if(this.productId=='46') build['RiskId'] = '1';
                 let sectionId = '';
@@ -4435,13 +4436,13 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
               (data: any) => {
                 if(data.Result){
-                  let defaultObj = [{ 'CodeDesc': '-Select-', 'Code': '' }]
+                  let defaultObj = [{ 'CodeDesc': '-Select-', 'Code': '' }];
                   this.sectionDropdownList = defaultObj.concat(data.Result);
                   let i=0;
                   for(let n of this.sectionDropdownList){
                   console.log('HJGGGGG',n.CodeDesc)
                     if(n.Code== '1'){
-                      alert(n.CodeDesc)
+                     
                       this.Building1=true;
                     }
                     if(n.Code =='47'){

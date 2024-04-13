@@ -211,7 +211,7 @@
                                         <td>{{Accident.PersonName}}</td>
                                         <td>{{Accident.OccupationDesc}}</td>
                                         <td>
-                                            <p-button icon="pi pi-pencil" severity="danger" (click)="onEditPersonalAccident(i)" styleClass="p-button-outlined"></p-button>&nbsp;
+                                            <p-button icon="pi pi-pencil" severity="danger" (click)="onEditPersonalAccident(i,Accident)" styleClass="p-button-outlined"></p-button>&nbsp;
                                             <p-button icon="pi pi-trash" severity="danger" (click)="PersonalAccidentDelete(Accident)"  styleClass="p-button-outlined"></p-button>
                                         </td>
                                     </tr>
@@ -441,15 +441,10 @@
 
         <p-tabPanel [header]="checkEmplyeeSection()" [disabled]="!fourth" *ngIf="seven">
             <div class="grid">
-                <div class="lg:col-4 md:col-4 col-12">
-                    <form [formGroup]="form">
-                        <formly-form [form]="form" [fields]="fieldsEmpFields" [model]="productItem"></formly-form>
-                    </form>
-                    <div class="flex flex-wrap justify-content-center mt-2">
-                        <p-button label="Save" (click)="onemployeesavelast()" class="text-l pi-button mr-0"></p-button>
-                    </div>
+                <div class="lg:col-1 md:col-1 col-12">
+
                 </div>
-                <div class="lg:col-6 md:col-6 col-12">
+                <div class="lg:col-10 md:col-10 col-12">
                     <ng-container *ngIf="employeeList.length!=0 && getemployeeList(employeeList,employeeList.length)">
                         <p-table [value]="employeeList" [tableStyle]="{ 'min-width': '50rem' }">
                             <ng-template pTemplate="header">
@@ -476,14 +471,82 @@
                         </p-table>
                     </ng-container>
                 </div>
-               
             </div>
+            <div class="grid mt-2">
+                <b>Employee Details</b>
+                <div class="lg:col-1 md:col-1 col-12">
+
+                </div>
+                <div class="lg:col-10 md:col-10 col-12">
+                    <form [formGroup]="form">
+                        <formly-form [form]="form" [fields]="fieldsEmpFields" [model]="productItem"></formly-form>
+                    </form>
+                    <div class="flex flex-wrap justify-content-center mt-2">
+                        <p-button label="Save" (click)="onemployeesavelast()" class="text-l pi-button mr-0"></p-button>
+                    </div>
+                </div>
+            </div>
+          
             <div class="text-center mt-2">
                 <!-- <p-button label="Back" *ngIf="!enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="getBack('employers')" routerLinkActive="router-link-active"><<&nbsp;Back</p-button> -->
                 <p-button label="Save & Proceed" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('save')"></p-button>
                 <p-button label="Proceed" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('proceed')" routerLinkActive="router-link-active" routerLinkActive="router-link-active"></p-button>
                 <!-- <button class="custom-btn btn-6 maan-button-data mx-2" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" matRipple (click)="onSaveEmployeeDetails('direct')" routerLinkActive="router-link-active" routerLinkActive="router-link-active">Proceed</button> -->
             </div>
+        </p-tabPanel>
+
+
+        
+        <p-tabPanel header="ElectricalEquipment" [disabled]="!fourth" *ngIf="six">
+            <div class="grid">
+                <div class="lg:col-4 md:col-4 col-12">
+                    <form [formGroup]="form">
+                        <formly-form [form]="form" [fields]="fieldsElectronic" [model]="productItem"></formly-form>
+                    </form>
+                    <div class="flex flex-wrap justify-content-center mt-2">
+                        <p-button label="Save" (click)="onSaveElectronicdetails()" class="text-l pi-button mr-0"></p-button>
+                    </div>
+                </div>
+
+                <div class="lg:col-6 md:col-6 col-12">
+                    <ng-container *ngIf="ElectronicItem.length!=0">
+                        <p-table [value]="ElectronicItem" [tableStyle]="{ 'min-width': '50rem' }">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Location Name</th>
+                                    <th>SumInsured</th>
+                                    <th>ContentName</th>
+                                    <th>Action</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-Electronic let-i="rowIndex">
+                                <ng-container>
+                                    <tr>
+                                        <td>{{getLocationName(Electronic.RiskId)}}</td>
+                                        <td>{{Electronic.SumInsured}}</td>
+                                        <td>{{getElectronicName(Electronic.ItemId)}}</td>
+                                        <td>{{Electronic.PurchaseYear}}</td>
+                                        <td>
+                                            <p-button icon="pi pi-pencil" severity="danger" (click)="onElectroncequipment(i,Electronic)" styleClass="p-button-outlined"></p-button>&nbsp;
+                                            <p-button icon="pi pi-trash" severity="danger" (click)="ElectronicDelete(Electronic)"  styleClass="p-button-outlined"></p-button>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </ng-template>
+                        </p-table>
+                    </ng-container>
+                </div>
+               
+            </div>
+            <div class="flex flex-wrap justify-content-center mt-4">
+                <div class="mb-4">
+                    <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                    <ng-container>
+                        <p-button label="Proceed" (click)="onSaveElectronic()" class="text-l pi-button mr-0"></p-button>
+                    </ng-container>
+                </div>
+            </div>
+            <!--onSaveAllRisk(-->
         </p-tabPanel>
 
     </p-tabView>

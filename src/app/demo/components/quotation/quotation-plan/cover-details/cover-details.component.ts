@@ -630,7 +630,7 @@ export class CoverDetailsComponent {
                   this.adminRemarks = admRemarks.split('~');
 
                 }
-                this.currencyCode= this.vehicleData[0].CoverList[0].Currency;
+                this.currencyCode= this.vehicleData[0]?.CoverList[0]?.Currency;
                 let i=0;
                 for(let veh of this.vehicleData){
                   veh['ReferralList'] = [];
