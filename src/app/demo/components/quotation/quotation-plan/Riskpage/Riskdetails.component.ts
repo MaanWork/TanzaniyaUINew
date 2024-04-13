@@ -107,6 +107,12 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
   nextslide4:boolean = false; ProductCode:any="68";
   showSection: boolean =false;
   showsection: boolean = false;
+  Building: boolean = false;
+  Content: boolean = false;
+  AllRisk: boolean = false;
+  Building1: boolean = false;
+  PersonalAccident: boolean = false;
+  personalIndemity: boolean = false;
         constructor(private router: Router,private datePipe:DatePipe,
           private sharedService: SharedService,public http: HttpClient) {
          let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails') || '{}');
@@ -152,11 +158,13 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
 
             this.productItem = new ProductData();
             if(this.requestReferenceNo!=null && this.productId=='59'){
+              this.getSectionList();
               this.getCommonDetails();
               this.getBuildingDetails();
             }
 
             if(this.productId=='24'){
+              this.getSectionList();
               this.getCommonDetails();
               this.getContentDetails('Content');
               this.getAllRiskDetails('AllRisk');
@@ -175,11 +183,13 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               let referenceNo = sessionStorage.getItem('quoteReferenceNo');
               if (referenceNo) {
                 this.requestReferenceNo = referenceNo;
+                this.getSectionList();
                 this.setCommonFormValues();
                 this.productItem = new ProductData();
                
               }
               else {
+                this.getSectionList();
                   this.productItem = new ProductData();
                   this.formSection = true; this.viewSection = false;
               }
@@ -189,12 +199,14 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               let referenceNo = sessionStorage.getItem('quoteReferenceNo');
               if (referenceNo) {
                 this.requestReferenceNo = referenceNo;
+                this.getSectionList();
                 this.getCommonnDetails();
                 this.getCommonDetails();
               }
               else{
             
                 this.AddNewFunc();
+                this.getSectionList();
                     this.getCommonDetails();
                     // this.productItem.patientList = [
                     //   {
@@ -4104,6 +4116,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                 }
                 else {
                   effectiveDate = this.policyStartDate;
+                
                 }
                 if(this.productId=='46') build['RiskId'] = '1';
                 let sectionId = '';
@@ -4423,8 +4436,29 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
               (data: any) => {
                 if(data.Result){
-                  let defaultObj = [{ 'CodeDesc': '-Select-', 'Code': '' }]
+                  let defaultObj = [{ 'CodeDesc': '-Select-', 'Code': '' }];
                   this.sectionDropdownList = defaultObj.concat(data.Result);
+                  let i=0;
+                  for(let n of this.sectionDropdownList){
+                  console.log('HJGGGGG',n.CodeDesc)
+                    if(n.Code== '1'){
+                     
+                      this.Building1=true;
+                    }
+                    if(n.Code =='47'){
+                      this.Content=true;
+                    }
+                    if(n.Code == '3'){
+                      this.AllRisk=true;
+                    }
+                    if(n.Code == '35'){
+                      this.PersonalAccident=true;
+                    }
+                    if(n.Code == '36'){
+                      this.personalIndemity=true;
+                    }
+                    i+=1;
+                  }
                 }
               });
           }

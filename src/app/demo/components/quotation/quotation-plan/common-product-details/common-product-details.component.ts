@@ -1125,25 +1125,37 @@ export class CommonProductDetailsComponent {
             this.checkMoneyYNChanges()
         });
       }};
-      let groupList:any = fireData?.fields.fieldGroup[0].fieldGroup[0].fieldGroup[1].fieldGroup;
-      let i=0;
-        for(let group of groupList){
-           group.fieldGroup[0].hooks = checkYnHooks;
-           i+=1;
-           if(i==groupList.length){
-            this.fields[0] = fireData?.fields;
-            let referenceNo = sessionStorage.getItem('quoteReferenceNo');
-            this.checkMoneyYNChanges();
-            if (referenceNo) {
-              this.requestReferenceNo = referenceNo;
-              this.setCommonFormValues();
-            }
-            else {
-                this.productItem = new ProductData();
-                this.formSection = true; this.viewSection = false;
-            }
-          }
+      console.log('HGFD',fireData?.fields);
+      this.fields[0] = fireData?.fields;
+      let referenceNo = sessionStorage.getItem('quoteReferenceNo');
+        this.checkMoneyYNChanges();
+        if (referenceNo) {
+          this.requestReferenceNo = referenceNo;
+          this.setCommonFormValues();
         }
+        else {
+            this.productItem = new ProductData();
+            this.formSection = true; this.viewSection = false;
+        }
+      // let groupList:any = fireData?.fields.fieldGroup[0].fieldGroup[0].fieldGroup[1].fieldGroup;
+      // let i=0;
+      //   for(let group of groupList){
+      //      group.fieldGroup[0].hooks = checkYnHooks;
+      //      i+=1;
+      //      if(i==groupList.length){
+      //       this.fields[0] = fireData?.fields;
+      //       let referenceNo = sessionStorage.getItem('quoteReferenceNo');
+      //       this.checkMoneyYNChanges();
+      //       if (referenceNo) {
+      //         this.requestReferenceNo = referenceNo;
+      //         this.setCommonFormValues();
+      //       }
+      //       else {
+      //           this.productItem = new ProductData();
+      //           this.formSection = true; this.viewSection = false;
+      //       }
+      //     }
+      //   }
     }
     else if(this.productId=='21'){
       let referenceNo = sessionStorage.getItem('quoteReferenceNo');
