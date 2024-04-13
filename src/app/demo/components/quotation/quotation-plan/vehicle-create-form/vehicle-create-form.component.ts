@@ -46,9 +46,10 @@ export class VehicleCreateFormComponent implements OnInit {
   brokerCode: any;endorsementTypeDesc:any=null;endtCategoryDesc:any=null;
   sourceType: any;endorsementSection:boolean=false;endtCount:any=null;
   subuserType: any;customerDetails:any;endorsementRemarks:any=null;
-  endorsePolicyNo: any=null;years:any[]=[];
-  referenceNo: string;mainBodyTypeList:any[]=[];
-  commonDetails: any;
+  endorsePolicyNo: any=null;years:any[]=[];modelHeader:any[]=[];
+  referenceNo: string;mainBodyTypeList:any[]=[];makeError:boolean = false;
+  commonDetails: any;editSectionAlt:boolean=false;modelSearchVisible:boolean = false;
+  modelColumns:any[]=[];selectedRowData:any=null;
   constructor(private messageService: MessageService,private sharedService: SharedService,
     private datePipe:DatePipe,private router:Router) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -62,11 +63,13 @@ export class VehicleCreateFormComponent implements OnInit {
       this.branchCode = this.userDetails.Result.BranchCode;
       this.productId = this.userDetails.Result.ProductId;
       this.insuranceId = this.userDetails.Result.InsuranceId;
+      this.modelColumns = ['Select','Model','Body Type','Fuel Type','Transmission','WeightKg'];
       let vehicleList = JSON.parse(sessionStorage.getItem('vehicleDetailsList'));
       if(vehicleList) this.vehicleDetailsList = vehicleList;
+      if(this.insuranceId=='100020') this.getNewMakeList();
       this.getBodyTypeList();
-    this.getOwnerCategoryList();
-   
+      this.getOwnerCategoryList();
+      
   }
 
   ngOnInit(): void {
@@ -96,6 +99,112 @@ export class VehicleCreateFormComponent implements OnInit {
             if(type=='change') this.bodyTypeValue = null;
           }
     }
+  }
+  getNewMakeList(){
+    let ReqObj = {
+      "InsuranceId": this.insuranceId,
+      "ProductId": this.productId
+    }
+    let urlLink = `${this.motorApiUrl}api/vehiclemakedetails`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            this.makeList = data.Result;
+            if(this.vehicleDetails?.Vehiclemake!=null && this.vehicleDetails?.Vehiclemake!='' && this.makeList.length!=0 && (this.modelDesc==null || this.modelDesc=='') ){
+              let entry = this.makeList.find(ele=>ele.CodeDesc==this.editdata?.Vehiclemake);
+              this.makeValue = entry.Code;
+              this.editSectionAlt = true;
+              this.onMakeAltChange('direct',this.vehicleDetails?.VehicleModelDesc);
+          }
+        }
+      },
+      (err) => { },
+    );
+  }
+  onMakeAltChange(type,modelValue){
+    let ReqObj = {
+      "InsuranceId": this.insuranceId,
+       "ProductId": this.productId,
+       "MakeId": this.makeValue
+     }
+     let urlLink = `${this.motorApiUrl}api/vehiclemodeldetails`;
+     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+       (data: any) => {
+         if(data.Result){
+             this.modelList = data.Result;
+             this.modelHeader = [
+              {
+                key: 'action',
+                display: 'Select',
+                config: {
+                  select: true,
+                },
+              },
+              { key: 'Model', display: 'Model' },
+              { key: 'BodyType', display: 'Body Type' },
+              { key: 'FuelType', display: 'Fuel Type' },
+              { key: 'TransmissionType', display: 'Transmission' },
+              { key: 'WeightKg', display: 'WeightKg' },
+             ];
+             if(type=='direct'){
+                let entry = this.modelList.find(ele=>ele.VehicleId==modelValue);
+                if(entry) this.modelDesc = entry?.Model;
+             } 
+             else{
+              this.modelDesc = null;
+              this.modelValue = null;
+              this.bodyTypeId = null;
+              this.fuelType = null;
+              this.grossWeight = null;
+              this.tareWeight = null;
+              this.engineCapacity = null;
+              this.bodyTypeValue = null;
+             }
+          }
+        },
+        (err) => { },
+      );
+  }
+  onSelectModel(rowData){
+    if(rowData){
+       this.selectedRowData = rowData;
+    }
+  }
+  checkEditSection(type){
+    if(type=='fuel') return (this.editSectionAlt && this.fuelType!='' && this.fuelType!=null && this.fuelType!=undefined);
+    if(type=='engineCapacity') return (this.editSectionAlt && this.engineCapacity!='' && this.engineCapacity!=null && this.engineCapacity!=undefined);
+    if(type=='bodyType') return (this.editSectionAlt && this.bodyTypeValue!='' && this.bodyTypeValue!=null && this.bodyTypeValue!=undefined);
+    if(type=='tareweight') return (this.editSectionAlt && this.tareWeight!='' && this.tareWeight!=null && this.tareWeight!=undefined);
+    if(type=='modelId') return (this.editSectionAlt && this.modelDesc!='' && this.modelDesc!=null && this.modelDesc!=undefined);
+
+  }
+  onSaveModelDetails(){
+    if(this.selectedRowData){
+      this.modelValue = this.selectedRowData?.ModelId;
+      this.bodyTypeId = this.selectedRowData?.BodyTypeId;
+      this.fuelType = this.selectedRowData.FuelType;
+      this.grossWeight = this.selectedRowData.WeightKg;
+      this.tareWeight = this.selectedRowData.WeightKg;
+      this.modelDesc = this.selectedRowData?.Model;
+      this.engineCapacity = this.selectedRowData?.EnginesizeCc;
+      if(this.bodyTypeId){
+        let entry = this.bodyTypeList.find(ele=>ele.Code==String(this.bodyTypeId));
+        if(entry) this.bodyTypeValue = entry.CodeDesc;
+      }
+      this.noOfAxels = '1';
+      this.axelDistance = '1';
+      this.editSectionAlt = true;
+      this.modelSearchVisible = false;
+    }
+  }
+  onViewModelList(type,value,modal){
+    this.makeError = false;
+      if(this.makeValue!=null && this.makeValue!=''){
+        this.makeError = false;
+        this.modelSearchVisible = true;
+      }
+      else this.makeError = true;
   }
   getCustomerDetails(refNo){
     let ReqObj = {
