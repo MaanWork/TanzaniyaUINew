@@ -79,7 +79,9 @@ export class ProductComponent implements OnInit {
   }
   getProductUrl(product){
       if(product.ProductId=='5') return '../../../../../../assets/layout/images/motor.png';
-      else if(product.ProductId=='3') return '../../../../../../assets/layout/images/domestic.png';
+      else if(product.ProductId=='59') return '../../../../../../assets/layout/images/domestic.png';
+      else if(product.ProductId=='57') return '../../../../../../assets/layout/images/group_pa.svg';
+      else if(product.ProductId=='56') return '../../../../../../assets/layout/images/health.png';
       else if(product.ProductId=='6') return '../../../../../../assets/layout/images/fireAllied.png';
       else if(product.ProductId=='4') return '../../../../../../assets/layout/images/travel1.png';
       else if(product.ProductId=='1') return '../../../../../../assets/layout/images/Burglary1.png';
@@ -100,6 +102,9 @@ export class ProductComponent implements OnInit {
       else if(product.ProductId=='27') return '../../../../../../assets/layout/images/publicliablity.png';
       else if(product.ProductId=='45') return '../../../../../../assets/layout/images/LifeIns.webp';
       else if(product.ProductId=='46') return '../../../../../../assets/layout/images/shortTerm.png';
+      else if(product.ProductId=='3') return '../../../../../../assets/layout/images/marineOneOff.webp';
+      else if(product.ProductId=='11') return '../../../../../../assets/layout/images/marineOpenCover.png';
+      else if(product.ProductId=='60') return '../../../../../../assets/layout/images/ProIndeminity.png';
       else return '../../../../../../assets/layout/images/motor.png';
   }
   selectBranch(branch) {
