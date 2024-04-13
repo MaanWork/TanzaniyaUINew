@@ -93,7 +93,8 @@
                     </div>
                 </div>
                 <div class="lg:col-6 md:col-6 col-12">
-                    <ng-container *ngIf="building.length!=0">
+                    <ng-container *ngIf="building.length!=0 && getlength(building,building.length)">
+                      
                         <p-table [value]="building" [tableStyle]="{ 'min-width': '50rem' }">
                             <ng-template pTemplate="header">
                                 <tr>
@@ -142,6 +143,7 @@
 
                 <div class="lg:col-6 md:col-6 col-12">
                     <ng-container *ngIf="Cotentrisk.length!=0">
+                        <!--&& getContent(Contentrisk,Contentrisk?.length)-->
                         <p-table [value]="Cotentrisk" [tableStyle]="{ 'min-width': '50rem' }">
                             <ng-template pTemplate="header">
                                 <tr>
@@ -190,7 +192,7 @@
                 </div>
 
                 <div class="lg:col-6 md:col-6 col-12">
-                    <ng-container *ngIf="PersonalAssistantList.length!=0">
+                    <ng-container *ngIf="PersonalAssistantList.length!=0 && getPersonalAccident(PersonalAssistantList,PersonalAssistantList.length)">
                         <p-table [value]="PersonalAssistantList" [tableStyle]="{ 'min-width': '50rem' }">
                             <ng-template pTemplate="header">
                                 <tr>
@@ -243,6 +245,7 @@
 
                 <div class="lg:col-6 md:col-6 col-12">
                     <ng-container *ngIf="risk.length!=0">
+                        <!--&& getRisk(risk,risk.length)-->
                         <p-table [value]="risk" [tableStyle]="{ 'min-width': '50rem' }">
                             <ng-template pTemplate="header">
                                 <tr>
@@ -260,7 +263,7 @@
                                         <td>{{getContentssName(risk.ItemId)}}</td>
                                         <td>{{risk.SerialNoDesc}}</td>
                                         <td>
-                                            <p-button icon="pi pi-pencil" severity="danger" (click)="onEditAllRisk(i)" styleClass="p-button-outlined"></p-button>&nbsp;
+                                            <p-button icon="pi pi-pencil" severity="danger" (click)="onEditAllRisk(i,risk)" styleClass="p-button-outlined"></p-button>&nbsp;
                                             <p-button icon="pi pi-trash" severity="danger" (click)="AllRiskDelete(risk)"  styleClass="p-button-outlined"></p-button>
                                         </td>
                                     </tr>
@@ -294,7 +297,7 @@
                 </div>
 
                 <div class="lg:col-6 md:col-6 col-12">
-                    <ng-container *ngIf="Intermedity.length!=0">
+                    <ng-container *ngIf="Intermedity.length!=0 && getIntermity(Intermedity,Intermedity.length)">
                         <p-table [value]="Intermedity" [tableStyle]="{ 'min-width': '50rem' }">
                             <ng-template pTemplate="header">
                                 <tr>
@@ -447,7 +450,7 @@
                     </div>
                 </div>
                 <div class="lg:col-6 md:col-6 col-12">
-                    <ng-container *ngIf="employeeList.length!=0">
+                    <ng-container *ngIf="employeeList.length!=0 && getemployeeList(employeeList,employeeList.length)">
                         <p-table [value]="employeeList" [tableStyle]="{ 'min-width': '50rem' }">
                             <ng-template pTemplate="header">
                                 <tr>

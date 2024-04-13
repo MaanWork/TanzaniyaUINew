@@ -6,7 +6,7 @@ import { FieldType } from '@ngx-formly/core';
   template: `
     <div class="row">
       <div class="col-md-10 col-lg-10 col-xl-10 col-12 offset-md-1 offset-lg-1 offset-xl-1">
-        <table class="table table-bordered" >
+        <table class="table table-bordered" style="width: 100% !important;">
           <thead style="background-color: #333b85;color:#fff;"><!--class="display1"-->
             <tr>
               <ng-container *ngFor="let column of field.fieldGroup;let i = index">

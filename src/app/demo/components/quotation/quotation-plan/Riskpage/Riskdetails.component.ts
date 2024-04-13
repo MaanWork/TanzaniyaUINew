@@ -156,6 +156,12 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               this.getBuildingDetails();
             }
 
+            if(this.productId=='24'){
+              this.getCommonDetails();
+              this.getContentDetails('Content');
+              this.getAllRiskDetails('AllRisk');
+            }
+
             if(this.productId=='57'){
               //let fireData = new EmployersLiability();
               let fireData = new GroupPersonalAccident();
@@ -2481,7 +2487,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                 }
               }
               if(types=='Content'){
-                if(this.insuranceId=='100004'){
+                if(this.insuranceId=='100004' && this.productId=='59'){
                   let contentData1 = new HouseHoldContentsss();
                   this.fields1[0] = contentData1?.fields;
                 }
@@ -2987,7 +2993,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               if(this.productItem?.BuildingSuminsured==null || this.productItem?.BuildingSuminsured==undefined || this.productItem?.BuildingSuminsured==''){
                 ReqObj['BuildingDetails'] = null;
               }
-              if(this.insuranceId=='100004'){
+              if(this.insuranceId=='100004' && this.productId=='59'){
                 if(this.productItem?.JewellerySi==null || this.productItem?.JewellerySi==undefined || this.productItem?.JewellerySi==''){
                   if(this.productItem?.PaitingsSi==null || this.productItem?.PaitingsSi==undefined || this.productItem?.PaitingsSi==''){
                     if(this.productItem?.CarpetsSi==null || this.productItem?.CarpetsSi==undefined || this.productItem?.CarpetsSi==''){
