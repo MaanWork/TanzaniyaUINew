@@ -332,6 +332,7 @@ export class AccesoriesComponent {
   RelationType: null;
   NationalityId: null;
   DateOfBirth: null;
+  showmultiple: boolean = false;
 
 
   constructor(private router: Router,private datePipe:DatePipe,
@@ -2828,13 +2829,14 @@ onFidelitySave(){
       (data: any) => {
         console.log(data);
         if(data.Result){
+          let defaultobj = [{'Code':'--Select--',"CodeDesc":'--Select--'}]
             this.allriskList = data.Result;
             for (let i = 0; i < this.allriskList.length; i++) {
               this.allriskList[i].label = this.allriskList[i]['CodeDesc'];
               this.allriskList[i].value = this.allriskList[i]['Code'];
               delete this.allriskList[i].CodeDesc;
               if (i == this.allriskList.length - 1) {
-                this.fieldsRisk[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = this.allriskList;
+                this.fieldsRisk[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = defaultobj.concat(this.allriskList);
               }
             }
             //this.getOccupationList();
@@ -2926,11 +2928,12 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         console.log(data);
         if(data.Result){
             this.CyperList = data.Result;
+            let defaultobj = [{'Code':'--Select--',"CodeDesc":'--Select--'}]
             for (let i = 0; i < this.CyperList.length; i++) {
               this.CyperList[i].label = this.CyperList[i]['CodeDesc'];
               this.CyperList[i].value = this.CyperList[i]['Code'];
               if (i == this.CyperList.length - 1) {
-                this.fieldsDevice[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = this.CyperList;
+                this.fieldsDevice[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = defaultobj.concat(this.CyperList);
               }
             }
             console.log('CyberContent List',this.CyperList);
@@ -2949,6 +2952,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       (data: any) => {
         console.log(data);
         if(data.Result){
+          let defaultobj = [{'Code':'--Select--',"CodeDesc":'--Select--'}]
             this.allriskList = data.Result;
             for (let i = 0; i < this.allriskList.length; i++) {
               this.allriskList[i].label = this.allriskList[i]['CodeDesc'];
@@ -2962,7 +2966,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
                   for( let n of vars.fieldGroup){            
                     if(n.type=='ngselect'){
                     if(n.props.label=='Content Type'){
-                       this.fieldsRisk[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options = this.allriskList;
+                       this.fieldsRisk[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options = defaultobj.concat(this.allriskList);
                     }
                   }
                     j+=1;
@@ -2989,6 +2993,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       (data: any) => {
         console.log(data);
         if(data.Result){
+          let defaultobj = [{'Code':'--Select--',"CodeDesc":'--Select--'}]
             this.allriskList = data.Result.ContentTypeRes;
             for (let i = 0; i < this.allriskList.length; i++) {
               this.allriskList[i].label = this.allriskList[i]['CodeDesc'];
@@ -3002,7 +3007,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
                     if(n.type=='ngselect'){
                       console.log('templates111',n.props.label);
                     if(n.props.label=='Content Type'){
-                       this.fieldsMachinery[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options = this.allriskList;
+                       this.fieldsMachinery[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options = defaultobj.concat(this.allriskList);
                     }
                   }
                     j+=1;
@@ -3831,9 +3836,9 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             else if(this.productId=='56') this.selectedTab = 1;
             else if(this.productId=='57') this.selectedTab = 1;
             else if(this.productId=='60') {this.getHealthData();alert(this.selectedTab);this.selectedTab = 1;this.eleven=true;}
-            // else{
-            //   this.checkValidation();
-            // }
+            else if(this.productId=='1'){
+              this.checkValidation();
+            }
           }
         }
 
@@ -5822,6 +5827,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     this.currentRiskIndex= edit;
     this.editRiskSection= true;
     this.enableAllriskEditSection= true;
+    this.productItem = new ProductData();
     this.productItem.RiskLocation = rowdata.RiskId;
     this.productItem.RiskSerialNo = rowdata.SerialNoDesc;
     this.productItem.RiskDescription = rowdata.ContentRiskDesc;
@@ -6008,6 +6014,57 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       this.editBuildingSection = false;
       this.enableBuildingEditSection = true;
       this.building.push(entry);
+  }
+
+  getlength(building,i){
+      if(building[0].BuildingAddress==null && building[0].LocationName==null && i==1){
+      return false;
+      }
+else {
+  return true;
+}
+  }
+  getContent(content,i){
+    if(content[0]?.ContentRiskDesc==null && content[0]?.SumInsured==null && i==1){
+    return false;
+    }
+else {
+return true;
+}
+  }
+  getRisk(risk,i){
+    if(risk[0].RiskId==null && risk[0].SumInsured==null && risk[0].SerialNoDesc==null && i==1){
+      return false;
+      }
+  else {
+  return true;
+  }
+  }
+
+  getPersonalAccident(risk,i){
+    if(risk[0].RiskId==null && risk[0].PersonName==null && risk[0].OccupationDesc==null && risk[0].Salary==null && i==1){
+      return false;
+      }
+  else {
+  return true;
+  }
+  }
+  getIntermity(risk,i){
+    if(risk[0].RiskId==null && risk[0].Salary==null && risk[0].PersonName==null && i==1){
+      return false;
+      }
+  else {
+  return true;
+  }
+  }
+
+  getemployeeList(risk,i){
+    if(risk[0].RiskId==null && risk[0].Address==null && risk[0].NationalityId==null && i==1){
+      return false;
+      }
+  else {
+  return true;
+  }
   }
   AddNewAccessories(){
     // let entry = {
@@ -6639,19 +6696,20 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       this.risk[this.currentRiskIndex]['RiskId'] = this.productItem.RiskLocation;//this.serialNoDesc
       this.risk[this.currentRiskIndex]['ItemId'] =this.productItem.RiskContentType; 
       console.log('RISKKKKKKK',this.risk);
+      this.currentRiskIndex=null;
       this.productItem = new ProductData(); 
       // this.AllAdd();     // this.AddNew();
     }
     else{
       let entry = {
-      "ItemId":"",
-      "RiskId":"",
+      "ItemId":this.productItem.RiskContentType,
+      "RiskId":this.productItem.RiskLocation,
       "MakeAndModel":"TN123",
-      "ContentRiskDesc":null,
-      "SerialNoDesc": null,
+      "ContentRiskDesc":this.productItem.RiskDescription,
+      "SerialNoDesc": this.productItem.RiskSerialNo,
       "SerialNo":"155685",
       "ItemValue":"26534556",
-      "SumInsured":"",
+      "SumInsured":this.productItem.RiskSI,
       }
       this.risk.push(entry);
       this.productItem = new ProductData();

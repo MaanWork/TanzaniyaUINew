@@ -11,12 +11,11 @@ import { FieldArrayType } from '@ngx-formly/core';
         
       </div>
    </div>
-    <div >
-    <div *ngFor="let field of field.fieldGroup; let i = index;" class="grid">
+    <div>
+    <div *ngFor="let field of field.fieldGroup; let i = index;" class="grid" style="height:100px !important;">
       <formly-field class="col" [field]="field"></formly-field>
-      <div class="col-12 md:col-3 lg:col-3 xl:col-3" >
-        <p-button label="Delete" styleClass="mr-3 mb-3 p-button-outlined" *ngIf='i!=0' (click)="remove(i)"></p-button>
-       
+      <div class="col-12 md:col-3 lg:col-3 xl:col-3" style="margin-top:29px !important;">
+        <p-button label="Delete" styleClass="mb-3 p-button-outlined" *ngIf='i!=0' (click)="remove(i)"></p-button>
       </div>
       <hr class="m-0 p-0">
     </div>

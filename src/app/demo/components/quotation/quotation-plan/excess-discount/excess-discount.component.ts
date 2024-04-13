@@ -4266,6 +4266,176 @@ emiyn="N";
                 else{
                   this.getExistingBuildingList();
                 }
+<<<<<<< Updated upstream
+=======
+
+              }
+
+              else if(this.productId == '4'){
+                if(this.loginType=='B2CFlow' && this.loginId=='guest'){
+                  window.location.reload();
+                }
+                else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/travel-quote-details']);
+              }
+         
+              else if(this.productId=='59' || this.productId=='32' || this.productId=='39' || this.productId=='14' || this.productId=='15' || this.productId=='19' || this.productId=='1' || this.productId=='6' || this.productId=='16' || this.productId =='21' || this.productId =='26' || this.productId =='25' || this.productId =='24'|| this.productId=='42' || this.productId=='43' || this.productId=='13' || this.productId=='27'){
+                
+                this.router.navigate(['quotation/plan/main/accessories']);
+              }
+              else if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
+                
+                this.coverlist=[];let i=0;
+                for(let vehicle of this.newcoverlist){
+                  let vehEntry = vehicle.Covers;
+                  console.log('VVVVVVVVV',vehEntry);
+                  if(vehEntry.length!=0){
+                    let entry = vehEntry.filter(ele=>ele.CoverId == '55');
+                    if(entry.length!=0){
+                      console.log('RRRRRRR',entry);
+                      this.coverlist.push(entry)
+                    }
+                  }
+                  i+=1;
+                }           
+                console.log('if entry of cover id 55',this.coverlist);
+                if(sessionStorage.getItem('resetLoginDetails')){
+                  if(this.coverlist.length!=0){
+                      sessionStorage.setItem('riskSection','additional')
+                  }
+                  else sessionStorage.setItem('riskSection','normal')
+                      window.location.reload();
+                }
+                else if(this.coverlist.length!=0){
+                  this.router.navigate(['quotation/plan/main/accessories']);
+                 }
+                 else {
+                  this.router.navigate(['/quotation/plan/main/document-info'])
+                 }
+              }
+              else{
+               
+                this.router.navigate(['/quotation/plan/main/document-info'])
+              }
+            }
+          },
+          (err) => { },
+        );
+  }
+  checkReferralStatus(){
+    return false;
+    // return ((this.uwReferralSection && !this.adminSection && (this.statusValue=='RP' || this.statusValue=='' || this.statusValue==null || this.statusValue==undefined))  || (!this.adminSection && this.statusValue=='RP' && this.vehicleDetailsList.some(ele=>ele.Status=='RP')))
+  }
+  getExistingEserviceDetails(){
+    let ReqObj = {
+      "RequestReferenceNo": this.quoteRefNo,
+      "RiskId":"1"
+    }
+    let urlLink = `${this.motorApiUrl}api/geteservicebyriskid`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        let customerDatas = data.Result;
+        let commonDetails =[{
+          "PolicyStartDate": customerDatas.PolicyStartDate,
+          "PolicyEndDate":customerDatas.PolicyEndDate,
+          "Currency":customerDatas.Currency,
+          "SectionId":[customerDatas.SectionId],
+          "AcexecutiveId":"",
+          "ExchangeRate":customerDatas.ExchangeRate,
+          "StateExtent":"",
+          "NoOfDays": this.noOfDays,
+          "HavePromoCode":customerDatas.Havepromocode,
+          "Promocode": customerDatas.Promocode,
+        }]
+        sessionStorage.setItem('homeCommonDetails',JSON.stringify(commonDetails));
+        this.router.navigate(['quotation/plan/main/accessories']);
+      },
+      (err) => { },
+    );
+  }
+  getExistingBuildingList(){
+    let ReqObj = {
+      "RequestReferenceNo": this.quoteRefNo
+    }
+    let urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        let customerDatas = data.Result[0];
+        let commonDetails =[{
+          "PolicyStartDate": customerDatas.PolicyStartDate,
+          "PolicyEndDate":customerDatas.PolicyEndDate,
+          "Currency":customerDatas.Currency,
+          "SectionId":customerDatas.SectionId,
+          "AcexecutiveId":"",
+          "ExchangeRate":customerDatas.ExchangeRate,
+          "StateExtent":"",
+          "NoOfDays": this.noOfDays,
+          "HavePromoCode":customerDatas.Havepromocode,
+          "Promocode": customerDatas.Promocode,
+        }]
+        sessionStorage.setItem('homeCommonDetails',JSON.stringify(commonDetails));
+        if(this.loginType=='B2CFlow' && this.loginId=='guest'){
+          window.location.reload();
+        }
+        else this.router.navigate(['quotation/plan/main/accessories']);
+      },
+      (err) => { },
+    );
+  }
+  onUpdateFactor(type){
+    //this.updateComponent.modifiedYN = 'N';
+    if((this.statusValue!='' && this.statusValue!=null) || (this.endorsementSection && this.endorseCovers) || this.userType=='Issuer'){
+      if(this.statusValue=='RA' || type=='calculate' || this.userType=='Issuer'){
+        if(this.selectedCoverList.length!=0){
+          let i=0;
+          for(let vehicle of this.vehicleDetailsList){
+              let vehEntry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.Vehicleid);
+              if(vehEntry.length!=0){
+                let entry = vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId);
+                if(entry.length!=0){
+                  let j=0; let covers = [];
+                  for(let veh of entry){
+                      let k=0;
+                      for(let selectedCover of veh.Covers){
+                        let coverList = vehicle.CoverList.filter(ele=>ele.CoverId == selectedCover.CoverId)
+                        covers = covers.concat(coverList);
+                        k+=1;
+                        if(k==veh.Covers.length){
+                          j+=1;
+                          if(j==entry.length){
+                              let ReqObj = {
+                                "RequestReferenceNo": this.quoteRefNo,
+                                "VehicleId": veh.Id,
+                                "SectionId": vehicle.SectionId,
+                                "ProductId": this.productId,
+                                "AdminLoginId": this.loginId,
+                                "InsuranceId": this.insuranceId,
+                                "Covers":covers
+                              }
+                              console.log("Final Req",vehicle,veh,ReqObj)
+                              let urlLink = `${this.CommonApiUrl}api/updatefactorrate`;
+                              this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+                                (data: any) => {
+                                    if(data.Result){
+                                      i+=1;
+                                      if(i==this.vehicleDetailsList.length){
+                                        if(type=='calculate'){
+                                          
+                                          // this.getcall();
+                                          //sessionStorage.removeItem('vehicleDetailsList');
+                                          window.location.reload();
+                                        }
+                                        else if(this.subuserType=='low') this.onFormSubmit();
+                                        else this.updateReferralStatus();
+                                      }
+                                    }
+                                  },
+                                  (err) => { },
+                                );
+                          }
+                        }
+                      }
+                      
+>>>>>>> Stashed changes
   
               }
               else if(this.productId !='3' && this.productId!='4'){

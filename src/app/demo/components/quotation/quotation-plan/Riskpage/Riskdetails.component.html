@@ -322,4 +322,68 @@
     </div>
 
 </ng-container>
+
+<ng-container *ngIf="productId=='24'">
+<div class="grid mt-1 mb-3">
+    <div class="lg:col-1">
+
+    </div>
+    <div class="col-12 lg:col-5 xl:col-5">
+    <div class="memberDetailCard" style="padding:10px !important;">
+<div class="mb-2"> <b>Content Risk</b></div>
+                <div class="flex md:flex-row flex-col items-center md:space-x-3">
+               
+                  <ng-container *ngFor="let stes of fields1; let index = index; let last = last">
+                              <div>    
+                  <div style="display: flex !important;justify-content: space-between !important;">
+                      <div class="mt-4 mr-3 ml-3">
+                        <img src="../../../../../../assets/images/content.png" width="40" height="35">
+                        <!-- <b>{{step.props.label }}</b> -->
+                    </div> 
+                      <div>
+                          <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
+                              <formly-form [form]="form" [fields]="stes.fieldGroup" [model]="productItem"></formly-form>
+                      </form>
+                      </div>     
+                  </div>
+                  
+                  </div></ng-container>
+              
+          </div>
+          </div> 
+       
+    </div>
+
+    <div class="col-12 lg:col-5 xl:col-5">
+            <div class="memberDetailCard" style="padding:10px !important;">
+                <div class="mb-2"> <b>All Risk</b></div>
+                <div class="flex md:flex-row flex-col items-center md:space-x-3">
+               
+                  <ng-container *ngFor="let steps of fields2; let index = index; let last = last">
+                              <div>    
+                  <div style="display: flex !important;justify-content: space-between !important;">
+                      <div class="mt-4 ml-3 mr-3">
+                        <img src="../../../../../../assets/images/All-risk.png" width="40" height="35">
+                        <!-- <b>{{step.props.label }}</b> -->
+                    </div> 
+                      <div>
+                          <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
+                              <formly-form [form]="form" [fields]="steps.fieldGroup" [model]="productItem"></formly-form>
+                      </form>
+                      </div>     
+                  </div>
+                  
+                  </div></ng-container>
+              
+          </div>
+          </div> 
+    </div>
+</div>
+<div class="text-center mt-2">
+    <p-button  styleClass="p-button-outlined" label="Back"
+    size="small" [routerLink]="['/quotation/plan/quote-details']" routerLinkActive="router-link-active"></p-button>&nbsp;
+    <p-button 
+    label="Proceed" size="small" (click)="onfinalsave()"></p-button>
+</div>
+</ng-container>
     </div>
