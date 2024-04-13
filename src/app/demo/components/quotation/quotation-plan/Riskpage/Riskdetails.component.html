@@ -1,7 +1,7 @@
 <div class="container"> 
     <div *ngIf="productId=='59'">
         <div class="mt-4">
-            <div class="grid mb-3" *ngIf="Buildings=='Y'">
+            <div class="grid mb-3" *ngIf="Buildings=='Y' && Building1">
                 <div class="lg:col-1">
 
                 </div>
@@ -40,7 +40,7 @@
         <div class="lg:col-1">
 
         </div>
-        <div class="col-12 lg:col-5 xl:col-5">
+        <div class="col-12 lg:col-5 xl:col-5" *ngIf="Content">
         <div class="memberDetailCard" style="padding:10px !important;">
     <div class="mb-2"> <b>Content Risk</b></div>
                     <div class="flex md:flex-row flex-col items-center md:space-x-3">
@@ -66,7 +66,7 @@
            
         </div>
     
-        <div class="col-12 lg:col-5 xl:col-5">
+        <div class="col-12 lg:col-5 xl:col-5" *ngIf="AllRisk">
                 <div class="memberDetailCard" style="padding:10px !important;">
                     <div class="mb-2"> <b>All Risk</b></div>
                     <div class="flex md:flex-row flex-col items-center md:space-x-3">
@@ -91,13 +91,12 @@
               </div> 
         </div>
     </div>
-   
-
+ 
     <div class="grid mt-2 mb-3">
         <div class="lg:col-1">
 
         </div>
-        <div class="col-12 lg:col-5 xl:col-5">
+        <div class="col-12 lg:col-5 xl:col-5" *ngIf="PersonalAccident">
         <div class="memberDetailCard" style="padding:10px !important;">
             <div class="mb-2"> <b>Personal Liability</b></div>
             <div class="flex md:flex-row flex-col items-center md:space-x-3">
@@ -121,7 +120,7 @@
       </div>
       </div> 
       </div>
-      <div class="col-12 lg:col-5 xl:col-5">
+      <div class="col-12 lg:col-5 xl:col-5" *ngIf="personalIndemity">
         <div class="memberDetailCard" style="padding:10px !important;">
             <div class="mb-2"> <b>Personal Accident</b></div>
             <div class="flex md:flex-row flex-col items-center md:space-x-3">
@@ -146,6 +145,7 @@
       </div> 
         </div>
     </div>
+
     <div class="text-center mt-2">
         <p-button  styleClass="p-button-outlined" label="Back"
         size="small" [routerLink]="['/quotation/plan/quote-details']" routerLinkActive="router-link-active"></p-button>&nbsp;
@@ -328,7 +328,7 @@
     <div class="lg:col-1">
 
     </div>
-    <div class="col-12 lg:col-5 xl:col-5">
+    <div class="col-12 lg:col-5 xl:col-5" *ngIf="Content">
     <div class="memberDetailCard" style="padding:10px !important;">
 <div class="mb-2"> <b>Content Risk</b></div>
                 <div class="flex md:flex-row flex-col items-center md:space-x-3">
@@ -354,7 +354,7 @@
        
     </div>
 
-    <div class="col-12 lg:col-5 xl:col-5">
+    <div class="col-12 lg:col-5 xl:col-5" *ngIf="AllRisk">
             <div class="memberDetailCard" style="padding:10px !important;">
                 <div class="mb-2"> <b>All Risk</b></div>
                 <div class="flex md:flex-row flex-col items-center md:space-x-3">
