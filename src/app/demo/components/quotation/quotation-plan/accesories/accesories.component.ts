@@ -26,6 +26,7 @@ import { ProductData } from '../models/product';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { QuotationPlanComponent } from '../quotation-plan.component';
 
 export class ForceLengthValidators {
   static maxLength(maxLength: number) {
@@ -335,7 +336,7 @@ export class AccesoriesComponent {
   showmultiple: boolean = false;
 
 
-  constructor(private router: Router,private datePipe:DatePipe,
+  constructor(private router: Router,private datePipe:DatePipe,private quoteComponent:QuotationPlanComponent,
      private sharedService: SharedService,public http: HttpClient) {
     let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -1529,7 +1530,8 @@ export class AccesoriesComponent {
           this.customerDetails=data?.Result?.CustomerDetails;
           if(this.Riskdetails[0].AcccessoriesSumInsured!=null)
           this.actualAccessoriesSI = String(this.Riskdetails[0].AcccessoriesSumInsured);
-          
+          this.quoteComponent.setRiskDetails(this.Riskdetails);
+            this.quoteComponent.currencyCode = data?.Result?.QuoteDetails?.Currency;
           if(this.Riskdetails.length==1){
             this.newacc=true;
             let fireData = new Accessorieswh();
