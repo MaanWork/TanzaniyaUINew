@@ -23,104 +23,118 @@
           <p-button icon="pi pi-table" class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
           <p-button icon="pi pi-list" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
         </div>
-        <p-table #dtEmployeeActive *ngIf="tableView == 'table' else cardTableView" [value]="quoteData" 
-          [globalFilterFields]="['PolicyNo','QuoteNo','ClientName','PolicyStartDate','PolicyEndDate','OverallPremiumLc']" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
-          <ng-template pTemplate="caption">
-            <div class="table-header">
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dtEmployeeActive.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
-                </span>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="header">
-              <tr>
-                  <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
-              </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-customer>
-            <tr>
-              <td>{{ customer.PolicyNo }}</td>
-              <td>{{ customer.QuoteNo }}</td>
-              <td>{{ customer.ClientName }}</td>
-              <td>{{ customer.Currency }}</td>
-              <td>{{ customer.PolicyStartDate }}</td>
-              <td>{{ customer.PolicyEndDate }}</td>
-              <td>{{ customer.OverallPremiumLc }}</td>
-              <td>
-                <span class="p-buttonset">
-                  <!-- <button pButton pRipple icon="pi pi-envelope" class="p-button-outlined"></button>
-                  <button pButton pRipple icon="pi pi-inbox" class="p-button-outlined"></button> -->
-                  <button type="button" pButton pRipple icon="pi pi-th-large" (click)="menu.toggle($event)"></button>
-                  <p-menu #menu [popup]="true" appendTo="body" [model]="getPolicyItems(customer)"></p-menu>
-                </span>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-        <ng-template #cardTableView>
-          <div class="grid">
-            <div class="card  mr-4" *ngFor="let quote of quoteData">
-              <table>
+        <div class="grid mb-2 mt-2">
+          <div class="col-12 md:col-4 lg:col-4">
+            <label for="username">Broker</label><span class="text-danger">*</span>
+            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="brokerCode"  [options]="brokerList" (onChange)="getExistingQuotes(null,'change')"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
+            </p-dropdown>
+          </div>
+        </div>
+        <ng-container *ngIf="quoteData.length!=0">
+          <p-table #dtEmployeeActive *ngIf="tableView == 'table' else cardTableView" [value]="quoteData" 
+            [globalFilterFields]="['PolicyNo','QuoteNo','ClientName','PolicyStartDate','PolicyEndDate','OverallPremiumLc']" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+            <ng-template pTemplate="caption">
+              <div class="table-header">
+                  <span class="p-input-icon-left">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text" (input)="dtEmployeeActive.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                  </span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
                 <tr>
-                  <td><h5>{{quote.ClientName}}</h5></td>
+                    <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
                 </tr>
-                <tr class="justify-content-between">
-                  <td>
-                    <ng-container *ngIf="quote.PolicyNo">
-                      <b>PolicyNo No</b>
-                      <p>{{quote.PolicyNo}}</p>
-                    </ng-container>
-                  </td>
-                </tr>
-                <tr class="justify-content-between">
-                  
-                    <td><b>Reference No</b>
-                      <p> {{ quote.RequestReferenceNo }}</p>
-                    </td>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer>
+              <tr>
+                <td>{{ customer.PolicyNo }}</td>
+                <td>{{ customer.QuoteNo }}</td>
+                <td>{{ customer.ClientName }}</td>
+                <td>{{ customer.Currency }}</td>
+                <td>{{ customer.PolicyStartDate }}</td>
+                <td>{{ customer.PolicyEndDate }}</td>
+                <td>{{ customer.OverallPremiumLc }}</td>
+                <td>
+                  <span class="p-buttonset">
+                    <!-- <button pButton pRipple icon="pi pi-envelope" class="p-button-outlined"></button>
+                    <button pButton pRipple icon="pi pi-inbox" class="p-button-outlined"></button> -->
+                    <button type="button" pButton pRipple icon="pi pi-th-large" (click)="menu.toggle($event)"></button>
+                    <p-menu #menu [popup]="true" appendTo="body" [model]="getPolicyItems(customer)"></p-menu>
+                  </span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <ng-template #cardTableView>
+            <div class="grid">
+              <div class="card  mr-4" *ngFor="let quote of quoteData">
+                <table>
+                  <tr>
+                    <td><h5>{{quote.ClientName}}</h5></td>
+                  </tr>
+                  <tr class="justify-content-between">
                     <td>
-                      <ng-container *ngIf="quote.QuoteNo">
-                        <b>Quote No</b>
-                        <p>{{quote.QuoteNo}}</p>
+                      <ng-container *ngIf="quote.PolicyNo">
+                        <b>PolicyNo No</b>
+                        <p>{{quote.PolicyNo}}</p>
                       </ng-container>
                     </td>
-                </tr>
-                <!-- <tr class="">
-                  <td >
-                    <b>Quote No</b>
-                    <p-chip [label]="quote.QuoteNo" styleClass="bg-orange-500 text-white"></p-chip>
-                  </td>
-                  <td class="text-right">
-                    <b> Reference No</b>
-                    <p class="text-teal-600"></p>
-                      {{ quote.RequestReferenceNo }}
-                  </td>
-                </tr> -->
-                <tr class="justify-content-between">
-                  <td><b>Start Date</b>
-                  <p>{{quote.PolicyStartDate}}</p>
-                  </td>
-                  <td class=""><b>End Date</b>
-                  <p>{{quote.PolicyEndDate}}</p></td>
-                </tr>               
-                <tr>
-                  <td>{{quote.OverallPremiumLc}}&nbsp;({{quote.currencyCode}})</td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td>
-                    <span class="p-buttonset">
-                      <!-- <button pButton pRipple icon="pi pi-envelope" class="p-button-outlined"></button>
-                      <button pButton pRipple icon="pi pi-inbox" class="p-button-outlined"></button> -->
-                      <button type="button" pButton pRipple icon="pi pi-th-large" (click)="menu.toggle($event)"></button>
-                      <p-menu #menu [popup]="true" appendTo="body" [model]="getPolicyItems(customer)"></p-menu>
-                    </span>
-                  </td>
-                </tr>
-              </table>
+                  </tr>
+                  <tr class="justify-content-between">
+                    
+                      <td><b>Reference No</b>
+                        <p> {{ quote.RequestReferenceNo }}</p>
+                      </td>
+                      <td>
+                        <ng-container *ngIf="quote.QuoteNo">
+                          <b>Quote No</b>
+                          <p>{{quote.QuoteNo}}</p>
+                        </ng-container>
+                      </td>
+                  </tr>
+                  <!-- <tr class="">
+                    <td >
+                      <b>Quote No</b>
+                      <p-chip [label]="quote.QuoteNo" styleClass="bg-orange-500 text-white"></p-chip>
+                    </td>
+                    <td class="text-right">
+                      <b> Reference No</b>
+                      <p class="text-teal-600"></p>
+                        {{ quote.RequestReferenceNo }}
+                    </td>
+                  </tr> -->
+                  <tr class="justify-content-between">
+                    <td><b>Start Date</b>
+                    <p>{{quote.PolicyStartDate}}</p>
+                    </td>
+                    <td class=""><b>End Date</b>
+                    <p>{{quote.PolicyEndDate}}</p></td>
+                  </tr>               
+                  <tr>
+                    <td>{{quote.OverallPremiumLc}}&nbsp;({{quote.currencyCode}})</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>
+                      <span class="p-buttonset">
+                        <!-- <button pButton pRipple icon="pi pi-envelope" class="p-button-outlined"></button>
+                        <button pButton pRipple icon="pi pi-inbox" class="p-button-outlined"></button> -->
+                        <button type="button" pButton pRipple icon="pi pi-th-large" (click)="menu.toggle($event)"></button>
+                        <p-menu #menu [popup]="true" appendTo="body" [model]="getPolicyItems(customer)"></p-menu>
+                      </span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
             </div>
+          </ng-template>
+        </ng-container>
+        <ng-container *ngIf="quoteData.length==0">
+          <div class="flex flex-wrap justify-content-center mt-2">
+                No Quote Available
           </div>
-        </ng-template>
+      </ng-container>
       </p-tabPanel>
       <p-tabPanel header="Cancelled">
 

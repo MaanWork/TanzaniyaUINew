@@ -82,7 +82,7 @@ export class ProductData {
 	PASalary:any ='0'; PANationalityID:any;PADob:any;
 	ContentSI:any ='0';
 	ContentDesc: any
-	ContentSerialNo: any
+	ContentSerialNo: any;InflationSI:any='350000';
 	ContentType: any; ContentLocation:any;
 	AccDob:any = ''; AccNationID:any; AccSI:any ='';AccName:any; AccOccupation:any;
 	AccidentLocation:any ='';EmpLiabilitySi:any=null;
