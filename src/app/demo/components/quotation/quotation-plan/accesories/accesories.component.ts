@@ -169,7 +169,7 @@ export class AccesoriesComponent {
   contentRiskSection: boolean=false;
   accessoriesSection:boolean =false;
   electronicEquipSection: boolean=false;
-  currencyValue: any;
+  currencyValue: any;Buildingsections:any=false;
   accidentOccupation: any;
   accidentOccupationId: any;
   liabilityOccupation: any;
@@ -3926,6 +3926,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
           else this.buildingSection = false;
           //else this.buildingSection = false;
           this.building = res.Result;
+          this.Buildingsections=true;
           let i=0;
           for(let entry of this.building){
             if (i == 0) {
@@ -6603,6 +6604,7 @@ return true;
       this.productItem.LocationNameBuilding=null;
       this.productItem.BuildingSumInsureds=null;
       this.currentBuildingIndex = null;
+      this.Buildingsections=true;
       this.productItem = new ProductData();
      
       //this.AddNew();
@@ -6623,6 +6625,7 @@ return true;
       this.productItem.LocationAddress=null;
       this.productItem.LocationNameBuilding=null;
       this.productItem.BuildingSumInsureds=null;
+      this.Buildingsections=true;
       this.productItem = new ProductData();
     }
   }
