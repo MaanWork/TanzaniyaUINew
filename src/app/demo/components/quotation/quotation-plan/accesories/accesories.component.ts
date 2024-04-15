@@ -3926,6 +3926,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
           else this.buildingSection = false;
           //else this.buildingSection = false;
           this.building = res.Result;
+          console.log('GHSectionsss',this.building)
           this.Buildingsections=true;
           let i=0;
           for(let entry of this.building){
