@@ -4183,203 +4183,125 @@
     </div>
 
 </ng-template>
-<ng-template #factorView let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title spancommon span_font_size" id="modal-basic-title">Factor Details</h4>
-        <button type="button" class="close" #closeModal aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">×</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="row">
-            <div class="col-12 col-lg-12 col-md-12 col-xl-12">
-                <ng-container *ngIf="factorViewList.length!=0">
-                    <table class="styled-table">
-
-                        <thead>
-                            <tr>
-                                <th class="spancommon span_font_size"
-                                    style="border-left: 1px solid #fff;border-right: 1px solid #fff;">Factor Name</th>
-                                <th class="spancommon span_font_size"
-                                    style="border-left: 1px solid #fff;border-right: 1px solid #fff;">Own Damage</th>
-                                <th class="spancommon span_font_size"
-                                    style="border-left: 1px solid #fff;border-right: 1px solid #fff;">Wind Screen</th>
-                                <th class="spancommon span_font_size"
-                                    style="border-left: 1px solid #fff;border-right: 1px solid #fff;">Theft</th>
-                                <th class="spancommon span_font_size"
-                                    style="border-left: 1px solid #fff;border-right: 1px solid #fff;">Fire</th>
-                                <th class="spancommon span_font_size"
-                                    style="border-left: 1px solid #fff;border-right: 1px solid #fff;">Third party</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let factor of factorViewList">
-                                <td style="border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                    <ng-container
-                                        *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
-                                        <span class="spancommon span_font_size"><b>{{factor.FactorName}}</b></span>
-                                    </ng-container>
-                                    <ng-container
-                                        *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
-                                        <span class="spancommon span_font_size">{{factor.FactorName}}</span>
-                                    </ng-container>
-                                </td>
-                                <td
-                                    style="text-align: end;border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                    <ng-container
-                                        *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
-                                        <span class="spancommon span_font_size"
-                                            style="color: #fd7e14;"><b>{{factor.OwnDamage | commaseparator}}</b></span>
-                                    </ng-container>
-                                    <ng-container
-                                        *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
-                                        <span class="spancommon span_font_size">{{factor.OwnDamage |
-                                            commaseparator}}</span>
-                                    </ng-container>
-                                </td>
-                                <td
-                                    style="text-align: end;border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                    <ng-container
-                                        *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
-                                        <span class="spancommon span_font_size"
-                                            style="color: #fd7e14;"><b>{{factor.Windscreen | commaseparator}}</b></span>
-                                    </ng-container>
-                                    <ng-container
-                                        *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
-                                        <span class="spancommon span_font_size">{{factor.Windscreen |
-                                            commaseparator}}</span>
-                                    </ng-container>
-                                </td>
-                                <td
-                                    style="text-align: end;border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                    <ng-container
-                                        *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
-                                        <span class="spancommon span_font_size"
-                                            style="color: #fd7e14;"><b>{{factor.Theft | commaseparator}}</b></span>
-                                    </ng-container>
-                                    <ng-container
-                                        *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
-                                        <span class="spancommon span_font_size">{{factor.Theft | commaseparator}}</span>
-                                    </ng-container>
-                                </td>
-                                <td
-                                    style="text-align: end;border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                    <ng-container
-                                        *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
-                                        <span class="spancommon span_font_size" style="color: #fd7e14;"><b>{{factor.Fire
-                                                | commaseparator}}</b></span>
-                                    </ng-container>
-                                    <ng-container
-                                        *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
-                                        <span class="spancommon span_font_size">{{factor.Fire | commaseparator}}</span>
-                                    </ng-container>
-                                </td>
-                                <td
-                                    style="text-align: end;border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                    <ng-container
-                                        *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
-                                        <span class="spancommon span_font_size"
-                                            style="color: #fd7e14;"><b>{{factor.ThirdParty | commaseparator}}</b></span>
-                                    </ng-container>
-                                    <ng-container
-                                        *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
-                                        <span class="spancommon span_font_size">{{factor.ThirdParty |
-                                            commaseparator}}</span>
-                                    </ng-container>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </ng-container>
-                <ng-container *ngIf="factorViewList.length==0">
-                    <div class="text-center">
-                        No Data Available
-                    </div>
-                </ng-container>
-            </div>
-        </div>
-        <div class="row" *ngIf="factorPremiumDetails">
-            <div class="text-center">
-                <b><u>ANNUAL PREMIUM DETAILS</u></b>
-            </div>
-            <div class="col-12 col-lg-7 col-md-7 col-xl-7 offset-3">
-                <table class="styled-table">
+<p-dialog class="p-su-header" header="Factor Details" [(visible)]="factorDetailModal" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+    <div class="grid">
+        <div class="col-12 lg:col-12 md:col-12 xl:col-12">
+            <ng-container *ngIf="factorViewList.length!=0">
+                <table class="table table-bordered" style="width: 100%;margin-top:15px">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="padding: 8px;"><b>Factor Name</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;"><b>Own Damage</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>Wind Screen</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>Theft</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>Fire</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>Third party</b></th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr>
-                            <td style="border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                <span class="spancommon span_font_size"><b>Risk Premium Amount</b></span>
+                        <tr *ngFor="let factor of factorViewList">
+                            <td style="text-align: start;padding: 8px;">
+                                <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
+                                   <b>{{factor.FactorName}}</b>
+                                </ng-container>
+                                <ng-container *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
+                                    {{factor.FactorName}}
+                                </ng-container>
                             </td>
-                            <td style="text-align: end;border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                <span class="spancommon span_font_size"
-                                    style="color: #fd7e14;"><b>{{factorPremiumDetails.RiskPremiumAmt |
-                                        commaseparator}}</b></span>
+                            <td style="text-align: end;padding: 8px;">
+                                <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
+                                    <b>{{factor.OwnDamage | commaseparator}}</b>
+                                </ng-container>
+                                <ng-container *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
+                                   {{factor.OwnDamage | commaseparator}}
+                                </ng-container>
                             </td>
-                        </tr>
-                        <tr>
-                            <td style="border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                <span class="spancommon span_font_size"><b>Risk Premium Rate</b></span>
+                            <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028'">
+                                <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
+                                    <b>{{factor.Windscreen | commaseparator}}</b>
+                                </ng-container>
+                                <ng-container *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
+                                    {{factor.Windscreen | commaseparator}}
+                                </ng-container>
                             </td>
-                            <td style="text-align: end;border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                <span class="spancommon span_font_size"
-                                    style="color: #fd7e14;"><b>{{factorPremiumDetails.RiskPremiumRate |
-                                        commaseparator}}&nbsp;%</b></span>
+                            <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028'">
+                                <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
+                                   <b>{{factor.Theft | commaseparator}}</b>
+                                </ng-container>
+                                <ng-container *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
+                                    {{factor.Theft | commaseparator}}
+                                </ng-container>
                             </td>
-                        </tr>
-                        <tr>
-                            <td style="border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                <span class="spancommon span_font_size">Target Loss Ratio</span>
+                            <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028'">
+                                <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
+                                   <b>{{factor.Fire | commaseparator}}</b>
+                                </ng-container>
+                                <ng-container *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
+                                    {{factor.Fire | commaseparator}}
+                                </ng-container>
                             </td>
-                            <td style="text-align: end;border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                <span class="spancommon span_font_size"><b>{{factorPremiumDetails.TargetLossRatio |
-                                        commaseparator}}&nbsp;%</b></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                <span class="spancommon span_font_size">Minimum Rate</span>
-                            </td>
-                            <td style="text-align: end;border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                <span class="spancommon span_font_size"><b>{{factorPremiumDetails.MinRate |
-                                        commaseparator}}&nbsp;%</b></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                <span class="spancommon span_font_size">Minimum Premium</span>
-                            </td>
-                            <td style="text-align: end;border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                <span class="spancommon span_font_size"><b>{{factorPremiumDetails.MinPremium |
-                                        commaseparator}}&nbsp;%</b></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                <span class="spancommon span_font_size"><b>Final Premium Amount (excl VAT)</b></span>
-                            </td>
-                            <td style="text-align: end;border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                <span class="spancommon span_font_size"
-                                    style="color: #1f8a05;"><b>{{factorPremiumDetails.FinalPremiumAmtExclTax |
-                                        commaseparator}}</b></span>
+                            <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028'">
+                                <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
+                                    <b>{{factor.ThirdParty | commaseparator}}</b>
+                                </ng-container>
+                                <ng-container *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
+                                    {{factor.ThirdParty | commaseparator}}
+                                </ng-container>
                             </td>
                         </tr>
-                        <tr>
-                            <td style="border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                <span class="spancommon span_font_size"><b>Final Premium Rate (excl VAT)</b></span>
-                            </td>
-                            <td style="text-align: end;border-left: 1px solid #dddddd;border-right: 1px solid #dddddd;">
-                                <span class="spancommon span_font_size"
-                                    style="color: #1f8a05;"><b>{{factorPremiumDetails.FinalPremiumRateExclTax |
-                                        commaseparator}}&nbsp;%</b></span>
-                            </td>
-                        </tr>
+                    </tbody>
                 </table>
-            </div>
+            </ng-container>
+            <ng-container *ngIf="factorViewList.length==0">
+                <div class="flex flex-wrap justify-content-center">
+                    No Data Available
+                </div>
+            </ng-container>
         </div>
     </div>
-    <div class="modal-footer" style="box-shadow: inset 0px 0px 0px #b8b9be,inset -3px 0px 0px #FFE!important;">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+    <div class="row" *ngIf="factorPremiumDetails && insuranceId!='100028'">
+        <div class="flex flex-wrap justify-content-center">
+            <b><u>ANNUAL PREMIUM DETAILS</u></b>
+        </div>
+        <div class="col-12 lg:col-7 md:col-7 xl:col-7 md:col-offset-3 lg:col-offset-3 xl:col-offset-3">
+            <table class="table table-bordered" style="width: 100%;margin-top:15px">
+                <tbody>
+                    <tr>
+                        <td style="text-align: start;padding: 8px;"><b>Risk Premium Amount</b></td>
+                        <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.RiskPremiumAmt | commaseparator}}</b></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: start;padding: 8px;"><b>Risk Premium Rate</b></td>
+                        <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.RiskPremiumRate | commaseparator}}</b></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: start;padding: 8px;"><b>Target Loss Ratio</b></td>
+                        <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.TargetLossRatio | commaseparator}}</b></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: start;padding: 8px;"><b>Minimum Rate</b></td>
+                        <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.MinRate | commaseparator}}</b></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: start;padding: 8px;"><b>Minimum Premium</b></td>
+                        <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.MinPremium | commaseparator}}</b></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: start;padding: 8px;"><b>Final Premium Amount (excl VAT)</b></td>
+                        <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.FinalPremiumAmtExclTax | commaseparator}}</b></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: start;padding: 8px;"><b>Final Premium Rate (excl VAT)</b></td>
+                        <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.FinalPremiumRateExclTax | commaseparator}}</b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-</ng-template>
+    <div class="flex justify-content-center">
+        <p-button class=" text-l pi-button mr-0"  (click)="factorDetailModal=!factorDetailModal">Close</p-button>
+    </div>
+</p-dialog>
 <div id="toast" class="toastDisplay errorToast" style="display:none;color:#ffffff">
     <img (click)="sharedService.fnOnToastCloseClick()" align="right" src="./assets/img/close_white.png" alt="Warning"
         style="vertical-align:baseline; text-align:right;cursor:pointer;">

@@ -250,7 +250,7 @@ emiyn="N";
   showDiscountSection:boolean=false;
   showExcessSection: boolean=false;modifyOptions:any[]=[];
   fleetCoverDetails: any;
-  basePremium: any;
+  basePremium: any;factorDetailModal:boolean = false;
   premiumIncludedTax: any;
   premiumExcludedTax: any;
   benefitCoverList: any;
@@ -904,7 +904,7 @@ emiyn="N";
             if(data.Result){
               this.factorViewList = data.Result.FactorCalculationRes;
               this.factorPremiumDetails = data.Result.FactorResultRes;
-              if(modal) this.open(modal);
+              this.factorDetailModal = true;
             }
           },
           (err) => { },

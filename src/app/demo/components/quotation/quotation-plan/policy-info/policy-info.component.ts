@@ -212,6 +212,38 @@ export class PolicyInfoComponent {
     (err) => { },
     );
   }
+  onGetSchedules(rowData){
+    // let ReqObj = {
+    //   "QuoteNo":rowData.QuoteNo,
+    //   "EndorsementType":"E"
+    // }
+    // let urlLink = `${this.CommonApiUrl}pdf/policyform`;
+    let ReqObj = {
+      "QuoteNo": rowData.QuoteNo,
+      "ReportId": "6"
+    }
+    let urlLink = `${this.CommonApiUrl}pdf/getSchedule`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data?.Result?.PdfOutFile){
+            this.downloadMyFile(data.Result.PdfOutFile);
+        }
+        else{
+          Swal.fire({
+            title: '<strong>Schedule Pdf</strong>',
+            icon: 'error',
+            html:
+              `No Pdf Generated For this Policy`,
+            showCancelButton: false,
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancel',
+          })
+        }
+      },
+      (err) => { },
+    );
+  }
   onDebitdownload(rowData){
     console.log('KKKKKKKKKKK',rowData.QuoteNo);
     let urlLink = `${this.CommonApiUrl}pdf/taxInvoice?quoteNo=${rowData.QuoteNo}`
