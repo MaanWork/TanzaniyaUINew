@@ -6,7 +6,7 @@ import { FieldType } from '@ngx-formly/core';
        template: `
        <div>
               <label>{{to.label}}</label><span *ngIf="to.required==true" class="text-danger">&nbsp;*</span>
-                     <p-dropdown inputId="make" class="w-full w-full1" styleClass="w-full w-full1" [formControl]="formControl" [options]="to.options"
+                     <p-dropdown inputId="make" appendTo="body" class="w-full w-full1" styleClass="w-full w-full1" [formControl]="formControl" [options]="to.options"
                         optionLabel="label" optionValue="value">
                      </p-dropdown>
                      </div>
