@@ -254,6 +254,7 @@ export class AccesoriesComponent {
   editRiskSection:boolean;
   editElectronicSection:boolean;
   originalFidelityList: any;
+  allfields=true;
   totalFidelityIntSI: number;
   empLocation: any;
   employeeLocationError: boolean;
@@ -5652,26 +5653,6 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         })
   }
 
-  onDateFormatInEdit(date) {
-    console.log(date);
-    if (date) {
-      let format = date.split('-');
-      if(format.length >1){
-        var NewDate = new Date(new Date(format[0], format[1], format[2]));
-        NewDate.setMonth(NewDate.getMonth() - 1);
-        return NewDate;
-      }
-      else{
-        format = date.split('/');
-        if(format.length >1){
-          var NewDate = new Date(new Date(format[2], format[1], format[0]));
-          NewDate.setMonth(NewDate.getMonth() - 1);
-          return NewDate;
-        }
-      }
-
-    }
-  }
   getUWDetails() {
 
   }
@@ -5899,15 +5880,39 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     this.productItem.EmpsOccupation = rowdata.OccupationId;//this.occupationType 
     this.productItem.EmpsSI= rowdata.Salary;//this.employeeSalary
     this.productItem.EmpsNationality = rowdata.NationalityId;//this.nationality
-    //var dateParts = rowdata.DateOfBirth.split("/");
-    // this.productItem.EmpsDob = this.employeeList[index].DateOfBirth;
+    // var dateParts = rowdata.DateOfBirth.split("/");
+    // this.productItem.EmpsDob  = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
+    console.log('Entered Data', rowdata.DateOfBirth)
+    this.productItem.EmpsDob = this.onDateFormatInEdit(rowdata.DateOfBirth);
+    //rowdata.DateOfBirth;
     // console.log('NNNNNNNNNNNNN',this.productItem.EmpsDob);
     // month is 0-based, that's why we need dataParts[1] - 1
-    this.productItem.EmpsDob  = rowdata.DateOfBirth;
+    //this.productItem.EmpsDob  = rowdata.DateOfBirth;
     //dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
      this.productItem.EmpsPeriod= rowdata.DateOfJoiningYear;//this.empJoiningDate
    this.productItem.EmpsJoin= rowdata.DateOfJoiningMonth;// this.empJoiningMonth 
     this.individualCommaFormatted('employee');
+  }
+
+  onDateFormatInEdit(date) {
+    console.log(date);
+    if (date) {
+      let format = date.split('-');
+      if(format.length >1){
+        var NewDate = new Date(new Date(format[0], format[1], format[2]));
+        NewDate.setMonth(NewDate.getMonth() - 1);
+        return NewDate;
+      }
+      else{
+        format = date.split('/');
+        if(format.length >1){
+          var NewDate = new Date(new Date(format[2], format[1], format[0]));
+          NewDate.setMonth(NewDate.getMonth() - 1);
+          return NewDate;
+        }
+      }
+
+    }
   }
   onEditFidelity(index,rowdata){
     //this.currentFidelityIndex = index;
@@ -6598,6 +6603,7 @@ return true;
   onSaveLocation(){
     console.log("Final Additional Info",this.form,this.productItem);
     if(this.currentBuildingIndex!=null){
+      if(this.productItem.LocationAddress!=null && this.productItem.LocationNameBuilding!=null){
       this.building[this.currentBuildingIndex].BuildingAddress = this.productItem.LocationAddress;
       this.building[this.currentBuildingIndex].LocationName = this.productItem.LocationNameBuilding;
       this.building[this.currentBuildingIndex].BuildingSuminsured = this.productItem.BuildingSumInsureds;
@@ -6607,10 +6613,11 @@ return true;
       this.currentBuildingIndex = null;
       this.Buildingsections=true;
       this.productItem = new ProductData();
-     
+      }
       //this.AddNew();
     }
     else{
+      if(this.productItem.LocationAddress!=null && this.productItem.LocationNameBuilding!=null){
       let entry = {
         "BuildingAddress": this.productItem.LocationAddress,
         "BuildingBuildYear": null,
@@ -6629,11 +6636,13 @@ return true;
       this.Buildingsections=true;
       this.productItem = new ProductData();
     }
+    }
   }
 
   onSaveprofessiona(){
       console.log("Final Additional Info",this.form,this.productItem);
       if(this.currentPersonalIndIndex!=null){
+        if(this.productItem.IndSI !=null && this.productItem.IndLocation!=null && this.liabilityOccupationId!=null){
         this.Intermedity[this.currentPersonalIndIndex]['Salary'] = this.productItem.IndSI;
         this.Intermedity[this.currentPersonalIndIndex]['RiskId'] = this.productItem.IndLocation;
         this.Intermedity[this.currentPersonalIndIndex]['OccupationId'] = this.liabilityOccupationId;
@@ -6647,10 +6656,11 @@ return true;
         this.editPersonalIndSection= false;
         this.enablePersonalIndEditSection =false;
         this.productItem = new ProductData();
-       
+        }
         //this.AddNew();
       }
       else{
+        if(this.productItem.IndSI !=null && this.productItem.IndLocation!=null && this.liabilityOccupationId!=null){
         let entry = {
         "Dob":this.productItem.IndDob,
       "Height": null,
@@ -6669,6 +6679,7 @@ return true;
         this.productItem.LocationNameBuilding=null;
         this.productItem.BuildingSumInsureds=null;
         this.productItem = new ProductData();
+      }
       }
   }
 
@@ -6708,6 +6719,7 @@ return true;
   onSaveAllRiskDEtails(){
     console.log("Final Additional Info",this.form,this.productItem)
     if(this.currentRiskIndex!=null){
+      if(this.productItem.RiskContentType!=null && this.productItem.RiskLocation!=null && this.productItem.RiskSI!=null){
       console.log('HHHHHHHHHHHH',this.currentRiskIndex);
       this.risk[this.currentRiskIndex]['SumInsured'] = this.productItem.RiskSI;
       this.risk[this.currentRiskIndex]['ContentRiskDesc'] = this.productItem.RiskDescription;
@@ -6717,9 +6729,12 @@ return true;
       console.log('RISKKKKKKK',this.risk);
       this.currentRiskIndex=null;
       this.productItem = new ProductData(); 
+      }
       // this.AllAdd();     // this.AddNew();
     }
     else{
+      alert('Riskaaa')
+      if(this.productItem.RiskContentType!=null && this.productItem.RiskLocation!=null && this.productItem.RiskSI!=null){
       let entry = {
       "ItemId":this.productItem.RiskContentType,
       "RiskId":this.productItem.RiskLocation,
@@ -6732,6 +6747,7 @@ return true;
       }
       this.risk.push(entry);
       this.productItem = new ProductData();
+    }
     }
   }
   // ngOnChanges() {
@@ -6823,6 +6839,7 @@ return true;
     console.log("Final Additional Info",this.form,this.productItem)
     if(this.currentPersonalAccidentIndex!=null){
       console.log('HHHHHHHHHHHH',this.currentRiskIndex);
+      if(this.productItem.AccSI!=null && this.productItem.AccidentLocation!=null && this.accidentOccupationId!=null){
       this.PersonalAssistantList[this.currentPersonalAccidentIndex]['Salary'] = this.productItem.AccSI;
       this.PersonalAssistantList[this.currentPersonalAccidentIndex]['RiskId'] = this.productItem.AccidentLocation;
       this.PersonalAssistantList[this.currentPersonalAccidentIndex]['OccupationId'] = this.accidentOccupationId,
@@ -6832,9 +6849,11 @@ return true;
       this.PersonalAssistantList[this.currentPersonalAccidentIndex]['NationalityId'] = this.productItem.AccNationID;
       this.currentPersonalAccidentIndex=null;
       this.productItem = new ProductData(); 
+      }
       // this.AllAdd();     // this.AddNew();
     }
     else{
+      if(this.productItem.AccSI!=null && this.productItem.AccidentLocation!=null && this.accidentOccupationId!=null){
       let entry = {
         "Dob": this.productItem.AccDob,
         "Height": null,
@@ -6849,6 +6868,7 @@ return true;
       }
       this.PersonalAssistantList.push(entry);
       this.productItem = new ProductData();
+    }
     }
   }
   // onCancel(){
