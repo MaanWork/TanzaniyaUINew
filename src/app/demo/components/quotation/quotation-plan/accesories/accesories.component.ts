@@ -3842,8 +3842,9 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             else if(this.productId=='56') this.selectedTab = 1;
             else if(this.productId=='57') this.selectedTab = 1;
             else if(this.productId=='60') {this.getHealthData();alert(this.selectedTab);this.selectedTab = 1;this.eleven=true;}
-            else if(this.productId=='1' || this.productId=='16' || this.productId=='6' || this.productId=='27'){
+            else {
               this.checkValidation();
+              //if(this.productId=='1' || this.productId=='16' || this.productId=='6' || this.productId=='27')
             }
           }
         }
