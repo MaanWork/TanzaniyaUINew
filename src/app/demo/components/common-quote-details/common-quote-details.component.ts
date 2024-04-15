@@ -4721,7 +4721,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.vehicleClassValue = this.vehicleDetails?.VehicleClass;
       this.productItem.VehicleClass = this.vehicleDetails?.VehicleClass;
     } 
-
+      console.log("Final Field Details",this.fields)
   }
 
   onChangeInsuranceClass(type){

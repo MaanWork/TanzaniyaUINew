@@ -104,16 +104,21 @@ export class CustomerCreateFormComponent implements OnInit {
 			this.customerReferenceNo = null;
 			this.productItem = new ProductData()
 			this.productItem.IdType='1';
-			
-			
 		}
-      this.getTitleList();
+      //this.getTitleList();
       this.getCountryList();
       this.getGenderList();
-      this.getOccupationList();
+      //this.getOccupationList();
       this.getBusinessTypeList();
       this.getMobileCodeList();
       this.getPolicyHolderList('change');
+	  if(this.insuranceId=='100004'){
+		this.getType3('direct');
+	
+	}
+		else {
+			this.getTitleList();
+		}
     }
 	
 	onLanguageChange(item: any) {
@@ -369,7 +374,9 @@ export class CustomerCreateFormComponent implements OnInit {
 						let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
 						this.policyHolderTypeList = defaultRow.concat(this.policyHolderTypeList)
 						//this.fields[0].fieldGroup[0].fieldGroup[1].fieldGroup[0].props.options = defaultRow.concat(this.policyHolderTypeList);
-						if (type == 'change'){this.dob = "";this.productItem.PolicyHolderTypeid='';this.productItem.IdNumber=null}
+						if (type == 'change'){this.dob = "";this.productItem.PolicyHolderTypeid='';
+						//this.productItem.IdNumber=null
+					}
 					}
 				},
 				(err) => { },
@@ -387,7 +394,14 @@ export class CustomerCreateFormComponent implements OnInit {
 					if (data.Result) {
 						this.genderList = data.Result;
 						let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
-						this.genderList = defaultRow.concat(this.genderList)
+						this.genderList = defaultRow.concat(this.genderList);
+						if(this.insuranceId=='100004'){
+							this.getOccupationLists('direct');
+						}
+						else {
+							this.getOccupationList();
+						}
+						
 						//this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[2].props.options = defaultRow.concat(this.genderList);
 						
 					}
@@ -420,22 +434,22 @@ export class CustomerCreateFormComponent implements OnInit {
 		let ReqObj = {
 				"InsuranceId": this.insuranceId,
 				"BranchCode": this.branchCode,
-			}
-			let urlLink = `${this.CommonApiUrl}master/dropdown/occupation`;
-			this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-				(data: any) => {
-					console.log(data);
-					if (data.Result) {
-						this.occupationList = data.Result;
-								let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
-								this.occupationList = defaultRow.concat(this.occupationList)
-								//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[0].props.options = defaultRow.concat(this.occupationList);
-								
-								//this.getBusinessTypeList();
-					}
-				},
-				(err) => { },
-			);
+		}
+		let urlLink = `${this.CommonApiUrl}master/dropdown/occupation`;
+		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+			(data: any) => {
+				console.log(data);
+				if (data.Result) {
+					this.occupationList = data.Result;
+							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
+							this.occupationList = defaultRow.concat(this.occupationList)
+							//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[0].props.options = defaultRow.concat(this.occupationList);
+							
+							//this.getBusinessTypeList();
+				}
+			},
+			(err) => { },
+		);
 	}
 	getBusinessTypeList(){
 		let ReqObj = {
@@ -995,6 +1009,10 @@ export class CustomerCreateFormComponent implements OnInit {
         this.productItem.Gender = '';
       }
       this.getPolicyIdTypeList('change');
+	if(this.insuranceId=='100004'){
+		this.getType3('change');
+		this.getOccupationLists('change');
+	}
     }
   navigateToCustomer() {
     this.confirmationService.confirm({
@@ -1043,5 +1061,68 @@ export class CustomerCreateFormComponent implements OnInit {
    if(this.final7) this.Mobilevalidate();
 	}
 }
-
+getType3(type){
+	let product:any;this.titleList =[];
+	if(this.productItem.IdType == '1'){
+	product = 'I'
+	}
+	else if(this.productItem.IdType == '2'){
+		product = 'C'
+	}
+	else {
+		product ='I'
+	}
+	let ReqObj = {
+	  "InsuranceId": this.insuranceId,
+	  "ItemType": "NAME_TITLE",
+	   "BranchCode":"99999",
+	   "ItemCode":"null",
+	   "TitleType":product
+	}
+	let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+	this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+	  (data: any) => {
+		console.log(data);
+		if(data.Result){
+		  let obj = [{ "Code": '', "CodeDesc": "-Select-" }]
+		  this.titleList = obj.concat(data.Result);
+		}
+	  },
+	  (err) => { },
+	);
+  }
+  
+	getOccupationLists(type) {
+		let product:any;this.occupationList=[];
+		if(this.productItem.IdType == '1'){
+        product = 'I'
+		}
+		else if(this.productItem.IdType == '2'){
+			product = 'C'
+		}
+		if(type=='change'){
+			this.productItem.Occupation = '';
+		}
+		let ReqObj = {
+			"InsuranceId": this.insuranceId,
+			"BranchCode": this.branchCode,
+			"ProductId":this.productId,
+		    "TitleType":product
+		}
+		let urlLink = `${this.CommonApiUrl}master/dropdown/occupation`;
+		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+			(data: any) => {
+				console.log(data);
+				if (data.Result) {
+					this.occupationList = data.Result;
+							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
+							this.occupationList = defaultRow.concat(this.occupationList)
+							if(type!='change'){
+								this.getBusinessTypeList();
+							}
+				}
+			},
+			(err) => { },
+		);
+	}
 }

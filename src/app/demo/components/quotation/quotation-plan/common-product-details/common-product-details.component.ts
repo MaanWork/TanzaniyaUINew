@@ -2277,7 +2277,7 @@ export class CommonProductDetailsComponent {
     let refNo = sessionStorage.getItem('quoteReferenceNo');
     if(refNo==undefined) refNo = this.requestReferenceNo
     let ReqObj = {
-      "RequestReferenceNo": this.requestReferenceNo,
+      "RequestReferenceNo": refNo,
       "RiskId": "1",
       "SectionId":  null
     }
@@ -7473,6 +7473,9 @@ let requestNO=null;
     else { this.formSection = false; this.viewSection = true; }
   }
   getFireAlliedRiskDetails(sections){
+    if(this.requestReferenceNo ==null || this.requestReferenceNo==undefined){
+      this.requestReferenceNo = sessionStorage.getItem('quoteReferenceNo');
+    }
     let ReqObj = {
       "RequestReferenceNo": this.requestReferenceNo,
       "RiskId": "1",

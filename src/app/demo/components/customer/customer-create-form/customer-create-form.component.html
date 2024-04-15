@@ -7,7 +7,8 @@
         <div class="col-12 sm:col-6">
             <div class="flex justify-content-start xl:justify-content-end align-items-center flex-wrap">
                 <div class="flex align-items-center mr-4 flex-wrap">
-                    <h5 class="mr-3 mb-2">Account Type:</h5>
+                    <h5 class="mr-3 mb-2" *ngIf="insuranceId=='100027'">Customer Type:</h5>
+                    <h5 class="mr-3 mb-2" *ngIf="insuranceId!='100027'">Account Type:</h5>
                     <p-selectButton [options]="policyHolderList" (click)="setPolicyType()" [(ngModel)]="productItem.IdType" optionLabel="CodeDesc" optionValue="Code"></p-selectButton>
                 </div>
                 <!-- <p-button class="mt-4 lg:mt-0" label="Change Customer" size="small" (click)="navigateToCustomer()"></p-button> -->
@@ -36,25 +37,60 @@
     <div class="col-12 lg:col-6 py-0" *ngIf="productItem.IdType == '1'; else coporatePersonalForm">
         <div class="card">
             <h4 class="ml-3">{{ 'HOME.PersonalInformation' | translate }}</h4>
+            <ng-container *ngIf="insuranceId=='100027' && productItem.IdType!='2'">
+                <div class="flex flex-wrap w-full form-container justify-content-start">
+                    <div class="flex flex-column m-3">
+                        <label for="username">{{ 'HOME.CustomerTitle' | translate }}*</label>
+                        <p-dropdown inputId="make" 
+                            class="w-full" 
+                            styleClass="w-full" 
+                            (change)="onTitleChange()"
+                            [options]="titleList" 
+                            [(ngModel)]="productItem.Title" 
+                            optionLabel="CodeDesc" 
+                            optionValue="Code" 
+                            placeholder="Select Customer Title">
+                        </p-dropdown>
+                    </div>
+                    <div class="flex flex-column m-3">
+                        <label for="username">First Name*</label>
+                        <input pInputText id="username" maxlength="150" [(ngModel)]="productItem.ClientName" 
+                        placeholder="Enter First Name"/>
+                    </div>
+                    <div class="flex flex-column m-3">
+                        <label for="username">Middle Name</label>
+                        <input pInputText id="username" maxlength="150" 
+                        placeholder="Enter Middle Name"/>
+                    </div>
+                    <div class="flex flex-column m-3">
+                        <label for="username">Last Name</label>
+                        <input pInputText id="username" maxlength="150" 
+                        placeholder="Enter Middle Name"/>
+                    </div>
+                </div>
+            </ng-container>
             <div class="flex justify-content-start flex-wrap w-full form-container">
-                <div class="flex flex-column m-3">
-                    <label for="username">{{ 'HOME.CustomerTitle' | translate }}*</label>
-                    <p-dropdown inputId="make" 
-                        class="w-full" 
-                        styleClass="w-full" 
-                        (change)="onTitleChange()"
-                        [options]="titleList" 
-                        [(ngModel)]="productItem.Title" 
-                        optionLabel="CodeDesc" 
-                        optionValue="Code" 
-                        placeholder="Select Customer Title">
-                    </p-dropdown>
-                </div>
-                <div class="flex flex-column m-3">
-                    <label for="username">{{ 'HOME.CustomerName' | translate }}*</label>
-                    <input pInputText id="username" maxlength="150" [(ngModel)]="productItem.ClientName" 
-                    (change)="onsavedatas('Customer',null)" placeholder="Enter Customer Name"/>
-                </div>
+                <ng-container *ngIf="insuranceId!='100027' || productItem.IdType=='2'">
+                    <div class="flex flex-column m-3">
+                        <label for="username">{{ 'HOME.CustomerTitle' | translate }}*</label>
+                        <p-dropdown inputId="make" 
+                            class="w-full" 
+                            styleClass="w-full" 
+                            (change)="onTitleChange()"
+                            [options]="titleList" 
+                            [(ngModel)]="productItem.Title" 
+                            optionLabel="CodeDesc" 
+                            optionValue="Code" 
+                            placeholder="Select Customer Title">
+                        </p-dropdown>
+                    </div>
+                    <div class="flex flex-column m-3" >
+                        <label for="username">{{ 'HOME.CustomerName' | translate }} *</label>
+                        <input pInputText id="username" maxlength="150" [(ngModel)]="productItem.ClientName" 
+                        (change)="onsavedatas('Customer',null)" placeholder="Enter Customer Name"/>
+                    </div>
+                </ng-container>
+                
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.Occupation' | translate }}*</label>
                     <p-dropdown inputId="make" 
@@ -114,7 +150,7 @@
                         styleClass="w-full" 
                         [options]="policyHolderTypeList" 
                         [(ngModel)]="productItem.PolicyHolderTypeid" 
-                        optionLabel="CodeDesc" (change)="newidtype()"
+                        optionLabel="CodeDesc" (onChange)="newidtype()"
                         optionValue="Code"
                         placeholder="Select Identity Type">
                     </p-dropdown>
@@ -126,9 +162,9 @@
                     </ng-container>
                     <ngcontainer *ngIf="shows">
                         <div class="d-flex">
-                            <input type="text" pInputText style="max-width:100px !important;margin-right:5px !important" class="layout"  [(ngModel)]="Idnumber" maxlength="5"><b>/</b>
-                            <input type="text" pInputText style="max-width:70px !important;margin-right:5px !important" class="layout"  [(ngModel)]="Idnumber1" maxlength="3"><b>/</b>
-                            <input type="text" pInputText style="max-width:30px !important;margin-right:5px !important" class="layout" [(ngModel)]="Idnumber2" maxlength="1"><b>/</b>
+                            <input type="text" pInputText style="max-width:100px !important;margin-right:5px !important" class="layout"  [(ngModel)]="Idnumber" maxlength="5"><b>/</b>&nbsp;
+                            <input type="text" pInputText style="max-width:70px !important;margin-right:5px !important" class="layout"  [(ngModel)]="Idnumber1" maxlength="3"><b>/</b>&nbsp;
+                            <input type="text" pInputText style="max-width:30px !important;margin-right:5px !important" class="layout" [(ngModel)]="Idnumber2" maxlength="1">
                         </div>
                     </ngcontainer>
                 </div>
@@ -226,7 +262,8 @@
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3">
-                    <label for="username">{{ 'HOME.District' | translate}}</label>
+                    <label *ngIf="insuranceId=='100027'" for="username">Muncipal *</label>
+                    <label *ngIf="insuranceId!='100027'" for="username">{{ 'HOME.District' | translate}} *</label>
                     <p-dropdown inputId="make" 
                         class="w-full" 
                         styleClass="w-full" 
@@ -415,7 +452,7 @@
     </ng-template>
 </div>
 
-<div class="flex justify-content-between">
+<div class="flex justify-content-center">
     <p-button label="Back" [routerLink]="['/customer']" class="p-3 mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
     <p-button class="p-3 text-l pi-button mr-0" (keyup)="onsavedatas('direct',productItem)" (click)="onsavedatas('direct',productItem)">Submit</p-button>
 </div>
