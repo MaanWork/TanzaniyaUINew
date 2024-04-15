@@ -83,6 +83,7 @@
     <!--tabIndex-->
     <p-tabView #tabView [activeIndex]="selectedTab" (onChange)="onTabClicked($event,tabView)">
         <p-tabPanel header="Location" *ngIf="buildingDetailsSection">
+         
             <div class="grid" >
                 <div class="lg:col-6 md:col-6 col-12">
                     <form [formGroup]="form">
@@ -124,13 +125,13 @@
             <div class="flex flex-wrap justify-content-center mt-4">
                 <div class="mb-4">
                     <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
-                    <ng-container *ngIf="buildingDetailsSection">
+                    <ng-container *ngIf="Buildingsections">
                         <p-button label="Proceed" (click)="onSave()" class="text-l pi-button mr-0"></p-button>
                     </ng-container>
                 </div>
             </div>
         </p-tabPanel>
-        <p-tabPanel header="Content Risk" [disabled]="!fourth" *ngIf="first">
+        <p-tabPanel header="Content Risk" [disabled]="allfields" *ngIf="first">
             <div class="grid">
                 <div class="lg:col-6 md:col-6 col-12">
                     <form [formGroup]="form">
@@ -180,7 +181,7 @@
                 </div>
             </div>
         </p-tabPanel>
-        <p-tabPanel header="Personal Accident" [disabled]="!fourth" *ngIf="second">
+        <p-tabPanel header="Personal Accident" [disabled]="allfields" *ngIf="second">
             <div class="grid">
                 <div class="lg:col-6 md:col-6 col-12">
                     <form [formGroup]="form">
@@ -232,7 +233,7 @@
             </div>
         </p-tabPanel>
 
-        <p-tabPanel header="All Risk" [disabled]="!fourth" *ngIf="third">
+        <p-tabPanel header="All Risk" [disabled]="allfields" *ngIf="third">
             <div class="grid">
                 <div class="lg:col-6 md:col-6 col-12">
                     <form [formGroup]="form">
@@ -244,7 +245,7 @@
                 </div>
 
                 <div class="lg:col-6 md:col-6 col-12">
-                    <ng-container *ngIf="risk.length!=0">
+                    <ng-container *ngIf="risk.length!=0 && getRisk(risk,risk.length)">
                         <!--&& getRisk(risk,risk.length)-->
                         <p-table [value]="risk" [tableStyle]="{ 'min-width': '50rem' }">
                             <ng-template pTemplate="header">
@@ -252,6 +253,7 @@
                                     <th>Location Name</th>
                                     <th>SumInsured</th>
                                     <th>ContentName</th>
+                                    <th>Serial No</th>
                                     <th>Action</th>
                                 </tr>
                             </ng-template>
@@ -285,7 +287,7 @@
             <!--onSaveAllRisk(-->
         </p-tabPanel>
 
-        <p-tabPanel header="Personal Indemenity" [disabled]="!fourth" *ngIf="fifth">
+        <p-tabPanel header="Personal Indemenity" [disabled]="allfields" *ngIf="fifth">
             <div class="grid">
                 <div class="lg:col-6 md:col-6 col-12">
                     <form [formGroup]="form">
@@ -335,7 +337,7 @@
                
             </div>
         </p-tabPanel>
-        <p-tabPanel [header]="checkPersonalLimit()" *ngIf="eleven">
+        <p-tabPanel [header]="checkPersonalLimit()" [disabled]="allfields" *ngIf="eleven">
             <!--header="Professional Indemenity"-->
             <div class="grid">
                 <!-- <div class="lg:col-6 md:col-6 col-12">
@@ -439,7 +441,7 @@
         </p-tabPanel>
 
 
-        <p-tabPanel [header]="checkEmplyeeSection()" [disabled]="!fourth" *ngIf="seven">
+        <p-tabPanel [header]="checkEmplyeeSection()" [disabled]="allfields" *ngIf="seven">
             <div class="grid">
                 <div class="lg:col-1 md:col-1 col-12">
 
@@ -460,7 +462,7 @@
                                     <tr>
                                         <td>{{getLocationName(employee?.RiskId)}}</td>
                                         <td>{{employee.Address}}</td>
-                                        <td>{{employee.NationalityId}}</td>
+                                        <td>{{employee.Salary}}</td>
                                         <td>
                                             <p-button icon="pi pi-pencil" severity="danger" (click)="onEditEmployee(i,employee)" styleClass="p-button-outlined"></p-button>&nbsp;
                                             <p-button icon="pi pi-trash" severity="danger" (click)="EmployeeDelete(employee,i)"  styleClass="p-button-outlined"></p-button>
@@ -488,16 +490,23 @@
             </div>
           
             <div class="text-center mt-2">
-                <!-- <p-button label="Back" *ngIf="!enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="getBack('employers')" routerLinkActive="router-link-active"><<&nbsp;Back</p-button> -->
-                <p-button label="Save & Proceed" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('save')"></p-button>
+                <p-button label="Back" class="mr-4 text-l mr-0" [routerLink]="['/quotation/plan/premium-details']" styleClass="p-button-outlined"></p-button>
+                <!-- <p-button label="Save & Proceed" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('save')"></p-button> -->
                 <p-button label="Proceed" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('proceed')" routerLinkActive="router-link-active" routerLinkActive="router-link-active"></p-button>
                 <!-- <button class="custom-btn btn-6 maan-button-data mx-2" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" matRipple (click)="onSaveEmployeeDetails('direct')" routerLinkActive="router-link-active" routerLinkActive="router-link-active">Proceed</button> -->
+            </div>
+            <div class="flex flex-wrap justify-content-between mt-2">
+            <div style="min-width: 300px !important;text-align:right !important;">
+                <div class="lg:col-6">
+                    <h6 class="surface-900 text-white mt-0">{{totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
+                </div>
+            </div>
             </div>
         </p-tabPanel>
 
 
         
-        <p-tabPanel header="ElectricalEquipment" [disabled]="!fourth" *ngIf="six">
+        <p-tabPanel header="ElectricalEquipment" [disabled]="allfields" *ngIf="six">
             <div class="grid">
                 <div class="lg:col-4 md:col-4 col-12">
                     <form [formGroup]="form">

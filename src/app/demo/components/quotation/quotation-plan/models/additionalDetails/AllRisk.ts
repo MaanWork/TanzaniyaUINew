@@ -81,7 +81,7 @@ export class AllRisks{
                         key: 'RiskSerialNo',
                         templateOptions: {
                           label: 'SerialNo',
-                          required: true,
+                          required: false,
                         },
                         validators: {
                           validation: [ForceLengthValidators.maxLength(100), ForceLengthValidators.min(1)]
@@ -94,7 +94,7 @@ export class AllRisks{
                         key: 'RiskDescription',
                         templateOptions: {
                           label: 'Description',
-                          required: true,
+                          required: false,
                         },
                         validators: {
                           validation: [ForceLengthValidators.maxLength(500), ForceLengthValidators.min(1)]

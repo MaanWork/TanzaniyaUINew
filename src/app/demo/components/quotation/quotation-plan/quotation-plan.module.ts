@@ -73,6 +73,7 @@ import { CardModule } from 'primeng/card';
 import { TreeSelect, TreeSelectModule } from 'primeng/treeselect';
 import { RiskDetailsComponent } from './Riskpage/Riskdetails.component';
 import { NgSelectAlt } from './formlyTypes/ngselectAlt';
+//import { textareaTypeField } from './formlyTypes/textareaTypeField';
 export function maxlengthValidationMessage(err, field) {
   return `This value should be less than ${field.templateOptions.maxLength} characters`;
 }
@@ -205,6 +206,7 @@ export function maxlengthValidationMessage(err, field) {
           }
         },
         { name: 'input', component: InputFieldType },
+        // { name: 'textarea', component: textareaTypeField },
         // {
         //   name: 'date',
         //    component: DateFieldType

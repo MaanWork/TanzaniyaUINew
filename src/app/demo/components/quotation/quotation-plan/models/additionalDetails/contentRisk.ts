@@ -77,7 +77,7 @@ export class ContentRisk{
                         key: 'ContentSerialNo',
                         templateOptions: {
                           label: 'Serial No',
-                          required: true,
+                          required: false,
                         },
                         validators: {
                           validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
@@ -90,7 +90,7 @@ export class ContentRisk{
                         key: 'ContentDesc',
                         templateOptions: {
                           label: 'Description',
-                          required: true,
+                          required: false,
                         },
                         validators: {
                           validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]

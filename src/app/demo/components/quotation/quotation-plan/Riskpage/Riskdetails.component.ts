@@ -98,6 +98,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
   currencyCode: any; currentStatus: any="Y";
   GroupListNew: any[]=[];
   brokerbranchCode: any;
+  tab:FormlyFieldTabs=new FormlyFieldTabs();
   commonDetails: any;  uwQuestionList: any[] = [];listSectionGroup: boolean;
   listnGroup: boolean;
   CustomerReferenceNo: any;endorseEffectiveDate: any;endorseCoverModification: any=null;
@@ -113,6 +114,8 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
   Building1: boolean = false;
   PersonalAccident: boolean = false;
   personalIndemity: boolean = false;
+  sectionCount: number;
+  coversreuired: any;
         constructor(private router: Router,private datePipe:DatePipe,
           private sharedService: SharedService,public http: HttpClient) {
          let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails') || '{}');
@@ -161,6 +164,11 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               this.getSectionList();
               this.getCommonDetails();
               this.getBuildingDetails();
+              this.coversreuired=sessionStorage.getItem('coversRequired');
+            }
+            if(this.productId=='19'){
+              this.getSectionList();
+              this.setSMEForm();
             }
 
             if(this.productId=='24'){
@@ -2500,7 +2508,8 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               }
               if(types=='Content'){
                 if(this.insuranceId=='100004' && this.productId=='59'){
-                  let contentData1 = new HouseHoldContentsss();
+                  //let contentData1 = new HouseHoldContentsss();
+                  let contentData1 = new HouseHoldContents();
                   this.fields1[0] = contentData1?.fields;
                 }
                 else {
@@ -3006,18 +3015,53 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                 ReqObj['BuildingDetails'] = null;
               }
               if(this.insuranceId=='100004' && this.productId=='59'){
-                if(this.productItem?.JewellerySi==null || this.productItem?.JewellerySi==undefined || this.productItem?.JewellerySi==''){
-                  if(this.productItem?.PaitingsSi==null || this.productItem?.PaitingsSi==undefined || this.productItem?.PaitingsSi==''){
-                    if(this.productItem?.CarpetsSi==null || this.productItem?.CarpetsSi==undefined || this.productItem?.CarpetsSi==''){
-                      ReqObj['ContentDetails'] = null;
+                if(this.coversreuired!='BC'){
+                  if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
+                    ReqObj['ContentDetails'] = null;
+                  }
+                  else {
+                    if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
+                      this.error1proceed();
                     }
                   }
+                  // if(this.productItem?.JewellerySi==null || this.productItem?.JewellerySi==undefined || this.productItem?.JewellerySi==''){
+                  //   if(this.productItem?.PaitingsSi==null || this.productItem?.PaitingsSi==undefined || this.productItem?.PaitingsSi==''){
+                  //     if(this.productItem?.CarpetsSi==null || this.productItem?.CarpetsSi==undefined || this.productItem?.CarpetsSi==''){
+                  //       ReqObj['ContentDetails'] = null;
+                  //     }
+                  //   }
+                  // }
                 }
+                else {
+                  if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
+                    ReqObj['ContentDetails'] = null;
+                  }
+                  else {
+                    if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
+                      this.error1proceed();
+                    }
+                  }
+                  // if(this.productItem?.JewellerySi==null || this.productItem?.JewellerySi==undefined || this.productItem?.JewellerySi==''){
+                  //   if(this.productItem?.PaitingsSi==null || this.productItem?.PaitingsSi==undefined || this.productItem?.PaitingsSi==''){
+                  //     if(this.productItem?.CarpetsSi==null || this.productItem?.CarpetsSi==undefined || this.productItem?.CarpetsSi==''){
+                  //       this.error1proceed();
+                  //     }
+                  //   }
+                  // }
+                }
+              
               }
               else {
                 //alert('dddd')
-                if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
-                  ReqObj['ContentDetails'] = null;
+                if(this.coversreuired!='BC'){
+                  if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
+                    ReqObj['ContentDetails'] = null;
+                  }
+                }
+                else {
+                  if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
+                    this.error1proceed();
+                  }
                 }
               }
               if(this.productItem?.AllriskSumInsured==null || this.productItem?.AllriskSumInsured==undefined || this.productItem?.AllriskSumInsured==''){
@@ -3098,6 +3142,22 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               html:
                 `<ul class="list-group errorlist">
                  Please Enter One Section Details
+              </ul>`,
+              showCloseButton: true,
+              focusConfirm: false,
+              confirmButtonText:
+                '<i class="fa fa-thumbs-down"></i> Errors!',
+              confirmButtonAriaLabel: 'Thumbs down, Errors!',
+            })
+          }
+
+          error1proceed(){
+            Swal.fire({
+              title: '<strong>Form Validations</strong>',
+              icon: 'info',
+              html:
+                `<ul class="list-group errorlist">
+                 Please Enter Content Details
               </ul>`,
               showCloseButton: true,
               focusConfirm: false,
@@ -4689,4 +4749,240 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
         
             }
           }
+
+
+          setSMEForm() {
+    
+            // let sections:any[] = this.commonDetails[0].SectionId;
+            //let section = sections.filter(ele => ele=='42')
+            this.tab = new FormlyFieldTabs();
+            this.fields = [
+              {
+                type: 'tabs',
+                fieldGroup: [
+                  
+                  
+                ],
+              }
+            ];
+            
+            // if(sections){
+              // console.log('sectionssss',sections)
+              this.showSection = true;
+                let contentData 
+                if(this.insuranceId=='100004'){
+                  contentData = new Buildingss();
+                }
+                else{
+                  contentData = new Building();
+                }
+                this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData?.fields]);
+                this.getWallMaterialList();
+                this.getRoofMaterialList();
+                //this.getbuildingpurposeList();
+                if(this.insuranceId =='100004'){
+                  this.getTypeOfProperty();
+                }
+
+                let contentData1 = new HouseHoldContents();
+                this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData1?.fields]);
+
+                let contentData2:any; 
+                if(this.insuranceId=='100004'){
+                  contentData2 = new AllRiskss();
+                }
+                else {
+                  contentData2 = new AllRisk();
+                }
+                this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData2?.fields])
+       
+                let contentData3 = new PersonalLiability();
+                this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData3?.fields])
+
+                let fireData = new ElectronicEquipment();
+                this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([fireData?.fields]);
+
+                let contentData4 = new PersonalAccident();
+                this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData4?.fields]);
+
+             
+                let fireData1 = new BussinessAllRisk();
+                this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([fireData1?.fields]);
+
+             
+                let contentData6
+                if(this.productId!='24'){
+                  contentData6 = new HouseHoldContentsss();
+                }
+                else{
+                  contentData6 = new HouseHoldContents();
+                }
+                this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData6?.fields]);
+          
+                let contentData7 = new PublicLiability();
+               this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData7?.fields]);
+
+                let fireData3 = new FireAlliedPerils();
+                let entry = [];
+                entry.push(fireData?.fields);
+                this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([fireData3?.fields]);
+
+                let contentData9 = new MachineryBreakDown();
+                let checkYnHooks ={ onInit: (field: FormlyFieldConfig) => {
+                  field.formControl.valueChanges.subscribe(() => {
+                      this.checkMachineryYNChanges()
+                  });
+                }};
+                // let groupList = contentData9.fields.fieldGroup[0].fieldGroup[0].fieldGroup[1].fieldGroup;
+                // let i=0;
+                // for(let group of groupList){
+                //    group.fieldGroup[0].hooks = checkYnHooks;
+                //    i+=1;
+                //    if(i==groupList.length){this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData9?.fields]); this.checkMachineryYNChanges()}
+                // }
+   
+                  let employeeData = new EmployersLiabilitytwo();
+                  let field = {
+                    props: { label: 'Employers Liability' },
+                    fieldGroup: employeeData.fields
+                  }
+                  let modelHooks = { onInit: (field: FormlyFieldConfig) => {
+                    field.formControl.valueChanges.subscribe(() => {
+                      //this.onoccChange('change');
+                    });
+                  } }
+                  this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([field]);
+                  console.log('SectionEmployeers', this.fields[0].fieldGroup);
+                  for(let field of this.fields[0].fieldGroup){
+                    console.log('Formly Fields',field.props.label)
+                    if(field.props.label=='Employers Liability'){
+                      this.fieldsEmployee = field.fieldGroup;
+                      // console.log('Fedilitysss',field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[0]);
+                      // console.log('Empliablity',this.fieldsEmployee[0].fieldGroup[0].fieldGroup[0].fieldGroup[0]);
+                    }
+                  }
+                  if(this.fieldsEmployee){
+                    //this.fieldsEmployee[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].hooks = modelHooks;
+                  }
+              
+                  let fidelity = new Fidelitytwo();
+                  //let fidelity = new Fidelity();
+                  let field1 = {
+                    props: { label: 'Fidelity' },
+                    fieldGroup: fidelity.fields
+                  }
+                  let modelHooks1 = { onInit: (field: FormlyFieldConfig) => {
+                    field.formControl.valueChanges.subscribe(() => {
+                      //this.onoccFedilityChange('change');
+                    });
+                  } }
+                  this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([field1]);
+                  for(let field of this.fields[0].fieldGroup){
+                    console.log('Formly Fields',field.props.label)
+                    if(field.props.label=='Fidelity'){
+                     // this.fieldsFidelity = field.fieldGroup;
+                    }
+                  }
+                  // if(this.fieldsFidelity){
+                  //   this.fieldsFidelity[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].hooks = modelHooks;
+                  // }
+                
+                
+                this.productItem.employeeList = [{"LiabilityOccupationId":null,"TotalNoOfEmployees":null,"EmpLiabilitySi":'0'}];
+                 this.productItem.fidelityList = [{"LiabilityOccupationId":null,"TotalNoOfEmployees":null,"EmpLiabilitySi":'0'}];
+                    let money = new Money();
+                    let checkYnHooks1 ={ onInit: (field: FormlyFieldConfig) => {
+                      field.formControl.valueChanges.subscribe(() => {
+                          // this.checkMoneyYNChanges()
+                      });
+                    }};
+                    let groupList1 = money.fields.fieldGroup[0].fieldGroup[0].fieldGroup[1].fieldGroup;
+                    let m=0;
+                    for(let group of groupList1){
+                       group.fieldGroup[0].hooks = checkYnHooks1;
+                       m+=1;
+                       if(m==groupList1.length){this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([money?.fields]); 
+                        //this.checkMoneyYNChanges()}
+                    }
+                  }
+               if(this.insuranceId=='100002'){
+                let fireData = new Burglary();
+                //let entry = [];
+                //entry.push(fireData?.fields);
+                this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([fireData?.fields]);
+                console.log("Burglary Fields", this.fields[0].fieldGroup);
+                }
+                else if(this.insuranceId=='100004'){
+                  let fireData = new Burglarys();
+                    let field = {
+                  props: { label: 'Burglary' },
+                  fieldGroup: [fireData.fields]
+                }
+                console.log("Burglary Fields",field)
+                let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
+                  field.formControl.valueChanges.subscribe(() => {
+                    // this.ongetDistrictList('change')
+                  });
+                } }
+                
+                field.fieldGroup[0].fieldGroup[1].fieldGroup[0].fieldGroup[1].hooks = regionHooks;
+                this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([field])
+                  // this.getNatureTradeList();
+                  // this.getInsuranceForList();
+                  // this.getWallMaterialList();
+                  // this.buglaryloss();
+                  // this.getRoofMaterialList();
+                  // this.getCeilingMaterialList();
+                  // this.getRegionList();
+                  // this.getWindowConsMaterialList();
+                  // this.getDoorsMaterilalList(); 
+                  // this.getNightLeftDoorList(); this.getBuildingOccupiedList();
+                }
+          
+              
+                let fireData8 = new BusinessInterruption();
+                this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([fireData8?.fields]);
+
+                  let fireData2 = new GoodsInTransit();
+                  this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([fireData2?.fields]);
+                  console.log("Goods Fields",this.fields);
+                  // this.getTransportList();
+                  // this.getgeographicalLimit();
+                  // this.getTransportedByList();
+               
+              if(this.requestReferenceNo){
+                   this.sectionCount = 0;
+                  //  if(sections.some(ele=>ele=='1')) this.getBuildingDetails();
+                  //  if(sections.some(ele=>ele=='3')) this.getAllRiskDetails(sections);
+                  //  if(sections.some(ele=>ele=='47' || ele=='74')) this.getContentDetails(sections);
+                  //  if(sections.some(ele=>ele=='35')) //this.getPersonalAccidentDetails(sections);
+                  //  if(sections.some(ele=>ele=='36')) this.getPersonalLiabilityDetails(sections);
+                  //  if(sections.some(ele=>ele=='40')) this.getFireAlliedRiskDetails(sections);
+                  //  if(sections.some(ele=>ele=='45')){ this.getEmployeeRiskDetails(sections)}
+                  //  if(sections.some(ele=>ele=='43')){ this.getFidelityRiskDetails(sections)}
+                  //  if(sections.some(ele=>ele=='41')){ this.getMachineryBreakDownDetails(sections)}
+                  //  if(sections.some(ele=>ele=='42')){ this.getMoneyDetails(sections)}
+                  //  if(sections.some(ele=>ele=='52')){ this.getBurglaryDetails(sections) }
+                  //  if(sections.some(ele=>ele=='69')){ this.getBusinessAllRiskDetails(sections) }
+                  //  if(sections.some(ele=>ele=='75')){ this.getBusinessInterruptionDetails(sections) }
+                  //  if(sections.some(ele=>ele=='76')){ this.getElectronicEquipment(sections)}
+                  //  if(sections.some(ele=>ele=='46')){ this.getGoodsTransitDetails(sections) }
+                  //  if(sections.some(ele=>ele=='54')){ this.getPublicLiabilityDetails(sections) }
+                  //  if(sections.some(ele=>ele=='3') && this.productId=='21' || this.productId == '26'){ this.getPlantallrisk(sections) }
+                  //  if(sections.some(ele=>ele=='3') && this.productId=='21'){ this.getElectronicEquipment(sections) 
+
+                  }
+                  //  if(sections.some(ele=>ele=='56' || ele=='53')){ 
+                  //   this.sectionCount +=1;
+                  //   if(sections.length==this.sectionCount){
+                  //     this.formSection = true; this.viewSection = false;
+                  //   }
+                  //  }
+    
+              // else{
+              //   this.formSection = true; this.viewSection = false;
+              // }
+            // }
+            
+          } 
 }
