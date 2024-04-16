@@ -160,7 +160,7 @@ export class Buildingss{
                 },
                 {
                   className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-5 mr-5',
-                  type: 'input',
+                  type: 'ngselect',
                   key: 'BuildingBuildYear',
                   props: {
                     label: 'Built Year',

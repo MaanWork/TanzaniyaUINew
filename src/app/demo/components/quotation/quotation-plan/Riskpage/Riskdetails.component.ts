@@ -1808,6 +1808,18 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             (err) => { },
           );
         }
+        getYearList(){
+          var d = new Date();
+          var year = d.getFullYear();
+          var month = d.getMonth();
+          var day = d.getDate();
+          const currentYear = new Date().getFullYear()-20, years = [];
+          while ( year >= currentYear ) {
+            let yearEntry = year--
+            years.push({"Code":String(yearEntry),"CodeDesc":String(yearEntry),"label":String(yearEntry),"value":String(yearEntry)});
+          }   
+          return [{"label":"---Select---","value":null,"Code":"---Select---","CodeDesc":""}].concat(years);
+        }
         getallriskList(){
           let ReqObj = {
             "InsuranceId":this.insuranceId,
@@ -2493,12 +2505,22 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                 if(types=='Building'){
                 if(this.insuranceId=='100004'){
                   contentData = new Buildingss();
+                
                 }
                 else{
                   contentData = new Building();
                 }
                 //this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData?.fields]);
                 this.fields[0] = contentData?.fields;
+                if(this.insuranceId=='100004'){
+                    let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                    for(let field of fieldList){
+                      if(field.key=='BuildingBuildYear'){
+                        field.props.options = this.getYearList();
+                        console.log("Building JSON",this.fields)
+                      }
+                    }
+                }
                 this.getWallMaterialList();
                 this.getRoofMaterialList();
                 this.getbuildingpurposeList();
@@ -2508,8 +2530,8 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               }
               if(types=='Content'){
                 if(this.insuranceId=='100004' && this.productId=='59'){
-                  //let contentData1 = new HouseHoldContentsss();
-                  let contentData1 = new HouseHoldContents();
+                  let contentData1 = new HouseHoldContentsss();
+                  //let contentData1 = new HouseHoldContents();
                   this.fields1[0] = contentData1?.fields;
                 }
                 else {

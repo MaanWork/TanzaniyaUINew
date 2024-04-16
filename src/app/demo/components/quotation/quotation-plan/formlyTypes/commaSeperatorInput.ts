@@ -4,12 +4,9 @@ import { FieldType } from '@ngx-formly/core';
 @Component({
  selector: 'formly-field-input',
  template: `
- <input pInputText 
-        type="input" class="w-full w-full1"
-        [formControl]="formControl" 
-        [formlyAttributes]="field"
-        mask="separator" thousandSeparator=","
-        >
+ <p-inputNumber [formControl]="formControl" class="w-full w-full1"
+ [formlyAttributes]="field" inputId="minmaxfraction" mode="decimal"
+  [minFractionDigits]="2" [maxFractionDigits]="5"> </p-inputNumber>
  `,
 })
 export class CommaSeparatorInput extends FieldType {

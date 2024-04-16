@@ -1965,7 +1965,7 @@ this.errorRecords1=[];
   onAccessoriesCancel(){
     if(!this.editAccessoriesSection) this.accessoriesList.splice(this.currentAccessoriesIndex,1);
     this.chassisNo = null;this.accessoriesType=null;this.serialNoDesc=null;this.SumInsured=null;
-    this.currentAccessoriesIndex = null;
+    this.currentAccessoriesIndex = this.accessoriesList.length;
     this.enableAccessoriesEditSection=false;
   }
 
@@ -2498,17 +2498,42 @@ onFidelitySave(){
       // this.Cotentrisk[this.currentContentIndex]['ContentRiskDesc'] =this.productItem.ContentDesc; //this.contentRiskDesc;
       // this.Cotentrisk[this.currentContentIndex]['ItemId'] = this.productItem.ContentType//this.contentId;
       // this.Cotentrisk[this.currentContentIndex]['LocationName'] = this.LocationList.find(ele=>ele.Code==this.productItem.ContentLocation).CodeDesc;
-      this.accessoriesList[this.currentAccessoriesIndex]['SumInsured'] = this.productItem.AccessoriesSI//this.contentSI;
-      this.accessoriesList[this.currentAccessoriesIndex]['RiskId'] = this.productItem.AccessoriesChassisNo;
-      this.accessoriesList[this.currentAccessoriesIndex]['SerialNoDesc'] = this.productItem.AccessoriesSerialNo;//this.serialNoDesc
-      this.accessoriesList[this.currentAccessoriesIndex]['ItemId'] = this.productItem.AccessoriesType//this.contentId;
-      this.accessoriesList[this.currentAccessoriesIndex]['LocationId'] = this.productItem.AccessoriesChassisNo;
-      this.accessoriesList[this.currentAccessoriesIndex]['ContentRiskDesc'] =this.AccLists.find(ele=>ele.Code==this.productItem.AccessoriesType).label;
-      //this.AccLists.find(ele=>ele.Code==this.productItem.AccessoriesType).label;
-      this.currentAccessoriesIndex = null;
-      this.editAccessoriesSection = false;
-      this.enableAccessoriesEditSection = false;
-      this.productItem = new ProductData();
+      if(this.accessoriesList[this.currentAccessoriesIndex]){
+        this.accessoriesList[this.currentAccessoriesIndex]['SumInsured'] = this.productItem.AccessoriesSI//this.contentSI;
+        this.accessoriesList[this.currentAccessoriesIndex]['RiskId'] = this.productItem.AccessoriesChassisNo;
+        this.accessoriesList[this.currentAccessoriesIndex]['SerialNoDesc'] = this.productItem.AccessoriesSerialNo;//this.serialNoDesc
+        this.accessoriesList[this.currentAccessoriesIndex]['ItemId'] = this.productItem.AccessoriesType//this.contentId;
+        this.accessoriesList[this.currentAccessoriesIndex]['LocationId'] = this.productItem.AccessoriesChassisNo;
+        this.accessoriesList[this.currentAccessoriesIndex]['ContentRiskDesc'] =this.AccLists.find(ele=>ele.Code==this.productItem.AccessoriesType).label;
+        //this.AccLists.find(ele=>ele.Code==this.productItem.AccessoriesType).label;
+        this.currentAccessoriesIndex = this.accessoriesList.length;
+        this.editAccessoriesSection = false;
+        this.enableAccessoriesEditSection = false;
+        this.productItem = new ProductData();
+      }
+      else{
+        alert(this.currentAccessoriesIndex)
+        this.accessoriesList[this.currentAccessoriesIndex] = {
+          'SumInsured': null,
+          'RiskId': null,
+          'SerialNoDesc': null,
+          'ItemId':null,
+          'LocationId': null,
+          'ContentRiskDesc':null
+        };
+        this.accessoriesList[this.currentAccessoriesIndex]['SumInsured'] = this.productItem.AccessoriesSI//this.contentSI;
+        this.accessoriesList[this.currentAccessoriesIndex]['RiskId'] = this.productItem.AccessoriesChassisNo;
+        this.accessoriesList[this.currentAccessoriesIndex]['SerialNoDesc'] = this.productItem.AccessoriesSerialNo;//this.serialNoDesc
+        this.accessoriesList[this.currentAccessoriesIndex]['ItemId'] = this.productItem.AccessoriesType//this.contentId;
+        this.accessoriesList[this.currentAccessoriesIndex]['LocationId'] = this.productItem.AccessoriesChassisNo;
+        this.accessoriesList[this.currentAccessoriesIndex]['ContentRiskDesc'] =this.AccLists.find(ele=>ele.Code==this.productItem.AccessoriesType).label;
+        //this.AccLists.find(ele=>ele.Code==this.productItem.AccessoriesType).label;
+        this.currentAccessoriesIndex = null;
+        this.editAccessoriesSection = false;
+        this.enableAccessoriesEditSection = false;
+        this.productItem = new ProductData();
+        console.log("Final Accessories List ",this.accessoriesList)
+      }
     }
       
   }
@@ -2905,9 +2930,9 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     let urlLink = `${this.CommonApiUrl}dropdown/motorcontent`;
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       (data: any) => {
-        console.log(data);
-        if(data.Result){   
-          this.AccLists = data.Result;
+        if(data.Result){ 
+          let defaultObj = [{"Code":null,"CodeDesc":"---Select---"}];  
+          this.AccLists = defaultObj.concat(data.Result);
           for (let i = 0; i < this.AccLists.length; i++) {
             this.AccLists[i].label = this.AccLists[i]['CodeDesc'];
             this.AccLists[i].value = this.AccLists[i]['Code'];
@@ -4573,6 +4598,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         let res: any = data;
         if(res.Result){
           if (res.Result.ContentRiskDetails) {
+            this.currentAccessoriesIndex = res.Result.ContentRiskDetails.length;
            if(res.Result.ContentRiskDetails.length!=0){
             if(this.endorsementSection){
               console.log('Acessories Section',this.enableFieldsList)
@@ -4585,10 +4611,9 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
              this.getTotalSICost('Accessories');
            }
            else{
-        
+             
            }
           }
-       
         }
       })
   }
