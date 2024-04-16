@@ -25,13 +25,12 @@ export class HouseHoldContentsss{
           props: { label: 'Contents Risk' },
           fieldGroup: [
             {
-              fieldGroupClassName: 'newclassnames',
+              fieldGroupClassName: 'grid',
               fieldGroup: [
                 {
-                  className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-5 mr-5',
+                  className: 'col-12 md:col-6 lg:col-6 xl:col-6 p-2',
                   type: 'commaSeparator',
                   key: 'PaitingsSi',
-    
                   props: {
                     maxLength:15,
                     label: `Paintings SumInsured`,
@@ -51,7 +50,7 @@ export class HouseHoldContentsss{
                   },
                 },
                 {
-                  className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-5 mr-5',
+                  className: 'col-12 md:col-6 lg:col-6 xl:col-6 p-2',
                   type: 'commaSeparator',
                   key: 'CarpetsSi',
     
@@ -74,7 +73,7 @@ export class HouseHoldContentsss{
                   },
                 },
                 {
-                  className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-5 mr-5',
+                  className: 'col-12 md:col-6 lg:col-6 xl:col-6 p-2',
                   type: 'commaSeparator',
                   key: 'JewellerySi',
     
@@ -97,7 +96,7 @@ export class HouseHoldContentsss{
                   },
                 },
                 {
-                  className: 'w-full md:mt-0 mt-3 md:w-1/3 ml-5 mr-5',
+                  className: 'col-12 md:col-6 lg:col-6 xl:col-6 p-2',
                   type: 'commaSeparator',
                   key: 'EquipmentSis',
     
