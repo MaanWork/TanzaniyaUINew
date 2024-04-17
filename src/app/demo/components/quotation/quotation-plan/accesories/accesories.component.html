@@ -5,7 +5,13 @@
     <p class="mt-1">According to your budget you can pay monthly or one time* with %10 discount.</p>
     <div class="grid" >
         <div class="lg:col-6 md:col-6 col-12">
-            <div class="mb-3" *ngIf="ChassisList.length>2">
+            <form [formGroup]="form">
+                <formly-form [form]="form" [fields]="Accfieldss" [model]="productItem"></formly-form>
+            </form>
+            <div class="flex flex-wrap justify-content-center">
+                <p-button label="Save Accessories" (click)="onSaveAcessories()" class="text-l pi-button"></p-button>
+            </div>
+            <!-- <div class="mb-3" *ngIf="ChassisList.length>2">
                 <label for="username">Chassis No*</label><br>
                 <p-dropdown [options]="ChassisList" optionLabel="CodeDesc" [(ngModel)]="productItem.AccessoriesChassisNo" optionValue="Code" [showClear]="true" styleClass="w-20rem"></p-dropdown>
             </div>
@@ -23,7 +29,7 @@
             </div>
             <div class="flex flex-wrap justify-content-center">
                 <p-button label="Save Accessories" (click)="onAccessoriesSubmit()" class="text-l pi-button"></p-button>
-            </div>
+            </div> -->
         </div>
         <div class="lg:col-6 md:col-6 col-12">
                 <div class="flex flex-wrap justify-content-between">
@@ -31,8 +37,7 @@
                 </div>
                 <hr class="m-0 p-0">
                 <div class="card w-full p-0 m-0 mt-1">
-                    <ng-container *ngFor="let entry of accessoriesList;let i=index">
-                        
+                      
                             <p-table [value]="accessoriesList" [tableStyle]="{ 'min-width': '50rem' }">
                                 <ng-template pTemplate="header">
                                     <tr>
@@ -52,14 +57,24 @@
                                             <td>{{product.SumInsured | commaseparator }}</td>
                                             <td>
                                                 <p-button icon="pi pi-pencil" severity="danger" (click)="onEditAccessories(i,product)" styleClass="p-button-outlined"></p-button>&nbsp;
-                                                <p-button icon="pi pi-trash" severity="danger" (click)="AccessoriesDelete(product)"  styleClass="p-button-outlined"></p-button>
+                                                <p-button icon="pi pi-trash" severity="danger" (click)="Acssdelete(product)"  styleClass="p-button-outlined"></p-button>
                                             </td>
                                         </tr>
                                     </ng-container>
                                 </ng-template>
                             </p-table>
-                    </ng-container>
+                   
+                    
+                
                 </div>
+        </div>
+    </div>
+    <div class="flex flex-wrap justify-content-center mt-4">
+        <div class="mb-4">
+            <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+            <ng-container>
+                <p-button label="Proceed" (click)="onSaveAccessories()" class="text-l pi-button mr-0"></p-button>
+            </ng-container>
         </div>
     </div>
     <div class="flex flex-wrap justify-content-end">
@@ -130,6 +145,22 @@
                     </ng-container>
                 </div>
             </div>
+            <div class="flex flex-wrap justify-content-end">
+                <div class="text-white surface-900 px-6 py-3 border-round-lg" (click)="showSidebar()">
+                    <div class="flex flex-wrap justify-content-between" >
+                        <div >
+                            <h5 class="text-white mb-1 mr-3">Total SumInsured</h5>
+                        </div>
+                        <div >
+                            <h6 class="text-white my-0">{{totalBuildingSumInsured | commaseparator }}</h6>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap justify-content-between" >
+                        <div><h5 class="text-white mb-1 mr-3">Actual SumInsured</h5></div>
+                        <div><h6 class="text-white my-0">{{actualBuildingSI | commaseparator }}</h6></div>
+                    </div>
+                </div>
+            </div>
         </p-tabPanel>
         <p-tabPanel header="Content Risk" [disabled]="allfields" *ngIf="first">
             <div class="grid">
@@ -178,6 +209,22 @@
                     <ng-container>
                         <p-button label="Proceed" (click)="onSaveContentRisk()" class="text-l pi-button mr-0"></p-button>
                     </ng-container>
+                </div>
+            </div>
+            <div class="flex flex-wrap justify-content-end">
+                <div class="text-white surface-900 px-6 py-3 border-round-lg" (click)="showSidebar()">
+                    <div class="flex flex-wrap justify-content-between" >
+                        <div >
+                            <h5 class="text-white mb-1 mr-3">Total SumInsured</h5>
+                        </div>
+                        <div >
+                            <h6 class="text-white my-0">{{totalContentSI | commaseparator }}</h6>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap justify-content-between" >
+                        <div><h5 class="text-white mb-1 mr-3">Actual SumInsured</h5></div>
+                        <div><h6 class="text-white my-0">{{actualContentSI | commaseparator }}</h6></div>
+                    </div>
                 </div>
             </div>
         </p-tabPanel>
@@ -229,6 +276,22 @@
                     <ng-container>
                         <p-button label="Proceed" (click)="onSavePersonalAccident()" class="text-l pi-button mr-0"></p-button>
                     </ng-container>
+                </div>
+            </div>
+            <div class="flex flex-wrap justify-content-end">
+                <div class="text-white surface-900 px-6 py-3 border-round-lg" (click)="showSidebar()">
+                    <div class="flex flex-wrap justify-content-between" >
+                        <div>
+                            <h5 class="text-white mb-1 mr-3">Total SumInsured</h5>
+                        </div>
+                        <div>
+                            <h6 class="text-white my-0">{{totalPASI | commaseparator }}</h6>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap justify-content-between" >
+                        <div><h5 class="text-white mb-1 mr-3">Actual SumInsured</h5></div>
+                        <div><h6 class="text-white my-0">{{actualPersonalAccSI | commaseparator }}</h6></div>
+                    </div>
                 </div>
             </div>
         </p-tabPanel>
@@ -284,6 +347,22 @@
                     </ng-container>
                 </div>
             </div>
+            <div class="flex flex-wrap justify-content-end">
+                <div class="text-white surface-900 px-6 py-3 border-round-lg" (click)="showSidebar()">
+                    <div class="flex flex-wrap justify-content-between" >
+                        <div>
+                            <h5 class="text-white mb-1 mr-3">Total SumInsured</h5>
+                        </div>
+                        <div>
+                            <h6 class="text-white my-0">{{totalAllRiskSI | commaseparator }}</h6>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap justify-content-between" >
+                        <div><h5 class="text-white mb-1 mr-3">Actual SumInsured</h5></div>
+                        <div><h6 class="text-white my-0">{{actualAllRiskSI | commaseparator }}</h6></div>
+                    </div>
+                </div>
+            </div>
             <!--onSaveAllRisk(-->
         </p-tabPanel>
 
@@ -332,6 +411,22 @@
                         <ng-container>
                             <p-button label="Proceed" (click)="onSavePersonalIntermedity()" class="text-l pi-button mr-0"></p-button>
                         </ng-container>
+                    </div>
+                </div>
+                <div class="flex flex-wrap justify-content-end">
+                    <div class="text-white surface-900 px-6 py-3 border-round-lg" (click)="showSidebar()">
+                        <div class="flex flex-wrap justify-content-between" >
+                            <div>
+                                <h5 class="text-white mb-1 mr-3">Total SumInsured</h5>
+                            </div>
+                            <div>
+                                <h6 class="text-white my-0">{{totalPersIntSI | commaseparator }}</h6>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap justify-content-between" >
+                            <div><h5 class="text-white mb-1 mr-3">Actual SumInsured</h5></div>
+                            <div><h6 class="text-white my-0">{{actualPersonalIntSI | commaseparator }}</h6></div>
+                        </div>
                     </div>
                 </div>
                
@@ -502,6 +597,22 @@
                 </div>
             </div>
             </div>
+            <div class="flex flex-wrap justify-content-end">
+                <div class="text-white surface-900 px-6 py-3 border-round-lg" (click)="showSidebar()">
+                    <div class="flex flex-wrap justify-content-between" >
+                        <div>
+                            <h5 class="text-white mb-1 mr-3">Total SumInsured</h5>
+                        </div>
+                        <div>
+                            <h6 class="text-white my-0">{{totalEmpIntSI | commaseparator }}</h6>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap justify-content-between" >
+                        <div><h5 class="text-white mb-1 mr-3">Actual SumInsured</h5></div>
+                        <div><h6 class="text-white my-0">{{actualEmployeeSI | commaseparator }}</h6></div>
+                    </div>
+                </div>
+            </div>
         </p-tabPanel>
 
 
@@ -553,6 +664,22 @@
                     <ng-container>
                         <p-button label="Proceed" (click)="onSaveElectronic()" class="text-l pi-button mr-0"></p-button>
                     </ng-container>
+                </div>
+            </div>
+            <div class="flex flex-wrap justify-content-end">
+                <div class="text-white surface-900 px-6 py-3 border-round-lg" (click)="showSidebar()">
+                    <div class="flex flex-wrap justify-content-between" >
+                        <div>
+                            <h5 class="text-white mb-1 mr-3">Total SumInsured</h5>
+                        </div>
+                        <div>
+                            <h6 class="text-white my-0">{{totalElectrIntSI | commaseparator }}</h6>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap justify-content-between" >
+                        <div><h5 class="text-white mb-1 mr-3">Actual SumInsured</h5></div>
+                        <div><h6 class="text-white my-0">{{actualElectronicIntSI | commaseparator }}</h6></div>
+                    </div>
                 </div>
             </div>
             <!--onSaveAllRisk(-->
