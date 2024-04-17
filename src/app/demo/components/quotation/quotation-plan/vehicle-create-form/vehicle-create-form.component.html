@@ -13,9 +13,9 @@
           </div>
         </div>
     </div>
-    <ng-container *ngIf="insuranceId=='100028' || insuranceId == '100027' || insuranceId=='100002'">
+    <ng-container *ngIf="insuranceId=='100028' || insuranceId == '100027' || insuranceId=='100002' || insuranceId=='100004'">
         <div class="flex justify-content-start flex-wrap w-full form-container">
-            <div class="flex flex-column m-3">
+            <div class="flex flex-column m-3" *ngIf="insuranceId!='100004'">
                 <label for="motor-usage">Motor Usage*</label>
                 <p-dropdown inputId="motor-usage" 
                     class="w-full" 
@@ -30,10 +30,21 @@
             </div>
             <div class="flex flex-column m-3">
                 <label for="body-type">Body Type*</label>
-                <p-dropdown inputId="body-type" 
+                <p-dropdown inputId="body-type" *ngIf="insuranceId!='100004'"
                     class="w-full" 
                     styleClass="w-full" 
                     [options]="mainBodyTypeList" 
+                    (onChange)="onBodyTypeChange('change')"
+                    [(ngModel)]="bodyTypeValue" 
+                    [disabled]="editSection"
+                    optionLabel="CodeDesc" 
+                    optionValue="CodeDesc" 
+                    placeholder="Select Body Type">
+                </p-dropdown>
+                <p-dropdown inputId="body-type" *ngIf="insuranceId=='100004'"
+                    class="w-full" 
+                    styleClass="w-full" 
+                    [options]="bodyTypeList" 
                     (onChange)="onBodyTypeChange('change')"
                     [(ngModel)]="bodyTypeValue" 
                     [disabled]="editSection"
@@ -73,7 +84,7 @@
                 <label for="model">Model Description *</label>
                 <input pInputText id="model-desc" placeholder="Enter Model Description" maxlength="50"  [(ngModel)]="modelDesc"  />
             </div>
-            <div class="flex flex-column m-3" *ngIf="insuranceId!='100028'">
+            <div class="flex flex-column m-3" *ngIf="insuranceId!='100028' && insuranceId!='100004'">
                 <label for="motor-category">Motor Category*</label>
                 <p-dropdown inputId="motor-category" 
                     class="w-full" 
@@ -150,7 +161,7 @@
                     placeholder="Select Color">
                 </p-dropdown>
             </div>
-            <div class="flex flex-column m-3">
+            <div class="flex flex-column m-3" *ngIf="insuranceId!='100004'">
                 <label for="fuel-type">Fuel Type*</label>
                 <p-dropdown inputId="fuel-type" 
                     class="w-full" 
@@ -162,19 +173,19 @@
                     placeholder="Select Fuel Type">
                 </p-dropdown>
             </div>
-            <div class="flex flex-column m-3">
+            <div class="flex flex-column m-3" *ngIf="insuranceId!='100004'">
                 <label for="tare-weight">Tare Weight (Kg)</label>
                 <input pInputText id class="w-full" styleClass="w-full" [(ngModel)]="tareWeight" maxlength="10" [disabled]="editSection" inputId="tare-weight" placeholder="Enter Tare Weight" />
             </div>
-            <div class="flex flex-column m-3">
+            <div class="flex flex-column m-3" *ngIf="insuranceId!='100004'">
                 <label for="gross-weight">Gross Weight*</label>
                 <input pInputText id="gross-weight" [(ngModel)]="grossWeight" maxlength="10" [disabled]="editSection" placeholder="Enter Gross Weight"/>
             </div>
-            <div class="flex flex-column m-3" *ngIf="insuranceId!='100028'">
+            <div class="flex flex-column m-3" *ngIf="insuranceId!='100028' && insuranceId!='100004'">
                 <label for="no-of-axis">No of Axles*</label>
                 <input pInputText id="no-of-axis" digitOnly [(ngModel)]="noOfAxels" maxlength="10" [disabled]="editSection" placeholder="Enter No of Axis"/>
             </div>
-            <div class="flex flex-column m-3" *ngIf="insuranceId!='100028'">
+            <div class="flex flex-column m-3" *ngIf="insuranceId!='100028' && insuranceId!='100004'">
                 <label for="axis-distance">Axle Distance*</label>
                 <input pInputText id="axis-distance" digitOnly [(ngModel)]="axelDistance" maxlength="50" [disabled]="editSection" placeholder="Enter Axis Distance"/>
             </div>
@@ -363,7 +374,7 @@
         </div>
     </ng-container>
 </div>  
-<ng-container *ngIf="insuranceId!='100028' && insuranceId!='100027' && insuranceId!='100002' && insuranceId!='100020'">
+<ng-container *ngIf="insuranceId!='100028' && insuranceId!='100027' && insuranceId!='100002' && insuranceId!='100004' && insuranceId!='100020'">
     <p-accordion [multiple]="true" [activeIndex]="[0,1,2]">
         <p-accordionTab header="Vehicle Details">
             <div class="flex justify-content-start flex-wrap w-full form-container">
