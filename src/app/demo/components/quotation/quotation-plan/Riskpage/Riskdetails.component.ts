@@ -2530,8 +2530,8 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               }
               if(types=='Content'){
                 if(this.insuranceId=='100004' && this.productId=='59'){
-                  let contentData1 = new HouseHoldContentsss();
-                  //let contentData1 = new HouseHoldContents();
+                  //let contentData1 = new HouseHoldContentsss();
+                  let contentData1 = new HouseHoldContents();
                   this.fields1[0] = contentData1?.fields;
                 }
                 else {
