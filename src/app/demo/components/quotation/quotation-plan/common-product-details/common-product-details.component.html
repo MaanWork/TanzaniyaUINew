@@ -19,10 +19,10 @@
                     <b>Customer Type</b>
                     <p>{{customerDetails.PolicyHolderTypeDesc}}</p>
                 </div>
-                <div class="lg:col-4 md:col-6 col-12">
+                <!-- <div class="lg:col-4 md:col-6 col-12">
                     <b>Occupation</b>
                     <p>{{customerDetails.OccupationDesc}}</p>
-                </div>
+                </div> -->
     
             </div>
         </div>
@@ -161,7 +161,7 @@
                         <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="promocode" placeholder="Enter Customer Name" />
                     </div>
                     <div class="lg:col-3 md:col-3 col-12" *ngIf="productId=='6' || this.productId=='16' || productId=='39' || productId=='14' || productId=='32' || productId=='1' || productId=='21'
-                    || productId=='26' || this.productId=='25' || productId=='13' || productId=='24'"><!--|| productId=='57'-->
+                     || this.productId=='25' || productId=='13' || productId=='24'"><!--|| productId=='57'-->
                             <label for="username">Industry</label>
                             <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="industryList"
                                 [(ngModel)]="IndustryId" 
@@ -558,7 +558,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex justify-content-center mt-3" *ngIf="productId=='1' || productId=='6' || productId=='39' || productId=='43' || productId=='16' || productId=='42' || productId=='21' || productId=='14' || productId=='59' || productId=='60' || productId=='57' || productId=='56' || productId=='26' || productId=='25' || productId=='13' || this.productId=='27' || this.productId=='24'">
+        <div class="flex justify-content-center mt-3" *ngIf="productId=='1' || productId=='6' || productId=='39' || productId=='43' || productId=='16' || productId=='42' || productId=='21' || productId=='14' || productId=='59' || productId=='60' || productId=='57' || productId=='56' || productId=='26' || productId=='25' || productId=='13' || this.productId=='27' || this.productId=='24' || this.productId=='19'">
         <p-button  styleClass="p-button-outlined" label="Back"
             size="small" [routerLink]="['/quotation']" routerLinkActive="router-link-active" ></p-button>&nbsp;
         <p-button 

@@ -33,6 +33,44 @@ export class BussinessAllRisk{
                     type: 'displays',
             
                     templateOptions: {
+                      label: `Industry Type`,
+                      required: false,
+  
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4',
+                    type: 'ngselect',
+                      key: 'IndustryBussinessAllRisk',
+                      
+                      props: { 
+                        maxLength: 15,
+                        label: ``,
+                      },
+                      templateOptions: {
+                        disabled: this.checkDisable('SumInsured')
+                      },
+                      validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      },
+                      hooks: {
+                      },
+      
+                      expressions: {
+                      
+                      },
+                  },
+                ],
+                
+            },
+            {
+              fieldGroupClassName: 'grid mt-2',
+                fieldGroup: [
+                  {
+                    className: 'col-12 md:col-6 lg:col-6 p-2',
+                    type: 'displays',
+            
+                    templateOptions: {
                       label: `Sum Insured`,
                       required: false,
   
@@ -60,7 +98,8 @@ export class BussinessAllRisk{
                       
                       },
                   },
-                ]
+                ],
+                
             },
           ]
       }
