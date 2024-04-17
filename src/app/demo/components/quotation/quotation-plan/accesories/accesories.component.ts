@@ -335,6 +335,7 @@ export class AccesoriesComponent {
   NationalityId: null;
   DateOfBirth: null;
   showmultiple: boolean = false;
+  Addtional: any;
 
 
   constructor(private router: Router,private datePipe:DatePipe,private quoteComponent:QuotationPlanComponent,
@@ -552,11 +553,13 @@ export class AccesoriesComponent {
               }
             ];
             this.fieldss = fireData?.fields.concat(this.field);  
+            this.Addtional=true;
             this.productItem = new ProductData();
             this.formSection = true; this.viewSection = false;
           }
           else{
             this.sumInsured =false;
+            this.Addtional=false;
             let fireData = new LocationDetails();
             this.fieldss = fireData?.fields;  
             console.log('DDDDDDDDDDDDDDD',this.fieldss)
@@ -6651,41 +6654,88 @@ return true;
   onSaveLocation(){
     console.log("Final Additional Info",this.form,this.productItem);
     if(this.currentBuildingIndex!=null){
-      if(this.productItem.LocationAddress!=null && this.productItem.LocationNameBuilding!=null){
-      this.building[this.currentBuildingIndex].BuildingAddress = this.productItem.LocationAddress;
-      this.building[this.currentBuildingIndex].LocationName = this.productItem.LocationNameBuilding;
-      this.building[this.currentBuildingIndex].BuildingSuminsured = this.productItem.BuildingSumInsureds;
-      this.productItem.LocationAddress=null;
-      this.productItem.LocationNameBuilding=null;
-      this.productItem.BuildingSumInsureds=null;
-      this.getTotalSICost(this.building);
-      this.currentBuildingIndex = null;
-      this.Buildingsections=true;
-      this.productItem = new ProductData();
-      }
+      console.log('this.sectionDetails',this.sectionDetails)
+        if(this.Addtional){
+          if(this.productItem.LocationAddress!=null && this.productItem.LocationNameBuilding!=null && this.productItem.LocationAddress!='' && this.productItem.LocationNameBuilding!='' &&  this.productItem.BuildingSumInsureds!='0.0'&&  this.productItem.BuildingSumInsureds!=0){
+            this.building[this.currentBuildingIndex].BuildingAddress = this.productItem.LocationAddress;
+            this.building[this.currentBuildingIndex].LocationName = this.productItem.LocationNameBuilding;
+            this.building[this.currentBuildingIndex].BuildingSuminsured = this.productItem.BuildingSumInsureds;
+            this.productItem.LocationAddress=null;
+            this.productItem.LocationNameBuilding=null;
+            this.productItem.BuildingSumInsureds=null;
+            this.getTotalSICost(this.building);
+            this.currentBuildingIndex = null;
+            this.Buildingsections=true;
+            this.productItem = new ProductData();
+            }
+        }
+        else {
+          if(this.productItem.LocationAddress!=null && this.productItem.LocationNameBuilding!=null && this.productItem.LocationAddress!='' && this.productItem.LocationNameBuilding!=''){
+            this.building[this.currentBuildingIndex].BuildingAddress = this.productItem.LocationAddress;
+            this.building[this.currentBuildingIndex].LocationName = this.productItem.LocationNameBuilding;
+            this.building[this.currentBuildingIndex].BuildingSuminsured = this.productItem.BuildingSumInsureds;
+            this.productItem.LocationAddress=null;
+            this.productItem.LocationNameBuilding=null;
+            this.productItem.BuildingSumInsureds=null;
+            this.getTotalSICost(this.building);
+            this.currentBuildingIndex = null;
+            this.Buildingsections=true;
+            this.productItem = new ProductData();
+            }
+        }
+    
+   
       //this.AddNew();
     }
     else{
-      if(this.productItem.LocationAddress!=null && this.productItem.LocationNameBuilding!=null){
-      let entry = {
-        "BuildingAddress": this.productItem.LocationAddress,
-        "BuildingBuildYear": null,
-        "BuildingFloors": null,
-        "InbuildConstructType": null,
-        "BuildingSuminsured": this.productItem.BuildingSumInsureds,
-        "RiskId": null,
-        "LocationName": this.productItem.LocationNameBuilding,
-        "SectionId": "1"
+      console.log('this.sectionDetails',this.sectionDetails)
+      //let items = this.sectionDetails.find((ele) => ele.SectionId == 1 || (this.productId=='19' && ele.SectionId==40));
+         if(this.Addtional){
+          alert('Buildingss')
+          if(this.productItem.LocationAddress!=null && this.productItem.LocationNameBuilding!=null && this.productItem.LocationAddress!='' && this.productItem.LocationNameBuilding!='' && this.productItem.BuildingSumInsureds!='0.0'&&  this.productItem.BuildingSumInsureds!=0){
+            let entry = {
+              "BuildingAddress": this.productItem.LocationAddress,
+              "BuildingBuildYear": null,
+              "BuildingFloors": null,
+              "InbuildConstructType": null,
+              "BuildingSuminsured": this.productItem.BuildingSumInsureds,
+              "RiskId": null,
+              "LocationName": this.productItem.LocationNameBuilding,
+              "SectionId": "1"
+            }
+            this.building.push(entry);
+            this.getTotalSICost(this.building);
+            this.currentBuildingIndex = null;
+            this.productItem.LocationAddress=null;
+            this.productItem.LocationNameBuilding=null;
+            this.productItem.BuildingSumInsureds=null;
+            this.Buildingsections=true;
+            this.productItem = new ProductData();
+          }
+        }
+        else {
+          if(this.productItem.LocationAddress!=null && this.productItem.LocationNameBuilding!=null && this.productItem.LocationAddress!='' && this.productItem.LocationNameBuilding!=''){
+            let entry = {
+              "BuildingAddress": this.productItem.LocationAddress,
+              "BuildingBuildYear": null,
+              "BuildingFloors": null,
+              "InbuildConstructType": null,
+              "BuildingSuminsured": this.productItem.BuildingSumInsureds,
+              "RiskId": null,
+              "LocationName": this.productItem.LocationNameBuilding,
+              "SectionId": "1"
+            }
+            this.building.push(entry);
+            this.getTotalSICost(this.building);
+            this.currentBuildingIndex = null;
+            this.productItem.LocationAddress=null;
+            this.productItem.LocationNameBuilding=null;
+            this.productItem.BuildingSumInsureds=null;
+            this.Buildingsections=true;
+            this.productItem = new ProductData();
+          }
       }
-      this.building.push(entry);
-      this.getTotalSICost(this.building);
-      this.currentBuildingIndex = null;
-      this.productItem.LocationAddress=null;
-      this.productItem.LocationNameBuilding=null;
-      this.productItem.BuildingSumInsureds=null;
-      this.Buildingsections=true;
-      this.productItem = new ProductData();
-    }
+   
     }
   }
 
@@ -6778,6 +6828,8 @@ return true;
   onSaveContent(){
     if(this.currentContentIndex!=null){
       console.log('KKKKKKKKK',this.LocationList)
+   
+      if(this.productItem.ContentSI!='' && this.productItem.ContentSI!='0.0'  && this.productItem.ContentSI!='0' && this.productItem.ContentSI!=null && this.productItem.ContentType!=null && this.productItem.ContentType!='' ){
     this.Cotentrisk[this.currentContentIndex]['SumInsured'] = this.productItem.ContentSI;
     this.Cotentrisk[this.currentContentIndex]['RiskId'] = this.productItem.ContentLocation;
     this.Cotentrisk[this.currentContentIndex]['SerialNoDesc'] = this.productItem.ContentSerialNo;
@@ -6785,9 +6837,11 @@ return true;
     this.Cotentrisk[this.currentContentIndex]['ItemId'] = this.productItem.ContentType;
     this.currentContentIndex=null;
     this.productItem = new ProductData();
+      }
     // this.ContentAdd();
     }
     else{
+      if(this.productItem.ContentSI!='' && this.productItem.ContentSI!='0.0'  && this.productItem.ContentSI!='0' && this.productItem.ContentSI!=null && this.productItem.ContentType!=null && this.productItem.ContentType!='' ){
       let entry = {
         "ItemId":this.productItem.ContentType,
       "RiskId":this.productItem.ContentLocation,
@@ -6806,6 +6860,7 @@ return true;
     this.productItem.ContentType=null;
     this.productItem = new ProductData();
     }
+  }
   }
  
   onSaveAllRiskDEtails(){
