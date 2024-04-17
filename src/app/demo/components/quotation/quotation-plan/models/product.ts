@@ -110,7 +110,7 @@ MoneyCollector:any='0';
 MoneyAnnualEstimate:any='0';
 MoneyMajorLoss:any='0';onAssetSumInsured:any='0';onStockSumInsured:any='0';
 BurglarySi:any='0';StrongroomSi:any='0';InsurancePeriodSi:any='0';AnyAccidentSi:any='0';
-otheroption:any='';otherFioption:any='';FidEmpCount:any='0';
+otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAllRisk:any;
 	/*ShortTerm Product*/
 	OwnerName:any=null;
 	OwnerCategory: any=null;RegistrationNo:any=null;
@@ -267,6 +267,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';
 		this.LocationNameBuilding = data ?.LocationName ?? '';
 		this.LocationAddress = data ?.LocationAddress ?? '';
 		this.BuildingSumInsureds = data?.BuildingSuminsured ?? '0';
+		this.IndustryBussinessAllRisk = data?.IndustryId ?? '';
 		// this.PALocationAddress = data?.accidentOccupation ?? '';
 		this.PALocationName = data?.LocationName ?? '';
 		this.ContentSI = data?.SumInsured ?? '';

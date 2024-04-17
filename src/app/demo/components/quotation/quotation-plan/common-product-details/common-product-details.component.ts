@@ -3702,6 +3702,29 @@ console.log('Eventsss',event);
       //   else if(this.colorSections.find(ele => ele == '36')){this.onSavePersonalLiability('proceed','individual');}
       // }
     }
+    else if(this.productId=='19'){
+      this.onsavecorporate();
+     }
+  }
+
+  onsavecorporate(){
+    let policyStartDate="";
+    let policyEndDate="";
+    let Details:any =[ {
+      "PolicyStartDate":"",
+      "PolicyEndDate":"",
+      "Currency":"",
+      "ExchangeRate":"",
+      "NoOfDays": "",
+    }];
+    Details[0].PolicyStartDate = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");
+    Details[0].NoOfDays = this.noOfDays;
+    Details[0].PolicyEndDate=this.datePipe.transform(this.policyEndDate, "dd/MM/yyyy");
+    Details[0].Currency = this.currencyCode;
+    Details[0].ExchangeRate = this.exchangeRate;
+    sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails));
+    this.router.navigate(['/quotation/plan/risk-page']);
+
   }
   onSaveplantaLLrisk(type,formType){
     console.log('JJJJJJJJJJJJ',sessionStorage.getItem('quoteReferenceNo'));
@@ -4491,6 +4514,7 @@ console.log('Eventsss',event);
   onFinalProceed() {
     if(this.productId=='59' || this.productId=='56' || this.productId=='60' || this.productId=='24'){
       sessionStorage.setItem('Buildings',this.BuildingOwnerYn);
+      sessionStorage.setItem('coversRequired',this.coversRequired)
       this.router.navigate(['/quotation/plan/risk-page']);
     }
     else {
@@ -8706,8 +8730,19 @@ this.BuildingOwnerYn = type;
         (data: any) => {
           let defaultObj = [{ 'CodeDesc': '-Select-', 'Code': '' }]
           this.industryList = defaultObj.concat(data.Result);
-    
-    
+          if(this.productId=='26'){
+            
+            for (let i = 0; i < this.industryList.length; i++) {
+              this.industryList[i].label = this.industryList[i]['CodeDesc'];
+              this.industryList[i].value = this.industryList[i]['Code'];
+              delete this.industryList[i].CodeDesc;
+              if (i == this.industryList.length - 1) {
+                // this.industryList = defaultObj.concat(this.industryList)
+                // this.fields[0].fieldGroup[0].fieldGroup[1].props.options = this.industryList;
+              }
+            }
+            this.fields[0].fieldGroup[0].fieldGroup[1].props.options = this.industryList;
+          }
         },
         (err) => { },
       );
