@@ -3033,7 +3033,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               else {
                 ReqObj['Status'] = 'Y';
               }
-              if(this.productItem?.BuildingSuminsured==null || this.productItem?.BuildingSuminsured==undefined || this.productItem?.BuildingSuminsured==''){
+              if((this.productItem?.BuildingSuminsured==null || this.productItem?.BuildingSuminsured==undefined || this.productItem?.BuildingSuminsured=='') && this.Buildings!='Y'){
                 ReqObj['BuildingDetails'] = null;
               }
               if(this.insuranceId=='100004' && this.productId=='59'){

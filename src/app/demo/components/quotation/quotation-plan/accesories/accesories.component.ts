@@ -2512,7 +2512,6 @@ onFidelitySave(){
         this.productItem = new ProductData();
       }
       else{
-        alert(this.currentAccessoriesIndex)
         this.accessoriesList[this.currentAccessoriesIndex] = {
           'SumInsured': null,
           'RiskId': null,
@@ -3815,7 +3814,6 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             if(type=='Content Risk'){
               this.fourth = true;
               this.first=true;
-              alert(this.selectedTab)
               this.getContentDetails();
               this.selectedTab = 1;
             }
@@ -3867,7 +3865,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             else if(this.productId=='42') this.selectedTab = 1;
             else if(this.productId=='56') this.selectedTab = 1;
             else if(this.productId=='57') this.selectedTab = 1;
-            else if(this.productId=='60') {this.getHealthData();alert(this.selectedTab);this.selectedTab = 1;this.eleven=true;}
+            else if(this.productId=='60') {this.getHealthData();this.selectedTab = 1;this.eleven=true;}
             else {
               this.checkValidation();
               //if(this.productId=='1' || this.productId=='16' || this.productId=='6' || this.productId=='27')
@@ -4355,8 +4353,6 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       
       if(type=='employee'){
         let entry = this.productItem.EmpsSI;
-        console.log("Entry Came",entry)
-        alert(entry)
         this.employeeList[this.currentEmployeeIndex]['Salary'] = entry;
           this.productItem.EmpsSI= entry;
           console.log("Entry Came 2",this.productItem.EmpsSI);
@@ -5565,7 +5561,6 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             
           }
           else {
-            alert('jkkkkkk')
               this.IntermedityAdd();
             
             // this.Intermedity = [
@@ -5834,7 +5829,6 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     let edit = this.ElectronicItem.findIndex(ele=>ele.PurchaseMonth == rowdata.PurchaseMonth && ele.PurchaseYear == rowdata.PurchaseYear);
     this.currentElectronicIndex = edit;
     this.productItem = new ProductData();
-    alert(this.currentElectronicIndex)
    this.enableElectronicEquipmentSection=true;
     this.editElectronicSection=true;
     this.productItem.ElqLocation = rowdata.RiskId;
@@ -6758,7 +6752,6 @@ return true;
       // this.AllAdd();     // this.AddNew();
     }
     else{
-      alert('Riskaaa')
       if(this.productItem.RiskContentType!=null && this.productItem.RiskLocation!=null && this.productItem.RiskSI!=null){
       let entry = {
       "ItemId":this.productItem.RiskContentType,
@@ -6989,7 +6982,6 @@ return true;
   onSaveElectronicdetails(){
     console.log("Final Additional Info",this.form,this.productItem)
     if(this.currentElectronicIndex!=null){
-      alert(this.productItem.ElqList);
       this.ElectronicItem[this.currentElectronicIndex]['SumInsured'] = this.productItem.ElqSI;//this.contentSI;
       this.ElectronicItem[this.currentElectronicIndex]['ContentRiskDesc'] = this.ElectronicList.find(ele=>ele.Code==this.productItem.ElqList).label;
       this.ElectronicItem[this.currentElectronicIndex]['PurchaseMonth'] = this.productItem.ElqJoin;//this.serialNoDesc
@@ -7002,7 +6994,6 @@ return true;
       // this.AllAdd();     // this.AddNew();
     }
     else{
-      alert(this.productItem.ElqList);
       let entry = {
         "ItemId":this.productItem.ElqList,
       "ItemValue": "10000",
