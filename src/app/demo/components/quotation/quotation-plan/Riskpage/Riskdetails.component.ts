@@ -3038,38 +3038,38 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               }
               if(this.insuranceId=='100004' && this.productId=='59'){
                 if(this.coversreuired!='BC'){
-                  // if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
-                  //   ReqObj['ContentDetails'] = null;
-                  // }
-                  // else {
-                  //   if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
-                  //     this.error1proceed();
-                  //   }
-                  // }
-                  if(this.productItem?.JewellerySi==null || this.productItem?.JewellerySi==undefined || this.productItem?.JewellerySi==''){
-                    if(this.productItem?.PaitingsSi==null || this.productItem?.PaitingsSi==undefined || this.productItem?.PaitingsSi==''){
-                      if(this.productItem?.CarpetsSi==null || this.productItem?.CarpetsSi==undefined || this.productItem?.CarpetsSi==''){
-                        ReqObj['ContentDetails'] = null;
-                      }
+                  if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
+                    ReqObj['ContentDetails'] = null;
+                  }
+                  else {
+                    if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
+                      this.error1proceed();
                     }
                   }
+                  // if(this.productItem?.JewellerySi==null || this.productItem?.JewellerySi==undefined || this.productItem?.JewellerySi==''){
+                  //   if(this.productItem?.PaitingsSi==null || this.productItem?.PaitingsSi==undefined || this.productItem?.PaitingsSi==''){
+                  //     if(this.productItem?.CarpetsSi==null || this.productItem?.CarpetsSi==undefined || this.productItem?.CarpetsSi==''){
+                  //       ReqObj['ContentDetails'] = null;
+                  //     }
+                  //   }
+                  // }
                 }
                 else {
-                  // if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
-                  //   ReqObj['ContentDetails'] = null;
-                  // }
-                  // else {
-                  //   if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
-                  //     this.error1proceed();
-                  //   }
-                  // }
-                  if(this.productItem?.JewellerySi==null || this.productItem?.JewellerySi==undefined || this.productItem?.JewellerySi==''){
-                    if(this.productItem?.PaitingsSi==null || this.productItem?.PaitingsSi==undefined || this.productItem?.PaitingsSi==''){
-                      if(this.productItem?.CarpetsSi==null || this.productItem?.CarpetsSi==undefined || this.productItem?.CarpetsSi==''){
-                        this.error1proceed();
-                      }
+                  if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
+                    ReqObj['ContentDetails'] = null;
+                  }
+                  else {
+                    if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
+                      this.error1proceed();
                     }
                   }
+                  // if(this.productItem?.JewellerySi==null || this.productItem?.JewellerySi==undefined || this.productItem?.JewellerySi==''){
+                  //   if(this.productItem?.PaitingsSi==null || this.productItem?.PaitingsSi==undefined || this.productItem?.PaitingsSi==''){
+                  //     if(this.productItem?.CarpetsSi==null || this.productItem?.CarpetsSi==undefined || this.productItem?.CarpetsSi==''){
+                  //       this.error1proceed();
+                  //     }
+                  //   }
+                  // }
                 }
               
               }
