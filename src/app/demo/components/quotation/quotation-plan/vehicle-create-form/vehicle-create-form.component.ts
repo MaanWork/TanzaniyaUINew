@@ -394,7 +394,7 @@ export class VehicleCreateFormComponent implements OnInit {
         this.sourceType = commonDetails.SourceCode;
         this.customerCode = commonDetails.CustomerCode;
         this.customerName = commonDetails.CustomerName;
-        brokerbranchCode = commonDetails.BrokerBranchCode;
+       if(commonDetails.BrokerBranchCode) brokerbranchCode = commonDetails.BrokerBranchCode;
         
       }
     let ReqObj = {
