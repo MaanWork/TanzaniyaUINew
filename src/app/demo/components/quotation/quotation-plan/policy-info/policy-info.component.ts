@@ -212,7 +212,7 @@ export class PolicyInfoComponent {
     (err) => { },
     );
   }
-  onGetSchedules(rowData){
+  onGetSchedule(rowData){
     // let ReqObj = {
     //   "QuoteNo":rowData.QuoteNo,
     //   "EndorsementType":"E"
