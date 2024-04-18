@@ -1009,9 +1009,10 @@ export class CustomerCreateFormComponent implements OnInit {
         this.productItem.Gender = '';
       }
       this.getPolicyIdTypeList('change');
+	  this.getOccupationLists('change');
 	if(this.insuranceId=='100004'){
 		this.getType3('change');
-		this.getOccupationLists('change');
+		
 	}
     }
   navigateToCustomer() {
