@@ -2559,6 +2559,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           else PurchaseDate = this.datePipe.transform(this.productItem.PurchaseDate,'dd/MM/yyyy');
         }
+        if(this.productItem.GpsYN==null || this.productItem.GpsYN==undefined || this.productItem.GpsYN=='') this.productItem.GpsYN = 'N';
           let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,
@@ -3723,6 +3724,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             }
             else PurchaseDate = this.datePipe.transform(this.productItem.PurchaseDate,'dd/MM/yyyy');
           }
+          if(this.productItem.GpsYN==null || this.productItem.GpsYN==undefined || this.productItem.GpsYN=='') this.productItem.GpsYN = 'N';
           let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,
