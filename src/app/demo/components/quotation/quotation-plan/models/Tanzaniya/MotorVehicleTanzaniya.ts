@@ -120,7 +120,7 @@ export class MotorVehicleTanzaniya{
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
-                      label: 'Claims YN ?',
+                      label: 'Claims',
                       required: true,
                       disabled: this.checkDisable('ClaimsYN'),
                       name: 'ClaimsYN',
@@ -133,7 +133,7 @@ export class MotorVehicleTanzaniya{
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
-                      label: 'Gps YN ?',
+                      label: 'GPS',
                       required: true,
                       disabled: this.checkDisable('ClaimsYN'),
                       name: 'GpsYN',

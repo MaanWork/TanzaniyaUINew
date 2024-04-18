@@ -209,11 +209,8 @@ export class DocumentInfoComponent {
                   }
                   else j += 1;
                 }
-  
-              
               }
             }
-            
           }
             let quoteDetails = data?.Result?.QuoteDetails;
             if(quoteDetails){
@@ -283,7 +280,6 @@ export class DocumentInfoComponent {
                   "Code":entry.RiskId,
                   "CodeDesc":entry.Registrationnumber,
                   "RiskId": entry.RiskId
-
                 }
                 this.LicenseList.push(obj);
                  this.RiskId=entry.RiskId;
@@ -291,9 +287,7 @@ export class DocumentInfoComponent {
                 if(i==vehicles.length){
                   console.log("Final License List",this.LicenseList)
                   //this.setVehicleList();
-                 
                 }
-
               }
             }
             if(this.vehicleList.length!=0){
