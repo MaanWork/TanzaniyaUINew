@@ -3663,17 +3663,19 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         if(entry.SumInsured==undefined || entry.SumInsured==null) sumInsured = null;
         // else if(entry.SumInsured.includes(',')){ sumInsured = entry.SumInsured.replace(/,/g, '') }
         else sumInsured = entry.SumInsured;
-          let data = {
-            "ItemId":entry.ItemId,
-            "RiskId":entry.RiskId,
-            "ContentRiskDesc":entry.ContentRiskDesc,
-            "SerialNoDesc": entry.SerialNoDesc,
-            "MakeAndModel":"TN123",
-            "SerialNo":"155685",
-            "ItemValue":"26534556",
-            "SumInsured":sumInsured
+          if(entry.ItemId!=null && entry.RiskId!=null && entry.ContentRiskDesc!=null && entry.SerialNoDesc!=null && entry.SumInsured!=null){
+            let data = {
+              "ItemId":entry.ItemId,
+              "RiskId":entry.RiskId,
+              "ContentRiskDesc":entry.ContentRiskDesc,
+              "SerialNoDesc": entry.SerialNoDesc,
+              "MakeAndModel":"TN123",
+              "SerialNo":"155685",
+              "ItemValue":"26534556",
+              "SumInsured":sumInsured
+            }
+            reqList.push(data);
           }
-          reqList.push(data);
           i+=1;
           if(i==this.accessoriesList.length){
             this.finalSaveRiskDetails(reqList,'EA');
