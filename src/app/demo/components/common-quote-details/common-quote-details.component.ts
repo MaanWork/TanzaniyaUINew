@@ -2152,7 +2152,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
       let sumInsured = null;
       if(this.vehicleDetails?.SUM_INSURED) sumInsured = this.vehicleDetails?.SUM_INSURED;
-     
+      let gpsYn = 'N';
+      if(this.vehicleDetails.Gpstrackinginstalled!=null) gpsYn = this.vehicleDetails.Gpstrackinginstalled;
     let ReqObj = {
       "BrokerBranchCode": brokerbranchCode,
       "AcExecutiveId": null,
@@ -2182,7 +2183,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       "DrivenByDesc": 'D',
       "EngineNumber": this.vehicleDetails?.EngineNumber,
       "FuelType": this.vehicleDetails?.FuelType,
-      "Gpstrackinginstalled": null,
+      "Gpstrackinginstalled":  gpsYn,
       "Grossweight": this.vehicleDetails?.Grossweight,
       "HoldInsurancePolicy": "N",
       "Insurancetype": null,
@@ -2589,7 +2590,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "DrivenByDesc": this.drivenBy,
             "EngineNumber": this.vehicleDetails?.EngineNumber,
             "FuelType": this.vehicleDetails?.FuelType,
-            "Gpstrackinginstalled": this.gpsYn,
+            "Gpstrackinginstalled": this.productItem.GpsYN,
             "Grossweight": this.vehicleDetails?.Grossweight,
             "HoldInsurancePolicy": "N",
             "Insurancetype": insuranceType,
@@ -3123,7 +3124,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               "DrivenByDesc": this.drivenBy,
               "EngineNumber": vehicleDetails?.EngineNumber,
               "FuelType": vehicleDetails?.FuelType,
-              "Gpstrackinginstalled": this.gpsYn,
+              "Gpstrackinginstalled": vehicleDetails?.Gpstrackinginstalled,
               "Grossweight": vehicleDetails?.Grossweight,
               "HoldInsurancePolicy": "N",
               "Insurancetype": vehicleDetails?.Insurancetype,
@@ -3753,7 +3754,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "DrivenByDesc": this.drivenBy,
             "EngineNumber": this.vehicleDetails?.EngineNumber,
             "FuelType": this.vehicleDetails?.FuelType,
-            "Gpstrackinginstalled": this.gpsYn,
+            "Gpstrackinginstalled": this.productItem.GpsYN,
             "Grossweight": this.vehicleDetails?.Grossweight,
             "HoldInsurancePolicy": "N",
             "Insurancetype": insuranceType,

@@ -925,7 +925,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "AdditionalCircumstances": null,
         "CityLimit": null,
         "CoverNoteNo": null,
-        "Gpstrackinginstalled": null,
+        "Gpstrackinginstalled": 'N',
         "Insurancetype": null,
         "InsuranceId": this.insuranceId,
         "InsuranceClass": null,
