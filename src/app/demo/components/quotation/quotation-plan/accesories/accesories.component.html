@@ -9,7 +9,7 @@
                 <formly-form [form]="form" [fields]="Accfieldss" [model]="productItem"></formly-form>
             </form>
             <div class="flex flex-wrap justify-content-center">
-                <p-button label="Save Accessories" (click)="onSaveAcessories()" class="text-l pi-button"></p-button>
+                <p-button label="Save Accessories" (click)="onAccessoriesSubmit()" class="text-l pi-button"></p-button>
             </div>
             <!-- <div class="mb-3" *ngIf="ChassisList.length>2">
                 <label for="username">Chassis No*</label><br>
@@ -36,7 +36,7 @@
                     <h4 class="m-0 p-0">Existing Accessories</h4>
                 </div>
                 <hr class="m-0 p-0">
-                <div class="card w-full p-0 m-0 mt-1">
+                <div class="card w-full p-0 m-0 mt-1" *ngIf="accessoriesList.length!=0 && checkAccessories()">
                       
                             <p-table [value]="accessoriesList" [tableStyle]="{ 'min-width': '50rem' }">
                                 <ng-template pTemplate="header">
@@ -66,6 +66,9 @@
                    
                     
                 
+                </div>
+                <div class="flex flex-wrap justify-content-center mt-2" *ngIf="accessoriesList.length==0 || !checkAccessories()">
+                    <b>No Accessories Available</b>
                 </div>
         </div>
     </div>
