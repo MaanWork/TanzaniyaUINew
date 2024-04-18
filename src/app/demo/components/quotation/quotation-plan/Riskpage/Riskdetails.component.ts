@@ -3040,7 +3040,6 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                 ReqObj['BuildingDetails'] = null;
               }
               if(this.insuranceId=='100004' && this.productId=='59'){
-                alert(this.coversreuired)
                 if(this.coversreuired!='BC' && this.coversreuired!='B'){
                   ReqObj['BuildingDetails'] = null;
                 }

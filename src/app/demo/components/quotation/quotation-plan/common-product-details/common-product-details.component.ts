@@ -3455,7 +3455,7 @@ export class CommonProductDetailsComponent {
           else if(this.coversRequired =='B'){
             section=['3','1','36','35'];
           }
-          else section=['47','1','3','36','35'];
+          else if(this.coversRequired =='BC') section=['47','1','3','36','35'];
         }
         else {
           section=['47','3','36','35'];
