@@ -90,9 +90,9 @@ export class DocumentInfoComponent {
       this.currentDate = new Date();
      this.minDate = new Date(year - 18,month, day );
      let referenceNo =  sessionStorage.getItem('customerReferenceNo');
-    if(referenceNo){
-      this.quoteRefNo = referenceNo;
-    }
+    // if(referenceNo){
+    //   this.quoteRefNo = referenceNo;
+    // }
     
     this.vehicleDetails = JSON.parse(sessionStorage.getItem('vehicleDetails'));
    }
