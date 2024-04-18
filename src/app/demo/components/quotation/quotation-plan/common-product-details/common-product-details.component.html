@@ -352,9 +352,9 @@
                                             size="small" (click)="ownership('Y')"></p-button>&nbsp;
                                         <p-button styleClass="p-button-outlined" label="TENANT" (click)="ownership('N')"></p-button>&nbsp; -->
                                             <div class="radio-toolbar">
-                                                <input id="claims_Own" type="radio" name="rentOwnHome" [(ngModel)]="BuildingOwnerYn" value="Y">
+                                                <input id="claims_Own" type="radio" name="rentOwnHome" (change)="setBuildingOwnerYN()" [(ngModel)]="BuildingOwnerYn" value="Y">
                                                 <label for="claims_Own" class="yes_alt"><img style="max-width: 30px;max-height: 10px;">LANDLORD</label>
-                                                <input id="claims_Rent" type="radio" name="rentOwnHome" [(ngModel)]="BuildingOwnerYn" value="N">
+                                                <input id="claims_Rent" type="radio" name="rentOwnHome" (change)="setBuildingOwnerYN()" [(ngModel)]="BuildingOwnerYn" value="N">
                                                 <label for="claims_Rent" class="no"><img style="max-width: 30px;max-height: 10px;">TENANT</label>
                                             </div>
                                         </div>

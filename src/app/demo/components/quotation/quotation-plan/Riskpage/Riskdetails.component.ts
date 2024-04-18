@@ -116,6 +116,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
   personalIndemity: boolean = false;
   sectionCount: number;
   coversreuired: any;
+  commonSectionList: any;
         constructor(private router: Router,private datePipe:DatePipe,
           private sharedService: SharedService,public http: HttpClient) {
          let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails') || '{}');
@@ -161,8 +162,9 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
 
             this.productItem = new ProductData();
             if(this.requestReferenceNo!=null && this.productId=='59'){
-              this.getSectionList();
               this.getCommonDetails();
+              
+             
               this.getBuildingDetails();
               this.coversreuired=sessionStorage.getItem('coversRequired');
             }
@@ -172,8 +174,9 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             }
 
             if(this.productId=='24'){
-              this.getSectionList();
               this.getCommonDetails();
+              this.getSectionList();
+             
               this.getContentDetails('Content');
               this.getAllRiskDetails('AllRisk');
             }
@@ -207,8 +210,8 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               let referenceNo = sessionStorage.getItem('quoteReferenceNo');
               if (referenceNo) {
                 this.requestReferenceNo = referenceNo;
-                this.getSectionList();
                 this.getCommonnDetails();
+                this.getSectionList();
                 this.getCommonDetails();
               }
               else{
@@ -233,7 +236,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             }
             if(this.productId=='60'){
             // this.getEditDetails();
-            this.getCommonDetails();
+           this.getCommonDetails();
            this.getdetails();
            this.getProfessional();
 
@@ -3037,6 +3040,10 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                 ReqObj['BuildingDetails'] = null;
               }
               if(this.insuranceId=='100004' && this.productId=='59'){
+                alert(this.coversreuired)
+                if(this.coversreuired!='BC' && this.coversreuired!='B'){
+                  ReqObj['BuildingDetails'] = null;
+                }
                 if(this.coversreuired!='BC'){
                   if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
                     ReqObj['ContentDetails'] = null;
@@ -4026,7 +4033,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                 console.log(data);
                 if(data.Result){
                   let details = data.Result;
-
+                  this.commonSectionList = data.Result.SectionIds;
                   let startDate=null,endDate=null;
                   this.policyStartDate = details.PolicyStartDate;
                     this.policyEndDate = details.PolicyEndDate;
@@ -4034,7 +4041,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                     this.customerCode = details.CustomerCode;
                     this.customerName = details.CustomerName;
                     this.CustomerReferenceNo = details?.CustomerReferenceNo;
-
+                    if(this.productId =='59') this.getSectionList();
                   // this.productItem = new ProductData();
                   // this.productItem.BuildingOwnerYn = 'Y';
                   //this.dobminDate = new Date();
@@ -4523,23 +4530,45 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                   let i=0;
                   for(let n of this.sectionDropdownList){
                   console.log('HJGGGGG',n.CodeDesc)
-                    if(n.Code== '1'){
-                     
-                      this.Building1=true;
+                    if(this.productId=='59'){
+                        if(this.commonSectionList.some(ele=>ele==n.Code)){
+                          if(n.Code== '1'){
+                            this.Building1=true;
+                          }
+                          if(n.Code =='47'){
+                            this.Content=true;
+                          }
+                          if(n.Code == '3'){
+                            this.AllRisk=true;
+                          }
+                          if(n.Code == '35'){
+                            this.PersonalAccident=true;
+                          }
+                          if(n.Code == '36'){
+                            this.personalIndemity=true;
+                          }
+                        }
+                        i+=1;
                     }
-                    if(n.Code =='47'){
-                      this.Content=true;
+                    else{
+                      
+                      if(n.Code== '1'){
+                        this.Building1=true;
+                      }
+                      if(n.Code =='47'){
+                        this.Content=true;
+                      }
+                      if(n.Code == '3'){
+                        this.AllRisk=true;
+                      }
+                      if(n.Code == '35'){
+                        this.PersonalAccident=true;
+                      }
+                      if(n.Code == '36'){
+                        this.personalIndemity=true;
+                      }
+                      i+=1;
                     }
-                    if(n.Code == '3'){
-                      this.AllRisk=true;
-                    }
-                    if(n.Code == '35'){
-                      this.PersonalAccident=true;
-                    }
-                    if(n.Code == '36'){
-                      this.personalIndemity=true;
-                    }
-                    i+=1;
                   }
                 }
               });

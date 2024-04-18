@@ -259,28 +259,28 @@ export class CommonProductDetailsComponent {
           // }
             startDate = details.PolicyStartDate;
             endDate = details.PolicyEndDate;
-          this.commonDetails = [
-            {
-                "PolicyStartDate": startDate,
-                "PolicyEndDate": endDate,
-                "Currency": details?.Currency,
-                "SectionId": details?.SectionIds,
-                "AcexecutiveId": "",
-                "ExchangeRate": details?.ExchangeRate,
-                "StateExtent": "",
-                "NoOfDays": details?.NoOfDays,
-                "HavePromoCode": details?.Havepromocode,
-                "PromoCode": details?.Promocode,
-                "SourceType": details?.SourceType,
-                "BrokerCode": details?.BrokerCode,
-                "BranchCode": details?.BranchCode,
-                "BrokerBranchCode": details?.BrokerBranchCode,
-                "CustomerCode": details?.CustomerCode,
-                "CustomerName": details?.CustomerName,
-                "LoginId": null,
-                "IndustryName": null
-            }
-          ]
+            this.commonDetails = [
+              {
+                  "PolicyStartDate": startDate,
+                  "PolicyEndDate": endDate,
+                  "Currency": details?.Currency,
+                  "SectionId": details?.SectionIds,
+                  "AcexecutiveId": "",
+                  "ExchangeRate": details?.ExchangeRate,
+                  "StateExtent": "",
+                  "NoOfDays": details?.NoOfDays,
+                  "HavePromoCode": details?.Havepromocode,
+                  "PromoCode": details?.Promocode,
+                  "SourceType": details?.SourceType,
+                  "BrokerCode": details?.BrokerCode,
+                  "BranchCode": details?.BranchCode,
+                  "BrokerBranchCode": details?.BrokerBranchCode,
+                  "CustomerCode": details?.CustomerCode,
+                  "CustomerName": details?.CustomerName,
+                  "LoginId": null,
+                  "IndustryName": null
+              }
+            ]
           sessionStorage.setItem('homeCommonDetails',JSON.stringify(this.commonDetails));
           this.currencyCode = this.commonDetails[0].Currency;
           if (this.productId != '59' && this.productId != '19' && this.productId!='24' && this.productId != '46' && this.productId != '42' && this.productId != '43' && this.productId!='39' && this.productId!='16' && this.productId!='1' && this.productId!='25' && this.productId!='21' && this.productId!='26' && this.productId!='27' && this.productId!='56') {
@@ -2740,11 +2740,8 @@ export class CommonProductDetailsComponent {
                 this.productItem.FireStockSi=details?.StockInTradeSi;
               }
               if(this.productId=='6' && this.insuranceId == '100002'){
-                console.log('NNNNNNNNNNNNNNN')
-                //this.productItem.FireBuildingSi=details?.FireBuildingSi;
                 this.productItem.BuildingSuminsured = details?.BuildingSuminsured;
                 this.productItem.onAssetSumInsured = details?.OnAssetsSi;
-                console.log('NNNNNNNNNNNNNNN',this.productItem?.onAssetSumInsured)
                 this.productItem.onStockSumInsured = details?.OnStockSi;
               }
               this.productItem.IndemityPeriod = details?.IndemityPeriod;
@@ -2758,6 +2755,12 @@ export class CommonProductDetailsComponent {
       },
       (err) => { },
     );
+  }
+  setBuildingOwnerYN(){
+    if(this.BuildingOwnerYn!='Y'){
+       this.coversRequired = 'C'
+    }
+    else if(this.coversRequired==null) this.coversRequired='BC';
   }
   getYearList() {
     var d = new Date();
@@ -3446,11 +3449,17 @@ export class CommonProductDetailsComponent {
     if( this.productId=='27'){section.push('54');this.IndustryId='44'};
     if( this.productId=='59'){
         if(this.BuildingOwnerYn!='N'){
-          section=['47','1','3','36','35'];
+          if(this.coversRequired=='C'){
+            section=['47','3','36','35'];
+          }
+          else if(this.coversRequired =='B'){
+            section=['3','1','36','35'];
+          }
+          else section=['47','1','3','36','35'];
         }
         else {
           section=['47','3','36','35'];
-      }
+        }
        this.IndustryId='99999'};
     let startDate=null,endDate=null;
     let dateList = String(this.policyStartDate).split('/');
@@ -8897,7 +8906,7 @@ this.BuildingOwnerYn = type;
         "Limit":"0",
         "Offset":"1000"
       }
-      let urlLink = `${this.CommonApiUrl}api/getallcustomerdetails`;
+      let urlLink = `${this.CommonApiUrl}api/getactivecustomerdetails`;
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
           console.log(data);
