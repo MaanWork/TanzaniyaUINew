@@ -266,6 +266,7 @@ export class VehicleCreateFormComponent implements OnInit {
           this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
           (data: any) => {
               if(data.Result){
+                this.vehicleDetails = data.Result;
                 if(this.vehicleDetails.Chassisnumber) this.chassisNo = this.vehicleDetails?.Chassisnumber;
                 sessionStorage.removeItem('loadingType');
                 if(this.vehicleDetailsList.length!=0){
@@ -379,6 +380,22 @@ export class VehicleCreateFormComponent implements OnInit {
       if(this.tareWeight!=null && this.tareWeight!=undefined){
         if(String(this.tareWeight).includes(',')) tareweight = String(this.tareWeight).replace(',','');
         tareweight = this.tareWeight;
+      }
+      let commonDetails = JSON.parse(sessionStorage.getItem('commonDetails'));
+      if(commonDetails){
+        this.vehicleDetails.PolicyStartDate = commonDetails.policyStartDate;
+        this.vehicleDetails.PolicyEndDate = commonDetails.policyEndDate;
+        this.vehicleDetails.Currency = commonDetails.currencyCode;
+        this.currencyCode = commonDetails.currencyCode;
+        this.exchangeRate = commonDetails.exchangeRate;
+        this.vehicleDetails.ExchangeRate = commonDetails.exchangeRate;
+        this.vehicleDetails.PromoCode = commonDetails.promoCode;
+        this.vehicleDetails.BrokerCode = commonDetails.BrokerCode;
+        this.sourceType = commonDetails.SourceCode;
+        this.customerCode = commonDetails.CustomerCode;
+        this.customerName = commonDetails.CustomerName;
+        brokerbranchCode = commonDetails.BrokerBranchCode;
+        
       }
     let ReqObj = {
       "BrokerBranchCode": brokerbranchCode,

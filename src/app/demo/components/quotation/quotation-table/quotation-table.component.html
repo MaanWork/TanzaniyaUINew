@@ -391,7 +391,7 @@
     <div class="grid">
         <div class="col-12 md:col-6 lg:col-6 xl:col-6">
           <label><b>Reject Reason&nbsp;*</b></label>
-          <textarea rows="5" class="w-full" [(ngModel)]="Remarks" placeholder="Enter Reject Reason" pInputText></textarea>
+          <textarea rows="5" class="w-full" [(ngModel)]="Remarks" placeholder="Enter Reject Reason" maxlength="500" pInputText></textarea>
           <div class="input-form-error" *ngIf="remarksError">
             <div class="error-text text-danger">
                 Please Enter Reject Reason
