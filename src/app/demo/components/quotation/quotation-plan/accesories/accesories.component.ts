@@ -146,6 +146,7 @@ export class AccesoriesComponent {
   pageSize = 10;SumInsured:any=null;
   pageIndex = 0;
   pageSizeOptions = [5, 10, 25];
+  allfields:any=false;
   showFirstLastButtons = true;
   p: Number = 1;j: Number= 1;
   count: Number = 20;
@@ -254,7 +255,6 @@ export class AccesoriesComponent {
   editRiskSection:boolean;
   editElectronicSection:boolean;
   originalFidelityList: any;
-  allfields=true;
   totalFidelityIntSI: number;
   empLocation: any;
   employeeLocationError: boolean;
@@ -636,7 +636,7 @@ export class AccesoriesComponent {
             let fireData = new PersonalAccident();
             let entry = [];
             this.fieldsPersonalAccident = fireData?.fields;
-    
+            this.productItem.AccOccupation = this.accidentOccupation;
             console.log('Second',this.fieldsPersonalAccident);
     
             let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
@@ -660,9 +660,11 @@ export class AccesoriesComponent {
           }
           else{
             this.second = false;
+            this.productItem.AccOccupation = this.accidentOccupation;
           }
         }
         else this.second = false;
+        this.productItem.AccOccupation = this.accidentOccupation;
         const third = this.sectionDetails.find((ele) => ele.SectionId == 3);
         if (third){
           if(third?.AddDetailYn=='Y'){
@@ -4377,7 +4379,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         this.employeeList[this.currentEmployeeIndex]['Salary'] = entry;
           this.productItem.EmpsSI= entry;
           console.log("Entry Came 2",this.productItem.EmpsSI);
-          //this.getTotalSICost('Employee');
+          this.getTotalSICost('Employee');
         // let entry = this.productItem.EmpsSI;
         // if(entry){
         //   this.employeeList[this.currentEmployeeIndex]['SumInsured'] = entry;
@@ -5481,7 +5483,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         console.log(data);
         let res: any = data;
         if(res.Result){
-
+          this.productItem.AccOccupation = this.accidentOccupation;
           if (res.Result.PersonalDetails) {
             let i = 0;this.PersonalAssistantList = [];
             let personalList = res.Result.PersonalDetails;
@@ -5499,11 +5501,13 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
                   
                 }
                 this.PersonalAssistantList.push(entry);
+                this.productItem.AccOccupation = this.accidentOccupation;
                 this.getTotalSICost('PersonalAccident');
                   //this.CommaFormatted(i,'personalAccident');
                   i+=1;
-                  if(i==personalList.length) console.log("Personal Acc",this.PersonalAssistantList);
+                  if(i==personalList.length) this.productItem.AccOccupation = this.accidentOccupation; console.log("Personal Acc",this.PersonalAssistantList);
               }
+              this.productItem.AccOccupation = this.accidentOccupation;
             }
             
           }
@@ -6244,12 +6248,9 @@ return true;
   PersonalAdd() {
     //this.Section=true;
     //this.PersonalAssistantList.push(rows);
+    this.form = new FormGroup({});
+    this.productItem = new ProductData();
     this.productItem.AccOccupation = this.accidentOccupation;
-    this.productItem.AccidentLocation = null;
-    this.productItem.AccDob =null;
-    this.productItem.AccName =null;
-    this.productItem.AccNationID =null;
-    this.productItem.AccSI=null;
     let entry = [{
       "Dob": null,
       "Height": null,
@@ -6410,6 +6411,9 @@ return true;
   }
   IntermedityAdd(){
     this.Intermedity=[];this.currentPersonalIndIndex =null;
+    this.form = new FormGroup({});
+    this.productItem = new ProductData();
+    this.productItem.IndOccupation = this.liabilityOccupation;
     let entry = [{
       "Dob": null,
       "Height": null,
@@ -6426,9 +6430,7 @@ return true;
     this.Intermedity.push(entry);
     this.editPersonalIndSection= false;
     this.enablePersonalIndEditSection = true;
-    this.form = new FormGroup({});
-    this.productItem = new ProductData();
-    this.productItem.IndOccupation = this.liabilityOccupation;
+
     // this.productItem.IndLocation = "";
     // this.productItem.IndDob = "";
     // this.productItem.IndName ="";
@@ -6829,6 +6831,7 @@ return true;
         this.currentPersonalIndIndex=null;
         this.editPersonalIndSection= false;
         this.enablePersonalIndEditSection =false;
+        this.getTotalSICost('PersonalIndemenity');
         this.productItem = new ProductData();
         }
         //this.AddNew();
@@ -6837,7 +6840,7 @@ return true;
         if(this.productItem.IndSI !=null && this.productItem.IndLocation!=null && this.liabilityOccupationId!=null){
         let entry = {
         "Dob":this.productItem.IndDob,
-      "Height": null,
+      "Height": null,   
       "OccupationId":  this.liabilityOccupationId,
       "OccupationDesc": this.liabilityOccupation,
       "NationalityId": this.productItem.IndNationID,
@@ -6847,7 +6850,8 @@ return true;
       "RiskId": this.productItem.IndLocation,
       "SerialNo": null
         }
-        this.building.push(entry);
+        this.Intermedity.push(entry);
+        this.getTotalSICost('PersonalIndemenity');
         this.currentBuildingIndex = null;
         this.productItem.LocationAddress=null;
         this.productItem.LocationNameBuilding=null;
@@ -7027,6 +7031,7 @@ return true;
       this.PersonalAssistantList[this.currentPersonalAccidentIndex]['NationalityId'] = this.productItem.AccNationID;
       this.currentPersonalAccidentIndex=null;
       this.productItem = new ProductData(); 
+      this.productItem.AccOccupation = this.accidentOccupation;
       }
       // this.AllAdd();     // this.AddNew();
     }
@@ -7046,6 +7051,7 @@ return true;
       }
       this.PersonalAssistantList.push(entry);
       this.productItem = new ProductData();
+      this.productItem.AccOccupation = this.accidentOccupation;
     }
     }
   }
@@ -7192,6 +7198,7 @@ return true;
       //this.getTotalSICost('Employee');
       // this.onsubmitemployee();
       this.currentEmployeeIndex = null;
+      this.getTotalSICost('Employee');
       this.productItem = new ProductData(); 
       // this.AllAdd();     // this.AddNew();
     }
@@ -7218,6 +7225,7 @@ return true;
         // "LocationName":null
       }
       this.employeeList.push(entry);
+      this.getTotalSICost('Employee');
       this.productItem = new ProductData();
     }
       // this.employeeList[this.currentEmployeeIndex]['RiskId'] = this.productItem.EmpsLocation;
