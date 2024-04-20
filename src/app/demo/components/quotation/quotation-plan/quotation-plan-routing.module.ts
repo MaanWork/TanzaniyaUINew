@@ -14,6 +14,7 @@ import { ExcessDiscountComponent } from './excess-discount/excess-discount.compo
 import { PersonalQuoteDetailsComponent } from './personal-quote-details/personal-quote-details.component';
 import { CommonProductDetailsComponent } from './common-product-details/common-product-details.component';
 import { RiskDetailsComponent } from './Riskpage/Riskdetails.component';
+import { CopyQuoteComponent } from './copyQuote/copyquote.component';
 
 const routes: Routes = [
   { 
@@ -38,6 +39,7 @@ const routes: Routes = [
   { path: 'quote-details', component:  CommonProductDetailsComponent},
   { path: 'risk-page', component: RiskDetailsComponent },
   { path: 'personal-quote-details', component: PersonalQuoteDetailsComponent },
+  { path: 'copy-quote', component: CopyQuoteComponent },
   { 
     path: 'premium-details', 
     component: CoverDetailsComponent,
