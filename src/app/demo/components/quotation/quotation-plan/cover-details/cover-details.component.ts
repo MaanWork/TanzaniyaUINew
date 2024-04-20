@@ -135,7 +135,7 @@ export class CoverDetailsComponent {
   MinimumPremium: any=null;premiumExcluedTax: any=null;
   premiumIncluedTax: any=null;dependantTaxList: any[]=[];taxList: any[]=[];premiumBeforeTax: any=null;
   proRataPercent: any=null;premiumAfterDiscount:any=null;
-  fleetCoverDetails: any;
+  fleetCoverDetails: any;columns:any[]=[];
   basePremium: any;premiumIncludedTax: any;premiumExcludedTax: any;factorViewList: any[]=[];factorPremiumDetails:any=null;factorDetailModal: boolean=false;
   constructor(private router:Router,private sharedService:SharedService,private messageService: MessageService){
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -200,6 +200,7 @@ export class CoverDetailsComponent {
         this.endorsementSection = false;
         this.endorseCovers = false;
       }
+    this.columns = ["Id","Description"];
     this.subCoverColumns = ['Select','SubCoverName','Premium']
     this.statusList = [
       {"Code":"RP","CodeDesc":"Referral Pending"},
@@ -2579,6 +2580,25 @@ export class CoverDetailsComponent {
     this.onClauses = true;
     this.onWarranty=false;
     this.onExclusion = false;
+  }
+  ExclusioStatuss(){
+    this.onExclusion = true;
+    this.onWarranty=false;
+    this.onClauses = false;
+    this.viewCondition('1'); 
+  }
+  WarrantyStatuss(){
+     this.onWarranty=true;
+     this.onClauses = false;
+     this.onExclusion = false;
+     let common
+     this.viewCondition('1');
+  }
+  OnClose(){
+    this.onExclusion = false;
+    this.onWarranty=false;
+    this.onClauses = false;
+    this.clause = false;
   }
   onAddClause(){
 

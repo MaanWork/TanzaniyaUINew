@@ -211,7 +211,7 @@
                 </div> -->
             </div>
             <div class="grid mb-3 ml-3 mr-3" style="min-height: 385px !important;">
-                <div class="lg:col-12 md:col-12 col-12" style="padding: 0 !important;" *ngIf="!showGrid">
+                <div class="lg:col-12 md:col-12 col-12" style="padding: 0 !important;">
                     <ng-container *ngFor="let menu of selectedVehicleList; let i = index">
                         <div class="menu">
                             <div class="display1">
@@ -2549,13 +2549,8 @@
                             </div>
                         </div>
                     </ng-container>
-                    <!-- <ul id="accordion" class="accordion" style="margin-left: 12px !important;">
-                        <li  [class.active]="menu.Collapse" class="li-data">
-    
-                        </li>
-                    </ul> -->
                 </div>
-                <div class="col-12 col-xl-12 col-lg-12" *ngIf="showGrid">
+                <!-- <div class="col-12 col-xl-12 col-lg-12" *ngIf="showGrid">
                     <div class="ClausesList" *ngIf="clauses && showGrid">
                         <div>
                             <div>
@@ -2744,7 +2739,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <!-- <div class="flex flex-wrap" *ngIf="(subuserType=='low' && !endorsementSection) && !showGrid"> -->
                 <!-- <div class="lg:col-5 md:col-5 xl:col-5 col-12  mb-3" style="margin-left: 0px;">
@@ -2762,9 +2757,9 @@
                         </div>
                     </div>
                 </div> -->
-            <ng-container *ngIf="(subuserType=='low' && !endorsementSection) && !showGrid">
+            <ng-container *ngIf="(subuserType=='low' && !endorsementSection)">
                 <div class="flex flex-wrap justify-content-center mb-2"
-                    *ngIf="finalizeYN=='N' && !showGrid">
+                    *ngIf="finalizeYN=='N'">
                     <p-button label="Calculate" (click)="onUpdateFactor('calculate')" class="p-3 text-l mr-0"
                         styleClass="mb-4"></p-button>
                 </div>
@@ -2772,7 +2767,7 @@
             
             <!-- </div> -->
             
-            <div class="flex flex-wrap justify-content-center mb-2" *ngIf="adminSection && !showGrid">
+            <div class="flex flex-wrap justify-content-center mb-2" *ngIf="adminSection">
                 <p-button label="Sample Calculate" (click)="onUpdateFactor('calculate')" class="p-3 text-l mr-0"
                     styleClass="mb-4"></p-button>
             </div>
@@ -4300,6 +4295,192 @@
     </div>
     <div class="flex justify-content-center">
         <p-button class=" text-l pi-button mr-0"  (click)="factorDetailModal=!factorDetailModal">Close</p-button>
+    </div>
+</p-dialog>
+<p-dialog class="p-su-header" header="Clauses Details" [(visible)]="onClauses" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+    <div class="flex flex-wrap justify-content-end mt-2" *ngIf="userType!='Broker'">
+        <div>
+            <p-button label="Add New Clause" icon="pi pi-plus" (click)="onAddClause()"></p-button>
+        </div>
+    </div>
+    <div class="grid">
+        <div class="col-12 md:col-12 lg:col-12 mt-2">
+            <p-table #dtEmployee [value]="ClausesData" *ngIf="userType=='Broker'"
+            [tableStyle]="{'min-width':'50rem'}" [paginator]="true"
+             [rows]="5">
+             <ng-template pTemplate="header">
+                <tr>
+                    <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer>
+              <tr>
+                <td>{{ customer.SubId }}</td>
+                <td>{{ customer.SubIdDesc }}</td>
+              </tr>
+            </ng-template>
+            </p-table>
+            <table class="table table-bordered mt-2 p-2 w-full" *ngIf="userType!='Broker'">
+                <thead>
+                    <tr>
+                        <th class="p-2">Select</th>
+    
+                        <th class="p-2">Description</th>
+                    </tr>
+                </thead>
+    
+                <tbody
+                    *ngFor="let clause of ClausesData|paginate:{itemsPerPage: 10, currentPage:p,id: 'p'}; let i=index;">
+                    <tr>
+                        <td class="flex flex-wrap justify-content-center" style="border-bottom: 0px solid grey !important;">
+                            <div class="mt-2" >
+                                <input type="checkbox" (change)="onCheckUser(i,$event,clause)" [disabled]="endorsementSection"
+                                [checked]="clause.TypeId == 'D' ? true : false">
+                            </div>
+                           
+                        </td>
+    
+                        <td class="p-2">
+                            <textarea [(ngModel)]="clause.SubIdDesc" class="w-full" cols="60" pInputText [disabled]="endorsementSection"
+                                rows="2"></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+    <div class="flex flex-wrap justify-content-center mt-2">
+        <div>
+            <p-button label="Close" class="p-button-outlined" styleClass="p-button-outlined" (click)="OnClose()"></p-button>&nbsp;
+        </div>
+        <div>
+            <p-button label="Submit" *ngIf="userType!='Broker'" class="p-button-success" (click)="saveClausesData(ClausesData,'Clauses')"></p-button>
+        </div>
+    </div>
+</p-dialog>
+<p-dialog class="p-su-header" header="Exclusion Details" [(visible)]="onExclusion" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+    <div class="flex flex-wrap justify-content-end mt-2" *ngIf="userType!='Broker'">
+        <div>
+            <p-button label="Add New Exclusion" icon="pi pi-plus" ></p-button>
+        </div>
+    </div>
+    <div class="grid">
+        <div class="col-12 md:col-12 lg:col-12 mt-2">
+            <p-table #dtEmployee [value]="ExclusionData" *ngIf="userType=='Broker'"
+            [tableStyle]="{'min-width':'50rem'}" [paginator]="true"
+             [rows]="5">
+             <ng-template pTemplate="header">
+                <tr>
+                    <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer>
+              <tr>
+                <td>{{ customer.SubId }}</td>
+                <td>{{ customer.SubIdDesc }}</td>
+              </tr>
+            </ng-template>
+            </p-table>
+            <table class="table table-bordered mt-2 p-2 w-full" *ngIf="userType!='Broker'">
+                <thead>
+                    <tr>
+                        <th class="p-2">Select</th>
+    
+                        <th class="p-2">Description</th>
+                    </tr>
+                </thead>
+    
+                <tbody
+                    *ngFor="let clause of ExclusionData|paginate:{itemsPerPage: 10, currentPage:p,id: 'p'}; let i=index;">
+                    <tr>
+                        <td class="flex flex-wrap justify-content-center" style="border-bottom: 0px solid grey !important;">
+                            <div class="mt-2" >
+                                <input type="checkbox" (change)="onCheckUser(i,$event,clause)" [disabled]="endorsementSection"
+                                [checked]="clause.TypeId == 'D' ? true : false">
+                            </div>
+                           
+                        </td>
+    
+                        <td class="p-2">
+                            <textarea [(ngModel)]="clause.SubIdDesc" class="w-full" cols="60" pInputText [disabled]="endorsementSection"
+                                rows="2"></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+    <div class="flex flex-wrap justify-content-center mt-2">
+        <div>
+            <p-button label="Close" class="p-button-outlined" styleClass="p-button-outlined" (click)="OnClose()"></p-button>&nbsp;
+        </div>
+        <div>
+            <p-button label="Submit" *ngIf="userType!='Broker'" class="p-button-success" (click)="saveClausesData(ExclusionData,'Exclusion')"></p-button>
+        </div>
+    </div>
+</p-dialog>
+<p-dialog class="p-su-header" header="Warranties Details" [(visible)]="onWarranty" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+    <div class="flex flex-wrap justify-content-end mt-2" *ngIf="userType!='Broker'">
+        <div>
+            <p-button label="Add New Warranty" icon="pi pi-plus" ></p-button>
+        </div>
+    </div>
+    <div class="grid">
+        <div class="col-12 md:col-12 lg:col-12 mt-2">
+            <p-table #dtEmployee [value]="WarrantyData" *ngIf="userType=='Broker'"
+            [tableStyle]="{'min-width':'50rem'}" [paginator]="true"
+             [rows]="5">
+             <ng-template pTemplate="header">
+                <tr>
+                    <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer>
+              <tr>
+                <td>{{ customer.SubId }}</td>
+                <td>{{ customer.SubIdDesc }}</td>
+              </tr>
+            </ng-template>
+            </p-table>
+            <table class="table table-bordered mt-2 p-2 w-full" *ngIf="userType!='Broker'">
+                <thead>
+                    <tr>
+                        <th class="p-2">Select</th>
+    
+                        <th class="p-2">Description</th>
+                    </tr>
+                </thead>
+    
+                <tbody
+                    *ngFor="let clause of WarrantyData|paginate:{itemsPerPage: 10, currentPage:p,id: 'p'}; let i=index;">
+                    <tr>
+                        <td class="flex flex-wrap justify-content-center" style="border-bottom: 0px solid grey !important;">
+                            <div class="mt-2" >
+                                <input type="checkbox" (change)="onCheckUser(i,$event,clause)" [disabled]="endorsementSection"
+                                [checked]="clause.TypeId == 'D' ? true : false">
+                            </div>
+                           
+                        </td>
+    
+                        <td class="p-2">
+                            <textarea [(ngModel)]="clause.SubIdDesc" class="w-full" cols="60" pInputText [disabled]="endorsementSection"
+                                rows="2"></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+    <div class="flex flex-wrap justify-content-center mt-2">
+        <div>
+            <p-button label="Close" class="p-button-outlined" styleClass="p-button-outlined" (click)="OnClose()"></p-button>&nbsp;
+        </div>
+        <div>
+            <p-button label="Submit" *ngIf="userType!='Broker'" class="p-button-success" (click)="saveClausesData(WarrantyData,'Warranty')"></p-button>
+        </div>
     </div>
 </p-dialog>
 <div id="toast" class="toastDisplay errorToast" style="display:none;color:#ffffff">
