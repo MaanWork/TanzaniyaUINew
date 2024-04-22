@@ -260,6 +260,7 @@ export class AppMenuComponent implements OnInit {
               else if(menu.title=='Customer') entry["routerLink"] =  ['/customer']
               else if(menu.title=='Referral') entry["routerLink"] =  ['/referral']
               else if(menu.title=='Portfolio') entry["routerLink"] =  ['/portfolio']
+              else if(menu.title=='Copy Quote') entry["routerLink"] =  ['/quotation/plan/copy-quote']
               else entry["routerLink"] =  [menu.link]
               entry['link'] = menu.link;
               menus.push(entry);
