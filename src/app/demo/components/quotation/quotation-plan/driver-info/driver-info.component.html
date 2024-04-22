@@ -1,7 +1,5 @@
 <div class="grid">
     <div class="col-12 md:col-7 lg:col-7 xl:col-7">
-        <h2>Driver Info for Verification</h2>
-        <p>Hi, We need your attention to start your Insurance</p>
     </div>
     <div class="col-12 md:col-5 lg:col-5 xl:col-5">
         <div class="flex flex-wrap justify-content-start">
@@ -13,55 +11,103 @@
 <!-- <div class="grid align-items-center mt-4 p-4">
     <p-inputSwitch class="mr-4"></p-inputSwitch><label for="">Use same Customer details</label>
 </div> -->
-<div class="flex flex-wrap justify-content-end">
+<p-tabView [(activeIndex)]="tabIndex" (onChange)='tabIndex = $event.index' >
+    <ng-container *ngFor="let veh of vehicleList;let j=index;">
+        <p-tabPanel [header]="getHeaderName(veh)">
+            <div class="grid">
+                <div class="col-12 md:col-7 lg:col-7 xl:col-7">
+                    <h2>Driver Info for Verification</h2>
+                </div>
+            </div>
+            <ng-container *ngFor="let row of driverDetailsList;let i = index">
+                <ng-container *ngIf="row.RiskId==veh.RiskId">
+                    <div class="grid w-full" styleClass="w-full">
+                        <div class="col-12 md:col-4 lg:col-4 xl:col-4">
+                            <label for="username">Driver Name*</label>
+                            <input pInputText id="username" [(ngModel)]="row.DriverName"  maxlength="100" placeholder="Enter Driver Name"/>
+                            <div class="input-form-error" *ngIf="driverNameError">
+                                <div class="error-text text-danger">
+                                    Please Enter Valid Driver Name
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-12 md:col-4 lg:col-4 xl:col-4">
+                            <label for="username">Registration Number*</label>
+                            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="LicenseList" (change)="onLicenseChange(row)" [(ngModel)]="row.RiskId"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
+                            </p-dropdown>
+                        </div> -->
+                        <div class="col-12 md:col-4 lg:col-4 xl:col-4">
+                            <label for="username">Licence Number*</label>
+                            <input pInputText id="username" [(ngModel)]="row.LicenseNo"  maxlength="14" placeholder="Enter Licence Number"/>
+                            <div class="input-form-error" *ngIf="licenseNoError">
+                                <div class="error-text text-danger">
+                                    Please Enter Valid License Number
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 md:col-4 lg:col-4 xl:col-4">
+                            <label for="username">Date of Birth*</label>
+                            <p-calendar class="w-full" [(ngModel)]="row.DriverDob" styleClass="w-full"  [maxDate]="minDate"
+                                dateFormat="dd/mm/yy" placeholder="Select Date Of Birth">
+                            </p-calendar>
+                            <div class="input-form-error" *ngIf="driverDobError">
+                                <div class="error-text text-danger">
+                                    Please Select Valid Date Of Birth
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 md:col-4 lg:col-4 xl:col-4 m-2">
+                            <label for="username">Driver Type</label>
+                            <div class="flex justify-content-start gap-3">
+                                <p-selectButton [options]="driverOptions" [(ngModel)]="row.DriverType"
+                                optionLabel="label" optionValue="value"></p-selectButton>
+                            </div>
+                            <div class="input-form-error" *ngIf="driverTypeError">
+                                <div class="error-text text-danger">
+                                    Please Select Valid Driver Type
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap justify-content-center mt-2">
+                        <div>
+                            <ng-container *ngIf="tabIndex==0">
+                                <p-button label="Back" (click)="ongetBack()" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                            </ng-container>
+                            <ng-container *ngIf="tabIndex!=0">
+                                <p-button label="Back" (click)="tabIndex=tabIndex-1" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                            </ng-container>
+                        </div>
+                       <div>
+                        <ng-container *ngIf="tabIndex!=(vehicleList.length-1)">
+                            <p-button label="Next" (click)="onNextProceed(i)" class="text-l pi-button mt-6"></p-button>
+                        </ng-container>
+                        <ng-container *ngIf="tabIndex==(vehicleList.length-1)">
+                            <p-button label="Proceed" (click)="onsave()" class="text-l pi-button mt-6"></p-button>
+                        </ng-container>
+                        
+                       </div>
+                        
+                    </div>
+                </ng-container>
+                <!-- <div class="flex flex-wrap justify-content-between mt-2">
+                        <div><h3>Driver {{i+1}}</h3></div>
+                        <div>
+                            <p-button *ngIf="i!=0" (click) = "onRemove(i)" icon="pi pi-cross" label="Remove Driver" severity="warning" size="small"></p-button>
+                        </div>
+                </div> -->
+                
+                
+            </ng-container>
+            
+        </p-tabPanel>
+    </ng-container>  
+</p-tabView>
+<!-- <div class="flex flex-wrap justify-content-end">
     <div>
         <p-button (click) = "onAddNewDriver()" icon="pi pi-plus" label="Add New Driver" severity="warning" size="small"></p-button>
     </div>
-</div>
-<ng-container *ngFor="let row of driverDetailsList;let i = index">
-    <div class="flex flex-wrap justify-content-between mt-2">
-            <div><h3>Driver {{i+1}}</h3></div>
-            <div>
-                <p-button *ngIf="i!=0" (click) = "onRemove(i)" icon="pi pi-cross" label="Remove Driver" severity="warning" size="small"></p-button>
-            </div>
-    </div>
-    
-    <div class="grid w-full" styleClass="w-full">
-        <div class="col-12 md:col-4 lg:col-4 xl:col-4">
-            <label for="username">Driver Name*</label>
-            <input pInputText id="username" [(ngModel)]="row.DriverName"  maxlength="100" placeholder="Enter Driver Name"/>
-        </div>
-        <div class="col-12 md:col-4 lg:col-4 xl:col-4">
-            <label for="username">Registration Number*</label>
-            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="LicenseList" (change)="onLicenseChange(row)" [(ngModel)]="row.RiskId"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
-            </p-dropdown>
-        </div>
-        <div class="col-12 md:col-4 lg:col-4 xl:col-4">
-            <label for="username">Licence Number*</label>
-            <input pInputText id="username" [(ngModel)]="row.LicenseNo"  maxlength="14" placeholder="Enter Licence Number"/>
-        </div>
-        <div class="col-12 md:col-4 lg:col-4 xl:col-4">
-            <label for="username">Date of Birth*</label>
-            <p-calendar class="w-full" [(ngModel)]="row.DriverDob" styleClass="w-full" [maxDate]="minDate"
-                dateFormat="dd/mm/yy" placeholder="Select Date Of Birth">
-            </p-calendar>
-        </div>
-        <div class="col-12 md:col-4 lg:col-4 xl:col-4 m-2">
-            <label for="username">Driver Type</label>
-            <div class="flex justify-content-start gap-3">
-                <p-selectButton [options]="driverOptions" [(ngModel)]="row.DriverType"
-                optionLabel="label" optionValue="value"></p-selectButton>
-            </div>
-        </div>
-    </div>
-</ng-container>
+</div> -->
 
-<div class="flex flex-wrap justify-content-center mt-2">
-    <div>
-        <p-button label="Back" (click)="ongetBack()" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
-    </div>
-   <div>
-    <p-button label="Proceed" (click)="onsave()" class="text-l pi-button mt-6"></p-button>
-   </div>
-    
-</div>
+
+

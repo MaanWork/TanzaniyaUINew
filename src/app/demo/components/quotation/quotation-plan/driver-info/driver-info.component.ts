@@ -20,7 +20,11 @@ export class DriverInfoComponent {
 	public ApiUrl1: any = this.AppConfig.ApiUrl1;LicenseList:any[]=[];driverOptions:any[]=[];
 	public CommonApiUrl: any = this.AppConfig.CommonApiUrl;vehicleList:any[]=[];driverDetailsList:any[]=[];
 	public motorApiUrl: any = this.AppConfig.MotorApiUrl;EmiYn:any='N';localPremiumCost:any=null;customerRefNo:any=null;
-  coverlist: any[];
+  coverlist: any[];tabIndex:any=0;productName:any=null;
+  driverNameError: boolean=false;
+  licenseNoError: boolean=false;
+  driverDobError: boolean=false;
+  driverTypeError: boolean=false;
   constructor(private sharedService: SharedService,private quoteComponent:QuotationPlanComponent,
     private router:Router,
     private datePipe:DatePipe) {
@@ -115,11 +119,8 @@ export class DriverInfoComponent {
                   }
                   else j += 1;
                 }
-  
-              
               }
             }
-            
           }
             let quoteDetails = data?.Result?.QuoteDetails;
             if(quoteDetails){
@@ -129,7 +130,6 @@ export class DriverInfoComponent {
            
             this.getDriverDetails();
             this.localPremiumCost = quoteDetails?.OverallPremiumLc;
-            
             let vehicles:any[] = data?.Result?.RiskDetails;
             if(vehicles.length!=0){
               let i=0;this.vehicleList=[];
@@ -215,6 +215,35 @@ export class DriverInfoComponent {
     );
 
   }
+  getHeaderName(menu){
+    if(this.productId=='5'){
+      let name = menu.Registrationnumber;
+      if(menu.SectionName!=null){
+        name = name+` (${menu.SectionName})`
+      }
+      return name;
+    }
+    else if(this.productId=='4'){
+      if(menu.TravelId=='1') return `Kids (${menu.TotalPassengers})`;
+      if(menu.TravelId=='2') return `Adults (${menu.TotalPassengers})`;
+      if(menu.TravelId=='3') return `Seniors (${menu.TotalPassengers})`;
+      if(menu.TravelId=='4') return `Super Seniors (${menu.TotalPassengers})`;
+      if(menu.TravelId=='5') return `Grand Seniors (${menu.TotalPassengers})`;
+    }
+    else if(this.productId!='3' && this.productId!='4' && this.productId!='5' && this.productId!='19' && this.productId!='14' && this.productId!='32') return this.productName;
+    else if(this.productId=='3' || this.productId=='19' || this.productId=='14' || this.productId=='32') return menu.SectionName;
+    else return '';
+  }
+  onNextProceed(index){
+    let entry = this.driverDetailsList[index];
+    let i=0;this.driverNameError =false;this.licenseNoError = false;this.driverDobError=false;this.driverTypeError = false;
+    alert(entry.DriverDob)
+    if(entry.DriverName==null || entry.DriverName=='' || entry.DriverName==undefined){i+=1;this.driverNameError=true;}
+    if(entry.LicenseNo==null || entry.LicenseNo=='' || entry.LicenseNo==undefined){i+=1;this.licenseNoError=true;}
+    if(entry.DriverDob==null || entry.DriverDob=='' || entry.DriverDob==undefined){i+=1;this.driverDobError=true;}
+    if(entry.DriverType==null || entry.DriverType=='' || entry.DriverType==undefined){i+=1;this.driverTypeError=true;}
+    if(i==0) this.tabIndex+=1;
+  }
   ongetBack(){
     if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
       this.coverlist=[];let i=0;
@@ -258,13 +287,12 @@ export class DriverInfoComponent {
               for(let driver of this.driverDetailsList){
                 let entry = this.LicenseList.some(ele=>ele.Code==driver.RiskId)
                 //if(!entry) driver.RiskId = null;
-                if(driver.DriverDob!=null && driver.DriverDob!=''){
-                
-                  if(driver.DriverDob.split('/').length>1){
-                    let date = driver.DriverDob.split('/');
-                    driver.DriverDob = date[2] + '-' + date[1] + '-' + date[0];
-                  };
-                }
+                // if(driver.DriverDob!=null && driver.DriverDob!=''){
+                //   if(driver.DriverDob.split('/').length>1){
+                //     let date = driver.DriverDob.split('/');
+                //     driver.DriverDob = date[2] + '-' + date[1] + '-' + date[0];
+                //   };
+                // }
               }
            }
            else{
