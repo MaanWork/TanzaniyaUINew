@@ -9,7 +9,7 @@
                     <span class="text-600 font-medium" *ngIf="errorSection">Session Error!</span>
                 </div>
                 <p-messages [(value)]="messages" [enableService]="false"></p-messages>
-                <div *ngIf="!errorSection">
+                <div *ngIf="!errorSection && !changePasswordSection && !forget">
                     <label for="email1" class="block text-900 text-xl font-medium mb-2">Username</label>
                     <input id="email1" type="text" [(ngModel)]="username" placeholder="Username" pInputText class="w-full mb-5 padding1Rem">
 
@@ -17,12 +17,10 @@
                     <p-password id="password1" [(ngModel)]="password" [feedback]="false" [toggleMask]="true" placeholder="Password" styleClass="mb-5 w-full" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
 
                     <div class="flex align-items-center justify-content-between mb-5 gap-5">
-                        <!-- <div class="flex align-items-center">
-                            <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
-                            <label for="rememberme1">Remember me</label>
-                        </div> -->
-                        <a class="font-medium no-underline ml-2 text-right cursor-pointer primaryTextColor">Forgot password?</a>
+                        <a class="font-medium no-underline ml-2 text-right cursor-pointer primaryTextColor" (click)="Forget('foget','ForgotPassword');changepass('ForgotPassword')">Forgot password?</a>
+                        <a class="font-medium no-underline ml-2 text-right cursor-pointer primaryTextColor" (click)="Forget('change','ChangePassword');changepass('ChangePassword')">Change password?</a>
                     </div>
+                  
                     <button pButton pRipple label="Sign In" class="w-full p-3 text-xl" (click)="submit('N')"></button>
                 </div>
                 <div *ngIf="errorSection">
@@ -33,6 +31,137 @@
                             <div><p-button styleClass="p-button-outlined" (click)="onCancelLogin()">Cancel</p-button>&nbsp;</div>
                             <div>&nbsp;<p-button (click)="submit('Y')">Proceed Login!</p-button></div>
                       </div>
+                </div>
+
+                <div class="back_login" *ngIf="changePasswordSection">
+                    <div class="login-component inner_login">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="middle-line">
+                                    <span>Reset Password</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="passExpiredError">
+                            <div class="col-12">
+                                <div class="input-control-container">
+                                    <span class="text-danger"><b>Password Expired, Please Reset</b></span>
+                                </div>
+                            </div>
+                        </div>
+                        <form [formGroup]="changeForm">
+                            <label for="email1" class="block text-900 text-xl font-medium mb-2">Username</label>
+                            <input id="email1" type="text" [(ngModel)]="username1" placeholder="Username" pInputText class="w-full mb-5 padding1Rem">
+        
+                            <label for="password1" class="block text-900 font-medium text-xl mb-2">Old Password</label>
+                            <p-password id="password1" [(ngModel)]="password2" [feedback]="false" [toggleMask]="true" placeholder="Password" styleClass="mb-5 w-full" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+
+                            <label for="password2" class="block text-900 font-medium text-xl mb-2">New Password</label>
+                            <p-password id="password2" [(ngModel)]="password1" [feedback]="false" [toggleMask]="true" placeholder="Password" styleClass="mb-5 w-full" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+                            <!-- <div class="row">
+                                <div class="col-12">
+                                        <div class="input-control-container">
+                                            <label class="input-form-label">UserName&nbsp;<span class="text-danger">*</span></label> 
+                                            <div class="input-form-box">
+                                                <input type="text" formControlName="LoginId" class="input-form-control without-icon"
+                                                    maxlength="20">
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4" *ngIf="pass">
+                                <div class="col-12">
+                                        <div class="input-control-container"  >
+                                            <label class="input-form-label" >Old
+                                                Password &nbsp;<span class="text-danger">*</span></label>
+                                            <div class="input-form-box">
+                                                <input type="password" formControlName="OldPassword"
+                                                    class="input-form-control without-icon" maxlength="20">
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4" *ngIf="!pass">
+                                <div class="col-12">
+                                    <div class="input-control-container" >
+                                        <label class="input-form-label">Temporary Password&nbsp;<span class="text-danger">*</span></label> 
+                                        <div class="input-form-box">
+                                            <input type="password" formControlName="OldPassword"
+                                                class="input-form-control without-icon" maxlength="20">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <div class="input-control-container" >
+                                        <label class="input-form-label">New Password&nbsp;<span class="text-danger">*</span></label>
+                                        <div class="input-form-box">
+                                            <input type="password" formControlName="NewPassword"
+                                                class="input-form-control without-icon" maxlength="20">
+                                        </div>
+                                    </div>      
+                                </div>
+                            </div> -->
+                            <div class="mt-3">
+                                <!--class="grid mt-4 ml-5" style="text-align: center !important;"-->
+                                <div style="text-align: center !important;">
+                                    <p-button class="mr-4 mb-4" label="Reset" (click)="resetForm()"></p-button>
+                                    <p-button class="mr-4 mb-4" label="Cancel" (click)="cancel(value_cancel)"></p-button>
+                                    <p-button class="mr-4 mb-4" label="Submit" (click)="onsubmit()"></p-button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="back_login" *ngIf="forget">
+                    <div class="login-component inner_login">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="middle-line">
+                                    <span>Forgot Password</span>
+                                </div>
+                            </div>
+                        </div>      
+                        <div class="grid">
+                            <label for="email1" class="block text-900 text-xl font-medium mb-2">Username</label>
+                            <input id="email1" type="text" [(ngModel)]="username2" placeholder="Username" pInputText class="w-full mb-5 padding1Rem">
+        
+                            <label for="password1" class="block text-900 font-medium text-xl mb-2">Email</label>
+                            <input id="password1" type="text" [(ngModel)]="Email" placeholder="Email" pInputText class="w-full mb-5 padding1Rem">
+                          
+                        </div>            
+                                  <!-- <div class="row">
+                                      <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                          <div class="input-control-container">
+                                              <label class="input-form-label">Username&nbsp;<span class="text-danger">*</span></label>
+                                              <div class="input-form-box">
+                                                  <input type="text" id="username" class="input-form-control without-icon"
+                                                      [(ngModel)]="username" maxlength="50">
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-4">
+                                          <div class="input-control-container">
+                                              <label class="input-form-label">Email Id&nbsp;<span class="text-danger">*</span></label>
+                                              <div class="input-form-box">
+                                                  <input type="text" [(ngModel)]="emailId" class="input-form-control without-icon" 
+                                                      maxlength="40">
+                                                      
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div> -->
+                                    <div><!--class="grid mt-4 ml-5"-->
+                                      <div style="text-align: center !important;">
+                                        <p-button class="mr-4 mb-4" label="Cancel" (click)="cancel(value_cancel)"></p-button>
+                                        <p-button class="mr-4 mb-4" label="Submit" (click)="forgetSubmit()"></p-button>
+                                      </div>
+                                  </div>
+                             
+                            
+                    </div>
                 </div>
             </div>
         </div>
