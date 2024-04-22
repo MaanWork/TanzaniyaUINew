@@ -2822,9 +2822,10 @@ export class CoverDetailsComponent {
     console.log(index,this.vehicleDetailsList.length-1)
     return index==this.vehicleDetailsList.length-1;
   }
-  onFormSubmit(){
+  onFormSubmit(index){
     console.log("Selected Covers",this.selectedCoverList);
     this.subuserType = sessionStorage.getItem('typeValue');
+    if(index!=null && index!=undefined && index!='') this.tabIndex = index;
     if(this.selectedCoverList.length!=0){
       let coverList:any[]=[];
       let loginType = this.userDetails.Result.LoginType;
@@ -2960,8 +2961,6 @@ export class CoverDetailsComponent {
                 "Vehicles" : orgCoverList
               }
               this.newcoverlist=coverList;
-              console.log('in if block',this.newcoverlist)
-              console.log("Final COvers",coverList,orgCoverList,ReqObj)
               this.finalFormSubmit(ReqObj);
             } 
           }
@@ -3089,7 +3088,7 @@ export class CoverDetailsComponent {
                                         }
                                         else if(type=='altSave'){ console.log("Finally Updated");}
                                         else if(type=='fleetSave') this.getViewPremiumCalc(modal);
-                                        else if(this.subuserType=='low') this.onFormSubmit();
+                                        else if(this.subuserType=='low') this.onFormSubmit(null);
                                         else this.updateReferralStatus();
                                       }
                                     }
@@ -3214,10 +3213,10 @@ export class CoverDetailsComponent {
       this.updateFinalizeYN('proceed')
     }
     else if(!this.adminSection && (this.userType!='Issuer'  || (this.userType=='Issuer' && this.subuserType=='low' && this.endorsementSection)) && (this.statusValue == 'RA' || (this.userType=='Issuer' && this.subuserType=='low' && this.endorsementSection))){
-      this.onFormSubmit();
+      this.onFormSubmit(null);
     }
     else if(!this.adminSection && (this.userType!='Issuer') && this.statusValue != 'RA'){
-      this.onFormSubmit();
+      this.onFormSubmit(null);
     }
     else if(this.userType=='Issuer' && this.subuserType=='low'  && this.statusValue != 'RA' && !this.endorsementSection){
       this.updateFinalizeYN('proceed');
@@ -3273,7 +3272,7 @@ export class CoverDetailsComponent {
     }
   }
   finalFormSubmit(ReqObj){
-    if(this.insuranceId=='100028'){
+    if(this.checkCurrentSection()){
       let duplicateId = null;
           let i=0,j=0;
           for(let veh of this.vehicleDetailsList){
