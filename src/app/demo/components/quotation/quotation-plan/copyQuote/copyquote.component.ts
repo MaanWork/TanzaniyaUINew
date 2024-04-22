@@ -24,6 +24,7 @@ export class CopyQuoteComponent implements OnInit {
   customerValue: boolean;
   referenceNo: string;search:any;
   quoteno: any;
+    columns: any=[];
   constructor(private router:Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -39,13 +40,13 @@ export class CopyQuoteComponent implements OnInit {
       { key: 'RequestReferenceNo', display: 'Reference No' },
       { key: 'ClientName', display: 'Customer Name' },
 
-      {
-        key: 'actions',
-        display: 'Action',
-        config: {
-          isEdit: true,
-        },
-      },
+    //   {
+    //     key: 'actions',
+    //     display: 'Action',
+    //     config: {
+    //       isEdit: true,
+    //     },
+    //   },
     ];
     this.columnHeader =  [
       //{ key: 'Registrationnumber', display: 'Registration No' },
@@ -76,6 +77,8 @@ export class CopyQuoteComponent implements OnInit {
       this.referenceNo = refno;
     }
     console.log('RRRRRRRRRRRRRR',refno);
+    this.columns = [ 'Select','Quote No', 'Reference No', 'Customer Name','CurrencyCode'];
+    //'Actions'
 
   }
   getCustomersList(){
@@ -168,11 +171,15 @@ export class CopyQuoteComponent implements OnInit {
       );
     }
   }
-  onSelect(rowData){
-    console.log("Select",rowData);
-    this.selectedData = rowData;
-    console.log('NNNNNNNNNNN',this.selectedData.RequestReferenceNo);
-
+  onSelect(rowData,event){
+    console.log("Select",event);
+    if(event.checked){
+      this.selectedData = rowData;
+      console.log('NNNNNNNNNNN',this.selectedData.RequestReferenceNo);
+    }
+    else {
+      this.selectedData = null;
+    }
   }
   onCopyQuote(){
     let appId = "1", loginId = "",brokerbranchCode="";
@@ -204,7 +211,8 @@ export class CopyQuoteComponent implements OnInit {
         if(data.Result){
             console.log(data);
             this.CopyData=data?.Result;
-                this.router.navigate(['/Home/existingQuotes']);
+            this.router.navigate(['/quotation']);
+                //this.router.navigate(['/Home/existingQuotes']);
         }
 
       },
