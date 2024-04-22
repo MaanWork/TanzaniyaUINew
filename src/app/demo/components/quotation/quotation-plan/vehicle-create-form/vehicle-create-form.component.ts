@@ -541,10 +541,11 @@ export class VehicleCreateFormComponent implements OnInit {
             if(data.Result.length!=0){
               this.quoteRefNo = data?.Result[0]?.RequestReferenceNo;
               sessionStorage.setItem('quoteReferenceNo',data?.Result[0]?.RequestReferenceNo);
-              this.vehicleDetails = null;
               sessionStorage.setItem('vehicleExist','true');
+              sessionStorage.setItem('editVehicleId',String(this.vehicleDetails.Vehicleid))
               sessionStorage.removeItem('vehicleDetailsList');
               sessionStorage.removeItem('editCars');
+              this.vehicleDetails = null;
               this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Motor Details Updated Successfully' });
               this.router.navigate(['/policyDetails'])
             }

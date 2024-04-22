@@ -2323,6 +2323,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       );
   }
   getExistingVehiclesList(type){
+    this.tabIndex = null;
     this.vehicleDetailsList = [];
     let ReqObj = {
       "RequestReferenceNo": this.quoteRefNo
@@ -2332,7 +2333,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       (data: any) => {
         console.log(data);
         if(data.Result){
-           
+          
             this.vehicleDetailsList = data.Result;
             if(this.vehicleDetailsList.length!=0){
               if(this.vehicleDetailsList[0]?.FinalizeYn!=null){
@@ -2361,6 +2362,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               if(type=='direct'){
                 if(this.tabIndex==undefined || this.tabIndex==null){
                   let entry = sessionStorage.getItem('BackType');
+                  let existVeh = sessionStorage.getItem('vehicleExist')
                   if(entry){
                     if(entry == 'Back'){
                       this.tabIndex = this.vehicleDetailsList.length;
@@ -2370,6 +2372,21 @@ export class CommonQuoteDetailsComponent implements OnInit {
                       this.currentIndex = 1;
                       sessionStorage.removeItem('BackType');
                     }
+                  }
+                  else if(existVeh){
+                    let id =  sessionStorage.getItem('editVehicleId');
+                    if(id){
+                      let index = this.vehicleDetailsList.findIndex(ele=>String(ele.Vehicleid)===String(id));
+                      console.log(id,this.vehicleDetailsList);
+                      this.tabIndex = index+1;
+                      this.vehicleId = id;
+                      if(this.vehicleId==null || this.vehicleId==undefined || this.vehicleId=='') this.vehicleId = this.vehicleDetailsList[0].Vehicleid;
+                      this.getEditVehicleDetails(this.vehicleId,'direct')
+                      this.currentIndex = 1;
+                      sessionStorage.removeItem('BackType');
+                      sessionStorage.removeItem('editVehicleId');
+                      sessionStorage.removeItem('vehicleExist');
+                    } 
                   }
                   else{
                     this.tabIndex = 0;
@@ -2383,8 +2400,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                
               }
               else if(type=='saveSearch'){
-                
-                //this.tabIndex = this.vehicleDetailsList.length;
+                this.tabIndex = this.vehicleDetailsList.length;
                 this.vehicleId = this.vehicleDetailsList[this.vehicleDetailsList.length-1].Vehicleid;
                 if(this.vehicleId==null || this.vehicleId==undefined || this.vehicleId=='') this.vehicleId = this.vehicleDetailsList[0].Vehicleid;
                   this.getEditVehicleDetails(this.vehicleId,'direct')
@@ -4730,12 +4746,19 @@ export class CommonQuoteDetailsComponent implements OnInit {
   onChangeInsuranceClass(type){
     let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
     for(let field of fieldList){
-      if(field.key=='GpsYN'){
+      if(field.key=='GpsYN' || field.key=='CarAlarmYN'){
         if(this.productItem.InsuranceClass!='' && this.productItem.InsuranceClass!=null && this.productItem.InsuranceClass!=undefined){
           if(this.productItem.InsuranceClass=='1'){
             field.hideExpression = false;field.hide=false;  
+            if(this.productItem.GpsYN==null || this.productItem.GpsYN=='') this.productItem.GpsYN = 'N';
+            if(this.productItem.CarAlarmYN==null || this.productItem.CarAlarmYN=='') this.productItem.CarAlarmYN = 'N';
           }
-          else{ field.hideExpression = true;field.hide=true;}
+          else{ field.hideExpression = true;field.hide=true;
+            if(this.productItem){
+              this.productItem.GpsYN = 'N';
+              this.productItem.CarAlarmYN = 'N';
+            }
+          }
         }
       }
       if(field.key=='InsuranceType' && this.insuranceId=='100028' && this.vehicleDetailsList.length==1){
