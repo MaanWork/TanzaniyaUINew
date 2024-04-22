@@ -171,11 +171,15 @@ export class CopyQuoteComponent implements OnInit {
       );
     }
   }
-  onSelect(rowData){
-    console.log("Select",rowData);
-    this.selectedData = rowData;
-    console.log('NNNNNNNNNNN',this.selectedData.RequestReferenceNo);
-
+  onSelect(rowData,event){
+    console.log("Select",event);
+    if(event.checked){
+      this.selectedData = rowData;
+      console.log('NNNNNNNNNNN',this.selectedData.RequestReferenceNo);
+    }
+    else {
+      this.selectedData = null;
+    }
   }
   onCopyQuote(){
     let appId = "1", loginId = "",brokerbranchCode="";
@@ -207,7 +211,8 @@ export class CopyQuoteComponent implements OnInit {
         if(data.Result){
             console.log(data);
             this.CopyData=data?.Result;
-                this.router.navigate(['/Home/existingQuotes']);
+            this.router.navigate(['/quotation']);
+                //this.router.navigate(['/Home/existingQuotes']);
         }
 
       },
