@@ -33,6 +33,7 @@ import { PortfolioModule } from '../demo/components/portfolio/portfolio.module';
 import { ReportModule } from '../demo/components/report/report.module';
 import { DropdownModule } from 'primeng/dropdown';
 import { CommonModule } from '@angular/common';
+import { SearchModule } from '../demo/components/Search/search.module';
 
 @NgModule({
     declarations: [
@@ -68,7 +69,8 @@ import { CommonModule } from '@angular/common';
         ReferralModule,
         PortfolioModule,
         ReportModule,
-        DropdownModule
+        DropdownModule,
+        SearchModule
     ],
     exports: [AppLayoutComponent]
 })
