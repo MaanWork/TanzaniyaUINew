@@ -35,7 +35,8 @@ export class CoverDetailsComponent {
   insuranceId:any=null;brokerbranchCode:any=null;
   loginType:any=null;finalizeYN:any='N';
   localCurrency: any;
-  loginId: any;
+  loginId: any; jsonList:any[]=[];
+  json:any[]=[];
   sampleloginId: any;
   endorsementSection: boolean=false;
   endorsementCategory: any=null;
@@ -89,6 +90,7 @@ export class CoverDetailsComponent {
   havePromoCode: any='N';
   promoCode: any;
   adminRemarks: any;
+  ExclusionList:any[]=[];
   currencyCode: any=null;
   showSection: boolean=false;
   selectedCoverList: any[]=[];
@@ -137,6 +139,7 @@ export class CoverDetailsComponent {
   proRataPercent: any=null;premiumAfterDiscount:any=null;
   fleetCoverDetails: any;columns:any[]=[];
   basePremium: any;premiumIncludedTax: any;premiumExcludedTax: any;factorViewList: any[]=[];factorPremiumDetails:any=null;factorDetailModal: boolean=false;
+  newAddClauses: boolean = false; newAddExclusion:boolean = false; newAddWarranty:boolean = false;
   constructor(private router:Router,private sharedService:SharedService,private messageService: MessageService){
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     let loginType = sessionStorage.getItem('resetLoginDetails');
@@ -306,6 +309,38 @@ export class CoverDetailsComponent {
       if(quoteNo) this.quoteNo = quoteNo;
       this.getUpdatedVehicleDetails();
     }
+    this.jsonList = [
+      {
+        "TypeId":"D",
+        "DocRefNo":null,
+      "DocumentId":null,
+         "Id":"6",
+        "SubId":null,
+         "SubIdDesc":""
+      }
+    ];
+    this.ExclusionList = [
+      {
+        "TypeId":"D",
+         "Id":"7",
+        "SubId":null,
+         "SubIdDesc":"",
+         "DocRefNo":null,
+         "DocumentId":null,
+      }
+    ]
+
+
+    this.json = [
+      {
+        "TypeId":"D",
+         "Id":"4",
+        "SubId":null,
+         "SubIdDesc":"",
+         "DocRefNo":null,
+         "DocumentId":null,
+      }
+    ]
   }
   onViewFactorDetails(){
     let ReqObj = {
@@ -2580,17 +2615,26 @@ export class CoverDetailsComponent {
     this.onClauses = true;
     this.onWarranty=false;
     this.onExclusion = false;
+    this.newAddClauses=false;
+    this.newAddExclusion=false;
+    this.newAddWarranty=false;
   }
   ExclusioStatuss(){
     this.onExclusion = true;
     this.onWarranty=false;
     this.onClauses = false;
     this.viewCondition('1'); 
+    this.newAddClauses=false;
+    this.newAddExclusion=false;
+    this.newAddWarranty=false;
   }
   WarrantyStatuss(){
      this.onWarranty=true;
      this.onClauses = false;
      this.onExclusion = false;
+     this.newAddClauses=false;
+     this.newAddExclusion=false;
+     this.newAddWarranty=false;
      let common
      this.viewCondition('1');
   }
@@ -2601,7 +2645,13 @@ export class CoverDetailsComponent {
     this.clause = false;
   }
   onAddClause(){
-
+this.newAddClauses=true;
+  }
+  onAddExclusion(){
+    this.newAddExclusion =true;
+  }
+  onAddWarranty(){
+    this.newAddWarranty = true;
   }
   editClauses(id){
   }
@@ -3731,4 +3781,224 @@ export class CoverDetailsComponent {
   show() {
     this.messageService.add({ severity: 'error', summary: 'Referral Quote', detail: 'Quote Moved to Referral Pending' });
   }
+  addItem(){
+    let entry = [{
+     "TypeId":"D",
+     "Id":'6',
+     "SubId":null,
+     "SubIdDesc":"",
+     "DocRefNo":null,
+    "DocumentId":null,
+     
+   }]
+   this.jsonList = entry.concat(this.jsonList);
+   }
+   deleteClauses(row){
+    const index = this.jsonList.indexOf(row);
+    this.jsonList.splice(index, 1);
+  }
+  saveChanges(){
+
+    let i=0;
+      console.log("EEEEEEEE", this.ClausesData);
+
+   let clauses
+     if(this.ClausesData!=null || this.ClausesData !=undefined){
+      clauses= this.ClausesData.concat(this.jsonList);
+     }
+     else{
+      clauses= this.jsonList
+     }
+
+    console.log('QQQQQ',this.quoteNo)
+        let quote
+    if(this.quoteNo){
+      quote=this.quoteNo;
+    }
+    else{
+      quote="";
+    }
+    let Req = {
+      BranchCode: this.branchCode,
+      CreatedBy: this.loginId,
+      InsuranceId: this.insuranceId,
+      ProductId: this.productId,
+      QuoteNo:quote,
+      RiskId:"1",
+      SectionId:"99999",
+      TermsAndConditionReq:clauses,
+      RequestReferenceNo: this.requestReferenceNo
+    };
+
+    let urlLink = `${this.CommonApiUrl}api/inserttermsandcondition`;
+    this.sharedService.onPostMethodSync(urlLink, Req).subscribe((data: any) => {
+      if (data.Result) {
+        console.log('TOOOOOOOOO');
+        this.jsonList =[
+          {
+            "TypeId":"D",
+            "DocRefNo":null,
+          "DocumentId":null,
+             "Id":"6",
+            "SubId":null,
+             "SubIdDesc":""
+          }
+        ];
+        this.newAddClauses=false;
+        this.viewCondition(1);
+        // this.close();
+      }
+    });
+
+  }
+  addExclusion(){
+    let entry = [{
+      "TypeId":"D",
+      "Id":"7",
+      "SubId":null,
+      "SubIdDesc":"",
+      "DocRefNo":null,
+      "DocumentId":null,
+    }]
+    this.ExclusionList = entry.concat(this.ExclusionList);
+  }
+
+
+  saveExclusion(){
+    console.log('QQQQQ',this.quoteNo)
+    let quote
+if(this.quoteNo){
+ quote=this.quoteNo;
+}
+else{
+  quote="";
+}
+    let i=0;
+
+    let clauses
+    if(this.ClausesData!=null || this.ClausesData !=undefined){
+      clauses= this.ClausesData.concat(this.ExclusionList);
+     }
+     else{
+      clauses= this.ExclusionList
+     }
+    //= this.ExclusionData.concat(this.ExclusionList);
+    //console.log('Exclusion',this.tempData)
+    console.log('Exclsuion',this.ExclusionList)
+    let Req = {
+      BranchCode: this.branchCode,
+      CreatedBy: this.loginId,
+      InsuranceId: this.insuranceId,
+      ProductId: this.productId,
+      QuoteNo:quote,
+      //TermsId:null,
+      RiskId: "1",
+      SectionId:"99999",
+      TermsAndConditionReq:clauses,
+      RequestReferenceNo: this.requestReferenceNo
+    };
+
+    let urlLink = `${this.CommonApiUrl}api/inserttermsandcondition`;
+    this.sharedService.onPostMethodSync(urlLink, Req).subscribe((data: any) => {
+      if (data.Result) {
+        console.log('TOOOOOOOOO');
+
+        this.ExclusionList =[
+          {
+            "TypeId":"D",
+            "Id":"7",
+           "SubId":null,
+            "SubIdDesc":"",
+            "DocRefNo":null,
+            "DocumentId":null,
+          }
+        ];
+        // this.close();
+        //$('#WarrantyModel').modal('hide');
+        this.newAddExclusion=false;
+        this.viewCondition(1);
+
+        //window.location.reload();
+      }
+    });
+  }
+
+  deleteExclusion(row){
+    const index = this.ExclusionList.indexOf(row);
+    this.ExclusionList.splice(index, 1);
+  }
+  delete(row){
+    const index = this.json.indexOf(row);
+    this.json.splice(index, 1);
+  }
+
+  saveWarranty(tempData,json){
+    let i=0;
+    console.log('QQQQQ',this.quoteNo)
+    let quote
+if(this.quoteNo){
+ quote=this.quoteNo;
+}
+else{
+  quote="";
+}
+    let clauses
+    if(this.ClausesData !=null || this.ClausesData !=undefined){
+      clauses= this.ClausesData.concat(this.json);
+     }
+     else{
+      clauses= this.json
+     }
+    //let clauses = this.WarrantyData .concat(this.json);
+    //console.log('Warranty',this.tempData)
+    console.log('Warranty',this.json)
+    let Req = {
+      BranchCode: this.branchCode,
+      CreatedBy: this.loginId,
+      InsuranceId: this.insuranceId,
+      ProductId: this.productId,
+      QuoteNo:quote,
+      //TermsId:null,
+      RiskId: "1",
+      SectionId:"99999",
+      TermsAndConditionReq:clauses,
+      RequestReferenceNo: this.requestReferenceNo
+    };
+
+    let urlLink = `${this.CommonApiUrl}api/inserttermsandcondition`;
+    this.sharedService.onPostMethodSync(urlLink, Req).subscribe((data: any) => {
+      if (data.Result) {
+
+        console.log('TOOOOOOOOO');
+        this.json = [
+          {
+            "TypeId":"D",
+            "Id":"4",
+           "SubId":null,
+            "SubIdDesc":"",
+            "DocRefNo":null,
+            "DocumentId":null,
+          }
+        ];
+        this.newAddWarranty=false;
+        this.viewCondition(1);
+        
+        //this.close();
+      }
+    });
+  }
+
+  addwarranty(){
+    let entry = [{
+      "TypeId":"D",
+      "Id":"4",
+      "SubId":null,
+      "SubIdDesc":"",
+      "DocRefNo":null,
+      "DocumentId":null,
+    }]
+    this.json = entry.concat(this.json);
+  }
+
+
 }
