@@ -54,6 +54,38 @@
                 <div class="grid mt-1">
                     <div class="lg:col-3 md:col-3 col-12">
                         <label for="username">Start Date</label>
+                        <p-calendar class="w-full" styleClass="w-full" [(ngModel)]="policyStartDate"
+                        (onSelect)="onStartDateChange('change')"
+                            dateFormat="dd/mm/yy" placeholder="Select Start Date">
+                        </p-calendar>
+                    </div>
+                    <div class="lg:col-3 md:col-3 col-12">
+                            <label for="username">End Date</label>
+                            <p-calendar class="w-full" styleClass="w-full"  [(ngModel)]="policyEndDate"
+                            (onSelect)="onChangeEndDate()" dateFormat="dd/mm/yy"
+                                placeholder="Select End Date">
+                            </p-calendar>
+                    </div>
+                    <div class="lg:col-4 md:col-4 col-12">
+                        <label for="username">Currency*</label>
+                        <p-dropdown inputId="make" class="w-full" styleClass="w-full"  [options]="currencyList"
+                        [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')"
+                            optionLabel="CodeDesc" optionValue="Code" placeholder="Select Currency">
+                        </p-dropdown>
+                    </div>
+                    <div class="lg:col-4 md:col-4 col-12">
+                        <label for="username">Exchange Rate</label>
+                        <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="exchangeRate" />
+                    </div>
+                    <div class="lg:col-3 md:col-3 col-12">
+                        <label for="username">PromoCode&nbsp;(Optional)</label>
+                        <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="promocode" placeholder="Enter Customer Name" />
+                    </div>
+                </div>
+              
+                <!-- <div class="grid mt-1">
+                    <div class="lg:col-3 md:col-3 col-12">
+                        <label for="username">Start Date</label>
                         <p-calendar class="w-full" styleClass="w-full"
                             dateFormat="dd/mm/yy" placeholder="Select Start Date">
                         </p-calendar>
@@ -79,7 +111,7 @@
                         <input pInputText id="username" maxlength="50"  />
                     </div>
                     
-                </div>
+                </div> -->
             </div>
             <div class="col-6 pl-0 pr-2 pb-0">
                 <div>
@@ -90,32 +122,67 @@
                         <div class="lg:col-6 md:col-6 col-12">
                             <label for="username">Source Type *</label>
                             <p-dropdown inputId="sourceType" class="w-full" styleClass="w-full"
-                                optionLabel="CodeDesc" optionValue="Code" placeholder="Select SourceType">
+                            [options]="productList13" [(ngModel)]="Code" (onChange)="onSourceTypeChange('change')" optionLabel="CodeDesc" optionValue="Code" placeholder="Select SourceType">
                             </p-dropdown>
                         </div>
                         <div class="lg:col-6 md:col-6 col-12">
+                        <label for="username">Source Code *</label>
+                        <!--*ngIf="issuerSection && (sourceCodeDesc=='Premia Agent' || sourceCodeDesc=='Premia Broker' || sourceCodeDesc=='Premia Direct')"-->
+                        <!-- <p-autoComplete [(ngModel)]="customerCode" [suggestions]="customerList" field="CustomerName" (completeMethod)="onGetCustomerList('change',$event.query)"></p-autoComplete> 
+                        <p-autoComplete  class="w-full" styleClass="w-full" [suggestions]="customerList"  (onSelect)="onCommonDetailsChange();onChangeCustomer($event)"
+                            (completeMethod)="onGetCustomerList('change',$event.query)" [field]="CustomerCode+'-'+CustomerName">
+                                <ng-container *ngIf="customer">
+                                        <ng-template let-customer pTemplate="item">
+                                            <ng-container *ngIf="customer.CustomerName!=null">
+                                                {{customer.CustomerName}}&nbsp;-&nbsp;{{customer.CustomerCode}}
+                                            </ng-container>
+                                            <ng-container *ngIf="customer.CustomerName==null">
+                                                No Data Found
+                                            </ng-container>
+                                        </ng-template>
+                                </ng-container>
+                                
+                        </p-autoComplete>-->
+                        <input pInputText id="username" class="w-full" maxlength="50" [(ngModel)]="customerCode"
+                            type="text" (keyup)="onGetCustomerList('change',$event.target.value)" autocomplete="off"
+                            placeholder="Search here" data-toggle="dropdown" />
+                            <ul class="dropdown-menu dropdown-list-style CustomerInput" appendTo="body"
+                                [ngClass]="{dropdownDisplay: showCustomerList, dropdownNotDisplay: !showCustomerList}">
+                                <li *ngFor="let item of customerList"
+                                    (click)="setCustomerValue(item.Code, item.Name,'change')">
+                                    {{item.Code}} - {{ item.Name }}
+                                </li>
+                                <div class="text-center" *ngIf="customerList.length == 0">
+                                    <p>Enter any code to Search...</p>
+                                </div>
+                            </ul> 
+                        <div class="input-form-error" *ngIf="customerCodeError">
+                            <div class="error-text text-danger">
+                                Please Enter Valid Source Code
+                            </div>
+                        </div>
+                    </div>
+                        <!-- <div class="lg:col-6 md:col-6 col-12">
                             <label for="username">Source Code *</label>
                             <ng-container >
                                 <p-dropdown inputId="sourceCode" class="w-full" styleClass="w-full"
                                         optionLabel="Name"
                                     optionValue="Code" placeholder="Select Source Code">
                                 </p-dropdown>
-                                <!-- <ng-select class="input-form-select" appendTo="body" [(ngModel)]="brokerCode"  [disabled]="endorsementSection || finalizeYN=='Y'" [items]="brokerList" (change)="onBrokerChange()" bindValue="Code" bindLabel="Name">
-                            </ng-select> -->
+                              
                             </ng-container>
-                            <!-- <ng-container *ngIf="sourceCodeDesc=='broker' || sourceCodeDesc=='Broker'">
-                                <p-dropdown inputId="sourceCode" class="w-full" styleClass="w-full"
-                                    [options]="brokerList" [(ngModel)]="brokerCode" (onChange)="onBrokerChange()"
-                                    [disabled]="endorsementSection || finalizeYN=='Y'" optionLabel="Name"
-                                    optionValue="Code" placeholder="Select Source Code">
-                                </p-dropdown>
-                            </ng-container> -->
-                        </div>
+                          
+                        </div> -->
                         <div class="lg:col-6 md:col-6 col-12">
-                            <label for="username">Broker Branch *</label>
+                            <!--*ngIf="issuerSection && (sourceCodeDesc=='Premia Agent' || sourceCodeDesc=='Premia Broker' || sourceCodeDesc=='Premia Direct')"-->
+                            <label for="username">Source Name *</label>
+                            <input pInputText id="username" class="w-full" [(ngModel)]="customerName" disabled type="text"
+                                placeholder="Source Name" />
+                        
+                            <!-- <label for="username">Broker Branch *</label>
                             <p-dropdown inputId="sourceCode" class="w-full" styleClass="w-full"
                                 optionLabel="CodeDesc" optionValue="Code" placeholder="Select Broker Branch">
-                            </p-dropdown>
+                            </p-dropdown> -->
                         </div>
                     </div>
                 </div>
