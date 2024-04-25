@@ -296,17 +296,17 @@
                                                                     </div>
                                                                 </ng-container>
                                                                
-                                                               <h4 class="mt-0 bg-orange-500 border-round-lg py-2 px-4 text-white">
+                                                               <h4 class="mt-0 bg-orange-500 border-round-lg py-2 px-4 text-white" *ngIf="cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=0 && cover.PremiumIncludedTax!=null">
                                                                 <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
                                                                     <ng-container *ngIf="cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=0 && cover.PremiumIncludedTax!=null">
                                                                         {{cover.PremiumIncludedTax | commaseparator}}
                                                                     </ng-container>
                                                                     <ng-container *ngIf="cover.PremiumIncludedTax=='0' || cover.PremiumIncludedTax==0 || cover.PremiumIncludedTax==null">
-                                                                            0
+                                                                            0 Print3
                                                                     </ng-container>
                                                                 </ng-container>
                                                                 <ng-container *ngIf="!checkPremiumIncludedTax(cover,menu)">
-                                                                    0
+                                                                    0 Print4
                                                                 </ng-container>
                                                                   
                                                                    &nbsp;<span class="text-base">( {{currencyCode}} )</span></h4>
@@ -428,17 +428,17 @@
                                                                         </div>
                                                                     </ng-container>
                                                                    
-                                                                   <h4 class="mt-0 bg-orange-500 border-round-lg py-2 px-4 text-white">
+                                                                   <h4 class="mt-0 bg-orange-500 border-round-lg py-2 px-4 text-white" *ngIf="cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=0 && cover.PremiumIncludedTax!=null">
                                                                     <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
                                                                         <ng-container *ngIf="cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=0 && cover.PremiumIncludedTax!=null">
                                                                             {{cover.PremiumIncludedTax | commaseparator}}
                                                                         </ng-container>
                                                                         <ng-container *ngIf="cover.PremiumIncludedTax=='0' || cover.PremiumIncludedTax==0 || cover.PremiumIncludedTax==null">
-                                                                                0
+                                                                                0 Print5
                                                                         </ng-container>
                                                                     </ng-container>
                                                                     <ng-container *ngIf="!checkPremiumIncludedTax(cover,menu)">
-                                                                        0
+                                                                        0 Print6
                                                                     </ng-container>
                                                                       
                                                                        &nbsp;<span class="text-base">( {{currencyCode}} )</span></h4>
@@ -587,7 +587,7 @@
                                                 </div>
                                                 <p-button class="col-6" styleClass="surface-900" label="View Cart" severity="primary"></p-button>
                                             </div>
-                                            <div class="card grid text-white surface-900 px-4 py-2" *ngIf="checkCurrentSection()" style="min-width: 200px !important;">
+                                            <div class="card grid text-white surface-900 px-4 py-2" *ngIf="checkCurrentSection() && vehicleDetailsList[tabIndex].totalPremium!=null && vehicleDetailsList[tabIndex].totalPremium!=0 && vehicleDetailsList[tabIndex].totalPremium!='0'" style="min-width: 200px !important;">
                                                 <div class="col-10">
                                                     <label>Total Premium</label>
                                                     <h6 class="text-white mt-0">{{vehicleDetailsList[tabIndex].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
@@ -741,21 +741,24 @@
                                                                     </p>
                                                                 </div>
                                                             </ng-container>
-                                                           
-                                                           <h4 class="mt-0 bg-orange-500 border-round-lg py-2 px-4 text-white">
                                                             <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
-                                                                <ng-container *ngIf="cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=0 && cover.PremiumIncludedTax!=null">
-                                                                    {{cover.PremiumIncludedTax | commaseparator}}
-                                                                </ng-container>
-                                                                <ng-container *ngIf="cover.PremiumIncludedTax=='0' || cover.PremiumIncludedTax==0 || cover.PremiumIncludedTax==null">
-                                                                        0
-                                                                </ng-container>
+                                                                <h4 class="mt-0 bg-orange-500 border-round-lg py-2 px-4 text-white" *ngIf="cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=0 && cover.PremiumIncludedTax!=null">
+                                                            
+                                                                    <ng-container *ngIf="cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=0 && cover.PremiumIncludedTax!=null">
+                                                                        {{cover.PremiumIncludedTax | commaseparator}}
+                                                                    </ng-container>
+                                                                    <ng-container *ngIf="cover.PremiumIncludedTax=='0' || cover.PremiumIncludedTax==0 || cover.PremiumIncludedTax==null">
+                                                                            0
+                                                                    </ng-container>
+                                                                    &nbsp;<span class="text-base">( {{currencyCode}} )</span></h4>
                                                             </ng-container>
-                                                            <ng-container *ngIf="!checkPremiumIncludedTax(cover,menu)">
+
+                                                          
+                                                            <!-- <ng-container *ngIf="!checkPremiumIncludedTax(cover,menu)">
                                                                 0
-                                                            </ng-container>
+                                                            </ng-container> -->
                                                               
-                                                               &nbsp;<span class="text-base">( {{currencyCode}} )</span></h4>
+                                                               
                                                        </div>
                                                    </div>
                                                 </ng-container>
@@ -809,7 +812,7 @@
                                         </div>
                                         <div class="grid mt-2">
                                             
-                                            <div class="card custom-grid text-white surface-900 w-full p-0 text-end" *ngIf="checkCurrentSection()" style="min-width: 200px !important;">
+                                            <div class="card custom-grid text-white surface-900 w-full p-0 text-end" *ngIf="checkCurrentSection() && vehicleDetailsList[i].totalPremium!=null && vehicleDetailsList[i].totalPremium!=0 && vehicleDetailsList[i].totalPremium!='0'" style="min-width: 200px !important;">
                                                 <div class="col-10">
                                                     <label>Total Premium</label>
                                                     <h6 class="text-white mt-0">{{vehicleDetailsList[i].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
@@ -817,7 +820,10 @@
                                                 
                                             </div>
                                         </div>
-                                        <div class="flex flex-wrap justify-content-center">
+                                        <div class="flex flex-wrap justify-content-center" *ngIf="!checkBenefitSection2(menu) && !checkBenefitSection(menu)" >
+                                                <b>No Covers Available</b>
+                                        </div>
+                                        <div class="flex flex-wrap justify-content-center" *ngIf="checkBenefitSection2(menu) || checkBenefitSection(menu)" >
                                             <p-button label="Buy Policy"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
                                             (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                                             <p-button label="Buy Policy" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
@@ -828,6 +834,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                 </ng-container>
@@ -964,17 +971,17 @@
                                                         </div>
                                                     </ng-container>
                                                    
-                                                   <h4 class="mt-0 bg-orange-500 border-round-lg py-2 px-4 text-white">
+                                                   <h4 class="mt-0 bg-orange-500 border-round-lg py-2 px-4 text-white" *ngIf="cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=0 && cover.PremiumIncludedTax!=null">
                                                     <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
                                                         <ng-container *ngIf="cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=0 && cover.PremiumIncludedTax!=null">
                                                             {{cover.PremiumIncludedTax | commaseparator}}
                                                         </ng-container>
                                                         <ng-container *ngIf="cover.PremiumIncludedTax=='0' || cover.PremiumIncludedTax==0 || cover.PremiumIncludedTax==null">
-                                                                0
+                                                                0 Print1
                                                         </ng-container>
                                                     </ng-container>
                                                     <ng-container *ngIf="!checkPremiumIncludedTax(cover,menu)">
-                                                        0
+                                                        0 Print2
                                                     </ng-container>
                                                       
                                                        &nbsp;<span class="text-base">( {{currencyCode}} )</span></h4>

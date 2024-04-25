@@ -117,25 +117,21 @@ export class MotorVehicleSanlam{
                   },
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'input',
-                    key: 'Inflation',
-  
-                    props: {
-                      label: `Inflation`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('Inflation'),
-                      required: true,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
+                      key: 'PurchaseDate',
+                      type: 'datepicker',
+                      defaultValue: '',
+                      templateOptions: {
+                        defaultValue: '',
+                      },
+                      props: {
+                        label: 'Purchase Date',
+                        
+                        required: true,
+                        type: 'date',
+                        datepickerOptions: {
+                          defaultValue: '',
+                        },
+                      }
                   },
                   {
                     type: 'ngselect',
@@ -161,12 +157,58 @@ export class MotorVehicleSanlam{
                   },
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'input',
+                    key: 'Inflation',
+  
+                    props: {
+                      label: `Inflation`,
+                      maxLength: 15,
+                      disabled: this.checkDisable('Inflation'),
+                      required: true,
+                      options: [
+  
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'commaSeparator',
+                    key: 'InflationSI',
+                    hide: false,
+                    hideExpression:false,
+                    props: {
+                      label: `Inflation SumInsured`,
+                      maxLength: 15,
+                      disabled: this.checkDisable('InflationSI'),
+                      required: true,
+                      options: [
+  
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'commaSeparator',
                     key: 'VehicleSI',
                     hide: true,
                     hideExpression:true,
                     props: {
-                      label: `VehicleSI`,
+                      label: `Vehicle SumInsured`,
                       maxLength: 15,
                       disabled: this.checkDisable('VehicleSI'),
                       required: true,
@@ -254,24 +296,7 @@ export class MotorVehicleSanlam{
                   // },
                   
                    
-                    {
-                      className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                        key: 'PurchaseDate',
-                        type: 'datepicker',
-                        defaultValue: '',
-                        templateOptions: {
-                          defaultValue: '',
-                        },
-                        props: {
-                          label: 'Purchase Date',
-                          
-                          required: true,
-                          type: 'date',
-                          datepickerOptions: {
-                            defaultValue: '',
-                          },
-                        }
-                      },
+                    
                     {
                       className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                       key: 'ClaimsYN',

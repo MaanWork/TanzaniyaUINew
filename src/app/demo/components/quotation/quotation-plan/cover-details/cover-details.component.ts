@@ -728,7 +728,7 @@ export class CoverDetailsComponent {
     }
   }
   checkCurrentSection(){
-    if(this.insuranceId=='100028'){
+    if(this.insuranceId=='100028' || this.insuranceId=='100027'){
       let duplicateId = null;
       let i=0,j=0;
       for(let veh of this.vehicleDetailsList){
