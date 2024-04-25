@@ -26,6 +26,7 @@ export class QuotationTableComponent implements OnInit {
   public AppConfig: any = (Mydatas as any).default;
   public ApiUrl1: any = this.AppConfig.ApiUrl1;
   public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
+  public motorurl:any = this.AppConfig.MotorApiUrl;
   totalQuoteRecords: any=null;
   pageCount: any=null;
   quotePageNo: any=null;
@@ -53,6 +54,7 @@ export class QuotationTableComponent implements OnInit {
   Reference: any=null;isRejectVisible:boolean=false;
   RejectdList: any;tabIndex:any=0;
   remarksError: boolean=false;
+  MotorList: any[]=[];
   constructor(private router: Router,private sharedService: SharedService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -80,7 +82,7 @@ export class QuotationTableComponent implements OnInit {
     this.items = [{ label: 'Home', routerLink:'/' }, {label:'Quotation'}];
     this.customerColumn = [ 'Select','Reference No','Customer Name',  'Customer Type','ID Number'];
     if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
-      this.columns = [ 'Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium','CurrencyCode', 'Actions'];
+      this.columns = [ 'Vehicle Details','Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium','CurrencyCode', 'Actions'];
       this.rejectedColumns = [ 'Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium','CurrencyCode','Reason'];
     }
     else{ this.columns = ['Quote No','Reference No','Customer Name','Start Date','End Date','Premium','CurrencyCode','Actions'] 
@@ -145,6 +147,22 @@ export class QuotationTableComponent implements OnInit {
       (err) => { },
     );
   }
+
+  onInnerData(rowData){
+    let ReqObj = {
+        "RequestReferenceNo": rowData.RequestReferenceNo
+      }
+      let urlLink = `${this.motorurl}api/getallmotordetails`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+              this.MotorList = data.Result;
+          }
+        },
+        (err) => { },
+      );
+}
   onRejects(rowData){
    console.log('rrrrrrrrr',rowData)
     this.isRejectVisible = true;
