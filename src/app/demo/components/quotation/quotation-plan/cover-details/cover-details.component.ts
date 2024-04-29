@@ -778,6 +778,9 @@ export class CoverDetailsComponent {
       else return null;
       
   }
+  checkEmptyCovers(covers){
+    return covers.CoverList.length==0;
+  }
   checkBenefitSection(covers){
     let list:any[] = covers.CoverList.filter(ele=>ele.CoverageType=='A' && ele.isSelected=='D');
     return (list.length!=0);

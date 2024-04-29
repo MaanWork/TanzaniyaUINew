@@ -820,10 +820,10 @@
                                                 
                                             </div>
                                         </div>
-                                        <div class="flex flex-wrap justify-content-center" *ngIf="!checkBenefitSection2(menu) && !checkBenefitSection(menu)" >
+                                        <div class="flex flex-wrap justify-content-center" *ngIf="checkEmptyCovers(menu)" >
                                                 <b>No Covers Available</b>
                                         </div>
-                                        <div class="flex flex-wrap justify-content-center" *ngIf="checkBenefitSection2(menu) || checkBenefitSection(menu)" >
+                                        <div class="flex flex-wrap justify-content-center" *ngIf="!checkEmptyCovers(menu)" >
                                             <p-button label="Buy Policy"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
                                             (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                                             <p-button label="Buy Policy" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
