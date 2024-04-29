@@ -729,8 +729,7 @@ export class VehicleCreateFormComponent implements OnInit {
             this.makeList = data.Result;
             if(this.getdetails== 'SavedFroms'){
               if(this.editdata?.Vehiclemake!=null && this.editdata?.Vehiclemake!=''){
-                let entry = this.makeList.find(ele=>ele.CodeDesc==this.editdata?.Vehiclemake);
-                this.makeValue = entry.Code;
+                this.makeValue = this.editdata?.Vehiclemake;
                 this.onMakeChange();
               }
             }
@@ -756,7 +755,7 @@ export class VehicleCreateFormComponent implements OnInit {
         if(data.Result){
             this.modelList = data.Result;
             if(this.getdetails== 'SavedFroms'){
-              let entry = this.modelList.find(ele=>ele.CodeDesc==this.editdata?.Vehcilemodel);
+              let entry = this.modelList.find(ele=>ele.CodeDesc==this.editdata?.Vehcilemodel || ele.Code==this.editdata?.Vehcilemodel);
               if((entry==null || entry==undefined) && (this.editdata?.Vehcilemodel!=null && this.editdata?.Vehcilemodel!=undefined)){
                   this.modelValue = '99999';
                   this.modelDesc = this.editdata?.Vehcilemodel;
