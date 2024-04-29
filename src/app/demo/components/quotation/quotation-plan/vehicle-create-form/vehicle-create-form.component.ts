@@ -397,6 +397,62 @@ export class VehicleCreateFormComponent implements OnInit {
        if(commonDetails.BrokerBranchCode) brokerbranchCode = commonDetails.BrokerBranchCode;
         
       }
+      this.vehicleDetails['VehicleTypeId'] = null;
+      this.vehicleDetails['MotorusageId'] = null;
+      this.vehicleDetails['VehiclemakeId'] = null;
+      this.vehicleDetails['VehiclemodelId'] = null;
+      let bodyTypeValue = null,motorUsage=null;
+      if(this.bodyTypeId!=null && this.bodyTypeId!=''){
+        let usageId = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeId || ele.Code==this.bodyTypeId).Code;
+        if(usageId) this.vehicleDetails['VehicleTypeId'] = usageId;
+        let usageDesc = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeId || ele.Code==this.bodyTypeId).CodeDesc;
+        if(usageDesc) bodyTypeValue =  usageDesc;
+      }
+      motorUsage = this.vehicleDetails.Motorusage;
+      if(this.vehicleDetails?.SavedFrom!='Api'){
+        let usageId = this.usageList.find(ele=>ele.CodeDesc==this.vehicleDetails.Motorusage || ele.Code==this.vehicleDetails.Motorusage)?.Code;
+          if(usageId) this.vehicleDetails['MotorusageId'] = usageId;
+          let usageDesc = this.usageList.find(ele=>ele.CodeDesc==this.vehicleDetails.Motorusage || ele.Code==this.vehicleDetails.Motorusage)?.CodeDesc;
+          if(usageDesc) this.vehicleDetails['Motorusage'] = usageDesc;
+          motorUsage = null;
+      }
+      else if(this.vehicleDetails.Motorusage!=null && this.vehicleDetails.Motorusage!=''){
+          let usageId = this.usageList.find(ele=>ele.CodeDesc==this.vehicleDetails.Motorusage)?.Code;
+          if(usageId) this.vehicleDetails['MotorusageId'] = usageId;
+      }
+      let make = "";
+        if(this.makeValue!='' && this.makeValue!=undefined && this.makeValue!=null){
+          let entry = this.makeList.find(ele=>ele.Code==this.makeValue);
+          this.vehicleDetails['Vehiclemake'] = entry.CodeDesc;
+          this.vehicleDetails['VehiclemakeId'] = entry.Code;
+        }
+        let modelDesc = null;
+        if(this.insuranceId=='100020'){
+            if(this.modelDesc!=null && this.modelDesc!=''){ 
+              let entry = this.modelList.find(ele=>ele.Model==this.modelDesc);
+              if(entry){
+                this.vehicleDetails['VehcilemodelId'] = entry?.VehicleId
+                this.vehicleDetails['Vehcilemodel'] = this.modelDesc
+              } 
+            }
+            else modelDesc = null;
+        }
+        else{
+          if(this.bodyTypeId=='1' || this.bodyTypeId=='2' || this.bodyTypeId=='3' || this.bodyTypeId=='4' || this.bodyTypeId=='5'){
+            if(this.modelValue=='99999'){
+                modelDesc = this.modelDesc;
+                this.vehicleDetails['VehcilemodelId'] = this.modelValue
+                this.vehicleDetails['Vehcilemodel'] = modelDesc
+            }
+            else if(this.modelValue!='' && this.modelValue!=null){
+              modelDesc = this.modelList.find(ele=>ele.Code==this.modelValue)?.CodeDesc
+              this.vehicleDetails['VehcilemodelId'] = this.modelValue
+              this.vehicleDetails['Vehcilemodel'] = modelDesc;
+              
+            }
+          }
+          else modelDesc = this.modelDesc;
+        }
     let ReqObj = {
       "BrokerBranchCode": brokerbranchCode,
       "AcExecutiveId": this.vehicleDetails?.AcExecutiveId,
@@ -441,7 +497,8 @@ export class VehicleCreateFormComponent implements OnInit {
       "ManufactureYear": this.vehicleDetails?.ManufactureYear,
       "ModelNumber": null,
       "MotorCategory": this.vehicleDetails?.MotorCategory,
-      "Motorusage": this.vehicleDetails?.TiraMotorUsage,
+      "Motorusage": this.vehicleDetails?.Motorusage,
+      "MotorusageId": this.vehicleDetails?.MotorusageId,
       "NcdYn": this.vehicleDetails?.NcdYn,
       "PolicyRenewalYn": this.vehicleDetails.PolicyRenewalYn,
       "NoOfClaims": this.vehicleDetails?.NoOfClaims,
@@ -464,9 +521,12 @@ export class VehicleCreateFormComponent implements OnInit {
       "TppdFreeLimit": this.vehicleDetails?.TppdFreeLimit,
       "TppdIncreaeLimit": this.vehicleDetails?.TppdIncreaeLimit,
       "TrailerDetails": null,
-      "Vehcilemodel":  this.vehicleDetails?.VehcileModel,
+      "Vehcilemodel":  this.vehicleDetails?.VehicleModelDesc,
+      "VehcilemodelId": this.vehicleDetails?.Vehcilemodel,
       "VehicleType": this.bodyTypeId,
-      "Vehiclemake": this.vehicleDetails?.VehicleMake,
+      "VehicleTypeId": this.vehicleDetails?.VehicleTypeId,
+      "Vehiclemake": this.vehicleDetails?.Vehiclemake,
+      "VehiclemakeId": this.vehicleDetails?.VehiclemakeId,
       "WindScreenSumInsured": this.vehicleDetails?.WindScreenSumInsured,
       "Windscreencoverrequired": this.vehicleDetails?.Windscreencoverrequired,
       "accident": null,
@@ -976,6 +1036,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "NoOfVehicles": null,
         "NoOfComprehensives": null,
         "ClaimRatio": null,
+        "ClaimType": null,
         "SavedFrom":null,
         "TiraCoverNoteNo": null,
         "EndorsementYn": null,
@@ -1012,10 +1073,14 @@ export class VehicleCreateFormComponent implements OnInit {
             this.vehicleDetails['Active'] = false;
             let vehicles = JSON.parse(sessionStorage.getItem('vehicleDetailsList'));
             if(vehicles){
-              if(modelDesc!=null){
-                this.vehicleDetails['TiraBodyType'] = modelDesc;
-                this.vehicleDetails['TiraMotorUsage'] = usageDesc;
-                this.vehicleDetails['EngineCapacity'] = engCapacity;
+              let motorUsage=null;
+              if(usageDesc!=null && usageDesc!=''){
+                  let entry = this.usageList.find(ele=>ele.Code==usageDesc || ele.CodeDesc==usageDesc);
+                  if(entry) motorUsage = entry.Code;
+                  this.vehicleDetails['TiraMotorUsage'] = motorUsage;
+                  this.vehicleDetails['TiraBodyType'] = modelDesc;
+                  this.vehicleDetails['EngineCapacity'] = engCapacity;
+                  this.vehicleDetails['Motorusage'] = motorUsage;
               }
               this.vehicleDetails['Currency'] = this.currencyCode;
               this.vehicleDetails['ExchangeRate'] = this.exchangeRate;
@@ -1064,10 +1129,14 @@ export class VehicleCreateFormComponent implements OnInit {
               this.onSaveSearchVehicles();
            }
             else{ 
-              if(modelDesc!=null){
-                this.vehicleDetails['TiraBodyType'] = modelDesc;
-                this.vehicleDetails['TiraMotorUsage'] = usageDesc;
-                this.vehicleDetails['EngineCapacity'] = engCapacity;
+              let motorUsage=null;
+              if(usageDesc!=null && usageDesc!=''){
+                  let entry = this.usageList.find(ele=>ele.Code==usageDesc || ele.CodeDesc==usageDesc);
+                  if(entry) motorUsage = entry.Code;
+                  this.vehicleDetails['TiraMotorUsage'] = motorUsage;
+                  this.vehicleDetails['TiraBodyType'] = modelDesc;
+                  this.vehicleDetails['EngineCapacity'] = engCapacity;
+                  this.vehicleDetails['Motorusage'] = motorUsage;
               }
               let commonDetails = JSON.parse(sessionStorage.getItem('commonDetails'));
               if(commonDetails){

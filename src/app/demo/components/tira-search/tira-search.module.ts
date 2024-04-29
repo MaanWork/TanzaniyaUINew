@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -13,6 +14,7 @@ import { DropdownModule } from 'primeng/dropdown';
   declarations: [TiraSearchComponent],
   imports: [
     CommonModule,
+    FormsModule,
     BreadcrumbModule,
     ButtonModule,
     DividerModule,

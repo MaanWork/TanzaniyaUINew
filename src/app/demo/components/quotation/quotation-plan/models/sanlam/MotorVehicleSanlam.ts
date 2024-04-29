@@ -180,13 +180,13 @@ export class MotorVehicleSanlam{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'commaSeparator',
-                    key: 'InflationSI',
+                    key: 'InflationSumInsured',
                     hide: false,
                     hideExpression:false,
                     props: {
                       label: `Inflation SumInsured`,
                       maxLength: 15,
-                      disabled: this.checkDisable('InflationSI'),
+                      disabled: this.checkDisable('InflationSumInsured'),
                       required: true,
                       options: [
   

@@ -2992,19 +2992,17 @@
                     <div class="grid">
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 ml-4" *ngIf="statusValue=='RR'">
                                 <label class="input-form-label">Rejected Reason</label>
-                                    <input type="text" pInputText [(ngModel)]="rejectedReason" [disabled]="!adminSection"
+                                    <input type="text" pInputText [(ngModel)]="rejectedReason" maxlength="100" [disabled]="!adminSection"
                                         class="w-full">
                         </div>
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4">
                                 <label class="input-form-label">Remarks<span class="text-required">*</span></label>
                                     <textarea cols="120" rows="2" pInputTextarea  [(ngModel)]="remarks" [disabled]="!adminSection"
-                                        class="w-full" maxlength="600"></textarea>
+                                        class="w-full" maxlength="1000"></textarea>
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
         <div class="lg:col-3 md:col-3 col-12 p-0" *ngIf="vehicleDetailsList.length!=1 && vehicleDetailsList.length!=0">
             <div class="flex flex-wrap  justify-content-between">

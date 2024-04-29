@@ -5,52 +5,77 @@
       <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
     </div>
     <div class="col-12 sm:col-6 md:col-8">
-      <div class="flex justify-content-start sm:justify-content-end  flex-wrap">
+      <!-- <div class="flex justify-content-start sm:justify-content-end  flex-wrap">
         <span class="p-input-icon-right mr-3 mb-3">
           <i class="pi pi-search"></i>
           <input type="text" placeholder="Search" pInputText/>
         </span>
         <p-button icon="pi pi-cloud-download" label="Export" styleClass="p-button-outlined" class="mr-3" size="small"></p-button>
         <p-button icon="pi pi-plus" label="Add New Quote" severity="warning" size="small"></p-button>
-      </div>
+      </div> -->
     </div>
   </div>
   
   <p-divider></p-divider>
-  <div class="grid mt-4">
-    <div class="col-12 md:col-6 lg:col-4">
-      <h3 class="ml-3">Vehicle Information</h3>
-      <div class="flex flex-column m-3">
-        <label for="source-code">Division</label>
-        <p-dropdown inputId="make" 
-          class="w-full" 
-          styleClass="w-full" 
-          optionLabel="CodeDesc" 
-          optionValue="Code"
-          placeholder="Select Identity Type">
-        </p-dropdown>
+  <ng-container *ngIf="issuerSection">
+    <h3 class="ml-3">Vehicle Information</h3>
+    <div class="grid mt-4">
+      
+      <div class="col-12 md:col-3 lg:col-3">
+          <label for="source-code">Division</label>
+          <p-dropdown inputId="make" 
+            class="w-full" 
+            styleClass="w-full" 
+            optionLabel="CodeDesc" 
+            optionValue="Code"
+            placeholder="Select Identity Type">
+          </p-dropdown>
       </div>
-      <div class="flex flex-column m-3">
-        <label for="source-code">Source</label>
-        <p-dropdown inputId="make" 
-          class="w-full" 
-          styleClass="w-full" 
-          optionLabel="CodeDesc" 
-          optionValue="Code"
-          placeholder="Select Identity Type">
-        </p-dropdown>
-      </div>
-      <div class="flex flex-column m-3">
-          <label for="source-code">Source Code</label>
-          <input pInputText id="source-code" maxlength="150" placeholder="Enter Source Code"/>
-      </div>
-      <div class="flex flex-column m-3">
-        <label for="source-name">Source Name</label>
-        <input pInputText id="source-name" maxlength="150" placeholder="Enter Source Name"/>
-      </div>
+        <div class="col-12 md:col-3 lg:col-3">
+          <label for="source-code">Source</label>
+          <p-dropdown inputId="make" 
+            class="w-full" 
+            styleClass="w-full" 
+            optionLabel="CodeDesc" 
+            optionValue="Code"
+            placeholder="Select Identity Type">
+          </p-dropdown>
+        </div>
+        <div class="col-12 md:col-3 lg:col-3">
+            <label for="source-code">Source Code</label>
+            <input pInputText id="source-code" maxlength="150"  class="w-full" 
+            styleClass="w-full"  placeholder="Enter Source Code"/>
+        </div>
+        <div class="col-12 md:col-3 lg:col-3">
+          <label for="source-name">Source Name</label>
+          <input pInputText id="source-name" maxlength="150"  class="w-full" 
+          styleClass="w-full"  placeholder="Enter Source Name"/>
+        </div>
     </div>
-    <div class="col-12 md:col-6 lg:col-4">
-      <h3 class="ml-3">Registration Number</h3>
+  </ng-container>
+  <div class="grid mt-2">
+    <div class="col-12 md:col-4 lg:col-4 md:col-offset-3 lg:col-offset-3">
+          <label for="source-name">Registration Number</label><br>
+          <input pInputText  maxlength="150"  class="w-full customInputText " styleClass="w-full customInputText" 
+          [(ngModel)]="regNo"  placeholder="Enter Registration Number"/>
+          <div class="input-form-error" *ngIf="regNoError">
+              <div class="error-text">
+                  Please Enter Registration Number
+              </div>
+          </div>
+      
+    </div>
+    <div class="col-12 md:col-2 lg:col-2 mt-4">
+      <p-button styleClass="p-button-success" label="Get Quote" (click)="checkMandatories()"></p-button>
+    </div>
+  </div>
+  <div class="flex flex-wrap justify-content-center" *ngIf="policyPeriodExceed">
+    <div class="input-form-error" >
+        <b>Sorry! Policy Period ({{motorDetails?.PolicyStartDate}} &nbsp; - &nbsp;{{motorDetails?.PolicyEndDate}}) for this Vehicle Details Will be Valid till More than 30 Days, Can't Proceed Now</b>
+    </div>
+  </div>
+    <!-- <div class="col-12 md:col-6 lg:col-4">
+      <h3 class="ml-3"></h3>
       <div class="flex flex-column m-3">
         <input pInputText id="source-code" maxlength="150" placeholder="Enter Registration Number"/>
       </div>
@@ -60,6 +85,5 @@
       <div class="flex flex-column m-3">
         <p-button styleClass="p-button-outlined" label="Get Quotes"></p-button>
       </div>
-    </div>
-  </div>
+    </div> -->
 </div> 

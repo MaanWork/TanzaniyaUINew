@@ -1354,7 +1354,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
                     for(let field of fieldList){
                       if(field.key=='VehicleSI' || field.key=='AccessoriesSI' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI'){
                         if(this.insuranceId=='100027'){
-                          if(this.productItem.InsuranceType=='102' || this.productItem.InsuranceType=='95'){
+                          if(this.vehicleDetailsList.length==1){
+                            field.hideExpression = false;field.hide=false;
+                          }
+                          else if(this.productItem.InsuranceType=='102' || this.productItem.InsuranceType=='95'){
                             field.hideExpression = true;field.hide=true;
                           }
                           else{field.hideExpression = false;field.hide=false;}
@@ -2194,7 +2197,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
       "ManufactureYear": this.vehicleDetails?.ManufactureYear,
       "ModelNumber": null,
       "MotorCategory": this.vehicleDetails?.MotorCategory,
-      "Motorusage": null,
+      "Motorusage": this.vehicleDetails?.Motorusage,
+      "MotorusageId": this.vehicleDetails?.MotorusageId,
       "NcdYn": null,
       "PolicyRenewalYn": 'N',
       "NoOfClaims": null,
@@ -2214,13 +2218,18 @@ export class CommonQuoteDetailsComponent implements OnInit {
       "SpotFogLamp": null,
       "Stickerno": null,
       "SumInsured": null,
+      "InflationSumInsured": null,
       "Tareweight": this.vehicleDetails?.Tareweight,
       "TppdFreeLimit": null,
       "TppdIncreaeLimit": null,
       "TrailerDetails": null,
       "Vehcilemodel":  this.vehicleDetails?.Vehcilemodel,
-      "VehicleType": null,
+      "VehicleType": this.vehicleDetails?.VehicleType,
+      "VehicleTypeId": this.vehicleDetails?.VehicleTypeId,
       "Vehiclemake": this.vehicleDetails?.Vehiclemake,
+      "VehiclemakeId": this.vehicleDetails?.VehiclemakeId,
+      "VehcilemodelId": this.vehicleDetails?.Vehiclemodel,
+      "VehicleModel": this.vehicleDetails?.VehicleModelDesc,
       "WindScreenSumInsured": null,
       "Windscreencoverrequired": null,
       "accident": null,
@@ -2543,7 +2552,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           let deductibles = null;
         if(this.productItem.Deductibles!='' && this.productItem.Deductibles!=undefined) deductibles = this.productItem.Deductibles;
         let insuranceType = [];
-        if(this.insuranceId=='100028' && this.vehicleDetailsList.length==1){
+        if((this.insuranceId=='100028' || this.insuranceId=='100027') && this.vehicleDetailsList.length==1){
             //if(this.typeValue==null || this.typeValue==undefined){
               for(let entry of this.typeList){
                 insuranceType.push(entry.Code);
@@ -2561,6 +2570,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             else insuranceType.push(this.productItem.InsuranceType);
           }
         }
+       
         if(this.insuranceId=='100027' || this.insuranceId=='100028'){
           if(Array.isArray(insuranceType)){
             if(insuranceType.length!=0) this.productItem.InsuranceClass = insuranceType[0];
@@ -2576,6 +2586,32 @@ export class CommonQuoteDetailsComponent implements OnInit {
           else PurchaseDate = this.datePipe.transform(this.productItem.PurchaseDate,'dd/MM/yyyy');
         }
         if(this.productItem.GpsYN==null || this.productItem.GpsYN==undefined || this.productItem.GpsYN=='') this.productItem.GpsYN = 'N';
+        this.vehicleDetails['VehicleTypeId'] = null;
+        if(this.productItem.BodyType!=null && this.productItem.BodyType!=''){
+          let usageId = this.motorTypeList.find(ele=>ele.CodeDesc==this.productItem.BodyType || ele.Code==this.productItem.BodyType).Code;
+          if(usageId) this.vehicleDetails['VehicleTypeId'] = usageId;
+          let usageDesc = this.motorTypeList.find(ele=>ele.CodeDesc==this.productItem.BodyType || ele.Code==this.productItem.BodyType).CodeDesc;
+          if(usageDesc) this.vehicleDetails['VehicleType'] = usageDesc;
+
+        }
+        let motorUsage=null,motorUsageId=null;
+       
+          if(this.productItem.MotorUsage!=null && this.productItem.MotorUsage!='' && this.productItem.MotorUsage!=undefined){
+            let usageDesc = this.motorUsageList.find(ele=>ele.CodeDesc==this.productItem.MotorUsage || ele.Code==this.productItem.MotorUsage)?.CodeDesc;
+            if(usageDesc){
+              motorUsage = usageDesc;
+              let usageId = this.motorUsageList.find(ele=>ele.CodeDesc==this.productItem.MotorUsage || ele.Code==this.productItem.MotorUsage)?.Code;
+              if(usageId) motorUsageId = usageId;
+            } 
+            else{
+              motorUsageId = this.vehicleDetails.Motorusage
+              motorUsage = this.vehicleDetails.MotorUsageDesc;
+            }
+          }
+          else{
+            motorUsageId = this.vehicleDetails.Motorusage
+            motorUsage = this.vehicleDetails.MotorUsageDesc;
+          }
           let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,
@@ -2618,7 +2654,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "ManufactureYear": this.vehicleDetails?.ManufactureYear,
             "ModelNumber": null,
             "MotorCategory": this.vehicleDetails?.MotorCategory,
-            "Motorusage": this.productItem.MotorUsage,
+            "Motorusage": motorUsage,
+            "MotorusageId": motorUsageId,
             "NcdYn": this.productItem.ClaimsYN,
             "PolicyRenewalYn": this.productItem.RenewalYn,
             "NoOfClaims": null,
@@ -2637,13 +2674,17 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "SpotFogLamp": null,
             "Stickerno": null,
             "SumInsured": this.productItem.VehicleSI,
+            "InflationSumInsured": this.productItem.InflationSumInsured,
             "Tareweight": this.vehicleDetails?.Tareweight,
             "TppdFreeLimit": null,
             "TppdIncreaeLimit": this.productItem.ExtendedTPPDSI,
             "TrailerDetails": null,
-            "Vehcilemodel": this.vehicleDetails?.Vehcilemodel,
-            "VehicleType": this.productItem.BodyType,
-            "Vehiclemake": this.vehicleDetails?.Vehiclemake,
+            "VehicleModel": this.vehicleDetails?.VehicleModelDesc,
+            "VehcilemodelId": this.vehicleDetails?.Vehcilemodel,
+            "VehicleType": this.vehicleDetails.VehicleType,
+            "VehicleTypeId": this.vehicleDetails?.VehicleTypeId,
+            "Vehiclemake": this.vehicleDetails?.VehiclemakeDesc,
+            "VehiclemakeId": this.vehicleDetails?.Vehiclemake,
             "WindScreenSumInsured": this.productItem.WindShieldSI,
             "Windscreencoverrequired": null,
             "accident": null,
@@ -3109,6 +3150,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 regYear=this.customerDetails?.DobOrRegDate;IdType=this.customerDetails?.PolicyHolderType;};
                 console.log("AcExecutive",this.acExecutiveId,this.vehicleDetails,this.sourceType,this.brokerCode,this.customerCode);
               console.log("AcExecutive",this.acExecutiveId);
+              let motorUsageId = vehicleDetails.Motorusage
+              let motorUsage = vehicleDetails.MotorUsageDesc;
               let ReqObj = {
                 "BrokerBranchCode": brokerbranchCode,
                 "AcExecutiveId": this.acExecutiveId,
@@ -3152,7 +3195,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
               "ManufactureYear": vehicleDetails?.ManufactureYear,
               "ModelNumber": null,
               "MotorCategory": vehicleDetails?.MotorCategory,
-              "Motorusage": vehicleDetails?.Motorusage,
+              "Motorusage": motorUsage,
+              "MotorusageId": motorUsageId,
               "NcdYn": vehicleDetails?.NcdYn,
               "PolicyRenewalYn": vehicleDetails?.PolicyRenewalYn,
               "NoOfClaims": null,
@@ -3170,13 +3214,18 @@ export class CommonQuoteDetailsComponent implements OnInit {
               "SpotFogLamp": null,
               "Stickerno": null,
               "SumInsured": vehicleDetails?.SumInsured,
+              "InflationSumInsured": vehicleDetails.InflationSumInsured,
               "Tareweight": vehicleDetails?.Tareweight,
               "TppdFreeLimit": null,
               "TppdIncreaeLimit": vehicleDetails?.TppdIncreaeLimit,
               "TrailerDetails": null,
               "Vehcilemodel": vehicleDetails?.Vehcilemodel,
               "VehicleType": vehicleDetails?.VehicleType,
-              "Vehiclemake": vehicleDetails?.Vehiclemake,
+              "VehicleTypeId": vehicleDetails?.VehicleTypeId,
+              "Vehiclemake": vehicleDetails?.VehiclemakeDesc,
+              "VehiclemakeId": vehicleDetails?.Vehiclemake,
+              "VehicleModel": vehicleDetails?.VehicleModelDesc,
+              "VehcilemodelId": vehicleDetails?.Vehcilemodel,
               "WindScreenSumInsured": vehicleDetails?.WindScreenSumInsured,
               "Windscreencoverrequired": null,
               "accident": null,
@@ -3708,7 +3757,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           let deductibles = null;
           if(this.productItem.Deductibles!='' && this.productItem.Deductibles!=undefined) deductibles = this.productItem.Deductibles;
           let insuranceType = [];
-          if(this.insuranceId=='100028' && this.vehicleDetailsList.length==1){
+          if((this.insuranceId=='100028' || this.insuranceId=='100027') && this.vehicleDetailsList.length==1){
               //if(this.typeValue==null || this.typeValue==undefined){
                 for(let entry of this.typeList){
                   insuranceType.push(entry.Code);
@@ -3741,6 +3790,32 @@ export class CommonQuoteDetailsComponent implements OnInit {
             else PurchaseDate = this.datePipe.transform(this.productItem.PurchaseDate,'dd/MM/yyyy');
           }
           if(this.productItem.GpsYN==null || this.productItem.GpsYN==undefined || this.productItem.GpsYN=='') this.productItem.GpsYN = 'N';
+          this.vehicleDetails['VehicleTypeId'] = null;
+        if(this.productItem.BodyType!=null && this.productItem.BodyType!=''){
+          let usageId = this.motorTypeList.find(ele=>ele.CodeDesc==this.productItem.BodyType || ele.Code==this.productItem.BodyType).Code;
+          if(usageId) this.vehicleDetails['VehicleTypeId'] = usageId;
+          let usageDesc = this.motorTypeList.find(ele=>ele.CodeDesc==this.productItem.BodyType || ele.Code==this.productItem.BodyType).CodeDesc;
+          if(usageDesc) this.vehicleDetails['VehicleType'] = usageDesc;
+
+        }
+        let motorUsage=null,motorUsageId=null;
+       
+          if(this.productItem.MotorUsage!=null && this.productItem.MotorUsage!='' && this.productItem.MotorUsage!=undefined){
+            let usageDesc = this.motorUsageList.find(ele=>ele.CodeDesc==this.productItem.MotorUsage || ele.Code==this.productItem.MotorUsage)?.CodeDesc;
+            if(usageDesc){
+              motorUsage = usageDesc;
+              let usageId = this.motorUsageList.find(ele=>ele.CodeDesc==this.productItem.MotorUsage || ele.Code==this.productItem.MotorUsage)?.Code;
+              if(usageId) motorUsageId = usageId;
+            } 
+            else{
+              motorUsageId = this.vehicleDetails.Motorusage
+              motorUsage = this.vehicleDetails.MotorUsageDesc;
+            }
+          }
+          else{
+            motorUsageId = this.vehicleDetails.Motorusage
+            motorUsage = this.vehicleDetails.MotorUsageDesc;
+          }
           let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,
@@ -3783,7 +3858,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "ManufactureYear": this.vehicleDetails?.ManufactureYear,
             "ModelNumber": null,
             "MotorCategory": this.vehicleDetails?.MotorCategory,
-            "Motorusage": this.productItem.MotorUsage,
+            "Motorusage": motorUsage,
+            "MotorusageId": motorUsageId,
             "NcdYn": this.productItem.ClaimsYN,
             "PolicyRenewalYn": this.productItem.RenewalYn,
             "NoOfClaims": null,
@@ -3802,13 +3878,17 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "SpotFogLamp": null,
             "Stickerno": null,
             "SumInsured": this.productItem.VehicleSI,
+            "InflationSumInsured": this.productItem.InflationSumInsured,
             "Tareweight": this.vehicleDetails?.Tareweight,
             "TppdFreeLimit": null,
             "TppdIncreaeLimit": this.productItem.ExtendedTPPDSI,
             "TrailerDetails": null,
-            "Vehcilemodel": this.vehicleDetails?.Vehcilemodel,
-            "VehicleType": this.productItem.BodyType,
-            "Vehiclemake": this.vehicleDetails?.Vehiclemake,
+            "VehicleModel": this.vehicleDetails?.VehicleModelDesc,
+            "VehcilemodelId": this.vehicleDetails?.Vehcilemodel,
+            "VehicleType": this.vehicleDetails.VehicleType,
+            "VehicleTypeId": this.vehicleDetails?.VehicleTypeId,
+            "Vehiclemake": this.vehicleDetails?.VehiclemakeDesc,
+            "VehiclemakeId": this.vehicleDetails?.Vehiclemake,
             "WindScreenSumInsured": this.productItem.WindShieldSI,
             "Windscreencoverrequired": null,
             "accident": null,
@@ -4582,6 +4662,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.productItem.Deductibles = this.vehicleDetails?.Deductibles;
       this.productItem.VehicleValue = this.vehicleDetails?.VehicleValueType;
       this.productItem.Inflation = this.vehicleDetails?.Inflation;
+      this.productItem.InflationSumInsured = this.vehicleDetails?.InflationSumInsured;
       this.productItem.DefenceCost = this.vehicleDetails?.DefenceValue;
       if(this.vehicleDetails?.NcdYn) this.productItem.ClaimsYN = this.vehicleDetails?.NcdYn;
       else this.productItem.ClaimsYN = 'N';
@@ -4761,7 +4842,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
         }
       }
-      if(field.key=='InsuranceType' && this.insuranceId=='100028' && this.vehicleDetailsList.length==1){
+      if(field.key=='InsuranceType' && (this.insuranceId=='100028' || this.insuranceId=='100027') && this.vehicleDetailsList.length==1){
         field.hideExpression = true;field.hide=true;
       }
       if(field.key=='VehicleSI' || field.key=='AccessoriesSI' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI'){
