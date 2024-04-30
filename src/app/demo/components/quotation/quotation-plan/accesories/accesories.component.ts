@@ -27,6 +27,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { QuotationPlanComponent } from '../quotation-plan.component';
+import { Medical } from '../models/additionalDetails/medical';
 
 export class ForceLengthValidators {
   static maxLength(maxLength: number) {
@@ -372,16 +373,17 @@ export class AccesoriesComponent {
       this.buildingDetailsSection=false;
     }
     else if(this.productId!='43'){
+      //this.productId!='43'
       this.buildingDetailsSection=true;
       // let items = this.item?.find((Code) => Code == '1' || Code=='40');
       // console.log('JJJJJJJJJJJJJJJJJJ',items);
     }
     if(this.productId=='43'){
       this.newten = true;
-      // let fireData = new Medical();
-      // let entry = [];
-      // this.fields = fireData?.fields;
-      // this.getMedicalDetails();
+      let fireData = new Medical();
+      let entry = [];
+      this.fields = fireData?.fields;
+      this.getMedicalDetails();
       
     }
     
@@ -797,7 +799,7 @@ export class AccesoriesComponent {
           else this.six = false;
         }
         else this.six = false;
-        const seven = this.sectionDetails.find((ele) => ele.SectionId== 37 || ele.SectionId == 38 || ele.SectionId == 45);
+        const seven = this.sectionDetails.find((ele) => ele.SectionId== 37 || ele.SectionId == 38 || ele.SectionId == 45 || ele.SectionId == 43);
         if(seven){
           if(seven?.AddDetailYn=='Y'){
             this.seven = true;
@@ -2038,7 +2040,10 @@ this.errorRecords1=[];
           if (res.ErrorMessage) {
           }
         }
-          else  this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/premium-details']);
+          else  {
+            this.router.navigate(['/quotation/plan/main/document-info']);
+          }
+          //this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/premium-details']);
       },
       (err) => { },
     );
@@ -2386,7 +2391,13 @@ onFidelitySave(){
   }
   onSaveEmployeeDetails(type){
     
-    let urlLink = null;
+    let urlLink = null;let section:any;
+    if(this.productId=='14'){
+      section='45';
+    }
+    else if(this.productId=='32'){
+      section = '43';
+    }
     if(type=='save') urlLink = `${this.motorApiUrl}api/saveemployees`;
     else urlLink = `${this.motorApiUrl}api/proceedemployees`;
     if(this.employeeList.length!=0){
@@ -2408,7 +2419,7 @@ onFidelitySave(){
             if(type=='alter') validYN = 'Y';
             let ReqObj = {
               "Createdby": this.loginId,
-              "SectionId": '45',
+              "SectionId": section,
               "ProductId": this.productId,
               "InsuranceId": this.insuranceId,
               "ProductEmployeeSaveReq": empList,
@@ -2723,9 +2734,7 @@ onFidelitySave(){
               this.formSection = true; this.viewSection = false;
            }
         }
-        else {
-          this.EmployeeAdd();
-           }
+      
       },
       (err) => { },
     );
@@ -2770,7 +2779,7 @@ onFidelitySave(){
       (data: any) => {
         console.log(data);
         if(data.Result){
-          if(this.productId=='14' || sectionId=='45'){
+          if(this.productId=='14' || sectionId=='45' || this.productId=='32' || sectionId=='43'){
             let defobj = [{'label':'--Select--','value':null}];
                   this.employeeOccupationList = data.Result;
                   for (let i = 0; i < this.employeeOccupationList.length; i++) {
@@ -2782,19 +2791,19 @@ onFidelitySave(){
                     }
                   }
           }
-          else if(this.productId=='32' || sectionId=='43'){
-            let defobj = [{'label':'--Select--','value':null}];
-            this.fidelityOccupationList = data.Result;
-            for (let i = 0; i < this.fidelityOccupationList.length; i++) {
-              this.fidelityOccupationList[i].label = this.fidelityOccupationList[i]['CodeDesc'];
-              this.fidelityOccupationList[i].value = this.fidelityOccupationList[i]['Code'];
-              delete this.fidelityOccupationList[i].CodeDesc;
-              if (i == this.fidelityOccupationList.length - 1) {
-                this.fieldFEFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = defobj.concat(this.fidelityOccupationList);
-              }
-              // console.log('JJJJJJJJJJJJJJJJJJJ',this.fieldFEFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options)
-            }
-          }
+          // else if(this.productId=='32' || sectionId=='43'){
+          //   let defobj = [{'label':'--Select--','value':null}];
+          //   this.fidelityOccupationList = data.Result;
+          //   for (let i = 0; i < this.fidelityOccupationList.length; i++) {
+          //     this.fidelityOccupationList[i].label = this.fidelityOccupationList[i]['CodeDesc'];
+          //     this.fidelityOccupationList[i].value = this.fidelityOccupationList[i]['Code'];
+          //     delete this.fidelityOccupationList[i].CodeDesc;
+          //     if (i == this.fidelityOccupationList.length - 1) {
+          //       this.fieldFEFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = defobj.concat(this.fidelityOccupationList);
+          //     }
+          //     // console.log('JJJJJJJJJJJJJJJJJJJ',this.fieldFEFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options)
+          //   }
+          // }
           else 
           {
             this.occupationList = data.Result;
@@ -3292,6 +3301,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
   }
   checkEmplyeeSection(){
     if(this.productId=='57') return 'Group Personal Accident';
+    else if(this.productId=='32') return 'Fidelity Details';
     else return 'Employee Details';
   }
   onSavePersonalAccident(){
@@ -3832,11 +3842,12 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
 
           if (data.Result) {
             console.log('PPPPPPPPP',data.Result);
-            console.log('SSSSSSSSSSSS',type);
+            console.log('SSSSSSSSSSSS',type,this.first);
+
             //this.first=true;
             if(type=='Content Risk'){
               this.fourth = true;
-              this.first=true;
+              // this.first=true;
               this.getContentDetails();
               this.selectedTab = 1;
             }
@@ -3860,7 +3871,10 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
               this.nine =true;
               this.getMachineryRisk();
               }
-            else if (this.first||this.second || this.third || this.fifth || this.six || this.seven || this.eight || this.nine) {
+              
+            else if (this.first||this.second || this.third || this.fifth || this.six || this.seven || this.eight) {
+             
+              console.log('Methodss',this.first,this.second,this.third,this.fifth,this.six,this.seven,this.eight,this.nine);
               this.fourth = true;
               if(this.first){
                 this.getContentDetails();
@@ -3886,10 +3900,11 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
               this.selectedTab = 1;
             }
             else if(this.productId=='42') this.selectedTab = 1;
+            else if(this.productId=='43') this.selectedTab = 1;
             else if(this.productId=='56') this.selectedTab = 1;
             else if(this.productId=='57') this.selectedTab = 1;
             else if(this.productId=='60') {this.getHealthData();this.selectedTab = 1;this.eleven=true;}
-            else {
+            else{
               this.checkValidation();
               //if(this.productId=='1' || this.productId=='16' || this.productId=='6' || this.productId=='27')
             }

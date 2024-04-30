@@ -1,8 +1,5 @@
 import { FormlyJsonschema } from "@ngx-formly/core/json-schema";
-import { SharedService } from "src/app/shared/shared.service";
-import { UpdateCustomerDetailsComponent } from "../../../update-customer-details.component";
 // import { ForceLengthValidators } from "../../personal-quote-details/personal-quote-details.component";
-import { ForceLengthValidators } from '../../domestic-risk-details/domestic-risk-details.component';
 import { FormlyFieldConfig } from "@ngx-formly/core";
 
 export class Medical {
@@ -25,22 +22,19 @@ export class Medical {
       {
         fieldGroup: [
           {
-            fieldGroupClassName: 'row',
+            fieldGroupClassName: 'grid',
             fieldGroup: [
               {
-                fieldGroupClassName: 'row',
+                fieldGroupClassName: 'grid',
                 fieldGroup: [
                   {
                     type: 'input',
                     key: 'HighestQualificationHeld',
                     defaultValue: '',
-                    className: 'col-sm-4 offset-1',
+                    className: 'col-12 md:col-6 lg:col-6',
                     props: {
                       label: `Highest Qualification Held`,
                       required: true,
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
                     },
                     hooks: {
                     },
@@ -48,29 +42,25 @@ export class Medical {
                     },
                   },
                   {
-                    className: 'col-sm-4 offset-1',
+                    className: 'col-12 md:col-6 lg:col-6',
                     type: 'input',
                     key: 'IssuingAuthority',
                     templateOptions: {
                       label: 'Issuing Authority',
                       required: true,
                     },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(500), ForceLengthValidators.min(1)]
-                    },
+                   
                   },
 
                   {
                     type: 'input',
-                    className: 'col-sm-4 offset-1',
+                    className: 'col-12 md:col-6 lg:col-6',
                     key: 'DateOfJoiningYear',
                     props: {
                       label: `Year Of Passing`,
                       required: true,
                     },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(4), ForceLengthValidators.min(1)]
-                    },
+                   
                     hooks: {
                     },
                     expressions: {
@@ -78,15 +68,13 @@ export class Medical {
                   },
                   {
                     type: 'input',
-                    className: 'col-sm-4 offset-1',
+                    className: 'col-12 md:col-6 lg:col-6',
                     key: 'EmployeeName',
                     props: {
                       label: `Employer Name`,
                       required: true,
                     },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(150), ForceLengthValidators.min(1)]
-                    },
+                 
                     hooks: {
                     },
                     expressions: {

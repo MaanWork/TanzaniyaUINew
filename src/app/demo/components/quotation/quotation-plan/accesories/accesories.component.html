@@ -546,6 +546,120 @@
 
                 </div>
                 <div class="lg:col-10 md:col-10 col-12">
+                    <p-button label="Upload" (click)="onUploadEmployeeSection()" class="text-l pi-button mr-0"><i class="fa fa-upload"></i>&nbsp;</p-button>
+                    <div *ngIf="enableEmployeeUploadSection && !showEmpRecordsSection">
+                        <div class="row" *ngIf="uploadStatus==null">
+                            <div class="col-md-8 col-lg-8 offset-2" >
+                                <input style="display: none;" type="file" (change)="onUploadDocuments($event,null,'direct','select')" #doc>
+                                <div class="imag-card my-3" appDragDropFileUpload (fileDropped)="onUploadDocuments($event,null,'direct','drag')" (click)="doc.click()">
+                                    <div>
+                                        <div class="center">
+                                            <b class="text-dark" style="font-size:1rem">
+                                                <i class="far fa-images"></i> Drag or Click</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="uploadDocList.length!=0 && uploadStatus==null">
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <table class="table" id="capture_table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="border_radius"><span class="spancommon">S.No</span></th>
+                                            <th scope="col"><span class="spancommon">FileName</span></th>
+                                            <th scope="col"><span class="spancommon">Delete</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let document of uploadDocList;let i=index">
+                                            <th scope="row">{{i+1}}</th>
+                                            <td><span class="spancommon">{{document.filename}}</span></td>
+                                            <td>
+                                                <button class="btn-sm btn btn-danger" (click)="uploadDocList=[];"><i class="fa fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="text-center mt-2" *ngIf="uploadStatus==null">
+                            <p-button label="Cancel" class="mr-5" (click)="enableEmployeeUploadSection=!enableEmployeeUploadSection;uploadDocList=[]"></p-button>
+                            <p-button label="Upload" *ngIf="uploadDocList.length!=0" (click)="onUploadEmployeeDetails()"></p-button>
+                            <!-- <button class="btn btn-danger btn-sm mr-5" (click)="enableEmployeeUploadSection=!enableEmployeeUploadSection;uploadDocList=[]"> Cancel</button>&nbsp;&nbsp;
+                            <button class="btn btn-success btn-sm" *ngIf="uploadDocList.length!=0" (click)="onUploadEmployeeDetails()">Upload</button> -->
+                        </div>
+                        <div class="text-center">
+                            <p>{{uploadStatus}}</p>
+                        </div>
+                    </div>
+                    <div *ngIf="enableEmployeeUploadSection && showEmpRecordsSection">
+                        <div class="row" *ngIf="employeeUploadRecords.length!=0">
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <table class="table" id="capture_table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="border_radius"><span class="spancommon">S.No</span></th>
+                                            <th scope="col"><span class="spancommon">Uploaded Date</span></th>
+                                            <th scope="col"><span class="spancommon">Total Records</span></th>
+                                            <th scope="col"><span class="spancommon">Valid Records</span></th>
+                                            <th scope="col"><span class="spancommon">Error Records</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let records of employeeUploadRecords;let i=index">
+                                            <th scope="row">{{i+1}}</th>
+                                            <td><span class="spancommon">{{records.UploadDate}}</span></td>
+                                            <td> <span class="spancommon">{{records.TotalRecords}}</span> </td>
+                                            <td> <span class="spancommon">{{records.ValidRecords}}</span> </td>
+                                            <td> <span class="spancommon">{{records.ErrorRecords}}</span> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center mt-2" *ngIf="errorRecords.length==0">
+                                <button class="custom-btn btn-7 maan-button-data mx-2" (click)="updateEmployeeRecordsTable()">Move Records</button>
+                            </div>
+                            <ng-container *ngIf="errorRecords.length!=0">
+                                <div class="d-flex justify-content-between maan-grid-item maan-grid-item-title">
+                                    <div class="headcommon" >
+                                        <span><i class="fas fa-users mx-1 mt-3"></i></span>
+                                        <span class="spancommon span_font_size" style="font-weight:600">Error Details</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-12 col-xl-12" >
+                                    <table class="table" id="capture_table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="border_radius"><span class="spancommon">S.No</span></th>
+                                                <th scope="col"><span class="spancommon">Employee Name</span></th>
+                                                <th scope="col"><span class="spancommon">Date Of Birth</span></th>
+                                                <th scope="col"><span class="spancommon">Nationality</span></th>
+                                                <th scope="col"><span class="spancommon">Error Reason</span></th>
+                                                <th scope="col"><span class="spancommon">Action</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let records of errorRecords|paginate:{itemsPerPage: 5, currentPage:j , id:'j'};let i=index">
+                                                <th scope="row">{{i+1}}</th>
+                                                <td><span class="spancommon">{{records.EmployeeName}}</span></td>
+                                                <td> <span class="spancommon">{{records.DateOfBirth}}</span> </td>
+                                                <td> <span class="spancommon">{{records.NationalityId}}</span> </td>
+                                                <td> <span class="spancommon">{{records.ErrorDesc}}</span> </td>
+                                                <td> 
+                                                        <button class="btn btn-primary" (click)="onEditEmployeeError(records,mymodal,'employee')"><i class="fa fa-pencil"></i></button>    
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <pagination-controls (pageChange)="j=$event"  id="j"></pagination-controls>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <!-- <button class="groupBtnMembers__btn custom-btn btn-7 maan-button-data  mx-2" (click)="onUploadEmployeeSection()"><i class="fa fa-upload"></i>&nbsp;Upload</button> -->
                     <ng-container *ngIf="employeeList.length!=0 && getemployeeList(employeeList,employeeList.length)">
                         <p-table [value]="employeeList" [tableStyle]="{ 'min-width': '50rem' }">
                             <ng-template pTemplate="header">
@@ -611,10 +725,16 @@
                             <h6 class="text-white my-0">{{totalEmpIntSI | commaseparator }}</h6>
                         </div>
                     </div>
-                    <div class="flex flex-wrap justify-content-between" >
+                    <div class="flex flex-wrap justify-content-between" *ngIf="productId=='14'">
                         <div><h5 class="text-white mb-1 mr-3">Actual SumInsured</h5></div>
                         <div><h6 class="text-white my-0">{{actualEmployeeSI | commaseparator }}</h6></div>
                     </div>
+                    <div class="flex flex-wrap justify-content-between" *ngIf="productId=='32'">
+                        <div><h5 class="text-white mb-1 mr-3">Actual SumInsured</h5></div>
+                        <div><h6 class="text-white my-0">{{actualFidelitySI | commaseparator }}</h6></div>
+                    </div>
+
+
                 </div>
             </div>
         </p-tabPanel>
@@ -687,6 +807,44 @@
                 </div>
             </div>
             <!--onSaveAllRisk(-->
+        </p-tabPanel>
+
+        <p-tabPanel header="Medical Details" [disabled]="!allfields" *ngIf="newten">
+            <div class="grid">
+                <div class="lg:col-12 md:col-12 col-12">
+                    <form [formGroup]="form">
+                        <formly-form [form]="form" [fields]="fields" [model]="productItem"></formly-form>
+                    </form>
+                    <!-- <div class="flex flex-wrap justify-content-center mt-2">
+                        <p-button label="Save" (click)="onMedicalSave()" class="text-l pi-button mr-0"></p-button>
+                    </div> -->
+                </div>
+                
+            </div>
+            <div class="flex flex-wrap justify-content-center mt-4">
+                <div class="mb-4">
+                    <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                    <ng-container>
+                        <p-button label="Proceed" (click)="onMedicalSave()" class="text-l pi-button mr-0"></p-button>
+                    </ng-container>
+                </div>
+            </div>
+            <!-- <div class="flex flex-wrap justify-content-end">
+                <div class="text-white surface-900 px-6 py-3 border-round-lg" (click)="showSidebar()">
+                    <div class="flex flex-wrap justify-content-between" >
+                        <div>
+                            <h5 class="text-white mb-1 mr-3">Total SumInsured</h5>
+                        </div>
+                        <div>
+                            <h6 class="text-white my-0">{{totalElectrIntSI | commaseparator }}</h6>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap justify-content-between" >
+                        <div><h5 class="text-white mb-1 mr-3">Actual SumInsured</h5></div>
+                        <div><h6 class="text-white my-0">{{actualElectronicIntSI | commaseparator }}</h6></div>
+                    </div>
+                </div>
+            </div> -->
         </p-tabPanel>
 
     </p-tabView>

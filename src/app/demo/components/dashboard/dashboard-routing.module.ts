@@ -14,6 +14,7 @@ import { ReferralComponent } from '../referral/referral.component';
 import { PortfolioComponent } from '../portfolio/portfolio.component';
 import { ReportComponent } from '../report/report.component';
 import { ReferralCasesComponent } from '../Admin/referralCases/referral-cases.component';
+import { SearchComponent } from '../Search/search.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { ReferralCasesComponent } from '../Admin/referralCases/referral-cases.co
         { path: 'referral', component: ReferralComponent },
         { path: 'portfolio', component: PortfolioComponent },
         { path: 'report', component: ReportComponent },
-        { path: 'referralCases', component: ReferralCasesComponent }
+        { path: 'referralCases', component: ReferralCasesComponent },
+        { path: 'Search', component : SearchComponent}
     ])],
     exports: [RouterModule]
 })

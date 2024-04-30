@@ -106,6 +106,7 @@ export class CommonProductDetailsComponent {
   listSection:boolean=false;listn:boolean=false;queryHeader1:any[]=[];fieldsEmployee:any[]=[];
   groupHeader:any[]=[]; GroupListNew: any[]=[];  listSectionGroup: boolean;
   listnGroup: boolean; dobminDate: Date;productList13:any[]=[];
+  queryHeader4:any[]=[];
   backDays: any=null;customerList:any[]=[];
   fieldsFidelity:any[]=[];fuelTypeList:any[]=[];motorDetails:any=null;
   listSectionFed:boolean=false;listnFed:boolean=false;queryHeader2:any[]=[];CyberCode:any=null;
@@ -119,6 +120,7 @@ export class CommonProductDetailsComponent {
   policyEndDateError: boolean=false;
   currencyCodeError: boolean=false;
   endorsePolicyNo: any=null;currentBuildingIndex:any=0;currentGroupIndex:any=0;
+  currentFedIndex:any=0;
   endorsementDetails: any=null;
   Code: any=null;buildingOwnerYN:any='N';
   customerCode: any=null;
@@ -128,7 +130,9 @@ export class CommonProductDetailsComponent {
   sourceType: any;minDate:Date;
   bdmCode: any;aooSIList:any[]=[];ProfessionalTypes:any[]=[];
   uwQuestionList: any[]=[];isEmployeeForm:boolean=false;
-  isGroupForm:boolean=false;brokerLoginId: any=null;
+  isGroupForm:boolean=false;
+  brokerLoginId: any=null;
+  isFedilityForm:boolean=false;
   endorseEffectiveDate: any=null;showsectionnew:boolean=false;
   endorseCoverModification:any=null; sourceCodeDesc: null;
   editss: boolean=false;brokerList:any[]=[];
@@ -136,12 +140,13 @@ export class CommonProductDetailsComponent {
   editGroup:boolean = false;brokerBranchList:any[]=[];
   employeeError: boolean=false;branchValue: any=null;
   productList: any[]=[];
-  Products: boolean = false;
+  Products: boolean = false;currentFidelityIndex:any=0;
   productnames: any;brokerBranchCode: any;
   newsections: any;
   colorSections: any[]=[];relationTypeList:any[]=[];
   plus: boolean = false;values:any;sectionDropdownList:any[]=[];
   landshow: boolean= false;inPatientSIList:any[]=[];
+  fidelityList: any[]=[];
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -199,6 +204,7 @@ export class CommonProductDetailsComponent {
     else this.issuerSection = false
      this.currencyCode = this.userDetails?.Result?.CurrencyId;
     this.queryHeader1 = [ 'No Of Employees','Sum Insured','Occupation','Action','Delete'];
+    this.queryHeader4 = [ 'No Of Employees','Sum Insured','Occupation','Action','Delete'];
     this.groupHeader = [
      'No Of Persons','Occupation','Death Sum Insured','Temporary Disability','Permanant Disability','Medical','Funeral Expense','Action','Delete'
     ];
@@ -1267,21 +1273,21 @@ export class CommonProductDetailsComponent {
       this.fields[0] = fireData?.fields;
       this.fields[0].fieldGroup[0].fieldGroup[0].templateOptions.options = [
         { value: 'A', 
-          list:[
-              "Nurses","Dietician","Lab/Path.Tech","Physiotherapist","X-Ray Tech","Scanning Tech.Pathologist",
+          label:["Nurses","Dietician","Lab/Path.Tech","Physiotherapist","X-Ray Tech","Scanning Tech.Pathologist",
               "Clinical Pathologist","Forensic Pathologist"
           ] 
         }, 
-        { value: 'B', list:[
-              "Midwife", "General Practitioner", "Psychiatrist", "Nephrologist", "Radiologist", "Ophthalmologist (non-surgical)", "Dentist", "Acupuncture Specialist", "Pharmacist", "Emergency doctor", "Neurologist (Non-Surgical)", "Pulmonologist(non-surgical)", "Gastroenterologist(non-surgical)", "Internist (non-surgical)"
+        { value: 'B', label:[
+          "Midwife","General Practitioner","Psychiatrist","Nephrologist","Radiologist", "Ophthalmologist (non-surgical)", "Dentist", "Acupuncture Specialist", "Pharmacist", "Emergency doctor", "Neurologist (Non-Surgical)", "Pulmonologist(non-surgical)", "Gastroenterologist(non-surgical)", "Internist (non-surgical)"
         ] },
-        { value: 'C', list:[
+        { value: 'C', label:[
           "Surgeons including Vascular/cardiovascular", "maxillofacial", "thoracic", "ENT (ear/nose/throat)", "Neurologist", "Urologist", "Plastic", "Venereal Disease Specialist and Dermatologist", "Ophthalmologist", "Neurology", "Gastroenterologist", "Rheumatologist", "Pulmonologist"
         ]},
-        { value: 'X', list:[
+        { value: 'X', label:[
           "Non-Surgical Specialist", "Gynaecologist", "Obstetrician & Gynaecologist", "Cardiologist", "Anaesthetist", "Paediatrician(non-surgical)", "Obstetrician", "Paediatrician(surgical)", "General surgeon", "orthopaedic surgery", "Doctor (including Surgery)", "Doctor (non-surgical)", "haematology"
         ]}
       ];
+      console.log('HHHKKKKK',this.fields[0].fieldGroup[0].fieldGroup[0].templateOptions.options)
       let aggHooks ={ onInit: (field: FormlyFieldConfig) => {
         field.formControl.valueChanges.subscribe(() => {
           this.ongetAggSIList('change')
@@ -1430,6 +1436,39 @@ export class CommonProductDetailsComponent {
       this.isGroupForm=true;
   //  this.open(modal)
   }
+
+  createCover4(element,modal){
+    this.showsectionnew=false;
+    this.listSection = false;
+    this.listn=true;
+    this.productItem = new ProductData();
+    this.productItem.LiabilityOccupationId='';
+  this.productItem.FidEmpCount='';
+  this.productItem.FidEmpSi=0;
+  this.productItem.otherFioption='';
+    let entry = {
+      "LiabilityOccupationId":null,
+      "FidEmpCount":null,
+      "FidEmpSi":'0',
+      "OtherOccupation":'',
+    }
+    this.currentFidelityIndex = this.FidelityListNew.length;
+    this.FidelityListNew.push(entry);
+    // this.productItem.LiabilityOccupationId='';
+    // this.productItem.FidEmpSi=0;
+    // this.productItem.FidEmpCount=0;
+    // this.productItem.otherFioption='';
+    //   let entry = {
+    //     "LiabilityOccupationId":null,
+    //     "FidEmpCount":null,
+    //     "FidEmpSi":'0',
+    //     "OtherOccupation":'',
+    //   }
+    //   this.currentFidelityIndex= this.fidelityList.length;
+    //   this.fidelityList.push(entry);
+    this.isFedilityForm= true;
+  }
+
   onEditBuilding(rowData){
     this.productItem = new ProductData();
     this.editss=true;
@@ -3322,7 +3361,7 @@ export class CommonProductDetailsComponent {
   onSubmit(){
     let valid = this.checkValidation();
     if(valid){
-      if(this.productId=='1' || this.productId=='6' || this.productId=='13' || this.productId=='39' || this.productId=='43' || this.productId=='16' || this.productId=='42' || this.productId=='14' || this.productId=='59' || this.productId=='60' || this.productId=='57' || this.productId=='56' || this.productId=='26' || this.productId=='25' || this.productId=='21' || this.productId=='27' || this.productId=='24'){ 
+      if(this.productId=='1' || this.productId=='6' || this.productId=='13' || this.productId=='39' || this.productId=='43' || this.productId=='16' || this.productId=='42' || this.productId=='14' || this.productId=='59' || this.productId=='60' || this.productId=='57' || this.productId=='56' || this.productId=='26' || this.productId=='25' || this.productId=='21' || this.productId=='27' || this.productId=='24' || this.productId=='32'){ 
         this.saveCommonDetails('direct')}
       else{this.onFormSubmit();}
     }
@@ -3500,7 +3539,8 @@ export class CommonProductDetailsComponent {
         "BranchCode": this.branchCode,
         "BrokerBranchCode": brokerbranchCode,
         "BrokerCode": this.brokerCode,
-        "BuildingOwnerYn": this.buildingOwnerYN,
+        "BuildingOwnerYn": this.BuildingOwnerYn,
+        //this.buildingOwnerYN,
         "Createdby": this.loginId,
         "SourceTypeId":sourcecode,//this.Code
         "Currency": this.currencyCode,
@@ -3704,6 +3744,7 @@ export class CommonProductDetailsComponent {
 console.log('Eventsss',event);
   }
   onFormSubmit(){
+
     if(this.productId=='1'){this.onSaveBurglaryDetails('proceed','individual')}
     else if(this.productId=='6'){this.onSaveFireAlliedDetails('proceed','individual');}
     else if(this.productId=='39'){this.onSaveMachineryDetails('proceed','individual')}
@@ -3718,6 +3759,7 @@ console.log('Eventsss',event);
     else if(this.productId=='57'){this.onsaveGroupPADetails('proceed','individual')}
     else if(this.productId=='26'){this.onSaveBussinessrisk('proceed','individual');}
     else if(this.productId=='25'){this.onSaveElectronicEquipment('proceed','individual')}
+    else if(this.productId=='32'){this.onSaveFidelityDetails('proceed','individual')}
     else if(this.productId == '59' || this.productId == '56' || this.productId=='60' || this.productId=='24'){
       this.onFinalProceed();
       // let i=0;
@@ -6452,6 +6494,7 @@ let requestNO=null;
                   } }
                   fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].hooks = modelHooks;
                   this.fieldsFidelity = fields;
+                  console.log('JHGF',this.fieldsFidelity)
                   let referenceNo = sessionStorage.getItem('quoteReferenceNo');
                   if (referenceNo) {
                     this.requestReferenceNo = referenceNo;
@@ -8344,6 +8387,12 @@ this.BuildingOwnerYn = type;
         this.onBuildingSave();
       }
   }
+  onsubmitnewfed(){
+    let validate = this.checkManda();
+      if(validate){
+        this.onFedilitySave();
+      }
+  }
   onSubmitnewGroup(){
     let validate = this.checkMandaGroup();
       if(validate){
@@ -8486,9 +8535,35 @@ this.BuildingOwnerYn = type;
       this.productItem.EmpLiabilitySi=null; this.productItem.otheroption=null;
       // this.LocationName = null; this.BuildingAddress = null; this.BuildingSuminsured = null;
   }
+  onFedilitySave(){
+    this.listSection = false;
+    // this.productItem.LiabilityOccupationId='';
+    // this.productItem.FidEmpSi=0;
+    // this.productItem.FidEmpCount=0;
+    // this.productItem.otherFioption='';
+    this.FidelityListNew[this.currentFidelityIndex]['LiabilityOccupationId'] =  this.productItem.LiabilityOccupationId;
+    this.FidelityListNew[this.currentFidelityIndex]['FidEmpCount'] = this.productItem.FidEmpCount;
+    this.FidelityListNew[this.currentFidelityIndex]['FidEmpSi'] = this.productItem.FidEmpSi;
+    if(this.productItem.LiabilityOccupationId!='99999'){
+      console.log(this.occupationList.find(ele=>ele.Code==this.productItem.LiabilityOccupationId).label);
+      this.FidelityListNew[this.currentFidelityIndex]['OtherOccupation'] = this.occupationList.find(ele=>ele.Code==this.productItem.LiabilityOccupationId).label
+     
+    }
+    else{
+      this.FidelityListNew[this.currentFidelityIndex]['OtherOccupation'] = this.productItem.otherFioption;
+    }
+    this.listnFed=false;
+    this.listSectionFed= true;
+    this.isFedilityForm= false;
+    //this.editFed=false;
+  this.productItem.LiabilityOccupationId=null; this.productItem.FidEmpCount=null;
+  this.productItem.FidEmpSi=null; this.productItem.otherFioption=null;
+      // this.LocationName = null; this.BuildingAddress = null; this.BuildingSuminsured = null;
+  }
   checkManda(){
     let errorList = [];
     let ulList:any='',i=0;
+    console.log('Fedility List',this.FidelityListNew)
      if(this.productItem.LiabilityOccupationId=='' ||  this.productItem.LiabilityOccupationId==null){
       i+=1;
       ulList +=`<li class="list-group-login-field">
@@ -8496,14 +8571,14 @@ this.BuildingOwnerYn = type;
         <div style="color: red;">Message<span class="mx-2">:</span>Please Select OccupationType</div>
       </li>`
     }
-     if(this.productItem.TotalNoOfEmployees=='' ||  this.productItem.TotalNoOfEmployees==null){
+     if(this.productItem.FidEmpCount=='' ||  this.productItem.FidEmpCount==null){
       i+=1;
       ulList +=`<li class="list-group-login-field">
         <div style="color: darkgreen;">Field<span class="mx-2">:</span>TotalNoOfEmployees</div>
         <div style="color: red;">Message<span class="mx-2">:</span>Please Enter TotalNoOfEmployees</div>
       </li>`
      }
-     if((this.productItem.EmpLiabilitySi=='' || this.productItem.EmpLiabilitySi==null || this.productItem.EmpLiabilitySi==0 )){
+     if((this.productItem.FidEmpSi=='' || this.productItem.FidEmpSi==null || this.productItem.FidEmpSi==0 )){
       i+=1;
       ulList +=`<li class="list-group-login-field">
         <div style="color: darkgreen;">Field<span class="mx-2">:</span>Sum Insured</div>
@@ -8511,7 +8586,7 @@ this.BuildingOwnerYn = type;
       </li>`
      }
      if(this.productItem.LiabilityOccupationId=='99999'){
-      if(this.productItem.otheroption=='' || this.productItem.otheroption==null ){
+      if(this.productItem.otherFioption=='' || this.productItem.otherFioption==null ){
         i+=1;
         ulList +=`<li class="list-group-login-field">
           <div style="color: darkgreen;">Field<span class="mx-2">:</span>Other Occupation</div>
@@ -8520,8 +8595,8 @@ this.BuildingOwnerYn = type;
       }
      }
      if(!this.editEmp){
-      if(this.EmployeeListNew.length!=0){
-        for(let field of this.EmployeeListNew){
+      if(this.FidelityListNew.length!=0){
+        for(let field of this.FidelityListNew){
           console.log('FIIIIIIIIIIIIIIIIIIII',field.LiabilityOccupationId)
          if(field.LiabilityOccupationId == this.productItem.LiabilityOccupationId){
            i+=1;
@@ -8553,6 +8628,7 @@ this.BuildingOwnerYn = type;
       else return true;
   }
   onoccFedilityChange(type){
+    console.log('KKKKKKKK')
     let fields =  this.fieldsFidelity[0].fieldGroup[0].fieldGroup[0].fieldGroup;
     for(let field of fields){
       if(field.key=='otherFioption'){
@@ -9419,5 +9495,81 @@ this.BuildingOwnerYn = type;
         },
         (err) => { },
       );
+    }
+
+    onSaveFidelityDetails(type,formType){
+      console.log('DDDDD',this.FidelityListNew)
+      if(this.FidelityListNew.length!=0){
+        this.employeeError = false;
+        let i=0;
+        for(let emp of this.FidelityListNew){
+            emp['CreatedBy'] = this.loginId;
+            emp['InsuranceId'] = this.insuranceId;
+            emp['ProductId'] = this.productId;
+            emp['RequestReferenceNo'] = this.requestReferenceNo;
+            emp['RiskId'] = "1";
+            emp['EndorsementDate'] = this.endorsementDate;
+            emp['EndorsementEffectiveDate'] = this.endorsementEffectiveDate;
+            emp['EndorsementRemarks'] = this.endorsementRemarks;
+            emp['EndorsementType'] = this.endorsementType;
+            emp['EndorsementTypeDesc'] = this.endorsementTypeDesc;
+            emp['EndtCategoryDesc'] = this.endtCategoryDesc;
+            emp['EndtCount'] = this.endtCount;
+            emp['EndtPrevPolicyNo'] = this.endtPrevPolicyNo;
+            emp['EndtPrevQuoteNo'] = this.endtPrevQuoteNo;
+            emp['EndtStatus'] = this.endtStatus;
+            emp['IsFinanceEndt'] = this.isFinanceEndt;
+            emp['OrginalPolicyNo'] = this.orginalPolicyNo;
+            if (this.endorsementSection) {
+              if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
+                emp['Status'] = 'E';
+              }
+              else {
+                emp['Status'] = this.productItem?.Status;
+              }
+              emp['PolicyNo'] = this.endorsePolicyNo
+            }
+            else {
+              emp['Status'] = 'Y';
+            }
+            if(this.productId=='14') emp['SectionId'] = "45";
+            else if(this.productId=='32' || this.productId=='19' || this.productId=='24') emp['SectionId'] = "43";
+            i+=1;
+            if(i==this.FidelityListNew.length){
+              let urlLink = `${this.motorApiUrl}api/slide8/savefidelityemp`;
+              this.sharedService.onPostMethodSync(urlLink, this.FidelityListNew).subscribe(
+                (data: any) => {
+                  if (data?.Result.length!=0) {
+                    this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+                    sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                    if(type=='proceed'){  
+                    if(this.productId=='14'){
+                      if(this.commonDetails){
+                        if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                          if(!this.commonDetails[0].SectionId.some(ele=>ele=='45')) this.commonDetails[0].SectionId.push('45');
+                        }
+                        else  this.commonDetails[0]['SectionId']=['45'];
+                      }
+                    } 
+                    else if(this.productId=='32'){
+                      if(this.commonDetails){
+                        if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                          if(!this.commonDetails[0].SectionId.some(ele=>ele=='43')) this.commonDetails[0].SectionId.push('43');
+                        }
+                        else  this.commonDetails[0]['SectionId']=['43'];
+                      }
+                    }
+                    sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails)) }
+                    this.onCheckUWQuestionProceed(data.Result,type,formType);
+                  }
+              },
+              (err) => { },
+            );
+            }
+        }
+      }
+      else{
+        this.employeeError = true;
+      }
     }
 }
