@@ -484,3 +484,210 @@ cursor:  pointer !important;
         display: flex;
         flex-wrap: wrap;
 }
+
+
+//INTERFACE
+.form_img{
+    background-color: #b99ac8 ;
+    width: 100% ;
+    height: 250px ;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.optionHeader{
+    color: #171f4f;
+    font-size: 55px;
+    font-weight: 800;
+}
+.optionDiv{
+    display: inline-block;
+    width: 45%;
+    margin-left: 7%;
+    /* margin-right: 87px; */
+    padding: 8%;
+}
+.formDiv{
+    display: inline-block;
+    width: 40%;
+    margin-right: 7%;
+    /* margin-right: 87px; */
+    padding: 51px;
+}
+.maindiv {
+    display: block;
+    width: 100%;
+}
+.rightSide{
+    border: 2px solid #fff;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #eceff1;
+    padding: 20px;
+}
+.hr.new4 {
+    border: 1px solid #042181;
+  }
+  .card1{
+        border-radius:25px; 
+        border-color: 1px solid #000;
+        width: auto;
+        background-color: #fff;
+        padding: 20px;
+}
+.optiontxt1 {
+    color:#042181;
+    font-weight: 600;
+}
+.greentxt{
+   color:  #328f70;
+   font-weight: 600;
+    font-size: 15px;
+}
+
+.second{
+    margin-top: 15%;
+}
+.top{
+    margin-top: 2%;
+}
+.redtxt {
+    color: red;
+}
+
+.bluetxt {
+    color:#042181;
+}
+.bold {
+    font-weight: bold;
+}
+body {
+    font-family: system-ui, sans-serif;
+    font-size: 81.25%;
+}
+.input-field {
+    position: relative;
+  }
+
+  .input-field input,.input-field .input {
+    width: 100%;
+    height: 40px;
+    border-radius: 6px;
+    font-size: 14px;
+    padding: 0 15px;
+    border: none;
+    background: #eceff1;
+    color: #042181;
+    outline: none;
+  }
+  .input-field .label {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: #042181;
+    font-size: 14px;
+    pointer-events: none;
+    transition: 0.3s;
+  }
+  .input:focus {
+    border: 2px solid #042181;
+  }
+  .input:focus ~ .label,
+  .input:valid ~ .label {
+    top: 0;
+    left: 15px;
+    font-size: 12px;
+    padding: 0 2px;
+    background: #042181;
+    color: #fff;
+    border-radius: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  
+  .bluebtn {
+    color:#fff !important;
+    background-color: #042181 !important;
+}
+.radio-button {
+    position: relative;
+    margin: 20px 0;
+  }
+  
+  
+  .radio-button input{
+    visibility: hidden;
+  }
+  .radio-button .label-visible
+   {
+   font-weight: 900;
+  }
+  
+  .fake-radiobutton{
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid slategray;
+    background-color: white;
+  }
+  .fake-radiobutton:after{
+    content: "";
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    background: #328f70;
+    transform: translateX(-50%) translateY(-50%);
+  }
+  
+  .fake-radiobutton { border-radius: 50%; }
+  .fake-radiobutton:after { border-radius: 50%; }
+  
+  input[type="radio"]:checked + span .fake-radiobutton:after { display: block; }
+  
+.radiobtn{
+    width: auto !important;
+}
+.btn-group button {
+    background-color: transpatent; 
+    color: #042181; 
+    padding: 10px 24px;
+    cursor: pointer;
+  }
+  .btn-group:after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  .btn-group button:not(:last-child) {
+    border-right: none; /* Prevent double borders */
+  }
+  
+  /* Add a background color on hover */
+  .btn-group button:hover {
+    background-color: #fff;
+  }
+  .btn-group button:after {
+    background-color: #fff;
+  }
+  .btn-group button {
+    width: 25%;
+    font-weight: 800;
+    border: 1px solid #fff;
+    
+  }
+ .buybtn{
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 10px;
+    border: none;
+  }

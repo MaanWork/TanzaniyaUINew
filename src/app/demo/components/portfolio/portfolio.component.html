@@ -24,13 +24,18 @@
           <p-button icon="pi pi-list" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
         </div>
         <div class="grid mb-2 mt-2">
-          <div class="col-12 md:col-4 lg:col-4">
+          <div class="col-12 md:col-4 lg:col-4" *ngIf="!show">
             <label for="username">Broker</label><span class="text-danger">*</span>
             <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="brokerCode"  [options]="brokerList" (onChange)="getExistingQuotes(null,'change')"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
             </p-dropdown>
           </div>
+          <div class="mt-5 ml-5" *ngIf="userType == 'Issuer'">
+            <!--[ngClass]="show ? 'col-md-3 col-lg-3 col-xl-3 offset-9' : 'col-md-3 col-lg-3 col-xl-3 offset-5'"-->
+            <!--[ngClass]="show ? 'col-md-2 col-lg-2 col-xl-2 offset-6' : 'col-md-2 col-lg-2 col-xl-2 offset-6'"-->
+            <p-checkbox label="Other Policy Search" (onChange)="onSelectCustomer($event.checked)" [binary]="true" inputId="binary"></p-checkbox>
         </div>
-        <ng-container *ngIf="quoteData.length!=0">
+        </div>
+        <ng-container *ngIf="quoteData.length!=0 && !show">
           <p-table #dtEmployeeActive *ngIf="tableView == 'table' else cardTableView" [value]="quoteData" 
             [globalFilterFields]="['PolicyNo','QuoteNo','ClientName','PolicyStartDate','PolicyEndDate','OverallPremiumLc']" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
             <ng-template pTemplate="caption">
@@ -133,10 +138,23 @@
             </div>
           </ng-template>
         </ng-container>
-        <ng-container *ngIf="quoteData.length==0">
+        <ng-container *ngIf="quoteData.length==0 && !show">
           <div class="flex flex-wrap justify-content-center mt-2">
                 No Quote Available
           </div>
+      </ng-container>
+      <ng-container *ngIf="show">
+        <div class="flex flex wrap justify-content-start mt-3">
+          <div class="table-header md:col-6 lg:col-6">
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" placeholder="Search" [(ngModel)]="searchValue" />
+            </span>
+        </div>
+        </div>
+        <div class="col-12 md:col-2 lg:col-2" *ngIf="searchValue.length > 2 ? '...' : '' || dob">
+          <p-button (click)="onCustomerSearch()" label="Search" size="small"></p-button>
+      </div>
       </ng-container>
       </p-tabPanel>
       <p-tabPanel header="Cancelled">

@@ -14,6 +14,7 @@ export class PortfolioComponent implements OnInit {
   value: string = 'quotes';
   columns:any[]=[];items2: MenuItem[];
   branches: MenuItem[] | undefined;
+  searchValue:any[]=[];
   selectedBranch: MenuItem | undefined;tableView = 'table';
   userDetails:any=null;loginId:any=null;agencyCode:any=null;
   brokerbranchCode:any=null;branchCode:any=null;productId:any=null;
@@ -22,6 +23,7 @@ export class PortfolioComponent implements OnInit {
   pageCount:any=null;quoteData:any[]=[];quotePageNo:any=null;
   startIndex:any=null;endIndex:any=null;
   totalCancelRecords:any;
+  customersearch:any;
   public AppConfig: any = (Mydatas as any).default;
   public ApiUrl1: any = this.AppConfig.ApiUrl1;
   public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
@@ -29,6 +31,7 @@ export class PortfolioComponent implements OnInit {
   CancelbrokerCode: any;CancelledquoteData:any[]=[];
   pageCount1: number;
   quotePageNo1: number;
+  show: boolean = false;
   constructor(private router:Router,private sharedService: SharedService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -460,4 +463,16 @@ export class PortfolioComponent implements OnInit {
     link.click();
     link.remove();
   }
+  onSelectCustomer(event){
+    console.log('Eventsss',event);
+    
+    if(event){
+    this.show= true;
+    this.customersearch=true;
+    }
+    else{
+      this.show=false;
+      this.customersearch=false;
+    }
+      }
 }
