@@ -28,6 +28,7 @@ export class LoginComponent {
     branchValue: any;errorSection:boolean=false;
   messageText: any;pa:any;changePasswordSection: boolean;pass:any;
   temps: boolean;
+  passExpiredError: boolean;
     constructor(public layoutService: LayoutService, private router: Router,private loginService:LoginService,
         private authService: AuthService) { }
 
@@ -85,7 +86,10 @@ export class LoginComponent {
                     let entry:any[] =  errorList.filter(ele=>ele.Field=='SessionError')
                     console.log("checked entry",errorList);
                         if(res.ChangePasswordYn=='Y'){
-                                
+                          this.passExpiredError = true;
+                          this.username1 = this.username;
+                          this.Forget('change','ChangePassword');
+                          this.changepass('ChangePassword')
                         }
                         else{
                           if(entry.length==0){

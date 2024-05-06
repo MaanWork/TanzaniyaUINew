@@ -134,14 +134,14 @@ export class ProductComponent implements OnInit {
   }
   checkBranchBg(branch){
     if(this.userType=='Issuer'){
-      if(branch.BranchCode == this.selectedBranch) return '#2196f3';
+      if(branch.BranchCode == this.selectedBranch) return '#042181';
       else return '';
     }
     else{
       console.log('Entered Branch',branch,this.selectedBranch)
       if(branch.BrokerBranchCode == this.selectedBranch){
         
-        return '#2196f3';
+        return '#042181';
       }
       else return '';
     }

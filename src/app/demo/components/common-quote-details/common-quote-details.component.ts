@@ -4626,14 +4626,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
       else if(this.insuranceId=='100004'){ fireData = new MotorVehicleMadison();this.getInsuranceClassList()}
       else if(this.insuranceId=='100020'){ fireData = new MotorVehicleKenya();this.getInsuranceClassList();this.getVehicleClassList()}
       this.fields[0] = fireData?.fields;
-      console.log("Final Form Page ",this.fields);
       let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
         field.form.controls['InsuranceType'].valueChanges.subscribe(() => {
             this.getMotorTypeList('change',null,null);
             this.getMotorUsageList(null,'change');
         });
       } }
-      console.log('Entered Vehicle',this.fields);
       this.fields[0].fieldGroup[0].fieldGroup[0].hooks = regionHooks;
       if(this.insuranceId=='100002' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020' || this.insuranceId=='100004' || this.insuranceId=='100028'){
         let regionHooks2 ={ onInit: (field: FormlyFieldConfig) => {

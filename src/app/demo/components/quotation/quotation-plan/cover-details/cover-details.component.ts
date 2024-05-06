@@ -534,6 +534,10 @@ export class CoverDetailsComponent {
       (err) => { },
     );
   }
+  onChooseCompareSection(rowData){
+    this.selectedSectionId = rowData.SectionId;
+    
+  }
   getCustomerDetails(referenceNo){
     let ReqObj = {
       "CustomerReferenceNo": referenceNo
