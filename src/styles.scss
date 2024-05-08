@@ -19,13 +19,19 @@ $gutter: 1rem; //for primeflex grid system
 .disabled{
     cursor: not-allowed !important;
 }
+.customColor {
+    background-color: #042181 !important;
+}
+.customColor2 {
+    background-color: #fff !important;
+}
 .customFont{
     font-size: 15px !important;
 }
 .customFont2{
     font-size: 13px !important;
     font-weight: 600 !important;
-    color: #2196f3 !important;
+    color: #042181 !important;
 }
 .customLabel{
     font-size: 17px !important;
@@ -33,12 +39,12 @@ $gutter: 1rem; //for primeflex grid system
 .customValue{
     font-size: 14px !important;
     font-weight: 600 !important;
-    color: #2196f3 !important;
+    color: #042181 !important;
 }
 .customValue2{
     font-size: 2rem !important;
     font-weight: 600 !important;
-    color: #2196f3 !important;
+    color: #042181 !important;
 }
 .overlay {
     position: fixed;
@@ -654,6 +660,7 @@ body {
 .radiobtn{
     width: auto !important;
 }
+//color: #042181 default 
 .btn-group button {
     background-color: transpatent; 
     color: #042181; 
