@@ -6,6 +6,7 @@ import { LoginService } from '../demo/components/auth/login/login.service';
 import { AuthService } from '../demo/components/auth/Auth/auth.service';
 import { SharedService } from '../demo/service/shared.service';
 import * as Mydatas from '../app-config.json';
+import { CookieService } from 'ngx-cookie-service';
 declare var $:any;
 @Component({
     selector: 'app-topbar',
@@ -36,7 +37,7 @@ export class AppTopBarComponent implements OnInit {
     loginType:any=null;customerCode:any=null;customerName:any=null;
     insuranceid: any;
     constructor(public layoutService: LayoutService, private router: Router,private loginService: LoginService,
-        private authService: AuthService,private SharedService: SharedService) { 
+        private authService: AuthService,private cookieService: CookieService,private SharedService: SharedService) { 
         this.productName = sessionStorage.getItem('productName');
         this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
         console.log("UserDetails",this.userDetails);
@@ -172,6 +173,7 @@ export class AppTopBarComponent implements OnInit {
       }
       else{
         sessionStorage.clear();
+        this.cookieService.delete('XSRF-TOKEN',"/","domain name",true,"None")
         window.location.href='https://apps.alliance.co.tz/';
       }
     }
@@ -193,7 +195,7 @@ export class AppTopBarComponent implements OnInit {
               (data: any) => {
                 let res: any = data;
                 console.log(data);
-                //this.cookieService.delete('XSRF-TOKEN',"/","domain name",true,"None")
+                this.cookieService.delete('XSRF-TOKEN',"/","domain name",true,"None")
                   sessionStorage.clear();
                    this.authService.logout();
                    this.router.navigate(['auth/login'])
@@ -205,7 +207,7 @@ export class AppTopBarComponent implements OnInit {
               },
               (err: any) => {
                 sessionStorage.clear();
-                //this.cookieService.delete('XSRF-TOKEN',"/","domain name",true,"None")
+                this.cookieService.delete('XSRF-TOKEN',"/","domain name",true,"None")
                   this.authService.logout();
                   this.router.navigate(['/login']);
                 // console.log(err);

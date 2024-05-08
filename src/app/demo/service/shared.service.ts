@@ -10,6 +10,7 @@ import { BehaviorSubject, Observable, Subscription, throwError, timer } from 'rx
 import { catchError, map, retry, take } from 'rxjs/operators';
 import { AuthService } from '../components/auth/Auth/auth.service';
 import * as Mydatas from '../../../app/app-config.json';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,7 @@ export class SharedService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
+    private cookieService: CookieService,
     private router: Router,
   ) { }
 
@@ -48,37 +50,67 @@ export class SharedService {
 
 
   async onPostMethodAsync(UrlLink: any, ReqObj: any): Promise<Observable<any[]>> {
+    this.cookieService.set("XSRF-TOKEN", this.getToken(), 1, '/','localhost', false, "Strict");
     let headers = new HttpHeaders();
+    headers = headers.append('Cache-Control', 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+    headers = headers.append('Pragma','no-cache');
+    headers = headers.append('Expires','0');
+    headers = headers.append('Content-Type','application/json');
     headers = headers.append('Authorization', 'Bearer ' + this.getToken());
+    headers = headers.append("X-XSRF-TOKEN", this.getToken());
     return await this.http
       .post<any>(UrlLink, ReqObj, { headers: headers })
       .pipe(catchError(this.handleError));
   }
   async onGetMethodAsync(UrlLink: any): Promise<Observable<any[]>> {
+    this.cookieService.set("XSRF-TOKEN", this.getToken(), 1, '/','localhost', false, "Strict");
     let headers = new HttpHeaders();
+    headers = headers.append('Cache-Control', 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+    headers = headers.append('Pragma','no-cache');
+    headers = headers.append('Expires','0');
+    headers = headers.append('Content-Type','application/json');
     headers = headers.append('Authorization', 'Bearer ' + this.getToken());
+    headers = headers.append("X-XSRF-TOKEN", this.getToken());
     return await this.http
       .get<any>(UrlLink, { headers: headers })
       .pipe(catchError(this.handleError));
   }
 
   onPostMethodSync(UrlLink: string, ReqObj: any): Observable<any[]> {
+    this.cookieService.set("XSRF-TOKEN", this.getToken(), 1, '/','localhost', false, "Strict");
     let headers = new HttpHeaders();
+    headers = headers.append('Cache-Control', 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+    headers = headers.append('Pragma','no-cache');
+    headers = headers.append('Expires','0');
+    headers = headers.append('Content-Type','application/json');
     headers = headers.append('Authorization', 'Bearer ' + this.getToken());
+    headers = headers.append("X-XSRF-TOKEN", this.getToken());
     return this.http
       .post<any>(UrlLink, ReqObj, { headers: headers })
       .pipe(catchError(this.handleError));
   }
   onGetMethodSync(UrlLink: string): Observable<any[]> {
+    this.cookieService.set("XSRF-TOKEN", this.getToken(), 1, '/','localhost', false, "Strict");
     let headers = new HttpHeaders();
+    headers = headers.append('Cache-Control', 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+    headers = headers.append('Pragma','no-cache');
+    headers = headers.append('Expires','0');
+    headers = headers.append('Content-Type','application/json');
     headers = headers.append('Authorization', 'Bearer ' + this.getToken());
+    headers = headers.append("X-XSRF-TOKEN", this.getToken());
     return this.http
       .get<any>(UrlLink, { headers: headers })
       .pipe(catchError(this.handleError));
   }
   onGetMethodPreexceptionAsync(UrlLink: string): Observable<any[]> {
+    this.cookieService.set("XSRF-TOKEN", this.getToken(), 1, '/','localhost', false, "Strict");
     let headers = new HttpHeaders();
-    headers = headers.append('Authorization', 'Basic d2hhdHNhcHBjaGF0YXBpOndoYXRzYXBwY2hhdGFwaUAxMjMj');
+    headers = headers.append('Cache-Control', 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+    headers = headers.append('Pragma','no-cache');
+    headers = headers.append('Expires','0');
+    headers = headers.append('Content-Type','application/json');
+    headers = headers.append('Authorization', 'Bearer ' + this.getToken());
+    headers = headers.append("X-XSRF-TOKEN", this.getToken());
     return this.http
       .get<any>(UrlLink, { headers: headers })
       .pipe(retry(1), catchError(this.handleError));
@@ -87,8 +119,13 @@ export class SharedService {
     const formData: FormData = new FormData();
     formData.append('File', file);
     formData.append('Req ', JSON.stringify(ReqObj));
+    this.cookieService.set("XSRF-TOKEN", this.getToken(), 1, '/','localhost', false, "Strict");
     let headers = new HttpHeaders();
+    headers = headers.append('Cache-Control', 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+    headers = headers.append('Pragma','no-cache');
+    headers = headers.append('Expires','0');
     headers = headers.append('Authorization', 'Bearer ' + this.getToken());
+    headers = headers.append("X-XSRF-TOKEN", this.getToken());
     return this.http
       .post<any>(UrlLink, formData, { headers: headers })
       .pipe(catchError(this.handleError));
@@ -97,8 +134,14 @@ export class SharedService {
     const formData: FormData = new FormData();
     formData.append('file', file);
     formData.append('uploadReq', JSON.stringify(ReqObj));
+    this.cookieService.set("XSRF-TOKEN", this.getToken(), 1, '/','localhost', false, "Strict");
     let headers = new HttpHeaders();
+    headers = headers.append('Cache-Control', 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+    headers = headers.append('Pragma','no-cache');
+    headers = headers.append('Expires','0');
+    
     headers = headers.append('Authorization', 'Bearer ' + this.getToken());
+    headers = headers.append("X-XSRF-TOKEN", this.getToken());
     return this.http
       .post<any>(UrlLink, formData, { headers: headers })
       .pipe(catchError(this.handleError));
@@ -118,8 +161,13 @@ export class SharedService {
     const formData: FormData = new FormData();
     formData.append('file', file);
     formData.append('uploadReq', JSON.stringify(ReqObj));
+    this.cookieService.set("XSRF-TOKEN", this.getToken(), 1, '/','localhost', false, "Strict");
     let headers = new HttpHeaders();
+    headers = headers.append('Cache-Control', 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+    headers = headers.append('Pragma','no-cache');
+    headers = headers.append('Expires','0');
     headers = headers.append('Authorization', 'Bearer ' + this.getToken());
+    headers = headers.append("X-XSRF-TOKEN", this.getToken());
     return this.http
       .post<any>(UrlLink, formData, { headers: headers })
       .pipe(catchError(this.handleError));
@@ -222,6 +270,7 @@ export class SharedService {
      }
      else if(type=='No'){
       sessionStorage.clear();
+      this.cookieService.delete('XSRF-TOKEN',"/","domain name",true,"None")
       this.router.navigate(['/Login/Home']);
      }
   }
