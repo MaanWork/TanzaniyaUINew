@@ -74,6 +74,7 @@ import { TreeSelect, TreeSelectModule } from 'primeng/treeselect';
 import { RiskDetailsComponent } from './Riskpage/Riskdetails.component';
 import { NgSelectAlt } from './formlyTypes/ngselectAlt';
 import { CopyQuoteComponent } from './copyQuote/copyquote.component';
+import { ShortQuoteComponent } from './short-quote/short-quote.component';
 //import { textareaTypeField } from './formlyTypes/textareaTypeField';
 export function maxlengthValidationMessage(err, field) {
   return `This value should be less than ${field.templateOptions.maxLength} characters`;
@@ -108,7 +109,8 @@ export function maxlengthValidationMessage(err, field) {
     NgSelect,
     NgSelectAlt,
     CommonProductDetailsComponent,
-    RiskDetailsComponent
+    RiskDetailsComponent,
+    ShortQuoteComponent
   ],
   imports: [
     CommonModule,

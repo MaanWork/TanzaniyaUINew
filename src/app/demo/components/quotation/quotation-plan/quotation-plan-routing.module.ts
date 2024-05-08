@@ -15,6 +15,7 @@ import { PersonalQuoteDetailsComponent } from './personal-quote-details/personal
 import { CommonProductDetailsComponent } from './common-product-details/common-product-details.component';
 import { RiskDetailsComponent } from './Riskpage/Riskdetails.component';
 import { CopyQuoteComponent } from './copyQuote/copyquote.component';
+import { ShortQuoteComponent } from './short-quote/short-quote.component';
 
 const routes: Routes = [
   { 
@@ -43,7 +44,8 @@ const routes: Routes = [
   { 
     path: 'premium-details', 
     component: CoverDetailsComponent,
-  }
+  },
+  {path:"shortQuote" , component:ShortQuoteComponent}
 ];
 
 @NgModule({

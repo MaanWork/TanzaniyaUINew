@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
 import { TabViewModule } from 'primeng/tabview';
 import { TableModule } from 'primeng/table';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { QuotationPlanComponent } from './quotation-plan/quotation-plan.component';
@@ -18,6 +18,7 @@ import { CardModule } from 'primeng/card';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { DropdownModule } from 'primeng/dropdown';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { FormlyModule } from '@ngx-formly/core';
 
 @NgModule({
   declarations: [QuotationPlanComponent ],
@@ -38,7 +39,9 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     CardModule,
     TreeSelectModule,
     SelectButtonModule,
-    DropdownModule
+    DropdownModule,
+    ReactiveFormsModule,
+    FormlyModule,
   ]
 })
 export class QuotationModule { }
