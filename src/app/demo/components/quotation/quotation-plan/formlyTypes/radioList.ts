@@ -6,7 +6,7 @@ import { FieldType } from '@ngx-formly/core';
  template: `
        <label class="input-form-label" >{{to.label}}</label>
        <div class="grid">
-       <div class="md:col-6 lg:col-6 xl:col-6 col-12 col-offset-3">
+       <div class="md:col-12 lg:col-12 xl:col-12 col-12">
        <p-selectButton [options]="to.options" [formControl]="formControl" 
        [formlyAttributes]="field" optionLabel="label" optionValue="value"></p-selectButton>
        </div></div>

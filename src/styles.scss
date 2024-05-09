@@ -567,10 +567,10 @@ cursor:  pointer !important;
 .bold {
     font-weight: bold;
 }
-body {
-    font-family: system-ui, sans-serif;
-    font-size: 81.25%;
-}
+// body {
+//     font-family: system-ui, sans-serif;
+//     font-size: 81.25%;
+// }
 .input-field {
     position: relative;
   }
@@ -698,3 +698,12 @@ body {
     border-radius: 10px;
     border: none;
   }
+.ml-6-per{
+  margin-left: 6% !important;
+}
+.t-a-l{
+  text-align: left;
+}
+.t-a-r{
+  text-align: right;
+}

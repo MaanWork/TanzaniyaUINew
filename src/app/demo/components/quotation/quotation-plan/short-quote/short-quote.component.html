@@ -10,137 +10,141 @@
             <div class="flex flex-wrap"> 
             <div class="lg:col-12 md:col-12 col-12">
                 <label for="username">Customer Name</label><span class="text-danger">*</span>
-                <input pInputText class="w-full" id="username" maxlength="50"  placeholder="Enter Customer Name" />
+                <input pInputText class="w-full" id="username" maxlength="50"  placeholder="Enter Customer Name" [(ngModel)]="clientName"/>
             </div>
-    <div class="lg:col-4 md:col-4 col-4">
-        <label for="username">Country Code</label><span class="text-danger">*</span>
-        <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="countryCode" [(ngModel)]="countryCode"
-            optionLabel="CodeDesc" optionValue="Code" placeholder="Code">
-        </p-dropdown>
-    </div>
-    <div class="lg:col-8 md:col-8 col-8">
-        <label for="mobileNumber">Mobile No</label><span class="text-danger">*</span>
-        <input pInputText class="w-full" id="mobileNumber" maxlength="50"  placeholder="Enter Mobile No" />
-    </div>
-</div>
-</div>
-
-    <div class="card ">
-        <h4>Vehicle Information</h4>
-        <div class="grid">
-            <div class="col-12 lg:col-12 md:col-12 xl:col-12">
-                <form [formGroup]="form">
-                    <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
-                </form>
+            <div class="lg:col-4 md:col-4 col-4">
+                <label for="username">Mobile Code</label><span class="text-danger">*</span>
+                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="mobileCodeList" [(ngModel)]="countryCode"
+                    optionLabel="CodeDesc" optionValue="Code" placeholder="Select">
+                </p-dropdown>
+            </div>
+            <div class="lg:col-8 md:col-8 col-8">
+                <label for="mobileNumber">Mobile No</label><span class="text-danger">*</span>
+                <input pInputText class="w-full" id="mobileNumber" maxlength="50" [(ngModel)]="mobileNo"  placeholder="Enter Mobile No" />
             </div>
         </div>
-        <!-- <div class="flex flex-wrap"> 
-        <div class="lg:col-6 md:col-6 col-12">
-            <label for="username">Insurance Type</label><span class="text-danger">*</span>
-            <p-dropdown inputId="make" class="w-full" styleClass="w-full"  [options]="insurenceTypeList" [(ngModel)]="insurenceTypeList"
-                optionLabel="CodeDesc" optionValue="Code" placeholder="Insurance Type">
-            </p-dropdown>
         </div>
-        <div class="lg:col-6 md:col-6 col-12">
-            <label for="username">Insurance Class </label><span class="text-danger">*</span>
-            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="insurenceClassList" [(ngModel)]="insurenceClassList"
-                optionLabel="CodeDesc" optionValue="Code" placeholder="Insurance Class ">
-            </p-dropdown>
-        </div>
-        <div class="lg:col-6 md:col-6 col-12">
-            <label for="username">Body Type</label><span class="text-danger">*</span>
-            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="bodyTypeList"
-            [(ngModel)]="bodyTypeValue"
-            (onChange)="onBodyTypeChange(($event))"
-                optionLabel="CodeDesc" 
-                optionValue="Code"
-                placeholder="Body Type">
-            </p-dropdown>
-        </div>
-        <div class="lg:col-6 md:col-6 col-12">
-            <label for="username">Motor Usage</label><span class="text-danger">*</span>
-            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="motorUsageList" [(ngModel)]="motorUsageList"
-                optionLabel="CodeDesc" optionValue="Code" placeholder="Motor Usage">
-            </p-dropdown>
-        </div>
-        <div class="lg:col-6 md:col-6 col-12">
-            <label for="username">Make</label><span class="text-danger">*</span>
-            <p-dropdown inputId="make" class="w-full" styleClass="w-full" 
-                optionLabel="CodeDesc" optionValue="Code" (onChange)="onChangemake()"
-                [options]="makeList" [(ngModel)]="makeList" placeholder="Make" >
-            </p-dropdown>
-        </div>
-        <div class="lg:col-6 md:col-6 col-12">
-            <label for="username">Model</label><span class="text-danger">*</span>
-            <p-dropdown inputId="make" class="w-full" styleClass="w-full" 
-                optionLabel="CodeDesc" optionValue="Code" placeholder="Model"  [options]="modelList" [(ngModel)]="modelList">
-            </p-dropdown>
-        </div>
-        
-        <div class="lg:col-6 md:col-6 col-12">
-            <label for="username">Manufacture Year</label><span class="text-danger">*</span>
-            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="years"
-                optionLabel="CodeDesc" optionValue="Code" placeholder="Manufacture Year">
-            </p-dropdown>
-        </div>
-        <div class="lg:col-6 md:col-6 col-12">
-            <label for="VehicleSI">VehicleSI</label>
-            <input pInputText class="w-full" id="VehicleSI" maxlength="50"  placeholder="VehicleSI" />
-        </div>
-        <div class="lg:col-6 md:col-6 col-12">
-            <label for="AccessoriesSumInured">Accessories SumInured</label>
-            <input pInputText class="w-full" id="accessoriesSumInured" maxlength="50"  placeholder="Accessories SumInured" />
-        </div>
-        <div class="lg:col-6 md:col-6 col-12">
-            <label for="WindShield SumInured">WindShield SumInured</label>
-            <input pInputText class="w-full" id="windShieldSumInured" maxlength="50"  placeholder="WindShield SumInured" />
-        </div>
+        <div class="card ">
+            <h4>Vehicle Information</h4>
+            <div class="grid">
+                <div class="col-12 lg:col-12 md:col-12 xl:col-12">
+                    <form [formGroup]="form">
+                        <formly-form [form]="form" [fields]="fields" [model]="productItem"></formly-form>
+                    </form>
+                </div>
+            </div>
+            <!-- <div class="flex flex-wrap"> 
+            <div class="lg:col-6 md:col-6 col-12">
+                <label for="username">Insurance Type</label><span class="text-danger">*</span>
+                <p-dropdown inputId="make" class="w-full" styleClass="w-full"  [options]="insurenceTypeList" [(ngModel)]="insurenceTypeList"
+                    optionLabel="CodeDesc" optionValue="Code" placeholder="Insurance Type">
+                </p-dropdown>
+            </div>
+            <div class="lg:col-6 md:col-6 col-12">
+                <label for="username">Insurance Class </label><span class="text-danger">*</span>
+                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="insurenceClassList" [(ngModel)]="insurenceClassList"
+                    optionLabel="CodeDesc" optionValue="Code" placeholder="Insurance Class ">
+                </p-dropdown>
+            </div>
+            <div class="lg:col-6 md:col-6 col-12">
+                <label for="username">Body Type</label><span class="text-danger">*</span>
+                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="bodyTypeList"
+                [(ngModel)]="bodyTypeValue"
+                (onChange)="onBodyTypeChange(($event))"
+                    optionLabel="CodeDesc" 
+                    optionValue="Code"
+                    placeholder="Body Type">
+                </p-dropdown>
+            </div>
+            <div class="lg:col-6 md:col-6 col-12">
+                <label for="username">Motor Usage</label><span class="text-danger">*</span>
+                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="motorUsageList" [(ngModel)]="motorUsageList"
+                    optionLabel="CodeDesc" optionValue="Code" placeholder="Motor Usage">
+                </p-dropdown>
+            </div>
+            <div class="lg:col-6 md:col-6 col-12">
+                <label for="username">Make</label><span class="text-danger">*</span>
+                <p-dropdown inputId="make" class="w-full" styleClass="w-full" 
+                    optionLabel="CodeDesc" optionValue="Code" (onChange)="onChangemake()"
+                    [options]="makeList" [(ngModel)]="makeList" placeholder="Make" >
+                </p-dropdown>
+            </div>
+            <div class="lg:col-6 md:col-6 col-12">
+                <label for="username">Model</label><span class="text-danger">*</span>
+                <p-dropdown inputId="make" class="w-full" styleClass="w-full" 
+                    optionLabel="CodeDesc" optionValue="Code" placeholder="Model"  [options]="modelList" [(ngModel)]="modelList">
+                </p-dropdown>
+            </div>
+            
+            <div class="lg:col-6 md:col-6 col-12">
+                <label for="username">Manufacture Year</label><span class="text-danger">*</span>
+                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="years"
+                    optionLabel="CodeDesc" optionValue="Code" placeholder="Manufacture Year">
+                </p-dropdown>
+            </div>
+            <div class="lg:col-6 md:col-6 col-12">
+                <label for="VehicleSI">VehicleSI</label>
+                <input pInputText class="w-full" id="VehicleSI" maxlength="50"  placeholder="VehicleSI" />
+            </div>
+            <div class="lg:col-6 md:col-6 col-12">
+                <label for="AccessoriesSumInured">Accessories SumInured</label>
+                <input pInputText class="w-full" id="accessoriesSumInured" maxlength="50"  placeholder="Accessories SumInured" />
+            </div>
+            <div class="lg:col-6 md:col-6 col-12">
+                <label for="WindShield SumInured">WindShield SumInured</label>
+                <input pInputText class="w-full" id="windShieldSumInured" maxlength="50"  placeholder="WindShield SumInured" />
+            </div>
+                <div class="lg:col-6 md:col-6 col-12">
+                    <div class="input-control-container">
+                        <label class="input-form-label">Car Alarm</label>
+                        <div class="input-form-radio-box mt-2">
+                            <div class="radio-toolbar">
+                                <input id="claims_Own" type="radio" name="rentOwnHome"  value="Y">
+                                <label for="claims_Own" class="yes_alt"><img style="max-width: 30px;max-height: 10px;">Yes</label>
+                                <input id="claims_Rent" type="radio" name="rentOwnHome"  value="N">
+                                <label for="claims_Rent" class="no"><img style="max-width: 30px;max-height: 10px;">No</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-6 md:col-6 col-12">
+                    <div class="input-control-container">
+                        <label class="input-form-label">Claims</label>
+                        <div class="input-form-radio-box mt-2">
+                            <div class="radio-toolbar">
+                                <input id="claimsy" type="radio" name="rentOwn"  value="Y">
+                                <label for="claimsy" class="yes_alt"><img style="max-width: 30px;max-height: 10px;">Yes</label>
+                                <input id="claimsn" type="radio" name="rentOwn"  value="N">
+                                <label for="claimsn" class="no"><img style="max-width: 30px;max-height: 10px;">No</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <div class="lg:col-6 md:col-6 col-12">
                 <div class="input-control-container">
-                    <label class="input-form-label">Car Alarm</label>
+                    <label class="input-form-label">Gps Tracking Enabled </label>
                     <div class="input-form-radio-box mt-2">
                         <div class="radio-toolbar">
-                            <input id="claims_Own" type="radio" name="rentOwnHome"  value="Y">
-                            <label for="claims_Own" class="yes_alt"><img style="max-width: 30px;max-height: 10px;">Yes</label>
-                            <input id="claims_Rent" type="radio" name="rentOwnHome"  value="N">
-                            <label for="claims_Rent" class="no"><img style="max-width: 30px;max-height: 10px;">No</label>
+                            <input id="GpsTrackingy" type="radio" name="rent"  value="Y">
+                            <label for="GpsTrackingy" class="yes_alt"><img style="max-width: 30px;max-height: 10px;">Yes</label>
+                            <input id="GpsTrackingn" type="radio" name="rent"  value="N">
+                            <label for="GpsTrackingn" class="no"><img style="max-width: 30px;max-height: 10px;">No</label>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="lg:col-6 md:col-6 col-12">
-                <div class="input-control-container">
-                    <label class="input-form-label">Claims</label>
-                    <div class="input-form-radio-box mt-2">
-                        <div class="radio-toolbar">
-                            <input id="claimsy" type="radio" name="rentOwn"  value="Y">
-                            <label for="claimsy" class="yes_alt"><img style="max-width: 30px;max-height: 10px;">Yes</label>
-                            <input id="claimsn" type="radio" name="rentOwn"  value="N">
-                            <label for="claimsn" class="no"><img style="max-width: 30px;max-height: 10px;">No</label>
-                        </div>
-                    </div>
-                </div>
+            <div class="lg:col-12 md:col-12 col-12">
+            <div class="input-field top">
+                <button type="button" class="input bluebtn top">Get Quote Now</button>
             </div>
-        <div class="lg:col-6 md:col-6 col-12">
-            <div class="input-control-container">
-                <label class="input-form-label">Gps Tracking Enabled </label>
-                <div class="input-form-radio-box mt-2">
-                    <div class="radio-toolbar">
-                        <input id="GpsTrackingy" type="radio" name="rent"  value="Y">
-                        <label for="GpsTrackingy" class="yes_alt"><img style="max-width: 30px;max-height: 10px;">Yes</label>
-                        <input id="GpsTrackingn" type="radio" name="rent"  value="N">
-                        <label for="GpsTrackingn" class="no"><img style="max-width: 30px;max-height: 10px;">No</label>
-                    </div>
-                </div>
             </div>
+            </div> -->
         </div>
-        <div class="lg:col-12 md:col-12 col-12">
-        <div class="input-field top">
-            <button type="button" class="input bluebtn top">Get Quote Now</button>
+        <div class="flex flex-wrap mt-5 justify-content-center">
+            <p-button label="Back" styleClass="p-button-outlined" class="mr-3"></p-button>&nbsp;
+            <p-button label="Submit" severity="warning" (click)="onSaveVehicleData()"
+                class="mb-3"></p-button>
         </div>
-        </div>
-        </div> -->
     </div>
-</div>
 </div>
 </form>

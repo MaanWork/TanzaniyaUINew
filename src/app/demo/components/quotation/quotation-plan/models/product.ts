@@ -57,7 +57,7 @@ export class ProductData {
 	CashValueablesSi:any='';OccupiedYear:any='';
 	WatchmanGuardHours:any='';AccessibleWindows:any='';ShowWindow:any='';
 	FrontDoors:any='';BackDoors:any='';TrapDoors:any='';
-	Address:any='';CategoryDesc:any='';
+	Address:any='';CategoryDesc:any='';InsuranceClass:any='';
 	BuildingOccupied: any = '';Category:any=null;
 	FirstLossPercentId:any='';
 	IndemityPeriod:any='';
@@ -135,7 +135,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 	GeographicalCoverage: any='';otherGroupoption:any=null;
 	EstAnnualCarriesSiLc: any='0';SingleRoadSiLc:any='0';
 	otheroptionPer: any = '';patientList:any[]=[];
-  TTDSumInsured: any=null;
+  TTDSumInsured: any=null;InsuranceType:any=null;
   MESumInsured: any=null;EmployeeCounts:any;
   FESumInsured: any=null;ProfessionalOccupation:any;ProfessionalType:any;GISI:any;
   ProfessionalSI:any;IndemnityTypes:any;
@@ -328,6 +328,8 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.otheroption=data?.OtherOccupation ?? '';
 		this.otherFioption = data?.OtherOccupation ?? '';
 		this.otheroptionPer = data?.OtherOccupation ?? '';
+		this.InsuranceType = data?.InsuranceType ?? '';
+		this.InsuranceClass = data?.InsuranceClass ?? '';
 		// this.EquipmentSi = data?.EquipmentSi ?? '0';
 		// this.ElectronicEquipSuminsured = data.ElectronicEquipSuminsured ?? '0';
 	}
