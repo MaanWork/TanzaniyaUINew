@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, Subject, Subscription, catchError, map, retry, take, throwError, timer } from 'rxjs';
 import { AuthService } from 'src/app/demo/components/auth/Auth/auth.service';
 import * as Mydatas from '../../../app/app-config.json';
+import { CookieService } from 'ngx-cookie-service';
 
 
 export interface AppConfig {
@@ -65,6 +66,7 @@ export class LayoutService {
     loginId: any;
     constructor( private http: HttpClient,
         private authService: AuthService,
+        private cookieService:CookieService,
         private router: Router,){}
     onMenuToggle() {
         if (this.isOverlay()) {
@@ -307,6 +309,7 @@ export class LayoutService {
          }
          else if(type=='No'){
           sessionStorage.clear();
+          this.cookieService.delete('XSRF-TOKEN',"/","domain name",true,"None")
           this.router.navigate(['/Login/Home']);
          }
       }

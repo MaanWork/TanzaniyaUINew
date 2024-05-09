@@ -4,7 +4,15 @@
 <head>
     <meta charset="utf-8">
     <title>Alliance Insurance</title>
-    <base href="/">
+    <base href="index.html">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self';
+    img-src data: https: http:;
+    script-src 'self' 'unsafe-inline';
+    style-src 'self' 'unsafe-inline';
+    connect-src 'self' *;
+    worker-src 'self' blob:;
+    frame-src 'self' blob:;" />
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; img-src * 'self' data:;"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link id="theme-css" rel="stylesheet" type="text/css" href="assets/layout/styles/theme/saga-orange/theme.css">
