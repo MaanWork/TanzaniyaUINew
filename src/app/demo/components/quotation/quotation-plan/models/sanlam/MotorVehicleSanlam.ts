@@ -252,7 +252,7 @@ export class MotorVehicleSanlam{
                     type: 'commaSeparator',
                     key: 'WindShieldSI',
                     hide: true,
-                    hideExpression:true,
+                   // hideExpression:true,
                     props: {
                       label: `WindShield SumInured`,
                       maxLength: 15,
@@ -270,6 +270,79 @@ export class MotorVehicleSanlam{
                     expressions: {
                     },
                   },
+
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'input',
+                    key: 'NoOfPassengers',
+  
+                    props: {
+                      label: `Number Of Passengers's `,
+                      maxLength: 15,
+                      disabled: this.checkDisable('NumberOfPassengers'),
+                    //  required: true,
+                      options: [
+  
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'input',
+                    key: 'Mileage',
+                    props: {
+                      label: `Mileage (Km/lit)`,
+                      maxLength: 15,
+                      disabled: this.checkDisable('Mileage'),
+                    //  required: true,
+                      options: [
+  
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'input',
+                    key: 'NoOfClaimYears',
+  
+                    props: {
+                      label: `Number Of Claim Years`,
+                      maxLength: 15,
+                      disabled: this.checkDisable('NumberOfClaimYears'),
+                    //  required: true,
+                      options: [
+  
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                
+
+
+
+
                   // {
                   //   type: 'ngselect',
                   //   key: 'ExtendedTPPDSI',
@@ -306,6 +379,7 @@ export class MotorVehicleSanlam{
                         label: 'Claims YN ?',
                         required: true,
                         disabled: this.checkDisable('ClaimsYN'),
+                       
                         name: 'ClaimsYN',
                         options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
                       }
