@@ -441,23 +441,30 @@
             <div class="grid pl-5 pt-5">
                 <div  class="rightSide w-full">
                     <h3>Information Summary</h3>
-                    <div class="flex justify-content-start">
+                    <div class="flex flex-wrap justify-content-start w-full">
                         <ng-container *ngFor="let menu of vehicleDetailsList;let i = index">
-                            <div class="card1 Card1Border ml-5">
-                                <h2 class="optiontxt1">{{menu.SectionName}}</h2>
+                            <div class="card ml-6-per col-12 md:col-3 lg:col-3 xl:col-3">
+                                <h2 class="optiontxt1">Option {{i+1}}</h2>
                                 <span class="greentxt">{{menu.SectionName}}</span>
                                 <hr class="hr new4">
                                 <ng-container *ngFor="let cover of menu.CoverList">
-                                    <ng-container *ngIf="((cover.isSelected=='D' && cover.CoverageType!='A') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
-                                        <h3>{{cover.CoverName}}</h3>
-                                        <h2 class="optiontxt1">{{cover.PremiumIncludedTax | commaseparator}}</h2>
-                                    </ng-container>
+                                <ng-container *ngIf="((cover.isSelected=='D' && cover.CoverageType!='A') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
+                                <div class="flex flex-warp">
+                                <div class="col-12 md:col-9 lg:col-9 xl:col-9 t-a-l">     
+                                    <h5>{{cover.CoverName}}</h5>
+                                </div>
+                                <div class="col-12 md:col-3 lg:col-3 xl:col-3 t-a-r">
+                                    <h4 class="optiontxt1">{{cover.PremiumIncludedTax | commaseparator}}</h4>
+                                </div>
+                                </div>
                                 </ng-container>
-                                <div class="grid mt-2">
-                                    <div class="card custom-grid text-white surface-900 w-full p-0 text-end" *ngIf="checkCurrentSection() && vehicleDetailsList[i].totalPremium!=null && vehicleDetailsList[i].totalPremium!=0 && vehicleDetailsList[i].totalPremium!='0'" style="min-width: 200px !important;">
-                                        <div class="col-10">
-                                            <label>Total Premium</label>
-                                            <h6 class="text-white mt-0">{{vehicleDetailsList[i].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
+                                </ng-container>
+                                <hr class="hr new4">
+                                <div class="grid mt-2 justify-content-end" style="padding: 12px;">
+                                    <div class="custom-grid text-white  p-0 text-end" *ngIf="checkCurrentSection() && vehicleDetailsList[i].totalPremium!=null && vehicleDetailsList[i].totalPremium!=0 && vehicleDetailsList[i].totalPremium!='0'" >
+                                        <div class="col-12 md:col-4 lg:col-4 xl:col-4" style="width:100%;background-color: #000;border-radius: 5px;">
+                                        <label>Total Premium</label>
+                                        <h6 class="text-white mt-0">{{vehicleDetailsList[i].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
                                         </div>
                                     </div>
                                 </div>

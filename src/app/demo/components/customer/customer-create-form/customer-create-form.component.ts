@@ -267,7 +267,9 @@ export class CustomerCreateFormComponent implements OnInit {
 			"TelephoneNo3": null,
 			"Title": data.Title,
 			"VrTinNo": data.vrngst,
-			"SaveOrSubmit": 'Submit'
+			"SaveOrSubmit": 'Submit',
+			"MiddleName":data?.MiddleName,
+			"LastName":data?.LastName,
 		}
 		let quoteNo = sessionStorage.getItem('quoteNo'),refNo = null;
 		if(this.loginType=='B2CFlow' || (this.loginType=='B2CFlow2')){
@@ -603,6 +605,8 @@ export class CustomerCreateFormComponent implements OnInit {
 					let customerDetails = data.Result;
 					this.productItem = new ProductData();
 					this.productItem.ClientName = customerDetails.ClientName;
+					this.productItem.MiddleName = customerDetails.MiddleName;
+					this.productItem.LastName = customerDetails.LastName;
 					// if(customerDetails.AppointmentDate!=null && customerDetails.AppointmentDate!=undefined){
 					// 	var dateParts = customerDetails.AppointmentDate.split("/");
 					// 	 this.productItem.AppointmentDate = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
@@ -961,6 +965,8 @@ export class CustomerCreateFormComponent implements OnInit {
 			"Title": datas.Title,
 			"VrTinNo": datas.vrngst,
 			"SaveOrSubmit": 'Submit',
+			"MiddleName":datas?.MiddleName,
+    		"LastName":datas?.LastName,
 		}
 		let urlLink = `${this.CommonApiUrl}api/blankvalidation`;
 		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
