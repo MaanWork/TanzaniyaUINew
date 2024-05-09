@@ -8382,10 +8382,10 @@ this.BuildingOwnerYn = type;
     this.editss=false;
   }
   onsubmitnewemp(){
-    let validate = this.checkManda();
-      if(validate){
+    // let validate = this.checkManda();
+    //   if(validate){
         this.onBuildingSave();
-      }
+      //}
   }
   onsubmitnewfed(){
     let validate = this.checkManda();

@@ -801,6 +801,7 @@ export class ShortQuoteComponent implements OnInit {
       "SavedFrom": "SQ",
       "MobileCode": this.countryCode,
       "MobileNumber": this.mobileNo,
+      "Chassisnumber": this.productItem.ChassisNo,
       "Insurancetype": [
           this.productItem.InsuranceType
       ],
@@ -817,8 +818,8 @@ export class ShortQuoteComponent implements OnInit {
       "VehicleType": VehicleType,
       "VehicleTypeId": VehicleTypeId,
       "CarAlarmYn": this.productItem.CarAlarmYn,
-      "PolicyStartDate":"03/05/2024",
-      "PolicyEndDate":"02/05/2025",
+      "PolicyStartDate": this.policyStartDate,
+      "PolicyEndDate": this.policyEndDate,
       "CustomerCode":this.customerCode,
       "BdmCode": this.customerCode,
       "SourceTypeId": this.sourceType,
