@@ -643,11 +643,31 @@
             </ng-container>
             </div>
             <div>
-                <div class="form__wrapper" *ngIf="productId!='14' && productId!='16' && productId!='57' && productId!='32' && productId!='19' && productId!='24' && productId!='3' && productId!='42' && productId!='13' && productId!='21' && productId!='26' && productId!='6' && productId!='25' && productId!='56' && (productId!='1' || (productId=='1' && insuranceId=='100004'))  && (productId!='39' || (productId=='39' && insuranceId=='100004')) && (productId!='27' || (productId=='27' && insuranceId=='100004'))">
+                <div class="form__wrapper" *ngIf="productId!='46' && productId!='14' && productId!='16' && productId!='57' && productId!='32' && productId!='19' && productId!='24' && productId!='3' && productId!='42' && productId!='13' && productId!='21' && productId!='26' && productId!='6' && productId!='25' && productId!='56' && (productId!='1' || (productId=='1' && insuranceId=='100004'))  && (productId!='39' || (productId=='39' && insuranceId=='100004')) && (productId!='27' || (productId=='27' && insuranceId=='100004'))">
                     <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
                         <formly-form [form]="form" [fields]="fields" [model]="productItem"></formly-form>
                     </form>
                 </div>
+                <ng-container *ngIf="productId=='46'">
+                    <div class="pl-3 pr-2 pb-0">
+                        <h4 class="m-0 p-0">Vehicle Details</h4>
+                    </div>
+                        <div class="d-flex justify-content-end">
+                            <div *ngIf="vehicleDetailsList.length!=0 && vehicleDetailsList.length!=1">
+                                <button class="btn btn-danger" (click)="onDeleteVehicle()"><i class="fa fa-trash"></i>&nbsp;Remove Vehicle</button>
+                            </div>
+                        </div>
+                    <ng-container *ngIf="productItem">
+                        <div class="grid mt-1">
+                            <div class="lg:col-2 md:col-2 col-2"></div>
+                            <div class="lg:col-8 md:col-8 col-8">
+                                <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
+                                    <formly-form [form]="form" [fields]="fields" [model]="productItem"></formly-form>
+                                </form>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
             </div>
             <div class="grid pl-5 pr-5 pb-0" *ngIf="productId=='42'">
                 <div class="md:col-6 lg:col-6 col-12">
@@ -692,11 +712,11 @@
                 </div>
             </div>
         </div>
-        <div class="flex justify-content-center mt-3" *ngIf="productId=='1' || productId=='6' || productId=='39' || productId=='43' || productId=='16' || productId=='42' || productId=='21' || productId=='14' || productId=='59' || productId=='60' || productId=='57' || productId=='56' || productId=='26' || productId=='25' || productId=='13' || this.productId=='27' || this.productId=='24' || this.productId=='19' || this.productId=='32'">
-        <p-button  styleClass="p-button-outlined" label="Back"
-            size="small" [routerLink]="['/quotation']" routerLinkActive="router-link-active" ></p-button>&nbsp;
-        <p-button 
-            label="Proceed" size="small" (click)="onSubmit()"></p-button>
+        <div class="flex justify-content-center mt-3" *ngIf="productId=='1' || productId=='6' || productId=='39' || productId=='43' || productId=='46' || productId=='16' || productId=='42' || productId=='21' || productId=='14' || productId=='59' || productId=='60' || productId=='57' || productId=='56' || productId=='26' || productId=='25' || productId=='13' || this.productId=='27' || this.productId=='24' || this.productId=='19' || this.productId=='32'">
+            <p-button  styleClass="p-button-outlined" label="Back"
+                size="small" [routerLink]="['/quotation']" routerLinkActive="router-link-active" ></p-button>&nbsp;
+                <p-button *ngIf="productId=='46'" label="Save & Add New" size="small" (click)="onSubmit()"></p-button>&nbsp;
+            <p-button label="Proceed" size="small" (click)="onSubmit()"></p-button>
         </div>
 </div>
     

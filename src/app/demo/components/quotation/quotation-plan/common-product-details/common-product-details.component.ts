@@ -38,6 +38,7 @@ import { ProfessionalIndemnity } from '../models/ProfessionalIntermnity';
 import { HealthInsurance } from '../models/HealthInsurance';
 import { Moneys } from '../newmodels/Moneys';
 import { PublicLiabilitys } from '../newmodels/PublicLiablityCover';
+import { ShortTermVehicle } from '../models/ShortTermVehicle';
 
 export class ForceLengthValidators {
   static maxLength(maxLength: number) {
@@ -106,7 +107,7 @@ export class CommonProductDetailsComponent {
   listSection:boolean=false;listn:boolean=false;queryHeader1:any[]=[];fieldsEmployee:any[]=[];
   groupHeader:any[]=[]; GroupListNew: any[]=[];  listSectionGroup: boolean;
   listnGroup: boolean; dobminDate: Date;productList13:any[]=[];
-  queryHeader4:any[]=[];
+  queryHeader4:any[]=[];vehicleDetailsList:any[]=[];
   backDays: any=null;customerList:any[]=[];
   fieldsFidelity:any[]=[];fuelTypeList:any[]=[];motorDetails:any=null;
   listSectionFed:boolean=false;listnFed:boolean=false;queryHeader2:any[]=[];CyberCode:any=null;
@@ -896,50 +897,50 @@ export class CommonProductDetailsComponent {
       
       
     }
-    // else if (this.productId == '46') {
-    //   let fireData = new ShortTermVehicle();
-    //   let entry = [];
-    //   this.fields[0] = fireData?.fields;
-    //   let bodyTypeHooks = { onInit: (field: FormlyFieldConfig) => {
-    //     field.formControl.valueChanges.subscribe(() => {
-    //           this.onBodyTypeChange('change');
-    //     });
-    //   } }
-    //   let makeHooks ={ onInit: (field: FormlyFieldConfig) => {
-    //     field.formControl.valueChanges.subscribe(() => {
-    //       this.onMakeChange('change')
-    //     });
-    //   } }
-    //   let modelHooks ={ onInit: (field: FormlyFieldConfig) => {
-    //     field.formControl.valueChanges.subscribe(() => {
-    //       this.onModelChange('change')
-    //     });
-    //   } }
-    //   this.fields[0].fieldGroup[0].fieldGroup[0].hooks = bodyTypeHooks;
-    //   this.fields[0].fieldGroup[0].fieldGroup[1].hooks = makeHooks;
-    //   this.fields[0].fieldGroup[0].fieldGroup[2].hooks = modelHooks;
-    //   let referenceNo = sessionStorage.getItem('quoteReferenceNo');
-    //   if (referenceNo) {
-    //     this.requestReferenceNo = referenceNo;
-    //     this.setCommonFormValues();
-    //   }
-    //   else {
-    //       this.productItem = new ProductData();
-    //       this.onBodyTypeChange('change');
-    //       this.formSection = true; this.viewSection = false;
-    //       if(this.customerDetails) this.productItem.OwnerName = this.customerDetails.ClientName;
-    //       if(this.customerDetails?.PolicyHolderType){
-    //         this.productItem.OwnerCategory = this.customerDetails.PolicyHolderType;
-    //       } 
-    //       this.getFuelTypeList();
-    //       this.getYearList();
-    //       this.getColorsList();
-    //       this.getBodyTypeList();
-    //       this.getUsageList();
-    //       this.getMotorCategoryList();
-    //       //this.getMotorCategoryList();
-    //   }
-    // }
+    else if (this.productId == '46') {
+      let fireData = new ShortTermVehicle();
+      let entry = [];
+      this.fields[0] = fireData?.fields;
+      let bodyTypeHooks = { onInit: (field: FormlyFieldConfig) => {
+        field.formControl.valueChanges.subscribe(() => {
+              this.onBodyTypeChange('change');
+        });
+      } }
+      let makeHooks ={ onInit: (field: FormlyFieldConfig) => {
+        field.formControl.valueChanges.subscribe(() => {
+          this.onMakeChange('change')
+        });
+      } }
+      let modelHooks ={ onInit: (field: FormlyFieldConfig) => {
+        field.formControl.valueChanges.subscribe(() => {
+          this.onModelChange('change')
+        });
+      } }
+      this.fields[0].fieldGroup[0].fieldGroup[0].hooks = bodyTypeHooks;
+      this.fields[0].fieldGroup[0].fieldGroup[1].hooks = makeHooks;
+      this.fields[0].fieldGroup[0].fieldGroup[2].hooks = modelHooks;
+      let referenceNo = sessionStorage.getItem('quoteReferenceNo');
+      if (referenceNo) {
+        this.requestReferenceNo = referenceNo;
+        this.setCommonFormValues();
+      }
+      else {
+          this.productItem = new ProductData();
+          this.onBodyTypeChange('change');
+          this.formSection = true; this.viewSection = false;
+          if(this.customerDetails) this.productItem.OwnerName = this.customerDetails.ClientName;
+          if(this.customerDetails?.PolicyHolderType){
+            this.productItem.OwnerCategory = this.customerDetails.PolicyHolderType;
+          } 
+          this.getFuelTypeList();
+          this.getYearList();
+          this.getColorsList();
+          this.getBodyTypeList();
+          this.getUsageList();
+          this.getMotorCategoryList();
+          //this.getMotorCategoryList();
+      }
+    }
     else if (this.productId == '1' && this.insuranceId =='100002') {
       
       let fireData = new Burglary();
@@ -4622,7 +4623,7 @@ console.log('Eventsss',event);
     let startDate = "",endDate = ""
     //this.updateComponent.vehicleDetails = this.vehicleDetails;
      if(this.commonDetails[0].PolicyStartDate){
-      if(this.commonDetails[0].PolicyStartDate.includes('/')) startDate = this.commonDetails[0].PolicyStartDate;
+      if(String(this.commonDetails[0].PolicyStartDate).includes('/')) startDate = this.commonDetails[0].PolicyStartDate;
       else startDate = this.datePipe.transform(this.commonDetails[0].PolicyStartDate, "dd/MM/yyyy");
       const oneday = 24 * 60 * 60 * 1000;
       const momentDate = new Date(this.commonDetails[0].PolicyEndDate); // Replace event.value with your date value
@@ -4630,10 +4631,10 @@ console.log('Eventsss',event);
       const formattedDatecurrent = new Date(this.commonDetails[0].PolicyStartDate);
       console.log(formattedDate);
       this.noOfDays = Math.round(Math.abs((Number(momentDate)  - Number(formattedDatecurrent) )/oneday)+1);
-    }
+      }
     if(this.commonDetails[0].PolicyEndDate){
       
-        if(this.commonDetails[0].PolicyEndDate.includes('/')) endDate = this.commonDetails[0].PolicyEndDate;
+        if(String(this.commonDetails[0].PolicyEndDate).includes('/')) endDate = this.commonDetails[0].PolicyEndDate;
         else endDate = this.datePipe.transform(this.commonDetails[0].PolicyEndDate, "dd/MM/yyyy");
     }
     let effectiveDate=null;
@@ -4642,7 +4643,7 @@ console.log('Eventsss',event);
     }
     else {
       if(this.commonDetails[0].PolicyStartDate){
-        if(this.commonDetails[0].PolicyStartDate.includes('/')) effectiveDate = this.commonDetails[0].PolicyStartDate;
+        if(String(this.commonDetails[0].PolicyStartDate).includes('/')) effectiveDate = this.commonDetails[0].PolicyStartDate;
         else effectiveDate = this.datePipe.transform(this.commonDetails[0].PolicyStartDate, "dd/MM/yyyy");
       }
     }

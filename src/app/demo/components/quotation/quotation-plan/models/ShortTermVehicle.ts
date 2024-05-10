@@ -27,13 +27,13 @@ export class ShortTermVehicle{
             props: { label: 'Personal Accident' },
             fieldGroup: [
               {
-                fieldGroupClassName: 'row',
+                fieldGroupClassName: 'grid',
                 fieldGroup: [
                     {
                       type: 'ngselect',
                       key: 'BodyType',
                       defaultValue: '',
-                      className: 'col-12 col-lg-4 col-md-6',
+                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                       props: {
                         label: `Body Type`,
                         disabled: this.checkDisable('BodyType'),
@@ -54,7 +54,7 @@ export class ShortTermVehicle{
                         type: 'ngselect',
                         key: 'Make',
                         defaultValue: '',
-                        className: 'col-12 col-lg-4 col-md-6',
+                        className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                         
                         props: {
                           label: `Make`,
@@ -76,7 +76,7 @@ export class ShortTermVehicle{
                       type: 'ngselect',
                       key: 'Model',
                       defaultValue: '',
-                      className: 'col-12 col-lg-4 col-md-6',
+                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                       props: {
                         label: `Model`,
                         disabled: this.checkDisable('Model'),
@@ -97,7 +97,7 @@ export class ShortTermVehicle{
                         type: 'input',
                         key: 'ModelDesc',
                         defaultValue: '',
-                        className: 'col-12 col-lg-4 col-md-6',
+                        className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                         props: {
                           label: `Model`,
                           disabled: this.checkDisable('Model'),
@@ -118,7 +118,7 @@ export class ShortTermVehicle{
                       type: 'input',
                       key: 'OtherModelDesc',
                       defaultValue: '',
-                      className: 'col-12 col-lg-4 col-md-6',
+                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                       props: {
                         label: `Model Description`,
                         disabled: this.checkDisable('Model'),
@@ -136,7 +136,7 @@ export class ShortTermVehicle{
                       },
                     },
                     {
-                        className: 'col-12 col-lg-4 col-md-6',
+                        className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                         type: 'input',
                         key: 'ChassisNo',
                         templateOptions: {
@@ -169,7 +169,7 @@ export class ShortTermVehicle{
                     //     },
                     // },
                     // {
-                    //     className: 'col-12 col-lg-4 col-md-6',
+                    //     className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                     //     type: 'input',
                     //     key: 'EngineNo',
                     //     templateOptions: {
@@ -189,7 +189,7 @@ export class ShortTermVehicle{
                     //     },
                     // },
                     {
-                        className: 'col-12 col-lg-4 col-md-6',
+                        className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                         type: 'input',
                         key: 'EngineCapacity',
                         templateOptions: {
@@ -202,7 +202,7 @@ export class ShortTermVehicle{
                         },
                     },
                     {
-                        className: 'col-12 col-lg-4 col-md-6',
+                        className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                         type: 'input',
                         key: 'SeatingCapacity',
                         templateOptions: {
@@ -218,7 +218,7 @@ export class ShortTermVehicle{
                         type: 'ngselect',
                         key: 'ManufactureYear',
                         defaultValue: '',
-                        className: 'col-12 col-lg-4 col-md-6',
+                        className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                         props: {
                           label: `Manufacture Year`,
                           disabled: this.checkDisable('ManufactureYear'),
@@ -239,7 +239,7 @@ export class ShortTermVehicle{
                         type: 'ngselect',
                         key: 'FuelType',
                         defaultValue: '',
-                        className: 'col-12 col-lg-4 col-md-6',
+                        className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                         props: {
                           label: `Fuel Used`,
                           disabled: this.checkDisable('FuelType'),
@@ -260,7 +260,7 @@ export class ShortTermVehicle{
                         type: 'ngselect',
                         key: 'Color',
                         defaultValue: '',
-                        className: 'col-12 col-lg-4 col-md-6',
+                        className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                         props: {
                           label: `Vehicle Color`,
                           disabled: this.checkDisable('Color'),
@@ -282,7 +282,7 @@ export class ShortTermVehicle{
                         type: 'ngselect',
                         key: 'MotorUsage',
                         defaultValue: '',
-                        className: 'col-12 col-lg-4 col-md-6',
+                        className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                         props: {
                           label: `Vehicle Usage`,
                           disabled: this.checkDisable('MotorUsage'),
@@ -303,7 +303,7 @@ export class ShortTermVehicle{
                       type: 'ngselect',
                       key: 'MotorCategory',
                       defaultValue: '',
-                      className: 'col-12 col-lg-4 col-md-6',
+                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                       props: {
                         label: `Motor Category`,
                         disabled: this.checkDisable('MotorCategory'),
