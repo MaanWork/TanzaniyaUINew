@@ -148,6 +148,10 @@ export class CommonProductDetailsComponent {
   plus: boolean = false;values:any;sectionDropdownList:any[]=[];
   landshow: boolean= false;inPatientSIList:any[]=[];
   fidelityList: any[]=[];
+  vehicleId: any=null;
+  totalIndex: any=null;
+  currentIndex: any=null;
+  commissionType: any=null;
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -922,7 +926,9 @@ export class CommonProductDetailsComponent {
       let referenceNo = sessionStorage.getItem('quoteReferenceNo');
       if (referenceNo) {
         this.requestReferenceNo = referenceNo;
-        this.setCommonFormValues();
+        this.vehicleDetailsList =[];this.vehicleId = null;
+        this.getMotorDetails('direct');
+        //this.setCommonFormValues();
       }
       else {
           this.productItem = new ProductData();
@@ -1391,6 +1397,295 @@ export class CommonProductDetailsComponent {
       this.productTypes();
     }
   }
+  getMotorDetails(type){
+    let ReqObj = {
+      "RequestReferenceNo": this.requestReferenceNo
+    }
+    let urlLink = `${this.motorApiUrl}api/getallmotordetails`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            this.vehicleDetailsList = data.Result;
+            if(data.Result.length!=0){
+              for(let veh of data.Result){
+                veh['Active'] = true;
+              }
+              let vehicleDetails = data.Result;
+              this.commonDetails = data.Result;
+              this.currencyCode = vehicleDetails[0].Currency;
+              
+              
+              
+              if(type!='proceedNext'){
+                if(this.vehicleId ==null || this.vehicleId==undefined){
+                  this.policyStartDate = vehicleDetails[0].PolicyStartDate;
+                  this.policyEndDate = vehicleDetails[0].PolicyEndDate;
+                  this.sourceType = vehicleDetails[0]?.SourceTypeId;
+
+                  this.vehicleId = vehicleDetails[0].Vehicleid;
+                }
+                this.totalIndex = this.vehicleDetailsList.length;
+                let index = this.vehicleDetailsList.findIndex(ele=>ele.Vehicleid==this.vehicleId);
+                if(index!=null && index!=undefined) this.currentIndex = index+1;
+                sessionStorage.setItem('vehicleDetailsList',JSON.stringify(vehicleDetails));
+                this.commonDetails = data.Result;
+                this.setCommonFormValues();
+              }
+              else{
+                this.onCreateVehicle();
+              }
+              
+            }
+        }
+      });
+  }
+  onCreateVehicle(){
+    this.vehicleId = this.vehicleDetailsList.length+1;
+    let make = "",color='',fuel='',usageDesc='',bodyType='',motorCategoryDesc='';
+      let insuranceType = ['73'];
+      if(this.productItem.Make!='' && this.productItem.Make!=undefined && this.productItem.Make!=null){
+        let entry = this.makeList.find(ele=>ele.Code==this.productItem.Make);
+        make = entry.label;
+  
+      }
+      if(this.productItem.BodyType!='' && this.productItem.BodyType!=undefined && this.productItem.BodyType!=null){
+        let entry = this.bodyTypeList.find(ele=>ele.Code==this.productItem.BodyType);
+        bodyType = entry.label;
+      }
+      if(this.productItem.Color!='' && this.productItem.Color!=undefined && this.productItem.Color!=null){
+        let entry = this.colorList.find(ele=>ele.Code==this.productItem.Color);
+        color = entry.label;
+      }
+      if(this.productItem.FuelType!='' && this.productItem.FuelType!=undefined && this.productItem.FuelType!=null){
+        let entry = this.fuelTypeList.find(ele=>ele.Code==this.productItem.FuelType);
+        fuel = entry.label;
+      }
+      if(this.productItem.MotorUsage!='' && this.productItem.MotorUsage!=undefined && this.productItem.MotorUsage!=null){
+        let entry = this.usageList.find(ele=>ele.Code==this.productItem.MotorUsage);
+        usageDesc = entry.label;
+      }
+      if(this.productItem.MotorCategory!='' && this.productItem.MotorCategory!=undefined && this.productItem.MotorCategory!=null){
+        let entry = this.motorCategoryList.find(ele=>ele.Code==this.productItem.MotorCategory);
+        motorCategoryDesc = entry.label;
+      }
+      let model=null,modelDesc = null;
+      if(this.productItem.BodyType!='' && this.productItem.BodyType!=undefined && this.productItem.BodyType!=null){
+        let bodyType = this.productItem.BodyType
+          if(bodyType=='1' || bodyType=='2' || bodyType=='3' || bodyType=='4' || bodyType=='5'){
+            if(this.productItem.Model!='' && this.productItem.Model!=null){
+              if(this.productItem.Model=='99999'){
+                modelDesc = this.productItem.OtherModelDesc;
+                model = this.productItem.Model;
+              }
+              else{
+                let entry = this.modelList.find(ele=>ele.Code==this.productItem.Model);
+                modelDesc = entry.label;
+                model = this.productItem.Model;
+              }
+              
+            }
+          }
+          else{
+            model = '99999';
+            modelDesc = this.productItem.ModelDesc;
+          }
+      }
+      let regNo = null;
+      if(this.productItem.RegistrationNo=='' || this.productItem.RegistrationNo==null){
+        regNo = this.productItem.ChassisNo;
+      }
+      else regNo = this.productItem.RegistrationNo;
+      let createdBy="";
+          let startDate = "",endDate = "",vehicleSI="0",accSI="",windSI="0",tppSI="0";
+          startDate = this.commonDetails[0].PolicyStartDate;
+          endDate = this.commonDetails[0].PolicyEndDate;
+          if(this.policyStartDate){
+            // if(this.endorsementSection && (this.enableAddVehicle && this.endorsementYn=='Y')){
+            //    startDate = this.endorseEffectiveDate;
+            //    const oneday = 24 * 60 * 60 * 1000;
+            //     const momentDate = new Date(this.policyEndDate); // Replace event.value with your date value
+            //     const formattedDate = moment(momentDate).format("YYYY-MM-DD");
+            //     const formattedDatecurrent = new Date(startDate);
+            //     console.log(formattedDate);
+      
+            //   console.log(formattedDatecurrent);
+      
+            //   this.noOfDays = Math.round(Math.abs((Number(momentDate)  - Number(formattedDatecurrent) )/oneday)+1);
+            // }
+          }
+        let quoteStatus = sessionStorage.getItem('QuoteStatus');
+        this.subuserType = sessionStorage.getItem('typeValue');
+        console.log("AcExecutive",this.sourceType,this.bdmCode,this.brokerCode,this.customerCode);
+        
+        let appId = "1",loginId="",brokerbranchCode="";
+        if(quoteStatus=='AdminRP' || quoteStatus=='AdminRA' || quoteStatus=='AdminRR'){
+          brokerbranchCode = this.commonDetails[0].BrokerBranchCode;
+            createdBy = this.commonDetails[0].CreatedBy;
+        }
+        else{
+          createdBy = this.loginId;
+          if(this.userType!='Issuer'){
+            this.brokerCode = this.agencyCode;
+            appId = "1"; loginId=this.loginId;
+            brokerbranchCode = this.brokerbranchCode;
+          }
+          else{
+            appId = this.loginId;
+            loginId = this.commonDetails[0].LoginId;
+            //loginId = this.updateComponent.brokerLoginId
+            brokerbranchCode = this.commonDetails[0].BrokerBranchCode;
+          }
+        }
+        if(this.userType!='Broker' && this.userType!='User'){
+          // if(this.updateComponent.sourceType==null || this.updateComponent.sourceType==undefined){
+            
+          //   this.sourceType = this.commonDetails[0].SourceType;
+          //   this.bdmCode = this.commonDetails[0].BrokerCode;
+          //   this.brokerCode = this.commonDetails[0].BrokerCode;
+          //   brokerbranchCode =  this.commonDetails[0].BrokerBranchCode;
+          //   this.customerCode = this.commonDetails[0].CustomerCode;
+          //   this.customerName = this.commonDetails[0].CustomerName;
+          // }
+          // else{
+          //   this.sourceType = this.updateComponent.sourceType;
+          //   this.bdmCode = this.updateComponent.brokerCode;
+          //   this.brokerCode = this.updateComponent.brokerCode;
+          //   brokerbranchCode =  this.updateComponent.brokerBranchCode;
+          //   this.customerCode = this.updateComponent.CustomerCode;
+          //   this.customerName = this.updateComponent.CustomerName;
+          // }
+          }
+          else {
+            this.sourceType = this.subuserType;
+            this.customerCode = this.userDetails?.Result.CustomerCode;
+          }
+        let refNo = "99999",regYear="99999",IdType="99999",IdNo="99999";
+        if(this.customerDetails){refNo = this.customerDetails?.CustomerReferenceNo;
+          IdNo = this.customerDetails?.IdNumber;
+          regYear=this.customerDetails?.DobOrRegDate;IdType=this.customerDetails?.PolicyHolderType;};
+          if(this.customerName ==undefined) this.customerName = null;
+          if(this.vehicleId==null || this.vehicleId==undefined) this.vehicleId = '1';
+      this.vehicleDetails = {
+        "BrokerBranchCode": brokerbranchCode,
+        "AcExecutiveId": null,
+        "CommissionType": this.commissionType,
+        "CustomerCode": this.customerCode,
+        "CustomerName": this.customerName,
+        "BdmCode": this.customerCode,
+        "BrokerCode": this.brokerCode,
+        "LoginId": loginId,
+        "SubUserType": this.subuserType,
+        "ApplicationId": appId,
+        "CustomerReferenceNo": refNo,
+        "RequestReferenceNo": this.requestReferenceNo,
+        "Idnumber": IdNo,
+        "VehicleId": this.vehicleId,
+        "AxelDistance": '01',
+        "Chassisnumber": '99999',
+        "Color": null,
+        "ColorDesc": color,
+        "OwnerCategory": null,
+        "CubicCapacity": "100",
+        "CreatedBy": createdBy,
+        "DrivenByDesc": 'Driver',
+        "EngineNumber": null,
+        "EngineCapacity": null,
+        "FuelType": null,
+        "FuelTypeDesc": fuel,
+        "Grossweight": "100",
+        "HoldInsurancePolicy": "N",
+        "Insurancetype": insuranceType,
+        "InsuranceId": this.insuranceId,
+        "InsuranceClass": "3",
+        "ModelNumber": null,
+        "NcdYn": 'N',
+        "NoOfClaims": null,
+        "NumberOfAxels": "1",
+        "BranchCode": this.branchCode,
+        "AgencyCode": this.agencyCode,
+        "ProductId": this.productId,
+        "SectionId": '73',
+        "PolicyType": IdType,
+        "RadioOrCasseteplayer": null,
+        "RegistrationYear": regYear,
+        "SourceTypeId":this.sourceType,
+        "SpotFogLamp": null,
+        "Stickerno": null,
+        "SumInsured": null,
+        "Tareweight": '100',
+        "TppdFreeLimit": null,
+        "TppdIncreaeLimit": null,
+        "TrailerDetails": null,
+        "Windscreencoverrequired": null,
+        "accident": null,
+        "periodOfInsurance": "30",
+        "PolicyStartDate": startDate,
+        "PolicyEndDate": endDate,
+        "Currency" : this.currencyCode,
+        "ExchangeRate": this.commonDetails[0].ExchangeRate,
+        "HavePromoCode": this.commonDetails[0].HavePromoCode,
+        "PromoCode" : this.commonDetails[0].PromoCode,
+        "CollateralYn": 'N',
+        "BorrowerType": null,
+        "CollateralName": null,
+        "FirstLossPayee": null,
+        "FleetOwnerYn": 'N',
+        "NoOfVehicles": "1",
+        "NoOfComprehensives": null,
+        "ClaimRatio": null,
+        "SavedFrom": "Owner",
+        "UserType": this.userType,
+        "SearchFromApi":false,
+        "TiraCoverNoteNo": null,
+        "EndorsementYn": 'N',
+        "EndorsementDate":this.endorsementDate,
+        "EndorsementEffectiveDate": this.endorsementEffectiveDate,
+        "EndorsementRemarks": this.endorsementRemarks,
+        "EndorsementType": this.endorsementType,
+        "EndorsementTypeDesc": this.endorsementTypeDesc,
+        "EndtCategoryDesc": this.endtCategoryDesc,
+        "EndtCount":this.endtCount,
+        "EndtPrevPolicyNo":this.endtPrevPolicyNo,
+        "EndtPrevQuoteNo": this.endtPrevQuoteNo,
+        "EndtStatus": this.endtStatus,
+        "IsFinanceEndt": this.isFinanceEndt,
+        "OrginalPolicyNo": this.orginalPolicyNo,
+        "Ncb":"0",
+        "DefenceValue":null,
+        "PurchaseDate":null,
+        "RegistrationDate": null,
+        "Scenarios": {
+          "ExchangeRateScenario": {
+            "OldAcccessoriesSumInsured": null,
+            "OldCurrency": null,
+            "OldExchangeRate": null,
+            "OldSumInsured": null,
+            "OldTppdIncreaeLimit": null,
+            "OldWindScreenSumInsured": null
+          }
+        },
+        "AcccessoriesSumInsured": null,
+        "AccessoriesInformation": null,
+        "AdditionalCircumstances": null,
+        "CityLimit": null,
+        "CoverNoteNo": null,
+        "Gpstrackinginstalled": 'N',
+        "InsurerSettlement": "",
+        "InterestedCompanyDetails": "",
+        "MotorCategory": null,
+        "RoofRack": null,
+        "WindScreenSumInsured": null,
+        "SaveOrSubmit": "Save"
+      }
+      this.vehicleDetails['FleetOwnerYn'] = "N";
+      this.vehicleDetails['Active'] = false;
+      this.vehicleDetailsList.push(this.vehicleDetails);
+      this.motorDetails = null;
+      this.productItem=new ProductData();
+      this.currentIndex = this.vehicleDetailsList.length;
+      this.totalIndex = this.vehicleDetailsList.length;
+  }
   createCover(element,modal){
     this.showsectionnew=false;
     this.listSection = false;
@@ -1618,7 +1913,7 @@ export class CommonProductDetailsComponent {
                   let referenceNo = sessionStorage.getItem('quoteReferenceNo');
                   if (referenceNo) {
                     this.requestReferenceNo = referenceNo;
-                    this.getExistingBuildingList();
+                    if(this.productId!='46') this.getExistingBuildingList();
                     this.setCommonFormValues();
                   }
                   else {
@@ -2342,7 +2637,7 @@ export class CommonProductDetailsComponent {
     else if(this.productId=='43'){ReqObj.SectionId='70';urlLink=`${this.motorApiUrl}api/slide12/getpublicliability`;}
     else if(this.productId=='27'){ReqObj.SectionId='54';urlLink=`${this.motorApiUrl}api/slide12/getpublicliability`;}
     else if(this.productId=='56'){ReqObj.SectionId=this.ProductCode;urlLink=`${this.motorApiUrl}api/slide15/gethealthinsure`;}
-    else if(this.productId=='46'){ReqObj['Vehicleid']='1';urlLink=`${this.motorApiUrl}api/getmotordetails`;}
+    else if(this.productId=='46'){ReqObj['Vehicleid']=this.vehicleId;urlLink=`${this.motorApiUrl}api/getmotordetails`;}
     else if(this.productId=='57'){ReqObj['SectionId']='45';urlLink=`${this.motorApiUrl}api/slide13/getpersonlaaccident`;}
     //else if(this.productId=='60'){ReqObj.SectionId='106';urlLink=`${this.motorApiUrl}api/slide15/gethumantype`;}
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -2841,7 +3136,7 @@ export class CommonProductDetailsComponent {
           let referenceNo = sessionStorage.getItem('quoteReferenceNo');
           if (referenceNo) {
             this.requestReferenceNo = referenceNo;
-            if (this.productId != '19' && this.productId != '59' && this.productId!='24') this.setFormValues();
+            if (this.productId != '19' && this.productId != '59' && this.productId!='24' && this.productId!='46') this.setFormValues();
             else this.setSMEFormValues('edit')
           }
           else if (this.productId != '19' && this.productId!='24'){
@@ -3360,12 +3655,12 @@ export class CommonProductDetailsComponent {
     }
     
   }
-  onSubmit(){
+  onSubmit(type){
     let valid = this.checkValidation();
     if(valid){
       if(this.productId=='1' || this.productId=='6' || this.productId=='13' || this.productId=='39' || this.productId=='43' || this.productId=='16' || this.productId=='42' || this.productId=='14' || this.productId=='59' || this.productId=='60' || this.productId=='57' || this.productId=='56' || this.productId=='26' || this.productId=='25' || this.productId=='21' || this.productId=='27' || this.productId=='24' || this.productId=='32'){ 
         this.saveCommonDetails('direct')}
-      else{this.onFormSubmit();}
+      else{this.onFormSubmit(type);}
     }
   }
   
@@ -3606,7 +3901,7 @@ export class CommonProductDetailsComponent {
                     sessionStorage.setItem('homeCommonDetails', JSON.stringify(homeDetails))
                     // if(types!='Risk'){
                     
-                      this.onFormSubmit();
+                      this.onFormSubmit(null);
                     //}
                     // else if(types=='Risk'){
                     //     if(this.newsections == '35'){
@@ -3698,7 +3993,7 @@ export class CommonProductDetailsComponent {
                   ];
                   // if(types!='Risk'){
                     
-                    this.onFormSubmit();
+                    this.onFormSubmit(null);
                   // }
                   // else if(types=='Risk'){
                   //     if(this.newsections == '35'){
@@ -3745,7 +4040,64 @@ export class CommonProductDetailsComponent {
   Checknew(event){
 console.log('Eventsss',event);
   }
-  onFormSubmit(){
+  onDeleteVehicle(){
+    Swal.fire({
+      title: '<strong> &nbsp;Delete Vehicle!</strong>',
+      iconHtml: '<i class="fa-solid fa-trash fa-fade"></i>',
+      icon: 'info',
+      html:
+        `<ul class="list-group errorlist">
+            Are You Sure Want to Delete this Vehicle Details?
+          </ul>`,
+            showCloseButton: true,
+            focusConfirm: false,
+            showCancelButton:true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Delete!',
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          let entry = this.vehicleDetailsList[this.currentIndex-1];
+          if(entry?.Active!=undefined){
+            if(entry.Active==false){
+              this.vehicleDetailsList.splice(this.currentGroupIndex-1,1);
+              this.currentIndex=1;
+              this.totalIndex = this.vehicleDetailsList.length;
+              this.motorDetails = null;
+              this.productItem=new ProductData();
+              this.vehicleId = this.vehicleDetailsList[0].Vehicleid;
+              this.setCommonFormValues();
+            }
+            else{
+              this.onDelete(entry);
+            }
+          }
+          else{
+            this.onDelete(entry);
+          }
+        }
+      });
+  }
+  onDelete(rowData){
+    console.log("Entry",rowData)
+    let ReqObj = {
+      "RequestReferenceNo": rowData.RequestReferenceNo,
+      "Vehicleid": rowData.Vehicleid,
+      "EndtType": null
+    }
+    let urlLink = `${this.motorApiUrl}api/deletemotordetails`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+          this.vehicleId=null;
+          this.motorDetails = null;
+            this.getMotorDetails('direct');
+        }
+      });           
+  }
+  onFormSubmit(type){
 
     if(this.productId=='1'){this.onSaveBurglaryDetails('proceed','individual')}
     else if(this.productId=='6'){this.onSaveFireAlliedDetails('proceed','individual');}
@@ -3776,9 +4128,259 @@ console.log('Eventsss',event);
     }
     else if(this.productId=='19'){
       this.onsavecorporate();
-     }
+    }
+    else if(this.productId=='46'){
+      this.saveMotorRiskDetails(type);
+    }
   }
+  saveMotorRiskDetails(type){
+    let make = "",color='',fuel='',usageDesc='',bodyType='',motorCategoryDesc='';
+    let insuranceType = ['73'];
+    if(this.productItem.Make!='' && this.productItem.Make!=undefined && this.productItem.Make!=null){
+      let entry = this.makeList.find(ele=>ele.Code==this.productItem.Make);
+      make = entry.label;
 
+    }
+    if(this.productItem.BodyType!='' && this.productItem.BodyType!=undefined && this.productItem.BodyType!=null){
+      let entry = this.bodyTypeList.find(ele=>ele.Code==this.productItem.BodyType);
+      bodyType = entry.label;
+    }
+    if(this.productItem.Color!='' && this.productItem.Color!=undefined && this.productItem.Color!=null){
+      let entry = this.colorList.find(ele=>ele.Code==this.productItem.Color);
+      color = entry.label;
+    }
+    if(this.productItem.FuelType!='' && this.productItem.FuelType!=undefined && this.productItem.FuelType!=null){
+      let entry = this.fuelTypeList.find(ele=>ele.Code==this.productItem.FuelType);
+      fuel = entry.label;
+    }
+    if(this.productItem.MotorUsage!='' && this.productItem.MotorUsage!=undefined && this.productItem.MotorUsage!=null){
+      let entry = this.usageList.find(ele=>ele.Code==this.productItem.MotorUsage);
+      usageDesc = entry.label;
+    }
+    if(this.productItem.MotorCategory!='' && this.productItem.MotorCategory!=undefined && this.productItem.MotorCategory!=null){
+      let entry = this.motorCategoryList.find(ele=>ele.Code==this.productItem.MotorCategory);
+      motorCategoryDesc = entry.label;
+    }
+    let model=null,modelDesc = null;
+    if(this.productItem.BodyType!='' && this.productItem.BodyType!=undefined && this.productItem.BodyType!=null){
+      let bodyType = this.productItem.BodyType
+        if(bodyType=='1' || bodyType=='2' || bodyType=='3' || bodyType=='4' || bodyType=='5'){
+          if(this.productItem.Model!='' && this.productItem.Model!=null){
+            if(this.productItem.Model=='99999'){
+              modelDesc = this.productItem.OtherModelDesc;
+              model = this.productItem.Model;
+            }
+            else{
+              let entry = this.modelList.find(ele=>ele.Code==this.productItem.Model);
+              modelDesc = entry.label;
+              model = this.productItem.Model;
+            }
+            
+          }
+        }
+        else{
+          model = '99999';
+          modelDesc = this.productItem.ModelDesc;
+        }
+    }
+    let regNo = null;
+    if(this.productItem.RegistrationNo=='' || this.productItem.RegistrationNo==null){
+      regNo = this.productItem.ChassisNo;
+    }
+    else regNo = this.productItem.RegistrationNo;
+    let createdBy="";
+        let startDate = "",endDate = "",vehicleSI="0",accSI="",windSI="0",tppSI="0";
+        if(this.policyStartDate){
+          if(String(this.policyStartDate).includes('/')) startDate = this.policyStartDate;
+          else startDate = this.datePipe.transform(this.policyStartDate,'dd/MM/yyyy');
+          if(String(this.policyEndDate).includes('/')) endDate = this.policyEndDate;
+          else endDate = this.datePipe.transform(this.policyEndDate,'dd/MM/yyyy');
+        }
+      let quoteStatus = sessionStorage.getItem('QuoteStatus');
+      this.subuserType = sessionStorage.getItem('typeValue');
+      console.log("AcExecutive",this.sourceType,this.bdmCode,this.brokerCode,this.customerCode);
+      let appId = "1",loginId="",brokerbranchCode="";
+      if(quoteStatus=='AdminRP' || quoteStatus=='AdminRA' || quoteStatus=='AdminRR'){
+        brokerbranchCode = this.commonDetails[0].BrokerBranchCode;
+          createdBy = this.commonDetails[0].CreatedBy;
+      }
+      else{
+        createdBy = this.loginId;
+        if(this.userType!='Issuer'){
+          this.brokerCode = this.agencyCode;
+          appId = "1"; loginId=this.loginId;
+          brokerbranchCode = this.brokerbranchCode;
+        }
+        else{
+          appId = this.loginId;
+          loginId = this.commonDetails[0].LoginId;
+          brokerbranchCode = this.commonDetails[0].BrokerBranchCode;
+        }
+      }
+      if(this.userType!='Broker' && this.userType!='User'){
+
+      }
+      else {
+        this.sourceType = this.subuserType;
+        this.customerCode = this.userDetails?.Result.CustomerCode;
+      }
+      let refNo = "99999",regYear="99999",IdType="99999",IdNo="99999";
+      if(this.customerDetails){refNo = this.customerDetails?.CustomerReferenceNo;
+        IdNo = this.customerDetails?.IdNumber;
+        regYear=this.customerDetails?.DobOrRegDate;IdType=this.customerDetails?.PolicyHolderType;};
+        if(this.customerName ==undefined) this.customerName = null;
+        if(this.vehicleId==null || this.vehicleId==undefined) this.vehicleId = '1';
+      let ReqObj = {
+      "BrokerBranchCode": brokerbranchCode,
+      "AcExecutiveId": null,
+      "CommissionType": this.commissionType,
+      "CustomerCode": this.customerCode,
+      "CustomerName": this.customerName,
+      "BdmCode": this.customerCode,
+      "BrokerCode": this.brokerCode,
+      "LoginId": loginId,
+      "SubUserType": this.subuserType,
+      "ApplicationId": appId,
+      "CustomerReferenceNo": refNo,
+      "RequestReferenceNo": this.requestReferenceNo,
+      "Idnumber": IdNo,
+      "VehicleId": this.vehicleId,
+      "AcccessoriesSumInsured": '0',
+      "AccessoriesInformation": "",
+      "AdditionalCircumstances": "",
+      "AxelDistance": '01',
+      "Chassisnumber": this.productItem.ChassisNo,
+      "Color": this.productItem.Color,
+      "ColorDesc": color,
+      "CityLimit": null,
+      "CoverNoteNo": null,
+      "OwnerCategory": this.productItem.OwnerCategory,
+      "CubicCapacity": "100",
+      "CreatedBy": createdBy,
+      "DrivenByDesc": 'Driver',
+      "EngineNumber": this.productItem.EngineNo,
+      "EngineCapacity": this.productItem.EngineCapacity,
+      "FuelType": this.productItem.FuelType,
+      "FuelTypeDesc": fuel,
+      "Gpstrackinginstalled": 'N',
+      "Grossweight": "100",
+      "HoldInsurancePolicy": "N",
+      "Insurancetype": insuranceType,
+      "InsuranceId": this.insuranceId,
+      "InsuranceClass": "3",
+      "InsurerSettlement": "",
+      "InterestedCompanyDetails": "",
+      "ManufactureYear":this.productItem.ManufactureYear,
+      "ModelNumber": null,
+      "MotorCategory": this.productItem.MotorCategory,
+      "MotorCategoryDesc": motorCategoryDesc,
+      "Motorusage": usageDesc,
+      "MotorusageId": this.productItem.MotorUsage,
+      "NcdYn": 'N',
+      "NoOfClaims": null,
+      "NumberOfAxels": "1",
+      "BranchCode": this.branchCode,
+      "AgencyCode": this.agencyCode,
+      "ProductId": this.productId,
+      "SectionId": '73',
+      "PolicyType": IdType,
+      "RadioOrCasseteplayer": null,
+      "RegistrationYear": regYear,
+      "Registrationnumber": regNo,
+      "RoofRack": null,
+      "SeatingCapacity": this.productItem.SeatingCapacity,
+      "SourceTypeId":this.sourceType,
+      "SpotFogLamp": null,
+      "Stickerno": null,
+      "SumInsured": vehicleSI,
+      "Tareweight": '100',
+      "TppdFreeLimit": null,
+      "TppdIncreaeLimit": tppSI,
+      "TrailerDetails": null,
+      "VehicleModel": modelDesc,
+      "Vehcilemodel": modelDesc,
+        "VehcilemodelId": model,
+        "VehicleType": bodyType,
+        "VehicleTypeId": this.productItem.BodyType,
+        "Vehiclemake": make,
+        "VehiclemakeId": this.productItem.Make,
+      "WindScreenSumInsured": windSI,
+      "Windscreencoverrequired": null,
+      "accident": null,
+      "periodOfInsurance": "30",
+      "PolicyStartDate": startDate,
+      "PolicyEndDate": endDate,
+      "Currency" : this.currencyCode,
+      "ExchangeRate": this.commonDetails[0].ExchangeRate,
+      "HavePromoCode": this.commonDetails[0].HavePromoCode,
+      "PromoCode" : this.commonDetails[0].PromoCode,
+      "CollateralYn": 'N',
+      "BorrowerType": null,
+      "CollateralName": null,
+      "FirstLossPayee": null,
+      "FleetOwnerYn": 'N',
+      "NoOfVehicles": "1",
+      "NoOfComprehensives": null,
+      "ClaimRatio": null,
+      "SavedFrom": "Owner",
+      "UserType": this.userType,
+      "SearchFromApi":false,
+      "TiraCoverNoteNo": null,
+      "EndorsementYn": 'N',
+      "EndorsementDate":this.endorsementDate,
+      "EndorsementEffectiveDate": this.endorsementEffectiveDate,
+      "EndorsementRemarks": this.endorsementRemarks,
+      "EndorsementType": this.endorsementType,
+      "EndorsementTypeDesc": this.endorsementTypeDesc,
+      "EndtCategoryDesc": this.endtCategoryDesc,
+      "EndtCount":this.endtCount,
+      "EndtPrevPolicyNo":this.endtPrevPolicyNo,
+      "EndtPrevQuoteNo": this.endtPrevQuoteNo,
+      "EndtStatus": this.endtStatus,
+      "IsFinanceEndt": this.isFinanceEndt,
+      "OrginalPolicyNo": this.orginalPolicyNo,
+      "VehicleValueType": this.productItem.VehicleValue,
+      "Inflation": this.productItem.Inflation,
+      "Ncb":"0",
+      "DefenceValue":null,
+      "PurchaseDate":null,
+      "RegistrationDate": null,
+      "Scenarios": {
+        "ExchangeRateScenario": {
+          "OldAcccessoriesSumInsured": null,
+          "OldCurrency": null,
+          "OldExchangeRate": null,
+          "OldSumInsured": null,
+          "OldTppdIncreaeLimit": null,
+          "OldWindScreenSumInsured": null
+        }
+      }
+      }
+      ReqObj['FleetOwnerYn'] = "N";
+      if(this.endorsementSection){
+         ReqObj['Status'] = 'E';
+        ReqObj['PolicyNo'] = this.endorsePolicyNo
+      }
+      else{
+        ReqObj['Status'] = 'Y';
+      }
+      ReqObj['ClaimType'] = null;
+      ReqObj['DriverDetails'] = null;
+      let urlLink = `${this.motorApiUrl}api/savemotordetails`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          let res:any = data;
+          if(data.ErrorMessage.length!=0){
+            if(res.ErrorMessage){
+            }
+          }
+          else{
+            if(data.Result.length!=0){
+              this.onCheckUWQuestionProceed(data.Result,'proceed','Direct',type);
+            }
+          }
+        });
+  }
   onsavecorporate(){
     let policyStartDate="";
     let policyEndDate="";
@@ -3826,7 +4428,7 @@ console.log('Eventsss',event);
             }
           sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
           }
-           this.onCheckUWQuestionProceed(data.Result,type,formType);
+           this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
         }
     },
     (err) => { },
@@ -3895,7 +4497,7 @@ console.log('Eventsss',event);
             }
             sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
           }
-          this.onCheckUWQuestionProceed(data.Result,type,formtype);
+          this.onCheckUWQuestionProceed(data.Result,type,formtype,'none');
         }
     },
     (err) => { },
@@ -3955,7 +4557,7 @@ console.log('Eventsss',event);
                       }
                     sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails)) }
                     this.Products=false;
-                    this.onCheckUWQuestionProceed(data.Result,type,formType);
+                    this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
                   }
               },
               (err) => { },
@@ -4015,7 +4617,7 @@ console.log('Eventsss',event);
       (data: any) => {
         if (data?.Result) {
           sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails));
-          this.onCheckUWQuestionProceed(data.Result,type,formType);
+          this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
         }
     },
     (err) => { },
@@ -4072,7 +4674,7 @@ console.log('Eventsss',event);
             }
             sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
           }
-          this.onCheckUWQuestionProceed(data.Result,type,formType);
+          this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
         }
     },
     (err) => { },
@@ -4131,7 +4733,7 @@ console.log('Eventsss',event);
               this.commonDetails[0]['SectionId'] = ['41'];
               sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
               }
-               this.onCheckUWQuestionProceed(data.Result,type,formType);
+               this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
             }
         },
         (err) => { },
@@ -4272,7 +4874,7 @@ console.log('Eventsss',event);
                 this.commonDetails[0]['SectionId'] = ['52'];
                 sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
                 }
-                 this.onCheckUWQuestionProceed(data.Result,type,formType);
+                 this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
               }
               
             }
@@ -4337,7 +4939,7 @@ console.log('Eventsss',event);
                 }
                 sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
               }
-              this.onCheckUWQuestionProceed(data.Result,type,formType);
+              this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
             }
         },
         (err) => { },
@@ -4405,13 +5007,13 @@ console.log('Eventsss',event);
                 }
                 sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
               }
-               this.onCheckUWQuestionProceed(data.Result,type,formType);
+               this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
             }
         },
         (err) => { },
       );
   }
-  onCheckUWQuestionProceed(buildDetails,type,formType){
+  onCheckUWQuestionProceed(buildDetails,type,formType,saveType){
     if(buildDetails.length!=0){
       
       if (this.uwQuestionList.length != 0 ) {
@@ -4486,29 +5088,29 @@ console.log('Eventsss',event);
               // }
               i += 1;
               if (i == this.uwQuestionList.length){ j+=1; 
-                if(uwList.length!=0) this.onSaveUWQuestions(uwList,buildDetails,type,formType,j);
-                else if(j==buildDetails.length) this.onCalculate(buildDetails,type,formType)
+                if(uwList.length!=0) this.onSaveUWQuestions(uwList,buildDetails,type,formType,j,saveType);
+                else if(j==buildDetails.length) this.onCalculate(buildDetails,type,formType,saveType)
               }
             }
           }
       }
-      else this.onCalculate(buildDetails,type,formType)
+      else this.onCalculate(buildDetails,type,formType,saveType)
     }
   }
-  onSaveUWQuestions(uwList,buildDetails,type,formType,index) {
+  onSaveUWQuestions(uwList,buildDetails,type,formType,index,saveType) {
     if (uwList.length != 0) {
       let urlLink = `${this.CommonApiUrl}api/saveuwquestions`;
       this.sharedService.onPostMethodSync(urlLink, uwList).subscribe(
         (data: any) => {
           if (data.Result) {
-              if(index==buildDetails.length) this.onCalculate(buildDetails,type,formType)
+              if(index==buildDetails.length) this.onCalculate(buildDetails,type,formType,saveType)
           }
         },
         (err) => { },
       );
     }
   }
-  onCalculate(buildDetails,type,formType) {
+  onCalculate(buildDetails,type,formType,saveType) {
     let createdBy = ""
     let quoteStatus = sessionStorage.getItem('QuoteStatus');
     if (quoteStatus == 'AdminRP') {
@@ -4574,7 +5176,26 @@ console.log('Eventsss',event);
                   // }
                   // else{this.onFinalProceed();}
                 }
-                else if(type!='save'){ this.onFinalProceed();}
+                else if(type!='save'){ 
+                  if(saveType=='proceedNext') this.getMotorDetails(saveType);
+                  else if(saveType=='Next'){
+                    this.productItem = null;
+                    this.productItem = new ProductData();
+                    let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                    let i=0;
+                      for(let field of fieldList){
+                        field.formControl.setValue('');
+                        i+=1;
+                        if(i==fieldList.length){
+                          this.currentIndex = this.currentIndex+1;
+                          this.vehicleId = this.vehicleDetailsList[this.currentIndex-1].Vehicleid;
+                          this.showSection = false;
+                          if(this.vehicleDetailsList[this.currentIndex-1]?.Active) this.setCommonFormValues();
+                        }
+                      }
+                  }
+                  else this.onFinalProceed();
+                }
               }
             }
           },
@@ -5114,7 +5735,7 @@ console.log('Eventsss',event);
           
           sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
           }
-           this.onCheckUWQuestionProceed(data.Result,type,formType);
+           this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
         }
     },
     (err) => { },
@@ -5333,7 +5954,7 @@ console.log('Eventsss',event);
                     }
                     sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
                   }
-                  this.onCheckUWQuestionProceed(data.Result,type,formType);
+                  this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
                 }
               }
             },
@@ -5438,7 +6059,7 @@ console.log('Eventsss',event);
                   }
                   sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
                 }
-                this.onCheckUWQuestionProceed(data.Result,type,formType);
+                this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
               }
             }
           },
@@ -5785,7 +6406,7 @@ console.log('Eventsss',event);
           sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails)) }
           this.Products=false;
           this.productItem.AllriskSumInsured=null;
-          this.onCheckUWQuestionProceed(data.Result,type,formType);
+          this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
         }
       },
       (err) => { },
@@ -5893,7 +6514,7 @@ console.log('Eventsss',event);
                     }
                   }
                   sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails)) }
-                  this.onCheckUWQuestionProceed(data.Result,type,formType);
+                  this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
                 }
             },
             (err) => { },
@@ -6056,7 +6677,7 @@ let requestNO=null;
               sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
             }
             this.Products=false;
-             this.onCheckUWQuestionProceed(data.Result,type,formType);
+             this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
           }
       },
       (err) => { },
@@ -6118,7 +6739,7 @@ let requestNO=null;
                 else  this.commonDetails[0]['SectionId']=['54'];
               }
             sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails)) }
-            this.onCheckUWQuestionProceed(data.Result,type,formType);
+            this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
           }
         }
       },
@@ -6177,7 +6798,7 @@ let requestNO=null;
               }
             sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails)) }
             this.Products = false;
-            this.onCheckUWQuestionProceed(data.Result,type,formType);
+            this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
           }
       },
       (err) => { },
@@ -6297,7 +6918,7 @@ let requestNO=null;
           
           sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails)) }
           this.Products=false;
-          this.onCheckUWQuestionProceed(data.Result,type,formType);
+          this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
         }
     },
     (err) => { },
@@ -6403,7 +7024,7 @@ let requestNO=null;
            }
            this.Products=false;
            sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
-            this.onCheckUWQuestionProceed(data.Result,type,formType);
+            this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
          }
      },
      (err) => { },
@@ -6592,7 +7213,7 @@ let requestNO=null;
                   let referenceNo = sessionStorage.getItem('quoteReferenceNo');
                   if (referenceNo) {
                     this.requestReferenceNo = referenceNo;
-                    if (this.productId != '19' && this.productId!='24') this.setFormValues();
+                    if (this.productId != '19' && this.productId!='24' && this.productId!='46') this.setFormValues();
                     else this.setSMEFormValues('edit')
                   }
                   else {
@@ -6620,7 +7241,7 @@ let requestNO=null;
                 this.requestReferenceNo = referenceNo;
                 if(this.productId=='59' ) this.checkDomesticForm('direct');
                 else if (this.productId == '6' || this.productId == '16' || this.productId == '39' || this.productId == '1') this.setCommonFormValues();
-                else if(this.productId!='24') this.setFormValues();
+                else if(this.productId!='24' && this.productId!='46') this.setFormValues();
               }
               else if (this.productId != '19' && this.productId != '59' && this.productId!='24' && this.productId != '59') {
                 this.productItem = new ProductData();
@@ -8554,7 +9175,7 @@ this.BuildingOwnerYn = type;
                     else  this.commonDetails[0]['SectionId']=['45'];
                   }
                   sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails)) 
-                  this.onCheckUWQuestionProceed(data.Result,type,formType);
+                  this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
                 }
               });
             }
@@ -8733,7 +9354,7 @@ this.BuildingOwnerYn = type;
           if (referenceNo) {
             this.requestReferenceNo = referenceNo;
             // if(this.productId!='60'){
-              this.getExistingBuildingList();
+              if(this.productId!='46') this.getExistingBuildingList();
             // }
           }
           
@@ -9638,7 +10259,7 @@ this.BuildingOwnerYn = type;
                       }
                     }
                     sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails)) }
-                    this.onCheckUWQuestionProceed(data.Result,type,formType);
+                    this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
                   }
               },
               (err) => { },

@@ -3108,23 +3108,29 @@ this.newAddClauses=true;
   onUpdateFleetFactorRate(modal){
     this.fleetCoverDetails.CoverList[0].Discount = this.discountList;
     this.fleetCoverDetails.CoverList[0].Loading = this.loadingList;
-    let ReqObj = {
-      "VehicleId": "99999",
-      "RequestReferenceNo": this.quoteRefNo,
-      "InsuranceId": this.insuranceId,
-      "ProductId": this.productId,
-      "SectionId": "99999",
-      "CoverList": this.fleetCoverDetails.CoverList
+    if(this.statusValue){
+      let ReqObj = {
+        "VehicleId": "99999",
+        "RequestReferenceNo": this.quoteRefNo,
+        "InsuranceId": this.insuranceId,
+        "AdminLoginId": this.loginId,
+        "ProductId": this.productId,
+        "Status": this.statusValue,
+        "AdminRemarks": this.remarks,
+        "SectionId": "99999",
+        "CoverList": this.fleetCoverDetails.CoverList
+      }
+      let urlLink = `${this.CommonApiUrl}quote/update/referalstatus`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+            if(data.Result){
+                this.onFleetProceed();
+            }
+          },
+          (err) => { },
+        );
     }
-    let urlLink = `${this.CommonApiUrl}quote/update/referalstatus`;
-    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-      (data: any) => {
-          if(data.Result){
-              this.onFleetProceed();
-          }
-        },
-        (err) => { },
-      );
+    else this.onFleetProceed();
   }
   onSetBackPage(){
     if(this.productId=='5' || this.productId=='29'){

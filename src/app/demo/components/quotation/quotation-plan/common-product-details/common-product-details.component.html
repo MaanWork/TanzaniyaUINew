@@ -649,12 +649,13 @@
                     </form>
                 </div>
                 <ng-container *ngIf="productId=='46'">
-                    <div class="pl-3 pr-2 pb-0">
-                        <h4 class="m-0 p-0">Vehicle Details</h4>
-                    </div>
-                        <div class="d-flex justify-content-end">
+                    
+                        <div class="flex flex-wrap justify-content-between pl-3 pr-2 pb-0">
+                            <div>
+                                <h4 class="m-0 p-0">Vehicle Details</h4>
+                            </div>
                             <div *ngIf="vehicleDetailsList.length!=0 && vehicleDetailsList.length!=1">
-                                <button class="btn btn-danger" (click)="onDeleteVehicle()"><i class="fa fa-trash"></i>&nbsp;Remove Vehicle</button>
+                                <p-button label="Remove Vehicle" size="small" (click)="onDeleteVehicle()"></p-button>
                             </div>
                         </div>
                     <ng-container *ngIf="productItem">
@@ -715,8 +716,11 @@
         <div class="flex justify-content-center mt-3" *ngIf="productId=='1' || productId=='6' || productId=='39' || productId=='43' || productId=='46' || productId=='16' || productId=='42' || productId=='21' || productId=='14' || productId=='59' || productId=='60' || productId=='57' || productId=='56' || productId=='26' || productId=='25' || productId=='13' || this.productId=='27' || this.productId=='24' || this.productId=='19' || this.productId=='32'">
             <p-button  styleClass="p-button-outlined" label="Back"
                 size="small" [routerLink]="['/quotation']" routerLinkActive="router-link-active" ></p-button>&nbsp;
-                <p-button *ngIf="productId=='46'" label="Save & Add New" size="small" (click)="onSubmit()"></p-button>&nbsp;
-            <p-button label="Proceed" size="small" (click)="onSubmit()"></p-button>
+                <ng-container  *ngIf="productId=='46'  && vehicleDetailsList.length!=0 && vehicleDetailsList.length!=1">
+                    &nbsp;<span> {{currentIndex}} &nbsp;/&nbsp; {{totalIndex}}</span>&nbsp;
+                </ng-container>
+                <p-button *ngIf="productId=='46'" label="Save & Add New" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;
+            <p-button label="Proceed" size="small" (click)="onSubmit(null)"></p-button>
         </div>
 </div>
     

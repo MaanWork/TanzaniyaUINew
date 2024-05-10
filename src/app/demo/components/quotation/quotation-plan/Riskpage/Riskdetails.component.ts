@@ -3079,7 +3079,6 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                   //   }
                   // }
                 }
-              
               }
               else {
                 //alert('dddd')
@@ -3101,77 +3100,76 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                           if(this.productItem?.PersonalAccidentSuminsured==null || this.productItem?.PersonalAccidentSuminsured==undefined || this.productItem?.PersonalAccidentSuminsured==''  || this.productItem?.PersonalAccidentSuminsured=='0'){
                             ReqObj['PersonalAccidentDetails'] = null;      
                           }
-                        }
-                        if(this.productItem?.LiabilityOccupationId==null || this.productItem?.LiabilityOccupationId==undefined || this.productItem?.LiabilityOccupationId==''){
-                          if(this.productItem?.EmpLiabilitySi==null || this.productItem?.EmpLiabilitySi==undefined || this.productItem?.EmpLiabilitySi==''  || this.productItem?.EmpLiabilitySi=='0'){
-                            ReqObj['EmployeeLiabilityDetails'] = null;    
+              }
+              if(this.productItem?.LiabilityOccupationId==null || this.productItem?.LiabilityOccupationId==undefined || this.productItem?.LiabilityOccupationId==''){
+                if(this.productItem?.EmpLiabilitySi==null || this.productItem?.EmpLiabilitySi==undefined || this.productItem?.EmpLiabilitySi==''  || this.productItem?.EmpLiabilitySi=='0'){
+                  ReqObj['EmployeeLiabilityDetails'] = null;    
+                }
+              }
+              if(this.Buildings=='Y'){
+                if(ReqObj['EmployeeLiabilityDetails']==null && ReqObj['PersonalAccidentDetails'] == null &&  ReqObj['BuildingDetails'] == null && ReqObj['ContentDetails'] == null && ReqObj['AllRiskDetails'] == null){
+                  this.errorproceed(1);   
+                }
+                else if(ReqObj['BuildingDetails']!=null){
+                  if(ReqObj.BuildingDetails?.BuildingSumInsured==0 || ReqObj.BuildingDetails?.BuildingSumInsured=='0' || ReqObj.BuildingDetails?.BuildingSumInsured==null){
+                    this.errorproceed(2);
+                  }
+                  else if(ReqObj.BuildingDetails?.BuildingBuildYear=='' || ReqObj.BuildingDetails?.BuildingSumInsured==null){
+                    this.errorproceed(3);
+                  }
+                  else{this.finalSave(ReqObj);}
+                }
+                else this.finalSave(ReqObj);
+              }
+              else if(this.Buildings=='N') {
+                if(ReqObj['EmployeeLiabilityDetails']==null && ReqObj['PersonalAccidentDetails'] == null && ReqObj['ContentDetails'] == null && ReqObj['AllRiskDetails'] == null){
+                  this.errorproceed(1);   
+                }
+                else if(ReqObj['BuildingDetails']!=null){
+                  if(ReqObj.BuildingDetails?.BuildingSumInsured==0 || ReqObj.BuildingDetails?.BuildingSumInsured=='0' || ReqObj.BuildingDetails?.BuildingSumInsured==null){
+                    this.errorproceed(2);
+                  }
+                  else if(ReqObj.BuildingDetails?.BuildingBuildYear=='' || ReqObj.BuildingDetails?.BuildingSumInsured==null){
+                    this.errorproceed(3);
+                  }
+                  else{this.finalSave(ReqObj);}
+                }
+                else this.finalSave(ReqObj);
+              }
+          }
+          finalSave(ReqObj){
+            let urlLink = `${this.motorApiUrl}api/saveAllSection`;
+                  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+                    (data: any) => {
+                      if (data?.Result) {
+                        if(data?.ErrorMessage==null){
+                          if(data.Result.length!=0){
+                            this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+                            sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                            this.onCalculate(data.Result);
+                            //this.onCheckUWQuestionProceed(data.Result);
                           }
                         }
-                        if(this.Buildings=='Y'){
-                          if(ReqObj['EmployeeLiabilityDetails']==null && ReqObj['PersonalAccidentDetails'] == null &&  ReqObj['BuildingDetails'] == null && ReqObj['ContentDetails'] == null && ReqObj['AllRiskDetails'] == null){
-                            this.errorproceed();   
-                         }
-                         else {
-                          let urlLink = `${this.motorApiUrl}api/saveAllSection`;
-                          this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-                            (data: any) => {
-                              if (data?.Result) {
-                                if(data?.ErrorMessage==null){
-                                  if(data.Result.length!=0){
-                                    this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
-                                    sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
-                                    this.onCalculate(data.Result);
-                                  }
-                                }
-                              }
-                          },
-                          (err) => { },
-                        );
-                         }
-                        }
-                        else if(this.Buildings=='N') {
-                          if(ReqObj['EmployeeLiabilityDetails']==null && ReqObj['PersonalAccidentDetails'] == null && ReqObj['ContentDetails'] == null && ReqObj['AllRiskDetails'] == null){
-                            this.errorproceed();   
-                         }
-                         else {
-                          let urlLink = `${this.motorApiUrl}api/saveAllSection`;
-                          this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-                            (data: any) => {
-                              if (data?.Result) {
-                                if(data?.ErrorMessage==null){
-                                  if(data.Result.length!=0){
-                                    this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
-                                    sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
-                                    this.onCalculate(data.Result);
-                                   
-                                    //this.onCheckUWQuestionProceed(data.Result);
-                                  }
-                                }
-                             
-                                
-                              // }
-                              // else {
-                              //   this.nextslide=false;
-                              // }
-                              }
-                          },
-                          (err) => { },
-                        );
-                         }
-                        }
-                       
-                   
-             
-                
+                      // }
+                      // else {
+                      //   this.nextslide=false;
+                      // }
+                      }
+                  },
+                  (err) => { },
+                  );
           }
-        
-          errorproceed(){
+          errorproceed(type){
+            let text = '';
+            if(type==1) text = ' Please Enter One Section Details';
+            else if(type==2) text = 'Please Enter Valid Building Sum Insured';
+            else if(type==3) text = 'Please Enter Valid Building Year';
             Swal.fire({
               title: '<strong>Form Validations</strong>',
               icon: 'info',
               html:
                 `<ul class="list-group errorlist">
-                 Please Enter One Section Details
+                    ${text}
               </ul>`,
               showCloseButton: true,
               focusConfirm: false,

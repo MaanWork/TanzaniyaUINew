@@ -216,7 +216,7 @@ export class Building{
                   props: {
                     label: 'Built Year',
                     placeholder: "YYYY",
-                    required: false,
+                    required: true,
                     maxLength: 4,
                     pattern: /[0-9]+/gm,
                     disabled: this.checkDisable('BuildingBuildYear'),
