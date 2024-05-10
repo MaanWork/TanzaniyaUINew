@@ -58,10 +58,10 @@ export class ReferralCasesComponent implements OnInit {
     this.branches = [
       { label: 'Test', target: 'T' },
     ];
-    if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
+    //if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
       this.columns = ['ReferenceNo','Customer Name','Start Date','End Date','Actions'];
       this.columnss = ['ReferenceNo','Customer Name','Start Date','End Date']
-    }
+    //}
     this.getBrokerList();
     this.getApprovedList();
     this.getRejectedList();

@@ -130,15 +130,16 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
   CarpetsSi:any='0';GroupOccupationId:any=null;
   EquipmentSis:any='0';MotorCategory:any='';
   LegalLiabilityAnnualAggreagte:any='0';ProductTurnover:any='0';
-	GrossProfitSi: any='0';IndemnityPeriodSi:any='0';
-	TransportedBy: any='';ModeOfTransport:any='';
-	GeographicalCoverage: any='';otherGroupoption:any=null;
-	EstAnnualCarriesSiLc: any='0';SingleRoadSiLc:any='0';
-	otheroptionPer: any = '';patientList:any[]=[];
+  GrossProfitSi: any='0';IndemnityPeriodSi:any='0';
+  TransportedBy: any='';ModeOfTransport:any='';
+  GeographicalCoverage: any='';otherGroupoption:any=null;
+  EstAnnualCarriesSiLc: any='0';SingleRoadSiLc:any='0';
+  otheroptionPer: any = '';patientList:any[]=[];
   TTDSumInsured: any=null;InsuranceType:any=null;
   MESumInsured: any=null;EmployeeCounts:any;
   FESumInsured: any=null;ProfessionalOccupation:any;ProfessionalType:any;GISI:any;
-  ProfessionalSI:any;IndemnityTypes:any;
+  ProfessionalSI:any;IndemnityTypes:any;maxDate: "2022-09-25";
+  MiddleName:any='';LastName:any='';
 	constructor(data?) {
 		this.id = data?.id ?? ''
 		this.CustomerName = data?.CustomerName ?? '';

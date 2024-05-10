@@ -88,7 +88,7 @@ export class ShortQuoteComponent implements OnInit {
     this.onGetFormControl();
     this.getMobileCodeList();
     this.getCurrencyList();
-    var d = this.policyStartDate;
+    var d = new Date();
     var year = d.getFullYear();
     var month = d.getMonth();
     var day = d.getDate();
@@ -616,54 +616,6 @@ export class ShortQuoteComponent implements OnInit {
     if(this.insuranceId=='100004') this.typeValue = this.classValue;
     let createdBy="";
     let startDate = "",endDate = "",vehicleSI="",accSI="",windSI="",tppSI="";
-    
-    if(this.policyStartDate){
-      if(this.endorsementSection && (this.enableAddVehicle && this.endorsementYn=='Y')){
-         startDate = this.endorseEffectiveDate;
-         const oneday = 24 * 60 * 60 * 1000;
-          const momentDate = new Date(this.policyEndDate); // Replace event.value with your date value
-          const formattedDate = moment(momentDate).format("YYYY-MM-DD");
-          const formattedDatecurrent = new Date(startDate);
-          console.log(formattedDate);
-
-        console.log(formattedDatecurrent);
-
-        this.noOfDays = Math.round(Math.abs((Number(momentDate)  - Number(formattedDatecurrent) )/oneday)+1);
-      }
-      else if(this.endorsementSection && this.vehicleDetails?.Status=='D'){
-        startDate = this.vehicleDetails?.PolicyStartDate;
-        const oneday = 24 * 60 * 60 * 1000;
-        const momentDate = new Date(this.endorseEffectiveDate); // Replace event.value with your date value
-        const formattedDate = moment(momentDate).format("YYYY-MM-DD");
-        const formattedDatecurrent = new Date(this.vehicleDetails?.PolicyStartDate);
-        console.log(formattedDate);
-        this.noOfDays = Math.round(Math.abs((Number(momentDate)  - Number(formattedDatecurrent) )/oneday)+1);
-      }
-      else{
-        if(typeof this.policyStartDate === 'string'){
-          if(String(this.policyStartDate).includes('/')) startDate = this.policyStartDate;
-          else startDate = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");
-        }
-        else startDate = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");
-        const oneday = 24 * 60 * 60 * 1000;
-        const momentDate = new Date(this.policyEndDate); 
-        const formattedDate = moment(momentDate).format("YYYY-MM-DD");
-        const formattedDatecurrent = new Date(this.policyStartDate);
-        this.noOfDays = Math.round(Math.abs((Number(momentDate)  - Number(formattedDatecurrent) )/oneday)+1);
-      }
-    }
-    if(this.policyEndDate){
-      if(this.endorsementSection && this.vehicleDetails.Status=='D'){
-        endDate = this.endorseEffectiveDate;
-      }
-      else{
-        if(typeof this.policyEndDate === 'string'){
-          if(String(this.policyEndDate).includes('/')) endDate = this.policyEndDate;
-          else endDate = this.datePipe.transform(this.policyEndDate, "dd/MM/yyyy");
-        }
-        else endDate = this.datePipe.transform(this.policyEndDate, "dd/MM/yyyy");
-      }
-    }
     let quoteStatus = sessionStorage.getItem('QuoteStatus');
     this.subuserType = sessionStorage.getItem('typeValue');
     

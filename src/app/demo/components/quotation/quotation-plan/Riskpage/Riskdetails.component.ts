@@ -117,6 +117,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
   sectionCount: number;
   coversreuired: any;
   commonSectionList: any;
+  noOfDays: number;
         constructor(private router: Router,private datePipe:DatePipe,
           private sharedService: SharedService,public http: HttpClient) {
          let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails') || '{}');
@@ -2227,7 +2228,8 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
                 (data: any) => {
                   if (data?.Message=='Success') {
-                    this.router.navigate(['/quotation/plan/premium-details']);
+                    this.saveFleetDetails();
+                    //this.router.navigate(['/quotation/plan/premium-details']);
                     //this.router.navigate(['/quotation/plan/main/document-info'])
                   }
                 },
@@ -3039,7 +3041,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               if((this.productItem?.BuildingSuminsured==null || this.productItem?.BuildingSuminsured==undefined || this.productItem?.BuildingSuminsured=='') && this.Buildings!='Y'){
                 ReqObj['BuildingDetails'] = null;
               }
-              if(this.insuranceId=='100004' && this.productId=='59'){
+              if( this.productId=='59'){
                 if(this.coversreuired!='BC' && this.coversreuired!='B'){
                   ReqObj['BuildingDetails'] = null;
                 }
@@ -4270,10 +4272,72 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             }
           }
           onFinalProceed() {
-            this.router.navigate(['/quotation/plan/premium-details']);
+            this.saveFleetDetails();
+            //this.router.navigate(['/quotation/plan/premium-details']);
             //this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
           }
-
+          saveFleetDetails(){
+            if(this.productId!='46'){
+              let Reqobj={
+                "RequestReferenceNo": this.requestReferenceNo,
+                "InsuranceId": this.insuranceId,
+                "ProductId": this.productId
+              }
+              let urlLink = `${this.motorApiUrl}api/savefleetdetails`;
+                this.sharedService.onPostMethodSync(urlLink, Reqobj).subscribe(
+                  (data: any) => {
+                    if(data.Result){
+                      this.getFleetCalc(data.Result);
+                        
+                    }
+                  })
+            }
+            else this.router.navigate(['/quotation/plan/premium-details']);
+          }
+          getFleetCalc(res){
+            let startDate = this.policyStartDate,endDate =this.policyEndDate
+            //this.updateComponent.vehicleDetails = this.vehicleDetails;
+            let effectiveDate=null;
+            if(this.endorsementSection){
+                effectiveDate = this.endorseEffectiveDate;
+            }
+            else {
+              if(this.policyStartDate){
+                if(this.policyStartDate.includes('/')) effectiveDate = this.policyStartDate;
+                else effectiveDate = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");
+              }
+            }
+            let ReqObj={
+              "InsuranceId": this.insuranceId,
+              "BranchCode": this.branchCode,
+              "AgencyCode": this.agencyCode,
+              "SectionId": res?.SectionId,
+              "ProductId": this.productId,
+              "MSRefNo": res?.MSRefNo,
+              "VehicleId": res?.VehicleId,
+              "CdRefNo": res?.CdRefNo,
+              "VdRefNo": res?.VdRefNo,
+              "CreatedBy": res?.CreatedBy,
+              "productId": this.productId,
+              "sectionId": res?.SectionId,
+              "RequestReferenceNo": this.requestReferenceNo,
+              "EffectiveDate": effectiveDate,
+              "PolicyEndDate": endDate,
+              "CoverModification": "N",
+              "PDRefNo":res?.PDRefNo
+            }
+            let urlLink = `${this.CommonApiUrl}calculator/policy/calc`;
+            if(this.insuranceId!='100028' && this.insuranceId!='100027' && this.insuranceId!='100019'){
+              this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+                (data: any) => {
+                  if(data.CoverList){
+                    this.router.navigate(['/quotation/plan/premium-details']);
+                  }
+                });
+            }
+            else this.router.navigate(['/quotation/plan/premium-details']);
+            // 
+          }
           onCheckUWQuestionProceed(buildDetails){
             //,type,formType
             if(buildDetails.length!=0){

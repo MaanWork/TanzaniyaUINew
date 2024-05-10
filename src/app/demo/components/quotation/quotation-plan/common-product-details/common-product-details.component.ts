@@ -211,6 +211,8 @@ export class CommonProductDetailsComponent {
     this.customerColumn = [ 'Select','Reference No','Customer Name',  'Customer Type','ID Number'];
     if(this.productId=='6' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='32' || this.productId=='1' || this.productId=='21'
     || this.productId=='26' || this.productId=='25' || this.productId=='13' || this.productId=='57'){this.getIndustryList();}
+    this.policyStartDate = new Date();
+    this.onStartDateChange('change');
     this.setProductSections();
     this.onproductdisplay();
   }
@@ -2594,10 +2596,7 @@ export class CommonProductDetailsComponent {
               // this.getExistingBuildingList();
               this.productItem.EquipmentSi  = details?.EquipmentSi;
               if (this.productId=='26'){
-                alert(this.IndustryId)
                 this.productItem.IndustryBussinessAllRisk = this.IndustryId;
-                alert('Mail')
-                  alert(this.productItem.IndustryBussinessAllRisk);
                 }
               this.formSection = true; this.viewSection = false;
             }
@@ -2850,6 +2849,8 @@ export class CommonProductDetailsComponent {
             if(this.productItem.PersonalAccidentSuminsured== '' || this.productItem.PersonalAccidentSuminsured==null){
               this.productItem.PersonalAccidentSuminsured='0';
             }
+            this.policyStartDate = this.datePipe.transform(new Date(),'dd/MM/yyyy') ;
+            this.onStartDateChange('change');
             this.formSection = true; this.viewSection = false;
     
           }
@@ -4588,7 +4589,8 @@ console.log('Eventsss',event);
       this.router.navigate(['/quotation/plan/risk-page']);
     }
     else {
-      this.router.navigate(['/quotation/plan/premium-details']);
+      this.saveFleetDetails();
+      //this.router.navigate(['/quotation/plan/premium-details']);
     }
     
     // if (this.uwQuestionList.length != 0) {
@@ -4598,8 +4600,83 @@ console.log('Eventsss',event);
       this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
     }*/
   }
-
-  
+  saveFleetDetails(){
+    if(this.productId!='46'){
+      let Reqobj={
+        "RequestReferenceNo": this.requestReferenceNo,
+        "InsuranceId": this.insuranceId,
+        "ProductId": this.productId
+      }
+      let urlLink = `${this.motorApiUrl}api/savefleetdetails`;
+        this.sharedService.onPostMethodSync(urlLink, Reqobj).subscribe(
+          (data: any) => {
+            if(data.Result){
+              this.getFleetCalc(data.Result);
+                
+            }
+          })
+    }
+    else this.router.navigate(['/quotation/plan/premium-details']);
+  }
+  getFleetCalc(res){
+    let startDate = "",endDate = ""
+    //this.updateComponent.vehicleDetails = this.vehicleDetails;
+     if(this.commonDetails[0].PolicyStartDate){
+      if(this.commonDetails[0].PolicyStartDate.includes('/')) startDate = this.commonDetails[0].PolicyStartDate;
+      else startDate = this.datePipe.transform(this.commonDetails[0].PolicyStartDate, "dd/MM/yyyy");
+      const oneday = 24 * 60 * 60 * 1000;
+      const momentDate = new Date(this.commonDetails[0].PolicyEndDate); // Replace event.value with your date value
+      const formattedDate = moment(momentDate).format("YYYY-MM-DD");
+      const formattedDatecurrent = new Date(this.commonDetails[0].PolicyStartDate);
+      console.log(formattedDate);
+      this.noOfDays = Math.round(Math.abs((Number(momentDate)  - Number(formattedDatecurrent) )/oneday)+1);
+    }
+    if(this.commonDetails[0].PolicyEndDate){
+      
+        if(this.commonDetails[0].PolicyEndDate.includes('/')) endDate = this.commonDetails[0].PolicyEndDate;
+        else endDate = this.datePipe.transform(this.commonDetails[0].PolicyEndDate, "dd/MM/yyyy");
+    }
+    let effectiveDate=null;
+    if(this.endorsementSection){
+        effectiveDate = this.endorseEffectiveDate;
+    }
+    else {
+      if(this.commonDetails[0].PolicyStartDate){
+        if(this.commonDetails[0].PolicyStartDate.includes('/')) effectiveDate = this.commonDetails[0].PolicyStartDate;
+        else effectiveDate = this.datePipe.transform(this.commonDetails[0].PolicyStartDate, "dd/MM/yyyy");
+      }
+    }
+    let ReqObj={
+      "InsuranceId": this.insuranceId,
+      "BranchCode": this.branchCode,
+      "AgencyCode": this.agencyCode,
+      "SectionId": res?.SectionId,
+      "ProductId": this.productId,
+      "MSRefNo": res?.MSRefNo,
+      "VehicleId": res?.VehicleId,
+      "CdRefNo": res?.CdRefNo,
+      "VdRefNo": res?.VdRefNo,
+      "CreatedBy": res?.CreatedBy,
+      "productId": this.productId,
+      "sectionId": res?.SectionId,
+      "RequestReferenceNo": this.requestReferenceNo,
+      "EffectiveDate": effectiveDate,
+      "PolicyEndDate": endDate,
+      "CoverModification": "N",
+      "PDRefNo":res?.PDRefNo
+    }
+    let urlLink = `${this.CommonApiUrl}calculator/policy/calc`;
+    if(this.insuranceId!='100028' && this.insuranceId!='100027' && this.insuranceId!='100019'){
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          if(data.CoverList){
+            this.router.navigate(['/quotation/plan/premium-details']);
+          }
+        });
+    }
+    else this.router.navigate(['/quotation/plan/premium-details']);
+    // 
+  }
 
   getPlantallrisk(sections){
   

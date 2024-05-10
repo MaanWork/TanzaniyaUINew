@@ -120,13 +120,13 @@
                                             menu.RiskDetails.TravelEndDate }}</span>
                                     </ng-container>
                                     <ng-container
-                                        *ngIf="productId!='3' && productId!='4' && productId!='5' && productId!='19' && productId!='14' && productId!='32'">
+                                        *ngIf="productId!='59' && productId!='4' && productId!='5' && productId!='19' && productId!='14' && productId!='32'">
                                         <span class="spancommon" style="color:navy;font-size: 1rem;">
                                             {{productName}}
                                         </span>
                                     </ng-container>
                                     <ng-container
-                                        *ngIf="productId=='3' || productId=='19' || productId=='14' || productId=='32'">
+                                        *ngIf="productId=='59' || productId=='19' || productId=='14' || productId=='32'">
 
                                         <span class="spancommon" style="color:navy;font-size: 1rem;">
                                             {{menu.SectionName}}
@@ -179,13 +179,13 @@
                                     menu.RiskDetails.TravelEndDate }}</span>
                             </ng-container>
                             <ng-container
-                                *ngIf="productId!='3' && productId!='4' && productId!='5' && productId!='19' && productId!='14' && productId!='32'">
+                                *ngIf="productId!='59' && productId!='4' && productId!='5' && productId!='19' && productId!='14' && productId!='32'">
                                 <span class="spancommon" style="color:navy;font-size: 1rem;font-weight: 600;">
                                     {{productName}}
                                 </span>
                             </ng-container>
                             <ng-container
-                                *ngIf="productId=='3' || productId=='19' || productId=='14' || productId=='32'">
+                                *ngIf="productId=='59' || productId=='19' || productId=='14' || productId=='32'">
 
                                 <span class="spancommon" style="color:navy;font-size: 1rem;font-weight: 600;">
                                     {{menu.SectionName}}
@@ -287,13 +287,13 @@
                                         menu.RiskDetails.TravelEndDate }}</span>
                                 </ng-container>
                                 <ng-container
-                                    *ngIf="productId=='3' || productId=='19' || productId=='14' || productId=='32'">
+                                    *ngIf="productId=='59' || productId=='19' || productId=='14' || productId=='32'">
                                     <span class="spancommon" style="color:navy;font-size: 1rem;">
                                         {{menu.SectionName}}
                                     </span>
                                 </ng-container>
                                 <ng-container
-                                    *ngIf="productId!='3' && productId!='4' && productId!='5' && productId!='19' && productId!='14' && productId!='32'">
+                                    *ngIf="productId!='59' && productId!='4' && productId!='5' && productId!='19' && productId!='14' && productId!='32'">
                                     <span class="spancommon" style="color:navy;font-size: 1rem;"> {{productName}}
                                     </span>
                                 </ng-container>
@@ -2768,7 +2768,7 @@
             <!-- </div> -->
             
             <div class="flex flex-wrap justify-content-center mb-2" *ngIf="adminSection">
-                <p-button label="Sample Calculate" (click)="onUpdateFactor('calculate')" class="p-3 text-l mr-0"
+                <p-button label="Calculate" (click)="onUpdateFactor('calculate')" class="p-3 text-l mr-0"
                     styleClass="mb-4"></p-button>
             </div>
             <div class="grid">
