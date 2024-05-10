@@ -178,8 +178,8 @@ export class CommonProductDetailsComponent {
       this.getCustomerDetails(this.referenceNo);
     }
     this.getCurrencyList();
-    //this.productId != '3'
-    if ( this.productId != '3' && this.productId != '19' && this.productId != '46' && this.productId != '42' && this.productId != '43' && this.productId!='39' && this.productId!='16' && this.productId!='1' && this.productId!='25' && this.productId!='21' && this.productId!='26' && this.productId!='27' && this.productId!='56') {
+    //this.productId != '59'
+    if ( this.productId != '59' && this.productId != '19' && this.productId != '46' && this.productId != '42' && this.productId != '43' && this.productId!='39' && this.productId!='16' && this.productId!='1' && this.productId!='25' && this.productId!='21' && this.productId!='26' && this.productId!='27' && this.productId!='56') {
       this.getOccupationList(null);
     }
     this.relationTypeList = [
@@ -251,7 +251,7 @@ export class CommonProductDetailsComponent {
       "ProductId": this.productId,
       "InsuranceId": this.insuranceId
     }
-    //if(this.productId=='3') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
+    //if(this.productId=='59') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
     urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
@@ -889,7 +889,7 @@ export class CommonProductDetailsComponent {
       this.getIndustryTypeList();
       this.getEmployeeCountList();
     }
-    else if (this.productId == '19' || this.productId=='3' || this.productId=='24') {
+    else if (this.productId == '19' || this.productId=='59' || this.productId=='24') {
       //this.checkDomesticForm('direct')
       console.log(JSON.stringify(this.fields))
     }
@@ -1379,7 +1379,7 @@ export class CommonProductDetailsComponent {
       { Code: 3, CodeDescription: '36 Months' },
     ];
 
-    if (this.productId == '19' || this.productId=='3' || this.productId=='24') this.getIndustryList();
+    if (this.productId == '19' || this.productId=='59' || this.productId=='24') this.getIndustryList();
     if (this.productId == '32') {
       // this.getIndustryTypeList();
       // this.getEmployeeCountList();
@@ -1760,7 +1760,7 @@ export class CommonProductDetailsComponent {
                 this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[5].props.options = defaultObj.concat(this.wallMaterialList);
                 this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[6].props.options = defaultObj.concat(this.wallMaterialList);
               }
-              else if(this.productId!='19' && this.productId!='3'){
+              else if(this.productId!='19' && this.productId!='59'){
                 console.log( 'Fieldsss',this.fields[0].fieldGroup[0]);
                  this.fields[0].fieldGroup[2].fieldGroup[1].props.options = defaultObj.concat(this.wallMaterialList);
                 //this.fields[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.wallMaterialList);
@@ -1844,7 +1844,7 @@ export class CommonProductDetailsComponent {
                 if (this.productId == '1') {
                   this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
                 }
-                else if(this.productId!='19' && this.productId!='3') {console.log('FFFFFFFF',this.fields[0].fieldGroup[3].fieldGroup[1]); this.fields[0].fieldGroup[3].fieldGroup[1].props.options = defaultObj.concat(this.roofMaterialList);}
+                else if(this.productId!='19' && this.productId!='59') {console.log('FFFFFFFF',this.fields[0].fieldGroup[3].fieldGroup[1]); this.fields[0].fieldGroup[3].fieldGroup[1].props.options = defaultObj.concat(this.roofMaterialList);}
                 //this.fields[0].fieldGroup[0].fieldGroup[3]
                 //this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);
                 else{
@@ -1888,7 +1888,7 @@ export class CommonProductDetailsComponent {
                 if (this.productId == '1') {
                   this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
                 }
-                else if(this.productId!='19' && this.productId!='3'){} 
+                else if(this.productId!='19' && this.productId!='59'){} 
                 //this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);
                 else{
                   let fields = this.fields[0].fieldGroup;
@@ -2211,8 +2211,8 @@ export class CommonProductDetailsComponent {
       "ProductId": this.productId,
       "InsuranceId": this.insuranceId
     }
-    //if(this.productId=='3') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
-    if(this.productId=='57' || this.productId=='60'||this.productId=='59' || this.productId=='6' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='13'  || this.productId=='19' || this.productId=='32' || this.productId=='1' || this.productId=='26' || this.productId=='21' || this.productId == '25' || this.productId=='42' || this.productId=='3' || this.productId=='24' || this.productId=='43') urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
+    //if(this.productId=='59') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
+    if(this.productId=='57' || this.productId=='60'||this.productId=='59' || this.productId=='6' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='13'  || this.productId=='19' || this.productId=='32' || this.productId=='1' || this.productId=='26' || this.productId=='21' || this.productId == '25' || this.productId=='42' || this.productId=='59' || this.productId=='24' || this.productId=='43') urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
     else urlLink =  `${this.motorApiUrl}api/geteservicebyriskid`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
@@ -2220,7 +2220,7 @@ export class CommonProductDetailsComponent {
         if(data.Result){
           if(data.Result){
               let entry:any;
-              //if(this.productId=='3') entry = this.customerData[0];
+              //if(this.productId=='59') entry = this.customerData[0];
                entry = data.Result;this.colorSections=[];let j=0;
                console.log('SECCCCCCCCCCC',entry.SectionIds);
                if(this.productId=='59'){
@@ -2825,7 +2825,7 @@ export class CommonProductDetailsComponent {
       years.push({ "label": String(yearEntry), "value": String(yearEntry) });
       if (year == currentYear) {
         let defaultObj = [{ 'label': '-Select-', 'value': '','Code':'' }]
-        if (this.productId != '3' && this.productId!='46') this.fields[0].fieldGroup[0].fieldGroup[4].props.options = defaultObj.concat(years);
+        if (this.productId != '59' && this.productId!='46') this.fields[0].fieldGroup[0].fieldGroup[4].props.options = defaultObj.concat(years);
         if(this.productId=='46'){
           let fields = this.fields[0].fieldGroup[0].fieldGroup;
           for(let field of fields){
@@ -2836,12 +2836,12 @@ export class CommonProductDetailsComponent {
           }
           //this.fields[0].fieldGroup[0].fieldGroup[8].props.options = defaultObj.concat(years);
         }
-        //if(this.productId=='3') this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(years);
+        //if(this.productId=='59') this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(years);
         if(this.productId!='46'){
           let referenceNo = sessionStorage.getItem('quoteReferenceNo');
           if (referenceNo) {
             this.requestReferenceNo = referenceNo;
-            if (this.productId != '19' && this.productId != '3' && this.productId!='24') this.setFormValues();
+            if (this.productId != '19' && this.productId != '59' && this.productId!='24') this.setFormValues();
             else this.setSMEFormValues('edit')
           }
           else if (this.productId != '19' && this.productId!='24'){
@@ -2901,8 +2901,8 @@ export class CommonProductDetailsComponent {
           this.isFinanceEndt = customerDatas?.IsFinanceEndt;
           this.orginalPolicyNo = customerDatas?.OrginalPolicyNo;
         }
-        if (this.productId != '3' && this.productId != '19' && this.productId!='24') this.getIndustryList();
-        if (this.productId == '3' || this.productId == '19' || this.productId=='24') {
+        if (this.productId != '59' && this.productId != '19' && this.productId!='24') this.getIndustryList();
+        if (this.productId=='59' || this.productId == '19' || this.productId=='24') {
           let sectionId = customerDatas?.SectionId;
           this.sectionList = sectionId;
           let contents = sectionId.some(ele => ele == '47');
@@ -3018,7 +3018,7 @@ export class CommonProductDetailsComponent {
         }
         this.productItem.NatureOfTradeId = customerDatas?.NatureOfTradeId;
         this.productItem.IndustryId = customerDatas?.IndustryId;
-        if (this.productId == '19' || this.productId=='3' || this.productId=='24') this.onIndustryChange();
+        if (this.productId == '19' || this.productId=='59' || this.productId=='24') this.onIndustryChange();
         this.productItem.WallType = customerDatas?.WallType;
         this.productItem.InternalWallType = customerDatas?.InternalWallType;
         this.productItem.RoofType = customerDatas?.RoofType;
@@ -3047,8 +3047,8 @@ export class CommonProductDetailsComponent {
         this.productItem.BuildingOccupied = customerDatas?.BuildingOccupied;
         this.ongetDistrictList('edit')
   
-        //if (this.productId == '3') this.setDomesticForm('edit', type);
-        if (this.productId == '19' || this.productId=='3' || this.productId=='24') this.setSMEForm('edit', type)
+        //if (this.productId=='59') this.setDomesticForm('edit', type);
+        if (this.productId == '19' || this.productId=='59' || this.productId=='24') this.setSMEForm('edit', type)
         else {
           this.formSection = false; this.viewSection = true;
         }
@@ -6481,7 +6481,7 @@ let requestNO=null;
                   this.fields[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
                 }
                 
-                //if (this.productId != '19' && this.productId!='24' && this.productId != '3' && this.productId!='6' && this.productId != '1' && this.productId != '32' && this.productId!='14' && this.productId!='16' && this.productId!='25' && this.productId!='26' && this.productId!='21' && this.productId!='27' && this.productId!='13' && this.productId!='57') this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.occupationList);
+                //if (this.productId != '19' && this.productId!='24' && this.productId != '59' && this.productId!='6' && this.productId != '1' && this.productId != '32' && this.productId!='14' && this.productId!='16' && this.productId!='25' && this.productId!='26' && this.productId!='21' && this.productId!='27' && this.productId!='13' && this.productId!='57') this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.occupationList);
                 if(this.productId=='14'){
                   //let fireData = new EmployersLiability();
                   let fireData = new EmployersLiabilitytwo();
@@ -6587,7 +6587,7 @@ let requestNO=null;
                 }
                
                 else if (this.productId == '6') this.setCommonFormValues();
-                if (this.productId != '3' && this.productId != '59' && this.productId!='13' && this.productId != '6' && this.productId != '19' && this.productId!='24' && this.productId!='14' && this.productId!='32' && this.productId!='57' && this.productId!='60') {
+                if (this.productId != '59' && this.productId != '59' && this.productId!='13' && this.productId != '6' && this.productId != '19' && this.productId!='24' && this.productId!='14' && this.productId!='32' && this.productId!='57' && this.productId!='60') {
   
                   let referenceNo = sessionStorage.getItem('quoteReferenceNo');
                   if (referenceNo) {
@@ -6614,15 +6614,15 @@ let requestNO=null;
             }
           }
           else {
-            if(this.productId!='14' && this.productId!='3' && this.productId!='59'){
+            if(this.productId!='14' && this.productId!='59' && this.productId!='59'){
               let referenceNo = sessionStorage.getItem('quoteReferenceNo');
               if (referenceNo) {
                 this.requestReferenceNo = referenceNo;
-                if(this.productId == '3' ) this.checkDomesticForm('direct');
+                if(this.productId=='59' ) this.checkDomesticForm('direct');
                 else if (this.productId == '6' || this.productId == '16' || this.productId == '39' || this.productId == '1') this.setCommonFormValues();
                 else if(this.productId!='24') this.setFormValues();
               }
-              else if (this.productId != '19' && this.productId != '3' && this.productId!='24' && this.productId != '59') {
+              else if (this.productId != '19' && this.productId != '59' && this.productId!='24' && this.productId != '59') {
                 this.productItem = new ProductData();
                 this.productItem.BuildingBuildYear = '';
                 this.formSection = true; this.viewSection = false;
@@ -6644,15 +6644,15 @@ let requestNO=null;
         if (referenceNo) {
           this.requestReferenceNo = referenceNo;
           //this.setSMEFormValues(type)
-          //if (this.productId == '3') this.setSMEFormValues('edit');
-          if (this.productId == '19' || this.productId=='3' || this.productId=='24') this.setSMEForm('create', type);
+          //if (this.productId=='59') this.setSMEFormValues('edit');
+          if (this.productId == '19' || this.productId=='59' || this.productId=='24') this.setSMEForm('create', type);
         }
         else {
           this.productItem.BuildingBuildYear = '';
           this.productItem.BuildingOwnerYn = 'Y';
         
-           if (this.productId == '3') this.setDomesticForm('create', type);
-           if (this.productId == '19' || this.productId=='3' || this.productId=='24') this.setSMEForm('create', type);
+           if (this.productId=='59') this.setDomesticForm('create', type);
+           if (this.productId == '19' || this.productId=='59' || this.productId=='24') this.setSMEForm('create', type);
         }
       }
       else {
@@ -6663,8 +6663,8 @@ let requestNO=null;
           }
         if (this.coversRequired == 'C') this.productItem.BuildingSuminsured = null;
         else if (this.coversRequired == 'B') this.productItem.ContentSuminsured = null;
-        // if (this.productId == '3') this.setDomesticForm('change', type);
-        else if (this.productId == '19' || this.productId=='3' || this.productId=='24') this.setSMEForm('edit', type);
+        // if (this.productId=='59') this.setDomesticForm('change', type);
+        else if (this.productId == '19' || this.productId=='59' || this.productId=='24') this.setSMEForm('edit', type);
       }
 
 
@@ -7627,7 +7627,7 @@ let requestNO=null;
       this.fields[0].fieldGroup = entry.concat(this.fields[0].fieldGroup)
     }
   
-    if (this.productId == '3') {
+    if (this.productId=='59') {
       this.getOccupationList(null);
       if(this.coversRequired=='BC' || this.coversRequired=='B'){
         this.getWallMaterialList();
@@ -9439,7 +9439,7 @@ this.BuildingOwnerYn = type;
             }
             else{
               //if(this.Code=='Broker' || this.Code=='Agent'){
-                if(this.productId=='3' && this.userType=='Issuer') this.getBackDaysDetails();
+                if(this.productId=='59' && this.userType=='Issuer') this.getBackDaysDetails();
                 let entry = this.brokerList.find(ele=>String(ele.Code)==this.brokerCode);
                 if(entry){
                   console.log("Found Entries",this.brokerCode,entry,this.Code)

@@ -562,7 +562,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               if(data.Result){
                 this.sumInsuredDetails = data.Result;
                 this.item = this.sumInsuredDetails?.ProductSuminsuredDetails?.SectionId;
-                // if(this.productId!='19' && this.productId!='3'){
+                // if(this.productId!='19' && this.productId!='59'){
                 //   this.setTabSections();
                 //   this.getContentList();
                 // }
@@ -1050,7 +1050,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
         setTabSections(){
           
 
-          //if(this.productId=='19' || this.productId=='3'){
+          //if(this.productId=='19' || this.productId=='59'){
             if(this.sectionDetails.length!=0){
               let items = this.sectionDetails.find((ele) => ele.SectionId == 1 || (this.productId=='19' && ele.SectionId==40));
               if(items){
@@ -1499,7 +1499,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                   this.fidelityList =data?.Result;
                   console.log('Ferdility Lists',this.fidelityList);
                 }
-                else if(this.productId=='3'){
+                else if(this.productId=='59'){
                   this.risk =data?.Result;
                   console.log('Ferdility Lists',this.risk);
                 }
@@ -1510,7 +1510,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                   else if(this.productId=='32' && this.fidelityList.length!=0 ){
                     this.getTotalSICost('Fidelity');
                   }
-                  else if(this.productId=='3' && this.risk.length!=0 ){
+                  else if(this.productId=='59' && this.risk.length!=0 ){
                     //this.getTotalSICost('Fidelity');
                   }
               }
@@ -2599,7 +2599,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                         this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[5].props.options = defaultObj.concat(this.wallMaterialList);
                         this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[6].props.options = defaultObj.concat(this.wallMaterialList);
                       }
-                      else if(this.productId!='19' && this.productId!='3'){
+                      else if(this.productId!='19' && this.productId!='59'){
                         console.log( 'Fieldsss',this.fields[0].fieldGroup[0]);
                         this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.wallMaterialList);
                         //this.fields[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.wallMaterialList);
@@ -2648,7 +2648,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                         if (this.productId == '1') {
                           this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
                         }
-                        else if(this.productId!='19' && this.productId!='3') {console.log('FFFFFFFF',this.fields[0].fieldGroup[0].fieldGroup[3]); this.fields[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);}
+                        else if(this.productId!='19' && this.productId!='59') {console.log('FFFFFFFF',this.fields[0].fieldGroup[0].fieldGroup[3]); this.fields[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);}
                         //this.fields[0].fieldGroup[0].fieldGroup[3]
                         //this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);
                         else{
@@ -2694,7 +2694,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                       
                           this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
                         }
-                        else if(this.productId!='19' && this.productId!='3' && this.productId!='59'){ } 
+                        else if(this.productId!='19' && this.productId!='59' && this.productId!='59'){ } 
                         //this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);
                         else{
                           // let fields = this.fields[0].fieldGroup;
@@ -4027,7 +4027,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               "ProductId": this.productId,
               "InsuranceId": this.insuranceId
             }
-            //if(this.productId=='3') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
+            //if(this.productId=='59') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
             urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
             this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
               (data: any) => {
@@ -4501,7 +4501,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               "ProductId": this.productId,
               "InsuranceId": this.insuranceId
             }
-            //if(this.productId=='3') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
+            //if(this.productId=='59') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
             urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
             this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
               (data: any) => {

@@ -137,7 +137,7 @@ export class DriverInfoComponent {
                 let entry:any;
                 // if(this.productId=='5')  entry=vehicle.VehicleDetails;
                 // else if(this.productId=='4')  entry=vehicle.TravelPassengerDetails;
-                // else if(this.productId=='3')  entry=vehicle.BuildingDetails;
+                // else if(this.productId=='59')  entry=vehicle.BuildingDetails;
                 // else entry = vehicle.CommonDetails;
                 entry = vehicle;
                 //entry['CoverList'] = vehicle.Covers;
@@ -161,7 +161,7 @@ export class DriverInfoComponent {
             }
             if(this.vehicleList.length!=0){
 
-              // if(this.productId=='3'){
+              // if(this.productId=='59'){
 
               // }
               // else{
@@ -230,8 +230,8 @@ export class DriverInfoComponent {
       if(menu.TravelId=='4') return `Super Seniors (${menu.TotalPassengers})`;
       if(menu.TravelId=='5') return `Grand Seniors (${menu.TotalPassengers})`;
     }
-    else if(this.productId!='3' && this.productId!='4' && this.productId!='5' && this.productId!='19' && this.productId!='14' && this.productId!='32') return this.productName;
-    else if(this.productId=='3' || this.productId=='19' || this.productId=='14' || this.productId=='32') return menu.SectionName;
+    else if(this.productId!='59' && this.productId!='4' && this.productId!='5' && this.productId!='19' && this.productId!='14' && this.productId!='32') return this.productName;
+    else if(this.productId=='59' || this.productId=='19' || this.productId=='14' || this.productId=='32') return menu.SectionName;
     else return '';
   }
   onNextProceed(index){

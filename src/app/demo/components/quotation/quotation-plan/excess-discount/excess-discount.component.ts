@@ -4225,8 +4225,6 @@ emiyn="N";
             }
             else{
               for (let v of this.vehicleDetailsList) {
-  
-                console.log('AAAAAAAAA',this.vehicleDetailsList)
                 vechileId = v.VehicleId;
                   sectionId = v.SectionId;
                    i++;
@@ -5284,7 +5282,6 @@ emiyn="N";
       let common:any;
       console.log('this',this.vehicleDetailsList);
       console.log('TTTTTTT',this.vehicleDetailsList);
-      this.CoveList=false;
      // this.ClausesSection=true;
       this.onClauses = true;
       this.onWarranty=false;
@@ -5297,7 +5294,6 @@ emiyn="N";
     this.viewCondition('direct');
     }
     ExclusioStatuss(){
-      this.CoveList=false;
       this.onExclusion = true;
       this.onWarranty=false;
       this.onWars = false;
@@ -5310,7 +5306,6 @@ emiyn="N";
   this.viewCondition('1'); 
     }
     WarrantyStatuss(){
-      this.CoveList=false;
        this.onWarranty=true;
        this.onClauses = false;
        this.onWars = false;

@@ -271,7 +271,7 @@ export class DocumentInfoComponent {
                 let entry:any;
                 // if(this.productId=='5')  entry=vehicle.VehicleDetails;
                 // else if(this.productId=='4')  entry=vehicle.TravelPassengerDetails;
-                // else if(this.productId=='3')  entry=vehicle.BuildingDetails;
+                // else if(this.productId=='59')  entry=vehicle.BuildingDetails;
                 // else entry = vehicle.CommonDetails;
                 entry = vehicle;
                 //entry['CoverList'] = vehicle.Covers;
@@ -292,7 +292,7 @@ export class DocumentInfoComponent {
             }
             if(this.vehicleList.length!=0){
 
-              // if(this.productId=='3'){
+              // if(this.productId=='59'){
 
               // }
               // else{

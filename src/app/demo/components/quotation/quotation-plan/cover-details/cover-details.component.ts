@@ -244,7 +244,7 @@ export class CoverDetailsComponent {
       if(quoteStatus) this.statusValue = quoteStatus;
       this.adminSection = false;
     }
-    if(this.productId=='5'  || this.productId=='3' || this.productId=='46' || this.productId=='29'){
+    if(this.productId=='5'  || this.productId=='59' || this.productId=='46' || this.productId=='29'){
       //let vehicles = JSON.parse(sessionStorage.getItem('vehicleDetailsList'));
       let vehicles:any;
       if(this.statusValue=='RA'){
@@ -304,7 +304,7 @@ export class CoverDetailsComponent {
         }
       }
     }
-    else if(this.productId!='5' && this.productId!='3' && this.productId!='46' && this.productId!='29'){
+    else if(this.productId!='5' && this.productId!='59' && this.productId!='46' && this.productId!='29'){
       // let coverListObj = JSON.parse(sessionStorage.getItem('travelCoverListObj'));
       // if(coverListObj){
       //   this.getCoverList(coverListObj);
@@ -392,8 +392,8 @@ export class CoverDetailsComponent {
       if(menu.RiskDetails.TravelId=='4') return `Super Seniors (${menu.RiskDetails.TotalPassengers})`;
       if(menu.RiskDetails.TravelId=='5') return `Grand Seniors (${menu.RiskDetails.TotalPassengers})`;
     }
-    else if(this.productId!='3' && this.productId!='4' && this.productId!='5' && this.productId!='19' && this.productId!='14' && this.productId!='32') return this.productName;
-    else if(this.productId=='3' || this.productId=='19' || this.productId=='14' || this.productId=='32') return menu.SectionName;
+    else if(this.productId!='59' && this.productId!='4' && this.productId!='5' && this.productId!='19' && this.productId!='14' && this.productId!='32') return this.productName;
+    else if(this.productId=='59' || this.productId=='19' || this.productId=='14' || this.productId=='32') return menu.SectionName;
     else return '';
   }
 
@@ -2911,7 +2911,7 @@ this.newAddClauses=true;
     if(this.statusValue == 'RA' && !this.adminSection){
       if(this.productId!='4'){
         console.log('Referral Approved',coverList);
-         if(this.productId=='3' || this.productId=='19' || this.productId=='39' || this.productId=='32' || this.productId=='14' || this.productId=='1' || this.productId=='6' || this.productId=='16' || this.productId=='42' || this.productId=='43' || this.productId=='25' || this.productId=='60' || this.productId=='57' || this.productId=='56'){
+         if(this.productId=='59' || this.productId=='19' || this.productId=='39' || this.productId=='32' || this.productId=='14' || this.productId=='1' || this.productId=='6' || this.productId=='16' || this.productId=='42' || this.productId=='43' || this.productId=='25' || this.productId=='60' || this.productId=='57' || this.productId=='56'){
           let homeSession = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
           if(homeSession){
             if(this.loginType=='B2CFlow' && this.loginId=='guest'){
@@ -2920,7 +2920,7 @@ this.newAddClauses=true;
             else  this.router.navigate(['quotation/plan/main/accessories']);
           }
           else{
-            if(this.productId=='3') this.getExistingBuildingList();
+            if(this.productId=='59') this.getExistingBuildingList();
             else  if(this.loginType=='B2CFlow' && this.loginId=='guest'){
               window.location.reload();
             }
@@ -3542,7 +3542,7 @@ this.newAddClauses=true;
 
           // }
 
-            /*if(this.productId=='3'){
+            /*if(this.productId=='59'){
               let homeSession = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
               if(homeSession){
                 this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
@@ -3695,7 +3695,7 @@ this.newAddClauses=true;
         }
       }
     }
-      // if(this.productId=='3'){
+      // if(this.productId=='59'){
       //   let homeSession = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
       //   if(homeSession){
       //     if(this.loginType=='B2CFlow' && this.loginId=='guest'){
@@ -3804,7 +3804,7 @@ this.newAddClauses=true;
           //         this.insert=data.Result
           //       }},);
           //    }
-            if(this.productId=='3'){
+            if(this.productId=='59'){
               let homeSession = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
               if(homeSession){
                 this.router.navigate(['quotation/plan/main/accessories']);

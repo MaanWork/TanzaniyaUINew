@@ -529,7 +529,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           else{
             //if(this.Code=='Broker' || this.Code=='Agent'){
-              if(this.productId=='3' && this.userType=='Issuer') this.getBackDaysDetails();
+              if(this.productId=='59' && this.userType=='Issuer') this.getBackDaysDetails();
               let entry = this.brokerList.find(ele=>String(ele.Code)==this.brokerCode);
               if(entry){
                 console.log("Found Entries",this.brokerCode,entry,this.Code)
@@ -771,8 +771,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
       "ProductId": this.productId,
       "InsuranceId": this.insuranceId
     }
-    //if(this.productId=='3') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
-    if(this.productId=='6' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='13'  || this.productId=='19' || this.productId=='32' || this.productId=='1' || this.productId=='26' || this.productId=='21' || this.productId == '25' || this.productId=='42' || this.productId=='3' || this.productId=='24') urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
+    //if(this.productId=='59') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
+    if(this.productId=='6' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='13'  || this.productId=='19' || this.productId=='32' || this.productId=='1' || this.productId=='26' || this.productId=='21' || this.productId == '25' || this.productId=='42' || this.productId=='59' || this.productId=='24') urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
     else urlLink =  `${this.motorApiUrl}api/geteservicebyriskid`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
@@ -780,7 +780,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if(data.Result){
             this.commonData = data.Result;
               let entry:any;
-              //if(this.productId=='3') entry = this.vehicleDetailsList[0];
+              //if(this.productId=='59') entry = this.vehicleDetailsList[0];
                entry = this.commonData
                if(entry?.FinalizeYn!=null){
                 this.finalizeYN== entry?.FinalizeYn;
@@ -5056,7 +5056,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             else if(this.vehicleDetailsList.length==this.tabIndex){this.saveMotorDetails(this.tabIndex)}
             else{this.saveMotorDetails(this.tabIndex);}
           }
-          else if(this.productId=='3' || this.productId=='19'){
+          else if(this.productId=='59' || this.productId=='19'){
             this.showSectionSeltion = true;
           }
           else{
@@ -5098,7 +5098,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             vehicle['RiskId'] = String(1);
             vehicle['Active'] = false;
             sessionStorage.setItem('homeCommonDetails',JSON.stringify([vehicle]));
-            if(this.productId=='19' || this.productId=='3' || this.productId=='24'){
+            if(this.productId=='19' || this.productId=='59' || this.productId=='24'){
               let loginType = this.loginType;
               if(loginType){
                 // if(loginType=='B2CFlow' || loginType=='B2CFlow2'){

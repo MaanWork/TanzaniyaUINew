@@ -62,12 +62,12 @@ export class QuotationPlanComponent {
     else if(this.productId=='4'){
       if(menu.TravelId=='1') return `Kids (${menu.TotalPassengers})`;
       if(menu.TravelId=='2') return `Adults (${menu.TotalPassengers})`;
-      if(menu.TravelId=='3') return `Seniors (${menu.TotalPassengers})`;
+      if(menu.TravelId=='59') return `Seniors (${menu.TotalPassengers})`;
       if(menu.TravelId=='4') return `Super Seniors (${menu.TotalPassengers})`;
       if(menu.TravelId=='5') return `Grand Seniors (${menu.TotalPassengers})`;
     }
-    else if(this.productId!='3' && this.productId!='4' && this.productId!='5' && this.productId!='19' && this.productId!='14' && this.productId!='32') return this.productName;
-    else if(this.productId=='3' || this.productId=='19' || this.productId=='14' || this.productId=='32') return menu.SectionName;
+    else if(this.productId!='59' && this.productId!='4' && this.productId!='5' && this.productId!='19' && this.productId!='14' && this.productId!='32') return this.productName;
+    else if(this.productId=='59' || this.productId=='19' || this.productId=='14' || this.productId=='32') return menu.SectionName;
     else return '';
   }
   checkCoverSelected(cover){

@@ -102,7 +102,7 @@ export class ProductComponent implements OnInit {
       else if(product.ProductId=='27') return '../../../../../../assets/layout/images/publicliablity.png';
       else if(product.ProductId=='45') return '../../../../../../assets/layout/images/LifeIns.webp';
       else if(product.ProductId=='46') return '../../../../../../assets/layout/images/shortTerm.png';
-      else if(product.ProductId=='3') return '../../../../../../assets/layout/images/marineOneOff.webp';
+      else if(product.productId=='59') return '../../../../../../assets/layout/images/marineOneOff.webp';
       else if(product.ProductId=='11') return '../../../../../../assets/layout/images/marineOpenCover.png';
       else if(product.ProductId=='60') return '../../../../../../assets/layout/images/ProIndeminity.png';
       else return '../../../../../../assets/layout/images/motor.png';
