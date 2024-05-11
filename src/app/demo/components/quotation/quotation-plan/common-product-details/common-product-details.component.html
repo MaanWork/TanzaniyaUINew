@@ -55,9 +55,14 @@
                     <div class="lg:col-3 md:col-3 col-12">
                         <label for="username">Start Date</label>
                         <p-calendar class="w-full" styleClass="w-full" [(ngModel)]="policyStartDate"
-                        (onSelect)="onStartDateChange('change')"
+                            (onSelect)="onStartDateChange('change')"
                             dateFormat="dd/mm/yy" placeholder="Select Start Date">
                         </p-calendar>
+                        <div class="input-form-error bottomSpacing" *ngIf="policyStartDateError">
+                            <div class="error-text text-danger" *ngIf="policyStartDateError">
+                                <span class="spancommon span_font_size"> Please Enter Policy Start Date</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="lg:col-3 md:col-3 col-12">
                             <label for="username">End Date</label>
@@ -65,6 +70,11 @@
                             (onSelect)="onChangeEndDate()" dateFormat="dd/mm/yy"
                                 placeholder="Select End Date">
                             </p-calendar>
+                            <div class="input-form-error bottomSpacing" *ngIf="policyEndDateError">
+                                <div class="error-text text-danger" *ngIf="policyEndDateError">
+                                    <span class="spancommon span_font_size"> Please Enter Policy End Date</span>
+                                </div>
+                            </div>
                     </div>
                     <div class="lg:col-4 md:col-4 col-12">
                         <label for="username">Currency*</label>
@@ -214,6 +224,11 @@
                         (onSelect)="onStartDateChange('change')"
                             dateFormat="dd/mm/yy" placeholder="Select Start Date">
                         </p-calendar>
+                        <div class="input-form-error bottomSpacing" *ngIf="policyStartDateError">
+                            <div class="error-text text-danger" *ngIf="policyStartDateError">
+                                <span class="spancommon span_font_size"> Please Enter Policy Start Date</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="lg:col-2 md:col-2 col-12">
                             <label for="username">End Date</label>
@@ -221,6 +236,11 @@
                             (onSelect)="onChangeEndDate()" dateFormat="dd/mm/yy"
                                 placeholder="Select End Date">
                             </p-calendar>
+                            <div class="input-form-error bottomSpacing" *ngIf="policyEndDateError">
+                                <div class="error-text text-danger" *ngIf="policyEndDateError">
+                                    <span class="spancommon span_font_size"> Please Enter Policy End Date</span>
+                                </div>
+                            </div>
                     </div>
                     <div class="lg:col-3 md:col-3 col-12">
                         <label for="username">Currency*</label>
@@ -623,11 +643,32 @@
             </ng-container>
             </div>
             <div>
-                <div class="form__wrapper" *ngIf="productId!='14' && productId!='16' && productId!='57' && productId!='32' && productId!='19' && productId!='24' && productId!='3' && productId!='42' && productId!='13' && productId!='21' && productId!='26' && productId!='6' && productId!='25' && productId!='56' && (productId!='1' || (productId=='1' && insuranceId=='100004'))  && (productId!='39' || (productId=='39' && insuranceId=='100004')) && (productId!='27' || (productId=='27' && insuranceId=='100004'))">
+                <div class="form__wrapper" *ngIf="productId!='46' && productId!='14' && productId!='16' && productId!='57' && productId!='32' && productId!='19' && productId!='24' && productId!='59' && productId!='42' && productId!='13' && productId!='21' && productId!='26' && productId!='6' && productId!='25' && productId!='56' && (productId!='1' || (productId=='1' && insuranceId=='100004'))  && (productId!='39' || (productId=='39' && insuranceId=='100004')) && (productId!='27' || (productId=='27' && insuranceId=='100004'))">
                     <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
                         <formly-form [form]="form" [fields]="fields" [model]="productItem"></formly-form>
                     </form>
                 </div>
+                <ng-container *ngIf="productId=='46'">
+                    
+                        <div class="flex flex-wrap justify-content-between pl-3 pr-2 pb-0">
+                            <div>
+                                <h4 class="m-0 p-0">Vehicle Details</h4>
+                            </div>
+                            <div *ngIf="vehicleDetailsList.length!=0 && vehicleDetailsList.length!=1">
+                                <p-button label="Remove Vehicle" size="small" (click)="onDeleteVehicle()"></p-button>
+                            </div>
+                        </div>
+                    <ng-container *ngIf="productItem">
+                        <div class="grid mt-1">
+                            <div class="lg:col-2 md:col-2 col-2"></div>
+                            <div class="lg:col-8 md:col-8 col-8">
+                                <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
+                                    <formly-form [form]="form" [fields]="fields" [model]="productItem"></formly-form>
+                                </form>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
             </div>
             <div class="grid pl-5 pr-5 pb-0" *ngIf="productId=='42'">
                 <div class="md:col-6 lg:col-6 col-12">
@@ -672,11 +713,20 @@
                 </div>
             </div>
         </div>
-        <div class="flex justify-content-center mt-3" *ngIf="productId=='1' || productId=='6' || productId=='39' || productId=='43' || productId=='16' || productId=='42' || productId=='21' || productId=='14' || productId=='59' || productId=='60' || productId=='57' || productId=='56' || productId=='26' || productId=='25' || productId=='13' || this.productId=='27' || this.productId=='24' || this.productId=='19' || this.productId=='32'">
-        <p-button  styleClass="p-button-outlined" label="Back"
-            size="small" [routerLink]="['/quotation']" routerLinkActive="router-link-active" ></p-button>&nbsp;
-        <p-button 
-            label="Proceed" size="small" (click)="onSubmit()"></p-button>
+        <div class="flex justify-content-center mt-3" *ngIf="productId=='46' && vehicleDetailsList.length!=0">
+            <p-button  styleClass="p-button-outlined" *ngIf="currentIndex!=1" label="Previous"
+                size="small" (click)="getBack()"></p-button>&nbsp;
+            <ng-container  *ngIf="productId=='46'  && vehicleDetailsList.length!=0 && vehicleDetailsList.length!=1">
+                &nbsp;<span> {{currentIndex}} &nbsp;/&nbsp; {{totalIndex}}</span>&nbsp;
+            </ng-container>
+        <p-button label="Next" size="small" *ngIf="productId=='46' && currentIndex!=totalIndex" (click)="onFormSubmit('Next')"></p-button>
+       </div>
+        <div class="flex justify-content-center mt-3" *ngIf="productId=='1' || productId=='6' || productId=='39' || productId=='43' || productId=='46' || productId=='16' || productId=='42' || productId=='21' || productId=='14' || productId=='59' || productId=='60' || productId=='57' || productId=='56' || productId=='26' || productId=='25' || productId=='13' || this.productId=='27' || this.productId=='24' || this.productId=='19' || this.productId=='32'">
+            <p-button  styleClass="p-button-outlined" label="Back"
+                size="small" [routerLink]="['/quotation']" routerLinkActive="router-link-active" ></p-button>&nbsp;
+               
+                <p-button *ngIf="productId=='46'" label="Save & Add New" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;
+            <p-button label="Proceed" size="small" (click)="onSubmit(null)"></p-button>
         </div>
 </div>
     

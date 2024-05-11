@@ -117,6 +117,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
   sectionCount: number;
   coversreuired: any;
   commonSectionList: any;
+  noOfDays: number;
         constructor(private router: Router,private datePipe:DatePipe,
           private sharedService: SharedService,public http: HttpClient) {
          let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails') || '{}');
@@ -561,7 +562,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               if(data.Result){
                 this.sumInsuredDetails = data.Result;
                 this.item = this.sumInsuredDetails?.ProductSuminsuredDetails?.SectionId;
-                // if(this.productId!='19' && this.productId!='3'){
+                // if(this.productId!='19' && this.productId!='59'){
                 //   this.setTabSections();
                 //   this.getContentList();
                 // }
@@ -1049,7 +1050,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
         setTabSections(){
           
 
-          //if(this.productId=='19' || this.productId=='3'){
+          //if(this.productId=='19' || this.productId=='59'){
             if(this.sectionDetails.length!=0){
               let items = this.sectionDetails.find((ele) => ele.SectionId == 1 || (this.productId=='19' && ele.SectionId==40));
               if(items){
@@ -1498,7 +1499,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                   this.fidelityList =data?.Result;
                   console.log('Ferdility Lists',this.fidelityList);
                 }
-                else if(this.productId=='3'){
+                else if(this.productId=='59'){
                   this.risk =data?.Result;
                   console.log('Ferdility Lists',this.risk);
                 }
@@ -1509,7 +1510,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                   else if(this.productId=='32' && this.fidelityList.length!=0 ){
                     this.getTotalSICost('Fidelity');
                   }
-                  else if(this.productId=='3' && this.risk.length!=0 ){
+                  else if(this.productId=='59' && this.risk.length!=0 ){
                     //this.getTotalSICost('Fidelity');
                   }
               }
@@ -2227,7 +2228,8 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
                 (data: any) => {
                   if (data?.Message=='Success') {
-                    this.router.navigate(['/quotation/plan/premium-details']);
+                    this.saveFleetDetails();
+                    //this.router.navigate(['/quotation/plan/premium-details']);
                     //this.router.navigate(['/quotation/plan/main/document-info'])
                   }
                 },
@@ -2597,7 +2599,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                         this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[5].props.options = defaultObj.concat(this.wallMaterialList);
                         this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[6].props.options = defaultObj.concat(this.wallMaterialList);
                       }
-                      else if(this.productId!='19' && this.productId!='3'){
+                      else if(this.productId!='19' && this.productId!='59'){
                         console.log( 'Fieldsss',this.fields[0].fieldGroup[0]);
                         this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.wallMaterialList);
                         //this.fields[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.wallMaterialList);
@@ -2646,7 +2648,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                         if (this.productId == '1') {
                           this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
                         }
-                        else if(this.productId!='19' && this.productId!='3') {console.log('FFFFFFFF',this.fields[0].fieldGroup[0].fieldGroup[3]); this.fields[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);}
+                        else if(this.productId!='19' && this.productId!='59') {console.log('FFFFFFFF',this.fields[0].fieldGroup[0].fieldGroup[3]); this.fields[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);}
                         //this.fields[0].fieldGroup[0].fieldGroup[3]
                         //this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);
                         else{
@@ -2692,7 +2694,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                       
                           this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
                         }
-                        else if(this.productId!='19' && this.productId!='3' && this.productId!='59'){ } 
+                        else if(this.productId!='19' && this.productId!='59' && this.productId!='59'){ } 
                         //this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);
                         else{
                           // let fields = this.fields[0].fieldGroup;
@@ -3039,7 +3041,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               if((this.productItem?.BuildingSuminsured==null || this.productItem?.BuildingSuminsured==undefined || this.productItem?.BuildingSuminsured=='') && this.Buildings!='Y'){
                 ReqObj['BuildingDetails'] = null;
               }
-              if(this.insuranceId=='100004' && this.productId=='59'){
+              if( this.productId=='59'){
                 if(this.coversreuired!='BC' && this.coversreuired!='B'){
                   ReqObj['BuildingDetails'] = null;
                 }
@@ -3077,7 +3079,6 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                   //   }
                   // }
                 }
-              
               }
               else {
                 //alert('dddd')
@@ -3099,77 +3100,76 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                           if(this.productItem?.PersonalAccidentSuminsured==null || this.productItem?.PersonalAccidentSuminsured==undefined || this.productItem?.PersonalAccidentSuminsured==''  || this.productItem?.PersonalAccidentSuminsured=='0'){
                             ReqObj['PersonalAccidentDetails'] = null;      
                           }
-                        }
-                        if(this.productItem?.LiabilityOccupationId==null || this.productItem?.LiabilityOccupationId==undefined || this.productItem?.LiabilityOccupationId==''){
-                          if(this.productItem?.EmpLiabilitySi==null || this.productItem?.EmpLiabilitySi==undefined || this.productItem?.EmpLiabilitySi==''  || this.productItem?.EmpLiabilitySi=='0'){
-                            ReqObj['EmployeeLiabilityDetails'] = null;    
+              }
+              if(this.productItem?.LiabilityOccupationId==null || this.productItem?.LiabilityOccupationId==undefined || this.productItem?.LiabilityOccupationId==''){
+                if(this.productItem?.EmpLiabilitySi==null || this.productItem?.EmpLiabilitySi==undefined || this.productItem?.EmpLiabilitySi==''  || this.productItem?.EmpLiabilitySi=='0'){
+                  ReqObj['EmployeeLiabilityDetails'] = null;    
+                }
+              }
+              if(this.Buildings=='Y'){
+                if(ReqObj['EmployeeLiabilityDetails']==null && ReqObj['PersonalAccidentDetails'] == null &&  ReqObj['BuildingDetails'] == null && ReqObj['ContentDetails'] == null && ReqObj['AllRiskDetails'] == null){
+                  this.errorproceed(1);   
+                }
+                else if(ReqObj['BuildingDetails']!=null){
+                  if(ReqObj.BuildingDetails?.BuildingSumInsured==0 || ReqObj.BuildingDetails?.BuildingSumInsured=='0' || ReqObj.BuildingDetails?.BuildingSumInsured==null){
+                    this.errorproceed(2);
+                  }
+                  else if(ReqObj.BuildingDetails?.BuildingBuildYear=='' || ReqObj.BuildingDetails?.BuildingSumInsured==null){
+                    this.errorproceed(3);
+                  }
+                  else{this.finalSave(ReqObj);}
+                }
+                else this.finalSave(ReqObj);
+              }
+              else if(this.Buildings=='N') {
+                if(ReqObj['EmployeeLiabilityDetails']==null && ReqObj['PersonalAccidentDetails'] == null && ReqObj['ContentDetails'] == null && ReqObj['AllRiskDetails'] == null){
+                  this.errorproceed(1);   
+                }
+                else if(ReqObj['BuildingDetails']!=null){
+                  if(ReqObj.BuildingDetails?.BuildingSumInsured==0 || ReqObj.BuildingDetails?.BuildingSumInsured=='0' || ReqObj.BuildingDetails?.BuildingSumInsured==null){
+                    this.errorproceed(2);
+                  }
+                  else if(ReqObj.BuildingDetails?.BuildingBuildYear=='' || ReqObj.BuildingDetails?.BuildingSumInsured==null){
+                    this.errorproceed(3);
+                  }
+                  else{this.finalSave(ReqObj);}
+                }
+                else this.finalSave(ReqObj);
+              }
+          }
+          finalSave(ReqObj){
+            let urlLink = `${this.motorApiUrl}api/saveAllSection`;
+                  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+                    (data: any) => {
+                      if (data?.Result) {
+                        if(data?.ErrorMessage==null){
+                          if(data.Result.length!=0){
+                            this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+                            sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                            this.onCalculate(data.Result);
+                            //this.onCheckUWQuestionProceed(data.Result);
                           }
                         }
-                        if(this.Buildings=='Y'){
-                          if(ReqObj['EmployeeLiabilityDetails']==null && ReqObj['PersonalAccidentDetails'] == null &&  ReqObj['BuildingDetails'] == null && ReqObj['ContentDetails'] == null && ReqObj['AllRiskDetails'] == null){
-                            this.errorproceed();   
-                         }
-                         else {
-                          let urlLink = `${this.motorApiUrl}api/saveAllSection`;
-                          this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-                            (data: any) => {
-                              if (data?.Result) {
-                                if(data?.ErrorMessage==null){
-                                  if(data.Result.length!=0){
-                                    this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
-                                    sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
-                                    this.onCalculate(data.Result);
-                                  }
-                                }
-                              }
-                          },
-                          (err) => { },
-                        );
-                         }
-                        }
-                        else if(this.Buildings=='N') {
-                          if(ReqObj['EmployeeLiabilityDetails']==null && ReqObj['PersonalAccidentDetails'] == null && ReqObj['ContentDetails'] == null && ReqObj['AllRiskDetails'] == null){
-                            this.errorproceed();   
-                         }
-                         else {
-                          let urlLink = `${this.motorApiUrl}api/saveAllSection`;
-                          this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-                            (data: any) => {
-                              if (data?.Result) {
-                                if(data?.ErrorMessage==null){
-                                  if(data.Result.length!=0){
-                                    this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
-                                    sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
-                                    this.onCalculate(data.Result);
-                                   
-                                    //this.onCheckUWQuestionProceed(data.Result);
-                                  }
-                                }
-                             
-                                
-                              // }
-                              // else {
-                              //   this.nextslide=false;
-                              // }
-                              }
-                          },
-                          (err) => { },
-                        );
-                         }
-                        }
-                       
-                   
-             
-                
+                      // }
+                      // else {
+                      //   this.nextslide=false;
+                      // }
+                      }
+                  },
+                  (err) => { },
+                  );
           }
-        
-          errorproceed(){
+          errorproceed(type){
+            let text = '';
+            if(type==1) text = ' Please Enter One Section Details';
+            else if(type==2) text = 'Please Enter Valid Building Sum Insured';
+            else if(type==3) text = 'Please Enter Valid Building Year';
             Swal.fire({
               title: '<strong>Form Validations</strong>',
               icon: 'info',
               html:
                 `<ul class="list-group errorlist">
-                 Please Enter One Section Details
+                    ${text}
               </ul>`,
               showCloseButton: true,
               focusConfirm: false,
@@ -4025,7 +4025,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               "ProductId": this.productId,
               "InsuranceId": this.insuranceId
             }
-            //if(this.productId=='3') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
+            //if(this.productId=='59') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
             urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
             this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
               (data: any) => {
@@ -4270,10 +4270,72 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             }
           }
           onFinalProceed() {
-            this.router.navigate(['/quotation/plan/premium-details']);
+            this.saveFleetDetails();
+            //this.router.navigate(['/quotation/plan/premium-details']);
             //this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
           }
-
+          saveFleetDetails(){
+            if(this.productId!='46'){
+              let Reqobj={
+                "RequestReferenceNo": this.requestReferenceNo,
+                "InsuranceId": this.insuranceId,
+                "ProductId": this.productId
+              }
+              let urlLink = `${this.motorApiUrl}api/savefleetdetails`;
+                this.sharedService.onPostMethodSync(urlLink, Reqobj).subscribe(
+                  (data: any) => {
+                    if(data.Result){
+                      this.getFleetCalc(data.Result);
+                        
+                    }
+                  })
+            }
+            else this.router.navigate(['/quotation/plan/premium-details']);
+          }
+          getFleetCalc(res){
+            let startDate = this.policyStartDate,endDate =this.policyEndDate
+            //this.updateComponent.vehicleDetails = this.vehicleDetails;
+            let effectiveDate=null;
+            if(this.endorsementSection){
+                effectiveDate = this.endorseEffectiveDate;
+            }
+            else {
+              if(this.policyStartDate){
+                if(this.policyStartDate.includes('/')) effectiveDate = this.policyStartDate;
+                else effectiveDate = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");
+              }
+            }
+            let ReqObj={
+              "InsuranceId": this.insuranceId,
+              "BranchCode": this.branchCode,
+              "AgencyCode": this.agencyCode,
+              "SectionId": res?.SectionId,
+              "ProductId": this.productId,
+              "MSRefNo": res?.MSRefNo,
+              "VehicleId": res?.VehicleId,
+              "CdRefNo": res?.CdRefNo,
+              "VdRefNo": res?.VdRefNo,
+              "CreatedBy": res?.CreatedBy,
+              "productId": this.productId,
+              "sectionId": res?.SectionId,
+              "RequestReferenceNo": this.requestReferenceNo,
+              "EffectiveDate": effectiveDate,
+              "PolicyEndDate": endDate,
+              "CoverModification": "N",
+              "PDRefNo":res?.PDRefNo
+            }
+            let urlLink = `${this.CommonApiUrl}calculator/policy/calc`;
+            if(this.insuranceId!='100028' && this.insuranceId!='100027' && this.insuranceId!='100019'){
+              this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+                (data: any) => {
+                  if(data.CoverList){
+                    this.router.navigate(['/quotation/plan/premium-details']);
+                  }
+                });
+            }
+            else this.router.navigate(['/quotation/plan/premium-details']);
+            // 
+          }
           onCheckUWQuestionProceed(buildDetails){
             //,type,formType
             if(buildDetails.length!=0){
@@ -4437,7 +4499,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               "ProductId": this.productId,
               "InsuranceId": this.insuranceId
             }
-            //if(this.productId=='3') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
+            //if(this.productId=='59') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
             urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
             this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
               (data: any) => {

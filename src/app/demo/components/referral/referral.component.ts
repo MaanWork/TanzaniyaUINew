@@ -58,10 +58,10 @@ export class ReferralComponent implements OnInit {
     this.branches = [
       { label: 'Test', target: 'T' },
     ];
-    if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
+    //if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
       this.columns = ['Quote No','ReferenceNo','Customer Name','Start Date','End Date','Actions'];
       this.columnss = ['Quote No','ReferenceNo','Customer Name','Start Date','End Date']
-    }
+    //}
     let refNo = sessionStorage.getItem('referralRefNo');
     if(refNo){
       this.sampleRefNo = refNo;

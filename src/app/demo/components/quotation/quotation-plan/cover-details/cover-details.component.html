@@ -441,14 +441,14 @@
             <div class="grid pl-5 pt-5">
                 <div  class="rightSide w-full">
                     <h3>Information Summary</h3>
-                    <div class="flex flex-wrap justify-content-start w-full">
+                    <div class="grid w-full">
                         <ng-container *ngFor="let menu of vehicleDetailsList;let i = index">
                             <div class="card ml-6-per col-12 md:col-3 lg:col-3 xl:col-3">
                                 <h2 class="optiontxt1">Option {{i+1}}</h2>
                                 <span class="greentxt">{{menu.SectionName}}</span>
                                 <hr class="hr new4">
                                 <ng-container *ngFor="let cover of menu.CoverList">
-                                <ng-container *ngIf="((cover.isSelected=='D' && cover.CoverageType!='A') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
+                                <ng-container *ngIf="((cover.isSelected=='D' &&  cover.CoverageType=='B') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
                                 <div class="flex flex-warp">
                                 <div class="col-12 md:col-9 lg:col-9 xl:col-9 t-a-l">     
                                     <h5>{{cover.CoverName}}</h5>
@@ -459,12 +459,16 @@
                                 </div>
                                 </ng-container>
                                 </ng-container>
+                                <div class="felx flex-warp t-a-r viewDetailsText2" >
+
+                                    <h6 (click)="onChooseCompareSection(menu)"><a >View More Covers >></a></h6>
+                                </div>
                                 <hr class="hr new4">
                                 <div class="grid mt-2 justify-content-end" style="padding: 12px;">
                                     <div class="custom-grid text-white  p-0 text-end" *ngIf="checkCurrentSection() && vehicleDetailsList[i].totalPremium!=null && vehicleDetailsList[i].totalPremium!=0 && vehicleDetailsList[i].totalPremium!='0'" >
-                                        <div class="col-12 md:col-4 lg:col-4 xl:col-4" style="width:100%;background-color: #000;border-radius: 5px;">
+                                        <div class="col-12 md:col-4 lg:col-4 xl:col-4" style="width:100%;background-color: #000;border-radius: 5px;padding: 5px !important;">
                                         <label>Total Premium</label>
-                                        <h6 class="text-white mt-0">{{vehicleDetailsList[i].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
+                                        <p class="text-white mt-0">{{vehicleDetailsList[i].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</p>
                                         </div>
                                     </div>
                                 </div>
@@ -479,9 +483,48 @@
             <div class="grid" *ngIf="selectedSectionId">
                 <div class="col-12 md:col-12 lg:col-12 xl:col-12">
                     <div class="card m-2">
-                        <h3>Add On Covers</h3>
                         <ng-container *ngFor="let menu of vehicleDetailsList;let i = index">
                             <ng-container *ngIf="menu.SectionId==selectedSectionId">
+                                <div class="flex flex-wrap justify-content-between">
+                                        <div><h3>Default Covers</h3></div>
+                                        <div><h2 class="optiontxt1">{{menu.SectionName}}</h2></div>
+                                </div>
+                                
+                                <div class="flex flex-wrap justify-content-start">
+                                    <ng-container *ngFor="let cover of menu.CoverList">
+                                        <div class="card bg-blue-800 customCard3 p-3 ml-3 w-11rem text-0" *ngIf="((cover.isSelected=='D' && cover.CoverageType!='B' && cover.CoverageType!='A') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
+                                            <div class="grid">
+                                                <div class="col-10 md:col-10 lg:col-10 xl:col-10">
+                                                    <div class="flex align-items-center justify-content-between">
+                                                        <h3 class="text-0 mb-0">{{cover.CoverName}}</h3>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <div class="col-2 md:col-2 lg:col-2 xl:col-2">
+                                                    <div class="flex align-items-center justify-content-between">
+                                                        <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                            <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>SumInsured
+                                                &nbsp;&nbsp;<a
+                                                    class="mt-0 viewDetailsText"
+                                                    (click)="setDiscountDetails(menu,cover,'excess')">View Details
+                                                </a>
+                                            </p><br>
+                                            <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>Premium After Discount
+                                                &nbsp;&nbsp;<a
+                                                class="mt-0 viewDetailsText"
+                                                (click)="ongetTaxDetails(cover)">View Details</a>
+                                            </p>
+                                            
+                                            <p><span class="font-bold text-4xl float-right">{{cover.PremiumIncludedTax | commaseparator}}&nbsp;<span class="text-base">( {{currencyCode}} )</span></span></p>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                <h3>Add On Covers</h3>
                                 <div class="flex flex-wrap justify-content-start">
                                     <ng-container *ngFor="let cover of menu.CoverList">
                                         <ng-container *ngIf="(cover.isSelected!='D' && cover.CoverageType!='A') && ! checkCoverSelection(menu,cover)">
@@ -544,23 +587,15 @@
                                         </ng-container>
                                     </ng-container>
                                 </div>
-                                    <div class="flex flex-wrap justify-content-end">
-                                        <div class="card custom-grid text-white surface-900 p-0 text-end" *ngIf="checkCurrentSection() && vehicleDetailsList[i].totalPremium!=null && vehicleDetailsList[i].totalPremium!=0 && vehicleDetailsList[i].totalPremium!='0'" style="min-width: 200px !important;">
-                                            <div class="col-10">
-                                                <label>Total Premium</label>
-                                                <h6 class="text-white mt-0">{{vehicleDetailsList[i].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
-                                            </div>
+                                <div class="flex flex-wrap justify-content-end">
+                                    <div class="card custom-grid text-white surface-900 p-0 text-end" *ngIf="checkCurrentSection() && vehicleDetailsList[i].totalPremium!=null && vehicleDetailsList[i].totalPremium!=0 && vehicleDetailsList[i].totalPremium!='0'" style="min-width: 200px !important;">
+                                        <div class="col-10">
+                                            <label>Total Premium</label>
+                                            <h6 class="text-white mt-0">{{vehicleDetailsList[i].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
                                         </div>
                                     </div>
-                                <div class="flex flex-wrap justify-content-center" *ngIf="!checkEmptyCovers(menu)" >
-                                    <p-button label="Buy Policy"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
-                                    (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-                                    <p-button label="Buy Policy" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-                                    <p-button label="Buy Policy"   *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
-                                    (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-                                    <p-button label="Proceed"  *ngIf="adminSection"
-                                    (click)="onUpdateFactor('',null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                                 </div>
+                                
                             </ng-container>
                         </ng-container>
                     </div>
@@ -1147,15 +1182,25 @@
             <p-button label="Back" *ngIf="productId=='5'" (click)="ongetBack()" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
             <p-button label="Modify Rate Details" *ngIf="userType=='issuer' || userType=='Issuer'"   [routerLink]="['/quotation/plan/premium-info']" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
             <ng-container *ngIf="!checkCurrentSection()">
-                <p-button label="Buy Policy"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
+                <p-button label="Proceed"  (click)="onViewOverAllPremium()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                <!-- <p-button label="Buy Policy"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
                 (click)="onFormSubmit(null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                <p-button label="Buy Policy" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                <p-button label="Buy Policy"   *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
-               (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+               (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-4"></p-button> -->
                <p-button label="Proceed"  *ngIf="adminSection"
                (click)="onUpdateFactor('',null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
             </ng-container>
-            
+            <ng-container *ngIf="selectedSectionId && checkCurrentSection()">
+                <p-button label="Proceed"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
+                (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                <p-button label="Proceed" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                <p-button label="Proceed"   *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
+                (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                <p-button label="Proceed"  *ngIf="adminSection"
+                (click)="onUpdateFactor('',null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+            </ng-container>
+                
         </div>
         <div></div>
         
@@ -2005,4 +2050,223 @@
             <!-- <button type="button" class="btn btn-primary ml-3" (click)="saveWarranty()">Save</button> -->
         </ng-container>
     </div>
+</p-dialog>
+<p-dialog class="p-su-header" header="Discount Details" [(visible)]="fleetDiscountModal" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+    <div class="grid">
+        <!-- <div class="col-md-12 col-lg-12 col-xl-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col"><b>CoverName</b></th>
+                        <th scope="col" style="text-align: center;"><b>SumInsured ({{currencyCode}})</b></th>
+                        <th scope="col" style="text-align: end;"><b>After Discount ({{currencyCode}})</b></th>
+                        <th scope="col" style="text-align: end;"><b>Included Tax ({{currencyCode}})</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container >
+
+                    </ng-container>
+                    <tr >
+                        <td>Base Premium</td>
+                        <td></td>
+                        <td style="text-align: end;"><span class="spancommon span_font_size">{{ basePremium | commaseparator}}</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> -->
+        <div class="col-12 md:col-12 lg:col-12 xl:col-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col"><b>Description</b></th>
+                        <th scope="col" ><b>Rate</b></th>
+                        <th scope="col" style="text-align: end;"><b>Amount ({{currencyCode}})</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr >
+                        <td>Base Premium</td>
+                        <td>{{ratePercent}}</td>
+                        <td style="text-align: end;"><span class="spancommon span_font_size">{{ basePremium | commaseparator}}</span></td>
+                    </tr>
+                    <tr >
+                        <td>{{minCoverName}}</td>
+                        <td>{{minCoverRatePercent}}</td>
+                        <td style="text-align: end;"><span class="spancommon span_font_size">{{ minBasePremium | commaseparator}}</span></td>
+                    </tr>
+                    <!-- <ng-container *ngIf="discountList.length!=0">
+                        <tr>
+                            <th scope="col" colspan="3" style="text-align: start;">Discounts</th>
+                        </tr>
+                        <tr *ngFor="let discount of discountList">
+                            <td>{{discount.DiscountDesc}}</td>
+                            <td></td>
+                            <td style="text-align: end;">
+                                <ng-container *ngIf="discount.DiscountAmount==null || discount.DiscountAmount=='0.0'">
+                                    0
+                                </ng-container>
+                                <ng-container *ngIf="discount.DiscountAmount!=0 && discount.DiscountAmount!=null || discount.DiscountAmount!='0.0'">
+                                        {{discount.DiscountAmount | commaseparator}}
+                                </ng-container>
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngIf="loadingList.length!=0">
+                        <tr>
+                            <th scope="col" style="text-align: start;" colspan="3">Loadings</th>
+                        </tr>
+                        <tr *ngFor="let loading of loadingList;let i=index">
+                            <td>{{loading.LoadingDesc}}</td>
+                            <td style="text-align: end;">
+                                <ng-container *ngIf="(adminSection || ((userType=='Issuer' && finalizeYN!='Y' && !endorsementSection))) && loading.LoadingCalcType!='A'">
+                                    <ng-container *ngIf="loading.LoadingCalcType!='P'">
+                                        <ng-container *ngIf="loading.LoadingRate!=null">
+                                            <span class="spancommon span_font_size">0</span>
+                                        </ng-container>
+                                    </ng-container>
+                                    <ng-container *ngIf="loading.LoadingCalcType=='P'">
+                                        <input type="text" [id]="'Rate'+i" class="input-form-control without-icon"
+                                            style="width: auto !important;max-width:80px;text-align:right !important"
+                                            [(ngModel)]="loading['LoadingRate']" maxlength="5">
+                                    </ng-container>
+                                </ng-container>
+                                <ng-container *ngIf="(((!adminSection && userType!='Issuer') || endorsementSection) || finalizeYN=='Y' ) && loading.LoadingCalcType!='A'">
+                                    <ng-container *ngIf="loading.LoadingRate==null">
+                                        0
+                                    </ng-container>
+                                    <ng-container *ngIf="loading.LoadingRate!=0 && loading.LoadingRate!=null">
+                                        <span class="spancommon span_font_size">{{loading.LoadingRate}}</span>
+                                    </ng-container>
+
+                                </ng-container>
+                            </td>
+                            <td style="text-align: end;">
+                                <ng-container *ngIf="(adminSection  || (userType=='Issuer' && finalizeYN!='Y' && !endorsementSection))">
+                                    <ng-container *ngIf="loading.LoadingCalcType!='A'">
+                                        <ng-container
+                                            *ngIf="loading.LoadingAmount==0 || loading.LoadingAmount==null">
+                                            0
+                                        </ng-container>
+                                        <ng-container
+                                            *ngIf="loading.LoadingAmount!=0 && loading.LoadingAmount!=null">
+                                            <span class="spancommon span_font_size">{{loading.LoadingAmount}}</span>
+                                        </ng-container>
+                                    </ng-container>
+                                    <ng-container *ngIf="loading.LoadingCalcType=='A'">
+                                        <input type="text" [id]="'Amount'+i" class="input-form-control without-icon"
+                                            (keyup)="premiumComma(i,loading.LoadingAmount)"
+                                            style="width: auto !important;max-width:300px;text-align:right !important"
+                                            [(ngModel)]="loading['LoadingAmount']">
+                                    </ng-container>
+
+                                </ng-container>
+                                <ng-container *ngIf="(((!adminSection && userType!='Issuer') || endorsementSection) || finalizeYN=='Y')">
+                                    <ng-container *ngIf="loading.LoadingAmount==0 || loading.LoadingAmount==null">
+                                        0
+                                    </ng-container>
+                                    <ng-container *ngIf="loading.LoadingAmount!=0 && loading.LoadingAmount!=null">
+                                        <span class="spancommon span_font_size">{{loading.LoadingAmount |
+                                            commaseparator}}</span>
+                                    </ng-container>
+
+                                </ng-container>
+                            </td>
+                        </tr>
+
+                    </ng-container> -->
+                    <tr>
+                        <td><b>Premium Before Tax</b></td>
+                        <td></td>
+                        <td style="text-align: end;"><span class="spancommon span_font_size">
+                            <b>{{minPremiumExcludedTax | commaseparator}}</b></span></td>
+                    </tr>
+                    <ng-container *ngIf="minTaxList.length!=0">
+                        <tr>
+                            <th scope="col" style="text-align: start;" colspan="3">Tax</th>
+                        </tr>
+                        <tr *ngFor="let loading of minTaxList;let i=index">
+                            <td>{{loading.TaxDesc}}</td>
+                            <td style="text-align: end;">
+                                <!-- <ng-container *ngIf="(adminSection || ((userType=='Issuer' && finalizeYN!='Y' && !endorsementSection))) && loading.LoadingCalcType!='A'"> 
+                                    <ng-container *ngIf="loading.TaxCalcType!='P'">
+                                        <ng-container *ngIf="loading.TaxRate!=null">
+                                            <span class="spancommon span_font_size">0</span>
+                                        </ng-container>
+                                     </ng-container>
+                                    <ng-container *ngIf="loading.LoadingCalcType=='P'">
+                                        <input type="text" [id]="'Rate'+i" class="input-form-control without-icon"
+                                            style="width: auto !important;max-width:80px;text-align:right !important"
+                                            [(ngModel)]="loading['TaxRate']" maxlength="5">
+                                    </ng-container> 
+                                </ng-container>-->
+                                <!-- <ng-container *ngIf="(((!adminSection && userType!='Issuer') || endorsementSection) || finalizeYN=='Y' ) && loading.LoadingCalcType!='A'"> -->
+                                    <ng-container *ngIf="loading.TaxRate==null">
+                                        0
+                                    </ng-container>
+                                    <ng-container *ngIf="loading.TaxRate!=0 && loading.TaxRate!=null">
+                                        <span class="spancommon span_font_size">{{loading.LoadingRate}}</span>
+                                    </ng-container>
+
+                                <!-- </ng-container> -->
+                            </td>
+                            
+                            <td style="text-align: end;">
+                                <!-- <ng-container *ngIf="(adminSection  || (userType=='Issuer' && finalizeYN!='Y' && !endorsementSection))">
+                                    <ng-container *ngIf="loading.TaxCalcType!='A'">
+                                        <ng-container
+                                            *ngIf="loading.TaxAmount==0 || loading.TaxAmount==null">
+                                            0
+                                        </ng-container>
+                                        <ng-container
+                                            *ngIf="loading.TaxAmount!=0 && loading.TaxAmount!=null">
+                                            <span class="spancommon span_font_size">{{loading.TaxAmount}}</span>
+                                        </ng-container>
+                                    </ng-container>
+                                    <ng-container *ngIf="loading.TaxCalcType=='A'">
+                                        <input type="text" [id]="'Amount'+i" class="input-form-control without-icon"
+                                            (keyup)="premiumComma(i,loading.TaxAmount)"
+                                            style="width: auto !important;max-width:300px;text-align:right !important"
+                                            [(ngModel)]="loading['TaxAmount']">
+                                    </ng-container>
+
+                                </ng-container>
+                                <ng-container *ngIf="(((!adminSection && userType!='Issuer') || endorsementSection) || finalizeYN=='Y')"> -->
+                                    <ng-container *ngIf="loading.TaxAmount==0 || loading.TaxAmount==null">
+                                        0
+                                    </ng-container>
+                                    <ng-container *ngIf="loading.TaxAmount!=0 && loading.TaxAmount!=null">
+                                        <span class="spancommon span_font_size">{{loading.TaxAmount |
+                                            commaseparator}}</span>
+                                    </ng-container>
+
+                                <!-- </ng-container> -->
+                            </td>
+                        </tr>
+
+                    </ng-container>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td><b>Total</b></td>
+                        <td></td>
+                        <td style="text-align: end;"><span class="spancommon span_font_size">
+                            <b>{{minPremiumIncludedTax | commaseparator}}</b></span></td>
+                    </tr>
+                </tfoot>
+            </table>
+            
+        </div>
+    </div>
+    <ng-container *ngIf="((!adminSection && userType!='Issuer') || endorsementSection) || finalizeYN=='Y'">
+        <p-button label="Back" (click)="fleetDiscountModal=!fleetDiscountModal" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
+        <p-button label="Proceed"  
+        (click)="onFleetProceed(modal)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+    </ng-container>
+    <ng-container *ngIf="adminSection || (userType=='Issuer' && finalizeYN!='Y' && !endorsementSection)">
+        <p-button label="Back" (click)="fleetDiscountModal=!fleetDiscountModal" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
+        <p-button label="Submit"  
+        (click)="onUpdateFleetFactorRate(modal)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+        
+    </ng-container>
 </p-dialog>

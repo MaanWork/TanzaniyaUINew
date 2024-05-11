@@ -79,7 +79,7 @@ export class CoverDetailsComponent {
 	public ApiUrl1: any = this.AppConfig.ApiUrl1;
 	public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
 	public motorApiUrl: any = this.AppConfig.MotorApiUrl;
-  emipolicytype: any=null;
+  emipolicytype: any=null;minCoverRatePercent:any=null;
   SourceType: any=null;
   commissionValue: any=null;
   commissionPercent: any=null;
@@ -140,6 +140,12 @@ export class CoverDetailsComponent {
   fleetCoverDetails: any;columns:any[]=[];
   basePremium: any;premiumIncludedTax: any;premiumExcludedTax: any;factorViewList: any[]=[];factorPremiumDetails:any=null;factorDetailModal: boolean=false;
   newAddClauses: boolean = false; newAddExclusion:boolean = false; newAddWarranty:boolean = false;
+  fleetDiscountModal: boolean=false;
+  minTaxList: any[]=[];
+  minPremiumExcludedTax: any=null;
+  minCoverName: any;
+  minBasePremium: any;
+  minPremiumIncludedTax: number;
   constructor(private router:Router,private sharedService:SharedService,private messageService: MessageService){
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     let loginType = sessionStorage.getItem('resetLoginDetails');
@@ -238,7 +244,7 @@ export class CoverDetailsComponent {
       if(quoteStatus) this.statusValue = quoteStatus;
       this.adminSection = false;
     }
-    if(this.productId=='5'  || this.productId=='3' || this.productId=='46' || this.productId=='29'){
+    if(this.productId=='5'  || this.productId=='59' || this.productId=='46' || this.productId=='29'){
       //let vehicles = JSON.parse(sessionStorage.getItem('vehicleDetailsList'));
       let vehicles:any;
       if(this.statusValue=='RA'){
@@ -298,7 +304,7 @@ export class CoverDetailsComponent {
         }
       }
     }
-    else if(this.productId!='5' && this.productId!='3' && this.productId!='46' && this.productId!='29'){
+    else if(this.productId!='5' && this.productId!='59' && this.productId!='46' && this.productId!='29'){
       // let coverListObj = JSON.parse(sessionStorage.getItem('travelCoverListObj'));
       // if(coverListObj){
       //   this.getCoverList(coverListObj);
@@ -386,8 +392,8 @@ export class CoverDetailsComponent {
       if(menu.RiskDetails.TravelId=='4') return `Super Seniors (${menu.RiskDetails.TotalPassengers})`;
       if(menu.RiskDetails.TravelId=='5') return `Grand Seniors (${menu.RiskDetails.TotalPassengers})`;
     }
-    else if(this.productId!='3' && this.productId!='4' && this.productId!='5' && this.productId!='19' && this.productId!='14' && this.productId!='32') return this.productName;
-    else if(this.productId=='3' || this.productId=='19' || this.productId=='14' || this.productId=='32') return menu.SectionName;
+    else if(this.productId!='59' && this.productId!='4' && this.productId!='5' && this.productId!='19' && this.productId!='14' && this.productId!='32') return this.productName;
+    else if(this.productId=='59' || this.productId=='19' || this.productId=='14' || this.productId=='32') return menu.SectionName;
     else return '';
   }
 
@@ -791,7 +797,6 @@ export class CoverDetailsComponent {
   }
   checkBenefitSection2(covers){
     let list:any[] = covers.CoverList.filter(ele=>ele.CoverageType=='A' && ele.isSelected!='D');
-    console.log('Default',list.length!=0);
     return (list.length!=0);
   }
   filterVehicleList(){
@@ -2906,7 +2911,7 @@ this.newAddClauses=true;
     if(this.statusValue == 'RA' && !this.adminSection){
       if(this.productId!='4'){
         console.log('Referral Approved',coverList);
-         if(this.productId=='3' || this.productId=='19' || this.productId=='39' || this.productId=='32' || this.productId=='14' || this.productId=='1' || this.productId=='6' || this.productId=='16' || this.productId=='42' || this.productId=='43' || this.productId=='25' || this.productId=='60' || this.productId=='57' || this.productId=='56'){
+         if(this.productId=='59' || this.productId=='19' || this.productId=='39' || this.productId=='32' || this.productId=='14' || this.productId=='1' || this.productId=='6' || this.productId=='16' || this.productId=='42' || this.productId=='43' || this.productId=='25' || this.productId=='60' || this.productId=='57' || this.productId=='56'){
           let homeSession = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
           if(homeSession){
             if(this.loginType=='B2CFlow' && this.loginId=='guest'){
@@ -2915,7 +2920,7 @@ this.newAddClauses=true;
             else  this.router.navigate(['quotation/plan/main/accessories']);
           }
           else{
-            if(this.productId=='3') this.getExistingBuildingList();
+            if(this.productId=='59') this.getExistingBuildingList();
             else  if(this.loginType=='B2CFlow' && this.loginId=='guest'){
               window.location.reload();
             }
@@ -3094,6 +3099,39 @@ this.newAddClauses=true;
       (err) => { },
     );
   }
+  onViewOverAllPremium(){
+    this.discountList = [];this.loadingList=[];
+    this.onUpdateFactor('fleetSave',null);
+   
+    
+  }
+  onUpdateFleetFactorRate(modal){
+    this.fleetCoverDetails.CoverList[0].Discount = this.discountList;
+    this.fleetCoverDetails.CoverList[0].Loading = this.loadingList;
+    if(this.statusValue){
+      let ReqObj = {
+        "VehicleId": "99999",
+        "RequestReferenceNo": this.quoteRefNo,
+        "InsuranceId": this.insuranceId,
+        "AdminLoginId": this.loginId,
+        "ProductId": this.productId,
+        "Status": this.statusValue,
+        "AdminRemarks": this.remarks,
+        "SectionId": "99999",
+        "CoverList": this.fleetCoverDetails.CoverList
+      }
+      let urlLink = `${this.CommonApiUrl}quote/update/referalstatus`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+            if(data.Result){
+                this.onFleetProceed();
+            }
+          },
+          (err) => { },
+        );
+    }
+    else this.onFleetProceed();
+  }
   onSetBackPage(){
     if(this.productId=='5' || this.productId=='29'){
       this.router.navigate(['/quotation/plan/premium-details']);
@@ -3238,34 +3276,127 @@ this.newAddClauses=true;
           if(data.Result){
             this.fleetCoverDetails = data?.Result;
             if(this.fleetCoverDetails){
-              if(this.fleetCoverDetails.CoverList.length!=0){
-                let cover = this.fleetCoverDetails.CoverList.find(ele=>ele.CoverId=='5');
-                if(cover){
-                  //if(cover?.PremiumBeforeDiscount!=0 && cover?.PremiumBeforeDiscount!="0"){
-                    this.ratePercent = cover.Rate;
-                    this.CoverName = cover.CoverName;
-                    this.minimumPremiumYN = cover.MinimumPremiumYn;
-                    this.basePremium = cover?.PremiumBeforeDiscount;
-                    this.premiumIncludedTax = cover?.PremiumIncludedTax;
-                    this.premiumExcludedTax = cover?.PremiumExcludedTax;
-                    if(cover.Discounts) this.discountList = cover.Discounts;
-                    if(cover.Loadings) this.loadingList = cover.Loadings;
-                    if(cover.Taxes) this.taxList = cover.Taxes;
-                    //this.open(modal);
-                  // }
-                  // else this.onFleetProceed(modal);
+              if(this.fleetCoverDetails.CoverList){
+                let minCover = this.fleetCoverDetails.CoverList.find(ele=>ele.CoverId=='945');
+                if(minCover){
+                  
+                  this.minCoverRatePercent = minCover.Rate;
+                  this.minCoverName = minCover.CoverName;
+                  this.minimumPremiumYN = minCover.MinimumPremiumYn;
+                  this.minBasePremium = minCover?.PremiumBeforeDiscount;
+                  this.minPremiumIncludedTax =0;
+                  let i=0,taxValue=0,excludedTax = null;
+                  for(let cover of this.fleetCoverDetails.CoverList){
+                      taxValue = taxValue+cover.PremiumExcluedTax;
+                      this.minPremiumIncludedTax = this.minPremiumIncludedTax+cover.PremiumIncludedTax;
+                      if(i==0){
+                        this.minTaxList = cover.Taxes;
+                        i+=1;
+                        if(i==this.fleetCoverDetails.CoverList.length){
+                          
+                          this.fleetDiscountModal = true;
+                          this.minPremiumExcludedTax = taxValue;
+                          let cover = this.fleetCoverDetails.CoverList.find(ele=>ele.CoverId=='5');
+                          if(cover){
+                            //if(cover?.PremiumBeforeDiscount!=0 && cover?.PremiumBeforeDiscount!="0"){
+                              this.ratePercent = cover.Rate;
+                              this.CoverName = cover.CoverName;
+                              this.minimumPremiumYN = cover.MinimumPremiumYn;
+                              this.basePremium = cover?.PremiumBeforeDiscount;
+                              this.premiumIncludedTax = cover?.PremiumIncludedTax;
+                              this.premiumExcludedTax = cover?.PremiumExcluedTax;
+                              if(cover.Discounts) this.discountList = cover.Discounts;
+                              if(cover.Loadings) this.loadingList = cover.Loadings;
+                              if(cover.Taxes) this.taxList = cover.Taxes;
+                              
+                            // }
+                            // else this.onFleetProceed(modal);
+                          }
+                          else{
+                            this.fleetDiscountModal = true;
+                          }
+                        }
+                      }
+                      else{
+                        let j=0;
+                        for(let tax of cover.Taxes){
+                            if(tax.TaxAmount) this.minTaxList[j].TaxAmount = this.minTaxList[j].TaxAmount+tax.TaxAmount
+                            j+=1;
+                            if(j==cover.Taxes.length){
+                              i+=1;
+                              if(i==this.fleetCoverDetails.CoverList.length){
+                                this.minPremiumExcludedTax = taxValue;
+                                let cover = this.fleetCoverDetails.CoverList.find(ele=>ele.CoverId=='5');
+                                if(cover){
+                                  //if(cover?.PremiumBeforeDiscount!=0 && cover?.PremiumBeforeDiscount!="0"){
+                                    this.ratePercent = cover.Rate;
+                                    this.CoverName = cover.CoverName;
+                                    this.minimumPremiumYN = cover.MinimumPremiumYn;
+                                    this.basePremium = cover?.PremiumBeforeDiscount;
+                                    this.premiumIncludedTax = cover?.PremiumIncludedTax;
+                                    this.premiumExcludedTax = cover?.PremiumExcluedTax;
+                                    if(cover.Discounts) this.discountList = cover.Discounts;
+                                    if(cover.Loadings) this.loadingList = cover.Loadings;
+                                    if(cover.Taxes) this.taxList = cover.Taxes;
+                                    this.fleetDiscountModal = true;
+                                  // }
+                                  // else this.onFleetProceed(modal);
+                                }
+                                else{
+                                  this.fleetDiscountModal = true;
+                                }
+                              }
+                            }
+                        }
+                      }
+                  }
+                  
+                  // if(minCover.Discounts) this.minDiscountList = minCover.Discounts;
+                  // if(minCover.Loadings) this.minLoadingList = minCover.Loadings;
+                  // if(minCover.Taxes) this.minTaxList = minCover.Taxes;
                 }
                 else{
-                  this.onFleetProceed(modal);
+                  if(!this.adminSection && this.userType=='Issuer' && this.statusValue == 'RA' && !this.endorsementSection){
+                    this.updateFinalizeYN('proceed')
+                  }
+                  else if(!this.adminSection && (this.userType!='Issuer'  || (this.userType=='Issuer' && this.subuserType=='low' && this.endorsementSection)) && (this.statusValue == 'RA' || (this.userType=='Issuer' && this.subuserType=='low' && this.endorsementSection))){
+                    this.onFormSubmit(null);
+                  }
+                  else if(!this.adminSection && (this.userType!='Issuer') && this.statusValue != 'RA'){
+                    this.onFormSubmit(null);
+                  }
+                  else if(this.userType=='Issuer' && this.subuserType=='low'  && this.statusValue != 'RA' && !this.endorsementSection){
+                    this.updateFinalizeYN('proceed');
+                  }
+                  else if(this.adminSection){
+                    this.onUpdateFactor('',null);
+                  }
+                }
+              }
+              else{
+                if(!this.adminSection && this.userType=='Issuer' && this.statusValue == 'RA' && !this.endorsementSection){
+                  this.updateFinalizeYN('proceed')
+                }
+                else if(!this.adminSection && (this.userType!='Issuer'  || (this.userType=='Issuer' && this.subuserType=='low' && this.endorsementSection)) && (this.statusValue == 'RA' || (this.userType=='Issuer' && this.subuserType=='low' && this.endorsementSection))){
+                  this.onFormSubmit(null);
+                }
+                else if(!this.adminSection && (this.userType!='Issuer') && this.statusValue != 'RA'){
+                  this.onFormSubmit(null);
+                }
+                else if(this.userType=='Issuer' && this.subuserType=='low'  && this.statusValue != 'RA' && !this.endorsementSection){
+                  this.updateFinalizeYN('proceed');
+                }
+                else if(this.adminSection){
+                  this.onUpdateFactor('',null);
                 }
               }
             }
-            else this.onFleetProceed(modal);
+            else this.onFleetProceed();
           }
         });
   }
-  onFleetProceed(modal){
-    modal.dismiss('Cross click');
+  onFleetProceed(){
+    this.fleetDiscountModal = false;
     if(!this.adminSection && this.userType=='Issuer' && this.statusValue == 'RA' && !this.endorsementSection){
       this.updateFinalizeYN('proceed')
     }
@@ -3417,7 +3548,7 @@ this.newAddClauses=true;
 
           // }
 
-            /*if(this.productId=='3'){
+            /*if(this.productId=='59'){
               let homeSession = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
               if(homeSession){
                 this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
@@ -3570,7 +3701,7 @@ this.newAddClauses=true;
         }
       }
     }
-      // if(this.productId=='3'){
+      // if(this.productId=='59'){
       //   let homeSession = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
       //   if(homeSession){
       //     if(this.loginType=='B2CFlow' && this.loginId=='guest'){
@@ -3679,7 +3810,7 @@ this.newAddClauses=true;
           //         this.insert=data.Result
           //       }},);
           //    }
-            if(this.productId=='3'){
+            if(this.productId=='59'){
               let homeSession = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
               if(homeSession){
                 this.router.navigate(['quotation/plan/main/accessories']);
