@@ -11,6 +11,8 @@ import * as Mydatas from '../../../../../app-config.json';
   styles: [`input{ min-width: 20rem; }`]
 })
 export class DriverInfoComponent {
+  [x: string]: any;
+  entryList:any=[];
   currencyCode: any;quoteRefNo:any=null;quoteNo:any=null;minDate:any=null;
   CoverList: any[]=[];subuserType:any=null;userDetails:any=null;currentDate:any=null;
   loginId:any=null;userType:any=null;agencyCode:any=null;branchCode:any=null;
@@ -25,10 +27,18 @@ export class DriverInfoComponent {
   licenseNoError: boolean=false;
   driverDobError: boolean=false;
   driverTypeError: boolean=false;
+  vehicleId: string;
+  colorList: any;
+  seriesNo: any;
+  noOfClinder: any;
+  CompanyId: any;
+  SectionId: any;
+  vehicleDetailsList: any;
+  NoOfDoorList: any;
   constructor(private sharedService: SharedService,private quoteComponent:QuotationPlanComponent,
     private router:Router,
     private datePipe:DatePipe) {
-    //this.vehicleId = sessionStorage.getItem('editVehicleId');
+    this.vehicleId = sessionStorage.getItem('vehicleId');
     //this.quoteNo = sessionStorage.getItem('quoteNo');
     //this.updateComponent.quoteNo = this.quoteNo;
     this.subuserType = sessionStorage.getItem('typeValue');
@@ -39,6 +49,10 @@ export class DriverInfoComponent {
     this.branchCode = this.userDetails.Result.BranchCode;
     this.branchList = this.userDetails.Result.LoginBranchDetails;
     this.productId = this.userDetails.Result.ProductId;
+    //
+    this.CompanyId = this.userDetails.Result.CompanyId;
+    this.SectionId = this.userDetails.Result.SectionId;
+    //this.SectionId = this.userDetails.Result.SectionId;
     this.insuranceId = this.userDetails.Result.InsuranceId;
     this.loginType = this.userDetails.Result.LoginType;
     this.quoteRefNo = sessionStorage.getItem('quoteReferenceNo');
@@ -60,8 +74,10 @@ export class DriverInfoComponent {
     
     this.vehicleDetails = JSON.parse(sessionStorage.getItem('vehicleDetails'));
     this.getEditQuoteDetails();
+    this.getColorsList();
+    this.getOtherVehicleInfo();
   }
-
+ 
   getEditQuoteDetails(){
     let ReqObj = {
       "QuoteNo":this.quoteNo
@@ -129,6 +145,7 @@ export class DriverInfoComponent {
             this.currencyCode = quoteDetails?.Currency;
            
             this.getDriverDetails();
+            
             this.localPremiumCost = quoteDetails?.OverallPremiumLc;
             let vehicles:any[] = data?.Result?.RiskDetails;
             if(vehicles.length!=0){
@@ -341,6 +358,29 @@ export class DriverInfoComponent {
     );
 
   }
+
+  getOtherVehicleInfo(){
+    let ReqObj = {
+      "QuoteNo": this.quoteNo,
+      "RequestReferenceNo": this.quoteRefNo,
+      "VehicleId":[this.vehicleId]
+
+    }
+    let urlLink = `${this.motorApiUrl}api/getothervehicledel`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+           this.vehicleDetailsList = data.Result.VehicleDetails;
+          // this.NoOfDoorList = data.Result.NoOfDoorsList;
+          // console.log("vehicleDetailsList"+JSON.stringify(data.Result.VehicleDetails[0]));
+        }
+  },
+  (err) => { },
+);
+}
+
+
   onAddNewDriver(){
         this.driverDetailsList.push( {
           "QuoteNo": this.quoteNo,
@@ -379,7 +419,8 @@ export class DriverInfoComponent {
     this.driverDetailsList.splice(index,1);
   }
   onsave(){
-    let i=0,entryList:any=[];
+    
+    let i=0
    for(let driver of this.driverDetailsList){
     let date=null;
     if(driver.DriverDob!='' && driver.DriverDob!=null){
@@ -394,7 +435,7 @@ export class DriverInfoComponent {
     
     
     console.log("Before Date2",date)
-    let entry = {
+    var entry = {
         "CreatedBy": this.loginId,
         "DriverDob":date,
         "DriverName": driver.DriverName,
@@ -421,11 +462,13 @@ export class DriverInfoComponent {
         entry['EndtPrevPolicyNo'] = this.quoteDetails?.Endtprevpolicyno;
         entry['EndtPrevQuoteNo'] = this.quoteDetails?.Endtprevquoteno;
       }
-      entryList.push(entry);
+      this.entryList.push(entry);
       i++;
       if(i==this.driverDetailsList.length){
-        console.log("Final List Driver",entryList)
-        this.saveDriverDetails(entryList);}
+        console.log("Final List Driver",this.entryList)
+       // this.saveDriverDetails(entryList);
+        this.saveVehicleInfo();
+      }
    }
 
  }
@@ -460,4 +503,103 @@ export class DriverInfoComponent {
     }
   )
  }
+saveVehicleInfo() {
+  let regOp = {
+    "CompanyId": "10027",
+    "ProductId": this.productId,
+    "SectionId": "101",
+    "QuoteNo": this.quoteNo,
+    "RequestReferenceNo": this.quoteRefNo,
+    "VehicleDetails": [],
+  }
+
+  this.vehicleDetailsList.forEach((list) => {
+   // let plateColorIdNumber: number = parseInt(list.PlateColorId, 10);
+    // Push an object for each list item with its respective data
+    regOp.VehicleDetails.push({
+      "VehicleId": this.vehicleId,
+      "SeriesNo": list.SeriesNo,
+      "NoCylinder": list.NoCylinder,
+      "NoCylinderDes": list.NoCylinderDes,
+      "PlateType": list.PlateType,
+      "PlateTypeDesc": list.PlateTypeDesc,
+      "PlateColor": list.CodeDesc,
+      "PlateColorId": list.PlateColorId,
+      "NoDoors": list.NoDoors,
+      "NoDoorsDes": list.NoDoorsDes
+    });
+  });
+  //  "VehicleDetails": [
+  //             {
+  //                 "VehicleId": this.vehicleId,
+  //                 "SeriesNo": this.SeriesNo,
+  //                 "NoCylinder": null,
+  //                 "NoCylinderDes": null,
+  //                 "PlateType": null,
+  //                 "PlateTypeDesc": null,
+                  
+  //                 "PlateColor": null,
+  //                 "PlateColorId":null,
+  //                 "NoDoors": null,
+  //                 "NoDoorsDes": null
+  //             }
+                 
+  //         ]
+  
+  let urlLink = `${this.motorApiUrl}api/othervehicleinfo`;
+  this.sharedService.onPostMethodSync(urlLink,regOp).subscribe(
+    (data: any) => {
+      console.log("Save1", data);
+      if (data.Result) {
+        console.log("Save motor Res1", data.Result);
+        this.saveDriverDetails(this.entryList);
+      }else{
+        this.router.navigate(["quotation/plan/main/driver-info"]);
+      }
+//  
+},
+(err) => { },
+)
+}
+ getColorsList(){
+  let ReqObj = {
+    "InsuranceId": this.insuranceId,
+    "BranchCode": this.branchCode
+  }
+  let urlLink = `${this.CommonApiUrl}master/dropdown/color`;
+  this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+    (data: any) => {
+      if(data.Result){
+          this.colorList = data.Result;
+          
+      }
+    },
+    (err) => { },
+  );
+}
+CylinderTypeList =[{"NoCylinderDes": "4 Cylinders" , "NoCylinder": 1},
+                    {"NoCylinderDes": "6 Cylinders" , "NoCylinder": 2},
+                    {"NoCylinderDes": "8 Cylinders" , "NoCylinder": 3}]
+plateTypeList =[{"PlateTypeDesc": "Embassy Vehicles" , "PlateType": "3"},
+                {"PlateTypeDesc": "Military Vehicles", "PlateType": "1"},
+                {"PlateTypeDesc": "Rental Vehicles","PlateType": "2"}]
+
+NoOfDoorsList =[{"NoDoorsDes": "1 Door" , "NoDoors": 1},
+                {"NoDoorsDes": "2 Doors" , "NoDoors": 2},
+                {"NoDoorsDes": "3 Doors" , "NoDoors": 3},
+                {"NoDoorsDes": "4 Doors" , "NoDoors": 4},
+                {"NoDoorsDes": "5 Doors" , "NoDoors": 5},
+                {"NoDoorsDes": "6 Doors" , "NoDoors": 6}]
+
+
+clist=[{ "PlateColor": "Blue",
+"PlateColorId": 16
+},
+{
+"PlateColor": "Red",
+"PlateColorId": 17}
+]
+ 
+
+
 }

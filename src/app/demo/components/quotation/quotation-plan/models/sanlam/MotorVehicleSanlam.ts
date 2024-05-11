@@ -94,28 +94,6 @@ export class MotorVehicleSanlam{
                     },
                   },
                   {
-                    type: 'ngselect',
-                    key: 'VehicleValue',
-                    defaultValue: '',
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    props: {
-                      label: `Vehicle Value`,
-                      disabled: this.checkDisable('VehicleValue'),
-                      required: true,
-                      options: [
-      
-                      ],
-      
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                       key: 'PurchaseDate',
                       type: 'datepicker',
@@ -156,6 +134,28 @@ export class MotorVehicleSanlam{
                     },
                   },
                   {
+                    type: 'ngselect',
+                    key: 'VehicleValue',
+                    defaultValue: '',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    props: {
+                      label: `Vehicle Value`,
+                      disabled: this.checkDisable('VehicleValue'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'input',
                     key: 'Inflation',
@@ -180,35 +180,11 @@ export class MotorVehicleSanlam{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'commaSeparator',
-                    key: 'InflationSumInsured',
-                    hide: false,
-                    hideExpression:false,
-                    props: {
-                      label: `Inflation SumInsured`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('InflationSumInsured'),
-                      required: true,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'commaSeparator',
                     key: 'VehicleSI',
                     hide: true,
                     hideExpression:true,
                     props: {
-                      label: `Vehicle SumInsured`,
+                      label: `SumInsured`,
                       maxLength: 15,
                       disabled: this.checkDisable('VehicleSI'),
                       required: true,
@@ -224,6 +200,31 @@ export class MotorVehicleSanlam{
                     expressions: {
                     },
                   },
+                  // {
+                  //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                  //   type: 'commaSeparator',
+                  //   key: 'InflationSumInsured',
+                  //   hide: false,
+                  //   hideExpression:false,
+                  //   props: {
+                  //     label: `Inflation SumInsured`,
+                  //     maxLength: 15,
+                  //     disabled: this.checkDisable('InflationSumInsured'),
+                  //     required: true,
+                  //     options: [
+  
+                  //     ],
+  
+                  //   },
+                  //   validators: {
+                  //   },
+                  //   hooks: {
+                  //   },
+                  //   expressions: {
+                  //   },
+                  // },
+                  
+                 
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'commaSeparator',

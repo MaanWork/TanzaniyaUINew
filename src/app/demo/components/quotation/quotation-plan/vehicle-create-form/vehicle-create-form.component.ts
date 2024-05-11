@@ -829,7 +829,6 @@ export class VehicleCreateFormComponent implements OnInit {
     //   "CreatedBy": this.loginId,
     //   "SavedFrom": 'WEB'
     // }
-    
     let ReqObj = {
       "RequestReferenceNo": this.quoteRefNo,
       "Idnumber": sessioncar?.Idnumber,

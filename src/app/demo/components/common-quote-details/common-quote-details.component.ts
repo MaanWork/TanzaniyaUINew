@@ -143,8 +143,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
   regNoError: boolean;driverOptions:any[]=[];genderOptions:any[]=[];searchValue:any=[];clearSearchSection:boolean=false;
   duplicateRegister: boolean=false;
   motorUsageType: any;
+  VehicleSI: string;
+  WindShieldSI: string;
   constructor(private router:Router,private sharedService:SharedService,private datePipe:DatePipe,private messageService: MessageService){
       this.minDate = new Date();
+      
       this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     console.log("UserDetails",this.userDetails);
     this.loginId = this.userDetails.Result.LoginId;
@@ -1245,7 +1248,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 this.vehicleTypeList[i].value = this.vehicleTypeList[i]['Code'];
                 if (i == this.vehicleTypeList.length - 1) {
                     console.log("Dropdown List",this.fields)
-                    this.fields[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.vehicleTypeList);
+                    this.fields[0].fieldGroup[0].fieldGroup[5].props.options = defaultObj.concat(this.vehicleTypeList);
                 }
               }
             }
@@ -1617,7 +1620,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       sessionStorage.setItem('commonDetails',JSON.stringify(entry));
       console.log("Row Data",rowData)
       sessionStorage.setItem('EditCarDetails',JSON.stringify(rowData));
-      sessionStorage.setItem('vehicleLength',String(rowData.Vehicleid))
+      sessionStorage.setItem('vehicleLength',String(rowData.Vehicleid));
       sessionStorage.setItem('Editcars','SavedFroms');
       sessionStorage.setItem('vehicleDetailsList',JSON.stringify(this.vehicleDetailsList));
       this.router.navigate(['/quotation/plan/motor-details'])
@@ -1888,6 +1891,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   getMotorDetails(index){
         let vehicleDetails = this.vehicleDetailsList[index];
         this.vehicleId = vehicleDetails?.Vehicleid;
+        
         let ReqObj =  {
           "RequestReferenceNo": this.quoteRefNo,
            "Idnumber": this.customerDetails?.IdNumber,
@@ -1899,11 +1903,14 @@ export class CommonQuoteDetailsComponent implements OnInit {
             if(data.Result){
               this.vehicleDetails = data.Result;
               this.tabIndex = index+1;
+              this.vehicleDetails['NoOfClaimYears'] = data?.Result.NoOfClaimYears;
+              this.vehicleDetails['NoOfPassengers'] = data?.Result.NoOfPassengers;
+              this.vehicleDetails['Mileage'] = data?.Result.Mileage;
               if(this.vehicleDetails.Grossweight) this.vehicleDetails.Grossweight = String(this.vehicleDetails.Grossweight)
               this.vehicleDetails['OldExchangeRate'] = data?.Result.ExchangeRate;
               this.vehicleDetails['OldAcccessoriesSumInsured'] = data?.Result.AcccessoriesSumInsured;
               this.vehicleDetails['OldCurrency'] = data?.Result.Currency;
-              this.vehicleDetails['OldSumInsured'] = data?.Result.SumInsured;
+              this.vehicleDetails['OldSumInsured']= data?.Result.SumInsured;
               this.vehicleDetails['OldTppdIncreaeLimit'] = data?.Result.TppdIncreaeLimit;
               this.vehicleDetails['OldWindScreenSumInsured'] = data?.Result.WindScreenSumInsured;
               this.typeValue = this.vehicleDetails?.Insurancetype;
@@ -2233,7 +2240,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       "SourceType" : this.sourceTypeDesc,
       "SpotFogLamp": null,
       "Stickerno": null,
-      "SumInsured": null,
+      "SumInsured": this.vehicleDetails?.vehicleSI,
       "InflationSumInsured": null,
       "Tareweight": this.vehicleDetails?.Tareweight,
       "TppdFreeLimit": null,
@@ -2280,6 +2287,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
       "EndtStatus": this.endtStatus,
       "IsFinanceEndt": this.isFinanceEndt,
       "OrginalPolicyNo": this.orginalPolicyNo,
+      "Mileage":this.productItem.Mileage,
+      "NoOfClaimYears":null,
+      "NoOfPassengers":null,
       "Scenarios": {
           "ExchangeRateScenario": {
               "OldAcccessoriesSumInsured": null,
@@ -2742,6 +2752,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "DefenceValue":this.productItem.DefenceCost,
             "PurchaseDate":PurchaseDate,
             "RegistrationDate": this.vehicleDetails?.RegistrationDate,
+            "Mileage":this.productItem.Mileage,
+            "NoOfClaimYears":this.productItem.NoOfClaimYears,
+            "NoOfPassengers":this.productItem.NoOfPassengers,
             "Scenarios": {
               "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": this.vehicleDetails.OldAcccessoriesSumInsured,
@@ -2825,6 +2838,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   "RegistrationDate": this.vehicleDetails?.RegistrationDate,
                   "ExcessLimit": null,
                   "Deductibles": deductibles,
+                  "Mileage":this.productItem.Mileage,
+                  "NoOfClaimYears":this.productItem.NoOfClaimYears,
+                  "NoOfPassengers":this.productItem.NoOfPassengers,
               }
             }
             else ReqObj['DriverDetails'] = null;
@@ -3275,6 +3291,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
               "EndtStatus": vehicleDetails?.EndtStatus,
               "IsFinanceEndt": vehicleDetails?.IsFinanceEndt,
               "OrginalPolicyNo": vehicleDetails?.OrginalPolicyNo,
+              "Mileage": vehicleDetails?.Mileage,
+              "NoOfClaimYears": vehicleDetails?.NoOfClaimYears,
+              "NoOfPassengers": vehicleDetails?.NoOfPassengers,
               "Scenarios": {
                   "ExchangeRateScenario": {
                     "OldAcccessoriesSumInsured": vehicleDetails.AcccessoriesSumInsured,
@@ -3946,6 +3965,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "DefenceValue":this.productItem.DefenceCost,
             "PurchaseDate":PurchaseDate,
             "RegistrationDate": this.vehicleDetails?.RegistrationDate,
+            "Mileage":this.vehicleDetails?.Mileage,
+            "NoOfClaimYears":this.productItem.NoOfClaimYears,
+            "NoOfPassengers":this.productItem.NoOfPassengers,
             "Scenarios": {
               "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": this.vehicleDetails.OldAcccessoriesSumInsured,
@@ -4030,6 +4052,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   "RegistrationDate": this.vehicleDetails?.RegistrationDate,
                   "ExcessLimit": null,
                   "Deductibles": deductibles,
+                  "Mileage":this.productItem.Mileage,
+                  "NoOfClaimYears":this.productItem.NoOfClaimYears,
+                  "NoOfPassengers":this.productItem.NoOfPassengers,
                 }
             }
             else ReqObj['DriverDetails'] = null;
@@ -4613,6 +4638,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
     this.motorUsageValue = this.vehicleDetails.Motorusage;
     this.vehicleId = String(this.vehicleDetails?.Vehicleid);
     console.log("Vehicle Id Setted",this.vehicleId);
+    sessionStorage.setItem('vehicleId',this.vehicleId);
+    console.log("this.vehicleId"+this.vehicleId);
+        
     this.endorsementYn = this.vehicleDetails?.EndorsementYn;
     this.productItem = new ProductData();
     this.fields = [];
@@ -4677,6 +4705,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.productItem.Deductibles = this.vehicleDetails?.Deductibles;
       this.productItem.VehicleValue = this.vehicleDetails?.VehicleValueType;
       this.productItem.Inflation = this.vehicleDetails?.Inflation;
+      this.productItem.Mileage =this.vehicleDetails?.Mileage;
+      this.productItem.NoOfClaimYears =this.vehicleDetails?.NoOfClaimYears;
+      this.productItem.NoOfPassengers =this.vehicleDetails?.NoOfPassengers;
       this.productItem.DefenceCost = this.vehicleDetails?.DefenceValue;
       if(this.vehicleDetails?.NcdYn) this.productItem.ClaimsYN = this.vehicleDetails?.NcdYn;
       else this.productItem.ClaimsYN = 'N';
@@ -4687,11 +4718,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
       if(this.vehicleDetails?.CarAlarmYn) this.productItem.CarAlarmYN = this.vehicleDetails?.CarAlarmYn;
       else this.productItem.CarAlarmYN = 'N';
-      this.productItem.VehicleSI = this.vehicleDetails?.SumInsured;
-      this.productItem.WindShieldSI = this.vehicleDetails?.WindScreenSumInsured;
-      this.productItem.ExtendedTPPDSI = this.vehicleDetails?.TppdIncreaeLimit;
-      this.productItem.AccessoriesSI = this.vehicleDetails?.AcccessoriesSumInsured;
-      this.productItem.VehicleClass = this.vehicleDetails?.VehicleClass;
+      
     }
     if(this.insuranceId=='100027')  this.onChangeInsuranceClass('direct');
     if(this.insuranceId!='100004') this.getInsuranceTypeList();
@@ -4793,6 +4820,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.deductibleValue = this.vehicleDetails?.Deductibles;
       this.vehicleValue = this.vehicleDetails?.VehicleValueType;
       this.inflationValue = this.vehicleDetails?.Inflation;
+      this.productItem.Mileage =this.vehicleDetails?.Mileage;
+      this.productItem.NoOfClaimYears =this.vehicleDetails?.NoOfClaimYears; 
+      this.productItem.NoOfPassengers =this.vehicleDetails?.NoOfPassengers;
       this.defenceCostValue = this.vehicleDetails?.DefenceValue;
       if(this.collateralYN=='Y'){
         this.collateralValue = true;
@@ -4848,9 +4878,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
       else this.productItem.GpsYN = 'N';
       if(this.vehicleDetails?.CarAlarmYn) this.productItem.CarAlarmYN = this.vehicleDetails?.CarAlarmYn;
       else this.productItem.CarAlarmYN = 'N';
-      this.vehicleSI = String(this.vehicleDetails?.SumInsured);
+      this.VehicleSI = String(this.vehicleDetails?.SumInsured);
       this.CommaFormatted();
-      this.windShieldSI = String(this.vehicleDetails?.WindScreenSumInsured);
+      this.WindShieldSI = String(this.vehicleDetails?.WindScreenSumInsured);
       this.WindSICommaFormatted();
       this.tppdSI = String(this.vehicleDetails?.TppdIncreaeLimit);
       this.TppdCommaFormatted();
@@ -4864,6 +4894,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.vehicleClassValue = this.vehicleDetails?.VehicleClass;
       this.productItem.VehicleClass = this.vehicleDetails?.VehicleClass;
     } 
+    this.productItem.VehicleSI = this.vehicleDetails?.SumInsured;
+      this.productItem.WindShieldSI = this.vehicleDetails?.WindScreenSumInsured;
+      this.productItem.ExtendedTPPDSI = this.vehicleDetails?.TppdIncreaeLimit;
+      this.productItem.AccessoriesSI = this.vehicleDetails?.AcccessoriesSumInsured;
+      this.productItem.VehicleClass = this.vehicleDetails?.VehicleClass;
 
   }
 
@@ -4897,6 +4932,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               field.hideExpression = false;field.hide=false;
             }
             else{ 
+              alert(2)
               this.productItem.VehicleSI = null;
               this.productItem.WindShieldSI = null;
               this.productItem.Accessories 
@@ -5419,4 +5455,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
       (err) => { },
     );
   }
+  
 }
+
