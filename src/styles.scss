@@ -466,16 +466,47 @@ cursor:  pointer !important;
         display: flex !important;
         justify-content: space-between !important;
     }
+    .optionDiv{
+        display: inline-block;
+        width: 50%;
+        /* margin-right: 87px; */
+        padding: 49px;
+    }
+    .formDiv{
+        display: inline-block;
+        width: 50%;
+        /* margin-right: 156px; */
+        padding: 50px;
+    }
   }
 
 @media screen and (min-width: 280px) and (max-width: 768px) {
     .newclassname{
         display: block !important;
     }
+    .optionDiv{
+        padding: 8%;
+    }
+    .formDiv{
+        padding: 8%;
+    }
+    
 }
 @media screen and (min-width: 768px) and (max-width: 1024px) {
     .newclassname{
         display: block !important;
+    }
+    .optionDiv{
+        display: inline-block;
+        width: 50%;
+        /* margin-right: 87px; */
+        padding: 49px;
+    }
+    .formDiv{
+        display: inline-block;
+        width: 50%;
+        /* margin-right: 156px; */
+        padding: 50px;
     }
 
 }
@@ -506,20 +537,7 @@ cursor:  pointer !important;
     font-size: 55px;
     font-weight: 800;
 }
-.optionDiv{
-    display: inline-block;
-    width: 45%;
-    margin-left: 7%;
-    /* margin-right: 87px; */
-    padding: 8%;
-}
-.formDiv{
-    display: inline-block;
-    width: 40%;
-    margin-right: 7%;
-    /* margin-right: 87px; */
-    padding: 51px;
-}
+
 .maindiv {
     display: block;
     width: 100%;
