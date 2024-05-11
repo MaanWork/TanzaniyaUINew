@@ -3663,7 +3663,22 @@ export class CommonProductDetailsComponent {
       else{this.onFormSubmit(type);}
     }
   }
-  
+  getBack(){
+    this.productItem = null;
+    this.productItem = new ProductData();
+    let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+    let i=0;
+      for(let field of fieldList){
+        field.formControl.setValue('');
+        i+=1;
+        if(i==fieldList.length){
+          this.currentIndex = this.currentIndex-1;
+          this.vehicleId = this.vehicleDetailsList[this.currentIndex-1].Vehicleid;
+          this.showSection = false;
+          this.setCommonFormValues();
+        }
+      }
+  }
   checkValidation(){
     this.customerError = false;this.policyStartDateError = false;this.policyEndDateError = false;
     this.currencyCodeError = false;this.industryError = false;
@@ -4223,6 +4238,7 @@ console.log('Eventsss',event);
       else {
         this.sourceType = this.subuserType;
         this.customerCode = this.userDetails?.Result.CustomerCode;
+        this.customerName = this.userDetails?.Result.CustomerName
       }
       let refNo = "99999",regYear="99999",IdType="99999",IdNo="99999";
       if(this.customerDetails){refNo = this.customerDetails?.CustomerReferenceNo;
@@ -4230,6 +4246,8 @@ console.log('Eventsss',event);
         regYear=this.customerDetails?.DobOrRegDate;IdType=this.customerDetails?.PolicyHolderType;};
         if(this.customerName ==undefined) this.customerName = null;
         if(this.vehicleId==null || this.vehicleId==undefined) this.vehicleId = '1';
+        if(this.productItem.VehicleValue==undefined) this.productItem.VehicleValue = null;
+        if(this.productItem.Inflation==undefined) this.productItem.Inflation = null;
       let ReqObj = {
       "BrokerBranchCode": brokerbranchCode,
       "AcExecutiveId": null,
@@ -5147,6 +5165,7 @@ console.log('Eventsss',event);
           if(dateList.length==1) endDate = this.datePipe.transform(String(date),'dd/MM/yyyy');
           else endDate = date; 
         let ReqObj = {
+          
           "InsuranceId": this.insuranceId,
           "BranchCode": this.branchCode,
           "AgencyCode": this.agencyCode,
@@ -8566,9 +8585,19 @@ let requestNO=null;
               if (i == this.bodyTypeList.length - 1) {
                   let defaultObj = [{ 'label': '-Select-', 'value': '' }];
                   
-                  this.fields[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.bodyTypeList);
+                  if(this.fields.length!=0){ this.fields[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.bodyTypeList);}
                   if(this.motorDetails){
-                    this.productItem.BodyType = this.bodyTypeList.find(ele=>ele.label==this.motorDetails.VehicleType || ele.Code ==this.motorDetails.VehicleType)?.Code;
+                    
+                    this.productItem.BodyType = this.bodyTypeList.find(ele=>ele.label==this.motorDetails.VehicleTypeDesc || ele.Code ==this.motorDetails.VehicleType)?.Code;
+                    if(this.fields.length!=0){
+                      let fields = this.fields[0].fieldGroup[0].fieldGroup;
+                      for(let field of fields){
+                        if(field.key=="BodyType"){
+                        if(field.formControl) field.formControl.setValue(this.productItem.BodyType);
+                        }
+                      }
+                    }
+                    // this.fields[0].fieldGroup[0].fieldGroup[0].formControl.controls['BodyType'].setValue(this.productItem.BodyType);
                     this.onBodyTypeChange('direct');
                   }
               }
@@ -8602,18 +8631,22 @@ this.BuildingOwnerYn = type;
               this.usageList[i].value = this.usageList[i]['Code'];
               delete this.usageList[i].CodeDesc;
               if (i == this.usageList.length - 1) {
-                  let defaultObj = [{ 'label': '-Select-', 'value': '' }];
+                let defaultObj = [{ 'label': '-Select-', 'value': '' }];
+                if(this.motorDetails){
+                  this.productItem.MotorUsage = this.usageList.find(ele=>ele.label==this.motorDetails.Motorusage || ele.Code ==this.motorDetails.Motorusage)?.Code;
+                }
+                if(this.fields.length!=0){
                   let fields = this.fields[0].fieldGroup[0].fieldGroup;
+                 
                   for(let field of fields){
-                    console.log("Received Iterate",field)
                     if(field.key=='MotorUsage'){
                       field.props.options = defaultObj.concat(this.usageList);
+                      if(field.formControl) field.formControl.setValue(this.productItem.MotorUsage);
                     }
                   }
-                  if(this.motorDetails){
-                    this.productItem.MotorUsage = this.usageList.find(ele=>ele.label==this.motorDetails.Motorusage || ele.Code ==this.motorDetails.Motorusage)?.Code;
-                  }
-              }
+                }
+                
+            }
             } 
             
         }
@@ -8688,18 +8721,21 @@ this.BuildingOwnerYn = type;
               this.motorCategoryList[i].value = this.motorCategoryList[i]['Code'];
               delete this.motorCategoryList[i].CodeDesc;
               if (i == this.motorCategoryList.length - 1) {
-                  let defaultObj = [{ 'label': '-Select-', 'value': '' }];
+                let defaultObj = [{ 'label': '-Select-', 'value': '' }];
+                if(this.motorDetails){
+                  this.productItem.MotorCategory = this.motorCategoryList.find(ele=>ele.label==this.motorDetails.MotorCategory || ele.Code ==this.motorDetails.MotorCategory)?.Code;
+                }
+                if(this.fields.length!=0){
                   let fields = this.fields[0].fieldGroup[0].fieldGroup;
                   for(let field of fields){
-                    console.log("Received Iterate",field)
                     if(field.key=='MotorCategory'){
                       field.props.options = defaultObj.concat(this.motorCategoryList);
+                      if(field.formControl) field.formControl.setValue(this.productItem.MotorCategory);
                     }
                   }
-                  if(this.motorDetails){
-                    this.productItem.MotorCategory = this.motorCategoryList.find(ele=>ele.label==this.motorDetails.MotorCategory || ele.Code ==this.motorDetails.MotorCategory)?.Code;
-                  }
-              }
+                }
+               
+            }
             } 
         }
   
@@ -8728,10 +8764,19 @@ this.BuildingOwnerYn = type;
                     let defaultObj = [{ 'label': '-Select-', 'value': '' }];
                     this.fields[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.makeList);
                     if(this.motorDetails){
-                      this.productItem.Make = this.makeList.find(ele=>ele.label==this.motorDetails.Vehiclemake || ele.Code==this.motorDetails.Vehiclemake)?.Code;
-                      this.productItem.Model = this.motorDetails.Model;
+                      this.productItem.Make = this.makeList.find(ele=>ele.label==this.motorDetails.Vehiclemake || ele.Code==this.motorDetails.Vehiclemake || ele.Code == this.motorDetails.VehiclemakeDesc)?.Code;
+                      this.productItem.Model = this.motorDetails.Vehiclemodel;
                       this.productItem.ModelDesc = this.motorDetails.VehicleModelDesc;
                       this.productItem.OtherModelDesc = this.motorDetails.VehicleModelDesc;
+                      if(this.fields.length!=0){
+                        let fields = this.fields[0].fieldGroup[0].fieldGroup;
+                        for(let field of fields){
+                          if(field.key=="Make"){ if(field.formControl) field.formControl.setValue(this.productItem.Make);}
+                          if(field.key=="Model"){ if(field.formControl) field.formControl.setValue(this.productItem.Model);}
+                          if(field.key=="ModelDesc"){ if(field.formControl) field.formControl.setValue(this.productItem.ModelDesc);}
+                          if(field.key=="OtherModelDesc"){ if(field.formControl) field.formControl.setValue(this.motorDetails.VehicleModelDesc);}
+                        }
+                      }
                       this.onModelChange('direct');
                       if(this.productItem.Make) this.onMakeChange('direct');
                       else this.formSection = true; this.viewSection = false;
@@ -8765,18 +8810,27 @@ this.BuildingOwnerYn = type;
                 this.modelList[i].value = this.modelList[i]['Code'];
                 delete this.modelList[i].CodeDesc;
                 if (i == this.modelList.length - 1) {
-                    let defaultObj = [{ 'label': '-Select-', 'value': '' }];
-                    this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.modelList);
-                    if(type=='change') this.productItem.Model = '';
-                    else if(this.motorDetails){
-                      this.productItem.Model = this.modelList.find(ele=>ele.label==this.motorDetails.Vehcilemodel || ele.Code==this.motorDetails.Vehcilemodel)?.Code;
-                      this.productItem.ModelDesc = this.motorDetails.VehicleModelDesc;
-                      this.productItem.OtherModelDesc = this.motorDetails.VehicleModelDesc;
-                      this.onModelChange('direct');
-                      this.formSection = true; this.viewSection = false;
+                  let defaultObj = [{ 'label': '-Select-', 'value': '' }];
+                  if(this.fields.length!=0){ this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.modelList);}
+                  //if(type=='change') this.productItem.Model = '';
+                 
+                   if(this.motorDetails){
+                    this.productItem.Model = this.modelList.find(ele=>ele.label==this.motorDetails.Vehcilemodel || ele.Code==this.motorDetails.Vehcilemodel)?.Code;
+                    this.productItem.ModelDesc = this.motorDetails.VehicleModelDesc;
+                    this.productItem.OtherModelDesc = this.motorDetails.VehicleModelDesc;
+                    if(this.fields.length!=0){
+                      let fields = this.fields[0].fieldGroup[0].fieldGroup;
+                      for(let field of fields){
+                        if(field.key=="Model"){ if(field.formControl) field.formControl.setValue(this.productItem.Model);}
+                        if(field.key=="ModelDesc"){ if(field.formControl) field.formControl.setValue(this.productItem.ModelDesc);}
+                        if(field.key=="OtherModelDesc"){ if(field.formControl) field.formControl.setValue(this.productItem.OtherModelDesc);}
+                      }
                     }
-                    else this.formSection = true; this.viewSection = false;
-                }
+                    this.onModelChange('direct');
+                    this.formSection = true; this.viewSection = false;
+                  }
+                  else this.formSection = true; this.viewSection = false;
+              }
               }
           }
         },
@@ -8788,16 +8842,18 @@ this.BuildingOwnerYn = type;
       this.fields[0].fieldGroup[0].fieldGroup[2].props.options = [{ 'label': '-Select-', 'value': '' }];
     }
   }
-  onModelChange(type){
+ onModelChange(type){
+  if(this.fields.length!=0){
     let fields = this.fields[0].fieldGroup[0].fieldGroup;
     for(let field of fields){
-       if(field.key=='OtherModelDesc'){
+      if(field.key=='OtherModelDesc'){
         if(type=='change' && field.formControl) {field.formControl.setValue('');}
         if(this.productItem.Model=='99999') {field.hideExpression=false;field.hide=false;}
         else{field.hideExpression=true;field.hide=true;}
       }
     }
   }
+}
   setFormValues() {
     let urlLink: any;
     let ReqObj = {
@@ -8929,15 +8985,18 @@ this.BuildingOwnerYn = type;
               delete this.fuelTypeList[i].CodeDesc;
               if (i == this.fuelTypeList.length - 1) {
                   let defaultObj = [{ 'label': '-Select-', 'value': '' }];
-                  let fields = this.fields[0].fieldGroup[0].fieldGroup;
-                  for(let field of fields){
-                    console.log("Received Iterate",field)
-                    if(field.key=='FuelType'){
-                      field.props.options = defaultObj.concat(this.fuelTypeList);
-                    }
-                  }
                   if(this.motorDetails){
                     this.productItem.FuelType = this.fuelTypeList.find(ele=>ele.label==this.motorDetails.FuelType || ele.Code==this.motorDetails.FuelType)?.Code;
+                  }
+                  if(this.fields.length!=0){
+                    let fields = this.fields[0].fieldGroup[0].fieldGroup;
+                    
+                    for(let field of fields){
+                      if(field.key=='FuelType'){
+                        field.props.options = defaultObj.concat(this.fuelTypeList);
+                        if(field.formControl) field.formControl.setValue(this.productItem.FuelType);
+                      }
+                    }
                   }
               }
             }

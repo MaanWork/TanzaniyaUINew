@@ -713,12 +713,18 @@
                 </div>
             </div>
         </div>
+        <div class="flex justify-content-center mt-3" *ngIf="productId=='46' && vehicleDetailsList.length!=0">
+            <p-button  styleClass="p-button-outlined" *ngIf="currentIndex!=1" label="Previous"
+                size="small" (click)="getBack()"></p-button>&nbsp;
+            <ng-container  *ngIf="productId=='46'  && vehicleDetailsList.length!=0 && vehicleDetailsList.length!=1">
+                &nbsp;<span> {{currentIndex}} &nbsp;/&nbsp; {{totalIndex}}</span>&nbsp;
+            </ng-container>
+        <p-button label="Next" size="small" *ngIf="productId=='46' && currentIndex!=totalIndex" (click)="onFormSubmit('Next')"></p-button>
+       </div>
         <div class="flex justify-content-center mt-3" *ngIf="productId=='1' || productId=='6' || productId=='39' || productId=='43' || productId=='46' || productId=='16' || productId=='42' || productId=='21' || productId=='14' || productId=='59' || productId=='60' || productId=='57' || productId=='56' || productId=='26' || productId=='25' || productId=='13' || this.productId=='27' || this.productId=='24' || this.productId=='19' || this.productId=='32'">
             <p-button  styleClass="p-button-outlined" label="Back"
                 size="small" [routerLink]="['/quotation']" routerLinkActive="router-link-active" ></p-button>&nbsp;
-                <ng-container  *ngIf="productId=='46'  && vehicleDetailsList.length!=0 && vehicleDetailsList.length!=1">
-                    &nbsp;<span> {{currentIndex}} &nbsp;/&nbsp; {{totalIndex}}</span>&nbsp;
-                </ng-container>
+               
                 <p-button *ngIf="productId=='46'" label="Save & Add New" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;
             <p-button label="Proceed" size="small" (click)="onSubmit(null)"></p-button>
         </div>

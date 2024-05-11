@@ -483,10 +483,13 @@
             <div class="grid" *ngIf="selectedSectionId">
                 <div class="col-12 md:col-12 lg:col-12 xl:col-12">
                     <div class="card m-2">
-                       
                         <ng-container *ngFor="let menu of vehicleDetailsList;let i = index">
                             <ng-container *ngIf="menu.SectionId==selectedSectionId">
-                                <h3>Default Covers</h3>
+                                <div class="flex flex-wrap justify-content-between">
+                                        <div><h3>Default Covers</h3></div>
+                                        <div><h2 class="optiontxt1">{{menu.SectionName}}</h2></div>
+                                </div>
+                                
                                 <div class="flex flex-wrap justify-content-start">
                                     <ng-container *ngFor="let cover of menu.CoverList">
                                         <div class="card bg-blue-800 customCard3 p-3 ml-3 w-11rem text-0" *ngIf="((cover.isSelected=='D' && cover.CoverageType!='B' && cover.CoverageType!='A') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
