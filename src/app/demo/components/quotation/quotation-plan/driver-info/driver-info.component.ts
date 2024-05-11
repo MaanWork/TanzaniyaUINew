@@ -38,7 +38,6 @@ export class DriverInfoComponent {
   constructor(private sharedService: SharedService,private quoteComponent:QuotationPlanComponent,
     private router:Router,
     private datePipe:DatePipe) {
-    this.vehicleId = sessionStorage.getItem('vehicleId');
     //this.quoteNo = sessionStorage.getItem('quoteNo');
     //this.updateComponent.quoteNo = this.quoteNo;
     this.subuserType = sessionStorage.getItem('typeValue');
@@ -75,7 +74,7 @@ export class DriverInfoComponent {
     this.vehicleDetails = JSON.parse(sessionStorage.getItem('vehicleDetails'));
     this.getEditQuoteDetails();
     this.getColorsList();
-    this.getOtherVehicleInfo();
+    
   }
  
   getEditQuoteDetails(){
@@ -93,6 +92,7 @@ export class DriverInfoComponent {
           if(data?.Result){
             this.quoteDetails = data?.Result?.QuoteDetails;
             this.Riskdetails = data?.Result?.RiskDetails;
+            this.getOtherVehicleInfo();
             if(this.endorsementSection){
               this.totalPremium = this.quoteDetails?.TotalEndtPremium;
             }
@@ -360,10 +360,12 @@ export class DriverInfoComponent {
   }
 
   getOtherVehicleInfo(){
+    let vehId = this.Riskdetails[this.tabIndex].RiskId;
+    this.vehicleId = vehId;
     let ReqObj = {
       "QuoteNo": this.quoteNo,
       "RequestReferenceNo": this.quoteRefNo,
-      "VehicleId":[this.vehicleId]
+      "VehicleId":[vehId]
 
     }
     let urlLink = `${this.motorApiUrl}api/getothervehicledel`;
