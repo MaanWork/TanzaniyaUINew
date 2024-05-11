@@ -2180,129 +2180,129 @@ export class CommonQuoteDetailsComponent implements OnInit {
       if(this.vehicleDetails?.SUM_INSURED) sumInsured = this.vehicleDetails?.SUM_INSURED;
       let gpsYn = 'N';
       if(this.vehicleDetails.Gpstrackinginstalled!=null) gpsYn = this.vehicleDetails.Gpstrackinginstalled;
-    let ReqObj = {
-      "BrokerBranchCode": brokerbranchCode,
-      "AcExecutiveId": null,
-      "CommissionType": null,
-      "CustomerCode": this.customerCode,
-      "CustomerName": this.customerName,
-      "BdmCode": this.customerCode,
-      "BrokerCode": this.brokerCode,
-      "LoginId": loginId,
-      "SubUserType": this.subuserType,
-      "ApplicationId": appId,
-      "CustomerReferenceNo": refNo,
-      "RequestReferenceNo": this.quoteRefNo,
-      "Idnumber": IdNo,
-      "VehicleId": this.vehicleDetails.Vehicleid,
-      "AcccessoriesSumInsured": null,
-      "AccessoriesInformation": null,
-      "AdditionalCircumstances": null,
-      "AxelDistance": this.vehicleDetails?.AxelDistance,
-      "Chassisnumber": this.vehicleDetails?.Chassisnumber,
-      "Color": this.vehicleDetails?.Color,
-      "CityLimit": null,
-      "CoverNoteNo": null,
-      "OwnerCategory": this.vehicleDetails?.OwnerCategory,
-      "CubicCapacity": this.vehicleDetails?.Grossweight,
-      "CreatedBy": createdBy,
-      "DrivenByDesc": 'D',
-      "EngineNumber": this.vehicleDetails?.EngineNumber,
-      "FuelType": this.vehicleDetails?.FuelType,
-      "Gpstrackinginstalled":  gpsYn,
-      "Grossweight": this.vehicleDetails?.Grossweight,
-      "HoldInsurancePolicy": "N",
-      "Insurancetype": null,
-      "InsuranceId": this.insuranceId,
-      "InsuranceClass": null,
-      "InsurerSettlement": "",
-      "InterestedCompanyDetails": "",
-      "ManufactureYear": this.vehicleDetails?.ManufactureYear,
-      "ModelNumber": null,
-      "MotorCategory": this.vehicleDetails?.MotorCategory,
-      "Motorusage": this.vehicleDetails?.Motorusage,
-      "MotorusageId": this.vehicleDetails?.MotorusageId,
-      "NcdYn": null,
-      "PolicyRenewalYn": 'N',
-      "NoOfClaims": null,
-      "NumberOfAxels": this.vehicleDetails?.NumberOfAxels,
-      "BranchCode": this.branchCode,
-      "AgencyCode": this.agencyCode,
-      "ProductId": this.productId,
-      "SectionId": null,
-      "PolicyType": null,
-      "RadioOrCasseteplayer": null,
-      "RegistrationYear": regYear,
-      "Registrationnumber": this.vehicleDetails?.Registrationnumber,
-      "RoofRack": null,
-      "SeatingCapacity": this.vehicleDetails?.SeatingCapacity,
-      "SourceTypeId": this.Code,
-      "SourceType" : this.sourceTypeDesc,
-      "SpotFogLamp": null,
-      "Stickerno": null,
-      "SumInsured": this.vehicleDetails?.vehicleSI,
-      "InflationSumInsured": null,
-      "Tareweight": this.vehicleDetails?.Tareweight,
-      "TppdFreeLimit": null,
-      "TppdIncreaeLimit": null,
-      "TrailerDetails": null,
-      "Vehcilemodel":  this.vehicleDetails?.Vehcilemodel,
-      "VehicleType": this.vehicleDetails?.VehicleType,
-      "VehicleTypeId": this.vehicleDetails?.VehicleTypeId,
-      "Vehiclemake": this.vehicleDetails?.Vehiclemake,
-      "VehiclemakeId": this.vehicleDetails?.VehiclemakeId,
-      "VehcilemodelId": this.vehicleDetails?.Vehiclemodel,
-      "VehicleModel": this.vehicleDetails?.VehicleModelDesc,
-      "WindScreenSumInsured": null,
-      "Windscreencoverrequired": null,
-      "accident": null,
-      "periodOfInsurance": this.noOfDays,
-      "PolicyStartDate": startDate,
-      "PolicyEndDate": endDate,
-      "Currency": this.currencyCode,
-      "ExchangeRate": this.exchangeRate,
-      "HavePromoCode": this.havePromoCodeYN,
-      "PromoCode": this.promocode,
-      "CollateralYn": null,
-      "CollateralName": null,
-      "FirstLossPayee": null,
-      "FleetOwnerYn": this.vehicleDetails?.FleetOwnerYn,
-      "NoOfVehicles": this.vehicleDetails?.NoOfVehicles,
-      "NoOfComprehensives": null,
-      "ClaimRatio": null,
-      "SavedFrom": this.vehicleDetails?.SavedFrom,
-      "UserType": this.userType,
-      "TiraCoverNoteNo": this.vehicleDetails?.TiraCoverNoteNo,
-      "EndorsementYn": this.vehicleDetails.EndorsementYn,
-      "SaveOrSubmit": "Save",
-      "EndorsementDate": this.endorsementDate,
-      "EndorsementEffectiveDate": this.endorsementEffectiveDate,
-      "EndorsementRemarks": this.endorsementRemarks,
-      "EndorsementType": this.endorsementType,
-      "EndorsementTypeDesc": this.endorsementTypeDesc,
-      "EndtCategoryDesc": this.endtCategoryDesc,
-      "EndtCount": this.endtCount,
-      "EndtPrevPolicyNo": this.endtPrevPolicyNo,
-      "EndtPrevQuoteNo": this.endtPrevQuoteNo,
-      "EndtStatus": this.endtStatus,
-      "IsFinanceEndt": this.isFinanceEndt,
-      "OrginalPolicyNo": this.orginalPolicyNo,
-      "Mileage":this.productItem.Mileage,
-      "NoOfClaimYears":null,
-      "NoOfPassengers":null,
-      "Scenarios": {
-          "ExchangeRateScenario": {
-              "OldAcccessoriesSumInsured": null,
-              "OldCurrency": this.currencyCode,
-              "OldExchangeRate": this.exchangeRate,
-              "OldSumInsured": null,
-              "OldTppdIncreaeLimit": null,
-              "OldWindScreenSumInsured": null
-          }
-      },
-      "Status": "Y"
-    }
-    ReqObj['FleetOwnerYn'] = "N";
+      let ReqObj = {
+        "BrokerBranchCode": brokerbranchCode,
+        "AcExecutiveId": null,
+        "CommissionType": null,
+        "CustomerCode": this.customerCode,
+        "CustomerName": this.customerName,
+        "BdmCode": this.customerCode,
+        "BrokerCode": this.brokerCode,
+        "LoginId": loginId,
+        "SubUserType": this.subuserType,
+        "ApplicationId": appId,
+        "CustomerReferenceNo": refNo,
+        "RequestReferenceNo": this.quoteRefNo,
+        "Idnumber": IdNo,
+        "VehicleId": this.vehicleDetails.Vehicleid,
+        "AcccessoriesSumInsured": null,
+        "AccessoriesInformation": null,
+        "AdditionalCircumstances": null,
+        "AxelDistance": this.vehicleDetails?.AxelDistance,
+        "Chassisnumber": this.vehicleDetails?.Chassisnumber,
+        "Color": this.vehicleDetails?.Color,
+        "CityLimit": null,
+        "CoverNoteNo": null,
+        "OwnerCategory": this.vehicleDetails?.OwnerCategory,
+        "CubicCapacity": this.vehicleDetails?.Grossweight,
+        "CreatedBy": createdBy,
+        "DrivenByDesc": 'D',
+        "EngineNumber": this.vehicleDetails?.EngineNumber,
+        "FuelType": this.vehicleDetails?.FuelType,
+        "Gpstrackinginstalled":  gpsYn,
+        "Grossweight": this.vehicleDetails?.Grossweight,
+        "HoldInsurancePolicy": "N",
+        "Insurancetype": null,
+        "InsuranceId": this.insuranceId,
+        "InsuranceClass": null,
+        "InsurerSettlement": "",
+        "InterestedCompanyDetails": "",
+        "ManufactureYear": this.vehicleDetails?.ManufactureYear,
+        "ModelNumber": null,
+        "MotorCategory": this.vehicleDetails?.MotorCategory,
+        "Motorusage": this.vehicleDetails?.Motorusage,
+        "MotorusageId": this.vehicleDetails?.MotorusageId,
+        "NcdYn": null,
+        "PolicyRenewalYn": 'N',
+        "NoOfClaims": null,
+        "NumberOfAxels": this.vehicleDetails?.NumberOfAxels,
+        "BranchCode": this.branchCode,
+        "AgencyCode": this.agencyCode,
+        "ProductId": this.productId,
+        "SectionId": null,
+        "PolicyType": null,
+        "RadioOrCasseteplayer": null,
+        "RegistrationYear": regYear,
+        "Registrationnumber": this.vehicleDetails?.Registrationnumber,
+        "RoofRack": null,
+        "SeatingCapacity": this.vehicleDetails?.SeatingCapacity,
+        "SourceTypeId": this.Code,
+        "SourceType" : this.sourceTypeDesc,
+        "SpotFogLamp": null,
+        "Stickerno": null,
+        "SumInsured": this.vehicleDetails?.vehicleSI,
+        "InflationSumInsured": null,
+        "Tareweight": this.vehicleDetails?.Tareweight,
+        "TppdFreeLimit": null,
+        "TppdIncreaeLimit": null,
+        "TrailerDetails": null,
+        "Vehcilemodel":  this.vehicleDetails?.Vehcilemodel,
+        "VehicleType": this.vehicleDetails?.VehicleType,
+        "VehicleTypeId": this.vehicleDetails?.VehicleTypeId,
+        "Vehiclemake": this.vehicleDetails?.Vehiclemake,
+        "VehiclemakeId": this.vehicleDetails?.VehiclemakeId,
+        "VehcilemodelId": this.vehicleDetails?.Vehiclemodel,
+        "VehicleModel": this.vehicleDetails?.VehicleModelDesc,
+        "WindScreenSumInsured": null,
+        "Windscreencoverrequired": null,
+        "accident": null,
+        "periodOfInsurance": this.noOfDays,
+        "PolicyStartDate": startDate,
+        "PolicyEndDate": endDate,
+        "Currency": this.currencyCode,
+        "ExchangeRate": this.exchangeRate,
+        "HavePromoCode": this.havePromoCodeYN,
+        "PromoCode": this.promocode,
+        "CollateralYn": null,
+        "CollateralName": null,
+        "FirstLossPayee": null,
+        "FleetOwnerYn": this.vehicleDetails?.FleetOwnerYn,
+        "NoOfVehicles": this.vehicleDetails?.NoOfVehicles,
+        "NoOfComprehensives": null,
+        "ClaimRatio": null,
+        "SavedFrom": this.vehicleDetails?.SavedFrom,
+        "UserType": this.userType,
+        "TiraCoverNoteNo": this.vehicleDetails?.TiraCoverNoteNo,
+        "EndorsementYn": this.vehicleDetails.EndorsementYn,
+        "SaveOrSubmit": "Save",
+        "EndorsementDate": this.endorsementDate,
+        "EndorsementEffectiveDate": this.endorsementEffectiveDate,
+        "EndorsementRemarks": this.endorsementRemarks,
+        "EndorsementType": this.endorsementType,
+        "EndorsementTypeDesc": this.endorsementTypeDesc,
+        "EndtCategoryDesc": this.endtCategoryDesc,
+        "EndtCount": this.endtCount,
+        "EndtPrevPolicyNo": this.endtPrevPolicyNo,
+        "EndtPrevQuoteNo": this.endtPrevQuoteNo,
+        "EndtStatus": this.endtStatus,
+        "IsFinanceEndt": this.isFinanceEndt,
+        "OrginalPolicyNo": this.orginalPolicyNo,
+        "Mileage":this.productItem.Mileage,
+        "NoOfClaimYears":null,
+        "NoOfPassengers":null,
+        "Scenarios": {
+            "ExchangeRateScenario": {
+                "OldAcccessoriesSumInsured": null,
+                "OldCurrency": this.currencyCode,
+                "OldExchangeRate": this.exchangeRate,
+                "OldSumInsured": null,
+                "OldTppdIncreaeLimit": null,
+                "OldWindScreenSumInsured": null
+            }
+        },
+        "Status": "Y"
+      }
+      ReqObj['FleetOwnerYn'] = "N";
       if(this.endorsementSection){
         if(this.vehicleDetails?.Status == undefined || this.vehicleDetails?.Status == null || this.vehicleDetails?.Status == 'Y'){
           ReqObj['Status'] = 'E';
@@ -2791,7 +2791,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 licenseDate = this.datePipe.transform(this.licenseIssuedDate, "dd/MM/yyyy");
               }
               if(this.driverDob!=null && this.driverDob!='' && this.driverDob!=undefined){
-                dob = this.datePipe.transform(this.driverDob, "dd/MM/yyyy");
+                if(String(this.driverDob).includes('/')){
+                  dob = this.driverDob;
+                }
+                else dob = this.datePipe.transform(this.driverDob,'dd/MM/yyyy');
               }
               if(sessionStorage.getItem('quoteNo')) quoteNo = sessionStorage.getItem('quoteNo');
               let areaGroup=null; 
@@ -3965,7 +3968,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "DefenceValue":this.productItem.DefenceCost,
             "PurchaseDate":PurchaseDate,
             "RegistrationDate": this.vehicleDetails?.RegistrationDate,
-            "Mileage":this.vehicleDetails?.Mileage,
+            "Mileage":this.productItem?.Mileage,
             "NoOfClaimYears":this.productItem.NoOfClaimYears,
             "NoOfPassengers":this.productItem.NoOfPassengers,
             "Scenarios": {
@@ -4567,7 +4570,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if(data.Result){
           this.productItem = new ProductData();
           this.driverName = null;this.driverDob = null;this.licenseNo=null; this.martialStatus =null;
-          this.gender='M';this.stateValue=null;this.cityCode=null;this.subUrbanCode=null;
+          this.gender='M';this.stateValue=null;this.cityCode=null;this.subUrbanCode=null;this.driveExperience =null;
           this.driveExperience = null;this.licenseIssuedDate = null;
           this.vehicleDetails = data.Result;
           this.vehicleDetails['OldExchangeRate'] = data?.Result.ExchangeRate;
@@ -4932,7 +4935,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
               field.hideExpression = false;field.hide=false;
             }
             else{ 
-              alert(2)
               this.productItem.VehicleSI = null;
               this.productItem.WindShieldSI = null;
               this.productItem.Accessories 
@@ -4989,8 +4991,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
       else if(this.tabIndex!=0){
         this.tabIndex-=1;
         this.productItem=new ProductData();
-        this.driverName = null;this.driverType='1';this.gender='M';this.licenseNo=null;
-        this.driverDob=null;this.stateValue=null;this.cityCode=null;this.subUrbanCode=null;
+        // this.driverName = null;this.driverType='1';this.gender='M';this.licenseNo=null;
+        // this.driverDob=null;this.stateValue=null;this.cityCode=null;this.subUrbanCode=null;
         this.claimTypeValue=null;
         if(this.tabIndex!=0) this.getEditVehicleDetails(this.tabIndex,'direct');
       }

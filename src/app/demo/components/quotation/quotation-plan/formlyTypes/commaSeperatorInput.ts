@@ -4,7 +4,7 @@ import { FieldType } from '@ngx-formly/core';
 @Component({
  selector: 'formly-field-input',
  template: `
- <p-inputNumber [formControl]="formControl" class="w-full w-full1" styleClass="w-full w-full1"
+ <p-inputNumber [formControl]="formControl" class="w-full" styleClass="w-full"
  [formlyAttributes]="field" inputId="integeronly"> </p-inputNumber>
  `,
 })

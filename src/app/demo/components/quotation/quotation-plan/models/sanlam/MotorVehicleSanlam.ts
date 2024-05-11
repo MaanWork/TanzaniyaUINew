@@ -325,7 +325,7 @@ export class MotorVehicleSanlam{
                     props: {
                       label: `Number Of Claim Years`,
                       maxLength: 15,
-                      disabled: this.checkDisable('NumberOfClaimYears'),
+                      disabled: this.checkDisable('NoOfClaimYears'),
                     //  required: true,
                       options: [
   
