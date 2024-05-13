@@ -3,38 +3,39 @@
 <form action="" method="post">
 <div class="maindiv">
     <div class="optionDiv" >
-    <div  class="rightSide">
-        <h3>Information Summary</h3>
-        <div class="card1 Card1Border">
-            <h2 class="optiontxt1">Option 1</h2>
-            <span class="greentxt">Third Party Liability Only</span>
+    <div  class="rightSide" *ngIf="vehicleDetailsList.length!=0">
+    <ng-container *ngFor="let menu of vehicleDetailsList;let i = index">
+        <div class="card ml-6-per">
+            <h2 class="optiontxt1">Option {{i+1}}</h2>
+            <span class="greentxt">{{menu.SectionName}}</span>
             <hr class="hr new4">
-            <h3>Annual Premium (MUR)</h3>
-            <h2 class="optiontxt1">RS.3,456</h2>
-            <h3>After discount (MUR)</h3>
-            <h2 class="optiontxt1">RS.3,456</h2>
-            <button type="button" class="input bluebtn buybtn">Buy</button>
+            <ng-container *ngFor="let cover of menu.CoverList">
+            <ng-container *ngIf="((cover.isSelected=='D' &&  cover.CoverageType!='A') && !endorseCovers)">
+            <div class="flex flex-warp">
+            <div class="col-12 md:col-9 lg:col-9 xl:col-9 t-a-l">     
+                <h5>{{cover.CoverName}}</h5>
+            </div>
+            <div class="col-12 md:col-3 lg:col-3 xl:col-3 t-a-r">
+                <h4 class="optiontxt1">{{cover.PremiumIncludedTax | commaseparator}}</h4>
+            </div>
+            </div>
+            </ng-container>
+            </ng-container>
         </div>
-        
-    
-    <div  class="second">
-        <div class="card1 Card1Border">
-            <h2 class="optiontxt1">Option 2</h2>
-            <span class="greentxt">Comprehensive</span>
-            <hr class="hr new4">
-            <h3>Annual Premium (MUR)</h3>
-            <h2 class="optiontxt1">RS.3,456</h2>
-            <h3>After discount (MUR)</h3>
-            <h2 class="optiontxt1">RS.3,456</h2>
-            <hr class="hr new4">
-            <span class="redtxt">Excess</span><br>
-            <span class="bluetxt">Applicable excess on each and every claim (MUR)</span><br>
-            <span  class="bluetxt bold">Rs 1,000</span><br>
-            <span class="bluetxt">Young Driver Excess (MUR)</span><br>
-            <span class="bluetxt bold">Rs 1,000</span><br>
-            <button type="button" class="input bluebtn buybtn top">Buy</button>
+        <hr class="hr new4">
+    <div class="grid mt-2 justify-content-end" style="padding: 12px;">
+        <div class="custom-grid text-white  p-0 text-end" *ngIf="vehicleDetailsList[i].totalPremium!=null && vehicleDetailsList[i].totalPremium!=0 && vehicleDetailsList[i].totalPremium!='0'" >
+            <div class="col-12 md:col-4 lg:col-4 xl:col-4" style="width:100%;background-color: #000;border-radius: 5px;padding: 5px !important;">
+            <label>Total Premium</label>
+            <p class="text-white mt-0">{{vehicleDetailsList[i].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</p>
+            </div>
         </div>
     </div>
+    </ng-container>
+    
+    <!-- <h3>After discount (MUR)</h3>
+    <h2 class="optiontxt1">RS.3,456</h2> -->
+    <button type="button" class="input bluebtn buybtn" (click)="onBuyQuote()">Buy</button>
 </div>
 </div>
     <div class="formDiv grid">
@@ -42,12 +43,12 @@
         <h4>Customer Information</h4>
             <div class="flex flex-wrap"> 
             <div class="lg:col-12 md:col-12 col-12">
-                <label for="username">Customer Name</label><span class="text-danger">*</span>
-                <input pInputText class="w-full" id="username" maxlength="50"  placeholder="Enter Customer Name" [(ngModel)]="clientName"/>
+                <label for="username">Customer Name</label><span class="text-danger">*</span>{{clientName}}
+                <input pInputText [(ngModel)]="clientName" maxlength="25" placeholder="Enter Customer Name"/>
             </div>
             <div class="lg:col-4 md:col-4 col-4">
                 <label for="username">Mobile Code</label><span class="text-danger">*</span>
-                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="mobileCodeList" [(ngModel)]="countryCode"
+                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="mobileCodeList"  (onChange)="onCodeChange()" [(ngModel)]="countryCode"
                     optionLabel="CodeDesc" optionValue="Code" placeholder="Select">
                 </p-dropdown>
             </div>
@@ -174,7 +175,7 @@
             </div> -->
         </div>
         <div class="flex flex-wrap mt-5 justify-content-center">
-            <p-button label="Back" styleClass="p-button-outlined" class="mr-3"></p-button>&nbsp;
+            <p-button label="Back" styleClass="p-button-outlined" class="mr-3" [routerLink]="['/quotation']"></p-button>&nbsp;
             <p-button label="Submit" severity="warning" (click)="onSaveVehicleData()"
                 class="mb-3"></p-button>
         </div>

@@ -25,9 +25,20 @@
           <p-button icon="pi pi-list" class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
           <p-button icon="pi pi-table" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
         </div>
-        <p-table *ngIf="tableView=='table' else cardTableView" [value]="customers" 
+        <p-table #dtEmployeeExist *ngIf="tableView=='table' else cardTableView" [value]="customers" 
         [tableStyle]="{'min-width':'50rem'}" [paginator]="true"
         [globalFilterFields]="['CustomerReferenceNo','ClientName','PolicyHolderTypeDesc','IdNumber','MobileNo1']" [rows]="5">
+          <ng-template pTemplate="caption">
+            <div class="flex flex wrap justify-content-end">
+              <div class="table-header">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dtEmployeeExist.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                </span>
+            </div>
+            </div>
+            
+        </ng-template>
           <ng-template pTemplate="header">
               <tr>
                   <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>

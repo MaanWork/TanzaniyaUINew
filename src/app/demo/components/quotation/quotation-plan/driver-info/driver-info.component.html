@@ -85,14 +85,14 @@
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
                             <label for="username">Number Of Cylinder's</label>
                             <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [(ngModel)]="list.NoCylinder" [options] ="CylinderTypeList"
-                            optionLabel="NoCylinderDes" optionValue="NoCylinder" placeholder="Select Plate Type">
+                            optionLabel="CodeDesc" optionValue="Code" placeholder="Select Plate Type">
                         </p-dropdown>
                         </div>
                        
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
                             <label for="username">Plate Type</label>
                             <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [options] ="plateTypeList" [(ngModel)]="list.PlateType"
-                                optionLabel="PlateTypeDesc" optionValue="PlateType" placeholder="Select Plate Type">
+                                optionLabel="CodeDesc" optionValue="Code" placeholder="Select Plate Type">
                             </p-dropdown>
                         </div>
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
@@ -109,7 +109,7 @@
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
                             <label for="username">Number Of Door's</label>
                             <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [options] ="NoOfDoorsList"  [(ngModel)]="list.NoDoors"
-                                optionLabel="NoDoorsDes" optionValue="NoDoors" placeholder="Select Doors">
+                                optionLabel="CodeDesc" optionValue="Code" placeholder="Select Doors">
                             </p-dropdown>
                         </div>
                         <!-- <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">

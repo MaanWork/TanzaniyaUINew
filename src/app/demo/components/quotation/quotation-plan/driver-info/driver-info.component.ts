@@ -11,7 +11,6 @@ import * as Mydatas from '../../../../../app-config.json';
   styles: [`input{ min-width: 20rem; }`]
 })
 export class DriverInfoComponent {
-  [x: string]: any;
   entryList:any=[];
   currencyCode: any;quoteRefNo:any=null;quoteNo:any=null;minDate:any=null;
   CoverList: any[]=[];subuserType:any=null;userDetails:any=null;currentDate:any=null;
@@ -33,8 +32,11 @@ export class DriverInfoComponent {
   noOfClinder: any;
   CompanyId: any;
   SectionId: any;
-  vehicleDetailsList: any;
-  NoOfDoorList: any;
+  vehicleDetailsList: any[]=[];
+  NoOfDoorList: any[]=[];
+  plateTypeList: any[]=[];
+  CylinderTypeList: any;
+  NoOfDoorsList: any;
   constructor(private sharedService: SharedService,private quoteComponent:QuotationPlanComponent,
     private router:Router,
     private datePipe:DatePipe) {
@@ -74,7 +76,9 @@ export class DriverInfoComponent {
     this.vehicleDetails = JSON.parse(sessionStorage.getItem('vehicleDetails'));
     this.getEditQuoteDetails();
     this.getColorsList();
-    
+    this.getPlateTypeList();
+    this.getCylinderTypeList();
+    this.getDoorTypeList();
   }
  
   getEditQuoteDetails(){
@@ -507,7 +511,7 @@ export class DriverInfoComponent {
  }
 saveVehicleInfo() {
   let regOp = {
-    "CompanyId": "10027",
+    "CompanyId": this.insuranceId,
     "ProductId": this.productId,
     "SectionId": "101",
     "QuoteNo": this.quoteNo,
@@ -555,8 +559,6 @@ saveVehicleInfo() {
       if (data.Result) {
         console.log("Save motor Res1", data.Result);
         this.saveDriverDetails(this.entryList);
-      }else{
-        this.router.navigate(["quotation/plan/main/driver-info"]);
       }
 //  
 },
@@ -579,28 +581,55 @@ saveVehicleInfo() {
     (err) => { },
   );
 }
-CylinderTypeList =[{"NoCylinderDes": "4 Cylinders" , "NoCylinder": 1},
-                    {"NoCylinderDes": "6 Cylinders" , "NoCylinder": 2},
-                    {"NoCylinderDes": "8 Cylinders" , "NoCylinder": 3}]
-plateTypeList =[{"PlateTypeDesc": "Embassy Vehicles" , "PlateType": "3"},
-                {"PlateTypeDesc": "Military Vehicles", "PlateType": "1"},
-                {"PlateTypeDesc": "Rental Vehicles","PlateType": "2"}]
+getPlateTypeList(){
+  let ReqObj = {
+    "InsuranceId": this.insuranceId,
+    "ItemType": "PLATE_TYPE"
+  }
+  let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+  this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+    (data: any) => {
+      if(data.Result){
+          this.plateTypeList = data.Result;
+          
+      }
+    },
+    (err) => { },
+  );
+}
+getCylinderTypeList(){
+  let ReqObj = {
+    "InsuranceId": this.insuranceId,
+    "ItemType": "NO_OF_CYLINDERS"
+  }
+  let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+  this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+    (data: any) => {
+      if(data.Result){
+          this.CylinderTypeList = data.Result;
+          
+      }
+    },
+    (err) => { },
+  );
+}
 
-NoOfDoorsList =[{"NoDoorsDes": "1 Door" , "NoDoors": 1},
-                {"NoDoorsDes": "2 Doors" , "NoDoors": 2},
-                {"NoDoorsDes": "3 Doors" , "NoDoors": 3},
-                {"NoDoorsDes": "4 Doors" , "NoDoors": 4},
-                {"NoDoorsDes": "5 Doors" , "NoDoors": 5},
-                {"NoDoorsDes": "6 Doors" , "NoDoors": 6}]
-
-
-clist=[{ "PlateColor": "Blue",
-"PlateColorId": 16
-},
-{
-"PlateColor": "Red",
-"PlateColorId": 17}
-]
+getDoorTypeList(){
+  let ReqObj = {
+    "InsuranceId": this.insuranceId,
+    "ItemType": "NO_OF_DOORS"
+  }
+  let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+  this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+    (data: any) => {
+      if(data.Result){
+          this.NoOfDoorsList = data.Result;
+          
+      }
+    },
+    (err) => { },
+  );
+}
  
 
 

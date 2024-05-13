@@ -152,6 +152,8 @@ export class CommonProductDetailsComponent {
   totalIndex: any=null;
   currentIndex: any=null;
   commissionType: any=null;
+  searchValue: any=null;
+  clearSearchSection: boolean=false;
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -4248,6 +4250,8 @@ console.log('Eventsss',event);
         if(this.vehicleId==null || this.vehicleId==undefined) this.vehicleId = '1';
         if(this.productItem.VehicleValue==undefined) this.productItem.VehicleValue = null;
         if(this.productItem.Inflation==undefined) this.productItem.Inflation = null;
+        let havePromoYN = 'Y';
+        if(this.promocode==null || this.promocode=='' || this.promocode==undefined) havePromoYN = 'N'
       let ReqObj = {
       "BrokerBranchCode": brokerbranchCode,
       "AcExecutiveId": null,
@@ -4329,9 +4333,9 @@ console.log('Eventsss',event);
       "PolicyStartDate": startDate,
       "PolicyEndDate": endDate,
       "Currency" : this.currencyCode,
-      "ExchangeRate": this.commonDetails[0].ExchangeRate,
-      "HavePromoCode": this.commonDetails[0].HavePromoCode,
-      "PromoCode" : this.commonDetails[0].PromoCode,
+      "ExchangeRate": this.exchangeRate,
+      "HavePromoCode": havePromoYN,
+      "PromoCode" : this.promocode,
       "CollateralYn": 'N',
       "BorrowerType": null,
       "CollateralName": null,
@@ -5151,7 +5155,9 @@ console.log('Eventsss',event);
           if(this.endorseCoverModification) coverModificationYN = this.endorseCoverModification
         }
         else {
-          let date = this.commonDetails[0].PolicyStartDate;
+          let date = null;
+          if(this.policyStartDate) date = this.policyStartDate
+          else date = this.commonDetails[0].PolicyStartDate;
           let dateList = String(date).split('/');
           if(dateList.length==1) startDate = this.datePipe.transform(String(date),'dd/MM/yyyy');
           else startDate = date; 
@@ -5160,7 +5166,9 @@ console.log('Eventsss',event);
         if(this.productId=='46') build['RiskId'] = '1';
         let sectionId = '';
         let endDate=null;
-        let date = this.commonDetails[0].PolicyEndDate;
+        let date = null;
+          if(this.policyEndDate) date = this.policyEndDate
+          else date = this.commonDetails[0].PolicyEndDate;
           let dateList = String(date).split('/');
           if(dateList.length==1) endDate = this.datePipe.transform(String(date),'dd/MM/yyyy');
           else endDate = date; 
@@ -5240,6 +5248,27 @@ console.log('Eventsss',event);
     /*else{
       this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
     }*/
+  }
+  onCustomerSearch(){
+    if(this.searchValue){
+      this.customers = [];
+      let ReqObj = {
+        "InsuranceId":this.insuranceId,
+        "SearchValue":this.searchValue,
+        "CreatedBy": ""
+      }
+      let urlLink = `${this.CommonApiUrl}api/searchcustomerdata`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+              this.customers=data.Result;
+              this.clearSearchSection = true;
+          }
+        },
+        (err) => { },
+      );
+    }
   }
   saveFleetDetails(){
     if(this.productId!='46'){
