@@ -8,6 +8,7 @@ import { MotorShotQuoteUganda } from '../models/Uganda/MotorShotQuoteUganda';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ProductData } from '../models/product';
 import * as moment from 'moment';
+import { MotorShotQuoteCustomerUganda } from '../models/Uganda/MotorShotQuoteCustomerUganda';
 
 @Component({
   templateUrl: './short-quote.component.html',
@@ -45,7 +46,7 @@ export class ShortQuoteComponent implements OnInit {
   bodyTypeIdcode: any;vehicleDetails:any=null;endorsementYn:any='N';
   form:any;classValue:any=null;motorUsageType:any=null;
   model:any;motorTypeList:any[]=[];typeValue:any=null;subuserType:any=null;
-  fields:any[]=[];productItem:any=null;mobileCodeList:any[]=[];
+  fields:any[]=[];fields2:any[]=[];productItem:any=null;mobileCodeList:any[]=[];
   individualCalcIndex: number;
   quoteRefNo: any=null;
   endorseCoverModification: any;
@@ -75,6 +76,7 @@ export class ShortQuoteComponent implements OnInit {
   endorseCovers: any;
   endorseSIModification: boolean;
   selectedVehicleList: any[]=[];statusValue:any=null;
+  customerReferenceNo: any;
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
       this.loginId = this.userDetails.Result.LoginId;
@@ -107,7 +109,7 @@ export class ShortQuoteComponent implements OnInit {
     this.productItem.ClaimsYN = 'N';
     this.yearList = this.getYearList();
     this.onGetFormControl();
-    this.getMobileCodeList();
+    
     this.getCurrencyList();
     var d = new Date();
     var year = d.getFullYear();
@@ -118,9 +120,11 @@ export class ShortQuoteComponent implements OnInit {
   }
   onGetFormControl(){
     
-    this.fields = [];
-    let fireData:any=null;
+    this.fields = [];this.fields2 =[];
+    let fireData:any=null,fireData2:any=null;
+    fireData2 = new MotorShotQuoteCustomerUganda();
     fireData = new MotorShotQuoteUganda();
+    this.fields2[0] = fireData2?.fields;
     this.fields[0] = fireData?.fields;
       let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
         field.form.controls['InsuranceType'].valueChanges.subscribe(() => {
@@ -163,7 +167,7 @@ export class ShortQuoteComponent implements OnInit {
       }
       this.getInsuranceTypeList();
       this.getInsuranceClassList();
-      
+      this.getMobileCodeList();
 
   }
   getCurrencyList(){
@@ -195,7 +199,9 @@ export class ShortQuoteComponent implements OnInit {
     );
   }
   onBuyQuote(){
-
+    sessionStorage.setItem('customerReferenceNo',this.customerReferenceNo);
+    sessionStorage.setItem('QuoteType','SQ');
+    this.router.navigate(['customer/create']);
   }
   onCurrencyChange(type){
     let currencyData 
@@ -438,9 +444,20 @@ export class ShortQuoteComponent implements OnInit {
         console.log(data);
         if (data.Result) {
 
-          let obj = [{ "Code": '', "CodeDesc": "-Select-" }]
-          this.mobileCodeList = obj.concat(data.Result);
-  
+          let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
+          this.mobileCodeList = data.Result;
+          for (let i = 0; i < this.mobileCodeList.length; i++) {
+            this.mobileCodeList[i].label = this.mobileCodeList[i]['CodeDesc'];
+            this.mobileCodeList[i].value = this.mobileCodeList[i]['Code'];
+            if (i == this.mobileCodeList.length - 1) {
+              let fieldList = this.fields2[0].fieldGroup[0].fieldGroup;
+              for(let field of fieldList){
+                if(field.key=='MobileCode'){
+                  field.props.options= defaultObj.concat(this.mobileCodeList);;
+                }
+              }
+            }
+          }
         }
       },
       (err) => { },
@@ -763,13 +780,13 @@ export class ShortQuoteComponent implements OnInit {
         }
       }
     let ReqObj={
-      "CustomerName": "Steve Jobes",
+      "CustomerName": this.productItem.CustomerName,
       "LoginId": loginId,
       "SubUserType": this.subuserType,
       "UserType": this.userType,
       "ApplicationId": appId,
-      "CustomerReferenceNo": null,
-      "RequestReferenceNo": null,
+      "CustomerReferenceNo": this.customerReferenceNo,
+      "RequestReferenceNo": this.quoteRefNo,
       "VehicleId": "1",
       "CreatedBy": createdBy,
       "InsuranceId": this.insuranceId,
@@ -778,8 +795,8 @@ export class ShortQuoteComponent implements OnInit {
       "AgencyCode": this.agencyCode,
       "ProductId": this.productId,
       "SavedFrom": "SQ",
-      "MobileCode": '255',
-      "MobileNumber": '8838704653',
+      "MobileCode": this.productItem.MobileCode,
+      "MobileNumber": this.productItem.MobileNo,
       "Chassisnumber": this.productItem.ChassisNo,
       "Insurancetype": [
           this.productItem.InsuranceType
@@ -828,6 +845,7 @@ export class ShortQuoteComponent implements OnInit {
                   entry['PolicyEndDate'] = endDate;
                   entry['PolicyStartDate'] = startDate;
                   this.quoteRefNo = data?.Result[0]?.RequestReferenceNo;
+                  this.customerReferenceNo = data?.Result[0]?.CustomerReferenceNo;
                   sessionStorage.setItem('quoteReferenceNo',data?.Result[0]?.RequestReferenceNo);
                   let i=0;this.individualCalcIndex = 0;
                   for(let veh of data.Result){

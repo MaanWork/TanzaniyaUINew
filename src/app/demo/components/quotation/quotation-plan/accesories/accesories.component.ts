@@ -4355,7 +4355,19 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         if(this.productItem.ContentSI){
           // let value = this.contentSI.replace(/\D/g, "")
           // .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    
+          if(this.currentContentIndex==null){
+            this.currentContentIndex=this.Cotentrisk.length;
+            this.Cotentrisk[this.currentContentIndex] = {
+              "ItemId":null,
+              "RiskId":null,
+              "MakeAndModel":null,
+              "ContentRiskDesc":null,
+              "SerialNoDesc": null,
+              "SerialNo":null,
+              "ItemValue":null,
+              "SumInsured":null,
+            }
+          }
           this.Cotentrisk[this.currentContentIndex]['SumInsured'] = entry;
           this.productItem.ContentSI = entry;
           this.getTotalSICost('content');

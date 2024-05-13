@@ -13,7 +13,7 @@
           </div>
         </div>
     </div>
-    <ng-container *ngIf="insuranceId=='100028' || insuranceId == '100027' || insuranceId=='100002' || insuranceId=='100004'">
+    <ng-container *ngIf="insuranceId=='100028' || insuranceId == '100027' || insuranceId=='100002' || insuranceId=='100004' || insuranceId=='100019'">
         <div class="flex justify-content-start flex-wrap w-full form-container">
             <div class="flex flex-column m-3" *ngIf="insuranceId!='100004'">
                 <label for="motor-usage">Motor Usage*</label>
@@ -374,7 +374,7 @@
         </div>
     </ng-container>
 </div>  
-<ng-container *ngIf="insuranceId!='100028' && insuranceId!='100027' && insuranceId!='100002' && insuranceId!='100004' && insuranceId!='100020'">
+<ng-container *ngIf="insuranceId!='100028' && insuranceId!='100027' && insuranceId!='100002' && insuranceId!='100004' && insuranceId!='100020' && insuranceId!='100019'">
     <p-accordion [multiple]="true" [activeIndex]="[0,1,2]">
         <p-accordionTab header="Vehicle Details">
             <div class="flex justify-content-start flex-wrap w-full form-container">

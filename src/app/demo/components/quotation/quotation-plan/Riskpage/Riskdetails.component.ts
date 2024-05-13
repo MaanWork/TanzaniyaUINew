@@ -2599,8 +2599,11 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                         this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[5].props.options = defaultObj.concat(this.wallMaterialList);
                         this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[6].props.options = defaultObj.concat(this.wallMaterialList);
                       }
+                      else if(this.productId=='59'){
+                        let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                        for(let field of fieldList){if(field.key=='WallType') field.props.options = defaultObj.concat(this.wallMaterialList);}
+                      }
                       else if(this.productId!='19' && this.productId!='59'){
-                        console.log( 'Fieldsss',this.fields[0].fieldGroup[0]);
                         this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.wallMaterialList);
                         //this.fields[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.wallMaterialList);
                         //this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.wallMaterialList);
@@ -2614,7 +2617,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                               field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[5].props.options = defaultObj.concat(this.wallMaterialList);
                               field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[6].props.options = defaultObj.concat(this.wallMaterialList);
                           }
-                          else if(field.props.label=='Building Risk'){
+                          else if(field.props.label=='Building Details'){
                             console.log("UsageFilter",field)
                             field.fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.wallMaterialList);
                           }
@@ -2648,6 +2651,11 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                         if (this.productId == '1') {
                           this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
                         }
+                        else if(this.productId=='59'){
+                          let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                          for(let field of fieldList){if(field.key=='RoofType') field.props.options = defaultObj.concat(this.roofMaterialList);}
+                          // field.fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);
+                        }
                         else if(this.productId!='19' && this.productId!='59') {console.log('FFFFFFFF',this.fields[0].fieldGroup[0].fieldGroup[3]); this.fields[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);}
                         //this.fields[0].fieldGroup[0].fieldGroup[3]
                         //this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);
@@ -2657,7 +2665,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                             if(field.props.label=='Burglary'){
                                 field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
                             }
-                            else if(field.props.label=='Building Risk'){
+                            else if(field.props.label=='Building Details'){
                               field.fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);
                             }
                           }

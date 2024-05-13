@@ -41,22 +41,29 @@
     <div class="formDiv grid">
         <div class="card ">
         <h4>Customer Information</h4>
-            <div class="flex flex-wrap"> 
-            <div class="lg:col-12 md:col-12 col-12">
-                <label for="username">Customer Name</label><span class="text-danger">*</span>{{clientName}}
-                <input pInputText [(ngModel)]="clientName" maxlength="25" placeholder="Enter Customer Name"/>
+            <div class="grid">
+                <div class="col-12 lg:col-12 md:col-12 xl:col-12">
+                    <form [formGroup]="form">
+                        <formly-form [form]="form" [fields]="fields2" [model]="productItem"></formly-form>
+                    </form>
+                </div>
             </div>
-            <div class="lg:col-4 md:col-4 col-4">
-                <label for="username">Mobile Code</label><span class="text-danger">*</span>
-                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="mobileCodeList"  (onChange)="onCodeChange()" [(ngModel)]="countryCode"
-                    optionLabel="CodeDesc" optionValue="Code" placeholder="Select">
-                </p-dropdown>
-            </div>
-            <div class="lg:col-8 md:col-8 col-8">
-                <label for="mobileNumber">Mobile No</label><span class="text-danger">*</span>
-                <input pInputText class="w-full" id="mobileNumber" maxlength="50" [(ngModel)]="mobileNo"  placeholder="Enter Mobile No" />
-            </div>
-        </div>
+            <!-- <div class="flex flex-wrap"> 
+                <div class="lg:col-12 md:col-12 col-12">
+                    <label for="username">Customer Name</label><span class="text-danger">*</span>{{clientName}}
+                    <input pInputText [(ngModel)]="clientName" class="w-full" styleClass="w-full" maxlength="25" placeholder="Enter Customer Name"/>
+                </div>
+                <div class="lg:col-4 md:col-4 col-4">
+                    <label for="username">Mobile Code</label><span class="text-danger">*</span>
+                    <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="mobileCodeList"  (onChange)="onCodeChange()" [(ngModel)]="countryCode"
+                        optionLabel="CodeDesc" optionValue="Code" placeholder="Select">
+                    </p-dropdown>
+                </div>
+                <div class="lg:col-8 md:col-8 col-8">
+                    <label for="mobileNumber">Mobile No</label><span class="text-danger">*</span>
+                    <input pInputText class="w-full" id="mobileNumber" maxlength="50" [(ngModel)]="mobileNo"  placeholder="Enter Mobile No" />
+                </div>
+            </div> -->
         </div>
         <div class="card ">
             <h4>Vehicle Information</h4>

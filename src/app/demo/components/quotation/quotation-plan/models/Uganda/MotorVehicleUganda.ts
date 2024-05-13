@@ -24,13 +24,13 @@ export class MotorVehicleUganda{
             props: { label: 'Policy Details' },
             fieldGroup: [
               {
-                fieldGroupClassName: 'row',
+                fieldGroupClassName: 'grid',
                 fieldGroup: [
                   {
                     type: 'ngselect',
                     key: 'InsuranceType',
                     defaultValue: '',
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     props: {
                       label: `Insurance Type`,
                       disabled: this.checkDisable('InsuranceType'),
@@ -52,7 +52,7 @@ export class MotorVehicleUganda{
                     type: 'ngselect',
                     key: 'InsuranceClass',
                     defaultValue: '',
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     props: {
                       label: `Insurance Class`,
                       disabled: this.checkDisable('InsuranceClass'),
@@ -74,7 +74,7 @@ export class MotorVehicleUganda{
                     type: 'ngselect',
                     key: 'BodyType',
                     defaultValue: '',
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     props: {
                       label: `Body Type`,
                       disabled: this.checkDisable('BodyType'),
@@ -96,7 +96,7 @@ export class MotorVehicleUganda{
                     type: 'ngselect',
                     key: 'MotorUsage',
                     defaultValue: '',
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     props: {
                       label: `Motor Usage`,
                       disabled: this.checkDisable('MotorUsage'),
@@ -115,7 +115,7 @@ export class MotorVehicleUganda{
                     },
                   },
                   {
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     key: 'ClaimsYN',
                     type: 'radioList',
                     templateOptions: {
@@ -128,7 +128,7 @@ export class MotorVehicleUganda{
                     }
                   },
                   {
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     key: 'GpsYN',
                     type: 'radioList',
                     templateOptions: {
@@ -141,7 +141,7 @@ export class MotorVehicleUganda{
                     }
                   },
                   {
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     type: 'commaSeparator',
                     key: 'VehicleSI',
                     hide: true,
@@ -164,7 +164,7 @@ export class MotorVehicleUganda{
                     },
                   },
                   {
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     type: 'commaSeparator',
                     key: 'AccessoriesSI',
                     hide: true,
@@ -187,7 +187,7 @@ export class MotorVehicleUganda{
                     },
                   },
                   {
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     type: 'commaSeparator',
                     key: 'WindShieldSI',
                     hide: true,
@@ -213,7 +213,7 @@ export class MotorVehicleUganda{
                     type: 'commaSeparator',
                     key: 'ExtendedTPPDSI',
                     defaultValue: '',
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     hide: true,
                     hideExpression:true,
                     props: {
@@ -234,7 +234,7 @@ export class MotorVehicleUganda{
                     },
                   },
                   {
-                    className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     key: 'CarAlarmYN',
                     type: 'radioList',
                     templateOptions: {

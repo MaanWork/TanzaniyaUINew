@@ -1799,6 +1799,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if(data.Result){
           let customerDetails:any = data.Result;
           this.customerDetails = customerDetails;
+          sessionStorage.setItem('ownerName',this.customerDetails.ClientName)
           console.log('customerDatacustomerDatacustomerData',this.vehicleDetailsList)
         }
 

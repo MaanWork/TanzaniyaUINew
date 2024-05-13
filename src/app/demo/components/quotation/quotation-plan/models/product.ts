@@ -139,10 +139,12 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
   MESumInsured: any=null;EmployeeCounts:any;
   FESumInsured: any=null;ProfessionalOccupation:any;ProfessionalType:any;GISI:any;
   ProfessionalSI:any;IndemnityTypes:any;maxDate: "2022-09-25";
-  MiddleName:any='';LastName:any='';
+  MiddleName:any='';LastName:any='';MobileCode:any=null;MobileNo:any=null;
 	constructor(data?) {
 		this.id = data?.id ?? ''
 		this.CustomerName = data?.CustomerName ?? '';
+		this.MobileCode = data?.MobileCode ?? '';
+		this.MobileNo = data?.MobileNo ?? '';
 		this.Dob = data?.Dob ?? '';
 		this.OccupationType = data?.OccupationType ?? '';
 		this.SalaryPerAnnum = data?.SalaryPerAnnum ?? '';

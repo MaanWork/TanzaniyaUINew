@@ -152,7 +152,7 @@ export class CommonProductDetailsComponent {
   totalIndex: any=null;
   currentIndex: any=null;
   commissionType: any=null;
-  searchValue: any=null;
+  searchValue: any=[]
   clearSearchSection: boolean=false;
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));

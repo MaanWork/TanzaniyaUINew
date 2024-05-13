@@ -332,6 +332,9 @@ export class CustomerCreateFormComponent implements OnInit {
 							sessionStorage.setItem('customerReferenceNo',data.Result.SuccessId);
 							this.router.navigate(['Home/existingQuotes/customerSelection/customerDetails/customer-details']);
 						}
+						else if(sessionStorage.getItem('QuoteType')){
+							this.router.navigate(['/policyDetails']);
+						}
 						else this.router.navigate(['/customer/'])
 					//}
 				}
@@ -617,7 +620,8 @@ export class CustomerCreateFormComponent implements OnInit {
 					this.productItem.CityName = customerDetails.CityCode;
 					if(this.productItem.CityName==null) this.productItem.CityName = '';
 					this.productItem.districtcode = customerDetails.CityName;
-					this.productItem.Clientstatus = customerDetails.Clientstatus;
+					if(customerDetails.Clientstatus) this.productItem.Clientstatus = customerDetails.Clientstatus;
+					else this.productItem.Clientstatus = 'Y';
 					this.productItem.EmailId = customerDetails.Email1;
 					this.productItem.occupationdesc = customerDetails?.OtherOccupation;
 					if(customerDetails.Nationality!=null){
@@ -644,13 +648,16 @@ export class CustomerCreateFormComponent implements OnInit {
 					this.productItem.PolicyHolderTypeid = customerDetails.PolicyHolderTypeid;
 					if(this.productItem.PolicyHolderTypeid =='1'){
 						this.shows=true;
-						this.Idnumber= customerDetails.IdNumber.substr(0, 5);
-						this.Idnumber1= customerDetails.IdNumber.substr(5, 3);
-						this.Idnumber2= customerDetails.IdNumber.substr(8, 1);
+						if(customerDetails.IdNumber!='NA'){
+							this.Idnumber= customerDetails.IdNumber.substr(0, 5);
+							this.Idnumber1= customerDetails.IdNumber.substr(5, 3);
+							this.Idnumber2= customerDetails.IdNumber.substr(8, 1);
+						}
+						
 					}
 					else{
 						this.shows=false;
-						this.productItem.IdNumber = customerDetails.IdNumber;
+						if(customerDetails.IdNumber!='NA') this.productItem.IdNumber = customerDetails.IdNumber;
 					}
 					this.productItem.PreferredNotification = customerDetails.PreferredNotification;
 					if(this.productItem.PreferredNotification==null) this.productItem.PreferredNotification='Sms';
@@ -904,12 +911,12 @@ export class CustomerCreateFormComponent implements OnInit {
 				.random() * (maxm - minm + 1)) + minm; 
 		}
 		let policyid:any;
-		// if(datas?.PolicyHolderTypeid == '1'){
-        //  policyid = this.Idnumber.concat(this.Idnumber1).concat(this.Idnumber2);
-		// }
-		// else{
+		if(datas?.PolicyHolderTypeid == '1'){
+         policyid = this.Idnumber.concat(this.Idnumber1).concat(this.Idnumber2);
+		}
+		else{
 			policyid = datas?.IdNumber;
-		//}
+		}
             
 		let ReqObj = {
 			"BrokerBranchCode": this.brokerbranchCode,
