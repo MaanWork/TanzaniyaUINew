@@ -590,11 +590,11 @@ export class ShortQuoteComponent implements OnInit {
         if(data.Result){
           if(type=='change'){
             this.cityValue = null;
-            if(this.insuranceId=='100027' || this.insuranceId=='100028'){
-              this.productItem.InsuranceClass = this.productItem?.InsuranceType
-              this.classValue = this.typeValue;
+              if(this.insuranceId=='100027' || this.insuranceId=='100028'){
+                this.productItem.InsuranceClass = this.productItem?.InsuranceType
+                this.classValue = this.typeValue;
+              } 
             } 
-          } 
             this.motorTypeList = data.Result;
             
             if(type=='direct'){ this.bodyTypeValue = motorValue; this.productItem.BodyType = motorValue}
