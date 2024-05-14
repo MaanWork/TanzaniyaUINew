@@ -192,7 +192,7 @@
       </div>
       <ng-container  *ngIf="lapsedQuoteData.length!=0">
         <p-table #dtEmployee *ngIf="tableView == 'table' else cardTableView" [value]="lapsedQuoteData" 
-        [tableStyle]="{'min-width':'50rem'}" [paginator]="true"
+        [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [expanded]="true"
         [globalFilterFields]="['QuoteNo','RequestReferenceNo','ClientName','OverallPremiumLc']" [rows]="5">
         <ng-template pTemplate="caption">
           <div class="flex flex wrap justify-content-end">
@@ -211,7 +211,11 @@
           </ng-template>
           <ng-template pTemplate="body" let-customer>
             <tr>
-              <!-- <td><p-checkbox [binary]="true"></p-checkbox></td> -->
+              <td >
+                <a href="#" [pRowToggler]="customer">
+                <i [ngClass]="expanded ? 'pi pi-minus' : 'pi pi-plus'" (click)="onInnerData(customer)"></i>
+              </a>
+            </td>
               
               <td>{{ customer.QuoteNo }}</td>
               <td>{{ customer.RequestReferenceNo }}</td>
@@ -221,8 +225,8 @@
               <td>{{ customer.OverallPremiumLc }}</td>
               <td>{{ customer.Currency }}</td>
               <td>
-                <span class="p-buttonset">
-                  <button pButton pRipple icon="pi pi-check" class="p-button-outlined"></button>
+                <span class="p-buttonset" >
+                  <button pButton pRipple icon="pi pi-check" class="p-button-outlined" (click)="lapsedAction(customer)"></button>
                 </span>
               </td>
             </tr>

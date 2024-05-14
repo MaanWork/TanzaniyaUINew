@@ -368,16 +368,40 @@ export class DriverInfoComponent {
     this.vehicleId = vehId;
     let ReqObj = {
       "QuoteNo": this.quoteNo,
-      "RequestReferenceNo": this.quoteRefNo,
-      "VehicleId":[vehId]
+      "RequestReferenceNo": this.quoteRefNo
 
     }
     let urlLink = `${this.motorApiUrl}api/getothervehicledel`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
-        console.log(data);
+        console.log("datadatadatadatadata"+data);
         if(data.Result){
-           this.vehicleDetailsList = data.Result.VehicleDetails;
+          if(data.Result.VehicleDetails){
+            this.vehicleDetailsList = data.Result.VehicleDetails;
+            if(this.vehicleDetailsList.length!=0){
+              for(let veh of this.vehicleDetailsList){
+                if(veh.NoCylinder!=null && veh.NoCylinder!='') veh.NoCylinder = String(veh.NoCylinder);
+                if(veh.NoDoors!=null && veh.NoDoors!='') veh.NoDoors = String(veh.NoDoors);
+                if(veh.PlateColorId!=null && veh.PlateColorId!='') veh.PlateColorId = String(veh.PlateColorId);
+              }
+            }
+          }
+          else{
+            if(this.vehicleList.length!=0){
+              for(let veh of this.vehicleList){
+                let i=0;
+                let entry = {
+                  "SeriesNo":"",
+                  "NoCylinder":"",
+                  "PlateType":"",
+                  "PlateColorId":"",
+                  "NoDoors":"",
+                  "VehicleId": veh.RiskId
+                }
+                this.vehicleDetailsList.push(entry);
+              }
+            }
+          }
           // this.NoOfDoorList = data.Result.NoOfDoorsList;
           // console.log("vehicleDetailsList"+JSON.stringify(data.Result.VehicleDetails[0]));
         }
@@ -473,7 +497,8 @@ export class DriverInfoComponent {
       if(i==this.driverDetailsList.length){
         console.log("Final List Driver",this.entryList)
        // this.saveDriverDetails(entryList);
-        this.saveVehicleInfo();
+       if(this.insuranceId=='100027') this.saveVehicleInfo();
+       else this.saveDriverDetails(this.entryList);
       }
    }
 
@@ -510,47 +535,34 @@ export class DriverInfoComponent {
   )
  }
 saveVehicleInfo() {
+  let entry = this.vehicleDetailsList.find(ele=>ele.VehicleId==this.vehicleId);
+
   let regOp = {
     "CompanyId": this.insuranceId,
     "ProductId": this.productId,
     "SectionId": "101",
     "QuoteNo": this.quoteNo,
     "RequestReferenceNo": this.quoteRefNo,
-    "VehicleDetails": [],
-  }
+  //   "VehicleDetails": [],
+  // }
 
-  this.vehicleDetailsList.forEach((list) => {
+  // this.vehicleDetailsList.forEach((list) => {
    // let plateColorIdNumber: number = parseInt(list.PlateColorId, 10);
     // Push an object for each list item with its respective data
-    regOp.VehicleDetails.push({
+    // regOp.VehicleDetails.push({
       "VehicleId": this.vehicleId,
-      "SeriesNo": list.SeriesNo,
-      "NoCylinder": list.NoCylinder,
-      "NoCylinderDes": list.NoCylinderDes,
-      "PlateType": list.PlateType,
-      "PlateTypeDesc": list.PlateTypeDesc,
-      "PlateColor": list.CodeDesc,
-      "PlateColorId": list.PlateColorId,
-      "NoDoors": list.NoDoors,
-      "NoDoorsDes": list.NoDoorsDes
-    });
-  });
-  //  "VehicleDetails": [
-  //             {
-  //                 "VehicleId": this.vehicleId,
-  //                 "SeriesNo": this.SeriesNo,
-  //                 "NoCylinder": null,
-  //                 "NoCylinderDes": null,
-  //                 "PlateType": null,
-  //                 "PlateTypeDesc": null,
-                  
-  //                 "PlateColor": null,
-  //                 "PlateColorId":null,
-  //                 "NoDoors": null,
-  //                 "NoDoorsDes": null
-  //             }
-                 
-  //         ]
+      "SeriesNo": entry.SeriesNo,
+      "NoCylinder": entry.NoCylinder,
+      "NoCylinderDes": null,
+      "PlateType": entry.PlateType,
+      "PlateTypeDesc": null,
+      "PlateColor": null,
+      "PlateColorId": entry.PlateColorId,
+      "NoDoors": entry.NoDoors,
+      "NoDoorsDes":null
+    }
+  // );
+  // });
   
   let urlLink = `${this.motorApiUrl}api/othervehicleinfo`;
   this.sharedService.onPostMethodSync(urlLink,regOp).subscribe(

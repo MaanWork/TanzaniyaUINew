@@ -747,4 +747,23 @@ export class QuotationTableComponent implements OnInit {
   customerSearch(event) {
     this.customerFilterSuggestions = [{'name':'Customer 1'}, {'name':'Customer 2'}];
   }
+
+  lapsedAction(rowData){
+    let ReqObj = {
+      
+      "RequestReferenceNo": rowData?.RequestReferenceNo,
+      "LoginId":this.loginId,
+      "ProductId":this.productId,
+      "Status":"R",
+      "RejectReason": "none"//rowData?.RejectReason
+    
+    }
+    let urlLink = `${this.CommonApiUrl}quote/updatestatus`;
+    
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data.Result);
+        
+  })
+}
 }

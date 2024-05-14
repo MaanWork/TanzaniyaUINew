@@ -77,41 +77,44 @@
                     
                     <div class="grid">
                         <ng-container *ngFor="let list of vehicleDetailsList">
-                            <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                                <label for="username">Series Number</label>
-                                <input pInputText maxlength="20" class="w-full" styleClass="w-full" [(ngModel)]="list.SeriesNo" placeholder="Enter Series Number"/>
-                            </div>
-                        
-                        <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                            <label for="username">Number Of Cylinder's</label>
-                            <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [(ngModel)]="list.NoCylinder" [options] ="CylinderTypeList"
-                            optionLabel="CodeDesc" optionValue="Code" placeholder="Select Plate Type">
-                        </p-dropdown>
-                        </div>
-                       
-                        <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                            <label for="username">Plate Type</label>
-                            <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [options] ="plateTypeList" [(ngModel)]="list.PlateType"
-                                optionLabel="CodeDesc" optionValue="Code" placeholder="Select Plate Type">
-                            </p-dropdown>
-                        </div>
-                        <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                            <label for="username">Plate Color</label>
-                            <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" 
-                            [options]="colorList"
-                            [(ngModel)]="list.PlateColorId"
-                                optionLabel="CodeDesc" 
-                                optionValue="Code" 
-                                placeholder="Select Color">
-                            </p-dropdown>
-                        </div>
-                      
-                        <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                            <label for="username">Number Of Door's</label>
-                            <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [options] ="NoOfDoorsList"  [(ngModel)]="list.NoDoors"
-                                optionLabel="CodeDesc" optionValue="Code" placeholder="Select Doors">
-                            </p-dropdown>
-                        </div>
+                            <ng-container *ngIf="list.VehicleId==veh.RiskId">
+                                <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
+                                    <label for="username">Series Number</label>
+                                    <input pInputText maxlength="20" class="w-full" styleClass="w-full" [(ngModel)]="list.SeriesNo" placeholder="Enter Series Number"/>
+                                </div>
+                            
+                                <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
+                                    <label for="username">Number Of Cylinder's</label>
+                                    <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [(ngModel)]="list.NoCylinder" [options] ="CylinderTypeList"
+                                    optionLabel="CodeDesc" optionValue="Code" placeholder="Select Plate Type">
+                                </p-dropdown>
+                                </div>
+                            
+                                <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
+                                    <label for="username">Plate Type</label>
+                                    <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [options] ="plateTypeList" [(ngModel)]="list.PlateType"
+                                        optionLabel="CodeDesc" optionValue="Code" placeholder="Select Plate Type">
+                                    </p-dropdown>
+                                </div>
+                                <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
+                                    <label for="username">Plate Color</label>
+                                    <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" 
+                                    [options]="colorList"
+                                    [(ngModel)]="list.PlateColorId"
+                                        optionLabel="CodeDesc" 
+                                        optionValue="Code" 
+                                        placeholder="Select Color">
+                                    </p-dropdown>
+                                </div>
+                            
+                                <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
+                                    <label for="username">Number Of Door's</label>
+                                    <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [options] ="NoOfDoorsList"  [(ngModel)]="list.NoDoors"
+                                        optionLabel="CodeDesc" optionValue="Code" placeholder="Select Doors">
+                                    </p-dropdown>
+                                </div>
+                            </ng-container>
+                           
                         <!-- <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
                             <label for="username">Number Of Passengers's (Shown Based on Motor Type)</label>
                             <input pInputText  maxlength="5" class="w-full" styleClass="w-full" placeholder="Enter Number Of Passengers"/>
