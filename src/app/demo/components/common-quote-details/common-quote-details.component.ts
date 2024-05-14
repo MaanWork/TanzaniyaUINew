@@ -1799,10 +1799,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if(data.Result){
           let customerDetails:any = data.Result;
           this.customerDetails = customerDetails;
-          sessionStorage.setItem('ownerName',this.customerDetails.ClientName)
-          console.log('customerDatacustomerDatacustomerData',this.vehicleDetailsList)
+          sessionStorage.setItem('customerDetails',JSON.stringify(this.customerDetails))
         }
-
       });
   }
   onTabClicked(event){
@@ -2181,6 +2179,17 @@ export class CommonQuoteDetailsComponent implements OnInit {
       if(this.vehicleDetails?.SUM_INSURED) sumInsured = this.vehicleDetails?.SUM_INSURED;
       let gpsYn = 'N';
       if(this.vehicleDetails.Gpstrackinginstalled!=null) gpsYn = this.vehicleDetails.Gpstrackinginstalled;
+      if(this.vehicleDetails.MobileCode==null || this.vehicleDetails.MobileCode=='' || this.vehicleDetails.MobileCode==undefined){
+        let customerDetails = JSON.parse(sessionStorage.getItem('customerDetails'));
+        if(customerDetails){
+          this.vehicleDetails['MobileCode'] = customerDetails?.MobileCode1;
+          this.vehicleDetails['MobileNumber'] = customerDetails?.MobileNo1;
+          if(this.customerName==null){
+              this.customerName = customerDetails?.ClientName;
+          }
+        }
+      }
+      
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": null,
@@ -2204,6 +2213,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
         "Color": this.vehicleDetails?.Color,
         "CityLimit": null,
         "CoverNoteNo": null,
+        "MobileCode": this.vehicleDetails?.MobileCode,
+        "MobileNumber": this.vehicleDetails?.MobileNumber,
         "OwnerCategory": this.vehicleDetails?.OwnerCategory,
         "CubicCapacity": this.vehicleDetails?.Grossweight,
         "CreatedBy": createdBy,
@@ -2639,6 +2650,16 @@ export class CommonQuoteDetailsComponent implements OnInit {
             motorUsageId = this.vehicleDetails.Motorusage
             motorUsage = this.vehicleDetails.MotorUsageDesc;
           }
+          if(this.vehicleDetails.MobileCode==null || this.vehicleDetails.MobileCode=='' || this.vehicleDetails.MobileCode==undefined){
+            let customerDetails = JSON.parse(sessionStorage.getItem('customerDetails'));
+            if(customerDetails){
+              this.vehicleDetails['MobileCode'] = customerDetails?.MobileCode1;
+              this.vehicleDetails['MobileNumber'] = customerDetails?.MobileNo1;
+              if(this.customerName==null){
+                this.customerName = customerDetails?.ClientName;
+              }
+            }
+          }
           let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,
@@ -2664,6 +2685,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "Color": this.vehicleDetails?.Color,
             "CityLimit": this.cityValue,
             "CoverNoteNo": null,
+            "MobileCode": this.vehicleDetails?.MobileCode,
+            "MobileNumber": this.vehicleDetails?.MobileNumber,
             "OwnerCategory": this.vehicleDetails?.OwnerCategory,
             "CubicCapacity": this.vehicleDetails?.Grossweight,
             "CreatedBy": createdBy,
@@ -3188,6 +3211,13 @@ export class CommonQuoteDetailsComponent implements OnInit {
               console.log("AcExecutive",this.acExecutiveId);
               let motorUsageId = vehicleDetails.Motorusage
               let motorUsage = vehicleDetails.MotorUsageDesc;
+              if(vehicleDetails.MobileCode==null || vehicleDetails.MobileCode=='' || vehicleDetails.MobileCode==undefined){
+                let customerDetails = JSON.parse(sessionStorage.getItem('customerDetails'));
+                if(customerDetails){
+                  vehicleDetails['MobileCode'] = customerDetails?.MobileCode1;
+                  vehicleDetails['MobileNumber'] = customerDetails?.MobileNo1;
+                }
+              }
               let ReqObj = {
                 "BrokerBranchCode": brokerbranchCode,
                 "AcExecutiveId": this.acExecutiveId,
@@ -3214,6 +3244,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
               "Color": vehicleDetails?.Color,
               "CityLimit": vehicleDetails?.CityLimit,
               "CoverNoteNo": null,
+              "MobileCode": vehicleDetails?.MobileCode,
+              "MobileNumber": vehicleDetails?.MobileNumber,
               "OwnerCategory": vehicleDetails?.OwnerCategory,
               "CubicCapacity": vehicleDetails?.Grossweight,
               "CreatedBy": createdBy,
@@ -3855,6 +3887,16 @@ export class CommonQuoteDetailsComponent implements OnInit {
             motorUsageId = this.vehicleDetails.Motorusage
             motorUsage = this.vehicleDetails.MotorUsageDesc;
           }
+          if(this.vehicleDetails.MobileCode==null || this.vehicleDetails.MobileCode=='' || this.vehicleDetails.MobileCode==undefined){
+            let customerDetails = JSON.parse(sessionStorage.getItem('customerDetails'));
+            if(customerDetails){
+              this.vehicleDetails['MobileCode'] = customerDetails?.MobileCode1;
+              this.vehicleDetails['MobileNumber'] = customerDetails?.MobileNo1;
+              if(this.customerName==null){
+                this.customerName = customerDetails?.ClientName;
+              }
+            }
+          }
           let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,
@@ -3880,6 +3922,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "Color": this.vehicleDetails?.Color,
             "CityLimit": this.cityValue,
             "CoverNoteNo": null,
+            "MobileCode": this.vehicleDetails?.MobileCode,
+            "MobileNumber": this.vehicleDetails?.MobileNumber,
             "OwnerCategory": this.vehicleDetails?.OwnerCategory,
             "CubicCapacity": this.vehicleDetails?.Grossweight,
             "CreatedBy": createdBy,

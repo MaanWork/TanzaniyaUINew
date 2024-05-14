@@ -515,7 +515,7 @@ export class CustomerCreateFormComponent implements OnInit {
 										let motorDetails = JSON.parse(sessionStorage.getItem('VechileDetails'));
 										this.productItem.ClientName = motorDetails.ResOwnerName;
 										this.productItem.Title = '1';
-										this.onTitleChange();
+										this.onTitleChange('direct');
 									}
 								}
 
@@ -551,14 +551,14 @@ export class CustomerCreateFormComponent implements OnInit {
 		k = event.charCode;  //         k = event.keyCode;  (Both can be used)
 		return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57) || k == 47); 
 	}
-	onTitleChange(){
+	onTitleChange(type){
 		let title = this.productItem.Title;
 		if(title!='' && title!=null && title!=undefined){
 				if(title=='2') this.productItem.IdType = '2';
 				else this.productItem.IdType = '1';
 				if(title=='1') this.productItem.Gender = 'M';
 				else this.productItem.Gender = 'F';
-				this.getPolicyIdTypeList(null);
+				if(type!='direct') this.getPolicyIdTypeList(null);
 		}
 		else{
 			this.productItem.IdType = '';
@@ -1063,7 +1063,8 @@ export class CustomerCreateFormComponent implements OnInit {
 		this.Customervalidate();
 	}
 	else if(type=='direct' && !this.final){
-		this.blankvalidationcheck(data);
+		//this.blankvalidationcheck(data);
+		this.onSubmit(data);
 	}
 	else if(type=='direct' && this.final){
    if(this.final1)this.idfieldvalidate();

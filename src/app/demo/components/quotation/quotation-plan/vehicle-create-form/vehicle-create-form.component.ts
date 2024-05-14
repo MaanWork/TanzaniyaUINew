@@ -453,6 +453,15 @@ export class VehicleCreateFormComponent implements OnInit {
           }
           else modelDesc = this.modelDesc;
         }
+        if(this.vehicleDetails.MobileCode==null || this.vehicleDetails.MobileCode=='' || this.vehicleDetails.MobileCode==undefined){
+          let customerDetails = JSON.parse(sessionStorage.getItem('customerDetails'));
+          if(customerDetails){
+            this.ownerName = customerDetails?.ClientName;
+            this.vehicleDetails['MobileCode'] = customerDetails?.MobileCode1;
+            this.vehicleDetails['MobileNumber'] = customerDetails?.MobileNo1;
+            if(this.customerName == null) this.customerName = customerDetails?.ClientName;
+          }
+        }
     let ReqObj = {
       "BrokerBranchCode": brokerbranchCode,
       "AcExecutiveId": this.vehicleDetails?.AcExecutiveId,
@@ -484,6 +493,8 @@ export class VehicleCreateFormComponent implements OnInit {
       "CubicCapacity": grossweight,
       "CreatedBy": createdBy,
       "DrivenByDesc": 'D',
+      "MobileCode": this.vehicleDetails?.MobileCode,
+      "MobileNumber": this.vehicleDetails?.MobileNumber,
       "EngineNumber": this.vehicleDetails?.EngineNumber?.toUpperCase(),
       "FuelType": this.vehicleDetails?.FuelType,
       "Gpstrackinginstalled": this.vehicleDetails?.Gpstrackinginstalled,
@@ -919,6 +930,13 @@ export class VehicleCreateFormComponent implements OnInit {
     if(this.tareWeight!=null && this.tareWeight!=undefined){
       if(String(this.tareWeight).includes(',')) tareweight = String(this.tareWeight).replace(',','');
       tareweight = this.tareWeight;
+    }
+    if(this.ownerName==null || this.ownerName=='' || this.ownerName==undefined){
+      let customerDetails = JSON.parse(sessionStorage.getItem('customerDetails'));
+      if(customerDetails){
+        this.ownerName = customerDetails?.ClientName;
+        
+      }
     }
     let ReqObj = {
       "Insuranceid": this.insuranceId,

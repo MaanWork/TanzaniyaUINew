@@ -3817,7 +3817,6 @@ export class CommonProductDetailsComponent {
     if( this.productId=='27'){section.push('54');this.IndustryId='44'};
     if (this.productId=='26'){
       this.IndustryId = this.productItem.IndustryBussinessAllRisk;
-      alert(this.IndustryId);
     }
     if( this.productId=='59'){
         if(this.BuildingOwnerYn!='N'){
@@ -4252,6 +4251,7 @@ console.log('Eventsss',event);
         if(this.productItem.Inflation==undefined) this.productItem.Inflation = null;
         let havePromoYN = 'Y';
         if(this.promocode==null || this.promocode=='' || this.promocode==undefined) havePromoYN = 'N'
+        
       let ReqObj = {
       "BrokerBranchCode": brokerbranchCode,
       "AcExecutiveId": null,
@@ -5163,7 +5163,7 @@ console.log('Eventsss',event);
           else startDate = date; 
           effectiveDate = startDate
         }
-        if(this.productId=='46') build['RiskId'] = '1';
+        if(this.productId=='46') build['RiskId'] = this.vehicleId;
         let sectionId = '';
         let endDate=null;
         let date = null;
@@ -5173,7 +5173,6 @@ console.log('Eventsss',event);
           if(dateList.length==1) endDate = this.datePipe.transform(String(date),'dd/MM/yyyy');
           else endDate = date; 
         let ReqObj = {
-          
           "InsuranceId": this.insuranceId,
           "BranchCode": this.branchCode,
           "AgencyCode": this.agencyCode,

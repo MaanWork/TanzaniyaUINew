@@ -145,7 +145,7 @@
           </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th [pSortableColumn]="column" *ngFor="let column of columnss">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+                    <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-customer>
@@ -256,13 +256,7 @@
                 <td>{{ customer.PolicyStartDate }}</td>
                 <td>{{ customer.PolicyEndDate }}</td>
                
-                <td>
-                  <span class="p-buttonset">
-                   
-                    <button pButton pRipple icon="pi pi-pencil" (click)="onEditQuotes(customer,'RR')" title="Edit" class="p-button-outlined"></button>
-                    
-                  </span>
-                </td>
+        
               </tr>
             </ng-template>
           </p-table>
