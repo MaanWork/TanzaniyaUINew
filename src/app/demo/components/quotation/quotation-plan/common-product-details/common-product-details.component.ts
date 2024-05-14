@@ -154,6 +154,7 @@ export class CommonProductDetailsComponent {
   commissionType: any=null;
   searchValue: any=[]
   clearSearchSection: boolean=false;
+  FidEmpCount: any;
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -1689,6 +1690,7 @@ export class CommonProductDetailsComponent {
       this.totalIndex = this.vehicleDetailsList.length;
   }
   createCover(element,modal){
+ 
     this.showsectionnew=false;
     this.listSection = false;
     this.listn=true;
@@ -1697,7 +1699,7 @@ export class CommonProductDetailsComponent {
     this.productItem.TotalNoOfEmployees=0;
     this.productItem.EmpLiabilitySi=0;
     this.productItem.otheroption='';
-      let entry = {
+    let entry = {
         "LiabilityOccupationId":null,
         "TotalNoOfEmployees":null,
         "EmpLiabilitySi":'0',
@@ -1708,7 +1710,8 @@ export class CommonProductDetailsComponent {
     // this.productItem.employeeList.push(entry);
     this.isEmployeeForm = true;
   //  this.open(modal)
-  }
+  
+}
   createCover2(element,modal){
     this.showsectionnew=false;
     this.listSectionGroup= false;
@@ -1741,18 +1744,25 @@ export class CommonProductDetailsComponent {
     this.showsectionnew=false;
     this.listSection = false;
     this.listn=true;
+   
     this.productItem = new ProductData();
     this.productItem.LiabilityOccupationId='';
   this.productItem.FidEmpCount='';
   this.productItem.FidEmpSi=0;
   this.productItem.otherFioption='';
-    let entry = {
-      "LiabilityOccupationId":null,
-      "FidEmpCount":null,
-      "FidEmpSi":'0',
-      "OtherOccupation":'',
-    }
+  let entry = {
+    "LiabilityOccupationId":null,
+    "FidEmpCount":null,
+    "FidEmpSi":'0',
+    "OtherOccupation":'',
+  }
+  if(entry.LiabilityOccupationId ==null && entry.LiabilityOccupationId =="") {
+    this.isFedilityForm = false;
+   }
+   else{
+  
     this.currentFidelityIndex = this.FidelityListNew.length;
+    
     this.FidelityListNew.push(entry);
     // this.productItem.LiabilityOccupationId='';
     // this.productItem.FidEmpSi=0;
@@ -1768,7 +1778,7 @@ export class CommonProductDetailsComponent {
     //   this.fidelityList.push(entry);
     this.isFedilityForm= true;
   }
-
+  }
   onEditBuilding(rowData){
     this.productItem = new ProductData();
     this.editss=true;
@@ -1787,16 +1797,21 @@ export class CommonProductDetailsComponent {
     this.productItem = new ProductData();
     this.editss=true;
     this.editGroup=true;
-    let edit = this.GroupListNew.findIndex(ele=>ele.OccupationType == rowData.OccupationType && ele.TotalNoOfPersons == rowData.TotalNoOfPersons && ele.SumInsured == rowData.SumInsured);
-    this.currentGroupIndex= edit;
-    this.productItem.OccupationType = rowData.OccupationType;
-    this.productItem.TotalNoOfGroupMemeber = rowData.TotalNoOfPersons;
-    this.productItem.SumInsured = rowData.SumInsured;
-    this.productItem.FESumInsured= rowData.FESumInsured;
-    this.productItem.TTDSumInsured= rowData.TTDSumInsured;
-    this.productItem.PTDSumInsured= rowData.PTDSumInsured;
-    this.productItem.MESumInsured= rowData.MESumInsured;
     this.isGroupForm = true;
+    let edit = this.FidelityListNew.findIndex(ele=>ele.LiabilityOccupationId == rowData.LiabilityOccupationId 
+      && ele.OtherOccupation == rowData.OtherOccupation 
+      && ele.FidEmpSi == rowData.FidEmpSi
+      && ele.FidEmpCount == rowData.FidEmpCount
+    );
+    this.currentGroupIndex= edit;
+    this.productItem.OtherOccupation = rowData.OtherOccupation;
+    this.productItem.FidEmpSi = rowData.FidEmpSi;
+    this.productItem.FidEmpCount = rowData.FidEmpCount;
+    this.productItem.LiabilityOccupationId= rowData.LiabilityOccupationId;
+    // this.productItem.TTDSumInsured= rowData.TTDSumInsured;
+    // this.productItem.PTDSumInsured= rowData.PTDSumInsured;
+    // this.productItem.MESumInsured= rowData.MESumInsured;
+   
     // this.open(modal);
   }
   delete(rowData: any) {
@@ -1807,11 +1822,24 @@ export class CommonProductDetailsComponent {
     this.EmployeeListNew = [...newvars];
   }
   deleteGroup(rowData: any) {
-    let newvars= this.GroupListNew;
-    let edit = newvars.findIndex(ele=>ele.OccupationType == rowData.OccupationType && ele.TotalNoOfPersons == rowData.TotalNoOfPersons && ele.SumInsured == rowData.SumInsured);
-    newvars.splice(edit,1);
-    this.GroupListNew=[...newvars];
-    console.log('MMMMMMM',this.GroupListNew)
+    // let newvars= this.GroupListNew;
+    // let edit = newvars.findIndex(ele=>ele.OccupationType == rowData.OccupationType && ele.TotalNoOfPersons == rowData.TotalNoOfPersons && ele.SumInsured == rowData.SumInsured);
+    // newvars.splice(edit,1);
+    // this.GroupListNew=[...newvars];
+    // console.log('MMMMMMM',this.GroupListNew)
+    const index = this.FidelityListNew.findIndex(ele=>ele.LiabilityOccupationId == rowData.LiabilityOccupationId 
+      && ele.OtherOccupation == rowData.OtherOccupation 
+      && ele.FidEmpSi == rowData.FidEmpSi
+      && ele.FidEmpCount == rowData.FidEmpCount
+    );
+    console.log('Item index:', index);
+    if (index !== -1) {
+        this.FidelityListNew.splice(index, 1);
+        console.log('Item deleted:', rowData);
+        console.log('Modified GroupListNew:', this.FidelityListNew);
+    } else {
+        console.log('Item not found:', rowData);
+    }
   }
   getAooSIList(){
     this.aooSIList = [];
@@ -9163,6 +9191,11 @@ this.BuildingOwnerYn = type;
     this.listSection=true;
     this.listn=false;
     this.isEmployeeForm = false;
+    this.isFedilityForm = false;
+    
+  }
+  cancelnewFed(){
+    this.isGroupForm=false;
   }
   cancelnes(){
     this.isEmployeeForm = false;
@@ -9184,19 +9217,39 @@ this.BuildingOwnerYn = type;
     let validate = this.checkMandaGroup();
       if(validate){
         this.onGroupSave();
+        
       }
+  }
+  onGroupSave(){
+   
+    this.FidelityListNew[this.currentGroupIndex]['FidEmpCount'] =  this.productItem.FidEmpCount;
+    this.FidelityListNew[this.currentGroupIndex]['FidEmpSi'] = this.productItem.FidEmpSi;
+    this.FidelityListNew[this.currentGroupIndex]['LiabilityOccupationId'] = this.productItem.LiabilityOccupationId;
+    this.FidelityListNew[this.currentGroupIndex]['OtherOccupation'] = this.productItem.OtherOccupation;
+    //this.FidelityListNew[this.currentGroupIndex]['FESumInsured'] = this.productItem.FESumInsured;
+    // this.GroupListNew[this.currentGroupIndex]['TTDSumInsured'] = this.productItem.TTDSumInsured;
+    // this.GroupListNew[this.currentGroupIndex]['PTDSumInsured'] = this.productItem.PTDSumInsured;
+    //this.FidelityListNew[this.currentFidelityIndex]['OtherOccupation'] = this.productItem.otherFioption;
+      // this.listnGroup=false;
+      // this.listSectionGroup= true;
+      //this.editGroup=false;
+     // this.isGroupForm = false;
+    this.productItem.OtherOccupation=null; this.productItem.FidEmpCount=null;
+    this.productItem.FidEmpSi='0'; this.productItem.MESumInsured='0'; this.productItem.FESumInsured='0';
+    this.productItem.TTDSumInsured='0'; this.productItem.PTDSumInsured='0';
+    this.isGroupForm=false;
   }
   checkMandaGroup(){
     let errorList = [];
     let ulList:any='',i=0;
-     if(this.productItem.OccupationType=='' ||  this.productItem.OccupationType==null){
+     if(this.productItem.OtherOccupation=='' ||  this.productItem.OtherOccupation==null){
       i+=1;
       ulList +=`<li class="list-group-login-field">
         <div style="color: darkgreen;">Field<span class="mx-2">:</span>Occupation Type</div>
         <div style="color: red;">Message<span class="mx-2">:</span>Please Select OccupationType</div>
       </li>`
      }
-     if(this.productItem.TotalNoOfGroupMemeber=='' ||  this.productItem.TotalNoOfGroupMemeber==null){
+     if(this.productItem.FidEmpCount=='' ||  this.productItem.FidEmpCount==null){
       i+=1;
       ulList +=`<li class="list-group-login-field">
         <div style="color: darkgreen;">Field<span class="mx-2">:</span>Total No Of Perrson</div>
@@ -9204,10 +9257,10 @@ this.BuildingOwnerYn = type;
       </li>` 
      }
      if(!this.editGroup){
-     if(this.GroupListNew.length!=0){
-      for(let field of this.GroupListNew){
-        console.log('FIIIIIIIIIIIIIIIIIIII',this.productItem.OccupationType)
-       if(field.OccupationType == this.productItem.OccupationType){
+     if(this.FidelityListNew.length!=0){
+      for(let field of this.FidelityListNew){
+        console.log('FIIIIIIIIIIIIIIIIIIII',this.productItem.OtherOccupation)
+       if(field.OtherOccupation == this.productItem.OtherOccupation){
          i+=1;
          ulList +=`<li class="list-group-login-field">
            <div style="color: darkgreen;">Field<span class="mx-2">:</span>Occupation Type</div>
@@ -9283,25 +9336,7 @@ this.BuildingOwnerYn = type;
     this.editss=false;
     this.isGroupForm = false;
   }
-  onGroupSave(){
-   
-    this.GroupListNew[this.currentGroupIndex]['OccupationType'] =  this.productItem.OccupationType;
-    this.GroupListNew[this.currentGroupIndex]['TotalNoOfPersons'] = this.productItem.TotalNoOfGroupMemeber;
-    this.GroupListNew[this.currentGroupIndex]['SumInsured'] = this.productItem.SumInsured;
-    this.GroupListNew[this.currentGroupIndex]['MESumInsured'] = this.productItem.MESumInsured;
-    this.GroupListNew[this.currentGroupIndex]['FESumInsured'] = this.productItem.FESumInsured;
-    this.GroupListNew[this.currentGroupIndex]['TTDSumInsured'] = this.productItem.TTDSumInsured;
-    this.GroupListNew[this.currentGroupIndex]['PTDSumInsured'] = this.productItem.PTDSumInsured;
-    //this.FidelityListNew[this.currentFidelityIndex]['OtherOccupation'] = this.productItem.otherFioption;
-      this.listnGroup=false;
-      this.listSectionGroup= true;
-      this.editGroup=false;
-      this.isGroupForm = false;
-    this.productItem.OccupationType=null; this.productItem.TotalNoOfPersons=null;
-    this.productItem.SumInsured='0'; this.productItem.MESumInsured='0'; this.productItem.FESumInsured='0';
-    this.productItem.TTDSumInsured='0'; this.productItem.PTDSumInsured='0';
-
-  }
+ 
   onBuildingSave(){
     this.listSection = false;
       this.EmployeeListNew[this.currentBuildingIndex]['LiabilityOccupationId'] =  this.productItem.LiabilityOccupationId;
