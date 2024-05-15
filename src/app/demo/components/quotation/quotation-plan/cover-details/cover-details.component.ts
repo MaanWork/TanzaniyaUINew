@@ -799,6 +799,18 @@ export class CoverDetailsComponent {
     let list:any[] = covers.CoverList.filter(ele=>ele.CoverageType=='A' && ele.isSelected!='D');
     return (list.length!=0);
   }
+  checkBenefitSection4(){
+      return true;
+  }
+  checkBenefitSection5(){
+    let i=0,j=0;
+    for(let veh of this.vehicleDetailsList){
+      let entry = veh.CoverList.some(ele=>ele.isSelected=='D' && ele.CoverageType=='A');
+      if(entry) i+=1;
+      j+=1;
+      if(j==this.vehicleDetailsList.length) return i!=0;
+    }
+  }
   filterVehicleList(){
     let vehicleList = [];
     console.log("Vehiclessss on Filter",this.vehicleDetailsList,this.vehicleData)
@@ -813,12 +825,12 @@ export class CoverDetailsComponent {
               let entry = vehicleList.find(ele=>ele.VehicleId==vehicle.VehicleId);
               if(entry){
 
-                if(entry.SectionId==vehicle.SectionId){
+                //if(entry.SectionId==vehicle.SectionId){
                   entry.CoverList = entry.CoverList.concat(vehicle.CoverList);
-                }
-                else{
-                  vehicleList.push(vehicle);
-                }
+                // }
+                // else{
+                //   vehicleList.push(vehicle);
+                // }
               }
               else{
                 vehicleList.push(vehicle);
@@ -828,7 +840,7 @@ export class CoverDetailsComponent {
             i+=1;
             if(i==this.vehicleData.length){
               this.vehicleDetailsList = vehicleList;
-              console.log("Filtered Vehicle List",this.vehicleDetailsList)
+              console.log('Final List',this.vehicleData);
               this.checkSelectedCovers();
             }
           }
@@ -3456,7 +3468,10 @@ this.newAddClauses=true;
     }
     else{
       sessionStorage.setItem('BackType','Back');
-      this.router.navigate(['/policyDetails']);
+
+      if(this.productId=='5') this.router.navigate(['/policyDetails']);
+      else if(this.productId=='59') this.router.navigate(['/quotation/plan/risk-page']);
+      else this.router.navigate(['/quotation/plan/quote-details']);
     }
   }
   finalFormSubmit(ReqObj){

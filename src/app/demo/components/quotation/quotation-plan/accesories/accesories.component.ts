@@ -638,6 +638,7 @@ export class AccesoriesComponent {
             let fireData = new PersonalAccident();
             let entry = [];
             this.fieldsPersonalAccident = fireData?.fields;
+            this.productItem = new ProductData();
             this.productItem.AccOccupation = this.accidentOccupation;
             console.log('Second',this.fieldsPersonalAccident);
     
@@ -3013,7 +3014,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       (data: any) => {
         console.log(data);
         if(data.Result){
-          let defaultobj = [{'Code':'--Select--',"CodeDesc":'--Select--'}]
+          let defaultobj = [{'Code':'--Select--',"CodeDesc":'--Select--','label':'--Select--','value':''}]
             this.allriskList = data.Result;
             for (let i = 0; i < this.allriskList.length; i++) {
               this.allriskList[i].label = this.allriskList[i]['CodeDesc'];
@@ -3595,7 +3596,9 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
                 this.getallriskDetails();
               }
               console.log('Second Fields');
-            
+              this.accidentOccupation = this.sumInsuredDetails.ProductSuminsuredDetails.OccupationTypeDesc;
+            this.accidentOccupationId = this.sumInsuredDetails.ProductSuminsuredDetails.OccupationType;
+               this.productItem.AccOccupation = this.accidentOccupation;
             }
             else{
               if(this.productId=='19' && this.seven){
@@ -3608,9 +3611,11 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
           else if(type=='PA'){
             if (this.third || this.fifth || this.six) {
               this.fourth = true;
+              
               this.selectedTab = this.selectedTab+1;
             }
             else{
+              this.productItem.AccOccupation = this.accidentOccupation
               this.checkValidation();
             }
           }
@@ -4355,7 +4360,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         if(this.productItem.ContentSI){
           // let value = this.contentSI.replace(/\D/g, "")
           // .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          if(this.currentContentIndex==null){
+          if(this.currentContentIndex==null || this.Cotentrisk[this.currentContentIndex]==undefined){
             this.currentContentIndex=this.Cotentrisk.length;
             this.Cotentrisk[this.currentContentIndex] = {
               "ItemId":null,
@@ -4367,20 +4372,44 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
               "ItemValue":null,
               "SumInsured":null,
             }
+            this.Cotentrisk[this.currentContentIndex]['SumInsured'] = entry;
+            this.productItem.ContentSI = entry;
+            this.getTotalSICost('content');
           }
-          this.Cotentrisk[this.currentContentIndex]['SumInsured'] = entry;
-          this.productItem.ContentSI = entry;
-          this.getTotalSICost('content');
+          else{
+            this.Cotentrisk[this.currentContentIndex]['SumInsured'] = entry;
+            this.productItem.ContentSI = entry;
+            this.getTotalSICost('content');
+          }
         }
       }
 
       if(type=='PersonalAccident'){
         let entry = this.productItem.AccSI;
-        console.log("Entry Came Personal Accident",entry)
+        if(this.currentPersonalAccidentIndex==null || this.Cotentrisk[this.currentPersonalAccidentIndex]==undefined){
+          this.currentPersonalAccidentIndex=this.PersonalAssistantList.length;
+          this.PersonalAssistantList[this.currentPersonalAccidentIndex] = {
+            "Dob": this.productItem.AccDob,
+            "Height": null,
+            "OccupationId": this.accidentOccupationId,
+            "OccupationDesc": this.accidentOccupation,
+            "NationalityId": this.productItem.AccNationID,
+            "PersonName": this.productItem.AccName,
+            "Salary":this.productItem.AccSI,
+            "Weight": null,
+            "RiskId":this.productItem.AccidentLocation,
+            "SerialNo": null
+          }
           this.PersonalAssistantList[this.currentPersonalAccidentIndex]['Salary'] = entry;
           this.productItem.AccSI= entry;
-          console.log("Entry Came 2",this.productItem.AccSI);
           this.getTotalSICost('PersonalAccident');
+        }
+        else{
+          this.PersonalAssistantList[this.currentPersonalAccidentIndex]['Salary'] = entry;
+          this.productItem.AccSI= entry;
+          this.getTotalSICost('PersonalAccident');
+        }
+          
         // let entry = this.productItem.AccSI
         // if(entry){
         //   this.PersonalAssistantList[this.currentPersonalAccidentIndex]['Salary'] = entry;
@@ -4468,10 +4497,29 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         if(entry){
             // let value = this.contentSI.replace(/\D/g, "")
             // .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            this.risk[this.currentRiskIndex]['SumInsured'] = entry;
-            this.productItem.RiskSI = entry;
-            this.getTotalSICost('AllRisk');
+            if(this.currentRiskIndex==null || this.risk[this.currentRiskIndex]==undefined){
+              this.currentRiskIndex=this.risk.length;
+              this.risk[this.currentRiskIndex] = {
+                "ItemId":null,
+                "RiskId":null,
+                "MakeAndModel":"TN123",
+                "ContentRiskDesc":null,
+                "SerialNoDesc": null,
+                "SerialNo":"155685",
+                "ItemValue":"26534556",
+                "SumInsured":null,
+                }
+              this.risk[this.currentRiskIndex]['SumInsured'] = entry;
+              this.productItem.RiskSI = entry;
+              this.getTotalSICost('AllRisk');
           
+            }
+            else{
+              this.risk[this.currentRiskIndex]['SumInsured'] = entry;
+              this.productItem.RiskSI = entry;
+              this.getTotalSICost('AllRisk');
+            }
+            
         }
       }
       if(type=='Electronicequip'){
@@ -4690,12 +4738,13 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             }
             else this.contentRiskSection = true;
              this.Cotentrisk = res.Result.ContentRiskDetails;
-             console.log('Get details',this.Cotentrisk);
+             this.currentContentIndex = this.Cotentrisk.length;
              this.getTotalSICost('content');
            }
            else{
 
             this.Cotentrisk=[];
+            this.currentContentIndex = this.Cotentrisk.length;
             this.ContentAdd();
             //this.ContentAdd();
             // this.Cotentrisk = [{
@@ -5532,7 +5581,10 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
                 this.getTotalSICost('PersonalAccident');
                   //this.CommaFormatted(i,'personalAccident');
                   i+=1;
-                  if(i==personalList.length) this.productItem.AccOccupation = this.accidentOccupation; console.log("Personal Acc",this.PersonalAssistantList);
+                  if(i==personalList.length){
+                    this.currentPersonalAccidentIndex = this.PersonalAssistantList.length;
+                    this.productItem.AccOccupation = this.accidentOccupation; console.log("Personal Acc",this.PersonalAssistantList);
+                  } 
               }
               this.productItem.AccOccupation = this.accidentOccupation;
             }
@@ -5674,6 +5726,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
                 }
                 else this.allRiskSection = true;
                  this.risk = res.Result.ContentRiskDetails;
+                 this.currentRiskIndex = this.risk.length;
                  console.log('Get pre risk Details',this.risk);
                  this.getTotalSICost('AllRisk');
                }
@@ -6150,12 +6203,12 @@ return true;
   }
 
   getPersonalAccident(risk,i){
-    if(risk[0].RiskId==null && risk[0].PersonName==null && risk[0].OccupationDesc==null && risk[0].Salary==null && i==1){
+      if((risk[0].RiskId==null || risk[0].PersonName==null || risk[0].OccupationDesc==null || risk[0].Salary==null) && i==1){
       return false;
       }
-  else {
-  return true;
-  }
+      else {
+        return true;
+      }
   }
   getIntermity(risk,i){
     if(risk[0].RiskId==null && risk[0].Salary==null && risk[0].PersonName==null && i==1){
@@ -6278,7 +6331,7 @@ return true;
     this.form = new FormGroup({});
     this.productItem = new ProductData();
     this.productItem.AccOccupation = this.accidentOccupation;
-    let entry = [{
+    let entry = {
       "Dob": null,
       "Height": null,
       "OccupationId": this.accidentOccupationId,
@@ -6289,7 +6342,7 @@ return true;
       "Weight": null,
       "RiskId": null,
       "SerialNo": null
-    }]
+    }
     this.currentPersonalAccidentIndex = this.PersonalAssistantList.length;
     this.PersonalAssistantList.push(entry);
     //this.editContentSection = false;
