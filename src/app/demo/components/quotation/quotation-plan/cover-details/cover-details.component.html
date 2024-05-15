@@ -2252,131 +2252,39 @@
             </table>
         </div> -->
         <div class="col-12 md:col-12 lg:col-12 xl:col-12">
-            <table class="table">
+            <table class="table table-bordered mt-5 p-5 w-full">
                 <thead>
                     <tr>
-                        <th scope="col"><b>Description</b></th>
+                        <th scope="col" style="padding: 0.5rem;"><b>Description</b></th>
                         <th scope="col" ><b>Rate</b></th>
                         <th scope="col" style="text-align: end;"><b>Amount ({{currencyCode}})</b></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr >
-                        <td>Base Premium</td>
-                        <td>{{ratePercent}}</td>
+                <tbody class="p-5">
+                    <tr cl>
+                        <td style="padding: 0.5rem;">Base Premium</td>
+                        <td style="text-align: center;">{{ratePercent}}</td>
                         <td style="text-align: end;"><span class="spancommon span_font_size">{{ basePremium | commaseparator}}</span></td>
                     </tr>
                     <tr >
-                        <td>{{minCoverName}}</td>
-                        <td>{{minCoverRatePercent}}</td>
+                        <td style="padding: 0.5rem;">{{minCoverName}}</td>
+                        <td style="text-align: center;">{{minCoverRatePercent}}</td>
                         <td style="text-align: end;"><span class="spancommon span_font_size">{{ minBasePremium | commaseparator}}</span></td>
                     </tr>
-                    <!-- <ng-container *ngIf="discountList.length!=0">
-                        <tr>
-                            <th scope="col" colspan="3" style="text-align: start;">Discounts</th>
-                        </tr>
-                        <tr *ngFor="let discount of discountList">
-                            <td>{{discount.DiscountDesc}}</td>
-                            <td></td>
-                            <td style="text-align: end;">
-                                <ng-container *ngIf="discount.DiscountAmount==null || discount.DiscountAmount=='0.0'">
-                                    0
-                                </ng-container>
-                                <ng-container *ngIf="discount.DiscountAmount!=0 && discount.DiscountAmount!=null || discount.DiscountAmount!='0.0'">
-                                        {{discount.DiscountAmount | commaseparator}}
-                                </ng-container>
-                            </td>
-                        </tr>
-                    </ng-container>
-                    <ng-container *ngIf="loadingList.length!=0">
-                        <tr>
-                            <th scope="col" style="text-align: start;" colspan="3">Loadings</th>
-                        </tr>
-                        <tr *ngFor="let loading of loadingList;let i=index">
-                            <td>{{loading.LoadingDesc}}</td>
-                            <td style="text-align: end;">
-                                <ng-container *ngIf="(adminSection || ((userType=='Issuer' && finalizeYN!='Y' && !endorsementSection))) && loading.LoadingCalcType!='A'">
-                                    <ng-container *ngIf="loading.LoadingCalcType!='P'">
-                                        <ng-container *ngIf="loading.LoadingRate!=null">
-                                            <span class="spancommon span_font_size">0</span>
-                                        </ng-container>
-                                    </ng-container>
-                                    <ng-container *ngIf="loading.LoadingCalcType=='P'">
-                                        <input type="text" [id]="'Rate'+i" class="input-form-control without-icon"
-                                            style="width: auto !important;max-width:80px;text-align:right !important"
-                                            [(ngModel)]="loading['LoadingRate']" maxlength="5">
-                                    </ng-container>
-                                </ng-container>
-                                <ng-container *ngIf="(((!adminSection && userType!='Issuer') || endorsementSection) || finalizeYN=='Y' ) && loading.LoadingCalcType!='A'">
-                                    <ng-container *ngIf="loading.LoadingRate==null">
-                                        0
-                                    </ng-container>
-                                    <ng-container *ngIf="loading.LoadingRate!=0 && loading.LoadingRate!=null">
-                                        <span class="spancommon span_font_size">{{loading.LoadingRate}}</span>
-                                    </ng-container>
-
-                                </ng-container>
-                            </td>
-                            <td style="text-align: end;">
-                                <ng-container *ngIf="(adminSection  || (userType=='Issuer' && finalizeYN!='Y' && !endorsementSection))">
-                                    <ng-container *ngIf="loading.LoadingCalcType!='A'">
-                                        <ng-container
-                                            *ngIf="loading.LoadingAmount==0 || loading.LoadingAmount==null">
-                                            0
-                                        </ng-container>
-                                        <ng-container
-                                            *ngIf="loading.LoadingAmount!=0 && loading.LoadingAmount!=null">
-                                            <span class="spancommon span_font_size">{{loading.LoadingAmount}}</span>
-                                        </ng-container>
-                                    </ng-container>
-                                    <ng-container *ngIf="loading.LoadingCalcType=='A'">
-                                        <input type="text" [id]="'Amount'+i" class="input-form-control without-icon"
-                                            (keyup)="premiumComma(i,loading.LoadingAmount)"
-                                            style="width: auto !important;max-width:300px;text-align:right !important"
-                                            [(ngModel)]="loading['LoadingAmount']">
-                                    </ng-container>
-
-                                </ng-container>
-                                <ng-container *ngIf="(((!adminSection && userType!='Issuer') || endorsementSection) || finalizeYN=='Y')">
-                                    <ng-container *ngIf="loading.LoadingAmount==0 || loading.LoadingAmount==null">
-                                        0
-                                    </ng-container>
-                                    <ng-container *ngIf="loading.LoadingAmount!=0 && loading.LoadingAmount!=null">
-                                        <span class="spancommon span_font_size">{{loading.LoadingAmount |
-                                            commaseparator}}</span>
-                                    </ng-container>
-
-                                </ng-container>
-                            </td>
-                        </tr>
-
-                    </ng-container> -->
                     <tr>
-                        <td><b>Premium Before Tax</b></td>
-                        <td></td>
+                        <td style="padding: 0.5rem;"><b>Premium Before Tax</b></td>
+                        <td style="text-align: center;"></td>
                         <td style="text-align: end;"><span class="spancommon span_font_size">
                             <b>{{minPremiumExcludedTax | commaseparator}}</b></span></td>
                     </tr>
                     <ng-container *ngIf="minTaxList.length!=0">
                         <tr>
-                            <th scope="col" style="text-align: start;" colspan="3">Tax</th>
+                            <th scope="col" style="text-align: start;padding: 0.5rem;" colspan="3">Tax</th>
                         </tr>
                         <tr *ngFor="let loading of minTaxList;let i=index">
-                            <td>{{loading.TaxDesc}}</td>
+                            <td style="padding: 0.5rem;">{{loading.TaxDesc}}</td>
                             <td style="text-align: end;">
-                                <!-- <ng-container *ngIf="(adminSection || ((userType=='Issuer' && finalizeYN!='Y' && !endorsementSection))) && loading.LoadingCalcType!='A'"> 
-                                    <ng-container *ngIf="loading.TaxCalcType!='P'">
-                                        <ng-container *ngIf="loading.TaxRate!=null">
-                                            <span class="spancommon span_font_size">0</span>
-                                        </ng-container>
-                                     </ng-container>
-                                    <ng-container *ngIf="loading.LoadingCalcType=='P'">
-                                        <input type="text" [id]="'Rate'+i" class="input-form-control without-icon"
-                                            style="width: auto !important;max-width:80px;text-align:right !important"
-                                            [(ngModel)]="loading['TaxRate']" maxlength="5">
-                                    </ng-container> 
-                                </ng-container>-->
-                                <!-- <ng-container *ngIf="(((!adminSection && userType!='Issuer') || endorsementSection) || finalizeYN=='Y' ) && loading.LoadingCalcType!='A'"> -->
+                              
                                     <ng-container *ngIf="loading.TaxRate==null">
                                         0
                                     </ng-container>
@@ -2388,26 +2296,7 @@
                             </td>
                             
                             <td style="text-align: end;">
-                                <!-- <ng-container *ngIf="(adminSection  || (userType=='Issuer' && finalizeYN!='Y' && !endorsementSection))">
-                                    <ng-container *ngIf="loading.TaxCalcType!='A'">
-                                        <ng-container
-                                            *ngIf="loading.TaxAmount==0 || loading.TaxAmount==null">
-                                            0
-                                        </ng-container>
-                                        <ng-container
-                                            *ngIf="loading.TaxAmount!=0 && loading.TaxAmount!=null">
-                                            <span class="spancommon span_font_size">{{loading.TaxAmount}}</span>
-                                        </ng-container>
-                                    </ng-container>
-                                    <ng-container *ngIf="loading.TaxCalcType=='A'">
-                                        <input type="text" [id]="'Amount'+i" class="input-form-control without-icon"
-                                            (keyup)="premiumComma(i,loading.TaxAmount)"
-                                            style="width: auto !important;max-width:300px;text-align:right !important"
-                                            [(ngModel)]="loading['TaxAmount']">
-                                    </ng-container>
 
-                                </ng-container>
-                                <ng-container *ngIf="(((!adminSection && userType!='Issuer') || endorsementSection) || finalizeYN=='Y')"> -->
                                     <ng-container *ngIf="loading.TaxAmount==0 || loading.TaxAmount==null">
                                         0
                                     </ng-container>
@@ -2424,7 +2313,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td><b>Total</b></td>
+                        <td style="padding: 0.5rem;"><b>Total</b></td>
                         <td></td>
                         <td style="text-align: end;"><span class="spancommon span_font_size">
                             <b>{{minPremiumIncludedTax | commaseparator}}</b></span></td>
@@ -2433,16 +2322,22 @@
             </table>
             
         </div>
+        <div class="col-offset-4 col-4">
+        <ng-container class="mt-5 " *ngIf="((!adminSection && userType!='Issuer') || endorsementSection) || finalizeYN=='Y'">
+            <p-button label="Back" (click)="fleetDiscountModal=!fleetDiscountModal" class="p-3 mr-2 text-l mr-0 justify-content-center" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
+            <p-button label="Proceed"  
+            (click)="onFleetProceed(modal)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+        </ng-container>
+    
+        <ng-container *ngIf="adminSection || (userType=='Issuer' && finalizeYN!='Y' && !endorsementSection)">
+            <p-button label="Back" (click)="fleetDiscountModal=!fleetDiscountModal" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
+            <p-button label="Submit"  
+            (click)="onUpdateFleetFactorRate(modal)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+            
+        </ng-container>
     </div>
-    <ng-container *ngIf="((!adminSection && userType!='Issuer') || endorsementSection) || finalizeYN=='Y'">
-        <p-button label="Back" (click)="fleetDiscountModal=!fleetDiscountModal" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
-        <p-button label="Proceed"  
-        (click)="onFleetProceed(modal)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-    </ng-container>
-    <ng-container *ngIf="adminSection || (userType=='Issuer' && finalizeYN!='Y' && !endorsementSection)">
-        <p-button label="Back" (click)="fleetDiscountModal=!fleetDiscountModal" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
-        <p-button label="Submit"  
-        (click)="onUpdateFleetFactorRate(modal)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-        
-    </ng-container>
+    </div>
+   
+    
+
 </p-dialog>
