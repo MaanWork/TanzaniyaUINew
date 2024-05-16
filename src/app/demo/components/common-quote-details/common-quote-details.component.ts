@@ -188,25 +188,21 @@ export class CommonQuoteDetailsComponent implements OnInit {
       {"Code":"3","CodeDesc":"Famiy Without Driver"},
       {"Code":"4","CodeDesc":"All Occupant"}
     ]
-    this.getSourceList();
-    this.getCurrencyList();
+    if(this.userType=='Issuer' )this.getSourceList();
+   
     this.productItem = new ProductData();
     if(this.insuranceId=='100027'){
       let fireData = new MotorVehicleSanlam();
       this.fields[0] = fireData?.fields;
     }
-    this.getBorrowerList();
-    this.getBankList();
+    
     //this.getUWDetails();
-    this.getCityLimitList();
-    if(this.insuranceId=='100020' || this.insuranceId=='100028'){
-      if(this.insuranceId=='100020') this.getVehicleClassList();
-      this.getMartialList();
-      this.getStateList();
-      if(this.insuranceId=='100028') this.getClaimTypeList();
-    }
+    
+    
   }
   ngOnInit() {
+    this.getCurrencyList();
+   
     
     if(this.productId=='5'){
       this.getInsuranceTypeList();
@@ -290,62 +286,69 @@ export class CommonQuoteDetailsComponent implements OnInit {
     );
   }
   getCityLimitList(){
-    let ReqObj = {
-      "InsuranceId": this.insuranceId,
-      "BranchCode": this.branchCode
+    if(this.cityList.length==0){
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "BranchCode": this.branchCode
+      }
+      let urlLink = `${this.CommonApiUrl}dropdown/citylimit`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+              this.cityList = data.Result;
+          }
+        })
     }
-    let urlLink = `${this.CommonApiUrl}dropdown/citylimit`;
-    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-      (data: any) => {
-        console.log(data);
-        if(data.Result){
-            this.cityList = data.Result;
-        }
-      })
   }
   getVehicleClassList(){
-    let ReqObj = {
-      "InsuranceId": this.insuranceId,
-      "BranchCode": this.branchCode
-    }
-    let urlLink = `${this.CommonApiUrl}dropdown/vehicleclasses`;
-    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-      (data: any) => {
-        console.log(data);
-        if(data.Result){
-            this.vehicleClassList = data.Result;
-            if(this.vehicleClassList.length!=0){
-              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
-              for (let i = 0; i < this.vehicleClassList.length; i++) {
-                this.vehicleClassList[i].label = this.vehicleClassList[i]['CodeDesc'];
-                this.vehicleClassList[i].value = this.vehicleClassList[i]['Code'];
-                if (i == this.vehicleClassList.length - 1) {
-                    console.log("Dropdown List",this.fields)
-                    this.fields[0].fieldGroup[0].fieldGroup[10].props.options = defaultObj.concat(this.vehicleClassList);
-                    
+    if(this.vehicleClassList.length==0){
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "BranchCode": this.branchCode
+      }
+      let urlLink = `${this.CommonApiUrl}dropdown/vehicleclasses`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+              this.vehicleClassList = data.Result;
+              if(this.vehicleClassList.length!=0){
+                let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
+                for (let i = 0; i < this.vehicleClassList.length; i++) {
+                  this.vehicleClassList[i].label = this.vehicleClassList[i]['CodeDesc'];
+                  this.vehicleClassList[i].value = this.vehicleClassList[i]['Code'];
+                  if (i == this.vehicleClassList.length - 1) {
+                      console.log("Dropdown List",this.fields)
+                      this.fields[0].fieldGroup[0].fieldGroup[10].props.options = defaultObj.concat(this.vehicleClassList);
+                      
+                  }
                 }
               }
-            }
-        }
-      },
-      (err) => { },
-    );
+          }
+        },
+        (err) => { },
+      );
+    }
+    
   }
   getMartialList(){
-    let ReqObj = {
-      "InsuranceId": this.insuranceId,
-      "BranchCode": this.branchCode
+    if(this.martialList.length==0){
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "BranchCode": this.branchCode
+      }
+      let urlLink = `${this.CommonApiUrl}dropdown/maritalstatus`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+            this.martialList = data.Result;
+          }
+        },
+        (err) => { },
+      );
     }
-    let urlLink = `${this.CommonApiUrl}dropdown/maritalstatus`;
-    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-      (data: any) => {
-        console.log(data);
-        if(data.Result){
-          this.martialList = data.Result;
-        }
-      },
-      (err) => { },
-    );
   }
   getStateList(){
     let ReqObj = {
@@ -363,19 +366,21 @@ export class CommonQuoteDetailsComponent implements OnInit {
     );
   }
   getClaimTypeList(){
-    let ReqObj = {
-      "InsuranceId": this.insuranceId
+    if(this.claimTypeList.length==0){
+      let ReqObj = {
+        "InsuranceId": this.insuranceId
+      }
+      let urlLink = `${this.CommonApiUrl}dropdown/claimtype`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+                this.claimTypeList = data.Result;
+          }
+        },
+        (err) => { },
+      );
     }
-    let urlLink = `${this.CommonApiUrl}dropdown/claimtype`;
-    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-      (data: any) => {
-        console.log(data);
-        if(data.Result){
-              this.claimTypeList = data.Result;
-        }
-      },
-      (err) => { },
-    );
   }
   getDistrictList(type,cityValue,subUrban){
     let ReqObj = {
@@ -1695,47 +1700,52 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
   }
   getBorrowerList(){
-    let ReqObj = {
-      "InsuranceId": this.insuranceId,
-      "BranchCode": this.branchCode
+    if(this.borrowerList.length==0){
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "BranchCode": this.branchCode
+      }
+      let urlLink = `${this.CommonApiUrl}dropdown/borrowertype`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+              this.borrowerList = data.Result;
+             
+          }
+  
+        },
+        (err) => { },
+      );
     }
-    let urlLink = `${this.CommonApiUrl}dropdown/borrowertype`;
-    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-      (data: any) => {
-        console.log(data);
-        if(data.Result){
-            this.borrowerList = data.Result;
-           
-        }
-
-      },
-      (err) => { },
-    );
   }
   getBankList(){
-    let branchCode = '';
-    if(this.adminSection || (this.userType!='Broker' && this.userType!='User')){
-      branchCode = this.branchCode
+    if(this.bankList.length==0){
+      let branchCode = '';
+      if(this.adminSection || (this.userType!='Broker' && this.userType!='User')){
+        branchCode = this.branchCode
+      }
+      else{
+        branchCode = this.brokerbranchCode
+      }
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "BranchCode": branchCode
+      }
+      let urlLink = `${this.CommonApiUrl}master/dropdown/bankmaster`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+              this.bankList = data.Result;
+             
+          }
+  
+        },
+        (err) => { },
+      );
     }
-    else{
-      branchCode = this.brokerbranchCode
-    }
-    let ReqObj = {
-      "InsuranceId": this.insuranceId,
-      "BranchCode": branchCode
-    }
-    let urlLink = `${this.CommonApiUrl}master/dropdown/bankmaster`;
-    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-      (data: any) => {
-        console.log(data);
-        if(data.Result){
-            this.bankList = data.Result;
-           
-        }
-
-      },
-      (err) => { },
-    );
+   
   }
   onCommonDetailsChange(){
    if(this.vehicleDetailsList.length!=0){
@@ -1888,6 +1898,15 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
   }
   getMotorDetails(index){
+        this.getBorrowerList();
+        this.getBankList();
+        this.getCityLimitList();
+        if(this.insuranceId=='100020' || this.insuranceId=='100028'){
+          if(this.insuranceId=='100020') this.getVehicleClassList();
+          this.getMartialList();
+          this.getStateList();
+          if(this.insuranceId=='100028') this.getClaimTypeList();
+        }
         let vehicleDetails = this.vehicleDetailsList[index];
         this.vehicleId = vehicleDetails?.Vehicleid;
         
