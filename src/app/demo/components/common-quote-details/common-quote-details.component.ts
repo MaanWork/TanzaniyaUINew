@@ -286,7 +286,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     );
   }
   getCityLimitList(){
-    if(this.cityList.length==0){
+    if(this.cityList.length==0 && this.tabIndex!=0){
       let ReqObj = {
         "InsuranceId": this.insuranceId,
         "BranchCode": this.branchCode
@@ -302,7 +302,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
   }
   getVehicleClassList(){
-    if(this.vehicleClassList.length==0){
+    if(this.vehicleClassList.length==0 && this.tabIndex!=0){
       let ReqObj = {
         "InsuranceId": this.insuranceId,
         "BranchCode": this.branchCode
@@ -366,7 +366,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     );
   }
   getClaimTypeList(){
-    if(this.claimTypeList.length==0){
+    if(this.claimTypeList.length==0 && this.tabIndex!=0){
       let ReqObj = {
         "InsuranceId": this.insuranceId
       }
@@ -1263,57 +1263,60 @@ export class CommonQuoteDetailsComponent implements OnInit {
     );
   }
   getInsuranceClassList(){
-    let loginId = null;
-    if(this.userType!='Issuer'){
-      this.subuserType = sessionStorage.getItem('typeValue');
-      if(this.subuserType=='B2C') loginId = 'guest';
-      else{
-      loginId=this.loginId;
+    if(this.classList.length==0){
+      let loginId = null;
+      if(this.userType!='Issuer'){
+        this.subuserType = sessionStorage.getItem('typeValue');
+        if(this.subuserType=='B2C') loginId = 'guest';
+        else{
+        loginId=this.loginId;
+        }
       }
-    }
-    else{
-      loginId=this.loginId
-        if(this.vehicleDetailsList.length!=0) loginId = this.vehicleDetailsList[0].LoginId;
-        //if(this.updateComponent.brokerLoginId) loginId = this.updateComponent.brokerLoginId
-    }
-    let ReqObj = {
-      "InsuranceId": this.insuranceId,
-      "ProductId": this.productId,
-      "BranchCode": this.branchCode,
-      "LoginId":loginId
-    }
-    let urlLink = `${this.ApiUrl1}master/dropdown/policytype`;
-    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-      (data: any) => {
-        if(data.Result){
-            this.classList = data.Result;
-            if(this.insuranceId!='100027'){
-              if(this.classList.length!=0){
-                let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
-                for (let i = 0; i < this.classList.length; i++) {
-                  this.classList[i].label = this.classList[i]['CodeDesc'];
-                  this.classList[i].value = this.classList[i]['Code'];
-                  if (i == this.classList.length-1) {
-                   
-                      console.log("Dropdown List",this.fields)
-                      if(this.insuranceId=='100002' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020' || this.insuranceId=='100004'){
-                        let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
-                        for(let field of fieldList){
-                          console.log('Field ',field)
-                          if(field.key=='InsuranceClass'){
-                                field.props.options= defaultObj.concat(this.classList);;
+      else{
+        loginId=this.loginId
+          if(this.vehicleDetailsList.length!=0) loginId = this.vehicleDetailsList[0].LoginId;
+          //if(this.updateComponent.brokerLoginId) loginId = this.updateComponent.brokerLoginId
+      }
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "ProductId": this.productId,
+        "BranchCode": this.branchCode,
+        "LoginId":loginId
+      }
+      let urlLink = `${this.ApiUrl1}master/dropdown/policytype`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          if(data.Result){
+              this.classList = data.Result;
+              if(this.insuranceId!='100027'){
+                if(this.classList.length!=0){
+                  let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
+                  for (let i = 0; i < this.classList.length; i++) {
+                    this.classList[i].label = this.classList[i]['CodeDesc'];
+                    this.classList[i].value = this.classList[i]['Code'];
+                    if (i == this.classList.length-1) {
+                     
+                        console.log("Dropdown List",this.fields)
+                        if(this.insuranceId=='100002' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020' || this.insuranceId=='100004'){
+                          let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                          for(let field of fieldList){
+                            console.log('Field ',field)
+                            if(field.key=='InsuranceClass'){
+                                  field.props.options= defaultObj.concat(this.classList);;
+                            }
                           }
                         }
-                      }
+                    }
                   }
                 }
               }
-            }
-            
-        }
-      },
-      (err) => { },
-    );
+              
+          }
+        },
+        (err) => { },
+      );
+    }
+    
   }
   onChangeClassType(){
     this.vehicleSI ="0";this.accessoriesSI="0",this.windShieldSI="0";this.tppdSI = "0";
@@ -1700,7 +1703,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
   }
   getBorrowerList(){
-    if(this.borrowerList.length==0){
+    if(this.borrowerList.length==0 && this.tabIndex!=0){
       let ReqObj = {
         "InsuranceId": this.insuranceId,
         "BranchCode": this.branchCode
@@ -1720,7 +1723,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
   }
   getBankList(){
-    if(this.bankList.length==0){
+    if(this.bankList.length==0  && this.tabIndex!=0){
       let branchCode = '';
       if(this.adminSection || (this.userType!='Broker' && this.userType!='User')){
         branchCode = this.branchCode
@@ -1898,15 +1901,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
   }
   getMotorDetails(index){
-        this.getBorrowerList();
-        this.getBankList();
-        this.getCityLimitList();
-        if(this.insuranceId=='100020' || this.insuranceId=='100028'){
-          if(this.insuranceId=='100020') this.getVehicleClassList();
-          this.getMartialList();
-          this.getStateList();
-          if(this.insuranceId=='100028') this.getClaimTypeList();
-        }
+        
         let vehicleDetails = this.vehicleDetailsList[index];
         this.vehicleId = vehicleDetails?.Vehicleid;
         
@@ -4701,6 +4696,15 @@ export class CommonQuoteDetailsComponent implements OnInit {
     );
   }
   setVehicleValues(type){
+    this.getBorrowerList();
+    this.getBankList();
+    this.getCityLimitList();
+    if(this.insuranceId=='100020' || this.insuranceId=='100028'){
+      if(this.insuranceId=='100020') this.getVehicleClassList();
+      this.getMartialList();
+      this.getStateList();
+      if(this.insuranceId=='100028') this.getClaimTypeList();
+    }
     this.productItem.MotorUsage = this.vehicleDetails.Motorusage;
     this.motorUsageValue = this.vehicleDetails.Motorusage;
     this.vehicleId = String(this.vehicleDetails?.Vehicleid);
@@ -4791,9 +4795,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
     if(this.insuranceId!='100004') this.getInsuranceTypeList();
     else{this.getMotorUsageAltList();}
     //if(this.insuranceId=='100027') this.getMotorTypeList('direct',null,null)
-    this.getType1();
-    this.getType2();
-    this.getType3();
+    if(this.insuranceId=='100027'){
+      this.getType1();
+      this.getType2();
+      this.getType3();
+    }
+    
     this.typeValue = this.vehicleDetails?.Insurancetype;
     this.classValue = this.vehicleDetails?.InsuranceClass;
     this.claimTypeValue = this.vehicleDetails?.ClaimType;

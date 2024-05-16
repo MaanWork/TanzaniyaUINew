@@ -302,18 +302,26 @@ export class DriverInfoComponent {
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if(data.Result){
-           this.driverDetailsList= data.Result;
-           console.log("License List ",this.LicenseList)
-           if(this.driverDetailsList.length!=0){
-              for(let driver of this.driverDetailsList){
-                let entry = this.LicenseList.some(ele=>ele.Code==driver.RiskId)
-                //if(!entry) driver.RiskId = null;
-                // if(driver.DriverDob!=null && driver.DriverDob!=''){
-                //   if(driver.DriverDob.split('/').length>1){
-                //     let date = driver.DriverDob.split('/');
-                //     driver.DriverDob = date[2] + '-' + date[1] + '-' + date[0];
-                //   };
-                // }
+          let driverList= data.Result;
+           if(driverList.length!=0){
+              let i=0,finalList=[];
+              for(let veh of this.vehicleDetailsList){
+                  let filteredList = driverList.filter(ele=>ele.VehicleId==veh.RiskId);
+                  if(filteredList.length!=0){
+                    let entry = filteredList.find(ele=>ele.DriverName!=null && ele.LicenseNo!=null);
+                    if(entry) finalList.push(entry);
+                    else finalList.push(filteredList[0]);
+                    i+=1;
+                    if(i==this.vehicleDetailsList.length){
+                        this.driverDetailsList = finalList;
+                    }
+                  }
+                  else{
+                    i+=1;
+                    if(i==this.vehicleDetailsList.length){
+                      this.driverDetailsList = finalList;
+                    }
+                  }
               }
            }
            else{
