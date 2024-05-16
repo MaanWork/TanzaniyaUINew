@@ -327,7 +327,8 @@ export class CoverDetailsComponent {
          "DocRefNo":null,
          "DocumentId":null,
       }
-    ]
+    ];
+    
   }
   onViewFactorDetails(){
     let ReqObj = {
@@ -348,6 +349,9 @@ export class CoverDetailsComponent {
       },
       (err) => { },
     );
+  }
+  scroll(el: HTMLElement) {
+    el.scrollIntoView();
   }
   onSelectSection(){
     console.log("Current Id",this.selectedRowData)
@@ -521,9 +525,9 @@ export class CoverDetailsComponent {
       (err) => { },
     );
   }
-  onChooseCompareSection(rowData){
+  onChooseCompareSection(rowData,el: HTMLElement){
     this.selectedSectionId = rowData.SectionId;
-    
+    this.scroll(el);
   }
   getCustomerDetails(referenceNo){
     let ReqObj = {
