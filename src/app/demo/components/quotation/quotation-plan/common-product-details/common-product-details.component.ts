@@ -4431,6 +4431,51 @@ console.log('Eventsss',event);
           }
         });
   }
+  showSearchForm(type) {
+    if(type=='direct'){
+      sessionStorage.removeItem('QuoteStatus');
+      sessionStorage.removeItem('vehicleDetailsList');
+      sessionStorage.removeItem('customerReferenceNo');
+      sessionStorage.removeItem('quoteReferenceNo');
+      sessionStorage.removeItem('TravelQuoteRefNo')
+      sessionStorage.removeItem('endorsePolicyNo');
+    }
+    let appId = "1",loginId="",brokerbranchCode="";
+    if(this.userType!='Issuer'){
+      appId = "1"; loginId = this.loginId;
+      brokerbranchCode = this.brokerbranchCode;
+    }
+    else{
+      appId = this.loginId;
+      brokerbranchCode = null;
+    }
+    let ReqObj = {
+        "BrokerBranchCode": brokerbranchCode,
+        "InsuranceId":this.insuranceId,
+        "ProductId": this.productId,
+        "CreatedBy":this.loginId,
+        "BranchCode":this.branchCode,
+        "UserType": this.userType,
+        "Limit":"0",
+        "Offset":"1000"
+    }
+    let urlLink = `${this.CommonApiUrl}api/getactivecustomerdetails`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            this.customers = data?.Result;
+            this.searchValue = [];
+            this.clearSearchSection = false;
+            this.isSearchFormVisible = true;
+        }
+      });
+  }
+  onCreateCustomer(){
+    sessionStorage.removeItem('customerReferenceNo');
+    this.isSearchFormVisible = false;
+    this.router.navigate(['/customer/create'])
+  }
   onsavecorporate(){
     let policyStartDate="";
     let policyEndDate="";
@@ -4451,7 +4496,6 @@ console.log('Eventsss',event);
 
   }
   onSaveplantaLLrisk(type,formType){
-    console.log('JJJJJJJJJJJJ',sessionStorage.getItem('quoteReferenceNo'));
     let ReqObj={
       "CreatedBy": this.loginId,
       "InsuranceId": this.insuranceId,

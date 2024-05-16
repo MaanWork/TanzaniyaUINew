@@ -37,7 +37,6 @@
                 </div>
                 <hr class="m-0 p-0">
                 <div class="card w-full p-0 m-0 mt-1" *ngIf="accessoriesList.length!=0 && checkAccessories()">
-                      
                             <p-table [value]="accessoriesList" [tableStyle]="{ 'min-width': '50rem' }">
                                 <ng-template pTemplate="header">
                                     <tr>
@@ -63,9 +62,6 @@
                                     </ng-container>
                                 </ng-template>
                             </p-table>
-                   
-                    
-                
                 </div>
                 <div class="flex flex-wrap justify-content-center mt-2" *ngIf="accessoriesList.length==0 || !checkAccessories()">
                     <b>No Accessories Available</b>

@@ -39,6 +39,10 @@
 </div>
 </div>
     <div class="formDiv grid">
+        <div class="flex flex-wrap justify-content-end" *ngIf="quoteRefNo">
+            <div>Reference No &nbsp;~&nbsp;</div>
+            <div>{{quoteRefNo}}</div>
+        </div>
         <div class="card ">
         <h4>Customer Information</h4>
             <div class="grid">

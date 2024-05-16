@@ -63,6 +63,7 @@ export class PersonalAccident{
                         templateOptions: {
                           label: 'Occupation',
                           required: true,
+                          disabled: true
                         },
                         validators: {
                           validation: [ForceLengthValidators.maxLength(150), ForceLengthValidators.min(1)]

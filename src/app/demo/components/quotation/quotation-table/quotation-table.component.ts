@@ -647,7 +647,13 @@ onInnerDataLapsed(rowData){
         sessionStorage.setItem('TravelQuoteRefNo',rowData.RequestReferenceNo);
         sessionStorage.removeItem('quoteNo');
         if(this.productId=='5'){
-          this.router.navigate(['/policyDetails']);
+          if(rowData.SavedFrom){
+            if(rowData.SavedFrom=='SQ'){
+              this.router.navigate(['/quotation/plan/shortQuote']);
+            }
+            else this.router.navigate(['/policyDetails']);
+          }
+          else this.router.navigate(['/policyDetails']);
         }
         else{
           this.router.navigate(['/quotation/plan/quote-details']);

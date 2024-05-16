@@ -28,7 +28,8 @@ export class QuotationPlanComponent {
   }
   setRiskDetails(riskDetails){
     if(riskDetails.length!=0){
-      this.riskDetails = riskDetails;
+       this.riskDetails = riskDetails;
+      
     }
   }
   onTabClicked(rowData){
@@ -50,6 +51,29 @@ export class QuotationPlanComponent {
         }
       }
   }
+  checkCovers2(sections,type){
+    if(this.productId=='59'){
+      let i=0,k=0;
+      for(let veh of this.riskDetails){
+        for(let sec of veh.SectionDetails){
+            let j=0,l=0;
+            for(let cover of sec.Covers){
+              if(cover.isSelected=='D' && cover.CoverageType!='A' && type=='default') i+=1;
+              else if(cover.isSelected=='D' && cover.CoverageType=='A' && type=='benefit') i+=1;
+              j+=1;
+              if(j==sec.Covers.length){
+                l+=1;
+                if(l==veh.SectionDetails.length){
+                  k+=1;
+                  if(k==this.riskDetails.length) return i!=0;
+                }
+              }
+            }
+        }
+      }
+    }
+    else return true;
+  }
   getHeaderName(menu){
     if(this.productId=='5'){
       let name = menu.Registrationnumber;
@@ -67,7 +91,8 @@ export class QuotationPlanComponent {
       if(menu.TravelId=='5') return `Grand Seniors (${menu.TotalPassengers})`;
     }
     else if(this.productId!='59' && this.productId!='4' && this.productId!='5' && this.productId!='19' && this.productId!='14' && this.productId!='32') return this.productName;
-    else if(this.productId=='59' || this.productId=='19' || this.productId=='14' || this.productId=='32') return menu.SectionName;
+    else if(this.productId=='19' || this.productId=='14' || this.productId=='32') return menu.SectionName;
+    else if(this.productId=='59') return 'Domestic'
     else return '';
   }
   checkCoverSelected(cover){
