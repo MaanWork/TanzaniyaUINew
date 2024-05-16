@@ -55,6 +55,7 @@ export class QuotationTableComponent implements OnInit {
   RejectdList: any;tabIndex:any=0;
   remarksError: boolean=false;
   MotorList: any[]=[];
+  LapsedList: any;
   constructor(private router: Router,private sharedService: SharedService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -82,7 +83,7 @@ export class QuotationTableComponent implements OnInit {
     this.items = [{ label: 'Home', routerLink:'/' }, {label:'Quotation'}];
     this.customerColumn = [ 'Select','Reference No','Customer Name',  'Customer Type','ID Number'];
     if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
-      this.columns = [ 'Vehicle Details','Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium','CurrencyCode', 'Actions'];
+      this.columns = [ 'Vehicle Details','Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium','CurrencyCode', 'Active'];
       this.rejectedColumns = [ 'Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium','CurrencyCode','Reason'];
     }
     else{ this.columns = ['Quote No','Reference No','Customer Name','Start Date','End Date','Premium','CurrencyCode','Actions'] 
@@ -162,6 +163,21 @@ export class QuotationTableComponent implements OnInit {
         },
         (err) => { },
       );
+}
+onInnerDataLapsed(rowData){
+  let ReqObj = {
+      "RequestReferenceNo": rowData.RequestReferenceNo
+    }
+    let urlLink = `${this.motorurl}api/getallmotordetails`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            this.LapsedList = data.Result;
+        }
+      },
+      (err) => { },
+    );
 }
   onRejects(rowData){
    console.log('rrrrrrrrr',rowData)

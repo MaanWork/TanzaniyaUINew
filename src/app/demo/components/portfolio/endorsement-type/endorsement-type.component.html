@@ -1,0 +1,166 @@
+<div class="card">
+    <div class="grid">
+      <div class="col-12 sm:col-6 md:col-4">
+        <h3 class="mr-3">Endorsement Type</h3>
+        <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
+      </div>
+      <div class="col-12 sm:col-6 md:col-8">
+        <div class="flex justify-content-start sm:justify-content-end  flex-wrap">
+          <h5>Policy NO ~ </h5>
+        </div>
+      </div>
+    </div>
+
+<div class="card "> 
+<p-accordion>
+<p-accordionTab header="Financial">
+    <p-selectButton 
+    [options]="stateOptions" 
+    [(ngModel)]="value1" 
+    optionLabel="label"
+    optionValue="value" 
+    class="fill-w-w"
+    styleClass="fill-w-w"
+    />
+<br>
+    <p-selectButton 
+    [options]="stateOptions1" 
+    [(ngModel)]="value1" 
+    optionLabel="label"
+    optionValue="value" 
+    class="fill-w-w"
+    styleClass="fill-w-w"
+    />
+<br>
+    <p-selectButton 
+    [options]="stateOptions2" 
+    [(ngModel)]="value1" 
+    optionLabel="label" 
+    optionValue="value"
+    class="fill-w-w"
+    />
+<br>         
+    <p-selectButton 
+    [options]="stateOptions3" 
+    [(ngModel)]="value1" 
+    optionLabel="label" 
+    optionValue="value"
+    class="fill-w-w"
+    /> 
+<br>
+    <p-selectButton 
+    [options]="stateOptions4" 
+    [(ngModel)]="value1" 
+    optionLabel="label" 
+    optionValue="value"
+    class="fill-w-w"
+    /> 
+<br>
+    <p-selectButton 
+    [options]="stateOptions5" 
+    [(ngModel)]="value1" 
+    optionLabel="label" 
+    optionValue="value"
+    class="fill-w-w"
+    /> 
+<br>
+    <p-selectButton 
+    [options]="stateOptions6" 
+    [(ngModel)]="value1" 
+    optionLabel="label" 
+    optionValue="value"
+    class="fill-w-w"
+    />
+<br>
+    <p-selectButton 
+    [options]="stateOptions7" 
+    [(ngModel)]="value1" 
+    optionLabel="label" 
+    optionValue="value"
+    class="fill-w-w"
+    />
+<br>
+    <p-selectButton 
+    [options]="stateOptions8" 
+    [(ngModel)]="value1" 
+    optionLabel="label" 
+    optionValue="value"
+    class="fill-w-w"
+    /> 
+<br>
+</p-accordionTab>
+
+<p-accordionTab header="Non-Financial" >
+<p-selectButton 
+    [options]="stateOptions9" 
+    [(ngModel)]="value1" 
+    optionLabel="label" 
+    optionValue="value"
+    class="fill-w-w"
+    /> 
+<br>
+<p-selectButton 
+[options]="stateOptions10" 
+[(ngModel)]="value1" 
+optionLabel="label" 
+optionValue="value"
+class="fill-w-w"
+/> 
+<br>
+<p-selectButton 
+[options]="stateOptions11" 
+[(ngModel)]="value1" 
+optionLabel="label" 
+optionValue="value"
+class="fill-w-w"
+/>
+ <br>
+</p-accordionTab>
+<p-accordionTab header="Cancellation Of Policy">
+        <p-radioButton 
+        name="Yes" 
+        value="Yes" 
+        [(ngModel)]="ingredient" 
+        inputId="ingredient1"  />
+    <label for="ingredient1" class="ml-2">
+       Yes
+    </label>
+    <p-radioButton 
+    name="No" 
+    value="No" 
+    [(ngModel)]="ingredient" 
+    inputId="ingredient2" />
+<label for="ingredient2" class="ml-2">
+    No
+</label>
+</p-accordionTab>
+</p-accordion>
+
+<div class="grid mt-1">
+    <div class="lg:col-6 md:col-6 col-12">
+        <label for="username">Effective Date</label>
+        <p-calendar class="w-full " styleClass="w-full"  
+            dateFormat="dd/mm/yy" placeholder="Select Start Date">
+        </p-calendar>
+    </div>
+    
+        <div class="lg:col-6 md:col-6 col-12">
+            <label for="textarea">Remarks</label>
+            <textarea 
+            id="textarea"
+            rows="2" 
+            cols="8" 
+            pInputTextarea 
+        
+            class="w-full"
+        ></textarea> 
+        </div>
+    
+</div>
+
+<div class="flex justify-content-center mt-3" >
+    <p-button  styleClass="p-button-outlined" label="<<Back"
+        size="small" [routerLink]="['/portfolio/endorsement']" routerLinkActive="router-link-active" ></p-button>&nbsp;
+    <p-button label="Proceed" size="small" ></p-button>
+</div>
+</div>

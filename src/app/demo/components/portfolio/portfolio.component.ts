@@ -183,7 +183,9 @@ export class PortfolioComponent implements OnInit {
           items: [{
               label: 'Endorsement',
               icon: 'pi pi-external-link',
-              url: 'http://angular.io'
+              command: () => {
+                this.router.navigate(['/portfolio/endorsement'])
+          }
           },
           {
               label: 'View Quote Details',
@@ -191,6 +193,14 @@ export class PortfolioComponent implements OnInit {
           }
       ]}
     ];
+   // const hideDebitNote = true; // Set your condition here
+if (rowData?.CreditNo==null && rowData.CreditNo=='') {
+    entry[0].items = entry[0].items.filter(item => item.label === 'Credit Note');
+}
+if (rowData.DebitNoteNo==null && rowData.DebitNoteNo=='') {
+  entry[0].items = entry[0].items.filter(item => item.label === 'Debit Note');
+}
+
     // let i=0;
     // if(rowData?.CreditNo!=null && rowData.CreditNo!=''){
     //   i+=1;

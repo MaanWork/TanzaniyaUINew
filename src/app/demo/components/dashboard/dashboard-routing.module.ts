@@ -15,6 +15,9 @@ import { PortfolioComponent } from '../portfolio/portfolio.component';
 import { ReportComponent } from '../report/report.component';
 import { ReferralCasesComponent } from '../Admin/referralCases/referral-cases.component';
 import { SearchComponent } from '../Search/search.component';
+import { EndorsementComponent } from '../portfolio/endorsement/endorsement.component';
+import { EndorsementTypeComponent } from '../portfolio/endorsement-type/endorsement-type.component';
+import { AdminComponent } from '../Admin/admin.component';
 
 
 @NgModule({
@@ -32,9 +35,12 @@ import { SearchComponent } from '../Search/search.component';
         { path: 'tira-search', component: TiraSearchComponent }, 
         { path: 'referral', component: ReferralComponent },
         { path: 'portfolio', component: PortfolioComponent },
+        { path: 'portfolio/endorsement', component: EndorsementComponent },
+        { path: 'portfolio/endorsementtype', component: EndorsementTypeComponent},
         { path: 'report', component: ReportComponent },
         { path: 'referralCases', component: ReferralCasesComponent },
-        { path: 'Search', component : SearchComponent}
+        { path: 'Search', component : SearchComponent},
+        { path: 'Admin',  loadChildren: () => import('../Admin/admin.module').then(m => m.AdminModule) },
     ])],
     exports: [RouterModule]
 })

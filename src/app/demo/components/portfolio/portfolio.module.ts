@@ -11,12 +11,17 @@ import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
 import { MenuModule } from 'primeng/menu';
-
-
+import { EndorsementComponent } from './endorsement/endorsement.component';
+import { EndorsementTypeComponent } from './endorsement-type/endorsement-type.component';
+import { TreeModule } from 'primeng/tree';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { AccordionModule } from 'primeng/accordion';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
-    PortfolioComponent
+    PortfolioComponent,EndorsementComponent, EndorsementTypeComponent
   ],
   imports: [
     CommonModule,
@@ -30,6 +35,11 @@ import { MenuModule } from 'primeng/menu';
     DropdownModule,
     TableModule,
     MenuModule,
+    TreeModule,
+    AccordionModule,
+    RadioButtonModule,
+    InputTextareaModule,
+    CalendarModule,
   ]
 })
 export class PortfolioModule { }
