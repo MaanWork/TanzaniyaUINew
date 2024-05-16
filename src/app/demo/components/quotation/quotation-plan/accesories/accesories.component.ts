@@ -337,6 +337,7 @@ export class AccesoriesComponent {
   DateOfBirth: null;
   showmultiple: boolean = false;
   Addtional: any;
+  saveSection: boolean =false;
 
 
   constructor(private router: Router,private datePipe:DatePipe,private quoteComponent:QuotationPlanComponent,
@@ -4386,7 +4387,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
 
       if(type=='PersonalAccident'){
         let entry = this.productItem.AccSI;
-        if(this.currentPersonalAccidentIndex==null || this.Cotentrisk[this.currentPersonalAccidentIndex]==undefined){
+        if((this.currentPersonalAccidentIndex==null || this.PersonalAssistantList[this.currentPersonalAccidentIndex]==undefined) && !this.saveSection){
           this.currentPersonalAccidentIndex=this.PersonalAssistantList.length;
           this.PersonalAssistantList[this.currentPersonalAccidentIndex] = {
             "Dob": this.productItem.AccDob,
@@ -7098,22 +7099,21 @@ return true;
       });
   }
   onSavePersonalAccidentDetails(){
-    console.log("Final Additional Info",this.form,this.productItem)
     if(this.currentPersonalAccidentIndex!=null){
-      console.log('HHHHHHHHHHHH',this.currentRiskIndex);
-      if(this.productItem.AccSI!=null && this.productItem.AccidentLocation!=null && this.accidentOccupationId!=null){
-      this.PersonalAssistantList[this.currentPersonalAccidentIndex]['Salary'] = this.productItem.AccSI;
-      this.PersonalAssistantList[this.currentPersonalAccidentIndex]['RiskId'] = this.productItem.AccidentLocation;
-      this.PersonalAssistantList[this.currentPersonalAccidentIndex]['OccupationId'] = this.accidentOccupationId,
-      this.PersonalAssistantList[this.currentPersonalAccidentIndex]['OccupationDesc'] = this.accidentOccupation;//this.serialNoDesc
-      this.PersonalAssistantList[this.currentPersonalAccidentIndex]['PersonName'] =this.productItem.AccName; //this.contentRiskDesc;
-      this.PersonalAssistantList[this.currentPersonalAccidentIndex]['Dob'] = this.productItem.AccDob;
-      this.PersonalAssistantList[this.currentPersonalAccidentIndex]['NationalityId'] = this.productItem.AccNationID;
-      this.currentPersonalAccidentIndex=null;
-      this.productItem = new ProductData(); 
-      this.productItem.AccOccupation = this.accidentOccupation;
+      if(this.productItem.AccNationID!=null && this.productItem.AccSI!=0 && this.productItem.AccSI!='0' && this.productItem.AccSI!=null && this.productItem.AccidentLocation!=null && this.accidentOccupationId!=null){
+        this.saveSection = true;
+        this.PersonalAssistantList[this.currentPersonalAccidentIndex]['Salary'] = this.productItem.AccSI;
+        this.PersonalAssistantList[this.currentPersonalAccidentIndex]['RiskId'] = this.productItem.AccidentLocation;
+        this.PersonalAssistantList[this.currentPersonalAccidentIndex]['OccupationId'] = this.accidentOccupationId,
+        this.PersonalAssistantList[this.currentPersonalAccidentIndex]['OccupationDesc'] = this.accidentOccupation;//this.serialNoDesc
+        this.PersonalAssistantList[this.currentPersonalAccidentIndex]['PersonName'] =this.productItem.AccName; //this.contentRiskDesc;
+        this.PersonalAssistantList[this.currentPersonalAccidentIndex]['Dob'] = this.productItem.AccDob;
+        this.PersonalAssistantList[this.currentPersonalAccidentIndex]['NationalityId'] = this.productItem.AccNationID;
+        this.currentPersonalAccidentIndex=this.PersonalAssistantList.length;
+        this.productItem = new ProductData(); 
+        this.productItem.AccOccupation = this.accidentOccupation;
+        this.saveSection = false;
       }
-      // this.AllAdd();     // this.AddNew();
     }
     else{
       if(this.productItem.AccSI!=null && this.productItem.AccidentLocation!=null && this.accidentOccupationId!=null){

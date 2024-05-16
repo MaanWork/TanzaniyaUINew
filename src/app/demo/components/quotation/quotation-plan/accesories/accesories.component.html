@@ -230,7 +230,6 @@
         <p-tabPanel header="Personal Accident" [disabled]="!allfields" *ngIf="second">
             <div class="grid">
                 <div class="lg:col-6 md:col-6 col-12">
-                    {{productItem.AccOccupation}}
                     <form [formGroup]="form">
                         <formly-form [form]="form" [fields]="fieldsPersonalAccident" [model]="productItem"></formly-form>
                     </form>

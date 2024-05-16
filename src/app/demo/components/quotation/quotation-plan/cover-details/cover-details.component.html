@@ -197,11 +197,11 @@
                                                                         {{cover.PremiumIncludedTax | commaseparator}}
                                                                     </ng-container>
                                                                     <ng-container *ngIf="cover.PremiumIncludedTax=='0' || cover.PremiumIncludedTax==0 || cover.PremiumIncludedTax==null">
-                                                                            0 Print3
+                                                                            0
                                                                     </ng-container>
                                                                 </ng-container>
                                                                 <ng-container *ngIf="!checkPremiumIncludedTax(cover,menu)">
-                                                                    0 Print4
+                                                                    0
                                                                 </ng-container>
                                                                   
                                                                    &nbsp;<span class="text-base">( {{currencyCode}} )</span></h4>
@@ -1044,9 +1044,9 @@
                                 </ng-container>
                             </div>   
                             <div class="col-12 md:col-12 lg:col-12 border-500">
-                                <ng-container *ngIf="checkBenefitSection4()">
+                                <!-- <ng-container *ngIf="checkBenefitSection4()">
                                     <h3>AddOn Covers</h3><br>
-                                </ng-container>
+                                </ng-container> -->
                                 <ng-container *ngFor="let menu of vehicleDetailsList;let i = index;let last=last">
                                     <div class="flex flex-wrap justify-content-start">
                                         <ng-container *ngFor="let cover of menu.CoverList">
@@ -1099,11 +1099,11 @@
                                                                     {{cover.PremiumIncludedTax | commaseparator}}
                                                                 </ng-container>
                                                                 <ng-container *ngIf="cover.PremiumIncludedTax=='0' || cover.PremiumIncludedTax==0 || cover.PremiumIncludedTax==null">
-                                                                        0 Print5
+                                                                        0
                                                                 </ng-container>
                                                             </ng-container>
                                                             <ng-container *ngIf="!checkPremiumIncludedTax(cover,menu)">
-                                                                0 Print6
+                                                                0
                                                             </ng-container>
                                                             
                                                             &nbsp;<span class="text-base">( {{currencyCode}} )</span></h4>
@@ -1136,9 +1136,9 @@
                                             </div>
                                         </ng-container>
                                     </div>
-                                    <ng-container *ngIf="checkBenefitSection(menu)">
+                                    <!-- <ng-container *ngIf="checkBenefitSection(menu)">
                                         <h3>AddOn Covers</h3><br>
-                                    </ng-container>
+                                    </ng-container> -->
                                     
                                 </ng-container> 
                                 <div class="flex flex-wrap justify-content-center">
