@@ -1044,9 +1044,9 @@
                                 </ng-container>
                             </div>   
                             <div class="col-12 md:col-12 lg:col-12 border-500">
-                                <!-- <ng-container *ngIf="checkBenefitSection4()">
+                                <ng-container *ngIf="checkBenefitSection4()">
                                     <h3>AddOn Covers</h3><br>
-                                </ng-container> -->
+                                </ng-container>
                                 <ng-container *ngFor="let menu of vehicleDetailsList;let i = index;let last=last">
                                     <div class="flex flex-wrap justify-content-start">
                                         <ng-container *ngFor="let cover of menu.CoverList">
@@ -1060,7 +1060,7 @@
                                                                     
                                                                 </div>
                                                                 <div class="customWidth">
-                                                                    <h5 class="my-0 mr-4">{{cover.CoverName}}</h5>
+                                                                    <h5 class="my-0 mr-4">{{cover.CoverName}} {{cover.selected}}</h5>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1146,6 +1146,15 @@
                                     <ng-container *ngIf="ExclusionData.length!=0"><p-button label="Exclusions" (click)="ExclusioStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
                                     <ng-container *ngIf="WarrantyData.length!=0"><p-button label="Warranties" (click)="WarrantyStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
                                 </div>
+                                <div class="flex flex-wrap justify-content-end">
+                                    <div class="card grid text-white surface-900 px-4 py-2" (click)="showSidebar()" *ngIf="productId=='59'">
+                                        <div class="col-6">
+                                            <h6 class="text-white mt-0">{{totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
+                                        </div>
+                                        <p-button class="col-6" styleClass="surface-900" label="View Cart" severity="primary"></p-button>
+                                    </div>
+                                </div>
+                                
                             </div>
                                     <!-- <div class="mb-4">
                                         <p-button label="Next" *ngIf="!checkNextBtn(menu,i)" (click)="onNext()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>&nbsp;
@@ -1158,21 +1167,11 @@
                                         </div>
                                         <div class="flex flex-wrap justify-content-center" *ngIf="last">
                                             <ng-container *ngIf="ClausesData.length!=0"> <p-button label="Clauses" (click)="ClausesStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
-                                                    <ng-container *ngIf="ExclusionData.length!=0"><p-button label="Exclusions" (click)="ExclusioStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
-                                                    <ng-container *ngIf="WarrantyData.length!=0"><p-button label="Warranties" (click)="WarrantyStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                            <ng-container *ngIf="ExclusionData.length!=0"><p-button label="Exclusions" (click)="ExclusioStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                            <ng-container *ngIf="WarrantyData.length!=0"><p-button label="Warranties" (click)="WarrantyStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                            
                                         </div>
-                                        <div class="card grid text-white surface-900 px-4 py-2" (click)="showSidebar()" *ngIf="productId!='59'">
-                                            <div class="col-6">
-                                                <h6 class="text-white mt-0">{{totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
-                                            </div>
-                                            <p-button class="col-6" styleClass="surface-900" label="View Cart" severity="primary"></p-button>
-                                        </div>
-                                        <div class="card grid text-white surface-900 px-4 py-2" (click)="showSidebar()" *ngIf="productId=='59' && last">
-                                            <div class="col-6">
-                                                <h6 class="text-white mt-0">{{totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
-                                            </div>
-                                            <p-button class="col-6" styleClass="surface-900" label="View Cart" severity="primary"></p-button>
-                                        </div>
+                                        
                                     </div>
                         </div>
                     </ng-container>
@@ -1434,7 +1433,25 @@
     <ng-template pTemplate="footer">
         <div class="flex flex-wrap justify-content-between">
             <div class="mr-0">
-                <p-button label="Buy Policy" (click)="onFormSubmit(null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                <ng-container *ngIf="!checkCurrentSection()">
+                    <p-button label="Proceed"  (click)="onViewOverAllPremium()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                    <!-- <p-button label="Buy Policy"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
+                    (click)="onFormSubmit(null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                   <p-button label="Buy Policy" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                   <p-button label="Buy Policy"   *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
+                   (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-4"></p-button> -->
+                   <p-button label="Proceed"  *ngIf="adminSection"
+                   (click)="onUpdateFactor('',null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                </ng-container>
+                <ng-container *ngIf="selectedSectionId && checkCurrentSection()">
+                    <p-button label="Proceed"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
+                    (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                    <p-button label="Proceed" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                    <p-button label="Proceed"   *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
+                    (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                    <p-button label="Proceed"  *ngIf="adminSection"
+                    (click)="onUpdateFactor('',null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                </ng-container>
             </div>
             <div class="text-white surface-900 px-6 py-3 border-round-lg flex" (click)="showSidebar()">
                 <h5 class="text-white mb-1 mr-3">Total</h5>
