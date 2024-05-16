@@ -1063,8 +1063,8 @@ export class CustomerCreateFormComponent implements OnInit {
 		this.Customervalidate();
 	}
 	else if(type=='direct' && !this.final){
-		this.blankvalidationcheck(data);
-		//this.onSubmit(data);
+		//this.blankvalidationcheck(data);
+		this.onSubmit(data);
 	}
 	else if(type=='direct' && this.final){
    if(this.final1)this.idfieldvalidate();
