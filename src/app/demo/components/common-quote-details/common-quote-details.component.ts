@@ -692,7 +692,15 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 this.quoteRefNo=null;
                 this.tabIndex = 0;
                 this.currencyCode = this.userDetails.Result.CurrencyId;
+                this.noOfDaysVlaue = '90';
+                this.tabIndex = 0;
                 this.onCurrencyChange('direct');
+                  var d= new Date();
+                  var year = d.getFullYear();
+                  var month = d.getMonth();
+                  var day = d.getDate();
+                  if(this.productId=='5' || this.productId=='29'){ this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
+                  else if(this.productId=='46'){this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
                 //this.searchSection = true;
                 this.commonSection = true;
               }
@@ -2203,7 +2211,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
         }
       }
-      
+      if(this.vehicleDetails?.SavedFrom=='SQ') this.vehicleDetails.SavedFrom = 'WEB';
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": null,
@@ -2477,6 +2485,19 @@ export class CommonQuoteDetailsComponent implements OnInit {
               }
               
             }
+            else{
+              this.currencyCode = this.userDetails.Result.CurrencyId;
+                this.noOfDaysVlaue = '90';
+                this.tabIndex = 0;
+                this.vehicleId = null;
+                this.onCurrencyChange('direct');
+                  var d= new Date();
+                  var year = d.getFullYear();
+                  var month = d.getMonth();
+                  var day = d.getDate();
+                  if(this.productId=='5' || this.productId=='29'){ this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
+                  else if(this.productId=='46'){this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
+            }
         }
       },
       (err) => { },
@@ -2674,6 +2695,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               }
             }
           }
+          if(this.motorDetails?.SavedFrom=='SQ') this.motorDetails.SavedFrom = 'WEB';
           let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,
@@ -3232,6 +3254,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   vehicleDetails['MobileNumber'] = customerDetails?.MobileNo1;
                 }
               }
+              if(vehicleDetails?.SavedFrom=='SQ') vehicleDetails.SavedFrom = 'WEB';
               let ReqObj = {
                 "BrokerBranchCode": brokerbranchCode,
                 "AcExecutiveId": this.acExecutiveId,
@@ -3911,6 +3934,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               }
             }
           }
+          if(this.motorDetails?.SavedFrom=='SQ') this.motorDetails.SavedFrom = 'WEB';
           let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,

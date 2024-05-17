@@ -206,13 +206,25 @@ export class CustomerCreateFormComponent implements OnInit {
 			this.productItem.IdNumber = Math.floor(Math 
 				.random() * (maxm - minm + 1)) + minm; 
 		}
+		if(this.productItem.IdType=='2' || this.productItem.IdType==2){
+      
+			if((new Date(dobOrRegDate)).setHours(0,0,0,0)<=new Date().setHours(0,0,0,0) || dobOrRegDate==null || dobOrRegDate==''){
+			  var d= new Date();
+			  var year = d.getFullYear();
+			  var month = d.getMonth();
+			  var day = d.getDate();
+			  var sysDay = new Date(year,month, day-1 );
+			  dobOrRegDate = this.datePipe.transform(sysDay,'dd/MM/yyyy');
+			}
+			
+		  }
 		let policyid:any;
-		// if(data?.PolicyHolderTypeid == '1'){
-        //  policyid = this.Idnumber.concat(this.Idnumber1).concat(this.Idnumber2);
-		// }
-		// else{
+		if(data?.PolicyHolderTypeid == '1'){
+         policyid = this.Idnumber.concat(this.Idnumber1).concat(this.Idnumber2);
+		}
+		else{
 			policyid = data?.IdNumber;
-		//}
+		}
 		
 		let ReqObj = {
 			"BrokerBranchCode": this.brokerbranchCode,
