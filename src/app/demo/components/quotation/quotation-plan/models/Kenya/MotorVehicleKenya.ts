@@ -74,6 +74,8 @@ export class MotorVehicleKenya{
                     type: 'ngselect',
                     key: 'BodyType',
                     defaultValue: '',
+                    hide: true,
+                    hideExpression:true,
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     props: {
                       label: `Body Type`,
@@ -115,6 +117,28 @@ export class MotorVehicleKenya{
                     },
                   },
                   {
+                    type: 'ngselect',
+                    key: 'VehicleClass',
+                    defaultValue: '',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4',
+                    props: {
+                      label: `Vehicle Class`,
+                      disabled: this.checkDisable('VehicleClass'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     key: 'ClaimsYN',
                     type: 'radioList',
@@ -130,7 +154,7 @@ export class MotorVehicleKenya{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     key: 'GpsYN',
-                    type: 'radio',
+                    type: 'radioList',
                     templateOptions: {
                       type: 'radio',
                       label: 'Gps YN ?',
@@ -173,7 +197,7 @@ export class MotorVehicleKenya{
                       label: `Accessories SumInured`,
                       maxLength: 15,
                       disabled: this.checkDisable('AccessoriesSI'),
-                      required: true,
+                      required: false,
                       options: [
   
                       ],
@@ -196,7 +220,7 @@ export class MotorVehicleKenya{
                       label: `WindShield SumInured`,
                       maxLength: 15,
                       disabled: this.checkDisable('WindShieldSI'),
-                      required: true,
+                      required: false,
                       options: [
   
                       ],
@@ -209,46 +233,37 @@ export class MotorVehicleKenya{
                     expressions: {
                     },
                   },
+                  
                   {
-                    type: 'commaSeparator',
-                    key: 'ExtendedTPPDSI',
-                    defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
-                    hide: true,
-                    hideExpression:true,
-                    props: {
-                      label: `Extended TPPD SumInsured`,
-                      disabled: this.checkDisable('ExtendedTPPDSI'),
+                    key: 'PreviousInsuranceYN',
+                    type: 'radioList',
+                    templateOptions: {
+                      type: 'radio',
+                      label: 'Previous Insurance YN?',
                       required: true,
-                      options: [
-      
-                      ],
-      
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
+                      disabled: this.checkDisable('PreviousInsuranceYN'),
+                      name: 'PreviousInsuranceYN',
+                      options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
+                    }
                   },
                   {
-                    type: 'ngselect',
-                    key: 'VehicleClass',
-                    defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
+                    type: 'input',
+                    key: 'PreviousLossRatio',
+                    hide: false,
+                    hideExpression:false,
                     props: {
-                      label: `Vehicle Class`,
-                      disabled: this.checkDisable('VehicleClass'),
-                      required: true,
+                      label: `Previous Loss Ratio (%)`,
+                      maxLength: 3,
+                      disabled: this.checkDisable('Loss'),
+                      required: false,
                       options: [
-      
+  
                       ],
-      
+  
                     },
                     validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
                     },
                     hooks: {
                     },

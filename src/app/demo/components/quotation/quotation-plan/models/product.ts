@@ -135,8 +135,8 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
   GeographicalCoverage: any='';otherGroupoption:any=null;
   EstAnnualCarriesSiLc: any='0';SingleRoadSiLc:any='0';
   otheroptionPer: any = '';patientList:any[]=[];
-  TTDSumInsured: any=null;InsuranceType:any=null;
-  MESumInsured: any=null;EmployeeCounts:any;
+  TTDSumInsured: any=null;InsuranceType:any=null;PreviousInsuranceYN:any='N';
+  MESumInsured: any=null;EmployeeCounts:any;PreviousLossRatio:any=null;
   FESumInsured: any=null;ProfessionalOccupation:any;ProfessionalType:any;GISI:any;
   ProfessionalSI:any;IndemnityTypes:any;maxDate: "2022-09-25";
   MiddleName:any='';LastName:any='';MobileCode:any=null;MobileNo:any=null;
@@ -199,6 +199,8 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.BreakDownCoverYN = data?.BreakDownCoverYN ?? 'No';
 		this.FidelityCoverYN = data?.FidelityCoverYN ?? 'No';
 		this.Status = data?.Status ?? 'Y';
+		this.PreviousLossRatio = data?.PreviousLossRatio ?? '';
+		this.PreviousInsuranceYN = data?.PreviousInsuranceYN ?? 'N'
 		this.WcYN = data?.WcYN ?? 'No';
 		this.LiabilityYN = data?.LiabilityYN ?? 'No';
 		this.GoodsYN = data?.GoodsYN ?? 'No';

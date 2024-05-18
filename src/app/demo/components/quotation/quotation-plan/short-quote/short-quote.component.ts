@@ -178,6 +178,7 @@ export class ShortQuoteComponent implements OnInit {
       let customerReferenceNo =  sessionStorage.getItem('customerReferenceNo');
       if(customerReferenceNo){
         this.customerReferenceNo = customerReferenceNo;
+        this.editSection = true;
         this.getCustomerDetails();
       }
       let quoteReferenceNo =  sessionStorage.getItem('quoteReferenceNo');
@@ -200,6 +201,7 @@ export class ShortQuoteComponent implements OnInit {
           this.productItem.MobileCode = customerDetails?.MobileCode1;
           this.productItem.MobileNo = customerDetails.MobileNo1;
 					this.productItem.MobileCodeDesc = customerDetails.MobileCodeDesc1;
+          this.productItem.Title = customerDetails.Title;
           let fieldList = this.fields2[0].fieldGroup[0].fieldGroup;
           for(let field of fieldList){
             if(field.key=='CustomerName') field.formControl.setValue(customerDetails?.ClientName);
@@ -309,7 +311,8 @@ export class ShortQuoteComponent implements OnInit {
   onBuyQuote(){
     sessionStorage.setItem('customerReferenceNo',this.customerReferenceNo);
     sessionStorage.setItem('QuoteType','SQ');
-    this.router.navigate(['customer/create']);
+    if(this.productItem.Title==null || this.productItem.Title=='' || this.productItem.Title==undefined) this.router.navigate(['customer/create']);
+    else this.router.navigate(['/quotation/plan/quote-details']);
   }
   onCurrencyChange(type){
     let currencyData 
@@ -531,7 +534,7 @@ export class ShortQuoteComponent implements OnInit {
                         for(let field of fieldList){
                           console.log('Field ',field)
                           if(field.key=='InsuranceClass'){
-                                field.props.options= defaultObj.concat(this.classList);;
+                            field.props.options= defaultObj.concat(this.classList);;
                           }
                         }
                       }
@@ -539,7 +542,6 @@ export class ShortQuoteComponent implements OnInit {
                 }
               }
             }
-            
         }
       },
       (err) => { },

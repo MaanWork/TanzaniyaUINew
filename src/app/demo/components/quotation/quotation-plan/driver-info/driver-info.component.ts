@@ -258,7 +258,6 @@ export class DriverInfoComponent {
   onNextProceed(index){
     let entry = this.driverDetailsList[index];
     let i=0;this.driverNameError =false;this.licenseNoError = false;this.driverDobError=false;this.driverTypeError = false;
-    alert(entry.DriverDob)
     if(entry.DriverName==null || entry.DriverName=='' || entry.DriverName==undefined){i+=1;this.driverNameError=true;}
     if(entry.LicenseNo==null || entry.LicenseNo=='' || entry.LicenseNo==undefined){i+=1;this.licenseNoError=true;}
     if(entry.DriverDob==null || entry.DriverDob=='' || entry.DriverDob==undefined){i+=1;this.driverDobError=true;}

@@ -169,6 +169,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     this.genderOptions = [
       {"label":'Male',"value":'M'},
       {"label":'Female',"value":'F'},
+      {"label":'Other',"value":'O'},
     ];
     this.vehicleValueList = [
       {"Code":"","CodeDesc":"---Select---"},
@@ -319,9 +320,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   this.vehicleClassList[i].label = this.vehicleClassList[i]['CodeDesc'];
                   this.vehicleClassList[i].value = this.vehicleClassList[i]['Code'];
                   if (i == this.vehicleClassList.length - 1) {
-                      console.log("Dropdown List",this.fields)
-                      this.fields[0].fieldGroup[0].fieldGroup[10].props.options = defaultObj.concat(this.vehicleClassList);
-                      
+                      console.log("Dropdown List",this.fields);
+                      let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                      for(let field of fieldList){
+                          if(field.key=='VehicleClass') field.props.options = defaultObj.concat(this.vehicleClassList);
+                      }
                   }
                 }
               }
@@ -2255,6 +2258,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
         "Motorusage": this.vehicleDetails?.Motorusage,
         "MotorusageId": this.vehicleDetails?.MotorusageId,
         "NcdYn": null,
+        "PreviousInsuranceYN":'N',
+        "PreviousLossRatio": null,
         "PolicyRenewalYn": 'N',
         "NoOfClaims": null,
         "NumberOfAxels": this.vehicleDetails?.NumberOfAxels,
@@ -2694,6 +2699,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             }
           }
           if(this.motorDetails?.SavedFrom=='SQ') this.motorDetails.SavedFrom = 'WEB';
+          if(this.productItem.PreviousInsuranceYN==null || this.productItem.PreviousInsuranceYN=='') this.productItem.PreviousInsuranceYN='N';
           let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,
@@ -2813,6 +2819,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "Mileage":this.productItem.Mileage,
             "NoOfClaimYears":this.productItem.NoOfClaimYears,
             "NoOfPassengers":this.productItem.NoOfPassengers,
+            "PreviousInsuranceYN":this.productItem.PreviousInsuranceYN,
+            "PreviousLossRatio": this.productItem.PreviousLossRatio,
             "Scenarios": {
               "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": this.vehicleDetails.OldAcccessoriesSumInsured,
@@ -4052,6 +4060,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "Mileage":this.productItem?.Mileage,
             "NoOfClaimYears":this.productItem.NoOfClaimYears,
             "NoOfPassengers":this.productItem.NoOfPassengers,
+            "PreviousInsuranceYN":this.productItem.PreviousInsuranceYN,
+            "PreviousLossRatio": this.productItem.PreviousLossRatio,
             "Scenarios": {
               "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": this.vehicleDetails.OldAcccessoriesSumInsured,
@@ -4666,6 +4676,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             let entry = this.vehicleDetails.DriverDetails;
             if(entry){
               this.driverName = entry?.DriverName;
+              this.driverType = entry?.DriverType;
               this.licenseNo = entry?.LicenseNo;
               if(entry.Gender) this.gender = entry?.Gender;
               else this.gender = 'M';
@@ -4802,6 +4813,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.productItem.NoOfClaimYears =this.vehicleDetails?.NoOfClaimYears;
       this.productItem.NoOfPassengers =this.vehicleDetails?.NoOfPassengers;
       this.productItem.DefenceCost = this.vehicleDetails?.DefenceValue;
+      if(this.vehicleDetails?.PreviousLossRatio) this.productItem.PreviousLossRatio = this.vehicleDetails?.PreviousLossRatio;
+      if(this.vehicleDetails?.PreviousInsuranceYN) this.productItem.PreviousInsuranceYN = this.vehicleDetails?.PreviousInsuranceYN;
+      else this.productItem.PreviousInsuranceYN = 'N';
       if(this.vehicleDetails?.NcdYn) this.productItem.ClaimsYN = this.vehicleDetails?.NcdYn;
       else this.productItem.ClaimsYN = 'N';
       if(this.vehicleDetails?.PolicyRenewalYn) this.productItem.RenewalYn = this.vehicleDetails?.PolicyRenewalYn;
