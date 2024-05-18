@@ -178,7 +178,6 @@ export class ShortQuoteComponent implements OnInit {
       let customerReferenceNo =  sessionStorage.getItem('customerReferenceNo');
       if(customerReferenceNo){
         this.customerReferenceNo = customerReferenceNo;
-        this.editSection = true;
         this.getCustomerDetails();
       }
       let quoteReferenceNo =  sessionStorage.getItem('quoteReferenceNo');
