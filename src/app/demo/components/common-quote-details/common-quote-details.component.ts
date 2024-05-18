@@ -1271,7 +1271,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
     );
   }
   getInsuranceClassList(){
-    if(this.classList.length==0){
       let loginId = null;
       if(this.userType!='Issuer'){
         this.subuserType = sessionStorage.getItem('typeValue');
@@ -1310,7 +1309,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                           for(let field of fieldList){
                             console.log('Field ',field)
                             if(field.key=='InsuranceClass'){
-                                  field.props.options= defaultObj.concat(this.classList);;
+                                field.props.options= defaultObj.concat(this.classList);
                             }
                           }
                         }
@@ -1323,7 +1322,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
         },
         (err) => { },
       );
-    }
     
   }
   onChangeClassType(){

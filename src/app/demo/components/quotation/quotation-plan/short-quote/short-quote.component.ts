@@ -1088,8 +1088,8 @@ export class ShortQuoteComponent implements OnInit {
             let vehicleList:any[]=[];
             if(this.vehicleData.length!=0){
               
-              this.policyStartDate = this.vehicleData[0]?.PolicyStartDate;
-              this.policyEndDate = this.vehicleData[0]?.PolicyEndDate;
+              // this.policyStartDate = this.vehicleData[0]?.PolicyStartDate;
+              // this.policyEndDate = this.vehicleData[0]?.PolicyEndDate;
               let referralList = this.vehicleData.filter(ele=>(ele.UWReferral!=null && ele.UWReferral.length!=0) || ele.MasterReferral.length!=0);
               
               if(this.vehicleData[0].EndtTypeMaster!=null){
