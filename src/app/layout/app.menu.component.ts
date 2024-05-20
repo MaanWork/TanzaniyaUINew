@@ -193,11 +193,14 @@ export class AppMenuComponent implements OnInit {
                 }
               }
               this.layoutService.menuList = data?.Result;
+               this.layoutService.MenuMasterList = data?.Result[2]?.children;
               let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
               if (userDetails) {
                 userDetails.Result['menuList'] = data.Result;
+                userDetails.Result['MenuMasterList'] = data.Result[2].children;
                 sessionStorage.setItem('Userdetails', JSON.stringify(userDetails));
                 this.setMenuSection(data.Result);
+               // this.setMaster(data.Result[2].children)
               }
             }
           },
@@ -205,6 +208,7 @@ export class AppMenuComponent implements OnInit {
           (err: any) => { console.log(err); },
         );
       }
+    
       setMenuSection(menuList) {
         if (menuList.length != 0) {
           let menus = [], i = 0;
@@ -215,7 +219,7 @@ export class AppMenuComponent implements OnInit {
               "icon": 'pi pi-car',
               "routerLink": [menu.link]
             }
-            if (menu.children && menu.title!='Quote Register' && menu.title!='Referral' && menu.title!='Portfolio' && menu.title!='Referal Management') {
+            if (menu.children && menu.title!='Quote Register' && menu.title!='Referral' && menu.title!='Portfolio' && menu.title!='Referal Management' && menu.title!='Masters') {
 
               entry['items'] = [];
               let j = 0;
@@ -264,6 +268,7 @@ export class AppMenuComponent implements OnInit {
               else if(menu.title=='Short Quote') entry["routerLink"] =  ['/quotation/plan/shortQuote']
               else if(menu.title=='Report') entry["routerLink"] =  ['/report']
               else if(menu.title=='Search') entry["routerLink"] =  ['/Search']
+              else if(menu.title=='Masters') entry["routerLink"] =  ['/Admin/bankMaster']
               else entry["routerLink"] =  [menu.link]
               entry['link'] = menu.link;
               menus.push(entry);
