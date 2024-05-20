@@ -146,9 +146,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
   VehicleSI: string;
   WindShieldSI: string;
   constructor(private router:Router,private sharedService:SharedService,private datePipe:DatePipe,private messageService: MessageService){
-      this.minDate = new Date();
+    this.minDate = new Date();
       
-      this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+    this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     console.log("UserDetails",this.userDetails);
     this.loginId = this.userDetails.Result.LoginId;
     this.userType = this.userDetails?.Result?.UserType;
@@ -169,6 +169,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     this.genderOptions = [
       {"label":'Male',"value":'M'},
       {"label":'Female',"value":'F'},
+      {"label":'Other',"value":'O'},
     ];
     this.vehicleValueList = [
       {"Code":"","CodeDesc":"---Select---"},
@@ -286,7 +287,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     );
   }
   getCityLimitList(){
-    if(this.cityList.length==0){
+    if(this.cityList.length==0 && this.tabIndex!=0){
       let ReqObj = {
         "InsuranceId": this.insuranceId,
         "BranchCode": this.branchCode
@@ -302,7 +303,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
   }
   getVehicleClassList(){
-    if(this.vehicleClassList.length==0){
+    if(this.vehicleClassList.length==0 && this.tabIndex!=0){
       let ReqObj = {
         "InsuranceId": this.insuranceId,
         "BranchCode": this.branchCode
@@ -319,9 +320,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   this.vehicleClassList[i].label = this.vehicleClassList[i]['CodeDesc'];
                   this.vehicleClassList[i].value = this.vehicleClassList[i]['Code'];
                   if (i == this.vehicleClassList.length - 1) {
-                      console.log("Dropdown List",this.fields)
-                      this.fields[0].fieldGroup[0].fieldGroup[10].props.options = defaultObj.concat(this.vehicleClassList);
-                      
+                      console.log("Dropdown List",this.fields);
+                      let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                      for(let field of fieldList){
+                          if(field.key=='VehicleClass') field.props.options = defaultObj.concat(this.vehicleClassList);
+                      }
                   }
                 }
               }
@@ -330,7 +333,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
         (err) => { },
       );
     }
-    
   }
   getMartialList(){
     if(this.martialList.length==0){
@@ -366,7 +368,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     );
   }
   getClaimTypeList(){
-    if(this.claimTypeList.length==0){
+    if(this.claimTypeList.length==0 && this.tabIndex!=0){
       let ReqObj = {
         "InsuranceId": this.insuranceId
       }
@@ -679,7 +681,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           if(referenceNo){
             this.quoteRefNo = referenceNo;
            if(this.productId=='5' || this.productId=='46' || this.productId=='29') this.getExistingVehiclesList('direct');
-           if(this.productId!='5' && this.productId!='4' && this.productId!='46' && this.productId!='29') this.getExistingBuildingList();
+           else if(this.productId!='5' && this.productId!='4' && this.productId!='46' && this.productId!='29') this.getExistingBuildingList();
           }
           else{
             let loadType = sessionStorage.getItem('firstLoad');
@@ -692,7 +694,15 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 this.quoteRefNo=null;
                 this.tabIndex = 0;
                 this.currencyCode = this.userDetails.Result.CurrencyId;
+                this.noOfDaysVlaue = '90';
+                this.tabIndex = 0;
                 this.onCurrencyChange('direct');
+                  var d= new Date();
+                  var year = d.getFullYear();
+                  var month = d.getMonth();
+                  var day = d.getDate();
+                  if(this.productId=='5' || this.productId=='29'){ this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
+                  else if(this.productId=='46'){this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
                 //this.searchSection = true;
                 this.commonSection = true;
               }
@@ -772,88 +782,91 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
   }
   getExistingBuildingList(){
-    let urlLink:any;
-    let ReqObj = {
-      "RequestReferenceNo": this.quoteRefNo,
-      "RiskId":"1",
-      "ProductId": this.productId,
-      "InsuranceId": this.insuranceId
-    }
-    //if(this.productId=='59') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
-    if(this.productId=='6' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='13'  || this.productId=='19' || this.productId=='32' || this.productId=='1' || this.productId=='26' || this.productId=='21' || this.productId == '25' || this.productId=='42' || this.productId=='59' || this.productId=='24') urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
-    else urlLink =  `${this.motorApiUrl}api/geteservicebyriskid`;
-    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-      (data: any) => {
-        console.log(data);
-        if(data.Result){
-            this.commonData = data.Result;
-              let entry:any;
-              //if(this.productId=='59') entry = this.vehicleDetailsList[0];
-               entry = this.commonData
-               if(entry?.FinalizeYn!=null){
-                this.finalizeYN== entry?.FinalizeYn;
-                sessionStorage.setItem('FinalizeYN',this.finalizeYN);
-               }
-               else this.finalizeYN='N';
-                if(entry?.EndorsementDate!=null){
-                  this.endorsementDetails['EndorsementDate'] = entry?.EndorsementDate;
-                  this.endorsementDetails['EndorsementEffectiveDate'] = entry?.EndorsementEffectiveDate;
-                  this.endorsementDetails['EndorsementRemarks'] = entry?.EndorsementRemarks;
-                  this.endorsementDetails['EndorsementType'] = entry?.EndorsementType;
-                  this.endorsementDetails['EndorsementTypeDesc'] = entry?.EndorsementTypeDesc;
-                  this.endorsementDetails['EndtCategoryDesc'] = entry?.EndtCategoryDesc;
-                  this.endorsementDetails['EndtCount'] = entry?.EndtCount;
-                  this.endorsementDetails['EndtPrevPolicyNo'] = entry?.EndtPrevPolicyNo;
-                  this.endorsementDetails['EndtPrevQuoteNo'] = entry?.EndtPrevQuoteNo;
-                  this.endorsementDetails['EndtStatus'] = entry?.EndtStatus;
-                  this.endorsementDetails['IsFinanceEndt'] = entry?.IsFinanceEndt;
-                  this.endorsementDetails['OrginalPolicyNo'] = entry?.OrginalPolicyNo;
-                  sessionStorage.setItem('endorseTypeId',JSON.stringify(this.endorsementDetails));
+    if(this.productId!='5'){
+      let urlLink:any;
+      let ReqObj = {
+        "RequestReferenceNo": this.quoteRefNo,
+        "RiskId":"1",
+        "ProductId": this.productId,
+        "InsuranceId": this.insuranceId
+      }
+      //if(this.productId=='59') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
+      if(this.productId=='6' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='13'  || this.productId=='19' || this.productId=='32' || this.productId=='1' || this.productId=='26' || this.productId=='21' || this.productId == '25' || this.productId=='42' || this.productId=='59' || this.productId=='24') urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
+      else urlLink =  `${this.motorApiUrl}api/geteservicebyriskid`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+              this.commonData = data.Result;
+                let entry:any;
+                //if(this.productId=='59') entry = this.vehicleDetailsList[0];
+                 entry = this.commonData
+                 if(entry?.FinalizeYn!=null){
+                  this.finalizeYN== entry?.FinalizeYn;
+                  sessionStorage.setItem('FinalizeYN',this.finalizeYN);
+                 }
+                 else this.finalizeYN='N';
+                  if(entry?.EndorsementDate!=null){
+                    this.endorsementDetails['EndorsementDate'] = entry?.EndorsementDate;
+                    this.endorsementDetails['EndorsementEffectiveDate'] = entry?.EndorsementEffectiveDate;
+                    this.endorsementDetails['EndorsementRemarks'] = entry?.EndorsementRemarks;
+                    this.endorsementDetails['EndorsementType'] = entry?.EndorsementType;
+                    this.endorsementDetails['EndorsementTypeDesc'] = entry?.EndorsementTypeDesc;
+                    this.endorsementDetails['EndtCategoryDesc'] = entry?.EndtCategoryDesc;
+                    this.endorsementDetails['EndtCount'] = entry?.EndtCount;
+                    this.endorsementDetails['EndtPrevPolicyNo'] = entry?.EndtPrevPolicyNo;
+                    this.endorsementDetails['EndtPrevQuoteNo'] = entry?.EndtPrevQuoteNo;
+                    this.endorsementDetails['EndtStatus'] = entry?.EndtStatus;
+                    this.endorsementDetails['IsFinanceEndt'] = entry?.IsFinanceEndt;
+                    this.endorsementDetails['OrginalPolicyNo'] = entry?.OrginalPolicyNo;
+                    sessionStorage.setItem('endorseTypeId',JSON.stringify(this.endorsementDetails));
+                  }
+                this.applicationId = entry.ApplicationId;
+                if(entry?.PolicyStartDate != null ){
+                  var dateParts = entry?.PolicyStartDate.split("/");
+                  // month is 0-based, that's why we need dataParts[1] - 1
+                  this.policyStartDate = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
+                  //this.policyStartDate = dateObject.toString()
                 }
-              this.applicationId = entry.ApplicationId;
-              if(entry?.PolicyStartDate != null ){
-                var dateParts = entry?.PolicyStartDate.split("/");
-                // month is 0-based, that's why we need dataParts[1] - 1
-                this.policyStartDate = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
-                //this.policyStartDate = dateObject.toString()
+                if(entry?.PolicyEndDate != null ){
+                  var dateParts = entry?.PolicyEndDate.split("/");
+                  // month is 0-based, that's why we need dataParts[1] - 1
+                  this.policyEndDate = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
+                  this.onChangeEndDate();
+                }
+                //this.executiveValue = entry?.AcExecutiveId;
+                this.currencyCode = entry?.Currency;
+                this.onCurrencyChange('direct');
+                this.exchangeRate = entry?.ExchangeRate;
+                this.IndustryId = entry?.IndustryId;
+                this.executiveValue= entry?.AcExecutiveId;
+                this.havePromoCodeYN=entry?.Havepromocode;
+                if(entry.BuildingOwnerYn!=null && entry?.BuildingOwnerYn!='') this.buildingOwnerYN = entry?.BuildingOwnerYn;
+                this.promocode=entry?.Promocode;
+                if(entry.SourceTypeId!=null) this.Code = entry?.SourceTypeId;
+                this.branchCode = entry?.BranchCode;
+                this.brokerBranchCode = entry?.BrokerBranchCode;
+                this.customerCode = entry?.CustomerCode;
+                this.brokerCode = entry?.BrokerCode;
+                this.currentStatus = entry?.Status;
+                this.onSourceTypeChange('direct');
+                let quoteStatus = sessionStorage.getItem('QuoteStatus');
+                if(quoteStatus=='AdminRP' || quoteStatus=='AdminRA' || quoteStatus=='AdminRR'){
+                  this.adminSection = true;this.issuerSection = false;
+                }
+                else if(this.userType!='Broker' && this.userType!='User'){ this.issuerSection = true;this.adminSection=false; }
+                else this.issuerSection = false
               }
-              if(entry?.PolicyEndDate != null ){
-                var dateParts = entry?.PolicyEndDate.split("/");
-                // month is 0-based, that's why we need dataParts[1] - 1
-                this.policyEndDate = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
-                this.onChangeEndDate();
-              }
-              //this.executiveValue = entry?.AcExecutiveId;
-              this.currencyCode = entry?.Currency;
-              this.onCurrencyChange('direct');
-              this.exchangeRate = entry?.ExchangeRate;
-              this.IndustryId = entry?.IndustryId;
-              this.executiveValue= entry?.AcExecutiveId;
-              this.havePromoCodeYN=entry?.Havepromocode;
-              if(entry.BuildingOwnerYn!=null && entry?.BuildingOwnerYn!='') this.buildingOwnerYN = entry?.BuildingOwnerYn;
-              this.promocode=entry?.Promocode;
-              if(entry.SourceTypeId!=null) this.Code = entry?.SourceTypeId;
-              this.branchCode = entry?.BranchCode;
-              this.brokerBranchCode = entry?.BrokerBranchCode;
-              this.customerCode = entry?.CustomerCode;
-              this.brokerCode = entry?.BrokerCode;
-              this.currentStatus = entry?.Status;
-              this.onSourceTypeChange('direct');
-              let quoteStatus = sessionStorage.getItem('QuoteStatus');
-              if(quoteStatus=='AdminRP' || quoteStatus=='AdminRA' || quoteStatus=='AdminRR'){
-                this.adminSection = true;this.issuerSection = false;
-              }
-              else if(this.userType!='Broker' && this.userType!='User'){ this.issuerSection = true;this.adminSection=false; }
-              else this.issuerSection = false
-            }
-            console.log(
-              "Code",this.Code,this.branchCode,this.brokerBranchCode,this.customerCode,this.brokerCode
-            )
-            //this.onGetCustomerList('direct',this.customerCode);
-          
-      },
-      (err) => { },
-    );
+              console.log(
+                "Code",this.Code,this.branchCode,this.brokerBranchCode,this.customerCode,this.brokerCode
+              )
+              //this.onGetCustomerList('direct',this.customerCode);
+            
+        },
+        (err) => { },
+      );
+    }
+    
   }
   setTiraVehicleValues(entry){
     console.log("Entry Values",entry);
@@ -1263,57 +1276,58 @@ export class CommonQuoteDetailsComponent implements OnInit {
     );
   }
   getInsuranceClassList(){
-    let loginId = null;
-    if(this.userType!='Issuer'){
-      this.subuserType = sessionStorage.getItem('typeValue');
-      if(this.subuserType=='B2C') loginId = 'guest';
-      else{
-      loginId=this.loginId;
+      let loginId = null;
+      if(this.userType!='Issuer'){
+        this.subuserType = sessionStorage.getItem('typeValue');
+        if(this.subuserType=='B2C') loginId = 'guest';
+        else{
+        loginId=this.loginId;
+        }
       }
-    }
-    else{
-      loginId=this.loginId
-        if(this.vehicleDetailsList.length!=0) loginId = this.vehicleDetailsList[0].LoginId;
-        //if(this.updateComponent.brokerLoginId) loginId = this.updateComponent.brokerLoginId
-    }
-    let ReqObj = {
-      "InsuranceId": this.insuranceId,
-      "ProductId": this.productId,
-      "BranchCode": this.branchCode,
-      "LoginId":loginId
-    }
-    let urlLink = `${this.ApiUrl1}master/dropdown/policytype`;
-    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-      (data: any) => {
-        if(data.Result){
-            this.classList = data.Result;
-            if(this.insuranceId!='100027'){
-              if(this.classList.length!=0){
-                let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
-                for (let i = 0; i < this.classList.length; i++) {
-                  this.classList[i].label = this.classList[i]['CodeDesc'];
-                  this.classList[i].value = this.classList[i]['Code'];
-                  if (i == this.classList.length-1) {
-                   
-                      console.log("Dropdown List",this.fields)
-                      if(this.insuranceId=='100002' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020' || this.insuranceId=='100004'){
-                        let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
-                        for(let field of fieldList){
-                          console.log('Field ',field)
-                          if(field.key=='InsuranceClass'){
-                                field.props.options= defaultObj.concat(this.classList);;
+      else{
+        loginId=this.loginId
+          if(this.vehicleDetailsList.length!=0) loginId = this.vehicleDetailsList[0].LoginId;
+          //if(this.updateComponent.brokerLoginId) loginId = this.updateComponent.brokerLoginId
+      }
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "ProductId": this.productId,
+        "BranchCode": this.branchCode,
+        "LoginId":loginId
+      }
+      let urlLink = `${this.ApiUrl1}master/dropdown/policytype`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          if(data.Result){
+              this.classList = data.Result;
+              if(this.insuranceId!='100027'){
+                if(this.classList.length!=0){
+                  let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
+                  for (let i = 0; i < this.classList.length; i++) {
+                    this.classList[i].label = this.classList[i]['CodeDesc'];
+                    this.classList[i].value = this.classList[i]['Code'];
+                    if (i == this.classList.length-1) {
+                     
+                        console.log("Dropdown List",this.fields)
+                        if(this.insuranceId=='100002' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020' || this.insuranceId=='100004'){
+                          let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                          for(let field of fieldList){
+                            console.log('Field ',field)
+                            if(field.key=='InsuranceClass'){
+                                field.props.options= defaultObj.concat(this.classList);
+                            }
                           }
                         }
-                      }
+                    }
                   }
                 }
               }
-            }
-            
-        }
-      },
-      (err) => { },
-    );
+              
+          }
+        },
+        (err) => { },
+      );
+    
   }
   onChangeClassType(){
     this.vehicleSI ="0";this.accessoriesSI="0",this.windShieldSI="0";this.tppdSI = "0";
@@ -1700,7 +1714,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
   }
   getBorrowerList(){
-    if(this.borrowerList.length==0){
+    if(this.borrowerList.length==0 && this.tabIndex!=0){
       let ReqObj = {
         "InsuranceId": this.insuranceId,
         "BranchCode": this.branchCode
@@ -1720,7 +1734,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
   }
   getBankList(){
-    if(this.bankList.length==0){
+    if(this.bankList.length==0  && this.tabIndex!=0){
       let branchCode = '';
       if(this.adminSection || (this.userType!='Broker' && this.userType!='User')){
         branchCode = this.branchCode
@@ -1898,15 +1912,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
   }
   getMotorDetails(index){
-        this.getBorrowerList();
-        this.getBankList();
-        this.getCityLimitList();
-        if(this.insuranceId=='100020' || this.insuranceId=='100028'){
-          if(this.insuranceId=='100020') this.getVehicleClassList();
-          this.getMartialList();
-          this.getStateList();
-          if(this.insuranceId=='100028') this.getClaimTypeList();
-        }
+        
         let vehicleDetails = this.vehicleDetailsList[index];
         this.vehicleId = vehicleDetails?.Vehicleid;
         
@@ -2208,7 +2214,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
         }
       }
-      
+      if(this.vehicleDetails?.SavedFrom=='SQ') this.vehicleDetails.SavedFrom = 'WEB';
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": null,
@@ -2254,6 +2260,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
         "Motorusage": this.vehicleDetails?.Motorusage,
         "MotorusageId": this.vehicleDetails?.MotorusageId,
         "NcdYn": null,
+        "PreviousInsuranceYN":'N',
+        "PreviousLossRatio": null,
         "PolicyRenewalYn": 'N',
         "NoOfClaims": null,
         "NumberOfAxels": this.vehicleDetails?.NumberOfAxels,
@@ -2482,6 +2490,19 @@ export class CommonQuoteDetailsComponent implements OnInit {
               }
               
             }
+            else{
+              this.currencyCode = this.userDetails.Result.CurrencyId;
+                this.noOfDaysVlaue = '90';
+                this.tabIndex = 0;
+                this.vehicleId = null;
+                this.onCurrencyChange('direct');
+                  var d= new Date();
+                  var year = d.getFullYear();
+                  var month = d.getMonth();
+                  var day = d.getDate();
+                  if(this.productId=='5' || this.productId=='29'){ this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
+                  else if(this.productId=='46'){this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
+            }
         }
       },
       (err) => { },
@@ -2679,6 +2700,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
               }
             }
           }
+          if(this.motorDetails?.SavedFrom=='SQ') this.motorDetails.SavedFrom = 'WEB';
+          if(this.productItem.PreviousInsuranceYN==null || this.productItem.PreviousInsuranceYN=='') this.productItem.PreviousInsuranceYN='N';
           let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,
@@ -2798,6 +2821,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "Mileage":this.productItem.Mileage,
             "NoOfClaimYears":this.productItem.NoOfClaimYears,
             "NoOfPassengers":this.productItem.NoOfPassengers,
+            "PreviousInsuranceYN":this.productItem.PreviousInsuranceYN,
+            "PreviousLossRatio": this.productItem.PreviousLossRatio,
             "Scenarios": {
               "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": this.vehicleDetails.OldAcccessoriesSumInsured,
@@ -3237,6 +3262,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   vehicleDetails['MobileNumber'] = customerDetails?.MobileNo1;
                 }
               }
+              if(vehicleDetails?.SavedFrom=='SQ') vehicleDetails.SavedFrom = 'WEB';
               let ReqObj = {
                 "BrokerBranchCode": brokerbranchCode,
                 "AcExecutiveId": this.acExecutiveId,
@@ -3916,6 +3942,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               }
             }
           }
+          if(this.motorDetails?.SavedFrom=='SQ') this.motorDetails.SavedFrom = 'WEB';
           let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,
@@ -4035,6 +4062,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "Mileage":this.productItem?.Mileage,
             "NoOfClaimYears":this.productItem.NoOfClaimYears,
             "NoOfPassengers":this.productItem.NoOfPassengers,
+            "PreviousInsuranceYN":this.productItem.PreviousInsuranceYN,
+            "PreviousLossRatio": this.productItem.PreviousLossRatio,
             "Scenarios": {
               "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": this.vehicleDetails.OldAcccessoriesSumInsured,
@@ -4649,6 +4678,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             let entry = this.vehicleDetails.DriverDetails;
             if(entry){
               this.driverName = entry?.DriverName;
+              this.driverType = entry?.DriverType;
               this.licenseNo = entry?.LicenseNo;
               if(entry.Gender) this.gender = entry?.Gender;
               else this.gender = 'M';
@@ -4701,6 +4731,15 @@ export class CommonQuoteDetailsComponent implements OnInit {
     );
   }
   setVehicleValues(type){
+    this.getBorrowerList();
+    this.getBankList();
+    this.getCityLimitList();
+    if(this.insuranceId=='100020' || this.insuranceId=='100028'){
+      if(this.insuranceId=='100020') this.getVehicleClassList();
+      this.getMartialList();
+      this.getStateList();
+      if(this.insuranceId=='100028') this.getClaimTypeList();
+    }
     this.productItem.MotorUsage = this.vehicleDetails.Motorusage;
     this.motorUsageValue = this.vehicleDetails.Motorusage;
     this.vehicleId = String(this.vehicleDetails?.Vehicleid);
@@ -4776,6 +4815,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.productItem.NoOfClaimYears =this.vehicleDetails?.NoOfClaimYears;
       this.productItem.NoOfPassengers =this.vehicleDetails?.NoOfPassengers;
       this.productItem.DefenceCost = this.vehicleDetails?.DefenceValue;
+      if(this.vehicleDetails?.PreviousLossRatio) this.productItem.PreviousLossRatio = this.vehicleDetails?.PreviousLossRatio;
+      if(this.vehicleDetails?.PreviousInsuranceYN) this.productItem.PreviousInsuranceYN = this.vehicleDetails?.PreviousInsuranceYN;
+      else this.productItem.PreviousInsuranceYN = 'N';
       if(this.vehicleDetails?.NcdYn) this.productItem.ClaimsYN = this.vehicleDetails?.NcdYn;
       else this.productItem.ClaimsYN = 'N';
       if(this.vehicleDetails?.PolicyRenewalYn) this.productItem.RenewalYn = this.vehicleDetails?.PolicyRenewalYn;
@@ -4791,9 +4833,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
     if(this.insuranceId!='100004') this.getInsuranceTypeList();
     else{this.getMotorUsageAltList();}
     //if(this.insuranceId=='100027') this.getMotorTypeList('direct',null,null)
-    this.getType1();
-    this.getType2();
-    this.getType3();
+    if(this.insuranceId=='100027'){
+      this.getType1();
+      this.getType2();
+      this.getType3();
+    }
+    
     this.typeValue = this.vehicleDetails?.Insurancetype;
     this.classValue = this.vehicleDetails?.InsuranceClass;
     this.claimTypeValue = this.vehicleDetails?.ClaimType;
@@ -5051,7 +5096,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
   }
   navigateTo(location) {
     if(location=='back'){
-      if(this.tabIndex==0) this.router.navigate(['/quotation']);
+      if(this.tabIndex==0){
+        if(sessionStorage.getItem('QuoteType')) this.router.navigate(['quotation/plan/shortQuote']);
+        else this.router.navigate(['/quotation']);
+      }
       else if(this.tabIndex!=0){
         this.tabIndex-=1;
         this.productItem=new ProductData();

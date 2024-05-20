@@ -15,7 +15,9 @@ $gutter: 1rem; //for primeflex grid system
 @import "assets/demo/styles/code.scss";
 @import 'node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import "node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
-
+html {
+    scroll-behavior: smooth;
+}
 .disabled{
     cursor: not-allowed !important;
 }

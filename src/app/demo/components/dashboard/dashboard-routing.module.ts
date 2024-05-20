@@ -17,7 +17,6 @@ import { ReferralCasesComponent } from '../Admin/referralCases/referral-cases.co
 import { SearchComponent } from '../Search/search.component';
 import { EndorsementComponent } from '../portfolio/endorsement/endorsement.component';
 import { EndorsementTypeComponent } from '../portfolio/endorsement-type/endorsement-type.component';
-import { AdminComponent } from '../Admin/admin.component';
 
 
 @NgModule({
@@ -40,7 +39,6 @@ import { AdminComponent } from '../Admin/admin.component';
         { path: 'report', component: ReportComponent },
         { path: 'referralCases', component: ReferralCasesComponent },
         { path: 'Search', component : SearchComponent},
-        { path: 'Admin',  loadChildren: () => import('../Admin/admin.module').then(m => m.AdminModule) },
     ])],
     exports: [RouterModule]
 })

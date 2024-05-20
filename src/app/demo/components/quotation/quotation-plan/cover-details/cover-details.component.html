@@ -15,12 +15,14 @@
         </div>
       </div>
     </div>
+    
+
     <div class="flex justify-content-end mb-4" *ngIf="!checkCurrentSection()">
-        
         <p-button icon="pi pi-table"  class="mr-3" [styleClass]="verticalSection == false ? '':'p-button-outlined'" (click)="verticalSection=!verticalSection" severity="success "></p-button>
         <p-button icon="pi pi-list" [styleClass]="verticalSection==true ? '':'p-button-outlined'" (click)="verticalSection=!verticalSection"  severity="success "></p-button>
       </div>
     <p-divider></p-divider>
+    
     <ng-container *ngIf="vehicleDetailsList.length!=0 && productId!='59'">
         <ng-container *ngIf="!checkCurrentSection()">
             <p-tabView [activeIndex]="tabIndex" (onChange)="onTabClicked($event)">
@@ -461,7 +463,7 @@
                                 </ng-container>
                                 <div class="felx flex-warp t-a-r viewDetailsText2" >
 
-                                    <h6 (click)="onChooseCompareSection(menu)"><a >View More Covers >></a></h6>
+                                    <h6 (click)="onChooseCompareSection(menu,target)"><a >View More Covers >></a></h6>
                                 </div>
                                 <hr class="hr new4">
                                 <div class="grid mt-2 justify-content-end" style="padding: 12px;">
@@ -474,189 +476,150 @@
                                 </div>
                                 <!-- <h3>After discount (MUR)</h3>
                                 <h2 class="optiontxt1">RS.3,456</h2> -->
-                                <button type="button" class="input bluebtn buybtn" (click)="onChooseCompareSection(menu)">Buy</button>
+                                <button type="button" class="input bluebtn buybtn" (click)="onChooseCompareSection(menu,target)">Buy</button>
                             </div>&nbsp;&nbsp;
                         </ng-container>
                     </div>
                 </div>
             </div>
-            <div class="grid" *ngIf="selectedSectionId">
-                <div class="col-12 md:col-12 lg:col-12 xl:col-12">
-                    <div class="card m-2">
-                        <ng-container *ngFor="let menu of vehicleDetailsList;let i = index">
-                            <ng-container *ngIf="menu.SectionId==selectedSectionId">
-                                <div class="flex flex-wrap justify-content-between">
-                                        <div><h3>Default Covers</h3></div>
-                                        <div><h2 class="optiontxt1">{{menu.SectionName}}</h2></div>
-                                </div>
-                                
-                                <div class="flex flex-wrap justify-content-start">
-                                    <ng-container *ngFor="let cover of menu.CoverList">
-                                        <div class="card bg-blue-800 customCard3 p-3 ml-3 w-11rem text-0" *ngIf="((cover.isSelected=='D' && cover.CoverageType!='B' && cover.CoverageType!='A') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
-                                            <div class="grid">
-                                                <div class="col-10 md:col-10 lg:col-10 xl:col-10">
-                                                    <div class="flex align-items-center justify-content-between">
-                                                        <h3 class="text-0 mb-0">{{cover.CoverName}}</h3>
-                                                        
+            <div #target>
+                <div class="grid"  *ngIf="selectedSectionId">
+                    <div class="col-12 md:col-12 lg:col-12 xl:col-12">
+                        <div class="card m-2">
+                            <ng-container *ngFor="let menu of vehicleDetailsList;let i = index">
+                                <ng-container *ngIf="menu.SectionId==selectedSectionId">
+                                    <div class="flex flex-wrap justify-content-between">
+                                            <div><h3>Default Covers</h3></div>
+                                            <div><h2 class="optiontxt1">{{menu.SectionName}}</h2></div>
+                                    </div>
+                                    
+                                    <div class="flex flex-wrap justify-content-start">
+                                        <ng-container *ngFor="let cover of menu.CoverList">
+                                            <div class="card bg-blue-800 customCard3 p-3 ml-3 w-11rem text-0" *ngIf="((cover.isSelected=='D' && cover.CoverageType!='B' && cover.CoverageType!='A') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
+                                                <div class="grid">
+                                                    <div class="col-10 md:col-10 lg:col-10 xl:col-10">
+                                                        <div class="flex align-items-center justify-content-between">
+                                                            <h3 class="text-0 mb-0">{{cover.CoverName}}</h3>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2 md:col-2 lg:col-2 xl:col-2">
+                                                        <div class="flex align-items-center justify-content-between">
+                                                            <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-2 md:col-2 lg:col-2 xl:col-2">
-                                                    <div class="flex align-items-center justify-content-between">
-                                                        <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>
+                                                
+                                                
+                                                <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>SumInsured
+                                                    &nbsp;&nbsp;<a
+                                                        class="mt-0 viewDetailsText"
+                                                        (click)="setDiscountDetails(menu,cover,'excess')">View Details
+                                                    </a>
+                                                </p><br>
+                                                <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>Premium After Discount
+                                                    &nbsp;&nbsp;<a
+                                                    class="mt-0 viewDetailsText"
+                                                    (click)="ongetTaxDetails(cover)">View Details</a>
+                                                </p>
+                                                
+                                                <p><span class="font-bold text-4xl float-right">{{cover.PremiumIncludedTax | commaseparator}}&nbsp;<span class="text-base">( {{currencyCode}} )</span></span></p>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                    <h3>Add On Covers</h3>
+                                    <div class="flex flex-wrap justify-content-start">
+                                        <ng-container *ngFor="let cover of menu.CoverList">
+                                            <ng-container *ngIf="(cover.isSelected!='D' && cover.CoverageType!='A') && ! checkCoverSelection(menu,cover)">
+                                                <div class="card p-3 w-25rem customOptCoverCard ml-2" [ngClass]="canbeChecked(cover) ? 'customOptCoverBg' : ''" >
+                                                    <div class="grid">
+                                                        <div class="col-12 md:col-11 lg:col-11 xl:col-11">
+                                                            <div class="flex align-items-center justify-content-start">
+                                                                <div>
+                                                                    <input type="checkbox" [checked]="canbeChecked(cover)" (change)="onSelectCover(cover,$event.target.checked,menu.Vehicleid,menu,'coverList','change')" id="vehicle1" name="vehicle1">&nbsp;
+                                                                    
+                                                                </div>
+                                                                <div class="customWidth">
+                                                                    <h5 class="my-0 mr-4">{{cover.CoverName}}</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-1 md:col-1 lg:col-1 xl:col-1">
+                                                            <i class="pi pi-spin pi-" style="font-size: 2rem" *ngIf="cover.isReferal === 'Y'"></i>
+                                                        </div>
                                                     </div>
+                                                    <div class="grid">
+                                                        <div class="col-12 md:col-12 lg:col-12 xl:col-12" *ngIf="cover.SubCovers">
+                                                            <label for="username">SubCover</label>
+                                                            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="cover.SubCoverId"
+                                                            (onChange)="onChangeSubCover(null,cover,menu,true,$event)"  [options]="cover.SubCovers"
+                                                                optionLabel="SubCoverName" optionValue="SubCoverId" placeholder="- - -Select- - -">
+                                                            </p-dropdown>
+                                                        </div>
+                                                    </div>
+                                                <div class="flex flex-wrap mt-3 justify-content-between">
+                                                        <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
+                                                            <div class="mb-3">
+                                                                <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>SumInsured  &nbsp;&nbsp;<a
+                                                                    class="mt-0 viewDetailsText2"
+                                                                    (click)="setDiscountDetails(menu,cover,'excess')">View Details
+                                                                </a></p><br>
+                                                                <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>Premium After Discount 
+                                                                    &nbsp;&nbsp;<a
+                                                                    class="mt-0 viewDetailsText2"
+                                                                    (click)="ongetTaxDetails(cover)"
+                                                                    >View Details</a>
+                                                                </p>
+                                                            </div>
+                                                        </ng-container>
+                                                        <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
+                                                            <h4 class="mt-0 bg-orange-500 border-round-lg py-2 px-4 text-white" *ngIf="cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=0 && cover.PremiumIncludedTax!=null">
+                                                        
+                                                                <ng-container *ngIf="cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=0 && cover.PremiumIncludedTax!=null">
+                                                                    {{cover.PremiumIncludedTax | commaseparator}}
+                                                                </ng-container>
+                                                                <ng-container *ngIf="cover.PremiumIncludedTax=='0' || cover.PremiumIncludedTax==0 || cover.PremiumIncludedTax==null">
+                                                                        0
+                                                                </ng-container>
+                                                                &nbsp;<span class="text-base">( {{currencyCode}} )</span></h4>
+                                                        </ng-container>
+                                                        
+                                                        
                                                 </div>
                                             </div>
-                                            
-                                            
-                                            <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>SumInsured
-                                                &nbsp;&nbsp;<a
-                                                    class="mt-0 viewDetailsText"
-                                                    (click)="setDiscountDetails(menu,cover,'excess')">View Details
-                                                </a>
-                                            </p><br>
-                                            <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>Premium After Discount
-                                                &nbsp;&nbsp;<a
-                                                class="mt-0 viewDetailsText"
-                                                (click)="ongetTaxDetails(cover)">View Details</a>
-                                            </p>
-                                            
-                                            <p><span class="font-bold text-4xl float-right">{{cover.PremiumIncludedTax | commaseparator}}&nbsp;<span class="text-base">( {{currencyCode}} )</span></span></p>
-                                        </div>
-                                    </ng-container>
-                                </div>
-                                <h3>Add On Covers</h3>
-                                <div class="flex flex-wrap justify-content-start">
-                                    <ng-container *ngFor="let cover of menu.CoverList">
-                                        <ng-container *ngIf="(cover.isSelected!='D' && cover.CoverageType!='A') && ! checkCoverSelection(menu,cover)">
-                                            <div class="card p-3 w-25rem customOptCoverCard ml-2" [ngClass]="canbeChecked(cover) ? 'customOptCoverBg' : ''" >
-                                                <div class="grid">
-                                                    <div class="col-12 md:col-11 lg:col-11 xl:col-11">
-                                                        <div class="flex align-items-center justify-content-start">
-                                                            <div>
-                                                                <input type="checkbox" [checked]="canbeChecked(cover)" (change)="onSelectCover(cover,$event.target.checked,menu.Vehicleid,menu,'coverList','change')" id="vehicle1" name="vehicle1">&nbsp;
-                                                                
-                                                            </div>
-                                                            <div class="customWidth">
-                                                                <h5 class="my-0 mr-4">{{cover.CoverName}}</h5>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-1 md:col-1 lg:col-1 xl:col-1">
-                                                        <i class="pi pi-spin pi-" style="font-size: 2rem" *ngIf="cover.isReferal === 'Y'"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="grid">
-                                                    <div class="col-12 md:col-12 lg:col-12 xl:col-12" *ngIf="cover.SubCovers">
-                                                        <label for="username">SubCover</label>
-                                                        <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="cover.SubCoverId"
-                                                        (onChange)="onChangeSubCover(null,cover,menu,true,$event)"  [options]="cover.SubCovers"
-                                                            optionLabel="SubCoverName" optionValue="SubCoverId" placeholder="- - -Select- - -">
-                                                        </p-dropdown>
-                                                    </div>
-                                                </div>
-                                               <div class="flex flex-wrap mt-3 justify-content-between">
-                                                    <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
-                                                        <div class="mb-3">
-                                                            <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>SumInsured  &nbsp;&nbsp;<a
-                                                                class="mt-0 viewDetailsText2"
-                                                                (click)="setDiscountDetails(menu,cover,'excess')">View Details
-                                                            </a></p><br>
-                                                            <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>Premium After Discount 
-                                                                &nbsp;&nbsp;<a
-                                                                class="mt-0 viewDetailsText2"
-                                                                (click)="ongetTaxDetails(cover)"
-                                                                >View Details</a>
-                                                            </p>
-                                                        </div>
-                                                    </ng-container>
-                                                    <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
-                                                        <h4 class="mt-0 bg-orange-500 border-round-lg py-2 px-4 text-white" *ngIf="cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=0 && cover.PremiumIncludedTax!=null">
-                                                    
-                                                            <ng-container *ngIf="cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=0 && cover.PremiumIncludedTax!=null">
-                                                                {{cover.PremiumIncludedTax | commaseparator}}
-                                                            </ng-container>
-                                                            <ng-container *ngIf="cover.PremiumIncludedTax=='0' || cover.PremiumIncludedTax==0 || cover.PremiumIncludedTax==null">
-                                                                    0
-                                                            </ng-container>
-                                                            &nbsp;<span class="text-base">( {{currencyCode}} )</span></h4>
-                                                    </ng-container>
-                                                      
-                                                       
-                                               </div>
-                                           </div>
+                                            </ng-container>
                                         </ng-container>
-                                    </ng-container>
-                                </div>
-                                <div class="flex flex-wrap justify-content-end">
-                                    <div class="card custom-grid text-white surface-900 p-0 text-end" *ngIf="checkCurrentSection() && vehicleDetailsList[i].totalPremium!=null && vehicleDetailsList[i].totalPremium!=0 && vehicleDetailsList[i].totalPremium!='0'" style="min-width: 200px !important;">
-                                        <div class="col-10">
-                                            <label>Total Premium</label>
-                                            <h6 class="text-white mt-0">{{vehicleDetailsList[i].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
+                                    </div>
+                                    <div class="flex flex-wrap justify-content-end">
+                                        <div class="card custom-grid text-white surface-900 p-0 text-end" *ngIf="checkCurrentSection() && vehicleDetailsList[i].totalPremium!=null && vehicleDetailsList[i].totalPremium!=0 && vehicleDetailsList[i].totalPremium!='0'" style="min-width: 200px !important;">
+                                            <div class="col-10">
+                                                <label>Total Premium</label>
+                                                <h6 class="text-white mt-0">{{vehicleDetailsList[i].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                
+                                    
+                                </ng-container>
                             </ng-container>
-                        </ng-container>
+                        </div>
                     </div>
-                </div>
-                <!-- <ng-container *ngFor="let menu of vehicleDetailsList;let i = index">
-                        <div class="col-12 md:col-4 lg:col-4 xl:col-4">
-                            <div class="card m-2">
-                                <h4 class="text-success text-center">{{menu.SectionName}}</h4>
-                                <hr class="m-0 p-0">
-                                <div class="flex flex-wrap">
-                                    <div class="col-12 md:col-12 lg:col-12 border-500">
-                                        <ng-container *ngIf="checkBenefitSection2(menu)">
-                                            <h3>Default Covers</h3><br>
-                                        </ng-container>
-                                        <div class="flex flex-wrap justify-content-between">
-                                            <ng-container *ngFor="let cover of menu.CoverList">
-                                                <div class="card bg-blue-800 customCard text-0 p-3" *ngIf="((cover.isSelected=='D' && cover.CoverageType!='A') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
-                                                    <div class="grid">
-                                                        <div class="col-10 md:col-10 lg:col-10 xl:col-10">
-                                                            <div class="flex align-items-center justify-content-between">
-                                                                <h3 class="text-0 mb-0">{{cover.CoverName}}</h3>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-2 md:col-2 lg:col-2 xl:col-2">
-                                                            <div class="flex align-items-center justify-content-between">
-                                                                <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    
-                                                    <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>SumInsured
-                                                        &nbsp;&nbsp;<a
-                                                            class="mt-0 viewDetailsText"
-                                                            (click)="setDiscountDetails(menu,cover,'excess')">View Details
-                                                        </a>
-                                                    </p><br>
-                                                    <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>Premium After Discount
-                                                        &nbsp;&nbsp;<a
-                                                        class="mt-0 viewDetailsText"
-                                                        (click)="ongetTaxDetails(cover)">View Details</a>
-                                                    </p>
-                                                    
-                                                    <p><span class="font-bold text-4xl float-right">{{cover.PremiumIncludedTax | commaseparator}}&nbsp;<span class="text-base">( {{currencyCode}} )</span></span></p>
-                                                </div>
+                    <!-- <ng-container *ngFor="let menu of vehicleDetailsList;let i = index">
+                            <div class="col-12 md:col-4 lg:col-4 xl:col-4">
+                                <div class="card m-2">
+                                    <h4 class="text-success text-center">{{menu.SectionName}}</h4>
+                                    <hr class="m-0 p-0">
+                                    <div class="flex flex-wrap">
+                                        <div class="col-12 md:col-12 lg:col-12 border-500">
+                                            <ng-container *ngIf="checkBenefitSection2(menu)">
+                                                <h3>Default Covers</h3><br>
                                             </ng-container>
-                                        </div>
-                                        <ng-container *ngIf="checkBenefitSection(menu)">
-                                            <h3>Benefit Covers</h3><br>
-                                        </ng-container>
-                                        <div class="flex flex-wrap justify-content-between">
-                                            <div class="grid">
+                                            <div class="flex flex-wrap justify-content-between">
                                                 <ng-container *ngFor="let cover of menu.CoverList">
-                                                
-                                                    <div class="customCard2 bg-blue-800 w-21rem border-500 text-0 ml-2" *ngIf="((cover.isSelected=='D' && cover.CoverageType=='A') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
-                                                        
+                                                    <div class="card bg-blue-800 customCard text-0 p-3" *ngIf="((cover.isSelected=='D' && cover.CoverageType!='A') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
                                                         <div class="grid">
                                                             <div class="col-10 md:col-10 lg:col-10 xl:col-10">
                                                                 <div class="flex align-items-center justify-content-between">
-                                                                    <p class="mb-0"><b>{{cover.CoverName}}</b></p>
+                                                                    <h3 class="text-0 mb-0">{{cover.CoverName}}</h3>
                                                                     
                                                                 </div>
                                                             </div>
@@ -667,133 +630,174 @@
                                                             </div>
                                                         </div>
                                                         
+                                                        
+                                                        <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>SumInsured
+                                                            &nbsp;&nbsp;<a
+                                                                class="mt-0 viewDetailsText"
+                                                                (click)="setDiscountDetails(menu,cover,'excess')">View Details
+                                                            </a>
+                                                        </p><br>
+                                                        <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>Premium After Discount
+                                                            &nbsp;&nbsp;<a
+                                                            class="mt-0 viewDetailsText"
+                                                            (click)="ongetTaxDetails(cover)">View Details</a>
+                                                        </p>
+                                                        
+                                                        <p><span class="font-bold text-4xl float-right">{{cover.PremiumIncludedTax | commaseparator}}&nbsp;<span class="text-base">( {{currencyCode}} )</span></span></p>
                                                     </div>
                                                 </ng-container>
                                             </div>
-                                                
-                                        </div>
-                                        <div class="flex flex-wrap justify-content-center">
-                                            <ng-container *ngIf="ClausesData.length!=0"> <p-button label="Clauses" (click)="ClausesStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
-                                                <ng-container *ngIf="ExclusionData.length!=0"><p-button label="Exclusions"  (click)="ExclusioStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
-                                                <ng-container *ngIf="WarrantyData.length!=0"><p-button label="Warranties" (click)="WarrantyStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 md:col-12 lg:col-12 px-5">
-                                        <ng-container *ngIf="checkBenefitSection2(menu)">
-                                            <h3>Default Covers</h3><br>
-                                        </ng-container>
-                                        <div class="flex flex-wrap justify-content-between">
-                                            <ng-container *ngFor="let cover of menu.CoverList">
-                                                <ng-container *ngIf="(cover.isSelected!='D' && cover.CoverageType!='A') && ! checkCoverSelection(menu,cover)">
-                                                    <div class="card p-3 w-25rem customOptCoverCard" [ngClass]="canbeChecked(cover) ? 'customOptCoverBg' : ''" >
-                                                        <div class="grid">
-                                                            <div class="col-11 md:col-11 lg:col-11 xl:col-11">
-                                                                <div class="flex align-items-center justify-content-start">
-                                                                    <div>
-                                                                        <input type="checkbox" [checked]="canbeChecked(cover)" (change)="onSelectCover(cover,$event.target.checked,menu.Vehicleid,menu,'coverList','change')" id="vehicle1" name="vehicle1">&nbsp;
+                                            <ng-container *ngIf="checkBenefitSection(menu)">
+                                                <h3>Benefit Covers</h3><br>
+                                            </ng-container>
+                                            <div class="flex flex-wrap justify-content-between">
+                                                <div class="grid">
+                                                    <ng-container *ngFor="let cover of menu.CoverList">
+                                                    
+                                                        <div class="customCard2 bg-blue-800 w-21rem border-500 text-0 ml-2" *ngIf="((cover.isSelected=='D' && cover.CoverageType=='A') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
+                                                            
+                                                            <div class="grid">
+                                                                <div class="col-10 md:col-10 lg:col-10 xl:col-10">
+                                                                    <div class="flex align-items-center justify-content-between">
+                                                                        <p class="mb-0"><b>{{cover.CoverName}}</b></p>
                                                                         
                                                                     </div>
-                                                                    <div class="customWidth">
-                                                                        <h5 class="my-0 mr-4">{{cover.CoverName}}</h5>
+                                                                </div>
+                                                                <div class="col-2 md:col-2 lg:col-2 xl:col-2">
+                                                                    <div class="flex align-items-center justify-content-between">
+                                                                        <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-1 md:col-1 lg:col-1 xl:col-1">
-                                                                <i class="pi pi-spin pi-" style="font-size: 2rem" *ngIf="cover.isReferal === 'Y'"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="grid">
-                                                            <div class="col-12 md:col-12 lg:col-12 xl:col-12" *ngIf="cover.SubCovers">
-                                                                <label for="username">SubCover</label>
-                                                                <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="cover.SubCoverId"
-                                                                (onChange)="onChangeSubCover(null,cover,menu,true,$event)"  [options]="cover.SubCovers"
-                                                                    optionLabel="SubCoverName" optionValue="SubCoverId" placeholder="- - -Select- - -">
-                                                                </p-dropdown>
-                                                            </div>
-                                                        </div>
-                                                       <div class="flex flex-wrap mt-3 justify-content-between">
-                                                            <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
-                                                                <div class="mb-3">
-                                                                    <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>SumInsured  &nbsp;&nbsp;<a
-                                                                        class="mt-0 viewDetailsText2"
-                                                                        (click)="setDiscountDetails(menu,cover,'excess')">View Details
-                                                                    </a></p><br>
-                                                                    <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>Premium After Discount 
-                                                                        &nbsp;&nbsp;<a
-                                                                        class="mt-0 viewDetailsText2"
-                                                                        (click)="ongetTaxDetails(cover)"
-                                                                        >View Details</a>
-                                                                    </p>
-                                                                </div>
-                                                            </ng-container>
-                                                            <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
-                                                                <h4 class="mt-0 bg-orange-500 border-round-lg py-2 px-4 text-white" *ngIf="cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=0 && cover.PremiumIncludedTax!=null">
                                                             
-                                                                    <ng-container *ngIf="cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=0 && cover.PremiumIncludedTax!=null">
-                                                                        {{cover.PremiumIncludedTax | commaseparator}}
-                                                                    </ng-container>
-                                                                    <ng-container *ngIf="cover.PremiumIncludedTax=='0' || cover.PremiumIncludedTax==0 || cover.PremiumIncludedTax==null">
-                                                                            0
-                                                                    </ng-container>
-                                                                    &nbsp;<span class="text-base">( {{currencyCode}} )</span></h4>
-                                                            </ng-container>
-                                                              
-                                                               
-                                                       </div>
-                                                   </div>
-                                                </ng-container>
-                                            </ng-container>
-                                        </div>
-                                        <ng-container *ngIf="checkBenefitSection2(menu)">
-                                            <h3>Benefit Covers</h3><br>
-                                        </ng-container>
-                                        <div class="flex flex-wrap justify-content-between">
-                                            <ng-container *ngFor="let cover of menu.CoverList">
-                                                <div class="card p-3 w-22rem" *ngIf="(cover.isSelected!='D' && cover.CoverageType=='A') && ! checkCoverSelection(menu,cover)">
-                                                    <div class="grid">
-                                                        <div class="col-10 md:col-10 lg:col-10 xl:col-10">
-                                                            <div class="flex align-items-center justify-content-between">
-                                                                <input type="checkbox" [checked]="canbeChecked(cover)" (change)="onSelectCover(cover,$event.target.checked,menu.Vehicleid,menu,'coverList','change')" id="vehicle1" name="vehicle1">
-                                                                <p class="mb-0"><b>{{cover.CoverName}}</b></p>
-                                                                
-                                                            </div>
                                                         </div>
-                                                        <div class="col-2 md:col-2 lg:col-2 xl:col-2">
-                                                            <div class="flex align-items-center justify-content-between">
-                                                                <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div> 
-                                                  
+                                                    </ng-container>
                                                 </div>
-                                            </ng-container>
-                                        </div>
-                                        <div class="grid mt-2">
-                                            <div class="card custom-grid text-white surface-900 w-full p-0 text-end" *ngIf="checkCurrentSection() && vehicleDetailsList[i].totalPremium!=null && vehicleDetailsList[i].totalPremium!=0 && vehicleDetailsList[i].totalPremium!='0'" style="min-width: 200px !important;">
-                                                <div class="col-10">
-                                                    <label>Total Premium</label>
-                                                    <h6 class="text-white mt-0">{{vehicleDetailsList[i].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
-                                                </div>
+                                                    
+                                            </div>
+                                            <div class="flex flex-wrap justify-content-center">
+                                                <ng-container *ngIf="ClausesData.length!=0"> <p-button label="Clauses" (click)="ClausesStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                                    <ng-container *ngIf="ExclusionData.length!=0"><p-button label="Exclusions"  (click)="ExclusioStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                                    <ng-container *ngIf="WarrantyData.length!=0"><p-button label="Warranties" (click)="WarrantyStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
                                             </div>
                                         </div>
-                                        <div class="flex flex-wrap justify-content-center" *ngIf="checkEmptyCovers(menu)" >
-                                                <b>No Covers Available</b>
-                                        </div>
-                                        <div class="flex flex-wrap justify-content-center" *ngIf="!checkEmptyCovers(menu)" >
-                                            <p-button label="Buy Policy"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
-                                            (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-                                            <p-button label="Buy Policy" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-                                            <p-button label="Buy Policy"   *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
-                                            (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-                                            <p-button label="Proceed"  *ngIf="adminSection"
-                                            (click)="onUpdateFactor('',null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                                        <div class="col-12 md:col-12 lg:col-12 px-5">
+                                            <ng-container *ngIf="checkBenefitSection2(menu)">
+                                                <h3>Default Covers</h3><br>
+                                            </ng-container>
+                                            <div class="flex flex-wrap justify-content-between">
+                                                <ng-container *ngFor="let cover of menu.CoverList">
+                                                    <ng-container *ngIf="(cover.isSelected!='D' && cover.CoverageType!='A') && ! checkCoverSelection(menu,cover)">
+                                                        <div class="card p-3 w-25rem customOptCoverCard" [ngClass]="canbeChecked(cover) ? 'customOptCoverBg' : ''" >
+                                                            <div class="grid">
+                                                                <div class="col-11 md:col-11 lg:col-11 xl:col-11">
+                                                                    <div class="flex align-items-center justify-content-start">
+                                                                        <div>
+                                                                            <input type="checkbox" [checked]="canbeChecked(cover)" (change)="onSelectCover(cover,$event.target.checked,menu.Vehicleid,menu,'coverList','change')" id="vehicle1" name="vehicle1">&nbsp;
+                                                                            
+                                                                        </div>
+                                                                        <div class="customWidth">
+                                                                            <h5 class="my-0 mr-4">{{cover.CoverName}}</h5>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-1 md:col-1 lg:col-1 xl:col-1">
+                                                                    <i class="pi pi-spin pi-" style="font-size: 2rem" *ngIf="cover.isReferal === 'Y'"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div class="grid">
+                                                                <div class="col-12 md:col-12 lg:col-12 xl:col-12" *ngIf="cover.SubCovers">
+                                                                    <label for="username">SubCover</label>
+                                                                    <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="cover.SubCoverId"
+                                                                    (onChange)="onChangeSubCover(null,cover,menu,true,$event)"  [options]="cover.SubCovers"
+                                                                        optionLabel="SubCoverName" optionValue="SubCoverId" placeholder="- - -Select- - -">
+                                                                    </p-dropdown>
+                                                                </div>
+                                                            </div>
+                                                        <div class="flex flex-wrap mt-3 justify-content-between">
+                                                                <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
+                                                                    <div class="mb-3">
+                                                                        <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>SumInsured  &nbsp;&nbsp;<a
+                                                                            class="mt-0 viewDetailsText2"
+                                                                            (click)="setDiscountDetails(menu,cover,'excess')">View Details
+                                                                        </a></p><br>
+                                                                        <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>Premium After Discount 
+                                                                            &nbsp;&nbsp;<a
+                                                                            class="mt-0 viewDetailsText2"
+                                                                            (click)="ongetTaxDetails(cover)"
+                                                                            >View Details</a>
+                                                                        </p>
+                                                                    </div>
+                                                                </ng-container>
+                                                                <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
+                                                                    <h4 class="mt-0 bg-orange-500 border-round-lg py-2 px-4 text-white" *ngIf="cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=0 && cover.PremiumIncludedTax!=null">
+                                                                
+                                                                        <ng-container *ngIf="cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=0 && cover.PremiumIncludedTax!=null">
+                                                                            {{cover.PremiumIncludedTax | commaseparator}}
+                                                                        </ng-container>
+                                                                        <ng-container *ngIf="cover.PremiumIncludedTax=='0' || cover.PremiumIncludedTax==0 || cover.PremiumIncludedTax==null">
+                                                                                0
+                                                                        </ng-container>
+                                                                        &nbsp;<span class="text-base">( {{currencyCode}} )</span></h4>
+                                                                </ng-container>
+                                                                
+                                                                
+                                                        </div>
+                                                    </div>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </div>
+                                            <ng-container *ngIf="checkBenefitSection2(menu)">
+                                                <h3>Benefit Covers</h3><br>
+                                            </ng-container>
+                                            <div class="flex flex-wrap justify-content-between">
+                                                <ng-container *ngFor="let cover of menu.CoverList">
+                                                    <div class="card p-3 w-22rem" *ngIf="(cover.isSelected!='D' && cover.CoverageType=='A') && ! checkCoverSelection(menu,cover)">
+                                                        <div class="grid">
+                                                            <div class="col-10 md:col-10 lg:col-10 xl:col-10">
+                                                                <div class="flex align-items-center justify-content-between">
+                                                                    <input type="checkbox" [checked]="canbeChecked(cover)" (change)="onSelectCover(cover,$event.target.checked,menu.Vehicleid,menu,'coverList','change')" id="vehicle1" name="vehicle1">
+                                                                    <p class="mb-0"><b>{{cover.CoverName}}</b></p>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-2 md:col-2 lg:col-2 xl:col-2">
+                                                                <div class="flex align-items-center justify-content-between">
+                                                                    <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div> 
+                                                    
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                            <div class="grid mt-2">
+                                                <div class="card custom-grid text-white surface-900 w-full p-0 text-end" *ngIf="checkCurrentSection() && vehicleDetailsList[i].totalPremium!=null && vehicleDetailsList[i].totalPremium!=0 && vehicleDetailsList[i].totalPremium!='0'" style="min-width: 200px !important;">
+                                                    <div class="col-10">
+                                                        <label>Total Premium</label>
+                                                        <h6 class="text-white mt-0">{{vehicleDetailsList[i].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-wrap justify-content-center" *ngIf="checkEmptyCovers(menu)" >
+                                                    <b>No Covers Available</b>
+                                            </div>
+                                            <div class="flex flex-wrap justify-content-center" *ngIf="!checkEmptyCovers(menu)" >
+                                                <p-button label="Buy Policy"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
+                                                (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                                                <p-button label="Buy Policy" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                                                <p-button label="Buy Policy"   *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
+                                                (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                                                <p-button label="Proceed"  *ngIf="adminSection"
+                                                (click)="onUpdateFactor('',null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
+                                </div>
                             </div>
-                        </div>
-                </ng-container> -->
+                    </ng-container> -->
+                </div>
             </div>
            
         </ng-container>
@@ -1182,7 +1186,7 @@
     </ng-container>
     <!---->
     <div class="grid">
-            <div class="lg:col-3 md:col-3 col-12" *ngIf="(subuserType=='low' && !endorsementSection)">
+            <!-- <div class="lg:col-3 md:col-3 col-12" *ngIf="(subuserType=='low' && !endorsementSection)">
                 <label class="input-form-label">Do You Finalize this Quote?</label>
                 <div class="flex justify-content-start gap-3 mt-2">
                     <div class="flex align-items-center">
@@ -1211,7 +1215,7 @@
                         <span for="emi_No" class="ml-2">No</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="lg:col-3 md:col-3 col-12" *ngIf="((!statusValue || checkManualReferral()) && !adminSection) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
                 <label class="input-form-label">Do You Like to Move this Quote to Referral Manually?</label>
                 <div class="flex justify-content-start gap-3 mt-2">
@@ -1237,7 +1241,6 @@
                 </div>
             </ng-container>
     </div>
-    
     <div class="lg:col-12 md:col-12 col-12 ml-3" *ngIf="emiSection && Emilist1.length!=0 && emiYN=='Y' && isMannualReferal != 'Y'">
         <table class="firstclass">
             <thead>
@@ -1920,7 +1923,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: start;padding: 8px;"><b>Risk Premium Rate</b></td>
-                        <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.RiskPremiumRate | commaseparator}}</b></td>
+                        <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.RiskPremiumRate}}</b></td>
                     </tr>
                     <tr>
                         <td style="text-align: start;padding: 8px;"><b>Target Loss Ratio</b></td>

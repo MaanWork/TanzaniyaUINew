@@ -327,7 +327,8 @@ export class CoverDetailsComponent {
          "DocRefNo":null,
          "DocumentId":null,
       }
-    ]
+    ];
+    
   }
   onViewFactorDetails(){
     let ReqObj = {
@@ -348,6 +349,9 @@ export class CoverDetailsComponent {
       },
       (err) => { },
     );
+  }
+  scroll(el: HTMLElement) {
+    el.scrollIntoView();
   }
   onSelectSection(){
     console.log("Current Id",this.selectedRowData)
@@ -521,9 +525,9 @@ export class CoverDetailsComponent {
       (err) => { },
     );
   }
-  onChooseCompareSection(rowData){
+  onChooseCompareSection(rowData,el: HTMLElement){
     this.selectedSectionId = rowData.SectionId;
-    
+    this.scroll(el);
   }
   getCustomerDetails(referenceNo){
     let ReqObj = {
@@ -3450,7 +3454,7 @@ this.newAddClauses=true;
             j+=1;
             if(j==this.vehicleDetailsList.length){
               if (duplicateId!=null) {
-                this.selectedRowData=this.vehicleDetailsList[this.tabIndex];
+                this.selectedRowData=this.vehicleDetailsList.find(ele=>ele.SectionId==this.selectedSectionId);
                 console.log(this.selectedRowData)
                 let entry = ReqObj.Vehicles.find(ele=>ele.Id==duplicateId && ele.SectionId==this.selectedRowData.SectionId);
                 console.log(ReqObj,entry);

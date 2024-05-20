@@ -56,6 +56,7 @@ export class QuotationTableComponent implements OnInit {
   remarksError: boolean=false;
   MotorList: any[]=[];
   LapsedList: any;
+  sqBrokerList: any[]=[];
   constructor(private router: Router,private sharedService: SharedService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -106,6 +107,7 @@ export class QuotationTableComponent implements OnInit {
    if(this.tabIndex==0) this.getBrokerList();
    if(this.tabIndex==1) this.getLapsedBrokerList();
    if(this.tabIndex==2) this.getRejectedBrokerList();
+   if(this.tabIndex==3) this.getSQBrokerList();
   }
   getBrokerList(){
     let appId = "1",loginId="",brokerbranchCode="";
@@ -148,7 +150,47 @@ export class QuotationTableComponent implements OnInit {
       (err) => { },
     );
   }
-
+  getSQBrokerList(){
+    let appId = "1",loginId="",brokerbranchCode="";
+    if(this.userType!='Issuer'){
+      appId = "1"; loginId = this.brokerCode;
+      brokerbranchCode = this.brokerbranchCode;
+    }
+    else{
+      appId = this.loginId;
+      loginId="";
+      brokerbranchCode = '';
+    }
+    let ReqObj = {
+      "ProductId": this.productId,
+      "InsuranceId": this.insuranceId,
+      "LoginId": loginId,
+      "ApplicationId":appId,
+      "UserType":this.userType,
+      "BranchCode": this.branchCode
+    }
+    let urlLink = `${this.CommonApiUrl}api/brokeruserdropdown`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+          let defaultObj = []
+          this.sqBrokerList = defaultObj.concat(data.Result);
+          if(this.sqBrokerList.length==0){this.brokerCode = ''; this.sqBrokerList = []}
+          else this.brokerCode = this.loginId;
+          if(this.brokerCode!=null && this.brokerCode!=''){
+            if(!this.sqBrokerList.some(ele=>ele.Code==this.brokerCode)) this.brokerCode = this.sqBrokerList[0].Code;
+            this.getShortQuoteList(null,'change')
+          }
+          else{
+            this.brokerCode = this.sqBrokerList[0].Code;
+            this.getShortQuoteList(null,'change')
+          }
+        }
+        
+      },
+      (err) => { },
+    );
+  }
   onInnerData(rowData){
     let ReqObj = {
         "RequestReferenceNo": rowData.RequestReferenceNo
@@ -237,6 +279,92 @@ onInnerDataLapsed(rowData){
           "Offset":1000
     }
     let urlLink = `${this.CommonApiUrl}api/existingquotedetails`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        sessionStorage.removeItem('loadingType');
+        if(data.Result){
+          if (data.Result?.CustomerDetails) {
+            if (data.Result?.CustomerDetails.length != 0) {
+              this.totalQuoteRecords = data.Result?.TotalCount;
+              this.pageCount = 10;
+              if (entryType == 'change') {
+                this.quotePageNo = 1;
+                let startCount = 1, endCount = this.pageCount;
+                startCount = endCount + 1;
+                  let quoteData = data.Result?.CustomerDetails;
+                  this.quoteData = data.Result?.CustomerDetails.filter(ele=>ele.SavedFrom!='SQ');
+                  this.quoteDataList = data.Result?.CustomerDetails;
+                  if (quoteData.length <= this.pageCount) {
+                    endCount = quoteData.length
+                  }
+                  else endCount = this.pageCount;
+                
+                this.startIndex = startCount; this.endIndex = endCount;
+              }
+              else {
+
+                let startCount = element.startCount, endCount = element.endCount;
+                this.pageCount = element.n;
+                startCount = endCount + 1;
+                  let quoteData = data.Result?.CustomerDetails;
+                  this.quoteData = this.quoteData.concat(data.Result?.CustomerDetails);
+                if (this.totalQuoteRecords <= endCount + (element.n)) {
+                  endCount = this.totalQuoteRecords
+                }
+                else endCount = endCount + (element.n);
+                this.startIndex = startCount; this.endIndex = endCount;
+              }
+            }
+            else {
+              this.quoteData = []; 
+            }
+          }
+        }
+      },
+      (err) => { },
+    );
+    }
+  }
+  getShortQuoteList(element,entryType){
+    if(element==null) this.quoteData=[];
+    let appId = "1",loginId="",brokerbranchCode="",bdmCode=null;
+    if(this.userType!='Issuer'){
+      appId = "1"; loginId = this.brokerCode;
+      brokerbranchCode = this.brokerbranchCode;
+      bdmCode=this.agencyCode;
+    }
+    else{
+      appId = this.loginId;
+      loginId=this.brokerCode;
+      brokerbranchCode = '';
+    }
+    let entry = this.brokerList.find(ele=>ele.Code==this.brokerCode);
+    if(entry){
+      console.log("Entry Received",entry) 
+      if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
+      && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+        loginId='';
+        bdmCode=this.brokerCode;
+      }
+      else{
+        bdmCode=null;
+      }
+      let ReqObj = {
+          "BrokerBranchCode": brokerbranchCode,
+          "BranchCode":this.branchCode,
+          "InsuranceId": this.insuranceId,
+          "LoginId":loginId,
+          "ApplicationId":appId,
+          "UserType":this.userType,
+          "SubUserType":sessionStorage.getItem('typeValue'),
+          "SourceType":"",
+          "BdmCode": bdmCode,
+           "ProductId":this.productId,
+          "Limit":this.limit,
+          "Offset":1000
+    }
+    let urlLink = `${this.CommonApiUrl}api/sqexistingquotedetails`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         console.log(data);

@@ -46,13 +46,15 @@ export class CustomerCreateFormComponent implements OnInit {
   value1: string = 'en';final1: boolean=false;final2: any=false;final3: any=false;final4: any=false;final5: any=false;
   final6: any=false;final7: any=false;
   shows: boolean=false;final:boolean=false;
-	Idnumber: any;
+	Idnumber: any;shortQuoteYN:boolean=false;
 	Idnumber1: any;
 	Idnumber2: any;
   constructor(private confirmationService: ConfirmationService, private sharedService: SharedService,private datePipe: DatePipe,
     private messageService: MessageService, private router: Router, private translate: TranslateService,
     private primeNGConfig: PrimeNGConfig) {
       this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+	  let type = sessionStorage.getItem('QuoteType')
+	  if(type) this.shortQuoteYN = true;
     this.maxDate = new Date();
 		var d= new Date();
 		var year = d.getFullYear();
@@ -206,13 +208,25 @@ export class CustomerCreateFormComponent implements OnInit {
 			this.productItem.IdNumber = Math.floor(Math 
 				.random() * (maxm - minm + 1)) + minm; 
 		}
+		if(this.productItem.IdType=='2' || this.productItem.IdType==2){
+      
+			if((new Date(dobOrRegDate)).setHours(0,0,0,0)<=new Date().setHours(0,0,0,0) || dobOrRegDate==null || dobOrRegDate==''){
+			  var d= new Date();
+			  var year = d.getFullYear();
+			  var month = d.getMonth();
+			  var day = d.getDate();
+			  var sysDay = new Date(year,month, day-1 );
+			  dobOrRegDate = this.datePipe.transform(sysDay,'dd/MM/yyyy');
+			}
+			
+		  }
 		let policyid:any;
-		// if(data?.PolicyHolderTypeid == '1'){
-        //  policyid = this.Idnumber.concat(this.Idnumber1).concat(this.Idnumber2);
-		// }
-		// else{
+		if(data?.PolicyHolderTypeid == '1'){
+         policyid = this.Idnumber.concat(this.Idnumber1).concat(this.Idnumber2);
+		}
+		else{
 			policyid = data?.IdNumber;
-		//}
+		}
 		
 		let ReqObj = {
 			"BrokerBranchCode": this.brokerbranchCode,
@@ -680,7 +694,8 @@ export class CustomerCreateFormComponent implements OnInit {
 					}
 					this.productItem.Street = customerDetails.Street;
 					this.productItem.TelephoneNo = customerDetails.TelephoneNo1;
-					this.productItem.Occupation = customerDetails.Occupation;
+					if(this.shortQuoteYN && customerDetails.Occupation=='99999') this.productItem.Occupation = '';
+					else this.productItem.Occupation = customerDetails.Occupation;
 					this.productItem.Title = customerDetails.Title;
 					this.productItem.vrngst = customerDetails.VrTinNo;
 					if(this.loginType=='B2CFlow' || (this.loginType=='B2CFlow2')){
@@ -1034,7 +1049,8 @@ export class CustomerCreateFormComponent implements OnInit {
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.router.navigate(['/customer']);
+		if(this.shortQuoteYN) this.router.navigate(['/quotation/plan/shortQuote']);
+        else this.router.navigate(['/customer']);
       },
     });
   }
@@ -1063,8 +1079,8 @@ export class CustomerCreateFormComponent implements OnInit {
 		this.Customervalidate();
 	}
 	else if(type=='direct' && !this.final){
-		this.blankvalidationcheck(data);
-		//this.onSubmit(data);
+		//this.blankvalidationcheck(data);
+		this.onSubmit(data);
 	}
 	else if(type=='direct' && this.final){
    if(this.final1)this.idfieldvalidate();

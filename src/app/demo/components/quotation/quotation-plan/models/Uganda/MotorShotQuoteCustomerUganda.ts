@@ -54,6 +54,7 @@ export class MotorShotQuoteCustomerUganda{
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     props: {
                       label: `Mobile Code`,
+                      maxLength: 10,
                       disabled: this.checkDisable('MobileCode'),
                       required: true,
                       options: [
@@ -71,11 +72,11 @@ export class MotorShotQuoteCustomerUganda{
                   },
                   {
                     className: 'col-12 md:col-8 lg:col-8 xl:col-8',
-                    type: 'input',
+                    type: 'number',
                     key: 'MobileNo',
                     props: {
                       label: `Mobile No`,
-                      maxLength: 15,
+                      maxLength: 10,
                       disabled: this.checkDisable('MobileNo'),
                       required: true,
                       options: [

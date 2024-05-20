@@ -265,7 +265,7 @@
                     </div>
             </p-tabPanel>
             <ng-container *ngFor="let veh of vehicleDetailsList;let j=index;">
-                <p-tabPanel header="Vehicle ({{veh?.Registrationnumber}})">
+                <p-tabPanel header="Vehicle ({{veh?.Registrationnumber}})" disabled="true">
                     <div class="grid" *ngIf="customerDetails">
                         <div class="lg:col-6 md:col-6 col-12">
                             <div class="flex flex-wrap">
@@ -283,7 +283,7 @@
                             </div>
                             <div class="flex flex-wrap">
                                 <div class="lg:col-4 md:col-6 col-12">
-                                    <b>Make</b>{{productItem.MotorUsage}}
+                                    <b>Make</b>
                                     <p>{{vehicleDetails?.VehiclemakeDesc}}</p>
                                 </div>
                                 <div class="lg:col-4 md:col-6 col-12">
@@ -605,20 +605,7 @@
                                 <div class="lg:col-12 md:col-12 xl:col-12 col-12">
                                     <h3>Driver Details</h3>
                                     <div class="grid">
-                                        <div class="col-12 lg:col-3 md:col-3 xl:col-3">
-                                            <label for="username">Driver Name&nbsp;<span class="text-danger">*</span></label><br>
-                                            <input pInputText id="username" class="w-full" styleClass="w-full" maxlength="50" [(ngModel)]="driverName" placeholder="Enter Driver Name" />
-                                        </div>
-                                        <div class="col-12 lg:col-3 md:col-3 xl:col-3">
-                                            <label for="username">License Number&nbsp;<span class="text-danger">*</span></label><br>
-                                            <input pInputText id="username" class="w-full" styleClass="w-full" maxlength="14" [(ngModel)]="licenseNo" placeholder="Enter License Number" />
-                                        </div>
-                                        <div class="col-12 lg:col-3 md:col-3 xl:col-3">
-                                            <label for="username">Driving Experience(Years)&nbsp;<span class="text-danger">*</span></label><br>
-                                            <input pInputText id="username" class="w-full" styleClass="w-full" maxlength="3" [(ngModel)]="driveExperience" placeholder="Enter Driving Experience" />
-                                        </div>
-                                       
-                                        <div class="col-12 lg:col-2 md:col-2 xl:col-2">
+                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="username">Driver Type</label>
                                             <div class="flex justify-content-start gap-3">
                                                 <p-selectButton [options]="driverOptions" [(ngModel)]="driverType"
@@ -635,7 +622,11 @@
                                                 </div> -->
                                             </div>
                                         </div>
-                                        <div class="col-12 lg:col-2 md:col-2 xl:col-2">
+                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
+                                            <label for="username">Driver Name&nbsp;<span class="text-danger">*</span></label><br>
+                                            <input pInputText id="username" class="w-full" styleClass="w-full" maxlength="50" [(ngModel)]="driverName" placeholder="Enter Driver Name" />
+                                        </div>
+                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="username">Gender</label>
                                             <div class="flex justify-content-start gap-3">
                                                 <p-selectButton [options]="genderOptions" [(ngModel)]="gender"
@@ -652,41 +643,48 @@
                                                 </div> -->
                                             </div>
                                         </div>
-                                        <div class="col-12 lg:col-2 md:col-2 xl:col-2">
+                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="username">Date Of Birth</label>
                                             <p-calendar class="w-full" styleClass="w-full" [maxDate]="minDobDate"
                                                 [(ngModel)]="driverDob"
                                                 dateFormat="dd/mm/yy" placeholder="Select Date Of Birth">
                                             </p-calendar>
                                         </div>
-                                        <div class="col-12 lg:col-2 md:col-2 xl:col-2">
-                                            <label for="username">Martial Status</label><span class="text-danger">*</span>
-                                            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="martialList" [(ngModel)]="martialStatus"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
-                                            </p-dropdown>
+                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
+                                            <label for="username">License Number&nbsp;<span class="text-danger">*</span></label><br>
+                                            <input pInputText id="username" class="w-full" styleClass="w-full" maxlength="14" [(ngModel)]="licenseNo" placeholder="Enter License Number" />
                                         </div>
-                                        <div class="col-12 lg:col-2 md:col-2 xl:col-2">
+                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
+                                            <label for="username">Driving Experience(Years)&nbsp;<span class="text-danger">*</span></label><br>
+                                            <input pInputText id="username" class="w-full" styleClass="w-full" maxlength="3" [(ngModel)]="driveExperience" placeholder="Enter Driving Experience" />
+                                        </div>
+                                       <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="username">State</label><span class="text-danger">*</span>
                                             <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="stateList" [(ngModel)]="stateValue" (onChange)="getDistrictList('change',null,null)"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
                                             </p-dropdown>
                                             
                                         </div>
-                                        <div class="col-12 lg:col-2 md:col-2 xl:col-2">
+                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="username">City</label><span class="text-danger">*</span>
                                             <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="districtList" [(ngModel)]="cityCode" (onChange)="getSubUrbanList('change')" optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
                                             </p-dropdown>
                                         </div>
-                                        <div class="col-12 lg:col-2 md:col-2 xl:col-2">
+                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="username">Sub Urban</label><span class="text-danger">*</span>
                                             <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="subUrbanList" [(ngModel)]="subUrbanCode" optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
                                             </p-dropdown>
                                         </div>
                                        
-                                        <div class="col-12 lg:col-2 md:col-2 xl:col-2" *ngIf="insuranceId=='100028'">
+                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4" *ngIf="insuranceId=='100028'">
                                             <label for="username">Claim Type</label><span class="text-danger">*</span>
                                             <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="claimTypeList" [(ngModel)]="claimTypeValue" optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
                                             </p-dropdown>
                                         </div>
-                                        
+                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
+                                            <label for="username">Martial Status</label><span class="text-danger">*</span>
+                                            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="martialList" [(ngModel)]="martialStatus"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
+                                            </p-dropdown>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

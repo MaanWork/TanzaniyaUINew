@@ -96,7 +96,7 @@ export class DriverInfoComponent {
           if(data?.Result){
             this.quoteDetails = data?.Result?.QuoteDetails;
             this.Riskdetails = data?.Result?.RiskDetails;
-            this.getOtherVehicleInfo();
+            
             if(this.endorsementSection){
               this.totalPremium = this.quoteDetails?.TotalEndtPremium;
             }
@@ -258,7 +258,6 @@ export class DriverInfoComponent {
   onNextProceed(index){
     let entry = this.driverDetailsList[index];
     let i=0;this.driverNameError =false;this.licenseNoError = false;this.driverDobError=false;this.driverTypeError = false;
-    alert(entry.DriverDob)
     if(entry.DriverName==null || entry.DriverName=='' || entry.DriverName==undefined){i+=1;this.driverNameError=true;}
     if(entry.LicenseNo==null || entry.LicenseNo=='' || entry.LicenseNo==undefined){i+=1;this.licenseNoError=true;}
     if(entry.DriverDob==null || entry.DriverDob=='' || entry.DriverDob==undefined){i+=1;this.driverDobError=true;}
@@ -302,18 +301,31 @@ export class DriverInfoComponent {
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if(data.Result){
-           this.driverDetailsList= data.Result;
-           console.log("License List ",this.LicenseList)
-           if(this.driverDetailsList.length!=0){
-              for(let driver of this.driverDetailsList){
-                let entry = this.LicenseList.some(ele=>ele.Code==driver.RiskId)
-                //if(!entry) driver.RiskId = null;
-                // if(driver.DriverDob!=null && driver.DriverDob!=''){
-                //   if(driver.DriverDob.split('/').length>1){
-                //     let date = driver.DriverDob.split('/');
-                //     driver.DriverDob = date[2] + '-' + date[1] + '-' + date[0];
-                //   };
-                // }
+          let driverList= data.Result;
+          this.driverDetailsList = data.Result;
+           if(driverList.length!=0){
+              let i=0,finalList=[];
+              console.log("VVV",this.driverDetailsList);
+              for(let veh of this.driverDetailsList){
+                  let filteredList = driverList.filter(ele=>ele.RiskId==veh.RiskId);
+                  if(filteredList.length!=0){
+                   
+                    let entry = filteredList.find(ele=>ele.DriverName!=null && ele.LicenseNo!=null);
+                    if(entry) finalList.push(entry);
+                    else finalList.push(filteredList[0]);
+                    i+=1;
+                    if(i==this.driverDetailsList.length){
+                        this.driverDetailsList = finalList;
+                        this.getOtherVehicleInfo();
+                    }
+                  }
+                  else{
+                    i+=1;
+                    if(i==this.driverDetailsList.length){
+                      this.driverDetailsList = finalList;
+                      this.getOtherVehicleInfo();
+                    }
+                  }
               }
            }
            else{
@@ -350,13 +362,51 @@ export class DriverInfoComponent {
                   "EndorsementType": null,
                   "EndorsementTypeDesc": null
                 }
-              ]
+              ];
+              this.getOtherVehicleInfo();
            }
              //this.EffectiveDate = data.Result.DriverDob
              /*if(this.EffectiveDate){
               this.onDateFormatInEdit(this.EffectiveDate);
              }*/
         }
+        else{
+            this.driverDetailsList = [
+              {
+                "QuoteNo": this.quoteNo,
+                "RiskId": null,
+                "DriverId": null,
+                "DriverName": null,
+                "DriverDob": null,
+                "DriverType": "1",
+                "LicenseNo": null,
+                "EntryDate": null,
+                "CreatedBy": this.loginId,
+                "StateId": null,
+                "CityId": null,
+                "CountryId": null,
+                "SuburbId": null,
+                "AreaGroup": null,
+                "MaritalStatus": null,
+                "LicenseIssueDt": null,
+                "Gender": null,
+                "DriverExperience": null,
+                "EndorsementDate": null,
+                "EndorsementRemarks": null,
+                "EndorsementEffectiveDate": null,
+                "OrginalPolicyNo": null,
+                "EndtPrevPolicyNo": null,
+                "EndtPrevQuoteNo": null,
+                "EndtCount": null,
+                "EndtStatus": null,
+                "IsFinanceEndt": null,
+                "EndtCategoryDesc": null,
+                "EndorsementType": null,
+                "EndorsementTypeDesc": null
+              }
+            ];
+            this.getOtherVehicleInfo();
+         }
       },
       (err) => { },
     );
