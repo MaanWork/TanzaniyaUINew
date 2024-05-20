@@ -37,6 +37,7 @@ export class LayoutService {
     public AppConfig: any = (Mydatas as any).default;
     public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
     public menuList:any[]=[];
+    public MenuMasterList:any[]=[];
     config: AppConfig = {
         ripple: false,
         inputStyle: 'outlined',
@@ -332,5 +333,48 @@ export class LayoutService {
       handleError(error: HttpErrorResponse) {
         return throwError(error);
       }
-
+      setMaster(MenuMasterList){
+    if(MenuMasterList=="Bank Master") this.router.navigate(['/Admin/bankMaster']);
+    if(MenuMasterList=="Country Master ") this.router.navigate(['/Admin/countryMaster']);
+    if(MenuMasterList=="Currency Master") this.router.navigate(['/Admin/currencyMaster']);
+    if(MenuMasterList=="Exchange Master") this.router.navigate(['/Admin/exchangeMaster']);
+    if(MenuMasterList=="Vehicle Usage Master") this.router.navigate(['/Admin/vehicleUsageMaster']);
+    if(MenuMasterList=="Exclusion Master ") this.router.navigate(['/Admin/exclusionMaster']);
+    if(MenuMasterList=="Motor BodyType Master") this.router.navigate(['/Admin/bodyTypeMaster']);
+    if(MenuMasterList=="Occupation Master") this.router.navigate(['/Admin/occupationMaster']);
+    if(MenuMasterList=="Warranty Master") this.router.navigate(['/Admin/warrantyMaster']);
+    if(MenuMasterList=="Clauses Master") this.router.navigate(['/Admin/clausesMaster']);
+    if(MenuMasterList=="Model Master") this.router.navigate(['/Admin/modelMaster']);
+    if(MenuMasterList=="Make Master") this.router.navigate(['/Admin/makeMaster']);
+    if(MenuMasterList=="DropDown Master") this.router.navigate(['/Admin/dropdownMaster']);
+    if(MenuMasterList=="Mail Master") this.router.navigate(['/Admin/countryMaster']);
+    if(MenuMasterList=="Color Master") this.router.navigate(['/Admin/colorMaster']);
+    if(MenuMasterList=="Industry Master") this.router.navigate(['/Admin/Industry']);
+    if(MenuMasterList=="Endorsement Field Master") this.router.navigate(['/Admin/endorsementfieldDetails']);
+    if(MenuMasterList=="Country Tax Setup") this.router.navigate(['/Admin/CompanyTax']);
+    if(MenuMasterList=="Error Module Master ") this.router.navigate(['/Admin/errorMaster']);
+    if(MenuMasterList=="Menu Master") this.router.navigate(['/Admin/mailMaster']);
+      //   if (MenuMasterList.length != 0) {
+      //     alert();
+      //     let masters = [], i = 0;
+      //     for (let menu of MenuMasterList) {
+      //       let entry: any;
+      //       entry = {
+      //         "label": menu.title,
+      //         "icon": menu.icon,
+      //         "routerLink": [menu.link]
+      //       }
+      //       masters.push(entry);
+      //       console.log("mastersmasters",entry)
+      //     }
+      //     if (i == MenuMasterList.length) {
+      //       this.model = [
+      //         {
+      //             label: 'UI Components',
+      //             items:masters
+      //         }
+      //     ]
+      //   }
+      // }
+    }
 }
