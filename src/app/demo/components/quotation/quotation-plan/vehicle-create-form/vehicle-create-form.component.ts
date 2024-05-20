@@ -112,11 +112,17 @@ export class VehicleCreateFormComponent implements OnInit {
         if(data.Result){
             this.makeList = data.Result;
             if(this.vehicleDetails?.Vehiclemake!=null && this.vehicleDetails?.Vehiclemake!='' && this.makeList.length!=0 && (this.modelDesc==null || this.modelDesc=='') ){
-              let entry = this.makeList.find(ele=>ele.CodeDesc==this.editdata?.Vehiclemake);
+              let entry = this.makeList.find(ele=>ele.CodeDesc==this.editdata?.Vehiclemake || ele.Code==this.editdata?.Vehiclemake);
               this.makeValue = entry.Code;
               this.editSectionAlt = true;
               this.onMakeAltChange('direct',this.vehicleDetails?.VehicleModelDesc);
-          }
+            }
+            else if(this.vehicleDetails?.VehiclemakeDesc!=null && this.vehicleDetails?.VehiclemakeDesc!='' && this.makeList.length!=0 && (this.modelDesc==null || this.modelDesc=='') ){
+              let entry = this.makeList.find(ele=>ele.CodeDesc==this.editdata?.VehiclemakeDesc || ele.Code==this.editdata?.VehiclemakeDesc);
+              this.makeValue = entry.Code;
+              this.editSectionAlt = true;
+              this.onMakeAltChange('direct',this.vehicleDetails?.VehicleModelDesc);
+            }
         }
       },
       (err) => { },
@@ -218,7 +224,6 @@ export class VehicleCreateFormComponent implements OnInit {
           let customerDetails:any = data.Result;
           this.customerDetails = customerDetails;
           if(this.customerDetails){
-            console.log("customer details",this.customerDetails)
             // this.title = this.customerDetails?.TitleDesc;
             // this.clientName = this.customerDetails?.ClientName;
              this.ownerName = this.customerDetails?.ClientName;
@@ -877,8 +882,8 @@ export class VehicleCreateFormComponent implements OnInit {
     this.seatingCapacity = vehDetails?.SeatingCapacity;
     this.tareWeight = vehDetails?.Tareweight;
     if(vehDetails?.VehicleType!=null && vehDetails?.VehicleType!=''){
-    this.bodyTypeValue = vehDetails?.TiraBodyType;
-
+    this.bodyTypeId = vehDetails?.VehicleType;
+    this.bodyTypeValue = vehDetails?.VehicleTypeDesc;
      if(this.insuranceId!='100020') this.onBodyTypeChange('direct');
      else{
       if(vehDetails?.Vehiclemake!=null && vehDetails?.Vehiclemake!='' && this.makeList.length!=0){

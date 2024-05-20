@@ -396,7 +396,12 @@ export class ShortQuoteComponent implements OnInit {
                             field.props.options =  defaultObj.concat(this.modelList);
                             if(this.motordetails){
                               field.formControl.setValue(this.motordetails?.Vehcilemodel);
-                              this.productItem.Model = this.motordetails?.Vehcilemodel;
+                              let entry = this.modelList.find(ele=>ele.CodeDesc==this.motordetails?.Vehcilemodel || ele.Code==this.motordetails?.Vehcilemodel);
+                              if((entry==null || entry==undefined) && (this.motordetails?.Vehcilemodel!=null && this.motordetails?.Vehcilemodel!=undefined)){
+                                  this.productItem.Model = '99999';
+                                  this.productItem.ModelDesc = this.motordetails?.Vehcilemodel;
+                              }
+                              else this.productItem.Model = entry.Code;
                             }
                       }
                       
@@ -405,14 +410,6 @@ export class ShortQuoteComponent implements OnInit {
                 }
               }
             }
-            // if(this.getdetails== 'SavedFroms'){
-            //   let entry = this.modelList.find(ele=>ele.CodeDesc==this.editdata?.Vehcilemodel || ele.Code==this.editdata?.Vehcilemodel);
-            //   if((entry==null || entry==undefined) && (this.editdata?.Vehcilemodel!=null && this.editdata?.Vehcilemodel!=undefined)){
-            //       this.modelValue = '99999';
-            //       this.modelDesc = this.editdata?.Vehcilemodel;
-            //   }
-            //   else this.modelValue = this.modelValue = entry.Code;
-            // }
         }
       },
       (err) => { },
@@ -421,8 +418,6 @@ export class ShortQuoteComponent implements OnInit {
   getYearList(){
     var d = new Date();
     var year = d.getFullYear();
-    var month = d.getMonth();
-    var day = d.getDate();
     const currentYear = new Date().getFullYear()-20, years = [];
     while ( year >= currentYear ) {
       let yearEntry = year--
@@ -456,24 +451,10 @@ export class ShortQuoteComponent implements OnInit {
                       }
                     };
                   }
-                 
-                 
-                    
                 }
               }
             }
-            // if(this.getdetails== 'SavedFroms'){
-            //   if(this.editdata?.Vehiclemake!=null && this.editdata?.Vehiclemake!=''){
-            //     let entry = this.makeList.find(ele=>ele.CodeDesc==this.editdata?.Vehiclemake || ele.Code==this.editdata?.Vehiclemake);
-            //     if(entry){
-            //         this.makeValue = entry.Code;
-            //         this.onMakeChange();
-            //     }
-            //   }
-            // }
-            
         }
-
       },
       (err) => { },
     );
