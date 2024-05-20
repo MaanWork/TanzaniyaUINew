@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import * as Mydatas from '../../../../../../app-config.json';
 import { SharedService } from 'src/app/shared/shared.service';
 import { MenuDetails } from './menuModel';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
   selector: 'app-menu-details',
@@ -12,7 +13,7 @@ import { MenuDetails } from './menuModel';
   styleUrls: ['./menu-details.component.scss']
 })
 export class MenuNewDetailsComponent implements OnInit {
-  public activeMenu:any='Dropdown' ;@Input() DropdownId  :any;TypeList:any[]=[];
+  public activeMenu:any='Menu Master' ;@Input() DropdownId  :any;TypeList:any[]=[];
   insuranceName: string;regionValue:any="";
   paramList:any[]=[];paramKeylist:any[]=[];
   statusValue:any="Y";branchList:any;jsonList:any[]=[];
@@ -25,6 +26,7 @@ export class MenuNewDetailsComponent implements OnInit {
   tableList:any;tableNameList:any;KyeNameList:any;
   KeyTableValue:any;KeyNameValue:any;productId:any;
   insuranceId: string;keyTableList:any[]=[];
+  MenuMasterList: any[]=[];
   loginId: any;
  value:any;
  editSection:boolean=false;
@@ -50,11 +52,12 @@ visible: boolean = false;
   optionValue: any;
   type: string;
 
-  constructor(private router:Router,private sharedService:SharedService ,private datePipe:DatePipe,)
+  constructor(private router:Router,private sharedService:SharedService ,private datePipe:DatePipe,private layoutService:LayoutService )
    {
     this.minDate = new Date();
     this.productId =  sessionStorage.getItem('companyProductId');
     let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+    this.MenuMasterList = userDetails?.Result?.MenuMasterList;
     this.typeValue = userDetails?.Result?.UserType;
     console.log("this.typeValue ",this.typeValue);
     
@@ -230,23 +233,9 @@ cancelMenuDetails(){
     //this.jsonList.splice(index, 0, currentElement);
      this.jsonList.push(row);
   }
-  // getBranchList(){
-
-  //   let ReqObj = {
-  //     "InsuranceId": this.insuranceId
-  //   }
-  //   let urlLink = `${this.CommonApiUrl1}master/dropdown/branchmaster`;
-  // this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-  //   (data: any) => {
-  //     if(data.Result){
-  //       let obj = [{Code:"99999",CodeDesc:"ALL"}];
-  //       this.branchList = obj.concat(data?.Result);
-  //       this.tableName();
-  //     }
-  //   },
-  //   (err) => { },
-  //   );
-  //   }
+  getMenu(rowData){
+    this.layoutService.setMaster(rowData);
+ }
     getEditMenuDetails(){
       let ReqObj =  {
         "Limit": "10",

@@ -36,7 +36,7 @@ export class WarrantyListComponent implements OnInit {
   constructor(private router: Router, private sharedService: SharedService,private layoutService:LayoutService 
   ) {
     let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
-    this.MenuMasterList = this.userDetails?.Result?.MenuMasterList;
+    this.MenuMasterList = userDetails?.Result?.MenuMasterList;
     if (userDetails) {
       // this.insuranceId = userDetails?.Result?.InsuranceId;
       this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));

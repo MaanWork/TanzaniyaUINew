@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 //import { NbComponentStatus, NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 import * as Mydatas from '../../../../../../app-config.json';
 import { SharedService } from 'src/app/shared/shared.service';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
   selector: 'app-tax-list',
@@ -11,9 +12,10 @@ import { SharedService } from 'src/app/shared/shared.service';
 })
 export class TaxListComponent implements OnInit {
 
-  public activeMenu:any='Dropdown';filterValue:any;@Input() DropdownId  :any;
+  public activeMenu:any='Country Tax Setup';filterValue:any;@Input() DropdownId  :any;
   insuranceName: string;regionValue:any="";
   dropdownData:any[]=[];dropdownHeader:any[]=[];
+  MenuMasterList: any[]=[];
   public AppConfig:any =(Mydatas as any).default;
   public CommonApiUrl1:any = this.AppConfig.CommonApiUrl;
   public ApiUrl1:any = this.AppConfig.ApiUrl1;tableList:any;
@@ -26,9 +28,10 @@ export class TaxListComponent implements OnInit {
   userDetails: any;
   loginId: any;
 
-  constructor(private router:Router ,private sharedService:SharedService,) {
+  constructor(private router:Router ,private sharedService:SharedService,private layoutService:LayoutService ) {
     this.insuranceName = sessionStorage.getItem('insuranceName');
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+    this.MenuMasterList = this.userDetails?.Result?.MenuMasterList;
     const user = this.userDetails?.Result;
     this.loginId = user?.LoginId;
    }
@@ -46,7 +49,9 @@ export class TaxListComponent implements OnInit {
     this.getCompanyList();
 
   }
-
+  getMenu(rowData){
+    this.layoutService.setMaster(rowData);
+ }
   getCompanyList(){
     let ReqObj = {
       "BrokerCompanyYn":"",

@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common';
 import { Color} from './ColorModel'
 import * as Mydatas from '../../../../../../app-config.json';
 import { SharedService } from 'src/app/shared/shared.service';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 
 
@@ -23,17 +24,19 @@ export class NewcolorDetailsComponent implements OnInit {
   insuranceId: string;
   productId: string;stateList:any[]=[];
   countryList: any[]=[];
-
-  activeMenu:any='Color';insuranceName:any;
+  MenuMasterList: any[]=[];
+  activeMenu:any='Color Master';insuranceName:any;
   ColorDetails: Color;
   BranchCode: any;
    constructor(
-    private sharedService: SharedService,private datePipe:DatePipe,private router:Router) {
+    private sharedService: SharedService,private datePipe:DatePipe,private router:Router,private layoutService:LayoutService 
+  ) {
       this.minDate = new Date();
       this.insuranceId = sessionStorage.getItem('insuranceConfigureId');
     this.productId =  sessionStorage.getItem('companyProductId');
 
       let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+      this.MenuMasterList = userDetails?.Result?.MenuMasterList;
     if(userDetails){
       this.loginId = userDetails?.Result?.LoginId;
       if(userDetails?.Result.AttachedCompanies){
@@ -73,6 +76,9 @@ export class NewcolorDetailsComponent implements OnInit {
     if(value=='Make') this.router.navigate(['/Admin/companyList/companyConfigure/MakeList']);
     if(value=='Model') this.router.navigate(['/Admin/companyList/companyConfigure/ModelList']);
   }
+  getMenu(rowData){
+    this.layoutService.setMaster(rowData);
+ }
  /* getColorList(){
     let urlLink = `${this.CommonApiUrl}master/getmotorcolor`;
     this.sharedService.onGetMethodSync(urlLink).subscribe(

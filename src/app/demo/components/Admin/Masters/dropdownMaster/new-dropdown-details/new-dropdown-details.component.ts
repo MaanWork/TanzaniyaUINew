@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import * as Mydatas from '../../../../../../app-config.json';
 import { SharedService } from 'src/app/shared/shared.service';
 import { Dropdown } from './dropdown.Model';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
   selector: 'app-new-dropdown-details',
@@ -12,12 +13,12 @@ import { Dropdown } from './dropdown.Model';
   styleUrls: ['./new-dropdown-details.component.scss']
 })
 export class NewDropdownDetailsComponent implements OnInit {
-  public activeMenu:any='Dropdown' ;@Input() DropdownId  :any;TypeList:any[]=[];
+  public activeMenu:any='DropDown Master' ;@Input() DropdownId  :any;TypeList:any[]=[];
   insuranceName: string;regionValue:any="";
   paramList:any[]=[];paramKeylist:any[]=[];
   statusValue:any="Y";branchList:any;jsonList:any[]=[];
   public AppConfig:any = (Mydatas as any).default;
-
+  MenuMasterList: any[]=[];
   public ApiUrl1:any = this.AppConfig.ApiUrl1;
   public CommonApiUrl1:any = this.AppConfig.CommonApiUrl;
   public branchCode:any;
@@ -32,11 +33,12 @@ export class NewDropdownDetailsComponent implements OnInit {
   ItemCode: any;
   ItemValue: any;
   ItemId: any;
-  constructor(private router:Router,private sharedService:SharedService ,private datePipe:DatePipe,)
+  constructor(private router:Router,private sharedService:SharedService ,private datePipe:DatePipe,private layoutService:LayoutService )
    {
     this.minDate = new Date();
     this.productId =  sessionStorage.getItem('companyProductId');
     let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+    this.MenuMasterList = userDetails?.Result?.MenuMasterList;
     if(userDetails){
       this.loginId = userDetails?.Result?.LoginId;
       // this.insuranceId = userDetails?.Result?.LoginBranchDetails[0].InsuranceId;
@@ -100,6 +102,9 @@ export class NewDropdownDetailsComponent implements OnInit {
     ]
     this.getList()
   }
+  getMenu(rowData){
+    this.layoutService.setMaster(rowData);
+ }
   delete(row:any)
   {
       const index = this.jsonList.indexOf(row);

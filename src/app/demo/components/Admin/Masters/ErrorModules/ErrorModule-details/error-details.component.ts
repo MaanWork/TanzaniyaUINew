@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import * as Mydatas from '../../../../../../app-config.json';
 import { SharedService } from 'src/app/shared/shared.service';
 import { ErrorModal } from './error.Model';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
   selector: 'app-error-details',
@@ -12,7 +13,7 @@ import { ErrorModal } from './error.Model';
   styleUrls: ['./error-details.component.scss']
 })
 export class NewErrorDetailsComponent implements OnInit {
-  public activeMenu:any='Dropdown' ;@Input() DropdownId  :any;TypeList:any[]=[];
+  public activeMenu:any='Error Module Master ' ;@Input() DropdownId  :any;TypeList:any[]=[];
   insuranceName: string;regionValue:any="";
   paramList:any[]=[];paramKeylist:any[]=[];
   statusValue:any="Y";branchList:any;jsonList:any[]=[];
@@ -40,12 +41,14 @@ export class NewErrorDetailsComponent implements OnInit {
   errorid: any;
   ModuleId: any;
   ErrorId: any;
-  constructor(private router:Router,private sharedService:SharedService ,private datePipe:DatePipe,)
+  MenuMasterList: any[]=[];
+  constructor(private router:Router,private sharedService:SharedService ,private datePipe:DatePipe,private layoutService:LayoutService )
    {
     this.minDate = new Date();
     this.productId = '99999';
     //this.productId =  sessionStorage.getItem('companyProductId');
     let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+    this.MenuMasterList = userDetails?.Result?.MenuMasterList;
     if(userDetails){
       this.loginId = userDetails?.Result?.LoginId;
     }
@@ -72,7 +75,9 @@ export class NewErrorDetailsComponent implements OnInit {
       if(this.ErrorModelDetails?.Status==null)  this.ErrorModelDetails.Status = 'Y';
     }
   }
-
+  getMenu(rowData){
+    this.layoutService.setMaster(rowData);
+ }
   getproductlist(){
     let urlLink = `${this.ApiUrl1}master/dropdown/product`;
     this.sharedService.onGetMethodSync(urlLink).subscribe(

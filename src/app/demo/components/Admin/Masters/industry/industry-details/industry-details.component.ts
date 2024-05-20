@@ -7,6 +7,7 @@ import { SharedService } from 'src/app/shared/shared.service';
 //import { SharedService } from '../../../../../../shared/shared.service';
 //import { TinyUrl } from './tinyurl';
 import { Industry } from './industry-details';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
   selector: 'app-industry-details',
@@ -15,9 +16,10 @@ import { Industry } from './industry-details';
 })
 export class IndustryDetailsComponent implements OnInit {
 
-  public activeMenu:any='Tinyurl';
+  public activeMenu:any='Industry Master';
  public Industrydetails:any;minDate:Date;
   public branchList:any[]=[];
+  MenuMasterList: any[]=[];
   public AppConfig: any = (Mydatas as any).default;
   public ApiUrl1: any = this.AppConfig.ApiUrl1;
   public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
@@ -33,12 +35,14 @@ export class IndustryDetailsComponent implements OnInit {
   CategoryValue: any;
 
 
-  constructor(private router:Router,private sharedService:SharedService,private datePipe:DatePipe,) {
+  constructor(private router:Router,private sharedService:SharedService,private datePipe:DatePipe,private layoutService:LayoutService ) {
     this.minDate = new Date();
     //this.insuranceId = sessionStorage.getItem('insuranceConfigureId');
     this.productId = sessionStorage.getItem('companyProductId');
     console.log("pppppp", this.productId)
     let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+    this.MenuMasterList = userDetails?.Result?.MenuMasterList;
+
     if (userDetails) {
       this.loginId = userDetails?.Result?.LoginId;
     }
@@ -78,6 +82,9 @@ export class IndustryDetailsComponent implements OnInit {
     //this.getEditTinyUrlDetails()
 
   }
+  getMenu(rowData){
+    this.layoutService.setMaster(rowData);
+ }
   getEditIndustryDetails(){
     let ReqObj = {
 

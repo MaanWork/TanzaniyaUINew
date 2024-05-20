@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as Mydatas from '../../../../../../app-config.json';
 import { SharedService } from 'src/app/shared/shared.service';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
   selector: 'app-error-list',
@@ -25,10 +26,12 @@ export class ErrorListComponent implements OnInit {
     ModuleList:any[]=[];
     ModuleId:any;
     ModuleListss:any[]=[];
-
-  constructor(private router:Router,private sharedService: SharedService) {
+    MenuMasterList: any[]=[];
+activeMenu='Error Module Master '; 
+  constructor(private router:Router,private sharedService: SharedService,private layoutService:LayoutService ) {
     this.insuranceName = sessionStorage.getItem('insuranceName');
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+    this.MenuMasterList = this.userDetails?.Result?.MenuMasterList;
     const user = this.userDetails?.Result;
     this.loginId = user?.LoginId;
     this.productId = '99999';
@@ -50,6 +53,9 @@ export class ErrorListComponent implements OnInit {
     'Action',
     ];
   }
+  getMenu(rowData){
+    this.layoutService.setMaster(rowData);
+ }
   getCompanyList(){
     let ReqObj = {
       "BrokerCompanyYn":"",

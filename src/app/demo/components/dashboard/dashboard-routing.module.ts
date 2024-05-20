@@ -39,6 +39,7 @@ import { EndorsementTypeComponent } from '../portfolio/endorsement-type/endorsem
         { path: 'report', component: ReportComponent },
         { path: 'referralCases', component: ReferralCasesComponent },
         { path: 'Search', component : SearchComponent},
+        { path: 'Admin', loadChildren: () => import('../Admin/admin.module').then(m => m.AdminModule) },
     ])],
     exports: [RouterModule]
 })

@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as Mydatas from '../../../../../../app-config.json';
 import { SharedService } from 'src/app/shared/shared.service';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 
 
@@ -14,7 +15,7 @@ import { SharedService } from 'src/app/shared/shared.service';
 })
 export class MenuListComponent implements OnInit {
 
-  activeMenu:any='Make';insuranceName:any;insuranceId:any;
+  activeMenu:any='Menu Master';insuranceName:any;insuranceId:any;
   public AppConfig: any = (Mydatas as any).default;
   public ApiUrl1: any = this.AppConfig.ApiUrl1;
   MakeData: any[]=[];
@@ -29,15 +30,17 @@ export class MenuListComponent implements OnInit {
   insuranceList: any[]=[];
   loginId: any;
   MenuList:any[]=[];
+  MenuMasterList: any[]=[];
   MenuId: any;InsuranceId:any=null;
   UserType: any;
   companyYn: any=null;
 
-  constructor(private router:Router,private sharedService: SharedService/*, private dialogService: NbDialogService,private toastrService:NbToastrService */)
+  constructor(private router:Router,private sharedService: SharedService,private layoutService:LayoutService /*, private dialogService: NbDialogService,private toastrService:NbToastrService */)
     {  
     this.insuranceName = sessionStorage.getItem('insuranceConfigureName');
     this.insuranceId = sessionStorage.getItem('insuranceConfigureId');
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+    this.MenuMasterList = this.userDetails?.Result?.MenuMasterList;
           const user = this.userDetails?.Result;
           this.loginId = user?.LoginId;
           // if(user.AttachedCompanies){
@@ -224,6 +227,10 @@ export class MenuListComponent implements OnInit {
       (err) => { },
     );
   }
+  
+getMenu(rowData){
+  this.layoutService.setMaster(rowData);
+}
 }
 
 

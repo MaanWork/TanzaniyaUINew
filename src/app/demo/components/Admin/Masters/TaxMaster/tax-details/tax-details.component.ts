@@ -8,6 +8,7 @@ import { Taxdetails } from './tax-details.Model';
 
 import * as Mydatas from '../../../../../../app-config.json';
 import { SharedService } from 'src/app/shared/shared.service';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
   selector: 'app-tax-details',
@@ -15,9 +16,10 @@ import { SharedService } from 'src/app/shared/shared.service';
   styleUrls: ['./tax-details.component.scss']
 })
 export class NewTaxDetailsComponent implements OnInit {
-  public activeMenu:any='Dropdown';filterValue:any;@Input() DropdownId  :any;
+  public activeMenu:any='Country Tax Setup';filterValue:any;@Input() DropdownId  :any;
   insuranceName: string;regionValue:any="";
   dropdownData:any[]=[];dropdownHeader:any[]=[];
+  MenuMasterList: any[]=[];
   public AppConfig:any =(Mydatas as any).default;
   public CommonApiUrl1:any = this.AppConfig.CommonApiUrl;
   public ApiUrl1:any = this.AppConfig.ApiUrl1;tableList:any;
@@ -31,9 +33,10 @@ export class NewTaxDetailsComponent implements OnInit {
   loginId: any;
   CountryId: any;
 
-  constructor(private router:Router ,private sharedService:SharedService,private datePipe:DatePipe) {
+  constructor(private router:Router ,private sharedService:SharedService,private datePipe:DatePipe,private layoutService:LayoutService) {
     this.insuranceName = sessionStorage.getItem('insuranceName');
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+    this.MenuMasterList = this.userDetails?.Result?.MenuMasterList;
     const user = this.userDetails?.Result;
     if(this.userDetails){
       this.loginId = this.userDetails?.Result?.LoginId;
@@ -56,6 +59,10 @@ export class NewTaxDetailsComponent implements OnInit {
     }
 
   }
+  
+getMenu(rowData){
+  this.layoutService.setMaster(rowData);
+}
   getEdittaxDetails(){
     let ReqObj =  {
       "CountryId": this.CountryId,
