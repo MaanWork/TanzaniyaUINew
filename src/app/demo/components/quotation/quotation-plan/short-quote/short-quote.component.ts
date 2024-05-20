@@ -135,7 +135,7 @@ export class ShortQuoteComponent implements OnInit {
     this.fields[0] = fireData?.fields;
       let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
         field.form.controls['InsuranceType'].valueChanges.subscribe(() => {
-            this.getMotorTypeList('change',null,null);
+          this.getMotorTypeList('change',null,null);
             this.getMotorUsageList(null,'change');
         });
       } }
@@ -147,6 +147,12 @@ export class ShortQuoteComponent implements OnInit {
           });
         } 
        }
+       let regionHooks5 ={ onInit: (field: FormlyFieldConfig) => {
+            field.formControl.valueChanges.subscribe(() => {
+              this.onChangeMotorUsage('direct')
+            });
+          } 
+        } 
        let regionHooks3 ={ onInit: (field: FormlyFieldConfig) => {
         field.formControl.valueChanges.subscribe(() => {
           this.onBodyTypeChange('change');
@@ -162,6 +168,7 @@ export class ShortQuoteComponent implements OnInit {
           let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
           for(let field of fieldList){
             if(field.key=='ManufactureYear' && this.yearList.length!=0) field.props.options= defaultObj.concat(this.yearList);
+            if(field.key=='MotorUsage'){ field.hooks = regionHooks5;}
             if(field.key=='BodyType'){ field.hooks = regionHooks3;}
             if(field.key=='Make'){ field.hooks = regionHooks4;}
             if(field.key=='InsuranceType' && this.insuranceId=='100028'){
@@ -227,6 +234,7 @@ export class ShortQuoteComponent implements OnInit {
         this.editMotorUsageSection = true;
         this.motorUsageValue = vehicleDetails.Motorusage;
         this.productItem.MotorUsage = vehicleDetails.Motorusage;
+        this.bodyTypeId = vehicleDetails.VehicleType;
         this.productItem.BodyType = vehicleDetails.VehicleType;
         if(vehicleDetails?.Insurancetype!=null && vehicleDetails?.Insurancetype!=''){
           if(Array.isArray(vehicleDetails?.Insurancetype)){
@@ -311,7 +319,7 @@ export class ShortQuoteComponent implements OnInit {
     sessionStorage.setItem('customerReferenceNo',this.customerReferenceNo);
     sessionStorage.setItem('QuoteType','SQ');
     if(this.productItem.Title==null || this.productItem.Title=='' || this.productItem.Title==undefined) this.router.navigate(['customer/create']);
-    else this.router.navigate(['/quotation/plan/quote-details']);
+    else this.router.navigate(['/policyDetails']);
   }
   onCurrencyChange(type){
     let currencyData 
@@ -366,7 +374,7 @@ export class ShortQuoteComponent implements OnInit {
     let ReqObj = {
       "InsuranceId": this.insuranceId,
       "BranchCode": this.branchCode,
-      "BodyId": this.bodyTypeId,
+      "BodyId": this.productItem.BodyType,
       "MakeId": this.productItem.Make
     }
     let urlLink = `${this.CommonApiUrl}master/dropdown/motormakemodel`;
@@ -386,7 +394,12 @@ export class ShortQuoteComponent implements OnInit {
                     for(let field of fieldList){
                       if(field.key=='Model'){
                             field.props.options =  defaultObj.concat(this.modelList);
+                            if(this.motordetails){
+                              field.formControl.setValue(this.motordetails?.Vehcilemodel);
+                              this.productItem.Model = this.motordetails?.Vehcilemodel;
+                            }
                       }
+                      
                     };
                   }
                 }
@@ -443,7 +456,7 @@ export class ShortQuoteComponent implements OnInit {
                       }
                     };
                   }
-                    
+                 
                  
                     
                 }
@@ -587,7 +600,7 @@ export class ShortQuoteComponent implements OnInit {
       "SectionId": sectionId,
       "BranchCode": this.branchCode
     }
-    let urlLink = `${this.CommonApiUrl}api/dropdown/vehicleusage`;
+    let urlLink = `${this.CommonApiUrl}api/dropdown/induvidual/vehicleusage`;
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       (data: any) => {
         console.log(data);
@@ -611,7 +624,7 @@ export class ShortQuoteComponent implements OnInit {
                         }
                         else{
                           field.formControl.setValue(vehicleValue);this.motorUsageType=type;}
-                            field.props.options= defaultObj.concat(this.motorUsageList);
+                          field.props.options= defaultObj.concat(this.motorUsageList);
                       }
                     }
                 }
@@ -682,6 +695,26 @@ export class ShortQuoteComponent implements OnInit {
       }
     }
   }
+  onChangeMotorUsage(type){
+    if(this.productItem.MotorUsage!=null && this.productItem.MotorUsage!='' && this.productItem.MotorUsage!=undefined){
+     let entry = this.motorUsageList.find(ele=>ele.CodeDesc==this.productItem.MotorUsage || ele.Code==this.productItem.MotorUsage);
+     console.log("Filtered Obj",entry)
+     if(entry){  
+          let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}]; 
+           let bodyTypeStatus = entry?.BodyType;
+           if(this.insuranceId=='100027' || this.insuranceId=='100002' || this.insuranceId=='100028' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020'){
+            let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+            for(let field of fieldList){
+              if(field.key=='BodyType'){
+                let typeList = this.motorTypeList.filter(ele=>ele.BodyType==bodyTypeStatus)
+                field.props.options = defaultObj.concat(typeList);
+              }
+            }
+          }
+           if(type=='change') this.bodyTypeValue = null;
+         }
+   }
+  }
   getMotorTypeList(type,motorValue,vehicleUsage){
     if(this.insuranceId=='100027' || this.insuranceId=='100002' || this.insuranceId=='100028' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.typeValue=='100020') this.typeValue = this.productItem.InsuranceType;
     let typeValue = null;
@@ -695,7 +728,7 @@ export class ShortQuoteComponent implements OnInit {
       "InsuranceId": this.insuranceId,
       "BranchCode": this.branchCode
     }
-    let urlLink = `${this.CommonApiUrl}master/dropdown/bodytype`;
+    let urlLink = `${this.CommonApiUrl}master/dropdown/induvidual/bodytype`;
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       (data: any) => {
         if(data.Result){
@@ -707,7 +740,7 @@ export class ShortQuoteComponent implements OnInit {
               } 
             } 
             this.motorTypeList = data.Result;
-            if(type=='direct'){ this.bodyTypeValue = motorValue; this.productItem.BodyType = motorValue}
+            if(type=='direct'){ this.bodyTypeValue = motorValue; this.productItem.BodyType = motorValue;}
             else if(this.insuranceId!='100027') this.bodyTypeValue = motorValue;
             if(this.vehicleDetails && this.motorTypeList.length!=0 && this.bodyTypeValue==null){
               let value = this.motorTypeList.find(ele=>ele.Code == this.vehicleDetails?.VehicleType || ele.CodeDesc == this.vehicleDetails?.VehicleType);

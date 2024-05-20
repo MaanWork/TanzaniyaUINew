@@ -72,12 +72,12 @@ export class MotorShotQuoteUganda{
                   },
                   {
                     type: 'ngselect',
-                    key: 'BodyType',
+                    key: 'MotorUsage',
                     defaultValue: '',
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     props: {
-                      label: `Body Type`,
-                      disabled: this.checkDisable('BodyType'),
+                      label: `Motor Usage`,
+                      disabled: this.checkDisable('MotorUsage'),
                       required: true,
                       options: [
       
@@ -94,12 +94,12 @@ export class MotorShotQuoteUganda{
                   },
                   {
                     type: 'ngselect',
-                    key: 'MotorUsage',
+                    key: 'BodyType',
                     defaultValue: '',
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     props: {
-                      label: `Motor Usage`,
-                      disabled: this.checkDisable('MotorUsage'),
+                      label: `Body Type`,
+                      disabled: this.checkDisable('BodyType'),
                       required: true,
                       options: [
       
@@ -180,27 +180,27 @@ export class MotorShotQuoteUganda{
                     expressions: {
                     },
                   },
-                  {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
-                    type: 'input',
-                    key: 'ChassisNo',
-                    props: {
-                      label: `Chassis No`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('ChassisNo'),
-                      required: true,
-                      options: [
+                  // {
+                  //   className: 'col-12 md:col-6 lg:col-6 xl:col-6',
+                  //   type: 'input',
+                  //   key: 'ChassisNo',
+                  //   props: {
+                  //     label: `Chassis No`,
+                  //     maxLength: 15,
+                  //     disabled: this.checkDisable('ChassisNo'),
+                  //     required: true,
+                  //     options: [
   
-                      ],
+                  //     ],
   
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                  //   },
+                  //   validators: {
+                  //   },
+                  //   hooks: {
+                  //   },
+                  //   expressions: {
+                  //   },
+                  // },
                   {
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     type: 'commaSeparator',

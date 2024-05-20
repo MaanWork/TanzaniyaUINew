@@ -146,9 +146,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
   VehicleSI: string;
   WindShieldSI: string;
   constructor(private router:Router,private sharedService:SharedService,private datePipe:DatePipe,private messageService: MessageService){
-      this.minDate = new Date();
+    this.minDate = new Date();
       
-      this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+    this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     console.log("UserDetails",this.userDetails);
     this.loginId = this.userDetails.Result.LoginId;
     this.userType = this.userDetails?.Result?.UserType;
@@ -333,7 +333,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
         (err) => { },
       );
     }
-    
   }
   getMartialList(){
     if(this.martialList.length==0){
@@ -682,7 +681,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           if(referenceNo){
             this.quoteRefNo = referenceNo;
            if(this.productId=='5' || this.productId=='46' || this.productId=='29') this.getExistingVehiclesList('direct');
-           if(this.productId!='5' && this.productId!='4' && this.productId!='46' && this.productId!='29') this.getExistingBuildingList();
+           else if(this.productId!='5' && this.productId!='4' && this.productId!='46' && this.productId!='29') this.getExistingBuildingList();
           }
           else{
             let loadType = sessionStorage.getItem('firstLoad');
@@ -783,88 +782,91 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
   }
   getExistingBuildingList(){
-    let urlLink:any;
-    let ReqObj = {
-      "RequestReferenceNo": this.quoteRefNo,
-      "RiskId":"1",
-      "ProductId": this.productId,
-      "InsuranceId": this.insuranceId
-    }
-    //if(this.productId=='59') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
-    if(this.productId=='6' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='13'  || this.productId=='19' || this.productId=='32' || this.productId=='1' || this.productId=='26' || this.productId=='21' || this.productId == '25' || this.productId=='42' || this.productId=='59' || this.productId=='24') urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
-    else urlLink =  `${this.motorApiUrl}api/geteservicebyriskid`;
-    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-      (data: any) => {
-        console.log(data);
-        if(data.Result){
-            this.commonData = data.Result;
-              let entry:any;
-              //if(this.productId=='59') entry = this.vehicleDetailsList[0];
-               entry = this.commonData
-               if(entry?.FinalizeYn!=null){
-                this.finalizeYN== entry?.FinalizeYn;
-                sessionStorage.setItem('FinalizeYN',this.finalizeYN);
-               }
-               else this.finalizeYN='N';
-                if(entry?.EndorsementDate!=null){
-                  this.endorsementDetails['EndorsementDate'] = entry?.EndorsementDate;
-                  this.endorsementDetails['EndorsementEffectiveDate'] = entry?.EndorsementEffectiveDate;
-                  this.endorsementDetails['EndorsementRemarks'] = entry?.EndorsementRemarks;
-                  this.endorsementDetails['EndorsementType'] = entry?.EndorsementType;
-                  this.endorsementDetails['EndorsementTypeDesc'] = entry?.EndorsementTypeDesc;
-                  this.endorsementDetails['EndtCategoryDesc'] = entry?.EndtCategoryDesc;
-                  this.endorsementDetails['EndtCount'] = entry?.EndtCount;
-                  this.endorsementDetails['EndtPrevPolicyNo'] = entry?.EndtPrevPolicyNo;
-                  this.endorsementDetails['EndtPrevQuoteNo'] = entry?.EndtPrevQuoteNo;
-                  this.endorsementDetails['EndtStatus'] = entry?.EndtStatus;
-                  this.endorsementDetails['IsFinanceEndt'] = entry?.IsFinanceEndt;
-                  this.endorsementDetails['OrginalPolicyNo'] = entry?.OrginalPolicyNo;
-                  sessionStorage.setItem('endorseTypeId',JSON.stringify(this.endorsementDetails));
+    if(this.productId!='5'){
+      let urlLink:any;
+      let ReqObj = {
+        "RequestReferenceNo": this.quoteRefNo,
+        "RiskId":"1",
+        "ProductId": this.productId,
+        "InsuranceId": this.insuranceId
+      }
+      //if(this.productId=='59') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
+      if(this.productId=='6' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='13'  || this.productId=='19' || this.productId=='32' || this.productId=='1' || this.productId=='26' || this.productId=='21' || this.productId == '25' || this.productId=='42' || this.productId=='59' || this.productId=='24') urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
+      else urlLink =  `${this.motorApiUrl}api/geteservicebyriskid`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+              this.commonData = data.Result;
+                let entry:any;
+                //if(this.productId=='59') entry = this.vehicleDetailsList[0];
+                 entry = this.commonData
+                 if(entry?.FinalizeYn!=null){
+                  this.finalizeYN== entry?.FinalizeYn;
+                  sessionStorage.setItem('FinalizeYN',this.finalizeYN);
+                 }
+                 else this.finalizeYN='N';
+                  if(entry?.EndorsementDate!=null){
+                    this.endorsementDetails['EndorsementDate'] = entry?.EndorsementDate;
+                    this.endorsementDetails['EndorsementEffectiveDate'] = entry?.EndorsementEffectiveDate;
+                    this.endorsementDetails['EndorsementRemarks'] = entry?.EndorsementRemarks;
+                    this.endorsementDetails['EndorsementType'] = entry?.EndorsementType;
+                    this.endorsementDetails['EndorsementTypeDesc'] = entry?.EndorsementTypeDesc;
+                    this.endorsementDetails['EndtCategoryDesc'] = entry?.EndtCategoryDesc;
+                    this.endorsementDetails['EndtCount'] = entry?.EndtCount;
+                    this.endorsementDetails['EndtPrevPolicyNo'] = entry?.EndtPrevPolicyNo;
+                    this.endorsementDetails['EndtPrevQuoteNo'] = entry?.EndtPrevQuoteNo;
+                    this.endorsementDetails['EndtStatus'] = entry?.EndtStatus;
+                    this.endorsementDetails['IsFinanceEndt'] = entry?.IsFinanceEndt;
+                    this.endorsementDetails['OrginalPolicyNo'] = entry?.OrginalPolicyNo;
+                    sessionStorage.setItem('endorseTypeId',JSON.stringify(this.endorsementDetails));
+                  }
+                this.applicationId = entry.ApplicationId;
+                if(entry?.PolicyStartDate != null ){
+                  var dateParts = entry?.PolicyStartDate.split("/");
+                  // month is 0-based, that's why we need dataParts[1] - 1
+                  this.policyStartDate = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
+                  //this.policyStartDate = dateObject.toString()
                 }
-              this.applicationId = entry.ApplicationId;
-              if(entry?.PolicyStartDate != null ){
-                var dateParts = entry?.PolicyStartDate.split("/");
-                // month is 0-based, that's why we need dataParts[1] - 1
-                this.policyStartDate = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
-                //this.policyStartDate = dateObject.toString()
+                if(entry?.PolicyEndDate != null ){
+                  var dateParts = entry?.PolicyEndDate.split("/");
+                  // month is 0-based, that's why we need dataParts[1] - 1
+                  this.policyEndDate = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
+                  this.onChangeEndDate();
+                }
+                //this.executiveValue = entry?.AcExecutiveId;
+                this.currencyCode = entry?.Currency;
+                this.onCurrencyChange('direct');
+                this.exchangeRate = entry?.ExchangeRate;
+                this.IndustryId = entry?.IndustryId;
+                this.executiveValue= entry?.AcExecutiveId;
+                this.havePromoCodeYN=entry?.Havepromocode;
+                if(entry.BuildingOwnerYn!=null && entry?.BuildingOwnerYn!='') this.buildingOwnerYN = entry?.BuildingOwnerYn;
+                this.promocode=entry?.Promocode;
+                if(entry.SourceTypeId!=null) this.Code = entry?.SourceTypeId;
+                this.branchCode = entry?.BranchCode;
+                this.brokerBranchCode = entry?.BrokerBranchCode;
+                this.customerCode = entry?.CustomerCode;
+                this.brokerCode = entry?.BrokerCode;
+                this.currentStatus = entry?.Status;
+                this.onSourceTypeChange('direct');
+                let quoteStatus = sessionStorage.getItem('QuoteStatus');
+                if(quoteStatus=='AdminRP' || quoteStatus=='AdminRA' || quoteStatus=='AdminRR'){
+                  this.adminSection = true;this.issuerSection = false;
+                }
+                else if(this.userType!='Broker' && this.userType!='User'){ this.issuerSection = true;this.adminSection=false; }
+                else this.issuerSection = false
               }
-              if(entry?.PolicyEndDate != null ){
-                var dateParts = entry?.PolicyEndDate.split("/");
-                // month is 0-based, that's why we need dataParts[1] - 1
-                this.policyEndDate = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
-                this.onChangeEndDate();
-              }
-              //this.executiveValue = entry?.AcExecutiveId;
-              this.currencyCode = entry?.Currency;
-              this.onCurrencyChange('direct');
-              this.exchangeRate = entry?.ExchangeRate;
-              this.IndustryId = entry?.IndustryId;
-              this.executiveValue= entry?.AcExecutiveId;
-              this.havePromoCodeYN=entry?.Havepromocode;
-              if(entry.BuildingOwnerYn!=null && entry?.BuildingOwnerYn!='') this.buildingOwnerYN = entry?.BuildingOwnerYn;
-              this.promocode=entry?.Promocode;
-              if(entry.SourceTypeId!=null) this.Code = entry?.SourceTypeId;
-              this.branchCode = entry?.BranchCode;
-              this.brokerBranchCode = entry?.BrokerBranchCode;
-              this.customerCode = entry?.CustomerCode;
-              this.brokerCode = entry?.BrokerCode;
-              this.currentStatus = entry?.Status;
-              this.onSourceTypeChange('direct');
-              let quoteStatus = sessionStorage.getItem('QuoteStatus');
-              if(quoteStatus=='AdminRP' || quoteStatus=='AdminRA' || quoteStatus=='AdminRR'){
-                this.adminSection = true;this.issuerSection = false;
-              }
-              else if(this.userType!='Broker' && this.userType!='User'){ this.issuerSection = true;this.adminSection=false; }
-              else this.issuerSection = false
-            }
-            console.log(
-              "Code",this.Code,this.branchCode,this.brokerBranchCode,this.customerCode,this.brokerCode
-            )
-            //this.onGetCustomerList('direct',this.customerCode);
-          
-      },
-      (err) => { },
-    );
+              console.log(
+                "Code",this.Code,this.branchCode,this.brokerBranchCode,this.customerCode,this.brokerCode
+              )
+              //this.onGetCustomerList('direct',this.customerCode);
+            
+        },
+        (err) => { },
+      );
+    }
+    
   }
   setTiraVehicleValues(entry){
     console.log("Entry Values",entry);
@@ -5094,7 +5096,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
   }
   navigateTo(location) {
     if(location=='back'){
-      if(this.tabIndex==0) this.router.navigate(['/quotation']);
+      if(this.tabIndex==0){
+        if(sessionStorage.getItem('QuoteType')) this.router.navigate(['quotation/plan/shortQuote']);
+        else this.router.navigate(['/quotation']);
+      }
       else if(this.tabIndex!=0){
         this.tabIndex-=1;
         this.productItem=new ProductData();
