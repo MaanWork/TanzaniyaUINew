@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 //import { NbComponentStatus, NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 import * as Mydatas from '../../../../../../app-config.json';
 import { SharedService } from 'src/app/shared/shared.service';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
   selector: 'app-exisiting-dropdowns',
@@ -11,7 +12,7 @@ import { SharedService } from 'src/app/shared/shared.service';
 })
 export class ExisitingDropdownsComponent implements OnInit {
 
-  public activeMenu:any='Dropdown';filterValue:any;@Input() DropdownId  :any;
+  public activeMenu:any='DropDown Master';filterValue:any;@Input() DropdownId  :any;
   insuranceName: string;regionValue:any="";
   dropdownData:any[]=[];dropdownHeader:any[]=[];
   public AppConfig:any =(Mydatas as any).default;
@@ -24,10 +25,12 @@ export class ExisitingDropdownsComponent implements OnInit {
   public branchList:any;branchValue:any;BranchCode:any;insuranceId:any;
   userDetails: any;
   loginId: any;
-
-  constructor(private router:Router ,private sharedService:SharedService,) {
+  MenuMasterList: any[]=[];
+  constructor(private router:Router ,private sharedService:SharedService,private layoutService:LayoutService ) {
     this.insuranceName = sessionStorage.getItem('insuranceName');
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+    this.MenuMasterList = this.userDetails?.Result?.MenuMasterList;
+
     const user = this.userDetails?.Result;
     this.loginId = user?.LoginId;
     if(user.AttachedCompanies){
@@ -116,6 +119,9 @@ export class ExisitingDropdownsComponent implements OnInit {
       (err) => { },
     );
   }
+  getMenu(rowData){
+    this.layoutService.setMaster(rowData);
+ }
   getList(type){
     if(type=='change'){this.dropdownData=[];}
     let ReqObj ={

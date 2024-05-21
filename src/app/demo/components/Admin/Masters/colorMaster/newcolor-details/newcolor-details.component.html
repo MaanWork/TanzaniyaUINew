@@ -1,6 +1,6 @@
 <div class="card">
     <div class="grid">
-        <div class="col-12 sm:col-6 md:col-4">
+        <div class="col-12 sm:col-9 md:col-9">
           <h3 class="mr-3">Color Master</h3>
           <!-- <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb> -->
         </div>
@@ -9,6 +9,18 @@
             <p-button icon="pi pi-plus" label="Add New" severity="warning" size="small" (click)="onAddSection()" ></p-button>
           </div>
         </div>   [(ngModel)]="exchangeDetails.CurrencyId" [items]="currencyList" -->
+        <div class="col-12 lg:col-3 xl:col-3 md:col-3 " >
+            <label for="username">Select Master*</label>
+            <p-dropdown inputId="title" 
+                class="w-full" 
+                styleClass="w-full" 
+                (onChange)="getMenu(activeMenu)"
+                [options]="MenuMasterList" 
+                [(ngModel)]="activeMenu" 
+                optionLabel="title" 
+                optionValue="title" >
+            </p-dropdown>
+        </div>
     </div>
 
     <div class="grid mt-2">

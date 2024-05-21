@@ -347,13 +347,13 @@ export class LayoutService {
     if(MenuMasterList=="Model Master") this.router.navigate(['/Admin/modelMaster']);
     if(MenuMasterList=="Make Master") this.router.navigate(['/Admin/makeMaster']);
     if(MenuMasterList=="DropDown Master") this.router.navigate(['/Admin/dropdownMaster']);
-    if(MenuMasterList=="Mail Master") this.router.navigate(['/Admin/countryMaster']);
+    if(MenuMasterList=="Mail Master") this.router.navigate(['/Admin/mailMaster']);
     if(MenuMasterList=="Color Master") this.router.navigate(['/Admin/colorMaster']);
     if(MenuMasterList=="Industry Master") this.router.navigate(['/Admin/Industry']);
     if(MenuMasterList=="Endorsement Field Master") this.router.navigate(['/Admin/endorsementfieldDetails']);
-    if(MenuMasterList=="Country Tax Setup") this.router.navigate(['/Admin/CompanyTax']);
+    if(MenuMasterList=="Country Tax Setup") this.router.navigate(['/Admin/taxMaster']);
     if(MenuMasterList=="Error Module Master ") this.router.navigate(['/Admin/errorMaster']);
-    if(MenuMasterList=="Menu Master") this.router.navigate(['/Admin/mailMaster']);
+    if(MenuMasterList=="Menu Master") this.router.navigate(['/Admin/MenuMaster']);
       //   if (MenuMasterList.length != 0) {
       //     alert();
       //     let masters = [], i = 0;

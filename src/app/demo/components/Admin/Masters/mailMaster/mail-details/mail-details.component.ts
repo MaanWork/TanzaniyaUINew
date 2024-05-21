@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import * as Mydatas from '../../../../../../app-config.json';
 import { SharedService } from 'src/app/shared/shared.service';
 import {Mail} from './MailModel'
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
   selector: 'app-mail-details',
@@ -14,6 +15,7 @@ import {Mail} from './MailModel'
 export class MailDetailsComponent implements OnInit {
 
   @Input() title: any;
+  MenuMasterList: any[]=[];
   activeMenu:any;stateList:any[]=[];stateValue:any;
   statusValue:any = "YES";regionList:any[]=[];
   regionValue:any;
@@ -35,8 +37,10 @@ userDetails:any;
   Sno: any=2;
 
   constructor(private router:Router,private datePipe:DatePipe,private sharedService: SharedService,
+    private layoutService:LayoutService 
+
    ) {
-    this.activeMenu = "Mail";
+    this.activeMenu = "Mail Master";
     this.minDate = new Date();
     this.productId =  sessionStorage.getItem('companyProductId');
       /*let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -45,6 +49,8 @@ userDetails:any;
       this.loginId = userDetails?.Result?.LoginId;
   }*/
       let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+      this.MenuMasterList = userDetails?.Result?.MenuMasterList;
+
     if(userDetails){
       this.loginId = userDetails?.Result?.LoginId;
       console.log("Ins Id",userDetails);
@@ -66,6 +72,9 @@ userDetails:any;
   ongetBack(){
     this.router.navigate(['/Admin/companyList/companyConfigure'])
   }
+  getMenu(rowData){
+    this.layoutService.setMaster(rowData);
+ }
   onProceed(){
     this.router.navigate(['/Admin/countryMaster/cityList'])
   }

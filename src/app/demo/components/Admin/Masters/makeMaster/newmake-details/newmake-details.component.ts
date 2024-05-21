@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common';
 import { Make} from './MakeModel';
 import * as Mydatas from '../../../../../../app-config.json';
 import { SharedService } from 'src/app/shared/shared.service';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
   selector: 'app-newmake-details',
@@ -13,6 +14,7 @@ import { SharedService } from 'src/app/shared/shared.service';
 })
 export class NewmakeDetailsComponent implements OnInit {
   @Input() title: any;@Input() MakeId:any;
+  MenuMasterList: any[]=[];
   statusValue:any= "Yes";cityList:any[]=[]; branchList:any[]=[];
   public AppConfig: any = (Mydatas as any).default;
   public ApiUrl1: any = this.AppConfig.ApiUrl1;
@@ -21,7 +23,7 @@ export class NewmakeDetailsComponent implements OnInit {
   insuranceId: string;
   productId: string;stateList:any[]=[];
   countryList: any[]=[];
-  activeMenu:any='Make';insuranceName:any;
+  activeMenu:any='Make Master';insuranceName:any;
   MakeDetails: Make;
   BranchCode: any;
   MakeList:any;
@@ -29,11 +31,12 @@ export class NewmakeDetailsComponent implements OnInit {
 
 
   constructor(
-    private sharedService: SharedService,private datePipe:DatePipe,private router:Router) {
+    private sharedService: SharedService,private datePipe:DatePipe,private router:Router,private layoutService:LayoutService ) {
       this.minDate = new Date();
       this.insuranceId = sessionStorage.getItem('insuranceConfigureId');
     this.productId =  sessionStorage.getItem('companyProductId');
       let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+      this.MenuMasterList = userDetails?.Result?.MenuMasterList;
     if(userDetails){
       this.loginId = userDetails?.Result?.LoginId;
     }
@@ -251,7 +254,9 @@ this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
     }
   }
 
-
+  getMenu(rowData){
+    this.layoutService.setMaster(rowData);
+ }
 
 }
 

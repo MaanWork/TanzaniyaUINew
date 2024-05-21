@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 //import { NbComponentStatus, NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 import * as Mydatas from '../../../../../../app-config.json';
 import { SharedService } from 'src/app/shared/shared.service';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
 //import { SharedService } from '../../../../../../shared/shared.service';
 
 @Component({
@@ -13,10 +14,11 @@ import { SharedService } from 'src/app/shared/shared.service';
 })
 export class IndustryListComponent implements OnInit {
 
-  public activeMenu:any='Industry';
+  public activeMenu:any='Industry Master';
   public tinyUrlData:any[]=[];columnHeader:any[]=[];branchList:any[]=[];
   IndustryValue:any;
   IndustryList:any[]=[];
+  MenuMasterList: any[]=[];
   branchValue: string;
   public AppConfig: any = (Mydatas as any).default;
   public ApiUrl1: any = this.AppConfig.ApiUrl1;
@@ -32,7 +34,7 @@ export class IndustryListComponent implements OnInit {
   CategoryList:any[]=[];
   CategoryValue:any;
   insuranceList: { Code: string; CodeDesc: string; }[];
-  constructor(private router:Router,private sharedService:SharedService,) {
+  constructor(private router:Router,private sharedService:SharedService,private layoutService:LayoutService ) {
     this.minDate = new Date();
     //this.insuranceId = sessionStorage.getItem('insuranceConfigureId');
     //this.productId = sessionStorage.getItem('companyProductId');
@@ -47,6 +49,7 @@ export class IndustryListComponent implements OnInit {
     this.insuranceName = sessionStorage.getItem('insuranceConfigureName');
     // this.insuranceId = sessionStorage.getItem('insuranceConfigureId');
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+    this.MenuMasterList = this.userDetails?.Result?.MenuMasterList;
     const user = this.userDetails?.Result;
     this.loginId = user?.LoginId;
     
@@ -67,6 +70,9 @@ export class IndustryListComponent implements OnInit {
 
     //this.getExistingTinyUrl()
   }
+  getMenu(rowData){
+    this.layoutService.setMaster(rowData);
+ }
   getCompanyList(){
     let ReqObj = {
       "BrokerCompanyYn":"",
