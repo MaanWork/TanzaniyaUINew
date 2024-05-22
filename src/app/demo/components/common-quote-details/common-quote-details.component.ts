@@ -468,6 +468,13 @@ export class CommonQuoteDetailsComponent implements OnInit {
       (err) => { },
     );
   }
+  onBrokerChange(){
+      let entry = this.brokerList.find(ele=>String(ele.Code)==this.brokerCode);
+      if(entry){
+        this.brokerLoginId = entry.Name; 
+      }
+      this.getBrokerBranchList('change');
+  }
   onCustomerSearch(){
     if(this.searchValue){
       this.customers = [];
@@ -1105,12 +1112,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
             this.brokerBranchList = data?.Result;
             if(this.brokerBranchList.length==1){
               this.brokerBranchCode = this.brokerBranchList[0].Code;
-              // this.updateComponent.brokerBranchCode = this.brokerBranchCode;
-              // this.updateComponent.brokerCode = this.brokerCode;
-              if(type=='change'){
-                // this.updateComponent.CustomerCode=null;
-                // this.updateComponent.CustomerName = null;
-              }
             }
             
           }
@@ -1310,11 +1311,13 @@ export class CommonQuoteDetailsComponent implements OnInit {
                      
                         console.log("Dropdown List",this.fields)
                         if(this.insuranceId=='100002' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020' || this.insuranceId=='100004'){
-                          let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
-                          for(let field of fieldList){
-                            console.log('Field ',field)
-                            if(field.key=='InsuranceClass'){
-                                field.props.options= defaultObj.concat(this.classList);
+                          if(this.fields.length!=0){
+                            let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                            for(let field of fieldList){
+                              console.log('Field ',field)
+                              if(field.key=='InsuranceClass'){
+                                  field.props.options= defaultObj.concat(this.classList);
+                              }
                             }
                           }
                         }

@@ -155,7 +155,11 @@ export class VehicleCreateFormComponent implements OnInit {
              ];
              if(type=='direct'){
                 let entry = this.modelList.find(ele=>ele.VehicleId==modelValue);
-                if(entry) this.modelDesc = entry?.Model;
+                if(entry){
+                  let otherList = this.modelList.filter(ele=>ele.VehicleId!=modelValue);
+                  this.modelList = [entry].concat(otherList);
+                  this.modelDesc = entry?.Model;
+                }
              } 
              else{
               this.modelDesc = null;
@@ -683,6 +687,10 @@ export class VehicleCreateFormComponent implements OnInit {
       (err) => { },
     );
   }
+  onCheckModelChecked(rowData){
+      if(this.modelDesc!='' && this.modelDesc!=null && this.modelDesc!=undefined) return (this.modelDesc==rowData.Model) ;
+      else return false;
+  }
   getBodyTypeList(){
     let ReqObj = {
       "InsuranceId": this.insuranceId,
@@ -899,6 +907,9 @@ export class VehicleCreateFormComponent implements OnInit {
     this.onChangeMotorUsage('direct')
   }
   onFormSubmit(){
+     this.onProceed()
+  }
+  onProceed(){
     let make = "";
     if(this.makeValue!='' && this.makeValue!=undefined && this.makeValue!=null){
       let entry = this.makeList.find(ele=>ele.Code==this.makeValue);
@@ -923,8 +934,6 @@ export class VehicleCreateFormComponent implements OnInit {
       }
       else modelDesc = this.modelDesc;
     }
-    
-    
     if(this.insuranceId=='100004') this.usageValue = null;
     this.ownerCategory = this.customerDetails?.PolicyHolderType;
     let grossweight=null,tareweight=null;
