@@ -174,7 +174,14 @@ export class CustomerCreateFormComponent implements OnInit {
 			}
 			else cityName=data?.districtcode;
 		}
-		
+		var d= new Date();
+		var year = d.getFullYear();
+		var month = d.getMonth();
+		var day = d.getDate();
+		if(this.productItem.IdType != 2 && this.productItem.IdType != '2'){
+			
+			data.dobOrRegDate = new Date(year - 18,month, day-2 );
+		}
 		if(data.state!=null && data.state!='') stateName = this.regionList.find(ele=>ele.Code==data.state)?.CodeDesc;
 		if (data.dobOrRegDate != undefined && data.dobOrRegDate != null && data.dobOrRegDate != '') {
 			if(String(dobOrRegDate).includes('/')){
@@ -209,16 +216,26 @@ export class CustomerCreateFormComponent implements OnInit {
 				.random() * (maxm - minm + 1)) + minm; 
 		}
 		if(this.productItem.IdType=='2' || this.productItem.IdType==2){
-      
-			if((new Date(dobOrRegDate)).setHours(0,0,0,0)<=new Date().setHours(0,0,0,0) || dobOrRegDate==null || dobOrRegDate==''){
+      		if(dobOrRegDate=='' || dobOrRegDate==null || dobOrRegDate==undefined || (new Date(dobOrRegDate)).setHours(0,0,0,0)<=new Date().setHours(0,0,0,0) || dobOrRegDate==null || dobOrRegDate==''){
 			  var d= new Date();
 			  var year = d.getFullYear();
 			  var month = d.getMonth();
 			  var day = d.getDate();
-			  var sysDay = new Date(year,month, day-1 );
+			  var sysDay = new Date(year,month, day-2 );
 			  dobOrRegDate = this.datePipe.transform(sysDay,'dd/MM/yyyy');
 			}
-			
+		}
+		if(data.IdType=='1'){
+			if(this.productItem?.PolicyHolderTypeid=='1'){
+			  if(this.productItem.IdNumber!=null && this.productItem.IdNumber!=''){
+				let year = this.productItem.IdNumber.substr(0, 4);
+				let month = this.productItem.IdNumber.substr(4,2);
+				let day = this.productItem.IdNumber.substr(6,2);
+				if(year!=null && year!=undefined && month!=null && month!=undefined && day!=null && day!=undefined){
+				  dobOrRegDate = day+'/'+month+'/'+year;
+				}
+			  }
+			}
 		  }
 		let policyid:any;
 		if(data?.PolicyHolderTypeid == '1'){

@@ -28,50 +28,6 @@ export class MotorShotQuoteUganda{
                 fieldGroup: [
                   {
                     type: 'ngselect',
-                    key: 'InsuranceType',
-                    defaultValue: '',
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
-                    props: {
-                      label: `Insurance Type`,
-                      disabled: this.checkDisable('InsuranceType'),
-                      required: true,
-                      options: [
-      
-                      ],
-      
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    type: 'ngselect',
-                    key: 'InsuranceClass',
-                    defaultValue: '',
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
-                    props: {
-                      label: `Insurance Class`,
-                      disabled: this.checkDisable('InsuranceClass'),
-                      required: true,
-                      options: [
-      
-                      ],
-      
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    type: 'ngselect',
                     key: 'MotorUsage',
                     defaultValue: '',
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
@@ -225,6 +181,50 @@ export class MotorShotQuoteUganda{
                   //   expressions: {
                   //   },
                   // },
+                  {
+                    type: 'ngselect',
+                    key: 'InsuranceType',
+                    defaultValue: '',
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
+                    props: {
+                      label: `Insurance Type`,
+                      disabled: this.checkDisable('InsuranceType'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    type: 'ngselect',
+                    key: 'InsuranceClass',
+                    defaultValue: '',
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
+                    props: {
+                      label: `Insurance Class`,
+                      disabled: this.checkDisable('InsuranceClass'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
                   {
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     type: 'commaSeparator',

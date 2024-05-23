@@ -593,14 +593,14 @@
                       <ng-template pTemplate="body" let-customer>
                         <tr>
                             <td>
-                                <input type="radio" [id]="customer?.CustomerReferenceNo" name="fav_language"
+                                <input type="radio" [id]="customer?.CustomerReferenceNo" [checked]="onCheckModelChecked(customer)" name="fav_language"
                                     (change)="onSelectModel(customer)">
                                 <label for="html"></label>
                                 <!-- <p-radioButton  [value]="customer.CustomerReferenceNo" name="city" [(ngModel)]="selectedCustomer" [inputId]="customer.CustomerReferenceNo"></p-radioButton>
                       <label for="ingredient1" class="ml-2"></label> -->
                             </td>
-                            <td>{{customer.Model}}</td>
-                            <td>{{customer.BodyType}}</td>
+                            <td>{{customer.Model}} {{onCheckModelChecked(customer)}}</td>
+                            <td>{{customer.BodyType}} {{modelDesc}}</td>
                             <td>{{customer.FuelType}}</td>
                             <td>{{customer.TransmissionType}}</td>
                             <td>{{customer.WeightKg}}</td>
