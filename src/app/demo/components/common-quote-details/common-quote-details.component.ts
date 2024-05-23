@@ -2168,6 +2168,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         }
         else {
           this.sourceType = this.subuserType;
+          this.Code = this.subuserType;
           this.customerCode = this.userDetails?.Result.CustomerCode;
         }
       let refNo = "99999",regYear="99999",IdType="99999",IdNo="99999";
@@ -2623,6 +2624,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           else {
             this.sourceType = this.subuserType;
+            this.Code = this.subuserType;
             this.customerCode = this.userDetails?.Result.CustomerCode;
           }
           if(this.customerName ==undefined) this.customerName = null;
@@ -2705,6 +2707,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           if(this.motorDetails?.SavedFrom=='SQ') this.motorDetails.SavedFrom = 'WEB';
           if(this.productItem.PreviousInsuranceYN==null || this.productItem.PreviousInsuranceYN=='') this.productItem.PreviousInsuranceYN='N';
+          alert(this.Code)
           let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,
@@ -3247,6 +3250,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               }
               else {
                 this.sourceType = this.subuserType;
+                this.Code = this.subuserType;
                 this.customerCode = this.userDetails?.Result.CustomerCode;
               }
                
@@ -3865,6 +3869,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           else {
             this.sourceType = this.subuserType;
+            this.Code = this.subuserType;
             this.customerCode = this.userDetails?.Result.CustomerCode;
           }
           if(this.customerName ==undefined) this.customerName = null;
@@ -4006,7 +4011,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "Registrationnumber": this.vehicleDetails?.Registrationnumber,
             "RoofRack": null,
             "SeatingCapacity": this.vehicleDetails?.SeatingCapacity,
-            "SourceTypeId":this.sourceType,
+            "SourceTypeId":this.Code,
             "SpotFogLamp": null,
             "Stickerno": null,
             "SumInsured": this.productItem.VehicleSI,
@@ -4675,6 +4680,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
           this.vehicleDetails['OldSumInsured'] = data?.Result.SumInsured;
           this.vehicleDetails['OldTppdIncreaeLimit'] = data?.Result.TppdIncreaeLimit;
           this.vehicleDetails['OldWindScreenSumInsured'] = data?.Result.WindScreenSumInsured;
+          if(this.vehicleDetails.SourceTypeId!=null) this.Code = this.vehicleDetails?.SourceTypeId;
+          this.customerCode = this.vehicleDetails?.CustomerCode;
+          this.branchCode = this.vehicleDetails.BranchCode;
+          this.brokerCode = this.vehicleDetails.BrokerCode;
+          this.brokerBranchCode = this.vehicleDetails.BrokerBranchCode;
+          this.onSourceTypeChange('direct');
           //this.updateComponent.vehicleDetails = this.vehicleDetails;
           if(this.insuranceId=='100020' || this.insuranceId=='100028'){
             //this.getDriverDetails(type,this.vehicleDetails);
