@@ -18,7 +18,7 @@ import { SearchComponent } from '../Search/search.component';
 import { EndorsementComponent } from '../portfolio/endorsement/endorsement.component';
 import { EndorsementTypeComponent } from '../portfolio/endorsement-type/endorsement-type.component';
 import { MotorDocumentsDetailComponent } from '../MotorDocuments/motor-documents-detail/motor-documents-detail.component';
-// import { ApproverPortfolioComponent } from '../approverportfolio/approverportfolio.component';
+import { ApproverPortfolioComponent } from '../approverportfolio/approverportfolio.component';
 
 
 @NgModule({
@@ -43,11 +43,15 @@ import { MotorDocumentsDetailComponent } from '../MotorDocuments/motor-documents
         { path: 'referralCases', component: ReferralCasesComponent },
         { path: 'Search', component : SearchComponent},
         { path: 'Admin', loadChildren: () => import('../Admin/admin.module').then(m => m.AdminModule) },
-        // {
-        //     path:'ApproverPortfolio',
-        //     component:ApproverPortfolioComponent,
-        //     loadChildren: () => import('../approverportfolio/approverportfolio.module').then(m => m.ApproverPortfolioModule),
-        //   },
+        {
+            path:'ApproverPortfolio',
+            component:ApproverPortfolioComponent,
+            loadChildren: () => import('../approverportfolio/approverportfolio.module').then(m => m.ApproverPortfolioModule),
+          },
+          {
+            path: 'ApproverPortfolio/NewDetails',
+            loadChildren: () => import('../newpage/newpage.module').then(m => m.NewPageModule),
+          },
     ])],
     exports: [RouterModule]
 })
