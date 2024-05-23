@@ -17,6 +17,8 @@ import { ReferralCasesComponent } from '../Admin/referralCases/referral-cases.co
 import { SearchComponent } from '../Search/search.component';
 import { EndorsementComponent } from '../portfolio/endorsement/endorsement.component';
 import { EndorsementTypeComponent } from '../portfolio/endorsement-type/endorsement-type.component';
+import { MotorDocumentsDetailComponent } from '../MotorDocuments/motor-documents-detail/motor-documents-detail.component';
+// import { ApproverPortfolioComponent } from '../approverportfolio/approverportfolio.component';
 
 
 @NgModule({
@@ -36,10 +38,16 @@ import { EndorsementTypeComponent } from '../portfolio/endorsement-type/endorsem
         { path: 'portfolio', component: PortfolioComponent },
         { path: 'portfolio/endorsement', component: EndorsementComponent },
         { path: 'portfolio/endorsementtype', component: EndorsementTypeComponent},
+        { path: 'portfolio/motorDocuments', component: MotorDocumentsDetailComponent},
         { path: 'report', component: ReportComponent },
         { path: 'referralCases', component: ReferralCasesComponent },
         { path: 'Search', component : SearchComponent},
         { path: 'Admin', loadChildren: () => import('../Admin/admin.module').then(m => m.AdminModule) },
+        // {
+        //     path:'ApproverPortfolio',
+        //     component:ApproverPortfolioComponent,
+        //     loadChildren: () => import('../approverportfolio/approverportfolio.module').then(m => m.ApproverPortfolioModule),
+        //   },
     ])],
     exports: [RouterModule]
 })

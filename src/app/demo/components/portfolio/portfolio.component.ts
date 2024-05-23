@@ -189,7 +189,10 @@ export class PortfolioComponent implements OnInit {
           },
           {
               label: 'View Quote Details',
-              icon: 'pi pi-eye'
+              icon: 'pi pi-eye',
+              command: () => {
+               this.onViews(rowData);
+          }
           }
       ]}
     ];
@@ -220,6 +223,23 @@ if (rowData.DebitNoteNo==null && rowData.DebitNoteNo=='') {
     // if(i==2) return entry;
     //else return []
     return entry;
+  }
+  onViews(rowData){
+    let ReqObj={
+      "Search":"",
+      "SearchValue":rowData.QuoteNo,
+      "QuoteNo":rowData.QuoteNo,
+      "RequestReferenceNo":rowData.RequestReferenceNo,
+      "ProductId":this.productId,
+      "pageFrom": 'policy',
+      "CustomerName": rowData.ClientName,
+      "ProductName":rowData.ProductName,
+      "PolicyNo":rowData.PolicyNo,
+      "Currency":rowData.Currency,
+      "EmiYn":rowData?.EmiYn
+    }
+    sessionStorage.setItem('editCustomer',JSON.stringify(ReqObj));
+    this.router.navigate(['/portfolio/motorDocuments'])
   }
   getExistingQuotes(element,entryType){
     if(element==null) this.quoteData=[];
