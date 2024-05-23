@@ -117,7 +117,7 @@ export class VehicleCreateFormComponent implements OnInit {
               this.editSectionAlt = true;
               this.onMakeAltChange('direct',this.vehicleDetails?.VehicleModelDesc);
             }
-            else if(this.vehicleDetails?.VehiclemakeDesc!=null && this.vehicleDetails?.VehiclemakeDesc!='' && this.makeList.length!=0 && (this.modelDesc==null || this.modelDesc=='') ){
+            else if(this.vehicleDetails?.VehiclemakeDesc!=null && this.vehicleDetails?.VehiclemakeDesc!='' && this.makeList.length!=0 ){
               let entry = this.makeList.find(ele=>ele.CodeDesc==this.editdata?.VehiclemakeDesc || ele.Code==this.editdata?.VehiclemakeDesc);
               this.makeValue = entry.Code;
               this.editSectionAlt = true;
@@ -752,8 +752,8 @@ export class VehicleCreateFormComponent implements OnInit {
         if(data.Result){
             this.makeList = data.Result;
             if(this.getdetails== 'SavedFroms'){
-              if(this.editdata?.Vehiclemake!=null && this.editdata?.Vehiclemake!=''){
-                let entry = this.makeList.find(ele=>ele.CodeDesc==this.editdata?.Vehiclemake || ele.Code==this.editdata?.Vehiclemake);
+              if(this.editdata?.Vehiclemake!=null && this.editdata?.Vehiclemake!='' || this.editdata?.VehiclemakeDesc!=''){
+                let entry = this.makeList.find(ele=>ele.CodeDesc==this.editdata?.Vehiclemake || ele.Code==this.editdata?.Vehiclemake || ele.CodeDesc==this.editdata?.VehiclemakeDesc);
                 if(entry){
                     this.makeValue = entry.Code;
                     this.onMakeChange();
@@ -892,6 +892,7 @@ export class VehicleCreateFormComponent implements OnInit {
     if(vehDetails?.VehicleType!=null && vehDetails?.VehicleType!=''){
     this.bodyTypeId = vehDetails?.VehicleType;
     this.bodyTypeValue = vehDetails?.VehicleTypeDesc;
+    this.modelDesc = vehDetails?.VehicleModelDesc;
      if(this.insuranceId!='100020') this.onBodyTypeChange('direct');
      else{
       if(vehDetails?.Vehiclemake!=null && vehDetails?.Vehiclemake!='' && this.makeList.length!=0){

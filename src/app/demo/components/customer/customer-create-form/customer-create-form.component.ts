@@ -361,7 +361,7 @@ export class CustomerCreateFormComponent implements OnInit {
 						}
 						else if(sessionStorage.getItem('VechileDetails')){
 							sessionStorage.setItem('customerReferenceNo',data.Result.SuccessId);
-							this.router.navigate(['Home/existingQuotes/customerSelection/customerDetails/customer-details']);
+							this.router.navigate(['/policyDetails']);
 						}
 						else if(sessionStorage.getItem('QuoteType')){
 							this.router.navigate(['/policyDetails']);

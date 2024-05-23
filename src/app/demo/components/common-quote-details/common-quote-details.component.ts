@@ -147,7 +147,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   WindShieldSI: string;
   constructor(private router:Router,private sharedService:SharedService,private datePipe:DatePipe,private messageService: MessageService){
     this.minDate = new Date();
-      
+    
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     console.log("UserDetails",this.userDetails);
     this.loginId = this.userDetails.Result.LoginId;
@@ -162,6 +162,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     this.branchList = this.userDetails.Result.LoginBranchDetails;
     this.loginType = this.userDetails.Result.LoginType;
     let loginType = this.userDetails.Result.LoginType;
+    if(this.userType=='Issuer' )this.getSourceList();
     this.driverOptions = [
       {"label":'Driver',"value":'2'},
       {"label":'Owner',"value":'1'},
@@ -189,7 +190,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       {"Code":"3","CodeDesc":"Famiy Without Driver"},
       {"Code":"4","CodeDesc":"All Occupant"}
     ]
-    if(this.userType=='Issuer' )this.getSourceList();
+   
    
     this.productItem = new ProductData();
     if(this.insuranceId=='100027'){
@@ -876,6 +877,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     
   }
   setTiraVehicleValues(entry){
+    this.tabIndex=0;
     console.log("Entry Values",entry);
     if(entry?.PolicyStartDate != null ){
       var dateParts = entry.PolicyEndDate.split("/");
@@ -2707,7 +2709,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           if(this.motorDetails?.SavedFrom=='SQ') this.motorDetails.SavedFrom = 'WEB';
           if(this.productItem.PreviousInsuranceYN==null || this.productItem.PreviousInsuranceYN=='') this.productItem.PreviousInsuranceYN='N';
-          alert(this.Code)
           let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,
