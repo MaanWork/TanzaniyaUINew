@@ -17,14 +17,16 @@ import { TabViewModule } from 'primeng/tabview';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
+import { AccordionModule } from 'primeng/accordion';
+import { FieldsetModule } from 'primeng/fieldset';
+import { AvatarModule } from 'primeng/avatar';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         ChartModule,
-        MenuModule,
-        TableModule,
+        MenuModule, 
         StyleClassModule,
         PanelMenuModule,
         ButtonModule,
@@ -37,6 +39,10 @@ import { DropdownModule } from 'primeng/dropdown';
         SelectButtonModule,
         ToastModule,
         DropdownModule,
+        AccordionModule,
+        FieldsetModule,
+        AvatarModule,
+        TableModule,
     ],
     declarations: [DashboardComponent,ReferralCasesComponent]
 })
