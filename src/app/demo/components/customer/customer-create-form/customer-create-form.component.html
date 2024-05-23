@@ -188,14 +188,10 @@
                 <div class="flex flex-column m-3">
                     <!-- <label for="username">{{ 'HOME.PreferedNotification' | translate}}*</label> -->
                     <label for="username">Preferred Notification *</label>
-                    <p-dropdown inputId="make" 
-                        class="w-full" 
-                        styleClass="w-full" 
-                        [options]="notificationList" 
-                        [(ngModel)]="productItem.PreferredNotification" 
-                        optionLabel="CodeDesc" 
-                        optionValue="Code"
-                        placeholder="Select Perferred Notification">
+                    <p-dropdown inputId="PreferedNotification"  id="PreferedNotification"
+                        class="w-full"  styleClass="w-full"   [options]="notificationList" 
+                        [(ngModel)]="productItem.PreferredNotification"   optionLabel="CodeDesc" 
+                        optionValue="Code" placeholder="Select Perferred Notification">
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3">
