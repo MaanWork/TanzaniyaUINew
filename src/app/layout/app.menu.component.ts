@@ -269,7 +269,7 @@ export class AppMenuComponent implements OnInit {
               else if(menu.title=='Report') entry["routerLink"] =  ['/report']
               else if(menu.title=='Search') entry["routerLink"] =  ['/Search']
               else if(menu.title=='Masters') entry["routerLink"] =  ['/Admin/bankMaster']
-              else if(menu.title=='Tira Vehicle Search') entry["routerLink"] =  ['/Home/tira-search']
+              else if(menu.title=='Tira Vehicle Search'){entry["routerLink"] =  ['/tira-search']}
               else entry["routerLink"] =  [menu.link]
               entry['link'] = menu.link;
               menus.push(entry);
