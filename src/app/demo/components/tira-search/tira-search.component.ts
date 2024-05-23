@@ -183,11 +183,11 @@ export class TiraSearchComponent implements OnInit {
           if(data.Result.CustomerReferenceNo){
             sessionStorage.setItem('customerReferenceNo',data.Result.CustomerReferenceNo);
             sessionStorage.setItem('firstLoad','yes');
-            this.router.navigate(['/Home/customer/ClientDetails']);
+            this.router.navigate(['/customer/create']);
           }
-          else{sessionStorage.setItem('firstLoad','yes'); this.router.navigate(['/Home/customer/ClientDetails']);}
+          else{sessionStorage.setItem('firstLoad','yes'); this.router.navigate(['/customer/create']);}
         }
-        else{sessionStorage.setItem('firstLoad','yes'); this.router.navigate(['/Home/customer/ClientDetails']);}
+        else{sessionStorage.setItem('firstLoad','yes'); this.router.navigate(['/customer/create']);}
         },
         (err) => { },
       );

@@ -2765,7 +2765,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "Registrationnumber": this.vehicleDetails?.Registrationnumber,
             "RoofRack": null,
             "SeatingCapacity": this.vehicleDetails?.SeatingCapacity,
-            "SourceTypeId":this.sourceType,
+            "SourceTypeId":this.Code,
             "SpotFogLamp": null,
             "Stickerno": null,
             "SumInsured": this.productItem.VehicleSI,
