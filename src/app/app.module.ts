@@ -18,19 +18,25 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule, HttpClientXsrfModule }
 import { HttpXsrfInterceptor } from './HttpInterceptors/http-xsrf-interceptor.service';
 import { HttpInterceptorService } from './demo/components/HttpInterceptors/http-interceptor.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CustomLoadingService } from './demo/shared/custom-loading.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
+import { FormlyModule } from '@ngx-formly/core';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { TreeModule } from 'primeng/tree';
+import { AccordionModule } from 'primeng/accordion';
+import { MotorDocumentsDetailComponent } from './demo/components/MotorDocuments/motor-documents-detail/motor-documents-detail.component';
+import { TabViewModule } from 'primeng/tabview';
+import { TableModule } from 'primeng/table';
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
 }
 
 @NgModule({
     declarations: [
-        AppComponent, NotfoundComponent,
+        AppComponent, NotfoundComponent, MotorDocumentsDetailComponent,
     ],
     imports: [
         CommonModule,
@@ -39,8 +45,15 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 		HttpClientModule,
 		AppRoutingModule,
 		BrowserAnimationsModule,
+        ReactiveFormsModule,
+        FormlyModule,
+        SelectButtonModule,
         AppLayoutModule,
         PipesModule,
+        TreeModule,
+        TabViewModule,
+        TableModule,
+        AccordionModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
