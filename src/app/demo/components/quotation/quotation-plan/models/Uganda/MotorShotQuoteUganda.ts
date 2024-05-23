@@ -159,6 +159,30 @@ export class MotorShotQuoteUganda{
                     },
                   },
                   {
+                    type: 'input',
+                    key: 'ModelDesc',
+                    defaultValue: '',
+                    hide: true,
+                    hideExpression:true,
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
+                    props: {
+                      label: `Model Description`,
+                      disabled: this.checkDisable('ModelDesc'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
                     type: 'ngselect',
                     key: 'ManufactureYear',
                     defaultValue: '',

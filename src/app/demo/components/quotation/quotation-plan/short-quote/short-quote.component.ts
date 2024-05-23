@@ -162,7 +162,12 @@ export class ShortQuoteComponent implements OnInit {
           field.formControl.valueChanges.subscribe(() => {
             this.onMakeChange();
           });
-          }} 
+        }} 
+        let regionHooks6 ={ onInit: (field: FormlyFieldConfig) => {
+          field.formControl.valueChanges.subscribe(() => {
+            this.onModelChange('change');
+          });
+        }} 
         if(this.insuranceId!='100004') {
           let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
           let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
@@ -171,6 +176,7 @@ export class ShortQuoteComponent implements OnInit {
             if(field.key=='MotorUsage'){ field.hooks = regionHooks5;}
             if(field.key=='BodyType'){ field.hooks = regionHooks3;}
             if(field.key=='Make'){ field.hooks = regionHooks4;}
+            if(field.key=='Model'){ field.hooks = regionHooks6;}
             if(field.key=='InsuranceType' && this.insuranceId=='100028'){
               field.hooks = regionHooks2;
             }
@@ -362,7 +368,17 @@ export class ShortQuoteComponent implements OnInit {
   }
   onBodyTypeChange(type){
     if(this.productItem.BodyType!=null && this.productItem.BodyType!=''){
-      
+      let fieldList =  this.fields[0].fieldGroup[0].fieldGroup;
+      for(let field of fieldList){
+        if(field.key=='Model'){
+            if(this.productItem.BodyType=='1' || this.productItem.BodyType=='2' || this.productItem.BodyType=='3' || this.productItem.BodyType=='' || this.productItem.BodyType==null){  field.hideExpression = false;field.hide=false; }
+            else{ field.hideExpression = true;field.hide=true; }
+        }
+        else if(field.key=='ModelDesc'){
+          if((this.productItem.BodyType!='1' && this.productItem.BodyType!='2' && this.productItem.BodyType!='3' && this.productItem.BodyType!='' && this.productItem.BodyType!=null) || this.productItem.Model=='99999'){  field.hideExpression = false;field.hide=false; }
+            else{ field.hideExpression = true;field.hide=true; }
+        }
+      }
       this.bodyTypeId = this.motorTypeList.find(ele=>ele.CodeDesc==this.productItem.BodyType || ele.Code==this.productItem.BodyType)?.Code;
       if(type=='change' && this.insuranceId!='100020' && !this.editSection){this.productItem.MakeId=null;this.productItem.ModelId=null;}
       if(this.bodyTypeId && this.insuranceId!='100020'){ this.getMakeList(); } 
@@ -393,18 +409,27 @@ export class ShortQuoteComponent implements OnInit {
                     let fieldList =  this.fields[0].fieldGroup[0].fieldGroup;
                     for(let field of fieldList){
                       if(field.key=='Model'){
-                            field.props.options =  defaultObj.concat(this.modelList);
-                            if(this.motordetails){
-                              field.formControl.setValue(this.motordetails?.Vehcilemodel);
-                              let entry = this.modelList.find(ele=>ele.CodeDesc==this.motordetails?.Vehcilemodel || ele.Code==this.motordetails?.Vehcilemodel);
-                              if((entry==null || entry==undefined) && (this.motordetails?.Vehcilemodel!=null && this.motordetails?.Vehcilemodel!=undefined)){
-                                  this.productItem.Model = '99999';
-                                  this.productItem.ModelDesc = this.motordetails?.Vehcilemodel;
-                              }
-                              else this.productItem.Model = entry.Code;
-                            }
+                        field.props.options =  defaultObj.concat(this.modelList);
+                        if(this.motordetails){
+                          if(this.productItem.BodyType=='1' || this.productItem.BodyType=='2' || this.productItem.BodyType=='3' || this.productItem.BodyType=='' || this.productItem.BodyType==null){
+                            field.hideExpression = false;field.hide=false;
+                          }
+                          else{
+                            field.hideExpression = true;field.hide=true;
+                          }
+                          field.formControl.setValue(this.motordetails?.Vehcilemodel);
+                          let entry = this.modelList.find(ele=>ele.CodeDesc==this.motordetails?.Vehcilemodel || ele.Code==this.motordetails?.Vehcilemodel);
+                          if((entry==null || entry==undefined) && (this.motordetails?.Vehcilemodel!=null && this.motordetails?.Vehcilemodel!=undefined)){
+                              this.productItem.Model = '99999';
+                              this.productItem.ModelDesc = this.motordetails?.Vehcilemodel;
+                          }
+                          else this.productItem.Model = entry.Code;
+                        }
                       }
-                      
+                      else if(field.key=='ModelDesc'){
+                        if((this.productItem.BodyType!='1' && this.productItem.BodyType!='2' && this.productItem.BodyType!='3' && this.productItem.BodyType!='' && this.productItem.BodyType!=null) || this.productItem.Model=='99999'){  field.hideExpression = false;field.hide=false; }
+                          else{ field.hideExpression = true;field.hide=true; }
+                      }
                     };
                   }
                 }
@@ -414,6 +439,31 @@ export class ShortQuoteComponent implements OnInit {
       },
       (err) => { },
     );
+  }
+  onModelChange(type){
+    if(this.productItem.Model!=null && this.productItem.Model!=''){
+      if(this.productItem.Model!='99999'){
+        this.productItem.ModelDesc = this.modelList.find(ele=>ele.CodeDesc==this.productItem.Model)?.CodeDesc;
+      }
+      if(type=='change' && this.productItem.Model!='99999'){
+        this.productItem.ModelDesc = null
+      }
+      let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+      let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
+      for(let field of fieldList){
+        let fieldList =  this.fields[0].fieldGroup[0].fieldGroup;
+        for(let field of fieldList){
+          if(field.key=='Model'){
+              if(this.productItem.BodyType=='1' || this.productItem.BodyType=='2' || this.productItem.BodyType=='3' || this.productItem.BodyType=='' || this.productItem.BodyType==null){  field.hideExpression = false;field.hide=false; }
+              else{ field.hideExpression = true;field.hide=true; }
+          }
+          else if(field.key=='ModelDesc'){
+            if((this.productItem.BodyType!='1' && this.productItem.BodyType!='2' && this.productItem.BodyType!='3' && this.productItem.BodyType!='' && this.productItem.BodyType!=null) || this.productItem.Model=='99999'){  field.hideExpression = false;field.hide=false; }
+              else{ field.hideExpression = true;field.hide=true; }
+          }
+        }
+      }
+    }
   }
   getYearList(){
     var d = new Date();
@@ -903,6 +953,10 @@ export class ShortQuoteComponent implements OnInit {
           motorUsage = this.motordetails.MotorUsageDesc;
         }
       }
+      if(this.productItem.Make!='' && this.productItem.Make!=undefined && this.productItem.Make!=null){
+        let entry = this.makeList.find(ele=>ele.Code==this.productItem.Make);
+        if(entry){this.productItem.MakeDesc=entry.CodeDesc;}
+      }
     let ReqObj={
       "CustomerName": this.productItem.CustomerName,
       "LoginId": loginId,
@@ -928,9 +982,9 @@ export class ShortQuoteComponent implements OnInit {
       "InsuranceClass": this.productItem.InsuranceClass,
       "Motorusage": motorUsage,
       "MotorusageId": this.productItem.MotorUsage,
-      "Vehiclemake": "MITSUBISHI",
+      "Vehiclemake": this.productItem.MakeDesc,
       "VehiclemakeId": this.productItem.Make,
-      "VehicleModel": "99999",
+      "VehicleModel": this.productItem.ModelDesc,
       "VehcilemodelId": this.productItem.Model,
       "ManufactureYear": this.productItem.ManufactureYear,
       "Gpstrackinginstalled": this.productItem.GpsYN,
