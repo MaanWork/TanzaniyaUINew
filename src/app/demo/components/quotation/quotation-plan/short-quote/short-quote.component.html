@@ -1,44 +1,50 @@
 <!--  -->
 
 <form action="" method="post">
-<div class="maindiv">
-    <div class="optionDiv" >
-    <div  class="rightSide" *ngIf="vehicleDetailsList.length!=0">
-    <ng-container *ngFor="let menu of vehicleDetailsList;let i = index">
-        <div class="card ml-6-per">
-            <h2 class="optiontxt1">Option {{i+1}}</h2>
-            <span class="greentxt">{{menu.SectionName}}</span>
+<div class="card customHeight grid">
+    <div class="col-1 md:col-1 lg:col-1 xl:col-1 p-0" ></div>
+    <div class="col-12 md:col-4 lg:col-4 xl:col-4 p-0" >
+        <div  class="rightSide mt-5" *ngIf="vehicleDetailsList.length!=0">
+            <h4>Premium Information</h4>
+        <ng-container *ngFor="let menu of vehicleDetailsList;let i = index">
+            <div class="card p-3 ">
+                <h2 class="optiontxt1">Option {{i+1}}</h2>
+                
+                <span class="greentxt">{{menu.SectionName}}</span><br>
+                <span class="redtxt">*Indicative Quote. It may change at the time of Full Quotation.</span>
+                <hr class="hr new4">
+                <ng-container *ngFor="let cover of menu.CoverList">
+                <ng-container *ngIf="((cover.isSelected=='D' &&  cover.CoverageType!='A') && !endorseCovers)">
+                <div class="flex flex-warp">
+                <div class="col-12 md:col-9 lg:col-9 xl:col-9 t-a-l">     
+                    <h5>{{cover.CoverName}}</h5>
+                </div>
+                <div class="col-12 md:col-3 lg:col-3 xl:col-3 t-a-r">
+                    <h4 class="optiontxt1">{{cover.PremiumIncludedTax | commaseparator}}</h4>
+                </div>
+                </div>
+                </ng-container>
+                </ng-container>
+            </div>
             <hr class="hr new4">
-            <ng-container *ngFor="let cover of menu.CoverList">
-            <ng-container *ngIf="((cover.isSelected=='D' &&  cover.CoverageType!='A') && !endorseCovers)">
-            <div class="flex flex-warp">
-            <div class="col-12 md:col-9 lg:col-9 xl:col-9 t-a-l">     
-                <h5>{{cover.CoverName}}</h5>
+        <div class="grid mt-2 justify-content-end" style="padding: 12px;">
+            <div class="custom-grid text-white  p-0 text-end" *ngIf="vehicleDetailsList[i].totalPremium!=null && vehicleDetailsList[i].totalPremium!=0 && vehicleDetailsList[i].totalPremium!='0'" >
+                <div class="col-12 md:col-4 lg:col-4 xl:col-4" style="width:100%;background-color: #000;border-radius: 5px;padding: 5px !important;">
+                <label>Total Premium</label>
+                <p class="text-white mt-0">{{vehicleDetailsList[i].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</p>
+                </div>
             </div>
-            <div class="col-12 md:col-3 lg:col-3 xl:col-3 t-a-r">
-                <h4 class="optiontxt1">{{cover.PremiumIncludedTax | commaseparator}}</h4>
-            </div>
-            </div>
-            </ng-container>
-            </ng-container>
         </div>
-        <hr class="hr new4">
-    <div class="grid mt-2 justify-content-end" style="padding: 12px;">
-        <div class="custom-grid text-white  p-0 text-end" *ngIf="vehicleDetailsList[i].totalPremium!=null && vehicleDetailsList[i].totalPremium!=0 && vehicleDetailsList[i].totalPremium!='0'" >
-            <div class="col-12 md:col-4 lg:col-4 xl:col-4" style="width:100%;background-color: #000;border-radius: 5px;padding: 5px !important;">
-            <label>Total Premium</label>
-            <p class="text-white mt-0">{{vehicleDetailsList[i].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</p>
-            </div>
+        </ng-container>
+        
+        <!-- <h3>After discount (MUR)</h3>
+        <h2 class="optiontxt1">RS.3,456</h2> -->
+        <p-button label="Buy" severity="warning" (click)="onBuyQuote()" class="mb-3"></p-button>
+        <!-- <button type="button" class="input bluebtn buybtn" (click)="onBuyQuote()">Buy</button> -->
         </div>
     </div>
-    </ng-container>
-    
-    <!-- <h3>After discount (MUR)</h3>
-    <h2 class="optiontxt1">RS.3,456</h2> -->
-    <button type="button" class="input bluebtn buybtn" (click)="onBuyQuote()">Buy</button>
-</div>
-</div>
-    <div class="formDiv grid">
+    <div class="col-1 md:col-1 lg:col-1 xl:col-1 p-0" ></div>
+    <div class="col-12 md:col-6 lg:col-6 xl:col-6">
         <div class="flex flex-wrap justify-content-end" *ngIf="quoteRefNo">
             <div>Reference No &nbsp;~&nbsp;</div>
             <div>{{quoteRefNo}}</div>

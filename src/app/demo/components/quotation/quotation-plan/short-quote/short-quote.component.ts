@@ -777,7 +777,6 @@ export class ShortQuoteComponent implements OnInit {
       (data: any) => {
         console.log(data);
         if (data.Result) {
-
           let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
           this.mobileCodeList = data.Result;
           for (let i = 0; i < this.mobileCodeList.length; i++) {
@@ -787,7 +786,11 @@ export class ShortQuoteComponent implements OnInit {
               let fieldList = this.fields2[0].fieldGroup[0].fieldGroup;
               for(let field of fieldList){
                 if(field.key=='MobileCode'){
-                  field.props.options= defaultObj.concat(this.mobileCodeList);;
+                  field.props.options= defaultObj.concat(this.mobileCodeList);
+                  if(this.mobileCodeList.length==1){
+                    field.formControl.setValue(this.mobileCodeList[0].Code);
+                    this.productItem.MobileCode = this.mobileCodeList[0].Code;
+                  }
                 }
               }
             }
