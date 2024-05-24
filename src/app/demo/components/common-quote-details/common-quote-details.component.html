@@ -82,7 +82,7 @@
                         <h3>Policy Details</h3>
                         <div class="flex flex-wrap">
                             <div class="lg:col-2 md:col-2 col-3">
-                                <label for="username">Source Type *</label>
+                                <label for="username">Source Type {{Code}}*</label>
                                 <p-dropdown inputId="sourceType" class="w-full" styleClass="w-full"
                                     [options]="sourceTypeList" [(ngModel)]="Code" (onChange)="onSourceTypeChange('change')"
                                     optionLabel="CodeDesc" optionValue="Code" placeholder="Select SourceType">

@@ -2161,6 +2161,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
         }
       }
       if(this.userType!='Broker' && this.userType!='User'){
+          brokerbranchCode = this.brokerBranchCode
+          loginId=this.brokerLoginId;
         // this.sourceType = this.updateComponent.sourceType;
         // this.bdmCode = this.updateComponent.brokerCode;
         // this.brokerCode = this.updateComponent.brokerCode;
