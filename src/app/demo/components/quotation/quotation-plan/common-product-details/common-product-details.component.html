@@ -137,41 +137,60 @@
                             [options]="productList13" [(ngModel)]="Code" (onChange)="onSourceTypeChange('change')" optionLabel="CodeDesc" optionValue="Code" placeholder="Select SourceType">
                             </p-dropdown>
                         </div>
-                        <div class="lg:col-6 md:col-6 col-12"
+                            <div class="lg:col-6 md:col-6 col-12"
                                 *ngIf="issuerSection && (sourceCodeDesc=='Premia Agent' || sourceCodeDesc=='Premia Broker' || sourceCodeDesc=='Premia Direct')">
                                 <label for="username">Source Name *</label>
                                 <input pInputText id="username" class="w-full" [(ngModel)]="customerName" disabled type="text"
                                     placeholder="Source Name" />
                             </div>
-                            <div class="lg:col-6 md:col-6 col-12"
-                                *ngIf="issuerSection && (sourceCodeDesc=='agent' || sourceCodeDesc=='Agent' || sourceCodeDesc=='broker' || sourceCodeDesc=='direct' || sourceCodeDesc=='Direct' || sourceCodeDesc=='bank' || sourceCodeDesc=='Bank' || sourceCodeDesc=='Broker' || sourceCodeDesc=='whatsapp' || sourceCodeDesc=='Whatsapp')">
-                                <label for="username">Source Code *</label>
-                                <ng-container *ngIf="sourceCodeDesc!='broker' && sourceCodeDesc!='Broker'">
-                                    <p-dropdown inputId="sourceCode" class="w-full" styleClass="w-full"
-                                        [options]="brokerList" [(ngModel)]="brokerCode" (onChange)="onBrokerChange()"
-                                        [disabled]="endorsementSection || finalizeYN=='Y'" optionLabel="Name"
-                                        optionValue="Code" placeholder="Select Source Code">
-                                    </p-dropdown>
-                                    <!-- <ng-select class="input-form-select" appendTo="body" [(ngModel)]="brokerCode"  [disabled]="endorsementSection || finalizeYN=='Y'" [items]="brokerList" (change)="onBrokerChange()" bindValue="Code" bindLabel="Name">
-                                </ng-select> -->
-                                </ng-container>
-                                <ng-container *ngIf="sourceCodeDesc=='broker' || sourceCodeDesc=='Broker'">
-                                    <p-dropdown inputId="sourceCode" class="w-full" styleClass="w-full"
-                                        [options]="brokerList" [(ngModel)]="brokerCode" (onChange)="onBrokerChange()"
-                                        [disabled]="endorsementSection || finalizeYN=='Y'" optionLabel="Name"
-                                        optionValue="Code" placeholder="Select Source Code">
-                                    </p-dropdown>
-                                    <!-- <ng-select class="input-form-select" appendTo="body" [(ngModel)]="brokerCode"  [disabled]="endorsementSection || finalizeYN=='Y'" (change)="onBrokerChange()">
-                                    <ng-option *ngFor="let item of brokerList" [value]="item.Code">{{item.Name}}</ng-option>
-                                </ng-select> -->
-                                </ng-container>
-                                <div class="input-form-error" *ngIf="brokerCodeError">
+                            <div class="lg:col-6 md:col-6 col-12" *ngIf="issuerSection && (sourceCodeDesc=='agent' || sourceCodeDesc=='Agent' || sourceCodeDesc=='broker' || sourceCodeDesc=='direct' || sourceCodeDesc=='Direct' || sourceCodeDesc=='bank' || sourceCodeDesc=='Bank' || sourceCodeDesc=='Broker' || sourceCodeDesc=='whatsapp' || sourceCodeDesc=='Whatsapp')">
+                            <label for="username">Source Code {{customerList.length}}*</label>
+                            <input pInputText id="username" class="w-full" maxlength="50" 
+                                     [(ngModel)]="customerCode"
+                                    type="text" (keyup)="onGetCustomerList('change',$event.target.value)" autocomplete="off"
+                                    placeholder="Search here" data-toggle="dropdown" />
+                                    <ul class="dropdown-menu dropdown-list-style CustomerInput" appendTo="body"
+                                        [ngClass]="{dropdownDisplay: showCustomerList, dropdownNotDisplay: !showCustomerList}">
+                                        <li *ngFor="let item of customerList"
+                                            (click)="setCustomerValue(item.Code, item.Name,'change')">
+                                            {{item.Code}} - {{ item.Name }}
+                                        </li>
+                                        <div class="text-center" *ngIf="customerList.length == 0">
+                                            <p>Enter any code to Search...</p>
+                                        </div>
+                                    </ul> 
+                                <div class="input-form-error" *ngIf="customerCodeError">
                                     <div class="error-text text-danger">
-                                        Please Select Source Code
+                                        Please Enter Valid Source Code
                                     </div>
                                 </div>
+                            <!-- <ng-container *ngIf="sourceCodeDesc!='broker' && sourceCodeDesc!='Broker'">
+                                <p-dropdown inputId="sourceCode" class="w-full" styleClass="w-full"
+                                    [options]="brokerList" [(ngModel)]="brokerCode" (onChange)="onBrokerChange()"
+                                    [disabled]="endorsementSection || finalizeYN=='Y'" optionLabel="Name"
+                                    optionValue="Code" placeholder="Select Source Code">
+                                </p-dropdown>
+                            </ng-container>
+                            <ng-container *ngIf="sourceCodeDesc=='broker' || sourceCodeDesc=='Broker'">
+                                <p-dropdown inputId="sourceCode" class="w-full" styleClass="w-full"
+                                    [options]="brokerList" [(ngModel)]="brokerCode" (onChange)="onBrokerChange()"
+                                    [disabled]="endorsementSection || finalizeYN=='Y'" optionLabel="Name"
+                                    optionValue="Code" placeholder="Select Source Code">
+                                </p-dropdown>
+                            </ng-container>
+                            <div class="input-form-error" *ngIf="brokerCodeError">
+                                <div class="error-text text-danger">
+                                    Please Select Source Code
+                                </div>
+                            </div> -->
                             </div>
                             <div class="lg:col-6 md:col-6 col-12"
+                            *ngIf="issuerSection && (sourceCodeDesc=='agent' || sourceCodeDesc=='Agent' || sourceCodeDesc=='broker' || sourceCodeDesc=='direct' || sourceCodeDesc=='Direct' || sourceCodeDesc=='bank' || sourceCodeDesc=='Bank' || sourceCodeDesc=='Broker' || sourceCodeDesc=='whatsapp' || sourceCodeDesc=='Whatsapp')">
+                                <label for="username">Source Name *</label>
+                                <input pInputText id="username" class="w-full" [(ngModel)]="customerName" disabled type="text"
+                                    placeholder="Source Name" />
+                            </div>
+                            <!-- <div class="lg:col-6 md:col-6 col-12"
                                 *ngIf="issuerSection && brokerCode && (sourceCodeDesc=='agent' || sourceCodeDesc=='Agent' || sourceCodeDesc=='broker' || sourceCodeDesc=='direct' || sourceCodeDesc=='Direct' || sourceCodeDesc=='bank' || sourceCodeDesc=='Bank' || sourceCodeDesc=='Broker' || sourceCodeDesc=='whatsapp' || sourceCodeDesc=='Whatsapp')">
                                 <label for="username">Broker Branch *</label>
                                 <p-dropdown inputId="sourceCode" class="w-full" styleClass="w-full"
@@ -184,7 +203,7 @@
                                         Please Select BrokerBranchCode
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         <div class="lg:col-6 md:col-6 col-12" *ngIf="productId=='6' || this.productId=='16' || productId=='39' || productId=='14' || productId=='32' || productId=='1' || productId=='21'
                         || this.productId=='25' || productId=='13' || productId=='24'"><!--|| productId=='57'-->
                                <label for="username">Industry</label>

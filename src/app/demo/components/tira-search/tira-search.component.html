@@ -21,7 +21,7 @@
     <h3 class="ml-3">Vehicle Information</h3>
     <div class="grid mt-4">
       
-      <div class="col-12 md:col-3 lg:col-3">
+      <!-- <div class="col-12 md:col-3 lg:col-3">
           <label for="source-code">Division</label>
           <p-dropdown inputId="make" 
             class="w-full" 
@@ -30,26 +30,72 @@
             optionValue="Code"
             placeholder="Select Identity Type">
           </p-dropdown>
-      </div>
+      </div> -->
         <div class="col-12 md:col-3 lg:col-3">
-          <label for="source-code">Source</label>
-          <p-dropdown inputId="make" 
-            class="w-full" 
-            styleClass="w-full" 
-            optionLabel="CodeDesc" 
-            optionValue="Code"
-            placeholder="Select Identity Type">
-          </p-dropdown>
+          <label for="source-code">Source Type</label>
+          <p-dropdown inputId="make" class="w-full" styleClass="w-full"  [options]="sourceTypeList"
+            [(ngModel)]="Code" (onChange)="onSourceTypeChange('change')"  optionLabel="CodeDesc" 
+            optionValue="Code" placeholder="Select Identity Type"></p-dropdown>
         </div>
-        <div class="col-12 md:col-3 lg:col-3">
+        <div class="col-12 md:col-3 lg:col-3" *ngIf="issuerSection && (sourceCodeDesc=='Premia Agent' || sourceCodeDesc=='Premia Broker' || sourceCodeDesc=='Premia Direct')">
             <label for="source-code">Source Code</label>
-            <input pInputText id="source-code" maxlength="150"  class="w-full" 
-            styleClass="w-full"  placeholder="Enter Source Code"/>
+            <input pInputText id="username" class="w-full" maxlength="50"  [(ngModel)]="customerCode"
+            type="text" (keyup)="onGetCustomerList('change',$event.target.value)" autocomplete="off"
+            placeholder="Search here" data-toggle="dropdown" />
+            <ul class="dropdown-menu dropdown-list-style CustomerInput" appendTo="body"
+                [ngClass]="{dropdownDisplay: showCustomerList, dropdownNotDisplay: !showCustomerList}">
+                <li *ngFor="let item of customerList"
+                    (click)="setCustomerValue(item.Code, item.Name,'change')">
+                    {{item.Code}} - {{ item.Name }}
+                </li>
+                <div class="text-center" *ngIf="customerList.length == 0">
+                    <p>Enter any code to Search...</p>
+                </div>
+            </ul> 
         </div>
-        <div class="col-12 md:col-3 lg:col-3">
+        <div class="col-12 md:col-3 lg:col-3" *ngIf="issuerSection && (sourceCodeDesc=='Premia Agent' || sourceCodeDesc=='Premia Broker' || sourceCodeDesc=='Premia Direct')">
           <label for="source-name">Source Name</label>
-          <input pInputText id="source-name" maxlength="150"  class="w-full" 
+          <input pInputText id="source-name" maxlength="150" [(ngModel)]="customerName" class="w-full" disabled
           styleClass="w-full"  placeholder="Enter Source Name"/>
+        </div>
+        <div class="lg:col-2 md:col-2 col-3" *ngIf="issuerSection && (sourceCodeDesc=='agent' || sourceCodeDesc=='Agent' || sourceCodeDesc=='broker' || sourceCodeDesc=='direct' || sourceCodeDesc=='Direct' || sourceCodeDesc=='bank' || sourceCodeDesc=='Bank' || sourceCodeDesc=='Broker' || sourceCodeDesc=='whatsapp' || sourceCodeDesc=='Whatsapp')">
+            <label for="username">Source Code *</label>
+            <ng-container *ngIf="sourceCodeDesc!='broker' && sourceCodeDesc!='Broker'">
+                <p-dropdown inputId="sourceCode" class="w-full" styleClass="w-full"
+                    [options]="brokerList" [(ngModel)]="brokerCode" (onChange)="onBrokerChange()"
+                    [disabled]="endorsementSection || finalizeYN=='Y'" optionLabel="Name"
+                    optionValue="Code" placeholder="Select Source Code">
+                </p-dropdown>
+                <!-- <ng-select class="input-form-select" appendTo="body" [(ngModel)]="brokerCode"  [disabled]="endorsementSection || finalizeYN=='Y'" [items]="brokerList" (change)="onBrokerChange()" bindValue="Code" bindLabel="Name">
+            </ng-select> -->
+            </ng-container>
+            <ng-container *ngIf="sourceCodeDesc=='broker' || sourceCodeDesc=='Broker'">
+                <p-dropdown inputId="sourceCode" class="w-full" styleClass="w-full"
+                    [options]="brokerList" [(ngModel)]="brokerCode" (onChange)="onBrokerChange()"  optionLabel="Name"
+                    optionValue="Code" placeholder="Select Source Code">
+                </p-dropdown>
+                <!-- <ng-select class="input-form-select" appendTo="body" [(ngModel)]="brokerCode"  [disabled]="endorsementSection || finalizeYN=='Y'" (change)="onBrokerChange()">
+                <ng-option *ngFor="let item of brokerList" [value]="item.Code">{{item.Name}}</ng-option>
+            </ng-select> -->
+            </ng-container>
+            <div class="input-form-error" *ngIf="brokerCodeError">
+                <div class="error-text text-danger">
+                    Please Select Source Code
+                </div>
+            </div>
+        </div>
+        <div class="lg:col-2 md:col-2 col-3"
+            *ngIf="issuerSection && brokerCode && (sourceCodeDesc=='agent' || sourceCodeDesc=='Agent' || sourceCodeDesc=='broker' || sourceCodeDesc=='direct' || sourceCodeDesc=='Direct' || sourceCodeDesc=='bank' || sourceCodeDesc=='Bank' || sourceCodeDesc=='Broker' || sourceCodeDesc=='whatsapp' || sourceCodeDesc=='Whatsapp')">
+            <label for="username">Broker Branch *</label>
+            <p-dropdown inputId="sourceCode" class="w-full" styleClass="w-full"
+                [options]="brokerBranchList" [(ngModel)]="brokerBranchCode" (onChange)="onBrokerBranchChange()"
+                optionLabel="CodeDesc" optionValue="Code" placeholder="Select Broker Branch">
+            </p-dropdown>
+            <div class="input-form-error" *ngIf="brokerBranchCodeError">
+                <div class="error-text text-danger">
+                    Please Select BrokerBranchCode
+                </div>
+            </div>
         </div>
     </div>
   </ng-container>

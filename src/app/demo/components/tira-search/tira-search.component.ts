@@ -23,8 +23,9 @@ export class TiraSearchComponent implements OnInit {
   public ApiUrl1: any = this.AppConfig.ApiUrl1;startIndex:any=null;
   public CommonApiUrl: any = this.AppConfig.CommonApiUrl;endIndex:any=null;
   customerName: any=null;public motorApiUrl: any = this.AppConfig.MotorApiUrl;
-  brokerLoginId: any=null;regNo:any=null;
-  regNoError: boolean;
+  brokerLoginId: any=null;regNo:any=null;brokerList:any[]=[];
+  regNoError: boolean;sourceTypeList:any[]=[];brokerBranchList: any[]=[];customerList: any[]=[];
+  showCustomerList: boolean=false;
   constructor(private router: Router,private sharedService: SharedService){
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -41,6 +42,185 @@ export class TiraSearchComponent implements OnInit {
   }
   ngOnInit() {
     this.items = [{ label: 'Home', routerLink:'/' }, {label:'Tira Search'}];
+    if(this.userType!='Broker' && this.userType!='User'){ this.branchValue = this.branchCode;this.issuerSection = true;this.getSourceList()}
+    else this.issuerSection = false
+  }
+  getSourceList(){
+    let ReqObj = {
+      "InsuranceId":this.insuranceId,
+      "BranchCode": this.branchCode
+    }
+    //let urlLink = `${this.CommonApiUrl}dropdown/sourcetype`;
+    let urlLink = `${this.CommonApiUrl}dropdown/getsourcetype`; 
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            this.sourceTypeList = data.Result;
+            //console.log(this.sourceCode)
+
+
+
+        }
+        /*if(this.sourceCode =='Broker')
+        {
+        this.getBrokersList();
+        }
+      else(this.sourceCode =='Agent')
+      {
+        //this.getBranchList()
+      }*/
+
+      },
+
+      (err) => { },
+    );
+  }
+  onSourceTypeChange(type){
+    this.sourceCodeDesc = null;
+    if(this.Code!=null && this.Code!='' && this.Code!=undefined){
+      let entry = this.sourceTypeList.find(ele=>ele.Code==this.Code);
+      if(entry) this.sourceCodeDesc = entry?.CodeDesc;
+    }
+    let ReqObj = {
+      "SourceType": this.sourceCodeDesc,
+      "BranchCode":  this.branchValue,
+      "InsuranceId": this.insuranceId,
+      "SearchValue": "",
+      "ProductId": this.productId
+    }
+    let urlLink = `${this.ApiUrl1}api/search/premiasourcecode`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+          //this.branchList = data.Result;
+          this.brokerList = data.Result;
+          //if(this.Code=='Agent') this.executiveSection = true;
+          if(type=='change'){
+            this.customerCode = null;
+            this.customerName=null;
+            this.brokerCode = null;
+            this.brokerBranchCode = null;
+            this.brokerLoginId = null;
+          }
+          else{
+            //if(this.Code=='Broker' || this.Code=='Agent'){
+              let entry = this.brokerList.find(ele=>String(ele.Code)==this.brokerCode);
+              if(entry){
+                console.log("Found Entries",this.brokerCode,entry,this.Code)
+                this.brokerLoginId = entry.Name; 
+              }
+              if(this.sourceCodeDesc=='broker' || this.sourceCodeDesc=='direct' || this.sourceCodeDesc=='agent' || this.sourceCodeDesc == 'bank' || this.sourceCodeDesc=='Broker' || this.sourceCodeDesc == 'Agent' || this.sourceCodeDesc =='Direct' || this.sourceCodeDesc == 'Bank' || this.sourceCodeDesc == 'whatsapp'){
+                if(type=='change'){
+                  
+                }
+                this.getBrokerBranchList('direct');
+                
+              }
+              else this.onGetCustomerList('direct',this.customerCode);
+            // }
+            // else if(this.brokerCode){
+            //   let entry = this.brokerList.find(ele=>String(ele.Code)==this.brokerCode);
+            //  if(entry){
+            //   this.brokerLoginId = entry.Name; 
+            //   this.brokerBranchCode = null;
+            //   this.updateComponent.brokerCode = this.brokerCode;
+            //   this.updateComponent.brokerLoginId = this.brokerLoginId;
+            //   this.updateComponent.brokerBranchCode = this.brokerBranchCode;
+            //   console.log("Broker Code Rec",this.brokerCode,this.brokerLoginId,entry,this.brokerList)
+            //  }
+             
+            // }
+          }
+          
+      },
+      (err) => { },
+    );
+    
+  }
+  onGetCustomerList(type,code){
+    if(this.userType=='Issuer'){
+      if(code!='' && code!=null && code!=undefined){
+        let branch = null;
+        if(this.userType=='issuer'){branch = this.brokerBranchCode;}
+        else branch = this.branchValue
+        let ReqObj = {
+          "SourceType": this.sourceCodeDesc,
+          "BranchCode":  branch,
+          "InsuranceId": this.insuranceId,
+          "SearchValue":code
+        }
+        let urlLink = `${this.ApiUrl1}api/search/premiabrokercustomercode`;
+        this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+          (data: any) => {
+                this.customerList = data.Result;
+                if(type=='change'){
+                  this.showCustomerList = true;
+                  this.customerName = null;
+                }
+                else{
+                  this.showCustomerList = false;
+                  let entry = this.customerList.find(ele=>ele.Code==this.customerCode);
+                  this.customerName = entry.Name;
+                  this.setCustomerValue(this.customerCode,this.customerName,'direct')
+                }
+                
+          },
+          (err) => { },
+        );
+      }
+      else{
+        this.customerList = [];
+      }
+    }
+    else{
+      this.customerCode = this.userDetails.Result.CustomerCode;
+        this.customerName = this.userDetails.Result.UserName;
+    }
+    
+  }
+  setCustomerValue(code,name,type){
+    this.showCustomerList = false;
+      this.customerCode = code;
+      this.customerName = name;
+      if(this.issuerSection){
+        this.brokerCode = null;
+          this.brokerBranchCode = null;
+          this.brokerLoginId = null;
+      }
+  }
+  onBrokerChange(){
+    //if(this.Code=='Broker' || this.Code=='Agent'){
+      let entry = this.brokerList.find(ele=>String(ele.Code)==this.brokerCode);
+      if(entry){
+        this.brokerLoginId = entry.Name; 
+      }
+      this.getBrokerBranchList('change');
+    }
+  getBrokerBranchList(type){
+    let urlLink = `${this.ApiUrl1}api/brokerbranches`;
+    let ReqObj = {
+      "BrokerCode": this.brokerCode,
+      "BranchCode": this.branchCode,
+      "InsuranceId": this.insuranceId,
+      "SearchValue": "",
+      "ProductId": this.productId
+    }
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            this.brokerBranchList = data?.Result;
+            if(this.brokerBranchList.length==1){
+              this.brokerBranchCode = this.brokerBranchList[0].Code;
+              if(type=='change'){
+                
+              }
+            }
+            
+          }
+        },
+        (err) => { },
+      );
   }
   checkMandatories(){
     this.regNoError = false;

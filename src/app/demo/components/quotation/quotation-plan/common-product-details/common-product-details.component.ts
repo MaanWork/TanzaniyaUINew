@@ -10233,13 +10233,13 @@ this.BuildingOwnerYn = type;
                   this.brokerLoginId = entry.Name; 
                   
                 }
-                if(this.sourceCodeDesc=='broker' || this.sourceCodeDesc=='direct' || this.sourceCodeDesc=='agent' || this.sourceCodeDesc == 'bank' || this.sourceCodeDesc=='Broker' || this.sourceCodeDesc == 'Agent' || this.sourceCodeDesc =='Direct' || this.sourceCodeDesc == 'Bank' || this.sourceCodeDesc == 'whatsapp' || this.sourceCodeDesc == 'Whatsapp'){
-                  if(type=='change'){
-                  }
-                  this.getBrokerBranchList('direct');
-                  // this.commonSection = true;
-                }
-                else this.onGetCustomerList('direct',this.customerCode);
+                // if(this.sourceCodeDesc=='broker' || this.sourceCodeDesc=='direct' || this.sourceCodeDesc=='agent' || this.sourceCodeDesc == 'bank' || this.sourceCodeDesc=='Broker' || this.sourceCodeDesc == 'Agent' || this.sourceCodeDesc =='Direct' || this.sourceCodeDesc == 'Bank' || this.sourceCodeDesc == 'whatsapp' || this.sourceCodeDesc == 'Whatsapp'){
+                //   if(type=='change'){
+                //   }
+                //   this.getBrokerBranchList('direct');
+                // }
+                // else 
+                this.onGetCustomerList('direct',this.customerCode);
             }
             
         },
@@ -10249,11 +10249,12 @@ this.BuildingOwnerYn = type;
     }
 
     onGetCustomerList(type,code){
+      console.log("Search",code);
       if(this.userType=='Issuer'){
         if(code!='' && code!=null && code!=undefined){
           let branch = null;
           if(this.userType=='issuer'){branch = this.brokerBranchCode;}
-          else branch = this.branchValue
+          else branch = this.branchCode
           let ReqObj = {
             "SourceType": this.sourceCodeDesc,
             "BranchCode":  branch,
@@ -10264,6 +10265,9 @@ this.BuildingOwnerYn = type;
           this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
             (data: any) => {
                   this.customerList = data.Result;
+                  if(data.Result.length!=0){
+                    
+                  }
                   if(type=='change'){
                     this.showCustomerList = true;
                     this.customerName = null;
@@ -10286,8 +10290,7 @@ this.BuildingOwnerYn = type;
       else{
         this.customerCode = this.userDetails.Result.CustomerCode;
           this.customerName = this.userDetails.Result.UserName;
-          // this.updateComponent.CustomerCode = this.userDetails.Result.CustomerCode;
-          // this.commonSection = true;
+          //this.updateComponent.CustomerCode = this.userDetails.Result.CustomerCode;
       }
       
     }

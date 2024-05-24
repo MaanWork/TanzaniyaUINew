@@ -555,15 +555,15 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 // this.updateComponent.brokerLoginId = this.brokerLoginId;
                 // this.updateComponent.brokerCode = this.brokerCode;
               }
-              if(this.sourceCodeDesc=='broker' || this.sourceCodeDesc=='direct' || this.sourceCodeDesc=='agent' || this.sourceCodeDesc == 'bank' || this.sourceCodeDesc=='Broker' || this.sourceCodeDesc == 'Agent' || this.sourceCodeDesc =='Direct' || this.sourceCodeDesc == 'Bank' || this.sourceCodeDesc == 'whatsapp' || this.sourceCodeDesc == 'Whatsapp'){
-                if(type=='change'){
-                  // this.updateComponent.CustomerCode = null;
-                  // this.updateComponent.CustomerName = null;
-                }
-                this.getBrokerBranchList('direct');
-                this.commonSection = true;
-              }
-              else this.onGetCustomerList('direct',this.customerCode);
+              // if(this.sourceCodeDesc=='broker' || this.sourceCodeDesc=='direct' || this.sourceCodeDesc=='agent' || this.sourceCodeDesc == 'bank' || this.sourceCodeDesc=='Broker' || this.sourceCodeDesc == 'Agent' || this.sourceCodeDesc =='Direct' || this.sourceCodeDesc == 'Bank' || this.sourceCodeDesc == 'whatsapp' || this.sourceCodeDesc == 'Whatsapp'){
+              //   if(type=='change'){
+                  
+              //   }
+              //   this.getBrokerBranchList('direct');
+              //   this.commonSection = true;
+              // }
+              // else 
+              this.onGetCustomerList('direct',this.customerCode);
             // }
             // else if(this.brokerCode){
             //   let entry = this.brokerList.find(ele=>String(ele.Code)==this.brokerCode);
@@ -5169,7 +5169,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         }
         else{
           this.sourceCodeError = false;
-          if(this.sourceCodeDesc=='Premia Agent' || this.sourceCodeDesc=='Premia Broker' || this.sourceCodeDesc=='Premia Direct'){
+          //if(this.sourceCodeDesc=='Premia Agent' || this.sourceCodeDesc=='Premia Broker' || this.sourceCodeDesc=='Premia Direct'){
             if(this.customerName=='' || this.customerName==undefined || this.customerName==null){
                 this.customerCodeError = true;
                 i+=1;
@@ -5177,17 +5177,17 @@ export class CommonQuoteDetailsComponent implements OnInit {
             this.brokerCode = null;
             this.brokerBranchCode = null;
             this.brokerLoginId = null;
-          }
-          else{
-            if(this.brokerCode=='' || this.brokerCode==undefined || this.brokerCode==null){
-              this.brokerCodeError = true;
-              i+=1;
-            }
-            if(this.brokerBranchCode=='' && this.brokerBranchCode==undefined && this.brokerBranchCode==null){
-              this.brokerBranchCodeError = true;
-              i+=1;
-            }
-          }
+          // }
+          // else{
+          //   if(this.brokerCode=='' || this.brokerCode==undefined || this.brokerCode==null){
+          //     this.brokerCodeError = true;
+          //     i+=1;
+          //   }
+          //   if(this.brokerBranchCode=='' && this.brokerBranchCode==undefined && this.brokerBranchCode==null){
+          //     this.brokerBranchCodeError = true;
+          //     i+=1;
+          //   }
+          // }
         }
       }
       if(this.productId=='6' || this.productId=='13' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='32' || this.productId=='1' || this.productId=='21' || this.productId=='26' || this.productId == '25' || this.productId=='57'){
