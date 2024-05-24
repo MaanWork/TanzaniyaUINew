@@ -4685,12 +4685,14 @@ export class CommonQuoteDetailsComponent implements OnInit {
           this.vehicleDetails['OldSumInsured'] = data?.Result.SumInsured;
           this.vehicleDetails['OldTppdIncreaeLimit'] = data?.Result.TppdIncreaeLimit;
           this.vehicleDetails['OldWindScreenSumInsured'] = data?.Result.WindScreenSumInsured;
-          if(this.vehicleDetails.SourceTypeId!=null) this.Code = this.vehicleDetails?.SourceTypeId;
-          this.customerCode = this.vehicleDetails?.CustomerCode;
-          this.branchCode = this.vehicleDetails.BranchCode;
-          this.brokerCode = this.vehicleDetails.BrokerCode;
-          this.brokerBranchCode = this.vehicleDetails.BrokerBranchCode;
-          this.onSourceTypeChange('direct');
+          if(this.vehicleDetails.SourceTypeId!=null && (this.Code==null || this.Code=='' || this.Code==undefined)){
+            this.Code = this.vehicleDetails?.SourceTypeId;
+            this.customerCode = this.vehicleDetails?.CustomerCode;
+            this.branchCode = this.vehicleDetails.BranchCode;
+            this.brokerCode = this.vehicleDetails.BrokerCode;
+            this.brokerBranchCode = this.vehicleDetails.BrokerBranchCode;
+            this.onSourceTypeChange('direct');
+          } 
           //this.updateComponent.vehicleDetails = this.vehicleDetails;
           if(this.insuranceId=='100020' || this.insuranceId=='100028'){
             //this.getDriverDetails(type,this.vehicleDetails);

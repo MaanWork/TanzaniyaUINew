@@ -1783,10 +1783,10 @@ emiyn="N";
                       }
                   }
                   if(this.vehicleData[0].EmiYn!=null && this.vehicleData[0].EmiYn!=undefined && this.vehicleData[0].EmiYn!=''){
-                    this.emiYN = this.vehicleData[0].EmiYn;
+                    //this.emiYN = this.vehicleData[0].EmiYn;
                     this.emiPeriod = this.vehicleData[0].InstallmentPeriod;
                     if(!this.endorsementSection && this.emiYN=='Y'){
-                    this.EmiInstallment();
+                    //this.EmiInstallment();
                     }
                     }
                     else if(!this.endorsementSection) {
@@ -2617,7 +2617,7 @@ emiyn="N";
          }
         else{
           if(this.endorsementSection && this.enableFieldsList.some(ele=>ele=='Covers' || ele=='AddOnCovers' || ele=='RemoveSection') && !this.endorseSIModification && this.endorseShortCode!=853){
-            this.router.navigate(['/Home/policies/Endorsements/endorsementTypes']);
+            this.router.navigate(['/portfolio/endorsementtype']);
           }
           else{
             this.onSetBackPage();
@@ -2664,7 +2664,7 @@ emiyn="N";
                   }
                   else{
                     if(this.endorsementSection && this.enableFieldsList.some(ele=>ele=='Covers' || ele=='AddOnCovers' || ele=='RemoveSection') && !this.endorseSIModification && this.endorseShortCode!=853){
-                      this.router.navigate(['/Home/policies/Endorsements/endorsementTypes']);
+                      this.router.navigate(['/portfolio/endorsementtype']);
                     }
                     else{
                       this.onSetBackPage();
@@ -4073,7 +4073,7 @@ emiyn="N";
              }
              else {
               sessionStorage.setItem('riskSection','normal');
-              this.router.navigate(['/quotation/plan/main/document-info']);
+              this.router.navigate(['/quotation/plan/main/driver-info']);
              }
           }
     
@@ -4645,7 +4645,7 @@ emiyn="N";
                     this.router.navigate(['quotation/plan/main/accessories']);
                    }
                    else {
-                    this.router.navigate(['/quotation/plan/main/document-info']);
+                    this.router.navigate(['/quotation/plan/main/driver-info']);
                    }
                 }
                 else{
