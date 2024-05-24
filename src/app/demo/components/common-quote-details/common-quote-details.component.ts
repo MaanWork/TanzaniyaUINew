@@ -1639,6 +1639,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         "CustomerCode": this.customerCode,
         "CustomerName": this.customerName,
         "BrokerBranchCode": this.brokerBranchCode,
+        "LoginId": this.brokerLoginId,
         "SourceCode":this.Code,
       }
       sessionStorage.setItem('commonDetails',JSON.stringify(entry));
@@ -3620,6 +3621,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         "CustomerCode": this.customerCode,
         "CustomerName": this.customerName,
         "BrokerBranchCode": this.brokerBranchCode,
+        "LoginId": this.brokerLoginId,
         "SourceCode":this.Code,
       }
       sessionStorage.setItem('commonDetails',JSON.stringify(entry));
@@ -5213,7 +5215,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
           "CustomerCode": this.customerCode,
           "CustomerName": this.customerName,
           "BrokerBranchCode": this.brokerBranchCode,
-          "IndustryId": this.IndustryId
+          "IndustryId": this.IndustryId,
+          "LoginId": this.brokerLoginId,
         
       }
           if(this.productId=='5'){

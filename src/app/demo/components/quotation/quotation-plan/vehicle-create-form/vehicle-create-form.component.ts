@@ -336,16 +336,17 @@ export class VehicleCreateFormComponent implements OnInit {
         }
       }
       if(this.userType!='Broker' && this.userType!='User'){
-        this.sourceType = this.commonDetails?.SourceCode;
-        this.customerCode = this.commonDetails?.CustomerCode;
-        this.brokerCode = this.commonDetails?.BrokerCode;
-        brokerbranchCode =  this.commonDetails?.BrokerBranchCode;
-        this.customerName = this.commonDetails?.CustomerName;
-        }
-        else {
-          this.sourceType = this.subuserType;
-          this.customerCode = this.userDetails?.Result.CustomerCode;
-        }
+          this.sourceType = this.commonDetails?.SourceCode;
+          this.customerCode = this.commonDetails?.CustomerCode;
+          this.brokerCode = this.commonDetails?.BrokerCode;
+          brokerbranchCode =  this.commonDetails?.BrokerBranchCode;
+          this.customerName = this.commonDetails?.CustomerName;
+          loginId = this.commonDetails?.LoginId;
+      }
+      else {
+        this.sourceType = this.subuserType;
+        this.customerCode = this.userDetails?.Result.CustomerCode;
+      }
       let refNo = "99999",regYear="99999",IdType="99999",IdNo="99999";
       let id = sessionStorage.getItem('vehicleLength')
       if(id!=null && id!=undefined){
@@ -397,6 +398,7 @@ export class VehicleCreateFormComponent implements OnInit {
         this.vehicleDetails.Currency = commonDetails.currencyCode;
         this.currencyCode = commonDetails.currencyCode;
         this.exchangeRate = commonDetails.exchangeRate;
+
         this.vehicleDetails.ExchangeRate = commonDetails.exchangeRate;
         this.vehicleDetails.PromoCode = commonDetails.promoCode;
         this.vehicleDetails.BrokerCode = commonDetails.BrokerCode;
@@ -768,7 +770,6 @@ export class VehicleCreateFormComponent implements OnInit {
     );
   }
   onMakeChange(){
-    console.log("on make change",this.makeValue);
     let ReqObj = {
       "InsuranceId": this.insuranceId,
       "BranchCode": this.branchCode,

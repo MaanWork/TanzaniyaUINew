@@ -75,7 +75,7 @@
                         </div>
                     </div>
                     
-                    <div class="grid">
+                    <div class="grid" *ngIf="insuranceId=='100027'">
                         <ng-container *ngFor="let list of vehicleDetailsList">
                             <ng-container *ngIf="list.VehicleId==veh.RiskId">
                                 <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">

@@ -3777,8 +3777,8 @@ export class CommonProductDetailsComponent {
       }
       else {
         appId = this.loginId;
-        //loginId = this.brokerLoginId
-        brokerbranchCode = null;
+        loginId = this.brokerLoginId
+        brokerbranchCode = this.brokerBranchCode;
       }
     }
     this.applicationId = appId;
@@ -10231,6 +10231,7 @@ this.BuildingOwnerYn = type;
                 if(entry){
                   console.log("Found Entries",this.brokerCode,entry,this.Code)
                   this.brokerLoginId = entry.Name; 
+                  
                 }
                 if(this.sourceCodeDesc=='broker' || this.sourceCodeDesc=='direct' || this.sourceCodeDesc=='agent' || this.sourceCodeDesc == 'bank' || this.sourceCodeDesc=='Broker' || this.sourceCodeDesc == 'Agent' || this.sourceCodeDesc =='Direct' || this.sourceCodeDesc == 'Bank' || this.sourceCodeDesc == 'whatsapp' || this.sourceCodeDesc == 'Whatsapp'){
                   if(type=='change'){
@@ -10302,6 +10303,13 @@ this.BuildingOwnerYn = type;
             this.brokerLoginId = null;
         }
         if((this.productId=='5' || this.productId=='46' || this.productId=='29') && type=='change'){}
+    }
+    onBrokerChange(){
+      let entry = this.brokerList.find(ele=>String(ele.Code)==this.brokerCode);
+      if(entry){
+        this.brokerLoginId = entry.Name; 
+      }
+      this.getBrokerBranchList('change');
     }
     getBrokerBranchList(type){
       let urlLink = `${this.ApiUrl1}api/brokerbranches`;
