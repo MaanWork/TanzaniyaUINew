@@ -1072,6 +1072,7 @@ export class CoverDetailsComponent {
                   cover['SumInsured'] = sub.SumInsured;
                   cover['Loadings'] = sub.Loadings;
                   cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+                  cover['MinimumPremium'] = sub.MinimumPremium;
                   cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
                   cover['Discounts'] = sub?.Discounts;
                   cover['CalcType'] = sub?.CalcType;
@@ -1151,6 +1152,7 @@ export class CoverDetailsComponent {
                   cover['SumInsured'] = sub.SumInsured;
                   cover['Loadings'] = sub.Loadings;
                   cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+                  cover['MinimumPremium'] = sub.MinimumPremium;
                   cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
                   cover['Discounts'] = sub?.Discounts;
                   cover['CalcType'] = sub?.CalcType;
@@ -1223,6 +1225,7 @@ export class CoverDetailsComponent {
                     cover['SumInsured'] = sub.SumInsured;
                     cover['Loadings'] = sub.Loadings;
                     cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+                    cover['MinimumPremium'] = sub.MinimumPremium;
                     cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
                     cover['Discounts'] = sub?.Discounts;
                     cover['CalcType'] = sub?.CalcType;
@@ -1286,6 +1289,7 @@ export class CoverDetailsComponent {
                       cover['SumInsured'] = sub.SumInsured;
                       cover['Loadings'] = sub.Loadings;
                       cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+                      cover['MinimumPremium'] = sub.MinimumPremium;
                       cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
                       cover['Discounts'] = sub?.Discounts;
                       cover['CalcType'] = sub?.CalcType;
@@ -1358,6 +1362,7 @@ export class CoverDetailsComponent {
                 cover['SumInsured'] = sub.SumInsured;
                 cover['Loadings'] = sub.Loadings;
                 cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+                cover['MinimumPremium'] = sub.MinimumPremium;
                 cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
                 cover['Discounts'] = sub?.Discounts;
                 cover['CalcType'] = sub?.CalcType;
@@ -1467,6 +1472,7 @@ export class CoverDetailsComponent {
               cover['SumInsured'] = sub.SumInsured;
               cover['Loadings'] = sub.Loadings;
               cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+              cover['MinimumPremium'] = sub.MinimumPremium;
               cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
               cover['Discounts'] = sub?.Discounts;
               cover['CalcType'] = sub?.CalcType;
@@ -1552,6 +1558,7 @@ export class CoverDetailsComponent {
               cover['SumInsured'] = sub.SumInsured;
               cover['Loadings'] = sub.Loadings;
               cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+              cover['MinimumPremium'] = sub.MinimumPremium;
               cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
               cover['Discounts'] = sub?.Discounts;
               cover['CalcType'] = sub?.CalcType;
@@ -1630,6 +1637,7 @@ export class CoverDetailsComponent {
                 cover['SumInsured'] = sub.SumInsured;
                 cover['Loadings'] = sub.Loadings;
                 cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+                cover['MinimumPremium'] = sub.MinimumPremium;
                 cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
                 cover['Discounts'] = sub?.Discounts;
                 cover['CalcType'] = sub?.CalcType;
@@ -1699,6 +1707,7 @@ export class CoverDetailsComponent {
                   cover['SumInsured'] = sub.SumInsured;
                   cover['Loadings'] = sub.Loadings;
                   cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+                  cover['MinimumPremium'] = sub.MinimumPremium;
                   cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
                   cover['Discounts'] = sub?.Discounts;
                   cover['CalcType'] = sub?.CalcType;
@@ -1781,6 +1790,7 @@ export class CoverDetailsComponent {
             cover['SumInsured'] = sub.SumInsured;
             cover['Loadings'] = sub.Loadings;
             cover['PremiumAfterDiscount'] = sub.PremiumAfterDiscount;
+            cover['MinimumPremium'] = sub.MinimumPremium;
             cover['MinimumPremiumYn'] = sub?.MinimumPremiumYn;
             cover['Discounts'] = sub?.Discounts;
             cover['CalcType'] = sub?.CalcType;
@@ -3985,14 +3995,13 @@ this.newAddClauses=true;
 
 
   saveExclusion(){
-    console.log('QQQQQ',this.quoteNo)
     let quote
-if(this.quoteNo){
- quote=this.quoteNo;
-}
-else{
-  quote="";
-}
+    if(this.quoteNo){
+    quote=this.quoteNo;
+    }
+    else{
+      quote="";
+    }
     let i=0;
 
     let clauses
