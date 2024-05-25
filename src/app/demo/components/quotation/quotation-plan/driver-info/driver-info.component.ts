@@ -305,10 +305,11 @@ export class DriverInfoComponent {
         i+=1;
       }           
               if(this.coverlist.length!=0){
-                this.router.navigate(['quotation/plan/main/accessories']);
+                 this.router.navigate(['quotation/plan/main/accessories']);
               }
               else{
-                 this.router.navigate(['/quotation/plan/premium-details']);
+                if(this.endorsementSection) this.router.navigate(['/quotation/plan/premium-info']);
+                else this.router.navigate(['/quotation/plan/premium-details']);
               }
     }
   }

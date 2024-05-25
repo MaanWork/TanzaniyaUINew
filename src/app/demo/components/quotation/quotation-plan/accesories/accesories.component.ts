@@ -4390,10 +4390,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       if(type=='PersonalAccident'){
         let entry = this.productItem.AccSI;
         if((this.currentPersonalAccidentIndex==null || this.PersonalAssistantList[this.currentPersonalAccidentIndex]==undefined) && !this.saveSection){
-          alert('SI Change');
-          alert(this.currentPersonalAccidentIndex)
           if(this.currentPersonalAccidentIndex==null) this.currentPersonalAccidentIndex = this.PersonalAssistantList.length-1;
-          alert(this.currentPersonalAccidentIndex)
           this.PersonalAssistantList[this.currentPersonalAccidentIndex] = {
             "Dob": this.productItem.AccDob,
             "Height": null,
@@ -6353,8 +6350,6 @@ return true;
       "SerialNo": null
     }
     this.currentPersonalAccidentIndex = this.PersonalAssistantList.length;
-    alert('Add')
-    alert(this.currentPersonalAccidentIndex)
     this.PersonalAssistantList.push(entry);
     //this.editContentSection = false;
     this.editPersonalAccidentSection = false;
@@ -6958,9 +6953,7 @@ return true;
     this.Cotentrisk[this.currentContentIndex]['SumInsured'] = this.productItem.ContentSI;
     this.Cotentrisk[this.currentContentIndex]['RiskId'] = this.productItem.ContentLocation;
     this.Cotentrisk[this.currentContentIndex]['SerialNoDesc'] = this.productItem.ContentSerialNo;
-    alert(this.productItem.ContentType)
-    if(this.productItem.ContentDesc==null || this.productItem.ContentDesc=='' || this.productItem.ContentDesc==undefined){alert(this.dropList.find(ele=>String(ele.Code)==String(this.productItem.ContentType))?.CodeDesc);this.productItem.ContentDesc=this.dropList.find(ele=>String(ele.Code)==String(this.productItem.ContentType))?.CodeDesc;}
-    alert(this.productItem.ContentDesc)
+    if(this.productItem.ContentDesc==null || this.productItem.ContentDesc=='' || this.productItem.ContentDesc==undefined){this.productItem.ContentDesc=this.dropList.find(ele=>String(ele.Code)==String(this.productItem.ContentType))?.CodeDesc;}
     this.Cotentrisk[this.currentContentIndex]['ContentRiskDesc'] =this.productItem.ContentDesc;
     this.Cotentrisk[this.currentContentIndex]['ItemId'] = this.productItem.ContentType;
     this.currentContentIndex=null;
@@ -7139,7 +7132,6 @@ return true;
         "RiskId":this.productItem.AccidentLocation,
         "SerialNo": null
       }
-      alert('Null Index Push')
       this.PersonalAssistantList.push(entry);
       this.productItem = new ProductData();
       this.productItem.AccOccupation = this.accidentOccupation;
