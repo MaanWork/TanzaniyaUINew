@@ -824,7 +824,7 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
     }
     saveTravelDetails(customerDatas,type){
       let endDate = null;
-      if(type=='cancel') endDate = this.endorseEffectiveDate;
+      if(type=='cancel') endDate = this.datePipe.transform(this.effectiveDate, "dd/MM/yyyy");
       else endDate = customerDatas.TravelEndDate;
       let ReqObj = {
   
@@ -1334,7 +1334,7 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
           console.log(data);
           if(data.Result){
             sessionStorage.setItem('quotePaymentId',data.Result.PaymentId);
-            this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/make-payment']);
+            this.router.navigate(['/quotation/plan/main/payment']);
           }
         },
         (err) => { },
@@ -1392,7 +1392,7 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
                     console.log(formattedDate);
                     this.noOfDays = Math.round(Math.abs((Number(momentDate)  - Number(formattedDatecurrent) )/oneday)+1);
                 }
-                if(type=='cancel') endDate = this.endorseEffectiveDate;
+                if(type=='cancel') endDate = this.datePipe.transform(this.effectiveDate, "dd/MM/yyyy");
                 else if(veh.PolicyEndDate){
                     endDate = veh.PolicyEndDate;
                 }
@@ -1631,19 +1631,20 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
               createdBy = this.loginId;
             }
             let endDate:any = null;
-            if(type=='cancel') endDate = this.endorseEffectiveDate;
+            if(type=='cancel') endDate = this.datePipe.transform(this.effectiveDate, "dd/MM/yyyy");
             else if(veh.PolicyEndDate){
                 endDate = veh.PolicyEndDate;
             }
             let effectiveDate=null;
             //if(this.endorsementSection){
-                effectiveDate = this.endorseEffectiveDate;
+                effectiveDate = this.datePipe.transform(this.effectiveDate, "dd/MM/yyyy");
             // }
             // else {
             //   if(vehicleDetails.PolicyStartDate){
             //     effectiveDate = this.datePipe.transform(vehicleDetails.PolicyStartDate, "dd/MM/yyyy");
             //   }
             // }
+            
       let ReqObj = {
           "InsuranceId": this.insuranceId,
           "BranchCode": this.branchCode,
