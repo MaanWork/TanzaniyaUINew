@@ -5,7 +5,10 @@
     <div class="col-1 md:col-1 lg:col-1 xl:col-1 p-0" ></div>
     <div class="col-12 md:col-4 lg:col-4 xl:col-4 p-0" >
         <div  class="rightSide mt-5" *ngIf="vehicleDetailsList.length!=0">
-            <h4>Premium Information</h4>
+            <div class="flex flex-wrap justify-content-between">
+                <div><h4>Premium Information</h4></div>
+                <div></div>
+            </div>
         <ng-container *ngFor="let menu of vehicleDetailsList;let i = index">
             <div class="card p-3 ">
                 <h2 class="optiontxt1">Option {{i+1}}</h2>
@@ -15,12 +18,20 @@
                 <hr class="hr new4">
                 <ng-container *ngFor="let cover of menu.CoverList">
                 <ng-container *ngIf="((cover.isSelected=='D' &&  cover.CoverageType!='A') && !endorseCovers)">
-                <div class="flex flex-warp">
+                <div class="flex flex-warp" [ngClass]="cover.isReferal=='Y' ? 'customBg' : 'planeBg'">
                 <div class="col-12 md:col-9 lg:col-9 xl:col-9 t-a-l">     
                     <h5>{{cover.CoverName}}</h5>
+                    <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container>
                 </div>
                 <div class="col-12 md:col-3 lg:col-3 xl:col-3 t-a-r">
-                    <h4 class="optiontxt1">{{cover.PremiumIncludedTax | commaseparator}}</h4>
+                    <h4 class="optiontxt1">
+                        <ng-container *ngIf="cover.PremiumIncludedTax!=null && cover.PremiumIncludedTax!='' && cover.PremiumIncludedTax!=0">
+                            {{cover.PremiumIncludedTax | commaseparator}}
+                        </ng-container>
+                        <ng-container *ngIf="cover.PremiumIncludedTax==null || cover.PremiumIncludedTax=='' || cover.PremiumIncludedTax==0">
+                                0
+                        </ng-container>
+                    </h4>
                 </div>
                 </div>
                 </ng-container>
