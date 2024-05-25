@@ -3090,9 +3090,8 @@ this.newAddClauses=true;
   }
   onViewOverAllPremium(){
     this.discountList = [];this.loadingList=[];
-    this.onUpdateFactor('fleetSave',null);
-   
-    
+    if(this.userType!='Broker' && this.userType!='User') this.onUpdateFactor('fleetSave',null);
+    else this.onFormSubmit(null);
   }
   onUpdateFleetFactorRate(modal){
     this.fleetCoverDetails.CoverList[0].Discount = this.discountList;
