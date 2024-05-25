@@ -824,7 +824,10 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
     }
     saveTravelDetails(customerDatas,type){
       let endDate = null;
-      if(type=='cancel') endDate = this.datePipe.transform(this.effectiveDate, "dd/MM/yyyy");
+      if(type=='cancel'){
+        if(String(this.effectiveDate).split('/').length>1) endDate = this.effectiveDate;
+        else endDate = this.datePipe.transform(this.effectiveDate, "dd/MM/yyyy");
+      }
       else endDate = customerDatas.TravelEndDate;
       let ReqObj = {
   
@@ -1392,7 +1395,10 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
                     console.log(formattedDate);
                     this.noOfDays = Math.round(Math.abs((Number(momentDate)  - Number(formattedDatecurrent) )/oneday)+1);
                 }
-                if(type=='cancel') endDate = this.datePipe.transform(this.effectiveDate, "dd/MM/yyyy");
+                if(type=='cancel') {
+                  if(String(this.effectiveDate).split('/').length>1) endDate = this.effectiveDate;
+                  else endDate = this.datePipe.transform(this.effectiveDate, "dd/MM/yyyy");
+                }
                 else if(veh.PolicyEndDate){
                     endDate = veh.PolicyEndDate;
                 }
@@ -1631,13 +1637,17 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
               createdBy = this.loginId;
             }
             let endDate:any = null;
-            if(type=='cancel') endDate = this.datePipe.transform(this.effectiveDate, "dd/MM/yyyy");
+            if(type=='cancel'){
+              if(String(this.effectiveDate).split('/').length>1) endDate = this.effectiveDate;
+              else endDate = this.datePipe.transform(this.effectiveDate, "dd/MM/yyyy");
+            }
             else if(veh.PolicyEndDate){
                 endDate = veh.PolicyEndDate;
             }
             let effectiveDate=null;
             //if(this.endorsementSection){
-                effectiveDate = this.datePipe.transform(this.effectiveDate, "dd/MM/yyyy");
+              if(String(this.effectiveDate).split('/').length>1) effectiveDate = this.effectiveDate;
+              else effectiveDate = this.datePipe.transform(this.effectiveDate, "dd/MM/yyyy");
             // }
             // else {
             //   if(vehicleDetails.PolicyStartDate){

@@ -2257,6 +2257,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         }
       }
       if(this.vehicleDetails?.SavedFrom=='SQ') this.vehicleDetails.SavedFrom = 'WEB';
+      if(this.endorsementSection && this.enableAddVehicle){this.vehicleDetails['EndorsementYn']='Y';}
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": null,
@@ -4872,7 +4873,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
             i+=1;
             if(i==fieldList.length){
               
-              console.log('Final Fields',this.fields)
             }
           }
         }

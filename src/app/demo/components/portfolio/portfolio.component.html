@@ -65,10 +65,30 @@
                 <td>{{ customer.OverallPremiumLc }}</td>
                 <td>
                   <span class="p-buttonset">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                      <i class="fas fa-cog"></i>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="onGetSchedule(customer)">
+                            <span>Schedule</span>
+                        </button>
+                        <button mat-menu-item (click)="onDebitdownload(customer)">
+                            <span>Debit Note</span>
+                        </button>
+                        <button mat-menu-item (click)="onCreditdownload(customer)">
+                            <span>Credit Note</span>
+                        </button>
+                        <button mat-menu-item (click)="onEditEndorsement(customer)">
+                            <span>Endorsement</span>
+                        </button>
+                        <button mat-menu-item (click)="onViews(customer)">
+                            <span>View Quote Details</span>
+                        </button>
+                    </mat-menu>
                     <!-- <button pButton pRipple icon="pi pi-envelope" class="p-button-outlined"></button>
                     <button pButton pRipple icon="pi pi-inbox" class="p-button-outlined"></button> -->
-                    <button type="button" pButton pRipple icon="pi pi-th-large" (click)="menu1.toggle($event)"></button>
-                    <p-menu #menu1 [popup]="true" appendTo="body" [model]="getPolicyItems(customer)"></p-menu>
+                    <!-- <button type="button" pButton pRipple icon="pi pi-th-large" (click)="menu1.toggle($event)"></button>
+                    <p-menu #menu1 [popup]="true" appendTo="body" [model]="getPolicyItems(customer)"></p-menu> -->
                   </span>
                 </td>
               </tr>
@@ -101,17 +121,6 @@
                         </ng-container>
                       </td>
                   </tr>
-                  <!-- <tr class="">
-                    <td >
-                      <b>Quote No</b>
-                      <p-chip [label]="quote.QuoteNo" styleClass="bg-orange-500 text-white"></p-chip>
-                    </td>
-                    <td class="text-right">
-                      <b> Reference No</b>
-                      <p class="text-teal-600"></p>
-                        {{ quote.RequestReferenceNo }}
-                    </td>
-                  </tr> -->
                   <tr class="justify-content-between">
                     <td><b>Start Date</b>
                     <p>{{quote.PolicyStartDate}}</p>
