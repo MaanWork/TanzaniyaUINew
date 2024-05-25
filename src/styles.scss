@@ -35,6 +35,10 @@ html {
     font-weight: 600 !important;
     color: #042181 !important;
 }
+.customHeight{
+    border: none !important;
+    background-color: transparent !important;
+}
 .customLabel{
     font-size: 17px !important;
 }
@@ -549,7 +553,7 @@ cursor:  pointer !important;
     border-radius: 10px;
     text-align: center;
     background-color: #eceff1;
-    padding: 20px;
+    padding: 10px;
 }
 .hr.new4 {
     border: 1px solid #042181;
@@ -570,7 +574,11 @@ cursor:  pointer !important;
    font-weight: 600;
     font-size: 15px;
 }
-
+.redtxt{
+    color:  #e0140d;
+    font-weight: 600;
+     font-size: 11px;
+ }
 .second{
     margin-top: 15%;
 }

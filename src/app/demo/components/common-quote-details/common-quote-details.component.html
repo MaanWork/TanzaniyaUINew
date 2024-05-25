@@ -8,7 +8,7 @@
             <div class="flex flex-wrap">
 
             </div>
-            <div class="flex justify-content-start sm:justify-content-end  flex-wrap" *ngIf="productId=='5'">
+            <div class="flex justify-content-start sm:justify-content-end  flex-wrap" *ngIf="productId=='5' && (!endorsementSection || (endorsementSection && enableAddVehicle))">
                 <div>
                     <input pInputText id="username" style="min-width: 200px;" maxlength="50" [(ngModel)]="regNo"
                     placeholder="Search & Add Vehicle By Reg.No"  />
@@ -83,7 +83,7 @@
                         <div class="flex flex-wrap">
                             <div class="lg:col-2 md:col-2 col-3">
                                 <label for="username">Source Type*</label>
-                                <p-dropdown inputId="sourceType" class="w-full" styleClass="w-full"
+                                <p-dropdown inputId="sourceType" class="w-full" styleClass="w-full" [disabled]="endorsementSection  || checkDisableField()"
                                     [options]="sourceTypeList" [(ngModel)]="Code" (onChange)="onSourceTypeChange('change')"
                                     optionLabel="CodeDesc" optionValue="Code" placeholder="Select SourceType">
                                 </p-dropdown>
@@ -213,7 +213,7 @@
                                 || productId=='26' || this.productId=='25' || productId=='13' || productId=='57'">
                                     <label for="username">Industry</label>
                                     <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="industryList"
-                                        [(ngModel)]="IndustryId" [disabled]="(endorsementSection || finalizeYN=='Y')" (onChange)="onCurrencyChange('change')"
+                                        [(ngModel)]="IndustryId" [disabled]="(endorsementSection || finalizeYN=='Y')"
                                         optionLabel="CodeDesc" optionValue="Code" placeholder="Select Industry">
                                     </p-dropdown>
                                     <div class="input-form-error" *ngIf="industryError">
@@ -226,7 +226,7 @@
                             <div class="flex flex-wrap">
                                 <div class="lg:col-2 md:col-2 col-3">
                                     <label for="username">Start Date</label>
-                                    <p-calendar class="w-full" styleClass="w-full" [minDate]="minDate"
+                                    <p-calendar class="w-full" styleClass="w-full" [minDate]="minDate" [disabled]="(endorsementSection && !enablePolicyStart) || (checkDisableField() && !checkDatesDisabled())"
                                         [(ngModel)]="policyStartDate" (onSelect)="onStartDateChange('change')"
                                         dateFormat="dd/mm/yy" placeholder="Select Start Date">
                                     </p-calendar>
@@ -243,7 +243,7 @@
                                 <div class="lg:col-2 md:col-2 col-3">
                                     <label for="username">End Date</label>
                                     <p-calendar class="w-full" styleClass="w-full" [(ngModel)]="policyEndDate"
-                                        (onSelect)="onStartDateChange('change')" dateFormat="dd/mm/yy"
+                                        (onSelect)="onStartDateChange('change')" dateFormat="dd/mm/yy" [disabled]="(endorsementSection && !enablePolicyStart) || (checkDisableField() && !checkDatesDisabled())"
                                         placeholder="Select End Date">
                                     </p-calendar>
                                     <div class="input-form-error" *ngIf="policyEndError">
@@ -255,7 +255,7 @@
                                 <div class="lg:col-2 md:col-2 col-3">
                                     <label for="username">Currency*</label>
                                     <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="currencyList"
-                                        [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')"
+                                        [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')" [disabled]="(endorsementSection && !enableCurrency) || checkDisableField() "
                                         optionLabel="CodeDesc" optionValue="Code" placeholder="Select Currency">
                                     </p-dropdown>
                                     <div class="input-form-error" *ngIf="currencyCodeError">
@@ -266,12 +266,12 @@
                                 </div>
                                 <div class="lg:col-2 md:col-2 col-3">
                                     <label for="username">Exchange Rate</label>
-                                    <input pInputText id="username" maxlength="50" [(ngModel)]="exchangeRate"
+                                    <input pInputText id="username" maxlength="50" [disabled]="(endorsementSection && !enableCurrency) || checkDisableField()" [(ngModel)]="exchangeRate"
                                         (change)="onCommonDetailsChange()" />
                                 </div>
                                 <div class="lg:col-2 md:col-2 col-3">
                                     <label for="username">PromoCode&nbsp;(Optional)</label>
-                                    <input pInputText id="username" maxlength="50" [(ngModel)]="promocode"
+                                    <input pInputText id="username" maxlength="50" [(ngModel)]="promocode" [disabled]="(endorsementSection) || checkDisableField()"
                                         (change)="onCommonDetailsChange()" placeholder="Enter PromoCode" />
                                 </div>
                             </div>
@@ -297,7 +297,7 @@
                                         <p-button label="Edit" icon="pi pi-pencil" size="small"
                                             (click)="EditData(veh)"></p-button>&nbsp;
                                     </ng-container>
-                                    <p-button styleClass="p-button-outlined" label="Delete" icon="pi pi-trash"
+                                    <p-button *ngIf="!endorsementSection || (endorsementSection && enableRemoveVehicle)" styleClass="p-button-outlined" label="Delete" icon="pi pi-trash"
                                         (click)="onDelete(veh)" size="small"></p-button>
                                 </div>
                             </div>
@@ -518,7 +518,7 @@
                             <div class="grid">
                                 <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                     <div class="p-field-checkbox">
-                                        <p-checkbox [(ngModel)]="collateralValue"  binary="true" (onChange)="onCollateralChange()" [checked]="collateralYN=='Y'" inputId="binary"></p-checkbox>
+                                        <p-checkbox [(ngModel)]="collateralValue"  binary="true" (onChange)="onCollateralChange()" [disabled]="((endorsementSection && !enableCollateralDetails)) || checkDisableField()" [checked]="collateralYN=='Y'" inputId="binary"></p-checkbox>
                                         <label for="binary">&nbsp;Collateral</label>
                                     </div>
                                 </div>

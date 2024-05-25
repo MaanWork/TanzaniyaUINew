@@ -141,10 +141,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
   vehicleClassValue: any=null;motorDetails:any=null;defencecostList:any[]=[];minDobDate:any;vehicleClassList:any[]=[];
   vehicleTypeList: any[]=[];alarmYN:any='Y';deductiblesList:any[]=[];collateralChecked:boolean=false;
   regNoError: boolean;driverOptions:any[]=[];genderOptions:any[]=[];searchValue:any=[];clearSearchSection:boolean=false;
-  duplicateRegister: boolean=false;
-  motorUsageType: any;
-  VehicleSI: string;
-  WindShieldSI: string;
+  duplicateRegister: boolean=false;enableCollateralDetails:boolean=false;enableCustomerDetails: boolean=false;
+  motorUsageType: any=null;VehicleSI: any=null;WindShieldSI: any=null;orgPolicyNo: any=null;endorseCategory: any=null;endorsementName: any=null;endorseShortCode: any=null;enableFieldsList: any[]=[];enablePolicyStart: boolean=false;enablePolicyEnd: boolean=false;enableCurrency: boolean=false;
+  
   constructor(private router:Router,private sharedService:SharedService,private datePipe:DatePipe,private messageService: MessageService){
     this.minDate = new Date();
     
@@ -286,6 +285,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
       },
       (err) => { },
     );
+  }
+  checkDatesDisabled(){
+    return (new Date(this.policyStartDate)).setHours(0,0,0,0) < (new Date()).setHours(0,0,0,0)
   }
   getCityLimitList(){
     if(this.cityList.length==0 && this.tabIndex!=0){
@@ -643,6 +645,38 @@ export class CommonQuoteDetailsComponent implements OnInit {
       if((this.productId=='5' || this.productId=='46' || this.productId=='29') && type=='change'){this.modifiedYN = 'Y'}
   }
   setCustomerValues(customerDetails){
+    if(sessionStorage.getItem('endorsePolicyNo')){
+      this.orgPolicyNo = sessionStorage.getItem('endorsePolicyNo')
+      this.endorsementSection = true;
+      let endorseObj = JSON.parse(sessionStorage.getItem('endorseTypeId'))
+      if(endorseObj){
+        this.endorsementDetails = endorseObj;
+        this.endorseCategory = endorseObj.Category;
+        this.endorsementName = endorseObj?.EndtName;
+        this.endorsementId = endorseObj.EndtTypeId;
+        this.endorsePolicyNo = endorseObj.PolicyNo;
+        this.endorseShortCode = endorseObj?.EndtShortCode;
+        this.enableFieldsList = endorseObj.FieldsAllowed;
+        this.endorseEffectiveDate = endorseObj?.EffectiveDate;
+        if(this.endorseShortCode!=42){
+            this.enablePolicyStart = this.enableFieldsList.some(ele=>ele=='policyStartDate' || ele=='PolicyStartDate');
+            this.enablePolicyEnd = this.enableFieldsList.some(ele=>ele=='policyEndDate' || ele=='PolicyEndDate');
+            this.enableCurrency = this.enableFieldsList.some(ele=>ele=='Currency');
+            this.enableAddVehicle = this.enableFieldsList.some(ele=>ele=='addVehicle');
+            this.enableRemoveVehicle = this.enableFieldsList.some(ele=>ele=='removeVehicle');
+            this.enableCollateralDetails = this.enableFieldsList.some(ele=>ele=='CollateralDetails');
+            this.enableCustomerDetails = this.enableFieldsList.some(ele=>ele=='customerName' || ele=='Title');
+        }
+        else{
+          this.enablePolicyStart = false;this.enablePolicyEnd = false;this.enableCurrency = false;this.enableCustomerDetails=false;
+          this.enableAddVehicle = false;this.enableRemoveVehicle=false;this.enableCollateralDetails =false;
+        } 
+      }
+    }
+    else{
+      this.enablePolicyStart = false;this.enablePolicyEnd = false;this.enableCurrency = false;
+      this.enableAddVehicle = false;this.enableRemoveVehicle=false;this.enableCollateralDetails =false;
+    } 
     if(this.productId == '6' || this.productId == '16' || this.productId == '39' || this.productId=='14' || this.productId=='32'  || this.productId=='1'){
       let referenceNo =  sessionStorage.getItem('quoteReferenceNo');
       if(referenceNo){
@@ -947,14 +981,14 @@ export class CommonQuoteDetailsComponent implements OnInit {
     if(this.issuerSection){
       this.Code = entry.SourceType;
       
-      if(this.sourceCodeDesc=='Premia Agent' || this.sourceCodeDesc=='Premia Broker' || this.sourceCodeDesc=='Premia Direct'){
+      //if(this.sourceCodeDesc=='Premia Agent' || this.sourceCodeDesc=='Premia Broker' || this.sourceCodeDesc=='Premia Direct'){
         this.customerCode = entry.CustomerCode;
         this.customerName = entry.CustomerName;
-      }
-      else{
-        this.brokerCode = entry.BrokerCode;
-        this.brokerBranchCode = entry.BrokerBranchCode;
-      }
+      // }
+      // else{
+      //   this.brokerCode = entry.BrokerCode;
+      //   this.brokerBranchCode = entry.BrokerBranchCode;
+      // }
       this.onSourceTypeChange('direct');
     }
     if(entry.CURRENCY_CODE!=null)  this.currencyCode = entry?.CURRENCY_CODE;
@@ -1564,58 +1598,57 @@ export class CommonQuoteDetailsComponent implements OnInit {
   EditData(rowData){
     this.policyStartError=false;this.policyEndError = false;this.currencyCodeError=false;
       this.policyPassDate = false;
-      
       let i=0;
-      if(this.policyStartDate==null || this.policyStartDate=='' || this.policyStartDate==undefined){
-        i+=1;
-        this.policyStartError = true;
-      }
-      else{
-        let dateList = String(this.policyStartDate).split('/');
-        if(dateList.length>0){
-          let date = dateList[2]+'-'+dateList[1]+'-'+dateList[0];
-          var firstRepaymentDate = new Date(date);
-          var today = new Date();
-           if( (this.productId=='5' || this.productId=='4' || this.productId=='46' || this.productId=='29') && (firstRepaymentDate.getTime() < today.setHours(0,0,0,0))){
-              i+=1;
-              this.policyPassDate = true;
-          }
-        }
-      }
-      
-     
-      if(this.policyEndDate==null || this.policyEndDate=='' || this.policyEndDate==undefined){
-        i+=1;
-        this.policyEndError = true;
-      }
-      if(this.currencyCode==null || this.currencyCode=='' || this.currencyCode==undefined){
-        i+=1;
-        this.currencyCodeError = false;
-      }
-      if(this.issuerSection){
-        if(this.Code=='' || this.Code==null || this.Code==undefined){
+      if(!this.endorsementSection){
+        if(this.policyStartDate==null || this.policyStartDate=='' || this.policyStartDate==undefined){
           i+=1;
-          this.sourceCodeError = true;
+          this.policyStartError = true;
         }
         else{
-          if(this.sourceCodeDesc=='Premia Agent' || this.sourceCodeDesc=='Premia Broker' || this.sourceCodeDesc=='Premia Direct'){
-            if(this.customerName=='' || this.customerName==undefined || this.customerName==null){
-                this.customerCodeError = true;
+          let dateList = String(this.policyStartDate).split('/');
+          if(dateList.length>0){
+            let date = dateList[2]+'-'+dateList[1]+'-'+dateList[0];
+            var firstRepaymentDate = new Date(date);
+            var today = new Date();
+             if( (this.productId=='5' || this.productId=='4' || this.productId=='46' || this.productId=='29') && (firstRepaymentDate.getTime() < today.setHours(0,0,0,0))){
                 i+=1;
+                this.policyPassDate = true;
             }
-            this.brokerCode = null;
-            this.brokerBranchCode = null;
-            this.brokerLoginId = null;
+          }
+        }
+        if(this.policyEndDate==null || this.policyEndDate=='' || this.policyEndDate==undefined){
+          i+=1;
+          this.policyEndError = true;
+        }
+        if(this.currencyCode==null || this.currencyCode=='' || this.currencyCode==undefined){
+          i+=1;
+          this.currencyCodeError = false;
+        }
+        if(this.issuerSection){
+          if(this.Code=='' || this.Code==null || this.Code==undefined){
+            i+=1;
+            this.sourceCodeError = true;
           }
           else{
-            if(this.brokerCode=='' || this.brokerCode==undefined || this.brokerCode==null){
-              this.brokerCodeError = true;
-              i+=1;
-            }
-            if(this.brokerBranchCode=='' && this.brokerBranchCode==undefined && this.brokerBranchCode==null){
-              this.brokerBranchCodeError = true;
-              i+=1;
-            }
+            //if(this.sourceCodeDesc=='Premia Agent' || this.sourceCodeDesc=='Premia Broker' || this.sourceCodeDesc=='Premia Direct'){
+              if(this.customerName=='' || this.customerName==undefined || this.customerName==null){
+                  this.customerCodeError = true;
+                  i+=1;
+              }
+              this.brokerCode = null;
+              this.brokerBranchCode = null;
+              this.brokerLoginId = null;
+            // }
+            // else{
+            //   if(this.brokerCode=='' || this.brokerCode==undefined || this.brokerCode==null){
+            //     this.brokerCodeError = true;
+            //     i+=1;
+            //   }
+            //   if(this.brokerBranchCode=='' && this.brokerBranchCode==undefined && this.brokerBranchCode==null){
+            //     this.brokerBranchCodeError = true;
+            //     i+=1;
+            //   }
+            // }
           }
         }
       }
@@ -1885,7 +1918,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       }
       else{
         this.sourceCodeError = false;
-        if(this.sourceCodeDesc=='Premia Agent' || this.sourceCodeDesc=='Premia Broker' || this.sourceCodeDesc=='Premia Direct'){
+        //if(this.sourceCodeDesc=='Premia Agent' || this.sourceCodeDesc=='Premia Broker' || this.sourceCodeDesc=='Premia Direct'){
           if(this.customerName=='' || this.customerName==undefined || this.customerName==null){
               this.customerCodeError = true;
               i+=1;
@@ -1893,17 +1926,17 @@ export class CommonQuoteDetailsComponent implements OnInit {
           this.brokerCode = null;
           this.brokerBranchCode = null;
           this.brokerLoginId = null;
-        }
-        else{
-          if(this.brokerCode=='' || this.brokerCode==undefined || this.brokerCode==null){
-            this.brokerCodeError = true;
-            i+=1;
-          }
-          if(this.brokerBranchCode=='' && this.brokerBranchCode==undefined && this.brokerBranchCode==null){
-            this.brokerBranchCodeError = true;
-            i+=1;
-          }
-        }
+        // }
+        // else{
+        //   if(this.brokerCode=='' || this.brokerCode==undefined || this.brokerCode==null){
+        //     this.brokerCodeError = true;
+        //     i+=1;
+        //   }
+        //   if(this.brokerBranchCode=='' && this.brokerBranchCode==undefined && this.brokerBranchCode==null){
+        //     this.brokerBranchCodeError = true;
+        //     i+=1;
+        //   }
+        // }
       }
     }
     if(this.productId=='6' || this.productId=='13' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='32' || this.productId=='1' || this.productId=='21' || this.productId=='26' || this.productId == '25' || this.productId=='57'){
@@ -3035,7 +3068,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 }
                 else{
                   this.tabIndex = this.tabIndex+1;
-                  this.getMotorDetails(index+1);
+                  if(this.vehicleDetailsList[index+1]){ this.getMotorDetails(index+1);}
+                  else this.onFinalProceed();
                 }
               // sessionStorage.setItem('coverObject',JSON.stringify(data?.CoverList));
               // this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
@@ -3110,7 +3144,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
                this.getMotorDetails(this.tabIndex-1);
             }
             else {
-              this.router.navigate(['/quotation/plan/premium-details']);
+              if(this.endorsementSection) this.router.navigate(['/quotation/plan/premium-info']);
+              else this.router.navigate(['/quotation/plan/premium-details']);
             }
             
           //}
@@ -3433,90 +3468,22 @@ export class CommonQuoteDetailsComponent implements OnInit {
                     }
                   }
                   else{
-                    this.quoteRefNo = data?.Result?.RequestReferenceNo;
-                     sessionStorage.setItem('quoteReferenceNo',data?.Result?.RequestReferenceNo);
-                     veh['InsuranceType'] = data?.Result?.SectionId;
-                    veh['MSRefNo'] = data?.Result?.MSRefNo;
-                    veh['VdRefNo'] = data?.Result?.VdRefNo;
-                    veh['CdRefNo'] = data?.Result?.CdRefNo;
-                    veh['RequestReferenceNo'] = data?.Result?.RequestReferenceNo;
-                    veh['VehicleId'] = veh.Vehicleid
-                    veh['Active'] = true;
-                    console.log("Save Iterate",veh)
-                    i+=1;
-                    if(this.uwQuestionList.length!=0){
-                      let j = 0;
-                      let uwList:any[]=new Array();
-                      for(let ques of this.uwQuestionList){
-                        ques['BranchCode'] = this.branchCode;
-                        let createdBy="";
-                          let quoteStatus = sessionStorage.getItem('QuoteStatus');
-                          if(quoteStatus=='AdminRP'){
-                              createdBy = this.vehicleDetailsList[0].CreatedBy;
-                          }
-                          else{
-                            createdBy = this.loginId;
-                          }
-                          let status = null,loading = null;
-                          if(ques.QuestionType == '01' && ques.Value!=null && ques.Value!='' && ques.Options!=null){
-                            let obj = ques.Options.find(ele=>ele.UwQuesOptionDesc==ques.Value);
-                            console.log("Found Obj",ques,obj)
-                            if(obj){
-                              loading = obj.LoadingPercent
-                              if(obj.ReferralYn=='Y') status = 'R';
-                              else status = 'Y';
-                            }
-                            else status = 'Y';
-                          }
-                          else status = ques.Status;
-                          let entry = {
-                            "InsuranceId": this.insuranceId,
-                            "ProductId": this.productId,
-                            "UwQuestionId": ques.UwQuestionId,
-                            "UwQuestionDesc": ques.UwQuestionDesc,
-                            "QuestionType": ques.QuestionType,
-                            "EffectiveDateStart": ques.EffectiveDateStart,
-                            "Status": status,
-                            "LoadingPercent": loading,
-                            "MandatoryYn": ques.MandatoryYn,
-                            "DataType": ques.DataType,
-                            "CreatedBy": createdBy,
-                            "UpdatedBy":  this.loginId,
-                            "Value": ques.Value,
-                            "BranchCode": this.branchCode,
-                            "RequestReferenceNo": this.quoteRefNo,
-                            "VehicleId": veh.Vehicleid
-                          }
-                          uwList.push(entry);
-                        // if(ques.QuestionType == '01'){
-                        //   ques['CreatedBy'] = createdBy;
-                        //   ques['RequestReferenceNo'] = this.requestReferenceNo;
-                        //   ques['UpdatedBy'] = this.loginId;
-                        //   ques["VehicleId"] = this.vehicleId
-                        //   let entry = new Object();
-                        //   entry = ques;
-                        //   delete entry['Options'];
-                        //   uwList.push(entry);
-                        // } 
-                        // else if(ques.Value!=""){
-                        //   ques['CreatedBy'] = createdBy;
-                        //   ques['RequestReferenceNo'] = this.requestReferenceNo;
-                        //   ques['UpdatedBy'] = this.loginId;
-                        //   ques["VehicleId"] = this.vehicleId
-                        //   let entry = new Object();
-                        //   entry = ques;
-                        //   delete entry['Options'];
-                        //   uwList.push(entry);
-                        // } 
+                    if(data.Result?.length!=0){
+                      let entry = veh;
+                      entry['PolicyEndDate'] = endDate;
+                      entry['PolicyStartDate'] = startDate;
+                      this.quoteRefNo = data?.Result[0]?.RequestReferenceNo;
+                        sessionStorage.setItem('quoteReferenceNo',data?.Result[0]?.RequestReferenceNo);
+                      let j=0;this.individualCalcIndex=0;
+                      for(let cover of data.Result){
+                        entry['MSRefNo'] = data?.Result[0].MSRefNo;
+                        entry['VdRefNo'] = data?.Result[0].VdRefNo;
+                        entry['CdRefNo'] = data?.Result[0].CdRefNo;
+                        entry['Active'] = true;
+                        entry['VehicleId'] = data.Result[0].VehicleId;
+                        this.onCalculateVehDetails(cover,'proceedSave',j,data.Result.length,vehicleDetails?.Insurancetype.length);
                         j+=1;
-                        //if(j==this.uwQuestionList.length) this.onSaveUWQues(uwList,veh,null,i);
                       }
-                    }
-                    else if(this.finalizeYN!='Y'){
-                      this.getCalculationDetails(veh,null,i,'finalProceed');
-                    }
-                    else{
-                      this.onFinalProceed();
                     }
                     
                     // sessionStorage.setItem('editVehicleId',this.vehicleId);
@@ -3542,61 +3509,59 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
   }
   onCreateVehicle(){
-    this.policyStartError=false;this.policyEndError = false;this.currencyCodeError=false;
-      this.policyPassDate = false;
-      
+    this.policyStartError=false;this.policyEndError = false;this.currencyCodeError=false;this.policyPassDate = false;
       let i=0;
-      if(this.policyStartDate==null || this.policyStartDate=='' || this.policyStartDate==undefined){
-        i+=1;
-        this.policyStartError = true;
-      }
-      else{
-        let dateList = String(this.policyStartDate).split('/');
-        if(dateList.length>0){
-          let date = dateList[2]+'-'+dateList[1]+'-'+dateList[0];
-          var firstRepaymentDate = new Date(date);
-          var today = new Date();
-           if( (this.productId=='5' || this.productId=='4' || this.productId=='46' || this.productId=='29') && (firstRepaymentDate.getTime() < today.setHours(0,0,0,0))){
-              i+=1;
-              this.policyPassDate = true;
-          }
-        }
-      }
-      
-     
-      if(this.policyEndDate==null || this.policyEndDate=='' || this.policyEndDate==undefined){
-        i+=1;
-        this.policyEndError = true;
-      }
-      if(this.currencyCode==null || this.currencyCode=='' || this.currencyCode==undefined){
-        i+=1;
-        this.currencyCodeError = false;
-      }
-      if(this.issuerSection){
-        if(this.Code=='' || this.Code==null || this.Code==undefined){
+      if(!this.endorsementSection){
+        if(this.policyStartDate==null || this.policyStartDate=='' || this.policyStartDate==undefined){
           i+=1;
-          this.sourceCodeError = true;
+          this.policyStartError = true;
         }
         else{
-          if(this.sourceCodeDesc=='Premia Agent' || this.sourceCodeDesc=='Premia Broker' || this.sourceCodeDesc=='Premia Direct'){
-            if(this.customerName=='' || this.customerName==undefined || this.customerName==null){
-                this.customerCodeError = true;
-                this.brokerCode = null;
-                this.brokerBranchCode = null;
-                this.brokerLoginId = null;
+          let dateList = String(this.policyStartDate).split('/');
+          if(dateList.length>0){
+            let date = dateList[2]+'-'+dateList[1]+'-'+dateList[0];
+            var firstRepaymentDate = new Date(date);
+            var today = new Date();
+            if( (this.productId=='5' || this.productId=='4' || this.productId=='46' || this.productId=='29') && (firstRepaymentDate.getTime() < today.setHours(0,0,0,0))){
                 i+=1;
+                this.policyPassDate = true;
             }
-            
+          }
+        }
+        if(this.policyEndDate==null || this.policyEndDate=='' || this.policyEndDate==undefined){
+          i+=1;
+          this.policyEndError = true;
+        }
+        if(this.currencyCode==null || this.currencyCode=='' || this.currencyCode==undefined){
+          i+=1;
+          this.currencyCodeError = false;
+        }
+        if(this.issuerSection){
+          if(this.Code=='' || this.Code==null || this.Code==undefined){
+            i+=1;
+            this.sourceCodeError = true;
           }
           else{
-            if(this.brokerCode=='' || this.brokerCode==undefined || this.brokerCode==null){
-              this.brokerCodeError = true;
-              i+=1;
-            }
-            if(this.brokerBranchCode=='' && this.brokerBranchCode==undefined && this.brokerBranchCode==null){
-              this.brokerBranchCodeError = true;
-              i+=1;
-            }
+            //if(this.sourceCodeDesc=='Premia Agent' || this.sourceCodeDesc=='Premia Broker' || this.sourceCodeDesc=='Premia Direct'){
+              if(this.customerName=='' || this.customerName==undefined || this.customerName==null){
+                  this.customerCodeError = true;
+                  this.brokerCode = null;
+                  this.brokerBranchCode = null;
+                  this.brokerLoginId = null;
+                  i+=1;
+              }
+              
+            // }
+            // else{
+            //   if(this.brokerCode=='' || this.brokerCode==undefined || this.brokerCode==null){
+            //     this.brokerCodeError = true;
+            //     i+=1;
+            //   }
+            //   if(this.brokerBranchCode=='' && this.brokerBranchCode==undefined && this.brokerBranchCode==null){
+            //     this.brokerBranchCodeError = true;
+            //     i+=1;
+            //   }
+            // }
           }
         }
       }
@@ -3716,7 +3681,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
     
     if(this.checkDisableField()){
       
-      this.router.navigate(['/quotation/plan/premium-details']);
+      if(this.endorsementSection) this.router.navigate(['/quotation/plan/premium-info']);
+      else this.router.navigate(['/quotation/plan/premium-details']);
     }
     else if(this.vehicleDetailsList.length!=0){
       if(this.vehicleDetailsList.length==1 && this.finalizeYN!='Y'){
@@ -4547,7 +4513,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
     // 
   }
   onCalculateVehDetails(vehicleDetails,type,entry,totalCount,sectionCount){
-    console.log(this.individualCalcIndex,totalCount)
     let createdBy="";
           let coverModificationYN = 'N';
           if(this.endorsementSection){
@@ -5119,6 +5084,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
     if(location=='back'){
       if(this.tabIndex==0){
         if(sessionStorage.getItem('QuoteType')) this.router.navigate(['quotation/plan/shortQuote']);
+        else if(this.endorsementSection){
+          if(this.enableCustomerDetails) this.router.navigate(['/customer/create']);
+          else  this.router.navigate(['/portfolio/endorsementtype']);
+        }
         else this.router.navigate(['/quotation']);
       }
       else if(this.tabIndex!=0){
@@ -5132,70 +5101,68 @@ export class CommonQuoteDetailsComponent implements OnInit {
       
     }
     else if(location == 'quote-plan'){
-      this.policyStartError=false;this.policyEndError = false;this.currencyCodeError=false;
-      this.policyPassDate = false;
-      
+      this.policyStartError=false;this.policyEndError = false;this.currencyCodeError=false;this.policyPassDate = false;
       let i=0;
-      if(this.policyStartDate==null || this.policyStartDate=='' || this.policyStartDate==undefined){
-        i+=1;
-        this.policyStartError = true;
-      }
-      else{
-        let dateList = String(this.policyStartDate).split('/');
-        if(dateList.length>0){
-          let date = dateList[2]+'-'+dateList[1]+'-'+dateList[0];
-          var firstRepaymentDate = new Date(date);
-          var today = new Date();
-           if( (this.productId=='5' || this.productId=='4' || this.productId=='46' || this.productId=='29') && (firstRepaymentDate.getTime() < today.setHours(0,0,0,0))){
-              i+=1;
-              this.policyPassDate = true;
-          }
-        }
-      }
-      
-     
-      if(this.policyEndDate==null || this.policyEndDate=='' || this.policyEndDate==undefined){
-        i+=1;
-        this.policyEndError = true;
-      }
-      if(this.currencyCode==null || this.currencyCode=='' || this.currencyCode==undefined){
-        i+=1;
-        this.currencyCodeError = false;
-      }
-      if(this.issuerSection){
-        if(this.Code=='' || this.Code==null || this.Code==undefined){
+      if(!this.endorsementSection){
+        if(this.policyStartDate==null || this.policyStartDate=='' || this.policyStartDate==undefined){
           i+=1;
-          this.sourceCodeError = true;
+          this.policyStartError = true;
         }
         else{
-          this.sourceCodeError = false;
-          //if(this.sourceCodeDesc=='Premia Agent' || this.sourceCodeDesc=='Premia Broker' || this.sourceCodeDesc=='Premia Direct'){
-            if(this.customerName=='' || this.customerName==undefined || this.customerName==null){
-                this.customerCodeError = true;
+          let dateList = String(this.policyStartDate).split('/');
+          if(dateList.length>0){
+            let date = dateList[2]+'-'+dateList[1]+'-'+dateList[0];
+            var firstRepaymentDate = new Date(date);
+            var today = new Date();
+            if( (this.productId=='5' || this.productId=='4' || this.productId=='46' || this.productId=='29') && (firstRepaymentDate.getTime() < today.setHours(0,0,0,0))){
                 i+=1;
+                this.policyPassDate = true;
             }
-            this.brokerCode = null;
-            this.brokerBranchCode = null;
-            this.brokerLoginId = null;
-          // }
-          // else{
-          //   if(this.brokerCode=='' || this.brokerCode==undefined || this.brokerCode==null){
-          //     this.brokerCodeError = true;
-          //     i+=1;
-          //   }
-          //   if(this.brokerBranchCode=='' && this.brokerBranchCode==undefined && this.brokerBranchCode==null){
-          //     this.brokerBranchCodeError = true;
-          //     i+=1;
-          //   }
-          // }
+          }
         }
-      }
-      if(this.productId=='6' || this.productId=='13' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='32' || this.productId=='1' || this.productId=='21' || this.productId=='26' || this.productId == '25' || this.productId=='57'){
-        if(this.IndustryId=='' || this.IndustryId==null || this.IndustryId==undefined){
+        if(this.policyEndDate==null || this.policyEndDate=='' || this.policyEndDate==undefined){
           i+=1;
-          this.industryError = true;
+          this.policyEndError = true;
         }
-        else this.industryError=false;
+        if(this.currencyCode==null || this.currencyCode=='' || this.currencyCode==undefined){
+          i+=1;
+          this.currencyCodeError = false;
+        }
+        if(this.issuerSection){
+          if(this.Code=='' || this.Code==null || this.Code==undefined){
+            i+=1;
+            this.sourceCodeError = true;
+          }
+          else{
+            this.sourceCodeError = false;
+            //if(this.sourceCodeDesc=='Premia Agent' || this.sourceCodeDesc=='Premia Broker' || this.sourceCodeDesc=='Premia Direct'){
+              if(this.customerName=='' || this.customerName==undefined || this.customerName==null){
+                  this.customerCodeError = true;
+                  i+=1;
+              }
+              this.brokerCode = null;
+              this.brokerBranchCode = null;
+              this.brokerLoginId = null;
+            // }
+            // else{
+            //   if(this.brokerCode=='' || this.brokerCode==undefined || this.brokerCode==null){
+            //     this.brokerCodeError = true;
+            //     i+=1;
+            //   }
+            //   if(this.brokerBranchCode=='' && this.brokerBranchCode==undefined && this.brokerBranchCode==null){
+            //     this.brokerBranchCodeError = true;
+            //     i+=1;
+            //   }
+            // }
+          }
+        }
+        if(this.productId=='6' || this.productId=='13' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='32' || this.productId=='1' || this.productId=='21' || this.productId=='26' || this.productId == '25' || this.productId=='57'){
+          if(this.IndustryId=='' || this.IndustryId==null || this.IndustryId==undefined){
+            i+=1;
+            this.industryError = true;
+          }
+          else this.industryError=false;
+        }
       }
       if(i==0){
         let startDate=null,endDate=null;

@@ -29,7 +29,7 @@ export class CustomerCreateFormComponent implements OnInit {
   maxDobDate:any=null;loginId:any=null;
   agencyCode:any=null;branchCode:any=null;
   productId:any=null;insuranceId:any=null;
-  loginType:any=null;userType:any=null;
+  loginType:any=null;userType:any=null;quoteNo:any=null;
   brokerbranchCode:any=null;typeValue:any=null;
   statusList:any[]=[];notificationList:any[]=[];
   taxExcemptedList:any[]=[];policyHolderList:any[]=[];
@@ -38,16 +38,16 @@ export class CustomerCreateFormComponent implements OnInit {
 	public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
 	public motorApiUrl: any = this.AppConfig.MotorApiUrl;
   customerReferenceNo:any=null;titleList:any[]=[];
-  regionList:any[]=[];stateList:any[]=[];
+  regionList:any[]=[];stateList:any[]=[];enableFieldsList:any[]=[];
   countryList:any[]=[];genderList:any[]=[];
   occupationList:any[]=[];mobileCodeList:any[]=[];
-  businessTypeList:any[]=[];productItem:any=null;
+  businessTypeList:any[]=[];productItem:any=null;endorsementName:any=null;
   policyHolderTypeList:any[]=[];dob:any=null;stateOptions: any[]=[];
   value1: string = 'en';final1: boolean=false;final2: any=false;final3: any=false;final4: any=false;final5: any=false;
-  final6: any=false;final7: any=false;
-  shows: boolean=false;final:boolean=false;
-	Idnumber: any;shortQuoteYN:boolean=false;
-	Idnumber1: any;
+  final6: any=false;final7: any=false;endorseCategory:any=null;
+  shows: boolean=false;final:boolean=false;endorsementId:any=null;
+	Idnumber: any;shortQuoteYN:boolean=false;enableCustomerDetails:boolean=false;
+	Idnumber1: any;endorsementSection:boolean=false;
 	Idnumber2: any;
   constructor(private confirmationService: ConfirmationService, private sharedService: SharedService,private datePipe: DatePipe,
     private messageService: MessageService, private router: Router, private translate: TranslateService,
@@ -144,6 +144,21 @@ export class CustomerCreateFormComponent implements OnInit {
 			);
 	}
 	ngOnInit(): void {
+		let endorseObj = JSON.parse(sessionStorage.getItem('endorseTypeId'))
+      if(endorseObj){
+        this.endorsementSection = true;
+        this.endorseCategory = endorseObj.Category;
+        this.endorsementName = endorseObj?.EndtName;
+        this.enableFieldsList = endorseObj.FieldsAllowed;
+        this.endorsementId = endorseObj.EndtTypeId;
+        if(endorseObj.QuoteNo) this.quoteNo = endorseObj.QuoteNo;
+        if(this.endorsementId!=42 && this.endorsementId!=842){
+          this.enableCustomerDetails = this.enableFieldsList.some(ele=>ele=='customerName' || ele=='Title');
+        }
+      }
+      else{
+        this.endorsementSection = false;this.enableCustomerDetails = false;
+      }
 		this.primeNGConfig.ripple = true;
 		this.ownerCategoryOptions = [{name: 'Category', code: 'category'}];
 		this.customerTypes = [{label: 'Personal', value: 'personal'}, {label: 'Corporate', value: 'corporate'}];
@@ -363,7 +378,7 @@ export class CustomerCreateFormComponent implements OnInit {
 							sessionStorage.setItem('customerReferenceNo',data.Result.SuccessId);
 							this.router.navigate(['/policyDetails']);
 						}
-						else if(sessionStorage.getItem('QuoteType')){
+						else if(sessionStorage.getItem('QuoteType') || this.endorsementSection){
 							this.router.navigate(['/policyDetails']);
 						}
 						else this.router.navigate(['/customer/'])

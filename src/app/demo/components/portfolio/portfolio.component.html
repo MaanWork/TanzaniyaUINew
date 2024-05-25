@@ -67,8 +67,8 @@
                   <span class="p-buttonset">
                     <!-- <button pButton pRipple icon="pi pi-envelope" class="p-button-outlined"></button>
                     <button pButton pRipple icon="pi pi-inbox" class="p-button-outlined"></button> -->
-                    <button type="button" pButton pRipple icon="pi pi-th-large" (click)="menu.toggle($event)"></button>
-                    <p-menu #menu [popup]="true" appendTo="body" [model]="getPolicyItems(customer)"></p-menu>
+                    <button type="button" pButton pRipple icon="pi pi-th-large" (click)="menu1.toggle($event)"></button>
+                    <p-menu #menu1 [popup]="true" appendTo="body" [model]="getPolicyItems(customer)"></p-menu>
                   </span>
                 </td>
               </tr>
@@ -128,8 +128,8 @@
                       <span class="p-buttonset">
                         <!-- <button pButton pRipple icon="pi pi-envelope" class="p-button-outlined"></button>
                         <button pButton pRipple icon="pi pi-inbox" class="p-button-outlined"></button> -->
-                        <button type="button" pButton pRipple icon="pi pi-th-large" (click)="menu.toggle($event)"></button>
-                        <p-menu #menu [popup]="true" appendTo="body" [model]="getPolicyItems(customer)"></p-menu>
+                        <button type="button" pButton pRipple icon="pi pi-th-large" (click)="menu2.toggle($event)"></button>
+                        <p-menu #menu2 [popup]="true" appendTo="body" [model]="getPolicyItems(customer)"></p-menu>
                       </span>
                     </td>
                   </tr>
@@ -193,8 +193,8 @@
                 <td>{{ customer.OverallPremiumLc }}</td>
                 <td>
                   <span class="p-buttonset">
-                    <button type="button" pButton pRipple icon="pi pi-th-large" (click)="menu.toggle($event)"></button>
-                    <p-menu #menu [popup]="true" appendTo="body" [model]="getPolicyItems(customer)"></p-menu>
+                    <button type="button" pButton pRipple icon="pi pi-th-large" (click)="menu3.toggle($event)"></button>
+                    <p-menu #menu3 [popup]="true" appendTo="body" [model]="getPolicyItems(customer)"></p-menu>
                   </span>
                 </td>
               </tr>

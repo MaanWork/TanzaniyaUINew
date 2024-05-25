@@ -24,14 +24,14 @@ export class DriverInfoComponent {
   coverlist: any[];tabIndex:any=0;productName:any=null;
   driverNameError: boolean=false;
   licenseNoError: boolean=false;
-  driverDobError: boolean=false;
-  driverTypeError: boolean=false;
-  vehicleId: string;
-  colorList: any;
-  seriesNo: any;
-  noOfClinder: any;
-  CompanyId: any;
-  SectionId: any;
+  driverDobError: boolean=false;endorseShortCode:any=null;
+  driverTypeError: boolean=false;endorsementId:any=null;
+  vehicleId: string;endorseCategory:any=null;
+  colorList: any;endorsementName:any=null;
+  seriesNo: any;enableFieldsList:any[]=[];
+  noOfClinder: any;enableCustomerDetails:boolean=false;
+  CompanyId: any;enableDocumentDetails:boolean=false;
+  SectionId: any;enableDriverDetails:boolean=false;
   vehicleDetailsList: any[]=[];
   NoOfDoorList: any[]=[];
   plateTypeList: any[]=[];
@@ -72,7 +72,27 @@ export class DriverInfoComponent {
     if(referenceNo){
       this.customerRefNo = referenceNo;
     }
-    
+    let endorseObj = JSON.parse(sessionStorage.getItem('endorseTypeId'))
+      if(endorseObj){
+        this.endorsementSection = true;
+        this.endorseCategory = endorseObj.Category;
+        this.endorsementName = endorseObj?.EndtName;
+        this.enableFieldsList = endorseObj.FieldsAllowed;
+        this.endorsementId = endorseObj.EndtTypeId;
+        this.endorseShortCode = endorseObj.EndtShortCode;
+        if(endorseObj.QuoteNo) this.quoteNo = endorseObj.QuoteNo;
+        if(this.endorseShortCode!=42 && this.endorseShortCode!=842){
+          this.enableCustomerDetails = this.enableFieldsList.some(ele=>ele=='customerName' || ele=='Title');
+          this.enableDocumentDetails = this.enableFieldsList.some(ele=>ele=='documentId');
+          this.enableDriverDetails = this.enableFieldsList.some(ele=>ele=='driverName' || ele=='DriverName');
+        }
+      }
+      else{
+        this.enableCustomerDetails = false;
+        this.enableDocumentDetails = false;
+        this.enableDriverDetails = false;
+        this.endorsementSection = false;
+      }
     this.vehicleDetails = JSON.parse(sessionStorage.getItem('vehicleDetails'));
     this.getEditQuoteDetails();
     this.getColorsList();

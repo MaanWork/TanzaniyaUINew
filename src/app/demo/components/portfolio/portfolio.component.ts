@@ -184,7 +184,7 @@ export class PortfolioComponent implements OnInit {
               label: 'Endorsement',
               icon: 'pi pi-external-link',
               command: () => {
-                this.router.navigate(['/portfolio/endorsement'])
+                this.onEditEndorsement(rowData)
           }
           },
           {
@@ -223,6 +223,15 @@ if (rowData.DebitNoteNo==null && rowData.DebitNoteNo=='') {
     // if(i==2) return entry;
     //else return []
     return entry;
+  }
+  onEditEndorsement(rowData){
+    sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
+    sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
+    sessionStorage.setItem('quoteNo',rowData.QuoteNo);
+    sessionStorage.setItem('endorsePolicyNo',rowData.OriginalPolicyNo);
+    sessionStorage.setItem('Pagefrom','endorsement');
+    sessionStorage.setItem('brokercodeendorsement',this.brokerCode);
+    this.router.navigate(['/portfolio/endorsement'])
   }
   onViews(rowData){
     let ReqObj={

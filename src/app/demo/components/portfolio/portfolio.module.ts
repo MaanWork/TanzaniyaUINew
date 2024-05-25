@@ -18,6 +18,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { AccordionModule } from 'primeng/accordion';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CalendarModule } from 'primeng/calendar';
+import { MaterialModule } from 'src/app/material/material.module';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { CalendarModule } from 'primeng/calendar';
     MenuModule,
     TreeModule,
     AccordionModule,
+    MaterialModule,
     RadioButtonModule,
     InputTextareaModule,
     CalendarModule,

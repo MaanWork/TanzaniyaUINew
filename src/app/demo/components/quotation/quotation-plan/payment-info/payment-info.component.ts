@@ -120,6 +120,21 @@ export class PaymentInfoComponent {
     }
     this.getEditQuoteDetails();
   }
+  alphaNumberOnly (e) {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z0-9 ]+$");
+    var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+    if (regex.test(str)) {
+        return true;
+    }
+
+    e.preventDefault();
+    return false;
+  }
+  checkRefundMandatories(){
+    return (this.IsChargeOrRefund=='REFUND' && this.bankName!=undefined && this.bankName!=null && this.bankName!='' && 
+            this.accNo!=undefined && this.accNo!=null && this.accNo!='' &&
+            this.iBanNo!=undefined && this.iBanNo!=null && this.iBanNo!='' && !this.policySection)
+  }
   getEditQuoteDetails(){
     let ReqObj = {
       "QuoteNo":this.quoteNo
@@ -227,8 +242,7 @@ export class PaymentInfoComponent {
                   "QuoteNo": this.quoteNo,
                   "PolicyNo": this.endorsePolicyNo
                 }
-                this.policySection = true;
-                this.updateTiraDetails();
+                this.router.navigate(['/quotation/plan/main/policy-info']);
                 
           }
       },

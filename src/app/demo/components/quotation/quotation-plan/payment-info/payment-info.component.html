@@ -1,4 +1,4 @@
-<ng-container *ngIf="!draftSection">
+<ng-container *ngIf="(!policySection && !endorsementSection && !successSection && !loadingSection && !draftSection) || (endorsementSection && IsChargeOrRefund=='CHARGE' && !policySection && !loadingSection)">
     <div class="grid mb-2">
         <div class="lg:col-7 md:col-7 col-12">
             <h2>Just more one more step!</h2>
@@ -150,7 +150,60 @@
         <p-button label="Proceed"  (click)="onProceed()"  class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
     </div>
 </ng-container>
+<ng-container *ngIf="endorsementSection && IsChargeOrRefund=='REFUND' && !policySection">
+    <div class="grid">
+        <div class="lg:col-7 md:col-7 col-12">
+        <h2>Just more one more step!</h2>
+        <h4>Refund Premium Details</h4>
+        </div>
+        <div class="lg:col-5 md:col-5 col-12">
+            <div class="flex flex-wrap justify-content-start">
+                <div *ngIf="quoteNo"><b>QuoteNo- <span class="primaryTextColor">{{quoteNo}}</span></b>&nbsp;|&nbsp;</div>
+                <div *ngIf="requestReferenceNo">RefNo- <span class="primaryTextColor">{{requestReferenceNo}}</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="grid" >
+        <div class="lg:col-5 md:col-5 col-12">
+            <label for="username">Bank Name *</label><br>
+            <p-dropdown inputId="make" 
+                class="w-full" 
+                styleClass="w-full" 
+                [options]="bankList" 
+                [(ngModel)]="bankName"
+                optionLabel="CodeDesc" 
+                optionValue="Code" 
+                placeholder="Select Bank">
+            </p-dropdown>
+        </div>
+    </div>
+    <div class="grid" >
+        <div class="lg:col-5 md:col-5 col-12">
+            <label for="username">Account Number</label><br>
+            <input type="text"  [(ngModel)]="accNo" (keypress)="alphaNumberOnly($event)"  maxlength="100" pInputText class="md:w-full lg:w-25rem"/>
+        </div>
+    </div>
+    <div class="grid" >
+        <div class="lg:col-5 md:col-5 col-12">
+            <label for="username">IBAN Number</label><br>
+            <input type="text"  [(ngModel)]="iBanNo" maxlength="20" (keypress)="alphaNumberOnly($event)" pInputText class="md:w-full lg:w-25rem"/>
+        </div>
+    </div>
+    <div class="flex flex-wrap justify-content-end">
+        <div class="card grid text-white surface-900 px-4 py-2" (click)="showSidebar()">
+            <div class="col-12">
+                <p class="mb-0">Total Refund Premium</p>
+                <h6 class="text-white mt-0">{{totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
+            </div>
+        </div>
+    </div>
+    <div class="grid p-3 justify-content-center" style="max-width: 35rem;">
+        
+        <p-button label="Back" [routerLink]="['/quotation/plan/main/document-info']" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+        <p-button label="Submit" *ngIf="checkRefundMandatories()" (click)="onCashPayment()" class="text-l pi-button"></p-button>
+    </div>
 
+</ng-container>
 
 <p-dialog [(visible)]="displayPayment" position="center" styleClass="lg:w-30rem">
     <ng-template pTemplate="header">

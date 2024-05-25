@@ -70,7 +70,8 @@
     </div>
     <div class="flex flex-wrap justify-content-center mt-4">
         <div class="mb-4">
-            <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+            <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" *ngIf="!endorsementSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+            <p-button label="Back" [routerLink]="['/quotation/plan/premium-info']" *ngIf="endorsementSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
             <ng-container>
                 <p-button label="Proceed" (click)="onSaveAccessories()" class="text-l pi-button mr-0"></p-button>
             </ng-container>
@@ -230,6 +231,7 @@
         <p-tabPanel header="Personal Accident" [disabled]="!allfields" *ngIf="second">
             <div class="grid">
                 <div class="lg:col-6 md:col-6 col-12">
+                    
                     <form [formGroup]="form">
                         <formly-form [form]="form" [fields]="fieldsPersonalAccident" [model]="productItem"></formly-form>
                     </form>
@@ -243,7 +245,7 @@
                         <p-table [value]="PersonalAssistantList" [tableStyle]="{ 'min-width': '50rem' }">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th>Location Name</th>
+                                    <th>Location Name {{PersonalAssistantList.length}}</th>
                                     <th>Salary</th>
                                     <th>Person Name</th>
                                     <th>Occupation Desc</th>

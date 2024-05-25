@@ -2627,11 +2627,10 @@ emiyn="N";
       //}
     }
     onSetBackPage(){
-      if(this.productId=='5' || this.productId=='29'){
-        this.router.navigate(['/quotation/plan/premium-details']);
-      }
-      else if(this.productId=='4') this.router.navigate(['quotation/plan/premium-details']);
-      else this.router.navigate(['quotation/plan/premium-details']);
+      if((this.productId=='5' || this.productId=='29') && !this.endorsementSection) this.router.navigate(['/quotation/plan/premium-details']);
+       else if(this.productId=='4'  && !this.endorsementSection) this.router.navigate(['quotation/plan/premium-details']);
+      else if(this.endorsementSection) this.router.navigate(['/policyDetails']);
+      else this.router.navigate(['/quotation/plan/premium-details']);
     }
     updateFinalizeYN(type){
       let ReqObj = {

@@ -6,6 +6,7 @@ import { MenuItem } from 'primeng/api';
 import { SharedService } from 'src/app/demo/service/shared.service';
 import * as Mydatas from '../../../../../app-config.json';
 import Swal from 'sweetalert2';
+import { QuotationPlanComponent } from '../quotation-plan.component';
 
 @Component({
   selector: 'app-policy-info',
@@ -35,7 +36,7 @@ export class PolicyInfoComponent {
   EmiYn: any=null;emiPeriod: any=null;emiMonth: any=null;
   stickerNo: any=null;CoverNoteNo: any=null;
   displayPayment:boolean=false;
-  constructor(private router: Router,private datePipe:DatePipe,
+  constructor(private router: Router,private datePipe:DatePipe,private quoteComponent:QuotationPlanComponent,
     private sharedService: SharedService,public http: HttpClient) {
    let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
    this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -108,6 +109,9 @@ export class PolicyInfoComponent {
           let quoteDetails = data?.Result?.QuoteDetails;
             this.quoteDetails = data?.Result?.QuoteDetails;
             this.quoteRefNo = data?.Result?.QuoteDetails?.RequestReferenceNo;
+            this.Riskdetails = data.Result?.RiskDetails;
+            this.quoteComponent.currencyCode =  this.quoteDetails?.Currency;
+            this.quoteComponent.setRiskDetails(this.Riskdetails);
           if(this.loadingSection && this.quoteDetails?.policyNo!=null && this.quoteDetails?.policyNo!=''){
             this.paymentDetails = {
               "QuoteNo": this.quoteNo,
@@ -120,7 +124,8 @@ export class PolicyInfoComponent {
             this.policySection = true;
             this.successSection = false;
             this.loadingSection = false;
-            this.updateTiraDetails();
+            //this.updateTiraDetails();
+            this.getTiraDetails();
           }
           else{
             this.checkStatus();
@@ -176,7 +181,8 @@ export class PolicyInfoComponent {
             this.policySection = true;
             this.successSection = false;
             this.mobilePaymentPending = false;
-            this.updateTiraDetails();
+            this.getTiraDetails();
+            //this.updateTiraDetails();
           }
           else{
             if(!this.mobilePaymentPending) this.loadingSection = true;
@@ -213,16 +219,16 @@ export class PolicyInfoComponent {
     );
   }
   onGetSchedule(rowData){
-    // let ReqObj = {
-    //   "QuoteNo":rowData.QuoteNo,
-    //   "EndorsementType":"E"
-    // }
-    // let urlLink = `${this.CommonApiUrl}pdf/policyform`;
     let ReqObj = {
-      "QuoteNo": rowData.QuoteNo,
-      "ReportId": "6"
+      "QuoteNo":rowData.QuoteNo,
+      "EndorsementType":"E"
     }
-    let urlLink = `${this.CommonApiUrl}pdf/getSchedule`;
+    let urlLink = `${this.CommonApiUrl}pdf/policyform`;
+    // let ReqObj = {
+    //   "QuoteNo": rowData.QuoteNo,
+    //   "ReportId": "6"
+    // }
+    // let urlLink = `${this.CommonApiUrl}pdf/getSchedule`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         console.log(data);
@@ -320,6 +326,7 @@ export class PolicyInfoComponent {
     link.remove();
   }
   navigateTo(){
-    this.router.navigate(['/portfolio']);
+    if(this.endorsementSection) this.router.navigate(['/portfolio/endorsement']);
+    else this.router.navigate(['/portfolio']);
   }
 }

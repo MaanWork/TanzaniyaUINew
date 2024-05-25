@@ -446,7 +446,7 @@ export class DocumentInfoComponent {
             if(this.loginType=='B2CFlow' || (this.loginType=='B2CFlow2')){
               this.router.navigate(['/Home/customer/ClientDetails']);
             }
-            else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/make-payment']);
+            else  this.router.navigate(['/quotation/plan/main/payment']);
           }
         }
     }

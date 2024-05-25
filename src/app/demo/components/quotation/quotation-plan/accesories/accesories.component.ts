@@ -665,6 +665,8 @@ export class AccesoriesComponent {
           else{
             this.second = false;
             this.productItem.AccOccupation = this.accidentOccupation;
+            // let fieldList = this.fieldsPersonalAccident[0].fieldGroup[0].fieldGroup;
+            // console.log("Final Field List",fieldList)
           }
         }
         else this.second = false;
@@ -2847,7 +2849,6 @@ onFidelitySave(){
           for (let i = 0; i < this.dropList.length; i++) {
             this.dropList[i].label = this.dropList[i]['CodeDesc'];
             this.dropList[i].value = this.dropList[i]['Code'];
-            delete this.dropList[i].CodeDesc;
             if (i == this.dropList.length - 1) {
               console.log('HHHHHHHHHHHHHHHH',this.fieldsContent[0])
               this.fieldsContent[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.dropList);
@@ -3711,13 +3712,14 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         if(entry.SumInsured==undefined || entry.SumInsured==null) sumInsured = null;
         // else if(entry.SumInsured.includes(',')){ sumInsured = entry.SumInsured.replace(/,/g, '') }
         else sumInsured = entry.SumInsured;
+        
           let data = {
               "ItemId":entry.ItemId,
               "RiskId":entry.RiskId,
               "ContentRiskDesc":entry.ContentRiskDesc,
               "SerialNoDesc": entry.SerialNoDesc,
               "MakeAndModel":"TN123",
-              "SerialNo":"155685",
+              "SerialNo":null,
               "ItemValue":"26534556",
               "SumInsured":sumInsured
           }
@@ -4388,7 +4390,10 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       if(type=='PersonalAccident'){
         let entry = this.productItem.AccSI;
         if((this.currentPersonalAccidentIndex==null || this.PersonalAssistantList[this.currentPersonalAccidentIndex]==undefined) && !this.saveSection){
-          this.currentPersonalAccidentIndex=this.PersonalAssistantList.length;
+          alert('SI Change');
+          alert(this.currentPersonalAccidentIndex)
+          if(this.currentPersonalAccidentIndex==null) this.currentPersonalAccidentIndex = this.PersonalAssistantList.length-1;
+          alert(this.currentPersonalAccidentIndex)
           this.PersonalAssistantList[this.currentPersonalAccidentIndex] = {
             "Dob": this.productItem.AccDob,
             "Height": null,
@@ -4402,6 +4407,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             "SerialNo": null
           }
           this.PersonalAssistantList[this.currentPersonalAccidentIndex]['Salary'] = entry;
+          console.log('Changed PA',this.PersonalAssistantList[this.currentPersonalAccidentIndex]['Salary'])
           this.productItem.AccSI= entry;
           this.getTotalSICost('PersonalAccident');
         }
@@ -5561,7 +5567,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         let res: any = data;
         if(res.Result){
           this.productItem.AccOccupation = this.accidentOccupation;
-          if (res.Result.PersonalDetails) {
+          if (data?.Result?.PersonalDetails!=null) {
             let i = 0;this.PersonalAssistantList = [];
             let personalList = res.Result.PersonalDetails;
             if(personalList.length!=0){
@@ -5571,7 +5577,9 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
               else this.personalAccidentSection = true;
               let i=0;
               for(let entry of personalList){
+                this.currentPersonalAccidentIndex=i;
                 if(entry.Dob!=null){
+                  entry['Saved'] = true;
                   entry['OccupationId'] = this.accidentOccupationId;
                   entry['OccupationDesc'] = this.accidentOccupation;
                   entry.Dob =  this.onDateFormatInEdit(entry.Dob);
@@ -6345,6 +6353,8 @@ return true;
       "SerialNo": null
     }
     this.currentPersonalAccidentIndex = this.PersonalAssistantList.length;
+    alert('Add')
+    alert(this.currentPersonalAccidentIndex)
     this.PersonalAssistantList.push(entry);
     //this.editContentSection = false;
     this.editPersonalAccidentSection = false;
@@ -6944,12 +6954,13 @@ return true;
 
   onSaveContent(){
     if(this.currentContentIndex!=null){
-      console.log('KKKKKKKKK',this.LocationList)
-   
       if(this.productItem.ContentSI!='' && this.productItem.ContentSI!='0.0'  && this.productItem.ContentSI!='0' && this.productItem.ContentSI!=null && this.productItem.ContentType!=null && this.productItem.ContentType!='' ){
     this.Cotentrisk[this.currentContentIndex]['SumInsured'] = this.productItem.ContentSI;
     this.Cotentrisk[this.currentContentIndex]['RiskId'] = this.productItem.ContentLocation;
     this.Cotentrisk[this.currentContentIndex]['SerialNoDesc'] = this.productItem.ContentSerialNo;
+    alert(this.productItem.ContentType)
+    if(this.productItem.ContentDesc==null || this.productItem.ContentDesc=='' || this.productItem.ContentDesc==undefined){alert(this.dropList.find(ele=>String(ele.Code)==String(this.productItem.ContentType))?.CodeDesc);this.productItem.ContentDesc=this.dropList.find(ele=>String(ele.Code)==String(this.productItem.ContentType))?.CodeDesc;}
+    alert(this.productItem.ContentDesc)
     this.Cotentrisk[this.currentContentIndex]['ContentRiskDesc'] =this.productItem.ContentDesc;
     this.Cotentrisk[this.currentContentIndex]['ItemId'] = this.productItem.ContentType;
     this.currentContentIndex=null;
@@ -6970,34 +6981,31 @@ return true;
       "SumInsured":this.productItem.ContentSI,
       }
       this.Cotentrisk.push(entry);
-    this.productItem.ContentSI=null; 
-    this.productItem.ContentLocation=null;
-    this.productItem.ContentSerialNo=null;
-    this.productItem.ContentDesc=null;
-    this.productItem.ContentType=null;
-    this.productItem = new ProductData();
+      this.productItem.ContentSI=null; 
+      this.productItem.ContentLocation=null;
+      this.productItem.ContentSerialNo=null;
+      this.productItem.ContentDesc=null;
+      this.productItem.ContentType=null;
+      this.productItem = new ProductData();
     }
   }
   }
  
   onSaveAllRiskDEtails(){
-    console.log("Final Additional Info",this.form,this.productItem)
     if(this.currentRiskIndex!=null){
-      if(this.productItem.RiskContentType!=null && this.productItem.RiskLocation!=null && this.productItem.RiskSI!=null){
-      console.log('HHHHHHHHHHHH',this.currentRiskIndex);
+      if(this.productItem.RiskContentType!=null && this.productItem.RiskLocation!=null && this.productItem.RiskSI!=null && this.productItem.RiskSerialNo!=null){
       this.risk[this.currentRiskIndex]['SumInsured'] = this.productItem.RiskSI;
       this.risk[this.currentRiskIndex]['ContentRiskDesc'] = this.productItem.RiskDescription;
       this.risk[this.currentRiskIndex]['SerialNoDesc'] = this.productItem.RiskSerialNo,
       this.risk[this.currentRiskIndex]['RiskId'] = this.productItem.RiskLocation;//this.serialNoDesc
       this.risk[this.currentRiskIndex]['ItemId'] =this.productItem.RiskContentType; 
-      console.log('RISKKKKKKK',this.risk);
       this.currentRiskIndex=null;
       this.productItem = new ProductData(); 
       }
       // this.AllAdd();     // this.AddNew();
     }
     else{
-      if(this.productItem.RiskContentType!=null && this.productItem.RiskLocation!=null && this.productItem.RiskSI!=null){
+      if(this.productItem.RiskContentType!=null && this.productItem.RiskLocation!=null && this.productItem.RiskSI!=null && this.productItem.RiskSerialNo!=null){
       let entry = {
       "ItemId":this.productItem.RiskContentType,
       "RiskId":this.productItem.RiskLocation,
@@ -7109,10 +7117,12 @@ return true;
         this.PersonalAssistantList[this.currentPersonalAccidentIndex]['PersonName'] =this.productItem.AccName; //this.contentRiskDesc;
         this.PersonalAssistantList[this.currentPersonalAccidentIndex]['Dob'] = this.productItem.AccDob;
         this.PersonalAssistantList[this.currentPersonalAccidentIndex]['NationalityId'] = this.productItem.AccNationID;
-        this.currentPersonalAccidentIndex=this.PersonalAssistantList.length;
         this.productItem = new ProductData(); 
         this.productItem.AccOccupation = this.accidentOccupation;
         this.saveSection = false;
+        this.PersonalAssistantList = this.PersonalAssistantList.filter(ele=>ele.Salary!=null && ele.Salary!='' && ele.Dob!='' && ele.Dob!=null && ele.PersonName!=null && ele.PersonName!='' && ele.NationalityId!='');
+        
+        this.PersonalAssistantList = this.PersonalAssistantList.filter(ele=>ele.Salary!=null && ele.Salary!='' && ele.Dob!='' && ele.Dob!=null && ele.PersonName!=null && ele.PersonName!='' && ele.NationalityId!='');
       }
     }
     else{
@@ -7129,11 +7139,14 @@ return true;
         "RiskId":this.productItem.AccidentLocation,
         "SerialNo": null
       }
+      alert('Null Index Push')
       this.PersonalAssistantList.push(entry);
       this.productItem = new ProductData();
       this.productItem.AccOccupation = this.accidentOccupation;
+      this.PersonalAssistantList = this.PersonalAssistantList.filter(ele=>ele.Salary!=null && ele.Dob!=null && ele.PersonName!=null);
     }
     }
+    this.currentPersonalAccidentIndex = null;
   }
   // onCancel(){
   //   this.productItem = new ProductData();
