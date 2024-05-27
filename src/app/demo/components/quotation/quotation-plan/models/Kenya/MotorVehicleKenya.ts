@@ -233,7 +233,6 @@ export class MotorVehicleKenya{
                     expressions: {
                     },
                   },
-                  
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     key: 'PreviousInsuranceYN',
@@ -249,7 +248,7 @@ export class MotorVehicleKenya{
                   },
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
-                    type: 'input',
+                    type: 'number',
                     key: 'PreviousLossRatio',
                     hide: false,
                     hideExpression:false,

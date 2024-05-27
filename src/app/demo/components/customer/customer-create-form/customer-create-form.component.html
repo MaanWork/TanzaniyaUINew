@@ -196,7 +196,7 @@
                 </div>
                 <div class="flex flex-column m-3">
                     <!-- <label for="username">{{'HOME.TaxExcempted' | translate}}*</label> -->
-                    <label for="username">Tax Excempted *</label>
+                    <label for="username">Tax Exempted *</label>
                     <div class="flex justify-content-start gap-3">
                         <div class="flex align-items-center">
                             <p-radioButton name="Yes" value="Y" [(ngModel)]="productItem.isTaxExempted" inputId="ingredient1"></p-radioButton>
@@ -210,8 +210,8 @@
                 </div>
                 <div class="flex flex-column m-3" *ngIf="productItem.isTaxExempted=='Y'">
                     <!-- <label for="username">{{'HOME.TaxExcemptedNo' | translate}}*</label> -->
-                    <label for="username">Tax Excempted No *</label>
-                    <input pInputText id="username" [(ngModel)]="productItem.TaxExemptedId" placeholder="Enter Tax Excempted No"/>
+                    <label for="username">Tax Exempted No *</label>
+                    <input pInputText id="username" [(ngModel)]="productItem.TaxExemptedId" placeholder="Enter Tax Exempted No"/>
                 </div>
                 <div class="flex flex-column m-3">
                     <!-- <label for="username">{{'HOME.Status' | translate}}*</label> -->
@@ -372,7 +372,7 @@
                         <input pInputText id="username" [(ngModel)]="productItem.vrngst" maxlength="20" placeholder="Enter VRN/ GST Number"/>
                     </div>
                     <div class="flex flex-column m-3">
-                        <label for="username">Tax Excempted*</label>
+                        <label for="username">Tax Exempted*</label>
                         <div class="flex justify-content-start gap-3">
                             <div class="flex align-items-center">
                                 <p-radioButton name="Yes" value="Y" [(ngModel)]="productItem.isTaxExempted" inputId="ingredient1"></p-radioButton>
@@ -385,8 +385,8 @@
                         </div>
                     </div>
                     <div class="flex flex-column m-3" *ngIf="productItem.isTaxExempted=='Y'">
-                        <label for="username">Tax Excempted No*</label>
-                        <input pInputText id="username" [(ngModel)]="productItem.TaxExemptedId" placeholder="Enter Tax Excempted No"/>
+                        <label for="username">Tax Exempted No*</label>
+                        <input pInputText id="username" [(ngModel)]="productItem.TaxExemptedId" placeholder="Enter Tax Exempted No"/>
                     </div>
                 </div>
             </div>

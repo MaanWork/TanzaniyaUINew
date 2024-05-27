@@ -254,7 +254,7 @@
                             </ng-template>
                             <ng-template pTemplate="body" let-Accident let-i="rowIndex">
                                 <ng-container>
-                                    <tr>
+                                    <tr *ngIf="currentIndex!=i && !saveSection">
                                         <td>{{getLocationName(Accident.RiskId)}}</td>
                                         <td>{{Accident.Salary|commaseparator}}</td>
                                         <td>{{Accident.PersonName}}</td>
