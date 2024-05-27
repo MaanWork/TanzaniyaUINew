@@ -7111,13 +7111,13 @@ return true;
         this.PersonalAssistantList[this.currentPersonalAccidentIndex]['PersonName'] =this.productItem.AccName; //this.contentRiskDesc;
         this.PersonalAssistantList[this.currentPersonalAccidentIndex]['Dob'] = this.productItem.AccDob;
         this.PersonalAssistantList[this.currentPersonalAccidentIndex]['NationalityId'] = this.productItem.AccNationID;
-        // this.productItem = new ProductData(); 
-        // this.productItem.AccOccupation = this.accidentOccupation;
-        // this.saveSection = false;
+        this.productItem = new ProductData(); 
+        this.productItem.AccOccupation = this.accidentOccupation;
+        this.saveSection = false;
         this.productItem.AccSI = '0'; this.productItem.AccidentLocation='';this.productItem.AccName=null;this.productItem.AccDob=null;this.productItem.AccNationID=null;
         this.PersonalAssistantList = this.PersonalAssistantList.filter(ele=>ele.Salary!=null && ele.Salary!='' && ele.Dob!='' && ele.Dob!=null && ele.PersonName!=null && ele.PersonName!='' && ele.NationalityId!='');
         
-        this.PersonalAssistantList = this.PersonalAssistantList.filter(ele=>ele.Salary!=null && ele.Salary!='' && ele.Dob!='' && ele.Dob!=null && ele.PersonName!=null && ele.PersonName!='' && ele.NationalityId!='');
+        //this.PersonalAssistantList = this.PersonalAssistantList.filter(ele=>ele.Salary!=null && ele.Salary!='' && ele.Dob!='' && ele.Dob!=null && ele.PersonName!=null && ele.PersonName!='' && ele.NationalityId!='');
         
       }
     }

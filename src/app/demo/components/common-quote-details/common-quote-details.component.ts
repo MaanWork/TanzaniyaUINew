@@ -2746,6 +2746,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           if(this.motorDetails?.SavedFrom=='SQ') this.motorDetails.SavedFrom = 'WEB';
           if(this.productItem.PreviousInsuranceYN==null || this.productItem.PreviousInsuranceYN=='') this.productItem.PreviousInsuranceYN='N';
+          if(this.productItem.PreviousLossRatio!=null && this.productItem.PreviousLossRatio!=''){
+            this.productItem.PreviousLossRatio = Number(String(this.productItem.PreviousLossRatio).replace(/\D/g,''));
+          }
+          else this.productItem.PreviousLossRatio=null;
           let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,

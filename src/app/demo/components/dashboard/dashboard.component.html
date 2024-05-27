@@ -70,12 +70,20 @@
                 </div>
             </ng-container>
         </ng-container>
-        
-
         <div class="col-12 xl:col-6">
             <div class="card">
-                <h5>Recent Policies/Quotes</h5>
-                <p-table [value]="products" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+                <div class="flex flex-warp justify-content-between">
+                     <div><h5>Recent Policies/Quotes</h5></div>
+                     <div>
+                        <p-dropdown inputId="rangeSearch" class="w-full" styleClass="w-full" [options]="rangeList"
+                            [(ngModel)]="rangeValue" optionLabel="CodeDesc" optionValue="Code"
+                            (onChange)="getQuoteOverview()" placeholder="---Select---">
+                        </p-dropdown>
+                     </div>
+                </div>
+                
+                <p-chart height="250" type="line" [responsive]="true" [data]="chart2Data" [options]="chartOptions"></p-chart>
+                <!-- <p-table [value]="products" [paginator]="true" [rows]="5" responsiveLayout="scroll">
                     <ng-template pTemplate="header">
                         <tr>
                             <th>Image</th>
@@ -96,7 +104,7 @@
                             </td>
                         </tr>
                     </ng-template>
-                </p-table>
+                </p-table> -->
             </div>
             <div class="card">
                 <div class="flex justify-content-between align-items-center mb-5">
@@ -185,8 +193,17 @@
 
         <div class="col-12 xl:col-6">
             <div class="card">
-                <h5>Quotes Overview</h5>
-                <p-chart type="bar" [data]="chartData" [options]="chartOptions"></p-chart>
+                <div class="flex flex-warp justify-content-between">
+                    <div><h5>Quotes OverView</h5></div>
+                    <div>
+                       <p-dropdown inputId="rangeSearch" class="w-full" styleClass="w-full" [options]="rangeList"
+                           [(ngModel)]="rangeValue" optionLabel="CodeDesc" optionValue="Code"
+                           (onChange)="getQuoteOverview()" placeholder="---Select---">
+                       </p-dropdown>
+                    </div>
+               </div>
+                <p-chart height="250" type="line" [responsive]="true" [data]="chartData" [options]="chartOptions"></p-chart>
+                <!-- <p-chart type="bar" [data]="chartData" [options]="chartOptions"></p-chart> -->
             </div>
 
             <div class="card">
