@@ -6,7 +6,17 @@ import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormlyModule } from '@ngx-formly/core';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { CardModule } from 'primeng/card';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ChipModule } from 'primeng/chip';
+import { DialogModule } from 'primeng/dialog';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { TableModule } from 'primeng/table';
+import { TreeSelectModule } from 'primeng/treeselect';
 
 
 
@@ -19,7 +29,19 @@ import { FormsModule } from '@angular/forms';
     ButtonModule,
     DividerModule,
     InputTextModule,
-    DropdownModule
+    DropdownModule,
+    TableModule,
+    FormsModule,
+    DialogModule,
+    CheckboxModule,
+    ChipModule,
+    AutoCompleteModule,
+    RadioButtonModule,
+    CardModule,
+    TreeSelectModule,
+    SelectButtonModule,
+    ReactiveFormsModule,
+    FormlyModule,
   ]
 })
 export class TiraSearchModule { }

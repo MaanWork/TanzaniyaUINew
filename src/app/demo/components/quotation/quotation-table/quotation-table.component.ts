@@ -897,7 +897,23 @@ onInnerDataLapsed(rowData){
   customerSearch(event) {
     this.customerFilterSuggestions = [{'name':'Customer 1'}, {'name':'Customer 2'}];
   }
+  onSms(rowData,modal){
+    // this.open(modal);
+    // this.smss=false;
+    // console.log('SSSSSSS',rowData)
+    // this.smsRequestno=rowData.RequestReferenceNo;
 
+    // this.smsList();
+    // this.SmsDrop();
+    this.router.navigate(['/Home/Sms']);
+   let quoteObj = {
+    "RequestReferenceNo": rowData.RequestReferenceNo,
+    "open":"false"
+    //"QuoteNo":rowData.QuoteNo
+  }
+  sessionStorage.setItem('Details',JSON.stringify(quoteObj));
+
+  }
   lapsedAction(rowData){
     let ReqObj = {
       
@@ -916,4 +932,30 @@ onInnerDataLapsed(rowData){
         
   })
 }
+onFollowup(rowData){
+  alert(rowData.RequestReferenceNo);
+  console.log('QQQQQQQQQQQQQQQQ',rowData);
+  let quoteObj = {
+   "RequestReferenceNo": rowData.RequestReferenceNo,
+   "QuoteNo":rowData.QuoteNo,
+   "CustomerName":rowData.ClientName,
+   "ProductId":this.productId,
+   "StartDate":rowData.PolicyStartDate,
+   "EndDate":rowData.PolicyEndDate
+   //"QuoteNo":rowData.QuoteNo
+ }
+ sessionStorage.setItem('FollowUpDetails',JSON.stringify(quoteObj));
+ this.router.navigate(['/Home/Followup']);
+}
+
+onMail(rowData,modal){
+ 
+   this.router.navigate(['/Home/Mail']);
+   let quoteObj = {
+    "RequestReferenceNo": rowData.RequestReferenceNo,
+    "open":"false"
+    //"QuoteNo":rowData.QuoteNo
+  }
+  sessionStorage.setItem('Details',JSON.stringify(quoteObj));
+  }
 }

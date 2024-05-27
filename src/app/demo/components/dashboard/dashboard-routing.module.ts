@@ -19,6 +19,7 @@ import { EndorsementComponent } from '../portfolio/endorsement/endorsement.compo
 import { EndorsementTypeComponent } from '../portfolio/endorsement-type/endorsement-type.component';
 import { MotorDocumentsDetailComponent } from '../MotorDocuments/motor-documents-detail/motor-documents-detail.component';
 import { ApproverPortfolioComponent } from '../approverportfolio/approverportfolio.component';
+import { FollowupComponent } from '../FollowUp/followup.component';
 
 
 @NgModule({
@@ -52,6 +53,15 @@ import { ApproverPortfolioComponent } from '../approverportfolio/approverportfol
             path: 'ApproverPortfolio/NewDetails',
             loadChildren: () => import('../newpage/newpage.module').then(m => m.NewPageModule),
           },
+          {
+            path:'Home/Followup',loadChildren: () => import('../../../demo/components/FollowUp/followup.module').then(m => m.FollowupModule),
+          },
+          {
+            path:'Home/Mail',loadChildren: () => import('../../components/Mail/mail.module').then(m => m.MailModule),
+          },
+          {
+            path:'Home/Sms',loadChildren: () => import('../../components/Sms/Sms.module').then(m => m.SmsModule),
+          }
     ])],
     exports: [RouterModule]
 })

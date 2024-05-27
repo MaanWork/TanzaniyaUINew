@@ -26,6 +26,11 @@ export class TiraSearchComponent implements OnInit {
   brokerLoginId: any=null;regNo:any=null;brokerList:any[]=[];
   regNoError: boolean;sourceTypeList:any[]=[];brokerBranchList: any[]=[];customerList: any[]=[];
   showCustomerList: boolean=false;
+  customerColumn: string[];
+  columns: string[];
+  rejectedColumns: string[];
+  cols: { field: string; header: string; }[];
+  quotations: { referenceNo: string; }[];
   constructor(private router: Router,private sharedService: SharedService){
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -44,7 +49,23 @@ export class TiraSearchComponent implements OnInit {
     this.items = [{ label: 'Home', routerLink:'/' }, {label:'Tira Search'}];
     if(this.userType!='Broker' && this.userType!='User'){ this.branchValue = this.branchCode;this.issuerSection = true;this.getSourceList()}
     else this.issuerSection = false
+
+    this.customerColumn = [ 'Select','Reference No','Customer Name',  'Customer Type','ID Number'];
+    if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
+      this.columns = [ 'Vehicle Details','Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium','CurrencyCode', 'Active'];
+      this.rejectedColumns = [ 'Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium','CurrencyCode','Reason'];
+    }
+    else{ this.columns = ['Quote No','Reference No','Customer Name','Start Date','End Date','Premium','CurrencyCode','Actions'] 
+    this.rejectedColumns = [ 'Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium','CurrencyCode','Reason'];
+    }
+    this.cols = [ 
+      { field: "QuoteNo", header: "Quote No" }, 
+      { field: "RequestReferenceNo", header: "Reference No" }, 
+      { field: "ClientName", header: "Customer Name" }, 
+    ]; 
+    this.quotations = [{referenceNo:'123'}, {referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'}];
   }
+  
   getSourceList(){
     let ReqObj = {
       "InsuranceId":this.insuranceId,
@@ -228,13 +249,13 @@ export class TiraSearchComponent implements OnInit {
       let i=0;
           if(this.branchValue=='' || this.branchValue==null || this.branchValue==undefined){this.branchValueError=true;i+=1;}
           if(this.Code=='' || this.Code==null || this.Code==undefined){this.sourceCodeError=true;i+=1;}
-          if(this.sourceCodeDesc=='Premia Agent' || this.sourceCodeDesc=='Premia Broker' || this.sourceCodeDesc=='Premia Direct'){
-            if(this.customerCode=='' || this.customerCode==null || this.customerCode==undefined){alert('Error');this.customerCodeError=true;i+=1;}
-          }
-          else if(this.sourceCodeDesc=='agent' || this.sourceCodeDesc=='broker' || this.sourceCodeDesc=='direct' || this.sourceCodeDesc=='bank' || this.sourceCodeDesc=='Broker' || this.sourceCodeDesc=='whatsapp'){
-            if(this.brokerCode=='' || this.brokerCode==null || this.brokerCode==undefined){this.brokerCodeError=true;i+=1;}
-            if(this.brokerBranchCode=='' || this.brokerBranchCode==null || this.brokerBranchCode==undefined){this.brokerBranchCodeError=true;i+=1;}
-          }
+          // if(this.sourceCodeDesc=='Premia Agent' || this.sourceCodeDesc=='Premia Broker' || this.sourceCodeDesc=='Premia Direct'){
+             if(this.customerCode=='' || this.customerCode==null || this.customerCode==undefined){alert('Error');this.customerCodeError=true;i+=1;}
+          // }
+          // else if(this.sourceCodeDesc=='agent' || this.sourceCodeDesc=='broker' || this.sourceCodeDesc=='direct' || this.sourceCodeDesc=='bank' || this.sourceCodeDesc=='Broker' || this.sourceCodeDesc=='whatsapp'){
+           // if(this.brokerCode=='' || this.brokerCode==null || this.brokerCode==undefined){this.brokerCodeError=true;i+=1;}
+            //if(this.brokerBranchCode=='' || this.brokerBranchCode==null || this.brokerBranchCode==undefined){this.brokerBranchCodeError=true;i+=1;}
+          //}
           if(i==0){ this.getExistingQuoteList(this.regNo,null,'change')}
     }
     else{ this.brokerBranchCode= this.brokerbranchCode;
@@ -371,5 +392,66 @@ export class TiraSearchComponent implements OnInit {
         },
         (err) => { },
       );
+  }
+  onEditQuotes(rowData){
+    sessionStorage.removeItem('vehicleDetailsList');
+    sessionStorage.removeItem('QuoteStatus');
+    sessionStorage.removeItem('QuoteStatus');
+    sessionStorage.removeItem('endorsePolicyNo');
+    sessionStorage.removeItem('homeCommonDetails');
+    sessionStorage.setItem('Pagefrom',"Existing");
+    sessionStorage.setItem('Tira',"Tira");
+    if(this.productId){
+      
+      // if(rowData.QuoteNo!='' && rowData.QuoteNo!=undefined && rowData.QuoteNo!=null){
+      //   this.checkStatus(rowData);
+      // }
+      // else{
+        sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
+        if(rowData.QuoteNo!=null && rowData.QuoteNo!='' && rowData.QuoteNo!=undefined) sessionStorage.setItem('quoteNo',rowData.QuoteNo);
+        sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
+        sessionStorage.setItem('TravelQuoteRefNo',rowData.RequestReferenceNo);
+        sessionStorage.removeItem('quoteNo');
+        if(this.productId=='5'){
+          if(rowData.SavedFrom){
+            if(rowData.SavedFrom=='SQ'){
+              this.router.navigate(['/quotation/plan/shortQuote']);
+            }
+            else this.router.navigate(['/policyDetails']);
+          }
+          else this.router.navigate(['/policyDetails']);
+        }
+        else{
+          this.router.navigate(['/quotation/plan/quote-details']);
+        }
+        
+     // }
+      // if((rowData.QuoteNo!=null && rowData.QuoteNo!='' && rowData.QuoteNo!=undefined) && date2>=date1){
+      
+      //     sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
+      //     sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
+      //     sessionStorage.setItem('quoteNo',rowData.QuoteNo);
+      //     sessionStorage.setItem('updatebar',rowData.QuoteNo);
+      //     this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
+        
+
+      // }
+      // else{
+      //   sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
+      //   if(rowData.QuoteNo!=null && rowData.QuoteNo!='' && rowData.QuoteNo!=undefined) sessionStorage.setItem('quoteNo',rowData.QuoteNo);
+      //   sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
+      //   sessionStorage.setItem('TravelQuoteRefNo',rowData.RequestReferenceNo);
+      //   sessionStorage.removeItem('quoteNo');
+      //   this.router.navigate(['/policyDetails']);
+      // }
+    }
+    // if(this.productId=='4'){
+    //   sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
+    //   sessionStorage.setItem('TravelQuoteRefNo',rowData.RequestReferenceNo);
+    //   sessionStorage.setItem('quoteNo',rowData.QuoteNo);
+    //   this.router.navigate(['/Travel/customerDetails']);
+    // }
+
+
   }
 }

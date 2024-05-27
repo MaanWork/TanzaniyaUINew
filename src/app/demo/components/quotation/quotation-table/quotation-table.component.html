@@ -76,9 +76,9 @@
                 <span class="p-buttonset">
                   <button pButton pRipple icon="pi pi-pencil" (click)="onEditQuotes(customer)" title="Edit" class="p-button-outlined"></button>
                   <button pButton pRipple icon="pi pi-times" (click)="onRejects(customer)" title="Reject" class="p-button-outlined"></button>
-                  <button pButton pRipple icon="pi pi-envelope" title="Mail" class="p-button-outlined"></button>
-                  <button pButton pRipple icon="pi pi-inbox" title="SMS" class="p-button-outlined"></button>
-                  <button pButton pRipple icon="pi pi-user" title="Followup" class="p-button-outlined"></button>
+                  <button pButton pRipple icon="pi pi-envelope" title="Mail" (click)="onMail(customer)" class="p-button-outlined"></button>
+                  <button pButton pRipple icon="pi pi-inbox" title="SMS" (click)="onSms(customer)"  class="p-button-outlined"></button>
+                  <button pButton pRipple icon="pi pi-user" title="Followup" (click)="onFollowup(customer)" class="p-button-outlined"></button>
                 </span>
               </td>
             </tr>
@@ -169,7 +169,7 @@
                       <button pButton pRipple icon="pi pi-times" (click)="onRejects(quote)" title="Reject" class="p-button-outlined"></button>
                       <button pButton pRipple icon="pi pi-envelope" title="Mail" class="p-button-outlined"></button>
                       <button pButton pRipple icon="pi pi-inbox" title="SMS" class="p-button-outlined"></button>
-                      <button pButton pRipple icon="pi pi-user" title="Followup" class="p-button-outlined"></button>
+                      <button pButton pRipple icon="pi pi-user" title="Followup" (click)="onFollowup(quote)" class="p-button-outlined"></button>
                     </span>
                   </td>
                 </tr>

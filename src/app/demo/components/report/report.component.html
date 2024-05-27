@@ -10,8 +10,8 @@
             <i class="pi pi-search"></i>
             <input type="text" placeholder="Search" pInputText/>
           </span>
-          <p-button icon="pi pi-cloud-download" label="Export" styleClass="p-button-outlined" class="mr-3" size="small"></p-button>
-          <p-button icon="pi pi-plus" label="Add New Quote" severity="warning" size="small"></p-button>
+          <!-- <p-button icon="pi pi-cloud-download" label="Export" styleClass="p-button-outlined" class="mr-3" size="small"></p-button> -->
+          <p-button icon="pi pi-plus" label="Add New Quote" severity="warning" size="small" (click)="newQuote()"></p-button>
         </div>
       </div>
     </div>
@@ -60,7 +60,7 @@
       </div>
       <div class="col-12 mx-auto flex flex-wrap justify-content-center">
         <p-button class="mr-4 mb-4" label="Search" (click)="getsearch()"></p-button>
-        <p-button label="Download All" styleClass="p-button-outlined" (click)="onCommonDocumentDownload()"></p-button>
+        <p-button icon="pi pi-cloud-download" label="Download All" styleClass="p-button-outlined" (click)="onCommonDocumentDownload()"></p-button>
       </div>
       <div class="grid">
         <ng-container *ngIf="customerData.length!=0">
@@ -104,6 +104,9 @@
                 </td> -->
               </tr>
             </ng-template>
+            <ng-container *ngIf="customerData.length==0">
+
+            </ng-container>
           </p-table>
           </ng-container>
       </div>

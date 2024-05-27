@@ -42,6 +42,7 @@ import { MaterialModule } from 'src/app/material/material.module';
     RadioButtonModule,
     InputTextareaModule,
     CalendarModule,
+    SelectButtonModule
   ]
 })
 export class PortfolioModule { }

@@ -36,6 +36,7 @@ export class ReportComponent implements OnInit {
   Currency:any;brokerList:any[]=[];
   brokerCode: any;btype:any;buisnessList:any[]=[];
   columns:any[]=[];
+  custumData: any[];
   // @Output('Currency') Currency:any='TZS';
 
   constructor(private router:Router,private sharedService: SharedService,private datePipe:DatePipe) {
@@ -131,7 +132,9 @@ export class ReportComponent implements OnInit {
     (err) => { },
   );
 } 
-
+newQuote(){
+  this.router.navigate(['/policyDetails']);
+}
 onCommonDocumentDownload(){
   let startdate=this.datePipe.transform(this.startdate, "dd/MM/yyyy");
   let enddate=this.datePipe.transform(this.enddate, "dd/MM/yyyy");
@@ -201,8 +204,11 @@ getQuotes(){
 this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
   (data: any) => {
     if(data.Result){
-      this.customerData=data.Result;
-      this.Currency=this.customerData[0].Currency
+      this.customerData=data.Result.ReportList;
+      //this.custumData =this.customerData
+      console.log("this.customerData",this.customerData);
+      //this.Currency=this.customerData[0].Currency
+     
     }
   },
   (err) => { },
