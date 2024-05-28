@@ -112,7 +112,7 @@
         </p-tabView> 
     </p-accordionTab>
     <p-accordionTab header="Quote Info">
-        <p-tabView>
+        <p-tabView *ngIf="productId != '4'">
             <p-tabPanel header="Customer Details">
                <div class="grid">
                     <div class="col-12 sm:col-3 md:col-3 ">
@@ -517,7 +517,7 @@
             </p-tabView> 
         </ng-container>
             <ng-container *ngIf="tiradetails.length==0">
-                No Data Found
+                No Data Found 
           </ng-container>
     </p-accordionTab>
     

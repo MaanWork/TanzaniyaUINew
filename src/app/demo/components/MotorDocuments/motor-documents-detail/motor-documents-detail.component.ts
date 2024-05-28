@@ -89,7 +89,7 @@ export class MotorDocumentsDetailComponent {
         this.onPremium();
         this.VechileTira();
         this.payment();
-        
+        this.getDriverDetails();
         this.Documentview();
         //  this.getallriskDetails();
        this.getTiraDetails();

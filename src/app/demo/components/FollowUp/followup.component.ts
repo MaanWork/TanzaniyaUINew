@@ -95,6 +95,7 @@ export class FollowupComponent implements OnInit,OnChanges{
   Addnew: boolean=false;
   newfollowup: any;
   visible: boolean = false;
+  hour: void;
 
   
 
@@ -252,24 +253,11 @@ export class FollowupComponent implements OnInit,OnChanges{
           if(data.Result){
   
               this.MailHeader=[
-                { key: 'FollowupDesc', display: 'FollowupDesc' },
-                { key: 'StartDate', display: 'Start Date' },
-                { key: 'Status', display: 'Status' },
-                { key: 'Remarks', display: 'Remarks' },
-                {
-                  key: 'View',
-                  display: 'View',
-                  config: {
-                    isViews:true,
-                  },
-                },
-                {
-                  key: 'actions',
-                  display: 'update',
-                  config: {
-                    isEdit: true,
-                  },
-                },
+               'FollowupDesc',
+               'Start Date',
+                'Status',
+                'Remarks',
+               'View','update',
           
               ]
 
@@ -378,10 +366,15 @@ getMailTemplate(rowdata,modal){
 
 
 send(){
-
+alert(this.StartTime)
    
   let follow
-
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+    hour12: false,
+    minute: 'numeric'
+  });
+  console.log('Intl.DateTimeFormat string: ', formatter.format(this.StartTime));
   console.log('yyyyyyy',this.FollowupId)
    if(this.FollowupId !="" && this.FollowupId!=null){
       follow =this.FollowupId;
@@ -392,14 +385,14 @@ send(){
   let ReqObj= {
 "InsuranceId": this.insuranceId,
 "EndDate": this.EndDate,
-"EndTime":  this.EndTime,
+"EndTime": formatter.format(this.EndTime) ,
 "FollowupDesc": this.FollowupDesc,
 "LoginId": this.loginId,
 "ProductId":this.productId,
 "Remarks":this.Remarks,
 "RequestReferenceNo": this.mailRequestno,
 "StartDate": this.EntryDate,
-"StartTime":  this.StartTime,
+"StartTime": formatter.format(this.StartTime),
 "Status":this.followupId,
 "FollowupId":follow
   }
@@ -448,7 +441,7 @@ send(){
           this.Addnew=true;
           this.onFollowup();
          
-        //  modal.dismiss('Cross click');
+         this.visible=false;
           $('#follow_Up').modal('hide');
           
          
