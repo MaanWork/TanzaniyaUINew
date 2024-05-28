@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     insuranceId:any=null;branchCode:any=null;productId:any=null;loginId:any=null;PackageYn:any=null;
     countList:any[]=[];rangeEndtValue:any=1;endorsementList:any[]=[];
     userType:any=null;subuserType:any=null;countryId:any=null;brokerbranchCode:any=null;
+    notificationList: any;rangeNotifyValue:any=1;columns:any[]=[];
     constructor(private productService: ProductService,private datePipe: DatePipe,
         private sharedService:SharedService, public layoutService: LayoutService) {
             this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -55,7 +56,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
         //this.initChart();
         this.productService.getProductsSmall().then(data => this.products = data);
-
+        this.columns = ['Email','PhoneNo','Date','Content'];
         this.items = [
             { label: 'Add New', icon: 'pi pi-fw pi-plus' },
             { label: 'Remove', icon: 'pi pi-fw pi-minus' }
@@ -257,7 +258,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         var year = d.getFullYear();
         var month = d.getMonth();
         var day = d.getDate();
-        startDate = this.datePipe.transform(new Date(year, month-this.rangeEndtValue, day),'dd/MM/yyyy');
+        startDate = this.datePipe.transform(new Date(year, month-this.rangeNotifyValue, day),'dd/MM/yyyy');
         endDate = this.datePipe.transform(new Date(),'dd/MM/yyyy');
         let ReqObj = {
             "InsuranceId": this.insuranceId,
@@ -269,11 +270,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
             "StartDate": startDate,
             "EndDate": endDate
         }
-        let urlLink = `${this.CommonApiUrl}api/dashboard/v1/endorsement`;
+        let urlLink = `${this.CommonApiUrl}api/dashboard/v3/chart`;
         this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
             if(data.Result){
-                    
+                this.notificationList = data.Result;
             }
         });
     }
