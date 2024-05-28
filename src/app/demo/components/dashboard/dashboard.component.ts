@@ -18,12 +18,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	public motorApiUrl: any = this.AppConfig.MotorApiUrl;
     items!: MenuItem[];rangeValue:any=1;
     products!: Product[];rangeList:any[]=[];
-    chartData: any;
-    chart2Data:any;
-    chartOptions: any;
+    chartData: any;chart2Data:any;chartOptions: any;
     subscription!: Subscription;userDetails:any=null;agencyCode:any=null;
     insuranceId:any=null;branchCode:any=null;productId:any=null;loginId:any=null;PackageYn:any=null;
-    countList:any[]=[];
+    countList:any[]=[];rangeEndtValue:any=1;endorsementList:any[]=[];
     userType:any=null;subuserType:any=null;countryId:any=null;brokerbranchCode:any=null;
     constructor(private productService: ProductService,private datePipe: DatePipe,
         private sharedService:SharedService, public layoutService: LayoutService) {
@@ -39,9 +37,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.PackageYn= this.userDetails.Result.PackageYn
             this.insuranceId = this.userDetails.Result.InsuranceId;
             this.subuserType = sessionStorage.getItem('typeValue');
-            this.subscription = this.layoutService.configUpdate$.subscribe(() => {
-                this.initChart();
-            });
+            // this.subscription = this.layoutService.configUpdate$.subscribe(() => {
+            //     this.initChart();
+            // });
             this.rangeList = [
                 {"Code":1,"CodeDesc":"Last 30 Days"},
                 {"Code":2,"CodeDesc":"Last 60 Days"},
@@ -55,7 +53,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const textColor = documentStyle.getPropertyValue('--text-color');
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-        this.initChart();
+        //this.initChart();
         this.productService.getProductsSmall().then(data => this.products = data);
 
         this.items = [
@@ -64,6 +62,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         ];
         this.getCountDetails();
         this.getQuoteOverview();
+        this.getEndorsementRecordList();
+        this.getNotificationList();
         this.chartOptions = {
             plugins: {
                 legend: {
@@ -223,37 +223,60 @@ export class DashboardComponent implements OnInit, OnDestroy {
             }
         });
     }
-    initChart() {
-        const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--text-color');
-        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-
-        this.chartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [
-                {
-                    label: 'Quotes',
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
-                    borderColor: documentStyle.getPropertyValue('--bluegray-700'),
-                    tension: .4
-                },
-                {
-                    label: 'Renewal Quotes',
-                    data: [28, 48, 40, 19, 86, 27, 90],
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--green-600'),
-                    borderColor: documentStyle.getPropertyValue('--green-600'),
-                    tension: .4
-                }
-            ]
-        };
-
-        
+    getEndorsementRecordList(){
+        let startDate = null,endDate=null;
+        let backDate = new Date();
+        var d = backDate;
+        var year = d.getFullYear();
+        var month = d.getMonth();
+        var day = d.getDate();
+        startDate = this.datePipe.transform(new Date(year, month-this.rangeEndtValue, day),'dd/MM/yyyy');
+        endDate = this.datePipe.transform(new Date(),'dd/MM/yyyy');
+        let ReqObj = {
+            "InsuranceId": this.insuranceId,
+            "BranchCode": this.branchCode,
+            "ProductId": this.productId,
+            "LoginId": this.loginId,
+            "UserType": this.userType,
+            "SubUserType": this.subuserType,
+            "StartDate": startDate,
+            "EndDate": endDate
+        }
+        let urlLink = `${this.CommonApiUrl}api/dashboard/v1/endorsement`;
+        this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+            if(data.Result){
+                    this.endorsementList = data.Result;
+            }
+        });
     }
-
+    getNotificationList(){
+        let startDate = null,endDate=null;
+        let backDate = new Date();
+        var d = backDate;
+        var year = d.getFullYear();
+        var month = d.getMonth();
+        var day = d.getDate();
+        startDate = this.datePipe.transform(new Date(year, month-this.rangeEndtValue, day),'dd/MM/yyyy');
+        endDate = this.datePipe.transform(new Date(),'dd/MM/yyyy');
+        let ReqObj = {
+            "InsuranceId": this.insuranceId,
+            "BranchCode": this.branchCode,
+            "ProductId": this.productId,
+            "LoginId": this.loginId,
+            "UserType": this.userType,
+            "SubUserType": this.subuserType,
+            "StartDate": startDate,
+            "EndDate": endDate
+        }
+        let urlLink = `${this.CommonApiUrl}api/dashboard/v1/endorsement`;
+        this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+            if(data.Result){
+                    
+            }
+        });
+    }
     ngOnDestroy() {
         if (this.subscription) {
             this.subscription.unsubscribe();
