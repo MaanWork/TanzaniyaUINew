@@ -256,14 +256,14 @@ onInnerDataLapsed(rowData){
     let entry = this.brokerList.find(ele=>ele.Code==this.brokerCode);
     if(entry){
       console.log("Entry Received",entry) 
-      // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
-      // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+      if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
+      && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
         loginId='';
         bdmCode=this.brokerCode;
-      // }
-      // else{
-      //   bdmCode=null;
-      // }
+      }
+      else{
+        bdmCode=null;
+      }
       let ReqObj = {
           "BrokerBranchCode": brokerbranchCode,
           "BranchCode":this.branchCode,
@@ -342,14 +342,14 @@ onInnerDataLapsed(rowData){
     let entry = this.brokerList.find(ele=>ele.Code==this.brokerCode);
     if(entry){
       console.log("Entry Received",entry) 
-      // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
-      // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+      if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
+      && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
         loginId='';
         bdmCode=this.brokerCode;
-      // }
-      // else{
-      //   bdmCode=null;
-      // }
+      }
+      else{
+        bdmCode=null;
+      }
       let ReqObj = {
           "BrokerBranchCode": brokerbranchCode,
           "BranchCode":this.branchCode,
@@ -497,14 +497,14 @@ onInnerDataLapsed(rowData){
     let entry = this.brokerLapsedList.find(ele=>ele.Code==this.brokerlapsedCode);
     if(entry){
       console.log("Entry Received",entry) 
-      // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
-      // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+      if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
+      && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
         loginId='';
         bdmCode=this.brokerlapsedCode;
-      // }
-      // else{
-      //   bdmCode=null;
-      // }
+      }
+      else{
+        bdmCode=null;
+      }
       let ReqObj = {
           "BrokerBranchCode": brokerbranchCode,
           "BranchCode":this.branchCode,
@@ -622,14 +622,14 @@ onInnerDataLapsed(rowData){
     let entry = this.brokerRejectedList.find(ele=>ele.Code==this.brokerRejectedCode);
     if(entry){
       console.log("Entry Received",entry) 
-      // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
-      // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+      if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
+      && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
         loginId='';
         bdmCode=this.brokerRejectedCode;
-      // }
-      // else{
-      //   bdmCode=null;
-      // }
+      }
+      else{
+        bdmCode=null;
+      }
       let ReqObj = {
           "BrokerBranchCode": brokerbranchCode,
           "BranchCode":this.branchCode,
