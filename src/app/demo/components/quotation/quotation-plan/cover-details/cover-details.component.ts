@@ -1522,7 +1522,6 @@ export class CoverDetailsComponent {
           //   vehicle['totalLcPremium'] =  cover.PremiumIncludedTax;
           //   vehicle['totalPremium'] =  cover.PremiumIncludedTax;
           // }
-            console.log("Total Premium",cover,vehicle)
           this.getTotalVehiclesCost();
           //this.totalPremium = this.totalPremium+rowData.PremiumIncludedTax
         }
@@ -1530,6 +1529,7 @@ export class CoverDetailsComponent {
           
          let sectionEntry = entry.find(ele=>ele.SectionId == cover.SectionId);
          if(sectionEntry == undefined){
+        
           let element = {
             "Covers": [
               {
@@ -1584,8 +1584,10 @@ export class CoverDetailsComponent {
               vehicle['totalPremium'] =  vehicle['totalPremium']+cover.Endorsements[cover.Endorsements.length-1].PremiumIncludedTax;
             }
             else{
+              
               vehicle['totalLcPremium'] = vehicle['totalLcPremium'] + subCover.PremiumIncludedTaxLC;
               vehicle['totalPremium'] =  vehicle['totalPremium']+subCover.PremiumIncludedTax;
+              
             }
           
           }
@@ -1611,6 +1613,7 @@ export class CoverDetailsComponent {
             this.getTotalVehiclesCost();
          }
          else{
+          
           let covers:any[] = sectionEntry.Covers;
           let findCover = covers.filter(ele=>ele.CoverId==cover.CoverId);
           if(findCover.length==0) {
@@ -1620,13 +1623,13 @@ export class CoverDetailsComponent {
               "SubCoverYn": "Y"
               //"isReferal": rowData.isReferal
             }
-            if((cover.PremiumIncludedTax!=null && cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=undefined)){
+            // if((cover.PremiumIncludedTax!=null && cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=undefined)){
               
-              vehicle['totalLcPremium'] = vehicle['totalLcPremium'] - cover.PremiumIncludedTax;
-              vehicle['totalPremium'] =  vehicle['totalPremium'] - cover.PremiumIncludedTax; 
-              cover.PremiumIncludedTax = 0;
-              cover.PremiumIncludedTax=0;
-            }
+            //   vehicle['totalLcPremium'] = vehicle['totalLcPremium'] - cover.PremiumIncludedTax;
+            //   vehicle['totalPremium'] =  vehicle['totalPremium'] - cover.PremiumIncludedTax; 
+            //   cover.PremiumIncludedTax = 0;
+            //   cover.PremiumIncludedTax=0;
+            // }
             cover.SubCoverId = subCover.SubCoverId;
             cover.PremiumIncludedTax = subCover.PremiumIncludedTaxLC;
             cover.PremiumIncludedTax = subCover.PremiumIncludedTax;
@@ -1657,14 +1660,17 @@ export class CoverDetailsComponent {
             }
             subCover['selected'] = true;
             sectionEntry.Covers.push(newEntry);
+            
             if(vehicle?.totalPremium){
               if(cover.Endorsements!=null){
                 vehicle['totalLcPremium'] = vehicle['totalLcPremium'] + cover.Endorsements[cover.Endorsements.length-1].PremiumIncludedTax;
                 vehicle['totalPremium'] =  vehicle['totalPremium']+cover.Endorsements[cover.Endorsements.length-1].PremiumIncludedTax;
               }
               else{
+                
                 vehicle['totalLcPremium'] = vehicle['totalLcPremium'] + subCover.PremiumIncludedTaxLC;
                 vehicle['totalPremium'] =  vehicle['totalPremium']+subCover.PremiumIncludedTax;
+                
               }
             
             }
