@@ -308,11 +308,11 @@
                                                                             {{cover.PremiumIncludedTax | commaseparator}}
                                                                         </ng-container>
                                                                         <ng-container *ngIf="cover.PremiumIncludedTax=='0' || cover.PremiumIncludedTax==0 || cover.PremiumIncludedTax==null">
-                                                                                0 Print5
+                                                                                0
                                                                         </ng-container>
                                                                     </ng-container>
                                                                     <ng-container *ngIf="!checkPremiumIncludedTax(cover,menu)">
-                                                                        0 Print6
+                                                                        0
                                                                     </ng-container>
                                                                       
                                                                        &nbsp;<span class="text-base">( {{currencyCode}} )</span></h4>
@@ -1941,8 +1941,16 @@
                         <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.MinRate | commaseparator}}</b></td>
                     </tr>
                     <tr>
+                        <td style="text-align: start;padding: 8px;"><b>Minimum Rate With Loading</b></td>
+                        <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.MinRateWithLoading | commaseparator}}</b></td>
+                    </tr>
+                    <tr>
                         <td style="text-align: start;padding: 8px;"><b>Minimum Premium</b></td>
                         <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.MinPremium | commaseparator}}</b></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: start;padding: 8px;"><b>Minimum Premium With Loading</b></td>
+                        <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.MinPremiumWithLoading | commaseparator}}</b></td>
                     </tr>
                     <tr>
                         <td style="text-align: start;padding: 8px;"><b>Final Premium Amount (excl VAT)</b></td>

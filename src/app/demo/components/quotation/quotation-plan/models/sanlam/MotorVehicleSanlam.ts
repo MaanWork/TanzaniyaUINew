@@ -39,7 +39,6 @@ export class MotorVehicleSanlam{
                       options: [
       
                       ],
-      
                     },
                     validators: {
                       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
