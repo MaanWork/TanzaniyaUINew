@@ -144,7 +144,7 @@
                                     placeholder="Source Name" />
                             </div>
                             <div class="lg:col-6 md:col-6 col-12" *ngIf="issuerSection && (sourceCodeDesc=='agent' || sourceCodeDesc=='Agent' || sourceCodeDesc=='broker' || sourceCodeDesc=='direct' || sourceCodeDesc=='Direct' || sourceCodeDesc=='bank' || sourceCodeDesc=='Bank' || sourceCodeDesc=='Broker' || sourceCodeDesc=='whatsapp' || sourceCodeDesc=='Whatsapp')">
-                            <label for="username">Source Code {{customerList.length}}*</label>
+                            <label for="username">Source Code*</label>
                             <input pInputText id="username" class="w-full" maxlength="50" 
                                      [(ngModel)]="customerCode"
                                     type="text" (keyup)="onGetCustomerList('change',$event.target.value)" autocomplete="off"

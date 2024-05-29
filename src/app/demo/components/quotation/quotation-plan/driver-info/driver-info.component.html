@@ -21,6 +21,9 @@
             </div>
             <ng-container *ngFor="let row of driverDetailsList;let i = index">
                 <ng-container *ngIf="row.RiskId==veh.RiskId">
+                    <!-- <div class="flex flex-warp justify-content-end">
+                        <p-button icon="pi pi-plus">Add New Driver</p-button>
+                    </div> -->
                     <div class="grid w-full" styleClass="w-full">
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4">
                             <label for="username">Driver Name*</label>

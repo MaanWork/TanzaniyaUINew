@@ -6,17 +6,15 @@
             <h4>Payment Type</h4>
         </div>
         <div class="lg:col-5 md:col-5 col-12">
-            <div class="flex flex-wrap justify-content-start">
+            <div class="flex flex-wrap justify-content-end">
                 <div *ngIf="quoteNo"><b>QuoteNo- <span class="primaryTextColor">{{quoteNo}}</span></b>&nbsp;|&nbsp;</div>
                 <div *ngIf="requestReferenceNo">RefNo- <span class="primaryTextColor">{{requestReferenceNo}}</span></div>
-            </div>
-        </div>
-    </div>
-    <div class="flex flex-wrap justify-content-end">
-        <div class="card grid text-white surface-900 px-4 py-2" (click)="showSidebar()">
-            <div class="col-12">
-                <p class="mb-0">Total Premium</p>
-                <h6 class="text-white mt-0">{{totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
+            </div><br>
+            <div class="card grid text-white surface-900 px-4 py-2" (click)="showSidebar()">
+                <div class="col-12">
+                    <p class="mb-0">Total Premium</p>
+                    <h6 class="text-white mt-0">{{totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
+                </div>
             </div>
         </div>
     </div>
@@ -24,7 +22,7 @@
     <p-selectButton [options]="paymentTypeList" [(ngModel)]="selectedPaymentOption" (click)="onRedirect()" optionLabel="CodeDesc" optionValue="Code"></p-selectButton>
     
     <h4>Payment Details</h4> 
-    <ng-container *ngIf="Third">
+    <ng-container *ngIf="Third || seven">
         <div class="my-4">
             <div class="mb-3">
                 <label for="username">Payee Name*</label><br>
@@ -71,7 +69,7 @@
                     [minDate]="minDate" 
                     [(ngModel)]="chequeDate"
                     dateFormat="dd/mm/yy"
-                    placeholder="Select Start Date">
+                    placeholder="Select Cheque Date">
                 </p-calendar>
             </div>
         </div>

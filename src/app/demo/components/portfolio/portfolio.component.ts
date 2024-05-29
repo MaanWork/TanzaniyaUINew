@@ -266,8 +266,9 @@ if (rowData.DebitNoteNo==null && rowData.DebitNoteNo=='') {
     let entry = this.brokerList.find(ele=>ele.Code==this.brokerCode);
     if(entry){
       console.log("Entry Received",entry) 
-      if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
-      && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+      // // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
+      // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+      if(this.userType=='Issuer'){
         loginId='';
         bdmCode=this.brokerCode;
       }
@@ -353,8 +354,9 @@ if (rowData.DebitNoteNo==null && rowData.DebitNoteNo=='') {
     let entry = this.cancelbrokerList.find(ele=>ele.Code==this.CancelbrokerCode);
     if(entry){
       console.log("Entry Received",entry) 
-      if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
-      && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+      // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
+      // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+      if(this.userType=='Issuer'){
         loginId = '';
         bdmCode=this.brokerCode;
       }
