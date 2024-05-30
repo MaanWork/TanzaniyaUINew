@@ -3318,7 +3318,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     else if(this.productId=='32') return 'Fidelity Details';
     else return 'Employee Details';
   }
-  onSavePersonalAccident(){
+  onSavePersonalAccident(type){
     if (this.PersonalAssistantList.length != 0) {
       let i=0, reqList =[];
       for(let entry of this.PersonalAssistantList){
@@ -3343,7 +3343,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
           reqList.push(data);
           i+=1;
           if(i==this.PersonalAssistantList.length){
-            this.finalSaveRiskDetails(null,reqList,'PA');
+            this.finalSaveRiskDetails(type,reqList,'PA');
           }
       }
 
@@ -3561,8 +3561,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
 
       }
       urlLink = `${this.motorApiUrl}api/savepersonalaccident`;
-  }
-    if(requestType!='proceed'){
+    }
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
           console.log(data);
@@ -3576,8 +3575,6 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         },
         (err) => {},
       );
-    }
-    else{this.finalFormSubmit(type,requestType);}
   }
   finalFormSubmit(type,requestType){
     if(type=='C' && requestType=='proceed'){
@@ -3601,14 +3598,27 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       }
     }
     else if(type=='PA'){
-      if (this.third || this.fifth || this.six) {
-        this.fourth = true;
-        
-        this.selectedTab = this.selectedTab+1;
+      if(requestType=='proceed'){
+        if (this.third || this.fifth || this.six) {
+          this.fourth = true;
+          
+          this.selectedTab = this.selectedTab+1;
+        }
+        else{
+          this.productItem.AccOccupation = this.accidentOccupation
+          this.checkValidation();
+        }
       }
       else{
-        this.productItem.AccOccupation = this.accidentOccupation
-        this.checkValidation();
+        this.currentPersonalAccidentIndex = this.PersonalAssistantList.length;
+        this.productItem.AccOccupation = this.accidentOccupation;
+        //this.PersonalAssistantList = this.PersonalAssistantList.filter(ele=>ele.Salary!=null && ele.Salary!='' && ele.Dob!='' && ele.Dob!=null && ele.PersonName!=null && ele.PersonName!='' && ele.NationalityId!='');
+        this.productItem.AccSI = '0';this.productItem.AccidentLocation='';this.productItem.AccName='';this.productItem.AccDob='';this.productItem.AccNationID='';
+        let fieldList = this.fieldsPersonalAccident[0].fieldGroup[0].fieldGroup[0].fieldGroup;
+        this.saveSection=false;
+        for(let field of fieldList){
+          if(field.key!="AccOccupation") field.formControl.setValue('');
+        }
       }
     }
     else if(type=='A' && requestType=='proceed'){
@@ -6380,7 +6390,8 @@ return true;
   }
   PersonalAccidentDelete(rowss: any) {
     const index = this.PersonalAssistantList.indexOf(rowss);
-   this.PersonalAssistantList.splice(index,1);
+    this.PersonalAssistantList.splice(index,1);
+    this.currentPersonalAccidentIndex = this.PersonalAssistantList.length;
     this.getTotalSICost('PersonalAccident');
   }
   AllRiskDelete(rowss: any) {
@@ -7110,15 +7121,7 @@ return true;
         this.PersonalAssistantList[this.currentPersonalAccidentIndex]['PersonName'] =this.productItem.AccName; //this.contentRiskDesc;
         this.PersonalAssistantList[this.currentPersonalAccidentIndex]['Dob'] = this.productItem.AccDob;
         this.PersonalAssistantList[this.currentPersonalAccidentIndex]['NationalityId'] = this.productItem.AccNationID;
-        this.productItem.AccOccupation = this.accidentOccupation;
-        console.log('Final Accidents',)
-        //this.PersonalAssistantList = this.PersonalAssistantList.filter(ele=>ele.Salary!=null && ele.Salary!='' && ele.Dob!='' && ele.Dob!=null && ele.PersonName!=null && ele.PersonName!='' && ele.NationalityId!='');
-        this.productItem.AccSI = '0';this.productItem.AccidentLocation='';this.productItem.AccName='';this.productItem.AccDob='';this.productItem.AccNationID='';
-        let fieldList = this.fieldsPersonalAccident[0].fieldGroup[0].fieldGroup[0].fieldGroup;
-        this.saveSection=false;
-        for(let field of fieldList){
-          if(field.key!="AccOccupation") field.formControl.setValue('');
-        }
+        
       }
     }
     else{
@@ -7136,12 +7139,10 @@ return true;
         "SerialNo": null
       }
       this.PersonalAssistantList.push(entry);
-      this.productItem = new ProductData();
-      this.productItem.AccOccupation = this.accidentOccupation;
-      this.PersonalAssistantList = this.PersonalAssistantList.filter(ele=>ele.Salary!=null && ele.Dob!=null && ele.PersonName!=null);
     }
     }
-    this.currentPersonalAccidentIndex = null;
+    
+    this.onSavePersonalAccident('save');
   }
   // onCancel(){
   //   this.productItem = new ProductData();
