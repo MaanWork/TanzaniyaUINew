@@ -15,17 +15,26 @@
     <ng-container *ngFor="let veh of vehicleList;let j=index;">
         <p-tabPanel [header]="getHeaderName(veh)">
             <div class="grid">
-                <div class="col-12 md:col-7 lg:col-7 xl:col-7">
+                <div class="col-12 md:col-9 lg:col-9 xl:col-9">
                     <h2>Driver Information</h2>
+                </div>
+                <div class="col-12 md:col-3 lg:col-3 xl:col-3">
+                    <p-button icon="pi pi-plus" label="Add New Driver" (click)="addNewDriver(veh.RiskId)"></p-button>
                 </div>
             </div>
             <ng-container *ngFor="let row of driverDetailsList;let i = index">
+                
                 <ng-container *ngIf="row.RiskId==veh.RiskId">
+                    <div class="flex flex-wrap justify-content-end mt-2">
+                        <div>
+                            
+                        </div>
+                    </div>
                     <div class="grid w-full" styleClass="w-full">
-                        <div class="col-12 md:col-4 lg:col-4 xl:col-4">
+                        <div class="col-12 md:col-3 lg:col-3 xl:col-3">
                             <label for="username">Driver Name*</label>
-                            <input pInputText id="username" [(ngModel)]="row.DriverName" [disabled]="endorsementSection && !enableDriverDetails"  maxlength="100" placeholder="Enter Driver Name"/>
-                            <div class="input-form-error" *ngIf="driverNameError">
+                            <input pInputText id="username" [(ngModel)]="row.DriverName" class="customInput" [disabled]="endorsementSection && !enableDriverDetails"  maxlength="100" placeholder="Enter Driver Name"/>
+                            <div class="input-form-error" *ngIf="row.driverNameError">
                                 <div class="error-text text-danger">
                                     Please Enter Valid Driver Name
                                 </div>
@@ -36,134 +45,128 @@
                             <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="LicenseList" (change)="onLicenseChange(row)" [(ngModel)]="row.RiskId"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
                             </p-dropdown>
                         </div> -->
-                        <div class="col-12 md:col-4 lg:col-4 xl:col-4">
+                        <div class="col-12 md:col-3 lg:col-3 xl:col-3">
                             <label for="username">Licence Number*</label>
-                            <input pInputText id="username" [(ngModel)]="row.LicenseNo" [disabled]="endorsementSection && !enableDriverDetails"  maxlength="14" placeholder="Enter Licence Number"/>
-                            <div class="input-form-error" *ngIf="licenseNoError">
+                            <input pInputText id="username" [(ngModel)]="row.LicenseNo"  class="customInput" [disabled]="endorsementSection && !enableDriverDetails"  maxlength="14" placeholder="Enter Licence Number"/>
+                            <div class="input-form-error" *ngIf="row.licenseNoError">
                                 <div class="error-text text-danger">
                                     Please Enter Valid License Number
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 md:col-4 lg:col-4 xl:col-4">
+                        <div class="col-12 md:col-2 lg:col-2 xl:col-2">
                             <label for="username">Date of Birth*</label>
                             <p-calendar class="w-full" [(ngModel)]="row.DriverDob" styleClass="w-full" [disabled]="endorsementSection && !enableDriverDetails"  [maxDate]="minDate"
-                                dateFormat="dd/mm/yy" placeholder="Select Date Of Birth">
+                                dateFormat="dd/mm/yy" placeholder="Select DOB">
                             </p-calendar>
-                            <div class="input-form-error" *ngIf="driverDobError">
+                            <div class="input-form-error" *ngIf="row.driverDobError">
                                 <div class="error-text text-danger">
                                     Please Select Valid Date Of Birth
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 md:col-4 lg:col-4 xl:col-4 m-2">
+                        <div class="col-12 md:col-3 lg:col-3 xl:col-3">
                             <label for="username">Driver Type</label>
                             <div class="flex justify-content-start gap-3">
                                 <p-selectButton [options]="driverOptions" [disabled]="endorsementSection && !enableDriverDetails" [(ngModel)]="row.DriverType"
                                 optionLabel="label" optionValue="value"></p-selectButton>
                             </div>
-                            <div class="input-form-error" *ngIf="driverTypeError">
+                            <div class="input-form-error" *ngIf="row.driverTypeError">
                                 <div class="error-text text-danger">
                                     Please Select Valid Driver Type
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="grid" *ngIf="insuranceId=='100027'">
-                        <div class="col-12 md:col-7 lg:col-7 xl:col-7">
-                            <h2>Other Information About Vehicle</h2>
+                        <div class="col-12 md:col-1 lg:col-1 xl:col-1 mt-3"  *ngIf="checkDriverDelete(veh.RiskId)" >
+                            <p-button (click)="onRemove(i)" icon="pi pi-trash" severity="danger" size="small"></p-button>
                         </div>
-                    </div>
-                    
-                    <div class="grid" *ngIf="insuranceId=='100027'">
-                        <ng-container *ngFor="let list of vehicleDetailsList">
-                            <ng-container *ngIf="list.VehicleId==veh.RiskId">
-                                <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                                    <label for="username">Series Number</label>
-                                    <input pInputText maxlength="20" class="w-full" styleClass="w-full" [(ngModel)]="list.SeriesNo" placeholder="Enter Series Number"/>
-                                </div>
-                            
-                                <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                                    <label for="username">Number Of Cylinder's</label>
-                                    <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [(ngModel)]="list.NoCylinder" [options] ="CylinderTypeList"
-                                    optionLabel="CodeDesc" optionValue="Code" placeholder="Enter No Of Cylinders">
-                                </p-dropdown>
-                                </div>
-                            
-                                <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                                    <label for="username">Plate Type</label>
-                                    <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [options] ="plateTypeList" [(ngModel)]="list.PlateType"
-                                        optionLabel="CodeDesc" optionValue="Code" placeholder="Select Plate Type">
-                                    </p-dropdown>
-                                </div>
-                                <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                                    <label for="username">Plate Color</label>
-                                    <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" 
-                                    [options]="colorList"
-                                    [(ngModel)]="list.PlateColorId"
-                                        optionLabel="CodeDesc" 
-                                        optionValue="Code" 
-                                        placeholder="Select Color">
-                                    </p-dropdown>
-                                </div>
-                            
-                                <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                                    <label for="username">Number Of Door's</label>
-                                    <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [options] ="NoOfDoorsList"  [(ngModel)]="list.NoDoors"
-                                        optionLabel="CodeDesc" optionValue="Code" placeholder="Select Doors">
-                                    </p-dropdown>
-                                </div>
-                            </ng-container>
-                           
-                        <!-- <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                            <label for="username">Number Of Passengers's (Shown Based on Motor Type)</label>
-                            <input pInputText  maxlength="5" class="w-full" styleClass="w-full" placeholder="Enter Number Of Passengers"/>
-                        </div>
-                        <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                            <label for="username">Mileage (Km/lit)</label>
-                            <input pInputText  maxlength="5" class="w-full" styleClass="w-full" placeholder="Enter Mileage Of Vehicle"/>
-                        </div> -->
-                        <!-- <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                            <label for="username">Number Of Claim Document</label>
-                            <input pInputText  maxlength="5" class="w-full" styleClass="w-full" placeholder="Enter Number Of Claim Document"/>
-                        </div> -->
-                        <!-- <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                            <label for="username">Number Of Claim Years</label>
-                            <input pInputText  maxlength="5" class="w-full" styleClass="w-full" placeholder="Enter Number Of Claim Years"/>
-                        </div> -->
-                    </ng-container>
-                    </div>
-                
-                    <div class="flex flex-wrap justify-content-center mt-2">
-                        <div>
-                            <ng-container *ngIf="tabIndex==0">
-                                <p-button label="Back" (click)="ongetBack()" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
-                            </ng-container>
-                            <ng-container *ngIf="tabIndex!=0">
-                                <p-button label="Back" (click)="tabIndex=tabIndex-1" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
-                            </ng-container>
-                        </div>
-                       <div>
-                        <ng-container *ngIf="tabIndex!=(vehicleList.length-1)">
-                            <p-button label="Next" (click)="onNextProceed(i)" class="text-l pi-button mt-6"></p-button>
-                        </ng-container>
-                        <ng-container *ngIf="tabIndex==(vehicleList.length-1)">
-                            <p-button label="Proceed" (click)="onsave()" class="text-l pi-button mt-6"></p-button>
-                        </ng-container>
-                       </div>
-                        
                     </div>
                 </ng-container>
-                <!-- <div class="flex flex-wrap justify-content-between mt-2">
-                        <div><h3>Driver {{i+1}}</h3></div>
-                        <div>
-                            <p-button *ngIf="i!=0" (click) = "onRemove(i)" icon="pi pi-cross" label="Remove Driver" severity="warning" size="small"></p-button>
-                        </div>
-                </div> -->
-                
                 
             </ng-container>
-            
+            <div class="grid" *ngIf="insuranceId=='100027'">
+                <div class="col-12 md:col-7 lg:col-7 xl:col-7">
+                    <h2>Other Information About Vehicle</h2>
+                </div>
+            </div>
+            <div class="grid" *ngIf="insuranceId=='100027'">
+                <ng-container *ngFor="let list of vehicleDetailsList">
+                    <ng-container *ngIf="list.VehicleId==veh.RiskId">
+                        <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
+                            <label for="username">Series Number</label>
+                            <input pInputText maxlength="20" class="w-full" styleClass="w-full" [(ngModel)]="list.SeriesNo" placeholder="Enter Series Number"/>
+                        </div>
+                    
+                        <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
+                            <label for="username">Number Of Cylinder's</label>
+                            <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [(ngModel)]="list.NoCylinder" [options] ="CylinderTypeList"
+                            optionLabel="CodeDesc" optionValue="Code" placeholder="Enter No Of Cylinders">
+                        </p-dropdown>
+                        </div>
+                    
+                        <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
+                            <label for="username">Plate Type</label>
+                            <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [options] ="plateTypeList" [(ngModel)]="list.PlateType"
+                                optionLabel="CodeDesc" optionValue="Code" placeholder="Select Plate Type">
+                            </p-dropdown>
+                        </div>
+                        <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
+                            <label for="username">Plate Color</label>
+                            <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" 
+                            [options]="colorList"
+                            [(ngModel)]="list.PlateColorId"
+                                optionLabel="CodeDesc" 
+                                optionValue="Code" 
+                                placeholder="Select Color">
+                            </p-dropdown>
+                        </div>
+                    
+                        <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
+                            <label for="username">Number Of Door's</label>
+                            <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [options] ="NoOfDoorsList"  [(ngModel)]="list.NoDoors"
+                                optionLabel="CodeDesc" optionValue="Code" placeholder="Select Doors">
+                            </p-dropdown>
+                        </div>
+                    </ng-container>
+                   
+                <!-- <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
+                    <label for="username">Number Of Passengers's (Shown Based on Motor Type)</label>
+                    <input pInputText  maxlength="5" class="w-full" styleClass="w-full" placeholder="Enter Number Of Passengers"/>
+                </div>
+                <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
+                    <label for="username">Mileage (Km/lit)</label>
+                    <input pInputText  maxlength="5" class="w-full" styleClass="w-full" placeholder="Enter Mileage Of Vehicle"/>
+                </div> -->
+                <!-- <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
+                    <label for="username">Number Of Claim Document</label>
+                    <input pInputText  maxlength="5" class="w-full" styleClass="w-full" placeholder="Enter Number Of Claim Document"/>
+                </div> -->
+                <!-- <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
+                    <label for="username">Number Of Claim Years</label>
+                    <input pInputText  maxlength="5" class="w-full" styleClass="w-full" placeholder="Enter Number Of Claim Years"/>
+                </div> -->
+            </ng-container>
+            </div>
+        
+            <div class="flex flex-wrap justify-content-center mt-2">
+                <div>
+                    <ng-container *ngIf="tabIndex==0">
+                        <p-button label="Back" (click)="ongetBack()" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                    </ng-container>
+                    <ng-container *ngIf="tabIndex!=0">
+                        <p-button label="Back" (click)="tabIndex=tabIndex-1" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                    </ng-container>
+                </div>
+               <div>
+                <ng-container *ngIf="tabIndex!=(vehicleList.length-1)">
+                    <p-button label="Next" (click)="onNextProceed()" class="text-l pi-button mt-6"></p-button>
+                </ng-container>
+                <ng-container *ngIf="tabIndex==(vehicleList.length-1)">
+                    <p-button label="Proceed" (click)="onsave()" class="text-l pi-button mt-6"></p-button>
+                </ng-container>
+               </div>
+                
+            </div>
         </p-tabPanel>
     </ng-container>  
 </p-tabView>

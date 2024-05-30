@@ -32,6 +32,14 @@ export class PortfolioComponent implements OnInit {
   pageCount1: number;
   quotePageNo1: number;
   show: boolean = false;
+  pendingBrokerList: any[]=[];
+  pendingBrokerCode: any=null;
+  totalPendingQuoteRecords: any;
+  pagePendingCount: number;
+  pendingPolicyPageNo: number;
+  startPendingIndex: number;
+  endPendingIndex: any;
+  pendingQuoteData: any;
   constructor(private router:Router,private sharedService: SharedService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -55,6 +63,7 @@ export class PortfolioComponent implements OnInit {
     ];
     this.columns = ['PolicyNo','Quote No','Customer Name','Currency','Start Date','End Date','Premium','Actions']
     this.getBrokerList();
+    this.getPendingList();
     this.getCancelledList();
   }
   getBrokerList(){
@@ -107,7 +116,134 @@ export class PortfolioComponent implements OnInit {
     );
   }
 
+  getPendingList(){
+    let appId = "1",loginId="",brokerbranchCode="";
+    if(this.userType!='Issuer'){
+      appId = "1"; loginId = this.brokerCode;
+      brokerbranchCode = this.brokerbranchCode;
+    }
+    else{
+      appId = this.loginId;
+      loginId=this.brokerCode;
+      brokerbranchCode = '';
+    }
+    let ReqObj = {
+      "ProductId": this.productId,
+      "InsuranceId": this.insuranceId,
+      "LoginId": loginId,
+      "ApplicationId":appId,
+      "UserType":this.userType,
+      "BranchCode": this.branchCode,
+      "Status": "Y",
+    }
+    let urlLink = `${this.CommonApiUrl}api/portfoliopendingdropdown`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+          let defaultObj = []
+          this.pendingBrokerList = defaultObj.concat(data.Result);
+          if(this.pendingBrokerList.length==0){this.pendingBrokerCode = ''; this.pendingBrokerList = []}
+          else this.pendingBrokerCode = this.loginId;
+          if(this.pendingBrokerCode!=null && this.pendingBrokerCode!=''){
+            if(!this.pendingBrokerList.some(ele=>ele.Code==this.pendingBrokerCode)) this.pendingBrokerCode = this.pendingBrokerList[0].Code;
+            this.getPendingPolicyList(null,'change')
+          }
+          else{
+            this.pendingBrokerCode = this.pendingBrokerList[0].Code;
+            this.getPendingPolicyList(null,'change')
+          }
+        }
+      },
+      (err) => { },
+    );
+  }
+  getPendingPolicyList(element,entryType){
+    if(element==null) this.quoteData=[];
+    let appId = "1",loginId="",brokerbranchCode="",bdmCode=null;
+    if(this.userType!='Issuer'){
+      appId = "1"; loginId = this.pendingBrokerCode;
+      brokerbranchCode = this.brokerbranchCode;
+      bdmCode=this.agencyCode;
+    }
+    else{
+      appId = this.loginId;
+      loginId=this.pendingBrokerCode;
+      brokerbranchCode = '';
+    }
+    let entry = this.pendingBrokerList.find(ele=>ele.Code==this.pendingBrokerCode);
+    if(entry){
+      console.log("Entry Received",entry) 
+      // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
+      // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+        if(this.userType=='Issuer'){
+        loginId='';
+        bdmCode=this.pendingBrokerCode;
+      }
+      else{
+        loginId=entry.Code;
+        bdmCode=null;
+      }
+      let ReqObj = {
+          "BrokerBranchCode": brokerbranchCode,
+          "BranchCode":this.branchCode,
+            "InsuranceId": this.insuranceId,
+            "LoginId":loginId,
+            "ApplicationId":appId,
+            "UserType":this.userType,
+            "SubUserType":sessionStorage.getItem('typeValue'),
+            "SourceType":"",
+            "BdmCode": bdmCode,
+            "ProductId":this.productId,
+            "Limit":this.limit,
+            "Offset": 10000
+      }
+      let urlLink = `${this.CommonApiUrl}api/portfolio/pending`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          sessionStorage.removeItem('loadingType');
+          if(data.Result){
+            if (data.Result?.PortfolioList) {
+              if (data.Result?.PortfolioList.length != 0) {
+                this.totalPendingQuoteRecords = data.Result?.Count;
+                this.pagePendingCount = 10;
+                if (entryType == 'change') {
+                  this.pendingPolicyPageNo = 1;
+                  let startCount = 1, endCount = this.pageCount;
+                  startCount = endCount + 1;
+                    let quoteData = data.Result?.PortfolioList;
+                    this.pendingQuoteData = data.Result?.PortfolioList;
+                    if (quoteData.length <= this.pagePendingCount) {
+                      endCount = quoteData.length
+                    }
+                    else endCount = this.pagePendingCount;
+                  
+                  this.startPendingIndex = startCount; this.endPendingIndex = endCount;
+                }
+                else {
 
+                  let startCount = element.startCount, endCount = element.endCount;
+                  this.pagePendingCount = element.n;
+                  startCount = endCount + 1;
+                    let quoteData = data.Result?.PortfolioList;
+                    this.pendingQuoteData = this.pendingQuoteData.concat(data.Result?.PortfolioList);
+                  if (this.totalPendingQuoteRecords <= endCount + (element.n)) {
+                    endCount = this.totalPendingQuoteRecords
+                  }
+                  else endCount = endCount + (element.n);
+                  this.startPendingIndex = startCount; this.endPendingIndex = endCount;
+                }
+              }
+              else {
+                this.pendingQuoteData = []; 
+              }
+            }
+          }
+        },
+        (err) => { },
+      );
+    }
+  }
   getCancelledList(){
     let appId = "1",loginId="",brokerbranchCode="";
     if(this.userType!='Issuer'){
@@ -266,8 +402,9 @@ if (rowData.DebitNoteNo==null && rowData.DebitNoteNo=='') {
     let entry = this.brokerList.find(ele=>ele.Code==this.brokerCode);
     if(entry){
       console.log("Entry Received",entry) 
-      if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
-      && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+      // // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
+      // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+      if(this.userType=='Issuer'){
         loginId='';
         bdmCode=this.brokerCode;
       }
@@ -353,8 +490,9 @@ if (rowData.DebitNoteNo==null && rowData.DebitNoteNo=='') {
     let entry = this.cancelbrokerList.find(ele=>ele.Code==this.CancelbrokerCode);
     if(entry){
       console.log("Entry Received",entry) 
-      if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
-      && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+      // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
+      // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+      if(this.userType=='Issuer'){
         loginId = '';
         bdmCode=this.brokerCode;
       }

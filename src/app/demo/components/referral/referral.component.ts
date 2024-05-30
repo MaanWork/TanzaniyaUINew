@@ -137,8 +137,9 @@ export class ReferralComponent implements OnInit {
     let entry = this.brokerList.find(ele=>ele.Code==this.brokerCode);
     if(entry){
       console.log("Entry Received",entry) 
-      if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
-      && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+      // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
+      // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+      if(this.userType=='Issuer'){
         loginId='';
         bdmCode=this.brokerCode;
       }
@@ -276,8 +277,9 @@ export class ReferralComponent implements OnInit {
     let entry = this.ApproveredList.find(ele=>ele.Code==this.ApproverbrokerCode);
     if(entry){
       console.log("Entry Received",entry) 
-      if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
-      && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+     // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
+      // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+        if(this.userType=='Issuer'){
         loginId='';
         bdmCode=this.ApproverbrokerCode;
       }
@@ -385,8 +387,9 @@ export class ReferralComponent implements OnInit {
     let entry = this.RejectedList.find(ele=>ele.Code==this.Rejecedbrokercode);
     if(entry){
       console.log("Entry Received",entry) 
-      if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
-      && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+      // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
+      // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+        if(this.userType=='Issuer'){
         loginId='';
         bdmCode=this.Rejecedbrokercode;
       }

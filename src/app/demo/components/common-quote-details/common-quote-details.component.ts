@@ -1989,6 +1989,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 this.tiraCoverNoteNo = this.vehicleDetails?.TiraCoverNoteNo;
                 this.motorUsageValue = this.vehicleDetails?.Motorusage;
                 this.collateralYN = this.vehicleDetails?.CollateralYn;
+                
                 if(this.collateralYN=='Y') this.collateralValue = true;
                 else{ this.collateralValue = false; this.borrowerValue=null;this.collateralName=null;this.firstLossPayee = null;}
                 if(this.vehicleDetails?.NcdYn) this.claimsYN = this.vehicleDetails?.NcdYn;
@@ -4932,6 +4933,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         this.firstLossPayee = this.vehicleDetails?.FirstLossPayee;
         this.borrowerValue = this.vehicleDetails?.BorrowerType;
       }
+      else{ this.collateralYN ='N'; this.collateralValue=false;}
       if(this.vehicleDetails?.FleetOwnerYn){
         if(this.fleetYN!='')
         this.fleetYN = this.vehicleDetails?.FleetOwnerYn;
