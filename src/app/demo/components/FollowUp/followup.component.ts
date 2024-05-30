@@ -95,6 +95,8 @@ export class FollowupComponent implements OnInit,OnChanges{
   Addnew: boolean=false;
   newfollowup: any;
   visible: boolean = false;
+  visible1: boolean = false;
+  visible2: boolean = false;
   hour: void;
 
   
@@ -172,7 +174,14 @@ export class FollowupComponent implements OnInit,OnChanges{
   }
   showDialog() {
     this.visible = true;
+   
 }
+showDialog2(rowData,model) {
+  this.visible2 = true;
+ this.getMailTemplate(rowData,model);
+
+}
+
   trans(time: any): any {
     let hour = (time.split(':'))[0]
     let min = (time.split(':'))[1]
@@ -196,7 +205,7 @@ export class FollowupComponent implements OnInit,OnChanges{
       min = (min+'').length == 1 ? `0${min}` : min;
       hour = hour > 12 ? hour - 12 : hour;
       hour = (hour+'').length == 1 ? `0${hour}` : hour;
-      return `${hour}:${min} ${part}`
+      return `${hour}:${min}`
     }
   
   drop(){
@@ -212,7 +221,7 @@ export class FollowupComponent implements OnInit,OnChanges{
           if(data.Result){
               this.TemplateList= data?.Result;
                 console.log(this.followupId);
-                //this.onFollowup();
+                this.onFollowup();
 
               console.log('Template',this.TemplateList)
           }
@@ -294,11 +303,13 @@ export class FollowupComponent implements OnInit,OnChanges{
 
 getMailTemplate(rowdata,modal){
 
-  //$(this).css("z-index", parseInt($('#card').css('z-index')) + 1);
+//$(this).css("z-index", parseInt($('#card').css('z-index')) + 1);
 
   console.log('fffffffff',rowdata)
-  this.open(modal);
-  
+  if(modal=='view'){
+    this.visible1 = true;
+  }
+ 
   
   let ReqObj= {
     /*"CreatedBy": this.loginId,
@@ -318,6 +329,7 @@ getMailTemplate(rowdata,modal){
       (data: any) => {
         console.log(data);
         if(data?.Result){
+          
             this.templist= data?.Result;
 
             // this.MailSubject=data.Result.MailSubject
@@ -328,34 +340,38 @@ getMailTemplate(rowdata,modal){
             this.newfollowup=data?.Result?.FollowupDesc;
             this.StatusDesc=data?.Result?.StatusDesc;
             this.Status=data?.Result?.Status;
-            this.StartTime=data?.Result?.StartTime;
-            this.EndTime=data?.Result?.EndTime;
+            this.StartTime=this.transform(data?.Result?.StartTime);
+            this.EndTime=this.transform(data?.Result?.EndTime);
             this.Remarks=data?.Result?.Remarks;
             this.FollowupId=data?.Result?.FollowupId;
-            this.EntryDate=data?.Result?.StartDate;
-            this.EndDate=data?.Result?.EndDate;
+            // this.EntryDate=data?.Result?.StartDate;
+            // this.EndDate=data?.Result?.EndDate;
 
-            console.log('end',this.EndDate)
+            console.log('hhhhhhhhh',this.EndTime)
 
-            console.log('hhhhhhhhh',this.FollowupId)
-
-            if(this.EntryDate){
-              this.EntryDate=this.onDateFormatInEdit(this.EntryDate)
-              console.log('EEEEEEEEE',this.EndDate)
+            if(data?.Result?.StartDate){
+              this.EntryDate=this.onDateFormatInEdit(data?.Result?.StartDate)
+              console.log('EEEEEEEEE',this.EntryDate)
              
             }
-            if(this.EndDate){
-              this.EndDate=this.onDateFormatInEdit(this.EndDate)
+            if(data?.Result?.EndDate){
+              this.EndDate=this.onDateFormatInEdit(data?.Result?.EndDate)
             }
+             
             // if(this.templist.EntryDate){
             //   this.EntryDate=this.onDateFormatInEdit(this.EntryDate)
             // }
-            /*if(this.StartTime){
-              this.StartTime=this.transform(this.StartTime)
-            }
-            if(this.EndTime){
-              this.EndTime=this.transform(this.EndTime)
-            }*/
+            // if(this.StartTime){
+            //   //this.StartTime=this.transform(this.StartTime);
+            //   this.StartTime
+            //   console.log('end',this.StartTime)
+
+            // }
+            // if(this.EndTime){
+            //  // this.EndTime=this.transform(this.EndTime);
+            //  // this.EndTime=formatter.format(this.StartTime);
+            //   console.log('end',this.EndTime)
+            // }
             console.log('templist',this.templist)
         }
       },
@@ -366,7 +382,6 @@ getMailTemplate(rowdata,modal){
 
 
 send(){
-alert(this.StartTime)
    
   let follow
   const formatter = new Intl.DateTimeFormat('en-US', {
@@ -374,7 +389,8 @@ alert(this.StartTime)
     hour12: false,
     minute: 'numeric'
   });
-  console.log('Intl.DateTimeFormat string: ', formatter.format(this.StartTime));
+  
+  console.log('Formatted start time: ', formatter.format(this.StartTime));
   console.log('yyyyyyy',this.FollowupId)
    if(this.FollowupId !="" && this.FollowupId!=null){
       follow =this.FollowupId;
@@ -393,7 +409,7 @@ alert(this.StartTime)
 "RequestReferenceNo": this.mailRequestno,
 "StartDate": this.EntryDate,
 "StartTime": formatter.format(this.StartTime),
-"Status":this.followupId,
+"Status":this.Status,
 "FollowupId":follow
   }
   //let urlLink = `${this.ApiUrl1}master/insertcompanypromocode`;
@@ -414,21 +430,21 @@ alert(this.StartTime)
     }
       
  
-     /*if (ReqObj.StartTime != '' && ReqObj.StartTime != null && ReqObj.StartTime != undefined) {
-       ReqObj['StartTime'] =  this.trans(ReqObj.StartTime)
+    //  if (ReqObj.StartTime != '' && ReqObj.StartTime != null && ReqObj.StartTime != undefined) {
+    //    ReqObj['StartTime'] =  this.trans(ReqObj.StartTime)
       
-    }
-     else{
-       ReqObj['StartTime'] = "";
-     }
+    // }
+    //  else{
+    //    ReqObj['StartTime'] = "";
+    //  }
 
     
-     if (ReqObj.EndTime != '' && ReqObj.EndTime != null && ReqObj.EndTime != undefined) {
-    ReqObj['EndTime'] =  this.trans(ReqObj.EndTime)
-     }
-    else{
-    ReqObj['EndTime'] = "";
-     }*/
+    //  if (ReqObj.EndTime != '' && ReqObj.EndTime != null && ReqObj.EndTime != undefined) {
+    // ReqObj['EndTime'] =  this.trans(ReqObj.EndTime)
+    //  }
+    // else{
+    // ReqObj['EndTime'] = "";
+    //  }
 
     
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -442,7 +458,91 @@ alert(this.StartTime)
           this.onFollowup();
          
          this.visible=false;
-          $('#follow_Up').modal('hide');
+          window.location.reload();
+         // $('#follow_Up').modal('hide');
+          
+         
+          //modal.dismiss('Cross click');
+             
+
+           console.log('Message Successfull',)
+        }
+      },
+      (err) => { },
+    );
+}
+send2(){
+   
+  let follow
+  console.log('yyyyyyy',this.FollowupId)
+   if(this.FollowupId !="" && this.FollowupId!=null){
+      follow =this.FollowupId;
+   }
+   else{
+      follow="";
+   }
+  let ReqObj= {
+"InsuranceId": this.insuranceId,
+"EndDate": this.EndDate,
+"EndTime": this.trans(this.EndTime) ,
+"FollowupDesc": this.FollowupDesc,
+"LoginId": this.loginId,
+"ProductId":this.productId,
+"Remarks":this.Remarks,
+"RequestReferenceNo": this.mailRequestno,
+"StartDate": this.EntryDate,
+"StartTime": this.trans(this.StartTime),
+"Status":this.Status,
+"FollowupId":follow
+  }
+  //let urlLink = `${this.ApiUrl1}master/insertcompanypromocode`;
+
+    let urlLink = `${this.CommonApiUrl}api/savefollowup`;
+    if (ReqObj.StartDate != '' && ReqObj.StartDate != null && ReqObj.StartDate != undefined) {
+      ReqObj['StartDate'] =  this.datePipe.transform(ReqObj.StartDate, "dd/MM/yyyy")
+    }
+    else{
+      ReqObj['StartDate'] = "";
+    }
+
+    if (ReqObj.EndDate != '' && ReqObj.EndDate != null && ReqObj.EndDate != undefined) {
+      ReqObj['EndDate'] =  this.datePipe.transform(ReqObj.EndDate, "dd/MM/yyyy")
+    }
+    else{
+      ReqObj['EndDate'] = "";
+    }
+      
+ 
+    //  if (ReqObj.StartTime != '' && ReqObj.StartTime != null && ReqObj.StartTime != undefined) {
+    //    ReqObj['StartTime'] =  this.trans(ReqObj.StartTime)
+      
+    // }
+    //  else{
+    //    ReqObj['StartTime'] = "";
+    //  }
+
+    
+    //  if (ReqObj.EndTime != '' && ReqObj.EndTime != null && ReqObj.EndTime != undefined) {
+    // ReqObj['EndTime'] =  this.trans(ReqObj.EndTime)
+    //  }
+    // else{
+    // ReqObj['EndTime'] = "";
+    //  }
+
+    
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+          // $('#follow_Up').modal('hide');
+
+          this.showGrids=true;
+          this.Addnew=true;
+          this.onFollowup();
+         
+         this.visible2=false;
+         window.location.reload();
+         // $('#follow_Up').modal('hide');
           
          
           //modal.dismiss('Cross click');

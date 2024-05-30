@@ -114,10 +114,20 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
   Building1: boolean = false;
   PersonalAccident: boolean = false;
   personalIndemity: boolean = false;
-  sectionCount: number;
+  sectionCount: number;currentContentRowIndex=null;
+  currentBuildingRowIndex=null;
   coversreuired: any;
   commonSectionList: any;
   noOfDays: number;
+  visible: boolean = false;
+  visibleBuilding: boolean = false;
+  columnHeader: any;
+  TableRow: any[];
+  Total: any;
+  columnHeaderBuilding: string[];
+  TableRowBuilding:any[]= [];
+
+  
         constructor(private router: Router,private datePipe:DatePipe,
           private sharedService: SharedService,public http: HttpClient) {
          let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails') || '{}');
@@ -159,6 +169,28 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
           }
         }
         ngOnInit() {
+         // this.Total = this.TableRow[3].Sum;
+         this.getContentDetail();
+          this.getdropList();
+          this.columnHeader =['Content Type','Serial No','Description','Sum Insured','Edit' ,'Delete']
+          this.TableRow =[{
+            id:1,
+            Content: '',
+            Serial : '',
+            Description: '',
+            Sum: 0,
+          }]
+          this.columnHeaderBuilding =['Building Usage','Built Year','Construction (Wall)','Construction (Roof)','Sum Insured','Edit' ,'Delete']
+          this.TableRowBuilding =[{
+            id:1,
+            BuildingUsageId: '',
+            BuildingBuildYear : '',
+            WallType: '',
+            RoofType: '',
+            SumI: 0,
+          }]
+            this.currentContentRowIndex = 0;
+            this.currentBuildingRowIndex = 0;
             this.sumInsured =false;
 
             this.productItem = new ProductData();
@@ -302,7 +334,95 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
           // this.BuildingSuminsured = this.building[index].BuildingSuminsured;
           this.individualCommaFormatted('building');
         }
+        showDialog() {
+          this.visible = true;
+      }
+      showDialogBuilding() {
+        this.visibleBuilding = true;
+    }
+      addRow() {
+        const newItem = { id: this.TableRow.length + 1, Content: '', Serial: '',Description:'',Sum:0 };
+        this.TableRow.push(newItem);
+        this.currentContentRowIndex = this.TableRow.length-1;
+    }
+    deleteProduct(product:any) {
+     
+              this.TableRow = this.TableRow.filter(val => val.id !== product.id);
+             // this.TableRow = {};
+            //  this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
+          //  this.getTotalSub();
+  }
+  addRowBuilding(){
+    const newItem = { id: this.TableRowBuilding.length + 1, BuildingUsageId: '', BuildingBuildYear : '',
+    WallType: '',RoofType: '', SumI: 0,};
+    this.TableRowBuilding.push(newItem);
+    this.currentBuildingRowIndex = this.TableRowBuilding.length-1;
+  }
+  deleteProductBuilding(product:any) {
+     alert(product.id);
+    this.TableRowBuilding = this.TableRowBuilding.filter(val => val.id !== product.id);
+   // this.TableRow = {};
+  //  this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
+//  this.getTotalSub();
+}
+  getTotal(){
+    this.Total = 0;let i=0;
+    if(this.TableRow.length!=0){
+      for(let tot of this.TableRow){
+        this.Total=this.Total+tot.Sum;
+        i+=1;
+        if(i==this.TableRow.length) return this.Total;
+      }
+    }
+    else return 0;
+         
+  }
+  getTotalBuilding(){
+    this.Total = 0;let i=0;
+    if(this.TableRowBuilding.length!=0){
+      for(let tot of this.TableRowBuilding){
+        this.Total=this.Total+tot.SumI;
+        i+=1;
+        if(i==this.TableRowBuilding.length) return this.Total;
+      }
+    }
+    else return 0;
+         
+  }
 
+onSaveContentRisk(){
+  if (this.TableRow.length != 0) {
+    let i=0, reqList =[];
+    for(let entry of this.TableRow){
+      alert(entry.id);
+    //   let sumInsured;
+    //   if(entry.Sum==undefined || entry.Sum==null) sumInsured = null;
+    //   // else if(entry.SumInsured.includes(',')){ sumInsured = entry.SumInsured.replace(/,/g, '') }
+    //   else sumInsured = entry.Sum;
+      
+        let data = {
+            "ItemId":entry.id,
+            "RiskId":'1',
+            "ContentRiskDesc":entry.Content,
+            "SerialNoDesc": entry.Description,
+            "MakeAndModel":"TN123",
+            "SerialNo":entry.Serial,
+            "ItemValue":"26534556",
+            "SumInsured":entry.Sum
+        }
+        /*if(data.Dob!=null){
+            data.Dob = this.datePipe.transform(data.Dob, "dd/MM/yyyy")
+        }*/
+        reqList.push(data);
+        i+=1;
+        this.visible = false;
+        if(i==this.TableRow.length){
+          this.finalSaveRiskDetails(reqList,'C');
+        }
+    }
+
+  }
+}
         getdetails(){
           let  contentData:any;let newcontent:any;
           contentData = new ProfessionalIndemnity();
@@ -1667,16 +1787,16 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             (data: any) => {
               console.log(data);
               if(data.Result){
-                let defaultObj = [{ 'label': '-Select-', 'value': null }]
+                //let defaultObj = [{ 'label': '-Select-', 'value': null }]
                 this.dropList = data.Result;
-                for (let i = 0; i < this.dropList.length; i++) {
-                  this.dropList[i].label = this.dropList[i]['CodeDesc'];
-                  this.dropList[i].value = this.dropList[i]['Code'];
-                  delete this.dropList[i].CodeDesc;
-                  if (i == this.dropList.length - 1) {
-                    this.fieldsContent[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.dropList);
-                  }
-                }
+                // for (let i = 0; i < this.dropList.length; i++) {
+                //   this.dropList[i].label = this.dropList[i]['CodeDesc'];
+                //   this.dropList[i].value = this.dropList[i]['Code'];
+                //   delete this.dropList[i].CodeDesc;
+                //   if (i == this.dropList.length - 1) {
+                //     this.fieldsContent[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.dropList);
+                //   }
+                // }
                   
       
                   //this.getOccupationList();
@@ -1926,6 +2046,27 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
           }
             
         }
+        getBuildingUsageId(BuildingUsageId) {
+          let entry = this.BuildingUsageList.find(ele=>ele.Code==BuildingUsageId);
+          if(entry){
+            return entry.CodeDesc;
+          }
+          else return '';
+      }
+      getRoofTypeDescription(RoofType) {
+        let entry = this.roofMaterialList.find(ele=>ele.Code==RoofType);
+        if(entry){
+          return entry.CodeDesc;
+        }
+        else return '';
+    }
+    getwallTypeDescription(WallType) {
+      let entry = this.wallMaterialList.find(ele=>ele.Code==WallType);
+      if(entry){
+        return entry.CodeDesc;
+      }
+      else return '';
+  }
         getAssName(Id){
           let entry = this.ChassisList.find(ele=>ele.Code==Id);
           if(entry){
@@ -2128,7 +2269,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               else sumInsured = entry.SumInsured;
                 let data = {
                   "ItemId":entry.ItemId,
-                  "RiskId":entry.RiskId,
+                  "RiskId":'1',
                   "ContentRiskDesc":entry.ContentRiskDesc,
                   "SerialNoDesc": entry.SerialNoDesc,
                   "MakeAndModel":"TN123",
@@ -2147,6 +2288,14 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
         }
         finalSaveRiskDetails(reqList,type){
           let ReqObj;let urlLink;
+          if(type=='SB'){
+            alert( reqList.RoofType);
+            // for(let data of reqList){
+            // alert(data.BuildingSumInsured)
+            
+              
+      //  }
+          }
           if(type=='EA' && (this.productId=='5' || this.productId=='29'))
           {
             ReqObj = {
@@ -2217,6 +2366,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               }
         
             },
+           
             (err) => { },
           );
         }
@@ -2588,43 +2738,43 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               (data: any) => {
                 let res: any = data.Result;
                 if (res.length != 0) {
-                  let defaultObj = [{ 'label': '-Select-', 'value': '' }]
+                 // let defaultObj = [{ 'label': '-Select-', 'value': '' }]
                   this.wallMaterialList = data.Result;
-                  for (let i = 0; i < this.wallMaterialList.length; i++) {
-                    this.wallMaterialList[i].label = this.wallMaterialList[i]['CodeDesc'];
-                    this.wallMaterialList[i].value = this.wallMaterialList[i]['Code'];
-                    delete this.wallMaterialList[i].CodeDesc;
-                    if (i == this.wallMaterialList.length - 1) {
-                      if (this.productId == '1') {
-                        this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[5].props.options = defaultObj.concat(this.wallMaterialList);
-                        this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[6].props.options = defaultObj.concat(this.wallMaterialList);
-                      }
-                      else if(this.productId=='59'){
-                        let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
-                        for(let field of fieldList){if(field.key=='WallType') field.props.options = defaultObj.concat(this.wallMaterialList);}
-                      }
-                      else if(this.productId!='19' && this.productId!='59'){
-                        this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.wallMaterialList);
-                        //this.fields[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.wallMaterialList);
-                        //this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.wallMaterialList);
-                      }
-                      else{
-                        let fields = this.fields[0].fieldGroup;
-                        // alert(fields)
-                        for(let field of fields){
-                          if(field.props.label=='Burglary'){
-                                  console.log("Burglary Filtered Fields",field)
-                              field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[5].props.options = defaultObj.concat(this.wallMaterialList);
-                              field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[6].props.options = defaultObj.concat(this.wallMaterialList);
-                          }
-                          else if(field.props.label=='Building Details'){
-                            console.log("UsageFilter",field)
-                            field.fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.wallMaterialList);
-                          }
-                        }
-                      } 
-                    }
-                  }
+                  // for (let i = 0; i < this.wallMaterialList.length; i++) {
+                  //   this.wallMaterialList[i].label = this.wallMaterialList[i]['CodeDesc'];
+                  //   this.wallMaterialList[i].value = this.wallMaterialList[i]['Code'];
+                  //   delete this.wallMaterialList[i].CodeDesc;
+                  //   if (i == this.wallMaterialList.length - 1) {
+                  //     if (this.productId == '1') {
+                  //       this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[5].props.options = defaultObj.concat(this.wallMaterialList);
+                  //       this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[6].props.options = defaultObj.concat(this.wallMaterialList);
+                  //     }
+                  //     else if(this.productId=='59'){
+                  //       let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                  //       for(let field of fieldList){if(field.key=='WallType') field.props.options = defaultObj.concat(this.wallMaterialList);}
+                  //     }
+                  //     else if(this.productId!='19' && this.productId!='59'){
+                  //       this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.wallMaterialList);
+                  //       //this.fields[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.wallMaterialList);
+                  //       //this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.wallMaterialList);
+                  //     }
+                  //     else{
+                  //       let fields = this.fields[0].fieldGroup;
+                  //       // alert(fields)
+                  //       for(let field of fields){
+                  //         if(field.props.label=='Burglary'){
+                  //                 console.log("Burglary Filtered Fields",field)
+                  //             field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[5].props.options = defaultObj.concat(this.wallMaterialList);
+                  //             field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[6].props.options = defaultObj.concat(this.wallMaterialList);
+                  //         }
+                  //         else if(field.props.label=='Building Details'){
+                  //           console.log("UsageFilter",field)
+                  //           field.fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.wallMaterialList);
+                  //         }
+                  //       }
+                  //     } 
+                  //   }
+                  // }
                 }
               },
               (err) => { },
@@ -2641,37 +2791,37 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                 let res: any = data.Result;
                 if (res.length != 0) {
                   if (res.length != 0) {
-                    let defaultObj = [{ 'label': '-Select-', 'value': '' }]
+                   // let defaultObj = [{ 'label': '-Select-', 'value': '' }]
                     this.roofMaterialList = data.Result;
-                    for (let i = 0; i < this.roofMaterialList.length; i++) {
-                      this.roofMaterialList[i].label = this.roofMaterialList[i]['CodeDesc'];
-                      this.roofMaterialList[i].value = this.roofMaterialList[i]['Code'];
-                      delete this.roofMaterialList[i].CodeDesc;
-                      if (i == this.roofMaterialList.length - 1) {
-                        if (this.productId == '1') {
-                          this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
-                        }
-                        else if(this.productId=='59'){
-                          let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
-                          for(let field of fieldList){if(field.key=='RoofType') field.props.options = defaultObj.concat(this.roofMaterialList);}
-                          // field.fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);
-                        }
-                        else if(this.productId!='19' && this.productId!='59') {console.log('FFFFFFFF',this.fields[0].fieldGroup[0].fieldGroup[3]); this.fields[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);}
-                        //this.fields[0].fieldGroup[0].fieldGroup[3]
-                        //this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);
-                        else{
-                          let fields = this.fields[0].fieldGroup;
-                          for(let field of fields){
-                            if(field.props.label=='Burglary'){
-                                field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
-                            }
-                            else if(field.props.label=='Building Details'){
-                              field.fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);
-                            }
-                          }
-                        } 
-                      }
-                    }
+                    // for (let i = 0; i < this.roofMaterialList.length; i++) {
+                    //   this.roofMaterialList[i].label = this.roofMaterialList[i]['CodeDesc'];
+                    //   this.roofMaterialList[i].value = this.roofMaterialList[i]['Code'];
+                    //   delete this.roofMaterialList[i].CodeDesc;
+                    //   if (i == this.roofMaterialList.length - 1) {
+                    //     if (this.productId == '1') {
+                    //       this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
+                    //     }
+                    //     else if(this.productId=='59'){
+                    //       let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                    //       for(let field of fieldList){if(field.key=='RoofType') field.props.options = defaultObj.concat(this.roofMaterialList);}
+                    //       // field.fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);
+                    //     }
+                    //     else if(this.productId!='19' && this.productId!='59') {console.log('FFFFFFFF',this.fields[0].fieldGroup[0].fieldGroup[3]); this.fields[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);}
+                    //     //this.fields[0].fieldGroup[0].fieldGroup[3]
+                    //     //this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);
+                    //     else{
+                    //       let fields = this.fields[0].fieldGroup;
+                    //       for(let field of fields){
+                    //         if(field.props.label=='Burglary'){
+                    //             field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
+                    //         }
+                    //         else if(field.props.label=='Building Details'){
+                    //           field.fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);
+                    //         }
+                    //       }
+                    //     } 
+                    //   }
+                    // }
                   }
                 }
               },
@@ -2751,16 +2901,16 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                 if (res.Result) {
                   let defaultObj = [{ 'label': '-Select-', 'value': '' }]
                   this.BuildingUsageList = data.Result;
-                  for (let i = 0; i < this.BuildingUsageList.length; i++) {
-                    this.BuildingUsageList[i].label = this.BuildingUsageList[i]['CodeDesc'];
-                    this.BuildingUsageList[i].value = this.BuildingUsageList[i]['Code'];
-                    delete this.BuildingUsageList[i].CodeDesc;
-                    if (i == this.BuildingUsageList.length - 1) {
-                      let fields = this.fields[0].fieldGroup;
-                        console.log('fieldsss',this.fields[0]);
-                        this.fields[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.BuildingUsageList);
-                    }
-                  }
+                  // for (let i = 0; i < this.BuildingUsageList.length; i++) {
+                  //   this.BuildingUsageList[i].label = this.BuildingUsageList[i]['CodeDesc'];
+                  //   this.BuildingUsageList[i].value = this.BuildingUsageList[i]['Code'];
+                  //   delete this.BuildingUsageList[i].CodeDesc;
+                  //   if (i == this.BuildingUsageList.length - 1) {
+                  //     let fields = this.fields[0].fieldGroup;
+                  //       console.log('fieldsss',this.fields[0]);
+                  //       this.fields[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.BuildingUsageList);
+                  //   }
+                  // }
                 }
               },
               (err) => { },
@@ -2770,7 +2920,98 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
           // onNextProceed(){
           //   this.router.navigate(['/quotation/plan/premium-details']);
           // }
-
+          getContentDetail(){
+            let sectionId=null;
+            if(this.productId=='19') sectionId = '47';
+            else sectionId = '47';
+            let urlLink = `${this.motorApiUrl}api/getallcontentrisk`;
+            let ReqObj = {
+              "QuoteNo": sessionStorage.getItem('quoteNo'),
+              "SectionId": sectionId
+            }
+            this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+              (data: any) => {
+                console.log(data);
+                let res: any = data;
+                if(res.Result?.ContentRiskDetails){
+                  if (res.Result.ContentRiskDetails) {
+                   if(res.Result.ContentRiskDetails.length!=0){
+                    if(this.endorsementSection){
+                      this.contentRiskSection = !this.enableFieldsList.some(ele=>ele=='ContentSuminsured');
+                    }
+                    else this.contentRiskSection = true;
+                     this.TableRow = res.Result.ContentRiskDetails;
+                     this.currentContentIndex = this.Cotentrisk.length;
+                     this.getTotalSICost('content');
+                   }
+                   else{
+        
+                    this.TableRow=[];
+                    this.currentContentIndex = this.TableRow.length;
+                  //  this.ContentAdd();
+                    //this.ContentAdd();
+                    // this.Cotentrisk = [{
+                    //   "ItemId":null,
+                    //   "RiskId":null,
+                    //   "MakeAndModel":null,
+                    //   "ContentRiskDesc":null,
+                    //   "SerialNoDesc": null,
+                    //   "SerialNo":null,
+                    //   "ItemValue":null,
+                    //   "SumInsured":null,
+                    // }]
+                   }
+                  }
+                  else {
+                    this.TableRow=[];
+                 //   this.ContentAdd();
+        
+                  
+                    // this.Cotentrisk = [{
+                    //   "ItemId":null,
+                    //   "RiskId":null,
+                    //   "MakeAndModel":null,
+                    //   "ContentRiskDesc":null,
+                    //   "SerialNoDesc": null,
+                    //   "SerialNo":null,
+                    //   "ItemValue":null,
+                    //   "SumInsured":null,
+                    // }]
+                  }
+                }
+                else {
+                  this.TableRow=[];
+                 // this.ContentAdd();
+                  // this.Cotentrisk = [{
+                  //   "ItemId":null,
+                  //   "RiskId":null,
+                  //   "MakeAndModel":null,
+                  //   "ContentRiskDesc":null,
+                  //   "SerialNoDesc": null,
+                  //   "SerialNo":null,
+                  //   "ItemValue":null,
+                  //   "SumInsured":null,
+                  // }]
+                }
+                // if(this.second){
+                //   this.getPersonalAccidentDetails();
+                  
+                // }
+                // else if(this.third){
+                //   this.getallriskDetails();
+                // }
+                // else if(this.fifth){
+                //   this.getPersonalIntermediaryDetails();
+                // }
+                // else if(this.six){
+                //   this.getElectronicEquipment('change');
+                // }
+                // else if(this.nine){
+                //   this.getMachineryRisk();
+                // }
+        
+              })
+          }
 
           getContentDetails(type){
             let sectionId = null;
@@ -3571,6 +3812,40 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               (err) => { },
             );
           }
+
+          
+          onSaveBuildingList(){
+            if (this.TableRowBuilding.length != 0) {
+              let i=0,j=0, reqList =[];
+              for(let entry of this.TableRowBuilding){
+                  if(entry.BuildingUsageId!=null && entry.BuildingUsageId!='' && entry.BuildingUsageId!=undefined) entry['BuildingUsageIdError']=false;
+                  else{ j+=1; entry['BuildingUsageIdError']=true;}
+                  if(entry.WallType!=null && entry.WallType!='' && entry.WallType!=undefined) entry['WallTypeError']=false;
+                  else{ j+=1; entry['WallTypeError']=true;}
+                  if(entry.RoofType!=null && entry.RoofType!='' && entry.RoofType!=undefined) entry['RoofTypeError']=false;
+                  else{ j+=1; entry['RoofTypeError']=true;}
+                  if(entry.SumI!=null && entry.SumI!='' && entry.SumI!=undefined && entry.SumI!=0) entry['SumInsuredError']=false;
+                  else{ j+=1; entry['SumInsuredError']=true;}
+                  if(entry.id!=null && entry.id!='' && entry.BuildingUsageId!=null && entry.BuildingUsageId!=''){
+                    let data = {
+                        "ItemId":entry.id,
+                        "RiskId":'1',
+                        "BuildingUsageId":entry.BuildingUsageId,
+                        "BuildingBuildYear": entry.BuildingBuildYear,
+                        "WallType":entry.WallType,
+                        "RoofType":entry.RoofType,
+                        "BuildingSumInsured":entry.SumI
+                    }
+                    reqList.push(data);
+                  }
+                  
+                  i+=1;
+                  if(i==this.TableRowBuilding.length){
+
+                  }
+              }
+            }
+          }
           onSaveBuildingDetails(){
             // alert('Save Building')
             this.subuserType = sessionStorage.getItem('typeValue');
@@ -3603,51 +3878,51 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               if (refNo!=undefined && refNo!="undefined") {
                 reqRefNo = sessionStorage.getItem('quoteReferenceNo')
               }
-              if (reqRefNo == 'undefined' || reqRefNo == undefined) reqRefNo = null;
-            let ReqObj = {
-              "CreatedBy": createdBy,
-              "InsuranceId": this.insuranceId,
-              "ProductId": this.productId,
-              "RequestReferenceNo": reqRefNo,
-              "RiskId": "1",
-              "SectionId":  "1",
-              "RoofType": this.productItem.RoofType,
-              "WallType": this.productItem.WallType,
-              "BuildingBuildYear": this.productItem.BuildingBuildYear,
-              "BuildingOwnerYn": "N",
-              "BuildingSumInsured": this.productItem.BuildingSuminsured,
-              "BuildingUsageId": this.productItem.BuildingUsageId,
-              "WaterTankSi": this.productItem?.WaterTankSi,
-              "ArchitectsSi": this.productItem?.ArchitectsSi,
-              "LossOfRentSi":this.productItem?.LossOfRentSi,
-              "TypeOfProperty":this.productItem?.TypeOfProperty,
-              "EndorsementDate": "",
-              "EndorsementEffectiveDate": "",
-              "EndorsementRemarks": "",
-              "EndorsementType": "",
-              "EndorsementTypeDesc": "",
-              "EndtCategoryDesc": "",
-              "EndtCount": "",
-              "EndtPrevPolicyNo": "",
-              "EndtPrevQuoteNo": "",
-              "EndtStatus": "",
-              "IsFinanceEndt": "",
-              "OrginalPolicyNo": "",
-              "PolicyNo": this.endorsePolicyNo,
-              "Status": "Y",
-            }
-            if (this.endorsementSection) {
-              if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
-                ReqObj['Status'] = 'E';
-              }
-              else {
-                ReqObj['Status'] = this.productItem?.Status;
-              }
-              ReqObj['PolicyNo'] = this.endorsePolicyNo
-            }
-            else {
-              ReqObj['Status'] = 'Y';
-            }
+              if(reqRefNo == 'undefined' || reqRefNo == undefined) reqRefNo = null;
+                let ReqObj = {
+                  "CreatedBy": createdBy,
+                  "InsuranceId": this.insuranceId,
+                  "ProductId": this.productId,
+                  "RequestReferenceNo": reqRefNo,
+                  "RiskId": "1",
+                  "SectionId":  "1",
+                  "RoofType": this.productItem.RoofType,
+                  "WallType": this.productItem.WallType,
+                  "BuildingBuildYear": this.productItem.BuildingBuildYear,
+                  "BuildingOwnerYn": "N",
+                  "BuildingSumInsured": this.productItem.BuildingSuminsured,
+                  "BuildingUsageId": this.productItem.BuildingUsageId,
+                  "WaterTankSi": this.productItem?.WaterTankSi,
+                  "ArchitectsSi": this.productItem?.ArchitectsSi,
+                  "LossOfRentSi":this.productItem?.LossOfRentSi,
+                  "TypeOfProperty":this.productItem?.TypeOfProperty,
+                  "EndorsementDate": "",
+                  "EndorsementEffectiveDate": "",
+                  "EndorsementRemarks": "",
+                  "EndorsementType": "",
+                  "EndorsementTypeDesc": "",
+                  "EndtCategoryDesc": "",
+                  "EndtCount": "",
+                  "EndtPrevPolicyNo": "",
+                  "EndtPrevQuoteNo": "",
+                  "EndtStatus": "",
+                  "IsFinanceEndt": "",
+                  "OrginalPolicyNo": "",
+                  "PolicyNo": this.endorsePolicyNo,
+                  "Status": "Y",
+                }
+                if (this.endorsementSection) {
+                  if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
+                    ReqObj['Status'] = 'E';
+                  }
+                  else {
+                    ReqObj['Status'] = this.productItem?.Status;
+                  }
+                  ReqObj['PolicyNo'] = this.endorsePolicyNo
+                }
+                else {
+                  ReqObj['Status'] = 'Y';
+                }
             let urlLink = `${this.motorApiUrl}api/slide14/savebuilding`;
                 this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
                   (data: any) => {

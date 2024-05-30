@@ -445,6 +445,30 @@ export class MotorDocumentsDetailComponent {
       );
     
     }
+    onCommonDocumentDownload(index){
+      let entry = this.CommonDoc[index];
+      console.log("onCommonDocumentDownload",index);
+      
+      let ReqObj = {
+       "Id": index.Id,
+        "QuoteNo": this.quoteNo,
+        "UniqueId": index.UniqueId
+      }
+      let urlLink = `${this.CommonApiUrl}document/getoriginalimage`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          const link = document.createElement('a');
+          link.setAttribute('target', '_blank');
+          link.setAttribute('href', data?.Result?.ImgUrl);
+          link.setAttribute('download', data?.Result?.OriginalFileName);
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+      },
+        (err) => { },
+      );
+    } 
     VechileTira(){
     
       let ReqObj={

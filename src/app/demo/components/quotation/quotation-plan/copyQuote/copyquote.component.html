@@ -55,7 +55,7 @@
                     <ng-container *ngIf="customerData.length!=0">
                         <!-- <app-grid-table [cols]="columnHeader" [data]="customerData" [innerCols]="innerColumnHeader" [innerData]="innerTableData" (onSelectCustomer)="onSelect($event)" (onEdit)="onEditQuotes($event)" (onAdd)="onInnerData($event)">
                         </app-grid-table> -->
-                        <p-table #dtEmployeeExist [value]="customerData" 
+                        <p-table #dtEmployeeExist [value]="customerData" [(selection)]="selectedProducts3"
                         [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5" 
                         [globalFilterFields]="['QuoteNo','RequestReferenceNo','ClientName','OverallPremiumLc']">
                           <ng-template pTemplate="caption">
@@ -83,7 +83,7 @@
                             <tr>
                               <!-- <td><p-checkbox [binary]="true"></p-checkbox></td> -->
                               <td class="p-field-checkbox">
-                                <p-checkbox (onChange)="onSelect(customer,$event)" [(ngModel)]="collateralValue" [binary]="true"></p-checkbox>
+                                <p-checkbox (onChange)="onSelect(customer,$event)"  [binary]="true" [value]="customerData"></p-checkbox>
                                 <!-- <label for="binary">&nbsp;Collateral</label> -->
                                 </td>
                               <td>{{ customer.QuoteNo }}</td>
@@ -116,7 +116,7 @@
                         </div>
 
                     </ng-container>
-                    <div class="text-center" *ngIf="selectedData">
+                    <div class="text-center mt-5" *ngIf="selectedData">
                         <p-button (click)="onCopyQuote()" label="Copy Quote" size="small"></p-button>
                         <!--custom-btn btn-6 mx-2-->
                     </div>

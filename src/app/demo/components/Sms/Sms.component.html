@@ -32,17 +32,17 @@
           </div>
           <div class="grid justify-content-center">
             <div class="col-12 lg:col-4 md:col-4" *ngIf="smstemplatevalue">
-              <label>SSubject*</label>
+              <label>Sms Subject*</label>
               <input pInputText class="w-full" styleClass="w-full"  [(ngModel)]="SmsSubject" />
               </div>
               <div class="col-12 lg:col-4 md:col-4" *ngIf="smstemplatevalue">
-                <label>MailRegards*</label>
+                <label>Sms Regards*</label>
                 <input pInputText [(ngModel)]="SmsRegards" class="w-full" styleClass="w-full"  />
                 </div>
           </div>
           <div class="grid justify-content-center">
             <div class="col-12 lg:col-4 md:col-4" *ngIf="smstemplatevalue">
-              <label for="MailBody">MailBody</label>  
+              <label for="MailBody">Sms Body</label>  
               <textarea pInputTextarea [(ngModel)]="SmsBody" class="w-full" styleClass="w-full" cols="200" rows="7"></textarea>
             </div>
           </div>
@@ -50,7 +50,7 @@
             <div  *ngIf="smstemplatevalue">
               <p-button  styleClass="p-button-outlined" label="Back"
               size="small" *ngIf="smss && smstemplatevalue" (click)="back()"></p-button>&nbsp;
-          <p-button *ngIf="smss && smstemplatevalue" label="Submit" size="small" (click)="send()" ></p-button>
+          <p-button *ngIf="smss && smstemplatevalue" label="Submit" size="small" (click)="sendSms()" ></p-button>
             </div>
           </div>
 </ng-container>

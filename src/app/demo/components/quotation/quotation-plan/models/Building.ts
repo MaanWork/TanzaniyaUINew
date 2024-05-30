@@ -192,77 +192,77 @@ export class Building{
             {
               fieldGroupClassName: 'newclassname',
               fieldGroup: [
-                {
-                  className: 'w-full md:mt-0 mt-3 md:w-1/3',
-                  type: 'ngselect',
-                  key: 'BuildingUsageId',
-                  props: {
-                    label: 'Building Usage',
-                    //hideExpression: "model.BuildingOwnerYn =='N'",
-                    disabled: this.checkDisable('BuildingUsageId'),
-                    required: true,
-                    options: [
-                    ],
-                  },
+                // {
+                //   className: 'w-full md:mt-0 mt-3 md:w-1/3',
+                //   type: 'ngselect',
+                //   key: 'BuildingUsageId',
+                //   props: {
+                //     label: 'Building Usage',
+                //     //hideExpression: "model.BuildingOwnerYn =='N'",
+                //     disabled: this.checkDisable('BuildingUsageId'),
+                //     required: true,
+                //     options: [
+                //     ],
+                //   },
 
-                  expressions: {
+                //   expressions: {
   
-                  },
-                },
-                {
-                  className: 'w-full md:mt-0 mt-5 mdw-5',
-                  type: 'input',
-                  key: 'BuildingBuildYear',
-                  props: {
-                    label: 'Built Year',
-                    placeholder: "YYYY",
-                    required: true,
-                    maxLength: 4,
-                    pattern: /[0-9]+/gm,
-                    disabled: this.checkDisable('BuildingBuildYear'),
-                    options: [
-                    ],
-                  },
-                  validation: {
-                    messages: {
-                    },
-                  },
-                  expressions: {
+                //   },
+                // },
+                // {
+                //   className: 'w-full md:mt-0 mt-5 mdw-5',
+                //   type: 'input',
+                //   key: 'BuildingBuildYear',
+                //   props: {
+                //     label: 'Built Year',
+                //     placeholder: "YYYY",
+                //     required: true,
+                //     maxLength: 4,
+                //     pattern: /[0-9]+/gm,
+                //     disabled: this.checkDisable('BuildingBuildYear'),
+                //     options: [
+                //     ],
+                //   },
+                //   validation: {
+                //     messages: {
+                //     },
+                //   },
+                //   expressions: {
   
-                  },
-                },
-                {
-                  className: 'w-full md:mt-0 mt-3 md:w-1/3',
-                  type: 'ngselect',
-                  key: 'WallType',
-                  props: {
-                    label: 'Construction (Wall)',
-                    disabled: this.checkDisable('WallType'),
-                    required: false,
-                    options: [
-                    ],
-                  },
-                  expressions: {
+                //   },
+                // },
+                // {
+                //   className: 'w-full md:mt-0 mt-3 md:w-1/3',
+                //   type: 'ngselect',
+                //   key: 'WallType',
+                //   props: {
+                //     label: 'Construction (Wall)',
+                //     disabled: this.checkDisable('WallType'),
+                //     required: false,
+                //     options: [
+                //     ],
+                //   },
+                //   expressions: {
   
-                  },
-                },
-                {
-                  className: 'w-full md:mt-0 mt-3 md:w-1/3',
-                  type: 'ngselect',
-                  key: 'RoofType',
-                  props: {
-                    label: 'Construction (Roof)',
-                    disabled: this.checkDisable('RoofType'),
-                    required: false,
-                    options: [
-                    ],
-                  },
-                  expressions: {
+                //   },
+                // },
+                // {
+                //   className: 'w-full md:mt-0 mt-3 md:w-1/3',
+                //   type: 'ngselect',
+                //   key: 'RoofType',
+                //   props: {
+                //     label: 'Construction (Roof)',
+                //     disabled: this.checkDisable('RoofType'),
+                //     required: false,
+                //     options: [
+                //     ],
+                //   },
+                //   expressions: {
   
-                  },
-                },
+                //   },
+                // },
                 {
-                  className: 'w-full md:mt-0 mt-5 mdw-5',
+                  className: 'w-full md:mt-0 mt-3 mdw4',
                   type: 'commaSeparator',
                   key: 'BuildingSuminsured',
                   templateOptions: {

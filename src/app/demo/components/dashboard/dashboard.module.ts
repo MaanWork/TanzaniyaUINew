@@ -20,6 +20,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { AccordionModule } from 'primeng/accordion';
 import { FieldsetModule } from 'primeng/fieldset';
 import { AvatarModule } from 'primeng/avatar';
+import { DialogModule } from 'primeng/dialog';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
 
 @NgModule({
     imports: [
@@ -43,6 +45,8 @@ import { AvatarModule } from 'primeng/avatar';
         FieldsetModule,
         AvatarModule,
         TableModule,
+        DynamicDialogModule,
+        DialogModule
     ],
     declarations: [DashboardComponent,ReferralCasesComponent]
 })

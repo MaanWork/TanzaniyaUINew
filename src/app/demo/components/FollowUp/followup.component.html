@@ -58,7 +58,52 @@
       </app-grid-table> -->
     </div>
 
-   
+    <ng-container *ngIf="NotifiList.length!=0 && showGrids && Addnew" class="mt-5">
+      <p-table [value]="NotifiList"  #dtEmployee
+               [globalFilterFields]="['FollowupDesc','Status',
+                                      'Remarks','StartDate']"
+               [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5" >
+               <ng-template pTemplate="caption">
+                  <div class="flex flex wrap justify-content-end">
+                    <div class="table-header">
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dtEmployee.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                        </span>
+                    </div>
+                  </div>
+                  
+                </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            
+            <th [pSortableColumn]="column" *ngFor="let column of MailHeader">
+              {{column}}
+              <p-sortIcon [field]="column"></p-sortIcon> 
+            </th>
+          </tr>
+        </ng-template>
+            <ng-template pTemplate="body" let-NoteList>
+              <tr>
+                <td>{{ NoteList.FollowupDesc }}</td>
+                <td>{{ NoteList.StartDate }}</td>
+                <td>
+                  <ng-container *ngIf="NoteList?.Status=='CO'">Completed</ng-container>
+                  <ng-container *ngIf="NoteList?.Status=='CA'">Cancelled</ng-container>
+                  <ng-container *ngIf="NoteList?.Status=='PE'">Pending</ng-container>
+                </td>
+                <td>{{ NoteList.Remarks }}</td>
+                <td> <button pButton pRipple icon="pi pi-eye"  class="p-button-outlined" (click)="getMailTemplate(NoteList,'view')" ></button></td>
+              <td> <button pButton pRipple icon="pi pi-pencil"  class="p-button-outlined" (click)="showDialog2(NoteList,'update')" ></button></td>
+                </tr>
+                </ng-template>
+                <ng-container *ngIf="NotifiList.length==0">
+                  <div class="text-center">
+                      No Data Available
+                  </div>
+                </ng-container>
+      </p-table>
+    </ng-container>
 
   <div class="grid mt-2">
 
@@ -79,6 +124,7 @@
     header="Header" 
     [(visible)]="visible" 
     [modal]="true" 
+    
     [style]="{ width: '35rem',height:'60rem' }">
         <ng-template pTemplate="header">
             <div class="inline-flex align-items-center justify-content-center gap-2">
@@ -160,7 +206,7 @@
                       class="w-full" 
                       styleClass="w-full" 
                       [options]="TemplateList" 
-                      [(ngModel)]="followupId" 
+                      [(ngModel)]="Status" 
                       optionLabel="CodeDesc"
                       optionValue="Code" 
                       placeholder="Select District">
@@ -177,8 +223,78 @@
 
 <p-dialog 
     header="Header" 
-    [(visible)]="visible" 
+    [(visible)]="visible1" 
     [modal]="true" 
+    [style]="{ width: '35rem' }">
+        <ng-template pTemplate="header">
+            <div class="inline-flex align-items-center justify-content-center gap-2">
+                <p-avatar 
+                    shape="circle" />
+                <span class="font-bold white-space-nowrap">
+                   Followup Details
+                </span>
+            </div>
+        </ng-template>
+
+        <ng-container  style="text-align:center" >
+          <div class=" grid">
+              <!-- <div class="col-12 md:col-3">
+                  <span class="p-float-label">
+                  </span>
+              </div> -->
+         
+                <div class="col-12 lg:col-12 md:col-12" >
+                    <label ><b>FollowupDesc*</b></label><br>
+                    <label >{{FollowupDesc}}</label>
+                </div>
+          
+              <div class="col-12 lg:col-4 md:col-4"> 
+                <label ><b>Start Date*</b></label><br>
+                <label >{{EntryDate | date:'shortDate'}}</label>
+            </div>
+            <div class="col-12 lg:col-4 md:col-4">
+              <label ><b>StartTime*</b></label><br>
+                <label >{{StartTime}}</label>
+          </div>
+        <div class="col-12 lg:col-4 md:col-4">
+          <label ><b>End Date*</b></label><br>
+                <label >{{EndDate | date:'shortDate'}}</label>
+         
+      </div>
+      
+      <div class="col-12 lg:col-4 md:col-4">
+        <label ><b>EndTime*</b></label><br>
+        <label >{{EndTime }}</label>
+        
+    </div>
+          <div class="col-12 lg:col-4 md:col-4">
+            <label ><b>Remarks*</b></label><br>
+            <label >{{Remarks}}</label>
+              
+        </div>
+        <div class="col-12 lg:col-4 md:col-4">
+          <label ><b>Status*</b></label><br>
+          <label >{{Status}}</label>
+      </div>
+    </div>
+    <div class="flex justify-content-center mt-5 gap-2">
+      <p-button label="Cancel" styleClass="p-button-outlined" (click)="visible1 = false" />
+      <!-- <p-button label="Submit" (click)="send()" /> -->
+  </div>
+      </ng-container>
+
+</p-dialog>
+
+
+
+
+
+</div>
+<p-dialog 
+    header="Header" 
+    [(visible)]="visible2" 
+    [modal]="true" 
+    
     [style]="{ width: '35rem',height:'60rem' }">
         <ng-template pTemplate="header">
             <div class="inline-flex align-items-center justify-content-center gap-2">
@@ -198,102 +314,82 @@
               </div> -->
          
                 <div class="col-12 lg:col-12 md:col-12" >
-                    <label ><b>FollowupDesc*</b></label>
-                    <label >{{FollowupDesc}}</label>
+                    <label >FollowupDesc*</label>
+                        <textarea  pInputTextarea  class="w-full" 
+                        styleClass="w-full"   [(ngModel)]="FollowupDesc"  ></textarea>
                 </div>
               </div>
           <div class="grid " style="justify-content: center;">
               <div class="col-12 lg:col-8 md:col-8"> 
-                <label ><b>Start Date*</b></label>
-                <label >{{EntryDate}}</label>
+                <label for="username">Start Date*</label>
+                      <p-calendar class="w-full" 
+                          styleClass="w-full" 
+                          [(ngModel)]="EntryDate"
+                          dateFormat="dd/mm/yy"
+                          placeholder="Enter Start Date">
+              </p-calendar>
             </div>
             <div class="col-12 lg:col-4 md:col-4">
-              <label ><b>StartTime*</b></label>
-                <label >{{StartTime}}</label>
+              <label for="username">StartTime*</label>
+              <p-calendar class="w-full"
+              inputId="calendar-timeonly"  
+                  styleClass="w-full" 
+                  [(ngModel)]="StartTime"
+                  dateFormat="h:mm"
+                  [timeOnly]="true"
+                  (onChange)="trans(StartTime)"
+                  placeholder="Enter Start Time">
+          </p-calendar>
           </div>
         <div class="col-12 lg:col-8 md:col-8">
-          <label ><b>End Date*</b></label>
-                <label >{{EndDate}}</label>
-         
+          <label for="username">End Date*</label>
+          <p-calendar class="w-full" 
+              styleClass="w-full" 
+              [(ngModel)]="EndDate"
+              dateFormat="dd/mm/yy"
+              placeholder="Enter End Date">
+      </p-calendar>
       </div>
       
       <div class="col-12 lg:col-4 md:col-4">
-        <label ><b>EndTime*</b></label>
-        <label >{{EndTime}}</label>
-        
+        <label for="username">EndTime*</label>
+          <p-calendar class="w-full"
+          inputId="calendar-timeonly"  
+              styleClass="w-full" 
+              [(ngModel)]="EndTime"
+              dateFormat="h:mm"
+              [timeOnly]="true"
+              placeholder="Enter End Time">
+      </p-calendar>
     </div>
            
     </div>
           <div class="grid">
           
           <div class="col-12 lg:col-12 md:col-12">
-            <label ><b>Remarks*</b></label>
-            <label >{{Remarks}}</label>
-              
+              <label>Remarks*</label> <textarea pInputTextarea   class="w-full" 
+                  styleClass="w-full"  [(ngModel)]="Remarks"  ></textarea>
         </div>
         <div class="col-12 lg:col-12 md:col-12">
-          <label ><b>Status*</b></label>
-          <label >{{followupId}}</label>
+          <label for="username">Status  *</label>
+                  <p-dropdown inputId="make" 
+                      class="w-full" 
+                      styleClass="w-full" 
+                      [options]="TemplateList" 
+                      [(ngModel)]="Status" 
+                      optionLabel="CodeDesc"
+                      optionValue="Code" 
+                      placeholder="Select District">
+                  </p-dropdown>
       </div>
     </div>
     <div class="flex justify-content-center mt-5 gap-2">
       <p-button label="Cancel" styleClass="p-button-outlined" (click)="visible = false" />
-      <!-- <p-button label="Submit" (click)="send()" /> -->
+      <p-button label="Submit" (click)="send2()" />
   </div>
       </ng-container>
 
 </p-dialog>
-
-
-
-<ng-container *ngIf="NotifiList.length!=0 && showGrids && Addnew" class="mt-5">
-  <p-table [value]="NotifiList"  #dtEmployee
-           [globalFilterFields]="['FollowupDesc','Status',
-                                  'Remarks','StartDate']"
-           [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5" >
-           <ng-template pTemplate="caption">
-              <div class="flex flex wrap justify-content-end">
-                <div class="table-header">
-                    <span class="p-input-icon-left">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dtEmployee.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
-                    </span>
-                </div>
-              </div>
-              
-            </ng-template>
-    <ng-template pTemplate="header">
-      <tr>
-        
-        <th [pSortableColumn]="column" *ngFor="let column of MailHeader">
-          {{column}}
-          <p-sortIcon [field]="column"></p-sortIcon> 
-        </th>
-      </tr>
-    </ng-template>
-        <ng-template pTemplate="body" let-NoteList>
-          <tr>
-            <td>{{ NoteList.FollowupDesc }}</td>
-            <td>{{ NoteList.StartDate }}</td>
-            <td>
-              <ng-container *ngIf="NoteList?.Status=='N'">DeActive</ng-container>
-              <ng-container *ngIf="NoteList?.Status=='Y'">Active</ng-container>
-              <ng-container *ngIf="NoteList?.Status=='PE'">Pending</ng-container>
-            </td>
-            <td>{{ NoteList.Remarks }}</td>
-            <td> <button pButton pRipple icon="pi pi-eye"  class="p-button-outlined" (click)="getMailTemplate(NoteList)" ></button></td>
-          <td> <button pButton pRipple icon="pi pi-pencil"  class="p-button-outlined" (click)="getMailTemplate(NoteList)" ></button></td>
-            </tr>
-            </ng-template>
-  </p-table>
-</ng-container>
-<ng-container *ngIf="NotifiList.length==0">
-  <div class="text-center">
-      No Data Available
-  </div>
-</ng-container>
-</div>
-
 
 <!--   
   <ng-template #follow_Up let-modal>
