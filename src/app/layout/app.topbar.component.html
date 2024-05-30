@@ -32,6 +32,18 @@
     </button>
     
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        <p-button icon="pi pi-language" mat-icon-button [matMenuTriggerFor]="menu" shape="circle" severity="danger" />&nbsp;&nbsp;
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item >
+                <span>English</span>
+            </button>
+            <button mat-menu-item >
+                <span>French</span>
+            </button>
+            <button mat-menu-item >
+                <span>Portugese</span>
+            </button>
+        </mat-menu>
         <ng-container *ngIf="showUserDetails()">
             <p-button [label]="productname" icon="pi pi-home" class="productBtn" (click)="onProductRedirect()" severity="warning"></p-button>&nbsp;
             <ng-container *ngIf="typeList.length!=0">

@@ -34,6 +34,8 @@ import { ReportModule } from '../demo/components/report/report.module';
 import { DropdownModule } from 'primeng/dropdown';
 import { CommonModule } from '@angular/common';
 import { SearchModule } from '../demo/components/Search/search.module';
+import { ButtonModule } from 'primeng/button';
+import { MaterialModule } from '../material/material.module';
 
 @NgModule({
     declarations: [
@@ -70,7 +72,9 @@ import { SearchModule } from '../demo/components/Search/search.module';
         PortfolioModule,
         ReportModule,
         DropdownModule,
-        SearchModule
+        SearchModule,
+        ButtonModule,
+        MaterialModule
     ],
     exports: [AppLayoutComponent]
 })
