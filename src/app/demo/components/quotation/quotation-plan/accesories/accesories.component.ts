@@ -3322,25 +3322,27 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     if (this.PersonalAssistantList.length != 0) {
       let i=0, reqList =[];
       for(let entry of this.PersonalAssistantList){
-        let salary;
-        if(entry.Salary==undefined || entry.Salary==null) salary = null;
-        // else if(entry.Salary.includes(',')){ salary = entry.Salary.replace(/,/g, '') }
-        else salary = entry.Salary;
-          let data = {
-            "Dob": entry.Dob,
-              "Height": null,
-              "OccupationId": entry.OccupationId,
-              "PersonName": entry.PersonName,
-              "NationalityId": entry.NationalityId,
-              "Salary": salary,
-              "Weight": null,
-              "RiskId": entry.RiskId,
-              "SerialNo": entry.SerialNo
-          }
-          if(data.Dob!=null){
-              data.Dob = this.datePipe.transform(data.Dob, "dd/MM/yyyy")
-          }
-          reqList.push(data);
+        if(entry.PersonName!='' && entry.RiskId!='' && entry.Salary!=0 && entry.Salary!='0'){
+          let salary;
+          if(entry.Salary==undefined || entry.Salary==null) salary = null;
+          // else if(entry.Salary.includes(',')){ salary = entry.Salary.replace(/,/g, '') }
+          else salary = entry.Salary;
+            let data = {
+              "Dob": entry.Dob,
+                "Height": null,
+                "OccupationId": entry.OccupationId,
+                "PersonName": entry.PersonName,
+                "NationalityId": entry.NationalityId,
+                "Salary": salary,
+                "Weight": null,
+                "RiskId": entry.RiskId,
+                "SerialNo": entry.SerialNo
+            }
+            if(data.Dob!=null){
+                data.Dob = this.datePipe.transform(data.Dob, "dd/MM/yyyy")
+            }
+            reqList.push(data);
+        }
           i+=1;
           if(i==this.PersonalAssistantList.length){
             this.finalSaveRiskDetails(type,reqList,'PA');
