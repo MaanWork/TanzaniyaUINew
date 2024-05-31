@@ -3102,6 +3102,7 @@ this.newAddClauses=true;
   onUpdateFleetFactorRate(modal){
     this.fleetCoverDetails.CoverList[0].Discount = this.discountList;
     this.fleetCoverDetails.CoverList[0].Loading = this.loadingList;
+    if(this.remarks==null || this.remarks==undefined) this.remarks = 'None'
     if(this.statusValue){
       let ReqObj = {
         "VehicleId": "99999",

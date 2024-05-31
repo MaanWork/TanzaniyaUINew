@@ -181,13 +181,14 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
           this.getdropList();
           this.columnHeader =['Content Type','Serial No','Description','Sum Insured','Edit' ,'Delete']
           this.TableRow =[{
+            id:1,
             ItemId: '',
             Content: '',
             SerialNoDesc : '',
             ContentRiskDesc: '',
             SumInsured: 0,
           }]
-          this.columnHeaderBuilding =['Building Usage','Construction (Wall)','Construction (Roof)','Sum Insured','Edit' ,'Delete']
+          this.columnHeaderBuilding =['Building Usage','Construction (Wall)','Construction (Roof)','Sum Insured',"Location",'Edit' ,'Delete']
           this.TableRowBuilding =[{
             id:1,
             BuildingUsageId: '',
@@ -195,9 +196,11 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             WallType: '',
             RoofType: '',
             BuildingSumInsured: 0,
+            LocationName: '',
           }]
           this.columnHeaderAllRisk =['Content Type','Serial No','Description','Sum Insured','Edit' ,'Delete']
           this.TableRowAllRisk =[{
+            id:1,
             ItemId:'',
             Content: '',
             Serial : '',
@@ -362,29 +365,21 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
         this.TableRow.push(newItem);
         this.currentContentRowIndex = this.TableRow.length-1;
     }
-    deleteProduct(product:any) {
-     
-      this.TableRow = this.TableRow.filter(val => val.id !== product.id);
-     // this.TableRow = {};
-    //  this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
-  //  this.getTotalSub();
+    deleteProduct(index) {
+    
+      this.TableRow.splice(index,1);
 }
     addRowAllRisk(){
       
-      const newItem = { ItemId: '', Content: '', Serial: '',Description:'',SumInsured:0,};
+    const newItem = {  id: this.TableRowAllRisk.length + 1,ItemId: '', Content: '', Serial: '',Description:'',SumInsured:0,};
     this.TableRowAllRisk.push(newItem);
     this.currentAllRiskRowIndex = this.TableRowBuilding.length-1;
 
-      // const newItem = {  };
-      // this..push(newItem);
-      // this. = this.TableRowAllRisk.length-1;
     }
-    deleteProductAllRisk(product:any) {
-     
-      this.TableRowAllRisk = this.TableRowAllRisk.filter(val => val.id !== product.id);
-     // this.TableRow = {};
-    //  this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
-  //  this.getTotalSub();
+    deleteProductAllRisk(index) {
+
+      this.TableRowAllRisk.splice(index,1);
+
 }
 getallriskDetailsData(){
   let urlLink = `${this.motorApiUrl}api/getallcontentrisk`;
@@ -441,15 +436,13 @@ getTotalAllRisk(){
 }
 addRowBuilding(){
   const newItem = { id: this.TableRowBuilding.length + 1, BuildingUsageId: '', BuildingBuildYear : '',
-  WallType: '',RoofType: '', BuildingSumInsured: 0,};
+  WallType: '',RoofType: '', BuildingSumInsured: 0,LocationName:''};
   this.TableRowBuilding.push(newItem);
   this.currentBuildingRowIndex = this.TableRowBuilding.length-1;
   }
-  deleteProductBuilding(product:any) {
-    this.TableRowBuilding = this.TableRowBuilding.filter(val => val.id !== product.id);
-   // this.TableRow = {};
-  //  this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
-//  this.getTotalSub();
+  deleteProductBuilding(index) {
+    
+    this.TableRowBuilding.splice(index,1);
 }
 getTotal(){
   this.Total = 0;let i=0;
@@ -529,6 +522,7 @@ getTotal(){
               "MakeAndModel":"TN123",
               "SerialNo":entry.Serial,
               "ItemValue": entry.Content,
+             
               "SumInsured":entry.SumInsured
           }
           reqList.push(data);
@@ -2237,6 +2231,20 @@ getTotal(){
         }
         else return '';
     }
+    getContentTypeDescription(Content) {
+      let entry = this.dropList.find(ele=>ele.Code==Content);
+      if(entry){
+        return entry.CodeDesc;
+      }
+      else return '';
+    }
+    getAllContentTypeDescription(Content) {
+      let entry = this.allriskList.find(ele=>ele.Code==Content);
+      if(entry){
+        return entry.CodeDesc;
+      }
+      else return '';
+    }
     getwallTypeDescription(WallType) {
       let entry = this.wallMaterialList.find(ele=>ele.Code==WallType);
       if(entry){
@@ -3789,7 +3797,7 @@ getTotal(){
               (data: any) => {
                 if (data.Result) {
                       this.productItem.BuildingSuminsured = data?.Result?.BuildingSumInsured;
-                     
+                     this.TableRowBuilding=data?.Result;
                       // this.productItem.BuildingBuildYear = data?.Result?.BuildingBuildYear;
                       // if(data?.Result?.BuildingOwnerYn) this.productItem.BuildingOwnerYn = data.Result.BuildingOwnerYn;
                       // if(data?.Result?.BuildingUsageId) this.productItem.BuildingUsageId = data.Result.BuildingUsageId;
@@ -3951,20 +3959,23 @@ getTotal(){
                   else{ j+=1; entry['RoofTypeError']=true;}
                   if(entry.BuildingSumInsured!=null && entry.BuildingSumInsured!='' && entry.BuildingSumInsured!=undefined && entry.BuildingSumInsured!=0) entry['SumInsuredError']=false;
                   else{ j+=1; entry['SumInsuredError']=true;}
+                  if(entry.LocationName!=null && entry.LocationName!='' && entry.LocationName!=undefined && entry.LocationName!=0) entry['LocationError']=false;
+                  else{ j+=1; entry['LocationError']=true;}
                     let data = {
-                        "ItemId":entry.id,
+                        "ItemId":entry.ItemId,
                         "RiskId":'1',
                         "BuildingUsageId":entry.BuildingUsageId,
                         "BuildingBuildYear": entry.BuildingBuildYear,
                         "WallType":entry.WallType,
                         "RoofType":entry.RoofType,
-                        "BuildingSumInsured":entry.SumI
+                        "BuildingSumInsured":entry.BuildingSumInsured,
+                        "LocationName": entry.LocationName,
                     }
                     reqList.push(data);
                   i+=1;
                   if(i==this.TableRowBuilding.length && j==0){
-                      this.visibleBuilding = false;
-                          
+                    this.visibleBuilding = false;
+                     // this.SaveBuildingList(reqList);   
 
                       // this.productItem['BuildingSuminsured'] = '10000000';
                       // let fireData = new Building();
@@ -3993,6 +4004,43 @@ getTotal(){
               }
             }
           }
+          SaveBuildingList(datas){
+            for(let entry of datas){
+              console.log("Entryyyyyy",entry)
+              let ReqObj = {
+                "BuildingSuminsured": entry.BuildingSumInsured,
+                "BuildingAddress": "Add1",
+                "Createdby": this.loginId,
+                "InbuildConstructType": null,
+                "QuoteNo": sessionStorage.getItem('quoteNo'),
+                "RequestReferenceNo": this.quoteRefNo,
+                "SectionId": "1",
+                "LocationName": entry.LocationName
+              }
+              
+                let urlLink = `${this.motorApiUrl}api/slide14/savebuilding`;
+                  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+                    (data: any) => {
+                      if (data?.Result) {
+                        if(data.Result.length!=0){
+                        // this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+                          sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                          //this.nextslide=true;
+                          // this.onCalculate(data.Result,'Building');
+                          this.visibleBuilding = false;
+                          //this.onCheckUWQuestionProceed(data.Result);
+                        }
+                        
+                      }
+                    
+                  },
+                  (err) => { },
+                );
+            }
+            
+          }
+          
+        
           onSaveBuildingDetails(){
             // alert('Save Building')
             this.subuserType = sessionStorage.getItem('typeValue');
