@@ -47,6 +47,7 @@ import { ContentProfessionalIndermity } from '../models/ContentProfessional';
   styleUrls: ['./Riskdetails.component.scss']
 })
 export class RiskDetailsComponent {
+  BuildingSuminsured:any=10;
         sidebarVisible:boolean = false;Buildings: any;fields9:any[]=[];
   requestReferenceNo: any;fields8:any[]=[];fieldsGroupPa: any=null;currentRelationIndex:any;
 wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductData = null
@@ -126,6 +127,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
   Total: any;
   columnHeaderBuilding: string[];
   TableRowBuilding:any[]= [];
+  fieldsBuilding: FormlyFieldConfig<import("@ngx-formly/core").FormlyFieldProps & { [additionalProperties: string]: any; }>;
 
   
         constructor(private router: Router,private datePipe:DatePipe,
@@ -180,7 +182,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             Description: '',
             Sum: 0,
           }]
-          this.columnHeaderBuilding =['Building Usage','Built Year','Construction (Wall)','Construction (Roof)','Sum Insured','Edit' ,'Delete']
+          this.columnHeaderBuilding =['Building Usage','Construction (Wall)','Construction (Roof)','Sum Insured','Edit' ,'Delete']
           this.TableRowBuilding =[{
             id:1,
             BuildingUsageId: '',
@@ -3190,6 +3192,26 @@ onSaveContentRisk(){
           //           this.saveCommonDetails(sectionlist);
           //         }
           //   }
+          let buildingList = [];
+          if(this.TableRowBuilding.length!=0){
+            for(let entry of this.TableRowBuilding){
+                let obj = {  
+                  "SectionId": "1",
+                  "Status": "Y",
+                  "RoofType": entry.RoofType,
+                  "WallType": entry.WallType,
+                  "BuildingBuildYear": this.productItem.BuildingBuildYear,
+                  "BuildingOwnerYn": "N",
+                  "BuildingSumInsured": entry.SumI,
+                  "BuildingUsageId": entry.BuildingUsageId,
+                  "WaterTankSi": this.productItem?.WaterTankSi,
+                  "ArchitectsSi": this.productItem?.ArchitectsSi,
+                  "LossOfRentSi":this.productItem?.LossOfRentSi,
+                  "TypeOfProperty":this.productItem?.TypeOfProperty,
+              }
+              buildingList.push(obj);
+            }
+          }
           let endorsementDate=null,EndorsementEffectiveDate=null,EndorsementRemarks=null,
           EndorsementType=null,EndorsementTypeDesc=null,EndtCategoryDesc=null,EndtCount=null,
           EndtPrevPolicyNo=null,EndtPrevQuoteNo=null,EndtStatus=null,IsFinanceEndt=null,OrginalPolicyNo=null;
@@ -3226,20 +3248,7 @@ onSaveContentRisk(){
                 "IsFinanceEndt": IsFinanceEndt,
                 "OrginalPolicyNo": OrginalPolicyNo,
               "BuildingDetails" : 
-              {  
-                "SectionId": "1",
-                "Status": "Y",
-                "RoofType": this.productItem.RoofType,
-                "WallType": this.productItem.WallType,
-                "BuildingBuildYear": this.productItem.BuildingBuildYear,
-                "BuildingOwnerYn": "N",
-                "BuildingSumInsured": this.productItem.BuildingSuminsured,
-                "BuildingUsageId": this.productItem.BuildingUsageId,
-                "WaterTankSi": this.productItem?.WaterTankSi,
-                "ArchitectsSi": this.productItem?.ArchitectsSi,
-                "LossOfRentSi":this.productItem?.LossOfRentSi,
-                "TypeOfProperty":this.productItem?.TypeOfProperty,
-            },
+                        [buildingList],
             
              "AllRiskDetails" :[
               {
@@ -3360,13 +3369,15 @@ onSaveContentRisk(){
                   this.errorproceed(1);   
                 }
                 else if(ReqObj['BuildingDetails']!=null){
-                  if(ReqObj.BuildingDetails?.BuildingSumInsured==0 || ReqObj.BuildingDetails?.BuildingSumInsured=='0' || ReqObj.BuildingDetails?.BuildingSumInsured==null){
-                    this.errorproceed(2);
-                  }
-                  else if(ReqObj.BuildingDetails?.BuildingBuildYear=='' || ReqObj.BuildingDetails?.BuildingSumInsured==null){
-                    this.errorproceed(3);
-                  }
-                  else{this.finalSave(ReqObj);}
+                  // if(ReqObj.BuildingDetails?.BuildingSumInsured==0 || ReqObj.BuildingDetails?.BuildingSumInsured=='0' || ReqObj.BuildingDetails?.BuildingSumInsured==null){
+                  //   this.errorproceed(2);
+                  // }
+                  // else if(ReqObj.BuildingDetails?.BuildingBuildYear=='' || ReqObj.BuildingDetails?.BuildingSumInsured==null){
+                  //   this.errorproceed(3);
+                  // }
+                  // else{
+                    this.finalSave(ReqObj);
+                  // }
                 }
                 else this.finalSave(ReqObj);
               }
@@ -3375,13 +3386,15 @@ onSaveContentRisk(){
                   this.errorproceed(1);   
                 }
                 else if(ReqObj['BuildingDetails']!=null){
-                  if(ReqObj.BuildingDetails?.BuildingSumInsured==0 || ReqObj.BuildingDetails?.BuildingSumInsured=='0' || ReqObj.BuildingDetails?.BuildingSumInsured==null){
-                    this.errorproceed(2);
-                  }
-                  else if(ReqObj.BuildingDetails?.BuildingBuildYear=='' || ReqObj.BuildingDetails?.BuildingSumInsured==null){
-                    this.errorproceed(3);
-                  }
-                  else{this.finalSave(ReqObj);}
+                  // if(ReqObj.BuildingDetails?.BuildingSumInsured==0 || ReqObj.BuildingDetails?.BuildingSumInsured=='0' || ReqObj.BuildingDetails?.BuildingSumInsured==null){
+                  //   this.errorproceed(2);
+                  // }
+                  // else if(ReqObj.BuildingDetails?.BuildingBuildYear=='' || ReqObj.BuildingDetails?.BuildingSumInsured==null){
+                  //   this.errorproceed(3);
+                  // }
+                  // else{
+                    this.finalSave(ReqObj);
+                  // }
                 }
                 else this.finalSave(ReqObj);
               }
@@ -3826,7 +3839,6 @@ onSaveContentRisk(){
                   else{ j+=1; entry['RoofTypeError']=true;}
                   if(entry.SumI!=null && entry.SumI!='' && entry.SumI!=undefined && entry.SumI!=0) entry['SumInsuredError']=false;
                   else{ j+=1; entry['SumInsuredError']=true;}
-                  if(entry.id!=null && entry.id!='' && entry.BuildingUsageId!=null && entry.BuildingUsageId!=''){
                     let data = {
                         "ItemId":entry.id,
                         "RiskId":'1',
@@ -3837,11 +3849,34 @@ onSaveContentRisk(){
                         "BuildingSumInsured":entry.SumI
                     }
                     reqList.push(data);
-                  }
-                  
                   i+=1;
-                  if(i==this.TableRowBuilding.length){
+                  if(i==this.TableRowBuilding.length && j==0){
+                      this.visibleBuilding = false;
+                          
 
+                      // this.productItem['BuildingSuminsured'] = '10000000';
+                      // let fireData = new Building();
+                      // let entry = [];
+                      // this.fieldsBuilding = fireData?.fields;
+              
+                      // console.log('fieldsBuilding',this.fieldsBuilding);
+              
+                      // let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
+                      //   field.formControl.valueChanges.subscribe(() => {
+                      //     this.individualCommaFormatted('PersonalAccident');
+                      //   });
+                      // } }
+                     // this.fieldsBuilding[0].fieldGroup[0].fieldGroup[0].key['BuildingSuminsured'] = data.BuildingSumInsured;
+                      // console.log(this.fieldsBuilding[0].fieldGroup[0].fieldGroup[0].hooks['BuildingSuminsured'] = '0000000')
+                      //this.BuildingSuminsured='10000000';
+                      //alert(this.productItem.BuildingSuminsured);
+                      //this.fields[0].fieldGroup[0].fieldGroup[0].templateOptions['BuildingSuminsured'] = data.BuildingSumInsured;
+                     // this.productItem['BuildingSuminsured']=data.BuildingSumInsured;
+                  //    if (this.fieldsBuilding[0]?.fieldGroup && this.fieldsBuilding[0].fieldGroup[0]?.fieldGroup && this.fieldsBuilding[0].fieldGroup[0].fieldGroup[0]?.hooks) {
+                  //     this.fieldsBuilding[0].fieldGroup[0].fieldGroup[0].hooks['BuildingSuminsured'] = '0000000';
+                  // } else {
+                  //     console.log("Unable to set 'BuildingSuminsured' hook: Invalid structure.");
+                  // }
                   }
               }
             }
