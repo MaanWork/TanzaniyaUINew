@@ -44,6 +44,7 @@ import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
 import { FormlyMatToggleModule } from '@ngx-formly/material/toggle';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { NgSelectAlt } from '../quotation/quotation-plan/formlyTypes/ngselectAlt';
+import { MaterialModule } from 'src/app/material/material.module';
 export function maxlengthValidationMessage(err, field) {
   return `This value should be less than ${field.templateOptions.maxLength} characters`;
 }
@@ -69,6 +70,7 @@ export function maxlengthValidationMessage(err, field) {
     FileUploadModule,
     ToastModule,
     CalendarModule,
+    MaterialModule,
     MessagesModule,
     SelectButtonModule,
     RadioButtonModule,

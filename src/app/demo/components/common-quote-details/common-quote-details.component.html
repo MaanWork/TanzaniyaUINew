@@ -665,10 +665,15 @@
                                         </div>
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="username">Date Of Birth</label>
-                                            <p-calendar class="w-full" styleClass="w-full" [maxDate]="minDobDate"
+                                              <mat-form-field class="example-full-width">
+                                                    <input matInput [matDatepicker]="picker" [(ngModel)]="driverDob" [max]="minDobDate">
+                                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker></mat-datepicker>
+                                              </mat-form-field>
+                                            <!-- <p-calendar class="w-full" styleClass="w-full" [maxDate]="minDobDate"
                                                 [(ngModel)]="driverDob"
                                                 dateFormat="dd/mm/yy" placeholder="Select Date Of Birth">
-                                            </p-calendar>
+                                            </p-calendar> -->
                                         </div>
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="username">License Number&nbsp;<span class="text-danger">*</span></label><br>

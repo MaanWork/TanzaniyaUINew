@@ -61,6 +61,12 @@ export class ForceLengthValidators {
         ::ng-deep .p-menu-overlay {
             position: fixed !important;
         }
+        :host ::ng-deep .mat-mdc-form-field {
+          display: inline !important;
+        }
+        :host ::ng-deep .mdc-icon-button { padding: 0px !important}
+        :host ::ng-deep .mat-mdc-form-field-infix { min-height:0px !important}
+        :host ::ng-deep .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix {padding:0px !important}
   `],
   providers: [MessageService]
 })
@@ -146,7 +152,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
   
   constructor(private router:Router,private sharedService:SharedService,private datePipe:DatePipe,private messageService: MessageService){
     this.minDate = new Date();
-    
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     console.log("UserDetails",this.userDetails);
     this.loginId = this.userDetails.Result.LoginId;
@@ -188,9 +193,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       {"Code":"2","CodeDesc":"Famiy With Driver"},
       {"Code":"3","CodeDesc":"Famiy Without Driver"},
       {"Code":"4","CodeDesc":"All Occupant"}
-    ]
-   
-   
+    ];
     this.productItem = new ProductData();
     if(this.insuranceId=='100027'){
       let fireData = new MotorVehicleSanlam();
@@ -4670,7 +4673,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
             let entry = this.vehicleDetails.DriverDetails;
             if(entry){
               this.driverName = entry?.DriverName;
-              this.driverType = entry?.DriverType;
+              if(entry?.DriverType) this.driverType = entry?.DriverType;
+              else this.driverType ='1';
               this.licenseNo = entry?.LicenseNo;
               if(entry.Gender) this.gender = entry?.Gender;
               else this.gender = 'M';
