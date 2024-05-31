@@ -177,6 +177,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
         ngOnInit() {
          // this.Total = this.TableRow[3].Sum;
          this.getContentDetail();
+         this.getallriskDetailsData();
           this.getdropList();
           this.columnHeader =['Content Type','Serial No','Description','Sum Insured','Edit' ,'Delete']
           this.TableRow =[{
@@ -197,7 +198,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
           }]
           this.columnHeaderAllRisk =['Content Type','Serial No','Description','Sum Insured','Edit' ,'Delete']
           this.TableRowAllRisk =[{
-            id:1,
+            ItemId:'',
             Content: '',
             Serial : '',
             Description: '',
@@ -227,6 +228,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
              
               this.getContentDetails('Content');
               this.getAllRiskDetails('AllRisk');
+             
             }
 
             if(this.productId=='57'){
@@ -369,7 +371,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
 }
     addRowAllRisk(){
       
-      const newItem = { id: this.TableRowAllRisk.length + 1, Content: '', Serial: '',Description:'',SumInsured:0,};
+      const newItem = { ItemId: '', Content: '', Serial: '',Description:'',SumInsured:0,};
     this.TableRowAllRisk.push(newItem);
     this.currentAllRiskRowIndex = this.TableRowBuilding.length-1;
 
@@ -383,6 +385,29 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
      // this.TableRow = {};
     //  this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
   //  this.getTotalSub();
+}
+getallriskDetailsData(){
+  let urlLink = `${this.motorApiUrl}api/getallcontentrisk`;
+  let ReqObj = {
+    "RequestReferenceNO": this.quoteRefNo,
+      "QuoteNo": sessionStorage.getItem('quoteNo'),
+      "SectionId":"3"
+  }
+  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    (data: any) => {
+      console.log(data);
+         // let res: any = data;
+          if(data.Result.ContentRiskDetails){
+           this.TableRowAllRisk = data?.Result?.ContentRiskDetails;
+           if(this.TableRowAllRisk.length!=0){
+            for(let entry of this.TableRowAllRisk){
+              entry['Content'] = entry?.ItemValue;
+              entry['Serial'] = entry?.SerialNo;
+              entry['Description'] = entry?.SerialNoDesc;
+            }
+           }
+          }  
+      })
 }
 getTotalAllRisk(){
   this.Total = 0;let i=0;
@@ -426,18 +451,31 @@ addRowBuilding(){
   //  this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
 //  this.getTotalSub();
 }
-  getTotal(){
-    this.Total = 0;let i=0;
-    if(this.TableRow.length!=0){
-      for(let tot of this.TableRow){
-        this.Total=this.Total+tot.Sum;
-        i+=1;
-        if(i==this.TableRow.length) return this.Total;
+getTotal(){
+  this.Total = 0;let i=0;
+  if(this.TableRow.length!=0){
+    for(let tot of this.TableRow){
+      if(tot.SumInsured!=null && tot.SumInsured!='' && tot.SumInsured!=undefined) this.Total=this.Total+Number(tot.SumInsured);
+      i+=1;
+      if(i==this.TableRow.length){
+        this.productItem.ContentSuminsured = this.Total;
+        if(this.fields1.length!=0){
+          let fieldList = this.fields1[0].fieldGroup[0].fieldGroup;
+          for(let field of fieldList){
+            if(field.key=='ContentSuminsured'){
+                field.templateOptions.disabled = false;
+                field.formControl.setValue(this.Total);
+                field.templateOptions.disabled = false;
+            }
+          }
+        }
+        return this.Total;
       }
     }
-    else return 0;
-         
   }
+  else return 0;
+       
+}
   getTotalBuilding(){
     this.Total = 0;let i=0;
     if(this.TableRowBuilding.length!=0 && (this.Buildings=='Y' || this.Building1)){
@@ -468,11 +506,13 @@ addRowBuilding(){
     else{this.productItem.BuildingSuminsured =0;return 0;} 
          
   }
+ 
+
   onSaveAllRisk(){
     if (this.TableRowAllRisk.length != 0) {
       let i=0,j=0, reqList =[];
       for(let entry of this.TableRowAllRisk){
-          if(entry.Content!=null && entry.Content!='' && entry.Content!=undefined) entry['ContentRiskDescError']=false;
+          if(entry.ItemId!=null && entry.ItemId!='' && entry.ItemId!=undefined) entry['ContentRiskDescError']=false;
           else{ j+=1; entry['ContentRiskDescError']=true;}
           if(entry.Description!=null && entry.Description!='' && entry.Description!=undefined) entry['SerialNoDescError']=false;
           else{ j+=1; entry['SerialNoDescError']=true;}
@@ -480,14 +520,15 @@ addRowBuilding(){
           else{ j+=1; entry['SerialNoError']=true;}
           if(entry.SumInsured!=null   && entry.SumInsured!=undefined && entry.SumInsured!=0) entry['SumInsuredError']=false;
           else{ j+=1; entry['SumInsuredError']=true;}
+          if(entry.ItemId!= null && entry.ItemId!='' && entry.ItemId!=undefined) entry['Content']=this.allriskList.find(ele=>ele.Code==entry.ItemId)?.CodeDesc
           let data = {
-              "ItemId":entry.id,
+              "ItemId":entry.ItemId,
               "RiskId":'1',
               "ContentRiskDesc":entry.Content,
               "SerialNoDesc": entry.Description,
               "MakeAndModel":"TN123",
               "SerialNo":entry.Serial,
-              "ItemValue":"26534556",
+              "ItemValue": entry.Content,
               "SumInsured":entry.SumInsured
           }
           reqList.push(data);
@@ -497,7 +538,7 @@ addRowBuilding(){
             "CreatedBy": this.loginId,
             "QuoteNo":sessionStorage.getItem('quoteNo'),
             "RequestReferenceNo":this.quoteRefNo,
-            "SectionId": "47",
+            "SectionId": "3",
              "Type":'A',
              "ContentRiskDetails":reqList
             }
@@ -524,14 +565,18 @@ addRowBuilding(){
   
     onSaveContentRisk(){
       if (this.TableRow.length != 0) {
-        let i=0, reqList =[];
+        let i=0, reqList =[],j=0;
         for(let entry of this.TableRow){
-        //   let sumInsured;
-        //   if(entry.Sum==undefined || entry.Sum==null) sumInsured = null;
-        //   // else if(entry.SumInsured.includes(',')){ sumInsured = entry.SumInsured.replace(/,/g, '') }
-        //   else sumInsured = entry.Sum;
-            entry['ItemId'] = null;
-            if(entry.Content!= null && entry.Content!='' && entry.Content!=undefined) entry['ItemId']=this.dropList.find(ele=>ele.CodeDesc==entry.Content)?.Code
+          if(entry.ItemId!=null && entry.ItemId!='' && entry.ItemId!=undefined) entry['ContentTypeError']=false;
+          else{ j+=1; entry['ContentTypeError']=true;}
+          if(entry.SerialNoDesc!=null && entry.SerialNoDesc!='' && entry.SerialNoDesc!=undefined) entry['SerialNoDescError']=false;
+          else{ j+=1; entry['SerialNoDescError']=true;}
+          if(entry.ContentRiskDesc!=null && entry.ContentRiskDesc!='' && entry.ContentRiskDesc!=undefined) entry['ContentRiskDescError']=false;
+          else{ j+=1; entry['ContentRiskDescError']=true;}
+          if(entry.SumInsured!=null && entry.SumInsured!='' && entry.SumInsured!=undefined && entry.SumInsured!=0) entry['SumInsuredError']=false;
+          else{ j+=1; entry['SumInsuredError']=true;}
+            if(entry.ItemId!= null && entry.ItemId!='' && entry.ItemId!=undefined) entry['Content']=this.dropList.find(ele=>ele.Code==entry.ItemId)?.CodeDesc
+           
             let data = {
                 "ItemId":entry.ItemId,
                 "RiskId":'1',
@@ -539,7 +584,7 @@ addRowBuilding(){
                 "SerialNoDesc": entry.SerialNoDesc,
                 "MakeAndModel":"TN123",
                 "SerialNo":entry.SerialNoDesc,
-                "ItemValue":"26534556",
+                "ItemValue":entry.Content,
                 "SumInsured":entry.SumInsured
             }
             /*if(data.Dob!=null){
@@ -3065,9 +3110,15 @@ addRowBuilding(){
                      this.contentRiskSection = !this.enableFieldsList.some(ele=>ele=='ContentSuminsured');
                    }
                    else this.contentRiskSection = true;
+                   let list = res.Result.ContentRiskDetails;
+                   let i=0;
+                   for(let content of list){
+                      if(content.ItemId!=null) content['Content'] = list?.ItemValue;
+                      this.TableRow.push(content);
+                   }
                     this.TableRow = res.Result.ContentRiskDetails;
-                    this.currentContentIndex = this.Cotentrisk.length;
-                    this.getTotalSICost('content');
+                    this.currentContentIndex = this.TableRow.length;
+                    this.getTotal();
                   }
                 }
         
@@ -4052,7 +4103,6 @@ addRowBuilding(){
               (data: any) => {
                 if (data.Result) {
                       this.productItem.AllriskSumInsured = data?.Result?.AllriskSumInsured;
-                      let entry = data?.Result;
                       // if(entry.EndorsementDate){
                       //   this.endorsementDate = entry?.EndorsementDate;
                       //   this.endorsementEffectiveDate = entry?.EndorsementEffectiveDate;
