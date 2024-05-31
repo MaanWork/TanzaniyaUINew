@@ -3481,12 +3481,10 @@ getTotal(){
                   this.errorproceed(1);   
                 }
                 else if(ReqObj['BuildingDetails']!=null){
-                  if(ReqObj.BuildingDetails[i]?.BuildingSumInsured==0 || ReqObj.BuildingDetails[i]?.BuildingSumInsured=='0' || ReqObj.BuildingDetails[i]?.BuildingSumInsured==null){
+                  //if(ReqObj.BuildingDetails[i]?.BuildingSumInsured==0 || ReqObj.BuildingDetails[i]?.BuildingSumInsured=='0' || ReqObj.BuildingDetails[i]?.BuildingSumInsured==null){
+                  if(ReqObj.BuildingDetails.length==0){
                     this.errorproceed(2);
                   }
-                  // else if(ReqObj.BuildingDetails[i]?.BuildingBuildYear=='' || ReqObj.BuildingDetails[i]?.BuildingSumInsured==null){
-                  //   this.errorproceed(3);
-                  // }
                   else{
                     this.finalSave(ReqObj);
                   }
@@ -3498,9 +3496,10 @@ getTotal(){
                   this.errorproceed(1);   
                 }
                 else if(ReqObj['BuildingDetails']!=null){
-                  if(ReqObj.BuildingDetails[i]?.BuildingSumInsured==0 || ReqObj.BuildingDetails[i]?.BuildingSumInsured=='0' || ReqObj.BuildingDetails[i]?.BuildingSumInsured==null){
+                  //if(ReqObj.BuildingDetails[i]?.BuildingSumInsured==0 || ReqObj.BuildingDetails[i]?.BuildingSumInsured=='0' || ReqObj.BuildingDetails[i]?.BuildingSumInsured==null){
+                   if(ReqObj.BuildingDetails.length==0){
                     this.errorproceed(2);
-                  }
+                   }    
                   // else if(ReqObj.BuildingDetails[i]?.BuildingBuildYear=='' || ReqObj.BuildingDetails[i]?.BuildingSumInsured==null){
                   //   this.errorproceed(3);
                   // }
@@ -3510,6 +3509,7 @@ getTotal(){
                 }
                 else this.finalSave(ReqObj);
               }
+              console.log("final request",ReqObj)
           }
           finalSave(ReqObj){
             let urlLink = `${this.motorApiUrl}api/saveAllSection`;
@@ -3790,19 +3790,19 @@ getTotal(){
                 if (data.Result) {
                       this.productItem.BuildingSuminsured = data?.Result?.BuildingSumInsured;
                      
-                      this.productItem.BuildingBuildYear = data?.Result?.BuildingBuildYear;
-                      if(data?.Result?.BuildingOwnerYn) this.productItem.BuildingOwnerYn = data.Result.BuildingOwnerYn;
-                      if(data?.Result?.BuildingUsageId) this.productItem.BuildingUsageId = data.Result.BuildingUsageId;
-                      else this.productItem.BuildingUsageId = '';
-                      if(data?.Result?.WallType) this.productItem.WallType = data.Result.WallType;
-                      if(data?.Result?.RoofType) this.productItem.RoofType = data.Result.RoofType;
-                      if(this.insuranceId =='100004'){
-                        if(data?.Result?.TypeOfProperty) this.productItem.TypeOfProperty = data.Result.TypeOfProperty;
-                        if(data?.Result?.WaterTankSi) this.productItem.WaterTankSi = data.Result.WaterTankSi;
-                        if(data?.Result?.ArchitectsSi) this.productItem.ArchitectsSi = data.Result.ArchitectsSi;
-                        if(data?.Result?.LossOfRentSi) this.productItem.LossOfRentSi = data.Result.LossOfRentSi;
-                      }
-                      let entry = data?.Result;
+                      // this.productItem.BuildingBuildYear = data?.Result?.BuildingBuildYear;
+                      // if(data?.Result?.BuildingOwnerYn) this.productItem.BuildingOwnerYn = data.Result.BuildingOwnerYn;
+                      // if(data?.Result?.BuildingUsageId) this.productItem.BuildingUsageId = data.Result.BuildingUsageId;
+                      // else this.productItem.BuildingUsageId = '';
+                      // if(data?.Result?.WallType) this.productItem.WallType = data.Result.WallType;
+                      // if(data?.Result?.RoofType) this.productItem.RoofType = data.Result.RoofType;
+                      // if(this.insuranceId =='100004'){
+                      //   if(data?.Result?.TypeOfProperty) this.productItem.TypeOfProperty = data.Result.TypeOfProperty;
+                      //   if(data?.Result?.WaterTankSi) this.productItem.WaterTankSi = data.Result.WaterTankSi;
+                      //   if(data?.Result?.ArchitectsSi) this.productItem.ArchitectsSi = data.Result.ArchitectsSi;
+                      //   if(data?.Result?.LossOfRentSi) this.productItem.LossOfRentSi = data.Result.LossOfRentSi;
+                      // }
+                      // let entry = data?.Result;
                       // if(entry.EndorsementDate){
                       //   this.endorsementDate = entry?.EndorsementDate;
                       //   this.endorsementEffectiveDate = entry?.EndorsementEffectiveDate;

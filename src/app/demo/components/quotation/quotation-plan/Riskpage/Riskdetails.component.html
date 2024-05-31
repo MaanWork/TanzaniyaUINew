@@ -377,7 +377,7 @@
                                 
                                 <ng-container *ngIf="currentAllRiskRowIndex==ri">
                                     <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Content Type"    [options]="allriskList" 
-                                            appendTo="body" optionLabel="CodeDesc" optionValue="CodeDesc" [(ngModel)]="product.Content" />
+                                            appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="product.ItemId" />
                                             <div class="input-form-error" *ngIf="product.ContentRiskDescError">
                                                 <div class="error-text text-danger">
                                                     Select Valid Content
