@@ -29,17 +29,13 @@ export class AllRisk{
                     className: 'w-full md:mt-0 mt-3 mdw4',
                     type: 'commaSeparator',
                     key: 'AllriskSumInsured',
-  
-                    props: {
+                    templateOptions: {
                       label: `Sum Insured`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('AllriskSumInsured'),
                       required: true,
-                      options: [
-  
-                      ],
-  
+                      disabled: this.checkDisable('AllriskSumInsured'),
+                      maxLength: 15
                     },
+                    
                     validators: {
                     },
                     hooks: {
