@@ -358,7 +358,8 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
     }
     showDialogAllRisk() {
       this.visibleAllRisk = true;
-      this.getallriskList()
+      this.getallriskList();
+      this.getallriskDetailsData();
   }
       addRow() {
         const newItem = { id: this.TableRow.length + 1, Content: '', SerialNoDesc: '',ContentRiskDesc:'',SumInsured:0 };
@@ -394,6 +395,9 @@ getallriskDetailsData(){
          // let res: any = data;
           if(data.Result.ContentRiskDetails){
            this.TableRowAllRisk = data?.Result?.ContentRiskDetails;
+           if(this.TableRowAllRisk.length!=0){
+            if(this.TableRowAllRisk.length>1 || (this.TableRowAllRisk[0].SumInsured!=null && this.TableRowAllRisk[0].SumInsured!=0)) this.currentAllRiskRowIndex = null;
+          }
            if(this.TableRowAllRisk.length!=0){
             for(let entry of this.TableRowAllRisk){
               entry['Content'] = entry?.ItemValue;
@@ -543,7 +547,9 @@ getTotal(){
               let res: any = data;
               if (data.ErrorMessage.length != 0) {
                 if (res.ErrorMessage) {
-                  
+                  if(this.TableRowAllRisk.length!=0){
+                    if(this.TableRowAllRisk.length>1 || (this.TableRowAllRisk[0].SumInsured!=null && this.TableRowAllRisk[0].SumInsured!=0)) this.currentAllRiskRowIndex = null;
+                  }
                 }
               }
               else { this.visibleAllRisk = false; }
@@ -3126,6 +3132,9 @@ getTotal(){
                    }
                     this.TableRow = res.Result.ContentRiskDetails;
                     this.currentContentIndex = this.TableRow.length;
+                    if(this.TableRow.length!=0){
+                      if(this.TableRow.length>1 || (this.TableRow[0].SumInsured!=null && this.TableRow[0].SumInsured!=0)) this.currentContentRowIndex = null;
+                    }
                     this.getTotal();
                   }
                 }
@@ -3800,6 +3809,9 @@ getTotal(){
                   
                       this.productItem.BuildingSuminsured = data?.Result?.BuildingSumInsured;
                       this.TableRowBuilding=data?.Result;
+                      if(this.TableRowBuilding.length!=0){
+                        if(this.TableRowBuilding.length>1 || (this.TableRowBuilding[0].BuildingSumInsured!=null && this.TableRowBuilding[0].BuildingSumInsured!=0)) this.currentBuildingRowIndex = null;
+                      }
                      // this.TableRowBuilding[6].LocationName=data?.Result?.LocationName;
                       console.log( data,"datadata")
                       // this.productItem.BuildingBuildYear = data?.Result?.BuildingBuildYear;
@@ -3852,9 +3864,12 @@ getTotal(){
           }
 getAddInfo(){
   let ReqObj = {
-    "RequestReferenceNo": this.quoteRefNo,
+    "RequestReferenceNo": this.requestReferenceNo,
     "RiskId": "1",
     "SectionId":  "1"
+    // "RequestReferenceNO": "AIC-DOM-05493",
+    // "SectionId": "1",
+    // "RiskId":"2"
   }
   let urlLink = `${this.motorApiUrl}api/getbuildingdetails`;
   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(

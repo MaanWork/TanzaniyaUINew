@@ -90,7 +90,7 @@
                             </ng-container>   
                         </td> -->
                         <td>
-                            <ng-container *ngIf="currentBuildingRowIndex==ri && Building.WallType==''">
+                            <ng-container *ngIf="currentBuildingRowIndex==ri">
                                 <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Wall Type"  [options]="wallMaterialList" 
                                         appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="Building.WallType" />
                                 <div class="input-form-error" *ngIf="Building.WallTypeError">
@@ -99,7 +99,7 @@
                                     </div>
                                 </div>
                             </ng-container>
-                            <ng-container *ngIf="currentBuildingRowIndex!=ri ">
+                            <ng-container *ngIf="currentBuildingRowIndex!=ri">
                                 {{getwallTypeDescription(Building.WallType)}}
                             </ng-container>         
                         </td>
