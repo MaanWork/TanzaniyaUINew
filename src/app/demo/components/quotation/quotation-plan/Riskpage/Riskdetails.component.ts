@@ -353,9 +353,11 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
         }
         showDialog() {
           this.visible = true;
+          this.getContentDetail();
       }
       showDialogBuilding() {
         this.visibleBuilding = true;
+        this.getBuildingDetails();
     }
     showDialogAllRisk() {
       this.visibleAllRisk = true;
@@ -3877,8 +3879,8 @@ getAddInfo(){
     (data: any) => {
       if (data.Result) { 
         let i = 0
-        for(i; i < data.Result.length; i++){
-         i+1
+        for(i; i < data.Result.length-i; i++){
+       
          console.log( i,"TableRowBuilding")
          this.TableRowBuilding[i]['LocationName']=data?.Result[i]?.LocationName;
         }

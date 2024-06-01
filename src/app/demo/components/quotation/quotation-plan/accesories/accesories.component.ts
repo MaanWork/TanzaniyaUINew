@@ -397,7 +397,7 @@ export class AccesoriesComponent {
   }
   public productItem: ProductData;
   ngOnInit(): void {
-
+    //this.changeComponent()
     if(this.productId!='14' && this.productId!='32') this.getOccupationList(null);
     this.getEditQuoteDetails();
       var d = new Date();
@@ -496,7 +496,7 @@ export class AccesoriesComponent {
       else return true;
   }
   setTabSections(){
-    
+   
     if(this.productId=='42'){
       this.cyberSectionId=this.item[0];
 
@@ -636,10 +636,12 @@ export class AccesoriesComponent {
         else {
           this.first =false;
         }
-        const second = this.sectionDetails.find((ele) => ele.SectionId == 35);
-        if (second){
+        this.second = this.sectionDetails.find((ele) => ele.SectionId == 35);
+        this.changeComponent();
+        if (this.second){
         
-          if(second?.AddDetailYn=='Y'){
+          
+          if(this.second?.AddDetailYn=='Y'){
             this.second = true;
             let fireData = new PersonalAccident();
             let entry = [];
@@ -705,10 +707,14 @@ export class AccesoriesComponent {
           else this.third = false;
         }
         else this.third = false;
+
         const fifth = this.sectionDetails.find((ele) => ele.SectionId== 36);
+        this.changeComponent();
         if(fifth){
+         
             if(fifth?.AddDetailYn=='Y'){
-              this.fifth = true;
+              
+              this.fifth = false;
               let fireData = new PersonalIndemenitys();
               let entry = [];
               this.fieldsPersonalInd = fireData?.fields;
@@ -736,9 +742,9 @@ export class AccesoriesComponent {
           }
               //this.fieldsPersonalInd[0].fieldGroup[0].fieldGroup[0].fieldGroup[3].hooks = regionHooks;
             }
-            else this.fifth = false;
+            else this.fifth = true;
         }
-        else this.fifth = false; 
+        else this.fifth = true; 
         const six = this.sectionDetails.find((ele) => ele.SectionId== 39); 
         if(six){
           if(six?.AddDetailYn=='Y'){
@@ -5640,6 +5646,12 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
           this.getPersonalIntermediaryDetails();
         }
       })
+  }
+  changeComponent(){
+    if(this.second==false && this.fifth==false){
+      
+      this.router.navigate(['/quotation/plan/main/document-info'])
+    }
   }
   getPersonalIntermediaryDetails(){
     let urlLink = `${this.motorApiUrl}api/getallpersonalaccident`;
