@@ -97,7 +97,7 @@
 <ng-container *ngIf="productId!='5'">
     <!--tabIndex-->
     <p-tabView #tabView [activeIndex]="selectedTab" (onChange)="onTabClicked($event,tabView)">
-        <p-tabPanel header="Location" *ngIf="buildingDetailsSection">
+        <!-- <p-tabPanel header="Location" *ngIf="buildingDetailsSection">
             <div class="grid" >
                 <div class="lg:col-6 md:col-6 col-12">
                     <form [formGroup]="form">
@@ -160,8 +160,8 @@
                     </div>
                 </div>
             </div>
-        </p-tabPanel>
-        <p-tabPanel header="Content Risk" [disabled]="!allfields" *ngIf="first">
+        </p-tabPanel> -->
+        <!-- <p-tabPanel header="Content Risk" [disabled]="!allfields" *ngIf="first">
             <div class="grid">
                 <div class="lg:col-6 md:col-6 col-12">
                     <form [formGroup]="form">
@@ -174,7 +174,6 @@
 
                 <div class="lg:col-6 md:col-6 col-12">
                     <ng-container *ngIf="Cotentrisk.length!=0 && getAccessorieslength(Cotentrisk,Cotentrisk.length)">
-                        <!--&& getContent(Contentrisk,Contentrisk?.length)-->
                         <p-table [value]="Cotentrisk" [tableStyle]="{ 'min-width': '50rem' }">
                             <ng-template pTemplate="header">
                                 <tr>
@@ -226,7 +225,7 @@
                     </div>
                 </div>
             </div>
-        </p-tabPanel>
+        </p-tabPanel> -->
         <p-tabPanel header="Personal Accident" [disabled]="!allfields" *ngIf="second">
             <div class="grid">
                 <div class="lg:col-6 md:col-6 col-12">
@@ -295,7 +294,7 @@
             </div>
         </p-tabPanel>
 
-        <p-tabPanel header="All Risk" [disabled]="!allfields" *ngIf="third">
+        <!-- <p-tabPanel header="All Risk" [disabled]="!allfields" *ngIf="third">
             <div class="grid">
                 <div class="lg:col-6 md:col-6 col-12">
                     <form [formGroup]="form">
@@ -308,7 +307,7 @@
 
                 <div class="lg:col-6 md:col-6 col-12">
                     <ng-container *ngIf="risk.length!=0 && getRisk(risk,risk.length)">
-                        <!--&& getRisk(risk,risk.length)-->
+                      
                         <p-table [value]="risk" [tableStyle]="{ 'min-width': '50rem' }">
                             <ng-template pTemplate="header">
                                 <tr>
@@ -362,8 +361,8 @@
                     </div>
                 </div>
             </div>
-            <!--onSaveAllRisk(-->
-        </p-tabPanel>
+          
+        </p-tabPanel> -->
 
         <p-tabPanel header="Personal Indemenity" [disabled]="!allfields" *ngIf="fifth">
             <!--[disabled]="allfields"-->

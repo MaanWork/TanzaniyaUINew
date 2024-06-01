@@ -132,6 +132,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
   TableRowAllRisk: any[]= [];
   visibleAllRisk: boolean=false;
   currentAllRiskRowIndex =null;
+  getLocationName: any;
 
   
         constructor(private router: Router,private datePipe:DatePipe,
@@ -3864,20 +3865,24 @@ getTotal(){
           }
 getAddInfo(){
   let ReqObj = {
-    "RequestReferenceNo": this.requestReferenceNo,
-    "RiskId": "1",
-    "SectionId":  "1"
-    // "RequestReferenceNO": "AIC-DOM-05493",
-    // "SectionId": "1",
-    // "RiskId":"2"
+    // "RequestReferenceNo": this.quoteRefNo,
+    // "RiskId": "1",
+    // "SectionId":  "1"
+    "RequestReferenceNO": this.quoteRefNo,
+    "SectionId": "1",
+   //"RiskId":"2"
   }
   let urlLink = `${this.motorApiUrl}api/getbuildingdetails`;
   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
     (data: any) => {
       if (data.Result) { 
-        
-        console.log(data?.Result,"getAddInfo()");
-            this.TableRowBuilding[6].LocationName=data?.Result;
+        let i = 0
+        for(i; i < data.Result.length; i++){
+         i+1
+         console.log( i,"TableRowBuilding")
+         this.TableRowBuilding[i]['LocationName']=data?.Result[i]?.LocationName;
+        }
+         
       }
     },
     (err) => { },

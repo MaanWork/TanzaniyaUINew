@@ -3701,35 +3701,35 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
   }
 
   onSaveContentRisk(type){
-    if (this.Cotentrisk.length != 0) {
-      let i=0, reqList =[];
-      for(let entry of this.Cotentrisk){
-        let sumInsured;
-        if(entry.SumInsured==undefined || entry.SumInsured==null) sumInsured = null;
-        // else if(entry.SumInsured.includes(',')){ sumInsured = entry.SumInsured.replace(/,/g, '') }
-        else sumInsured = entry.SumInsured;
+    // if (this.Cotentrisk.length != 0) {
+    //   let i=0, reqList =[];
+    //   for(let entry of this.Cotentrisk){
+    //     let sumInsured;
+    //     if(entry.SumInsured==undefined || entry.SumInsured==null) sumInsured = null;
+    //     // else if(entry.SumInsured.includes(',')){ sumInsured = entry.SumInsured.replace(/,/g, '') }
+    //     else sumInsured = entry.SumInsured;
         
-          let data = {
-              "ItemId":entry.ItemId,
-              "RiskId":entry.RiskId,
-              "ContentRiskDesc":entry.ContentRiskDesc,
-              "SerialNoDesc": entry.SerialNoDesc,
-              "MakeAndModel":"TN123",
-              "SerialNo":null,
-              "ItemValue":"26534556",
-              "SumInsured":sumInsured
-          }
-          /*if(data.Dob!=null){
-              data.Dob = this.datePipe.transform(data.Dob, "dd/MM/yyyy")
-          }*/
-          reqList.push(data);
-          i+=1;
-          if(i==this.Cotentrisk.length){
-            this.finalSaveRiskDetails(type,reqList,'C');
-          }
-      }
+    //       let data = {
+    //           "ItemId":entry.ItemId,
+    //           "RiskId":entry.RiskId,
+    //           "ContentRiskDesc":entry.ContentRiskDesc,
+    //           "SerialNoDesc": entry.SerialNoDesc,
+    //           "MakeAndModel":"TN123",
+    //           "SerialNo":null,
+    //           "ItemValue":"26534556",
+    //           "SumInsured":sumInsured
+    //       }
+    //       /*if(data.Dob!=null){
+    //           data.Dob = this.datePipe.transform(data.Dob, "dd/MM/yyyy")
+    //       }*/
+    //       reqList.push(data);
+    //       i+=1;
+    //       if(i==this.Cotentrisk.length){
+    //         this.finalSaveRiskDetails(type,reqList,'C');
+    //       }
+    //   }
 
-    }
+    // }
   }
   onSaveMachineryRisk(){
     if (this.machineries.length != 0) {
@@ -3822,102 +3822,102 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
   );
   }
   saveBuildingDetails(ReqObj,type,requestType) {
-    let urlLink = `${this.motorApiUrl}api/buildingdetails`;
-    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-      (data: any) => {
-        console.log(data);
-        let res: any = data;
-        if (data.ErrorMessage.length != 0) {
-          if (res.ErrorMessage) {
+    // let urlLink = `${this.motorApiUrl}api/buildingdetails`;
+    // this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    //   (data: any) => {
+    //     console.log(data);
+    //     let res: any = data;
+    //     if (data.ErrorMessage.length != 0) {
+    //       if (res.ErrorMessage) {
 
-          }
-        }
-        else {
-          // let type: NbComponentStatus = 'success';
-          // const config = {
-          //   status: type,
-          //   destroyByClick: true,
-          //   duration: 4000,
-          //   hasIcon: true,
-          //   position: NbGlobalPhysicalPosition.TOP_RIGHT,
-          //   preventDuplicates: false,
-          // };
+    //       }
+    //     }
+    //     else {
+    //       // let type: NbComponentStatus = 'success';
+    //       // const config = {
+    //       //   status: type,
+    //       //   destroyByClick: true,
+    //       //   duration: 4000,
+    //       //   hasIcon: true,
+    //       //   position: NbGlobalPhysicalPosition.TOP_RIGHT,
+    //       //   preventDuplicates: false,
+    //       // };
 
 
-          if (data.Result) {
-            console.log('PPPPPPPPP',data.Result);
-            console.log('SSSSSSSSSSSS',type,this.first);
-            this.allfields = true;
-            //this.first=true;
-            if(type=='Content Risk'){
-              this.fourth = true;
-              // this.first=true;
-              this.getContentDetails();
-              this.selectedTab = 1;
-            }
-            else if(type=='Personal Accident'){
-              this.fourth = true;
-              this.getPersonalAccidentDetails();
-              this.selectedTab = 1;
-            }
-            else if(type=='All Risk'){
-              this.fourth = true;this.getallriskDetails();
-              this.selectedTab = 1;
-            }
-            else if(type=='Personal Indemenity'){
-              this.fourth = true;this.getPersonalIntermediaryDetails();
-              this.selectedTab = 1;
-            }
-            else if(type=='ElectricalEquipment'){
-              this.fourth = true;this.getElectronicEquipment('direct');
-            }
-            else if(type== 'Machinery Breakdown'){
-              this.nine =true;
-              this.getMachineryRisk();
-              }
+    //       if (data.Result) {
+    //         console.log('PPPPPPPPP',data.Result);
+    //         console.log('SSSSSSSSSSSS',type,this.first);
+    //         this.allfields = true;
+    //         //this.first=true;
+    //         if(type=='Content Risk'){
+    //           this.fourth = true;
+    //           // this.first=true;
+    //           this.getContentDetails();
+    //           this.selectedTab = 1;
+    //         }
+    //         else if(type=='Personal Accident'){
+    //           this.fourth = true;
+    //           this.getPersonalAccidentDetails();
+    //           this.selectedTab = 1;
+    //         }
+    //         else if(type=='All Risk'){
+    //           this.fourth = true;this.getallriskDetails();
+    //           this.selectedTab = 1;
+    //         }
+    //         else if(type=='Personal Indemenity'){
+    //           this.fourth = true;this.getPersonalIntermediaryDetails();
+    //           this.selectedTab = 1;
+    //         }
+    //         else if(type=='ElectricalEquipment'){
+    //           this.fourth = true;this.getElectronicEquipment('direct');
+    //         }
+    //         else if(type== 'Machinery Breakdown'){
+    //           this.nine =true;
+    //           this.getMachineryRisk();
+    //           }
               
-            else if (this.first||this.second || this.third || this.fifth || this.six || this.seven || this.eight) {
+    //         else if (this.first||this.second || this.third || this.fifth || this.six || this.seven || this.eight) {
              
-              console.log('Methodss',this.first,this.second,this.third,this.fifth,this.six,this.seven,this.eight,this.nine);
-              this.fourth = true;
-              if(this.first){
-                this.getContentDetails();
-              }
-              else if(this.second){
-                this.getPersonalAccidentDetails();
-              }
-              else if(this.third){
-                this.getallriskDetails();
-              }
-              else if(this.fifth){
-                this.getPersonalIntermediaryDetails();
-              }
-              else if(this.six){
-                this.getElectronicEquipment('direct');
-                }
-                else if(this.nine){
-                  this.getMachineryRisk();
-                  }
-                  // else if(this.seven){
-                  //   this.getEmployeeDetails();
-                  // }
-              this.selectedTab = 1;
-            }
-            else if(this.productId=='42') this.selectedTab = 1;
-            else if(this.productId=='43') this.selectedTab = 1;
-            else if(this.productId=='56') this.selectedTab = 1;
-            else if(this.productId=='57') this.selectedTab = 1;
-            else if(this.productId=='60') {this.getHealthData();this.selectedTab = 1;this.eleven=true;}
-            else{
-              this.checkValidation();
-              //if(this.productId=='1' || this.productId=='16' || this.productId=='6' || this.productId=='27')
-            }
-          }
-        }
+    //           console.log('Methodss',this.first,this.second,this.third,this.fifth,this.six,this.seven,this.eight,this.nine);
+    //           this.fourth = true;
+    //           if(this.first){
+    //             this.getContentDetails();
+    //           }
+    //           else if(this.second){
+    //             this.getPersonalAccidentDetails();
+    //           }
+    //           else if(this.third){
+    //             this.getallriskDetails();
+    //           }
+    //           else if(this.fifth){
+    //             this.getPersonalIntermediaryDetails();
+    //           }
+    //           else if(this.six){
+    //             this.getElectronicEquipment('direct');
+    //             }
+    //             else if(this.nine){
+    //               this.getMachineryRisk();
+    //               }
+    //               // else if(this.seven){
+    //               //   this.getEmployeeDetails();
+    //               // }
+    //           this.selectedTab = 1;
+    //         }
+    //         else if(this.productId=='42') this.selectedTab = 1;
+    //         else if(this.productId=='43') this.selectedTab = 1;
+    //         else if(this.productId=='56') this.selectedTab = 1;
+    //         else if(this.productId=='57') this.selectedTab = 1;
+    //         else if(this.productId=='60') {this.getHealthData();this.selectedTab = 1;this.eleven=true;}
+    //         else{
+    //           this.checkValidation();
+    //           //if(this.productId=='1' || this.productId=='16' || this.productId=='6' || this.productId=='27')
+    //         }
+    //       }
+    //     }
 
-      },
-      (err) => { },
-    );
+    //   },
+    //   (err) => { },
+    // );
   }
   onAccsSave(){
 
@@ -3974,217 +3974,217 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     }
   }
   getbuilding() {
-    let urlLink = `${this.motorApiUrl}api/getallbuildingdetails`;
-    let ReqObj = {
-      "QuoteNo": sessionStorage.getItem('quoteNo'),
-    }
-    console.log('SSSSSSSSSS', this.quote)
-    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-      (data: any) => {
-        console.log(data);
-        let res: any = data;
-        if (res.Result.length != 0) {
-          if(this.endorsementSection){
-            console.log('Enable Building Suminsureds',this.enableFieldsList);
-            //this.buildingSection = !this.enableFieldsList.some(ele=>ele=='BuildingSuminsured');
-            this.buildingSection = this.enableFieldsList.some(ele=>ele=='BuildingSuminsured');
-          }
-          else this.buildingSection = false;
-          //else this.buildingSection = false;
-          this.building = res.Result;
-          console.log('GHSectionsss',this.building)
-          this.Buildingsections=true;
-          let i=0;
-          for(let entry of this.building){
-            if (i == 0) {
-              this.LocationList = [];
-            }
-            this.LocationList.push({ "Code": String(this.LocationList.length+1), "CodeDesc": entry.LocationName })
-            i+=1;
-          }
+    // let urlLink = `${this.motorApiUrl}api/getallbuildingdetails`;
+    // let ReqObj = {
+    //   "QuoteNo": sessionStorage.getItem('quoteNo'),
+    // }
+    // console.log('SSSSSSSSSS', this.quote)
+    // this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    //   (data: any) => {
+    //     console.log(data);
+    //     let res: any = data;
+    //     if (res.Result.length != 0) {
+    //       if(this.endorsementSection){
+    //         console.log('Enable Building Suminsureds',this.enableFieldsList);
+    //         //this.buildingSection = !this.enableFieldsList.some(ele=>ele=='BuildingSuminsured');
+    //         this.buildingSection = this.enableFieldsList.some(ele=>ele=='BuildingSuminsured');
+    //       }
+    //       else this.buildingSection = false;
+    //       //else this.buildingSection = false;
+    //       this.building = res.Result;
+    //       console.log('GHSectionsss',this.building)
+    //       this.Buildingsections=true;
+    //       let i=0;
+    //       for(let entry of this.building){
+    //         if (i == 0) {
+    //           this.LocationList = [];
+    //         }
+    //         this.LocationList.push({ "Code": String(this.LocationList.length+1), "CodeDesc": entry.LocationName })
+    //         i+=1;
+    //       }
 
-          if(this.first || this.second || this.fifth || this.ten || this.third || this.nine || this.seven || this.eight || this.six){
-            let defaultobj=[{'label':'--Select--','value':'--Select--'}]
-            if(this.LocationList.length !=0){
-              this.allfields=true;
-              for (let j = 0; j < this.LocationList.length; j++) {
-                this.LocationList[j].label = this.LocationList[j]['CodeDesc'];
-                this.LocationList[j].value = this.LocationList[j]['Code'];
-                delete this.LocationList[j].CodeDesc;
-                if (j == this.LocationList.length - 1) {
-                  if(this.first){
-                    for(let x of this.fieldsContent){
-                      let vars = x.fieldGroup[0].fieldGroup[0];
-                      let l=0;
-                      for( let n of vars.fieldGroup){   
-                        console.log('templates',n.type);              
-                        if(n.type=='ngselect'){
+    //       if(this.first || this.second || this.fifth || this.ten || this.third || this.nine || this.seven || this.eight || this.six){
+    //         let defaultobj=[{'label':'--Select--','value':'--Select--'}]
+    //         if(this.LocationList.length !=0){
+    //           this.allfields=true;
+    //           for (let j = 0; j < this.LocationList.length; j++) {
+    //             this.LocationList[j].label = this.LocationList[j]['CodeDesc'];
+    //             this.LocationList[j].value = this.LocationList[j]['Code'];
+    //             delete this.LocationList[j].CodeDesc;
+    //             if (j == this.LocationList.length - 1) {
+    //               if(this.first){
+    //                 for(let x of this.fieldsContent){
+    //                   let vars = x.fieldGroup[0].fieldGroup[0];
+    //                   let l=0;
+    //                   for( let n of vars.fieldGroup){   
+    //                     console.log('templates',n.type);              
+    //                     if(n.type=='ngselect'){
                           
-                        if(n.props.label=='Location'){
-                           this.fieldsContent[0].fieldGroup[0].fieldGroup[0].fieldGroup[l].props.options = defaultobj.concat(this.LocationList);
-                        }
-                      }
-                        l+=1;
-                      }
-                }
-                    //this.fieldsContent[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
-                  }
-                  if(this.six){
-                    for(let x of this.fieldsElectronic){
-                      let vars = x.fieldGroup[0].fieldGroup[0];
-                      let j=0;
-                      for( let n of vars.fieldGroup){            
-                        if(n.type=='ngselect'){
-                        if(n.props.label=='Location'){
-                           this.fieldsElectronic[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options= defaultobj.concat(this.LocationList);
-                        }
-                      }
-                        j+=1;
-                      }
-                }
-                    //this.fieldsElectronic[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
-                  }
-                  if(this.second){
-                    for(let x of this.fieldsPersonalAccident){
-                      let vars = x.fieldGroup[0].fieldGroup[0];
-                      let j=0;
-                      for( let n of vars.fieldGroup){            
-                        if(n.type=='ngselect'){
-                        if(n.props.label=='Location'){
-                           this.fieldsPersonalAccident[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options= defaultobj.concat(this.LocationList);
-                        }
-                      }
-                        j+=1;
-                      }
-                }
-                    //this.fieldsPersonalAccident[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
-                  }
-                  if(this.fifth){
-                    for(let x of this.fieldsPersonalInd){
-                      let vars = x.fieldGroup[0].fieldGroup[0];
-                      let j=0;
-                      for( let n of vars.fieldGroup){            
-                        if(n.type=='ngselect'){
-                        if(n.props.label=='Location'){
-                           this.fieldsPersonalInd[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options= defaultobj.concat(this.LocationList);
-                        }
-                      }
-                        j+=1;
-                      }
-                }
-                    //this.fieldsPersonalInd[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
-                  }
-                  if(this.ten){
-                    this.fieldsDevice[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = defaultobj.concat(this.LocationList);
-                  }
-                  if(this.third){
-                    for(let x of this.fieldsRisk){
-                      let vars = x.fieldGroup[0].fieldGroup[0];
-                      let l=0;
-                      for( let n of vars.fieldGroup){               
-                        if(n.type=='ngselect'){
-                        if(n.props.label=='Location'){
-                           this.fieldsRisk[0].fieldGroup[0].fieldGroup[0].fieldGroup[l].props.options = defaultobj.concat(this.LocationList);
-                        }
-                      }
-                        l+=1;
-                      }
-                }
-                    //this.fieldsRisk[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
-                  }
-                  if(this.nine){
-                    for(let x of this.fieldsMachinery){
-                      let vars = x.fieldGroup[0].fieldGroup[0];
-                      let j=0;
-                      for( let n of vars.fieldGroup){              
-                        if(n.type=='ngselect'){
-                          console.log('templates111',n.props.label);
-                        if(n.props.label=='Location'){
-                           this.fieldsMachinery[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options = defaultobj.concat(this.LocationList);
-                        }
-                      }
-                        j+=1;
-                      }
-                }
-                    //this.fieldsMachinery[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
-                  }
-                  if(this.seven){
-                    for(let x of this.fieldsEmpFields){
-                      let vars = x.fieldGroup[0].fieldGroup[0];
-                      let j=0;
-                      for( let n of vars.fieldGroup){            
-                        if(n.type=='ngselect'){
-                        if(n.props.label=='Location'){
-                           this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options = defaultobj.concat(this.LocationList);
-                        }
-                      }
-                        j+=1;
-                      }
-                }
-                    //this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = this.LocationList;
-                  }
-                  if(this.eight){
-                    for(let x of this.fieldFEFields){
-                      console.log('NNNNNNNNNNNNNNNN',x.fieldGroup[0].fieldGroup[0]);
-                      let vars = x.fieldGroup[0].fieldGroup[0];
-                      console.log('vars',vars);
-                      let j=0;
-                      for( let n of vars.fieldGroup){   
-                        console.log('templates',n.type);              
-                        if(n.type=='ngselect'){
-                          console.log('templates111',n.props.label);
-                        if(n.props.label=='Location'){
-                           this.fieldFEFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options = defaultobj.concat(this.LocationList);
-                        }
-                      }
-                        j+=1;
-                      }
-                }
-                    //this.fieldFEFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = this.LocationList;
-                  }
-                }
-              }
-            }
-          }
+    //                     if(n.props.label=='Location'){
+    //                        this.fieldsContent[0].fieldGroup[0].fieldGroup[0].fieldGroup[l].props.options = defaultobj.concat(this.LocationList);
+    //                     }
+    //                   }
+    //                     l+=1;
+    //                   }
+    //             }
+    //                 //this.fieldsContent[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+    //               }
+    //               if(this.six){
+    //                 for(let x of this.fieldsElectronic){
+    //                   let vars = x.fieldGroup[0].fieldGroup[0];
+    //                   let j=0;
+    //                   for( let n of vars.fieldGroup){            
+    //                     if(n.type=='ngselect'){
+    //                     if(n.props.label=='Location'){
+    //                        this.fieldsElectronic[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options= defaultobj.concat(this.LocationList);
+    //                     }
+    //                   }
+    //                     j+=1;
+    //                   }
+    //             }
+    //                 //this.fieldsElectronic[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+    //               }
+    //               if(this.second){
+    //                 for(let x of this.fieldsPersonalAccident){
+    //                   let vars = x.fieldGroup[0].fieldGroup[0];
+    //                   let j=0;
+    //                   for( let n of vars.fieldGroup){            
+    //                     if(n.type=='ngselect'){
+    //                     if(n.props.label=='Location'){
+    //                        this.fieldsPersonalAccident[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options= defaultobj.concat(this.LocationList);
+    //                     }
+    //                   }
+    //                     j+=1;
+    //                   }
+    //             }
+    //                 //this.fieldsPersonalAccident[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+    //               }
+    //               if(this.fifth){
+    //                 for(let x of this.fieldsPersonalInd){
+    //                   let vars = x.fieldGroup[0].fieldGroup[0];
+    //                   let j=0;
+    //                   for( let n of vars.fieldGroup){            
+    //                     if(n.type=='ngselect'){
+    //                     if(n.props.label=='Location'){
+    //                        this.fieldsPersonalInd[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options= defaultobj.concat(this.LocationList);
+    //                     }
+    //                   }
+    //                     j+=1;
+    //                   }
+    //             }
+    //                 //this.fieldsPersonalInd[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+    //               }
+    //               if(this.ten){
+    //                 this.fieldsDevice[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = defaultobj.concat(this.LocationList);
+    //               }
+    //               if(this.third){
+    //                 for(let x of this.fieldsRisk){
+    //                   let vars = x.fieldGroup[0].fieldGroup[0];
+    //                   let l=0;
+    //                   for( let n of vars.fieldGroup){               
+    //                     if(n.type=='ngselect'){
+    //                     if(n.props.label=='Location'){
+    //                        this.fieldsRisk[0].fieldGroup[0].fieldGroup[0].fieldGroup[l].props.options = defaultobj.concat(this.LocationList);
+    //                     }
+    //                   }
+    //                     l+=1;
+    //                   }
+    //             }
+    //                 //this.fieldsRisk[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+    //               }
+    //               if(this.nine){
+    //                 for(let x of this.fieldsMachinery){
+    //                   let vars = x.fieldGroup[0].fieldGroup[0];
+    //                   let j=0;
+    //                   for( let n of vars.fieldGroup){              
+    //                     if(n.type=='ngselect'){
+    //                       console.log('templates111',n.props.label);
+    //                     if(n.props.label=='Location'){
+    //                        this.fieldsMachinery[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options = defaultobj.concat(this.LocationList);
+    //                     }
+    //                   }
+    //                     j+=1;
+    //                   }
+    //             }
+    //                 //this.fieldsMachinery[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
+    //               }
+    //               if(this.seven){
+    //                 for(let x of this.fieldsEmpFields){
+    //                   let vars = x.fieldGroup[0].fieldGroup[0];
+    //                   let j=0;
+    //                   for( let n of vars.fieldGroup){            
+    //                     if(n.type=='ngselect'){
+    //                     if(n.props.label=='Location'){
+    //                        this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options = defaultobj.concat(this.LocationList);
+    //                     }
+    //                   }
+    //                     j+=1;
+    //                   }
+    //             }
+    //                 //this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = this.LocationList;
+    //               }
+    //               if(this.eight){
+    //                 for(let x of this.fieldFEFields){
+    //                   console.log('NNNNNNNNNNNNNNNN',x.fieldGroup[0].fieldGroup[0]);
+    //                   let vars = x.fieldGroup[0].fieldGroup[0];
+    //                   console.log('vars',vars);
+    //                   let j=0;
+    //                   for( let n of vars.fieldGroup){   
+    //                     console.log('templates',n.type);              
+    //                     if(n.type=='ngselect'){
+    //                       console.log('templates111',n.props.label);
+    //                     if(n.props.label=='Location'){
+    //                        this.fieldFEFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options = defaultobj.concat(this.LocationList);
+    //                     }
+    //                   }
+    //                     j+=1;
+    //                   }
+    //             }
+    //                 //this.fieldFEFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = this.LocationList;
+    //               }
+    //             }
+    //           }
+    //         }
+    //       }
    
        
-          this.fourth = true;
-          this.getTotalSICost('building');
-        }
-        else {
-          this.AddNew();
-          // this.building = [
-          //   {
-          //     "BuildingAddress": null,
-          //     "BuildingBuildYear": null,
-          //     "BuildingFloors": null,
-          //     "InbuildConstructType": null,
-          //     "BuildingSuminsured": null,
-          //     "RiskId": null,
-          //     SectionId: "1"
-          //   }
-          // ]
-        }
-        if(this.first){
-          this.getdropList();
-          this.getContentDetails();
-        }
-        else if(this.second){
-          this.getPersonalAccidentDetails();
-        }
-        else if(this.third){
-          this.getallriskDetails();
-        }
-        else if(this.fifth){
-          this.getPersonalIntermediaryDetails();
-        }
-        else if(this.six){
-          this.getElectronicEquipment('change');
-          }
-          else if(this.nine){
-            this.getMachineryRisk();
-            }
-      })
+    //       this.fourth = true;
+    //       this.getTotalSICost('building');
+    //     }
+    //     else {
+    //       this.AddNew();
+    //       // this.building = [
+    //       //   {
+    //       //     "BuildingAddress": null,
+    //       //     "BuildingBuildYear": null,
+    //       //     "BuildingFloors": null,
+    //       //     "InbuildConstructType": null,
+    //       //     "BuildingSuminsured": null,
+    //       //     "RiskId": null,
+    //       //     SectionId: "1"
+    //       //   }
+    //       // ]
+    //     }
+    //     if(this.first){
+    //       this.getdropList();
+    //       this.getContentDetails();
+    //     }
+    //     else if(this.second){
+    //       this.getPersonalAccidentDetails();
+    //     }
+    //     else if(this.third){
+    //       this.getallriskDetails();
+    //     }
+    //     else if(this.fifth){
+    //       this.getPersonalIntermediaryDetails();
+    //     }
+    //     else if(this.six){
+    //       this.getElectronicEquipment('change');
+    //       }
+    //       else if(this.nine){
+    //         this.getMachineryRisk();
+    //         }
+    //   })
   }
   onSIValueChange (args) {
     if (args.key === 'e' || args.key === '+' || args.key === '-') {
@@ -4721,96 +4721,96 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       })
   }
   getContentDetails(){
-    let sectionId=null;
-    if(this.productId=='19') sectionId = '47';
-    else sectionId = '47';
-    let urlLink = `${this.motorApiUrl}api/getallcontentrisk`;
-    let ReqObj = {
-      "QuoteNo": sessionStorage.getItem('quoteNo'),
-      "SectionId": sectionId
-    }
-    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-      (data: any) => {
-        console.log(data);
-        let res: any = data;
-        if(res.Result?.ContentRiskDetails){
-          if (res.Result.ContentRiskDetails) {
-           if(res.Result.ContentRiskDetails.length!=0){
-            if(this.endorsementSection){
-              this.contentRiskSection = !this.enableFieldsList.some(ele=>ele=='ContentSuminsured');
-            }
-            else this.contentRiskSection = true;
-             this.Cotentrisk = res.Result.ContentRiskDetails;
-             this.currentContentIndex = this.Cotentrisk.length;
-             this.getTotalSICost('content');
-           }
-           else{
+    // let sectionId=null;
+    // if(this.productId=='19') sectionId = '47';
+    // else sectionId = '47';
+    // let urlLink = `${this.motorApiUrl}api/getallcontentrisk`;
+    // let ReqObj = {
+    //   "QuoteNo": sessionStorage.getItem('quoteNo'),
+    //   "SectionId": sectionId
+    // }
+    // this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    //   (data: any) => {
+    //     console.log(data);
+    //     let res: any = data;
+    //     if(res.Result?.ContentRiskDetails){
+    //       if (res.Result.ContentRiskDetails) {
+    //        if(res.Result.ContentRiskDetails.length!=0){
+    //         if(this.endorsementSection){
+    //           this.contentRiskSection = !this.enableFieldsList.some(ele=>ele=='ContentSuminsured');
+    //         }
+    //         else this.contentRiskSection = true;
+    //          this.Cotentrisk = res.Result.ContentRiskDetails;
+    //          this.currentContentIndex = this.Cotentrisk.length;
+    //          this.getTotalSICost('content');
+    //        }
+    //        else{
 
-            this.Cotentrisk=[];
-            this.currentContentIndex = this.Cotentrisk.length;
-            this.ContentAdd();
-            //this.ContentAdd();
-            // this.Cotentrisk = [{
-            //   "ItemId":null,
-            //   "RiskId":null,
-            //   "MakeAndModel":null,
-            //   "ContentRiskDesc":null,
-            //   "SerialNoDesc": null,
-            //   "SerialNo":null,
-            //   "ItemValue":null,
-            //   "SumInsured":null,
-            // }]
-           }
-          }
-          else {
-            this.Cotentrisk=[];
-            this.ContentAdd();
+    //         this.Cotentrisk=[];
+    //         this.currentContentIndex = this.Cotentrisk.length;
+    //         this.ContentAdd();
+    //         //this.ContentAdd();
+    //         // this.Cotentrisk = [{
+    //         //   "ItemId":null,
+    //         //   "RiskId":null,
+    //         //   "MakeAndModel":null,
+    //         //   "ContentRiskDesc":null,
+    //         //   "SerialNoDesc": null,
+    //         //   "SerialNo":null,
+    //         //   "ItemValue":null,
+    //         //   "SumInsured":null,
+    //         // }]
+    //        }
+    //       }
+    //       else {
+    //         this.Cotentrisk=[];
+    //         this.ContentAdd();
 
           
-            // this.Cotentrisk = [{
-            //   "ItemId":null,
-            //   "RiskId":null,
-            //   "MakeAndModel":null,
-            //   "ContentRiskDesc":null,
-            //   "SerialNoDesc": null,
-            //   "SerialNo":null,
-            //   "ItemValue":null,
-            //   "SumInsured":null,
-            // }]
-          }
-        }
-        else {
-          this.Cotentrisk=[];
-          this.ContentAdd();
-          // this.Cotentrisk = [{
-          //   "ItemId":null,
-          //   "RiskId":null,
-          //   "MakeAndModel":null,
-          //   "ContentRiskDesc":null,
-          //   "SerialNoDesc": null,
-          //   "SerialNo":null,
-          //   "ItemValue":null,
-          //   "SumInsured":null,
-          // }]
-        }
-        if(this.second){
-          this.getPersonalAccidentDetails();
+    //         // this.Cotentrisk = [{
+    //         //   "ItemId":null,
+    //         //   "RiskId":null,
+    //         //   "MakeAndModel":null,
+    //         //   "ContentRiskDesc":null,
+    //         //   "SerialNoDesc": null,
+    //         //   "SerialNo":null,
+    //         //   "ItemValue":null,
+    //         //   "SumInsured":null,
+    //         // }]
+    //       }
+    //     }
+    //     else {
+    //       this.Cotentrisk=[];
+    //       this.ContentAdd();
+    //       // this.Cotentrisk = [{
+    //       //   "ItemId":null,
+    //       //   "RiskId":null,
+    //       //   "MakeAndModel":null,
+    //       //   "ContentRiskDesc":null,
+    //       //   "SerialNoDesc": null,
+    //       //   "SerialNo":null,
+    //       //   "ItemValue":null,
+    //       //   "SumInsured":null,
+    //       // }]
+    //     }
+    //     if(this.second){
+    //       this.getPersonalAccidentDetails();
           
-        }
-        else if(this.third){
-          this.getallriskDetails();
-        }
-        else if(this.fifth){
-          this.getPersonalIntermediaryDetails();
-        }
-        else if(this.six){
-          this.getElectronicEquipment('change');
-        }
-        // else if(this.nine){
-        //   this.getMachineryRisk();
-        // }
+    //     }
+    //     else if(this.third){
+    //       this.getallriskDetails();
+    //     }
+    //     else if(this.fifth){
+    //       this.getPersonalIntermediaryDetails();
+    //     }
+    //     else if(this.six){
+    //       this.getElectronicEquipment('change');
+    //     }
+    //     // else if(this.nine){
+    //     //   this.getMachineryRisk();
+    //     // }
 
-      })
+    //   })
   }
   onUploadEmployeeSection(){
     this.currentEmployeeIndex = null;this.enableEmployeeEditSection = false;
@@ -5714,79 +5714,79 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       })
   }
   getallriskDetails(){
-    let urlLink = `${this.motorApiUrl}api/getallcontentrisk`;
-    let ReqObj = {
-        "QuoteNo": sessionStorage.getItem('quoteNo'),
-        "SectionId":"3"
-    }
-    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-      (data: any) => {
-        console.log(data);
-            let res: any = data;
-            if(res.Result){
-              if (res.Result.ContentRiskDetails) {
-               if(res.Result.ContentRiskDetails.length!=0){
-                if(this.endorsementSection){
-                  this.allRiskSection = !this.enableFieldsList.some(ele=>ele=='AllriskSumInsured');
-                }
-                else this.allRiskSection = true;
-                 this.risk = res.Result.ContentRiskDetails;
-                 this.currentRiskIndex = this.risk.length;
-                 console.log('Get pre risk Details',this.risk);
-                 this.getTotalSICost('AllRisk');
-               }
-               else{
-                this.risk=[];
-                this.AllAdd();
-                // this.risk=[
-                //   {
-                // "ItemId":null,
-                // "RiskId":null,
-                // "MakeAndModel":"TN123",
-                // "ContentRiskDesc":null,
-                // "SerialNoDesc": null,
-                // "SerialNo":"155685",
-                // "ItemValue":"26534556",
-                // "SumInsured":null,
-                //   }
-                // ]
-               }
-              }
-              else {
-                this.risk=[];
-                this.AllAdd();
-                // this.risk=[
-                //   {
-                // "ItemId":null,
-                // "RiskId":null,
-                // "MakeAndModel":"TN123",
-                // "ContentRiskDesc":null,
-                // "SerialNoDesc": null,
-                // "SerialNo":"155685",
-                // "ItemValue":"26534556",
-                // "SumInsured":null,
-                //   }
-                // ]
-              }
-            }
-            else {
-              // this.risk=[
-              //   {
-              // "ItemId":null,
-              // "RiskId":null,
-              // "MakeAndModel":"TN123",
-              // "ContentRiskDesc":null,
-              // "SerialNoDesc": null,
-              // "SerialNo":"155685",
-              // "ItemValue":"26534556",
-              // "SumInsured":null,
-              //   }
-              // ]
-            }
-            if(this.fifth){
-              this.getPersonalIntermediaryDetails();
-            }
-        })
+    // let urlLink = `${this.motorApiUrl}api/getallcontentrisk`;
+    // let ReqObj = {
+    //     "QuoteNo": sessionStorage.getItem('quoteNo'),
+    //     "SectionId":"3"
+    // }
+    // this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    //   (data: any) => {
+    //     console.log(data);
+    //         let res: any = data;
+    //         if(res.Result){
+    //           if (res.Result.ContentRiskDetails) {
+    //            if(res.Result.ContentRiskDetails.length!=0){
+    //             if(this.endorsementSection){
+    //               this.allRiskSection = !this.enableFieldsList.some(ele=>ele=='AllriskSumInsured');
+    //             }
+    //             else this.allRiskSection = true;
+    //              this.risk = res.Result.ContentRiskDetails;
+    //              this.currentRiskIndex = this.risk.length;
+    //              console.log('Get pre risk Details',this.risk);
+    //              this.getTotalSICost('AllRisk');
+    //            }
+    //            else{
+    //             this.risk=[];
+    //             this.AllAdd();
+    //             // this.risk=[
+    //             //   {
+    //             // "ItemId":null,
+    //             // "RiskId":null,
+    //             // "MakeAndModel":"TN123",
+    //             // "ContentRiskDesc":null,
+    //             // "SerialNoDesc": null,
+    //             // "SerialNo":"155685",
+    //             // "ItemValue":"26534556",
+    //             // "SumInsured":null,
+    //             //   }
+    //             // ]
+    //            }
+    //           }
+    //           else {
+    //             this.risk=[];
+    //             this.AllAdd();
+    //             // this.risk=[
+    //             //   {
+    //             // "ItemId":null,
+    //             // "RiskId":null,
+    //             // "MakeAndModel":"TN123",
+    //             // "ContentRiskDesc":null,
+    //             // "SerialNoDesc": null,
+    //             // "SerialNo":"155685",
+    //             // "ItemValue":"26534556",
+    //             // "SumInsured":null,
+    //             //   }
+    //             // ]
+    //           }
+    //         }
+    //         else {
+    //           // this.risk=[
+    //           //   {
+    //           // "ItemId":null,
+    //           // "RiskId":null,
+    //           // "MakeAndModel":"TN123",
+    //           // "ContentRiskDesc":null,
+    //           // "SerialNoDesc": null,
+    //           // "SerialNo":"155685",
+    //           // "ItemValue":"26534556",
+    //           // "SumInsured":null,
+    //           //   }
+    //           // ]
+    //         }
+    //         if(this.fifth){
+    //           this.getPersonalIntermediaryDetails();
+    //         }
+    //     })
   }
 
   getUWDetails() {
@@ -6963,77 +6963,77 @@ return true;
   }
 
   onSaveContent(){
-    if(this.currentContentIndex!=null){
-      if(this.productItem.ContentSI!='' && this.productItem.ContentSI!='0.0'  && this.productItem.ContentSI!='0' && this.productItem.ContentSI!=null && this.productItem.ContentType!=null && this.productItem.ContentType!='' ){
-    this.Cotentrisk[this.currentContentIndex]['SumInsured'] = this.productItem.ContentSI;
-    this.Cotentrisk[this.currentContentIndex]['RiskId'] = this.productItem.ContentLocation;
-    this.Cotentrisk[this.currentContentIndex]['SerialNoDesc'] = this.productItem.ContentSerialNo;
-    if(this.productItem.ContentDesc==null || this.productItem.ContentDesc=='' || this.productItem.ContentDesc==undefined){this.productItem.ContentDesc=this.dropList.find(ele=>String(ele.Code)==String(this.productItem.ContentType))?.CodeDesc;}
-    this.Cotentrisk[this.currentContentIndex]['ContentRiskDesc'] =this.productItem.ContentDesc;
-    this.Cotentrisk[this.currentContentIndex]['ItemId'] = this.productItem.ContentType;
-    this.currentContentIndex=null;
-    this.productItem = new ProductData();
-    this.productItem.AccOccupation = this.accidentOccupation;
-      }
-    // this.ContentAdd();
-    }
-    else{
-      if(this.productItem.ContentSI!='' && this.productItem.ContentSI!='0.0'  && this.productItem.ContentSI!='0' && this.productItem.ContentSI!=null && this.productItem.ContentType!=null && this.productItem.ContentType!='' ){
-      let entry = {
-        "ItemId":this.productItem.ContentType,
-      "RiskId":this.productItem.ContentLocation,
-      "MakeAndModel":null,
-      "ContentRiskDesc":this.productItem.ContentDesc,
-      "SerialNoDesc":this.productItem.ContentSerialNo,
-      "SerialNo":null,
-      "ItemValue":this.productItem.ContentDesc,
-      "SumInsured":this.productItem.ContentSI,
-      }
-      this.Cotentrisk.push(entry);
-      this.productItem.ContentSI=null; 
-      this.productItem.ContentLocation=null;
-      this.productItem.ContentSerialNo=null;
-      this.productItem.ContentDesc=null;
-      this.productItem.ContentType=null;
-      this.productItem = new ProductData();
-      this.productItem.AccOccupation = this.accidentOccupation;
-    }
-    }
-    this.onSaveContentRisk('save');
+    // if(this.currentContentIndex!=null){
+    //   if(this.productItem.ContentSI!='' && this.productItem.ContentSI!='0.0'  && this.productItem.ContentSI!='0' && this.productItem.ContentSI!=null && this.productItem.ContentType!=null && this.productItem.ContentType!='' ){
+    // this.Cotentrisk[this.currentContentIndex]['SumInsured'] = this.productItem.ContentSI;
+    // this.Cotentrisk[this.currentContentIndex]['RiskId'] = this.productItem.ContentLocation;
+    // this.Cotentrisk[this.currentContentIndex]['SerialNoDesc'] = this.productItem.ContentSerialNo;
+    // if(this.productItem.ContentDesc==null || this.productItem.ContentDesc=='' || this.productItem.ContentDesc==undefined){this.productItem.ContentDesc=this.dropList.find(ele=>String(ele.Code)==String(this.productItem.ContentType))?.CodeDesc;}
+    // this.Cotentrisk[this.currentContentIndex]['ContentRiskDesc'] =this.productItem.ContentDesc;
+    // this.Cotentrisk[this.currentContentIndex]['ItemId'] = this.productItem.ContentType;
+    // this.currentContentIndex=null;
+    // this.productItem = new ProductData();
+    // this.productItem.AccOccupation = this.accidentOccupation;
+    //   }
+    // // this.ContentAdd();
+    // }
+    // else{
+    //   if(this.productItem.ContentSI!='' && this.productItem.ContentSI!='0.0'  && this.productItem.ContentSI!='0' && this.productItem.ContentSI!=null && this.productItem.ContentType!=null && this.productItem.ContentType!='' ){
+    //   let entry = {
+    //     "ItemId":this.productItem.ContentType,
+    //   "RiskId":this.productItem.ContentLocation,
+    //   "MakeAndModel":null,
+    //   "ContentRiskDesc":this.productItem.ContentDesc,
+    //   "SerialNoDesc":this.productItem.ContentSerialNo,
+    //   "SerialNo":null,
+    //   "ItemValue":this.productItem.ContentDesc,
+    //   "SumInsured":this.productItem.ContentSI,
+    //   }
+    //   this.Cotentrisk.push(entry);
+    //   this.productItem.ContentSI=null; 
+    //   this.productItem.ContentLocation=null;
+    //   this.productItem.ContentSerialNo=null;
+    //   this.productItem.ContentDesc=null;
+    //   this.productItem.ContentType=null;
+    //   this.productItem = new ProductData();
+    //   this.productItem.AccOccupation = this.accidentOccupation;
+    // }
+    // }
+    //this.onSaveContentRisk('save');
   }
  
   onSaveAllRiskDEtails(){
-    if(this.currentRiskIndex!=null){
-      if(this.productItem.RiskContentType!=null && this.productItem.RiskLocation!=null && this.productItem.RiskSI!=null && this.productItem.RiskSerialNo!=null){
-      this.risk[this.currentRiskIndex]['SumInsured'] = this.productItem.RiskSI;
-      this.risk[this.currentRiskIndex]['ContentRiskDesc'] = this.productItem.RiskDescription;
-      this.risk[this.currentRiskIndex]['SerialNoDesc'] = this.productItem.RiskSerialNo,
-      this.risk[this.currentRiskIndex]['RiskId'] = this.productItem.RiskLocation;//this.serialNoDesc
-      this.risk[this.currentRiskIndex]['ItemId'] =this.productItem.RiskContentType; 
-      this.currentRiskIndex=null;
-      this.productItem = new ProductData(); 
-      this.productItem.AccOccupation = this.accidentOccupation;
-      }
-      // this.AllAdd();     // this.AddNew();
-    }
-    else{
-      if(this.productItem.RiskContentType!=null && this.productItem.RiskLocation!=null && this.productItem.RiskSI!=null && this.productItem.RiskSerialNo!=null){
-        let entry = {
-        "ItemId":this.productItem.RiskContentType,
-        "RiskId":this.productItem.RiskLocation,
-        "MakeAndModel":"TN123",
-        "ContentRiskDesc":this.productItem.RiskDescription,
-        "SerialNoDesc": this.productItem.RiskSerialNo,
-        "SerialNo":"155685",
-        "ItemValue":"26534556",
-        "SumInsured":this.productItem.RiskSI,
-        }
-        this.risk.push(entry);
-        this.productItem = new ProductData();
-        this.productItem.AccOccupation = this.accidentOccupation;
-      }
-    }
-    this.onSaveAllRisk('save');
+    // if(this.currentRiskIndex!=null){
+    //   if(this.productItem.RiskContentType!=null && this.productItem.RiskLocation!=null && this.productItem.RiskSI!=null && this.productItem.RiskSerialNo!=null){
+    //   this.risk[this.currentRiskIndex]['SumInsured'] = this.productItem.RiskSI;
+    //   this.risk[this.currentRiskIndex]['ContentRiskDesc'] = this.productItem.RiskDescription;
+    //   this.risk[this.currentRiskIndex]['SerialNoDesc'] = this.productItem.RiskSerialNo,
+    //   this.risk[this.currentRiskIndex]['RiskId'] = this.productItem.RiskLocation;//this.serialNoDesc
+    //   this.risk[this.currentRiskIndex]['ItemId'] =this.productItem.RiskContentType; 
+    //   this.currentRiskIndex=null;
+    //   this.productItem = new ProductData(); 
+    //   this.productItem.AccOccupation = this.accidentOccupation;
+    //   }
+    //   // this.AllAdd();     // this.AddNew();
+    // }
+    // else{
+    //   if(this.productItem.RiskContentType!=null && this.productItem.RiskLocation!=null && this.productItem.RiskSI!=null && this.productItem.RiskSerialNo!=null){
+    //     let entry = {
+    //     "ItemId":this.productItem.RiskContentType,
+    //     "RiskId":this.productItem.RiskLocation,
+    //     "MakeAndModel":"TN123",
+    //     "ContentRiskDesc":this.productItem.RiskDescription,
+    //     "SerialNoDesc": this.productItem.RiskSerialNo,
+    //     "SerialNo":"155685",
+    //     "ItemValue":"26534556",
+    //     "SumInsured":this.productItem.RiskSI,
+    //     }
+    //     this.risk.push(entry);
+    //     this.productItem = new ProductData();
+    //     this.productItem.AccOccupation = this.accidentOccupation;
+    //   }
+    // }
+    // this.onSaveAllRisk('save');
   }
  
 
