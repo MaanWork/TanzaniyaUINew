@@ -3972,7 +3972,7 @@ getAddInfo(){
           
           onSaveBuildingList(){
             if (this.TableRowBuilding.length != 0) {
-              let i=0,j=0, reqList =[];
+              let i=0,j=0, reqList =[],additionalList=[];
               for(let entry of this.TableRowBuilding){
                   if(entry.BuildingUsageId!=null && entry.BuildingUsageId!='' && entry.BuildingUsageId!=undefined) entry['BuildingUsageIdError']=false;
                   else{ j+=1; entry['BuildingUsageIdError']=true;}
@@ -3994,11 +3994,22 @@ getAddInfo(){
                         "BuildingSumInsured":entry.BuildingSumInsured,
                         "LocationName": entry.LocationName,
                     }
+                    let additonalData = {
+                      "BuildingSuminsured": entry.BuildingSumInsured,
+                      "BuildingAddress": "Add1",
+                      "Createdby": this.loginId,
+                      "InbuildConstructType": null,
+                      "QuoteNo": sessionStorage.getItem('quoteNo'),
+                      "RequestReferenceNo": this.quoteRefNo,
+                      "SectionId": "1",
+                      "LocationName": entry.LocationName
+                    }
+                    additionalList.push(additonalData);
                     reqList.push(data);
                   i+=1;
                   if(i==this.TableRowBuilding.length && j==0){
                    // this.visibleBuilding = false;
-                      this.SaveBuildingList(reqList);   
+                      this.SaveBuildingList(additionalList);   
 
                       // this.productItem['BuildingSuminsured'] = '10000000';
                       // let fireData = new Building();
@@ -4028,21 +4039,9 @@ getAddInfo(){
             }
           }
           SaveBuildingList(datas){
-            for(let entry of datas){
-              console.log("Entryyyyyy",entry)
-              let ReqObj = [{
-                "BuildingSuminsured": entry.BuildingSumInsured,
-                "BuildingAddress": "Add1",
-                "Createdby": this.loginId,
-                "InbuildConstructType": null,
-                "QuoteNo": sessionStorage.getItem('quoteNo'),
-                "RequestReferenceNo": this.quoteRefNo,
-                "SectionId": "1",
-                "LocationName": entry.LocationName
-              }]
               
                 let urlLink = `${this.motorApiUrl}api/buildingdetails`;
-                  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+                  this.sharedService.onPostMethodSync(urlLink, datas).subscribe(
                     (data: any) => {
                       if (data?.Result) {
                         if(data.Result.length!=0){
@@ -4059,7 +4058,6 @@ getAddInfo(){
                   },
                   (err) => { },
                 );
-            }
             
           }
           

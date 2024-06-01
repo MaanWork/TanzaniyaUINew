@@ -19,6 +19,7 @@ import { TreeSelectModule } from 'primeng/treeselect';
 import { DropdownModule } from 'primeng/dropdown';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormlyModule } from '@ngx-formly/core';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @NgModule({
   declarations: [QuotationPlanComponent ],
@@ -42,6 +43,7 @@ import { FormlyModule } from '@ngx-formly/core';
     DropdownModule,
     ReactiveFormsModule,
     FormlyModule,
+    InputNumberModule,
   ]
 })
 export class QuotationModule { }

@@ -120,7 +120,7 @@
                         </td>
                         <td>
                             <ng-container *ngIf="currentBuildingRowIndex==ri">
-                                <input pInputText  type="number" [(ngModel)]="Building.BuildingSumInsured" />
+                                <p-inputNumber  type="number" [(ngModel)]="Building.BuildingSumInsured" inputId="integeronly"/>
                                 <div class="input-form-error" *ngIf="Building.SumInsuredError">
                                     <div class="error-text text-danger">
                                         Enter Valid Amount
@@ -284,7 +284,7 @@
                                 </td>
                                 <td>
                                     <ng-container *ngIf="currentContentRowIndex==ri">
-                                        <input pInputText  type="number"  [(ngModel)]="product.SumInsured" />
+                                        <p-inputNumber   type="number"  [(ngModel)]="product.SumInsured" inputId="integeronly"/>
                                         <div class="input-form-error" *ngIf="product.SumInsuredError">
                                             <div class="error-text text-danger">
                                                Enter Valid SumInsured
@@ -433,7 +433,7 @@
                             </td>
                             <td>
                                 <ng-container *ngIf="currentAllRiskRowIndex==ri">
-                                    <input pInputText  type="number"  [(ngModel)]="product.SumInsured" />
+                                    <p-inputNumber     [(ngModel)]="product.SumInsured" inputId="integeronly"  />
                                     <div class="input-form-error" *ngIf="product.SumInsuredError">
                                         <div class="error-text text-danger">
                                             Enter Valid Sum Insured
