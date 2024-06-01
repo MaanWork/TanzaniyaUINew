@@ -705,6 +705,7 @@ export class CoverDetailsComponent {
                       console.log("Final Vehicle List",vehicleList)
                       //sessionStorage.setItem('vehicleDetailsList',JSON.stringify(vehicleList));
                       if(this.productId!='4' && this.productId!='5' && this.productId!='46' && this.productId!='29'){
+
                         this.vehicleData = vehicleList;
                         this.filterVehicleList();
                       }
@@ -797,19 +798,16 @@ export class CoverDetailsComponent {
     }
   }
   filterVehicleList(){
-    let vehicleList = [];
-    console.log("Vehiclessss on Filter",this.vehicleDetailsList,this.vehicleData)
+    let vehicleList = this.vehicleData.filter(ele=>ele.SectionId=='1');
+      console.log("Filtered Sections",vehicleList)
       if(this.vehicleData.length!=0){
           let i=0;
           this.vehicleDetailsList = [];
+          let k=0;
           for(let vehicle of this.vehicleData){
-            if(i==0){
-                vehicleList.push(vehicle);
-            }
-            else{
-              let entry = vehicleList.find(ele=>ele.VehicleId==vehicle.VehicleId && ele.SectionId==vehicle.SectionId);
-              if(entry){
-
+            
+              let entry = vehicleList.find(ele=>ele.VehicleId==vehicle.VehicleId);
+              if(entry && vehicle.SectionId!='1'){
                 //if(entry.SectionId==vehicle.SectionId){
                   entry.CoverList = entry.CoverList.concat(vehicle.CoverList);
                 // }
@@ -817,13 +815,14 @@ export class CoverDetailsComponent {
                 //   vehicleList.push(vehicle);
                 // }
               }
-              else{
+              else if(vehicle.SectionId!='1'){
                 vehicleList.push(vehicle);
               }
-            }
+            
 
             i+=1;
             if(i==this.vehicleData.length){
+              console.log("Vehiclessss on Filter",this.vehicleDetailsList,this.vehicleData)
               this.vehicleDetailsList = vehicleList;
               console.log('Final List',this.vehicleData,this.vehicleDetailsList);
               this.checkSelectedCovers();
@@ -1048,7 +1047,7 @@ export class CoverDetailsComponent {
     if(subCover.MultiSelectYn=='Y'){
         if(event){
           if(this.selectedCoverList.length!=0){
-            let entry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.VehicleId && ele.SectionId==vehicle.SectionId);
+            let entry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.VehicleId);
             if(entry.length==0){
               let element = {
                   "Covers": [
@@ -1409,7 +1408,7 @@ export class CoverDetailsComponent {
         }
         else{
           if(this.selectedCoverList.length!=0){
-            let entry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.VehicleId && ele.SectionId==vehicle.SectionId);
+            let entry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.VehicleId);
             console.log("Entry List",entry);
             let sectionEntry = entry.find(ele=>ele.SectionId==cover.SectionId);
             sectionEntry.Covers = sectionEntry.Covers.filter(ele=>ele.SubCoverId!=subCover.SubCoverId )
@@ -1438,7 +1437,7 @@ export class CoverDetailsComponent {
     else{
       
       if(this.selectedCoverList.length!=0){
-        let entry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.VehicleId && ele.SectionId==vehicle.SectionId);
+        let entry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.VehicleId);
         
         if(entry.length==0){
           let element = {
@@ -2122,7 +2121,7 @@ export class CoverDetailsComponent {
     //if(type=='coverList' && (rowData.SubCovers==null || (rowData.SubCovers!=null && rowData.SubCoverId!=null))){
       let vehicle:any;
         if(this.productId!='4' && this.productId!='5' && this.productId!='46' && this.productId!='29'){
-          vehicle = this.vehicleDetailsList.find(ele=>(ele.Vehicleid==vehicleId || ele.VehicleId==vehicleId) && (ele.SectionId==rowData.SectionId));
+          vehicle = this.vehicleDetailsList.find(ele=>(ele.Vehicleid==vehicleId || ele.VehicleId==vehicleId));
           console.log('Vechiles2',vehicle,this.vehicleDetailsList,rowData)
         }
         else{
