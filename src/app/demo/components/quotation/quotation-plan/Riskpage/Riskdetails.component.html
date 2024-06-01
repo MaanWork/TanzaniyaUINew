@@ -132,7 +132,7 @@
                             </ng-container>        
                         </td>
                         <td>
-                            <ng-container *ngIf="currentContentRowIndex==ri">
+                            <ng-container *ngIf="currentBuildingRowIndex==ri">
                                 <input pInputText  type="text"  [(ngModel)]="Building.LocationName" />
                                 <div class="input-form-error" *ngIf="Building.LocationError">
                                     <div class="error-text text-danger">
@@ -140,7 +140,7 @@
                                     </div>
                                 </div>
                             </ng-container>
-                            <ng-container *ngIf="currentContentRowIndex!=ri">
+                            <ng-container *ngIf="currentBuildingRowIndex!=ri">
                                 {{Building.LocationName }}
                             </ng-container>        
                         </td>
@@ -155,7 +155,7 @@
                         </td>
                         
                         <td>
-                            <ng-container *ngIf="currentBuildingRowIndex!=ri">
+                            <ng-container *ngIf="currentBuildingRowIndex==ri">
                                 <div class="flex align-items-center justify-content-center gap-2">
                                     <button  pButton type="button"  icon="pi pi-trash"  (click)="deleteProductBuilding(ri)" 
                                         styleClass="p-button-outlined" >

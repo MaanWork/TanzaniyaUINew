@@ -3796,8 +3796,11 @@ getTotal(){
             this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
               (data: any) => {
                 if (data.Result) {
+                  
                       this.productItem.BuildingSuminsured = data?.Result?.BuildingSumInsured;
-                     this.TableRowBuilding=data?.Result;
+                      this.TableRowBuilding=data?.Result;
+                     // this.TableRowBuilding[6].LocationName=data?.Result?.LocationName;
+                      console.log( data,"datadata")
                       // this.productItem.BuildingBuildYear = data?.Result?.BuildingBuildYear;
                       // if(data?.Result?.BuildingOwnerYn) this.productItem.BuildingOwnerYn = data.Result.BuildingOwnerYn;
                       // if(data?.Result?.BuildingUsageId) this.productItem.BuildingUsageId = data.Result.BuildingUsageId;
@@ -3974,8 +3977,8 @@ getTotal(){
                     reqList.push(data);
                   i+=1;
                   if(i==this.TableRowBuilding.length && j==0){
-                    this.visibleBuilding = false;
-                     // this.SaveBuildingList(reqList);   
+                   // this.visibleBuilding = false;
+                      this.SaveBuildingList(reqList);   
 
                       // this.productItem['BuildingSuminsured'] = '10000000';
                       // let fireData = new Building();
@@ -4007,7 +4010,7 @@ getTotal(){
           SaveBuildingList(datas){
             for(let entry of datas){
               console.log("Entryyyyyy",entry)
-              let ReqObj = {
+              let ReqObj = [{
                 "BuildingSuminsured": entry.BuildingSumInsured,
                 "BuildingAddress": "Add1",
                 "Createdby": this.loginId,
@@ -4016,9 +4019,9 @@ getTotal(){
                 "RequestReferenceNo": this.quoteRefNo,
                 "SectionId": "1",
                 "LocationName": entry.LocationName
-              }
+              }]
               
-                let urlLink = `${this.motorApiUrl}api/slide14/savebuilding`;
+                let urlLink = `${this.motorApiUrl}api/buildingdetails`;
                   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
                     (data: any) => {
                       if (data?.Result) {
