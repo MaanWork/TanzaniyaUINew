@@ -90,7 +90,7 @@
                             </ng-container>   
                         </td> -->
                         <td>
-                            <ng-container *ngIf="currentBuildingRowIndex==ri">
+                            <ng-container *ngIf="currentBuildingRowIndex==ri && Building.WallType==''">
                                 <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Wall Type"  [options]="wallMaterialList" 
                                         appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="Building.WallType" />
                                 <div class="input-form-error" *ngIf="Building.WallTypeError">
@@ -99,7 +99,7 @@
                                     </div>
                                 </div>
                             </ng-container>
-                            <ng-container *ngIf="currentBuildingRowIndex!=ri">
+                            <ng-container *ngIf="currentBuildingRowIndex!=ri ">
                                 {{getwallTypeDescription(Building.WallType)}}
                             </ng-container>         
                         </td>
@@ -155,8 +155,8 @@
                         </td>
                         
                         <td>
-                            <ng-container *ngIf="currentBuildingRowIndex==ri">
-                                <div class="flex align-items-center justify-content-center gap-2">
+                            <ng-container *ngIf="TableRowBuilding.length>1">
+                                <div class="flex align-items-center justify-content-center gap-2"  *ngIf="currentBuildingRowIndex==ri">
                                     <button  pButton type="button"  icon="pi pi-trash"  (click)="deleteProductBuilding(ri)" 
                                         styleClass="p-button-outlined" >
                                     </button>
@@ -307,8 +307,8 @@
                                 </td>
                                 
                                 <td>
-                                    <ng-container *ngIf="currentContentRowIndex==ri">
-                                        <div class="flex align-items-center justify-content-center gap-2">
+                                    <ng-container *ngIf="TableRow.length>1">
+                                        <div class="flex align-items-center justify-content-center gap-2" *ngIf="currentContentRowIndex==ri">
                                             <button  pButton type="button"    icon="pi pi-trash"  (click)="deleteProduct(ri)" 
                                                 styleClass="p-button-outlined" >
                                             </button>
@@ -455,8 +455,8 @@
                             </td>
                             
                             <td>
-                                <ng-container *ngIf="currentAllRiskRowIndex==ri">
-                                    <div class="flex align-items-center justify-content-center gap-2">
+                                <ng-container *ngIf="TableRowAllRisk.length>1">
+                                    <div class="flex align-items-center justify-content-center gap-2" *ngIf="currentAllRiskRowIndex==ri">
                                         <button  pButton type="button"    icon="pi pi-trash"  (click)="deleteProductAllRisk(ri)" 
                                             styleClass="p-button-outlined" >
                                         </button>

@@ -3986,7 +3986,7 @@ getAddInfo(){
                   else{ j+=1; entry['LocationError']=true;}
                     let data = {
                         "ItemId":entry.ItemId,
-                        "RiskId":'1',
+                        "RiskId":i+1,
                         "BuildingUsageId":entry.BuildingUsageId,
                         "BuildingBuildYear": entry.BuildingBuildYear,
                         "WallType":entry.WallType,
@@ -4002,6 +4002,7 @@ getAddInfo(){
                       "QuoteNo": sessionStorage.getItem('quoteNo'),
                       "RequestReferenceNo": this.quoteRefNo,
                       "SectionId": "1",
+                      "RiskId":i+1,
                       "LocationName": entry.LocationName
                     }
                     additionalList.push(additonalData);
