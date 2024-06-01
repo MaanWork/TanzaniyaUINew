@@ -3320,7 +3320,7 @@ getTotal(){
                 "RiskId" : i+1,
                 "RoofType": entry.RoofType,
                 "WallType": entry.WallType,
-                "BuildingBuildYear": this.productItem.BuildingBuildYear,
+                "BuildingBuildYear": '2024',
                 "BuildingOwnerYn": "N",
                 "BuildingSumInsured": entry.BuildingSumInsured,
                 "BuildingUsageId": entry.BuildingUsageId,
@@ -3787,6 +3787,7 @@ getTotal(){
           }
 
           getBuildingDetails(){
+            this.getAddInfo();
             let ReqObj = {
               "RequestReferenceNo": this.requestReferenceNo,
               "RiskId": "1",
@@ -3849,6 +3850,25 @@ getTotal(){
               (err) => { },
             );
           }
+getAddInfo(){
+  let ReqObj = {
+    "RequestReferenceNo": this.quoteRefNo,
+    "RiskId": "1",
+    "SectionId":  "1"
+  }
+  let urlLink = `${this.motorApiUrl}api/getbuildingdetails`;
+  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    (data: any) => {
+      if (data.Result) { 
+        
+        console.log(data?.Result,"getAddInfo()");
+            this.TableRowBuilding[6].LocationName=data?.Result;
+      }
+    },
+    (err) => { },
+  );
+}
+
 
           getPersonalLiabilityDetails(type){
             let ReqObj = {

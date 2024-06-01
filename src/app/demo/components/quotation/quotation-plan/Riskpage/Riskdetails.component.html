@@ -307,7 +307,7 @@
                                 </td>
                                 
                                 <td>
-                                    <ng-container *ngIf="currentContentRowIndex!=ri">
+                                    <ng-container *ngIf="currentContentRowIndex==ri">
                                         <div class="flex align-items-center justify-content-center gap-2">
                                             <button  pButton type="button"    icon="pi pi-trash"  (click)="deleteProduct(ri)" 
                                                 styleClass="p-button-outlined" >
@@ -455,7 +455,7 @@
                             </td>
                             
                             <td>
-                                <ng-container *ngIf="currentAllRiskRowIndex!=ri">
+                                <ng-container *ngIf="currentAllRiskRowIndex==ri">
                                     <div class="flex align-items-center justify-content-center gap-2">
                                         <button  pButton type="button"    icon="pi pi-trash"  (click)="deleteProductAllRisk(ri)" 
                                             styleClass="p-button-outlined" >
