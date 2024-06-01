@@ -7,6 +7,7 @@ import { AuthService } from '../demo/components/auth/Auth/auth.service';
 import { SharedService } from '../demo/service/shared.service';
 import * as Mydatas from '../app-config.json';
 import { CookieService } from 'ngx-cookie-service';
+import { AppComponent } from '../app.component';
 declare var $:any;
 @Component({
     selector: 'app-topbar',
@@ -36,13 +37,16 @@ export class AppTopBarComponent implements OnInit {
     branchValue:any=null;branchList:any[]=[];typeName:any=null;
     loginType:any=null;customerCode:any=null;customerName:any=null;
     insuranceid: any;
-    constructor(public layoutService: LayoutService, private router: Router,private loginService: LoginService,
+    constructor(public layoutService: LayoutService, private router: Router,private loginService: LoginService,private appComp:AppComponent,
         private authService: AuthService,private cookieService: CookieService,private SharedService: SharedService) { 
         this.productName = sessionStorage.getItem('productName');
         this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
         console.log("UserDetails",this.userDetails);
         this.loginId = this.userDetails.Result.LoginId;
         this.userType = this.userDetails?.Result?.UserType;
+        let language =  sessionStorage.getItem('language');
+        if(language) this.appComp.setLanguage(language);
+        else this.appComp.setLanguage('en');
         if(this.userDetails.Result.LoginBranchDetails.length!=0) this.insuranceid = this.userDetails.Result.LoginBranchDetails[0].InsuranceId;
       
         if(sessionStorage.getItem('Userdetails')){
@@ -176,6 +180,10 @@ export class AppTopBarComponent implements OnInit {
         this.cookieService.delete('XSRF-TOKEN',"/","domain name",true,"None")
         window.location.href='https://apps.alliance.co.tz/';
       }
+    }
+    setLanguage(value){
+        sessionStorage.setItem('language',value);
+        this.appComp.setLanguage(value);
     }
     showUserDetails(){
       if(this.router.url=='/auth/login/product') return false;

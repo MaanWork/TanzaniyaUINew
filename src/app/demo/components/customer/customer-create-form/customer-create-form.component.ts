@@ -7,6 +7,7 @@ import { ProductData } from './product';
 import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
+import { AppComponent } from 'src/app/app.component';
 @Component({
   selector: 'app-customer-create-form',
   templateUrl: './customer-create-form.component.html',
@@ -48,18 +49,23 @@ export class CustomerCreateFormComponent implements OnInit {
   shows: boolean=false;final:boolean=false;endorsementId:any=null;
 	Idnumber: any;shortQuoteYN:boolean=false;enableCustomerDetails:boolean=false;
 	Idnumber1: any;endorsementSection:boolean=false;
-	Idnumber2: any;
+	Idnumber2: any;lang:any=null;
   constructor(private confirmationService: ConfirmationService, private sharedService: SharedService,private datePipe: DatePipe,
-    private messageService: MessageService, private router: Router, private translate: TranslateService,
+    private messageService: MessageService, private router: Router, private translate: TranslateService,private appComp:AppComponent,
     private primeNGConfig: PrimeNGConfig) {
       this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
 	  let type = sessionStorage.getItem('QuoteType')
 	  if(type) this.shortQuoteYN = true;
-    this.maxDate = new Date();
+    	this.maxDate = new Date();
 		var d= new Date();
 		var year = d.getFullYear();
 		var month = d.getMonth();
 		var day = d.getDate();
+		this.appComp.getLanguage().subscribe((res:any)=>{  
+			this.lang=res;
+			translate.setDefaultLang(res);
+		 });
+		 if(!this.lang){this.lang='en';translate.setDefaultLang('en');}
      	this.maxDobDate = new Date(year - 18,month, day );
 		this.loginId = this.userDetails.Result.LoginId;
 		this.agencyCode = this.userDetails.Result.OaCode;
@@ -78,7 +84,8 @@ export class CustomerCreateFormComponent implements OnInit {
 			// { label: 'Urdu', value: 'ur' },
 		  ];
 		  // this language will be used as a fallback when a translation isn't found in the current language
-		  translate.setDefaultLang('en');
+		 
+		
     	this.statusList = [
 			{ CodeDesc: '-Select-', Code: '' },
 			{ CodeDesc: 'Active', Code: 'Y' },
@@ -142,6 +149,9 @@ export class CustomerCreateFormComponent implements OnInit {
 				},
 				(err) => { },
 			);
+	}
+	ngOnView(){
+		
 	}
 	ngOnInit(): void {
 		let endorseObj = JSON.parse(sessionStorage.getItem('endorseTypeId'))
