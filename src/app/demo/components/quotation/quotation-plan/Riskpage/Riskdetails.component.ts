@@ -3432,7 +3432,6 @@ getTotal(){
               }
               if( this.productId=='59'){
                 if(this.coversreuired!='BC' && this.coversreuired!='B'){
-                  alert('Entered')
                   ReqObj['BuildingDetails'] = null;
                 }
                 if(this.coversreuired!='BC'){
@@ -3532,7 +3531,6 @@ getTotal(){
               console.log("final request",ReqObj)
           }
           finalSave(ReqObj){
-            alert('Entered Save')
             let urlLink = `${this.motorApiUrl}api/saveAllSection`;
                   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
                     (data: any) => {
