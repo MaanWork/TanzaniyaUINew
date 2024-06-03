@@ -43,7 +43,7 @@
         </div>
         </div>
     </div> 
-    <p-dialog header="Building Sum Insured" [modal]="true" [(visible)]="visibleBuilding" [style]="{ width: '80rem' }">
+    <p-dialog header="Building Sum Insured" [modal]="true" [(visible)]="visibleBuilding" [style]="{ width: '85rem' }">
         <ng-container  class="mt-5">
             <div class="grid justify-content-end">
                 <!-- <div class="col-12 md:col-6 lg:col-6"> -->
@@ -70,7 +70,7 @@
                         <td>
                             
                             <ng-container *ngIf="currentBuildingRowIndex==ri">
-                                <p-dropdown class="w-full"  placeholder="Select Building Usage"  [options]="BuildingUsageList" 
+                                <p-dropdown class="w-full"  placeholder="Select Usage"  [options]="BuildingUsageList" 
                                         appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="Building.BuildingUsageId" />
                                         <div class="input-form-error" *ngIf="Building.BuildingUsageIdError">
                                             <div class="error-text text-danger">
@@ -105,7 +105,7 @@
                         </td>
                         <td>
                             <ng-container *ngIf="currentBuildingRowIndex==ri">
-                                <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Building Roof Type" 
+                                <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Roof Type" 
                                  [options]="roofMaterialList" 
                                         appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="Building.RoofType" />
                                         <div class="input-form-error" *ngIf="Building.RoofTypeError">
@@ -155,8 +155,9 @@
                         </td>
                         
                         <td>
-                            <ng-container *ngIf="TableRowBuilding.length>1">
-                                <div class="flex align-items-center justify-content-center gap-2"  *ngIf="currentBuildingRowIndex==ri">
+                            <ng-container  >
+                                <!-- *ngIf="currentBuildingRowIndex==ri" -->
+                                <div class="flex align-items-center justify-content-center gap-2" >
                                     <button  pButton type="button"  icon="pi pi-trash"  (click)="deleteProductBuilding(ri)" 
                                         styleClass="p-button-outlined" >
                                     </button>
@@ -307,8 +308,8 @@
                                 </td>
                                 
                                 <td>
-                                    <ng-container *ngIf="TableRow.length>1">
-                                        <div class="flex align-items-center justify-content-center gap-2" *ngIf="currentContentRowIndex==ri">
+                                    <ng-container >
+                                        <div class="flex align-items-center justify-content-center gap-2" >
                                             <button  pButton type="button"    icon="pi pi-trash"  (click)="deleteProduct(ri)" 
                                                 styleClass="p-button-outlined" >
                                             </button>
@@ -455,8 +456,8 @@
                             </td>
                             
                             <td>
-                                <ng-container *ngIf="TableRowAllRisk.length>1">
-                                    <div class="flex align-items-center justify-content-center gap-2" *ngIf="currentAllRiskRowIndex==ri">
+                                <ng-container >
+                                    <div class="flex align-items-center justify-content-center gap-2" >
                                         <button  pButton type="button"    icon="pi pi-trash"  (click)="deleteProductAllRisk(ri)" 
                                             styleClass="p-button-outlined" >
                                         </button>

@@ -517,7 +517,7 @@ getTotal(){
           else{ j+=1; entry['SerialNoDescError']=true;}
           if(entry.Serial!=null && entry.Serial!='' && entry.Serial!=undefined) entry['SerialNoError']=false;
           else{ j+=1; entry['SerialNoError']=true;}
-          if(entry.SumInsured!=null   && entry.SumInsured!=undefined && entry.SumInsured!=0) entry['SumInsuredError']=false;
+          if(entry.SumInsured!=null   && entry.SumInsured!=undefined && entry.SumInsured!=0 && entry.SumInsured!='0'){ j+=1;entry['SumInsuredError']=false;}
           else{ j+=1; entry['SumInsuredError']=true;}
           if(entry.ItemId!= null && entry.ItemId!='' && entry.ItemId!=undefined) entry['Content']=this.allriskList.find(ele=>ele.Code==entry.ItemId)?.CodeDesc
           let data = {
@@ -575,7 +575,7 @@ getTotal(){
           else{ j+=1; entry['SerialNoDescError']=true;}
           if(entry.ContentRiskDesc!=null && entry.ContentRiskDesc!='' && entry.ContentRiskDesc!=undefined) entry['ContentRiskDescError']=false;
           else{ j+=1; entry['ContentRiskDescError']=true;}
-          if(entry.SumInsured!=null && entry.SumInsured!='' && entry.SumInsured!=undefined && entry.SumInsured!=0) entry['SumInsuredError']=false;
+          if(entry.SumInsured!=null && entry.SumInsured!='' && entry.SumInsured!=undefined && entry.SumInsured!=0 && entry.SumInsured!='0'){ j+=1; entry['SumInsuredError']=false;}
           else{ j+=1; entry['SumInsuredError']=true;}
             if(entry.ItemId!= null && entry.ItemId!='' && entry.ItemId!=undefined) entry['Content']=this.dropList.find(ele=>ele.Code==entry.ItemId)?.CodeDesc
            
@@ -595,7 +595,7 @@ getTotal(){
             reqList.push(data);
             i+=1;
             
-            if(i==this.TableRow.length){
+            if(i==this.TableRow.length && j==0){
               this.finalSaveRiskDetails(reqList,'C');
             }
         }
