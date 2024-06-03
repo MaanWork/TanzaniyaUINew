@@ -4000,7 +4000,7 @@ getAddInfo(){
                   else{ j+=1; entry['WallTypeError']=true;}
                   if(entry.RoofType!=null && entry.RoofType!='' && entry.RoofType!=undefined) entry['RoofTypeError']=false;
                   else{ j+=1; entry['RoofTypeError']=true;}
-                  if(entry.BuildingSumInsured!=null && entry.BuildingSumInsured!='' && entry.BuildingSumInsured!=undefined && entry.BuildingSumInsured!=0) entry['SumInsuredError']=false;
+                  if(entry.BuildingSumInsured!=null && entry.BuildingSumInsured!='' && entry.BuildingSumInsured!=undefined && entry.BuildingSumInsured!=0 && entry.BuildingSumInsured!='0') entry['SumInsuredError']=false;
                   else{ j+=1; entry['SumInsuredError']=true;}
                   if(entry.LocationName!=null && entry.LocationName!='' && entry.LocationName!=undefined && entry.LocationName!=0) entry['LocationError']=false;
                   else{ j+=1; entry['LocationError']=true;}
