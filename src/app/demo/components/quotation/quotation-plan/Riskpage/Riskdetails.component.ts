@@ -357,7 +357,6 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
       }
       showDialogBuilding() {
         this.visibleBuilding = true;
-        this.getBuildingDetails();
     }
     showDialogAllRisk() {
       this.visibleAllRisk = true;
@@ -3433,6 +3432,7 @@ getTotal(){
               }
               if( this.productId=='59'){
                 if(this.coversreuired!='BC' && this.coversreuired!='B'){
+                  alert('Entered')
                   ReqObj['BuildingDetails'] = null;
                 }
                 if(this.coversreuired!='BC'){
@@ -3532,6 +3532,7 @@ getTotal(){
               console.log("final request",ReqObj)
           }
           finalSave(ReqObj){
+            alert('Entered Save')
             let urlLink = `${this.motorApiUrl}api/saveAllSection`;
                   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
                     (data: any) => {
@@ -3799,7 +3800,7 @@ getTotal(){
           }
 
           getBuildingDetails(){
-            this.getAddInfo();
+            
             let ReqObj = {
               "RequestReferenceNo": this.requestReferenceNo,
               "RiskId": "1",
@@ -3813,6 +3814,7 @@ getTotal(){
                       this.productItem.BuildingSuminsured = data?.Result?.BuildingSumInsured;
                       this.TableRowBuilding=data?.Result;
                       if(this.TableRowBuilding.length!=0){
+                        this.getAddInfo();
                         if(this.TableRowBuilding.length>1 || (this.TableRowBuilding[0].BuildingSumInsured!=null && this.TableRowBuilding[0].BuildingSumInsured!=0)) this.currentBuildingRowIndex = null;
                       }
                      // this.TableRowBuilding[6].LocationName=data?.Result?.LocationName;
@@ -3879,9 +3881,7 @@ getAddInfo(){
     (data: any) => {
       if (data.Result) { 
         let i = 0
-        for(i; i < data.Result.length-i; i++){
-       
-         console.log( i,"TableRowBuilding")
+        for(i; i < data.Result.length; i++){
          this.TableRowBuilding[i]['LocationName']=data?.Result[i]?.LocationName;
         }
          

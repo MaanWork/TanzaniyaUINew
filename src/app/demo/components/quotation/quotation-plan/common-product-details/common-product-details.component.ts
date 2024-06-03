@@ -4492,6 +4492,8 @@ console.log('Eventsss',event);
     Details[0].Currency = this.currencyCode;
     Details[0].ExchangeRate = this.exchangeRate;
     sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails));
+    sessionStorage.setItem('Buildings',this.BuildingOwnerYn);
+    sessionStorage.setItem('coversRequired',this.coversRequired)
     this.router.navigate(['/quotation/plan/risk-page']);
 
   }
