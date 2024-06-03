@@ -104,7 +104,7 @@ export class AccesoriesComponent {
   item: any;
   items: any[] = [];
   ContentList:any[]=[];
-  first: any;fifth:boolean=false;
+  first: any;fifth:any;
   sixth:any;
   second: any;
   third: any;
@@ -676,6 +676,7 @@ export class AccesoriesComponent {
         }
         else this.second = false;
         this.productItem.AccOccupation = this.accidentOccupation;
+
         const third = this.sectionDetails.find((ele) => ele.SectionId == 3);
         if (third){
           if(third?.AddDetailYn=='Y'){
@@ -709,12 +710,12 @@ export class AccesoriesComponent {
         else this.third = false;
 
         const fifth = this.sectionDetails.find((ele) => ele.SectionId== 36);
-        this.changeComponent();
+        
         if(fifth){
          
             if(fifth?.AddDetailYn=='Y'){
               
-              this.fifth = false;
+              this.fifth = true;
               let fireData = new PersonalIndemenitys();
               let entry = [];
               this.fieldsPersonalInd = fireData?.fields;
@@ -742,9 +743,10 @@ export class AccesoriesComponent {
           }
               //this.fieldsPersonalInd[0].fieldGroup[0].fieldGroup[0].fieldGroup[3].hooks = regionHooks;
             }
-            else this.fifth = true;
+            else this.fifth = false;
+            this.changeComponent();
         }
-        else this.fifth = true; 
+        else this.fifth = false;
         const six = this.sectionDetails.find((ele) => ele.SectionId== 39); 
         if(six){
           if(six?.AddDetailYn=='Y'){
@@ -5648,8 +5650,9 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       })
   }
   changeComponent(){
-    if(this.second==false && this.fifth==false){
+    if(this.second==false && this.fifth==false || this.second==undefined && this.fifth==undefined){
       
+      sessionStorage.setItem('back','skipBack');
       this.router.navigate(['/quotation/plan/main/document-info'])
     }
   }

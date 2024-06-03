@@ -41,6 +41,7 @@ export class DocumentInfoComponent {
   viewImageSection: boolean;
   driverDetailsList: any[]=[];
   coverlist: any[]=[];
+  BackSession: string;
   constructor(private sharedService: SharedService,private quoteComponent:QuotationPlanComponent,
     private router:Router,
     private datePipe:DatePipe) {
@@ -384,6 +385,15 @@ export class DocumentInfoComponent {
         );
   }
   getBacks(){
+    this.BackSession = sessionStorage.getItem('back');
+    if(this.BackSession=="skipBack"){
+      sessionStorage.removeItem('back');
+      this.router.navigate(['/quotation/plan/premium-details']);
+   
+    }
+    else{
+
+   
     if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
       this.coverlist=[];let i=0;
       for(let vehicle of this.Riskdetails){
@@ -426,7 +436,7 @@ export class DocumentInfoComponent {
       }
       else this.router.navigate(['/quotation/plan/premium-details']);
       }
-
+    }
   }
   onProceed(){
     if(this.endorsementSection){
