@@ -43,7 +43,7 @@
         </div>
         </div>
     </div> 
-    <p-dialog header="Building Sum Insured" [modal]="true" [(visible)]="visibleBuilding" [style]="{ width: '85rem' }">
+    <p-dialog header="Building Sum Insured" [modal]="true" [(visible)]="visibleBuilding" [style]="{ width: '85rem','z-index': '1000 !important'  }">
         <ng-container  class="mt-5">
             <div class="grid justify-content-end">
                 <!-- <div class="col-12 md:col-6 lg:col-6"> -->
@@ -216,7 +216,7 @@
                   
               </div>
               </div> 
-              <p-dialog header="Content Sum Insured" [modal]="true" [(visible)]="visible" [style]="{ width: '80rem' }">
+              <p-dialog header="Content Sum Insured" [modal]="true" [(visible)]="visible" [style]="{ width: '80rem','z-index': '1000 !important'  }">
                 <ng-container  class="mt-5">
                     <div class="grid justify-content-end">
                         <!-- <div class="col-12 md:col-6 lg:col-6"> -->
@@ -228,8 +228,12 @@
                         <div class="col-12 md:col-2 lg:col-2"><p-button label="Add New" icon="pi pi-plus" (click)="addRow()" /></div>
                     </div>
                 </ng-container>
+               
+                <!-- <p-tabView>
+                <ng-container *ngFor="let item of TableRowBuilding">
+                <p-tabPanel [header]="item.LocationName"> -->
                 <ng-container  class="mt-5">
-                    <p-table [value]="TableRow" dataKey="id" editMode="row" [rows]="5" [paginator]="true" [tableStyle]="{'min-width': '50rem'}" >
+                    <p-table [value]="TableRow" dataKey="id" editMode="row" [rows]="5" [paginator]="true" [tableStyle]="{'min-width': '50rem' }" >
                         <ng-template pTemplate="header">
                             <tr>
                                 
@@ -242,6 +246,21 @@
                             <tr>
                                 <td>
                                     
+                                    <ng-container *ngIf="currentContentRowIndex==ri">
+                                        <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Location"
+                                            [options]="TableRowBuilding" 
+                                                appendTo="body" optionLabel="LocationName" optionValue="RiskId" [(ngModel)]="RiskId" />
+                                         <!-- <div class="input-form-error" *ngIf="product.ContentTypeError">
+                                            <div class="error-text text-danger">
+                                               Select Content Type
+                                            </div>
+                                        </div>-->
+                                    </ng-container>
+                                    <ng-container *ngIf="currentContentRowIndex!=ri">
+                                        {{LocationName}}
+                                    </ng-container>
+                                </td>
+                                <td>
                                     <ng-container *ngIf="currentContentRowIndex==ri">
                                         <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Content Type"
                                             [options]="dropList" 
@@ -332,7 +351,10 @@
                     </div>
                     </div>
             </ng-container> 
-               
+        <!-- </p-tabPanel>
+   
+    </ng-container>
+        </p-tabView> -->
             </p-dialog>
         </div>
         
@@ -368,7 +390,7 @@
               </div>
               </div> 
         </div>
-        <p-dialog header="All Risk Sum Insured" [modal]="true" [(visible)]="visibleAllRisk" [style]="{ width: '80rem' }">
+        <p-dialog header="All Risk Sum Insured" [modal]="true" [(visible)]="visibleAllRisk" [style]="{ width: '80rem','z-index': '1000 !important' }">
             <ng-container  class="mt-5">
                 <div class="grid justify-content-end">
                     <!-- <div class="col-12 md:col-6 lg:col-6"> -->

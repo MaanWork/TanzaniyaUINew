@@ -133,6 +133,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
   visibleAllRisk: boolean=false;
   currentAllRiskRowIndex =null;
   getLocationName: any;
+  LocationName: any[]=[];
 
   
         constructor(private router: Router,private datePipe:DatePipe,
@@ -180,7 +181,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
          this.getContentDetail();
          this.getallriskDetailsData();
           this.getdropList();
-          this.columnHeader =['Content Type','Serial No','Description','Sum Insured','Edit' ,'Delete']
+          this.columnHeader =['Location','Content Type','Serial No','Description','Sum Insured','Edit' ,'Delete']
           this.TableRow =[{
             id:1,
             ItemId: '',
@@ -517,7 +518,7 @@ getTotal(){
           else{ j+=1; entry['SerialNoDescError']=true;}
           if(entry.Serial!=null && entry.Serial!='' && entry.Serial!=undefined) entry['SerialNoError']=false;
           else{ j+=1; entry['SerialNoError']=true;}
-          if(entry.SumInsured!=null   && entry.SumInsured!=undefined && entry.SumInsured!=0 && entry.SumInsured!='0'){ j+=1;entry['SumInsuredError']=false;}
+          if(entry.SumInsured!=null   && entry.SumInsured!=undefined && entry.SumInsured!=0 && entry.SumInsured!='0'){ entry['SumInsuredError']=false;}
           else{ j+=1; entry['SumInsuredError']=true;}
           if(entry.ItemId!= null && entry.ItemId!='' && entry.ItemId!=undefined) entry['Content']=this.allriskList.find(ele=>ele.Code==entry.ItemId)?.CodeDesc
           let data = {
@@ -575,7 +576,7 @@ getTotal(){
           else{ j+=1; entry['SerialNoDescError']=true;}
           if(entry.ContentRiskDesc!=null && entry.ContentRiskDesc!='' && entry.ContentRiskDesc!=undefined) entry['ContentRiskDescError']=false;
           else{ j+=1; entry['ContentRiskDescError']=true;}
-          if(entry.SumInsured!=null && entry.SumInsured!='' && entry.SumInsured!=undefined && entry.SumInsured!=0 && entry.SumInsured!='0'){ j+=1; entry['SumInsuredError']=false;}
+          if(entry.SumInsured!=null && entry.SumInsured!='' && entry.SumInsured!=undefined && entry.SumInsured!=0 && entry.SumInsured!='0'){ entry['SumInsuredError']=false;}
           else{ j+=1; entry['SumInsuredError']=true;}
             if(entry.ItemId!= null && entry.ItemId!='' && entry.ItemId!=undefined) entry['Content']=this.dropList.find(ele=>ele.Code==entry.ItemId)?.CodeDesc
            
@@ -3874,16 +3875,23 @@ getAddInfo(){
     "SectionId": "1",
    //"RiskId":"2"
   }
+  let i = 0
   let urlLink = `${this.motorApiUrl}api/getbuildingdetails`;
   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
     (data: any) => {
       if (data.Result) { 
-        let i = 0
+        
+       
         for(i; i < data.Result.length; i++){
          this.TableRowBuilding[i]['LocationName']=data?.Result[i]?.LocationName;
+        //  this.LocationName[i]= data?.Result[i]?.LocationName;
+        //  console.log(this.LocationName,"this.LocationNamethis.LocationName");
+         
+       
         }
          
       }
+      
     },
     (err) => { },
   );
