@@ -183,6 +183,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
           this.getdropList();
           this.columnHeader =['Location','Content Type','Serial No','Description','Sum Insured','Edit' ,'Delete']
           this.TableRow =[{
+            LocationName:'',
             id:1,
             ItemId: '',
             Content: '',
@@ -365,7 +366,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
       this.getallriskDetailsData();
   }
       addRow() {
-        const newItem = { id: this.TableRow.length + 1, Content: '', SerialNoDesc: '',ContentRiskDesc:'',SumInsured:0 };
+        const newItem = { id: this.TableRow.length + 1, Content: '', SerialNoDesc: '',ContentRiskDesc:'',SumInsured:0,LocationName:'' };
         this.TableRow.push(newItem);
         this.currentContentRowIndex = this.TableRow.length-1;
     }
@@ -422,7 +423,7 @@ getTotalAllRisk(){
         this.productItem.AllriskSumInsured = this.Total;
         if(this.fields2.length!=0){
           let fieldList = this.fields2[0].fieldGroup[0].fieldGroup;
-          console.log("Field Lsit",fieldList)
+          //console.log("Field Lsit",fieldList)
           for(let field of fieldList){
             // if(field.key=='BuildingBuildYear' && this.insuranceId=='100004'){
             //   field.props.options = this.getYearList();
@@ -512,6 +513,8 @@ getTotal(){
     if (this.TableRowAllRisk.length != 0) {
       let i=0,j=0, reqList =[];
       for(let entry of this.TableRowAllRisk){
+        if(entry.RiskId!=null && entry.RiskId!='' && entry.RiskId!=undefined) entry['LocationNameError']=false;
+          else{ j+=1; entry['LocationNameError']=true;}
           if(entry.ItemId!=null && entry.ItemId!='' && entry.ItemId!=undefined) entry['ContentRiskDescError']=false;
           else{ j+=1; entry['ContentRiskDescError']=true;}
           if(entry.Description!=null && entry.Description!='' && entry.Description!=undefined) entry['SerialNoDescError']=false;
@@ -523,7 +526,7 @@ getTotal(){
           if(entry.ItemId!= null && entry.ItemId!='' && entry.ItemId!=undefined) entry['Content']=this.allriskList.find(ele=>ele.Code==entry.ItemId)?.CodeDesc
           let data = {
               "ItemId":entry.ItemId,
-              "RiskId":'1',
+              "RiskId":entry.RiskId,
               "ContentRiskDesc":entry.Content,
               "SerialNoDesc": entry.Description,
               "MakeAndModel":"TN123",
@@ -570,6 +573,9 @@ getTotal(){
       if (this.TableRow.length != 0) {
         let i=0, reqList =[],j=0;
         for(let entry of this.TableRow){
+          alert(this.getLocationDescription(entry.LocationName))
+          if(entry.RiskId!=null && entry.RiskId!='' && entry.RiskId!=undefined) entry['LocationNameError']=false;
+          else{ j+=1; entry['LocationNameError']=true;}
           if(entry.ItemId!=null && entry.ItemId!='' && entry.ItemId!=undefined) entry['ContentTypeError']=false;
           else{ j+=1; entry['ContentTypeError']=true;}
           if(entry.SerialNoDesc!=null && entry.SerialNoDesc!='' && entry.SerialNoDesc!=undefined) entry['SerialNoDescError']=false;
@@ -582,13 +588,14 @@ getTotal(){
            
             let data = {
                 "ItemId":entry.ItemId,
-                "RiskId":'1',
+                "RiskId":entry.LocationName,
                 "ContentRiskDesc":entry.ContentRiskDesc,
                 "SerialNoDesc": entry.SerialNoDesc,
                 "MakeAndModel":"TN123",
                 "SerialNo":entry.SerialNoDesc,
                 "ItemValue":entry.Content,
-                "SumInsured":entry.SumInsured
+                "SumInsured":entry.SumInsured,
+                "LocationName":this.getLocationDescription(entry.LocationName)
             }
             /*if(data.Dob!=null){
                 data.Dob = this.datePipe.transform(data.Dob, "dd/MM/yyyy")
@@ -2255,12 +2262,20 @@ getTotal(){
       else return '';
     }
     getwallTypeDescription(WallType) {
+      
       let entry = this.wallMaterialList.find(ele=>ele.Code==WallType);
       if(entry){
         return entry.CodeDesc;
       }
       else return '';
   }
+  getLocationDescription(TableRowBuilding) {
+    let entry = this.TableRowBuilding.find(ele=>ele.RiskId==TableRowBuilding);
+    if(entry){
+      return entry.LocationName;
+    }
+    else return '';
+}
         getAssName(Id){
           let entry = this.ChassisList.find(ele=>ele.Code==Id);
           if(entry){
@@ -2505,7 +2520,8 @@ getTotal(){
           {
             ReqObj = {
               "CreatedBy": this.loginId,
-            "QuoteNo":sessionStorage.getItem('quoteNo'),
+              // sessionStorage.getItem('quoteNo')
+            "QuoteNo":null,
             "RequestReferenceNo":this.quoteRefNo,
             "Company_id": this.insuranceId,
             "productid": this.productId,
@@ -3732,29 +3748,29 @@ getTotal(){
                   // brokerbranchCode = this.commonDetails[0].BrokerBranchCode;
                 }
               }
-                let emp = [ {
-                  "InsuranceId": this.insuranceId,
+              let emp = [ {
+                "InsuranceId": this.insuranceId,
                 "CreatedBy": createdBy,
                 "ProductId": this.productId,
                 "RequestReferenceNo": this.requestReferenceNo,
                 "RiskId": "1",
                 "SectionId": "35",
-                 "OccupationType": this.productItem.OccupationType,
-                     "SumInsured": this.productItem.PersonalAccidentSuminsured,
-                     "OtherOccupation":this.productItem.otheroptionPer,
-                  "TotalNoOfPersons": "1",
-                  "EndorsementDate": this.endorsementDate,
-                  "EndorsementEffectiveDate": this.endorsementEffectiveDate,
-                  "EndorsementRemarks": this.endorsementRemarks,
-                  "EndorsementType": this.endorsementType,
-                  "EndorsementTypeDesc": this.endorsementTypeDesc,
-                  "EndtCategoryDesc": this.endtCategoryDesc,
-                  "EndtCount": this.endtCount,
-                  "EndtPrevPolicyNo": this.endtPrevPolicyNo,
-                  "EndtPrevQuoteNo": this.endtPrevQuoteNo,
-                  "EndtStatus": this.endtStatus,
-                  "IsFinanceEndt": this.isFinanceEndt,
-                  "OrginalPolicyNo": this.orginalPolicyNo,
+                "OccupationType": this.productItem.OccupationType,
+                "SumInsured": this.productItem.PersonalAccidentSuminsured,
+                "OtherOccupation":this.productItem.otheroptionPer,
+                "TotalNoOfPersons": "1",
+                "EndorsementDate": this.endorsementDate,
+                "EndorsementEffectiveDate": this.endorsementEffectiveDate,
+                "EndorsementRemarks": this.endorsementRemarks,
+                "EndorsementType": this.endorsementType,
+                "EndorsementTypeDesc": this.endorsementTypeDesc,
+                "EndtCategoryDesc": this.endtCategoryDesc,
+                "EndtCount": this.endtCount,
+                "EndtPrevPolicyNo": this.endtPrevPolicyNo,
+                "EndtPrevQuoteNo": this.endtPrevQuoteNo,
+                "EndtStatus": this.endtStatus,
+                "IsFinanceEndt": this.isFinanceEndt,
+                "OrginalPolicyNo": this.orginalPolicyNo,
                 
               } ]
               if (this.endorsementSection) {
@@ -3801,9 +3817,16 @@ getTotal(){
           getBuildingDetails(){
             
             let ReqObj = {
-              "RequestReferenceNo": this.requestReferenceNo,
-              "RiskId": "1",
-              "SectionId":  "1"
+              // "RequestReferenceNo": this.requestReferenceNo,
+              // // "RiskId": "1",
+              // "SectionId":  "1"
+              // "RequestReferenceNo": this.requestReferenceNo,
+              // "SectionId": "1"
+            
+                "RequestReferenceNo": this.requestReferenceNo,
+                "SectionId": "1" ,
+                "RiskId": "1",  
+           
             }
             let urlLink = `${this.motorApiUrl}api/slide14/getbuilding`;
             this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -3875,19 +3898,18 @@ getAddInfo(){
     "SectionId": "1",
    //"RiskId":"2"
   }
-  let i = 0
+ 
   let urlLink = `${this.motorApiUrl}api/getbuildingdetails`;
   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
     (data: any) => {
       if (data.Result) { 
+        console.log(data.Result,"this.LocationNamethis.LocationName");
         
-       
+        let i = 0
         for(i; i < data.Result.length; i++){
          this.TableRowBuilding[i]['LocationName']=data?.Result[i]?.LocationName;
         //  this.LocationName[i]= data?.Result[i]?.LocationName;
-        //  console.log(this.LocationName,"this.LocationNamethis.LocationName");
-         
-       
+          console.log(this.TableRowBuilding);
         }
          
       }

@@ -249,15 +249,15 @@
                                     <ng-container *ngIf="currentContentRowIndex==ri">
                                         <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Location"
                                             [options]="TableRowBuilding" 
-                                                appendTo="body" optionLabel="LocationName" optionValue="RiskId" [(ngModel)]="RiskId" />
-                                         <!-- <div class="input-form-error" *ngIf="product.ContentTypeError">
+                                                appendTo="body" optionLabel="LocationName" optionValue="RiskId" [(ngModel)]="product.LocationName" />
+                                         <div class="input-form-error" *ngIf="LocationNameError">
                                             <div class="error-text text-danger">
-                                               Select Content Type
+                                               Select Location
                                             </div>
-                                        </div>-->
+                                        </div>
                                     </ng-container>
                                     <ng-container *ngIf="currentContentRowIndex!=ri">
-                                        {{LocationName}}
+                                       {{getLocationDescription(product.LocationName)}}
                                     </ng-container>
                                 </td>
                                 <td>
