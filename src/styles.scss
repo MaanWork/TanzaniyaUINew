@@ -817,3 +817,21 @@ cursor:  pointer !important;
     text-align: center;
     padding: 8px 0;
 }
+.p-dialog-mask.p-component-overlay {
+   
+    z-index: 1000 !important;
+  }
+  .imag-card {
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    padding: 1rem;
+    background-color: #fff;
+    position: relative;
+    height: 60px;
+    text-align: center;
+    border: 3px dotted #ccc;
+}
+.text-dark{
+    color: #000 !important;
+}
