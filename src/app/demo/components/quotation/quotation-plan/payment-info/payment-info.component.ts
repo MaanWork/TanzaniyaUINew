@@ -316,7 +316,7 @@ export class PaymentInfoComponent {
     );
   } 
   checkStatus(){
-    if(this.loadingCount<=20){
+    if(this.loadingCount<=5){
       let ReqObj = {
         "InsuranceId": this.insuranceId
       }
@@ -325,6 +325,7 @@ export class PaymentInfoComponent {
       this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         (data: any) => {
           console.log(data);
+          this.loadingCount+=1;
           if(data.result=='FAIL'){
               if(this.quoteDetails.EmiYn!=null){
                 this.EmiYn = this.quoteDetails.EmiYn;
@@ -348,9 +349,12 @@ export class PaymentInfoComponent {
                   this.totalPremium = this.quoteDetails?.DueAmount;
                 }   
               }
-              setTimeout(() =>{
-                this.checkStatus();
-              },(3 * 1000));
+              if((this.loadingSection || this.mobilePaymentPending) && this.loadingCount<=5){
+                setTimeout(() =>{
+                  this.checkStatus();
+                },(3 * 1000));
+              }
+             
           }
           else{
             if(this.quoteDetails?.policyNo!=null && this.quoteDetails?.policyNo!='' && this.quoteDetails?.policyNo!=undefined){

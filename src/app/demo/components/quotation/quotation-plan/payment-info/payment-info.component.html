@@ -131,7 +131,6 @@
                 <div class="mt-2">
                   <input type="text" class="w-full"  styleClass="w-full"  pInputText [(ngModel)]="mpaisaNumber" maxlength="11">
                 </div>
-                  
             </div>
           </div>
     </ng-container>
@@ -144,7 +143,7 @@
                     <img src="./assets/images/mobilePayment.gif" width="225px" height="200px" />
                 </div>
                 <div class="text-center mt-2" *ngIf="checkStatusSection">
-                      <button class="btn btn-primary" (click)="checkStatusOnce()">Check Payment Status!</button>
+                    <p-button label="Check Payment Status!" (click)="checkStatusOnce()" class="text-l pi-button"></p-button>
                 </div>
         </div>
       </ng-container>
@@ -179,8 +178,8 @@
     <div class="grid p-3 justify-content-between" style="max-width: 35rem;">
         
         <p-button label="Back" [routerLink]="['/quotation/plan/main/document-info']" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
-        <p-button label="Convert To Draft" (click)="convertDraft()" class="text-l pi-button"></p-button>
-        <p-button label="Make Payment" *ngIf="!draftSection" (click)="onCashPayment()" class="text-l pi-button"></p-button>
+        <p-button label="Convert To Draft" *ngIf="!mobilePaymentPending" (click)="convertDraft()" class="text-l pi-button"></p-button>
+        <p-button label="Make Payment" *ngIf="!draftSection && !mobilePaymentPending" (click)="onCashPayment()" class="text-l pi-button"></p-button>
     </div>
 </ng-container>
 <ng-container *ngIf="draftSection">
