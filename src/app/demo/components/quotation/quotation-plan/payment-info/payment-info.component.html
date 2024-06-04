@@ -35,45 +35,119 @@
         </div>
     </ng-container>
     <ng-container *ngIf="Fourth">
-        <div class="grid" >
-            <div class="lg:col-5 md:col-5 col-12">
-                <label for="username">Bank Name</label>
+        <div class="grid">
+            <div class="col-12 md:col-6 lg:col-6 xl:col-6">
+                <div class="grid" >
+                    <div class="lg:col-12 md:col-12 col-12">
+                        <label for="username">Bank Name</label>
+                        <p-dropdown inputId="make" 
+                            class="w-full" 
+                            styleClass="w-full" 
+                            [options]="bankList" 
+                            [(ngModel)]="bankName" 
+                            optionLabel="CodeDesc" 
+                            optionValue="Code" 
+                            placeholder="Select Bank">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="grid" >
+                    <div class="lg:col-12 md:col-12 col-12">
+                        <label for="username">MICR Number*</label><br>
+                        <input type="text" [(ngModel)]="micrNo"  maxlength="100" pInputText class="md:w-full"/>
+                    </div>
+                </div>
+                <div class="grid" >
+                    <div class="lg:col-12 md:col-12 col-12">
+                        <label for="username">Cheque Number*</label><br>
+                        <input type="text" [(ngModel)]="chequeNo"  maxlength="6" pInputText class="md:w-full"/>
+                    </div>
+                </div>
+                <div class="grid" >
+                    <div class="lg:col-12 md:col-12 col-12">
+                        <label for="username">Cheque Date*</label><br>
+                        <p-calendar class="md:w-full lg:w-25rem" 
+                            styleClass="w-full" 
+                            [minDate]="minDate" 
+                            [(ngModel)]="chequeDate"
+                            dateFormat="dd/mm/yy"
+                            placeholder="Select Cheque Date">
+                        </p-calendar>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 md:col-6 lg:col-6 xl:col-6" *ngIf="chequeSection && uploadedDocList.length==0">
+                <input style="display: none;" type="file" (change)="onUploadDocuments($event,null,'direct','select')" #doc>
+                <div class="imag-card my-3" style="max-width:300px !important;" appDragDropFileUpload (fileDropped)="onUploadDocuments($event,null,'direct','drag')" (click)="doc.click()">
+                    <div>
+                        <div class="center">
+                            <b class="text-dark" style="font-size:1rem">
+                                <i class="far fa-images"></i> Drag or Select a Cheque Leaf</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 md:col-6 lg:col-6 xl:col-6" *ngIf="chequeSection && uploadedDocList.length!=0">
+                <label for="username">Cheque Leaf Document*</label><br> 
+                <p-table [value]="uploadedDocList" dataKey="name">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width:4rem">File Name</th>
+                            <th style="width:4rem">Action</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-doc let-i="rowIndex">
+                        <tr>
+                            <td>{{doc.OriginalFileName}}</td>
+                            <td>
+                                <span class="p-buttonset">
+                                    <button pButton pRipple icon="pi pi-download"  title="Download" class="p-button-outlined" (click)="onCommonDocumentDownload(i)"></button>
+                                    <button pButton pRipple icon="pi pi-trash" title="Delete" class="p-button-outlined" (click)="onDeleteCommonDocument(i)"></button>
+                                </span>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+        
+    </ng-container>
+    <ng-container *ngIf="Seventh">
+          <div class="grid mt-1">
+            <div class="col-12 md:col-4 lg:col-4 xl:col-4">
+                <label for="payeeName">Code *</label><br>
                 <p-dropdown inputId="make" 
                     class="w-full" 
                     styleClass="w-full" 
-                    [options]="bankList" 
-                    [(ngModel)]="bankName" 
+                    [options]="mobileCodeList" 
+                    [(ngModel)]="mpaisaCode" 
                     optionLabel="CodeDesc" 
                     optionValue="Code" 
                     placeholder="Select Bank">
                 </p-dropdown>
             </div>
-        </div>
-        <div class="grid" >
-            <div class="lg:col-5 md:col-5 col-12">
-                <label for="username">MICR Number*</label><br>
-                <input type="text" [(ngModel)]="micrNo"  maxlength="100" pInputText class="md:w-full"/>
+            <div class="col-12 md:col-4 lg:col-4 xl:col-4">
+                <label for="payeeName">M-Paisa Number *</label><br>
+                <div class="mt-2">
+                  <input type="text" class="w-full"  styleClass="w-full"  pInputText [(ngModel)]="mpaisaNumber" maxlength="11">
+                </div>
+                  
             </div>
-        </div>
-        <div class="grid" >
-            <div class="lg:col-5 md:col-5 col-12">
-                <label for="username">Cheque Number*</label><br>
-                <input type="text" [(ngModel)]="chequeNo"  maxlength="6" pInputText class="md:w-full"/>
-            </div>
-        </div>
-        <div class="grid" >
-            <div class="lg:col-5 md:col-5 col-12">
-                <label for="username">Cheque Date*</label><br>
-                <p-calendar class="md:w-full lg:w-25rem" 
-                    styleClass="w-full" 
-                    [minDate]="minDate" 
-                    [(ngModel)]="chequeDate"
-                    dateFormat="dd/mm/yy"
-                    placeholder="Select Cheque Date">
-                </p-calendar>
-            </div>
-        </div>
+          </div>
     </ng-container>
+    <ng-container *ngIf="mobilePaymentPending">
+        <div class="card-body">
+                <div class="text-center">
+                    <b>Mobile Payment is on Process</b>
+                </div>
+                <div class="text-center">
+                    <img src="./assets/images/mobilePayment.gif" width="225px" height="200px" />
+                </div>
+                <div class="text-center mt-2" *ngIf="checkStatusSection">
+                      <button class="btn btn-primary" (click)="checkStatusOnce()">Check Payment Status!</button>
+                </div>
+        </div>
+      </ng-container>
     <!-- <div class="my-4">
         <div class="mb-3">
             <label for="username">Bank Name*</label><br>
@@ -164,14 +238,8 @@
     <div class="grid" >
         <div class="lg:col-5 md:col-5 col-12">
             <label for="username">Bank Name *</label><br>
-            <p-dropdown inputId="make" 
-                class="w-full" 
-                styleClass="w-full" 
-                [options]="bankList" 
-                [(ngModel)]="bankName"
-                optionLabel="CodeDesc" 
-                optionValue="Code" 
-                placeholder="Select Bank">
+            <p-dropdown inputId="make"   class="w-full"   styleClass="w-full" 
+                [options]="bankList"  [(ngModel)]="bankName" optionLabel="CodeDesc"  optionValue="Code"  placeholder="Select Bank">
             </p-dropdown>
         </div>
     </div>
@@ -196,7 +264,6 @@
         </div>
     </div>
     <div class="grid p-3 justify-content-center" style="max-width: 35rem;">
-        
         <p-button label="Back" [routerLink]="['/quotation/plan/main/document-info']" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
         <p-button label="Submit" *ngIf="checkRefundMandatories()" (click)="onCashPayment()" class="text-l pi-button"></p-button>
     </div>
