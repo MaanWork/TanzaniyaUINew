@@ -386,7 +386,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               this.getAddInfo();
               this.visible =true;
           }
-          else if(this.TableRowBuilding.length!=0 && this.checkBuildingDetails()){
+          else if(this.TableRowBuilding.length!=0 && !this.checkBuildingDetails()){
             this.visible = true;
             this.getContentDetail();
           }
