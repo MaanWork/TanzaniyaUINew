@@ -108,8 +108,8 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
   fieldsBuilding: FormlyFieldConfig<import("@ngx-formly/core").FormlyFieldProps & { [additionalProperties: string]: any; }>;
   columnHeaderAllRisk: string[];TableRowAllRisk: any[]= [];visibleAllRisk: boolean=false;
   currentAllRiskRowIndex =null;getLocationName: any;LocationName: any[]=[];contentSection: boolean;buildingColumnHeader: any[];
-  locationList: any[]=[];personalLiabilityDialog: boolean=false;
-
+  locationList: any[]=[];personalLiabilityDialog: boolean=false;TableRowPersonalLiability:any[]=[];
+  columnHeaderPersonalLiability:any[]=[];currentPLRowIndex:any=0;
   
         constructor(private router: Router,private datePipe:DatePipe,
           private sharedService: SharedService,public http: HttpClient) {
@@ -168,6 +168,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             ContentRiskDesc: '',
             SumInsured: 0,
           }]
+          this.columnHeaderPersonalLiability =['Location','Name','Date Of Birth','Salary','Edit' ,'Delete'];
           this.columnHeaderBuilding =['Building Usage','Construction (Wall)','Construction (Roof)','Sum Insured',"Location",'Edit' ,'Delete']
           this.TableRowBuilding =[{
             id:1,
@@ -3318,6 +3319,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
           let i= 0;
           if(this.TableRowBuilding.length!=0){
             for(let entry of this.TableRowBuilding){
+              if(entry.BuildingAddress==undefined || entry.BuildingAddress==null) entry['BuildingAddress'] = null;
               let obj = {  
                 "SectionId": "1",
                 "Status": "Y",
@@ -3330,8 +3332,10 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                 "BuildingUsageId": entry.BuildingUsageId,
                 "WaterTankSi": this.productItem?.WaterTankSi,
                 "ArchitectsSi": this.productItem?.ArchitectsSi,
+                "LocationName":entry?.LocationName,
                 "LossOfRentSi":this.productItem?.LossOfRentSi,
                 "TypeOfProperty":this.productItem?.TypeOfProperty,
+                "BuildingAddress": entry?.BuildingAddress
             }
             buildingList.push(obj);
             i+=1;
@@ -3815,7 +3819,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                       this.productItem.BuildingSuminsured = data?.Result?.BuildingSumInsured;
                       this.TableRowBuilding=data?.Result;
                       if(this.TableRowBuilding.length!=0){
-                        this.getAddInfo();
+                        //this.getAddInfo();
                         if(this.TableRowBuilding.length>1 || (this.TableRowBuilding[0].BuildingSumInsured!=null && this.TableRowBuilding[0].BuildingSumInsured!=0)) this.currentBuildingRowIndex = null;
                       }
                      // this.TableRowBuilding[6].LocationName=data?.Result?.LocationName;
@@ -4041,11 +4045,11 @@ getAddInfo(){
                     }
                     additionalList.push(additonalData);
                     reqList.push(data);
-                  i+=1;
-                  if(i==this.TableRowBuilding.length && j==0){
-                   // this.visibleBuilding = false;
-                      this.SaveBuildingList(additionalList)
-
+                    i+=1;
+                    if(i==this.TableRowBuilding.length && j==0){
+                       // this.visibleBuilding = false;
+                        //this.SaveBuildingList(additionalList)
+                        this.onfinalsave('Save');
                       // this.productItem['BuildingSuminsured'] = '10000000';
                       // let fireData = new Building();
                       // let entry = [];
@@ -4084,7 +4088,7 @@ getAddInfo(){
                           sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
                           //this.nextslide=true;
                           // this.onCalculate(data.Result,'Building');
-                         this.onfinalsave('Save');
+                         
                           //this.onCheckUWQuestionProceed(data.Result);
                         }
                         

@@ -593,8 +593,8 @@
                   </div>     
               </div>
               </div></ng-container>
-      </div>
-      </div> 
+            </div>
+        </div> 
       </div>
       <div class="col-12 lg:col-5 xl:col-5" *ngIf="personalIndemity">
         <div class="memberDetailCard" style="padding:10px !important;">
@@ -640,19 +640,17 @@
                 <div class="mb-3"> <b>Group Personal Accident Details</b></div>
               <div ><!--class="flex md:flex-row flex-col items-center md:space-x-3"-->
              
-                <ng-container *ngFor="let step of fieldsGroupPa; let index = index; let last = last">
-                            <div>    
-                               
-                <div class="row"><!--style="display: flex !important;justify-content: space-between !important;"-->
-                    <div>
-                        <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
-                            <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
-                    </form>
-                    </div>     
-                </div>
-                
-                </div></ng-container>
-            
+            <ng-container *ngFor="let step of fieldsGroupPa; let index = index; let last = last">
+            <div>    
+                            
+            <div class="row"><!--style="display: flex !important;justify-content: space-between !important;"-->
+                <div>
+                    <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
+                        <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
+                </form>
+                </div>     
+            </div>
+            </div></ng-container>
         </div>
         </div> 
     </div>
@@ -803,30 +801,28 @@
     </div>
     <div class="col-12 lg:col-5 xl:col-5" *ngIf="Content">
     <div class="memberDetailCard" style="padding:10px !important;">
-<div class="mb-2"> <b>Content Risk</b></div>
+          <div class="mb-2"> <b>Content Risk</b></div>
                 <div class="flex md:flex-row flex-col items-center md:space-x-3">
                
-                  <ng-container *ngFor="let stes of fields1; let index = index; let last = last">
-                              <div>    
-                  <div style="display: flex !important;justify-content: space-between !important;">
-                      <div class="mt-4 mr-3 ml-3">
-                        <img src="./assets/images/content.png" width="40" height="35">
-                        <!-- <b>{{step.props.label }}</b> -->
-                    </div> 
-                      <div>
-                          <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
-                              <formly-form [form]="form" [fields]="stes.fieldGroup" [model]="productItem"></formly-form>
-                      </form>
-                      </div>     
+                <ng-container *ngFor="let stes of fields1; let index = index; let last = last">
+                    <div>    
+                        <div style="display: flex !important;justify-content: space-between !important;">
+                            <div class="mt-4 mr-3 ml-3">
+                                <img src="./assets/images/content.png" width="40" height="35">
+                                <!-- <b>{{step.props.label }}</b> -->
+                            </div> 
+                            <div>
+                                <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
+                                    <formly-form [form]="form" [fields]="stes.fieldGroup" [model]="productItem"></formly-form>
+                            </form>
+                            </div>     
+                        </div>
                   </div>
-                  
-                  </div></ng-container>
+                </ng-container>
               
-          </div>
+                </div>
           </div> 
-       
     </div>
-
     <div class="col-12 lg:col-5 xl:col-5" *ngIf="AllRisk">
             <div class="memberDetailCard" style="padding:10px !important;">
                 <div class="mb-2"> <b>All Risk</b></div>
@@ -861,3 +857,131 @@
 </ng-container>
 
     </div>
+    <p-dialog header="Personal Liability Details" [modal]="true" [(visible)]="personalLiabilityDialog" [style]="{ width: '80rem','z-index': '1000 !important' }">
+        <ng-container  class="mt-5">
+            <div class="grid justify-content-end">
+                <!-- <div class="col-12 md:col-6 lg:col-6"> -->
+                    <!--  -->
+                    <!-- <p-button label="Add" (click)="Addnew(TableRow)" /> -->
+                <!-- </div> -->
+                <div class="col-12 md:col-8 lg:col-8"></div>
+                <div class="col-12 md:col-2 lg:col-2" *ngIf="fields2">Total :</div>
+                <div class="col-12 md:col-2 lg:col-2"><p-button label="Add New" icon="pi pi-plus" (click)="addRowAllRisk()" /></div>
+            </div>
+        </ng-container>
+        <ng-container  class="mt-5">
+            <p-table [value]="TableRowPersonalLiability" dataKey="id" editMode="row" [rows]="5" [paginator]="true" [tableStyle]="{'min-width': '50rem'}" >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th [pSortableColumn]="column" *ngFor="let column of columnHeaderPersonalLiability">
+                            {{column}}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product let-ri="rowIndex">
+                    <tr>
+                        <td>
+                            <ng-container *ngIf="currentPLRowIndex==ri">
+                                <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Location"
+                                    [options]="TableRowBuilding" (onChange)="onChangeContentLocation(product)"
+                                        appendTo="body" optionLabel="LocationName" optionValue="RiskId"  [(ngModel)]="product.RiskId" />
+                                 <div class="input-form-error" *ngIf="product.LocationNameError">
+                                    <div class="error-text text-danger">
+                                       Select Location
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="currentAllRiskRowIndex!=ri">
+                               {{product.LocationName}}
+                            </ng-container>
+                        </td>
+                        <td>
+                            
+                            <ng-container *ngIf="currentAllRiskRowIndex==ri">
+                                <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Content Type"    [options]="allriskList" 
+                                        appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="product.ItemId" />
+                                        <div class="input-form-error" *ngIf="product.ContentRiskDescError">
+                                            <div class="error-text text-danger">
+                                                Select Valid Content
+                                            </div>
+                                        </div>
+                            </ng-container>
+                            <ng-container *ngIf="currentAllRiskRowIndex!=ri"> {{ getAllContentTypeDescription(product.ItemId) }}</ng-container>
+                        </td>
+                        <td>
+                            <ng-container *ngIf="currentAllRiskRowIndex==ri">
+                                <input class="w-full p-button-outlined" placeholder="Enter Serial No" styleClass="w-full"  pInputText type="text" 
+                                    [(ngModel)]="product.Serial" />
+                                    <div class="input-form-error" *ngIf="product.SerialNoError">
+                                        <div class="error-text text-danger">
+                                            Enter Valid Serial No
+                                        </div>
+                                    </div>
+                            </ng-container>
+                            <ng-container *ngIf="currentAllRiskRowIndex!=ri">
+                                {{product.Serial}}
+                            </ng-container>   
+                        </td>
+                        <td>
+                            <ng-container *ngIf="currentAllRiskRowIndex==ri">
+                                <input  pInputText type="text" placeholder="Enter Description" [(ngModel)]="product.Description"  required />
+                                <div class="input-form-error" *ngIf="product.SerialNoDescError">
+                                    <div class="error-text text-danger">
+                                        Enter Valid Description
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="currentAllRiskRowIndex!=ri">
+                                {{product.Description}}
+                            </ng-container>         
+                        </td>
+                        <td>
+                            <ng-container *ngIf="currentAllRiskRowIndex==ri">
+                                <p-inputNumber     [(ngModel)]="product.SumInsured" inputId="integeronly"  />
+                                <div class="input-form-error" *ngIf="product.SumInsuredError">
+                                    <div class="error-text text-danger">
+                                        Enter Valid Sum Insured
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="currentAllRiskRowIndex!=ri">
+                                {{product.SumInsured | commaseparator}}
+                            </ng-container>        
+                        </td>
+                        <td>
+                            <ng-container *ngIf="currentAllRiskRowIndex!=ri">
+                                <div class="flex align-items-center justify-content-center gap-2">
+                                    <button  pButton type="button"  icon="pi pi-pencil"   
+                                        (click)="currentAllRiskRowIndex=ri" styleClass="p-button-outlined">
+                                    </button>
+                                </div>
+                            </ng-container>
+                        </td>
+                        
+                        <td>
+                            <ng-container >
+                                <div class="flex align-items-center justify-content-center gap-2" >
+                                    <button  pButton type="button"    icon="pi pi-trash"  (click)="deleteProductAllRisk(ri)" 
+                                        styleClass="p-button-outlined" >
+                                    </button>
+                                </div>
+                            </ng-container>
+                        </td>
+                    </tr>
+                   
+                </ng-template>
+               
+            </p-table>
+            <!-- <div class="flex justify-content-end gap-2 mt-5">
+                <p-button label="Cancel" styleClass="p-button-outlined"  (click)="visible = false" />
+                <p-button label="Save" (click)="saveProduct()" />
+            </div> -->
+            <div class="grid justify-content-center gap-2 mt-5">
+                <!-- <p-button label="Cancel" styleClass="p-button-outlined"  (click)="visible = false" /> -->
+                <div >
+                <p-button label="Save" (click)=" onSaveAllRisk()" />
+            </div>
+            </div>
+    </ng-container> 
+       
+    </p-dialog>
