@@ -1109,7 +1109,6 @@ getTotal(){
               this.LocationList.push({ "Code": String(i + 1), "CodeDesc": build.LocationName })
              
               let ReqObj = {
-      
                 "BuildingSuminsured":sumInsured,
                 "BuildingAddress": build.BuildingAddress,
                 "Createdby": this.loginId,
@@ -1117,32 +1116,7 @@ getTotal(){
                 "QuoteNo":sessionStorage.getItem('quoteNo'),
                 "RequestReferenceNo":this.quoteRefNo,
                 "SectionId": build.SectionId,
-                "LocationName":build.LocationName,
-      
-                /*"ApartmentOrBorder": null,
-                "BuildingAreaSqm": null,
-                "BuildingBuildYear": build.BuildingBuildYear,
-                "BuildingCondition": null,
-                "BuildingFloors": build.BuildingFloors,
-                "BuildingOccupationType": null,
-                "BuildingType": null,
-                "BuildingUsageId": null,
-                "BuildingUsageYn": null,
-                "BuildingSuminsured": sumInsured,
-                "BuildingAddress": build.BuildingAddress,
-                "Createdby": this.loginId,
-                "CustomerId": null,
-                "InbuildConstructType": build.InbuildConstructType,
-                "QuoteNo": sessionStorage.getItem('quoteNo'),
-                "RequestReferenceNo": this.quoteRefNo,
-                "RiskId": null,
-                "SectionId": build.SectionId,
-                "UpdatedDate": null,
-                "Updatedby": this.loginId,
-                "WithoutInhabitantDays": null,
-                "LocationName":build.LocationName,*/
-      
-      
+                "LocationName":build.LocationName
               }
               buildReqList.push(ReqObj);
               i += 1;
@@ -3372,7 +3346,7 @@ getTotal(){
           );
           }
 
-          onfinalsave(){
+          onfinalsave(type,list){
           let buildingList = [];
           let i= 0;
           if(this.TableRowBuilding.length!=0){
@@ -3557,10 +3531,10 @@ getTotal(){
                     this.errorproceed(2);
                   }
                   else{
-                    this.finalSave(ReqObj);
+                    this.finalSave(ReqObj,type,list);
                   }
                 }
-                else this.finalSave(ReqObj);
+                else this.finalSave(ReqObj,type,list);
               }
               else if(this.Buildings=='N') {
                 if(ReqObj['EmployeeLiabilityDetails']==null && ReqObj['PersonalAccidentDetails'] == null && ReqObj['ContentDetails'] == null && ReqObj['AllRiskDetails'] == null){
@@ -3575,14 +3549,14 @@ getTotal(){
                   //   this.errorproceed(3);
                   // }
                   else{
-                    this.finalSave(ReqObj);
+                    this.finalSave(ReqObj,type,list);
                   }
                 }
-                else this.finalSave(ReqObj);
+                else this.finalSave(ReqObj,type,list);
               }
               console.log("final request",ReqObj)
           }
-          finalSave(ReqObj){
+          finalSave(ReqObj,RequestType,List){
             let urlLink = `${this.motorApiUrl}api/saveAllSection`;
                   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
                     (data: any) => {
@@ -3590,8 +3564,11 @@ getTotal(){
                         if(data?.ErrorMessage==null){
                           if(data.Result.length!=0){
                             this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
-                            sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
-                            this.onCalculate(data.Result);
+                            if(RequestType=='Save') this.SaveBuildingList(List)
+                            else{
+                              sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                              this.onCalculate(data.Result);
+                            }
                             //this.onCheckUWQuestionProceed(data.Result);
                           }
                         }
@@ -4100,7 +4077,7 @@ getAddInfo(){
                   i+=1;
                   if(i==this.TableRowBuilding.length && j==0){
                    // this.visibleBuilding = false;
-                      this.SaveBuildingList(additionalList);   
+                       this.onfinalsave('Save',additionalList);
 
                       // this.productItem['BuildingSuminsured'] = '10000000';
                       // let fireData = new Building();
