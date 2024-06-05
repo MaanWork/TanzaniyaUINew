@@ -217,22 +217,72 @@
               </div>
               </div> 
               <p-dialog header="Content Sum Insured" [modal]="true" [(visible)]="visible" [style]="{ width: '80rem','z-index': '1000 !important'  }">
-                <ng-container  class="mt-5">
-                    <div class="grid justify-content-end">
+                <ng-container>
+                    <div class="grid justify-content-end mt-2">
                         <!-- <div class="col-12 md:col-6 lg:col-6"> -->
                             <!--  -->
                             <!-- <p-button label="Add" (click)="Addnew(TableRow)" /> -->
                         <!-- </div> -->
-                        <div *ngIf="fields1.length!=0">Total : {{getTotal() | commaseparator}}</div>
-                        <div *ngIf="contentSection"><p-button label="View/Edit Building Details" icon="pi pi-pencil" (click)="addRow()" /></div>
-                        <div><p-button label="Add New" icon="pi pi-plus" (click)="addRow()" /></div>
+                        <div *ngIf="fields1.length!=0 "  class="customWidth">Total : {{getTotal() | commaseparator}}</div>
+                        <div *ngIf="contentSection && !buildingEditSection">&nbsp;<p-button label="Modify Location Details" icon="pi pi-pencil" (click)="onEditLocationDetails()" />&nbsp;</div>
+                        <div *ngIf="buildingEditSection">&nbsp;<p-button label="Add Location" icon="pi pi-plus" (click)="onAddLocationDetails()" />&nbsp;</div>
+                        <div><p-button label="Add New" *ngIf="!buildingEditSection" icon="pi pi-plus" (click)="addRow()" /></div>
                     </div>
                 </ng-container>
                
                 <!-- <p-tabView>
                 <ng-container *ngFor="let item of TableRowBuilding">
                 <p-tabPanel [header]="item.LocationName"> -->
-                <ng-container  class="mt-5">
+                <ng-container *ngIf="buildingEditSection">
+                    <div class="grid mt-2">
+                        <div class="col-10 md:col-10 lg:col-10 xl:col-10">
+                            <p-table [value]="locationList" dataKey="id" editMode="row" [rows]="5" [paginator]="true" [tableStyle]="{'min-width': '50rem' }" >
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th [pSortableColumn]="column" *ngFor="let column of buildingColumnHeader">
+                                            {{column}}
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-product let-ri="rowIndex">
+                                    <tr>
+                                        <td>
+                                            <input class="w-full p-button-outlined" placeholder="Enter Location Name" styleClass="w-full"  pInputText type="text" 
+                                            [(ngModel)]="product.LocationName" />
+                                            <div class="input-form-error" *ngIf="product.LocationNameError">
+                                                <div class="error-text text-danger">
+                                                   Enter Valid LocationName
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input class="w-full p-button-outlined" placeholder="Enter Location Name" styleClass="w-full"  pInputText type="text" 
+                                            [(ngModel)]="product.BuildingAddress" />
+                                            <div class="input-form-error" *ngIf="product.BuildingAddressError">
+                                                <div class="error-text text-danger">
+                                                   Enter Valid Address
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="flex align-items-center justify-content-center gap-2" >
+                                                <button  pButton type="button"    icon="pi pi-trash"  (click)="deleteLocation(ri)" 
+                                                    styleClass="p-button-outlined" >
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                        
+                    </div>
+                    <div class="flex flex-warp justify-content-center mt-2">
+                        <p-button label="Cancel" (click)="onCancelLocation('content')" />&nbsp;
+                        <p-button label="Save Locations" (click)="onSaveLocationDetails()" />
+                    </div>
+                </ng-container>
+                <ng-container  class="mt-5" *ngIf="!buildingEditSection && TableRowBuilding.length!=0">
                     <p-table [value]="TableRow" dataKey="id" editMode="row" [rows]="5" [paginator]="true" [tableStyle]="{'min-width': '50rem' }" >
                         <ng-template pTemplate="header">
                             <tr>
@@ -246,7 +296,7 @@
                             <tr>
                                 <td>
                                     
-                                    <ng-container *ngIf="currentContentRowIndex==ri">{{product.RiskId}} {{product.LocationName}}
+                                    <ng-container *ngIf="currentContentRowIndex==ri">
                                         <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Location"
                                             [options]="TableRowBuilding" (onChange)="onChangeContentLocation(product)"
                                                 appendTo="body" optionLabel="LocationName" optionValue="RiskId"  [(ngModel)]="product.RiskId" />
@@ -350,7 +400,7 @@
                         <p-button label="Save" (click)="onSaveContentRisk()" />
                     </div>
                     </div>
-            </ng-container> 
+                </ng-container> 
         <!-- </p-tabPanel>
    
     </ng-container>

@@ -122,7 +122,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
   noOfDays: number;
   visible: boolean = false;
   visibleBuilding: boolean = false;
-  columnHeader: any;
+  columnHeader: any;buildingEditSection:boolean=false;
   TableRow: any[];
   Total: any;
   columnHeaderBuilding: string[];
@@ -135,6 +135,8 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
   getLocationName: any;
   LocationName: any[]=[];
   contentSection: boolean;
+  buildingColumnHeader: any[];
+  locationList: any[]=[];
 
   
         constructor(private router: Router,private datePipe:DatePipe,
@@ -183,6 +185,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
          this.getContentDetail();
          this.getallriskDetailsData();
           this.getdropList();
+          this.buildingColumnHeader =['Location','Address','Delete']
           this.columnHeader =['Location','Content Type','Serial No','Description','Sum Insured','Edit' ,'Delete']
           this.TableRow =[{
             LocationName:'',
@@ -380,6 +383,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
           }
           else if(!((this.coversreuired=='B' || this.coversreuired=='BC') && this.Building1)){
               this.contentSection = true;
+              this.getAddInfo();
               this.visible =true;
           }
           else if(this.TableRowBuilding.length!=0 && this.checkBuildingDetails()){
@@ -390,6 +394,54 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
       }
       showDialogBuilding() {
         this.visibleBuilding = true;
+    }
+    onEditLocationDetails(){
+      if(this.TableRowBuilding.length!=0){
+          this.locationList = this.TableRowBuilding;
+          this.buildingEditSection = false;
+      }
+      else{this.onAddLocationDetails(); this.buildingEditSection = true;}
+    }
+    deleteLocation(index){this.locationList.splice(index,1);if(this.locationList.length==0)this.onAddLocationDetails()}
+    onAddLocationDetails(){this.locationList.push({"RiskId":String(this.locationList.length+1),"LocationName":null,"BuildingAddress":null})}
+    onSaveLocationDetails(){
+      if(this.locationList.length!=0){
+        let i=0,j=0,reqList=[];
+        for(let entry of this.locationList){
+          if(entry.LocationName==null || entry.LocationName=='' || entry.LocationName==undefined){j+=1;entry['LocationNameError']=true;}
+          else{entry['LocationNameError']=false}
+          if(entry.BuildingAddress==null || entry.BuildingAddress=='' || entry.BuildingAddress==undefined){j+=1;entry['BuildingAddressError']=true;}
+          else{entry['BuildingAddressError']=false}
+          let Obj={
+            "BuildingSuminsured":'0',
+            "BuildingAddress": entry.BuildingAddress,
+            "Createdby": this.loginId,
+            "RiskId": entry.RiskId,
+            "InbuildConstructType":"W",
+            "QuoteNo":sessionStorage.getItem('quoteNo'),
+            "RequestReferenceNo":this.quoteRefNo,
+            "SectionId": '1',
+            "LocationName":entry.LocationName,
+          }
+          reqList.push(Obj)
+          i+=1;
+          if(i==this.locationList.length && j==0){
+            let urlLink = `${this.motorApiUrl}api/buildingdetails`;
+            this.sharedService.onPostMethodSync(urlLink, reqList).subscribe(
+              (data: any) => {
+                console.log(data);
+                let res: any = data;
+                if (data.ErrorMessage.length != 0) {
+                }
+                else{this.TableRowBuilding=this.locationList;this.buildingEditSection=false;}
+              });
+          }
+        }
+      }
+    }
+    onCancelLocation(type){
+      if(this.TableRowBuilding.length!=0){this.buildingEditSection=!this.buildingEditSection;this.locationList=this.TableRowBuilding}
+      else if(type=='content'){this.visible=false;}
     }
     showDialogAllRisk() {
       this.visibleAllRisk = true;
@@ -3887,14 +3939,19 @@ getAddInfo(){
     (data: any) => {
       if (data.Result) { 
         console.log(data.Result,"this.LocationNamethis.LocationName");
-        
-        let i = 0
-        for(i; i < data.Result.length; i++){
-         this.TableRowBuilding[i]['LocationName']=data?.Result[i]?.LocationName;
-        //  this.LocationName[i]= data?.Result[i]?.LocationName;
-          console.log(this.TableRowBuilding);
+        if(this.contentSection){
+          this.TableRowBuilding = data.Result;
+          this.onEditLocationDetails();
         }
-         
+        else{
+          let i = 0
+          for(i; i < data.Result.length; i++){
+          
+          this.TableRowBuilding[i]['LocationName']=data?.Result[i]?.LocationName;
+          //  this.LocationName[i]= data?.Result[i]?.LocationName;
+            console.log(this.TableRowBuilding);
+          }
+        }
       }
       
     },
