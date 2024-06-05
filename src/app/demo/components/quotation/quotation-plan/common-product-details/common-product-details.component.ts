@@ -3689,6 +3689,7 @@ export class CommonProductDetailsComponent {
     let valid = this.checkValidation();
     if(valid){
       if(this.productId=='1' || this.productId=='6' || this.productId=='13' || this.productId=='39' || this.productId=='43' || this.productId=='16' || this.productId=='42' || this.productId=='14' || this.productId=='59' || this.productId=='60' || this.productId=='57' || this.productId=='56' || this.productId=='26' || this.productId=='25' || this.productId=='21' || this.productId=='27' || this.productId=='24' || this.productId=='32'){ 
+        
         this.saveCommonDetails('direct')}
       else{this.onFormSubmit(type);}
     }

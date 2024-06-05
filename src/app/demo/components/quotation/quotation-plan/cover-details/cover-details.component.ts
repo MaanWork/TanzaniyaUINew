@@ -378,7 +378,10 @@ export class CoverDetailsComponent {
       if(menu.RiskDetails.TravelId=='5') return `Grand Seniors (${menu.RiskDetails.TotalPassengers})`;
     }
     else if(this.productId!='59' && this.productId!='4' && this.productId!='5' && this.productId!='19' && this.productId!='14' && this.productId!='32') return this.productName;
-    else if(this.productId=='59' || this.productId=='19' || this.productId=='14' || this.productId=='32') return menu.SectionName;
+    else if(this.productId=='59' || this.productId=='19' || this.productId=='14' || this.productId=='32'){
+      if(menu.SectionId=='1') return menu.SectionName;
+      else return this.productName;
+    }
     else return '';
   }
 
@@ -806,7 +809,7 @@ export class CoverDetailsComponent {
           let k=0;
           for(let vehicle of this.vehicleData){
             
-              let entry = vehicleList.find(ele=>ele.VehicleId==vehicle.VehicleId);
+              let entry = vehicleList.find(ele=>ele.VehicleId==vehicle.VehicleId || ele.RiskId==vehicle.RiskId);
               if(entry && vehicle.SectionId!='1'){
                 //if(entry.SectionId==vehicle.SectionId){
                   entry.CoverList = entry.CoverList.concat(vehicle.CoverList);
@@ -3138,11 +3141,12 @@ this.newAddClauses=true;
       if(this.statusValue=='RA' || type=='calculate' || this.userType=='Issuer' || type=='fleetSave'){
         if(this.selectedCoverList.length!=0){
           let i=0;
-          for(let vehicle of this.vehicleDetailsList){
-              let vehEntry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.Vehicleid);
+          for(let vehicle of this.vehicleData){
+              let vehEntry = this.selectedCoverList.filter(ele=>ele.RiskId==vehicle.RiskId);
               if(vehEntry.length!=0){
-                let entry = vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId);
+                let entry = vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId || ele.RiskId==vehicle.RiskId);
                 if(entry.length!=0){
+                  console.log('Filtered Covers',entry)
                   let j=0; let covers = [];
                   for(let veh of entry){
                       let k=0;

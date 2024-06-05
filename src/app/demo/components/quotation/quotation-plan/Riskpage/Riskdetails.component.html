@@ -1,7 +1,7 @@
 <div class="container"> 
     <div *ngIf="productId=='59'">
         <div class="mt-4">
-            <div class="grid mb-3" *ngIf="Buildings=='Y' || Building1">
+            <div class="grid mb-3" *ngIf="(coversreuired=='B' || coversreuired=='BC') && Building1">
                 <div class="lg:col-1">
 
                 </div>
@@ -223,9 +223,9 @@
                             <!--  -->
                             <!-- <p-button label="Add" (click)="Addnew(TableRow)" /> -->
                         <!-- </div> -->
-                        <div class="col-12 md:col-8 lg:col-8"></div>
-                        <div class="col-12 md:col-2 lg:col-2" *ngIf="fields1.length!=0">Total : {{getTotal() | commaseparator}}</div>
-                        <div class="col-12 md:col-2 lg:col-2"><p-button label="Add New" icon="pi pi-plus" (click)="addRow()" /></div>
+                        <div *ngIf="fields1.length!=0">Total : {{getTotal() | commaseparator}}</div>
+                        <div *ngIf="contentSection"><p-button label="View/Edit Building Details" icon="pi pi-pencil" (click)="addRow()" /></div>
+                        <div><p-button label="Add New" icon="pi pi-plus" (click)="addRow()" /></div>
                     </div>
                 </ng-container>
                
@@ -246,10 +246,10 @@
                             <tr>
                                 <td>
                                     
-                                    <ng-container *ngIf="currentContentRowIndex==ri">
+                                    <ng-container *ngIf="currentContentRowIndex==ri">{{product.RiskId}} {{product.LocationName}}
                                         <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Location"
-                                            [options]="TableRowBuilding" 
-                                                appendTo="body" optionLabel="LocationName" optionValue="RiskId" [(ngModel)]="product.LocationName" />
+                                            [options]="TableRowBuilding" (onChange)="onChangeContentLocation(product)"
+                                                appendTo="body" optionLabel="LocationName" optionValue="RiskId"  [(ngModel)]="product.RiskId" />
                                          <div class="input-form-error" *ngIf="LocationNameError">
                                             <div class="error-text text-danger">
                                                Select Location
@@ -257,7 +257,7 @@
                                         </div>
                                     </ng-container>
                                     <ng-container *ngIf="currentContentRowIndex!=ri">
-                                       {{getLocationDescription(product.LocationName)}}
+                                       {{product.LocationName}}
                                     </ng-container>
                                 </td>
                                 <td>
