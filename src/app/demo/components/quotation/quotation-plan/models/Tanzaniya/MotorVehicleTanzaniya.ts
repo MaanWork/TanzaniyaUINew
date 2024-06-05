@@ -29,6 +29,7 @@ export class MotorVehicleTanzaniya{
                   {
                     type: 'ngselect',
                     key: 'InsuranceType',
+                    id: 'InsuranceType',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     props: {
@@ -51,6 +52,7 @@ export class MotorVehicleTanzaniya{
                   {
                     type: 'ngselect',
                     key: 'InsuranceClass',
+                    id:'InsuranceClass',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     props: {
@@ -73,6 +75,7 @@ export class MotorVehicleTanzaniya{
                   {
                     type: 'ngselect',
                     key: 'BodyType',
+                    id: 'BodyType',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     props: {
@@ -95,6 +98,7 @@ export class MotorVehicleTanzaniya{
                   {
                     type: 'ngselect',
                     key: 'MotorUsage',
+                    id: 'MotorUsage',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     props: {
@@ -117,6 +121,7 @@ export class MotorVehicleTanzaniya{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     key: 'ClaimsYN',
+                    id: 'ClaimsYN',
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
@@ -130,6 +135,7 @@ export class MotorVehicleTanzaniya{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     key: 'GpsYN',
+                    id: 'GpsYN',
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
@@ -144,6 +150,7 @@ export class MotorVehicleTanzaniya{
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     type: 'commaSeparator',
                     key: 'VehicleSI',
+                    id: 'VehicleSI',
                     hide: true,
                     hideExpression:true,
                     props: {
@@ -167,6 +174,7 @@ export class MotorVehicleTanzaniya{
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     type: 'commaSeparator',
                     key: 'AccessoriesSI',
+                    id: 'AccessoriesSI',
                     hide: true,
                     hideExpression:true,
                     props: {
@@ -190,6 +198,7 @@ export class MotorVehicleTanzaniya{
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     type: 'commaSeparator',
                     key: 'WindShieldSI',
+                    id: 'WindShieldSI',
                     hide: true,
                     hideExpression:true,
                     props: {
@@ -212,6 +221,7 @@ export class MotorVehicleTanzaniya{
                   {
                     type: 'commaSeparator',
                     key: 'ExtendedTPPDSI',
+                    id: 'ExtendedTPPDSI',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     hide: true,

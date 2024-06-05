@@ -29,6 +29,7 @@ export class MotorVehicleKenya{
                   {
                     type: 'ngselect',
                     key: 'InsuranceType',
+                    id: 'InsuranceType',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     props: {
@@ -51,6 +52,7 @@ export class MotorVehicleKenya{
                   {
                     type: 'ngselect',
                     key: 'InsuranceClass',
+                    id: 'InsuranceClass',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     props: {
@@ -73,6 +75,7 @@ export class MotorVehicleKenya{
                   {
                     type: 'ngselect',
                     key: 'BodyType',
+                    id: 'BodyType',
                     defaultValue: '',
                     hide: true,
                     hideExpression:true,
@@ -97,6 +100,7 @@ export class MotorVehicleKenya{
                   {
                     type: 'ngselect',
                     key: 'MotorUsage',
+                    id: 'MotorUsage',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     props: {
@@ -119,6 +123,7 @@ export class MotorVehicleKenya{
                   {
                     type: 'ngselect',
                     key: 'VehicleClass',
+                    id: 'VehicleClass',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     props: {
@@ -141,6 +146,7 @@ export class MotorVehicleKenya{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     key: 'ClaimsYN',
+                    id: 'ClaimsYN',
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
@@ -154,6 +160,7 @@ export class MotorVehicleKenya{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     key: 'GpsYN',
+                    id: 'GpsYN',
                     type: 'radioList',
                     templateOptions: {
                       type: 'radio',
@@ -168,6 +175,7 @@ export class MotorVehicleKenya{
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     type: 'commaSeparator',
                     key: 'VehicleSI',
+                    id: 'VehicleSI',
                     hide: true,
                     hideExpression:true,
                     props: {
@@ -191,6 +199,7 @@ export class MotorVehicleKenya{
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     type: 'commaSeparator',
                     key: 'AccessoriesSI',
+                    id: 'AccessoriesSI',
                     hide: true,
                     hideExpression:true,
                     props: {
@@ -214,6 +223,7 @@ export class MotorVehicleKenya{
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     type: 'commaSeparator',
                     key: 'WindShieldSI',
+                    id: 'WindShieldSI',
                     hide: true,
                     hideExpression:true,
                     props: {
@@ -236,6 +246,7 @@ export class MotorVehicleKenya{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     key: 'PreviousInsuranceYN',
+                    id: 'PreviousInsuranceYN',
                     type: 'radioList',
                     templateOptions: {
                       type: 'radio',
@@ -250,6 +261,7 @@ export class MotorVehicleKenya{
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     type: 'number',
                     key: 'PreviousLossRatio',
+                    id: 'PreviousLossRatio',
                     hide: false,
                     hideExpression:false,
                     props: {

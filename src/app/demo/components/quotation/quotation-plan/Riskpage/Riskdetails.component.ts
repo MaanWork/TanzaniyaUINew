@@ -68,8 +68,8 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
           public motorApiUrl: any = this.AppConfig.MotorApiUrl;
         contentId: null;buildingSection: boolean = false;fieldsEmployee:any[]=[];fields1:any[]=[];
         fields2:any[]=[]; fields3:any[]=[];fields4:any[]=[];orginalPolicyNo: any = null;exchangeRate:any=null;
-        quoteDetails:any=null;Riskdetails:any=null;customerDetails:any;building:any[]=[];
-        agencyCode:any=null;applicationId:any=null;issuerSection:boolean=false; customerName: any;
+        quoteDetails:any=null;Riskdetails:any=null;customerDetails:any;building:any[]=[];plOccupationId:any='';
+        agencyCode:any=null;applicationId:any=null;issuerSection:boolean=false; customerName: any;plOccupationError:boolean=false;
         accessoriesSection: boolean=false;tabIndex:any=0;currentBuildingIndex:any=null;fieldsRisk:any[]=[];CyberItem:any[]=[];
         editBuildingSection:boolean=false;enableBuildingEditSection:boolean=false;fieldsDevice:any[]=[];fieldsElectronic:any[]=[];
         actualFidelitySI: any=null;actualMachinerySI: any=null;actualEmployeeSI: any=null;actualElectronicIntSI: any=null;actualPersonalIntSI: any=null;actualPersonalAccSI: any=null;EquipmentSi: any=null;actualAllRiskSI: any=null;actualContentSI: any=null;actualBuildingSI: any=null;liabilityOccupationId: any;
@@ -108,9 +108,8 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
   fieldsBuilding: FormlyFieldConfig<import("@ngx-formly/core").FormlyFieldProps & { [additionalProperties: string]: any; }>;
   columnHeaderAllRisk: string[];TableRowAllRisk: any[]= [];visibleAllRisk: boolean=false;
   currentAllRiskRowIndex =null;getLocationName: any;LocationName: any[]=[];contentSection: boolean;buildingColumnHeader: any[];
-  locationList: any[]=[];personalLiabilityDialog: boolean=false;TableRowPersonalLiability:any[]=[];
-  columnHeaderPersonalLiability:any[]=[];currentPLRowIndex:any=0;
-  
+  locationList: any[]=[];personalLiabilityDialog: boolean=false;
+  columnHeaderPersonalLiability:any[]=[];currentPLRowIndex:any=0;TableRowPL:any[]=[];
         constructor(private router: Router,private datePipe:DatePipe,
           private sharedService: SharedService,public http: HttpClient) {
          let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails') || '{}');
@@ -123,12 +122,9 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
          this.branchCode = this.userDetails.Result.BranchCode;
          this.agencyCode = this.userDetails.Result.OaCode;
          this.brokerbranchCode = this.userDetails.Result.BrokerBranchCode;
-         console.log('boooooooo', this.brokerbranchCode);
          this.branchCode = this.userDetails.Result.BranchCode;
-         console.log('branchCode', this.branchCode);
          this.quoteNo = sessionStorage.getItem('quoteNo');
          this.productItem = new ProductData();
-         console.log("item received", homeObj);
          let referenceNo = sessionStorage.getItem('quoteReferenceNo');
           if (referenceNo) {
             this.quoteRefNo = referenceNo;
@@ -144,7 +140,6 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
           }
           if(this.productId=='43'){
             this.newten = true;
-            
           }
           this.currencyCode = this.userDetails.Result.CurrencyId;
           let referenceo = sessionStorage.getItem('quoteReferenceNo');
@@ -186,6 +181,13 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             Content: '',
             Serial : '',
             Description: '',
+            SumInsured: 0,
+          }];
+          this.TableRowPL =[{
+            id:1,
+            RiskId:'',
+            Name: '',
+            SerialNo : '',
             SumInsured: 0,
           }]
             this.currentContentRowIndex = 0;
@@ -2240,25 +2242,18 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                 "SumInsured":null,
               });
             }
-            // this.Cotentrisk[this.currentContentIndex]['SumInsured'] = this.productItem.ContentSI//this.contentSI;
-            // this.Cotentrisk[this.currentContentIndex]['RiskId'] = this.productItem.ContentLocation;
-            // this.Cotentrisk[this.currentContentIndex]['SerialNoDesc'] = this.productItem.ContentSerialNo;//this.serialNoDesc
-            // this.Cotentrisk[this.currentContentIndex]['ContentRiskDesc'] =this.productItem.ContentDesc; //this.contentRiskDesc;
-            // this.Cotentrisk[this.currentContentIndex]['ItemId'] = this.productItem.ContentType//this.contentId;
-            // this.Cotentrisk[this.currentContentIndex]['LocationName'] = this.LocationList.find(ele=>ele.Code==this.productItem.ContentLocation).CodeDesc;
+            
             this.accessoriesList[this.currentAccessoriesIndex]['SumInsured'] = this.productItem.AccessoriesSI//this.contentSI;
             this.accessoriesList[this.currentAccessoriesIndex]['RiskId'] = this.productItem.AccessoriesChassisNo;
             this.accessoriesList[this.currentAccessoriesIndex]['SerialNoDesc'] = this.productItem.AccessoriesSerialNo;//this.serialNoDesc
             this.accessoriesList[this.currentAccessoriesIndex]['ItemId'] = this.productItem.AccessoriesType//this.contentId;
             this.accessoriesList[this.currentAccessoriesIndex]['LocationId'] = this.productItem.AccessoriesChassisNo;
             this.accessoriesList[this.currentAccessoriesIndex]['ContentRiskDesc'] =this.AccLists.find(ele=>ele.Code==this.productItem.AccessoriesType).label;
-            //this.AccLists.find(ele=>ele.Code==this.productItem.AccessoriesType).label;
             this.currentAccessoriesIndex = null;
             this.editAccessoriesSection = false;
             this.enableAccessoriesEditSection = false;
             this.productItem = new ProductData();
             if(this.ChassisList.length==2){this.productItem.AccessoriesChassisNo=this.ChassisList[1].Code;}
-            console.log("Final List",this.accessoriesList)
           }
             
         }
@@ -2268,36 +2263,36 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             return entry.CodeDesc;
           }
           else return '';
-      }
-      getRoofTypeDescription(RoofType) {
-        let entry = this.roofMaterialList.find(ele=>ele.Code==RoofType);
-        if(entry){
-          return entry.CodeDesc;
         }
-        else return '';
-    }
-    getContentTypeDescription(Content) {
-      let entry = this.dropList.find(ele=>ele.Code==Content);
-      if(entry){
-        return entry.CodeDesc;
-      }
-      else return '';
-    }
-    getAllContentTypeDescription(Content) {
-      let entry = this.allriskList.find(ele=>ele.Code==Content);
-      if(entry){
-        return entry.CodeDesc;
-      }
-      else return '';
-    }
-    getwallTypeDescription(WallType) {
-      
-      let entry = this.wallMaterialList.find(ele=>ele.Code==WallType);
-      if(entry){
-        return entry.CodeDesc;
-      }
-      else return '';
-  }
+        getRoofTypeDescription(RoofType) {
+          let entry = this.roofMaterialList.find(ele=>ele.Code==RoofType);
+          if(entry){
+            return entry.CodeDesc;
+          }
+          else return '';
+        }
+        getContentTypeDescription(Content) {
+          let entry = this.dropList.find(ele=>ele.Code==Content);
+          if(entry){
+            return entry.CodeDesc;
+          }
+          else return '';
+        }
+        getAllContentTypeDescription(Content) {
+          let entry = this.allriskList.find(ele=>ele.Code==Content);
+          if(entry){
+            return entry.CodeDesc;
+          }
+          else return '';
+        }
+        getwallTypeDescription(WallType) {
+          
+          let entry = this.wallMaterialList.find(ele=>ele.Code==WallType);
+          if(entry){
+            return entry.CodeDesc;
+          }
+          else return '';
+        }
   
         getAssName(Id){
           let entry = this.ChassisList.find(ele=>ele.Code==Id);
@@ -2385,13 +2380,13 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               console.log(data);
               if(data.Result){
                 this.occupationList =[];
+                this.occupationList = data.Result;
                 if(this.productId=='14' || sectionId=='45'){
                   let defaultObj = [{ 'label': '-Select-', 'value': '' }]
                   this.employeeOccupationList = data.Result;
                   for (let i = 0; i < this.employeeOccupationList.length; i++) {
                     this.employeeOccupationList[i].label = this.employeeOccupationList[i]['CodeDesc'];
                     this.employeeOccupationList[i].value = this.employeeOccupationList[i]['Code'];
-                    delete this.employeeOccupationList[i].CodeDesc;
                     if (i == this.employeeOccupationList.length - 1) {
                       console.log('Itemsss',this.fieldsGroupPa[0].fieldGroup[0])
                       this.fieldsGroupPa[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.employeeOccupationList);
@@ -2417,7 +2412,6 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             for (let i = 0; i < this.occupationList.length; i++) {
               this.occupationList[i].label = this.occupationList[i]['CodeDesc'];
               this.occupationList[i].value = this.occupationList[i]['Code'];
-              delete this.occupationList[i].CodeDesc;
               if (i == this.occupationList.length - 1) {
                
                 if(type== 'PersonalAccident'){
@@ -3776,7 +3770,6 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                     sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
                     this.nextslide3=true;
                     // this.onCalculate(data?.Result,'PersonalAccident');
-                    
                     // if(type=='proceed'){
                     //   if(this.commonDetails){
                     //     if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
@@ -3794,7 +3787,6 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               },
               (err) => { },
             );
-          
           }
 
           getBuildingDetails(){
@@ -3920,6 +3912,7 @@ getAddInfo(){
                 console.log(data);
                 if (data.Result) {
                   if(data.Result.length!=0){
+                    this.TableRowPL = data.Result;
                     this.productItem.EmpLiabilitySi = data.Result[0].EmpLiabilitySi;
                     if(data.Result[0].LiabilityOccupationId!=null && data.Result[0].LiabilityOccupationId!='') this.productItem.LiabilityOccupationId = data.Result[0].LiabilityOccupationId;
                     else this.productItem.LiabilityOccupationId = null;
