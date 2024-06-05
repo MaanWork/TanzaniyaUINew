@@ -176,8 +176,8 @@
             <div class="flex flex-wrap justify-content-center gap-2 mt-5">
                 <!-- <p-button label="Cancel" styleClass="p-button-outlined"  (click)="visible = false" /> -->
                 <div >
-                <p-button label="Save" (click)="onSaveBuildingList()" />
-            </div>
+                    <p-button label="Save" (click)="onSaveBuildingList()" />
+                </div>
             </div>
     </ng-container> 
        
@@ -300,7 +300,7 @@
                                         <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Location"
                                             [options]="TableRowBuilding" (onChange)="onChangeContentLocation(product)"
                                                 appendTo="body" optionLabel="LocationName" optionValue="RiskId"  [(ngModel)]="product.RiskId" />
-                                         <div class="input-form-error" *ngIf="LocationNameError">
+                                         <div class="input-form-error" *ngIf="product.LocationNameError">
                                             <div class="error-text text-danger">
                                                Select Location
                                             </div>
@@ -401,10 +401,6 @@
                     </div>
                     </div>
                 </ng-container> 
-        <!-- </p-tabPanel>
-   
-    </ng-container>
-        </p-tabView> -->
             </p-dialog>
         </div>
         
@@ -415,28 +411,26 @@
                             <b>All Risk</b>
                         </div>
                         <div class="mb-2 col-12 lg:col-2 xl:col-2 "> 
-                            <p-button icon="pi pi-credit-card" styleClass="p-button-outlined" (click)="showDialogAllRisk()" />
+                            <p-button icon="pi pi-credit-card" styleClass="p-button-outlined" (click)="showDialogAllRisk('AR')" />
                         </div>
                     </div>
-                    <!-- <div class="mb-2"> <b>All Risk</b></div> -->
                     <div class="flex md:flex-row flex-col items-center md:space-x-3">
                    
                       <ng-container *ngFor="let steps of fields2; let index = index; let last = last">
-                                  <div>    
-                      <div style="display: flex !important;justify-content: space-between !important;">
-                          <div class="mt-4 ml-3 mr-3">
-                            <img src="./assets/images/All-risk.png" width="40" height="35">
-                            <!-- <b>{{step.props.label }}</b> -->
-                        </div> 
-                          <div>
-                              <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
-                                  <formly-form [form]="form" [fields]="steps.fieldGroup" [model]="productItem"></formly-form>
-                          </form>
-                          </div>     
-                      </div>
+                        <div>    
+                            <div style="display: flex !important;justify-content: space-between !important;">
+                                    <div class="mt-4 ml-3 mr-3">
+                                        <img src="./assets/images/All-risk.png" width="40" height="35">
+                                    </div> 
+                                    <div>
+                                        <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
+                                            <formly-form [form]="form" [fields]="steps.fieldGroup" [model]="productItem"></formly-form>
+                                    </form>
+                                    </div>     
+                            </div>
                       
-                      </div></ng-container>
-                  
+                        </div>
+                    </ng-container>
               </div>
               </div> 
         </div>
@@ -464,6 +458,21 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-product let-ri="rowIndex">
                         <tr>
+                            <td>
+                                <ng-container *ngIf="currentAllRiskRowIndex==ri">
+                                    <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Location"
+                                        [options]="TableRowBuilding" (onChange)="onChangeContentLocation(product)"
+                                            appendTo="body" optionLabel="LocationName" optionValue="RiskId"  [(ngModel)]="product.RiskId" />
+                                     <div class="input-form-error" *ngIf="product.LocationNameError">
+                                        <div class="error-text text-danger">
+                                           Select Location
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="currentAllRiskRowIndex!=ri">
+                                   {{product.LocationName}}
+                                </ng-container>
+                            </td>
                             <td>
                                 
                                 <ng-container *ngIf="currentAllRiskRowIndex==ri">
@@ -557,12 +566,17 @@
     </div>
  
     <div class="grid mt-2 mb-3">
-        <div class="lg:col-1">
-
-        </div>
+        <div class="lg:col-1"></div>
         <div class="col-12 lg:col-5 xl:col-5" *ngIf="PersonalAccident">
         <div class="memberDetailCard" style="padding:10px !important;">
-            <div class="mb-2"> <b>Personal Liability</b></div>
+            <div class="grid justify-content-end">
+                <div class="mb-2 col-12 lg:col-10 xl:col-10"> 
+                    <b>Personal Liability</b>
+                </div>
+                <div class="mb-2 col-12 lg:col-2 xl:col-2 "> 
+                    <p-button icon="pi pi-credit-card" styleClass="p-button-outlined" (click)="showDialogAllRisk('PL')" />
+                </div>
+            </div>
             <div class="flex md:flex-row flex-col items-center md:space-x-3">
            
               <ng-container *ngFor="let stepss of fields3; let index = index; let last = last">
@@ -578,9 +592,7 @@
                   </form>
                   </div>     
               </div>
-              
               </div></ng-container>
-          
       </div>
       </div> 
       </div>
