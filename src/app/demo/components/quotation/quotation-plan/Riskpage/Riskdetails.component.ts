@@ -49,8 +49,8 @@ import { ContentProfessionalIndermity } from '../models/ContentProfessional';
 export class RiskDetailsComponent {
   BuildingSuminsured:any=10;
         sidebarVisible:boolean = false;Buildings: any;fields9:any[]=[];
-  requestReferenceNo: any;fields8:any[]=[];fieldsGroupPa: any=null;currentRelationIndex:any;
-wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductData = null
+        requestReferenceNo: any;fields8:any[]=[];fieldsGroupPa: any=null;currentRelationIndex:any;
+        wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductData = null
         loginId:any=null;machineries:any[]=[];fields: any[] = [];BuildingUsageList:any[]=[];
         userDetails:any=null;insuranceId:any=null;productId:any=null;TypeOfPropertyss:any[]=[];
         userType:any=null;branchCode:any=null;quoteNo:any=null;chassisNo:any=null;
@@ -67,8 +67,8 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
           public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
           public motorApiUrl: any = this.AppConfig.MotorApiUrl;
         contentId: null;buildingSection: boolean = false;fieldsEmployee:any[]=[];fields1:any[]=[];
-        fields2:any[]=[]; fields3:any[]=[];fields4:any[]=[];orginalPolicyNo: any = null;exchangeRate:any=null;
-        quoteDetails:any=null;Riskdetails:any=null;customerDetails:any;building:any[]=[];plOccupationId:any='';
+        fields2:any[]=[]; fields3:any[]=[];fields4:any[]=[];orginalPolicyNo: any = null;exchangeRate:any=null;pAOccupationError:boolean=false;
+        quoteDetails:any=null;Riskdetails:any=null;customerDetails:any;building:any[]=[];plOccupationId:any='';pAOccupationId:any='';
         agencyCode:any=null;applicationId:any=null;issuerSection:boolean=false; customerName: any;plOccupationError:boolean=false;
         accessoriesSection: boolean=false;tabIndex:any=0;currentBuildingIndex:any=null;fieldsRisk:any[]=[];CyberItem:any[]=[];
         editBuildingSection:boolean=false;enableBuildingEditSection:boolean=false;fieldsDevice:any[]=[];fieldsElectronic:any[]=[];
@@ -110,6 +110,8 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
   currentAllRiskRowIndex =null;getLocationName: any;LocationName: any[]=[];contentSection: boolean;buildingColumnHeader: any[];
   locationList: any[]=[];personalLiabilityDialog: boolean=false;
   columnHeaderPersonalLiability:any[]=[];currentPLRowIndex:any=0;TableRowPL:any[]=[];
+  personalAccidentDialog: boolean=false;
+  TableRowPA: any[]=[];
         constructor(private router: Router,private datePipe:DatePipe,
           private sharedService: SharedService,public http: HttpClient) {
          let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails') || '{}');
@@ -149,6 +151,11 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
         }
         ngOnInit() {
          // this.Total = this.TableRow[3].Sum;
+         var d = new Date();
+          var year = d.getFullYear();
+          var month = d.getMonth();
+          var day = d.getDate();
+          this.minDate = new Date(year-18,month,day-1);
          this.getContentDetail();
          this.getallriskDetailsData();
           this.getdropList();
@@ -187,6 +194,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             id:1,
             RiskId:'',
             Name: '',
+            Dob: '',
             SerialNo : '',
             SumInsured: 0,
           }]
@@ -200,7 +208,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
               this.getCommonDetails();
               
              
-              this.getBuildingDetails();
+              this.getBuildingDetails('direct');
               
             }
             if(this.productId=='19'){
@@ -318,6 +326,64 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
           }
           //this.getSumInsuredDetails();
         }
+        getPLTotal(){
+          this.Total = 0;let i=0;
+          if(this.TableRowPL.length!=0){
+            for(let tot of this.TableRowPL){
+              if(tot.SumInsured!=null && tot.SumInsured!='' && tot.SumInsured!=undefined) this.Total=this.Total+Number(tot.SumInsured);
+              i+=1;
+              if(i==this.TableRowPL.length){
+                this.productItem.EmpLiabilitySi = this.Total;
+                if(this.fields3.length!=0){
+                  let fieldList = this.fields3[0].fieldGroup[0].fieldGroup;
+                  for(let field of fieldList){
+                    if(field.key=='EmpLiabilitySi'){
+                        field.templateOptions.disabled = false;
+                        field.formControl.setValue(this.Total);
+                        field.templateOptions.disabled = true;
+                    }
+                    else if(field.key=='LiabilityOccupationId'){
+                      field.formControl.setValue(this.plOccupationId);
+                    }
+                  }
+                }
+                return this.Total;
+              }
+            }
+          }
+          else return 0;
+        }
+        getPATotal(){
+          this.Total = 0;let i=0;
+          if(this.TableRowPA.length!=0){
+            for(let tot of this.TableRowPA){
+              if(tot.SumInsured!=null && tot.SumInsured!='' && tot.SumInsured!=undefined) this.Total=this.Total+Number(tot.SumInsured);
+              i+=1;
+              if(i==this.TableRowPA.length){
+                this.productItem.EmpLiabilitySi = this.Total;
+                if(this.fields3.length!=0){
+                  let fieldList = this.fields3[0].fieldGroup[0].fieldGroup;
+                  for(let field of fieldList){
+                    if(field.key=='EmpLiabilitySi'){
+                        field.templateOptions.disabled = false;
+                        field.formControl.setValue(this.Total);
+                        field.templateOptions.disabled = true;
+                    }
+                    else if(field.key=='LiabilityOccupationId'){
+                      field.formControl.setValue(this.plOccupationId);
+                    }
+                  }
+                }
+                return this.Total;
+              }
+            }
+          }
+          else return 0;
+        }
+        getProductLocation(entry){
+          if(entry!='' && entry!=null) return this.TableRowBuilding.find(ele=>ele.RiskId==entry.RiskId)?.LocationName
+          else return '';
+        }
         onEditBuilding(index){
           this.currentBuildingIndex = index;
           this.editBuildingSection = true;
@@ -373,7 +439,8 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
     onEditLocationDetails(){
       if(this.TableRowBuilding.length!=0){
           this.locationList = this.TableRowBuilding;
-          this.buildingEditSection = false;
+        if(this.locationList.some(ele=>ele.LocationName==null || ele.LocationName==undefined))  this.buildingEditSection = true;
+        else this.buildingEditSection = false;
       }
       else{this.onAddLocationDetails(); this.buildingEditSection = true;}
     }
@@ -426,6 +493,10 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
       }   
       else if(type=='PL'){
         this.personalLiabilityDialog = true;
+        this.plOccupationError = false;
+      }
+      else if(type=='PA'){
+        this.personalAccidentDialog = true;
       }
     }
     addRow() {
@@ -441,6 +512,14 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
     
       this.TableRow.splice(index,1);
     }
+    addRowPL(){
+      const newItem = {  id: this.TableRowPL.length + 1,RiskId:'',Name: '',Dob: '',SerialNo : '',SumInsured: 0};
+      this.TableRowPL.push(newItem);
+      this.currentPLRowIndex = this.TableRowPL.length-1;
+    }
+    deleteProductPL(index) {
+      this.TableRowPL.splice(index,1);
+    }
     addRowAllRisk(){
       const newItem = {  id: this.TableRowAllRisk.length + 1,RiskId:'',ItemId: '', Content: '', Serial: '',Description:'',SumInsured:0,};
       this.TableRowAllRisk.push(newItem);
@@ -448,6 +527,73 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
     }
     deleteProductAllRisk(index) {
       this.TableRowAllRisk.splice(index,1);
+    }
+    getProductDob(entry){
+      if(entry.Dob!=null && entry.Dob!=''){
+          if(String(entry.Dob).split('/').length>1) return entry.Dob
+          else return String(this.datePipe.transform(entry.Dob,'dd/MM/yyyy'));
+      }
+      else return '';
+    }
+    onSavePL(){
+      if (this.TableRowPL.length != 0) {
+        let i=0,j=0, reqList =[];
+        for(let entry of this.TableRowPL){
+          if(entry.RiskId!=null && entry.RiskId!='' && entry.RiskId!=undefined) entry['LocationNameError']=false;
+            else{ j+=1; entry['LocationNameError']=true;}
+            if(entry.Name!=null && entry.Name!='' && entry.Name!=undefined) entry['NameError']=false;
+            else{ j+=1; entry['NameError']=true;}
+            if(entry.Dob!=null && entry.Dob!='' && entry.Dob!=undefined) entry['DobError']=false;
+            else{ j+=1; entry['DobError']=true;}
+            if(entry.SumInsured!=null   && entry.SumInsured!=undefined && entry.SumInsured!=0 && entry.SumInsured!='0'){ entry['SumInsuredError']=false;}
+            else{ j+=1; entry['SumInsuredError']=true;}
+            if(this.plOccupationId!=null   && this.plOccupationId!=undefined && this.plOccupationId!=''){ this.plOccupationError=false;}
+            else{ j+=1; this.plOccupationError=true;}
+            if(entry.ItemId!= null && entry.ItemId!='' && entry.ItemId!=undefined) entry['Content']=this.allriskList.find(ele=>ele.Code==entry.ItemId)?.CodeDesc
+            
+            let data = {
+              "Dob": entry.Dob,
+              "Height":null,
+              "OccupationId": entry.OccupationId,
+              "PersonName": entry.Name,
+              "NationalityId": null,
+              "Salary": entry.SumInsured,
+              "Weight": entry.Weight,
+              "RiskId": entry.RiskId,
+              "SerialNo": null
+            }
+            reqList.push(data);
+            i+=1;
+            if(i==this.TableRowPL.length && j==0){
+            let  ReqObj = {
+              "CreatedBy": this.loginId,
+              "QuoteNo": sessionStorage.getItem('quoteNo'),
+              "RequestReferenceNo": this.quoteRefNo,
+              "SectionId": "36",
+              "Description": "Accident Details",
+              "Type":'PI',
+              "PersonalDetails":reqList
+            }
+            let urlLink = `${this.motorApiUrl}api/savepersonalaccident`;
+            this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+              (data: any) => {
+                console.log(data);
+                let res: any = data;
+                if (data.ErrorMessage.length != 0) {
+                  if (res.ErrorMessage) {
+                    if(this.TableRowPL.length!=0){
+                      if(this.TableRowPL.length>1 || (this.TableRowPL[0].SumInsured!=null && this.TableRowPL[0].SumInsured!=0)) this.currentPLRowIndex = null;
+                    }
+                  }
+                }
+                else { this.personalLiabilityDialog = false; }
+              },
+              (err) => {},
+            );
+        }
+              
+            }
+      }
     }
     getallriskDetailsData(){
       let urlLink = `${this.motorApiUrl}api/getallcontentrisk`;
@@ -3172,6 +3318,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
                     this.TableRow = res.Result.ContentRiskDetails;
                     this.currentContentIndex = this.TableRow.length;
                     if(this.TableRow.length!=0){
+                      
                       if(this.TableRow.length>1 || (this.TableRow[0].SumInsured!=null && this.TableRow[0].SumInsured!=0)) this.currentContentRowIndex = null;
                     }
                     this.getTotal();
@@ -3789,7 +3936,7 @@ wallMaterialList:any[]=[];roofMaterialList:any[]=[];public productItem: ProductD
             );
           }
 
-          getBuildingDetails(){
+          getBuildingDetails(type){
             
             let ReqObj = {
               // "RequestReferenceNo": this.requestReferenceNo,

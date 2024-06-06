@@ -809,7 +809,7 @@ export class CoverDetailsComponent {
           let k=0;
           for(let vehicle of this.vehicleData){
             
-              let entry = vehicleList.find(ele=>ele.VehicleId==vehicle.VehicleId || ele.RiskId==vehicle.RiskId);
+              let entry = vehicleList.find(ele=>ele.VehicleId==vehicle.VehicleId || ele.RiskDetails.RiskId==vehicle.RiskDetails.RiskId);
               if(entry && vehicle.SectionId!='1'){
                 //if(entry.SectionId==vehicle.SectionId){
                   entry.CoverList = entry.CoverList.concat(vehicle.CoverList);
@@ -3146,7 +3146,6 @@ this.newAddClauses=true;
               if(vehEntry.length!=0){
                 let entry = vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId || ele.RiskId==vehicle.RiskId);
                 if(entry.length!=0){
-                  console.log('Filtered Covers',entry)
                   let j=0; let covers = [];
                   for(let veh of entry){
                       let k=0;

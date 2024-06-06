@@ -112,3 +112,6 @@
 //     display: flex !important;
 //     justify-content: space-between !important;
 // }
+.mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined) .mat-mdc-form-field-infix {
+        padding-top: 0px !important;
+}
