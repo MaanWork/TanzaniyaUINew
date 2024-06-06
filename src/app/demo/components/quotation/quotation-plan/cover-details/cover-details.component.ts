@@ -125,27 +125,13 @@ export class CoverDetailsComponent {
   beforeDiscount: any=null;
   selectedSectionId: any=null;discountDetailModal:boolean=false;
   afterDiscount: any=null;excessDetailModal:boolean=false;
-  customerObj: any=null;
-  customerReferenceNo: any=null;
-  emistatus: string;
-  coverlist: any[]=[];
-  remarks: any=null;
-  newcoverlist: any[]=[];subCoverDetailModal:boolean=false;
-  inserts: any=null;subCoverColumns:any[]=[];
-  noOfDays: any=null;verticalSection:boolean =false;
-  EmiDetails: any[]=[];showCoverList:boolean=false;
-  MinimumPremium: any=null;premiumExcluedTax: any=null;
+  customerObj: any=null;customerReferenceNo: any=null;termsSectionList:any[]=[];
+  emistatus: string;coverlist: any[]=[];remarks: any=null;termsSectionId:any=null;newcoverlist: any[]=[];subCoverDetailModal:boolean=false;
+  inserts: any=null;subCoverColumns:any[]=[];noOfDays: any=null;verticalSection:boolean =false;EmiDetails: any[]=[];showCoverList:boolean=false;MinimumPremium: any=null;premiumExcluedTax: any=null;
   premiumIncluedTax: any=null;dependantTaxList: any[]=[];taxList: any[]=[];premiumBeforeTax: any=null;
-  proRataPercent: any=null;premiumAfterDiscount:any=null;
-  fleetCoverDetails: any;columns:any[]=[];
-  basePremium: any;premiumIncludedTax: any;premiumExcludedTax: any;factorViewList: any[]=[];factorPremiumDetails:any=null;factorDetailModal: boolean=false;
+  proRataPercent: any=null;premiumAfterDiscount:any=null;fleetCoverDetails: any;columns:any[]=[];basePremium: any;premiumIncludedTax: any;premiumExcludedTax: any;factorViewList: any[]=[];factorPremiumDetails:any=null;factorDetailModal: boolean=false;
   newAddClauses: boolean = false; newAddExclusion:boolean = false; newAddWarranty:boolean = false;
-  fleetDiscountModal: boolean=false;
-  minTaxList: any[]=[];
-  minPremiumExcludedTax: any=null;
-  minCoverName: any;
-  minBasePremium: any;
-  minPremiumIncludedTax: number;
+  fleetDiscountModal: boolean=false;minTaxList: any[]=[];minPremiumExcludedTax: any=null;minCoverName: any;minBasePremium: any;minPremiumIncludedTax: number;
   constructor(private router:Router,private sharedService:SharedService,private messageService: MessageService){
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     let loginType = sessionStorage.getItem('resetLoginDetails');
@@ -231,7 +217,8 @@ export class CoverDetailsComponent {
     let referenceNo =  sessionStorage.getItem('customerReferenceNo');
     if(referenceNo){
       this.getCustomerDetails(referenceNo);
-      this.viewCondition('direct');
+      this.getTermsSectionList();
+      //this.viewCondition('direct');
     }
     let quoteStatus = sessionStorage.getItem('QuoteStatus');
     if(quoteStatus=='AdminRP' || quoteStatus == 'AdminRA' || quoteStatus == 'AdminRE'){
@@ -439,6 +426,20 @@ export class CoverDetailsComponent {
     this.years = [{label: '1 Year'}, {label: '2 Year'}];
     this.vehicles = [{label: 'Vehicle 1'}, {label: 'Vehicle 2'}];
   }
+  getTermsSectionList(){
+      let riskId = String(this.tabIndex+1);
+      let urlLink = `${this.CommonApiUrl}api/sectionlistbasedonriskid?requestReferenceNo=${this.quoteRefNo}&riskId=${riskId}`;
+      this.sharedService.onGetMethodSync(urlLink).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+            let defaultObj = [{"SectionId":"99999","SectionName":"ALL"}];
+            this.termsSectionList = defaultObj.concat(data.Result);
+            this.termsSectionId = '99999';
+            this.viewCondition('direct');
+          }
+        });
+  }
   viewCondition(index){
     let QuoteNo:any;
     if(this.quoteNo!=undefined && this.quoteNo!="" && this.quoteNo!=null ){
@@ -453,7 +454,7 @@ export class CoverDetailsComponent {
       ProductId:this.productId,
       QuoteNo:QuoteNo,
       TermsId:"D",
-      SectionId:'99999',
+      SectionId:this.termsSectionId,
       // SectionId:this.vehicleDetailsList[index].SectionId,
       RequestReferenceNo: this.quoteRefNo
 
@@ -916,16 +917,13 @@ export class CoverDetailsComponent {
               let otherList = coverList.filter(ele=>ele.isSelected!='D' && ele.UserOpt != 'Y')
               veh.CoverList = defaultList.concat(otherList);
               if(this.adminSection) veh.CoverList = coverList.filter(ele=>ele.isSelected=='D' || ele?.UserOpt=='Y')
-              
             }
           }
-          
         }
         j+=1;
         if(j==this.vehicleDetailsList.length){
           if(this.endorsementId==846){
               let vehicles = this.vehicleDetailsList.filter(ele=>ele.Status=='D');
-              console.log("Entered Veh 1",vehicles)
               if(vehicles.length!=0){
                 let n=0;
                   for(let veh of vehicles){
@@ -2652,7 +2650,6 @@ export class CoverDetailsComponent {
     this.onExclusion = true;
     this.onWarranty=false;
     this.onClauses = false;
-    this.viewCondition('1'); 
     this.newAddClauses=false;
     this.newAddExclusion=false;
     this.newAddWarranty=false;
@@ -2665,7 +2662,6 @@ export class CoverDetailsComponent {
      this.newAddExclusion=false;
      this.newAddWarranty=false;
      let common
-     this.viewCondition('1');
   }
   OnClose(){
     this.onExclusion = false;
@@ -2685,11 +2681,7 @@ this.newAddClauses=true;
   editClauses(id){
   }
   saveClausesData(rawData,type){
-    let clauses
-     
-
-    console.log('QQQQQ',this.quoteNo,rawData);
-        let quote
+    let quote:any;
     if(this.quoteNo){
       quote=this.quoteNo;
     }
@@ -2697,8 +2689,6 @@ this.newAddClauses=true;
       quote="";
     }
     let i=0;
-    let passData:any[]=[];
-    let id:any;
     // if(type){
     //   if(type=='Clauses'){
     //   id="6";
@@ -2717,18 +2707,14 @@ this.newAddClauses=true;
        }
        i+=1;
     }
-
-    //console.log('SSSSSSSSSSSS',this.tempData)
-    //console.log('aaaaaaaaaaaaaa',this.jsonList)
     let Req = {
       BranchCode: this.branchCode,
       CreatedBy: this.loginId,
       InsuranceId: this.insuranceId,
       ProductId: this.productId,
       QuoteNo:quote,
-      //TermsId:null,
-      RiskId:'1',
-      SectionId:'99999',
+      RiskId:String(this.tabIndex+1),
+      SectionId:this.termsSectionId,
       TermsAndConditionReq:rawData,
       RequestReferenceNo: this.requestReferenceNo
     };
@@ -4019,9 +4005,6 @@ this.newAddClauses=true;
      else{
       clauses= this.ExclusionList
      }
-    //= this.ExclusionData.concat(this.ExclusionList);
-    //console.log('Exclusion',this.tempData)
-    console.log('Exclsuion',this.ExclusionList)
     let Req = {
       BranchCode: this.branchCode,
       CreatedBy: this.loginId,
@@ -4029,8 +4012,8 @@ this.newAddClauses=true;
       ProductId: this.productId,
       QuoteNo:quote,
       //TermsId:null,
-      RiskId: "1",
-      SectionId:"99999",
+      RiskId: String(this.tabIndex+1),
+      SectionId:this.termsSectionId,
       TermsAndConditionReq:clauses,
       RequestReferenceNo: this.requestReferenceNo
     };
@@ -4073,12 +4056,12 @@ this.newAddClauses=true;
     let i=0;
     console.log('QQQQQ',this.quoteNo)
     let quote
-if(this.quoteNo){
- quote=this.quoteNo;
-}
-else{
-  quote="";
-}
+    if(this.quoteNo){
+    quote=this.quoteNo;
+    }
+    else{
+      quote="";
+    }
     let clauses
     if(this.ClausesData !=null || this.ClausesData !=undefined){
       clauses= this.ClausesData.concat(this.json);
@@ -4096,8 +4079,8 @@ else{
       ProductId: this.productId,
       QuoteNo:quote,
       //TermsId:null,
-      RiskId: "1",
-      SectionId:"99999",
+      RiskId:String(this.tabIndex+1),
+      SectionId: this.termsSectionId,
       TermsAndConditionReq:clauses,
       RequestReferenceNo: this.requestReferenceNo
     };

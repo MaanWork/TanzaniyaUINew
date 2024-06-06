@@ -113,7 +113,7 @@ export class PersonalAccident{
                     className: 'w-full md:mt-0 mt-3 md\:w-1\/4',
                     props: {
                       label: `Occupation`,
-                      disabled: this.checkDisable('OccupationType'),
+                      disabled: true,
                       required: true,
                       options: [
       

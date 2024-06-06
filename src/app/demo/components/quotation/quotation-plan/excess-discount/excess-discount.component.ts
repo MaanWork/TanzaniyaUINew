@@ -254,6 +254,9 @@ emiyn="N";
   premiumIncludedTax: any;
   premiumExcludedTax: any;
   benefitCoverList: any;
+  termsSectionList: { SectionId: string; SectionName: string; }[];
+  termsSectionId: string;
+  showCoverList: boolean=false;newAddClauses: boolean=false;newAddExclusion: boolean=false;newAddWarranty: boolean=false;
   constructor(public sharedService: SharedService,private authService: AuthService,private router:Router,private modalService: NgbModal,
     private datePipe:DatePipe,public dialog: MatDialog) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -297,7 +300,6 @@ emiyn="N";
         let entry = this.enableFieldsList.some(ele=>ele=='Covers' || ele=='RemoveSection'  || ele=='AddOnCovers' || ele=='AddCovers' || ele=='removeVehicle');
         if(entry || this.endorseShortCode == '846' ) this.coverModificationYN = 'Y';
         else this.coverModificationYN = 'N';
-        console.log("Enable Obj",this.enableFieldsList)
         if(this.endorseShortCode!='42'){
           this.endorseCovers = this.enableFieldsList.some(ele=>ele=='Covers' && this.endorseShortCode=='852');
           this.endorseSIModification = this.enableFieldsList.some(ele=>(ele=='Covers' && this.endorseShortCode=='850'));
@@ -445,10 +447,12 @@ emiyn="N";
     this.maxDate = new Date(year, month, day+90);
     let quoteNo = sessionStorage.getItem('quoteNo');
     if(quoteNo) this.quoteNo = quoteNo;
+    
     let referenceNo =  sessionStorage.getItem('customerReferenceNo');
     if(referenceNo){
       this.getCustomerDetails(referenceNo);
-      this.viewCondition('direct');
+      
+      //this.viewCondition('direct');
     }
     let quoteStatus = sessionStorage.getItem('QuoteStatus');
     if(quoteStatus=='AdminRP' || quoteStatus == 'AdminRA' || quoteStatus == 'AdminRE'){
@@ -490,6 +494,7 @@ emiyn="N";
                     }
                   }
                   this.selectedRowData = this.vehicleDetailsList[0];
+                  this.getTermsSectionList();
                   this.onSelectSection();
                   this.coverSection = true;
                   // if(((this.uwReferralSection && !this.adminSection  && (this.statusValue=='RP' || this.statusValue==null || this.statusValue==undefined))  || (!this.adminSection && this.statusValue=='RP' && this.vehicleDetailsList.some(ele=>ele.Status=='RP')) || (this.statusValue=='RP' && !this.adminSection && this.vehicleDetailsList.some(ele=>ele.Status=='RP')))){
@@ -2177,8 +2182,8 @@ emiyn="N";
           existingData:this.WarrantyData,
           QuoteNo:this.quoteNo,
           ReferenceNo:this.quoteRefNo,
-          RiskId:"1",
-          SectionId:"99999",
+          RiskId:String(this.selectedRowData.RiskDetails.RiskId),
+          SectionId:this.termsSectionId,
           Id:"4"
         }
       });
@@ -2234,8 +2239,8 @@ emiyn="N";
         ProductId: this.productId,
         QuoteNo:quote,
         //TermsId:null,
-        RiskId:'1',
-        SectionId:'99999',
+        RiskId:String(this.selectedRowData.RiskDetails.RiskId),
+        SectionId:this.termsSectionId,
         TermsAndConditionReq:rawData,
         RequestReferenceNo: this.requestReferenceNo
       };
@@ -2289,8 +2294,8 @@ emiyn="N";
           existingData:this.ClausesData,
           QuoteNo:this.quoteNo,
           ReferenceNo:this.quoteRefNo,
-          RiskId: "1",
-          SectionId:"99999",
+          RiskId: String(this.selectedRowData.RiskDetails.RiskId),
+          SectionId:this.termsSectionId,
           Id:"6"
         }
       });
@@ -2311,8 +2316,8 @@ emiyn="N";
           existingData:this.ExclusionData,
           QuoteNo:this.quoteNo,
           ReferenceNo:this.quoteRefNo,
-          RiskId: "1",
-          SectionId:"99999",
+          RiskId: String(this.selectedRowData.RiskDetails.RiskId),
+          SectionId:this.termsSectionId,
           Id:"7"
         }
       });
@@ -2572,6 +2577,7 @@ emiyn="N";
     }
     onSelectSections(event,rowData){
         this.selectedRowData = rowData;
+        this.getTermsSectionList();
         this.selectedVehicleList = [rowData];
         let coverList:any[]=rowData.CoverList.filter(ele=>ele.CoverageType!='B');
           for(let cover of coverList){
@@ -2584,6 +2590,7 @@ emiyn="N";
     onSelectSectionIndex(rowData){
       this.coverSection = false;
       this.selectedRowData = rowData;
+      this.getTermsSectionList();
       this.selectedVehicleList = [rowData];
       this.coverSection = true;
     }
@@ -2730,7 +2737,6 @@ emiyn="N";
                       cover['selected']= true;
                       this.onSelectCover(cover,true,veh.Vehicleid,veh,'coverList','direct');
                     }
-                    console.log("Selected 2",cover);
                   }
                 }
                 else if(this.endorseAddOnCovers || this.endorseCovers || this.endorseSIModification){
@@ -2738,7 +2744,6 @@ emiyn="N";
                     cover['Modifiable']='N';
                     cover['ModifiedYN'] = 'Y';
                   }
-                  
                 }
               }
               j+=1;
@@ -2752,6 +2757,7 @@ emiyn="N";
               console.log('PPPPPPPMNNNNNNNNNNNNNNNMMMMMMMMMMMMM',this.isMannualReferal )
             }
             this.selectedRowData = this.vehicleDetailsList[0];
+            this.getTermsSectionList();
             this.onSelectSection();
             this.coverSection = true;
             // if(((this.uwReferralSection && !this.adminSection && (this.statusValue=='RP' || this.statusValue=='' || this.statusValue==null || this.statusValue==undefined))  || (!this.adminSection && this.statusValue=='RP' && this.vehicleDetailsList.some(ele=>ele.Status=='RP')))){
@@ -4723,7 +4729,7 @@ emiyn="N";
         "RequestReferenceNo": this.quoteRefNo,
         "InsuranceId": this.insuranceId,
         "ProductId": this.productId,
-        "SectionId": "99999",
+        "SectionId":this.termsSectionId,
         "CoverList": this.fleetCoverDetails.CoverList
       }
       let urlLink = `${this.CommonApiUrl}quote/update/referalstatus`;
@@ -5038,6 +5044,21 @@ emiyn="N";
     {
   
     }
+    getTermsSectionList(){
+      console.log("Sele",this.selectedRowData)
+      let riskId = String(this.selectedRowData.RiskDetails.RiskId);
+      let urlLink = `${this.CommonApiUrl}api/sectionlistbasedonriskid?requestReferenceNo=${this.quoteRefNo}&riskId=${riskId}`;
+      this.sharedService.onGetMethodSync(urlLink).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+            let defaultObj = [{"SectionId":"99999","SectionName":"ALL"}];
+            this.termsSectionList = defaultObj.concat(data.Result);
+            this.termsSectionId = '99999';
+            this.viewCondition('direct');
+          }
+        });
+  }
     viewCondition(index){
       let QuoteNo:any;
       if(this.quoteNo!=undefined && this.quoteNo!="" && this.quoteNo!=null ){
@@ -5052,7 +5073,7 @@ emiyn="N";
         ProductId:this.productId,
         QuoteNo:QuoteNo,
         TermsId:"D",
-        SectionId:'99999',
+        SectionId:this.termsSectionId,
         // SectionId:this.vehicleDetailsList[index].SectionId,
         RequestReferenceNo: this.quoteRefNo
   
@@ -5277,45 +5298,44 @@ emiyn="N";
       )
     }
   
-    ClausesStatuss(){
-      let common:any;
-      console.log('this',this.vehicleDetailsList);
-      console.log('TTTTTTT',this.vehicleDetailsList);
-     // this.ClausesSection=true;
-      this.onClauses = true;
-      this.onWarranty=false;
-      this.onWars = false;
-      this.onExclusion = false;
-      this.clauses = true;
-      this.warranty = false;
-      this.Exclusion = false;
-      this.showGrid=true;
-    this.viewCondition('direct');
-    }
-    ExclusioStatuss(){
-      this.onExclusion = true;
-      this.onWarranty=false;
-      this.onWars = false;
-      this.onClauses = false;
-      this.Exclusion = true;
-      this.warranty = false;
-      this.clauses = false;
-      this.showGrid=true;
-  console.log('Common',this.common4);
-  this.viewCondition('1'); 
-    }
-    WarrantyStatuss(){
-       this.onWarranty=true;
-       this.onClauses = false;
-       this.onWars = false;
-       this.onExclusion = false;
-       this.showGrid=true;
-       this.warranty = true;
-       this.clauses = false;
-       this.Exclusion = false;
-       let common
-       this.viewCondition('1');
-    }
+   ClausesStatuss(){
+    let common:any;
+    console.log('this',this.vehicleDetailsList);
+    console.log('TTTTTTT',this.vehicleDetailsList);
+    this.showCoverList=false;
+   // this.ClausesSection=true;
+    this.onClauses = true;
+    this.onWarranty=false;
+    this.onExclusion = false;
+    this.newAddClauses=false;
+    this.newAddExclusion=false;
+    this.newAddWarranty=false;
+  }
+  ExclusioStatuss(){
+    this.onExclusion = true;
+    this.onWarranty=false;
+    this.onClauses = false;
+    this.newAddClauses=false;
+    this.newAddExclusion=false;
+    this.newAddWarranty=false;
+  }
+  WarrantyStatuss(){
+     this.onWarranty=true;
+     this.onClauses = false;
+     this.onExclusion = false;
+     this.newAddClauses=false;
+     this.newAddExclusion=false;
+     this.newAddWarranty=false;
+  }
+  onAddClause(){
+    this.newAddClauses=true;
+  }
+  onAddExclusion(){
+    this.newAddExclusion =true;
+  }
+  onAddWarranty(){
+    this.newAddWarranty = true;
+  }
   
   
     ClausesStatus(i,rowData){

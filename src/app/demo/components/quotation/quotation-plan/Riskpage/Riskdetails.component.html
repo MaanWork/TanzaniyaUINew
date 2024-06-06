@@ -51,7 +51,7 @@
                     <!-- <p-button label="Add" (click)="Addnew(TableRow)" /> -->
                 <!-- </div> -->
                 <div class="col-12 md:col-8 lg:col-8"></div>
-                <div class="col-12 md:col-2 lg:col-2" *ngIf="fields">Total : {{getTotalBuilding() | commaseparator}}</div>
+                <div class="col-12 md:col-2 lg:col-2" *ngIf="fields.length!=0 && ((coversreuired=='B' || coversreuired=='BC') && Building1)">Total : {{getTotalBuilding() | commaseparator}}</div>
                 <div class="col-12 md:col-2 lg:col-2"><p-button label="Add New" icon="pi pi-plus" (click)="addRowBuilding()" /></div>
             </div>
         </ng-container>
@@ -963,7 +963,7 @@
                             <ng-container *ngIf="currentPLRowIndex!=ri">
                                 <div class="flex align-items-center justify-content-center gap-2">
                                     <button  pButton type="button"  icon="pi pi-pencil"   
-                                        (click)="currentAllRiskRowIndex=ri" styleClass="p-button-outlined">
+                                        (click)="currentPLRowIndex=ri" styleClass="p-button-outlined">
                                     </button>
                                 </div>
                             </ng-container>
@@ -993,8 +993,7 @@
                 <p-button label="Save" (click)=" onSavePL()" />
             </div>
             </div>
-    </ng-container> 
-       
+        </ng-container> 
     </p-dialog>
     <p-dialog header="Personal Accident Details" [modal]="true" [(visible)]="personalAccidentDialog" [style]="{ width: '80rem','z-index': '1000 !important' }">
         <ng-container  class="mt-5">
@@ -1010,10 +1009,106 @@
                         </div>
                 </div>
                 <div class="col-12 md:col-4 lg:col-4"></div>
-                <div class="col-12 md:col-2 lg:col-2" *ngIf="fields3">Total :{{getPATotal() | commaseparator}}</div>
-                <div class="col-12 md:col-2 lg:col-2"><p-button label="Add New" icon="pi pi-plus" (click)="addRowPL()" /></div>
+                <div class="col-12 md:col-2 lg:col-2" *ngIf="fields4">Total :{{getPATotal() | commaseparator}}</div>
+                <div class="col-12 md:col-2 lg:col-2"><p-button label="Add New" icon="pi pi-plus" (click)="addRowPA()" /></div>
             </div>
         </ng-container>
         <ng-container  class="mt-5">
+            <p-table [value]="TableRowPA" dataKey="id" editMode="row" [rows]="5" [paginator]="true" [tableStyle]="{'min-width': '50rem'}" >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th [pSortableColumn]="column" *ngFor="let column of columnHeaderPersonalAccident">
+                            {{column}}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product let-ri="rowIndex">
+                    <tr>
+                        <td>
+                            <ng-container *ngIf="currentPARowIndex==ri">
+                                <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Location"
+                                    [options]="TableRowBuilding" (onChange)="onChangeContentLocation(product)"
+                                        appendTo="body" optionLabel="LocationName" optionValue="RiskId"  [(ngModel)]="product.RiskId" />
+                                
+                            </ng-container>
+                            <ng-container *ngIf="currentPARowIndex!=ri">
+                               {{product.LocationName}}
+                            </ng-container>
+                            <div class="input-form-error" *ngIf="product.LocationNameError">
+                                <div class="error-text text-danger">
+                                  Please  Select Location
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <ng-container *ngIf="currentPARowIndex==ri">
+                                <input class="w-full p-button-outlined" placeholder="Enter Name" styleClass="w-full"  pInputText type="text" 
+                                [(ngModel)]="product.Name" />
+                                
+                            </ng-container>
+                            <ng-container *ngIf="currentPARowIndex!=ri"> {{ product.Name }}</ng-container>
+                            <div class="input-form-error" *ngIf="product.NameError">
+                                <div class="error-text text-danger">
+                                    Please Enter Name
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <ng-container *ngIf="currentPARowIndex==ri">
+                                <p-calendar class="w-full customZIndex" styleClass="w-full customZIndex" appendTo="body" 
+                                [maxDate]="minDate"  [(ngModel)]="product.Dob"  [defaultDate]="minDate"
+                                dateFormat="dd/mm/yy" placeholder="Select Date Of Birth" ></p-calendar>
+                            </ng-container>
+                            <ng-container *ngIf="currentPARowIndex!=ri">
+                                {{getProductDob(product)}}
+                            </ng-container>   
+                            <div class="input-form-error" *ngIf="product.DobError">
+                                <div class="error-text text-danger">
+                                    Please Select Date of Birth
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <ng-container *ngIf="currentPARowIndex==ri">
+                                <p-inputNumber  [(ngModel)]="product.SumInsured" inputId="integeronly"  />
+                                
+                            </ng-container>
+                            <ng-container *ngIf="currentPARowIndex!=ri">
+                                {{product.SumInsured | commaseparator}}
+                            </ng-container>   
+                            <div class="input-form-error" *ngIf="product.SumInsuredError">
+                                <div class="error-text text-danger">
+                                    Enter Valid Salary
+                                </div>
+                            </div> 
+                        </td>
+                        <td>
+                            <ng-container *ngIf="currentPARowIndex!=ri">
+                                <div class="flex align-items-center justify-content-center gap-2">
+                                    <button  pButton type="button"  icon="pi pi-pencil"   
+                                        (click)="currentAllRiskRowIndex=ri" styleClass="p-button-outlined">
+                                    </button>
+                                </div>
+                            </ng-container>
+                        </td>
+                        
+                        <td>
+                            <ng-container >
+                                <div class="flex align-items-center justify-content-center gap-2" >
+                                    <button  pButton type="button"    icon="pi pi-trash"  (click)="deleteProductPL(ri)" 
+                                        styleClass="p-button-outlined" >
+                                    </button>
+                                </div>
+                            </ng-container>
+                        </td>
+                    </tr> 
+                </ng-template>
+            </p-table>
+            <div class="grid justify-content-center gap-2 mt-5">
+                <!-- <p-button label="Cancel" styleClass="p-button-outlined"  (click)="visible = false" /> -->
+                <div >
+                <p-button label="Save" (click)=" onSavePA()" />
+                </div>
+            </div>
         </ng-container>
     </p-dialog>

@@ -4296,14 +4296,20 @@
     </div>
 </p-dialog>
 <p-dialog class="p-su-header" header="Clauses Details" [(visible)]="onClauses" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
-    <div class="flex flex-wrap justify-content-end mt-2" *ngIf="userType!='Broker'">
+    <div class="flex flex-wrap justify-content-between mt-2" *ngIf="userType!='Broker'">
         <div>
+            <label for="username">Section</label>
+            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="termsSectionId" [options]="termsSectionList" (onChange)="viewCondition('change')"
+                optionLabel="SectionName" optionValue="SectionId" placeholder="- - -Select- - -">
+            </p-dropdown>
+        </div>
+        <div *ngIf="!newAddClauses">
             <p-button label="Add New Clause" icon="pi pi-plus" (click)="onAddClause()"></p-button>
         </div>
     </div>
-    <div class="grid">
+    <div class="grid mt-2">
         <div class="col-12 md:col-12 lg:col-12 mt-2">
-            <p-table #dtEmployee [value]="ClausesData" *ngIf="userType=='Broker'"
+            <p-table #dtEmployee [value]="ClausesData" *ngIf="userType=='Broker' && !newAddClauses"
             [tableStyle]="{'min-width':'50rem'}" [paginator]="true"
              [rows]="5">
              <ng-template pTemplate="header">
@@ -4318,7 +4324,7 @@
               </tr>
             </ng-template>
             </p-table>
-            <table class="table table-bordered mt-2 p-2 w-full" *ngIf="userType!='Broker'">
+            <table class="table table-bordered mt-2 p-2 w-full" *ngIf="userType!='Broker' && !newAddClauses">
                 <thead>
                     <tr>
                         <th class="p-2">Select</th>
@@ -4345,27 +4351,70 @@
                     </tr>
                 </tbody>
             </table>
+            <ng-container *ngIf="newAddClauses">
+                <button class="btn btn-primary" style="float:right;margin-bottom:13px;" (click)="addItem()">Add
+                  New</button>
+                <table class="mt-5 ml-2">
+                  <thead>
+                      <th>Clauses Description</th>
+                      <th>Delete</th>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let row of jsonList;let i = index">
+                          <td>
+                            <div class="input-control-container">
+                                <div class="input-form-box">
+                                    <textarea  [(ngModel)]="row.SubIdDesc" cols="60" rows="2"></textarea>
+                                </div>
+                            </div>
+                          </td>
+                          <td class="mt-2">
+                              <button class="btn btn-primary" (click)="deleteClauses(row)"> <i
+                                      class="fa fa-trash"></i></button>
+                          </td>
+                      </tr>
+
+                  </tbody>
+              </table>
+              </ng-container>
         </div>
-        
     </div>
     <div class="flex flex-wrap justify-content-center mt-2">
-        <div>
-            <p-button label="Close" class="p-button-outlined" styleClass="p-button-outlined" (click)="OnClose()"></p-button>&nbsp;
-        </div>
-        <div>
-            <p-button label="Submit" *ngIf="userType!='Broker'" class="p-button-success" (click)="saveClausesData(ClausesData,'Clauses')"></p-button>
-        </div>
+        <ng-container *ngIf="!newAddClauses">
+            <div>
+                <p-button label="Close" class="p-button-outlined" styleClass="p-button-outlined" (click)="OnClose()"></p-button>&nbsp;
+            </div>
+            <div>
+                <p-button label="Submit" *ngIf="userType!='Broker'" class="p-button-success" (click)="saveClausesData(ClausesData,'Clauses')"></p-button>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="newAddClauses">
+            <p-button class="mr-4 mb-4" label="Save" (click)="saveChanges()"></p-button>
+            <!-- <button type="button" class="btn btn-primary ml-3" (click)="saveChanges()">Save
+                changes</button> -->
+        </ng-container>
     </div>
 </p-dialog>
 <p-dialog class="p-su-header" header="Exclusion Details" [(visible)]="onExclusion" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
-    <div class="flex flex-wrap justify-content-end mt-2" *ngIf="userType!='Broker'">
+    <div class="flex flex-wrap justify-content-between mt-2" >
         <div>
-            <p-button label="Add New Exclusion" icon="pi pi-plus" ></p-button>
+            <label for="username">Section</label>
+            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="termsSectionId" [options]="termsSectionList" (onChange)="viewCondition('change')"
+                optionLabel="SectionName" optionValue="SectionId" placeholder="- - -Select- - -">
+            </p-dropdown>
         </div>
+        <ng-container *ngIf="userType!='Broker' && !newAddExclusion">
+            <div *ngIf="!newAddExclusion">
+                <p-button label="Add New Exclusion" icon="pi pi-plus" (click)="onAddExclusion()"></p-button>
+            </div>
+        </ng-container>
+        <!-- <div>
+            <p-button label="Add New Exclusion" icon="pi pi-plus" (click)="onAddExclusion()"></p-button>
+        </div> -->
     </div>
-    <div class="grid">
+    <div class="grid mt-2">
         <div class="col-12 md:col-12 lg:col-12 mt-2">
-            <p-table #dtEmployee [value]="ExclusionData" *ngIf="userType=='Broker'"
+            <p-table #dtEmployee [value]="ExclusionData" *ngIf="userType=='Broker' && !newAddExclusion"
             [tableStyle]="{'min-width':'50rem'}" [paginator]="true"
              [rows]="5">
              <ng-template pTemplate="header">
@@ -4380,7 +4429,7 @@
               </tr>
             </ng-template>
             </p-table>
-            <table class="table table-bordered mt-2 p-2 w-full" *ngIf="userType!='Broker'">
+            <table class="table table-bordered mt-2 p-2 w-full" *ngIf="userType!='Broker' && !newAddExclusion">
                 <thead>
                     <tr>
                         <th class="p-2">Select</th>
@@ -4408,26 +4457,68 @@
                 </tbody>
             </table>
         </div>
-        
+        <ng-container *ngIf="newAddExclusion" class="mt-3">
+            <div style="float: right !important;">
+            <p-button class="mb-4" label="Add New" (click)="addExclusion()"></p-button>
+            </div>
+            <!-- <button class="btn btn-primary" (click)="addExclusion()">Add New</button> -->
+            <table class="mt-5 ml-2">
+              <thead>
+                  <th>Exclusion Description</th>
+                  <th>Delete</th>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let row of ExclusionList;let i = index">
+                    
+                      <div class="input-control-container">
+                        <div class="input-form-box">
+                            <textarea  [(ngModel)]="row.SubIdDesc" cols="60" rows="2"></textarea>
+                        </div>
+                    </div>
+                      
+                      <td style="height:20px;">
+                        <p-button class="mr-4 mb-4" (click)="deleteExclusion(row)">
+                            <i class="fa fa-trash"></i>
+                        </p-button>
+                          <!-- <button class="btn btn-primary" (click)="deleteExclusion(row)"> <i
+                                  class="fa fa-trash"></i></button> -->
+                      </td>
+                  </tr>
+
+              </tbody>
+          </table>
+          </ng-container>
     </div>
     <div class="flex flex-wrap justify-content-center mt-2">
+        <ng-container *ngIf="!newAddExclusion">
         <div>
             <p-button label="Close" class="p-button-outlined" styleClass="p-button-outlined" (click)="OnClose()"></p-button>&nbsp;
         </div>
         <div>
             <p-button label="Submit" *ngIf="userType!='Broker'" class="p-button-success" (click)="saveClausesData(ExclusionData,'Exclusion')"></p-button>
         </div>
+    </ng-container>
+    <ng-container *ngIf="newAddExclusion">
+        <p-button class="mr-4 mb-4" label="Save" (click)="saveExclusion()"></p-button>
+        <!-- <button type="button" class="btn btn-primary ml-3" (click)="saveExclusion()">Save</button> -->
+    </ng-container>
     </div>
 </p-dialog>
 <p-dialog class="p-su-header" header="Warranties Details" [(visible)]="onWarranty" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
-    <div class="flex flex-wrap justify-content-end mt-2" *ngIf="userType!='Broker'">
+    <div class="flex flex-wrap justify-content-between mt-2" >
         <div>
-            <p-button label="Add New Warranty" icon="pi pi-plus" ></p-button>
+            <label for="username">Section</label>
+            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="termsSectionId" [options]="termsSectionList" (onChange)="viewCondition('change')"
+                optionLabel="SectionName" optionValue="SectionId" placeholder="- - -Select- - -">
+            </p-dropdown>
+        </div>
+        <div *ngIf="userType!='Broker' && !newAddWarranty">
+            <p-button label="Add New Warranty" icon="pi pi-plus" (click)="onAddWarranty()"></p-button>
         </div>
     </div>
-    <div class="grid">
+    <div class="grid mt-2">
         <div class="col-12 md:col-12 lg:col-12 mt-2">
-            <p-table #dtEmployee [value]="WarrantyData" *ngIf="userType=='Broker'"
+            <p-table #dtEmployee [value]="WarrantyData" *ngIf="userType=='Broker' && !newAddWarranty"
             [tableStyle]="{'min-width':'50rem'}" [paginator]="true"
              [rows]="5">
              <ng-template pTemplate="header">
@@ -4442,7 +4533,7 @@
               </tr>
             </ng-template>
             </p-table>
-            <table class="table table-bordered mt-2 p-2 w-full" *ngIf="userType!='Broker'">
+            <table class="table table-bordered mt-2 p-2 w-full" *ngIf="userType!='Broker' && !newAddWarranty">
                 <thead>
                     <tr>
                         <th class="p-2">Select</th>
@@ -4469,16 +4560,50 @@
                     </tr>
                 </tbody>
             </table>
+
+            <ng-container *ngIf="newAddWarranty">
+                <p-button label="Add New" style="float:right" (click)="addwarranty()"></p-button>
+                <!-- <button class="btn btn-primary" style="float:right" (click)="addwarranty()">Add New</button> -->
+                <table class="mt-3 ml-2 maan-grid-item-body">
+                    <thead>
+                        <th>Warrranty Description</th>
+                        <th>Delete</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of json;let i = index">
+                            <div class="input-control-container">
+                                <div class="input-form-box">
+                                    <textarea  [(ngModel)]="row.SubIdDesc" cols="60" rows="2"></textarea>
+                                </div>
+                            </div>
+                            <td class="tbl-content">
+                                <p-button (click)="delete(row)">
+                                    <i class="fa fa-trash"></i>
+                                </p-button>
+                                <!-- <button class="btn btn-primary" (click)="delete(row)"> <i
+                                        class="fa fa-trash"></i></button> -->
+                            </td>
+                        </tr>
+    
+                    </tbody>
+                </table>
+               </ng-container>
         </div>
         
     </div>
     <div class="flex flex-wrap justify-content-center mt-2">
+        <ng-container *ngIf="!newAddWarranty">
         <div>
             <p-button label="Close" class="p-button-outlined" styleClass="p-button-outlined" (click)="OnClose()"></p-button>&nbsp;
         </div>
         <div>
             <p-button label="Submit" *ngIf="userType!='Broker'" class="p-button-success" (click)="saveClausesData(WarrantyData,'Warranty')"></p-button>
         </div>
+        </ng-container>
+        <ng-container *ngIf="newAddWarranty">
+            <p-button (click)="saveWarranty()">Save</p-button>
+            <!-- <button type="button" class="btn btn-primary ml-3" (click)="saveWarranty()">Save</button> -->
+        </ng-container>
     </div>
 </p-dialog>
 <div id="toast" class="toastDisplay errorToast" style="display:none;color:#ffffff">
