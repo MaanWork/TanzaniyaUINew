@@ -27,8 +27,18 @@ html {
 .customColor2 {
     background-color: #fff !important;
 }
+.customMarginTop{
+    margin-top: 50px !important;
+}
 .customFont{
     font-size: 15px !important;
+}
+.ui-datepicker{
+    overflow: visible;
+    z-index: 999;
+  }
+.customWidth{
+    min-width: 300px;
 }
 .customFont2{
     font-size: 13px !important;
