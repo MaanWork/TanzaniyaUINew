@@ -886,7 +886,9 @@ export class RiskDetailsComponent {
               "BranchCode": this.branchCode,
               "SectionId": "3",
               "Type":'A',
-              "ContentRiskDetails":reqList
+              "ContentRiskDetails":reqList,
+              "Companyid": this.insuranceId,
+              "ProductId": this.productId
               }
             let  urlLink = `${this.motorApiUrl}api/savecontentrisk`;
             this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -2833,12 +2835,12 @@ export class RiskDetailsComponent {
               // sessionStorage.getItem('quoteNo')
             "QuoteNo":null,
             "RequestReferenceNo":this.quoteRefNo,
-            "Company_id": this.insuranceId,
-            "productid": this.productId,
+            "Companyid": this.insuranceId,
+            "ProductId": this.productId,
             "SectionId": "47",
             "BranchCode": this.branchCode,
              "Type":type,
-             "ContentRiskDetails":reqList
+             "ContentRiskDetails":reqList,
             }
             urlLink = `${this.motorApiUrl}api/savecontentrisk`;
           }
