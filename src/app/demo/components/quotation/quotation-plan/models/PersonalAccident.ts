@@ -106,28 +106,28 @@ export class PersonalAccident{
               {
                 fieldGroupClassName: 'newclassname',
                 fieldGroup: [
-                  {
-                    type: 'ngselect',
-                    key: 'OccupationType',
-                    defaultValue: '',
-                    className: 'w-full md:mt-0 mt-3 md\:w-1\/4',
-                    props: {
-                      label: `Occupation`,
-                      disabled: true,
-                      required: true,
-                      options: [
+                  // {
+                  //   type: 'ngselect',
+                  //   key: 'OccupationType',
+                  //   defaultValue: '',
+                  //   className: 'w-full md:mt-0 mt-3 md\:w-1\/4',
+                  //   props: {
+                  //     label: `Occupation`,
+                  //     disabled: true,
+                  //     required: true,
+                  //     options: [
       
-                      ],
+                  //     ],
       
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                  //   },
+                  //   validators: {
+                  //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                  //   },
+                  //   hooks: {
+                  //   },
+                  //   expressions: {
+                  //   },
+                  // },
                   {
                     type: 'commaSeparator',
                     className: 'w-full md:mt-0 mt-3 md\:w-1\/4',

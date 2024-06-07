@@ -2670,7 +2670,7 @@ export class CoverDetailsComponent {
     this.clause = false;
   }
   onAddClause(){
-this.newAddClauses=true;
+    this.newAddClauses=true;
   }
   onAddExclusion(){
     this.newAddExclusion =true;

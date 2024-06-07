@@ -178,7 +178,7 @@
                     <p-button label="Save" (click)="onSaveBuildingList()" />
                 </div>
             </div>
-    </ng-container> 
+        </ng-container> 
        
     </p-dialog>
     <div class="grid mt-1 mb-3">
@@ -564,8 +564,7 @@
                     <p-button label="Save" (click)=" onSaveAllRisk()" />
                 </div>
                 </div>
-        </ng-container> 
-           
+            </ng-container> 
         </p-dialog>
     </div>
  
@@ -683,16 +682,16 @@
             <div class="flex md:flex-row flex-col items-center md:space-x-3">
            
               <ng-container *ngFor="let stepss of fields8; let index = index; let last = last">
-                          <div>    
-              <div class="row">
-                  <div>
-                      <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
-                          <formly-form [form]="form" [fields]="stepss.fieldGroup" [model]="productItem"></formly-form>
-                  </form>
-                  </div>     
-              </div>
-              
-              </div></ng-container>
+                <div>    
+                    <div class="row">
+                        <div>
+                            <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
+                                <formly-form [form]="form" [fields]="stepss.fieldGroup" [model]="productItem"></formly-form>
+                        </form>
+                        </div>     
+                    </div>
+                </div>
+                </ng-container>
           
       </div>
       </div> 
@@ -875,7 +874,7 @@
                     <!--  -->
                     <!-- <p-button label="Add" (click)="Addnew(TableRow)" /> -->
                 <!-- </div> -->
-                <div class="col-12 md:col-4 lg:col-4">
+                <!-- <div class="col-12 md:col-4 lg:col-4">
                     <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Occupation"
                     [options]="occupationList"
                         appendTo="body" optionLabel="CodeDesc" optionValue="Code"  [(ngModel)]="plOccupationId" />
@@ -884,8 +883,8 @@
                                 Please Select Occupation
                             </div>
                         </div>
-                </div>
-                <div class="col-12 md:col-4 lg:col-4"></div>
+                </div> -->
+                <div class="col-12 md:col-8 lg:col-8"></div>
                 <div class="col-12 md:col-2 lg:col-2" *ngIf="fields3">Total :{{getPLTotal() | commaseparator}}</div>
                 <div class="col-12 md:col-2 lg:col-2"><p-button label="Add New" icon="pi pi-plus" (click)="addRowPL()" /></div>
             </div>
@@ -914,6 +913,21 @@
                             <div class="input-form-error" *ngIf="product.LocationNameError">
                                 <div class="error-text text-danger">
                                   Please  Select Location
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <ng-container *ngIf="currentPLRowIndex==ri">
+                                <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Occupation"
+                                [options]="occupationList"
+                                    appendTo="body" optionLabel="CodeDesc" optionValue="Code"  [(ngModel)]="entry.OccupationId" />
+                            </ng-container>
+                            <ng-container *ngIf="currentPLRowIndex!=ri">
+                               {{product.LocationName}}
+                            </ng-container>
+                            <div class="input-form-error" *ngIf="entry.OccupationError">
+                                <div class="error-text text-danger">
+                                    Please Select Occupation
                                 </div>
                             </div>
                         </td>
@@ -990,7 +1004,7 @@
             <div class="grid justify-content-center gap-2 mt-5">
                 <!-- <p-button label="Cancel" styleClass="p-button-outlined"  (click)="visible = false" /> -->
                 <div >
-                <p-button label="Save" (click)=" onSavePL()" />
+                <p-button label="Save" (click)="onSavePL()" />
             </div>
             </div>
         </ng-container> 
@@ -998,7 +1012,7 @@
     <p-dialog header="Personal Accident Details" [modal]="true" [(visible)]="personalAccidentDialog" [style]="{ width: '80rem','z-index': '1000 !important' }">
         <ng-container  class="mt-5">
             <div class="grid justify-content-end">
-                <div class="col-12 md:col-4 lg:col-4">
+                <!-- <div class="col-12 md:col-4 lg:col-4">
                     <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Occupation"
                     [options]="occupationList"
                         appendTo="body" optionLabel="CodeDesc" optionValue="Code"  [(ngModel)]="pAOccupationId" />
@@ -1007,8 +1021,8 @@
                                 Please Select Occupation
                             </div>
                         </div>
-                </div>
-                <div class="col-12 md:col-4 lg:col-4"></div>
+                </div> -->
+                <div class="col-12 md:col-8 lg:col-8"></div>
                 <div class="col-12 md:col-2 lg:col-2" *ngIf="fields4">Total :{{getPATotal() | commaseparator}}</div>
                 <div class="col-12 md:col-2 lg:col-2"><p-button label="Add New" icon="pi pi-plus" (click)="addRowPA()" /></div>
             </div>
@@ -1037,6 +1051,21 @@
                             <div class="input-form-error" *ngIf="product.LocationNameError">
                                 <div class="error-text text-danger">
                                   Please  Select Location
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <ng-container *ngIf="currentPARowIndex==ri">
+                                <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Occupation"
+                                [options]="occupationList"
+                                    appendTo="body" optionLabel="CodeDesc" optionValue="Code"  [(ngModel)]="entry.OccupationId" />
+                            </ng-container>
+                            <ng-container *ngIf="currentPARowIndex!=ri">
+                               {{product.LocationName}}
+                            </ng-container>
+                            <div class="input-form-error" *ngIf="entry.OccupationError">
+                                <div class="error-text text-danger">
+                                    Please Select Occupation
                                 </div>
                             </div>
                         </td>

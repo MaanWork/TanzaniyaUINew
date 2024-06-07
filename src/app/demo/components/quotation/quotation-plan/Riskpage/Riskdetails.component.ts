@@ -171,8 +171,8 @@ export class RiskDetailsComponent {
             ContentRiskDesc: '',
             SumInsured: 0,
           }]
-          this.columnHeaderPersonalLiability =['Location','Name','Date Of Birth','Salary','Edit' ,'Delete'];
-          this.columnHeaderPersonalAccident =['Location','Name','Date Of Birth','Salary','Edit' ,'Delete'];
+          this.columnHeaderPersonalLiability =['Location','Occupation','Name','Date Of Birth','Salary','Edit' ,'Delete'];
+          this.columnHeaderPersonalAccident =['Location','Occupation','Name','Date Of Birth','Salary','Edit' ,'Delete'];
           this.columnHeaderBuilding =['Building Usage','Construction (Wall)','Construction (Roof)','Sum Insured',"Location",'Edit' ,'Delete']
           this.TableRowBuilding =[{
             id:1,
@@ -194,6 +194,7 @@ export class RiskDetailsComponent {
           }];
           this.TableRowPL =[{
             id:1,
+            OccupationId:'',
             RiskId:'',
             Name: '',
             Dob: '',
@@ -202,6 +203,7 @@ export class RiskDetailsComponent {
           }]
           this.TableRowPA =[{
             id:1,
+            OccupationId:'',
             RiskId:'',
             Name: '',
             Dob: '',
@@ -565,14 +567,14 @@ export class RiskDetailsComponent {
             else{ j+=1; entry['DobError']=true;}
             if(entry.SumInsured!=null   && entry.SumInsured!=undefined && entry.SumInsured!=0 && entry.SumInsured!='0'){ entry['SumInsuredError']=false;}
             else{ j+=1; entry['SumInsuredError']=true;}
-            if(this.plOccupationId!=null   && this.plOccupationId!=undefined && this.plOccupationId!=''){ this.plOccupationError=false;}
-            else{ j+=1; this.plOccupationError=true;}
+            if(entry.OccupationId!=null   && entry.OccupationId!=undefined && entry.OccupationId!=''){ entry['OccupationError']=false;}
+            else{ j+=1; entry['OccupationError']=true;}
             if(entry.ItemId!= null && entry.ItemId!='' && entry.ItemId!=undefined) entry['Content']=this.allriskList.find(ele=>ele.Code==entry.ItemId)?.CodeDesc
             
             let data = {
               "Dob": this.getProductDob(entry),
               "Height":null,
-              "OccupationId": this.plOccupationId,
+              "OccupationId": entry.OccupationId,
               "PersonName": entry.Name,
               "NationalityId": null,
               "Salary": entry.SumInsured,
@@ -625,8 +627,8 @@ export class RiskDetailsComponent {
             else{ j+=1; entry['DobError']=true;}
             if(entry.SumInsured!=null   && entry.SumInsured!=undefined && entry.SumInsured!=0 && entry.SumInsured!='0'){ entry['SumInsuredError']=false;}
             else{ j+=1; entry['SumInsuredError']=true;}
-            if(this.pAOccupationId!=null   && this.pAOccupationId!=undefined && this.pAOccupationId!=''){ this.pAOccupationError=false;}
-            else{ j+=1; this.pAOccupationError=true;}
+            if(entry.OccupationId!=null   && entry.OccupationId!=undefined && entry.OccupationId!=''){ entry['OccupationError']=false;}
+            else{ j+=1; entry['OccupationError']=true;}
             if(entry.ItemId!= null && entry.ItemId!='' && entry.ItemId!=undefined) entry['Content']=this.allriskList.find(ele=>ele.Code==entry.ItemId)?.CodeDesc
             
             let data = {
