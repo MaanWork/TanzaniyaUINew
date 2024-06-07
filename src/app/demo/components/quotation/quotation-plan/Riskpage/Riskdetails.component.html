@@ -55,7 +55,7 @@
             </div>
         </ng-container>
         <ng-container  class="mt-5">
-            <p-table [value]="TableRowBuilding" dataKey="id" editMode="row" [rows]="5" [paginator]="true" [tableStyle]="{'min-width': '40rem'}" >
+            <p-table [value]="TableRowBuilding" dataKey="LocationName" editMode="row" [rows]="10" [paginator]="false" [tableStyle]="{'min-width': '40rem'}" >
                 <ng-template pTemplate="header">
                     <tr>
                         <th [pSortableColumn]="column" *ngFor="let column of columnHeaderBuilding">

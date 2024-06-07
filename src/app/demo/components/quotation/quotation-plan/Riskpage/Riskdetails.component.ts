@@ -769,6 +769,7 @@ export class RiskDetailsComponent {
     WallType: '',RoofType: '', BuildingSumInsured: 0,LocationName:'',RiskId:this.TableRowBuilding.length + 1};
     this.TableRowBuilding.push(newItem);
     this.currentBuildingRowIndex = this.TableRowBuilding.length-1;
+    console.log("Final Table Row",this.TableRowBuilding)
     }
     onDeleteBuilding(index){
       if(this.TableRowBuilding[index].SavedYN=='Y'){
@@ -838,7 +839,6 @@ export class RiskDetailsComponent {
               for(let field of fieldList){
                 if(field.key=='BuildingBuildYear' && this.insuranceId=='100004'){
                   field.props.options = this.getYearList();
-                  console.log("Building JSON",this.fields)
                 }
                 if(field.key=='BuildingSuminsured'){
                     field.templateOptions.disabled = false;
@@ -883,6 +883,7 @@ export class RiskDetailsComponent {
               "CreatedBy": this.loginId,
               "QuoteNo":sessionStorage.getItem('quoteNo'),
               "RequestReferenceNo":this.quoteRefNo,
+              "BranchCode": this.branchCode,
               "SectionId": "3",
               "Type":'A',
               "ContentRiskDetails":reqList
@@ -2835,6 +2836,7 @@ export class RiskDetailsComponent {
             "Company_id": this.insuranceId,
             "productid": this.productId,
             "SectionId": "47",
+            "BranchCode": this.branchCode,
              "Type":type,
              "ContentRiskDetails":reqList
             }
@@ -3716,48 +3718,7 @@ export class RiskDetailsComponent {
                 ReqObj['BuildingDetails'] = null;
               }
               if( this.productId=='59'){
-                if(this.coversreuired!='BC' && this.coversreuired!='B'){
-                  ReqObj['BuildingDetails'] = null;
-                }
-                if(this.coversreuired!='BC'){
-                  if(this.productItem?.AllriskSumInsured==null || this.productItem?.AllriskSumInsured==undefined || this.productItem?.AllriskSumInsured==''){
-                    ReqObj['AllRiskDetails'] = null;                  
-                  }
-                  if(this.productItem?.PersonalAccidentSuminsured==null || this.productItem?.PersonalAccidentSuminsured==undefined || this.productItem?.PersonalAccidentSuminsured==''  || this.productItem?.PersonalAccidentSuminsured=='0'){
-                    ReqObj['PersonalAccidentDetails'] = null;      
-                  }
-                  if(this.productItem?.EmpLiabilitySi==null || this.productItem?.EmpLiabilitySi==undefined || this.productItem?.EmpLiabilitySi==''  || this.productItem?.EmpLiabilitySi=='0'){
-                    ReqObj['EmployeeLiabilityDetails'] = null;    
-                  }
-                  if(this.coversreuired=='B') { ReqObj['ContentDetails'] = null;this.finalSave(ReqObj,type);}
-                  else if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
-                    this.error1proceed();
-                  }
-                  // if(this.productItem?.JewellerySi==null || this.productItem?.JewellerySi==undefined || this.productItem?.JewellerySi==''){
-                  //   if(this.productItem?.PaitingsSi==null || this.productItem?.PaitingsSi==undefined || this.productItem?.PaitingsSi==''){
-                  //     if(this.productItem?.CarpetsSi==null || this.productItem?.CarpetsSi==undefined || this.productItem?.CarpetsSi==''){
-                  //       ReqObj['ContentDetails'] = null;
-                  //     }
-                  //   }
-                  // }
-                }
-                else {
-                  if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
-                    ReqObj['ContentDetails'] = null;
-                  }
-                  else {
-                    if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
-                      this.error1proceed();
-                    }
-                  }
-                  // if(this.productItem?.JewellerySi==null || this.productItem?.JewellerySi==undefined || this.productItem?.JewellerySi==''){
-                  //   if(this.productItem?.PaitingsSi==null || this.productItem?.PaitingsSi==undefined || this.productItem?.PaitingsSi==''){
-                  //     if(this.productItem?.CarpetsSi==null || this.productItem?.CarpetsSi==undefined || this.productItem?.CarpetsSi==''){
-                  //       this.error1proceed();
-                  //     }
-                  //   }
-                  // }
-                }
+                
               }
               else {
                 //alert('dddd')
@@ -3784,6 +3745,32 @@ export class RiskDetailsComponent {
                 if(this.productItem?.EmpLiabilitySi==null || this.productItem?.EmpLiabilitySi==undefined || this.productItem?.EmpLiabilitySi==''  || this.productItem?.EmpLiabilitySi=='0'){
                   ReqObj['EmployeeLiabilityDetails'] = null;    
                 }
+              }
+              if(this.coversreuired!='BC' && this.coversreuired!='B'){
+                ReqObj['BuildingDetails'] = null;
+              }
+              if(this.coversreuired!='BC' && this.coversreuired!='B'){
+                if(this.productItem?.AllriskSumInsured==null || this.productItem?.AllriskSumInsured==undefined || this.productItem?.AllriskSumInsured==''){
+                  ReqObj['AllRiskDetails'] = null;                  
+                }
+                if(this.productItem?.PersonalAccidentSuminsured==null || this.productItem?.PersonalAccidentSuminsured==undefined || this.productItem?.PersonalAccidentSuminsured==''  || this.productItem?.PersonalAccidentSuminsured=='0'){
+                  ReqObj['PersonalAccidentDetails'] = null;      
+                }
+                if(this.productItem?.EmpLiabilitySi==null || this.productItem?.EmpLiabilitySi==undefined || this.productItem?.EmpLiabilitySi==''  || this.productItem?.EmpLiabilitySi=='0'){
+                  ReqObj['EmployeeLiabilityDetails'] = null;    
+                }
+               
+                // if(this.productItem?.JewellerySi==null || this.productItem?.JewellerySi==undefined || this.productItem?.JewellerySi==''){
+                //   if(this.productItem?.PaitingsSi==null || this.productItem?.PaitingsSi==undefined || this.productItem?.PaitingsSi==''){
+                //     if(this.productItem?.CarpetsSi==null || this.productItem?.CarpetsSi==undefined || this.productItem?.CarpetsSi==''){
+                //       ReqObj['ContentDetails'] = null;
+                //     }
+                //   }
+                // }
+              }
+              if(this.coversreuired=='B') { ReqObj['ContentDetails'] = null;}
+              else if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
+                this.error1proceed();
               }
               if((this.coversreuired=='B' || this.coversreuired=='BC')){
                 if(ReqObj['EmployeeLiabilityDetails']==null && ReqObj['PersonalAccidentDetails'] == null &&  ReqObj['BuildingDetails'] == null && ReqObj['ContentDetails'] == null && ReqObj['AllRiskDetails'] == null){
@@ -5378,6 +5365,9 @@ getAddInfo(){
                         if(this.commonSectionList.some(ele=>ele==n.Code)){
                           if(n.Code== '1'){
                             this.Building1=true;
+                          }
+                          if(!((this.coversreuired=='B' || this.coversreuired=='BC') && this.Building1)){
+                              this.getAddInfo()
                           }
                           if(n.Code =='47'){
                             this.Content=true;
