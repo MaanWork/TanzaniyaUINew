@@ -765,13 +765,38 @@ export class RiskDetailsComponent {
       else{this.productItem.SumInsured =0;return 0;} 
     }
     addRowBuilding(){
-    const newItem = { id: this.TableRowBuilding.length + 1, BuildingUsageId: '', BuildingBuildYear : '',
+    const newItem = { id: this.TableRowBuilding.length + 1, BuildingUsageId: '', BuildingBuildYear : '',SavedYN:'N',
     WallType: '',RoofType: '', BuildingSumInsured: 0,LocationName:'',RiskId:this.TableRowBuilding.length + 1};
     this.TableRowBuilding.push(newItem);
     this.currentBuildingRowIndex = this.TableRowBuilding.length-1;
     }
-    deleteProductBuilding(index) {
-      this.TableRowBuilding.splice(index,1);
+    onDeleteBuilding(index){
+      if(this.TableRowBuilding[index].SavedYN=='Y'){
+        Swal.fire({
+          title: '<strong><i class="fa fa-trash"></i>&nbsp;Delete</strong>',
+          icon: 'error',
+          html:
+            `<ul class="list-group errorlist">
+             <li>Are You Sure Want to Remove All Details Regarding to this Building?</li>
+         </ul>`,
+          showCloseButton: false,
+          focusConfirm: false,
+          showCancelButton:true,
+  
+         confirmButtonColor: '#3085d6',
+         cancelButtonColor: '#d33',
+         confirmButtonText:"Yes! Delete it",
+         cancelButtonText: 'No',
+        }).then((result) => {
+          if (result.isConfirmed) {
+  
+          } 
+          else{
+            
+          }
+        })
+      }
+      else this.TableRowBuilding.splice(index,1);
     }
     getTotal(){
       this.Total = 0;let i=0;
@@ -3578,7 +3603,6 @@ export class RiskDetailsComponent {
           }
 
           onfinalsave(type){
-            alert(this.coversreuired);
           let buildingList = [];
           let i= 0;
           if(this.TableRowBuilding.length!=0){
@@ -4074,8 +4098,7 @@ export class RiskDetailsComponent {
               // "SectionId": "1"
             
                 "RequestReferenceNo": this.requestReferenceNo,
-                "SectionId": "1" ,
-                "RiskId": "1",  
+                "SectionId": "1" 
            
             }
             let urlLink = `${this.motorApiUrl}api/slide14/getbuilding`;
@@ -4086,50 +4109,15 @@ export class RiskDetailsComponent {
                       this.productItem.BuildingSuminsured = data?.Result?.BuildingSumInsured;
                       this.TableRowBuilding=data?.Result;
                       if(this.TableRowBuilding.length!=0){
-                        //this.getAddInfo();
+                        for(let build of this.TableRowBuilding){
+                          build['SavedYN'] = 'Y';
+                        }
                         if(this.TableRowBuilding.length>1 || (this.TableRowBuilding[0].BuildingSumInsured!=null && this.TableRowBuilding[0].BuildingSumInsured!=0)) this.currentBuildingRowIndex = null;
                         this.getTotalBuilding();
                       }
-                     // this.TableRowBuilding[6].LocationName=data?.Result?.LocationName;
-                      // this.productItem.BuildingBuildYear = data?.Result?.BuildingBuildYear;
-                      // if(data?.Result?.BuildingOwnerYn) this.productItem.BuildingOwnerYn = data.Result.BuildingOwnerYn;
-                      // if(data?.Result?.BuildingUsageId) this.productItem.BuildingUsageId = data.Result.BuildingUsageId;
-                      // else this.productItem.BuildingUsageId = '';
-                      // if(data?.Result?.WallType) this.productItem.WallType = data.Result.WallType;
-                      // if(data?.Result?.RoofType) this.productItem.RoofType = data.Result.RoofType;
-                      // if(this.insuranceId =='100004'){
-                      //   if(data?.Result?.TypeOfProperty) this.productItem.TypeOfProperty = data.Result.TypeOfProperty;
-                      //   if(data?.Result?.WaterTankSi) this.productItem.WaterTankSi = data.Result.WaterTankSi;
-                      //   if(data?.Result?.ArchitectsSi) this.productItem.ArchitectsSi = data.Result.ArchitectsSi;
-                      //   if(data?.Result?.LossOfRentSi) this.productItem.LossOfRentSi = data.Result.LossOfRentSi;
-                      // }
-                      // let entry = data?.Result;
-                      // if(entry.EndorsementDate){
-                      //   this.endorsementDate = entry?.EndorsementDate;
-                      //   this.endorsementEffectiveDate = entry?.EndorsementEffectiveDate;
-                      //   this.endorsementRemarks = entry?.EndorsementRemarks;
-                      //   this.endorsementType = entry?.EndorsementType;
-                      //   this.endorsementTypeDesc = entry?.EndorsementTypeDesc;
-                      //   this.endtCategoryDesc = entry?.EndtCategoryDesc;
-                      //   this.endtCount = entry?.EndtCount;
-                      //   this.endtPrevPolicyNo = entry?.EndtPrevPolicyNo;
-                      //   this.endtPrevQuoteNo = entry?.EndtPrevQuoteNo;
-                      //   this.endtStatus = entry?.EndtStatus;
-                      //   this.isFinanceEndt = entry?.IsFinanceEndt;
-                      //   this.orginalPolicyNo = entry?.OrginalPolicyNo;
-                      // }
-                      // this.sectionCount +=1;
-                      // if(sections.length==this.sectionCount){
-                      //   this.formSection = true; this.viewSection = false;
-                      // }
                       console.log("Products in Building",this.productItem);
-                      // this.editsections();
                       if(this.requestReferenceNo){
                         this.editsections('Building');
-                       
-                        // if(4 == this.newselectedIndex){
-                        //   this.editsections();
-                        // }
                       }
                 }
               },
