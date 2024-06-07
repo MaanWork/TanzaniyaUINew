@@ -20,10 +20,9 @@
                   <div class="flex md:flex-row flex-col items-center md:space-x-3">
                  
                     <ng-container *ngFor="let step of fields; let index = index; let last = last">
-                                <div>    
+                    <div>    
                                    
                     <div style="display: flex !important;justify-content: space-between !important;">
-                        
                         <div class="mt-4 mr-3 ml-2">
                             <img src="./assets/images/building.png" width="40" height="35">
                             <!-- <b>
@@ -59,7 +58,6 @@
             <p-table [value]="TableRowBuilding" dataKey="id" editMode="row" [rows]="5" [paginator]="true" [tableStyle]="{'min-width': '40rem'}" >
                 <ng-template pTemplate="header">
                     <tr>
-                        
                         <th [pSortableColumn]="column" *ngFor="let column of columnHeaderBuilding">
                             {{column}}
                         </th>
@@ -222,7 +220,7 @@
                             <!--  -->
                             <!-- <p-button label="Add" (click)="Addnew(TableRow)" /> -->
                         <!-- </div> -->
-                        <div *ngIf="fields1.length!=0 "  class="customWidth">Total : {{getTotal() | commaseparator}}</div>
+                        <div *ngIf="fields1.length!=0  && !buildingEditSection"  class="customWidth">Total : {{getTotal() | commaseparator}}</div>
                         <div *ngIf="contentSection && !buildingEditSection">&nbsp;<p-button label="Modify Location Details" icon="pi pi-pencil" (click)="buildingEditSection=!buildingEditSection" />&nbsp;</div>
                         <div *ngIf="buildingEditSection">&nbsp;<p-button label="Add Location" icon="pi pi-plus" (click)="onAddLocationDetails()" />&nbsp;</div>
                         <div><p-button label="Add New" *ngIf="!buildingEditSection" icon="pi pi-plus" (click)="addRow()" /></div>
@@ -446,7 +444,7 @@
                         <!-- <p-button label="Add" (click)="Addnew(TableRow)" /> -->
                     <!-- </div> -->
                     <div class="col-12 md:col-8 lg:col-8"></div>
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="fields2">Total : {{getTotalAllRisk() | commaseparator}}</div>
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="fields2.length!=0">Total : {{getTotalAllRisk() | commaseparator}}</div>
                     <div class="col-12 md:col-2 lg:col-2"><p-button label="Add New" icon="pi pi-plus" (click)="addRowAllRisk()" /></div>
                 </div>
             </ng-container>
@@ -920,12 +918,12 @@
                             <ng-container *ngIf="currentPLRowIndex==ri">
                                 <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Occupation"
                                 [options]="occupationList"
-                                    appendTo="body" optionLabel="CodeDesc" optionValue="Code"  [(ngModel)]="entry.OccupationId" />
+                                    appendTo="body" optionLabel="CodeDesc" optionValue="Code"  [(ngModel)]="product.OccupationId" />
                             </ng-container>
                             <ng-container *ngIf="currentPLRowIndex!=ri">
-                               {{product.LocationName}}
+                               {{getOccupationName(product)}}
                             </ng-container>
-                            <div class="input-form-error" *ngIf="entry.OccupationError">
+                            <div class="input-form-error" *ngIf="product.OccupationError">
                                 <div class="error-text text-danger">
                                     Please Select Occupation
                                 </div>
@@ -933,7 +931,7 @@
                         </td>
                         <td>
                             <ng-container *ngIf="currentPLRowIndex==ri">
-                                <input class="w-full p-button-outlined" placeholder="Enter Name" styleClass="w-full"  pInputText type="text" 
+                                <input class="w-full p-button-outlined customInput" placeholder="Enter Name" styleClass="w-full customInput"  pInputText type="text" 
                                 [(ngModel)]="product.Name" />
                                 
                             </ng-container>
@@ -946,7 +944,22 @@
                         </td>
                         <td>
                             <ng-container *ngIf="currentPLRowIndex==ri">
-                                <p-calendar class="w-full customZIndex" styleClass="w-full customZIndex" appendTo="body" 
+                                <p-dropdown class="w-full customInput"  styleClass="w-full customInput" placeholder="Select Nationality"
+                                [options]="countryList"
+                                    appendTo="body" optionLabel="CodeDesc" optionValue="Code"  [(ngModel)]="product.Nationality" />
+                            </ng-container>
+                            <ng-container *ngIf="currentPLRowIndex!=ri">
+                                {{getNationalityDesc(product)}}
+                            </ng-container>
+                            <div class="input-form-error" *ngIf="product.NationalityError">
+                                <div class="error-text text-danger">
+                                    Please Select Nationality
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <ng-container *ngIf="currentPLRowIndex==ri">
+                                <p-calendar class="w-full customZIndex customInput" styleClass="w-full customZIndex customInput" appendTo="body" 
                                 [maxDate]="minDate"  [(ngModel)]="product.Dob"  [defaultDate]="minDate"
                                 dateFormat="dd/mm/yy" placeholder="Select Date Of Birth" ></p-calendar>
                             </ng-container>
@@ -961,7 +974,7 @@
                         </td>
                         <td>
                             <ng-container *ngIf="currentPLRowIndex==ri">
-                                <p-inputNumber  [(ngModel)]="product.SumInsured" inputId="integeronly"  />
+                                <p-inputNumber class="customInput" styleClass="customInput"  [(ngModel)]="product.SumInsured" inputId="integeronly"  />
                                 
                             </ng-container>
                             <ng-container *ngIf="currentPLRowIndex!=ri">
@@ -1058,12 +1071,12 @@
                             <ng-container *ngIf="currentPARowIndex==ri">
                                 <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Occupation"
                                 [options]="occupationList"
-                                    appendTo="body" optionLabel="CodeDesc" optionValue="Code"  [(ngModel)]="entry.OccupationId" />
+                                    appendTo="body" optionLabel="CodeDesc" optionValue="Code"  [(ngModel)]="product.OccupationId" />
                             </ng-container>
                             <ng-container *ngIf="currentPARowIndex!=ri">
-                               {{product.LocationName}}
+                                {{getOccupationName(product)}}
                             </ng-container>
-                            <div class="input-form-error" *ngIf="entry.OccupationError">
+                            <div class="input-form-error" *ngIf="product.OccupationError">
                                 <div class="error-text text-danger">
                                     Please Select Occupation
                                 </div>
@@ -1071,7 +1084,7 @@
                         </td>
                         <td>
                             <ng-container *ngIf="currentPARowIndex==ri">
-                                <input class="w-full p-button-outlined" placeholder="Enter Name" styleClass="w-full"  pInputText type="text" 
+                                <input class="w-full p-button-outlined customInput" placeholder="Enter Name" styleClass="w-full customInput"  pInputText type="text" 
                                 [(ngModel)]="product.Name" />
                                 
                             </ng-container>
@@ -1084,7 +1097,22 @@
                         </td>
                         <td>
                             <ng-container *ngIf="currentPARowIndex==ri">
-                                <p-calendar class="w-full customZIndex" styleClass="w-full customZIndex" appendTo="body" 
+                                <p-dropdown class="w-full customInput"  styleClass="w-full customInput" placeholder="Select Nationality"
+                                [options]="countryList"
+                                    appendTo="body" optionLabel="CodeDesc" optionValue="Code"  [(ngModel)]="product.Nationality" />
+                            </ng-container>
+                            <ng-container *ngIf="currentPARowIndex!=ri">
+                                {{getNationalityDesc(product)}}
+                            </ng-container>
+                            <div class="input-form-error" *ngIf="product.NationalityError">
+                                <div class="error-text text-danger">
+                                    Please Select Nationality
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <ng-container *ngIf="currentPARowIndex==ri">
+                                <p-calendar class="w-full customZIndex customInput" styleClass="w-full customZIndex customInput" appendTo="body" 
                                 [maxDate]="minDate"  [(ngModel)]="product.Dob"  [defaultDate]="minDate"
                                 dateFormat="dd/mm/yy" placeholder="Select Date Of Birth" ></p-calendar>
                             </ng-container>
@@ -1099,7 +1127,7 @@
                         </td>
                         <td>
                             <ng-container *ngIf="currentPARowIndex==ri">
-                                <p-inputNumber  [(ngModel)]="product.SumInsured" inputId="integeronly"  />
+                                <p-inputNumber styleClass="customInput" class="customInput" [(ngModel)]="product.SumInsured" inputId="integeronly"  />
                                 
                             </ng-container>
                             <ng-container *ngIf="currentPARowIndex!=ri">
