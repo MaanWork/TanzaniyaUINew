@@ -3414,21 +3414,7 @@ export class CoverDetailsComponent {
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
             if(data.Result){
-              // let type: NbComponentStatus = 'success';
-              // const config = {
-              //   status: type,
-              //   destroyByClick: true,
-              //   duration: 4000,
-              //   hasIcon: true,
-              //   position: NbGlobalPhysicalPosition.TOP_RIGHT,
-              //   preventDuplicates: false,
-              // };
-              // this.toastrService.show(
-              //   'Referral Quote Status',
-              //   'Referral Status Updated Successfully',
-              //   config);
-              if(this.statusValue=='RP' || this.statusValue=='RR' || this.statusValue=='RA' || this.statusValue=='RE') this.router.navigate(['/referralCases'])
-              
+             if(this.statusValue=='RP' || this.statusValue=='RR' || this.statusValue=='RA' || this.statusValue=='RE') this.router.navigate(['/referralCases'])
             }
           },
           (err) => { },

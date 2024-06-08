@@ -292,7 +292,6 @@
                         <ng-template pTemplate="body" let-product let-ri="rowIndex">
                             <tr>
                                 <td>
-                                    
                                     <ng-container *ngIf="currentContentRowIndex==ri">
                                         <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Location"
                                             [options]="TableRowBuilding" (onChange)="onChangeContentLocation(product)"
@@ -399,7 +398,7 @@
                     <div class="grid justify-content-center gap-2 mt-5">
                         <!-- <p-button label="Cancel" styleClass="p-button-outlined"  (click)="visible = false" /> -->
                         <div >
-                        <p-button label="Save" (click)="onSaveContentRisk()" />
+                        <p-button label="Save" (click)="onSaveContentRisk('direct')" />
                     </div>
                     </div>
                 </ng-container> 
@@ -559,7 +558,7 @@
                 <div class="grid justify-content-center gap-2 mt-5">
                     <!-- <p-button label="Cancel" styleClass="p-button-outlined"  (click)="visible = false" /> -->
                     <div >
-                    <p-button label="Save" (click)=" onSaveAllRisk()" />
+                    <p-button label="Save" (click)=" onSaveAllRisk('direct')" />
                 </div>
                 </div>
             </ng-container> 
@@ -655,7 +654,7 @@
                 <div>
                     <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
                         <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
-                </form>
+                    </form>
                 </div>     
             </div>
             </div></ng-container>
@@ -1017,7 +1016,7 @@
             <div class="grid justify-content-center gap-2 mt-5">
                 <!-- <p-button label="Cancel" styleClass="p-button-outlined"  (click)="visible = false" /> -->
                 <div >
-                <p-button label="Save" (click)="onSavePL()" />
+                <p-button label="Save" (click)="onSavePL('direct')" />
             </div>
             </div>
         </ng-container> 
@@ -1152,7 +1151,7 @@
                         <td>
                             <ng-container >
                                 <div class="flex align-items-center justify-content-center gap-2" >
-                                    <button  pButton type="button"    icon="pi pi-trash"  (click)="deleteProductPL(ri)" 
+                                    <button  pButton type="button"    icon="pi pi-trash"  (click)="deleteProductPA(ri)" 
                                         styleClass="p-button-outlined" >
                                     </button>
                                 </div>
@@ -1164,7 +1163,7 @@
             <div class="grid justify-content-center gap-2 mt-5">
                 <!-- <p-button label="Cancel" styleClass="p-button-outlined"  (click)="visible = false" /> -->
                 <div >
-                <p-button label="Save" (click)=" onSavePA()" />
+                <p-button label="Save" (click)=" onSavePA('direct')" />
                 </div>
             </div>
         </ng-container>
