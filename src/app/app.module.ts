@@ -30,6 +30,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { MotorDocumentsDetailComponent } from './demo/components/MotorDocuments/motor-documents-detail/motor-documents-detail.component';
 import { TabViewModule } from 'primeng/tabview';
 import { TableModule } from 'primeng/table';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
 }
@@ -67,6 +68,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         CustomLoadingService,
         AuthGuard,DatePipe,
         { provide: LocationStrategy, useClass: HashLocationStrategy },
+        { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
         CountryService, CustomerService, EventService, IconService, NodeService,
         PhotoService, ProductService,
         {
