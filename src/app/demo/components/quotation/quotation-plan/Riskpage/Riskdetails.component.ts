@@ -358,12 +358,12 @@ export class RiskDetailsComponent {
                   let fieldList = this.fields3[0].fieldGroup[0].fieldGroup;
                   for(let field of fieldList){
                     if(field.key=='EmpLiabilitySi'){
-                        field.templateOptions.disabled = false;
-                        field.formControl.setValue(this.Total);
-                        field.templateOptions.disabled = true;
+                      field.props.disabled = false;
+                      if(field.formControl) field.formControl.setValue(this.Total);
+                      field.props.disabled = true;
                     }
                     else if(field.key=='LiabilityOccupationId'){
-                      field.formControl.setValue(this.plOccupationId);
+                      if(field.formControl) field.formControl.setValue(this.plOccupationId);
                     }
                   }
                 }
@@ -753,7 +753,7 @@ export class RiskDetailsComponent {
                 // }
                 if(field.key=='AllriskSumInsured'){
                     field.templateOptions.disabled = false;
-                    field.formControl.setValue(this.Total);
+                    if(field.formControl) field.formControl.setValue(this.Total);
                     field.templateOptions.disabled = false;
                 }
               }
@@ -811,9 +811,9 @@ export class RiskDetailsComponent {
               let fieldList = this.fields1[0].fieldGroup[0].fieldGroup;
               for(let field of fieldList){
                 if(field.key=='ContentSuminsured'){
-                    field.templateOptions.disabled = false;
-                    field.formControl.setValue(this.Total);
-                    field.templateOptions.disabled = false;
+                    field.props.disabled = false;
+                    if(field.formControl) field.formControl.setValue(this.Total);
+                    field.props.disabled = false;
                 }
               }
             }
@@ -4179,11 +4179,11 @@ getAddInfo(){
                 if (data.Result) {
                   if(data.Result.PersonalDetails){
                     this.TableRowPA = data.Result.PersonalDetails;
+                    
                     this.currentPARowIndex = null;
-                      this.productItem.PersonalAccidentSuminsured = data.Result.PersonalDetails[0].SumInsured;
-                    if(data.Result[0].OccupationType!=null)this.productItem.OccupationType = data.Result[0].OccupationType;
-                    else this.productItem.OccupationType = null;
-                    this.productItem.otheroptionPer=data.Result[0].OtherOccupation;
+                    //if(data.Result[0].OccupationType!=null)this.productItem.OccupationType = data.Result[0].OccupationType;
+                    //else this.productItem.OccupationType = null;
+                    //this.productItem.otheroptionPer=data.Result[0].OtherOccupation;
                     for(let entry of this.TableRowPA){
                       entry['Name'] = entry?.PersonName;
                       entry['SumInsured'] = entry?.Salary;
