@@ -152,6 +152,7 @@
           <div class="grid " style="justify-content: center;">
               <div class="col-12 lg:col-8 md:col-8"> 
                 <label for="username">Start Date*</label>
+      
                       <p-calendar class="w-full" 
                           styleClass="w-full" 
                           [(ngModel)]="EntryDate"
@@ -173,12 +174,17 @@
           </div>
         <div class="col-12 lg:col-8 md:col-8">
           <label for="username">End Date*</label>
-          <p-calendar class="w-full" 
+          <mat-form-field class="example-full-width">
+            <input matInput [matDatepicker]="picker" [(ngModel)]="EndDate" >
+             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <!-- <p-calendar class="w-full" 
               styleClass="w-full" 
               [(ngModel)]="EndDate"
               dateFormat="dd/mm/yy"
               placeholder="Enter End Date">
-      </p-calendar>
+      </p-calendar> -->
       </div>
       
       <div class="col-12 lg:col-4 md:col-4">
@@ -322,12 +328,17 @@
           <div class="grid " style="justify-content: center;">
               <div class="col-12 lg:col-8 md:col-8"> 
                 <label for="username">Start Date*</label>
-                      <p-calendar class="w-full" 
+                <mat-form-field class="example-full-width">
+                  <input matInput [matDatepicker]="picker" [(ngModel)]="EntryDate" >
+                   <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                      <!-- <p-calendar class="w-full" 
                           styleClass="w-full" 
                           [(ngModel)]="EntryDate"
                           dateFormat="dd/mm/yy"
                           placeholder="Enter Start Date">
-              </p-calendar>
+              </p-calendar> -->
             </div>
             <div class="col-12 lg:col-4 md:col-4">
               <label for="username">StartTime*</label>
@@ -343,6 +354,11 @@
           </div>
         <div class="col-12 lg:col-8 md:col-8">
           <label for="username">End Date*</label>
+          <!-- <mat-form-field class="example-full-width">
+            <input matInput [matDatepicker]="picker" [(ngModel)]="EndDate" >
+             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field> -->
           <p-calendar class="w-full" 
               styleClass="w-full" 
               [(ngModel)]="EndDate"

@@ -27,6 +27,7 @@ export class PortfolioComponent implements OnInit {
   public AppConfig: any = (Mydatas as any).default;
   public ApiUrl1: any = this.AppConfig.ApiUrl1;
   public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
+  public motorApiUrl:any = this.AppConfig.MotorApiUrl;
   cancelbrokerList: any;
   CancelbrokerCode: any;CancelledquoteData:any[]=[];
   pageCount1: number;
@@ -40,6 +41,7 @@ export class PortfolioComponent implements OnInit {
   startPendingIndex: number;
   endPendingIndex: any;
   pendingQuoteData: any;
+  MotorList: any;
   constructor(private router:Router,private sharedService: SharedService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -61,7 +63,7 @@ export class PortfolioComponent implements OnInit {
     this.branches = [
       { label: 'Test', target: 'T' },
     ];
-    this.columns = ['PolicyNo','Quote No','Customer Name','Currency','Start Date','End Date','Premium','Actions']
+    this.columns = ['Vehicle Details','PolicyNo','Quote No','Customer Name','Currency','Start Date','End Date','Premium','Actions']
     this.getBrokerList();
     this.getPendingList();
     this.getCancelledList();
@@ -115,7 +117,21 @@ export class PortfolioComponent implements OnInit {
       (err) => { },
     );
   }
-
+  onInnerData(rowData){
+    let ReqObj = {
+        "RequestReferenceNo": rowData.RequestReferenceNo
+      }
+      let urlLink = `${this.motorApiUrl}api/getallmotordetails`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+              this.MotorList = data.Result;
+          }
+        },
+        (err) => { },
+      );
+  }
   getPendingList(){
     let appId = "1",loginId="",brokerbranchCode="";
     if(this.userType!='Issuer'){

@@ -16,6 +16,7 @@ import { CommonProductDetailsComponent } from './common-product-details/common-p
 import { RiskDetailsComponent } from './Riskpage/Riskdetails.component';
 import { CopyQuoteComponent } from './copyQuote/copyquote.component';
 import { ShortQuoteComponent } from './short-quote/short-quote.component';
+import { TravelQuoteDetailsComponent } from './travel-quote-details/travel-quote-details.component';
 
 const routes: Routes = [
   { 
@@ -44,6 +45,10 @@ const routes: Routes = [
   { 
     path: 'premium-details', 
     component: CoverDetailsComponent,
+  },
+  { 
+    path: 'travel-quote-details', 
+    component: TravelQuoteDetailsComponent,
   },
   {path:"shortQuote" , component:ShortQuoteComponent}
 ];

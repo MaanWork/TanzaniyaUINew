@@ -140,6 +140,12 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
   FESumInsured: any=null;ProfessionalOccupation:any;ProfessionalType:any;GISI:any;
   ProfessionalSI:any;IndemnityTypes:any;maxDate: "2022-09-25";
   MiddleName:any='';LastName:any='';MobileCode:any=null;MobileNo:any=null;
+	PassengerFirstName: any=''
+	PassengerLastName: any=''
+	GenderId: any=''
+	RelationId: any=''
+	Nationality: any=''
+	PassportNo: any=''
 	constructor(data?) {
 		this.id = data?.id ?? ''
 		this.CustomerName = data?.CustomerName ?? '';
@@ -335,6 +341,12 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.otheroptionPer = data?.OtherOccupation ?? '';
 		this.InsuranceType = data?.InsuranceType ?? '';
 		this.InsuranceClass = data?.InsuranceClass ?? '';
+		this.PassengerFirstName = data?.PassengerFirstName ?? '';
+		this.PassengerLastName = data?.PassengerLastName ?? '';
+		this.GenderId = data?.GenderId ?? '';
+		this.RelationId = data?.RelationId ?? '';
+		this.Nationality = data?.Nationality ?? '';
+		this.PassportNo = data?.PassportNo ?? '';
 		// this.EquipmentSi = data?.EquipmentSi ?? '0';
 		// this.ElectronicEquipSuminsured = data.ElectronicEquipSuminsured ?? '0';
 	}

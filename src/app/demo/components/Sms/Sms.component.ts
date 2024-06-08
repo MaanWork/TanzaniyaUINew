@@ -216,8 +216,8 @@ sendSms(){
           this.smss=false;
           this.smstemplatevalue="";
           this.smsList();
-          $('#mysms').modal('hide');
-
+          //$('#mysms').modal('hide');
+          this.router.navigate(['/quotation'])
 
            console.log('Message Successfull',)
         }

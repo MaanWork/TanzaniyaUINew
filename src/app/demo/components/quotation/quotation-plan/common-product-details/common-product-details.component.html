@@ -58,7 +58,7 @@
                     <div class="lg:col-3 md:col-3 col-12">
                         <label for="username">Start Date</label>
                         <p-calendar class="w-full" styleClass="w-full" [(ngModel)]="policyStartDate"
-                            (onSelect)="onStartDateChange('change')"
+                            (onSelect)="onStartDateChange('change')" 
                             dateFormat="dd/mm/yy" placeholder="Select Start Date">
                         </p-calendar>
                         <div class="input-form-error bottomSpacing" *ngIf="policyStartDateError">
@@ -83,7 +83,7 @@
                         <label for="username">Currency*</label>
                         <p-dropdown inputId="make" class="w-full" styleClass="w-full"  [options]="currencyList"
                         [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')"
-                            optionLabel="CodeDesc" optionValue="Code" placeholder="Select Currency">
+                            optionLabel="CodeDesc" optionValue="Code" >
                         </p-dropdown>
                     </div>
                     <div class="lg:col-4 md:col-4 col-12">
@@ -128,7 +128,7 @@
             </div>
             <div class="col-6 pl-0 pr-2 pb-0">
                 <div>
-                    <h4 class="m-0 p-0">Period Of Insurance</h4>
+                    <h4 class="m-0 p-0">Policy Details</h4>
                 </div>
                 <div class="grid mt-1">
                         <div class="lg:col-6 md:col-6 col-12">
@@ -220,17 +220,18 @@
                 </div>
             </div>
         </ng-container>
-        <ng-container *ngIf="!issuerSection">
+        
+        <ng-container *ngIf="!issuerSection && productId=='4'">
             <div class="col-12 pl-3 pr-2 pb-0" >
                 <div>
-                    <h4 class="m-0 p-0">Policy Details</h4>
+                    <h4 class="m-0 p-0">Period Of Insurance</h4>
                 </div>
                 <div class="grid mt-1">
-                    <div class="lg:col-2 md:col-2 col-2"></div>
+                    <!-- <div class="lg:col-2 md:col-2 col-2"></div> -->
                     <div class="lg:col-2 md:col-2 col-12">
                         <label for="username">Start Date</label>
                         <p-calendar class="w-full" styleClass="w-full" [(ngModel)]="policyStartDate"
-                        (onSelect)="onStartDateChange('change')"
+                        (onSelect)="onStartDateChange('change')" [minDate]="policyStartDate"
                             dateFormat="dd/mm/yy" placeholder="Select Start Date">
                         </p-calendar>
                         <div class="input-form-error bottomSpacing" *ngIf="policyStartDateError">
@@ -242,7 +243,7 @@
                     <div class="lg:col-2 md:col-2 col-12">
                             <label for="username">End Date</label>
                             <p-calendar class="w-full" styleClass="w-full"  [(ngModel)]="policyEndDate"
-                            (onSelect)="onChangeEndDate()" dateFormat="dd/mm/yy"
+                            (onSelect)="onChangeEndDate()" dateFormat="dd/mm/yy" [minDate]="policyStartDate"
                                 placeholder="Select End Date">
                             </p-calendar>
                             <div class="input-form-error bottomSpacing" *ngIf="policyEndDateError">
@@ -255,12 +256,9 @@
                         <label for="username">Currency*</label>
                         <p-dropdown inputId="make" class="w-full" styleClass="w-full"  [options]="currencyList"
                         [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')"
-                            optionLabel="CodeDesc" optionValue="Code" placeholder="Select Currency">
+                            optionLabel="CodeDesc" optionValue="Code" >
                         </p-dropdown>
                     </div>
-                </div>
-                <div class="grid mt-1">
-                    <div class="lg:col-2 md:col-2 col-2"></div>
                     <div class="lg:col-2 md:col-2 col-12">
                         <label for="username">Exchange Rate</label>
                         <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="exchangeRate" />
@@ -268,6 +266,7 @@
                     <div class="lg:col-2 md:col-2 col-12">
                         <label for="username">PromoCode&nbsp;(Optional)</label>
                         <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="promocode" placeholder="Enter Promo Code" />
+                    </div>
                     </div>
                     <div class="lg:col-3 md:col-3 col-12" *ngIf="productId=='6' || this.productId=='16' || productId=='39' || productId=='14' || productId=='32' || productId=='1' || productId=='21'
                      || this.productId=='25' || productId=='13' || productId=='24'"><!--|| productId=='57'-->
@@ -282,10 +281,96 @@
                                 </div>
                             </div>
                     </div>
-                </div>
             </div>
         </ng-container>
-        </div>
+    </div>
+        <p-divider class="m-0 p-0"></p-divider>
+        <div class="grid m-2 p-2">
+            <ng-container *ngIf="!issuerSection && productId=='4'">
+                <div class="col-12 lg:col-6 md:col-6 lx:col-6">
+                    <div>
+                        <h4 class="m-0 p-0">Travel Quote Details</h4>
+                    </div>
+                    <div class="grid mt-2">
+                        <div class="col-12 lg:col-6 md:col-6 lx:col-6">
+                            <label for="">Destination Country</label>
+                                <p-dropdown  class="w-full" styleClass="w-full" [options]="countryList"
+                                [(ngModel)]="country"  (onChange)="premiunDropdown4(country)"  optionLabel="CodeDesc" optionValue="Code"  placeholder="Select Destination Country">
+                            </p-dropdown>
+                        </div>
+                        <div class="col-12 lg:col-6 md:col-6 lx:col-6" *ngIf="premiumList.length!=0 || country" >
+                            <label for="">Premium Plan*</label>
+                                <p-dropdown  class="w-full" styleClass="w-full" [options]="premiumList"
+                                [(ngModel)]="premium" (onChange)="getPlanTypeList(premium)"  optionLabel="CodeDesc" optionValue="Code" placeholder="Select Premium Plan">
+                            </p-dropdown>
+                        </div>
+                        <div class="col-12 lg:col-6 md:col-6 lx:col-6" *ngIf="planTypeList.length!=0 || premium">
+                            <label for="">Type Of Plan</label><a style="text-decoration:underline;color: rgb(18, 174, 236);cursor: pointer;" (click)="viewplanBenifits()">View Plan Benefits</a>
+                                <p-dropdown  class="w-full" styleClass="w-full" [options]="planTypeList"
+                                [(ngModel)]="planType" optionLabel="CodeDesc" optionValue="Code" placeholder="Select Type Of Plan">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                    <div class="col-12 lg:col-6 md:col-6 lx:col-6">
+                        <div class="col-12 pl-0 m-0 pb-0">
+                            <div>
+                                <h4 class="m-0 p-0">No.Of.Persons</h4>
+                            </div>
+                            <div class="grid mt-2 ml-3">
+                                <div class="col-12 lg:col-4 md:col-4 lx:col-4">
+                                    <label for="">Kids(3 Months-18 Years)</label>
+                                    <div class="grid mt-2">
+                                        <button pButton pRipple icon="pi pi-minus-circle" class="p-button-outlined" class="travelTextSubBtn" [disabled]="kids==0" (click)="decrement('kids')"></button>  
+                                        <input pInputText type="text" class="travelText" [(ngModel)]="kids" >
+                                        <button pButton pRipple icon="pi pi-plus-circle" class="p-button-outlined" class="travelTextAddBtn" (click)="Increment('kids')"></button> 
+                                    </div>
+                                </div>
+                                <div class="col-12 lg:col-4 md:col-4 lx:col-4">
+                                    <label for="">Adult(19-65)</label>
+                                    <div class="grid mt-2">
+                                        <button pButton pRipple icon="pi pi-minus-circle" class="p-button-outlined" class="travelTextSubBtn" [disabled]="adult==0" (click)="decrement('adult')" ></button>  
+                                        <input pInputText type="text" class="travelText" [(ngModel)]="adult" >
+                                        <button pButton pRipple icon="pi pi-plus-circle" class="p-button-outlined" class="travelTextAddBtn" (click)="Increment('adult')"></button> 
+                                    </div>
+                                </div>
+                                <div class="col-12 lg:col-4 md:col-4 lx:col-4">
+                                    <label for="">Senior(66-75)</label>
+                                    <div class="grid mt-2">
+                                        <button pButton pRipple icon="pi pi-minus-circle" class="p-button-outlined" class="travelTextSubBtn" [disabled]="senior==0" (click)="decrement('senior')"></button>  
+                                        <input pInputText type="text" class="travelText" [(ngModel)]="senior">
+                                        <button pButton pRipple icon="pi pi-plus-circle" class="p-button-outlined" class="travelTextAddBtn" (click)="Increment('senior')"></button> 
+                                    </div>
+                                </div>
+                                <div class="col-12 lg:col-4 md:col-4 lx:col-4">
+                                    <label for="">Super Senior(76-80)</label>
+                                    <div class="grid mt-2">
+                                        <button pButton pRipple icon="pi pi-minus-circle" class="p-button-outlined" class="travelTextSubBtn" [disabled]="superSenior==0" (click)="decrement('superSenior')"></button>  
+                                        <input pInputText type="text" class="travelText" [(ngModel)]="superSenior">
+                                        <button pButton pRipple icon="pi pi-plus-circle" class="p-button-outlined" class="travelTextAddBtn" (click)="Increment('superSenior')"></button> 
+                                    </div>
+                                </div>
+                                <div class="col-12 lg:col-4 md:col-4 lx:col-4">
+                                    <label for="">Grand Senior(81-110)</label>
+                                    <div class="grid mt-2">
+                                        <button pButton pRipple icon="pi pi-minus-circle" class="p-button-outlined" class="travelTextSubBtn" [disabled]="grandSenior==0" (click)="decrement('grandSenior')"></button>  
+                                        <input pInputText type="text" class="travelText" [(ngModel)]="grandSenior" >
+                                        <button pButton pRipple icon="pi pi-plus-circle" class="p-button-outlined" class="travelTextAddBtn" (click)="Increment('grandSenior')"></button> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="grid justify-content-center mt-3" *ngIf="productId=='4' ">
+
+                <p-button  styleClass="p-button-outlined" label="< Back"
+                    (click)="backPlan()" ></p-button>&nbsp;
+                   
+                    <p-button  label="Proceed" size="small" (click)="savePlan()"></p-button>&nbsp;
+                <!-- <p-button label="Proceed" size="small" (click)="onSubmit(null)"></p-button> -->
+            </div>
         <p-divider class="m-0 p-0"></p-divider>
         <div *ngIf="formSection && productId!='45'">
             <div class="row" *ngIf="productId=='14' && employeeError">
@@ -325,7 +410,7 @@
                                 <ng-template pTemplate="body" let-emp>
                                   <tr>
                                     <td>
-                                            {{emp.TotalNoOfEmployees}}
+                                        {{emp.TotalNoOfEmployees}}
                                     </td>
                                     <td>{{emp?.EmpLiabilitySi}}</td>
                                     <td>{{emp?.OtherOccupation}}</td>
@@ -846,3 +931,76 @@
     </div>
 </p-dialog>
 
+<p-dialog header="Plan Benefits" [modal]="true" [(visible)]="visible" [style]="{ width: '80rem' }">
+    <ng-container *ngIf="coverData" >  
+      <p-table #dtEmployeeActive [value]="coverData" dataKey="CoverId"
+          [globalFilterFields]="['CoverId','CoverDesc']" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+          <ng-template pTemplate="caption">
+            <div class="flex flex wrap justify-content-start">
+                <h4>{{ headerData1  }} | {{ headerData }}</h4>
+            </div>
+            <div class="flex flex wrap justify-content-end">
+              <div class="table-header">
+                  <span class="p-input-icon-left">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text" (input)="dtEmployeeActive.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                  </span>
+              </div>
+            </div>
+            
+          </ng-template>
+          <ng-template pTemplate="header">
+              <tr>
+                <th>Cover Id</th>
+                <th>Cover Name</th>
+                <th>SubCover Details</th> 
+              </tr>
+          </ng-template>
+          
+          <ng-template pTemplate="body" let-expanded="expanded" let-cover>  <!-- let-customer -->
+            <tr>
+              <td>{{cover.CoverId}}</td>
+              <td>{{cover.CoverDesc}}</td>
+              <td > <a href="#" [pRowToggler]="cover" (click)="onInnerData(cover)" class="p-button-outlined" >Sub Covers
+                <i [ngClass]="expanded ? 'pi pi-minus' : 'pi pi-plus'" ></i>
+              </a></td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="rowexpansion"  >
+            <tr>
+              <td colspan="10">
+                  <div class="p-p-3">
+                   
+                    <p-table  [value]="subCoverDataList"> <!--  -->
+                        <ng-template pTemplate="header" >
+                            <tr>
+                                <th>SubCover Name</th>
+                                <th>Sum Insured</th>
+                                <th>Excess</th>
+                            </tr>
+                        </ng-template>
+                        
+                        <ng-template pTemplate="body" let-subCover ><!-- let-product -->
+                            <tr>
+                              <td>{{subCover.SubCoverDesc}}</td>
+                              <td>{{subCover.SumInsured}}</td>
+                              <td>{{subCover.ExcessAmt}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                  </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-container *ngIf="coverData.length!=0">
+            <div class="flex flex-wrap justify-content-center mt-2">
+                  No Data Available
+            </div>
+        </ng-container>
+        </p-table>
+      </ng-container>
+    <div class="flex justify-content-center gap-2">
+        <p-button label="Cancel" styleClass="p-button-outlined" (click)="visible = false" />
+        <p-button label="Save" (click)="visible = false" />
+    </div>
+</p-dialog>

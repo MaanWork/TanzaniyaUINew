@@ -117,9 +117,10 @@ export class MailComponent implements OnInit {
       "NotificationNo":this.templist.NotificationNo,
       "ProductId":this.productId,
       "RequestReferenceNo": this.mailRequestno,
-        "MailSubject":  this.MailSubject,
-            "MailBody":   this.MailBody,
-            "MailRegards": this.MailRegards
+      "MailSubject":  this.MailSubject,
+      "MailBody":   this.MailBody,
+      "MailRegards": this.MailRegards,
+      "CustomerName" :""
     }
 
       let urlLink = `${this.CommonApiUrl}notification/sentdirectmail`;
@@ -132,7 +133,7 @@ export class MailComponent implements OnInit {
             this.opens=false;
             this.templatevalue="";
             this.onNotifi();
-
+            this.router.navigate(['/quotation'])
 
              console.log('Message Successfull',)
 

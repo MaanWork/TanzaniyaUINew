@@ -10,7 +10,6 @@ import { FormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
 import { ChipModule } from 'primeng/chip';
-import { CommonQuoteDetailsComponent } from './common-quote-details.component';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { SidebarModule } from 'primeng/sidebar';
@@ -45,6 +44,9 @@ import { FormlyMatToggleModule } from '@ngx-formly/material/toggle';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { NgSelectAlt } from '../quotation/quotation-plan/formlyTypes/ngselectAlt';
 import { MaterialModule } from 'src/app/material/material.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonQuoteDetailsComponent } from './common-quote-details.component';
 export function maxlengthValidationMessage(err, field) {
   return `This value should be less than ${field.templateOptions.maxLength} characters`;
 }
@@ -72,6 +74,8 @@ export function maxlengthValidationMessage(err, field) {
     CalendarModule,
     MaterialModule,
     MessagesModule,
+    BrowserModule,
+    BrowserAnimationsModule,
     SelectButtonModule,
     RadioButtonModule,
     AutoCompleteModule,
