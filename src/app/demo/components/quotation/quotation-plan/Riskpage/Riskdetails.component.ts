@@ -671,7 +671,7 @@ export class RiskDetailsComponent {
               "CreatedBy": this.loginId,
               "QuoteNo": sessionStorage.getItem('quoteNo'),
               "RequestReferenceNo": this.quoteRefNo,
-              "SectionId": "36",
+              "SectionId": "35",
               "Description": "Accident Details",
               "Type":'PI',
               "PersonalDetails":reqList
@@ -2709,16 +2709,16 @@ export class RiskDetailsComponent {
               this.occupationList[i].value = this.occupationList[i]['Code'];
               if (i == this.occupationList.length - 1) {
                
-                if(type== 'PersonalAccident'){
-                  this.fields3[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
-                }
-                if(type== 'PersonalLiability'){
-                  this.fields4[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
-                }
-                if(type== 'ProfessionalIntermidity'){
-                  this.fields8[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.occupationList);
-                  //this.fields4[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
-                }
+                // if(type== 'PersonalAccident'){
+                //   this.fields3[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
+                // }
+                // if(type== 'PersonalLiability'){
+                //   this.fields4[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
+                // }
+                // if(type== 'ProfessionalIntermidity'){
+                //   this.fields8[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.occupationList);
+                //   //this.fields4[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
+                // }
                 // if(this.productId=='57'){
                 //   alert('JJJJJJJJJJJJ')
                 //   this.fieldsGroupPa[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
@@ -3722,11 +3722,6 @@ export class RiskDetailsComponent {
               if(this.coversreuired!='B'){
                 if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
                   ReqObj['ContentDetails'] = null;
-                }
-              }
-              else {
-                if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
-                  this.error1proceed();
                 }
               }
               if(this.productItem?.AllriskSumInsured==null || this.productItem?.AllriskSumInsured==undefined || this.productItem?.AllriskSumInsured==''){
