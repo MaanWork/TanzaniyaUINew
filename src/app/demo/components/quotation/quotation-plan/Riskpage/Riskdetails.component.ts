@@ -688,7 +688,7 @@ export class RiskDetailsComponent {
                     }
                   }
                 }
-                else { this.personalLiabilityDialog = false;this.currentPARowIndex=null; }
+                else { this.personalAccidentDialog = false;this.currentPARowIndex=null; }
               },
               (err) => {},
             );
@@ -3719,20 +3719,14 @@ export class RiskDetailsComponent {
               if((this.productItem?.BuildingSuminsured==null || this.productItem?.BuildingSuminsured==undefined || this.productItem?.BuildingSuminsured=='') && this.Buildings!='Y'){
                 ReqObj['BuildingDetails'] = null;
               }
-              if( this.productId=='59'){
-                
+              if(this.coversreuired!='B'){
+                if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
+                  ReqObj['ContentDetails'] = null;
+                }
               }
               else {
-                //alert('dddd')
-                if(this.coversreuired!='BC'){
-                  if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
-                    ReqObj['ContentDetails'] = null;
-                  }
-                }
-                else {
-                  if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
-                    this.error1proceed();
-                  }
+                if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
+                  this.error1proceed();
                 }
               }
               if(this.productItem?.AllriskSumInsured==null || this.productItem?.AllriskSumInsured==undefined || this.productItem?.AllriskSumInsured==''){
@@ -3752,15 +3746,7 @@ export class RiskDetailsComponent {
                 ReqObj['BuildingDetails'] = null;
               }
               if(this.coversreuired!='BC' && this.coversreuired!='B'){
-                if(this.productItem?.AllriskSumInsured==null || this.productItem?.AllriskSumInsured==undefined || this.productItem?.AllriskSumInsured==''){
-                  ReqObj['AllRiskDetails'] = null;                  
-                }
-                if(this.productItem?.PersonalAccidentSuminsured==null || this.productItem?.PersonalAccidentSuminsured==undefined || this.productItem?.PersonalAccidentSuminsured==''  || this.productItem?.PersonalAccidentSuminsured=='0'){
-                  ReqObj['PersonalAccidentDetails'] = null;      
-                }
-                if(this.productItem?.EmpLiabilitySi==null || this.productItem?.EmpLiabilitySi==undefined || this.productItem?.EmpLiabilitySi==''  || this.productItem?.EmpLiabilitySi=='0'){
-                  ReqObj['EmployeeLiabilityDetails'] = null;    
-                }
+               
                
                 // if(this.productItem?.JewellerySi==null || this.productItem?.JewellerySi==undefined || this.productItem?.JewellerySi==''){
                 //   if(this.productItem?.PaitingsSi==null || this.productItem?.PaitingsSi==undefined || this.productItem?.PaitingsSi==''){
@@ -3771,7 +3757,7 @@ export class RiskDetailsComponent {
                 // }
               }
               if(this.coversreuired=='B') { ReqObj['ContentDetails'] = null;}
-              else if(this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured==''){
+              if((this.coversreuired!='BC' && this.coversreuired!='B') && (this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured=='')){
                 this.error1proceed();
               }
               if((this.coversreuired=='B' || this.coversreuired=='BC')){

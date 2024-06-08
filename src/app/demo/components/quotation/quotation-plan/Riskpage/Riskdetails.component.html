@@ -233,7 +233,7 @@
                 <ng-container *ngIf="buildingEditSection">
                     <div class="grid mt-2">
                         <div class="col-10 md:col-10 lg:col-10 xl:col-10">
-                            <p-table [value]="locationList" dataKey="id" editMode="row" [rows]="5" [paginator]="true" [tableStyle]="{'min-width': '50rem' }" >
+                            <p-table [value]="locationList" dataKey="id" editMode="row" [rows]="5" [paginator]="false" [tableStyle]="{'min-width': '50rem' }" >
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th [pSortableColumn]="column" *ngFor="let column of buildingColumnHeader">
@@ -280,7 +280,7 @@
                     </div>
                 </ng-container>
                 <ng-container  class="mt-5" *ngIf="!buildingEditSection && TableRowBuilding.length!=0">
-                    <p-table [value]="TableRow" dataKey="id" editMode="row" [rows]="5" [paginator]="true" [tableStyle]="{'min-width': '50rem' }" >
+                    <p-table [value]="TableRow" dataKey="id" editMode="row" [rows]="5" [paginator]="false" [tableStyle]="{'min-width': '50rem' }" >
                         <ng-template pTemplate="header">
                             <tr>
                                 
@@ -449,7 +449,7 @@
                 </div>
             </ng-container>
             <ng-container  class="mt-5">
-                <p-table [value]="TableRowAllRisk" dataKey="id" editMode="row" [rows]="5" [paginator]="true" [tableStyle]="{'min-width': '50rem'}" >
+                <p-table [value]="TableRowAllRisk" dataKey="id" editMode="row" [rows]="5" [paginator]="false" [tableStyle]="{'min-width': '50rem'}" >
                     <ng-template pTemplate="header">
                         <tr>
                             
@@ -888,7 +888,7 @@
             </div>
         </ng-container>
         <ng-container  class="mt-5">
-            <p-table [value]="TableRowPL" dataKey="id" editMode="row" [rows]="5" [paginator]="true" [tableStyle]="{'min-width': '50rem'}" >
+            <p-table [value]="TableRowPL" dataKey="id" editMode="row" [rows]="5" [paginator]="false" [tableStyle]="{'min-width': '50rem'}" >
                 <ng-template pTemplate="header">
                     <tr>
                         <th [pSortableColumn]="column" *ngFor="let column of columnHeaderPersonalLiability">
@@ -1041,7 +1041,7 @@
             </div>
         </ng-container>
         <ng-container  class="mt-5">
-            <p-table [value]="TableRowPA" dataKey="id" editMode="row" [rows]="5" [paginator]="true" [tableStyle]="{'min-width': '50rem'}" >
+            <p-table [value]="TableRowPA" dataKey="id" editMode="row" [rows]="5" [paginator]="false" [tableStyle]="{'min-width': '50rem'}" >
                 <ng-template pTemplate="header">
                     <tr>
                         <th [pSortableColumn]="column" *ngFor="let column of columnHeaderPersonalAccident">
