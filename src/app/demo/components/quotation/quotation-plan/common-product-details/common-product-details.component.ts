@@ -225,7 +225,7 @@ export class CommonProductDetailsComponent {
       {"Code":"500000","CodeDesc":"5,00,000"},
       {"Code":"1000000","CodeDesc":"10,00,000"},
     ];
-    //this.getSourceList();
+    this.getSourceList();
   }
   ngOnInit(){
     this.productItem = new ProductData();
@@ -10337,24 +10337,24 @@ this.BuildingOwnerYn = type;
       //   }
       // }
     }
-    // getSourceList(){
-    //   let ReqObj = {
-    //     "InsuranceId":this.insuranceId,
-    //     "BranchCode": this.branchCode
-    //   }
-    //   let urlLink = `${this.CommonApiUrl}dropdown/getsourcetype`; 
-    //   this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-    //     (data: any) => {
-    //       console.log(data);
-    //       if(data.Result){
-    //           this.productList13 = data.Result;
-    //           console.log('KJHGFProductsss',this.productList13)
-    //           this.premiunDropdown(rowdata);
-    //       }
-    //     },
-    //     (err) => { },
-    //   );
-    // }
+    getSourceList(){
+      let ReqObj = {
+        "InsuranceId":this.insuranceId,
+        "BranchCode": this.branchCode
+      }
+      let urlLink = `${this.CommonApiUrl}dropdown/getsourcetype`; 
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+              this.productList13 = data.Result;
+              console.log('KJHGFProductsss',this.productList13)
+              //this.premiunDropdown(rowdata);
+          }
+        },
+        (err) => { },
+      );
+    }
 
     premiunDropdown(){
       let ReqObj = {

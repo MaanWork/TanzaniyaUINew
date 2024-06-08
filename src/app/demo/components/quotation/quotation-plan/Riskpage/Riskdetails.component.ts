@@ -386,9 +386,9 @@ export class RiskDetailsComponent {
                   let fieldList = this.fields4[0].fieldGroup[0].fieldGroup;
                   for(let field of fieldList){
                     if(field.key=='PersonalAccidentSuminsured'){
-                        field.templateOptions.disabled = false;
-                        field.formControl.setValue(this.Total);
-                        field.templateOptions.disabled = true;
+                        field.props.disabled = false;
+                        if(field.formControl) field.formControl.setValue(this.Total);
+                        field.props.disabled = true;
                     }
                     else if(field.key=='OccupationType'){
                       field.formControl.setValue(this.pAOccupationId);
@@ -3819,21 +3819,8 @@ export class RiskDetailsComponent {
               if(this.coversreuired!='BC' && this.coversreuired!='B'){
                 ReqObj['BuildingDetails'] = null;
               }
-              if(this.coversreuired!='BC' && this.coversreuired!='B'){
-               
-               
-                // if(this.productItem?.JewellerySi==null || this.productItem?.JewellerySi==undefined || this.productItem?.JewellerySi==''){
-                //   if(this.productItem?.PaitingsSi==null || this.productItem?.PaitingsSi==undefined || this.productItem?.PaitingsSi==''){
-                //     if(this.productItem?.CarpetsSi==null || this.productItem?.CarpetsSi==undefined || this.productItem?.CarpetsSi==''){
-                //       ReqObj['ContentDetails'] = null;
-                //     }
-                //   }
-                // }
-              }
               if(this.coversreuired=='B') { ReqObj['ContentDetails'] = null;}
-              if((this.coversreuired!='BC' && this.coversreuired!='B') && (this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured=='')){
-                this.error1proceed();
-              }
+              
               if((this.coversreuired=='B' || this.coversreuired=='BC')){
                 if(ReqObj['EmployeeLiabilityDetails']==null && ReqObj['PersonalAccidentDetails'] == null &&  ReqObj['BuildingDetails'] == null && ReqObj['ContentDetails'] == null && ReqObj['AllRiskDetails'] == null){
                   this.errorproceed(1);   
@@ -3847,7 +3834,13 @@ export class RiskDetailsComponent {
                     this.finalSave(ReqObj,type);
                   }
                 }
+                else if((this.coversreuired=='C') && (this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured=='')){
+                  this.error1proceed();
+                }
                 else this.finalSave(ReqObj,type);
+              }
+              else if((this.coversreuired=='C') && (this.productItem?.ContentSuminsured==null || this.productItem?.ContentSuminsured==undefined || this.productItem?.ContentSuminsured=='')){
+                this.error1proceed();
               }
               else if(this.Buildings=='N') {
                 if(ReqObj['EmployeeLiabilityDetails']==null && ReqObj['PersonalAccidentDetails'] == null && ReqObj['ContentDetails'] == null && ReqObj['AllRiskDetails'] == null){
@@ -3867,6 +3860,7 @@ export class RiskDetailsComponent {
                 }
                 else this.finalSave(ReqObj,type);
               }
+              else this.finalSave(ReqObj,type);
               console.log("final request",ReqObj)
           }
           finalSave(ReqObj,RequestType){
