@@ -2900,6 +2900,7 @@ export class CoverDetailsComponent {
             if(this.loginType=='B2CFlow' && this.loginId=='guest'){
               window.location.reload();
             }
+            else if(this.productId=='59') this.router.navigate(['/quotation/plan/main/document-info']);
             else  this.router.navigate(['quotation/plan/main/accessories']);
           }
           else{
@@ -3439,9 +3440,20 @@ export class CoverDetailsComponent {
     }
     else{
       sessionStorage.setItem('BackType','Back');
-
       if(this.productId=='5') this.router.navigate(['/policyDetails']);
-      else if(this.productId=='59') this.router.navigate(['/quotation/plan/risk-page']);
+      else if(this.productId=='59'){
+        if(sessionStorage.getItem('coversRequired')) this.router.navigate(['/quotation/plan/risk-page']);
+        else{
+          let content = this.vehicleData.some(ele=>ele.SectionId=='47');
+          let building = this.vehicleData.some(ele=>ele.SectionId=='1');
+          if(content && building){
+            sessionStorage.setItem('coversRequired','BC');
+          }
+          else if(content && !building) sessionStorage.setItem('coversRequired','C');
+          else if(!content && building) sessionStorage.setItem('coversRequired','B');
+          this.router.navigate(['/quotation/plan/risk-page']);
+        }
+      } 
       else this.router.navigate(['/quotation/plan/quote-details']);
     }
   }
@@ -3770,36 +3782,11 @@ export class CoverDetailsComponent {
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
           if(data.Result?.Response=='Saved Successful'){
-          //    if(this.onClauses=true){
-          //      let Id:any;
-
-          //      for(let clause of this.insertClause){
-          //         Id= clause.Id;
-
-          //      }
-
-          //       let Req= {
-          //     "BranchCode":this.branchCode,
-          //     "CreatedBy":this.loginId,
-          //     "InsuranceId":this.insuranceId,
-          //     "ProductId":this.productId,
-          //     "QuoteNo": this.quoteNo,
-          //     "RiskId": "1",
-          //     "SectionId": "2",
-          //     "TermsAndConditionReq":this.insertClause
-
-          // }
-          // let urlLink = `${this.CommonApiUrl}api/inserttermsandcondition`
-          // this.sharedService.onPostMethodSync(urlLink, Req).subscribe(
-          //   (data: any) => {
-          //       if(data.Result){
-          //         this.insert=data.Result
-          //       }},);
-          //    }
             if(this.productId=='59'){
               let homeSession = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
               if(homeSession){
-                this.router.navigate(['quotation/plan/main/accessories']);
+                //this.router.navigate(['quotation/plan/main/accessories']);
+                this.router.navigate(['/quotation/plan/main/document-info']);
               }
               else{
                 this.getExistingBuildingList();
@@ -3887,7 +3874,7 @@ export class CoverDetailsComponent {
         if(this.loginType=='B2CFlow' && this.loginId=='guest'){
           window.location.reload();
         }
-        else this.router.navigate(['quotation/plan/main/accessories']);
+        else this.router.navigate(['/quotation/plan/main/document-info']);
       },
       (err) => { },
     );
