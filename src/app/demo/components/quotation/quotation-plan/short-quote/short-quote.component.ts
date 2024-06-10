@@ -404,11 +404,8 @@ export class ShortQuoteComponent implements OnInit {
           // }
         }
         this.productItem.InsuranceClass = vehicleDetails?.InsuranceClass;
-        
-        
-        
-        
         this.productItem.Make = vehicleDetails.Vehiclemake;
+        this.productItem.MakeDesc = vehicleDetails.VehiclemakeDesc;
         this.productItem.ModelId = vehicleDetails.Vehcilemodel;
         this.productItem.ManufactureYear = vehicleDetails.ManufactureYear;
         this.productItem.ChassisNo = vehicleDetails.Chassisnumber;
@@ -568,59 +565,61 @@ export class ShortQuoteComponent implements OnInit {
   }
   onMakeChange(){
     console.log("on make change",this.makeValue);
-    let ReqObj = {
-      "InsuranceId": this.insuranceId,
-      "BranchCode": this.branchCode,
-      "BodyId": this.productItem.BodyType,
-      "MakeId": this.productItem.Make
-    }
-    let urlLink = `${this.CommonApiUrl}master/dropdown/motormakemodel`;
-    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-      (data: any) => {
-        console.log(data);
-        if(data.Result){
-            this.modelList = data.Result;
-            if(this.modelList.length!=0){
-              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
-              for (let i = 0; i < this.modelList.length; i++) {
-                this.modelList[i].label = this.modelList[i]['CodeDesc'];
-                this.modelList[i].value = this.modelList[i]['Code'];
-                if (i == this.modelList.length - 1) {
-                  if(this.fields.length!=0){
-                    let fieldList =  this.fields[0].fieldGroup[0].fieldGroup;
-                    for(let field of fieldList){
-                      if(field.key=='Model'){
-                        field.props.options =  defaultObj.concat(this.modelList);
-                        if(this.motordetails){
-                          if(this.productItem.BodyType=='1' || this.productItem.BodyType=='2' || this.productItem.BodyType=='3' || this.productItem.BodyType=='' || this.productItem.BodyType==null){
-                            field.hideExpression = false;field.hide=false;
+    if(this.productItem.Make!='' && this.productItem.Make!=null){
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "BranchCode": this.branchCode,
+        "BodyId": this.productItem.BodyType,
+        "MakeId": this.productItem.Make
+      }
+      let urlLink = `${this.CommonApiUrl}master/dropdown/motormakemodel`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+              this.modelList = data.Result;
+              if(this.modelList.length!=0){
+                let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
+                for (let i = 0; i < this.modelList.length; i++) {
+                  this.modelList[i].label = this.modelList[i]['CodeDesc'];
+                  this.modelList[i].value = this.modelList[i]['Code'];
+                  if (i == this.modelList.length - 1) {
+                    if(this.fields.length!=0){
+                      let fieldList =  this.fields[0].fieldGroup[0].fieldGroup;
+                      for(let field of fieldList){
+                        if(field.key=='Model'){
+                          field.props.options =  defaultObj.concat(this.modelList);
+                          if(this.motordetails){
+                            if(this.productItem.BodyType=='1' || this.productItem.BodyType=='2' || this.productItem.BodyType=='3' || this.productItem.BodyType=='' || this.productItem.BodyType==null){
+                              field.hideExpression = false;field.hide=false;
+                            }
+                            else{
+                              field.hideExpression = true;field.hide=true;
+                            }
+                            field.formControl.setValue(this.motordetails?.Vehcilemodel);
+                            let entry = this.modelList.find(ele=>ele.CodeDesc==this.motordetails?.Vehcilemodel || ele.Code==this.motordetails?.Vehcilemodel);
+                            if((entry==null || entry==undefined) && (this.motordetails?.Vehcilemodel!=null && this.motordetails?.Vehcilemodel!=undefined)){
+                                this.productItem.Model = '99999';
+                                this.productItem.ModelDesc = this.motordetails?.Vehcilemodel;
+                            }
+                            else this.productItem.Model = entry.Code;
                           }
-                          else{
-                            field.hideExpression = true;field.hide=true;
-                          }
-                          field.formControl.setValue(this.motordetails?.Vehcilemodel);
-                          let entry = this.modelList.find(ele=>ele.CodeDesc==this.motordetails?.Vehcilemodel || ele.Code==this.motordetails?.Vehcilemodel);
-                          if((entry==null || entry==undefined) && (this.motordetails?.Vehcilemodel!=null && this.motordetails?.Vehcilemodel!=undefined)){
-                              this.productItem.Model = '99999';
-                              this.productItem.ModelDesc = this.motordetails?.Vehcilemodel;
-                          }
-                          else this.productItem.Model = entry.Code;
                         }
-                      }
-                      else if(field.key=='ModelDesc'){
-                        if((this.productItem.BodyType!='1' && this.productItem.BodyType!='2' && this.productItem.BodyType!='3' && this.productItem.BodyType!='' && this.productItem.BodyType!=null) || this.productItem.Model=='99999'){  field.hideExpression = false;field.hide=false; }
-                          else{ field.hideExpression = true;field.hide=true; }
-                        
-                      }
-                    };
+                        else if(field.key=='ModelDesc'){
+                          if((this.productItem.BodyType!='1' && this.productItem.BodyType!='2' && this.productItem.BodyType!='3' && this.productItem.BodyType!='' && this.productItem.BodyType!=null) || this.productItem.Model=='99999'){  field.hideExpression = false;field.hide=false; }
+                            else{ field.hideExpression = true;field.hide=true; }
+                          
+                        }
+                      };
+                    }
                   }
                 }
               }
-            }
-        }
-      },
-      (err) => { },
-    );
+          }
+        },
+        (err) => { },
+      );
+    }
   }
   onModelChange(type){
     if(this.productItem.Model!=null && this.productItem.Model!=''){

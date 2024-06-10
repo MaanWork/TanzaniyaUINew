@@ -612,6 +612,7 @@ export class RiskDetailsComponent {
               "Salary": entry.SumInsured,
               "Weight": entry.Weight,
               "RiskId": entry.RiskId,
+              "LocationName": entry.LocationName,
               "SerialNo": null
             }
             reqList.push(data);
@@ -692,6 +693,7 @@ export class RiskDetailsComponent {
               "Salary": entry.SumInsured,
               "Weight": entry.Weight,
               "RiskId": entry.RiskId,
+              "LocationName": entry.LocationName,
               "SerialNo": null
             }
             reqList.push(data);
