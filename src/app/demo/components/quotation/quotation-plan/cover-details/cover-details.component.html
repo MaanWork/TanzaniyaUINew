@@ -1872,10 +1872,10 @@
                             </td>
                             <td style="text-align: end;padding: 8px;">
                                 <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
-                                    <b>{{factor.OwnDamage | commaseparator}}</b>
+                                    <b>{{factor.OwnDamage | commaseparator:'1.4'}}</b>
                                 </ng-container>
                                 <ng-container *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
-                                   {{factor.OwnDamage | commaseparator}}
+                                   {{factor.OwnDamage | commaseparator:'1.4'}}
                                 </ng-container>
                             </td>
                             <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028'">

@@ -602,9 +602,9 @@ emiyn="N";
     //];
     this.ViewDropDown();
 
-    $('#exampleModal').on('shown.bs.modal', function () {
-      $('#myInput').trigger('focus')
-    })
+    // $('#exampleModal').on('shown.bs.modal', function () {
+    //   $('#myInput').trigger('focus')
+    // })
 
     if(this.userType=='Broker'){
       this.button=false

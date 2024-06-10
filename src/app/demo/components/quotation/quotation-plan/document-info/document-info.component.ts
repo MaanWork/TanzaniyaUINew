@@ -110,6 +110,10 @@ export class DocumentInfoComponent {
       this.columns = ['S.No','FileName','Section','Serial No','Document Type','Actions'];
       this.uploadedColumns = ['S.No','FileName','Section','Serial No','Document Type','Actions'];
     }
+    else if(this.productId=='59'){
+      this.columns = ['S.No','FileName','Location','Section','ID','Document Type','Actions'];
+      this.uploadedColumns = ['S.No','FileName','Location','Section','ID','Document Type','Actions'];
+    }
     else{
       this.columns = ['S.No','FileName','Section','ID','Document Type','Actions'];
       this.uploadedColumns = ['S.No','FileName','Section','ID','Document Type','Actions'];
@@ -584,6 +588,12 @@ export class DocumentInfoComponent {
   }
   onDeleteSelectedDocument(index){
     this.uploadListDoc.splice(index,1);
+  }
+  onChangeLocation(entry){
+    if(entry.locationId!=null){
+        entry.sectionList = this.individualDocumentList.find(ele=>ele.LocationId==entry.locationId)?.SectionList;
+        entry.sectionId='';
+    }
   }
   onChangeSectionType(rowData,index){
    let entry = this.individualDocumentList.find(ele=>ele.LocationId==rowData.locationId);

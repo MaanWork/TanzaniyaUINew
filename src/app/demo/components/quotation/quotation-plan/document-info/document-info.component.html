@@ -47,6 +47,17 @@
             <!-- <td><p-checkbox [binary]="true"></p-checkbox></td> -->
             <td>{{ i+1 }}</td>
             <td>{{ doc.filename }}</td>
+            <td *ngIf="productId=='59'">
+                <p-dropdown inputId="section"
+                    appendTo="body" 
+                    class="w-full" styleClass="w-full" 
+                    [options]="individualDocumentList" [(ngModel)]="doc.locationId" 
+                    (onChange)="onChangeLocation(doc)"
+                    optionLabel="LocationName" 
+                    optionValue="LocationId" 
+                    placeholder="Select Location">
+                </p-dropdown>
+            </td>
             <td>
                 <p-dropdown inputId="section"
                     appendTo="body" 
@@ -62,10 +73,8 @@
             </td>
             <td>
                 <p-dropdown inputId="Id" 
-                    appendTo="body"
-                    class="w-full" 
-                    styleClass="w-full" 
-                    [options]="doc.typeList" 
+                    appendTo="body" class="w-full" 
+                    styleClass="w-full" [options]="doc.typeList" 
                     [(ngModel)]="doc.Id" 
                     (onChange)="onChangeIdType(doc)"
                     optionLabel="Id" 
@@ -143,7 +152,8 @@
                 <ng-template pTemplate="body" let-doc let-i="rowIndex">
                   <tr>
                         <td>{{ i+1 }}</td>
-                        <td>{{doc.OriginalFileName}}</td>
+                        <td *ngIf="productId=='59'">{{doc.OriginalFileName}}</td>
+                        <td>{{doc.LocationName}}</td> 
                         <td>{{doc.SectionName}}</td>
                         <td>
                             <ng-container *ngIf="doc.Id!='99999'">
