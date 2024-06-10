@@ -26,6 +26,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { TreeSelectModule } from 'primeng/treeselect';
+import { LoginCreationComponent } from './login-creation/login-creation.component';
 
 
 
@@ -34,6 +35,7 @@ import { TreeSelectModule } from 'primeng/treeselect';
 @NgModule({
   declarations: [
     AdminComponent,
+    LoginCreationComponent,
    
     ],
   imports: [

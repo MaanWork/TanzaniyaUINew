@@ -6,6 +6,7 @@ export class AddPassenger{
     endorsementSection: boolean=false;subuserType:any=null;
     enableFieldsList: any[]=[];finalizeYN:any='N';
     fields: FormlyFieldConfig = {}; 
+    getRelationshipList: any;
     constructor() {
         let finalize = sessionStorage.getItem('FinalizeYN');
         if(finalize) this.finalizeYN = finalize;
@@ -64,20 +65,21 @@ export class AddPassenger{
                   },
                   {
                     className: 'col-12 md:col-4 lg:col-4 offset-3',
-                    type: 'radio',
+                    type: 'radioList',
                     key: 'GenderId',
                     templateOptions: {
-                     type: 'radio',
+                     type: 'radioList',
                       label: `Gender`,
                       required: true,
+                      defaultValue: 'M',
                       disabled: this.checkDisable('GenderId'),
                       options: [
                         {
-                            value: 'Male',
+                            value: 'M',
                             label: 'Male'
                         },
                         {
-                            value: 'Female',
+                            value: 'F',
                             label: 'Female'
                         }
                       ],
@@ -99,11 +101,7 @@ export class AddPassenger{
                       required: true,
                       disabled: this.checkDisable('RelationId'),
                       options: [
-                        { label: 'Iron Man', value: 'iron_man' },
-                        { label: 'Captain America', value: 'captain_america' },
-                        { label: 'Black Widow', value: 'black_widow' },
-                        { label: 'Hulk', value: 'hulk' },
-                        { label: 'Captain Marvel', value: 'captain_marvel' },
+                        
                       ],
                     },
                     
@@ -141,13 +139,7 @@ export class AddPassenger{
                       label: `Nationality`,
                       required: true,
                       disabled: this.checkDisable('Nationality'),
-                      options: [
-                        { label: 'Iron Man', value: 'iron_man' },
-                        { label: 'Captain America', value: 'captain_america' },
-                        { label: 'Black Widow', value: 'black_widow' },
-                        { label: 'Hulk', value: 'hulk' },
-                        { label: 'Captain Marvel', value: 'captain_marvel' },
-                      ],
+                      options: [  ],
                     },
                     
                     validators: {

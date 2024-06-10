@@ -50,7 +50,7 @@
             </div> -->
             <div class="col-12 sm:col-4 md:col-4 ">
                 <h5>Total Premium</h5>
-                <!-- {{quoteNo}} -->
+                <!-- {{quoteNo}} -->{{OverallPremium}}
             </div>
             
         </div>
@@ -59,7 +59,7 @@
         <div class="col-12 sm:col-6 md:col-6 lg:col-6 card m-5">
             <h3> Passenger Details</h3>
             <hr>
-            <p-table >
+            <p-table  [value]="passengerCountList" [tableStyle]="{'min-width':'25rem','justify-content':'center'}" >
                 <ng-template pTemplate="header">
                     <tr>
                         <th>S.No</th>
@@ -67,11 +67,11 @@
                         <th>Passenger Count</th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" >
+                <ng-template pTemplate="body" let-group let-i="rowIndex">
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{i+1}}</td>
+                        <td>{{group.GroupDesc}}</td>
+                        <td>{{group.GroupCount}}</td>
                     </tr>
                 </ng-template>
             </p-table> 
@@ -144,7 +144,7 @@
                     <input  pInputText class="w-full" />
                 </div> -->
                 <form [formGroup]="form">
-                    <formly-form [form]="form" [fields]="AddPassengerField" [model]="addPassengerItem"></formly-form>
+                    <formly-form [form]="form" [fields]="AddPassengerField" [options]="options" [model]="addPassengerItem"></formly-form>
                 </form>
             </div>
         </div>
@@ -152,7 +152,7 @@
         </div>
         <div class="flex flex-wrap justify-content-center">
             <p-button  label="Close" styleClass="p-button-outlined" (click)="close('Add')" ></p-button>&nbsp;
-            <p-button label="Save" (click)="passengerSave()" ></p-button>
+            <p-button label="Save" (click)="passengerSave()" [disabled]="!form.valid"></p-button>
         </div>
     </ng-container>
     <ng-container *ngIf="visibleUp" >
@@ -169,47 +169,74 @@
             </div>
         </div>
     </div>
-    <!-- <ng-container *ngIf="uploadedIndividualList.length!=0">
-        <h5>Uploaded Documents</h5><br>
-        <div class="grid">
-            <div class="col-12 sm:col-12 md:col-12">
-                <p-table *ngIf="tableView == 'table' else cardTableView" [value]="uploadedIndividualList" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th [pSortableColumn]="column" *ngFor="let column of uploadedColumns">{{column}}</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-doc let-i="rowIndex">
-                      <tr>
-                            <td>{{ i+1 }}</td>
-                            <td>{{doc.OriginalFileName}}</td>
-                            <td>{{doc.SectionName}}</td>
-                            <td>
-                                <ng-container *ngIf="doc.Id!='99999'">
-                                    {{doc.Id}}
-                                </ng-container>
-                                <ng-container *ngIf="doc.Id=='99999'">
-                                    ALL
-                                </ng-container>
-                            </td>
-                            <td>{{doc.DocumentDesc}}</td>
-                            <td>
-                                <span class="p-buttonset">
-                                    <button pButton pRipple icon="pi pi-eye" class="p-button-outlined" title="View" (click)="onViewListDocument(i,doc)"></button>
-                                    <button pButton pRipple icon="pi pi-download" class="p-button-outlined" title="Download" (click)="onListDocumentDownload(i,doc)"></button>
-                                    <button pButton pRipple icon="pi pi-trash" *ngIf="!endorsementSection || (endorsementSection && enableDocumentDetails)"  class="p-button-outlined" title="Delete" (click)="onDeleteListDocument(i,doc)"></button>
-                                </span>
-                            </td>
-                        </tr>
-                    </ng-template>
-                </p-table>
+    <ng-container *ngIf="uploadListDoc.length!=0">
+        <h5>Selected Documents</h5><br>
+        <p-table  [value]="uploadListDoc" [tableStyle]="{'min-width':'25rem','justify-content':'center'}" [paginator]="true" [rows]="5">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th >S.No</th>
+                    <th >File Name</th>
+                    <th >Delete</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-doc let-i="rowIndex">
+              <tr>
+                <!-- <td><p-checkbox [binary]="true"></p-checkbox></td> -->
+                <td>{{ i+1 }}</td>
+                <td>{{ doc.filename }}</td>
+                <td >
+                  <span class="p-buttonset">
+                    <!-- <button pButton pRipple icon="pi pi-upload" title="Upload" class="p-button-outlined" (click)="onFileUploadVehicleList(i)"></button> -->
+                    <button pButton pRipple icon="pi pi-trash" title="Delete" (click)="onDeleteSelectedDocument(i)" class="p-button-outlined"></button>
+                  </span>
+                </td>
+              </tr>
+            </ng-template>
+        </p-table>
+        <!-- <ng-template #cardTableView>
+            <div class="grid">
+              <div class="card w-25rem mr-4" *ngFor="let quotation of quotations">
+                <table>
+                  <tr>
+                    <td><p-chip label="Category" styleClass="bg-orange-500 text-white"></p-chip></td>
+                    <td class="text-right"><span class="pi pi-circle-fill text-teal-600"></span> Status</td>
+                  </tr>
+                  <tr>
+                    <td><h5>Customer Number</h5></td>
+                  </tr>
+                  <tr>
+                    <td><b>Reference No</b></td>
+                    <td class="text-right"><b>VirTin No</b></td>
+                  </tr>
+                  <tr>
+                    <td>Jared</td>
+                    <td class="text-right">William</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <span class="p-buttonset">
+                        <button pButton pRipple icon="pi pi-envelope" class="p-button-outlined"></button>
+                        <button pButton pRipple icon="pi pi-inbox" class="p-button-outlined"></button>
+                        <button pButton pRipple icon="pi pi-user" class="p-button-outlined"></button>
+                      </span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
             </div>
-        </div>
-    </ng-container> -->
-    <div class="flex flex-wrap justify-content-center">
+        </ng-template> -->
+    </ng-container>
+
+
+
+    <!-- <div class="flex flex-wrap justify-content-center">
         <div class="col-12 sm:col-12 md:col-12 lg:col-12 ">
-            <p-button label="Cancel" class="p-button-outlined" (click)="close('Update')"/>
+            <p-button label="Cancel" class="p-button-outlined" />
         </div>
+    </div> -->
+    <div class="flex flex-wrap justify-content-center mt-3">
+        <p-button  label="Close" styleClass="p-button-outlined" (click)="close('Update')" ></p-button>&nbsp;
+        <p-button label="Proceed" (click)="passengerSave()" ></p-button>
     </div>
 </ng-container>
 <ng-container  class="mt-5" *ngIf="passengerGrid && historyRecordsList.length!=0">
@@ -255,13 +282,17 @@
                 <ng-container *ngIf="Bank?.Status=='Y'">Active</ng-container>
                 <ng-container *ngIf="Bank?.Status=='P'">Pending</ng-container>
             </td> -->
-            <td> <button pButton pRipple icon="pi pi-pencil"  class="p-button-outlined" ></button>
-                <button pButton pRipple icon="pi pi-trash"  class="p-button-outlined" ></button>
+            <td> <button pButton pRipple icon="pi pi-pencil"  class="p-button-outlined" (click)="passengerEdit(passenger)"></button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <button pButton pRipple icon="pi pi-trash"  class="p-button-outlined" (click)="passengerDelete(i)"></button>
             </td>
               </tr>
               </ng-template>
     </p-table>
-    <button pButton pRipple   class="p-button-outlined" (click)="ProceedToDoc()">Proceed</button>
+    <div class="flex flex-wrap justify-content-center mt-3">
+        <!-- <p-button  label="Close" styleClass="p-button-outlined" (click)="close('Update')" ></p-button>&nbsp; -->
+        <p-button label="Proceed" (click)="ProceedToDoc()" ></p-button>
+    </div>
+    <!-- <button pButton pRipple   class="p-button-outlined" >Proceed</button> -->
 </ng-container>
 </div>
 

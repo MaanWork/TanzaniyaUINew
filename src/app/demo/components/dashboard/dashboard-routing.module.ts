@@ -20,6 +20,7 @@ import { EndorsementTypeComponent } from '../portfolio/endorsement-type/endorsem
 import { MotorDocumentsDetailComponent } from '../MotorDocuments/motor-documents-detail/motor-documents-detail.component';
 import { ApproverPortfolioComponent } from '../approverportfolio/approverportfolio.component';
 import { FollowupComponent } from '../FollowUp/followup.component';
+import { LoginCreationComponent } from '../Admin/login-creation/login-creation.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { FollowupComponent } from '../FollowUp/followup.component';
         { path: 'tira-search', component: TiraSearchComponent }, 
         { path: 'referral', component: ReferralComponent },
         { path: 'portfolio', component: PortfolioComponent },
+        { path: 'logincreation', component: LoginCreationComponent },
         { path: 'portfolio/endorsement', component: EndorsementComponent },
         { path: 'portfolio/endorsementtype', component: EndorsementTypeComponent},
         { path: 'portfolio/motorDocuments', component: MotorDocumentsDetailComponent},
