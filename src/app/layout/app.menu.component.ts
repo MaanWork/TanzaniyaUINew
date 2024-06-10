@@ -220,8 +220,7 @@ export class AppMenuComponent implements OnInit {
               "routerLink": [menu.link]
             }
             if (menu.children && menu.title!='Quote Register' && menu.title!='Login Creation' && menu.title!='Referral' && menu.title!='Portfolio' && menu.title!='Referal Management' && menu.title!='Masters') {
-
-              entry['items'] = [];
+             entry['items'] = [];
               let j = 0;
               for (let child of menu.children) {
                 let subEntry = {
@@ -255,7 +254,7 @@ export class AppMenuComponent implements OnInit {
             else {
               entry["icon"] = menu.icon;
               if(menu.title=='Quote Register') entry["routerLink"] =  ['/quotation'];
-              if(menu.title=='Login Creation') entry["routerLink"] =  ['/logincreation'];
+              else if(menu.title=='Login Creation') entry["routerLink"] =  ['/logincreation'];
               else if(menu.title=='Customer') entry["routerLink"] =  ['/customer'];
               else if(menu.title=='New Quote'){
                 if(this.productId=='5')  entry['routerLink'] = ['/policyDetails']
