@@ -28,7 +28,7 @@ export class PortfolioComponent implements OnInit {
   public ApiUrl1: any = this.AppConfig.ApiUrl1;
   public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
   public motorApiUrl:any = this.AppConfig.MotorApiUrl;
-  cancelbrokerList: any;
+  cancelbrokerList: any[]=[];
   CancelbrokerCode: any;CancelledquoteData:any[]=[];
   pageCount1: number;
   quotePageNo1: number;
@@ -40,8 +40,8 @@ export class PortfolioComponent implements OnInit {
   pendingPolicyPageNo: number;
   startPendingIndex: number;
   endPendingIndex: any;
-  pendingQuoteData: any;
-  MotorList: any;
+  pendingQuoteData: any[]=[];
+  MotorList: any[]=[];
   constructor(private router:Router,private sharedService: SharedService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
