@@ -231,7 +231,7 @@
                     <div class="lg:col-2 md:col-2 col-12">
                         <label for="username">Start Date</label>
                         <p-calendar class="w-full" styleClass="w-full" [(ngModel)]="policyStartDate"
-                        (onSelect)="onStartDateChange('change')" [minDate]="policyStartDate"
+                            (onSelect)="onStartDateChange('change')" 
                             dateFormat="dd/mm/yy" placeholder="Select Start Date">
                         </p-calendar>
                         <div class="input-form-error bottomSpacing" *ngIf="policyStartDateError">
@@ -243,7 +243,7 @@
                     <div class="lg:col-2 md:col-2 col-12">
                             <label for="username">End Date</label>
                             <p-calendar class="w-full" styleClass="w-full"  [(ngModel)]="policyEndDate"
-                            (onSelect)="onChangeEndDate()" dateFormat="dd/mm/yy" [minDate]="policyStartDate"
+                            (onSelect)="onChangeEndDate()" dateFormat="dd/mm/yy"
                                 placeholder="Select End Date">
                             </p-calendar>
                             <div class="input-form-error bottomSpacing" *ngIf="policyEndDateError">
