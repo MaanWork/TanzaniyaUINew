@@ -1973,14 +1973,14 @@
     </div>
 </p-dialog>
 <p-dialog class="p-su-header" header="Clauses Details" [(visible)]="onClauses" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
-    <div class="flex flex-wrap justify-content-between mt-2" *ngIf="userType!='Broker'">
+    <div class="flex flex-wrap justify-content-between mt-2" >
         <div>
             <label for="username">Section</label>
             <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="termsSectionId" [options]="termsSectionList" (onChange)="viewCondition('change')"
                 optionLabel="SectionName" optionValue="SectionId" placeholder="- - -Select- - -">
             </p-dropdown>
         </div>
-        <div *ngIf="!newAddClauses">
+        <div *ngIf="!newAddClauses && userType!='Broker'">
             <p-button label="Add New Clause" icon="pi pi-plus" (click)="onAddClause()"></p-button>
         </div>
     </div>

@@ -392,8 +392,8 @@ export class DocumentInfoComponent {
     this.BackSession = sessionStorage.getItem('back');
     if(this.BackSession=="skipBack"){
       sessionStorage.removeItem('back');
-      this.router.navigate(['/quotation/plan/premium-details']);
-   
+      if(this.productId!='4') this.router.navigate(['/quotation/plan/premium-details']);
+      else this.router.navigate(['/quotation/plan/travel-quote-details']);
     }
     else{
 
@@ -438,7 +438,8 @@ export class DocumentInfoComponent {
       else if(this.productId=='14' || this.productId=='24' || this.productId=='13' || this.productId=='16'){
         this.router.navigate(['/quotation/plan/main/accessories']);
       }
-      else this.router.navigate(['/quotation/plan/premium-details']);
+      else if(this.productId=='4') this.router.navigate(['/quotation/plan/travel-quote-details']);
+      else  this.router.navigate(['/quotation/plan/premium-details']);
       }
     }
   }

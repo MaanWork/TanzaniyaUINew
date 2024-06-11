@@ -151,7 +151,7 @@ export class CoverDetailsComponent {
       sessionStorage.removeItem('resetLoginDetails');
       let sectionType = sessionStorage.getItem('riskSection');
       if(sectionType=='additional' ) this.router.navigate(['quotation/plan/main/accessories']);
-      else if(this.productId=='4') this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/travel-quote-details'])
+      else if(this.productId=='4') this.router.navigate(['/quotation/plan/travel-quote-details']);
       else if(this.productId!='5' && this.productId!='46' && this.productId!='29') this.router.navigate(['quotation/plan/main/accessories']);
       else this.router.navigate(['/quotation/plan/main/document-info'])
     }
@@ -2955,7 +2955,7 @@ export class CoverDetailsComponent {
         if(this.loginType=='B2CFlow' && this.loginId=='guest'){
           window.location.reload();
         }
-        else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/travel-quote-details']);
+        else this.router.navigate(['/quotation/plan/travel-quote-details']);
       }
     
     }
@@ -3784,7 +3784,7 @@ export class CoverDetailsComponent {
               if(this.loginType=='B2CFlow' && this.loginId=='guest'){
                 window.location.reload();
               }
-              else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/travel-quote-details']);
+              else this.router.navigate(['/quotation/plan/travel-quote-details']);
             }
        
             else if(this.productId=='32' || this.productId=='39' || this.productId=='14' || this.productId=='15' || this.productId=='19' || this.productId=='1' || this.productId=='6' || this.productId=='16' || this.productId =='21' || this.productId =='26' || this.productId =='25' || this.productId =='24'|| this.productId=='42' || this.productId=='43' || this.productId=='13' || this.productId=='27' || this.productId=='59' || this.productId=='60' || this.productId=='57' || this.productId=='56'){

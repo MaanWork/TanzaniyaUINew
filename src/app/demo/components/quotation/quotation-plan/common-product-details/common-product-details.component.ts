@@ -2011,11 +2011,11 @@ savePlan(travelList, totalPassengers){
             "GroupDesc": "Super Senior(76-80)"
         },
 
-      //   {
-      //     "GroupId": "5",
-      //     "GroupMembers": GrandSenior,
-      //     "GroupDesc": "Grand Senior(76-80)"
-      // }
+        {
+          "GroupId": "5",
+          "GroupMembers": this.grandSenior,
+          "GroupDesc": "Grand Senior(76-80)"
+      }
     ],
       "EndorsementYn": this.endorsementType,
         "EndorsementDate":this.endorsementDate,
@@ -2032,7 +2032,7 @@ savePlan(travelList, totalPassengers){
         "OrginalPolicyNo": this.orginalPolicyNo,
         
     }
-    
+    ReqObj.GroupDetails = ReqObj.GroupDetails.filter(ele=>ele.GroupMembers!=0 && ele.GroupMembers!='0')
     ReqObj['PolicyNo'] = this.endorsePolicyNo
     console.log("Received Obj",ReqObj)
     let urlLink = `${this.motorApiUrl}api/savetraveldetails`;

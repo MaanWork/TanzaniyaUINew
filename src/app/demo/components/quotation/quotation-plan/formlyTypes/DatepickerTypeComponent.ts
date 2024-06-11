@@ -8,6 +8,7 @@ import { MatInput } from '@angular/material/input';
   <p-calendar class="w-full" styleClass="w-full"
         [formControl]="formControl"
         [formlyAttributes]="field"
+        [maxDate]="to.datepickerOptions?.max"
         [minDate]="to.datepickerOptions?.min"
         dateFormat="dd/mm/yy">
     </p-calendar>
