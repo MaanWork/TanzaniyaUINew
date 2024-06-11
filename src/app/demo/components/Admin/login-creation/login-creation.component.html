@@ -1,8 +1,60 @@
+
 <div class="card">
     <p-tabView [activeIndex]="tabIndex"  (onChange)="onTabClicked($event)">
         <p-tabPanel header="Broker">
-
-        
+            <div class="grid">
+                <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                    <label for="Company">Company *</label>
+                    <p-dropdown  class="w-full" styleClass="w-full" >
+                    </p-dropdown> 
+                </div>
+                <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                    <label for="Channel">Channel *</label>
+                    <p-dropdown  class="w-full" styleClass="w-full"  >
+                    </p-dropdown> 
+                </div>
+                <div class="col-12 lg:col-2 md:col-2 lg:col-2 "></div>
+                <div class="col-12 lg:col-2 md:col-2 lg:col-2 ">
+                    <p-button label="Add New Broker" size="small" (click)="showDialogBrokerDetails()"></p-button>
+                </div>
+            </div> 
+           <ng-container >
+                <h5>Selected Documents</h5><br>
+                <p-table  [value]="tableData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>S.No</th>
+                            <th>Login Id </th>
+                            <th>Broker Name </th>
+                            <th>MailID </th>
+                            <th>Created Date</th>
+                            <th>Mobile No</th>
+                            <th>Status </th>
+                            <th>Action </th>
+                            <!-- <th>Configure </th>
+                            <th>View </th> -->
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-data let-i="rowIndex">
+                      <tr>
+                        <td>{{i+1}}</td>
+                        <td>{{data.id}}</td>
+                        <td>{{data. name}}</td>
+                        <td>{{data.mail}}</td>
+                        <td>{{data.date}}</td>
+                        <td>{{data.mob}}</td>
+                        <td>{{data.status}}</td>
+                        <td>
+                            <span class="p-buttonset">
+                                <button pButton pRipple icon="pi pi-pencil" title="Edit" class="p-button-outlined" ></button>
+                                <button pButton pRipple icon="pi pi-cog" title="Configure" class="p-button-outlined" ></button>
+                                <button pButton pRipple icon="pi pi-eye" title="View" (click)="brokerDetailsView()"  class="p-button-outlined"></button>
+                            </span>
+                        </td>
+                      </tr>
+                    </ng-template>
+                </p-table>
+            </ng-container>
         </p-tabPanel>
         <p-tabPanel header="User">
 
@@ -13,4 +65,263 @@
         
         </p-tabPanel>
     </p-tabView>
-</div>
+
+</div> 
+ <p-dialog header="Broker Details" [modal]="true" [(visible)]="brokerDialogVisible" [style]="{ width: '75rem' }">
+    <span class="p-text-dark block mb-5"><b>Personal Information</b></span>
+    <div class="grid">
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="CustomerCode" class="font-semibold w-6rem">Customer Code</label>
+            <div class="p-inputgroup">
+                <input type="text" id="CustomerCode" pInputText placeholder="Customer Code" />
+                <button type="button" pButton icon="pi pi-search" class="p-button-outlined"></button>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Name" class="font-semibold w-6rem">Name</label>
+            <input pInputText id="Name" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Channel" class="font-semibold w-6rem">Channel *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" 
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Insurance" class="font-semibold w-6rem">Insurance / Broker Company *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" 
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Address1" class="font-semibold w-6rem">Address1</label>
+            <input pInputText id="Address1" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Address2" class="font-semibold w-6rem">Address2</label>
+            <input pInputText id="Address2" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Country" class="font-semibold w-6rem">Country *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" 
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Region" class="font-semibold w-6rem">Region *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" 
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="District" class="font-semibold w-6rem">District *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" 
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Email" class="font-semibold w-6rem">Email*</label>
+            <input pInputText id="Email" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="POBox" class="font-semibold w-6rem">PO Box</label>
+            <input pInputText id="POBox" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="ContactPerson" class="font-semibold w-6rem">ContactPerson Name</label>
+            <input pInputText id="ContactPerson" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Designation" class="font-semibold w-6rem">Designation</label>
+            <input pInputText id="Designation" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Mobile" class="font-semibold w-6rem">Mobile No *</label>
+            <div class="flex flex-warp">
+                <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                    <p-dropdown  class="w-full" styleClass="w-full" 
+                        optionLabel="CodeDesc" optionValue="Code" >
+                    </p-dropdown> 
+                </div>
+                <div class="col-12 lg:col-8 md:col-8 lg:col-8">
+                    <input pInputText id="Mobile" class="w-full" />
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="WhatsApp" class="font-semibold w-6rem">WhatsApp No *</label>
+            <div class="flex flex-warp">
+                <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                    <p-dropdown  class="w-full" styleClass="w-full" 
+                        optionLabel="CodeDesc" optionValue="Code" >
+                    </p-dropdown> 
+                </div>
+                <div class="col-12 lg:col-8 md:col-8 lg:col-8">
+                    <input pInputText id="WhatsApp" class="w-full" />
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="CoreApp" class="font-semibold w-6rem">CoreApp Code *</label>
+            <input pInputText id="CoreApp" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Regulatory" class="font-semibold w-6rem">Regulatory Code *</label>
+            <input pInputText id="Regulatory" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
+            <label for="ExcemptedYN" class="font-semibold w-6rem">Tax ExcemptedYN *</label>
+            <div class="flex flex-warp">
+            <div class="flex align-items-center mr-1">
+                <p-radioButton name="Yes" value="Y"  inputId="ingredient2"></p-radioButton>
+                <span for="ingredient2" class="ml-1">Yes</span>
+            </div>
+            <div class="flex align-items-center mr-1">
+                <p-radioButton name="No" value="N"  inputId="ingredient3"></p-radioButton>
+                <span for="ingredient3" class="ml-1">No</span>
+            </div>
+        </div>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Credit" class="font-semibold w-6rem">Credit Limit *</label>
+            <input pInputText id="Credit" class="w-full" />
+        </div>
+    </div>
+    <p-divider class="mt-3 mb-3" />
+    <span class="p-text-dark block mb-5"><b>Login  Information</b></span>
+    <div class="grid">
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="LogInId" class="font-semibold w-6rem">LogIn Id *</label>
+            <input pInputText id="LogInId" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Password1" class="font-semibold w-6rem">Password *</label>
+            <input pInputText id="Password1" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Password2" class="font-semibold w-6rem">Re-Enter Password *</label>
+            <input pInputText id="Password2" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="EffectiveDate" class="font-semibold w-6rem">Effective Date *</label>
+            <p-calendar  
+            [showIcon]="true" 
+            inputId="icondisplay" 
+            styleClass="w-full" 
+            class="w-full"/>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Remarks" class="font-semibold w-6rem">Remarks *</label>
+            <textarea pInputTextarea id="Remarks" class="w-full" ></textarea>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
+            <label for="ExcemptedYN" class="font-semibold w-6rem">Status *</label>
+            <div class="flex flex-warp">
+            <div class="flex align-items-center mr-1">
+                <p-radioButton name="Active" value="Y"  inputId="ingredient2"></p-radioButton>
+                <span for="Active" class="ml-1">Active</span>
+            </div>
+            <div class="flex align-items-center mr-1">
+                <p-radioButton name="Pending" value="P"  inputId="ingredient3"></p-radioButton>
+                <span for="Pending" class="ml-1">Pending</span>
+            </div>
+            <div class="flex align-items-center mr-1">
+                <p-radioButton name="DeActive" value="N"  inputId="ingredient3"></p-radioButton>
+                <span for="DeActive" class="ml-1">DeActive</span>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="flex justify-content-center gap-2">
+        <p-button label="Cancel" styleClass="p-button-outlined"  />
+        <p-button label="Submit"/>
+    </div>
+</p-dialog>
+<p-dialog  header="Broker Details" [modal]="true"  [(visible)]="visibleBrokerDetails"  [style]="{ width: '75rem' }" 
+        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true">
+        <div class="grid ">
+            <div class="col-12 lg:col-5 md:col-5 lg:col-5">
+                <p-card header="Basic Details">
+                    <hr>
+                    <div class="flex flex-warp justify-content-end">
+                        <div class="col-8 lg:col-8 md:col-8 lg:col-8">
+                            <p  class="font-semibold broker_name">Broker Name </p>
+                            <p>Sam_broker</p>
+                            
+                        </div>
+                        <div class="col-3 lg:col-3 md:col-3 lg:col-3">
+                            <p-button label="Edit"  class="p-button-outlined" styleClass="p-button-outlined" />
+                            <!-- <i class="pi pi-check-circle" style="color: green"></i> -->
+                        </div>
+                        <div class="col-1 lg:col-1 md:col-1 lg:col-1">
+                            <!-- <p-button label="Edit"  class="p-button-outlined" styleClass="p-button-outlined" /> -->
+                            <i class="pi pi-check-circle" style="color: green"></i>
+                        </div>
+                    </div>
+                        <div class="grid ">
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                                <p  class="font-semibold broker_name">Customer Code </p>
+                                <p>5654978987</p>
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                                <p  class="font-semibold broker_name">Address </p>
+                                <p>Tanzania</p>
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                                <p  class="font-semibold broker_name">Email </p>
+                                <p>sam@gmail.com</p>
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                                <p  class="font-semibold broker_name">Mobile No </p>
+                                <p>767645444</p>
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                                <p  class="font-semibold broker_name">PO Box</p>
+                                <p></p>
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                                <p  class="font-semibold broker_name">Contact Person</p>
+                                <p></p>
+                            </div>
+                        </div>
+                </p-card>
+            </div>
+            <div class="col-12 lg:col-5 md:col-5 lg:col-5">
+                <p-card header="Company Details">
+                    <hr>
+                            <div class="grid ">
+                            <div class="col-8 lg:col-8 md:col-8 lg:col-8">
+                                <p  class="font-semibold broker_name">Channel </p>
+                                <p>broker</p>
+                                
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                                <p  class="font-semibold broker_name">Insurance/Broker Company </p>
+                                <p>5654978987</p>
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                                <p  class="font-semibold broker_name">Address </p>
+                                <p>Tanzania</p>
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                                <p  class="font-semibold broker_name">Email </p>
+                                <p>sam@gmail.com</p>
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                                <p  class="font-semibold broker_name">Mobile No </p>
+                                <p>767645444</p>
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                                <p  class="font-semibold broker_name">PO Box</p>
+                                <p></p>
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                                <p  class="font-semibold broker_name">Contact Person</p>
+                                <p></p>
+                            </div>
+                        </div>
+                </p-card>
+            </div>
+        </div>
+       
+    </p-dialog>

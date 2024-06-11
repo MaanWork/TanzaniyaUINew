@@ -27,6 +27,8 @@ import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { LoginCreationComponent } from './login-creation/login-creation.component';
+import { CalendarModule } from 'primeng/calendar';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 
 
@@ -66,6 +68,8 @@ import { LoginCreationComponent } from './login-creation/login-creation.componen
     DropdownModule,
     ReactiveFormsModule,
     FormlyModule,
+    CalendarModule,
+    InputTextareaModule
   ],
   bootstrap: [],
   providers: [
