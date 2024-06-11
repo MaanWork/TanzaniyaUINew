@@ -175,9 +175,9 @@ export class RiskDetailsComponent {
             ContentRiskDesc: '',
             SumInsured: 0,
           }]
-          this.columnHeaderPersonalLiability =['Location *','Occupation *','Name *','Nationality *','Date Of Birth *','Salary *','Edit' ,'Delete'];
-          this.columnHeaderPersonalAccident =['Location *','Occupation *','Name *','Nationality *','Date Of Birth *','Salary *','Edit' ,'Delete'];
-          this.columnHeaderBuilding =['Building Usage','Construction (Wall)','Construction (Roof)','Sum Insured',"Location",'Edit' ,'Delete']
+          this.columnHeaderPersonalLiability =['Location *','Occupation *','Name *','Date Of Birth *','Salary *','Edit' ,'Delete'];
+          this.columnHeaderPersonalAccident =['Location *','Occupation *','Name *','Date Of Birth *','Salary *','Edit' ,'Delete'];
+          this.columnHeaderBuilding =['Construction (Wall)','Construction (Roof)','Sum Insured',"Location",'Edit' ,'Delete']
           this.TableRowBuilding =[{
             id:1,
             BuildingUsageId: '',
@@ -4298,8 +4298,7 @@ getAddInfo(){
             if (this.TableRowBuilding.length != 0) {
               let i=0,j=0, reqList =[],additionalList=[];
               for(let entry of this.TableRowBuilding){
-                  if(entry.BuildingUsageId!=null && entry.BuildingUsageId!='' && entry.BuildingUsageId!=undefined) entry['BuildingUsageIdError']=false;
-                  else{ j+=1; entry['BuildingUsageIdError']=true;}
+                  if(entry.BuildingUsageId==null || entry.BuildingUsageId=='' || entry.BuildingUsageId==undefined){entry['BuildingUsageId']='1'}
                   if(entry.WallType!=null && entry.WallType!='' && entry.WallType!=undefined) entry['WallTypeError']=false;
                   else{ j+=1; entry['WallTypeError']=true;}
                   if(entry.RoofType!=null && entry.RoofType!='' && entry.RoofType!=undefined) entry['RoofTypeError']=false;

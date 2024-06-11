@@ -65,7 +65,7 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-Building let-ri="rowIndex">
                     <tr>
-                        <td>
+                        <!-- <td>
                             <ng-container *ngIf="currentBuildingRowIndex==ri">
                                 <p-dropdown class="w-full"  placeholder="Select Usage"  [options]="BuildingUsageList" 
                                         appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="Building.BuildingUsageId" />
@@ -77,7 +77,7 @@
                                     Select Valid Usage
                                 </div>
                             </div>
-                        </td>
+                        </td> -->
                         <!-- <td>
                             <ng-container *ngIf="currentBuildingRowIndex==ri">
                                 <input class="w-full p-button-outlined"   placeholder="Enter Build Year "  pInputText type="text" 
@@ -946,7 +946,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td>
+                        <!-- <td>
                             <ng-container *ngIf="currentPLRowIndex==ri">
                                 <p-dropdown class="w-full customInput"  styleClass="w-full customInput" placeholder="Select Nationality"
                                 [options]="countryList"
@@ -960,7 +960,7 @@
                                     Please Select Nationality
                                 </div>
                             </div>
-                        </td>
+                        </td> -->
                         <td>
                             <ng-container *ngIf="currentPLRowIndex==ri">
                                 <p-calendar class="w-full customZIndex customInput" styleClass="w-full customZIndex customInput" appendTo="body" 
@@ -1099,7 +1099,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td>
+                        <!-- <td>
                             <ng-container *ngIf="currentPARowIndex==ri">
                                 <p-dropdown class="w-full customInput"  styleClass="w-full customInput" placeholder="Select Nationality"
                                 [options]="countryList"
@@ -1113,7 +1113,7 @@
                                     Please Select Nationality
                                 </div>
                             </div>
-                        </td>
+                        </td> -->
                         <td>
                             <ng-container *ngIf="currentPARowIndex==ri">
                                 <p-calendar class="w-full customZIndex customInput" styleClass="w-full customZIndex customInput" appendTo="body" 
