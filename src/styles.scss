@@ -444,6 +444,18 @@ cursor:  pointer !important;
   color: #fff;
   cursor: pointer !important;
 }
+.yes{
+    position: relative;
+    transition: all .2s ease;
+    border-color: #d1d9e6 !important;
+    box-shadow: 1px 1px 1px #b8b9be, -3px -3px 3px #fff;
+    color: #000;
+    font-weight: 400;
+    bottom: .2rem;
+    border-radius: 18px;
+    //background: #530d58;
+    margin-left: 10px !important;
+  }
 .no{
   position: relative;
   transition: all .2s ease;
@@ -844,4 +856,24 @@ cursor:  pointer !important;
 }
 .text-dark{
     color: #000 !important;
+}
+.travelText {
+    width: 3rem !important;
+    text-align: center !important;
+    border-right: none;
+    border-left: none;
+   // border-radius: 9px;
+}
+.travelTextAddBtn{
+    border-radius: 0px;
+    border-bottom-right-radius: 9px;
+    border-top-right-radius: 9px;
+}
+.travelTextSubBtn{
+    border-radius: 0px;
+    border-bottom-left-radius: 9px;
+    border-top-left-radius: 9px;
+}
+.broker_name{
+    margin: 0 0 0rem 0 !important;
 }

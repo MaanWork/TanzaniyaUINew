@@ -220,9 +220,9 @@ export class PolicyInfoComponent {
   }
   onGetSchedule(rowData){
     let ReqObj = {
-      "QuoteNo":rowData.QuoteNo,
-      "EndorsementType":"E"
+      "QuoteNo":rowData.QuoteNo
     }
+    if(this.endorsementSection) ReqObj['EndorsementType'] = 'E';
     let urlLink = `${this.CommonApiUrl}pdf/policyform`;
     // let ReqObj = {
     //   "QuoteNo": rowData.QuoteNo,

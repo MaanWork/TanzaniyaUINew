@@ -389,7 +389,8 @@ export class CustomerCreateFormComponent implements OnInit {
 							this.router.navigate(['/policyDetails']);
 						}
 						else if(sessionStorage.getItem('QuoteType') || this.endorsementSection){
-							this.router.navigate(['/policyDetails']);
+						  if(this.productId=='5')	this.router.navigate(['/policyDetails']);
+						  else this.router.navigate(['/quotation/plan/quote-details']);
 						}
 						else this.router.navigate(['/customer/'])
 					//}
