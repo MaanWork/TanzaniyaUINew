@@ -718,7 +718,6 @@ export class RiskDetailsComponent {
     let urlLink = `${this.motorApiUrl}api/savepersonalaccident`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
-        console.log(data);
         let res: any = data;
         if (data.ErrorMessage.length != 0) {
           if (res.ErrorMessage) {

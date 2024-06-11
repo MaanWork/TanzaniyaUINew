@@ -487,7 +487,6 @@ emiyn="N";
                     console.log('MannnnnnnnReferral', this.isMannualReferal);
                   }
                   if(this.statusValue=='RP' && !this.adminSection){
-                    
                     if(!this.vehicleDetailsList.some(ele=>ele.Status=='RP') && this.isMannualReferal!='Y'){
                       this.statusValue = null;
                       sessionStorage.removeItem('QuoteStatus')
@@ -4327,7 +4326,7 @@ emiyn="N";
                 //   'Referral Quote',
                 //   'Quote Moved to Referral Pending',
                 //   config);
-                this.router.navigate(['Home/referralPending']);
+                this.router.navigate(['/referral']);
             }
           }
         },

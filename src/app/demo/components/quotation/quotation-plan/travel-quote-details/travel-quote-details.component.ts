@@ -109,9 +109,37 @@ export class TravelQuoteDetailsComponent {
      this.getExistingTravelDetails();
      this.getEditQuoteDetails();
      this.getPassengerCountList();
+     this.getpassengerDetails();
+     
   }
- 
+  ongetBack(){
+      this.router.navigate(['/quotation/plan/premium-details'])
+  }
+  getpassengerDetails(){
+    let quoteNo=sessionStorage.getItem('quoteNo');
+    let ReqObj =  {
+      "QuoteNo": quoteNo,
+    }
+     //let urlLink = `${this.motorApiUrl}api/getmotordetails`;
+     let urlLink = `${this.motorApiUrl}api/getactiverpassengers`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+          this.historyRecordsList = data.Result;
+          if(this.historyRecordsList.length==0) this.addPassenger();
+          else this.passengerGrid = true;
+          // this.validRecordsList = data.Result;
+          // this.getHistoryRecords(data.Result);
+          // this.PassengerDetails = data.Result;
+          // this.passengerSection = true;
+          // this.setTravelValues();
+        }
+      },
+      (err) => { },
+    );
+    }
   addPassenger(){
+    this.editIndex=null;
     this.visible=true;
     this.passengerGrid=false;
     this.visibleUp=false;
@@ -127,10 +155,24 @@ export class TravelQuoteDetailsComponent {
         this.getRelationshipList('change')
       });
     } }
+    let regionHooks3 ={ onInit: (field: FormlyFieldConfig) => {
+      field.formControl.valueChanges.subscribe(() => {
+        this.onRelationIdChange('change');
+      });
+    } }
     for(let field of fieldList){
-      if(field.key == "GenderId"){field.hooks = regionHooks2;}
+      if(field.key == "GenderId"){
+        field.hooks = regionHooks2;
+        if(this.addPassengerItem.GenderId==null || this.addPassengerItem.GenderId==''){this.addPassengerItem.GenderId='M';this.getRelationshipList('change');}
+      }
+      if(field.key == "RelationId"){field.hooks = regionHooks3;}
     }
     this.getCountryList();
+  }
+  onRelationIdChange(type){
+      if(this.addPassengerItem.RelationId!=null && this.addPassengerItem.RelationId!=''){
+        this.addPassengerItem.relationshipDesc = this.relationShipList.find(ele=>ele.Code==this.addPassengerItem.RelationId)?.CodeDesc;
+      }
   }
   getCountryList(){
     let ReqObj = {
@@ -159,7 +201,7 @@ export class TravelQuoteDetailsComponent {
                 for(let field of fieldList){
                   if(field.key == "Nationality"){
                     field.props.options = this.countryList;
-            }
+                }
           }
         }
         }}
@@ -194,23 +236,33 @@ export class TravelQuoteDetailsComponent {
               // }
               if(i==this.relationShipList.length){
                 let fieldList = this.AddPassengerField[0].fieldGroup[0].fieldGroup;
+                if(this.historyRecordsList.length==0){
+                  this.addPassengerItem.RelationId = this.RelationId;
+                  if(this.addPassengerItem.GenderId == 'M'){
+                    this.RelationId = '9';
+                  }
+                  else if(this.addPassengerItem.GenderId == 'F'){
+                    this.RelationId = '10';
+                  }
+                  this.addPassengerItem.RelationId = this.RelationId;
+                }
                 for(let field of fieldList){
                   if(field.key == "RelationId"){
                     field.props.options = this.relationShipList;
                     if(this.historyRecordsList.length==0){
-                      this.addPassengerItem.RelationId = this.RelationId;
-                      if(this.addPassengerItem.GenderId == 'M'){
-                        this.RelationId = '9';
-                      }
-                      else if(this.addPassengerItem.GenderId == 'F'){
-                        this.RelationId = '10';
-                      }
-                      
-                      console.log("Fields",field,this.addPassengerItem)
                       field.props.disabled = false;
                       field.formControl.setValue(this.RelationId)
                       field.props.disabled = true;
                     }
+                  }
+                  if(field.key=='Dob'){
+                    let backDate = new Date();
+                    var d = backDate;
+                    var year = d.getFullYear();
+                    var month = d.getMonth();
+                    var day = d.getDate();
+                    backDate = new Date(year, month, day);
+                    if(this.RelationId=='9' || this.RelationId=='10') field.templateOptions.datepickerOptions.max = new Date(year-18, month, day-1);
                   }
                 }
             }
@@ -385,6 +437,7 @@ export class TravelQuoteDetailsComponent {
   passengerEdit(rowData){
     this.editIndex = this.historyRecordsList.findIndex(ele=>ele.PassportNo == rowData.PassportNo && ele.Dob==rowData.Dob);
     console.log("Edit Index",this.editIndex);
+    this.addPassengerItem = new ProductData();
     this.addPassengerItem.PassengerId = rowData.PassengerId;
     this.addPassengerItem.PassengerFirstName = rowData.PassengerFirstName;
     this.addPassengerItem.PassengerLastName = rowData.PassengerLastName;
@@ -394,14 +447,33 @@ export class TravelQuoteDetailsComponent {
     this.addPassengerItem.GenderId = rowData.GenderId;
     this.addPassengerItem.GroupId = rowData.GroupId;
     this.addPassengerItem.RelationId = String(rowData.RelationId);
+    this.addPassengerItem.relationshipDesc = rowData.RelationDesc;
    // this.getRelationshipList('direct');
     console.log("Final Relation On Edit",this.RelationId,rowData) ;
     this.passengerGrid=false;
     this.visible=true;
   }
 
-  ProceedToDoc(){
-    this.router.navigate(['/quotation/plan/main/document-info'])
+  ProceedToDoc(type){
+    if(this.historyRecordsList.length!=0){
+      let urlLink = null;
+      if(type=='save') urlLink = `${this.motorApiUrl}api/savepassengers`;
+      else urlLink = `${this.motorApiUrl}api/proceedpassengers`;
+      let ReqObj = {
+        "CreatedBy": this.loginId,
+        "PassengerList": this.historyRecordsList,
+        "QuoteNo": this.quoteNo
+      }
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          if(data.Result){
+            this.router.navigate(['/quotation/plan/main/document-info'])
+          }
+        },
+        (err) => { },
+      );
+    }
+    //this.router.navigate(['/quotation/plan/main/document-info'])
   }
   getCustomerDetails(referenceNo){
     let ReqObj = {

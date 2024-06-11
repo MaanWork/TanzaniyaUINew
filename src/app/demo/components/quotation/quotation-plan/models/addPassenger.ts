@@ -123,7 +123,6 @@ export class AddPassenger{
                       disabled: this.checkDisable('Dob'),
                       
                     },
-                    
                     validators: {
                     },
                     hooks: {
