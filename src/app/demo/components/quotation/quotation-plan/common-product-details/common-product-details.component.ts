@@ -182,6 +182,14 @@ export class CommonProductDetailsComponent {
   commissionValue: any="";
   country: any;
   updatedDetails: boolean;
+  productNameList: any[]=[];
+  productName:any;
+  IndustryTypes:any;
+  region:any;
+  stateName:any;
+  FireSumInsured:any;
+  IndustryType: any[]=[];
+  TableRowFire: any[]=[];
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -259,6 +267,120 @@ export class CommonProductDetailsComponent {
       this.getExistingTravelDetails();
       }
     }
+     if(this.productId=='6')
+      {
+        this.TableRowFire=[{
+          "id":"",
+          "productName":"",
+          "IndustryTypes":"",
+          "Industry":"",
+          "LocationName":'',
+          "region":"",
+          "stateName":"",
+          "sumInsured":""
+          // FireSumInsured
+        }]
+        this.getRegionList();
+        this.IndustryType = [
+          { Code:null,CodeDesc:'-Select-'},
+          { Code:'Manufacturing',CodeDesc:'Manufacturing'},
+          { Code:'Non-Manufacturing',CodeDesc:'Non-Manufacturing'},
+        ]
+        this.productNameList = [
+          { Code:null,CodeDesc:'-Select-'},
+          { Code:' Fire Class I ',CodeDesc:'Fire Class I'},
+        {Code:'FIRE GIN',CodeDesc:'FIRE GIN' },
+        {Code:'FIRE LOSS OF PROFIT GIN(For Indemity period of Less than One year)',
+          CodeDesc:'FIRE LOSS OF PROFIT GIN(For Indemity period of Less than One year)'},
+        {Code:'FIRE LOSS OF PROFIT GIN(For Indemity period of One year)',
+          CodeDesc:'FIRE LOSS OF PROFIT GIN(For Indemity period of One year)'},
+        { Code:'FIRE LOSS OF PROFIT Other than  Class 1 other than Makuti FOR INDEMNITY PERIOD OF LESS THAN  ONE Year',
+          CodeDesc:'FIRE LOSS OF PROFIT Other than  Class 1 other than Makuti FOR INDEMNITY PERIOD OF LESS THAN  ONE Year'},
+        {Code:'FIRE LOSS OF PROFIT Other than  Class 1 other than Makuti FOR INDEMNITY PERIOD OF ONE Year',
+          CodeDesc:'FIRE LOSS OF PROFIT Other than  Class 1 other than Makuti FOR INDEMNITY PERIOD OF ONE Year' },
+        {Code:'FIRE LOSS OF PROFIT(For indemity period of less than one year=0.75 * fire rate) Class I',
+          CodeDesc:'FIRE LOSS OF PROFIT(For indemity period of less than one year=0.75 * fire rate) Class I' },
+        { Code:'FIRE LOSS OF PROFIT(For indemity period of one year=fire rate) Class I',
+          CodeDesc:'FIRE LOSS OF PROFIT(For indemity period of one year=fire rate) Class I' },
+        { Code:'Fire other than  Class 1 other than Makuti',
+          CodeDesc:'Fire other than  Class 1 other than Makuti' },
+        {Code:'FIRE(RATING FOR MAKUTI/THATCHED CONSTRUCTION)',
+          CodeDesc:'FIRE(RATING FOR MAKUTI/THATCHED CONSTRUCTION)'},
+        { Code:'Fire-Class I Floater policies',
+          CodeDesc:'Fire-Class I Floater policies'},
+        ]
+      }
+  }
+
+  addFireTable(){
+      if (this.TableRowFire.length != 0) {
+        let i=0,j=0, reqList =[],additionalList=[];
+        for(let entry of this.TableRowFire){
+            // if(entry.BuildingUsageId!=null && entry.BuildingUsageId!='' && entry.BuildingUsageId!=undefined) entry['BuildingUsageIdError']=false;
+            // else{ j+=1; entry['BuildingUsageIdError']=true;}
+            // if(entry.WallType!=null && entry.WallType!='' && entry.WallType!=undefined) entry['WallTypeError']=false;
+            // else{ j+=1; entry['WallTypeError']=true;}
+            // if(entry.RoofType!=null && entry.RoofType!='' && entry.RoofType!=undefined) entry['RoofTypeError']=false;
+            // else{ j+=1; entry['RoofTypeError']=true;}
+            // if(entry.BuildingSumInsured!=null && entry.BuildingSumInsured!='' && entry.BuildingSumInsured!=undefined && entry.BuildingSumInsured!=0 && entry.BuildingSumInsured!='0') entry['SumInsuredError']=false;
+            // else{ j+=1; entry['SumInsuredError']=true;}
+            // if(entry.LocationName!=null && entry.LocationName!='' && entry.LocationName!=undefined && entry.LocationName!=0) entry['LocationError']=false;
+            // else{ j+=1; entry['LocationError']=true;}
+              let data = {
+                  "ItemId":entry.ItemId,
+                  "RiskId":i+1,
+                  "BuildingUsageId":entry.BuildingUsageId,
+                  "BuildingBuildYear": entry.BuildingBuildYear,
+                  "WallType":entry.WallType,
+                  "RoofType":entry.RoofType,
+                  "BuildingSumInsured":entry.BuildingSumInsured,
+                  "LocationName": entry.LocationName,
+              }
+              // let additonalData = {
+              //   "BuildingSuminsured": entry.BuildingSumInsured,
+              //   "BuildingAddress": "Add1",
+              //   "Createdby": this.loginId,
+              //   "InbuildConstructType": null,
+              //   "QuoteNo": sessionStorage.getItem('quoteNo'),
+              //   "RequestReferenceNo": this.quoteRefNo,
+              //   "SectionId": "1",
+              //   "RiskId":i+1,
+              //   "LocationName": entry.LocationName
+              // }
+             // additionalList.push(additonalData);
+             this.TableRowFire.push(data);
+              i+=1;
+              // if(i==this.TableRowBuilding.length && j==0){
+              //    // this.visibleBuilding = false;
+              //     //this.SaveBuildingList(additionalList)
+              //     this.onfinalsave('Save');
+                // this.productItem['BuildingSuminsured'] = '10000000';
+                // let fireData = new Building();
+                // let entry = [];
+                // this.fieldsBuilding = fireData?.fields;
+        
+                // console.log('fieldsBuilding',this.fieldsBuilding);
+        
+                // let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
+                //   field.formControl.valueChanges.subscribe(() => {
+                //     this.individualCommaFormatted('PersonalAccident');
+                //   });
+                // } }
+               // this.fieldsBuilding[0].fieldGroup[0].fieldGroup[0].key['BuildingSuminsured'] = data.BuildingSumInsured;
+                // console.log(this.fieldsBuilding[0].fieldGroup[0].fieldGroup[0].hooks['BuildingSuminsured'] = '0000000')
+                //this.BuildingSuminsured='10000000';
+                //alert(this.productItem.BuildingSuminsured);
+                //this.fields[0].fieldGroup[0].fieldGroup[0].templateOptions['BuildingSuminsured'] = data.BuildingSumInsured;
+               // this.productItem['BuildingSuminsured']=data.BuildingSumInsured;
+            //    if (this.fieldsBuilding[0]?.fieldGroup && this.fieldsBuilding[0].fieldGroup[0]?.fieldGroup && this.fieldsBuilding[0].fieldGroup[0].fieldGroup[0]?.hooks) {
+            //     this.fieldsBuilding[0].fieldGroup[0].fieldGroup[0].hooks['BuildingSuminsured'] = '0000000';
+            // } else {
+            //     console.log("Unable to set 'BuildingSuminsured' hook: Invalid structure.");
+            // }
+            // }
+        }
+      }
+    
   }
   getRelationTypeList(){
     let ReqObj = {
@@ -2780,8 +2902,10 @@ backPlan()
         if (data.Result) {
           this.regionList = data.Result;
           if (data.Result.length != 0) {
-            let defaultObj = [{ 'label': '-Select-', 'value': '' }]
+            let defaultObj = [{ 'label': '-Select-', 'Code': '' }]
             this.regionList = data.Result;
+            console.log(this.regionList,"this.regionList");
+            
             for (let i = 0; i < this.regionList.length; i++) {
               this.regionList[i].label = this.regionList[i]['CodeDesc'];
               this.regionList[i].value = this.regionList[i]['Code'];
@@ -2982,9 +3106,19 @@ backPlan()
     );
   }
   ongetDistrictList(type){
-    let ReqObj = {
-      "CountryId": this.countryId,
-      "RegionCode": this.productItem.RegionCode
+    let ReqObj;
+    if(type=='region'){
+      ReqObj = {
+        "CountryId": this.countryId,
+        "RegionCode": this.region
+      }
+    }
+    else{
+
+      ReqObj = {
+        "CountryId": this.countryId,
+        "RegionCode": this.productItem.RegionCode
+      }
     }
     let urlLink = `${this.CommonApiUrl}master/dropdown/regionstate`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -3087,19 +3221,23 @@ backPlan()
                }
                else this.finalizeYN='N';
                 if(entry?.EndorsementDate!=null){
-                  this.endorsementDetails['EndorsementDate'] = entry?.EndorsementDate;
-                  this.endorsementDetails['EndorsementEffectiveDate'] = entry?.EndorsementEffectiveDate;
-                  this.endorsementDetails['EndorsementRemarks'] = entry?.EndorsementRemarks;
-                  this.endorsementDetails['EndorsementType'] = entry?.EndorsementType;
-                  this.endorsementDetails['EndorsementTypeDesc'] = entry?.EndorsementTypeDesc;
-                  this.endorsementDetails['EndtCategoryDesc'] = entry?.EndtCategoryDesc;
-                  this.endorsementDetails['EndtCount'] = entry?.EndtCount;
-                  this.endorsementDetails['EndtPrevPolicyNo'] = entry?.EndtPrevPolicyNo;
-                  this.endorsementDetails['EndtPrevQuoteNo'] = entry?.EndtPrevQuoteNo;
-                  this.endorsementDetails['EndtStatus'] = entry?.EndtStatus;
-                  this.endorsementDetails['IsFinanceEndt'] = entry?.IsFinanceEndt;
-                  this.endorsementDetails['OrginalPolicyNo'] = entry?.OrginalPolicyNo;
-                  sessionStorage.setItem('endorseTypeId',JSON.stringify(this.endorsementDetails));
+                  if(!sessionStorage.getItem('endorseTypeId')){
+                    this.endorsementDetails = {
+                      'EndorsementDate': entry?.EndorsementDate,
+                      'EndorsementEffectiveDate': entry?.EndorsementEffectiveDate,
+                      'EndorsementRemarks': entry?.EndorsementRemarks,
+                      'EndorsementType': entry?.EndorsementType,
+                      'EndorsementTypeDesc': entry?.EndorsementTypeDesc,
+                      'EndtCategoryDesc': entry?.EndtCategoryDesc,
+                      'EndtCount': entry?.EndtCount,
+                      'EndtPrevPolicyNo': entry?.EndtPrevPolicyNo,
+                      'EndtPrevQuoteNo': entry?.EndtPrevQuoteNo,
+                      'EndtStatus': entry?.EndtStatus,
+                      'IsFinanceEndt': entry?.IsFinanceEndt,
+                      'OrginalPolicyNo': entry?.OrginalPolicyNo,
+                    }
+                    sessionStorage.setItem('endorseTypeId',JSON.stringify(this.endorsementDetails));
+                  }
                 }
               this.applicationId = entry.ApplicationId;
               if(entry?.PolicyStartDate != null ){
