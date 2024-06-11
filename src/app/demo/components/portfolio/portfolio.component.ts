@@ -63,7 +63,8 @@ export class PortfolioComponent implements OnInit {
     this.branches = [
       { label: 'Test', target: 'T' },
     ];
-    this.columns = ['Vehicle Details','PolicyNo','Quote No','Customer Name','Currency','Start Date','End Date','Premium','Actions']
+    if(this.productId=='5') this.columns = ['Vehicle Details','PolicyNo','Quote No','Customer Name','Currency','Start Date','End Date','Premium','Actions']
+    else this.columns = ['PolicyNo','Quote No','Customer Name','Currency','Start Date','End Date','Premium','Actions']
     this.getBrokerList();
     this.getPendingList();
     this.getCancelledList();

@@ -69,13 +69,14 @@
                             <ng-container *ngIf="currentBuildingRowIndex==ri">
                                 <p-dropdown class="w-full"  placeholder="Select Usage"  [options]="BuildingUsageList" 
                                         appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="Building.BuildingUsageId" />
-                                        <div class="input-form-error" *ngIf="Building.BuildingUsageIdError">
-                                            <div class="error-text text-danger">
-                                                Select Valid Usage
-                                            </div>
-                                        </div>
+                                       
                             </ng-container>
                             <ng-container *ngIf="currentBuildingRowIndex!=ri">{{getBuildingUsageId(Building.BuildingUsageId)}}</ng-container>
+                            <div class="input-form-error" *ngIf="Building.BuildingUsageIdError">
+                                <div class="error-text text-danger">
+                                    Select Valid Usage
+                                </div>
+                            </div>
                         </td>
                         <!-- <td>
                             <ng-container *ngIf="currentBuildingRowIndex==ri">
@@ -90,56 +91,60 @@
                             <ng-container *ngIf="currentBuildingRowIndex==ri">
                                 <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Wall Type"  [options]="wallMaterialList" 
                                         appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="Building.WallType" />
-                                <div class="input-form-error" *ngIf="Building.WallTypeError">
-                                    <div class="error-text text-danger">
-                                        Select WallType
-                                    </div>
-                                </div>
+                               
                             </ng-container>
                             <ng-container *ngIf="currentBuildingRowIndex!=ri">
                                 {{getwallTypeDescription(Building.WallType)}}
-                            </ng-container>         
+                            </ng-container> 
+                            <div class="input-form-error" *ngIf="Building.WallTypeError">
+                                <div class="error-text text-danger">
+                                    Select WallType
+                                </div>
+                            </div>        
                         </td>
                         <td>
                             <ng-container *ngIf="currentBuildingRowIndex==ri">
                                 <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Roof Type" 
                                  [options]="roofMaterialList" 
                                         appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="Building.RoofType" />
-                                        <div class="input-form-error" *ngIf="Building.RoofTypeError">
-                                            <div class="error-text text-danger">
-                                                Select RoofType
-                                            </div>
-                                        </div>
+                                        
                             </ng-container>
                             <ng-container *ngIf="currentBuildingRowIndex!=ri">
                                 {{getRoofTypeDescription(Building.RoofType)}}
-                            </ng-container>         
+                            </ng-container>    
+                            <div class="input-form-error" *ngIf="Building.RoofTypeError">
+                                <div class="error-text text-danger">
+                                    Select RoofType
+                                </div>
+                            </div>  
                         </td>
                         <td>
                             <ng-container *ngIf="currentBuildingRowIndex==ri">
                                 <p-inputNumber  type="number" [(ngModel)]="Building.BuildingSumInsured" inputId="integeronly"/>
-                                <div class="input-form-error" *ngIf="Building.SumInsuredError">
-                                    <div class="error-text text-danger">
-                                        Enter Valid Amount
-                                    </div>
-                                </div>
+                                
                             </ng-container>
                             <ng-container *ngIf="currentBuildingRowIndex!=ri">
                                 {{Building.BuildingSumInsured | commaseparator}}
-                            </ng-container>        
+                            </ng-container>  
+                            <div class="input-form-error" *ngIf="Building.SumInsuredError">
+                                <div class="error-text text-danger">
+                                    Enter Valid Amount
+                                </div>
+                            </div>      
                         </td>
                         <td>
                             <ng-container *ngIf="currentBuildingRowIndex==ri">
                                 <input pInputText  type="text"  [(ngModel)]="Building.LocationName" />
-                                <div class="input-form-error" *ngIf="Building.LocationError">
-                                    <div class="error-text text-danger">
-                                       Enter Valid LocationName
-                                    </div>
-                                </div>
+                                
                             </ng-container>
                             <ng-container *ngIf="currentBuildingRowIndex!=ri">
                                 {{Building.LocationName }}
-                            </ng-container>        
+                            </ng-container>
+                            <div class="input-form-error" *ngIf="Building.LocationError">
+                                <div class="error-text text-danger">
+                                   Enter Valid LocationName
+                                </div>
+                            </div>        
                         </td>
                         <td>
                             <ng-container *ngIf="currentBuildingRowIndex!=ri">

@@ -181,6 +181,7 @@ export class CommonProductDetailsComponent {
   executiveValue: any="";
   commissionValue: any="";
   country: any;
+  updatedDetails: boolean;
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -3044,7 +3045,7 @@ backPlan()
               let entry:any;
               //if(this.productId=='59') entry = this.customerData[0];
                entry = data.Result;this.colorSections=[];let j=0;
-               console.log('SECCCCCCCCCCC',entry.SectionIds);
+               this.updatedDetails = true;
                if(this.productId=='59'){
                if(entry.SectionIds.length!=0){
                 this.colorSections = entry.SectionIds;
@@ -7728,7 +7729,7 @@ let requestNO=null;
                   let referenceNo = sessionStorage.getItem('quoteReferenceNo');
                   if (referenceNo) {
                     this.requestReferenceNo = referenceNo;
-                    if(this.productId!='4')this.getExistingBuildingList();
+                    if(this.productId!='4') this.getExistingBuildingList();
                     this.setCommonFormValues();
                     this.productItem = new ProductData();
                    
