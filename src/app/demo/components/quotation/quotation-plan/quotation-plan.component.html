@@ -1,10 +1,10 @@
 <div class="flex flex-wrap card">
     <div class="col-12 md:col-4 lg:col-4 border-right-1 border-500 px-5">
         <ng-container *ngIf="riskDetails.length!=0">
-            <p-tabView [activeIndex]="tabIndex" (onChange)="onTabClicked($event)">
+            <p-tabView [activeIndex]="tabIndex" (onChange)="onTabClicked($event)" [scrollable]="true">
                 <ng-container>
                     <ng-container *ngFor="let veh of riskDetails;let i=index">
-                        <p-tabPanel [header]="getHeaderName(veh)">
+                        <p-tabPanel [header]="getHeaderName(veh)" >
                             <ng-container *ngFor="let sec of veh.SectionDetails">
                                 <ng-container *ngIf="checkCovers(sec,'opted')">
                                     <p><b>Opted Covers</b></p>
