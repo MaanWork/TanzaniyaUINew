@@ -1872,42 +1872,42 @@
                             </td>
                             <td style="text-align: end;padding: 8px;">
                                 <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
-                                    <b>{{factor.OwnDamage | commaseparator:'1.4'}}</b>
+                                    <b>{{factor.OwnDamage}}</b>
                                 </ng-container>
                                 <ng-container *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
-                                   {{factor.OwnDamage | commaseparator:'1.4'}}
+                                   {{factor.OwnDamage}}
                                 </ng-container>
                             </td>
                             <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028'">
                                 <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
-                                    <b>{{factor.Windscreen | commaseparator}}</b>
+                                    <b>{{factor.Windscreen}}</b>
                                 </ng-container>
                                 <ng-container *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
-                                    {{factor.Windscreen | commaseparator}}
+                                    {{factor.Windscreen}}
                                 </ng-container>
                             </td>
                             <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028'">
                                 <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
-                                   <b>{{factor.Theft | commaseparator}}</b>
+                                   <b>{{factor.Theft}}</b>
                                 </ng-container>
                                 <ng-container *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
-                                    {{factor.Theft | commaseparator}}
+                                    {{factor.Theft}}
                                 </ng-container>
                             </td>
                             <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028'">
                                 <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
-                                   <b>{{factor.Fire | commaseparator}}</b>
+                                   <b>{{factor.Fire}}</b>
                                 </ng-container>
                                 <ng-container *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
-                                    {{factor.Fire | commaseparator}}
+                                    {{factor.Fire}}
                                 </ng-container>
                             </td>
                             <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028'">
                                 <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
-                                    <b>{{factor.ThirdParty | commaseparator}}</b>
+                                    <b>{{factor.ThirdParty}}</b>
                                 </ng-container>
                                 <ng-container *ngIf="factor.FactorName!='Annual Peril Risk Premium Amount' && factor.FactorName!='Annual Peril Risk Premium Rate'">
-                                    {{factor.ThirdParty | commaseparator}}
+                                    {{factor.ThirdParty}}
                                 </ng-container>
                             </td>
                         </tr>
@@ -2066,6 +2066,7 @@
             </div>
         </ng-container>
         <ng-container *ngIf="newAddClauses">
+            <p-button class="p-button-outlined" label="Cancel" styleClass="p-button-outlined" (click)="newAddClauses=!newAddClauses"></p-button>&nbsp;
             <p-button class="mr-4 mb-4" label="Save" (click)="saveChanges()"></p-button>
             <!-- <button type="button" class="btn btn-primary ml-3" (click)="saveChanges()">Save
                 changes</button> -->

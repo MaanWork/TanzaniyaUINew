@@ -4332,33 +4332,8 @@ getAddInfo(){
                     reqList.push(data);
                     i+=1;
                     if(i==this.TableRowBuilding.length && j==0){
-                       // this.visibleBuilding = false;
-                        //this.SaveBuildingList(additionalList)
                         this.onfinalsave('Save');
-                      // this.productItem['BuildingSuminsured'] = '10000000';
-                      // let fireData = new Building();
-                      // let entry = [];
-                      // this.fieldsBuilding = fireData?.fields;
-              
-                      // console.log('fieldsBuilding',this.fieldsBuilding);
-              
-                      // let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
-                      //   field.formControl.valueChanges.subscribe(() => {
-                      //     this.individualCommaFormatted('PersonalAccident');
-                      //   });
-                      // } }
-                     // this.fieldsBuilding[0].fieldGroup[0].fieldGroup[0].key['BuildingSuminsured'] = data.BuildingSumInsured;
-                      // console.log(this.fieldsBuilding[0].fieldGroup[0].fieldGroup[0].hooks['BuildingSuminsured'] = '0000000')
-                      //this.BuildingSuminsured='10000000';
-                      //alert(this.productItem.BuildingSuminsured);
-                      //this.fields[0].fieldGroup[0].fieldGroup[0].templateOptions['BuildingSuminsured'] = data.BuildingSumInsured;
-                     // this.productItem['BuildingSuminsured']=data.BuildingSumInsured;
-                  //    if (this.fieldsBuilding[0]?.fieldGroup && this.fieldsBuilding[0].fieldGroup[0]?.fieldGroup && this.fieldsBuilding[0].fieldGroup[0].fieldGroup[0]?.hooks) {
-                  //     this.fieldsBuilding[0].fieldGroup[0].fieldGroup[0].hooks['BuildingSuminsured'] = '0000000';
-                  // } else {
-                  //     console.log("Unable to set 'BuildingSuminsured' hook: Invalid structure.");
-                  // }
-                  }
+                    }
               }
             }
           }
@@ -4369,16 +4344,9 @@ getAddInfo(){
                     (data: any) => {
                       if (data?.Result) {
                         if(data.Result.length!=0){
-                        // this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
                           sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
-                          //this.nextslide=true;
-                          // this.onCalculate(data.Result,'Building');
-                         
-                          //this.onCheckUWQuestionProceed(data.Result);
                         }
-                        
                       }
-                    
                   },
                   (err) => { },
                 );

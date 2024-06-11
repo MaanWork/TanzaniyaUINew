@@ -441,6 +441,7 @@ export class CoverDetailsComponent {
         });
   }
   viewCondition(index){
+    this.ClausesData = []; this.ExclusionData=[];this.WarrantyData=[];
     let QuoteNo:any;
     if(this.quoteNo!=undefined && this.quoteNo!="" && this.quoteNo!=null ){
       QuoteNo=this.quoteNo;
@@ -459,7 +460,7 @@ export class CoverDetailsComponent {
       RequestReferenceNo: this.quoteRefNo
 
     }
-    let urlLink = `${this.CommonApiUrl}api/viewtermsandcondition`;
+    let urlLink = `${this.CommonApiUrl}api/viewtermsbasedonsection`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         console.log(data);
@@ -2701,52 +2702,53 @@ export class CoverDetailsComponent {
     //   }      
     //   }
     for( let f of rawData){
+      alert('Entered')
+      f['SectionId'] = this.termsSectionId;
        if(f.TypeId != 'D'){
-        console.log('KKKKKKKKK',f.TypeId);
         rawData[i].TypeId='O';
        }
        i+=1;
+       if(i==rawData.length){
+        let Req = {
+          BranchCode: this.branchCode,
+          CreatedBy: this.loginId,
+          InsuranceId: this.insuranceId,
+          ProductId: this.productId,
+          QuoteNo:quote,
+          RiskId:String(this.tabIndex+1),
+          SectionId:this.termsSectionId,
+          TermsAndConditionReq:rawData,
+          RequestReferenceNo: this.requestReferenceNo
+        };
+        let urlLink = `${this.CommonApiUrl}api/inserttermsandcondition`;
+        this.sharedService.onPostMethodSync(urlLink, Req).subscribe((data: any) => {
+          if (data.Result) {
+            this.onExclusion = false;
+            this.onWarranty=false;
+            this.onClauses = false;
+            this.clause = false;
+              if(type){
+              if(type=='Clauses'){
+                this.viewCondition('direct');
+                this.showCoverList=true;
+              }
+              else if(type=='Exclusion'){
+                this.viewCondition('direct');
+              this.onExclusion = true;
+              }
+              else if(type=='Warranty'){
+                this.viewCondition('direct');
+                this.onWarranty = true;
+                }
+                else{
+                }
+              }
+          }
+          
+        });
+       }
     }
-    let Req = {
-      BranchCode: this.branchCode,
-      CreatedBy: this.loginId,
-      InsuranceId: this.insuranceId,
-      ProductId: this.productId,
-      QuoteNo:quote,
-      RiskId:String(this.tabIndex+1),
-      SectionId:this.termsSectionId,
-      TermsAndConditionReq:rawData,
-      RequestReferenceNo: this.requestReferenceNo
-    };
-
-    let urlLink = `${this.CommonApiUrl}api/inserttermsandcondition`;
-    this.sharedService.onPostMethodSync(urlLink, Req).subscribe((data: any) => {
-      if (data.Result) {
-        
-        this.onExclusion = false;
-        this.onWarranty=false;
-        this.onClauses = false;
-        this.clause = false;
-        
-   if(type){
-    if(type=='Clauses'){
-      this.viewCondition('direct');
-      this.showCoverList=true;
-    }
-    else if(type=='Exclusion'){
-      this.viewCondition('direct');
-    this.onExclusion = true;
-    }
-    else if(type=='Warranty'){
-      this.viewCondition('direct');
-      this.onWarranty = true;
-      }
-      else{
-      }
-    }
-      }
-      
-    });
+    
   }
   setDiscountDetails(vehData,rowData,modal){
     this.selectedVehId = vehData.VehicleId;
@@ -3899,9 +3901,11 @@ export class CoverDetailsComponent {
      "TypeId":"D",
      "Id":'6',
      "SubId":null,
+     "SectionId": this.termsSectionId,
+     "RiskId": this.tabIndex+1,
      "SubIdDesc":"",
      "DocRefNo":null,
-    "DocumentId":null,
+      "DocumentId":null,
      
    }]
    this.jsonList = entry.concat(this.jsonList);
@@ -3914,17 +3918,17 @@ export class CoverDetailsComponent {
 
     let i=0;
       console.log("EEEEEEEE", this.ClausesData);
-
+      alert(this.ClausesData.length);
    let clauses
      if(this.ClausesData!=null || this.ClausesData !=undefined){
+      alert(this.jsonList.length);
       clauses= this.ClausesData.concat(this.jsonList);
+      alert(clauses.length);
      }
      else{
       clauses= this.jsonList
      }
-
-    console.log('QQQQQ',this.quoteNo)
-        let quote
+    let quote
     if(this.quoteNo){
       quote=this.quoteNo;
     }
@@ -3937,8 +3941,8 @@ export class CoverDetailsComponent {
       InsuranceId: this.insuranceId,
       ProductId: this.productId,
       QuoteNo:quote,
-      RiskId:"1",
-      SectionId:"99999",
+      RiskId: this.tabIndex+1,
+      SectionId:this.termsSectionId,
       TermsAndConditionReq:clauses,
       RequestReferenceNo: this.requestReferenceNo
     };
@@ -3946,12 +3950,12 @@ export class CoverDetailsComponent {
     let urlLink = `${this.CommonApiUrl}api/inserttermsandcondition`;
     this.sharedService.onPostMethodSync(urlLink, Req).subscribe((data: any) => {
       if (data.Result) {
-        console.log('TOOOOOOOOO');
         this.jsonList =[
           {
             "TypeId":"D",
             "DocRefNo":null,
           "DocumentId":null,
+            "SectionId":this.termsSectionId,
              "Id":"6",
             "SubId":null,
              "SubIdDesc":""
