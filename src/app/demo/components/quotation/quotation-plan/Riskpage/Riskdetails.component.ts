@@ -175,9 +175,9 @@ export class RiskDetailsComponent {
             ContentRiskDesc: '',
             SumInsured: 0,
           }]
-          this.columnHeaderPersonalLiability =['Location *','Occupation *','Name *','Nationality *','Date Of Birth *','Salary *','Edit' ,'Delete'];
-          this.columnHeaderPersonalAccident =['Location *','Occupation *','Name *','Nationality *','Date Of Birth *','Salary *','Edit' ,'Delete'];
-          this.columnHeaderBuilding =['Building Usage','Construction (Wall)','Construction (Roof)','Sum Insured',"Location",'Edit' ,'Delete']
+          this.columnHeaderPersonalLiability =['Location *','Occupation *','Name *','Date Of Birth *','Salary *','Edit' ,'Delete'];
+          this.columnHeaderPersonalAccident =['Location *','Occupation *','Name *','Date Of Birth *','Salary *','Edit' ,'Delete'];
+          this.columnHeaderBuilding =['Construction (Wall)','Construction (Roof)','Sum Insured',"Location",'Edit' ,'Delete']
           this.TableRowBuilding =[{
             id:1,
             BuildingUsageId: '',
@@ -4298,8 +4298,7 @@ getAddInfo(){
             if (this.TableRowBuilding.length != 0) {
               let i=0,j=0, reqList =[],additionalList=[];
               for(let entry of this.TableRowBuilding){
-                  if(entry.BuildingUsageId!=null && entry.BuildingUsageId!='' && entry.BuildingUsageId!=undefined) entry['BuildingUsageIdError']=false;
-                  else{ j+=1; entry['BuildingUsageIdError']=true;}
+                  if(entry.BuildingUsageId==null || entry.BuildingUsageId=='' || entry.BuildingUsageId==undefined){entry['BuildingUsageId']='1'}
                   if(entry.WallType!=null && entry.WallType!='' && entry.WallType!=undefined) entry['WallTypeError']=false;
                   else{ j+=1; entry['WallTypeError']=true;}
                   if(entry.RoofType!=null && entry.RoofType!='' && entry.RoofType!=undefined) entry['RoofTypeError']=false;
@@ -4333,33 +4332,8 @@ getAddInfo(){
                     reqList.push(data);
                     i+=1;
                     if(i==this.TableRowBuilding.length && j==0){
-                       // this.visibleBuilding = false;
-                        //this.SaveBuildingList(additionalList)
                         this.onfinalsave('Save');
-                      // this.productItem['BuildingSuminsured'] = '10000000';
-                      // let fireData = new Building();
-                      // let entry = [];
-                      // this.fieldsBuilding = fireData?.fields;
-              
-                      // console.log('fieldsBuilding',this.fieldsBuilding);
-              
-                      // let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
-                      //   field.formControl.valueChanges.subscribe(() => {
-                      //     this.individualCommaFormatted('PersonalAccident');
-                      //   });
-                      // } }
-                     // this.fieldsBuilding[0].fieldGroup[0].fieldGroup[0].key['BuildingSuminsured'] = data.BuildingSumInsured;
-                      // console.log(this.fieldsBuilding[0].fieldGroup[0].fieldGroup[0].hooks['BuildingSuminsured'] = '0000000')
-                      //this.BuildingSuminsured='10000000';
-                      //alert(this.productItem.BuildingSuminsured);
-                      //this.fields[0].fieldGroup[0].fieldGroup[0].templateOptions['BuildingSuminsured'] = data.BuildingSumInsured;
-                     // this.productItem['BuildingSuminsured']=data.BuildingSumInsured;
-                  //    if (this.fieldsBuilding[0]?.fieldGroup && this.fieldsBuilding[0].fieldGroup[0]?.fieldGroup && this.fieldsBuilding[0].fieldGroup[0].fieldGroup[0]?.hooks) {
-                  //     this.fieldsBuilding[0].fieldGroup[0].fieldGroup[0].hooks['BuildingSuminsured'] = '0000000';
-                  // } else {
-                  //     console.log("Unable to set 'BuildingSuminsured' hook: Invalid structure.");
-                  // }
-                  }
+                    }
               }
             }
           }
@@ -4370,16 +4344,9 @@ getAddInfo(){
                     (data: any) => {
                       if (data?.Result) {
                         if(data.Result.length!=0){
-                        // this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
                           sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
-                          //this.nextslide=true;
-                          // this.onCalculate(data.Result,'Building');
-                         
-                          //this.onCheckUWQuestionProceed(data.Result);
                         }
-                        
                       }
-                    
                   },
                   (err) => { },
                 );
