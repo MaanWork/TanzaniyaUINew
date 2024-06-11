@@ -3153,27 +3153,43 @@ export class CoverDetailsComponent {
                                 "Covers":covers
                               }
                               console.log("Final Req",vehicle,veh,ReqObj)
-                              let urlLink = `${this.CommonApiUrl}api/updatefactorrate`;
-                              this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-                                (data: any) => {
-                                    if(data.Result){
-                                      i+=1;
-                                      if(i==this.vehicleDetailsList.length){
-                                        if(type=='calculate'){
-                                          
-                                          // this.getcall();
-                                          //sessionStorage.removeItem('vehicleDetailsList');
-                                          window.location.reload();
+                              if(covers.length!=0){
+                                let urlLink = `${this.CommonApiUrl}api/updatefactorrate`;
+                                this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+                                  (data: any) => {
+                                      if(data.Result){
+                                        i+=1;
+                                        if(i==this.vehicleDetailsList.length){
+                                          if(type=='calculate'){
+                                            
+                                            // this.getcall();
+                                            //sessionStorage.removeItem('vehicleDetailsList');
+                                            window.location.reload();
+                                          }
+                                          else if(type=='altSave'){ console.log("Finally Updated");}
+                                          else if(type=='fleetSave') this.getViewPremiumCalc(modal);
+                                          else if(this.subuserType=='low') this.onFormSubmit(null);
+                                          else this.updateReferralStatus();
                                         }
-                                        else if(type=='altSave'){ console.log("Finally Updated");}
-                                        else if(type=='fleetSave') this.getViewPremiumCalc(modal);
-                                        else if(this.subuserType=='low') this.onFormSubmit(null);
-                                        else this.updateReferralStatus();
                                       }
-                                    }
-                                  },
-                                  (err) => { },
-                                );
+                                    },
+                                    (err) => { },
+                                  );
+                              }
+                              else{
+                                i+=1;
+                                if(i==this.vehicleDetailsList.length){
+                                  if(type=='calculate'){
+                                    
+                                    // this.getcall();
+                                    //sessionStorage.removeItem('vehicleDetailsList');
+                                    window.location.reload();
+                                  }
+                                  else if(type=='altSave'){ console.log("Finally Updated");}
+                                  else if(type=='fleetSave') this.getViewPremiumCalc(modal);
+                                  else if(this.subuserType=='low') this.onFormSubmit(null);
+                                  else this.updateReferralStatus();
+                                }}
                           }
                         }
                       }

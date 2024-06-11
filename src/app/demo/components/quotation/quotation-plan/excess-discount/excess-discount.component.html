@@ -125,8 +125,13 @@
                                             {{productName}}
                                         </span>
                                     </ng-container>
+                                    <ng-container *ngIf="productId=='59'">
+                                        <span class="spancommon" style="color:navy;font-size: 1rem;">
+                                            {{menu.LocationName}}
+                                        </span>
+                                    </ng-container>
                                     <ng-container
-                                        *ngIf="productId=='59' || productId=='19' || productId=='14' || productId=='32'">
+                                        *ngIf="productId=='19' || productId=='14' || productId=='32'">
 
                                         <span class="spancommon" style="color:navy;font-size: 1rem;">
                                             {{menu.SectionName}}
@@ -178,6 +183,11 @@
                                     &nbsp;|&nbsp; {{ menu.RiskDetails.TravelStartDate }} &nbsp;~&nbsp; {{
                                     menu.RiskDetails.TravelEndDate }}</span>
                             </ng-container>
+                            <ng-container *ngIf="productId=='59'">
+                                <span class="spancommon" style="color:navy;font-size: 1rem;">
+                                    {{menu.LocationName}}
+                                </span>
+                            </ng-container>
                             <ng-container
                                 *ngIf="productId!='59' && productId!='4' && productId!='5' && productId!='19' && productId!='14' && productId!='32'">
                                 <span class="spancommon" style="color:navy;font-size: 1rem;font-weight: 600;">
@@ -185,7 +195,7 @@
                                 </span>
                             </ng-container>
                             <ng-container
-                                *ngIf="productId=='59' || productId=='19' || productId=='14' || productId=='32'">
+                                *ngIf="productId=='19' || productId=='14' || productId=='32'">
 
                                 <span class="spancommon" style="color:navy;font-size: 1rem;font-weight: 600;">
                                     {{menu.SectionName}}
@@ -286,8 +296,13 @@
                                         &nbsp;|&nbsp; {{ menu.RiskDetails.TravelStartDate }} &nbsp;~&nbsp; {{
                                         menu.RiskDetails.TravelEndDate }}</span>
                                 </ng-container>
+                                <ng-container *ngIf="productId=='59'">
+                                    <span class="spancommon" style="color:navy;font-size: 1rem;">
+                                        {{menu.LocationName}}
+                                    </span>
+                                </ng-container>
                                 <ng-container
-                                    *ngIf="productId=='59' || productId=='19' || productId=='14' || productId=='32'">
+                                    *ngIf="productId=='19' || productId=='14' || productId=='32'">
                                     <span class="spancommon" style="color:navy;font-size: 1rem;">
                                         {{menu.SectionName}}
                                     </span>
@@ -3086,8 +3101,13 @@
                                                     {{productName}}
                                                 </span>
                                             </ng-container>
+                                            <ng-container *ngIf="productId=='59'">
+                                                <span class="spancommon" style="color:navy;font-size: 13px;cursor: pointer;" (click)="onSelectSectionIndex(menu)">
+                                                    {{menu.LocationName}}
+                                                </span>
+                                            </ng-container>
                                             <ng-container
-                                                *ngIf="productId=='59' || productId=='19' || productId=='14' || productId=='32'">
+                                                *ngIf="productId=='19' || productId=='14' || productId=='32'">
                                                 <ng-container *ngIf="enableSections">
                                                     <mat-checkbox class="example-margin"
                                                         [checked]="checkSelectedSections(menu)"
