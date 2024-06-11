@@ -1183,9 +1183,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             backDate = new Date(year, month, day-Number(this.backDays));
             this.minDate = new Date(year, month, (day-Number(this.backDays))+1);
           }
-          
-        }
-          
+        }  
       },
       (err) => { },
     );

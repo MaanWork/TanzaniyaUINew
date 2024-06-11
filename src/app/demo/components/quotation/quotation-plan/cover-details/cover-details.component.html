@@ -139,9 +139,9 @@
                                                     
                                             </div>
                                             <div class="flex flex-wrap justify-content-center">
-                                                <ng-container *ngIf="ClausesData.length!=0"> <p-button label="Clauses" (click)="ClausesStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
-                                                    <ng-container *ngIf="ExclusionData.length!=0"><p-button label="Exclusions"  (click)="ExclusioStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
-                                                    <ng-container *ngIf="WarrantyData.length!=0"><p-button label="Warranties" (click)="WarrantyStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                                <ng-container *ngIf="ClausesData.length!=0 || userType=='Issuer'"> <p-button label="Clauses" (click)="ClausesStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                                    <ng-container *ngIf="ExclusionData.length!=0 || userType=='Issuer'"><p-button label="Exclusions"  (click)="ExclusioStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                                    <ng-container *ngIf="WarrantyData.length!=0 || userType=='Issuer'"><p-button label="Warranties" (click)="WarrantyStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
                                             </div>
                                         </div>
                                         <div class="col-12 md:col-6 lg:col-6 px-5">
@@ -410,9 +410,9 @@
                                                         
                                                 </div>
                                                 <div class="flex flex-wrap justify-content-center">
-                                                    <ng-container *ngIf="ClausesData.length!=0"> <p-button label="Clauses" (click)="ClausesStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
-                                                    <ng-container *ngIf="ExclusionData.length!=0"><p-button label="Exclusions" (click)="ExclusioStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
-                                                    <ng-container *ngIf="WarrantyData.length!=0"><p-button label="Warranties" (click)="WarrantyStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                                    <ng-container *ngIf="ClausesData.length!=0 || userType=='Issuer'"> <p-button label="Clauses" (click)="ClausesStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                                    <ng-container *ngIf="ExclusionData.length!=0 || userType=='Issuer'"><p-button label="Exclusions" (click)="ExclusioStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                                    <ng-container *ngIf="WarrantyData.length!=0 || userType=='Issuer'"><p-button label="Warranties" (click)="WarrantyStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
                                                 </div>
                                             </div>
                                         </div>
@@ -2011,7 +2011,7 @@
                 </thead>
     
                 <tbody
-                    *ngFor="let clause of ClausesData|paginate:{itemsPerPage: 10, currentPage:p,id: 'p'}; let i=index;">
+                    *ngFor="let clause of ClausesData let i=index;">
                     <tr>
                         <td class="flex flex-wrap justify-content-center" style="border-bottom: 0px solid grey !important;">
                             <div class="mt-2" >
@@ -2117,7 +2117,7 @@
                 </thead>
     
                 <tbody
-                    *ngFor="let clause of ExclusionData|paginate:{itemsPerPage: 10, currentPage:p,id: 'p'}; let i=index;">
+                    *ngFor="let clause of ExclusionData; let i=index;">
                     <tr>
                         <td class="flex flex-wrap justify-content-center" style="border-bottom: 0px solid grey !important;">
                             <div class="mt-2" >
@@ -2221,7 +2221,7 @@
                 </thead>
     
                 <tbody
-                    *ngFor="let clause of WarrantyData|paginate:{itemsPerPage: 10, currentPage:p,id: 'p'}; let i=index;">
+                    *ngFor="let clause of WarrantyData; let i=index;">
                     <tr>
                         <td class="flex flex-wrap justify-content-center" style="border-bottom: 0px solid grey !important;">
                             <div class="mt-2" >

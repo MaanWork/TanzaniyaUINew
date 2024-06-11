@@ -3918,12 +3918,9 @@ export class CoverDetailsComponent {
 
     let i=0;
       console.log("EEEEEEEE", this.ClausesData);
-      alert(this.ClausesData.length);
    let clauses
      if(this.ClausesData!=null || this.ClausesData !=undefined){
-      alert(this.jsonList.length);
       clauses= this.ClausesData.concat(this.jsonList);
-      alert(clauses.length);
      }
      else{
       clauses= this.jsonList
