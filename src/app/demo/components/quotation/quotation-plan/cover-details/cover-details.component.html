@@ -107,6 +107,7 @@
                                                         </p>
                                                         
                                                         <p><span class="font-bold text-4xl float-right">{{cover.PremiumIncludedTax | commaseparator}}&nbsp;<span class="text-base">( {{currencyCode}} )</span></span></p>
+                                                        <ng-container *ngIf="cover.SectionId"><ng-container *ngIf="cover.SectionId=='35' || cover.SectionId=='36'"><span class="customTxt2">* {{cover.SectionName}}</span></ng-container></ng-container>
                                                     </div>
                                                 </ng-container>
                                             </div>
@@ -209,6 +210,7 @@
                                                                   
                                                                    &nbsp;<span class="text-base">( {{currencyCode}} )</span></h4>
                                                            </div>
+                                                           <ng-container *ngIf="cover.SectionId"><ng-container *ngIf="cover.SectionId=='35' || cover.SectionId=='36'"><span class="customTxt1">* {{cover.SectionName}}</span></ng-container></ng-container>
                                                        </div>
                                                     </ng-container>
                                                 </ng-container>
@@ -320,6 +322,7 @@
                                                                       
                                                                        &nbsp;<span class="text-base">( {{currencyCode}} )</span></h4>
                                                                </div>
+                                                               <ng-container *ngIf="cover.SectionId"><ng-container *ngIf="cover.SectionId=='35' || cover.SectionId=='36'"><span class="customTxt1">* {{cover.SectionName}}</span></ng-container></ng-container>
                                                            </div>
                                                         </ng-container>
                                                     </ng-container>
@@ -360,6 +363,7 @@
                                                             </p>
                                                             
                                                             <p><span class="font-bold text-4xl float-right">{{cover.PremiumIncludedTax | commaseparator}}&nbsp;<span class="text-base">( {{currencyCode}} )</span></span></p>
+                                                            <ng-container *ngIf="cover.SectionId"><ng-container *ngIf="cover.SectionId=='35' || cover.SectionId=='36'"><span class="customTxt2">* {{cover.SectionName}}</span></ng-container></ng-container>
                                                         </div>
                                                     </ng-container>
                                                 </div>

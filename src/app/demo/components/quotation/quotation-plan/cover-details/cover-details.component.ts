@@ -814,7 +814,14 @@ export class CoverDetailsComponent {
               let entry = vehicleList.find(ele=>ele.VehicleId==vehicle.VehicleId || ele.RiskDetails.RiskId==vehicle.RiskDetails.RiskId);
               if(entry && vehicle.SectionId!='1'){
                 //if(entry.SectionId==vehicle.SectionId){
-                  entry.CoverList = entry.CoverList.concat(vehicle.CoverList);
+                let j=0;
+                for(let cover of vehicle.CoverList){
+                  cover['SectionId'] = vehicle.SectionId;
+                  cover['SectionName'] = vehicle.SectionName;
+                  j+=1;
+                  if(j==vehicle.CoverList.length) entry.CoverList = entry.CoverList.concat(vehicle.CoverList);
+                }
+                  
                 // }
                 // else{
                 //   vehicleList.push(vehicle);
@@ -3917,7 +3924,6 @@ export class CoverDetailsComponent {
   saveChanges(){
 
     let i=0;
-      console.log("EEEEEEEE", this.ClausesData);
    let clauses
      if(this.ClausesData!=null || this.ClausesData !=undefined){
       clauses= this.ClausesData.concat(this.jsonList);
