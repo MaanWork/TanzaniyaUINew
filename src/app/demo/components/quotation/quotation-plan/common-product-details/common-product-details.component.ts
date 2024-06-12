@@ -190,6 +190,13 @@ export class CommonProductDetailsComponent {
   FireSumInsured:any;
   IndustryType: any[]=[];
   TableRowFire: any[]=[];
+  TableRowBurglary: any[]=[];
+  LocationName: any;
+  CoveringDetails: any;
+  DescriptionRisk: any;
+  FirstLossSumInsured: any;
+  currentBurglaryIndex:any=0;
+  currentFireIndex:any=0;
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -269,23 +276,24 @@ export class CommonProductDetailsComponent {
     }
      if(this.productId=='6')
       {
-        this.TableRowFire=[{
-          "id":"",
-          "productName":"",
-          "IndustryTypes":"",
-          "Industry":"",
-          "LocationName":'',
-          "region":"",
-          "stateName":"",
-          "sumInsured":""
-          // FireSumInsured
-        }]
+       
+        this.TableRowFire=[{}]
+        //   // "id":"",
+        //   // "productName":"",
+        //   // "IndustryTypes":"",
+        //   // "Industry":"",
+        //   // "LocationName":'',
+        //   // "region":"",
+        //   // "stateName":"",
+        //   // "sumInsured":""
+        //   // FireSumInsured
+        // }]
         this.getRegionList();
-        this.IndustryType = [
-          { Code:null,CodeDesc:'-Select-'},
-          { Code:'Manufacturing',CodeDesc:'Manufacturing'},
-          { Code:'Non-Manufacturing',CodeDesc:'Non-Manufacturing'},
-        ]
+        // this.IndustryType = [
+        //   { Code:null,CodeDesc:'-Select-'},
+        //   { Code:'Manufacturing',CodeDesc:'Manufacturing'},
+        //   { Code:'Non-Manufacturing',CodeDesc:'Non-Manufacturing'},
+        // ]
         this.productNameList = [
           { Code:null,CodeDesc:'-Select-'},
           { Code:' Fire Class I ',CodeDesc:'Fire Class I'},
@@ -310,12 +318,60 @@ export class CommonProductDetailsComponent {
           CodeDesc:'Fire-Class I Floater policies'},
         ]
       }
+      if(this.productId=='1'){
+        this.TableRowBurglary=[{}]
+        this.getRegionList();
+        // this.currentBurglaryIndex=0
+      }
   }
-
+  Firedelete(index){
+    this.TableRowFire.splice(index,1);
+  }
+  BurglaryDelete(index){
+    this.TableRowBurglary.splice(index,1);
+  }
+  onEditBurglary(rowData){
+    // this.productItem = new ProductData();
+     this.editss=true;
+     this.editEmp=true;
+     let edit = this.TableRowBurglary.findIndex(ele=>ele.LocationName == rowData.LocationName );
+     this.currentBurglaryIndex = edit;
+     console.log(this.currentBurglaryIndex,"this.currentBurglaryIndex");
+     
+     this.LocationName = rowData.LocationName;
+     this.region = rowData.region;
+     this.stateName = rowData.stateName;
+     this.FirstLossSumInsured= rowData.FirstLossSumInsured;
+     
+     this.FireSumInsured= rowData.sumInsured;
+     // console.log("Occupation",this.productItem.LiabilityOccupationId)
+     // this.isEmployeeForm = true;
+   }
+   onEditFire(rowData){
+   
+       this.editss=true;
+       this.editEmp=true;
+       let edit = this.TableRowFire.findIndex(ele=>ele.LocationName == rowData.LocationName );
+       this.currentFireIndex = edit;
+       this.productName = rowData.productName;
+       this.IndustryTypes = rowData.IndustryTypes;
+       this.IndustryId = rowData.IndustryId;
+       this.LocationName = rowData.LocationName;
+       this.region = rowData.region;
+       this.stateName = rowData.stateName;
+       this.FirstLossSumInsured= rowData.FirstLossSumInsured;
+       this.FireSumInsured= rowData.sumInsured;
+       this.CoveringDetails= rowData.CoveringDetails;
+       this.DescriptionRisk= rowData.DescriptionRisk;
+       
+   }
   addFireTable(){
+    
       if (this.TableRowFire.length != 0) {
-        let i=0,j=0, reqList =[],additionalList=[];
-        for(let entry of this.TableRowFire){
+        console.log(this.TableRowFire,"this.TableRowFire");
+        
+        // let i=0,j=0, reqList =[],additionalList=[];
+        // for(let entry of this.TableRowFire){
             // if(entry.BuildingUsageId!=null && entry.BuildingUsageId!='' && entry.BuildingUsageId!=undefined) entry['BuildingUsageIdError']=false;
             // else{ j+=1; entry['BuildingUsageIdError']=true;}
             // if(entry.WallType!=null && entry.WallType!='' && entry.WallType!=undefined) entry['WallTypeError']=false;
@@ -327,29 +383,35 @@ export class CommonProductDetailsComponent {
             // if(entry.LocationName!=null && entry.LocationName!='' && entry.LocationName!=undefined && entry.LocationName!=0) entry['LocationError']=false;
             // else{ j+=1; entry['LocationError']=true;}
               let data = {
-                  "ItemId":entry.ItemId,
-                  "RiskId":i+1,
-                  "BuildingUsageId":entry.BuildingUsageId,
-                  "BuildingBuildYear": entry.BuildingBuildYear,
-                  "WallType":entry.WallType,
-                  "RoofType":entry.RoofType,
-                  "BuildingSumInsured":entry.BuildingSumInsured,
-                  "LocationName": entry.LocationName,
+                  // "ItemId":entry.ItemId,
+                  // "RiskId":i+1,
+                  "productName":this.productName,
+                  "IndustryTypes": this.IndustryTypes,
+                  "Industry":this.IndustryId,
+                  "LocationName":this.LocationName,
+                  "region":this.region,
+                  "stateName": this.stateName,
+                  "sumInsured": this.FireSumInsured,
+                  "CoveringDetails": this.CoveringDetails,
+                  "DescriptionRisk": this.DescriptionRisk,
               }
-              // let additonalData = {
-              //   "BuildingSuminsured": entry.BuildingSumInsured,
-              //   "BuildingAddress": "Add1",
-              //   "Createdby": this.loginId,
-              //   "InbuildConstructType": null,
-              //   "QuoteNo": sessionStorage.getItem('quoteNo'),
-              //   "RequestReferenceNo": this.quoteRefNo,
-              //   "SectionId": "1",
-              //   "RiskId":i+1,
-              //   "LocationName": entry.LocationName
-              // }
-             // additionalList.push(additonalData);
-             this.TableRowFire.push(data);
-              i+=1;
+              if (this.currentFireIndex !=0) {
+                this.TableRowFire[this.currentFireIndex] = data;
+            } else {
+                // If currentBurglaryIndex is out of range, you might want to push the data
+                this.TableRowFire.push(data);
+            } 
+            // this.TableRowFire.push(data);
+             this.productName=''
+             this.IndustryTypes=''
+             this.LocationName=''
+             this.IndustryId=''
+             this.region=''
+             this.stateName=''
+             this.FireSumInsured=''
+             this.CoveringDetails=''
+             this.DescriptionRisk=''
+              // i+=1;
               // if(i==this.TableRowBuilding.length && j==0){
               //    // this.visibleBuilding = false;
               //     //this.SaveBuildingList(additionalList)
@@ -378,10 +440,61 @@ export class CommonProductDetailsComponent {
             //     console.log("Unable to set 'BuildingSuminsured' hook: Invalid structure.");
             // }
             // }
-        }
+        // }
       }
     
   }
+  addBurglaryTable(){
+    
+    if (this.TableRowBurglary.length != 0) {
+      console.log(this.TableRowBurglary,"this.TableRowBurglary");
+      
+      // let i=0,j=0, reqList =[],additionalList=[];
+      // for(let entry of this.TableRowFire){
+          // if(entry.BuildingUsageId!=null && entry.BuildingUsageId!='' && entry.BuildingUsageId!=undefined) entry['BuildingUsageIdError']=false;
+          // else{ j+=1; entry['BuildingUsageIdError']=true;}
+          // if(entry.WallType!=null && entry.WallType!='' && entry.WallType!=undefined) entry['WallTypeError']=false;
+          // else{ j+=1; entry['WallTypeError']=true;}
+          // if(entry.RoofType!=null && entry.RoofType!='' && entry.RoofType!=undefined) entry['RoofTypeError']=false;
+          // else{ j+=1; entry['RoofTypeError']=true;}
+          // if(entry.BuildingSumInsured!=null && entry.BuildingSumInsured!='' && entry.BuildingSumInsured!=undefined && entry.BuildingSumInsured!=0 && entry.BuildingSumInsured!='0') entry['SumInsuredError']=false;
+          // else{ j+=1; entry['SumInsuredError']=true;}
+          // if(entry.LocationName!=null && entry.LocationName!='' && entry.LocationName!=undefined && entry.LocationName!=0) entry['LocationError']=false;
+          // else{ j+=1; entry['LocationError']=true;}
+            let data = {
+                // "ItemId":entry.ItemId,
+                // "RiskId":i+1,
+                // "productName":this.productName,
+                // "IndustryTypes": this.IndustryTypes,
+                // "Industry":this.IndustryId,
+                "LocationName":this.LocationName,
+                "region":this.region,
+                "stateName": this.stateName,
+                "FirstLossSumInsured": this.FirstLossSumInsured,
+                "sumInsured": this.FireSumInsured,
+                // "CoveringDetails": this.CoveringDetails,
+                // "DescriptionRisk": this.DescriptionRisk,
+            }
+            if (this.currentBurglaryIndex !=0) {
+              this.TableRowBurglary[this.currentBurglaryIndex] = data;
+          } else {
+              // If currentBurglaryIndex is out of range, you might want to push the data
+              this.TableRowBurglary.push(data);
+          } 
+          //  this.productName=''
+          //  this.IndustryTypes=''
+           this.LocationName=''
+           //this.IndustryId=''
+           this.region=''
+           this.stateName=''
+           this.FirstLossSumInsured=''
+           this.FireSumInsured=''
+          //  this.CoveringDetails=''
+          //  this.DescriptionRisk=''
+        
+    }
+  
+}
   getRelationTypeList(){
     let ReqObj = {
       "InsuranceId": this.insuranceId
@@ -2413,6 +2526,7 @@ backPlan()
     console.log("Occupation",this.productItem.LiabilityOccupationId)
     this.isEmployeeForm = true;
   }
+ 
 
   onEditGroup(rowData){
     this.productItem = new ProductData();
@@ -4474,15 +4588,15 @@ backPlan()
     if( this.productId=='59'){
         if(this.BuildingOwnerYn!='N'){
           if(this.coversRequired=='C'){
-            section=['47','3','36','35'];
+            section=['47','3','36','35','76'];
           }
           else if(this.coversRequired =='B'){
-            section=['3','1','36','35'];
+            section=['3','1','36','35','76'];
           }
-          else if(this.coversRequired =='BC') section=['47','1','3','36','35'];
+          else if(this.coversRequired =='BC') section=['47','1','3','36','35','76'];
         }
         else {
-          section=['47','3','36','35'];
+          section=['47','3','36','35','76'];
         }
        this.IndustryId='99999'};
     let startDate=null,endDate=null;

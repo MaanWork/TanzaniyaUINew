@@ -576,9 +576,6 @@
                                     <div class="input-control-container">
                                         <label class="input-form-label">Ownership Status</label><span class="text-danger">*</span>
                                         <div class="input-form-radio-box mt-2">
-                                            <!-- <p-button  styleClass="p-button-outlined" label="LANDLORD"
-                                            size="small" (click)="ownership('Y')"></p-button>&nbsp;
-                                        <p-button styleClass="p-button-outlined" label="TENANT" (click)="ownership('N')"></p-button>&nbsp; -->
                                             <div class="radio-toolbar">
                                                 <input id="claims_Own" type="radio" name="rentOwnHome" (change)="setBuildingOwnerYN()" [(ngModel)]="BuildingOwnerYn" value="Y">
                                                 <label for="claims_Own" class="yes_alt"><img style="max-width: 30px;max-height: 10px;">LANDLORD</label>
@@ -695,7 +692,7 @@
                     </div>
                 </div>
             </div>
-            <div class="grid mt-2 pl-5 pr-2 pb-0" *ngIf="(productId=='60' || productId=='21' || productId=='26' || productId=='16' || productId=='25' || productId=='43' || productId=='13' || (productId=='1' && insuranceId!='100004') || (productId=='39' && insuranceId!='100004') || (productId=='27' && insuranceId!='100004')) && formSection">
+            <div class="grid mt-2 pl-5 pr-2 pb-0" *ngIf="(productId=='60' || productId=='21' || productId=='26' || productId=='16' || productId=='25' || productId=='43' || productId=='13'  || (productId=='39' && insuranceId!='100004') || (productId=='27' && insuranceId!='100004')) && formSection">
                 <ng-container *ngFor="let step of fields; let index = index; let last = last">
                 <ng-container *ngIf="step.props.label=='Plant All Risk' ||step.props.label=='Fire And Material Damage'  || step.props.label=='Burglary' || step.props.label=='Money' || step.props.label=='Machinery BreakDown' || step.props.label=='Medical Insurance' || step.props.label=='Public Liability'">
                     <div class="col-12 sm:col-9 md:col-9 m-0 p-0">
@@ -736,112 +733,292 @@
                 </ng-container>
             </ng-container>
             </div>
-            <ng-container *ngIf="TableRowFire.length!=0">
+            <ng-container *ngIf="TableRowFire.length!=0 ">
                 <p-table [value]="TableRowFire" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+                    <!-- <ng-template pTemplate="caption">
+                        <div class="flex flex wrap justify-content-end">
+                          <div class="table-header">
+                              <span class="p-input-icon-left">
+                                <p-button label="Add More" (click)="addFireTable()" />
+                              </span>
+                          </div>
+                        </div>
+                        
+                      </ng-template> -->
                     <ng-template pTemplate="header">
                         <tr>
                             <th>S.No</th>
-                            <th>Product Name</th>
+                            <!-- <th>Product Name</th> -->
                             <th>Industry Types</th>
                             <th>Industry</th>
+                            <th>Industry Structure</th>
                             <th>Location Name</th>
                             <th>Region</th>
                             <th>State</th>
                             <th>Sum Insured</th>
-
+                            <th>Covering Details</th>
+                            <th>Description Of Risk</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-emp>
-                      <tr>
+                    <ng-template pTemplate="body" let-emp let-i="rowIndex">
+                      <tr *ngIf="emp.IndustryTypes!='' && emp.IndustryTypes!=null">
+                        <td>
+                            {{i}}
+                        </td>
+                        <!-- <td>
+                            {{emp.productName}}
+                        </td> -->
+                        <td>{{emp.IndustryTypes}}</td>
+                        <td>{{emp.Industry}}</td>
                         <td>
                             {{emp.productName}}
                         </td>
-                        <td>{{emp.IndustryTypes}}</td>
-                        <td>{{emp.Industry}}</td>
                         <td>
                             {{emp.LocationName}}
                         </td>
                         <td>{{emp.region}}</td>
                         <td>{{emp.stateName}}</td>
                         <td>{{emp.sumInsured}}</td>
+                        <td>{{emp.CoveringDetails}}</td>
+                        <td>{{emp.DescriptionRisk}}</td>
                         <td>
-                            <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditBuilding(emp)"></button>  
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditFire(emp)"></button>  
                         </td>
                         <td>
-                            <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="delete(emp)"></button>  
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="Firedelete(i)"></button>  
                         </td>
                       </tr>
                     </ng-template>
                   </p-table>
             </ng-container>
-            <div class="grid mt-2 pl-5 pr-2 pb-0" *ngIf="productId=='6'">
+            <div *ngIf="productId=='6'">
                 <div class="grid">
                     <div class="md:col-6 lg:col-6 col-12">
-                        <h4 class="m-0 p-0">Fire</h4>
+                        <h4 class="m-0 p-0" >Fire</h4>
                     </div>
                 </div>
                 <div class="grid">
-                    <div class="col-12 lg:col-6 md:col-6 lx:col-6">
-                        <label for="ProductName">Product Name</label>
-                        <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="productNameList" optionValue="code" optionLabel="CodeDesc" [(ngModel)]="productName">
-                        </p-dropdown>
-                    </div>
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
                     <div class="col-12 lg:col-6 md:col-6 lx:col-6">
                         <div class="input-control-container">
-                            <label class="input-form-label">Industry Type *</label>
-                            <p-dropdown inputId="make" class="w-full" styleClass="w-full"  [options]="IndustryType" optionValue="code" optionLabel="CodeDesc" [(ngModel)]="IndustryTypes">
-                            </p-dropdown>
-                            <!-- <ng-select class="custom" [items]="industryList" [(ngModel)]="IndustryId" placeholder="Select Industry" appendTo="body" [ngModelOptions]="{standalone: true}" bindValue="Code" bindLabel="CodeDesc">
-                            </ng-select> -->
-                      </div>
-                      <!-- <div class="input-form-error" *ngIf="industryError" style="position: relative;">
-                        <div class="error-text text-danger">
-                            <span class="spancommon span_font_size"> Please Select Industry</span>
+                            <label >Industry Type *</label><br>
+                            <div class="input-form-radio-box mt-2">
+                                <div class="radio-toolbar1 radio-toolbar">
+                                    <input id="claims_Own" type="radio" name="rentOwnHome" [(ngModel)]="IndustryTypes" value="Manufacturing">
+                                    <label for="claims_Own" style="background-color: primary;" ><img style="max-width: 30px;max-height: 10px;">Manufacturing</label>
+                                    <input id="claims_Rent" type="radio" name="rentOwnHome"  [(ngModel)]="IndustryTypes" value="Non-Manufacturing">
+                                    <label for="claims_Rent" ><img style="max-width: 30px;max-height: 10px;">Non-Manufacturing</label>
+                                    <input id="claims" type="radio" name="rentOwnHome"  [(ngModel)]="IndustryTypes" value="Storage">
+                                    <label for="claims" ><img style="max-width: 30px;max-height: 10px;">Storage</label>
+                                </div>
+                            </div>
                         </div>
-                      </div> -->
                     </div>
+                </div>
+                <div class="grid">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
                     <div class="col-12 lg:col-6 md:col-6 lx:col-6">
                         <div class="input-control-container">
                             <label class="input-form-label">Industry</label>&nbsp;<span class="text-danger">*</span>
-                            <p-dropdown inputId="IndustryId" class="w-full" styleClass="w-full" [options]="industryList" optionValue="code" optionLabel="CodeDesc" [(ngModel)]="IndustryId" placeholder="---Select---">
+                            <p-dropdown  class="w-full" styleClass="w-full" [options]="industryList" optionValue="code" optionLabel="CodeDesc" [(ngModel)]="IndustryId" placeholder="---Select---">
                             </p-dropdown>
                             <!-- <ng-select class="custom" [items]="industryList" [(ngModel)]="IndustryId" placeholder="Select Industry" appendTo="body" [ngModelOptions]="{standalone: true}" bindValue="Code" bindLabel="CodeDesc">
                             </ng-select> -->
-                      </div>
-                      <div class="input-form-error" *ngIf="industryError" style="position: relative;">
-                        <div class="error-text text-danger">
-                            <span class="spancommon span_font_size"> Please Select Industry</span>
                         </div>
-                      </div>
+                            <div class="input-form-error" *ngIf="industryError" style="position: relative;">
+                                <div class="error-text text-danger">
+                                    <span class="spancommon span_font_size"> Please Select Industry</span>
+                                </div>
+                            </div>
                     </div>
-                    <div class="col-12 lg:col-6 md:col-6 lx:col-6">
+                </div>
+                <div class="grid">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                    <div class="col-12 lg:col-6 md:col-6 lx:col-6 ">
+                        <div class="input-control-container">
+                            <label for="ProductName">Industry Structure</label>
+                            <p-dropdown  class="w-full" styleClass="w-full" [options]="productNameList" optionValue="code" optionLabel="CodeDesc" [(ngModel)]="productName">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- <div class="offset-col-3"></div> -->
+                <div class="grid">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
                         <div class="input-control-container">
                             <label class="input-form-label">Location Name *</label>
                             <input pInputText class="w-full" type="text" name="SampleType" [(ngModel)]="LocationName" placeholder="Enter Location Name">
                       </div>
                     </div>
-                    <div class="col-12 lg:col-6 md:col-6 lx:col-6">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3 ">
+                        <div class="input-control-container">
                         <label for="ProductName">Region</label>
                         <p-dropdown inputId="make" class="w-full" styleClass="w-full" (onChange)="ongetDistrictList('region')" [options]="regionList" optionValue="Code" optionLabel="label" [(ngModel)]="region" placeholder="-Select-">
                         </p-dropdown>
                     </div>
-                    <div class="col-12 lg:col-6 md:col-6 lx:col-6">
+                    </div>
+                    
+                </div>
+                <div class="grid">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                        <div class="input-control-container">
                         <label for="ProductName">District</label>
                         <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="stateList" optionValue="Code" optionLabel="label" [(ngModel)]="stateName" placeholder="-Select-">
                         </p-dropdown>
+                        </div>
                     </div>
-                    <div class="col-12 lg:col-6 md:col-6 lx:col-6">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
                         <div class="input-control-container">
                             <label class="input-form-label">SumInsured *</label>
                             <input pInputText class="w-full" type="text" name="SampleType" placeholder="Enter SumInsured" [(ngModel)]="FireSumInsured">
                       </div>
                     </div>
                 </div>
-                
-            </div>
+                <div class="grid">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                        <div class="input-control-container">
+                        <label for="ProductName">Covering Details</label>
+                        <textarea pInputTextarea class="w-full" type="text" name="SampleType" [(ngModel)]="CoveringDetails" placeholder="Enter Covering Details"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                        <div class="input-control-container">
+                            <label class="input-form-label">Description Of Risk *</label>
+                            <textarea pInputTextarea class="w-full" type="text" name="SampleType" placeholder="Enter Description of Risk" [(ngModel)]="DescriptionRisk"></textarea>
+                      </div>
+                    </div>
+                </div>
+                   
+                </div>
             <div class="flex flex-wrap justify-content-center gap-2" *ngIf="productId=='6'">
-                <p-button label="Add  More" (click)="addFireTable()" />
+                <p-button label="save & Add More" (click)="addFireTable()" />
             </div>
+
+            <ng-container *ngIf="TableRowBurglary.length!=0 && (productId=='1' && insuranceId!='100004')">
+                <p-table [value]="TableRowBurglary" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>S.No</th>
+                            <!-- <th>Product Name</th> -->
+                            <!-- <th>Industry Types</th>
+                            <th>Industry</th>
+                            <th>Industry Structure</th> -->
+                            <th>Location Name</th>
+                            <th>Region</th>
+                            <th>District</th>
+                            <th>First Loss SI(%)</th>
+                            <th>Sum Insured</th>
+                            <!-- <th>Description Of Risk</th> -->
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-emp let-i="rowIndex">
+                      <tr *ngIf="emp.LocationName!='' && emp.LocationName!=null">
+                        <td>
+                            {{i}}
+                        </td>
+                        <!-- <td>
+                            {{emp.productName}}
+                        </td> -->
+                        <!-- <td>{{emp.IndustryTypes}}</td>
+                        <td>{{emp.Industry}}</td>
+                        <td>
+                            {{emp.productName}}
+                        </td> -->
+                        <td>
+                            {{emp.LocationName}}
+                        </td>
+                        <td>{{emp.region}}</td>
+                        <td>{{emp.stateName}}</td>
+                        <td>{{emp.FirstLossSumInsured}}</td>
+                        <td>{{emp.sumInsured}}</td>
+                        <!-- <td>{{emp.DescriptionRisk}}</td> -->
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditBurglary(emp)"></button>  
+                        </td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="BurglaryDelete(i)"></button>  
+                        </td>
+                      </tr>
+                    </ng-template>
+                    <ng-container *ngIf=""></ng-container>
+                  </p-table>
+            </ng-container>
+            <div *ngIf="productId=='1' && insuranceId!='100004'">
+                <div class="grid">
+                    <div class="md:col-6 lg:col-6 col-12">
+                        <h4 class="m-0 p-0">Burglary</h4>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                    <div class="col-12 lg:col-2 md:col-2 lx:col-2">
+                        <div class="input-control-container">
+                            <label class="input-form-label">Location Name *</label>
+                            <input pInputText class="w-full" type="text" name="SampleType" [(ngModel)]="LocationName" placeholder="Enter Location Name">
+                      </div>
+                    </div>
+                    <div class="col-12 lg:col-2 md:col-2 lx:col-2 ">
+                        <div class="input-control-container">
+                        <label for="ProductName">Region</label>
+                        <p-dropdown inputId="make" class="w-full" styleClass="w-full" (onChange)="ongetDistrictList('region')" [options]="regionList" optionValue="Code" optionLabel="label" [(ngModel)]="region" placeholder="-Select-">
+                        </p-dropdown>
+                    </div>
+                    </div>
+                        <div class="col-12 lg:col-2 md:col-2 lx:col-2">
+                            <div class="input-control-container">
+                            <label for="ProductName">District</label>
+                            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="stateList" optionValue="Code" optionLabel="label" [(ngModel)]="stateName" placeholder="-Select-">
+                            </p-dropdown>
+                            </div>
+                        </div>
+                    
+                </div>
+                <div class="grid">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                        <div class="input-control-container">
+                            <label class="input-form-label">First Loss SI(%) *</label>
+                            <input pInputText class="w-full" type="text" name="SampleType" placeholder="Enter First Loss SI" [(ngModel)]="FirstLossSumInsured">
+                      </div>
+                    </div>
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                        <div class="input-control-container">
+                            <label class="input-form-label">SumInsured *</label>
+                            <input pInputText class="w-full" type="text" name="SampleType" placeholder="Enter SumInsured" [(ngModel)]="FireSumInsured">
+                      </div>
+                    </div>
+                </div>
+                <!-- <div class="grid">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                        <div class="input-control-container">
+                        <label for="ProductName">Covering Details</label>
+                        <textarea pInputTextarea class="w-full" type="text" name="SampleType" [(ngModel)]="CoveringDetails" placeholder="Enter Covering Details"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                        <div class="input-control-container">
+                            <label class="input-form-label">Description Of Risk *</label>
+                            <textarea pInputTextarea class="w-full" type="text" name="SampleType" placeholder="Enter Description of Risk" [(ngModel)]="DescriptionRisk"></textarea>
+                      </div>
+                    </div>
+                </div> -->
+                   
+                </div>
+            <div class="flex flex-wrap justify-content-center gap-2" *ngIf="productId=='1'">
+                <p-button label="save & Add More" (click)="addBurglaryTable()" />
+            </div>
+
+
+
 
             <div>
                 <div class="form__wrapper" *ngIf="productId!='46' && productId!='14' && productId!='16' && productId!='57' && productId!='32' && productId!='19' && productId!='24' && productId!='59' && productId!='42' && productId!='13' && productId!='21' && productId!='26' && productId!='6' && productId!='25' && productId!='56' && (productId!='1' || (productId=='1' && insuranceId=='100004'))  && (productId!='39' || (productId=='39' && insuranceId=='100004')) && (productId!='27' || (productId=='27' && insuranceId=='100004'))">
@@ -887,7 +1064,7 @@
                                             <div class="radio-toolbar">
                                                     <input [id]="'claims_Own'+i" type="radio" name="SampleType" [(ngModel)]="CyberCode" [value]='pro.Code'>
                                                     <label [for]="'claims_Own'+i" class="yes_alt">{{pro.CodeDesc}}</label>
-                                                </div>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
