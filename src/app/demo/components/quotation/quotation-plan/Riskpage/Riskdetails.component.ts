@@ -40,6 +40,7 @@ import { HealthInsurance } from '../models/HealthInsurance';
 import { findIndex } from 'rxjs';
 import { ProfessionalIndemnity } from '../models/ProfessionalIntermnity';
 import { ContentProfessionalIndermity } from '../models/ContentProfessional';
+import { ElectronicEquipmentNew } from '../models/ElectronicEquipmentNew';
 
 @Component({
   selector: 'app-Riskdetails',
@@ -111,8 +112,9 @@ export class RiskDetailsComponent {
   locationList: any[]=[];personalLiabilityDialog: boolean=false;
   columnHeaderPersonalLiability:any[]=[];currentPLRowIndex:any=0;TableRowPL:any[]=[];
   personalAccidentDialog: boolean=false;columnHeaderPersonalAccident:any[]=[];
-  TableRowPA: any[]=[];countryId:any=null;
-  currentPARowIndex: any=0;
+  TableRowPA: any[]=[];countryId:any=null;currentPARowIndex: any=0;ElecEquipment: boolean=false;
+  fields6: any[]=[];electronicEquipDialog: boolean=false;currentEERiskRowIndex:any=null;
+  TableRowEE: any[]=[];
         constructor(private router: Router,private datePipe:DatePipe,
           private sharedService: SharedService,public http: HttpClient) {
          let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails') || '{}');
@@ -196,6 +198,14 @@ export class RiskDetailsComponent {
             Description: '',
             SumInsured: 0,
           }];
+          this.TableRowEE =[{
+            id:1,
+            ItemId:'',
+            Content: '',
+            Serial : '',
+            Description: '',
+            SumInsured: 0,
+          }];
           this.TableRowPL =[{
             id:1,
             OccupationId:'',
@@ -219,6 +229,7 @@ export class RiskDetailsComponent {
             this.currentContentRowIndex = 0;
             this.currentBuildingRowIndex = 0;
             this.currentAllRiskRowIndex = 0;
+            this.currentEERiskRowIndex = 0;
             this.sumInsured =false;
 
             this.productItem = new ProductData();
@@ -229,6 +240,7 @@ export class RiskDetailsComponent {
               if(this.coversreuired=='B' || this.coversreuired=='BC') this.getBuildingDetails('direct');
                this.getContentDetails('Content');
                 this.getAllRiskDetails('AllRisk');
+                //this.getElectronicEquipDetails('ElectronicEquipment');
                 this.getPersonalAccidentDetails('PersonalAccident');
                 this.getPersonalLiabilityDetails('PersonalLiability');
             }
@@ -521,6 +533,10 @@ export class RiskDetailsComponent {
         this.personalAccidentDialog = true;
         this.getPersonalAccidentDetails('PersonalAccident');
       }
+      else if(type=='EE'){
+        this.electronicEquipDialog = true;
+        this.getElectronicEquipDetails('ElectronicEquipment');
+      }
     }
     addRow() {
         const newItem = { id: this.TableRow.length + 1,RiskId:'', Content: '', SerialNoDesc: '',ContentRiskDesc:'',SumInsured:0,LocationName:'' };
@@ -576,6 +592,17 @@ export class RiskDetailsComponent {
       this.TableRowAllRisk.splice(index,1);
       if(this.TableRowAllRisk.length==0){
         this.onSaveAllRisk('deleteSave');
+      }
+    }
+    addRowEE(){
+      const newItem = {  id: this.TableRowEE.length + 1,RiskId:'',ItemId: '', Content: '', Serial: '',Description:'',SumInsured:0,};
+      this.TableRowEE.push(newItem);
+      this.currentEERiskRowIndex = this.TableRowEE.length-1;
+    }
+    deleteProductEE(index) {
+      this.TableRowEE.splice(index,1);
+      if(this.TableRowEE.length==0){
+        this.onSaveElectronicEquipment('deleteSave');
       }
     }
     getProductDob(entry){
@@ -813,6 +840,36 @@ export class RiskDetailsComponent {
       }
       else{this.productItem.SumInsured =0;return 0;} 
     }
+    getTotalEE(){
+      this.Total = 0;let i=0;
+      if(this.TableRowEE.length!=0){
+        for(let tot of this.TableRowEE){
+          if(tot.SumInsured!=null && tot.SumInsured!='' && tot.SumInsured!=undefined) tot.SumInsured = Number(tot.SumInsured);
+          this.Total=this.Total+tot.SumInsured;
+          i+=1;
+          if(i==this.TableRowEE.length){
+            this.productItem.ElectronicEquipmentSI = this.Total;
+            if(this.fields6.length!=0){
+              let fieldList = this.fields6[0].fieldGroup[0].fieldGroup;
+              //console.log("Field Lsit",fieldList)
+              for(let field of fieldList){
+                // if(field.key=='BuildingBuildYear' && this.insuranceId=='100004'){
+                //   field.props.options = this.getYearList();
+                //   console.log("Building JSON",this.fields)
+                // }
+                if(field.key=='ElectronicEquipmentSI'){
+                    field.templateOptions.disabled = false;
+                    if(field.formControl) field.formControl.setValue(this.Total);
+                    field.templateOptions.disabled = false;
+                }
+              }
+            }
+            return this.Total;
+          }
+        }
+      }
+      else{this.productItem.SumInsured =0;return 0;} 
+    }
     addRowBuilding(){
     const newItem = { id: this.TableRowBuilding.length + 1, BuildingUsageId: '', BuildingBuildYear : '',SavedYN:'N',
     WallType: '',RoofType: '', BuildingSumInsured: 0,LocationName:'',RiskId:this.TableRowBuilding.length + 1};
@@ -821,32 +878,33 @@ export class RiskDetailsComponent {
     console.log("Final Table Row",this.TableRowBuilding)
     }
     onDeleteBuilding(index){
-      if(this.TableRowBuilding[index].SavedYN=='Y'){
-        Swal.fire({
-          title: '<strong><i class="fa fa-trash"></i>&nbsp;Delete</strong>',
-          icon: 'error',
-          html:
-            `<ul class="list-group errorlist">
-             <li>Are You Sure Want to Remove All Details Regarding to this Building?</li>
-         </ul>`,
-          showCloseButton: false,
-          focusConfirm: false,
-          showCancelButton:true,
+      // if(this.TableRowBuilding[index].SavedYN=='Y'){
+      //   Swal.fire({
+      //     title: '<strong><i class="fa fa-trash"></i>&nbsp;Delete</strong>',
+      //     icon: 'error',
+      //     html:
+      //       `<ul class="list-group errorlist">
+      //        <li>Are You Sure Want to Remove All Details Regarding to this Building?</li>
+      //    </ul>`,
+      //     showCloseButton: false,
+      //     focusConfirm: false,
+      //     showCancelButton:true,
   
-         confirmButtonColor: '#3085d6',
-         cancelButtonColor: '#d33',
-         confirmButtonText:"Yes! Delete it",
-         cancelButtonText: 'No',
-        }).then((result) => {
-          if (result.isConfirmed) {
+      //    confirmButtonColor: '#3085d6',
+      //    cancelButtonColor: '#d33',
+      //    confirmButtonText:"Yes! Delete it",
+      //    cancelButtonText: 'No',
+      //   }).then((result) => {
+      //     if (result.isConfirmed) {
   
-          } 
-          else{
+      //     } 
+      //     else{
             
-          }
-        })
-      }
-      else this.TableRowBuilding.splice(index,1);
+      //     }
+      //   })
+      // }
+      // else this.TableRowBuilding.splice(index,1);
+      this.TableRowBuilding.splice(index,1);
     }
     getTotal(){
       this.Total = 0;let i=0;
@@ -903,6 +961,36 @@ export class RiskDetailsComponent {
       else{this.productItem.BuildingSuminsured = 0;return 0;} 
           
     }
+    onSaveElectronicEquipment(type){
+      if (this.TableRowEE.length != 0) {
+        let i=0,j=0, reqList =[];
+        for(let entry of this.TableRowEE){
+          if(entry.RiskId!=null && entry.RiskId!='' && entry.RiskId!=undefined) entry['LocationNameError']=false;
+            else{ j+=1; entry['LocationNameError']=true;}
+            if(entry.ItemId!=null && entry.ItemId!='' && entry.ItemId!=undefined) entry['ContentRiskDescError']=false;
+            else{ j+=1; entry['ContentRiskDescError']=true;}
+            if(entry.SumInsured!=null   && entry.SumInsured!=undefined && entry.SumInsured!=0 && entry.SumInsured!='0'){ entry['SumInsuredError']=false;}
+            else{ j+=1; entry['SumInsuredError']=true;}
+            if(entry.ItemId!= null && entry.ItemId!='' && entry.ItemId!=undefined) entry['Content']=this.allriskList.find(ele=>ele.Code==entry.ItemId)?.CodeDesc
+            let data = {
+                "ItemId":entry.ItemId,
+                "RiskId":entry.RiskId,
+                "ContentRiskDesc":entry.Content,
+                "SerialNoDesc": entry.Description,
+                "MakeAndModel":"TN123",
+                "SerialNo":entry.Serial,
+                "ItemValue": entry.Content,
+                "SumInsured":entry.SumInsured
+            }
+            reqList.push(data);
+            i+=1;
+            if(i==this.TableRowEE.length && j==0){
+                this.onFinalSaveAllRisk(reqList,type,'76');
+            }
+       }
+      }
+      else this.onFinalSaveAllRisk([],type,'76')
+    }
     onSaveAllRisk(type){
       if (this.TableRowAllRisk.length != 0) {
         let i=0,j=0, reqList =[];
@@ -928,19 +1016,19 @@ export class RiskDetailsComponent {
             reqList.push(data);
             i+=1;
             if(i==this.TableRowAllRisk.length && j==0){
-                this.onFinalSaveAllRisk(reqList,type);
+                this.onFinalSaveAllRisk(reqList,type,'3');
             }
        }
       }
-      else this.onFinalSaveAllRisk([],type)
+      else this.onFinalSaveAllRisk([],type,'3')
     }
-    onFinalSaveAllRisk(reqList,Type){
+    onFinalSaveAllRisk(reqList,Type,sectionId){
       let ReqObj = {
         "CreatedBy": this.loginId,
         "QuoteNo":sessionStorage.getItem('quoteNo'),
         "RequestReferenceNo":this.quoteRefNo,
         "BranchCode": this.branchCode,
-        "SectionId": "3",
+        "SectionId": sectionId,
         "Type":'A',
         "ContentRiskDetails":reqList,
         "Companyid": this.insuranceId,
@@ -953,23 +1041,42 @@ export class RiskDetailsComponent {
           let res: any = data;
           if (data.ErrorMessage.length != 0) {
             if (res.ErrorMessage) {
-              if(this.TableRowAllRisk.length!=0){
+              if(this.TableRowAllRisk.length!=0 && sectionId=='3'){
                 if(this.TableRowAllRisk.length>1 || (this.TableRowAllRisk[0].SumInsured!=null && this.TableRowAllRisk[0].SumInsured!=0)) this.currentAllRiskRowIndex = null;
+              }
+              else if(this.TableRowEE.length!=0 && sectionId=='76'){
+                if(this.TableRowEE.length>1 || (this.TableRowEE[0].SumInsured!=null && this.TableRowEE[0].SumInsured!=0)) this.currentEERiskRowIndex = null;
               }
             }
           }
           else { 
-            if(Type=='direct') this.visibleAllRisk = false; 
+            if(sectionId=='3'){
+              if(Type=='direct') this.visibleAllRisk = false; 
+              else{
+                this.TableRowAllRisk =[{
+                  id:1,
+                  ItemId:'',
+                  Content: '',
+                  Serial : '',
+                  Description: '',
+                  SumInsured: 0,
+                }];
+                this.currentAllRiskRowIndex = this.TableRowAllRisk.length-1;
+              }
+            }
             else{
-              this.TableRowAllRisk =[{
-                id:1,
-                ItemId:'',
-                Content: '',
-                Serial : '',
-                Description: '',
-                SumInsured: 0,
-              }];
-              this.currentAllRiskRowIndex = this.TableRowAllRisk.length-1;
+              if(Type=='direct') this.electronicEquipDialog = false; 
+              else{
+                this.TableRowEE =[{
+                  id:1,
+                  ItemId:'',
+                  Content: '',
+                  Serial : '',
+                  Description: '',
+                  SumInsured: 0,
+                }];
+                this.currentEERiskRowIndex = this.TableRowEE.length-1;
+              }
             }
           }
         },
@@ -1013,27 +1120,27 @@ export class RiskDetailsComponent {
       }
       else{this.finalSaveRiskDetails([],'C',type);}
     }
-        getdetails(){
-          let  contentData:any;let newcontent:any;
-          contentData = new ProfessionalIndemnity();
-          newcontent = new ContentProfessionalIndermity();
-        this.fields8[0] = contentData?.fields;
-        this.fields9[0] = newcontent?.fields;
-        // this.professionaltype();
-        this.Indemitytype();
-        this.getOccupationList('106','ProfessionalIntermidity');
-        }
-        getEditDetails(){
-          let ReqObj = {
+    getdetails(){
+      let  contentData:any;let newcontent:any;
+      contentData = new ProfessionalIndemnity();
+      newcontent = new ContentProfessionalIndermity();
+      this.fields8[0] = contentData?.fields;
+      this.fields9[0] = newcontent?.fields;
+      // this.professionaltype();
+      this.Indemitytype();
+      this.getOccupationList('106','ProfessionalIntermidity');
+    }
+    getEditDetails(){
+      let ReqObj = {
             "InsuranceId": "100020",
-     "ProductId": "56",
-     "SectionLevelReq":[
-        {
-     "RequestReferenceNo": "FAK-POI-05046",
-       "RiskId": "53",
-    "SectionId": "106"
-        },
-     ]
+            "ProductId": "56",
+            "SectionLevelReq":[
+                {
+            "RequestReferenceNo": "FAK-POI-05046",
+              "RiskId": "53",
+            "SectionId": "106"
+                },
+            ]
           }
           let urlLink=`${this.CommonApiUrl}dropdown/professionaltype`;
           this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -3288,9 +3395,13 @@ export class RiskDetailsComponent {
                   let contentData1 = new HouseHoldContents();
                   this.fields1[0] = contentData1?.fields;
                 }
+              } 
+              if(types=='ElectronicEquipment'){
+                 let contentData6 = new ElectronicEquipmentNew();
+                this.fields6[0] = contentData6?.fields;
               }
                   //alert(sections)
-                  if(types=='AllRisk'){
+              if(types=='AllRisk'){
                   let contentData3 
                   if(this.insuranceId=='100004'){
                     contentData3 = new AllRiskss();
@@ -3775,14 +3886,14 @@ export class RiskDetailsComponent {
                 "EquipmentSi":  this.productItem?.EquipmentSis,
             },
             "PersonalAccidentDetails" : [
-            {   "SectionId": "35",
-                "TotalNoOfPersons": "1",  
-                "Status": "Y",
-                "OccupationType": this.productItem.OccupationType,
-                "SumInsured": this.productItem.PersonalAccidentSuminsured,
-                "OtherOccupation":this.productItem.otheroptionPer,
-            }
-            ]
+                {   "SectionId": "35",
+                    "TotalNoOfPersons": "1",  
+                    "Status": "Y",
+                    "OccupationType": this.productItem.OccupationType,
+                    "SumInsured": this.productItem.PersonalAccidentSuminsured,
+                    "OtherOccupation":this.productItem.otheroptionPer,
+                }
+              ]
                }
                if (this.endorsementSection) {
                 if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
@@ -4452,11 +4563,26 @@ getAddInfo(){
                 (err) => { },
               );
           }
-
+          getElectronicEquipDetails(type){
+            let ReqObj = {
+              "RequestReferenceNo": this.requestReferenceNo,
+              "SectionId": '76'
+            }
+            let urlLink = `${this.motorApiUrl}api/getallcontentrisk`;
+            this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+              (data: any) => {
+                if (data.Result) {
+                      this.productItem.ElectronicEquipmentSI = data?.Result?.EquipmentSi;
+                }
+                this.editsections('ElectronicEquipment');
+                this.newselectedIndex+=1;
+              },
+              (err) => { },
+            );
+          }
           getAllRiskDetails(type){
             let ReqObj = {
               "RequestReferenceNo": this.requestReferenceNo,
-              "RiskId": "1",
               "SectionId": '3'
             }
             let urlLink = `${this.motorApiUrl}api/slide2/getallriskdetails`;
@@ -4464,24 +4590,6 @@ getAddInfo(){
               (data: any) => {
                 if (data.Result) {
                       this.productItem.AllriskSumInsured = data?.Result?.AllriskSumInsured;
-                      // if(entry.EndorsementDate){
-                      //   this.endorsementDate = entry?.EndorsementDate;
-                      //   this.endorsementEffectiveDate = entry?.EndorsementEffectiveDate;
-                      //   this.endorsementRemarks = entry?.EndorsementRemarks;
-                      //   this.endorsementType = entry?.EndorsementType;
-                      //   this.endorsementTypeDesc = entry?.EndorsementTypeDesc;
-                      //   this.endtCategoryDesc = entry?.EndtCategoryDesc;
-                      //   this.endtCount = entry?.EndtCount;
-                      //   this.endtPrevPolicyNo = entry?.EndtPrevPolicyNo;
-                      //   this.endtPrevQuoteNo = entry?.EndtPrevQuoteNo;
-                      //   this.endtStatus = entry?.EndtStatus;
-                      //   this.isFinanceEndt = entry?.IsFinanceEndt;
-                      //   this.orginalPolicyNo = entry?.OrginalPolicyNo;
-                      // }
-                      // this.sectionCount +=1;
-                      // if(sections.length==this.sectionCount){
-                      //   this.formSection = true; this.viewSection = false;
-                      // }
                       console.log("Products",this.productItem)
                 }
                 this.editsections('AllRisk');
@@ -4505,18 +4613,8 @@ getAddInfo(){
               (data: any) => {
                 if (data?.Result) {
                   this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
-                 
                   sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
-                 
-                  //   if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
-                  //   if(!this.commonDetails[0].SectionId.some(ele=>ele=='3')) this.commonDetails[0].SectionId.push('3');
-                  // }
-                  // else  this.commonDetails[0]['SectionId']=['3'];
-                  // sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
                   this.nextslide2=true;
-                  // this.onCalculate(data?.Result,'AllRisk'); 
-                 
-                  // this.onCheckUWQuestionProceed(data.Result);
                 }
                 else {
                   this.nextslide2=false;
@@ -5389,6 +5487,9 @@ getAddInfo(){
                           if(n.Code =='47'){
                             this.Content=true;
                           }
+                          // if(n.Code =='76'){
+                          //   this.ElecEquipment=true;
+                          // }
                           if(n.Code == '3'){
                             this.AllRisk=true;
                           }
@@ -5409,6 +5510,9 @@ getAddInfo(){
                       if(n.Code =='47'){
                         this.Content=true;
                       }
+                      // if(n.Code =='76'){
+                      //   this.ElecEquipment=true;
+                      // }
                       if(n.Code == '3'){
                         this.AllRisk=true;
                       }
@@ -5695,11 +5799,18 @@ getAddInfo(){
                 else {
                   contentData2 = new AllRisk();
                 }
+                let contentData5:any; 
+                if(this.insuranceId=='100004'){
+                  contentData5 = new AllRiskss();
+                }
+                else {
+                  contentData5 = new AllRisk();
+                }
                 this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData2?.fields])
        
                 let contentData3 = new PersonalLiability();
                 this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData3?.fields])
-
+                this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([contentData5?.fields]);
                 let fireData = new ElectronicEquipment();
                 this.fields[0].fieldGroup = this.fields[0].fieldGroup.concat([fireData?.fields]);
 
