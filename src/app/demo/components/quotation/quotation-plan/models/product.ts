@@ -46,7 +46,7 @@ export class ProductData {
 	BuildingUsageId: any='';Status:any='Y';TotalNoOfEmployees:any;TotalRejoinedEmployees:any;
 	PersonalAccidentSuminsured: any=null;LiabilityOccupationId:any='';AccountOutstandingEmployees:any;
 	AllriskSumInsured: any = '0';WallType:any='';RoofType:any='';TotalOutstandingAmount:any;
-	AccountAuditentType:any;
+	AccountAuditentType:any;ElectronicEquipmentSI:any='0';
 	/*Product Burglary*/
 	NatureOfTradeId:any='';InternalWallType:any='';
 	CeilingType: any = '';WindowsMaterialId:any='';
@@ -191,6 +191,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.PersonalAccidentSuminsured = data?.PersonalAccidentSuminsured ?? '';
 		this.AllriskSumInsured = data?.AllriskSumInsured ?? '';
 		this.ElecEquipSuminsured = data?.ElecEquipSuminsured ?? '';
+		this.ElectronicEquipmentSI = data?.ElectronicEquipmentSI ?? '';
 		this.MoneySinglecarrySuminsured = data?.MoneySinglecarrySuminsured ?? '';
 		this.ContentSuminsured = data?.ContentSuminsured ?? '';
 		this.BuildingSuminsured = data?.BuildingSuminsured ?? '';
