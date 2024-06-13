@@ -240,7 +240,7 @@ export class RiskDetailsComponent {
               if(this.coversreuired=='B' || this.coversreuired=='BC') this.getBuildingDetails('direct');
                this.getContentDetails('Content');
                 this.getAllRiskDetails('AllRisk');
-                //this.getElectronicEquipDetails('ElectronicEquipment');
+                this.getElectronicEquipDetails('ElectronicEquipment');
                 this.getPersonalAccidentDetails('PersonalAccident');
                 this.getPersonalLiabilityDetails('PersonalLiability');
             }
@@ -3446,41 +3446,7 @@ export class RiskDetailsComponent {
                 if (res.length != 0) {
                  // let defaultObj = [{ 'label': '-Select-', 'value': '' }]
                   this.wallMaterialList = data.Result;
-                  // for (let i = 0; i < this.wallMaterialList.length; i++) {
-                  //   this.wallMaterialList[i].label = this.wallMaterialList[i]['CodeDesc'];
-                  //   this.wallMaterialList[i].value = this.wallMaterialList[i]['Code'];
-                  //   delete this.wallMaterialList[i].CodeDesc;
-                  //   if (i == this.wallMaterialList.length - 1) {
-                  //     if (this.productId == '1') {
-                  //       this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[5].props.options = defaultObj.concat(this.wallMaterialList);
-                  //       this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[6].props.options = defaultObj.concat(this.wallMaterialList);
-                  //     }
-                  //     else if(this.productId=='59'){
-                  //       let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
-                  //       for(let field of fieldList){if(field.key=='WallType') field.props.options = defaultObj.concat(this.wallMaterialList);}
-                  //     }
-                  //     else if(this.productId!='19' && this.productId!='59'){
-                  //       this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.wallMaterialList);
-                  //       //this.fields[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.wallMaterialList);
-                  //       //this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.wallMaterialList);
-                  //     }
-                  //     else{
-                  //       let fields = this.fields[0].fieldGroup;
-                  //       // alert(fields)
-                  //       for(let field of fields){
-                  //         if(field.props.label=='Burglary'){
-                  //                 console.log("Burglary Filtered Fields",field)
-                  //             field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[5].props.options = defaultObj.concat(this.wallMaterialList);
-                  //             field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[6].props.options = defaultObj.concat(this.wallMaterialList);
-                  //         }
-                  //         else if(field.props.label=='Building Details'){
-                  //           console.log("UsageFilter",field)
-                  //           field.fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.wallMaterialList);
-                  //         }
-                  //       }
-                  //     } 
-                  //   }
-                  // }
+                 
                 }
               },
               (err) => { },
@@ -3895,6 +3861,24 @@ export class RiskDetailsComponent {
                 }
               ]
                }
+               if(this.TableRowEE.length!=0){
+                  let filterList = this.TableRowEE.filter(ele=>ele.RiskId!=null && ele.RiskId!='' && ele.SumInsured!=null && ele.SumInsured!='0' && ele.SumInsured!=0);
+                  if(filterList.length!=0){
+                      let list = [],j=0;
+                      for(let entry of filterList){
+                        let obj = {
+                          "SectionId":'76',
+                          "ElecEquipSuminsured": entry.SumInsured,
+                          "RiskId": entry.RiskId
+                        }
+                        list.push(obj);
+                        j+=1;
+                        if(j==filterList.length) ReqObj['ElectronicEquipmentDetails'] =list;
+                      }
+                  }
+                  else ReqObj['ElectronicEquipmentDetails'] = null;
+               }
+               else ReqObj['ElectronicEquipmentDetails'] = null;
                if (this.endorsementSection) {
                 if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
                   ReqObj['Status'] = 'E';
@@ -4565,14 +4549,37 @@ getAddInfo(){
           }
           getElectronicEquipDetails(type){
             let ReqObj = {
-              "RequestReferenceNo": this.requestReferenceNo,
+              "RequestReferenceNO": this.requestReferenceNo,
               "SectionId": '76'
             }
             let urlLink = `${this.motorApiUrl}api/getallcontentrisk`;
             this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
               (data: any) => {
                 if (data.Result) {
-                      this.productItem.ElectronicEquipmentSI = data?.Result?.EquipmentSi;
+                  if(data.Result.ContentRiskDetails){
+                    this.TableRowEE = data?.Result?.ContentRiskDetails;
+                    if(this.TableRowEE.length!=0){
+                      if(this.TableRowEE.length>1 || (this.TableRowEE[0].SumInsured!=null && this.TableRowEE[0].SumInsured!=0)) this.currentEERiskRowIndex = null;
+                    }
+                    if(this.TableRowEE.length!=0){
+                      for(let entry of this.TableRowEE){
+                        this.onChangeContentLocation(entry);
+                        entry['Content'] = entry?.ItemValue;
+                        entry['Serial'] = entry?.SerialNo;
+                        entry['Description'] = entry?.SerialNoDesc;
+                      }
+                    }
+                  } 
+                  else{
+                    this.TableRowEE =[{
+                      id:1,
+                      ItemId:'',
+                      Content: '',
+                      Serial : '',
+                      Description: '',
+                      SumInsured: 0,
+                    }];
+                  } 
                 }
                 this.editsections('ElectronicEquipment');
                 this.newselectedIndex+=1;
@@ -5487,9 +5494,9 @@ getAddInfo(){
                           if(n.Code =='47'){
                             this.Content=true;
                           }
-                          // if(n.Code =='76'){
-                          //   this.ElecEquipment=true;
-                          // }
+                          if(n.Code =='76'){
+                            this.ElecEquipment=true;
+                          }
                           if(n.Code == '3'){
                             this.AllRisk=true;
                           }
@@ -5510,9 +5517,9 @@ getAddInfo(){
                       if(n.Code =='47'){
                         this.Content=true;
                       }
-                      // if(n.Code =='76'){
-                      //   this.ElecEquipment=true;
-                      // }
+                      if(n.Code =='76'){
+                        this.ElecEquipment=true;
+                      }
                       if(n.Code == '3'){
                         this.AllRisk=true;
                       }
