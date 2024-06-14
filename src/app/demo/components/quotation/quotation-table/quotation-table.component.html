@@ -75,9 +75,11 @@
               <td>
                 <span class="p-buttonset">
                   <button pButton pRipple icon="pi pi-pencil" (click)="onEditQuotes(customer)" title="Edit" class="p-button-outlined"></button>
+                  <button pButton pRipple *ngIf="customer.QuoteNo" icon="pi pi-cloud-download" title="Draft" (click)="onGetDraft(customer)" class="p-button-outlined"></button>
                   <button pButton pRipple icon="pi pi-times" (click)="onRejects(customer)" title="Reject" class="p-button-outlined"></button>
                   <button pButton pRipple icon="pi pi-envelope" title="Mail" (click)="onMail(customer)" class="p-button-outlined"></button>
                   <button pButton pRipple icon="pi pi-inbox" title="SMS" (click)="onSms(customer)"  class="p-button-outlined"></button>
+                  
                   <button pButton pRipple icon="pi pi-user" title="Followup" (click)="onFollowup(customer)" class="p-button-outlined"></button>
                 </span>
               </td>
@@ -444,8 +446,7 @@
           </ng-template>
           <tr> 
             <th *ngFor="let col of cols"> 
-                <input pInputText type="text" (input)= 
-                "tableref.filter($event.target.value, col.field, col.filterMatchMode)" /> 
+                <input pInputText type="text" (input)="tableref.filter($event.target.value, col.field, col.filterMatchMode)" /> 
             </th> 
           </tr> 
           <ng-template pTemplate="body" let-customer let-expanded="expanded">

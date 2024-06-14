@@ -4588,15 +4588,15 @@ backPlan()
     if( this.productId=='59'){
         if(this.BuildingOwnerYn!='N'){
           if(this.coversRequired=='C'){
-            section=['47','3','36','35','76'];
+            section=['47','3','36','35','76','106'];
           }
           else if(this.coversRequired =='B'){
-            section=['3','1','36','35','76'];
+            section=['3','1','36','35','76','106'];
           }
-          else if(this.coversRequired =='BC') section=['47','1','3','36','35','76'];
+          else if(this.coversRequired =='BC') section=['47','1','3','36','35','76','106'];
         }
         else {
-          section=['47','3','36','35','76'];
+          section=['47','3','36','35','76','106'];
         }
        this.IndustryId='99999'};
     let startDate=null,endDate=null;
