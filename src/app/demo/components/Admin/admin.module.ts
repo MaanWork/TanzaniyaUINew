@@ -29,8 +29,8 @@ import { TreeSelectModule } from 'primeng/treeselect';
 import { LoginCreationComponent } from './login-creation/login-creation.component';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-
-
+import { BadgeModule } from 'primeng/badge';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 
 
@@ -69,7 +69,9 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     ReactiveFormsModule,
     FormlyModule,
     CalendarModule,
-    InputTextareaModule
+    InputTextareaModule,
+    BadgeModule,
+    OverlayPanelModule
   ],
   bootstrap: [],
   providers: [
