@@ -749,15 +749,15 @@
                         <tr>
                             <th>S.No</th>
                             <!-- <th>Product Name</th> -->
-                            <th>Industry Types</th>
+                            <!-- <th>Industry Types</th> -->
                             <th>Industry</th>
-                            <th>Industry Structure</th>
+                            <th>Industry Cover</th>
                             <th>Location Name</th>
                             <th>Region</th>
-                            <th>State</th>
+                            <th>District</th>
                             <th>Sum Insured</th>
-                            <th>Covering Details</th>
-                            <th>Description Of Risk</th>
+                            <!-- <th>Covering Details</th>
+                            <th>Description Of Risk</th> -->
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -770,7 +770,7 @@
                         <!-- <td>
                             {{emp.productName}}
                         </td> -->
-                        <td>{{emp.IndustryTypes}}</td>
+                        <!-- <td>{{emp.IndustryTypes}}</td> -->
                         <td>{{emp.Industry}}</td>
                         <td>
                             {{emp.productName}}
@@ -781,8 +781,8 @@
                         <td>{{emp.region}}</td>
                         <td>{{emp.stateName}}</td>
                         <td>{{emp.sumInsured}}</td>
-                        <td>{{emp.CoveringDetails}}</td>
-                        <td>{{emp.DescriptionRisk}}</td>
+                        <!-- <td>{{emp.CoveringDetails}}</td>
+                        <td>{{emp.DescriptionRisk}}</td> -->
                         <td>
                             <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditFire(emp)"></button>  
                         </td>
@@ -801,7 +801,7 @@
                 </div>
                 <div class="grid">
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                    <div class="col-12 lg:col-6 md:col-6 lx:col-6">
+                    <div class="col-12 lg:col-4 md:col-4 lx:col-4">
                         <div class="input-control-container">
                             <label >Industry Type *</label><br>
                             <div class="input-form-radio-box mt-2">
@@ -816,10 +816,11 @@
                             </div>
                         </div>
                     </div>
+                   
                 </div>
                 <div class="grid">
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                    <div class="col-12 lg:col-6 md:col-6 lx:col-6">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
                         <div class="input-control-container">
                             <label class="input-form-label">Industry</label>&nbsp;<span class="text-danger">*</span>
                             <p-dropdown  class="w-full" styleClass="w-full" [options]="industryList" optionValue="code" optionLabel="CodeDesc" [(ngModel)]="IndustryId" placeholder="---Select---">
@@ -827,74 +828,74 @@
                             <!-- <ng-select class="custom" [items]="industryList" [(ngModel)]="IndustryId" placeholder="Select Industry" appendTo="body" [ngModelOptions]="{standalone: true}" bindValue="Code" bindLabel="CodeDesc">
                             </ng-select> -->
                         </div>
-                            <div class="input-form-error" *ngIf="industryError" style="position: relative;">
-                                <div class="error-text text-danger">
-                                    <span class="spancommon span_font_size"> Please Select Industry</span>
-                                </div>
+                        <div class="input-form-error" *ngIf="industryError" style="position: relative;">
+                            <div class="error-text text-danger">
+                                <span class="spancommon span_font_size"> Please Select Industry</span>
                             </div>
+                        </div>
                     </div>
-                </div>
-                <div class="grid">
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                    <div class="col-12 lg:col-6 md:col-6 lx:col-6 ">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3 ">
                         <div class="input-control-container">
-                            <label for="ProductName">Industry Structure</label>
+                            <label for="ProductName">Industry Cover</label>
                             <p-dropdown  class="w-full" styleClass="w-full" [options]="productNameList" optionValue="code" optionLabel="CodeDesc" [(ngModel)]="productName">
                             </p-dropdown>
                         </div>
                     </div>
                 </div>
-                
-                <!-- <div class="offset-col-3"></div> -->
-                <div class="grid">
+                <!-- <div class="grid">
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
-                        <div class="input-control-container">
-                            <label class="input-form-label">Location Name *</label>
-                            <input pInputText class="w-full" type="text" name="SampleType" [(ngModel)]="LocationName" placeholder="Enter Location Name">
-                      </div>
-                    </div>
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3 ">
-                        <div class="input-control-container">
-                        <label for="ProductName">Region</label>
-                        <p-dropdown inputId="make" class="w-full" styleClass="w-full" (onChange)="ongetDistrictList('region')" [options]="regionList" optionValue="Code" optionLabel="label" [(ngModel)]="region" placeholder="-Select-">
-                        </p-dropdown>
-                    </div>
-                    </div>
+                    </div> -->
                     
-                </div>
-                <div class="grid">
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                    <!-- <div class="offset-col-3"></div> -->
+                    <div class="grid">
+                        <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                        <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                            <div class="input-control-container">
+                                <label class="input-form-label">SumInsured *</label>
+                                <input pInputText class="w-full mt-1" type="text" name="SampleType" placeholder="Enter SumInsured" [(ngModel)]="FireSumInsured">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                        <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                            <div class="input-control-container">
+                                <label for="ProductName">Covering Details</label>
+                                <textarea pInputTextarea class="w-full" type="text" name="SampleType" [(ngModel)]="CoveringDetails" placeholder="Enter Covering Details"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                            <div class="input-control-container">
+                                <label class="input-form-label">Description Of Risk *</label>
+                                    <textarea pInputTextarea class="w-full" type="text" name="SampleType" placeholder="Enter Description of Risk" [(ngModel)]="DescriptionRisk"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                                                
+                    <div class="grid">
+                        <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                        <div class="col-12 lg:col-2 md:col-2 lx:col-2">
+                            <div class="input-control-container">
+                                <label class="input-form-label">Location Name *</label>
+                                <input pInputText class="w-full" type="text" name="SampleType" [(ngModel)]="LocationName" placeholder="Enter Location Name">
+                            </div>
+                        </div>
+                        <div class="col-12 lg:col-2 md:col-2 lx:col-2 ">
+                            <div class="input-control-container">
+                            <label for="ProductName">Region</label>
+                            <p-dropdown inputId="make" class="w-full" styleClass="w-full" (onChange)="ongetDistrictList('region')" [options]="regionList" optionValue="Code" optionLabel="label" [(ngModel)]="region" placeholder="-Select-">
+                            </p-dropdown>
+                        </div>
+                        </div>
+                        
+                    <div class="col-12 lg:col-2 md:col-2 lx:col-2">
                         <div class="input-control-container">
                         <label for="ProductName">District</label>
                         <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="stateList" optionValue="Code" optionLabel="label" [(ngModel)]="stateName" placeholder="-Select-">
                         </p-dropdown>
                         </div>
                     </div>
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
-                        <div class="input-control-container">
-                            <label class="input-form-label">SumInsured *</label>
-                            <input pInputText class="w-full" type="text" name="SampleType" placeholder="Enter SumInsured" [(ngModel)]="FireSumInsured">
-                      </div>
                     </div>
-                </div>
-                <div class="grid">
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
-                        <div class="input-control-container">
-                        <label for="ProductName">Covering Details</label>
-                        <textarea pInputTextarea class="w-full" type="text" name="SampleType" [(ngModel)]="CoveringDetails" placeholder="Enter Covering Details"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
-                        <div class="input-control-container">
-                            <label class="input-form-label">Description Of Risk *</label>
-                            <textarea pInputTextarea class="w-full" type="text" name="SampleType" placeholder="Enter Description of Risk" [(ngModel)]="DescriptionRisk"></textarea>
-                      </div>
-                    </div>
-                </div>
-                   
                 </div>
             <div class="flex flex-wrap justify-content-center gap-2" *ngIf="productId=='6'">
                 <p-button label="save & Add More" (click)="addFireTable()" />
@@ -959,11 +960,41 @@
                 </div>
                 <div class="grid">
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                        <div class="input-control-container">
+                            <label class="input-form-label">First Loss SI(%) *</label>
+                            <input pInputText class="w-full" type="text" name="SampleType" placeholder="Enter First Loss SI" [(ngModel)]="FirstLossSumInsured">
+                        </div>
+                    </div>
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                        <div class="input-control-container">
+                            <label class="input-form-label">SumInsured *</label>
+                            <input pInputText class="w-full" type="text" name="SampleType" placeholder="Enter SumInsured" [(ngModel)]="FireSumInsured">
+                        </div>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                        <div class="input-control-container">
+                            <label for="ProductName">Covering Details</label>
+                            <textarea pInputTextarea class="w-full" type="text" name="SampleType" [(ngModel)]="CoveringDetails" placeholder="Enter Covering Details"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                        <div class="input-control-container">
+                            <label class="input-form-label">Description Of Risk *</label>
+                            <textarea pInputTextarea class="w-full" type="text" name="SampleType" placeholder="Enter Description of Risk" [(ngModel)]="DescriptionRisk"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
                     <div class="col-12 lg:col-2 md:col-2 lx:col-2">
                         <div class="input-control-container">
                             <label class="input-form-label">Location Name *</label>
                             <input pInputText class="w-full" type="text" name="SampleType" [(ngModel)]="LocationName" placeholder="Enter Location Name">
-                      </div>
+                        </div>
                     </div>
                     <div class="col-12 lg:col-2 md:col-2 lx:col-2 ">
                         <div class="input-control-container">
@@ -981,35 +1012,20 @@
                         </div>
                     
                 </div>
-                <div class="grid">
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
-                        <div class="input-control-container">
-                            <label class="input-form-label">First Loss SI(%) *</label>
-                            <input pInputText class="w-full" type="text" name="SampleType" placeholder="Enter First Loss SI" [(ngModel)]="FirstLossSumInsured">
-                      </div>
-                    </div>
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
-                        <div class="input-control-container">
-                            <label class="input-form-label">SumInsured *</label>
-                            <input pInputText class="w-full" type="text" name="SampleType" placeholder="Enter SumInsured" [(ngModel)]="FireSumInsured">
-                      </div>
-                    </div>
-                </div>
-                <!-- <div class="grid">
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
-                        <div class="input-control-container">
-                        <label for="ProductName">Covering Details</label>
-                        <textarea pInputTextarea class="w-full" type="text" name="SampleType" [(ngModel)]="CoveringDetails" placeholder="Enter Covering Details"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
-                        <div class="input-control-container">
-                            <label class="input-form-label">Description Of Risk *</label>
-                            <textarea pInputTextarea class="w-full" type="text" name="SampleType" placeholder="Enter Description of Risk" [(ngModel)]="DescriptionRisk"></textarea>
-                      </div>
-                    </div>
+                                                        <!-- <div class="grid">
+                                                            <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                                                            <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                                                                <div class="input-control-container">
+                                                                    <label for="ProductName">Covering Details</label>
+                                                                    <textarea pInputTextarea class="w-full" type="text" name="SampleType" [(ngModel)]="CoveringDetails" placeholder="Enter Covering Details"></textarea>
+                                                                    </div>
+                                                                    </div>
+                                                                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                                                                        <div class="input-control-container">
+                                                                            <label class="input-form-label">Description Of Risk *</label>
+                                                                            <textarea pInputTextarea class="w-full" type="text" name="SampleType" placeholder="Enter Description of Risk" [(ngModel)]="DescriptionRisk"></textarea>
+                                                                            </div>
+                                                                            </div>
                 </div> -->
                    
                 </div>
