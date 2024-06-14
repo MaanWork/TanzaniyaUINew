@@ -138,7 +138,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
   TTDSumInsured: any=null;InsuranceType:any=null;PreviousInsuranceYN:any='N';
   MESumInsured: any=null;EmployeeCounts:any;PreviousLossRatio:any=null;
   FESumInsured: any=null;ProfessionalOccupation:any;ProfessionalType:any;GISI:any;
-  ProfessionalSI:any;IndemnityTypes:any;maxDate: "2022-09-25";
+  ProfessionalSI:any;IndemnityTypes:any;maxDate: "2022-09-25";DomesticServantSi:any='0';
   MiddleName:any='';LastName:any='';MobileCode:any=null;MobileNo:any=null;
 	PassengerFirstName: any=''
 	PassengerLastName: any=''
@@ -191,6 +191,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.PersonalAccidentSuminsured = data?.PersonalAccidentSuminsured ?? '';
 		this.AllriskSumInsured = data?.AllriskSumInsured ?? '';
 		this.ElecEquipSuminsured = data?.ElecEquipSuminsured ?? '';
+		this.DomesticServantSi = data?.DomesticServantSi ?? '';
 		this.ElectronicEquipmentSI = data?.ElectronicEquipmentSI ?? '';
 		this.MoneySinglecarrySuminsured = data?.MoneySinglecarrySuminsured ?? '';
 		this.ContentSuminsured = data?.ContentSuminsured ?? '';

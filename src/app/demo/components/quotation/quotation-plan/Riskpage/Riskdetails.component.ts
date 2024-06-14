@@ -41,6 +41,7 @@ import { findIndex } from 'rxjs';
 import { ProfessionalIndemnity } from '../models/ProfessionalIntermnity';
 import { ContentProfessionalIndermity } from '../models/ContentProfessional';
 import { ElectronicEquipmentNew } from '../models/ElectronicEquipmentNew';
+import { DomesticServant } from '../models/DomesticServant';
 
 @Component({
   selector: 'app-Riskdetails',
@@ -114,7 +115,9 @@ export class RiskDetailsComponent {
   personalAccidentDialog: boolean=false;columnHeaderPersonalAccident:any[]=[];
   TableRowPA: any[]=[];countryId:any=null;currentPARowIndex: any=0;ElecEquipment: boolean=false;
   fields6: any[]=[];electronicEquipDialog: boolean=false;currentEERiskRowIndex:any=null;
-  TableRowEE: any[]=[];
+  TableRowEE: any[]=[];DomesticServant: boolean=false;currentDSRowIndex: any=null;TableRowDS: any[]=[];
+  fields7: any[]=[];
+  domesticServantDialog: boolean;
         constructor(private router: Router,private datePipe:DatePipe,
           private sharedService: SharedService,public http: HttpClient) {
          let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails') || '{}');
@@ -216,6 +219,16 @@ export class RiskDetailsComponent {
             SerialNo : '',
             SumInsured: 0,
           }]
+          this.TableRowDS =[{
+            id:1,
+            OccupationId:'',
+            RiskId:'',
+            Name: '',
+            Nationality: this.countryId,
+            Dob: '',
+            SerialNo : '',
+            SumInsured: 0,
+          }]
           this.TableRowPA =[{
             id:1,
             OccupationId:'',
@@ -230,6 +243,7 @@ export class RiskDetailsComponent {
             this.currentBuildingRowIndex = 0;
             this.currentAllRiskRowIndex = 0;
             this.currentEERiskRowIndex = 0;
+            this.currentDSRowIndex = 0;
             this.sumInsured =false;
 
             this.productItem = new ProductData();
@@ -243,6 +257,7 @@ export class RiskDetailsComponent {
                 this.getElectronicEquipDetails('ElectronicEquipment');
                 this.getPersonalAccidentDetails('PersonalAccident');
                 this.getPersonalLiabilityDetails('PersonalLiability');
+                this.getDomesticServantDetails('PersonalLiability');
             }
             if(this.productId=='19'){
               this.getSectionList();
@@ -378,6 +393,33 @@ export class RiskDetailsComponent {
                     else if(field.key=='LiabilityOccupationId'){
                       if(field.formControl) field.formControl.setValue(this.plOccupationId);
                     }
+                  }
+                }
+                return this.Total;
+              }
+            }
+          }
+          else return 0;
+        }
+        getDSTotal(){
+          this.Total = 0;let i=0;
+          if(this.TableRowDS.length!=0){
+            for(let tot of this.TableRowDS){
+              if(tot.SumInsured!=null && tot.SumInsured!='' && tot.SumInsured!=undefined) this.Total=this.Total+Number(tot.SumInsured);
+              i+=1;
+              if(i==this.TableRowDS.length){
+                this.productItem.DomesticServantSi = this.Total;
+                if(this.fields7.length!=0){
+                  let fieldList = this.fields7[0].fieldGroup[0].fieldGroup;
+                  for(let field of fieldList){
+                    if(field.key=='DomesticServantSi'){
+                      field.props.disabled = false;
+                      if(field.formControl) field.formControl.setValue(this.Total);
+                      field.props.disabled = true;
+                    }
+                    // else if(field.key=='LiabilityOccupationId'){
+                    //   if(field.formControl) field.formControl.setValue(this.plOccupationId);
+                    // }
                   }
                 }
                 return this.Total;
@@ -537,6 +579,10 @@ export class RiskDetailsComponent {
         this.electronicEquipDialog = true;
         this.getElectronicEquipDetails('ElectronicEquipment');
       }
+      else if(type=='DS'){
+        this.domesticServantDialog = true;
+        this.getDomesticServantDetails('DomesticServant');
+      }
     }
     addRow() {
         const newItem = { id: this.TableRow.length + 1,RiskId:'', Content: '', SerialNoDesc: '',ContentRiskDesc:'',SumInsured:0,LocationName:'' };
@@ -566,10 +612,21 @@ export class RiskDetailsComponent {
       this.TableRowPL.push(newItem);
       this.currentPLRowIndex = this.TableRowPL.length-1;
     }
+    addRowDS(){
+      const newItem = {  id: this.TableRowDS.length + 1,RiskId:'',Name: '',Nationality:this.countryId,Dob: '',SerialNo : '',SumInsured: 0};
+      this.TableRowDS.push(newItem);
+      this.currentDSRowIndex = this.TableRowDS.length-1;
+    }
     deleteProductPL(index) {
       this.TableRowPL.splice(index,1);
       if(this.TableRowPL.length==0){
-        this.onSavePL('deleteSave');
+        this.onSavePL('deleteSave','PL');
+      }
+    }
+    deleteProductDS(index) {
+      this.TableRowDS.splice(index,1);
+      if(this.TableRowDS.length==0){
+        this.onSavePL('deleteSave','DS');
       }
     }
     addRowPA(){
@@ -612,10 +669,13 @@ export class RiskDetailsComponent {
       }
       else return '';
     }
-    onSavePL(type){
-      if (this.TableRowPL.length != 0) {
+    onSavePL(type,section){
+      let entryList = [];
+      if(section=='PL') entryList=this.TableRowPL;
+      else entryList=this.TableRowDS;
+      if (entryList.length != 0) {
         let i=0,j=0, reqList =[];
-        for(let entry of this.TableRowPL){
+        for(let entry of entryList){
           if(entry.RiskId!=null && entry.RiskId!='' && entry.RiskId!=undefined) entry['LocationNameError']=false;
             else{ j+=1; entry['LocationNameError']=true;}
             if(entry.Name!=null && entry.Name!='' && entry.Name!=undefined) entry['NameError']=false;
@@ -629,7 +689,6 @@ export class RiskDetailsComponent {
             if(entry.Nationality!=null   && entry.Nationality!=undefined && entry.Nationality!=''){ entry['NationalityError']=false;}
             else{ j+=1; entry['NationalityError']=true;}
             if(entry.ItemId!= null && entry.ItemId!='' && entry.ItemId!=undefined) entry['Content']=this.allriskList.find(ele=>ele.Code==entry.ItemId)?.CodeDesc
-            
             let data = {
               "Dob": this.getProductDob(entry),
               "Height":null,
@@ -644,19 +703,22 @@ export class RiskDetailsComponent {
             }
             reqList.push(data);
             i+=1;
-            if(i==this.TableRowPL.length && j==0){
-                this.onFinalSavePL(reqList,type)
+            if(i==entryList.length && j==0){
+                this.onFinalSavePL(reqList,type,section)
             }
         }
       }
-      else this.onFinalSavePL([],type)
+      else this.onFinalSavePL([],type,section)
     }
-    onFinalSavePL(reqList,type){
+    onFinalSavePL(reqList,type,section){
+      let sectionID = null;
+      if(section=='PL') sectionID='36';
+      else sectionID='106';
       let  ReqObj = {
         "CreatedBy": this.loginId,
         "QuoteNo": sessionStorage.getItem('quoteNo'),
         "RequestReferenceNo": this.quoteRefNo,
-        "SectionId": "36",
+        "SectionId": sectionID,
         "Description": "Accident Details",
         "Type":'PI',
         "PersonalDetails":reqList
@@ -668,25 +730,50 @@ export class RiskDetailsComponent {
           let res: any = data;
           if (data.ErrorMessage.length != 0) {
             if (res.ErrorMessage) {
-              if(this.TableRowPL.length!=0){
-                if(this.TableRowPL.length>1 || (this.TableRowPL[0].SumInsured!=null && this.TableRowPL[0].SumInsured!=0)) this.currentPLRowIndex = null;
+              if(section=='PL'){
+                if(this.TableRowPL.length!=0){
+                  if(this.TableRowPL.length>1 || (this.TableRowPL[0].SumInsured!=null && this.TableRowPL[0].SumInsured!=0)) this.currentPLRowIndex = null;
+                }
+              }
+              else{
+                if(this.TableRowDS.length!=0){
+                  if(this.TableRowDS.length>1 || (this.TableRowDS[0].SumInsured!=null && this.TableRowDS[0].SumInsured!=0)) this.currentDSRowIndex = null;
+                }
               }
             }
           }
           else { 
-            if(type=='direct'){ this.personalLiabilityDialog = false;this.currentPLRowIndex=null;}
+            if(section=='PL'){
+              if(type=='direct'){ this.personalLiabilityDialog = false;this.currentPLRowIndex=null;}
+              else{
+                this.TableRowPL =[{
+                  id:1,
+                  OccupationId:'',
+                  RiskId:'',
+                  Name: '',
+                  Nationality: this.countryId,
+                  Dob: '',
+                  SerialNo : '',
+                  SumInsured: 0,
+                }]
+                this.currentPLRowIndex=this.TableRowPL.length-1;
+              }
+            }
             else{
-              this.TableRowPL =[{
-                id:1,
-                OccupationId:'',
-                RiskId:'',
-                Name: '',
-                Nationality: this.countryId,
-                Dob: '',
-                SerialNo : '',
-                SumInsured: 0,
-              }]
-              this.currentPLRowIndex=this.TableRowPL.length-1;
+              if(type=='direct'){ this.domesticServantDialog = false;this.currentDSRowIndex=null;}
+              else{
+                this.TableRowDS =[{
+                  id:1,
+                  OccupationId:'',
+                  RiskId:'',
+                  Name: '',
+                  Nationality: this.countryId,
+                  Dob: '',
+                  SerialNo : '',
+                  SumInsured: 0,
+                }]
+                this.currentDSRowIndex=this.TableRowDS.length-1;
+              }
             }
           }
         },
@@ -3421,12 +3508,14 @@ export class RiskDetailsComponent {
                   contentData4 = new PersonalLiability();
                   this.fields3[0] = contentData4?.fields;
               }
-                 
-                 
-                  //this.productItem = new ProductData();
-                  
-                  //this.getOccupationList();
-               
+              if(types=='DomesticServant'){
+                let contentData4:any;
+                contentData4 = new DomesticServant();
+                this.fields7[0] = contentData4?.fields;
+              }
+              //this.productItem = new ProductData();
+              
+              //this.getOccupationList();
           }
           checkMachineryYNChanges(){
             console.log("Form",this.productItem,this.fields)
@@ -3832,8 +3921,15 @@ export class RiskDetailsComponent {
                  "SectionId": "3",
                 "AllriskSumInsured": this.productItem?.AllriskSumInsured
              } ],
-            
-            
+             "DomesticServant":[
+                {
+                    "SectionId": "106",
+                    "TotalNoOfEmployees": "1",
+                    "LiabilityOccupationId": null,
+                    "EmpLiabilitySi": this.productItem.DomesticServantSi,
+                    "Status": "Y"
+                }
+            ],
              "EmployeeLiabilityDetails" :[
                 {    "SectionId": "36",
                     "TotalNoOfEmployees": "1",     
@@ -4294,7 +4390,40 @@ getAddInfo(){
   );
 }
 
-
+          getDomesticServantDetails(type){
+            let ReqObj = {
+              "RequestReferenceNo": this.requestReferenceNo,
+              "QuoteNo": null,
+              "SectionId":  "106"
+            }
+            let urlLink = `${this.motorApiUrl}api/getallpersonalaccident`;
+            this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+              (data: any) => {
+                console.log(data);
+                if (data.Result) {
+                  if(data.Result.PersonalDetails){
+                    this.currentDSRowIndex = null;
+                    this.TableRowDS = data.Result.PersonalDetails;
+                    for(let entry of this.TableRowDS){
+                      entry['Name'] = entry?.PersonName;
+                      entry['SumInsured'] = entry?.Salary;
+                      entry['Nationality'] = entry?.NationalityId;
+                      if(entry.RiskId) this.onChangeContentLocation(entry);
+                    }
+                    this.getOccupationList('36','DomesticServant');
+                    this.editsections('DomesticServant');
+                  }
+                  else{this.productItem.LiabilityOccupationId = null;this.productItem.PersonalIntermediarySuminsured='0';this.productItem.EmpLiabilitySi=null; 
+                  this.getOccupationList('36','DomesticServant');
+                  this.editsections('DomesticServant');
+                  }
+                }
+                this.newselectedIndex+=1;
+                this.editsections(type);
+              },
+              (err) => { },
+            );
+          }
           getPersonalLiabilityDetails(type){
             let ReqObj = {
               "RequestReferenceNo": this.requestReferenceNo,
@@ -5503,6 +5632,9 @@ getAddInfo(){
                           if(n.Code == '35'){
                             this.PersonalAccident=true;
                           }
+                          if(n.Code =='106'){
+                            this.DomesticServant=true;
+                          }
                           if(n.Code == '36'){
                             this.personalIndemity=true;
                           }
@@ -5525,6 +5657,9 @@ getAddInfo(){
                       }
                       if(n.Code == '35'){
                         this.PersonalAccident=true;
+                      }
+                      if(n.Code =='106'){
+                        this.DomesticServant=true;
                       }
                       if(n.Code == '36'){
                         this.personalIndemity=true;
