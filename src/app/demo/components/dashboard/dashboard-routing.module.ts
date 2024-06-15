@@ -21,6 +21,7 @@ import { MotorDocumentsDetailComponent } from '../MotorDocuments/motor-documents
 import { ApproverPortfolioComponent } from '../approverportfolio/approverportfolio.component';
 import { FollowupComponent } from '../FollowUp/followup.component';
 import { LoginCreationComponent } from '../Admin/login-creation/login-creation.component';
+import { InsurenceEmpComponent } from '../Admin/login-creation/insurence-emp/insurence-emp.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { LoginCreationComponent } from '../Admin/login-creation/login-creation.c
         { path: 'tira-search', component: TiraSearchComponent }, 
         { path: 'referral', component: ReferralComponent },
         { path: 'portfolio', component: PortfolioComponent },
-        { path: 'logincreation', component: LoginCreationComponent },
+        { path: 'logincreation', loadChildren: () => import('../Admin/login-creation/login-creation.module').then(m => m.LoginCreationModule) },
+       
         { path: 'portfolio/endorsement', component: EndorsementComponent },
         { path: 'portfolio/endorsementtype', component: EndorsementTypeComponent},
         { path: 'portfolio/motorDocuments', component: MotorDocumentsDetailComponent},
