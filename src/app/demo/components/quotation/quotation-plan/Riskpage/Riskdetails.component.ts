@@ -3614,31 +3614,11 @@ export class RiskDetailsComponent {
                           this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
                         }
                         else if(this.productId!='19' && this.productId!='59' && this.productId!='59'){ } 
-                        //this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.roofMaterialList);
+                       
                         else{
-                          // let fields = this.fields[0].fieldGroup;
-                          // for(let field of fields){
-                          //   alert(field.props.label)
-                          //   if(field.props.label=='Burglary'){
-                    
-                          //       //field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
-                          //   }
-                          //   else if(field.props.label=='Building Risk'){
-
-                          //     alert('Types')
-                          //     field.fieldGroup[0].fieldGroup[4].props.options = defaultObj.concat(this.TypeOfPropertyss);
-                          //   }
-                          // }
                           let fields = this.fields[0].fieldGroup;
                           for(let field of fields){
-                          
-                            console.log('GGGGGGG',field)
-                            // // if(field.props.label=='Burglary'){
-                            //     field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = defaultObj.concat(this.roofMaterialList);
-                            // }
-                            // else if(field.props.label=='Building Risk'){
                               field.fieldGroup[4].props.options = defaultObj.concat(this.TypeOfPropertyss);
-                            //}
                         } 
                       }
                       }
@@ -3947,6 +3927,7 @@ export class RiskDetailsComponent {
                 "CarpetsSi": this.productItem?.CarpetsSi,
                 "EquipmentSi":  this.productItem?.EquipmentSis,
             },
+            "ElectronicEquipmentDetails":null,
             "PersonalAccidentDetails" : [
                 {   "SectionId": "35",
                     "TotalNoOfPersons": "1",  
@@ -3960,7 +3941,7 @@ export class RiskDetailsComponent {
                if(this.TableRowEE.length!=0){
                   let filterList = this.TableRowEE.filter(ele=>ele.RiskId!=null && ele.RiskId!='' && ele.SumInsured!=null && ele.SumInsured!='0' && ele.SumInsured!=0);
                   if(filterList.length!=0){
-                      ReqObj['ElectronicEquipmentDetails'] ={
+                      ReqObj['ElectronicEquipment'] ={
                         "SectionId": "76",
                         "ContentSuminsured": this.productItem.ElectronicEquipmentSI,
                         "Status": "Y",
@@ -3971,9 +3952,9 @@ export class RiskDetailsComponent {
                       };
                       
                   }
-                  else ReqObj['ElectronicEquipmentDetails'] = null;
+                  else ReqObj['ElectronicEquipment'] = null;
                }
-               else ReqObj['ElectronicEquipmentDetails'] = null;
+               else ReqObj['ElectronicEquipment'] = null;
                if (this.endorsementSection) {
                 if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
                   ReqObj['Status'] = 'E';
