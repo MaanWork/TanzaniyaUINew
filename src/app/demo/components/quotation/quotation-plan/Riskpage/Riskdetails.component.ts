@@ -3938,8 +3938,8 @@ export class RiskDetailsComponent {
                     "Status": "Y",
                 }
             ] ,
-            "ContentDetails" :
-            {   "SectionId": "47",
+            "ContentDetails" :{   
+                "SectionId": "47",
                 "ContentSuminsured":this.productItem?.ContentSuminsured,
                 "Status": "Y",
                 "JewellerySi": this.productItem?.JewellerySi,
@@ -3960,17 +3960,16 @@ export class RiskDetailsComponent {
                if(this.TableRowEE.length!=0){
                   let filterList = this.TableRowEE.filter(ele=>ele.RiskId!=null && ele.RiskId!='' && ele.SumInsured!=null && ele.SumInsured!='0' && ele.SumInsured!=0);
                   if(filterList.length!=0){
-                      let list = [],j=0;
-                      for(let entry of filterList){
-                        let obj = {
-                          "SectionId":'76',
-                          "ElecEquipSuminsured": entry.SumInsured,
-                          "RiskId": entry.RiskId
-                        }
-                        list.push(obj);
-                        j+=1;
-                        if(j==filterList.length) ReqObj['ElectronicEquipmentDetails'] =list;
-                      }
+                      ReqObj['ElectronicEquipmentDetails'] ={
+                        "SectionId": "76",
+                        "ContentSuminsured": this.productItem.ElectronicEquipmentSI,
+                        "Status": "Y",
+                        "JewellerySi": "0",
+                        "PaitingsSi": "0",
+                        "CarpetsSi": "0",
+                        "EquipmentSi": "0"
+                      };
+                      
                   }
                   else ReqObj['ElectronicEquipmentDetails'] = null;
                }

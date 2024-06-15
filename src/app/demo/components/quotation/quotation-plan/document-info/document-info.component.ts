@@ -433,14 +433,14 @@ export class DocumentInfoComponent {
       else this.router.navigate(['/quotation/plan/main/accessories']);
     }
     else{
-      if(this.productId=='5' && this.insuranceId!='100028' && this.insuranceId!='100020'){
-        this.router.navigate(['/quotation/plan/main/driver-info'])
-      }
-      else if(this.productId=='14' || this.productId=='24' || this.productId=='13' || this.productId=='16'){
-        this.router.navigate(['/quotation/plan/main/accessories']);
-      }
-      else if(this.productId=='4') this.router.navigate(['/quotation/plan/travel-quote-details']);
-      else  this.router.navigate(['/quotation/plan/premium-details']);
+        if(this.productId=='5' && this.insuranceId!='100028' && this.insuranceId!='100020'){
+          this.router.navigate(['/quotation/plan/main/driver-info'])
+        }
+        else if(this.productId=='14' || this.productId=='24' || this.productId=='13' || this.productId=='16'){
+          this.router.navigate(['/quotation/plan/main/accessories']);
+        }
+        else if(this.productId=='4') this.router.navigate(['/quotation/plan/travel-quote-details']);
+        else  this.router.navigate(['/quotation/plan/premium-details']);
       }
     }
   }
