@@ -1,22 +1,21 @@
 <div class="grid">
     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
         <label for="Company">Company *</label>
-        <p-dropdown  class="w-full" styleClass="w-full">
+        <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="insuranceId" [options]="companyList"  optionLabel="CodeDesc" optionValue="Code">
         </p-dropdown> 
     </div>
     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
         <label for="Channel">Channel *</label>
-        <p-dropdown  class="w-full" styleClass="w-full"    >
+        <p-dropdown  class="w-full" styleClass="w-full"   [(ngModel)]="subUserType" [options]="channelList"  optionLabel="CodeDesc" optionValue="Code" >
         </p-dropdown> 
     </div>
     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
         <label for="Channel">Broker *</label>
-        <p-dropdown  class="w-full" styleClass="w-full"   >
+        <p-dropdown  class="w-full" styleClass="w-full"  [(ngModel)]="brokerValue" [options]="brokerList"  optionLabel="BrokerName" optionValue="BrokerId" >
         </p-dropdown> 
     </div>
 </div> 
 <ng-container >
-    <!-- <h5>Selected Documents</h5><br> [value]="UserData"-->
     <p-table  [value]="userDataList" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-end">
@@ -39,13 +38,17 @@
         </ng-template>
         <ng-template pTemplate="body" let-data>
           <tr>
-            <td>{{data.data1}}</td>
-            <td>{{data.data2}}</td>
-            <td>{{data.data3}}</td>
-            <td>{{data.data4}}</td>
-            <td>{{data.data5}}</td>
-            <td>{{data.data6}}</td>
-            <td>{{data.data7}}</td>
+            <td>{{data.UserName}}</td>
+            <td>{{data.LoginId}}</td>
+            <td>{{data.SubUserType}}</td>
+            <td>{{data.UserMail}}</td>
+            <td>{{data.CreatedBy}}</td>
+            <td>{{data.UserMobile}}</td>
+            <td>
+                <ng-container *ngIf="data.Status=='Y'">Active</ng-container>
+                <ng-container *ngIf="data.Status=='N'">DeActive</ng-container>
+                <ng-container *ngIf="data.Status=='P'">Pending</ng-container>
+            </td>
 
              <!-- <td>{{data.UserName}}</td>
             <td>{{data.LoginId}}</td>
@@ -56,10 +59,8 @@
            <!-- <td *ngIf="data.Status=='Y'">Active</td><td *ngIf="data.Status=='N'">DeActive</td><td *ngIf="data.Status=='P'">Pending</td> -->
             <td>
                 <span class="p-buttonset">
-                    <!-- (click)="EditDetailsView(data.LoginId)" -->
-                    <button pButton pRipple icon="pi pi-pencil" title="Edit" class="p-button-outlined" (click)="EditDetailsView(data.data1)" ></button>
+                    <button pButton pRipple icon="pi pi-pencil" title="Edit" class="p-button-outlined" (click)="EditDetailsView(data)" ></button>
                     <button pButton pRipple icon="pi pi-cog" title="Configure"  class="p-button-outlined" (click)="opUser.toggle($event)"></button>
-                    <!-- (click)="brokerDetailsView(data.LoginId)" -->
                     <button pButton pRipple icon="pi pi-eye" title="View"   class="p-button-outlined" (click)="brokerDetailsView()"></button>
                 </span>
             </td>
@@ -99,26 +100,7 @@
         </div> -->
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Name" class="font-semibold w-6rem">Name</label>
-            <input pInputText id="Name" class="w-full"  [(ngModel)]="userName" />
-        </div>
-        
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Insurance" class="font-semibold w-6rem">Insurance Company *</label>
-            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="insuranceId"  
-                optionLabel="CodeDesc" optionValue="Code" >
-            </p-dropdown> 
-        </div>
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Channel" class="font-semibold w-6rem">Broker *</label>
-            <p-dropdown  class="w-full" styleClass="w-full" 
-                optionLabel="CodeDesc" optionValue="Code" >
-            </p-dropdown> 
-        </div>
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Channel" class="font-semibold w-6rem">Channel *</label>
-            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="channelId" 
-                optionLabel="CodeDesc" optionValue="Code" >
-            </p-dropdown> 
+            <input pInputText id="Name" class="w-full"  [(ngModel)]="userName" maxlength="100" />
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Address1" class="font-semibold w-6rem">Address1</label>

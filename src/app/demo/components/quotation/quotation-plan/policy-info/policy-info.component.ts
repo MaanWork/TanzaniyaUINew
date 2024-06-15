@@ -124,7 +124,7 @@ export class PolicyInfoComponent {
             this.policySection = true;
             this.successSection = false;
             this.loadingSection = false;
-            //this.updateTiraDetails();
+            this.updateTiraDetails();
             this.getTiraDetails();
           }
           else{
@@ -181,8 +181,8 @@ export class PolicyInfoComponent {
             this.policySection = true;
             this.successSection = false;
             this.mobilePaymentPending = false;
-            this.getTiraDetails();
-            //this.updateTiraDetails();
+            //this.getTiraDetails();
+            this.updateTiraDetails();
           }
           else{
             if(!this.mobilePaymentPending) this.loadingSection = true;
