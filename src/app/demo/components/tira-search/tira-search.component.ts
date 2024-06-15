@@ -21,16 +21,13 @@ export class TiraSearchComponent implements OnInit {
   policyPeriodExceed:boolean=false;limit:any=0;totalQuoteRecords:any=null;quotePageNo:any=null;
   public AppConfig: any = (Mydatas as any).default;quoteData:any[]=[];
   public ApiUrl1: any = this.AppConfig.ApiUrl1;startIndex:any=null;
+  public customApiUrl1:any = this.AppConfig.CustomApiUrl1;
   public CommonApiUrl: any = this.AppConfig.CommonApiUrl;endIndex:any=null;
   customerName: any=null;public motorApiUrl: any = this.AppConfig.MotorApiUrl;
   brokerLoginId: any=null;regNo:any=null;brokerList:any[]=[];
   regNoError: boolean;sourceTypeList:any[]=[];brokerBranchList: any[]=[];customerList: any[]=[];
-  showCustomerList: boolean=false;
-  customerColumn: string[];
-  columns: string[];
-  rejectedColumns: string[];
-  cols: { field: string; header: string; }[];
-  quotations: { referenceNo: string; }[];
+  showCustomerList: boolean=false;customerColumn: string[];columns: string[];rejectedColumns: string[];
+  cols: any[]=[];quotations: any[]=[];
   constructor(private router: Router,private sharedService: SharedService){
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -170,7 +167,7 @@ export class TiraSearchComponent implements OnInit {
           "InsuranceId": this.insuranceId,
           "SearchValue":code
         }
-        let urlLink = `${this.ApiUrl1}api/search/premiabrokercustomercode`;
+        let urlLink = `${this.customApiUrl1}api/search/premiabrokercustomercode`;
         this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
           (data: any) => {
                 this.customerList = data.Result;

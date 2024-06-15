@@ -93,6 +93,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
 	public ApiUrl1: any = this.AppConfig.ApiUrl1;
 	public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
 	public motorApiUrl: any = this.AppConfig.MotorApiUrl;
+  public customApiUrl1:any = this.AppConfig.CustomApiUrl1;
   vehicleDetails: any;customerData:any[]=[];licenseNo:any=null;
   havePromoCodeYN: any=null;typeList:any[]=[];
   noOfDays: any=null;industryList:any[]=[];
@@ -601,7 +602,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           "InsuranceId": this.insuranceId,
           "SearchValue":code
         }
-        let urlLink = `${this.ApiUrl1}api/search/premiabrokercustomercode`;
+        let urlLink = `${this.customApiUrl1}api/search/premiabrokercustomercode`;
         this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
           (data: any) => {
                 this.customerList = data.Result;

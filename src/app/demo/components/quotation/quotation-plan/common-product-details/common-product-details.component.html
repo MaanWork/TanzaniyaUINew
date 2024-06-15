@@ -733,126 +733,124 @@
                 </ng-container>
             </ng-container>
             </div>
-            <ng-container *ngIf="TableRowFire.length!=0 ">
-                <p-table [value]="TableRowFire" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
-                    <!-- <ng-template pTemplate="caption">
-                        <div class="flex flex wrap justify-content-end">
-                          <div class="table-header">
-                              <span class="p-input-icon-left">
-                                <p-button label="Add More" (click)="addFireTable()" />
-                              </span>
-                          </div>
-                        </div>
-                        
-                      </ng-template> -->
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th>S.No</th>
-                            <!-- <th>Product Name</th> -->
-                            <!-- <th>Industry Types</th> -->
-                            <th>Industry</th>
-                            <th>Industry Cover</th>
-                            <th>Location Name</th>
-                            <th>Region</th>
-                            <th>District</th>
-                            <th>Sum Insured</th>
-                            <!-- <th>Covering Details</th>
-                            <th>Description Of Risk</th> -->
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-emp let-i="rowIndex">
-                      <tr *ngIf="emp.IndustryTypes!='' && emp.IndustryTypes!=null">
-                        <td>
-                            {{i}}
-                        </td>
-                        <!-- <td>
-                            {{emp.productName}}
-                        </td> -->
-                        <!-- <td>{{emp.IndustryTypes}}</td> -->
-                        <td>{{emp.Industry}}</td>
-                        <td>
-                            {{emp.productName}}
-                        </td>
-                        <td>
-                            {{emp.LocationName}}
-                        </td>
-                        <td>{{emp.region}}</td>
-                        <td>{{emp.stateName}}</td>
-                        <td>{{emp.sumInsured}}</td>
-                        <!-- <td>{{emp.CoveringDetails}}</td>
-                        <td>{{emp.DescriptionRisk}}</td> -->
-                        <td>
-                            <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditFire(emp)"></button>  
-                        </td>
-                        <td>
-                            <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="Firedelete(i)"></button>  
-                        </td>
-                      </tr>
-                    </ng-template>
-                  </p-table>
-            </ng-container>
+            
             <div *ngIf="productId=='6'">
-                <div class="grid">
-                    <div class="md:col-6 lg:col-6 col-12">
-                        <h4 class="m-0 p-0" >Fire</h4>
+                    <div class="grid">
+                        <div class="md:col-6 lg:col-6 col-12">
+                            <h4 class="m-0 p-0" >Fire</h4>
+                        </div>
                     </div>
-                </div>
-                <div class="grid">
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                    <div class="col-12 lg:col-4 md:col-4 lx:col-4">
-                        <div class="input-control-container">
-                            <label >Industry Type *</label><br>
-                            <div class="input-form-radio-box mt-2">
-                                <div class="radio-toolbar1 radio-toolbar">
-                                    <input id="claims_Own" type="radio" name="rentOwnHome" [(ngModel)]="IndustryTypes" value="Manufacturing">
-                                    <label for="claims_Own" style="background-color: primary;" ><img style="max-width: 30px;max-height: 10px;">Manufacturing</label>
-                                    <input id="claims_Rent" type="radio" name="rentOwnHome"  [(ngModel)]="IndustryTypes" value="Non-Manufacturing">
-                                    <label for="claims_Rent" ><img style="max-width: 30px;max-height: 10px;">Non-Manufacturing</label>
-                                    <input id="claims" type="radio" name="rentOwnHome"  [(ngModel)]="IndustryTypes" value="Storage">
-                                    <label for="claims" ><img style="max-width: 30px;max-height: 10px;">Storage</label>
+                    <ng-container *ngIf="TableRowFire.length!=0">
+                        <p-table [value]="TableRowFire" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+                            <!-- <ng-template pTemplate="caption">
+                                <div class="flex flex wrap justify-content-end">
+                                  <div class="table-header">
+                                      <span class="p-input-icon-left">
+                                        <p-button label="Add More" (click)="addFireTable()" />
+                                      </span>
+                                  </div>
+                                </div>
+                                
+                              </ng-template> -->
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>S.No</th>
+                                    <!-- <th>Product Name</th> -->
+                                    <!-- <th>Industry Types</th> -->
+                                    <th>Industry Type</th>
+                                    <th>Cover</th>
+                                    <th>Location Name</th>
+                                    <th>Sum Insured</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-emp let-i="rowIndex">
+                              <tr>
+                                <td>
+                                    {{i+1}}
+                                </td>
+                                <td>{{emp.IndustryTypeDesc}}</td>
+                                <td>
+                                    {{emp.SectionDesc}}
+                                </td>
+                                <td>
+                                    {{emp.LocationName}}
+                                </td>
+                                <td>{{emp.BuildingSumInsured}}</td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditFire(emp)"></button>  
+                                </td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="Firedelete(i)"></button>  
+                                </td>
+                              </tr>
+                            </ng-template>
+                          </p-table>
+                    </ng-container>
+                    <div class="grid">
+                        <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                        <div class="col-12 lg:col-4 md:col-4 lx:col-4">
+                            <div class="input-control-container">
+                                <label >Industry Type *</label><br>
+                                <div class="input-form-radio-box mt-2">
+                                    <div class="radio-toolbar1 radio-toolbar">
+                                        <ng-container *ngFor="let entry of fireIndustypeList,let i=index">
+                                            <input [id]="'type'+i" type="radio" name="rentOwnHome" [(ngModel)]="IndustryTypes" [value]="entry.Code" (change)="getFireIndustryList('change')">
+                                            <label [for]="'type'+i" style="background-color: primary;" ><img style="max-width: 30px;max-height: 10px;">{{entry.CodeDesc}}</label>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="input-form-error" *ngIf="industryTypeError">
+                                    <div class="error-text text-danger">
+                                        Please Select Industry Type
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                   
-                </div>
-                <div class="grid">
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
-                        <div class="input-control-container">
-                            <label class="input-form-label">Industry</label>&nbsp;<span class="text-danger">*</span>
-                            <p-dropdown  class="w-full" styleClass="w-full" [options]="industryList" optionValue="code" optionLabel="CodeDesc" [(ngModel)]="IndustryId" placeholder="---Select---">
-                            </p-dropdown>
-                            <!-- <ng-select class="custom" [items]="industryList" [(ngModel)]="IndustryId" placeholder="Select Industry" appendTo="body" [ngModelOptions]="{standalone: true}" bindValue="Code" bindLabel="CodeDesc">
-                            </ng-select> -->
-                        </div>
-                        <div class="input-form-error" *ngIf="industryError" style="position: relative;">
-                            <div class="error-text text-danger">
-                                <span class="spancommon span_font_size"> Please Select Industry</span>
+                    <div class="grid">
+                        <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                        <div class="col-12 lg:col-3 md:col-3 lx:col-3 ">
+                            <div class="input-control-container">
+                                <label for="ProductName">Industry</label>&nbsp;<span class="text-danger">*</span>
+                                
+                                <p-dropdown inputId="industryType" class="w-full" styleClass="w-full" [options]="fireIndustryList" optionValue="Code" optionLabel="CodeDesc"
+                                (onChange)="onChangeIndusty()" [(ngModel)]="industryValue" placeholder="-Select-">
+                                </p-dropdown>
+                                <div class="input-form-error" *ngIf="regionError">
+                                    <div class="error-text text-danger">
+                                        Please Select industryError
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3 ">
-                        <div class="input-control-container">
-                            <label for="ProductName">Industry Cover</label>
-                            <p-dropdown  class="w-full" styleClass="w-full" [options]="productNameList" optionValue="code" optionLabel="CodeDesc" [(ngModel)]="productName">
-                            </p-dropdown>
+                        <div class="col-12 lg:col-3 md:col-3 lx:col-3 ">
+                            <div class="input-control-container">
+                                <label for="ProductName">Industry Cover</label>&nbsp;<span class="text-danger">*</span>
+                                
+                                <p-dropdown inputId="industry" class="w-full" styleClass="w-full" [options]="productNameList" optionValue="Code" optionLabel="CodeDesc" (onChange)="onChangeSection()" [(ngModel)]="productName" placeholder="-Select-">
+                                </p-dropdown>
+                                <div class="input-form-error" *ngIf="regionError">
+                                    <div class="error-text text-danger">
+                                        Please Select Industry Cover
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        
                     </div>
-                </div>
-                <!-- <div class="grid">
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                    </div> -->
-                    
-                    <!-- <div class="offset-col-3"></div> -->
                     <div class="grid">
                         <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
                         <div class="col-12 lg:col-3 md:col-3 lx:col-3">
                             <div class="input-control-container">
                                 <label class="input-form-label">SumInsured *</label>
                                 <input pInputText class="w-full mt-1" type="text" name="SampleType" placeholder="Enter SumInsured" [(ngModel)]="FireSumInsured">
+                                <div class="input-form-error" *ngIf="fireSIError">
+                                    <div class="error-text text-danger">
+                                        Please Enter Valid SumInsured 
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -862,22 +860,36 @@
                             <div class="input-control-container">
                                 <label for="ProductName">Covering Details</label>
                                 <textarea pInputTextarea class="w-full" type="text" name="SampleType" [(ngModel)]="CoveringDetails" placeholder="Enter Covering Details"></textarea>
+                                <div class="input-form-error" *ngIf="coveringDetailsError">
+                                    <div class="error-text text-danger">
+                                        Please Enter Covering Details
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 lg:col-3 md:col-3 lx:col-3">
                             <div class="input-control-container">
                                 <label class="input-form-label">Description Of Risk *</label>
                                     <textarea pInputTextarea class="w-full" type="text" name="SampleType" placeholder="Enter Description of Risk" [(ngModel)]="DescriptionRisk"></textarea>
+                                    <div class="input-form-error" *ngIf="descriptionRiskError">
+                                        <div class="error-text text-danger">
+                                            Please Enter Description Risk
+                                        </div>
+                                    </div>
                             </div>
                         </div>
-                    </div>
-                                                
+                    </div>                      
                     <div class="grid">
                         <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
                         <div class="col-12 lg:col-2 md:col-2 lx:col-2">
                             <div class="input-control-container">
                                 <label class="input-form-label">Location Name *</label>
                                 <input pInputText class="w-full" type="text" name="SampleType" [(ngModel)]="LocationName" placeholder="Enter Location Name">
+                                <div class="input-form-error" *ngIf="locationNameError">
+                                    <div class="error-text text-danger">
+                                        Please Enter Location Name
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 lg:col-2 md:col-2 lx:col-2 ">
@@ -885,6 +897,11 @@
                             <label for="ProductName">Region</label>
                             <p-dropdown inputId="make" class="w-full" styleClass="w-full" (onChange)="ongetDistrictList('region')" [options]="regionList" optionValue="Code" optionLabel="label" [(ngModel)]="region" placeholder="-Select-">
                             </p-dropdown>
+                            <div class="input-form-error" *ngIf="regionError">
+                                <div class="error-text text-danger">
+                                    Please Select Region
+                                </div>
+                            </div>
                         </div>
                         </div>
                         
@@ -893,12 +910,17 @@
                         <label for="ProductName">District</label>
                         <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="stateList" optionValue="Code" optionLabel="label" [(ngModel)]="stateName" placeholder="-Select-">
                         </p-dropdown>
+                            <div class="input-form-error" *ngIf="districtError">
+                                <div class="error-text text-danger">
+                                    Please Enter District
+                                </div>
+                            </div>
                         </div>
                     </div>
                     </div>
                 </div>
             <div class="flex flex-wrap justify-content-center gap-2" *ngIf="productId=='6'">
-                <p-button label="save & Add More" (click)="addFireTable()" />
+                <p-button label="save & Add More" (click)="addFireTable('Save')" />
             </div>
 
             <ng-container *ngIf="TableRowBurglary.length!=0 && (productId=='1' && insuranceId!='100004')">

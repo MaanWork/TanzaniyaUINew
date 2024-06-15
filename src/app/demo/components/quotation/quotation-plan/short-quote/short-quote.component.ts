@@ -18,6 +18,7 @@ export class ShortQuoteComponent implements OnInit {
   public AppConfig: any = (Mydatas as any).default;
   public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
   public ApiUrl1: any = this.AppConfig.ApiUrl1;
+  public customApiUrl1:any = this.AppConfig.CustomApiUrl1;
   public motorApiUrl: any = this.AppConfig.MotorApiUrl;
   insuranceId: any=null;quoteNo:any=null;
   productId: any;coverSection:boolean=false;
@@ -302,7 +303,7 @@ export class ShortQuoteComponent implements OnInit {
           "InsuranceId": this.insuranceId,
           "SearchValue":code
         }
-        let urlLink = `${this.ApiUrl1}api/search/premiabrokercustomercode`;
+        let urlLink = `${this.customApiUrl1}api/search/premiabrokercustomercode`;
         this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
           (data: any) => {
                 this.customerList = data.Result;

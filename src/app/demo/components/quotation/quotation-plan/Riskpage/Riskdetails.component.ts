@@ -5629,13 +5629,13 @@ getAddInfo(){
                           if(n.Code == '3'){
                             this.AllRisk=true;
                           }
-                          if(n.Code == '35'){
+                          if(n.Code == '36'){
                             this.PersonalAccident=true;
                           }
                           if(n.Code =='106'){
                             this.DomesticServant=true;
                           }
-                          if(n.Code == '36'){
+                          if(n.Code == '35'){
                             this.personalIndemity=true;
                           }
                         }
@@ -5655,13 +5655,13 @@ getAddInfo(){
                       if(n.Code == '3'){
                         this.AllRisk=true;
                       }
-                      if(n.Code == '35'){
+                      if(n.Code == '36'){
                         this.PersonalAccident=true;
                       }
                       if(n.Code =='106'){
                         this.DomesticServant=true;
                       }
-                      if(n.Code == '36'){
+                      if(n.Code == '35'){
                         this.personalIndemity=true;
                       }
                       i+=1;
