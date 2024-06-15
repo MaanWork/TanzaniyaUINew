@@ -1,0 +1,652 @@
+<div class="grid">
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+        <label for="Company">Company *</label>
+        <p-dropdown  class="w-full" styleClass="w-full">
+        </p-dropdown> 
+    </div>
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+        <label for="Channel">Channel *</label>
+        <p-dropdown  class="w-full" styleClass="w-full"    >
+        </p-dropdown> 
+    </div>
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+        <label for="Channel">Broker *</label>
+        <p-dropdown  class="w-full" styleClass="w-full"   >
+        </p-dropdown> 
+    </div>
+</div> 
+<ng-container >
+    <!-- <h5>Selected Documents</h5><br> [value]="UserData"-->
+    <p-table  [value]="userDataList" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-end">
+                <p-button label="Add New User" size="small" (click)="showDialogBrokerDetails('AddUser')"></p-button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>User Name</th>
+                <th>Login Id </th>
+                <th>Sub UserType</th>
+                <th>MailID </th>
+                <th>Created Date</th>
+                <th>Mobile No</th>
+                <th>Status </th>
+                <th>Action </th>
+                <!-- <th>Configure </th>
+                <th>View </th> -->
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+          <tr>
+            <td>{{data.data1}}</td>
+            <td>{{data.data2}}</td>
+            <td>{{data.data3}}</td>
+            <td>{{data.data4}}</td>
+            <td>{{data.data5}}</td>
+            <td>{{data.data6}}</td>
+            <td>{{data.data7}}</td>
+
+             <!-- <td>{{data.UserName}}</td>
+            <td>{{data.LoginId}}</td>
+            <td>{{data.UserType}}</td>
+            <td>{{data.UserMail}}</td>
+            <td>{{data.EntryDate}}</td>
+            <td>{{data.UserMobile}}</td> -->
+           <!-- <td *ngIf="data.Status=='Y'">Active</td><td *ngIf="data.Status=='N'">DeActive</td><td *ngIf="data.Status=='P'">Pending</td> -->
+            <td>
+                <span class="p-buttonset">
+                    <!-- (click)="EditDetailsView(data.LoginId)" -->
+                    <button pButton pRipple icon="pi pi-pencil" title="Edit" class="p-button-outlined" (click)="EditDetailsView(data.data1)" ></button>
+                    <button pButton pRipple icon="pi pi-cog" title="Configure"  class="p-button-outlined" (click)="opUser.toggle($event)"></button>
+                    <!-- (click)="brokerDetailsView(data.LoginId)" -->
+                    <button pButton pRipple icon="pi pi-eye" title="View"   class="p-button-outlined" (click)="brokerDetailsView()"></button>
+                </span>
+            </td>
+          </tr>
+          <p-overlayPanel #opUser [style]="{ width: 'auto'}" >
+            <div class="input-control-container">
+                <!-- <label >Industry Type *</label><br> -->
+                <div class="input-form-radio-box mt-2">
+                    <div class="radio-toolbar1 radio-toolbar">
+                        <!-- (click)="branchDataList(data.LoginId)" -->
+                        <input id="Branch" type="radio" name="rentOwnHome"   value="Branch" (click)="branchDataList()">
+                        <label for="Branch" style="background-color: primary;" ><img style="max-width: 30px;max-height: 10px;" >Branch</label>
+                        <!-- (click)="ConfigPopUp('Product')" -->
+                        <input id="Product" type="radio" name="rentOwnHome"   value="Product" (click)="showDialogBrokerDetails('Product')" >
+                        <label for="Product" ><img style="max-width: 30px;max-height: 10px;">Product</label>
+                        <!-- (click)="ConfigPopUp('Cover')" -->
+                        <input id="Cover" type="radio" name="rentOwnHome"   value="Cover" > 
+                        <input id="ChangePassword" type="radio" name="rentOwnHome"   value="ChangePassword" >
+                        <label for="ChangePassword" ><img style="max-width: 30px;max-height: 10px;" >Change Password</label>
+                    </div>
+                </div>
+            </div>
+        </p-overlayPanel>
+        </ng-template>
+    </p-table>
+</ng-container>
+
+<p-dialog header="User Details" [modal]="true" [(visible)]="AddUserPopup" [style]="{ width: '75rem' }">
+    <span class="p-text-dark block mb-5"><b>Personal Information</b></span>
+    <div class="grid">
+        <!-- <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="CustomerCode" class="font-semibold w-6rem">Customer Code</label>
+            <div class="p-inputgroup">
+                <input type="text" id="CustomerCode" pInputText placeholder="Customer Code" [(ngModel)]="customerCode" />
+                <button type="button" pButton icon="pi pi-search" class="p-button-outlined" ></button>
+            </div>
+        </div> -->
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Name" class="font-semibold w-6rem">Name</label>
+            <input pInputText id="Name" class="w-full"  [(ngModel)]="userName" />
+        </div>
+        
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Insurance" class="font-semibold w-6rem">Insurance Company *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="insuranceId"  
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Channel" class="font-semibold w-6rem">Broker *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" 
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Channel" class="font-semibold w-6rem">Channel *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="channelId" 
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Address1" class="font-semibold w-6rem">Address1</label>
+            <input pInputText id="Address1" [(ngModel)]="address1" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Address2" class="font-semibold w-6rem">Address2</label>
+            <input pInputText id="Address2"  [(ngModel)]="address2" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Country" class="font-semibold w-6rem">Country *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="countryCode" [options]="countryList" (onChange)="onCountryChange('change')"
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Region" class="font-semibold w-6rem">Region *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" [options]="stateList" (onChange)="onStateChange('change')" [(ngModel)]="stateCode"
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="District" class="font-semibold w-6rem">District *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="cityCode" [options]="cityList"
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Email" class="font-semibold w-6rem">Email*</label>
+            <input pInputText id="Email" class="w-full" [(ngModel)]="userMail"/>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="POBox" class="font-semibold w-6rem">PO Box</label>
+            <input pInputText id="POBox" class="w-full" [(ngModel)]="pobox" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="ContactPerson" class="font-semibold w-6rem">ContactPerson Name</label>
+            <input pInputText id="ContactPerson" class="w-full"  [(ngModel)]="contactPersonName"/>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Designation" class="font-semibold w-6rem">Designation</label>
+            <input pInputText id="Designation" class="w-full" [(ngModel)]="designation"/>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Mobile" class="font-semibold w-6rem">Mobile No *</label>
+            <div class="flex flex-warp">
+                <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                    <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="mobileCode" [options]="mobileCodeList"
+                        optionLabel="CodeDesc" optionValue="Code" >
+                    </p-dropdown> 
+                </div>
+                <div class="col-12 lg:col-8 md:col-8 lg:col-8" >
+                    <input pInputText id="Mobile" class="w-full" [(ngModel)]="userMobile" />
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="WhatsApp" class="font-semibold w-6rem">WhatsApp No *</label>
+            <div class="flex flex-warp">
+                <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                    <p-dropdown  class="w-full" styleClass="w-full"  [(ngModel)]="whatsAppCode" [options]="mobileCodeList" 
+                        optionLabel="CodeDesc" optionValue="Code" >
+                    </p-dropdown> 
+                </div>
+                <div class="col-12 lg:col-8 md:col-8 lg:col-8">
+                    <input pInputText id="WhatsApp" class="w-full" [(ngModel)]="whatsAppNo"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="CoreApp" class="font-semibold w-6rem">CoreApp Code *</label>
+            <input pInputText id="CoreApp" class="w-full" [(ngModel)]="coreAppBrokerCode"/>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Regulatory" class="font-semibold w-6rem">ID Number *</label>
+            <input pInputText id="Regulatory" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="IdentityType" class="font-semibold w-6rem">Identity Type *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" 
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
+    </div>
+    <p-divider class="mt-3 mb-3" />
+    <span class="p-text-dark block mb-5"><b>Login  Information</b></span>
+    <div class="grid">
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="LogInId" class="font-semibold w-6rem">LogIn Id *</label>
+            <input pInputText id="LogInId" class="w-full" [disabled]="editSection" [(ngModel)]="brokerLoginId"/>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="editSection">
+        <label class="input-form-label">Do You Like to Change Password?<span class="text-danger">*</span></label>
+            <div class="input-form-radio-box">
+                <div class="radio-toolbar radio-toolbar1">
+                    <input id="changePasswrd_Yes" type="radio" name="changePassYN" [(ngModel)]="changePasswordYN" value="Y">
+                    <label for="changePasswrd_Yes" >Yes</label>
+                    <input id="changePasswrd_No" type="radio" name="changePassYN" [(ngModel)]="changePasswordYN" value="N">
+                    <label for="changePasswrd_No">No</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="changePasswordYN=='Y' || !editSection">
+            <label for="Password1" class="font-semibold w-6rem" *ngIf="!editSection">Password *</label>
+            <label *ngIf="changePasswordYN=='Y'">New Password<span class="text-danger">*</span></label>
+            <input pInputText id="Password1" class="w-full" [(ngModel)]="password" *ngIf="changePasswordYN=='Y' || !editSection" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="changePasswordYN=='Y' || !editSection">
+            <label for="Password2" class="font-semibold w-6rem" *ngIf="!editSection">Re-Enter Password *</label>
+            <label *ngIf="changePasswordYN=='Y'">Re-Enter New Password<span class="text-danger">*</span></label>
+            <input pInputText id="Password2" class="w-full" [(ngModel)]="repassword" *ngIf="changePasswordYN=='Y' || !editSection" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="EffectiveDate" class="font-semibold w-6rem">Effective Date *</label>
+            <p-calendar  
+            [showIcon]="true" 
+            inputId="icondisplay" 
+            styleClass="w-full"
+            [(ngModel)]="effectiveDate"
+            class="w-full"/>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Remarks" class="font-semibold w-6rem">Remarks *</label>
+            <textarea pInputTextarea id="Remarks" [(ngModel)]="remarks" class="w-full" ></textarea>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
+            <label for="ExcemptedYN" class="font-semibold w-6rem">Status *</label>
+            <div class="flex flex-warp">
+            <div class="flex align-items-center mr-1">
+                <p-radioButton name="Active" value="Y" [(ngModel)]="statusValue" inputId="ingredient2"></p-radioButton>
+                <span for="Active" class="ml-1">Active</span>
+            </div>
+            <div class="flex align-items-center mr-1">
+                <p-radioButton name="Pending" value="P" [(ngModel)]="statusValue" inputId="ingredient3"></p-radioButton>
+                <span for="Pending" class="ml-1">Pending</span>
+            </div>
+            <div class="flex align-items-center mr-1">
+                <p-radioButton name="DeActive" value="N" [(ngModel)]="statusValue" inputId="ingredient3"></p-radioButton>
+                <span for="DeActive" class="ml-1">DeActive</span>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="flex justify-content-center gap-2">
+        <p-button label="Cancel" styleClass="p-button-outlined"  />
+        <p-button label="Submit" (click)="onProceed()"/>
+    </div>
+</p-dialog> 
+<p-dialog  header="User Details" [modal]="true"  [(visible)]="visibleUserDetails"  [style]="{ width: '90rem' }" 
+        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true">
+        <div class="grid ">
+            <div class="col-12 lg:col-5 md:col-5 lg:col-5">
+                <p-card header="Personal Details">
+                    <hr>
+                    <div class="flex flex-warp justify-content-end">
+                        <div class="col-8 lg:col-8 md:col-8 lg:col-8" *ngIf="userName!=null && userName!=''">
+                            <p class="font-semibold broker_name">Broker Name </p>
+                            <!-- <p>{{userName}}</p> -->
+                        </div>
+                        <div class="col-3 lg:col-3 md:col-3 lg:col-3">
+                            <p-button label="Edit"  class="p-button-outlined" styleClass="p-button-outlined" />
+                            <!-- <i class="pi pi-check-circle" style="color: green"></i> -->
+                        </div>
+                        <div class="col-1 lg:col-1 md:col-1 lg:col-1">
+                            <!-- <p-button label="Edit"  class="p-button-outlined" styleClass="p-button-outlined" /> -->
+                            
+                        </div>
+                    </div>
+                        <div class="grid ">
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="customerCode!=null && customerCode!=''">
+                                <p  class="font-semibold broker_name">Customer Code </p>
+                                <!-- <p>{{customerCode}}</p> -->
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4" >
+                                <p  class="font-semibold broker_name">Address </p>
+                                <!-- <p *ngIf="address1!=null && address1!='' || address2!=null && address2!=''">{{address1}},{{address2}}</p> -->
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4 flex-warp" *ngIf="userMail!=null && userMail!=''">
+                                <p  class="font-semibold broker_name">Email </p>
+                                <!-- <p>{{userMail}}</p> -->
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4" >
+                                <p  class="font-semibold broker_name">Mobile No </p>
+                                <!-- <p>{{userMobile}}</p> -->
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4" >
+                                <p  class="font-semibold broker_name">PO Box</p>
+                                <!-- <p>{{pobox}}</p> -->
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4" >
+                                <p  class="font-semibold broker_name">Contact Person</p>
+                                <!-- <p>{{contactPersonName}}</p> -->
+                            </div>
+                        </div>
+                </p-card>
+            </div>
+            <div class="col-12 lg:col-5 md:col-5 lg:col-5">
+                <p-card header="Branch">
+                    <hr>
+                        <div class="grid ">
+                            <div class="col-8 lg:col-3 md:col-3 lg:col-3" *ngIf="channelId!=null && channelId!=''">
+                                <p  class="font-semibold broker_name">Channel </p>
+                                <!-- <p>{{channelId}}</p> -->
+                                
+                            </div>
+                            <div class="col-12 lg:col-9 md:col-9 lg:col-9" *ngIf="companyName!=null && companyName!=''">
+                                <p  class="font-semibold broker_name">Insurance/Broker Company </p>
+                                <!-- <p>{{companyName}}</p> -->
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="countryCode!=null && countryCode!=''">
+                                <p  class="font-semibold broker_name">Country </p>
+                                <!-- <p>{{countryCode}}</p> -->
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="stateName!=null && stateName!=''">
+                                <p  class="font-semibold broker_name">Region </p>
+                                <!-- <p>{{stateName}}</p> -->
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="cityName!=null && cityName!=''">
+                                <p  class="font-semibold broker_name">District </p>
+                                <!-- <p>{{cityName}}</p> -->
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="creditLimit!=null && creditLimit!=''">
+                                <p  class="font-semibold broker_name">Credit Limit</p>
+                                <!-- <p>{{creditLimit}}</p> -->
+                            </div>
+                            <!-- <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                                <p  class="font-semibold broker_name">Contact Person</p>
+                                <p></p>
+                            </div> -->
+                        </div>
+                </p-card>
+            </div>
+            <div class="col-12 lg:col-2 md:col-2 lg:col-2">
+                <p-card header="Account Status">
+                    <hr>
+                    <div class="col-12">
+                    <p *ngIf="Status=='Y'">Active &nbsp; <p-badge [value]="" severity="success" /></p>
+                    <p *ngIf="Status=='N'">DeActive &nbsp; <p-badge [value]="" severity="danger" /></p>
+                   </div>
+                   <div class="col-12">
+                       <p  class="font-semibold broker_name">Login Id</p>
+                       <!-- <p>{{brokerLoginId}}</p> -->
+                    </div>
+                    <div class="col-12">
+                    <p-button  label="Change Password"  class="p-button-outlined" styleClass="p-button-outlined" (click)="passwordField()" />
+                    </div>
+                    <!--  -->
+                        <!-- <p  class="font-semibold broker_name">Last Login Date</p>
+                        <p>12/06/2024</p> -->
+                    <!--  -->
+                </p-card>
+            </div>
+            <!-- *ngIf="ChangePass" -->
+            <div class="col-12 lg:col-12 md:col-12 lg:col-12" *ngIf="ChangePass" >
+                <div class="grid">
+                <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                    <label for="username">New Password*</label><br>
+                    <input pInputText type="Password"   class="w-full" 
+                    styleClass="w-full"  
+                    placeholder="Enter New Password"/>
+                </div>
+                <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                    <label for="username">Re-Enter New Password*</label><br>
+                    <input pInputText type="Password"   class="w-full" 
+                    styleClass="w-full" 
+                    placeholder="Enter Re-Enter New Password"/>
+                </div>
+                <div class="col-12 lg:col-4 md:col-4 lg:col-4 mt-4">
+                    <p-button label="Submit"  (click)="passChanged()" />
+                </div>
+            </div>
+            </div>
+            <div class="col-12 lg:col-12 md:col-12 lg:col-12">
+                <p-card header="Products">
+                    <hr>
+                    <div class="grid" >
+                   <div class="col-12 lg:col-2 md:col-2 lg:col-2" >
+                    <!-- {{product.ProductName}} *ngFor="let product of brokerProductList"-->
+                       <p  class="font-semibold broker_name"><i class="pi pi-map" style="font-size: 1rem"></i> &nbsp;</p>
+                       <hr>
+                       <!-- <p>Quote &nbsp; <p-badge [value]="product.ProductId" /></p>
+                       <p>Policy &nbsp; <p-badge [value]="product.ProductIconId" /></p>
+                       <p>Endorsement &nbsp; <p-badge [value]="product.PackageYn" /></p> -->
+                       <p>Quote &nbsp; </p>
+                       <p>Policy &nbsp;</p>
+                       <p>Endorsement &nbsp;</p>
+                    </div>
+                    </div>
+                </p-card>
+            </div>
+            <div class="col-12 lg:col-6 md:col-6 lg:col-6">
+                <p-card header="Period">
+                    <hr>
+                <div class="grid">
+                   <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                       <p class="font-semibold broker_name">Last Login Date</p>
+                       <p>12/06/2024</p>
+                    </div>
+                    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                        <p class="font-semibold broker_name">Last Policy Date</p>
+                        <p>12/06/2024</p>
+                     </div>
+                     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                        <p class="font-semibold broker_name">Last Quote Date</p>
+                        <p>12/06/2024</p>
+                     </div>
+                     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                         <p class="font-semibold broker_name">Collected Premium</p>
+                         <p>100,00000</p>
+                    </div>
+                    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                        <p class="font-semibold broker_name">Policy Commission</p>
+                        <p>100,00</p>
+                    </div>
+                </div>
+                    <!-- <div class="col-12">
+                    <p-button label="Change Password"  class="p-button-outlined" styleClass="p-button-outlined" (click)="passwordField()" />
+                    </div> -->
+                    <!--  -->
+                        <!-- <p  class="font-semibold broker_name">Last Login Date</p>
+                        <p>12/06/2024</p> -->
+                    <!--  -->
+                </p-card>
+            </div>
+            <div class="col-12 lg:col-6 md:col-6 lg:col-6">
+                <p-card header="Users">
+                    <hr>
+                <div class="grid">
+                   <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                       <p class="font-semibold broker_name">Users</p>
+                       <!-- <p>12/06/2024</p> -->
+                    </div>
+                    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                        <p class="font-semibold broker_name">Users</p>
+                        <!-- <p>12/06/2024</p> -->
+                     </div>
+                     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                        <p class="font-semibold broker_name">Users</p>
+                        <!-- <p>12/06/2024</p> -->
+                     </div>
+                     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                        <p class="font-semibold broker_name">Users</p>
+                        <!-- <p>100,000</p> -->
+                     </div>
+                    </div>
+                </p-card>
+            </div>
+        </div>
+       
+</p-dialog>
+<p-dialog  header="Branch " [modal]="true"  [(visible)]="branchPopup"  [style]="{ width: '75rem' }" >
+    <p-table  [tableStyle]="{'min-width': '60rem'}" >
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                Branch 
+                <p-button icon="pi pi-pencil"   (click)="showDialogBrokerDetails('editBranchDetail')" />
+                <p-button icon="pi pi-plus"  label="Add Branch" (click)="showDialogBrokerDetails('branchDetail')" />
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Branch Name</th>
+                <th>Effective Date</th>
+                <th>Mobile No</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" >
+            <tr>
+                <!-- <td>{{branch.BranchName}}</td>
+                <td>{{branch.EffectiveDateStart}}</td>
+                <td>{{branch.Mobile}}</td>
+                <td>{{branch.Status}}</td> -->
+                <td><p-button icon="pi pi-pencil"  styleClass="p-button-outlined" /></td>
+            </tr>
+        </ng-template>
+    </p-table> 
+</p-dialog>
+<p-dialog  header="Branch Details " [modal]="true"  [(visible)]="branchDetailsPopup"  [style]="{ width: '80rem' }" >
+    <div class="grid">
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="BranchName" class="font-semibold w-6rem">Branch Name</label>
+            <div class="p-inputgroup">
+                <input type="text" id="BranchName" pInputText placeholder="Branch Name" />
+                <button type="button" pButton icon="pi pi-search" class="p-button-outlined"></button>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Insurance" class="font-semibold w-6rem">Insurance Company Branch *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" 
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
+            <label for="ExcemptedYN" class="font-semibold w-6rem">Branch Type *</label>
+            <div class="flex flex-warp">
+                <div class="flex align-items-center mr-1">
+                    <p-radioButton name="Main" value="Main"  inputId="Main"></p-radioButton>
+                    <span for="Main" class="ml-1">Main</span>
+                </div>
+                <div class="flex align-items-center mr-1">
+                    <p-radioButton name="Sub" value="Sub"  inputId="Sub"></p-radioButton>
+                    <span for="Sub" class="ml-1">Sub</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="SalePointCode" class="font-semibold w-6rem">Sale PointCode *</label>
+            <input pInputText id="SalePointCode" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Address1" class="font-semibold w-6rem">Address 1 </label>
+            <input pInputText id="Address1" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Address2" class="font-semibold w-6rem">Address 2</label>
+            <input pInputText id="Address2" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Email" class="font-semibold w-6rem">Email</label>
+            <input pInputText id="Email" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="MobileNo" class="font-semibold w-6rem">Mobile No</label>
+            <input pInputText id="MobileNo" class="w-full" />
+        </div>
+        
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="EffectiveDate" class="font-semibold w-6rem">Effective Date</label>
+            <p-calendar inputId="EffectiveDate" class="w-full" styleClass="w-full" appendTo="body" /> 
+        </div>
+
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Remarks" class="font-semibold w-6rem">Remarks</label>
+            <textarea pInputTextarea id="Remarks" class="w-full" ></textarea>
+        </div>
+
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
+            <label for="ExcemptedYN" class="font-semibold w-6rem">Status *</label>
+            <div class="flex flex-warp">
+                <div class="flex align-items-center mr-1">
+                    <p-radioButton name="Yes" value="Y"  inputId="Active"></p-radioButton>
+                    <span for="Active" class="ml-1">Active</span>
+                </div>
+                <div class="flex align-items-center mr-1">
+                    <p-radioButton name="No" value="N"  inputId="DeActive"></p-radioButton>
+                    <span for="DeActive" class="ml-1">DeActive</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-content-center gap-2">
+        <p-button label="Cancel" styleClass="p-button-outlined"  />
+        <p-button label="Submit"/>
+    </div>
+</p-dialog>
+<p-dialog  header="Product" [modal]="true"  [(visible)]="productPopup"  [style]="{ width: '75rem' }">
+    <p-table  [tableStyle]="{'min-width': '60rem'}" *ngIf="existingProduct">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                Existing Products
+                <div class="flex flex-warp align-items-center justify-content-end">
+                    <p-button icon="pi pi-pencil" label="Edit/Remove Product" styleClass="p-button-outlined" />&nbsp;&nbsp;
+                    <p-button icon="pi pi-plus" label="Add Product" (click)="showDialogBrokerDetails('AddProduct')" />
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Product Name</th>
+                <th>Max SumInsured</th>
+                <th>Commission (%)</th>
+                <th>Backdays</th>
+                <th>Status</th>
+                <th>Start Date</th>
+                <th>Endrosement</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" >
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </ng-template>
+    </p-table> 
+    <p-table  [tableStyle]="{'min-width': '60rem'}" *ngIf="addProduct">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                Existing Products
+                <!-- <div class="flex flex-warp align-items-center justify-content-end">
+                    <p-button icon="pi pi-pencil" label="Edit/Remove Product" styleClass="p-button-outlined" />&nbsp;&nbsp;
+                    <p-button icon="pi pi-plus" label="Add Product"  />
+                </div> -->
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Select</th>
+                <th>Product Name</th>
+                <th>Max SumInsured</th>
+                <th>Commission (%)</th>
+                <th>Backdays</th>
+                <th>CreditYN</th>
+                <th>CheckerYN</th>
+                <th>Status</th>
+                <th>Start Date</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" >
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary" >
+            <div class="flex justify-content-center gap-2">
+                <p-button label="Cancel" styleClass="p-button-outlined" (click)="showDialogBrokerDetails('ProductCancel')" />
+                <p-button label="Submit" />
+            </div>
+        </ng-template>
+    </p-table> 
+</p-dialog>
