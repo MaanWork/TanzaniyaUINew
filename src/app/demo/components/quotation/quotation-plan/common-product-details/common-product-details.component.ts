@@ -1927,7 +1927,6 @@ export class CommonProductDetailsComponent {
           "Non-Surgical Specialist", "Gynaecologist", "Obstetrician & Gynaecologist", "Cardiologist", "Anaesthetist", "Paediatrician(non-surgical)", "Obstetrician", "Paediatrician(surgical)", "General surgeon", "orthopaedic surgery", "Doctor (including Surgery)", "Doctor (non-surgical)", "haematology"
         ]}
       ];
-      console.log('HHHKKKKK',this.fields[0].fieldGroup[0].fieldGroup[0].templateOptions.options)
       let aggHooks ={ onInit: (field: FormlyFieldConfig) => {
         field.formControl.valueChanges.subscribe(() => {
           this.ongetAggSIList('change')
@@ -4814,15 +4813,15 @@ backPlan()
     if( this.productId=='59'){
         if(this.BuildingOwnerYn!='N'){
           if(this.coversRequired=='C'){
-            section=['47','3','35'];
+            section=['47','3','36','76'];
           }
           else if(this.coversRequired =='B'){
-            section=['3','1','35'];
+            section=['3','1','36','76'];
           }
-          else if(this.coversRequired =='BC') section=['47','1','3','35'];
+          else if(this.coversRequired =='BC') section=['47','1','3','36','76'];
         }
         else {
-          section=['47','3','35'];
+          section=['47','3','36','76'];
         }
        this.IndustryId='99999'};
     let startDate=null,endDate=null;
