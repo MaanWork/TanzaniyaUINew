@@ -55,7 +55,7 @@
                     <div class="radio-toolbar1 radio-toolbar">
                         <input id="Branch" type="radio" name="rentOwnHome" (click)="branchDataList(data.LoginId)"  value="Branch">
                         <label for="Branch" style="background-color: primary;" ><img style="max-width: 30px;max-height: 10px;" >Branch</label>
-                        <input id="Product" type="radio" name="rentOwnHome"   value="Product" (click)="ConfigPopUp('Product')">
+                        <input id="Product" type="radio" name="rentOwnHome"   value="Product" (click)="ProductDataList(data.LoginId)">
                         <label for="Product" ><img style="max-width: 30px;max-height: 10px;">Product</label>
                         <input id="Cover" type="radio" name="rentOwnHome"   value="Cover" (click)="ConfigPopUp('Cover')"> 
                         <label for="Cover" ><img style="max-width: 30px;max-height: 10px;" >Cover</label>
@@ -78,14 +78,25 @@
     <div class="grid">
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="CustomerCode" class="font-semibold w-6rem">Customer Code</label>
-            <div class="p-inputgroup">
+            <div class="p-inputgroup"> 
                 <input type="text" id="CustomerCode" pInputText placeholder="Customer Code" [(ngModel)]="customerCode" />
-                <button type="button" pButton icon="pi pi-search" class="p-button-outlined" ></button>
+                <button type="button" pButton icon="pi pi-search" class="p-button-outlined" (click)="customerSearchvisible=true" ></button>
+                
+            </div>
+            <div class="input-form-error" *ngIf="customerCodeError">
+                <div class="error-text text-danger">
+                  Please  Enter UserName
+                </div>
             </div>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Name" class="font-semibold w-6rem">Name</label>
             <input pInputText id="Name" class="w-full"  [(ngModel)]="userName" />
+            <div class="input-form-error" *ngIf="userNameError">
+                <div class="error-text text-danger">
+                  Please  Enter UserName
+                </div>
+            </div>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Channel" class="font-semibold w-6rem">Channel *</label>
@@ -118,16 +129,31 @@
             <p-dropdown  class="w-full" styleClass="w-full" [options]="stateList" (onChange)="onStateChange('change')" [(ngModel)]="stateCode"
                 optionLabel="CodeDesc" optionValue="Code" >
             </p-dropdown> 
+            <div class="input-form-error" *ngIf="stateCodeError">
+                <div class="error-text text-danger">
+                  Please  Select Region
+                </div>
+            </div>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="District" class="font-semibold w-6rem">District *</label>
             <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="cityCode" [options]="cityList"
                 optionLabel="CodeDesc" optionValue="Code" >
             </p-dropdown> 
+            <div class="input-form-error" *ngIf="cityCodeError">
+                <div class="error-text text-danger">
+                  Please  Select District
+                </div>
+            </div>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Email" class="font-semibold w-6rem">Email*</label>
             <input pInputText id="Email" class="w-full" [(ngModel)]="userMail"/>
+            <div class="input-form-error" *ngIf="userMailError">
+                <div class="error-text text-danger">
+                  Please  Enter Mail ID
+                </div>
+            </div>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="POBox" class="font-semibold w-6rem">PO Box</label>
@@ -148,14 +174,24 @@
                     <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="mobileCode" [options]="mobileCodeList"
                         optionLabel="CodeDesc" optionValue="Code" >
                     </p-dropdown> 
+                    <div class="input-form-error" *ngIf="mobileCodeError">
+                        <div class="error-text text-danger">
+                          Please  Select Mobile Code
+                        </div>
+                    </div>
                 </div>
                 <div class="col-12 lg:col-8 md:col-8 lg:col-8" >
                     <input pInputText id="Mobile" class="w-full" [(ngModel)]="userMobile" />
+                    <div class="input-form-error" *ngIf="userMobileError">
+                        <div class="error-text text-danger">
+                          Please  Enter Mobile Number
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="WhatsApp" class="font-semibold w-6rem">WhatsApp No *</label>
+            <label for="WhatsApp" class="font-semibold w-6rem">WhatsApp No </label>
             <div class="flex flex-warp">
                 <div class="col-12 lg:col-4 md:col-4 lg:col-4">
                     <p-dropdown  class="w-full" styleClass="w-full"  [(ngModel)]="whatsAppCode" [options]="mobileCodeList" 
@@ -170,10 +206,20 @@
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="CoreApp" class="font-semibold w-6rem">CoreApp Code *</label>
             <input pInputText id="CoreApp" class="w-full" [(ngModel)]="coreAppBrokerCode"/>
+            <div class="input-form-error" *ngIf="coreAppBrokerCodeError">
+                <div class="error-text text-danger">
+                  Please  Enter coreApp Broker Code
+                </div>
+            </div>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Regulatory" class="font-semibold w-6rem">Regulatory Code *</label>
             <input pInputText id="Regulatory" class="w-full" [(ngModel)]="regulatoryCode" />
+            <div class="input-form-error" *ngIf="regulatoryCodeError">
+                <div class="error-text text-danger">
+                  Please  Enter Regulatory Code
+                </div>
+            </div>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
             <label for="ExcemptedYN" class="font-semibold w-6rem">Tax ExcemptedYN *</label>
@@ -195,6 +241,11 @@
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Credit" class="font-semibold w-6rem">Credit Limit *</label>
             <input pInputText id="Credit" class="w-full"  [disabled]="editSection"  [(ngModel)]="creditLimit"/>
+            <div class="input-form-error" *ngIf="creditLimitError">
+                <div class="error-text text-danger">
+                  Please  Enter CreditLimit
+                </div>
+            </div>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="subUserType=='bank'">
             <label >Bank</label>
@@ -209,6 +260,11 @@
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="LogInId" class="font-semibold w-6rem">LogIn Id *</label>
             <input pInputText id="LogInId" class="w-full" [disabled]="editSection" [(ngModel)]="brokerLoginId"/>
+            <div class="input-form-error" *ngIf="brokerLoginIdError">
+                <div class="error-text text-danger">
+                  Please  Enter Login Id
+                </div>
+            </div>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="editSection">
         <label class="input-form-label">Do You Like to Change Password?<span class="text-danger">*</span></label>
@@ -224,12 +280,12 @@
         <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="changePasswordYN=='Y' || !editSection">
             <label for="Password1" class="font-semibold w-6rem" *ngIf="!editSection">Password *</label>
             <label *ngIf="changePasswordYN=='Y'">New Password<span class="text-danger">*</span></label>
-            <input pInputText id="Password1" class="w-full" [(ngModel)]="password" *ngIf="changePasswordYN=='Y' || !editSection" />
+            <input type="password" pInputText id="Password1" class="w-full" [(ngModel)]="password" *ngIf="changePasswordYN=='Y' || !editSection" />
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="changePasswordYN=='Y' || !editSection">
             <label for="Password2" class="font-semibold w-6rem" *ngIf="!editSection">Re-Enter Password *</label>
             <label *ngIf="changePasswordYN=='Y'">Re-Enter New Password<span class="text-danger">*</span></label>
-            <input pInputText id="Password2" class="w-full" [(ngModel)]="repassword" *ngIf="changePasswordYN=='Y' || !editSection" />
+            <input type="password" pInputText id="Password2" class="w-full" [(ngModel)]="repassword" *ngIf="changePasswordYN=='Y' || !editSection" />
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="EffectiveDate" class="font-semibold w-6rem">Effective Date *</label>
@@ -239,10 +295,20 @@
             styleClass="w-full"
             [(ngModel)]="effectiveDate"
             class="w-full"/>
+            <div class="input-form-error" *ngIf="effectiveDateError">
+                <div class="error-text text-danger">
+                  Please  Select Date
+                </div>
+            </div>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Remarks" class="font-semibold w-6rem">Remarks *</label>
             <textarea pInputTextarea id="Remarks" [(ngModel)]="remarks" class="w-full" ></textarea>
+            <div class="input-form-error" *ngIf="remarksError">
+                <div class="error-text text-danger">
+                  Please  Enter Remarks
+                </div>
+            </div>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
             <label for="ExcemptedYN" class="font-semibold w-6rem">Status *</label>
@@ -263,7 +329,7 @@
         </div>
     </div>
     <div class="flex justify-content-center gap-2">
-        <p-button label="Cancel" styleClass="p-button-outlined"  />
+        <p-button label="Cancel" styleClass="p-button-outlined"  (click)="brokerDialogVisible=false" />
         <p-button label="Submit" (click)="onProceed()"/>
     </div>
 </p-dialog> 
@@ -701,92 +767,93 @@
                 <td>{{branch.BranchName}}</td>
                 <td>{{branch.EffectiveDateStart}}</td>
                 <td>{{branch.Mobile}}</td>
-                <td>{{branch.Status}}</td>
-                <td><p-button icon="pi pi-pencil"  styleClass="p-button-outlined" /></td>
+                <td *ngIf="branch.Status=='Y'">Active</td>
+                <td *ngIf="branch.Status=='N'">DeActive</td>
+                <td><p-button icon="pi pi-pencil"  styleClass="p-button-outlined"  (click)="editBranch(branch)" /></td>
             </tr>
         </ng-template>
     </p-table> 
 </p-dialog>
-<p-dialog  header="Branch Details " [modal]="true"  [(visible)]="branchDetailsPopup"  [style]="{ width: '80rem' }" >
+<p-dialog  header="Branch Details" [modal]="true"  [(visible)]="branchDetailsPopup"  [style]="{ width: '80rem' }" >
     <div class="grid">
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="BranchName" class="font-semibold w-6rem">Branch Name</label>
             <div class="p-inputgroup">
-                <input type="text" id="BranchName" pInputText placeholder="Branch Name" />
-                <button type="button" pButton icon="pi pi-search" class="p-button-outlined"></button>
+                <input type="text" id="BranchName" pInputText placeholder="Branch Name" [(ngModel)]="brokerBranchName" />
+                <button type="button" pButton icon="pi pi-search"  class="p-button-outlined"></button>
             </div>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Insurance" class="font-semibold w-6rem">Insurance Company Branch *</label>
-            <p-dropdown  class="w-full" styleClass="w-full" 
-                optionLabel="CodeDesc" optionValue="Code" >
+            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="branchName" [options]="companyList"    
+                        optionLabel="CodeDesc" optionValue="Code" >
             </p-dropdown> 
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
             <label for="ExcemptedYN" class="font-semibold w-6rem">Branch Type *</label>
             <div class="flex flex-warp">
                 <div class="flex align-items-center mr-1">
-                    <p-radioButton name="Main" value="Main"  inputId="Main"></p-radioButton>
+                    <p-radioButton name="Main" value="Main"  inputId="Main" [(ngModel)]="branchType"></p-radioButton>
                     <span for="Main" class="ml-1">Main</span>
                 </div>
                 <div class="flex align-items-center mr-1">
-                    <p-radioButton name="Sub" value="Sub"  inputId="Sub"></p-radioButton>
+                    <p-radioButton name="Sub" value="Sub"  inputId="Sub" [(ngModel)]="branchType"></p-radioButton>
                     <span for="Sub" class="ml-1">Sub</span>
                 </div>
             </div>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="SalePointCode" class="font-semibold w-6rem">Sale PointCode *</label>
-            <input pInputText id="SalePointCode" class="w-full" />
+            <input pInputText id="SalePointCode" class="w-full" [(ngModel)]="salePointCode" />
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Address1" class="font-semibold w-6rem">Address 1 </label>
-            <input pInputText id="Address1" class="w-full" />
+            <input pInputText id="Address1" class="w-full" [(ngModel)]="address1" />
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Address2" class="font-semibold w-6rem">Address 2</label>
-            <input pInputText id="Address2" class="w-full" />
+            <input pInputText id="Address2" class="w-full" [(ngModel)]="address2" />
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Email" class="font-semibold w-6rem">Email</label>
-            <input pInputText id="Email" class="w-full" />
+            <input pInputText id="Email" class="w-full"   [(ngModel)]="email"/>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="MobileNo" class="font-semibold w-6rem">Mobile No</label>
-            <input pInputText id="MobileNo" class="w-full" />
+            <input pInputText id="MobileNo" class="w-full" [(ngModel)]="mobile"/>
         </div>
         
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="EffectiveDate" class="font-semibold w-6rem">Effective Date</label>
-            <p-calendar inputId="EffectiveDate" class="w-full" styleClass="w-full" appendTo="body" /> 
+            <p-calendar inputId="EffectiveDate" class="w-full" styleClass="w-full" appendTo="body"  [(ngModel)]="effectiveDate" /> 
         </div>
 
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Remarks" class="font-semibold w-6rem">Remarks</label>
-            <textarea pInputTextarea id="Remarks" class="w-full" ></textarea>
+            <textarea pInputTextarea id="Remarks" class="w-full" [(ngModel)]="remarks"></textarea>
         </div>
 
         <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
             <label for="ExcemptedYN" class="font-semibold w-6rem">Status *</label>
             <div class="flex flex-warp">
                 <div class="flex align-items-center mr-1">
-                    <p-radioButton name="Yes" value="Y"  inputId="Active"></p-radioButton>
+                    <p-radioButton name="Yes" value="Y"  inputId="Active" [(ngModel)]="Status"></p-radioButton>
                     <span for="Active" class="ml-1">Active</span>
                 </div>
                 <div class="flex align-items-center mr-1">
-                    <p-radioButton name="No" value="N"  inputId="DeActive"></p-radioButton>
+                    <p-radioButton name="No" value="N"  inputId="DeActive" [(ngModel)]="Status"></p-radioButton>
                     <span for="DeActive" class="ml-1">DeActive</span>
                 </div>
             </div>
         </div>
     </div>
     <div class="flex justify-content-center gap-2">
-        <p-button label="Cancel" styleClass="p-button-outlined"  />
-        <p-button label="Submit"/>
+        <p-button label="Cancel" styleClass="p-button-outlined" (click)="branchDetailsPopup=false" />
+        <p-button label="Submit" (click)="onFormSubmit()" />
     </div>
 </p-dialog>
-<p-dialog  header="Product" [modal]="true"  [(visible)]="productPopup"  [style]="{ width: '75rem' }">
-    <p-table  [tableStyle]="{'min-width': '60rem'}" *ngIf="existingProduct">
+<p-dialog  header="Product" [modal]="true"  [(visible)]="productPopup"  [style]="{ width: '75rem' }" >
+    <p-table [value]="newList"  [tableStyle]="{'min-width': '60rem'}" *ngIf="existingProduct"  [paginator]="true" [rows]="5">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Existing Products
@@ -807,18 +874,19 @@
                 <th>Endrosement</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" >
+        <ng-template pTemplate="body" let-product>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{product.ProductName}}</td>
+                <td>{{product.SumInsuredEnd}}</td>
+                <td>{{product.CommissionPercent}}</td>
+                <td>{{product.BackDays}}</td>
+                <td *ngIf="product.Status=='Y'">Active</td><td *ngIf="product.Status=='N'">DeActive</td>
+                <td>{{product.EffectiveDateStart}}</td>
                 <td></td>
             </tr>
         </ng-template>
     </p-table> 
-    <p-table  [tableStyle]="{'min-width': '60rem'}" *ngIf="addProduct">
+    <p-table [value]="newslist" [tableStyle]="{'min-width': '60rem'}" *ngIf="addProduct" [paginator]="true" [rows]="5">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Existing Products
@@ -841,19 +909,23 @@
                 <th>Start Date</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" >
+        <ng-template pTemplate="body" let-product let-i="rowIndex">
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><input  type="checkbox" inputId="i" [id]="i"  /></td>
+                <td>{{product.ProductName}}</td>
+                <td>{{product.SumInsuredEnd}}</td>
+                <td>{{product.CommissionPercent}}</td>
+                <td>{{product.BackDays}}</td>
+                <td>{{product.CreditYn}}</td>
+                <td>{{product.CheckerYn}}</td>
+                <td *ngIf="product.Status=='Y'">Active</td><td *ngIf="product.Status=='N'">DeActive</td>
+                <td>{{product.EffectiveDateStart}}</td>
+                
             </tr>
         </ng-template>
         <ng-template pTemplate="summary" >
             <div class="flex justify-content-center gap-2">
-                <p-button label="Cancel" styleClass="p-button-outlined" (click)="showDialogBrokerDetails('ProductCancel')" />
+                <p-button label="Cancel" styleClass="p-button-outlined"  />
                 <p-button label="Submit" />
             </div>
         </ng-template>
@@ -1124,4 +1196,68 @@
     <p-button label="Cancel" styleClass="p-button-outlined" (click)="ConfigPopUp('paymentDetailCancel')" />
     <p-button label="Submit" />
 </div>
+</p-dialog>
+
+<p-dialog 
+        header="Customer Search" 
+        [modal]="true"
+        [(visible)]="customerSearchvisible" 
+        [position]="position" 
+        [style]="{ width: '70rem' }">
+    <div class="grid">
+        <div class="col-12 lg:col-4 md:col-4 mt-5 mb-5">
+            <input pInputText type="text"   class="w-full" 
+            styleClass="w-full"  [(ngModel)]="searchValue" (input)="onSearchCustomer(searchValue)"
+            placeholder="Enter Customer Code / Name"/>
+            <div class="input-form-error" *ngIf="searchLengthSection" >
+                <div class="error-text text-danger">
+                    Enter Atleast 3 Digit / Character to Search
+                </div>
+            </div>
+        </div>
+    </div>
+        
+        <ng-container *ngIf="searchList.length!=0" class="mt-5">
+            <p-table [value]="searchList"  #dtEmployee
+                     [globalFilterFields]="['CustomerCode','CustomerName']"
+                     [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5" >
+                     <ng-template pTemplate="caption">
+                        <div class="flex flex wrap justify-content-end">
+                          <div class="table-header">
+                              <span class="p-input-icon-left">
+                                  <i class="pi pi-search"></i>
+                                  <input pInputText type="text" (input)="dtEmployee.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                              </span>
+                          </div>
+                        </div>
+                        
+                      </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                    <th>Select </th> 
+                    <th>Customer Code</th>
+                    <th>Customer Name</th>
+                </tr>
+              </ng-template>
+                  <ng-template pTemplate="body" let-customer let-i="rowIndex">
+                    <tr>
+                      <td><input pInputText type="radio" inputId="i" [id]="'type'+i" 
+                        (click)="selectProduct(customer)"
+                          /></td>
+                      <td>{{customer.CustomerCode}}</td>
+                      <td>{{customer.CustomerName}}</td>
+                    </tr>
+                   </ng-template>
+            </p-table>
+            <div class="flex flex-warp justify-content-end">
+                <p-button label="Proceed" *ngIf="sampleCustomerCode!=null" (click)="SaveCustomer()" />
+            </div>
+           
+        </ng-container>
+        <ng-container *ngIf="searchValue && searchList.length==0">
+            <div class="text-center">
+                No Data Available
+            </div>
+        </ng-container>
+       
 </p-dialog>

@@ -82,6 +82,7 @@ export class InsurenceEmpComponent {
   branchDetailsPopup: boolean=false;
   productPopup: boolean=false;
   addProduct:boolean=false;
+  ProductsPopup:boolean=false;
   existingProduct:boolean=true;userDetails:any=null;
   constructor(private router:Router,
     private sharedService:SharedService,public datePipe:DatePipe) {
@@ -123,7 +124,7 @@ export class InsurenceEmpComponent {
       this.branchDetailsPopup=true;
     }
     else if (type=='Product'){
-      this.productPopup=true;
+      this.ProductsPopup=true;
     }
     else if(type=='AddProduct'){
       this.addProduct=true;
