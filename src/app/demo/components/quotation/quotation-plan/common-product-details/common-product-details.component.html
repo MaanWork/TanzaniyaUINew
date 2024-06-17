@@ -792,7 +792,7 @@
                         <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
                         <div class="col-12 lg:col-4 md:col-4 lx:col-4">
                             <div class="input-control-container">
-                                <label >Industry Type *</label><br>
+                                <label >Industry Type <span class="text-danger">*</span></label><br>
                                 <div class="input-form-radio-box mt-2">
                                     <div class="radio-toolbar1 radio-toolbar">
                                         <ng-container *ngFor="let entry of fireIndustypeList,let i=index">
@@ -818,7 +818,7 @@
                                 <p-dropdown inputId="industryType" class="w-full" styleClass="w-full" [options]="fireIndustryList" optionValue="Code" optionLabel="CodeDesc"
                                 (onChange)="onChangeIndusty()" [(ngModel)]="industryValue" placeholder="-Select-">
                                 </p-dropdown>
-                                <div class="input-form-error" *ngIf="regionError">
+                                <div class="input-form-error" *ngIf="industryError">
                                     <div class="error-text text-danger">
                                         Please Select industryError
                                     </div>
@@ -831,7 +831,7 @@
                                 
                                 <p-dropdown inputId="industry" class="w-full" styleClass="w-full" [options]="productNameList" optionValue="Code" optionLabel="CodeDesc" (onChange)="onChangeSection()" [(ngModel)]="productName" placeholder="-Select-">
                                 </p-dropdown>
-                                <div class="input-form-error" *ngIf="regionError">
+                                <div class="input-form-error" *ngIf="productNameError">
                                     <div class="error-text text-danger">
                                         Please Select Industry Cover
                                     </div>
@@ -844,8 +844,9 @@
                         <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
                         <div class="col-12 lg:col-3 md:col-3 lx:col-3">
                             <div class="input-control-container">
-                                <label class="input-form-label">SumInsured *</label>
-                                <input pInputText class="w-full mt-1" type="text" name="SampleType" placeholder="Enter SumInsured" [(ngModel)]="FireSumInsured">
+                                <label class="input-form-label">SumInsured &nbsp;<span class="text-danger">*</span></label>
+                                <input pInputText class="w-full mt-1" type="text" name="SampleType"
+                                (keydown)="onVehicleValueChange($event)" (keyup)="CommaFormatted()" placeholder="Enter SumInsured" [(ngModel)]="FireSumInsured">
                                 <div class="input-form-error" *ngIf="fireSIError">
                                     <div class="error-text text-danger">
                                         Please Enter Valid SumInsured 
@@ -858,7 +859,7 @@
                         <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
                         <div class="col-12 lg:col-3 md:col-3 lx:col-3">
                             <div class="input-control-container">
-                                <label for="ProductName">Covering Details</label>
+                                <label for="ProductName">Covering Details&nbsp;<span class="text-danger">*</span></label>
                                 <textarea pInputTextarea class="w-full" type="text" name="SampleType" [(ngModel)]="CoveringDetails" placeholder="Enter Covering Details"></textarea>
                                 <div class="input-form-error" *ngIf="coveringDetailsError">
                                     <div class="error-text text-danger">
@@ -869,7 +870,7 @@
                         </div>
                         <div class="col-12 lg:col-3 md:col-3 lx:col-3">
                             <div class="input-control-container">
-                                <label class="input-form-label">Description Of Risk *</label>
+                                <label class="input-form-label">Description Of Risk&nbsp;<span class="text-danger">*</span></label>
                                     <textarea pInputTextarea class="w-full" type="text" name="SampleType" placeholder="Enter Description of Risk" [(ngModel)]="DescriptionRisk"></textarea>
                                     <div class="input-form-error" *ngIf="descriptionRiskError">
                                         <div class="error-text text-danger">
@@ -883,7 +884,7 @@
                         <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
                         <div class="col-12 lg:col-2 md:col-2 lx:col-2">
                             <div class="input-control-container">
-                                <label class="input-form-label">Location Name *</label>
+                                <label class="input-form-label">Location Name&nbsp;<span class="text-danger">*</span></label>
                                 <input pInputText class="w-full" type="text" name="SampleType" [(ngModel)]="LocationName" placeholder="Enter Location Name">
                                 <div class="input-form-error" *ngIf="locationNameError">
                                     <div class="error-text text-danger">
@@ -894,8 +895,8 @@
                         </div>
                         <div class="col-12 lg:col-2 md:col-2 lx:col-2 ">
                             <div class="input-control-container">
-                            <label for="ProductName">Region</label>
-                            <p-dropdown inputId="make" class="w-full" styleClass="w-full" (onChange)="ongetDistrictList('region')" [options]="regionList" optionValue="Code" optionLabel="label" [(ngModel)]="region" placeholder="-Select-">
+                            <label for="ProductName">Region&nbsp;<span class="text-danger">*</span></label>
+                            <p-dropdown inputId="regionId" class="w-full" styleClass="w-full" (onChange)="ongetDistrictList('region')" [options]="regionList" optionValue="Code" optionLabel="label" [(ngModel)]="region" placeholder="-Select-">
                             </p-dropdown>
                             <div class="input-form-error" *ngIf="regionError">
                                 <div class="error-text text-danger">
@@ -907,7 +908,7 @@
                         
                     <div class="col-12 lg:col-2 md:col-2 lx:col-2">
                         <div class="input-control-container">
-                        <label for="ProductName">District</label>
+                        <label for="ProductName">District&nbsp;<span class="text-danger">*</span></label>
                         <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="stateList" optionValue="Code" optionLabel="label" [(ngModel)]="stateName" placeholder="-Select-">
                         </p-dropdown>
                             <div class="input-form-error" *ngIf="districtError">
@@ -984,13 +985,13 @@
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3">
                         <div class="input-control-container">
-                            <label class="input-form-label">First Loss SI(%) *</label>
+                            <label class="input-form-label">First Loss SI(%) &nbsp;<span class="text-danger">*</span></label>
                             <input pInputText class="w-full" type="text" name="SampleType" placeholder="Enter First Loss SI" [(ngModel)]="FirstLossSumInsured">
                         </div>
                     </div>
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3">
                         <div class="input-control-container">
-                            <label class="input-form-label">SumInsured *</label>
+                            <label class="input-form-label">SumInsured&nbsp;<span class="text-danger">*</span></label>
                             <input pInputText class="w-full" type="text" name="SampleType" placeholder="Enter SumInsured" [(ngModel)]="FireSumInsured">
                         </div>
                     </div>
@@ -1005,7 +1006,7 @@
                     </div>
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3">
                         <div class="input-control-container">
-                            <label class="input-form-label">Description Of Risk *</label>
+                            <label class="input-form-label">Description Of Risk&nbsp;<span class="text-danger">*</span></label>
                             <textarea pInputTextarea class="w-full" type="text" name="SampleType" placeholder="Enter Description of Risk" [(ngModel)]="DescriptionRisk"></textarea>
                         </div>
                     </div>
@@ -1014,7 +1015,7 @@
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
                     <div class="col-12 lg:col-2 md:col-2 lx:col-2">
                         <div class="input-control-container">
-                            <label class="input-form-label">Location Name *</label>
+                            <label class="input-form-label">Location Name&nbsp;<span class="text-danger">*</span></label>
                             <input pInputText class="w-full" type="text" name="SampleType" [(ngModel)]="LocationName" placeholder="Enter Location Name">
                         </div>
                     </div>

@@ -2709,7 +2709,6 @@ export class CoverDetailsComponent {
     //   }      
     //   }
     for( let f of rawData){
-      alert('Entered')
       f['SectionId'] = this.termsSectionId;
        if(f.TypeId != 'D'){
         rawData[i].TypeId='O';

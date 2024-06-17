@@ -481,6 +481,7 @@ export class CommonProductDetailsComponent {
        
    }
   addFireTable(type){
+    this.industryTypeError=false;this.industryError=false;
     let entry = this.checkFireValidation();
       if(entry){
         if(this.currentFireIndex!=null){
@@ -500,7 +501,7 @@ export class CommonProductDetailsComponent {
             entry['DescriptionOfRisk'] = this.DescriptionRisk;
             entry['RegionName'] = this.region;
             entry['DistrictName'] = this.stateName;
-            entry['BuildingSumInsured'] = this.FireSumInsured;
+            entry['BuildingSumInsured'] = String(this.FireSumInsured).replace(',','');
             this.saveCommonDetails('Fire',type);
           }
         } 
@@ -520,7 +521,7 @@ export class CommonProductDetailsComponent {
               "DescriptionOfRisk": this.DescriptionRisk,
               "RegionName": this.region,
               "DistrictName": this.stateName,
-              "BuildingSumInsured": this.FireSumInsured
+              "BuildingSumInsured":  String(this.FireSumInsured).replace(',','')
             }
           )
          this.saveCommonDetails('Fire',type);
@@ -3497,6 +3498,21 @@ backPlan()
     }
     else return false;
   
+  }
+  onVehicleValueChange (args) {
+    if (args.key === 'e' || args.key === '+' || args.key === '-') {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  CommaFormatted() {
+
+    // format number
+    if (this.FireSumInsured) {
+      this.FireSumInsured = this.FireSumInsured.replace(/[^0-9.]|(?<=\..*)\./g, "")
+       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
   }
   getExistingBuildingList(){
     let urlLink:any;

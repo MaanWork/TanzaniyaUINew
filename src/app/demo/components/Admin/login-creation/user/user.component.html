@@ -102,6 +102,25 @@
             <label for="Name" class="font-semibold w-6rem">Name</label>
             <input pInputText id="Name" class="w-full"  [(ngModel)]="userName" maxlength="100" />
         </div>
+        
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Insurance" class="font-semibold w-6rem">Insurance Company *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="insuranceId" [options]="companyList"
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Channel" class="font-semibold w-6rem">Broker *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" [options]=""
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Channel" class="font-semibold w-6rem">Channel *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="channelId" 
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Address1" class="font-semibold w-6rem">Address1</label>
             <input pInputText id="Address1" [(ngModel)]="address1" class="w-full" />
