@@ -2966,7 +2966,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               }
             }
             else ReqObj['DriverDetails'] = null;
-            if(this.insuranceId=='100019') ReqObj['CarAlarmYn'] = this.alarmYN;
+            if(this.insuranceId=='100019') ReqObj['CarAlarmYn'] = this.productItem.CarAlarmYN;
             if(this.insuranceId=='100020') ReqObj['VehicleClass'] = this.productItem.VehicleClass
           let urlLink = `${this.motorApiUrl}api/savemotordetails`;
           this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
@@ -4141,7 +4141,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 }
             }
             else ReqObj['DriverDetails'] = null;
-            if(this.insuranceId=='100019') ReqObj['CarAlarmYn'] = this.alarmYN;
+            if(this.insuranceId=='100019') ReqObj['CarAlarmYn'] = this.productItem.CarAlarmYN;
             if(this.insuranceId=='100020') ReqObj['VehicleClass'] = this.productItem.VehicleClass
         let urlLink = `${this.motorApiUrl}api/savemotordetails`;
         this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(

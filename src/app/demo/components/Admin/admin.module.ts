@@ -34,6 +34,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { UserComponent } from './login-creation/user/user.component';
 import { InsurenceEmpComponent } from './login-creation/insurence-emp/insurence-emp.component';
 import { BrokerComponent } from './login-creation/broker/broker.component';
+import { MaterialModule } from 'src/app/material/material.module';
 
 
 
@@ -77,6 +78,7 @@ import { BrokerComponent } from './login-creation/broker/broker.component';
     CalendarModule,
     InputTextareaModule,
     BadgeModule,
+    MaterialModule,
     OverlayPanelModule
   ],
   bootstrap: [],
