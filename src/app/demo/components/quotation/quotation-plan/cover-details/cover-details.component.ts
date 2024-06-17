@@ -2709,7 +2709,6 @@ export class CoverDetailsComponent {
     //   }      
     //   }
     for( let f of rawData){
-      alert('Entered')
       f['SectionId'] = this.termsSectionId;
        if(f.TypeId != 'D'){
         rawData[i].TypeId='O';
@@ -2909,11 +2908,12 @@ export class CoverDetailsComponent {
             if(this.loginType=='B2CFlow' && this.loginId=='guest'){
               window.location.reload();
             }
-            else if(this.productId=='59') this.router.navigate(['/quotation/plan/main/document-info']);
+            else if(this.productId=='59' || this.productId=='6') this.router.navigate(['/quotation/plan/main/document-info']);
             else  this.router.navigate(['quotation/plan/main/accessories']);
           }
           else{
             if(this.productId=='59') this.getExistingBuildingList();
+            else if(this.productId=='6') this.router.navigate(['/quotation/plan/main/document-info']);
             else  if(this.loginType=='B2CFlow' && this.loginId=='guest'){
               window.location.reload();
             }
@@ -3813,7 +3813,8 @@ export class CoverDetailsComponent {
             }
        
             else if(this.productId=='32' || this.productId=='39' || this.productId=='14' || this.productId=='15' || this.productId=='19' || this.productId=='1' || this.productId=='6' || this.productId=='16' || this.productId =='21' || this.productId =='26' || this.productId =='25' || this.productId =='24'|| this.productId=='42' || this.productId=='43' || this.productId=='13' || this.productId=='27' || this.productId=='59' || this.productId=='60' || this.productId=='57' || this.productId=='56'){
-              this.router.navigate(['quotation/plan/main/accessories']);
+              if(this.productId=='6') this.router.navigate(['/quotation/plan/main/document-info']);
+              else this.router.navigate(['quotation/plan/main/accessories']);
               //this.router.navigate(['/quotation/plan/main/document-info']);
               //this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
             }

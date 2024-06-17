@@ -463,7 +463,6 @@ export class CommonProductDetailsComponent {
        this.editEmp=true;
        let edit = this.TableRowFire.findIndex(ele=>ele.OccupationId == rowData.OccupationId && ele.SectionId==rowData.SectionId);
        this.currentFireIndex = edit;
-       alert(this.currentFireIndex)
        this.productName = rowData.SectionId;
        this.sectionDesc = rowData.SectionDesc;
        this.IndustryTypes = rowData.IndustryType;
@@ -482,6 +481,7 @@ export class CommonProductDetailsComponent {
        
    }
   addFireTable(type){
+    this.industryTypeError=false;this.industryError=false;
     let entry = this.checkFireValidation();
       if(entry){
         if(this.currentFireIndex!=null){
@@ -501,7 +501,7 @@ export class CommonProductDetailsComponent {
             entry['DescriptionOfRisk'] = this.DescriptionRisk;
             entry['RegionName'] = this.region;
             entry['DistrictName'] = this.stateName;
-            entry['BuildingSumInsured'] = this.FireSumInsured;
+            entry['BuildingSumInsured'] = String(this.FireSumInsured).replace(',','');
             this.saveCommonDetails('Fire',type);
           }
         } 
@@ -521,7 +521,7 @@ export class CommonProductDetailsComponent {
               "DescriptionOfRisk": this.DescriptionRisk,
               "RegionName": this.region,
               "DistrictName": this.stateName,
-              "BuildingSumInsured": this.FireSumInsured
+              "BuildingSumInsured":  String(this.FireSumInsured).replace(',','')
             }
           )
          this.saveCommonDetails('Fire',type);
@@ -639,7 +639,6 @@ export class CommonProductDetailsComponent {
           if(data.Result.length!=0){
               sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
               this.onCalculateFire(data.Result,type);
-            //this.onCheckUWQuestionProceed(data.Result);
           }
          
         }
@@ -660,7 +659,13 @@ export class CommonProductDetailsComponent {
       let i = 0;
       for (let build of buildDetails) {
         let effectiveDate = null, coverModificationYN = 'N';
-        
+        let startDate = null,endDate=null;
+        let dateList2 = String(this.policyEndDate).split('/');
+        if(dateList2.length==1) endDate =  this.datePipe.transform(this.policyEndDate,'dd/MM/yyyy');
+        else endDate = this.policyEndDate
+        let dateList1 = String(this.policyStartDate).split('/');
+        if(dateList1.length==1) startDate =  this.datePipe.transform(this.policyStartDate,'dd/MM/yyyy');
+        else startDate = this.policyStartDate
         if (this.endorsementSection) {
           effectiveDate = this.endorseEffectiveDate;
           // let entry = this.enableFieldsList.some(ele => ele == 'Covers' && this.endorsementId!=850);
@@ -670,11 +675,10 @@ export class CommonProductDetailsComponent {
         }
         else {
           effectiveDate = this.policyStartDate;
-        
         }
+        
         if(this.productId=='46') build['RiskId'] = '1';
         let sectionId = '';
-  console.log('build.SectionId',build.SectionId)
         let ReqObj = {
           "InsuranceId": this.insuranceId,
           "BranchCode": this.branchCode,
@@ -689,7 +693,7 @@ export class CommonProductDetailsComponent {
           "productId": this.productId,
           "RequestReferenceNo": sessionStorage.getItem('quoteReferenceNo'),
           "EffectiveDate": effectiveDate,
-          "PolicyEndDate": this.policyEndDate,
+          "PolicyEndDate": endDate,
           "CoverModification": coverModificationYN
         }
         let urlLink = `${this.CommonApiUrl}calculator/calc`;
@@ -3494,6 +3498,21 @@ backPlan()
     }
     else return false;
   
+  }
+  onVehicleValueChange (args) {
+    if (args.key === 'e' || args.key === '+' || args.key === '-') {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  CommaFormatted() {
+
+    // format number
+    if (this.FireSumInsured) {
+      this.FireSumInsured = this.FireSumInsured.replace(/[^0-9.]|(?<=\..*)\./g, "")
+       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
   }
   getExistingBuildingList(){
     let urlLink:any;

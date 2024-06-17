@@ -82,13 +82,18 @@ export class UserComponent {
   productPopup: boolean=false;
   addProduct:boolean=false;
   existingProduct:boolean=true;
+  brokerValue: any=null;brokerList:any[]=[];
+  oaCode: any=null;
+  executiveId: any=null;
+  policyHolderTypeid: any=null;
+  idNumber: any=null;
+  userLoginId: any=null;
   constructor(private router:Router,
     private sharedService:SharedService,public datePipe:DatePipe) {
      this.productId =  sessionStorage.getItem('companyProductId');
      this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
      const user = this.userDetails?.Result;
      this.brokerProductList=user.BrokerCompanyProducts;
- 
      this.insuranceId = user.LoginBranchDetails[0].InsuranceId;
      this.loginId = user.LoginId;
      this.subUser = sessionStorage.getItem('typeValue');
@@ -96,8 +101,8 @@ export class UserComponent {
      //this.insuranceId= sessionStorage.getItem('InsuranceId');
      this.subUserType=channelId;
      if(channelId) this.channelId = channelId;
-    //  this.getCompanyList();
-    //  this.getChannelList();
+      this.getCompanyList();
+      this.getChannelList('direct');
    }
  
    ngOnInit(){
@@ -113,6 +118,105 @@ export class UserComponent {
       data7:'frgfhgghf',
     }]
    }
+   getCompanyList(){
+    let urlLink = `${this.ApiUrl1}master/dropdown/superadmincompanies`;
+    let ReqObj ={
+      "BrokerCompanyYn": "N",
+      "LoginId": this.loginId
+    }
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            //this.companyList = data.Result;
+            //if(this.insuranceId) this.onBrokerChange();
+            let obj = [{"Code":null,"CodeDesc":"---Select---"}];
+            this.companyList = obj.concat(data?.Result);
+        }
+      },
+      (err) => { },
+    );
+   }
+   getChannelList(type){
+      if(type=='change'){
+        this.channelId='';
+        this.brokerValue='';
+      }
+      let ReqObj = {
+        "UserType": "Broker"
+      }
+      let urlLink = `${this.ApiUrl1}dropdown/subusertype`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if (data.Result) {
+            this.channelList = data.Result;
+            if(this.channelId!='' && this.channelId!=null) this.getBrokersList(type);
+          }
+        },
+        (err) => { },
+      );
+   }
+   getBrokersList(type){
+    let ReqObj = {
+      "SubUserType": this.channelId,
+      "InsuranceId": this.insuranceId
+    }
+    let urlLink = `${this.CommonApiUrl}admin/dropdown/brokerids`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            
+            if(type!='direct'){
+              this.userDataList = [];
+              this.brokerValue = null;
+              let obj = [{"Code":null,"CodeDesc":"---Select---"}];
+              this.brokerList = obj.concat(data?.Result);
+            }
+            else{
+              if(data?.Result.length!=0){
+                let obj = [{"Code":null,"CodeDesc":"---Select---"}];
+                this.brokerList = obj.concat(data?.Result);
+                this.brokerValue=this.brokerList[1].BrokerId;
+                this.onBrokerChange()
+              }
+            }
+            /*if(this.brokerValue!=undefined && this.insuranceId!=undefined){
+              let useObj = {"broker":this.brokerValue,"insuranceId":this.insuranceId};
+              sessionStorage.setItem('adduserDetailsObj',JSON.stringify(useObj));
+            }*/
+             //this.onBrokerChange();
+            
+
+        }
+      },
+      (err) => { },
+    );
+  }
+  onBrokerChange(){
+    if(this.insuranceId && this.channelId && this.brokerValue){
+      let ReqObj = {
+        "UserType": "User",
+        "SubUserType":"",
+        "InsuranceId": this.insuranceId,
+        "OaCode": this.brokerValue,
+        "Limit":"0",
+        "Offset":"10000",
+      }
+      let urlLink = `${this.CommonApiUrl}admin/getallusers`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          this.userDataList = data.Result;
+          if(this.brokerValue!=undefined && this.insuranceId!=undefined){
+            let useObj = {"BrokerId":this.brokerValue,"InsuranceId":this.insuranceId,"channelId":this.channelId,"UserId": null};
+            sessionStorage.setItem('userEditDetails',JSON.stringify(useObj));
+          }
+        },
+        (err) => { },
+      );
+    }
+  }
   showDialogBrokerDetails(type){
   if(type=='AddUser'){
       this.AddUserPopup=true;
@@ -132,8 +236,61 @@ export class UserComponent {
   brokerDetailsView(){
     this.visibleUserDetails=true;
   }
-  EditDetailsView(login){
-    this.AddUserPopup=true;
+  EditDetailsView(rowData){
+    let ReqObj = {"LoginId": rowData.LoginId}
+    let urlLink = `${this.CommonApiUrl}admin/getuserbyid`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            //this.cityList = data.Result;
+            let loginInformation = data.Result.LoginInformation;
+            let PersonalInformation = data.Result.PersonalInformation;
+            if(loginInformation){
+              if(loginInformation?.Status==null)  loginInformation.Status = 'N';
+              if(loginInformation?.EffectiveDateStart!=null){
+                this.effectiveDate = loginInformation?.EffectiveDateStart
+              }
+            }
+            this.agencyCode = loginInformation?.AgencyCode;
+            //this.loginId = loginInformation?.LoginId;
+            this.oaCode = loginInformation?.OaCode;
+            this.statusValue = loginInformation?.Status;
+
+            this.subUserType = loginInformation?.SubUserType;
+            this.brokerCompanyYn = loginInformation?.BrokerCompanyYn;
+            this.insuranceId = loginInformation.InsuranceId;
+            this.executiveId = PersonalInformation?.AcExecutiveId;
+            this.address1 = PersonalInformation?.Address1;
+            this.address2 = PersonalInformation?.Address2;
+            this.checkerYN = PersonalInformation?.CheckerYn;
+            this.countryCode = PersonalInformation?.CountryCode;
+            this.stateCode = PersonalInformation?.StateCode;
+            this.policyHolderTypeid = PersonalInformation?.IdType;
+            this.idNumber = PersonalInformation?.IdNumber;
+            this.onCountryChange('direct');
+            //this.onStateChange('direct');
+            this.cityCode = PersonalInformation?.CityName;
+            this.designation = PersonalInformation?.Designation;
+            this.customerCode = PersonalInformation?.CustomerCode;
+            this.contactPersonName = PersonalInformation?.ContactPersonName;
+            this.coreAppBrokerCode = PersonalInformation?.CoreAppBrokerCode;
+            this.commissionVatYN = PersonalInformation?.CommissionVatYn
+            this.custConfirmYN = PersonalInformation?.CustConfirmYn;
+            this.makerYN = PersonalInformation?.MakerYn;
+            this.mobileCode = PersonalInformation?.MobileCode;
+            this.pobox = PersonalInformation?.Pobox;
+            this.remarks = PersonalInformation?.Remarks;
+            this.userMail = PersonalInformation?.UserMail;
+            this.userMobile = PersonalInformation?.UserMobile;
+            this.userName = PersonalInformation?.UserName;
+            this.userLoginId = loginInformation.LoginId;
+            this.whatsAppCode = PersonalInformation?.WhatsappCode;
+            this.whatsAppNo = PersonalInformation?.WhatsappNo;
+            this.vatRegNo = PersonalInformation?.VatRegNo;
+            this.AddUserPopup=true;
+        }
+      });
    // this.getEditBrokerDetails(login);
   }
   
