@@ -59,9 +59,9 @@
                         <label for="Product" ><img style="max-width: 30px;max-height: 10px;">Product</label>
                         <input id="Cover" type="radio" name="rentOwnHome"   value="Cover" (click)="ConfigPopUp('Cover')"> 
                         <label for="Cover" ><img style="max-width: 30px;max-height: 10px;" >Cover</label>
-                        <input id="Deposit" type="radio" name="rentOwnHome"   value="Deposit" (click)="ConfigPopUp('Deposit')">
+                        <input id="Deposit" type="radio" name="rentOwnHome"   value="Deposit" (click)="depositList(data.LoginId)">
                         <label for="Deposit" ><img style="max-width: 30px;max-height: 10px;" >Deposit</label>
-                        <input id="PaymentTypes" type="radio" name="rentOwnHome"   value="PaymentTypes" (click)="ConfigPopUp('PaymentTypes')">
+                        <input id="PaymentTypes" type="radio" name="rentOwnHome"   value="PaymentTypes" (click)="PaymentTypes(data.LoginId)">
                         <label for="PaymentTypes" ><img style="max-width: 30px;max-height: 10px;" >Payment Types</label>
                         <input id="ChangePassword" type="radio" name="rentOwnHome"   value="ChangePassword" >
                         <label for="ChangePassword" ><img style="max-width: 30px;max-height: 10px;" >Change Password</label>
@@ -294,6 +294,7 @@
             inputId="icondisplay" 
             styleClass="w-full"
             [(ngModel)]="effectiveDate"
+            dateFormat="dd/mm/yy"
             class="w-full"/>
             <div class="input-form-error" *ngIf="effectiveDateError">
                 <div class="error-text text-danger">
@@ -724,26 +725,6 @@
         </div>
        
     </p-dialog>
-    <!-- <p-overlayPanel #op [style]="{ width: 'auto'}" >
-        <div class="input-control-container">
-            <div class="input-form-radio-box mt-2">
-                <div class="radio-toolbar1 radio-toolbar">
-                    <input id="Branch" type="radio" name="rentOwnHome" (click)="forACall(brokerLoginId)"  value="Branch">
-                    <label for="Branch" style="background-color: primary;" ><img style="max-width: 30px;max-height: 10px;" >Branch</label>
-                    <input id="Product" type="radio" name="rentOwnHome"   value="Product" (click)="ConfigPopUp('Product')">
-                    <label for="Product" ><img style="max-width: 30px;max-height: 10px;">Product</label>
-                    <input id="Cover" type="radio" name="rentOwnHome"   value="Cover" (click)="ConfigPopUp('Cover')"> 
-                    <label for="Cover" ><img style="max-width: 30px;max-height: 10px;" >Cover</label>
-                    <input id="Deposit" type="radio" name="rentOwnHome"   value="Deposit" (click)="ConfigPopUp('Deposit')">
-                    <label for="Deposit" ><img style="max-width: 30px;max-height: 10px;" >Deposit</label>
-                    <input id="PaymentTypes" type="radio" name="rentOwnHome"   value="PaymentTypes" (click)="ConfigPopUp('PaymentTypes')">
-                    <label for="PaymentTypes" ><img style="max-width: 30px;max-height: 10px;" >Payment Types</label>
-                    <input id="ChangePassword" type="radio" name="rentOwnHome"   value="ChangePassword" >
-                    <label for="ChangePassword" ><img style="max-width: 30px;max-height: 10px;" >Change Password</label>
-                </div>
-            </div>
-        </div>
-    </p-overlayPanel> -->
 
 <p-dialog  header="Branch " [modal]="true"  [(visible)]="branchPopup"  [style]="{ width: '75rem' }" >
     <p-table  [tableStyle]="{'min-width': '60rem'}" [value]="branchData">
@@ -825,7 +806,7 @@
         
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="EffectiveDate" class="font-semibold w-6rem">Effective Date</label>
-            <p-calendar inputId="EffectiveDate" class="w-full" styleClass="w-full" appendTo="body"  [(ngModel)]="effectiveDate" /> 
+            <p-calendar  dateFormat="dd/mm/yy" inputId="EffectiveDate" class="w-full" styleClass="w-full" appendTo="body"  [(ngModel)]="effectiveDate" /> 
         </div>
 
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
@@ -852,6 +833,10 @@
         <p-button label="Submit" (click)="onFormSubmit()" />
     </div>
 </p-dialog>
+
+
+
+
 <p-dialog  header="Product" [modal]="true"  [(visible)]="productPopup"  [style]="{ width: '75rem' }" >
     <p-table [value]="newList"  [tableStyle]="{'min-width': '60rem'}" *ngIf="existingProduct"  [paginator]="true" [rows]="5">
         <ng-template pTemplate="caption">
@@ -886,10 +871,10 @@
             </tr>
         </ng-template>
     </p-table> 
-    <p-table [value]="newslist" [tableStyle]="{'min-width': '60rem'}" *ngIf="addProduct" [paginator]="true" [rows]="5">
+    <p-table  [tableStyle]="{'min-width': '60rem'}" *ngIf="addProduct" [value]="newslist" [scrollable]="true" [paginator]="true" [rows]="5">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
-                Existing Products
+                Add New Products
                 <!-- <div class="flex flex-warp align-items-center justify-content-end">
                     <p-button icon="pi pi-pencil" label="Edit/Remove Product" styleClass="p-button-outlined" />&nbsp;&nbsp;
                     <p-button icon="pi pi-plus" label="Add Product"  />
@@ -906,32 +891,163 @@
                 <th>CreditYN</th>
                 <th>CheckerYN</th>
                 <th>Status</th>
-                <th>Start Date</th>
+                <th>Effective Date</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-product let-i="rowIndex">
             <tr>
-                <td><input  type="checkbox" inputId="i" [id]="i"  /></td>
+                <td>
+                    <mat-checkbox class="example-margin text-center" [checked]="checkSelectedProducts(product)" (change)="onChangeSelectedProduct(product,$event.checked,j)">
+                                                       
+                    </mat-checkbox> 
+                </td>
                 <td>{{product.ProductName}}</td>
-                <td>{{product.SumInsuredEnd}}</td>
-                <td>{{product.CommissionPercent}}</td>
-                <td>{{product.BackDays}}</td>
-                <td>{{product.CreditYn}}</td>
-                <td>{{product.CheckerYn}}</td>
-                <td *ngIf="product.Status=='Y'">Active</td><td *ngIf="product.Status=='N'">DeActive</td>
-                <td>{{product.EffectiveDateStart}}</td>
-                
+                <td>
+                    <input pInputText id="sumInsured" class="w-full" [(ngModel)]="product.SumInsuredEnd" maxlength="16" />
+                </td>
+                <td>
+                    <input pInputText id="CommissionPercent" class="w-full" [(ngModel)]="product.CommissionPercent" />
+                </td>
+                <td> <input pInputText id="BackDays" class="w-full" [(ngModel)]="product.BackDays" /></td>
+                <td>
+                    <div class="input-control-container">
+                        <div class="input-form-radio-box mt-2">
+                            <div class="radio-toolbar1 radio-toolbar">
+                                <input [id]="'CreditYes'+i" type="radio" [name]="'Credit'+i"  [(ngModel)]="product.CreditYn" value="Y">
+                                <label [for]="'CreditYes'+i" style="background-color: primary;" ><img style="max-width: 30px;max-height: 10px;" >Yes</label>
+                                <input  [id]="'CreditNo'+i" type="radio" [name]="'Credit'+i" [(ngModel)]="product.CreditYn"  value="N" >
+                                <label [for]="'CreditNo'+i" ><img style="max-width: 30px;max-height: 10px;">No</label>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-control-container">
+                        <div class="input-form-radio-box mt-2">
+                            <div class="radio-toolbar1 radio-toolbar">
+                                <input [id]="'CheckerYes'+i" type="radio" [name]="'Checker'+i"  [(ngModel)]="product.CheckerYn" value="Y">
+                                <label [for]="'CheckerYes'+i" style="background-color: primary;" ><img style="max-width: 30px;max-height: 10px;" >Yes</label>
+                                <input  [id]="'CheckerNo'+i" type="radio" [name]="'Checker'+i" [(ngModel)]="product.CheckerYn"  value="N" >
+                                <label [for]="'CheckerNo'+i" ><img style="max-width: 30px;max-height: 10px;">No</label>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-control-container">
+                        <div class="input-form-radio-box mt-2">
+                            <div class="radio-toolbar1 radio-toolbar">
+                                <input [id]="'StatusYes'+i" type="radio" [name]="'status'+i" [(ngModel)]="product.Status"  value="Y">
+                                <label [for]="'StatusYes'+i" style="background-color: primary;" ><img style="max-width: 30px;max-height: 10px;" >Active</label>
+                                <input  [id]="'StatusNo'+i" type="radio" [name]="'status'+i" [(ngModel)]="product.Status"  value="N" >
+                                <label [for]="'StatusNo'+i" ><img style="max-width: 30px;max-height: 10px;">DeActive</label>
+                            </div>
+                        </div>
+                    </div>  
+                </td>
+                <td style="min-width: 100px">
+                    <p-calendar  [showIcon]="true" [inputId]="'icondisplay'+i" dateFormat="dd/mm/yy" (onSelect)="changeEffectiveDate(product)" appendTo="body" styleClass="w-full" [(ngModel)]="product.EffectiveDateStart" class="w-full"/>
+                </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary" >
             <div class="flex justify-content-center gap-2">
-                <p-button label="Cancel" styleClass="p-button-outlined"  />
-                <p-button label="Submit" />
+                <p-button label="Cancel" styleClass="p-button-outlined" (click)="showDialogBrokerDetails('ProductCancel',null)" />
+                <p-button label="Submit" (click)="onSaveProductDetails()" />
+            </div>
+        </ng-template>
+    </p-table> 
+    <p-table  [tableStyle]="{'min-width': '60rem'}" *ngIf="editProduct" [value]="newList" [scrollable]="true" [paginator]="true" [rows]="5">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                Edit/Remove Products
+                <!-- <div class="flex flex-warp align-items-center justify-content-end">
+                    <p-button icon="pi pi-pencil" label="Edit/Remove Product" styleClass="p-button-outlined" />&nbsp;&nbsp;
+                    <p-button icon="pi pi-plus" label="Add Product"  />
+                </div> -->
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Select</th>
+                <th>Product Name</th>
+                <th>Max SumInsured</th>
+                <th>Commission (%)</th>
+                <th>Backdays</th>
+                <th>CreditYN</th>
+                <th>CheckerYN</th>
+                <th>Status</th>
+                <th>Effective Date</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product let-i="rowIndex">
+            <tr>
+                <td>
+                    <mat-checkbox class="example-margin text-center" [checked]="checkSelectedProductss(product)" (change)="onChangeSelectedProduc(product,$event.checked,j)">
+                                                       
+                    </mat-checkbox> 
+                </td>
+                <td>{{product.ProductName}}</td>
+                <td>
+                    <input pInputText id="sumInsured" class="w-full" [(ngModel)]="product.SumInsuredEnd" maxlength="16" />
+                </td>
+                <td>
+                    <input pInputText id="CommissionPercent" class="w-full" [(ngModel)]="product.CommissionPercent" />
+                </td>
+                <td> <input pInputText id="BackDays" class="w-full" [(ngModel)]="product.BackDays" /></td>
+                <td>
+                    <div class="input-control-container">
+                        <div class="input-form-radio-box mt-2">
+                            <div class="radio-toolbar1 radio-toolbar">
+                                <input [id]="'CreditYes'+i" type="radio" [name]="'Credit'+i"  [(ngModel)]="product.CreditYn" value="Y">
+                                <label [for]="'CreditYes'+i" style="background-color: primary;" ><img style="max-width: 30px;max-height: 10px;" >Yes</label>
+                                <input  [id]="'CreditNo'+i" type="radio" [name]="'Credit'+i" [(ngModel)]="product.CreditYn"  value="N" >
+                                <label [for]="'CreditNo'+i" ><img style="max-width: 30px;max-height: 10px;">No</label>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-control-container">
+                        <div class="input-form-radio-box mt-2">
+                            <div class="radio-toolbar1 radio-toolbar">
+                                <input [id]="'CheckerYes'+i" type="radio" [name]="'Checker'+i"  [(ngModel)]="product.CheckerYn" value="Y">
+                                <label [for]="'CheckerYes'+i" style="background-color: primary;" ><img style="max-width: 30px;max-height: 10px;" >Yes</label>
+                                <input  [id]="'CheckerNo'+i" type="radio" [name]="'Checker'+i" [(ngModel)]="product.CheckerYn"  value="N" >
+                                <label [for]="'CheckerNo'+i" ><img style="max-width: 30px;max-height: 10px;">No</label>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-control-container">
+                        <div class="input-form-radio-box mt-2">
+                            <div class="radio-toolbar1 radio-toolbar">
+                                <input [id]="'StatusYes'+i" type="radio" [name]="'status'+i" [(ngModel)]="product.Status"  value="Y">
+                                <label [for]="'StatusYes'+i" style="background-color: primary;" ><img style="max-width: 30px;max-height: 10px;" >Active</label>
+                                <input  [id]="'StatusNo'+i" type="radio" [name]="'status'+i" [(ngModel)]="product.Status"  value="N" >
+                                <label [for]="'StatusNo'+i" ><img style="max-width: 30px;max-height: 10px;">DeActive</label>
+                            </div>
+                        </div>
+                    </div>  
+                </td>
+                <td style="min-width: 100px">
+                    <p-calendar  [showIcon]="true" [inputId]="'icondisplay'+i" dateFormat="dd/mm/yy" (onSelect)="changeEffectiveDate(product)" appendTo="body" styleClass="w-full" [(ngModel)]="product.EffectiveDateStart" class="w-full"/>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary" >
+            <div class="flex justify-content-center gap-2">
+                <p-button label="Cancel" styleClass="p-button-outlined" (click)="showDialogBrokerDetails('ProductCancel',null)" />
+                <p-button label="Submit" (click)="onSaveProductDetails()" />
             </div>
         </ng-template>
     </p-table> 
 </p-dialog>
-<p-dialog  header="Cover " [modal]="true"  [(visible)]="coverPopup"  [style]="{ width: '75rem' }">
+
+
+
+<p-dialog  header="Cover" [modal]="true"  [(visible)]="coverPopup"  [style]="{ width: '75rem' }">
     <p-table  [tableStyle]="{'min-width': '60rem'}">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
@@ -961,12 +1077,13 @@
         </ng-template>
     </p-table> 
 </p-dialog>
-<p-dialog  header="Deposit " [modal]="true"  [(visible)]="depositPopup"  [style]="{ width: '75rem' }"  >
-    <p-table  [tableStyle]="{'min-width': '60rem'}" *ngIf="paymentTable">
+<p-dialog  header="Deposit" [modal]="true"  [(visible)]="depositPopup"  [style]="{ width: '75rem' }"  >
+    <p-table [value]="branchDatas" [tableStyle]="{'min-width': '60rem'}" *ngIf="paymentTable" [rows]="5"
+    [paginator]="true">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
-                Products
-                <p-button icon="pi pi-pencil"  (click)="showDialogBrokerDetails('DepositAdd')" />
+                
+                Existing Deposit Details
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -978,26 +1095,28 @@
                 <th>Policy RefundAmt</th>
                 <th>Status</th>
                 <th>Action</th>
-                <th>View</th>
+                <!-- <th>View</th> -->
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" >
+        <ng-template pTemplate="body" let-data>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{data.CbcNo}}</td>
+                <td>{{data.BrokerName}}</td>
+                <td>{{data.DepositAmount}}</td>
+                <td>{{data.DepositUtilised}}</td>
+                <td>{{data.PolicyRefundAmt}}</td>
+                <td *ngIf="data.Status=='Y'">Active</td><td *ngIf="data.Status=='N'">DeActive</td>
+                <td> <p-button icon="pi pi-pencil"  (click)="showDialogBrokerDetails1('DepositAdd',data.CbcNo)" /></td>
             </tr>
         </ng-template>
     </p-table> 
 
-    <p-table  [tableStyle]="{'min-width': '60rem'}" *ngIf="paymentTableAdd">
+    <p-table [value]="CbcDatas" [tableStyle]="{'min-width': '60rem'}" *ngIf="paymentTableAdd" [rows]="5"
+    [paginator]="true">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Existing Payment Details
-                <p>CBCNO:CBC100199</p>
+                <p>CBCNO:{{cbcnos}}</p>
                 <p-button icon="pi pi-plus" label="Add New" (click)="showDialogBrokerDetails('paymentTableAdd')" />
             </div>
         </ng-template>
@@ -1012,14 +1131,14 @@
 
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" >
+        <ng-template pTemplate="body" let-cbc>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{cbc.DepositNo}}</td>
+                <td>{{cbc.DepositType}}</td>
+                <td>{{cbc.PaymentTypeDesc}}</td>
+                <td>{{cbc.PayeeName}}</td>
+                <td>{{cbc.EntryDate}}</td>
+                <td>{{cbc.Premium}}</td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary" >
@@ -1030,83 +1149,105 @@
         </ng-template>
     </p-table> 
 </p-dialog>
-<p-dialog  header="Existing Payment details " [modal]="true"  [(visible)]="ExistingPaymentAddPopup"  [style]="{ width: '75rem' }"  >
+<p-dialog  header="Existing Payment details" [modal]="true"  [(visible)]="ExistingPaymentAddPopup"  [style]="{ width: '75rem' }"  >
 <div class="grid">
     <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
         <label for="Cash" class="font-semibold w-6rem">Deposit Type *</label>
         <div class="flex flex-warp">
             <div class="flex align-items-center mr-1">
-                <p-radioButton name="Deposit" value="Deposit"  inputId="Deposit"></p-radioButton>
+                <p-radioButton name="Deposit" value="Deposit" [(ngModel)]="deposiType" value="C"  inputId="Deposit"></p-radioButton>
                 <span for="Deposit" class="ml-1">Deposit</span>
             </div>
             <div class="flex align-items-center mr-1">
-                <p-radioButton name="Refund" value="N"  inputId="Refund"></p-radioButton>
+                <p-radioButton name="Refund" value="N" [(ngModel)]="deposiType" value="R" inputId="Refund"></p-radioButton>
                 <span for="Refund" class="ml-1">Refund</span>
             </div>
         </div>
     </div>
-    <div class="col-12 lg:col-4 md:col-4 lg:col-4" >
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="deposiType=='C'">
         <label for="Insurance" class="font-semibold w-6rem">Payment Type *</label>
-        <p-dropdown  class="w-full" styleClass="w-full" 
+        <p-dropdown  class="w-full" styleClass="w-full" [options]="PaymentList"  [(ngModel)]="paymentid"
             optionLabel="CodeDesc" optionValue="Code" >
         </p-dropdown> 
     </div>
-    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="deposiType=='C' && paymentid=='1'">
         <label for="PayeeName" class="font-semibold w-6rem">PayeeName</label>
-        <input pInputText id="PayeeName" class="w-full" />
+        <input pInputText id="PayeeName" [(ngModel)]="payeeName" class="w-full" />
     </div>
-    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="deposiType=='C' && paymentid=='1'">
         <label for="DepositAmount" class="font-semibold w-6rem">Deposit Amount</label>
-        <input pInputText id="DepositAmount" class="w-full" />
+        <input pInputText id="DepositAmount" class="w-full" [(ngModel)]="Premium" />
     </div>
-    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="paymentid=='2' && deposiType=='C'">
         <label for="ChequeNo" class="font-semibold w-6rem">Cheque No</label>
-        <input pInputText id="ChequeNo" class="w-full" />
+        <input pInputText id="ChequeNo" class="w-full" [(ngModel)]="chequeno" />
     </div>
-    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="paymentid=='2' && deposiType=='C'">
         <label for="Amount" class="font-semibold w-6rem">Amount</label>
-        <input pInputText id="Amount" class="w-full" />
+        <input pInputText id="Amount" class="w-full" [(ngModel)]="Premium" />
     </div>
     
     
-    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="paymentid=='2' && deposiType=='C'">
         <label for="ChequeDate" class="font-semibold w-6rem">Cheque Date</label>
-        <p-calendar inputId="ChequeDate" class="w-full" styleClass="w-full" appendTo="body" /> 
+        <p-calendar  dateFormat="dd/mm/yy" inputId="ChequeDate" [(ngModel)]="chequeDate" class="w-full" styleClass="w-full"  appendTo="body" /> 
     </div>
-    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="paymentid=='2' && deposiType=='C'">
         <label for="MICR" class="font-semibold w-6rem">MICR No</label>
-        <input pInputText id="MICR" class="w-full" />
+        <input pInputText id="MICR" class="w-full" [(ngModel)]="micrno" />
     </div>
-    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="paymentid=='2' && deposiType=='C'">
         <label for="Receipt" class="font-semibold w-6rem">Receipt No</label>
-        <input pInputText id="Receipt" class="w-full" />
+        <input pInputText id="Receipt" class="w-full" [(ngModel)]="referenceno" />
     </div>
-    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="deposiType=='R'">
         <label for="RefundAmount" class="font-semibold w-6rem">Refund Amount</label>
-        <input pInputText id="RefundAmount" class="w-full" />
+        <input pInputText id="RefundAmount" [(ngModel)]="Premium" class="w-full" />
     </div>
     
     
-    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="deposiType=='R'"> 
         <label for="RefundDate" class="font-semibold w-6rem">Refund Date</label>
-        <p-calendar inputId="RefundDate" class="w-full" styleClass="w-full" appendTo="body" /> 
+        <p-calendar  dateFormat="dd/mm/yy" inputId="RefundDate" [(ngModel)]="refundDate" class="w-full" styleClass="w-full" appendTo="body" /> 
     </div>
 </div>
 <div class="flex justify-content-center gap-2">
     <p-button label="Cancel" styleClass="p-button-outlined" (click)="showDialogBrokerDetails('paymentTableAddCancel')" />
-    <p-button label="Submit" />
+    <p-button label="Submit" (click)="getSave()" />
 </div>
 </p-dialog>
 
+
+
+
+
+
+
+
 <p-dialog  header="Payment Types " [modal]="true"  [(visible)]="paymentTypesPopup"  [style]="{ width: '75rem' }">
-    <p-table  [tableStyle]="{'min-width': '60rem'}">
+<div class="grid">
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4" >
+        <label >Product</label>
+        <p-dropdown  class="w-full" styleClass="w-full"   [options]="productData" 
+                    optionLabel="ProductName" optionValue="ProductId" (onChange)="getExistingPayment()" >
+        </p-dropdown> 
+    </div>
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4" >
+        <label >Product</label>
+        <p-dropdown  class="w-full" styleClass="w-full"   [options]="branchList" 
+                    optionLabel="CodeDesc" optionValue="Code" (onChange)="getExistingPayment()" >
+        </p-dropdown> 
+    </div>
+</div>
+    <p-table [value]="paymentData" [tableStyle]="{'min-width': '60rem'}" [rows]="5"
+    [paginator]="true">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 <P></P>
-                <p-button icon="pi pi-plus"  label="Add" (click)="ConfigPopUp('paymentDetail')" />
+                <!-- <p-button icon="pi pi-plus"  label="Add" (click)="ConfigPopUp('paymentDetail')" /> -->
             </div>
         </ng-template>
-        <ng-template pTemplate="header">
+        <ng-template pTemplate="header" >
             <tr>
                 <th>Cash Y/N</th>
                 <th>Credit Y/N</th>
@@ -1118,32 +1259,38 @@
                 <th>Action</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" >
+        <ng-template pTemplate="body" let-pay>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{pay.CashYn}}</td>
+                <td>{{pay.CreditYn}}</td>
+                <td>{{pay.ChequeYn}}</td>
+                <td>{{pay.UserType}}</td>
+                <td>{{pay.SubUserType}}</td>
+                <td>{{pay.EffectiveDateStart}}</td>
+                <td *ngIf="pay.Status=='Y'">Active</td><td *ngIf="pay.Status=='N'">DeActive</td>
+                <td><p-button icon="pi pi-pencil"  styleClass="p-button-outlined" (click)="paymentEdit(pay)" /></td>
             </tr>
         </ng-template>
         
     </p-table> 
 </p-dialog>
+
+
+
+
+
+
 <p-dialog  header="Payment Types " [modal]="true"  [(visible)]="paymentTypesDetailPopup"  [style]="{ width: '50rem' }">
 <div class="grid">
     <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
         <label for="Cash" class="font-semibold w-6rem">Cash *</label>
         <div class="flex flex-warp">
             <div class="flex align-items-center mr-1">
-                <p-radioButton name="CashYes" value="Y"  inputId="Cash"></p-radioButton>
+                <p-radioButton name="CashYes" value="Y" [(ngModel)]="CashYn" inputId="Cash"></p-radioButton>
                 <span for="CashYes" class="ml-1">Yes</span>
             </div>
             <div class="flex align-items-center mr-1">
-                <p-radioButton name="CashNo" value="N"  inputId="Cash"></p-radioButton>
+                <p-radioButton name="CashNo" value="N" [(ngModel)]="CashYn" inputId="Cash"></p-radioButton>
                 <span for="CashNo" class="ml-1">No</span>
             </div>
         </div>
@@ -1152,11 +1299,11 @@
         <label for="Cash" class="font-semibold w-6rem">Credit *</label>
         <div class="flex flex-warp">
             <div class="flex align-items-center mr-1">
-                <p-radioButton name="CreditYes" value="Y"  inputId="Credit"></p-radioButton>
+                <p-radioButton name="CreditYes" value="Y" [(ngModel)]="CreditYn" inputId="Credit"></p-radioButton>
                 <span for="CreditYes" class="ml-1">Yes</span>
             </div>
             <div class="flex align-items-center mr-1">
-                <p-radioButton name="CreditNo" value="N"  inputId="Credit"></p-radioButton>
+                <p-radioButton name="CreditNo" value="N" [(ngModel)]="CreditYn" inputId="Credit"></p-radioButton>
                 <span for="CreditNo" class="ml-1">No</span>
             </div>
         </div>
@@ -1165,38 +1312,44 @@
         <label for="Cash" class="font-semibold w-6rem">Cheque *</label>
         <div class="flex flex-warp">
             <div class="flex align-items-center mr-1">
-                <p-radioButton name="ChequeYes" value="Y"  inputId="Cheque"></p-radioButton>
+                <p-radioButton name="ChequeYes" value="Y" [(ngModel)]="ChequeYn" inputId="Cheque"></p-radioButton>
                 <span for="ChequeYes" class="ml-1">Yes</span>
             </div>
             <div class="flex align-items-center mr-1">
-                <p-radioButton name="ChequeNo" value="N"  inputId="Cheque"></p-radioButton>
+                <p-radioButton name="ChequeNo" value="N" [(ngModel)]="ChequeYn" inputId="Cheque"></p-radioButton>
                 <span for="ChequeNo" class="ml-1">No</span>
             </div>
         </div>
     </div>
     <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
-        <label for="Cash" class="font-semibold w-6rem">Cheque *</label>
+        <label for="Cash" class="font-semibold w-6rem">Online *</label>
         <div class="flex flex-warp">
             <div class="flex align-items-center mr-1">
-                <p-radioButton name="OnlineYnYes" value="Y"  inputId="OnlineYn"></p-radioButton>
+                <p-radioButton name="OnlineYnYes" value="Y" [(ngModel)]="OnlineYn" inputId="OnlineYn"></p-radioButton>
                 <span for="OnlineYnYes" class="ml-1">Yes</span>
             </div>
             <div class="flex align-items-center mr-1">
-                <p-radioButton name="OnlineYnNo" value="N"  inputId="OnlineYn"></p-radioButton>
+                <p-radioButton name="OnlineYnNo" value="N" [(ngModel)]="OnlineYn" inputId="OnlineYn"></p-radioButton>
                 <span for="OnlineYnNo" class="ml-1">No</span>
             </div>
         </div>
     </div>
     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
         <label for="EffectiveDate" class="font-semibold w-6rem">Effective Date *</label>
-        <p-calendar   [showIcon]="true"  inputId="icondisplay"  styleClass="w-full"  class="w-full" appendTo="body" />
+        <p-calendar  dateFormat="dd/mm/yy"  [showIcon]="true" [minDate]="minDate" [(ngModel)]="EffectiveDateStart" inputId="icondisplay"  styleClass="w-full"  class="w-full" appendTo="body" />
     </div>
 </div>
 <div class="flex justify-content-center gap-2">
     <p-button label="Cancel" styleClass="p-button-outlined" (click)="ConfigPopUp('paymentDetailCancel')" />
-    <p-button label="Submit" />
+    <p-button label="Submit" (click)="onProceedPayment()" />
 </div>
 </p-dialog>
+
+
+
+
+
+
 
 <p-dialog 
         header="Customer Search" 

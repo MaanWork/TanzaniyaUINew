@@ -13,6 +13,7 @@ import * as Mydatas from '../../../../../app-config.json';
 })
 export class BrokerComponent {
   tableData:any[]=[];
+  productEditable:boolean=false;
   brokerDialogVisible:boolean=false;
   visibleBrokerDetails:boolean=false;
   ChangePass:boolean=false;
@@ -132,6 +133,42 @@ remarksError: boolean=false;
   sampleCustomerCode: any=null;
   searchValue:any;
   sampleCustomerName: any;
+  branchList: any[]=[];
+  branchValue: string;
+  paymentData: any[]=[];
+  UserType: string;
+  minDate: Date;
+  paymentMasterId: null;
+  paymentdetalis: null;
+  CashYn: any;
+  ChequeYn: any;
+  CreditYn: any;
+  EffectiveDateStart: any;
+  OnlineYn: any;
+  branchDatas: any[]=[];
+  CbcDatas: any[]=[];
+  cbcnos: any[]=[];
+  PaymentList: { Code: string; CodeDesc: string; }[];
+  accountNo: any=null;
+  bamount: any=null;
+  chargabletype: any=null;
+  chequeno: any=null;
+  Premium: any=null;
+  depositno: any=null;
+  deposiType: any=null;
+  micrno: any=null;
+  payeeName: any=null;
+  paymentid:any=null;
+  policyinsu: any=null;
+  reciptNo: any=null;
+  referenceno: any=null;
+  VatAmount: any=null;
+  chequeDate: any=null;
+  refundDate: any=null;
+  show: boolean;
+  editProduct:boolean=false;
+  userLoginId: any;
+  insertlist: any[]=[];
  
   
   constructor(private router:Router,
@@ -145,7 +182,7 @@ remarksError: boolean=false;
     this.loginId = user.LoginId;
     this.subUser = sessionStorage.getItem('typeValue');
     let channelId =  sessionStorage.getItem('brokerChannelId');
-    //this.insuranceId= sessionStorage.getItem('InsuranceId');
+    this.UserType= sessionStorage.getItem('UserType');
     this.subUserType=channelId;
     if(channelId) this.channelId = channelId;
     this.getCompanyList();
@@ -155,7 +192,8 @@ remarksError: boolean=false;
   ngOnInit(){
     this.getMobileCodeList();
     this.getCountryList();
-    
+    this.minDate = new Date();
+    this.PaymentList = [{"Code":"1","CodeDesc":"Cash"},{"Code":"2","CodeDesc":"Cheque"}];
     let com = sessionStorage.getItem('editBroker');
     if (com) {
       this.editsSection = false;
@@ -207,11 +245,7 @@ remarksError: boolean=false;
       this.existingProduct=true;
 
     }
-    else if(type=='DepositAdd'){
-      this.paymentTable=false;
-      this.paymentTableAdd=true;
-
-    }
+    
     
     else if(type=='PaymentAddCancel'){
       this.paymentTable=true;
@@ -228,6 +262,14 @@ remarksError: boolean=false;
       this.ExistingPaymentAddPopup=false;
     }
   }
+  showDialogBrokerDetails1(type,value){
+
+ if(type=='DepositAdd'){
+    this.paymentTable=false;
+    this.paymentTableAdd=true;
+    this.getDetails(value);
+  }
+}
   brokerDetailsView(loginId){
     this.visibleBrokerDetails=true;
     this.getEditBrokerDetails(loginId);
@@ -645,7 +687,6 @@ this.ChangePass=true;
     );
   }
   checkValidation(){
-    alert();
     let i=0
     if(this.customerCode!=null && this.customerCode!='' && this.customerCode!=undefined) {i+=1;this.customerCodeError=false;}
     else this.customerCodeError=true;
@@ -736,8 +777,10 @@ this.ChangePass=true;
   }
   ProductDataList(value){
     //sessionStorage.setItem('brokerLoginId',value)
+    this.userLoginId = value.LoginId;
+    alert(this.userLoginId)
     this.productPopup=true;
-    this.getOptedProductDetails(value);
+    this.getOptedProductDetails();
   }
 
   editBranch(value){
@@ -774,7 +817,7 @@ this.ChangePass=true;
       "Email": this.email,
       "EffectiveDateStart": this.effectiveDate,
       "InsuranceId": this.insuranceId,
-      "LoginId": this.brokerLoginId,
+      "LoginId": this.userLoginId,
       "Mobile": this.mobile,
       "Remarks": this.remarks,
       "Status": this.Status,
@@ -808,11 +851,11 @@ this.ChangePass=true;
       (err) => { },
     );
   }
-  getOptedProductDetails(LoginId){
+  getOptedProductDetails(){
     this.newList =[];
     this.newslist=[];
     let ReqObj = {
-      "LoginId": LoginId,
+      "LoginId": this.userLoginId,
       "InsuranceId": this.insuranceId,
       "EffectiveDateStart": null,
       "Limit":"0",
@@ -975,5 +1018,353 @@ this.ChangePass=true;
       },
       (err) => { },
     ); 
+  }
+  PaymentTypes(value){
+    this.paymentTypesPopup=true;
+    this.getProductList(value)
+  }
+  getProductList(loginId){
+    this.brokerLoginId=loginId
+    let ReqObj = {
+      "LoginId": this.brokerLoginId,
+      "InsuranceId": this.insuranceId,
+      "EffectiveDateStart": null,
+      "Limit":"0",
+      "Offset":"100000"
+      }
+      let urlLink = `${this.CommonApiUrl}admin/getbrokercompanyproducts`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          if(data.Result){
+              this.productData = data.Result;
+              if(this.productData.length!=0) this.productId = this.productData[0].ProductId;
+              else{this.productId='99999'}
+              this.getBranchList();
+          }
+        });
+  }
+  getBranchList(){
+    let ReqObj = {
+      "InsuranceId": this.insuranceId
+    }
+    let urlLink = `${this.CommonApiUrl}master/dropdown/branchmaster`;
+  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    (data: any) => {
+      if(data.Result){
+        let obj = [{Code:"99999",CodeDesc:"ALL"}];
+        this.branchList = obj.concat(data?.Result);
+        let docObj = JSON.parse(sessionStorage.getItem('paymentMasterId'))
+        
+          this.branchValue="99999";
+          this.getExistingPayment();
+          //this.getIndustryList()
+        //if(!this.branchValue){ this.branchValue = "99999"; this.getExistingPayment() }
+      }
+    },
+    (err) => { },
+
+  );
+  }
+  getExistingPayment(){
+    let ReqObj = {
+      "BranchCode":this.branchValue,
+      "InsuranceId": this.insuranceId,
+      "ProductId": this.productId,
+      "AgencyCode": this.agencyCode,
+      "UserType": this.UserType,
+      "SubUserType": this.subUserType
+    }
+    let urlLink = `${this.CommonApiUrl}master/getallpayment`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            this.paymentData = data?.Result;
+        }
+      },
+      (err) => { },
+    );
+  }
+  paymentEdit(value){
+    this.editSection = true;
+    this.paymentTypesDetailPopup=true;
+    if (this.EffectiveDateStart != null) {
+      this.EffectiveDateStart = this.onDateFormatInEdit(value.EffectiveDateStart)
+      // alert(this.EffectiveDateStart)
+      if (this.EffectiveDateStart != '' && this.EffectiveDateStart != null && this.EffectiveDateStart != undefined) {
+        this.EffectiveDateStart =  this.datePipe.transform(this.EffectiveDateStart, "dd/MM/yyyy")
+      }
+      else{
+        this.EffectiveDateStart = "";
+      }
+    }
+    
+    
+    // if (this.paymentdetalis?.EffectiveDateEnd != null) {
+    //   this.paymentdetalis.EffectiveDateEnd = this.onDateFormatInEdit(this.paymentdetalis?.EffectiveDateEnd)
+    // }
+    this.CashYn=value.CashYn,
+    this.ChequeYn=value.ChequeYn,
+    this.CreditYn=value.CreditYn,
+    this.OnlineYn=value.OnlineYn,
+    //this.EffectiveDateStart=value.EffectiveDateStart,
+    this.Status=value.Status
+  }
+  onProceedPayment(){
+    // alert(this.EffectiveDateStart)
+   this.UserType=this.userDetails.Result.UserType;
+    let ReqObj = {
+      "BranchCode":this.branchValue,
+      "CashYn":this.CashYn,
+      "ChequeYn":this.ChequeYn,
+      "CreatedBy":this.brokerLoginId,
+      "AgencyCode": "12974", //this.agencyCode,
+      "CreditYn":this.CreditYn,
+      "EffectiveDateStart": this.EffectiveDateStart,
+      "InsuranceId": this.insuranceId,
+      "ProductId":this.productId,
+      "PaymentMasterId":this.paymentMasterId,
+      "Status":this.Status,
+      "SubUserType":this.subUserType,
+      "UserType":this.UserType,
+      "OnlineYn":this.OnlineYn
+    }
+    let urlLink = `${this.CommonApiUrl}master/insertpayment`;
+   
+    if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {
+      ReqObj['EffectiveDateStart'] =  this.datePipe.transform(ReqObj.EffectiveDateStart, "dd/MM/yyyy")
+    }
+    else{
+      ReqObj['EffectiveDateStart'] = "";
+    }
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+          console.log(data);
+          let res:any=data;
+          if(data.Result){
+           
+            this.editSection = false;
+            this.paymentTypesDetailPopup=false;
+            this.paymentMasterId = null;
+            this.paymentdetalis = null;
+            this.getExistingPayment();
+          }
+
+        },
+        (err) => { },
+      );
+  }
+
+  depositList(value){
+    this.depositPopup=true;
+    this.getBrokersBranchList(value);
+  }
+  getBrokersBranchList(brokerLoginId){
+    this.branchDatas=[];
+    let urlLink = `${this.CommonApiUrl}deposit/get/CbcbyBrokerId/${brokerLoginId}`;
+    this.sharedService.onGetMethodSync(urlLink).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Message!='FAILED'){
+          this.branchDatas = data?.Result;
+          console.log('HHHHHHHHHHHHHHHHH',this.branchDatas);
+        }
+      },
+      (err) => { },
+    );
+
+  }
+  getDetails(cbcno){
+    this.branchDatas=[];
+    this.cbcno=cbcno;
+    let ReqObj={
+      "CbcNo":this.cbcno,
+    }
+    let urlLink = `${this.CommonApiUrl}deposit/get/Payment`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Message!='FAILED'){
+          this.CbcDatas = data?.Result;
+          this.cbcnos=data?.Result[0].CbcNo;
+          //console.log('HHHHHHHHHHHHHHHHH',this.branchDatas);
+        }
+
+      },
+      (err) => { },
+    );
+
+  }
+  getSave(){
+    let chequeDate
+    if(this.chequeDate!='' && this.chequeDate!=null && this.chequeDate!= undefined){
+      chequeDate = this.datePipe.transform(this.chequeDate,'dd/MM/yyyy');
+    }
+    let refunddate 
+    if(this.refundDate && this.refundDate!=null && this.refundDate!= undefined){
+      refunddate = this.datePipe.transform(this.refundDate,'dd/MM/yyyy');
+    }
+    let ReqObj =  {
+            "AccountNo": this.accountNo,
+            "BalanceAmount": this.bamount,
+            "CbcNo":this.cbcno,
+            "ChargableType": this.chargabletype,
+            "ChequeDate":chequeDate,
+            "ChequeNo": this.chequeno,
+            "DepositAmount": this.Premium,
+            "DepositNo": this.depositno,
+            "DepositType": this.deposiType,
+            "IbanNumber":null,//this.ibanno,
+            "LoginId": this.brokerLoginId,
+            "MicrNo": this.micrno,
+            "PayeeName": this.payeeName,
+            "PaymentType": this.paymentid,
+            "PolicyInsuranceFee": this.policyinsu,
+            "Premium": this.Premium,
+            "PremiumAmount": this.Premium,
+            "ProductId":"",
+            "QuoteNo": "",
+            "ReceiptNo":this.reciptNo,
+            "ReferenceNo":this.referenceno,
+            "Status":"",
+            "VatAmount":this.VatAmount,
+            "CompanyId": this.insuranceId,
+            "RefundDate":refunddate
+  
+      }
+      let urlLink = `${this.CommonApiUrl}deposit/save/payment`;
+    //   if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {
+    //     ReqObj['EffectiveDateStart'] =  this.datePipe.transform(ReqObj.EffectiveDateStart, "dd/MM/yyyy")
+    //   }
+    //   else{
+    //     ReqObj['EffectiveDateStart'] = "";
+    //   }
+    //   if (ReqObj.EffectiveDateEnd != '' && ReqObj.EffectiveDateEnd != null && ReqObj.EffectiveDateEnd != undefined) {
+    //     ReqObj['EffectiveDateEnd'] =  this.datePipe.transform(ReqObj.EffectiveDateEnd, "dd/MM/yyyy")
+    //   }
+    //   else{
+    //     ReqObj['EffectiveDateEnd'] = "";
+    //   }
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.IsError=false){
+            // this.show=false;
+            // this.getDetails();
+            //this.router.navigate(['/Admin/brokersList/newBrokerDetails/brokerProductList']);
+            this.ExistingPaymentAddPopup=false;
+          }
+          else if(data.ErrorMessage){
+            if(data.ErrorMessage){
+              console.log("Error Iterate",data.ErrorMessage)
+            }
+          }
+        },
+        (err) => { },
+      );
+  }
+  checkSelectedProductss(rowData){
+    return rowData.SelectedYn=='N'; 
+  }
+  
+  checkSelectedProducts(rowData){
+    return rowData.SelectedYn=='Y';
+  }
+  changeEffectiveDate(rowData){
+
+    rowData['EffectiveDate'] = rowData.EffectiveDateStart;
+  }
+  onChangeSelectedProduct(rowData,check){
+    console.log('Checked Statusss',rowData,check)
+    if(check){
+     return rowData.SelectedYn = 'Y';
+    }
+    else{
+      return rowData.SelectedYn = 'N';
+    }
+  }
+  onChangeSelectedProduc(rowData,check,h){
+    console.log('Checked Statusss',rowData,check)
+    if(check){
+     rowData.SelectedYn = 'N';
+     this.insertlist.push(rowData);
+    }
+    else{
+      rowData.SelectedYn = 'Y';
+      if(this.insertlist.length!=0){
+        let rows = this.insertlist.indexOf(rowData);
+        console.log('NNNNNNNNN',rows,this.insertlist);
+        this.insertlist.splice(rowData,h);
+      }
+    }
+  }
+  onSaveProductDetails(){
+    //let selectedList = this.productData.filter(ele=>ele.SelectedYn=='Y');
+    let selectedList=[];
+    console.log('KKKKKKKKKKKKK',this.newList);
+    if(this.addProduct){
+      selectedList = this.newslist.filter(ele => ele.SelectedYn=='Y');
+      console.log("Final Selected List",selectedList)
+    }
+    else if(this.editProduct){
+      selectedList = this.newList.filter(ele=>ele.SelectedYn=='N');
+      console.log("Existing Selected List",selectedList)
+    }
+    let finalObj = [];let i=0;
+    for(let entry of selectedList){
+      let SumInsured =0;
+      if(entry.SumInsuredEnd.includes(',')){ SumInsured = entry.SumInsuredEnd.replace(/,/g, '') }
+      else SumInsured = entry.SumInsuredEnd;
+      let effectiveDate=null;
+      if(entry.EffectiveDate){
+        let dateList = String(entry.EffectiveDate).split('/');
+        if(dateList.length==1) effectiveDate = this.datePipe.transform(entry.EffectiveDate, "dd/MM/yyyy");
+        else effectiveDate =entry.EffectiveDate
+      }
+      let Obj =  {
+        "ProductId": entry.ProductId,
+        "ProductName": entry.ProductName,
+        "ProductDesc": entry.ProductDesc,
+        "PolicyTypeId": entry.PolicyTypeId,
+        "PolicyTypeDesc": entry.PolicyTypeDesc,
+        "CommissionPercent": entry.CommissionPercent,
+        "SumInsuredStart": "1",
+        "SumInsuredEnd": SumInsured,
+        "BackDays": entry.BackDays,
+        "CreditYn":entry.CreditYn,
+        "CheckerYn": entry.CheckerYn,
+        "EffectiveDateStart": effectiveDate,
+        "Status": entry.Status,
+        "InsuranceId": this.insuranceId,
+        "LoginId": this.brokerLoginId,
+        "Remarks": "nonr",
+        "CreatedBy": entry.CreatedBy
+      }
+      finalObj.push(Obj);
+      i+=1;
+      if(i==selectedList.length) this.finalProceed(finalObj);
+    }
+  }
+  finalProceed(finalObj){
+    let urlLink = `${this.CommonApiUrl}admin/updatebrokercompanylistproducts`;
+    this.sharedService.onPostMethodSync(urlLink, finalObj).subscribe(
+      (data: any) => {
+        if (data.Result) {
+          this.newslist=[];
+          this.newList=[];this.insertlist=[];
+          this.addProduct=false;
+          this.editProduct = false;
+          this.existingProduct=true;
+          this.getOptedProductDetails();
+              // this.productData = [];
+              // this.newslist=[];
+              // this.newList=[];
+              // this.existings=false;
+              // this.editSection=false;
+              // this.getOptedProductDetails();
+        }
+      },
+      (err) => { },
+    );
   }
 }
