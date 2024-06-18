@@ -41,11 +41,6 @@ import { MaterialModule } from 'src/app/material/material.module';
 @NgModule({
   declarations: [
     AdminComponent,
-    LoginCreationComponent,
-    UserComponent,
-    InsurenceEmpComponent,
-    BrokerComponent,
-   
     ],
   imports: [
     CommonModule,
