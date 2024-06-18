@@ -282,6 +282,7 @@ export class UserComponent {
   }
   showDialogBrokerDetails(type,rowData){
   if(type=='AddUser'){
+      this.userLoginId = null;
       this.AddUserPopup=true;
       this.editsSection;
     }
@@ -860,26 +861,26 @@ onCountryChange(type) {
   );
 }
 onStateChange(type) {
-  let ReqObj = {
-    "CountryId": this.countryCode,
-    "RegionCode": this.stateCode
+    let ReqObj = {
+      "CountryId": this.countryCode,
+      "RegionCode": this.stateCode
+    }
+    let urlLink:any=null;
+    if(this.insuranceId!='100020') urlLink = `${this.CommonApiUrl}master/dropdown/regionstate`;
+    else urlLink = `${this.CommonApiUrl}master/dropdown/stategroups`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        let obj = [{"Code":null,"CodeDesc":"---Select---"}];
+        this.cityList = obj.concat(data?.Result);
+        if (type == 'change') {
+          this.cityCode = null;
+        }
+        else if(this.cityCode!=null){
+          let entry = this.cityList.find(ele=>ele.Code==this.cityCode);
+          if(!entry) this.cityCode = null;
+        }
+      },
+      (err) => { },
+    );
   }
-  let urlLink:any=null;
-  if(this.insuranceId!='100020') urlLink = `${this.CommonApiUrl}master/dropdown/regionstate`;
-  else urlLink = `${this.CommonApiUrl}master/dropdown/stategroups`;
-  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-    (data: any) => {
-      let obj = [{"Code":null,"CodeDesc":"---Select---"}];
-      this.cityList = obj.concat(data?.Result);
-      if (type == 'change') {
-        this.cityCode = null;
-      }
-      else if(this.cityCode!=null){
-        let entry = this.cityList.find(ele=>ele.Code==this.cityCode);
-        if(!entry) this.cityCode = null;
-      }
-    },
-    (err) => { },
-  );
-}
 }
