@@ -497,12 +497,18 @@
             </div>
             <div #target>
                 <div class="grid"  *ngIf="selectedSectionId">
+                    
                     <div class="col-12 md:col-12 lg:col-12 xl:col-12">
                         <div class="card m-2">
                             <ng-container *ngFor="let menu of vehicleDetailsList;let i = index">
                                 <ng-container *ngIf="menu.SectionId==selectedSectionId">
                                     <div class="flex flex-wrap justify-content-between">
                                             <div><h3>Default Covers</h3></div>
+                                            <ng-container *ngIf="(insuranceId=='100020' || insuranceId=='100028') && productId!='56' ">
+                                                <div *ngIf="menu.SectionName=='Comprehensive'">
+                                                    <p-button icon="pi pi-rate" label="View Factor Details" (click)="onViewFactorDetails()"  class="mr-3" styleClass='p-button-outlined' severity="success "></p-button>
+                                                </div>
+                                            </ng-container>
                                             <div><h2 class="optiontxt1">{{menu.SectionName}}</h2></div>
                                     </div>
                                     

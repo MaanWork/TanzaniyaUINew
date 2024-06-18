@@ -35,7 +35,7 @@ import { UserComponent } from './login-creation/user/user.component';
 import { InsurenceEmpComponent } from './login-creation/insurence-emp/insurence-emp.component';
 import { BrokerComponent } from './login-creation/broker/broker.component';
 import { MaterialModule } from 'src/app/material/material.module';
-
+import {MultiSelectModule} from 'primeng/multiselect';
 
 
 @NgModule({
@@ -74,6 +74,7 @@ import { MaterialModule } from 'src/app/material/material.module';
     InputTextareaModule,
     BadgeModule,
     MaterialModule,
+    MultiSelectModule,
     OverlayPanelModule
   ],
   bootstrap: [],

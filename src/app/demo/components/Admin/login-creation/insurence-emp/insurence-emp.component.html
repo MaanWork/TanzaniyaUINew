@@ -1,23 +1,12 @@
 <div class="grid">
     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
         <label for="Company">Company *</label>
-        <p-dropdown  class="w-full" styleClass="w-full">
+        <p-dropdown inputId="companyId" class="w-full" styleClass="w-full" [(ngModel)]="insuranceId" [options]="companyList" (onChange)="getIssuerList()" optionLabel="CodeDesc" optionValue="Code">
         </p-dropdown> 
     </div>
-    <!-- <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-        <label for="Channel">Channel *</label>
-        <p-dropdown  class="w-full" styleClass="w-full"    >
-        </p-dropdown> 
-    </div>
-    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-        <label for="Channel">Broker *</label>
-        <p-dropdown  class="w-full" styleClass="w-full"   >
-        </p-dropdown> 
-    </div> -->
 </div> 
 <ng-container >
-    <!-- <h5>Selected Documents</h5><br> [value]="UserData"-->
-    <p-table  [value]="IssuerDataList" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+    <p-table  [value]="issuerData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-end">
                 <p-button label="Add New Issuer" size="small" (click)="showDialogBrokerDetails('AddIssuer')"></p-button>
@@ -27,39 +16,29 @@
             <tr>
                 <th>Issuer Name</th>
                 <th>Login Id </th>
-                <!-- <th>Sub IssuerType</th> -->
                 <th>MailID </th>
-                <th>Created Date</th>
+                <th>Created By</th>
                 <th>Mobile No</th>
                 <th>Status </th>
                 <th>Action </th>
-                <!-- <th>Configure </th>
-                <th>View </th> -->
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-data>
+        <ng-template pTemplate="body" let-data let-ri="rowIndex">
           <tr>
-            <td>{{data.data1}}</td>
-            <td>{{data.data2}}</td>
-            <td>{{data.data3}}</td>
-            <td>{{data.data4}}</td>
-            <td>{{data.data5}}</td>
-            <td>{{data.data6}}</td>
-            <td>{{data.data7}}</td>
-
-             <!-- <td>{{data.IssuerName}}</td>
+            <td>{{data.UserName}}</td>
             <td>{{data.LoginId}}</td>
-            <td>{{data.IssuerType}}</td>
-            <td>{{data.IssuerMail}}</td>
-            <td>{{data.EntryDate}}</td>
-            <td>{{data.IssuerMobile}}</td> -->
-           <!-- <td *ngIf="data.Status=='Y'">Active</td><td *ngIf="data.Status=='N'">DeActive</td><td *ngIf="data.Status=='P'">Pending</td> -->
+            <td>{{data.UserMail}}</td>
+            <td>{{data.CreatedBy}}</td>
+            <td>{{data.UserMobile}}</td>
+            <td>
+                <ng-container *ngIf="data.Status=='Y'">Active</ng-container>
+                <ng-container *ngIf="data.Status=='N'">DeActive</ng-container>
+                <ng-container *ngIf="data.Status=='P'">Pending</ng-container>
+            </td>
             <td>
                 <span class="p-buttonset">
-                    <!-- (click)="EditDetailsView(data.LoginId)" -->
                     <button pButton pRipple icon="pi pi-pencil" title="Edit" class="p-button-outlined" (click)="EditDetailsView(data.data1)" ></button>
                     <button pButton pRipple icon="pi pi-cog" title="Configure"  class="p-button-outlined" (click)="showDialogBrokerDetails('Product')"></button>
-                    <!-- (click)="brokerDetailsView(data.LoginId)" -->
                     <button pButton pRipple icon="pi pi-eye" title="View"   class="p-button-outlined" (click)="brokerDetailsView()"></button>
                 </span>
             </td>
@@ -70,7 +49,30 @@
 </ng-container>
 
 <p-dialog header="Issuer Details" [modal]="true" [(visible)]="AddIssuerPopup" [style]="{ width: '75rem' }">
-    <span class="p-text-dark block mb-5"><b>Personal Information</b></span>
+    <div class="grid">
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Name" class="font-semibold w-6rem">Insurance Employee Name&nbsp;<span class="text-danger">*</span></label>
+            <input pInputText id="Name" class="w-full"  [(ngModel)]="userName" maxlength="100"/>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Channel" class="font-semibold w-6rem">Menu Type &nbsp;<span class="text-danger">*</span></label>
+            <p-dropdown  class="w-full" styleClass="w-full" (onSelect)="onIssuerTypeChange()" [(ngModel)]="issuerType" [options]="typeList"
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Insurance" class="font-semibold w-6rem">Insurance Company &nbsp;<span class="text-danger">*</span></label>
+            <ng-container *ngIf="issuerType == 'SuperAdmin'">
+                <p-multiSelect  class="w-full" styleClass="w-full" [options]="companyList" [(ngModel)]="insuranceIds" defaultLabel="Select a Company" optionLabel="CodeDesc" optionValue="Code"
+	            display="chip" (onClick)="onCompanyChange('change',null,null)"></p-multiSelect>
+            </ng-container>
+            <ng-container *ngIf="issuerType != 'SuperAdmin'">
+                <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="insuranceId"  [options]="companyList" 
+                    optionLabel="CodeDesc" optionValue="Code" (onChange)="onCompanyChange('change',null,null)">
+                </p-dropdown>
+            </ng-container>
+        </div>
+    </div>
     <div class="grid">
         <!-- <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="CustomerCode" class="font-semibold w-6rem">Customer Code</label>
@@ -79,56 +81,48 @@
                 <button type="button" pButton icon="pi pi-search" class="p-button-outlined" ></button>
             </div>
         </div> -->
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Name" class="font-semibold w-6rem">Insurance Employee Name</label>
-            <input pInputText id="Name" class="w-full"  [(ngModel)]="userName" />
-        </div>
         
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Insurance" class="font-semibold w-6rem">Insurance Company *</label>
-            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="insuranceId"  
-                optionLabel="CodeDesc" optionValue="Code" >
-            </p-dropdown> 
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="issuerType == 'low'">
+            <label for="Channel" class="font-semibold w-6rem">Products &nbsp;<span class="text-danger">*</span></label>
+            <p-multiSelect  class="w-full" styleClass="w-full" [options]="productList" [(ngModel)]="productIds" defaultLabel="Select a Product" optionLabel="CodeDesc" optionValue="Code"
+	            display="chip"></p-multiSelect>
         </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="issuerType != 'SuperAdmin'">
+            <label for="Channel" class="font-semibold w-6rem">Branches &nbsp;<span class="text-danger">*</span></label>
+            <p-multiSelect  class="w-full" styleClass="w-full" [options]="branchList" [(ngModel)]="branchIds" defaultLabel="Select a Branch" optionLabel="CodeDesc" optionValue="Code"
+            display="chip"></p-multiSelect>
+        </div>
+    </div>
+    <p-divider class="mt-3 mb-3" />
+    <span class="p-text-dark block mb-5"><b>Address Information</b></span>
+    <div class="grid">
         
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Email" class="font-semibold w-6rem">Email*</label>
-            <input pInputText id="Email" class="w-full" [(ngModel)]="userMail"/>
-        </div>
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Channel" class="font-semibold w-6rem">Products *</label>
-            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="channelId" 
-                optionLabel="CodeDesc" optionValue="Code" >
-            </p-dropdown> 
-        </div>
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Channel" class="font-semibold w-6rem">Branches *</label>
-            <p-dropdown  class="w-full" styleClass="w-full" 
-                optionLabel="CodeDesc" optionValue="Code" >
-            </p-dropdown> 
-        </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Address1" class="font-semibold w-6rem">Address1</label>
-            <input pInputText id="Address1" [(ngModel)]="address1" class="w-full" />
+            <input pInputText id="Address1" [(ngModel)]="address1" class="w-full" maxlength="150" />
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Address2" class="font-semibold w-6rem">Address2</label>
-            <input pInputText id="Address2"  [(ngModel)]="address2" class="w-full" />
+            <input pInputText id="Address2"  [(ngModel)]="address2" class="w-full" maxlength="150" />
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Country" class="font-semibold w-6rem">Country *</label>
+            <label for="Email" class="font-semibold w-6rem">Email&nbsp;<span class="text-danger">*</span></label>
+            <input pInputText id="Email" class="w-full" [(ngModel)]="userMail"/>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Country" class="font-semibold w-6rem">Country&nbsp;<span class="text-danger">*</span></label>
             <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="countryCode" [options]="countryList" (onChange)="onCountryChange('change')"
                 optionLabel="CodeDesc" optionValue="Code" >
             </p-dropdown> 
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Region" class="font-semibold w-6rem">Region *</label>
+            <label for="Region" class="font-semibold w-6rem">Region&nbsp;<span class="text-danger">*</span></label>
             <p-dropdown  class="w-full" styleClass="w-full" [options]="stateList" (onChange)="onStateChange('change')" [(ngModel)]="stateCode"
                 optionLabel="CodeDesc" optionValue="Code" >
             </p-dropdown> 
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="District" class="font-semibold w-6rem">District *</label>
+            <label for="District" class="font-semibold w-6rem">District&nbsp;<span class="text-danger">*</span></label>
             <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="cityCode" [options]="cityList"
                 optionLabel="CodeDesc" optionValue="Code" >
             </p-dropdown> 
@@ -136,7 +130,7 @@
        
         
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Mobile" class="font-semibold w-6rem">Mobile No *</label>
+            <label for="Mobile" class="font-semibold w-6rem">Mobile No&nbsp;<span class="text-danger">*</span></label>
             <div class="flex flex-warp">
                 <div class="col-12 lg:col-4 md:col-4 lg:col-4">
                     <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="mobileCode" [options]="mobileCodeList"
@@ -149,7 +143,7 @@
             </div>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="WhatsApp" class="font-semibold w-6rem">WhatsApp No *</label>
+            <label for="WhatsApp" class="font-semibold w-6rem">WhatsApp No&nbsp;<span class="text-danger">*</span></label>
             <div class="flex flex-warp">
                 <div class="col-12 lg:col-4 md:col-4 lg:col-4">
                     <p-dropdown  class="w-full" styleClass="w-full"  [(ngModel)]="whatsAppCode" [options]="mobileCodeList" 
@@ -166,7 +160,7 @@
     <span class="p-text-dark block mb-5"><b>Login  Information</b></span>
     <div class="grid">
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="LogInId" class="font-semibold w-6rem">LogIn Id *</label>
+            <label for="LogInId" class="font-semibold w-6rem">LogIn Id&nbsp;<span class="text-danger">*</span></label>
             <input pInputText id="LogInId" class="w-full" [disabled]="editSection" [(ngModel)]="brokerLoginId"/>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="editSection">
@@ -182,16 +176,16 @@
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="changePasswordYN=='Y' || !editSection">
             <label for="Password1" class="font-semibold w-6rem" *ngIf="!editSection">Password *</label>
-            <label *ngIf="changePasswordYN=='Y'">New Password<span class="text-danger">*</span></label>
+            <label *ngIf="changePasswordYN=='Y'">New Password&nbsp;<span class="text-danger">*</span></label>
             <input pInputText id="Password1" class="w-full" [(ngModel)]="password" *ngIf="changePasswordYN=='Y' || !editSection" />
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="changePasswordYN=='Y' || !editSection">
             <label for="Password2" class="font-semibold w-6rem" *ngIf="!editSection">Re-Enter Password *</label>
-            <label *ngIf="changePasswordYN=='Y'">Re-Enter New Password<span class="text-danger">*</span></label>
+            <label *ngIf="changePasswordYN=='Y'">Re-Enter New Password&nbsp;<span class="text-danger">*</span></label>
             <input pInputText id="Password2" class="w-full" [(ngModel)]="repassword" *ngIf="changePasswordYN=='Y' || !editSection" />
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="EffectiveDate" class="font-semibold w-6rem">Effective Date *</label>
+            <label for="EffectiveDate" class="font-semibold w-6rem">Effective Date&nbsp;<span class="text-danger">*</span></label>
             <p-calendar  
             [showIcon]="true" 
             inputId="icondisplay" 
@@ -200,11 +194,11 @@
             class="w-full"/>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Remarks" class="font-semibold w-6rem">Remarks *</label>
+            <label for="Remarks" class="font-semibold w-6rem">Remarks&nbsp;<span class="text-danger">*</span></label>
             <textarea pInputTextarea id="Remarks" [(ngModel)]="remarks" class="w-full" ></textarea>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
-            <label for="ExcemptedYN" class="font-semibold w-6rem">Status *</label>
+            <label for="ExcemptedYN" class="font-semibold w-6rem">Status&nbsp;<span class="text-danger">*</span></label>
             <div class="flex flex-warp">
             <div class="flex align-items-center mr-1">
                 <p-radioButton name="Active" value="Y" [(ngModel)]="statusValue" inputId="ingredient2"></p-radioButton>

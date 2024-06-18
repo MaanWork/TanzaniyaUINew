@@ -33,14 +33,14 @@ export class InsurenceEmpComponent {
   regulatoryCode: any;
   custConfirmYN: any='Y';
   makerYN: any='Y';
-  mobileCode: any;
+  mobileCode: any='255';
   pobox: any;
   remarks: any;
   userMail: any;
   userMobile: any;
   userName: any;
   brokerLoginId: any;
-  whatsAppCode: any;
+  whatsAppCode: any='255';
   whatsAppNo: any;
   vatRegNo: any=null;
   countryCode: any;
@@ -54,7 +54,6 @@ export class InsurenceEmpComponent {
   stateCode: any;
   creditLimit: any;
   Status: any;
-  brokerProductList: any[]=[];
   mobileCodeList: any[]=[];
   countryList:any[]=[];
   editSection: boolean=false;
@@ -76,20 +75,20 @@ export class InsurenceEmpComponent {
   bankCode: null;
   subUser: string;
   branchData: any[]=[];
-  IssuerDataList:any[]=[];
+  issuerData:any[]=[];
   ChangePass: boolean=false;
   branchPopup: boolean=false;
-  branchDetailsPopup: boolean=false;
-  productPopup: boolean=false;
-  addProduct:boolean=false;
-  ProductsPopup:boolean=false;
+  branchDetailsPopup: boolean=false;branchList:any[]=[]
+  productPopup: boolean=false;branchIds:any[]=[];
+  addProduct:boolean=false;productList:any[]=[];
+  ProductsPopup:boolean=false;insuranceIds:any[]=[];
   existingProduct:boolean=true;userDetails:any=null;
+  issuerType: any=null;productIds: any[]=[];typeList:any[]=[];
   constructor(private router:Router,
     private sharedService:SharedService,public datePipe:DatePipe) {
      this.productId =  sessionStorage.getItem('companyProductId');
      this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
      const user = this.userDetails?.Result;
-     this.brokerProductList=user.BrokerCompanyProducts;
  
      this.insuranceId = user.LoginBranchDetails[0].InsuranceId;
      this.loginId = user.LoginId;
@@ -98,23 +97,138 @@ export class InsurenceEmpComponent {
      //this.insuranceId= sessionStorage.getItem('InsuranceId');
      this.subUserType=channelId;
      if(channelId) this.channelId = channelId;
-    //  this.getCompanyList();
+     this.typeList = [
+      { "Code":"SuperAdmin","CodeDesc":"SuperAdmin" },
+      { "Code":"low","CodeDesc":"Quotation"},
+      { "Code":"high","CodeDesc":"Approver" },
+      { "Code":"both","CodeDesc":"Quotation & Approver" },
+
+    ];
+      this.getCompanyList();
+      this.getCountryList();
+      this.getMobileCodeList();
     //  this.getChannelList();
    }
  
    ngOnInit(){
     //  this.getMobileCodeList();
     //  this.getCountryList();
-    this.IssuerDataList=[{
-      data1:'frgfhgghf',
-      data2:'frgfhgghf',
-      data3:'frgfhgghf',
-      data4:'frgfhgghf',
-      data5:'frgfhgghf',
-      data6:'frgfhgghf',
-      data7:'frgfhgghf',
-    }]
    }
+   getCountryList(){
+    let ReqObj = { "InsuranceId": this.insuranceId}
+    let urlLink = `${this.CommonApiUrl}master/dropdown/country`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            let obj = [{"Code":null,"CodeDesc":"---Select---"}]
+            this.countryList = obj.concat(data.Result);
+            if(this.countryList.length==2){
+              this.countryCode = this.countryList[1].Code;
+              this.onCountryChange('change');
+            }
+        }
+      },
+      (err) => { },
+    );
+   }
+   getMobileCodeList(){
+    let ReqObj = { "InsuranceId": this.insuranceId}
+    let urlLink = `${this.CommonApiUrl}dropdown/mobilecodes`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+          let obj = [{"Code":null,"CodeDesc":"---Select---"}]
+            this.mobileCodeList = obj.concat(data.Result);
+          }
+        },
+        (err) => { },
+      );
+    }
+   getCompanyList(){
+    let urlLink = `${this.ApiUrl1}master/dropdown/superadmincompanies`;
+    let ReqObj ={
+      "BrokerCompanyYn": "N",
+      "LoginId": this.loginId
+    }
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            this.companyList = data.Result;
+            if(this.insuranceId) this.getIssuerList();
+
+        }
+      },
+      (err) => { },
+    );
+   }
+   getIssuerList(){
+    let ReqObj = {
+      "InsuranceId": this.insuranceId,
+      "UserType": "Issuer",
+      "SubUserType":"",
+      "Limit":"0",
+      "Offset":"1000"
+      }
+      let urlLink = `${this.CommonApiUrl}admin/getallissuers`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          if(data.Result){
+            this.issuerData = data.Result;
+          }
+        },
+        (err) => { },
+      );
+  }
+  onIssuerTypeChange(){
+    if(this.issuerType!='low'){
+          this.productIds = [];
+    }
+   }
+   onCompanyChange(type,branches,products){
+    if(this.issuerType=='SuperAdmin'){
+        this.branchIds = [];
+    }
+    else if(this.insuranceId!='' && this.insuranceId!= undefined){
+      let urlLink = `${this.ApiUrl1}master/dropdown/companyproducts`;
+      let ReqObj ={
+        "InsuranceId": this.insuranceId
+      }
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+              this.productList = data.Result;
+              if(type=='direct'){
+                this.productIds = products;
+              }
+              this.getBranchList(type,branches);
+          }
+        },
+        (err) => { },
+      );
+    }
+  }
+  getBranchList(type,branchValue){
+    let urlLink = `${this.CommonApiUrl}master/dropdown/branchmaster`;
+      let ReqObj ={
+        "InsuranceId": this.insuranceId
+      }
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+              this.branchList = data.Result;
+              if(type=='direct'){
+                this.branchIds = branchValue;
+              }
+          }
+        },
+        (err) => { },
+      );
+  }
   showDialogBrokerDetails(type){
   if(type=='AddIssuer'){
       this.AddIssuerPopup=true;
@@ -152,7 +266,6 @@ export class InsurenceEmpComponent {
   onProceed() {
 
     if (this.editSection && this.changePasswordYN=='N') {
-     alert("if")
       this.onSubmit();
     }
     else {
@@ -212,7 +325,6 @@ export class InsurenceEmpComponent {
             // });
           }
           else {
-            alert("else")
             this.onSubmit();
             console.log('gggggggg', this.brokerLoginId)
 
@@ -315,7 +427,6 @@ export class InsurenceEmpComponent {
       (data: any) => {
         console.log(data);
         if (data.Result) {
-          console.log('HHHHHHHHHHHHHHH',data.Result);
           sessionStorage.setItem('editBroker',this.brokerLoginId);
           sessionStorage.setItem('editBrokerAgencyCode', data.Result.AgencyCode);
           let entry = {
@@ -382,7 +493,8 @@ onCountryChange(type) {
   let urlLink = `${this.CommonApiUrl}master/dropdown/region`;
   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
     (data: any) => {
-      this.stateList = data?.Result;
+      let obj = [{"Code":null,"CodeDesc":"---Select---"}]
+      this.stateList = obj.concat(data.Result);
       if (type == 'change') {
         this.stateCode = null;
         this.cityCode = null;
@@ -404,7 +516,8 @@ onStateChange(type) {
   else urlLink = `${this.CommonApiUrl}master/dropdown/stategroups`;
   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
     (data: any) => {
-      this.cityList = data?.Result;
+      let obj = [{"Code":null,"CodeDesc":"---Select---"}]
+      this.cityList = obj.concat(data.Result);
       if (type == 'change') {
         this.cityCode = null;
       }

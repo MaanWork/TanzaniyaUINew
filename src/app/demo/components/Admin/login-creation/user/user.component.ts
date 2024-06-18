@@ -284,6 +284,7 @@ export class UserComponent {
   if(type=='AddUser'){
       this.AddUserPopup=true;
       this.editsSection;
+      this.formRest();
     }
     else if (type=='editBranchDetail'){
       this.branchDetailsPopup=true;
@@ -803,37 +804,26 @@ export class UserComponent {
     );
   }
   formRest(){
-    this.customerCode=''
-    this.regulatoryCode=''
-    this.insuranceId=''
-    this.brokerLoginId=''
-    this.whatsAppNo=''
-    this.whatsAppCode=''
-    this.mobileCode=''
+    this.userLoginId = null;
     this.userName=''
-    this.userMobile=''
-    this.userMail=''
-    this.remarks=''
-    this.pobox=''
-    this.creditLimit=''
-    this.taxExcemptedCode=''
-    this.taxExcemptedYN=''
-    this.designation=''
-    this.countryCode=''
     this.coreAppBrokerCode=''
-    this.contactPersonName=''
-    this.companyCode=''
-    this.stateCode=''
-    this.cityName=''
-    this.cityCode=''
-    this.loginId=''
-    this.address2=''
+    this.policyHolderTypeid=''
+    this.idNumber=''
     this.address1=''
-    this.subUserType=''
-    this.statusValue=''
+    this.address2=''
+    this.pobox=''
+    this.stateCode=''
+    this.cityCode='';this.cityList=[];
+    this.mobileCode=''
+    this.userMobile=''
+    this.whatsAppCode=''
+    this.whatsAppNo=''
+    this.userMail=''
+    this.contactPersonName=''
+    this.designation=''
     this.effectiveDate=''
-    this.brokerCompanyYn=''
-    this.cbcno=''
+    this.remarks=''
+    this.Status='Y';this.password=null;this.repassword=null;
 }
 onCountryChange(type) {
   let ReqObj = {
@@ -860,26 +850,26 @@ onCountryChange(type) {
   );
 }
 onStateChange(type) {
-  let ReqObj = {
-    "CountryId": this.countryCode,
-    "RegionCode": this.stateCode
+    let ReqObj = {
+      "CountryId": this.countryCode,
+      "RegionCode": this.stateCode
+    }
+    let urlLink:any=null;
+    if(this.insuranceId!='100020') urlLink = `${this.CommonApiUrl}master/dropdown/regionstate`;
+    else urlLink = `${this.CommonApiUrl}master/dropdown/stategroups`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        let obj = [{"Code":null,"CodeDesc":"---Select---"}];
+        this.cityList = obj.concat(data?.Result);
+        if (type == 'change') {
+          this.cityCode = null;
+        }
+        else if(this.cityCode!=null){
+          let entry = this.cityList.find(ele=>ele.Code==this.cityCode);
+          if(!entry) this.cityCode = null;
+        }
+      },
+      (err) => { },
+    );
   }
-  let urlLink:any=null;
-  if(this.insuranceId!='100020') urlLink = `${this.CommonApiUrl}master/dropdown/regionstate`;
-  else urlLink = `${this.CommonApiUrl}master/dropdown/stategroups`;
-  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-    (data: any) => {
-      let obj = [{"Code":null,"CodeDesc":"---Select---"}];
-      this.cityList = obj.concat(data?.Result);
-      if (type == 'change') {
-        this.cityCode = null;
-      }
-      else if(this.cityCode!=null){
-        let entry = this.cityList.find(ele=>ele.Code==this.cityCode);
-        if(!entry) this.cityCode = null;
-      }
-    },
-    (err) => { },
-  );
-}
 }
