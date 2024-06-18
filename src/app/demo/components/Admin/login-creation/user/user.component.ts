@@ -282,9 +282,9 @@ export class UserComponent {
   }
   showDialogBrokerDetails(type,rowData){
   if(type=='AddUser'){
-      this.userLoginId = null;
       this.AddUserPopup=true;
       this.editsSection;
+      this.formRest();
     }
     else if (type=='editBranchDetail'){
       this.branchDetailsPopup=true;
@@ -804,37 +804,26 @@ export class UserComponent {
     );
   }
   formRest(){
-    this.customerCode=''
-    this.regulatoryCode=''
-    this.insuranceId=''
-    this.brokerLoginId=''
-    this.whatsAppNo=''
-    this.whatsAppCode=''
-    this.mobileCode=''
+    this.userLoginId = null;
     this.userName=''
-    this.userMobile=''
-    this.userMail=''
-    this.remarks=''
-    this.pobox=''
-    this.creditLimit=''
-    this.taxExcemptedCode=''
-    this.taxExcemptedYN=''
-    this.designation=''
-    this.countryCode=''
     this.coreAppBrokerCode=''
-    this.contactPersonName=''
-    this.companyCode=''
-    this.stateCode=''
-    this.cityName=''
-    this.cityCode=''
-    this.loginId=''
-    this.address2=''
+    this.policyHolderTypeid=''
+    this.idNumber=''
     this.address1=''
-    this.subUserType=''
-    this.statusValue=''
+    this.address2=''
+    this.pobox=''
+    this.stateCode=''
+    this.cityCode='';this.cityList=[];
+    this.mobileCode=''
+    this.userMobile=''
+    this.whatsAppCode=''
+    this.whatsAppNo=''
+    this.userMail=''
+    this.contactPersonName=''
+    this.designation=''
     this.effectiveDate=''
-    this.brokerCompanyYn=''
-    this.cbcno=''
+    this.remarks=''
+    this.Status='Y';this.password=null;this.repassword=null;
 }
 onCountryChange(type) {
   let ReqObj = {
