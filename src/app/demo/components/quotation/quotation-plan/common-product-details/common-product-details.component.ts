@@ -533,7 +533,7 @@ export class CommonProductDetailsComponent {
             entry['DescriptionOfRisk'] = this.DescriptionRisk;
             entry['RegionName'] = this.region;
             entry['DistrictName'] = this.stateName;
-            entry['BuildingSumInsured'] = String(this.FireSumInsured).replace(',','');
+            entry['BuildingSumInsured'] = String(this.FireSumInsured).replaceAll(',','');
             this.onSaveFireRiskDetails(type);
           }
         } 
@@ -553,9 +553,10 @@ export class CommonProductDetailsComponent {
               "DescriptionOfRisk": this.DescriptionRisk,
               "RegionName": this.region,
               "DistrictName": this.stateName,
-              "BuildingSumInsured":  String(this.FireSumInsured).replace(',','')
+              "BuildingSumInsured":  String(this.FireSumInsured).replaceAll(',','')
             }
           )
+          this.currentFireIndex = this.TableRowFire.length-1;
           this.onSaveFireRiskDetails(type);
         }
       }
@@ -655,82 +656,94 @@ export class CommonProductDetailsComponent {
           sectionIds.push(entry.SectionId);
           i+=1;
           if(i==this.TableRowFire.length){
+            if(type=='Save'){
+              let obj = this.TableRowFire[this.currentFireIndex];
+              this.onFinalSaveFire(obj,sectionIds,type,refNo,havePromoYN,null)
+            }
             let j=0;
             for(let obj of this.TableRowFire){
-              let startDate=null,endDate=null;
-              let dateList = String(this.policyStartDate).split('/');
-              if(dateList.length==1) startDate = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");
-              else startDate=this.policyStartDate;
-              let dateList2 = String(this.policyEndDate).split('/');
-              if(dateList2.length==1) endDate = this.datePipe.transform(this.policyEndDate, "dd/MM/yyyy");
-              else endDate=this.policyEndDate;
-              let ReqObj = {
-                "CreatedBy": this.loginId,
-                 "InsuranceId": this.insuranceId,
-                 "ProductId": "6",
-                 "RequestReferenceNo": this.requestReferenceNo,
-                 "RiskId": j+1,
-                 "EndorsementDate": null,
-                 "EndorsementEffectiveDate": null,
-                 "EndorsementRemarks": null,
-                 "EndorsementType": null,
-                 "EndorsementTypeDesc": null,
-                 "EndtCategoryDesc": null,
-                 "EndtCount": null,
-                 "EndtPrevPolicyNo": null,
-                 "EndtPrevQuoteNo": null,
-                 "EndtStatus": null,
-                 "IsFinanceEndt": null,
-                 "OrginalPolicyNo": null,
-                 "ExchangeRate": this.exchangeRate,
-                 "PolicyEndDate":endDate,
-                 "PolicyStartDate": startDate,
-                  "SectionIds": sectionIds, 
-                 "SectionId": obj.SectionId,
-                  "AgencyCode": this.agencyCode,
-                  "SubUsertype": this.subuserType,
-                "BdmCode": this.customerCode,
-                 "BranchCode": this.branchCode,
-                 "Currency": this.currencyCode,
-                  "BrokerCode": this.brokerCode,
-                 "CustomerReferenceNo": refNo,
-                  "BrokerBranchCode": this.brokerbranchCode,
-                  "Havepromocode": havePromoYN,
-                   "BuildingOwnerYn": "Y",
-                 "CustomerName": this.customerName,
-                  "SectionDesc": obj.SectionDesc,
-                         "Status": "Y",
-                         
-                         "LocationName": obj.LocationName,
-                         "BuildingAddress": "fddsfd",
-                         "IndustryType": obj.IndustryType,
-                         "IndustryTypeDesc": obj.IndustryTypeDesc,
-                         "OccupationId": obj.OccupationId,
-                         "OccupationDesc": obj.OccupationDesc,
-                         "CoveringDetails": obj.CoveringDetails,
-                         "DescriptionOfRisk": obj.DescriptionOfRisk,
-                         "RegionName": obj.RegionName,
-                         "DistrictName": obj.DistrictName,
-                         "BuildingSumInsured": obj.BuildingSumInsured
-             
+              if((obj.VdRefNo==null || obj.VdRefNo==undefined) && this.modifiedYN=='Y'){
+                this.onFinalSaveFire(obj,sectionIds,type,refNo,havePromoYN,j)
               }
-              let urlLink = `${this.motorApiUrl}api/saveFire`;
-              this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-                (data: any) => {
-                  if(data.Result){
-                    if(data.Result.length!=0){
-                        sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
-                        this.onCalculateFire(data.Result,type,j);
-                    }
-                   
-                  }
-                  else{alert('Null Response')}
-                });
+              else{j+=1;if(j==this.TableRowFire.length){this.router.navigate(['/quotation/plan/premium-details']);}}
             }
           }
         }
     }
    
+  }
+  onFinalSaveFire(obj,sectionIds,type,refNo,havePromoYN,index){
+    let startDate=null,endDate=null,riskId=null;
+    let dateList = String(this.policyStartDate).split('/');
+    if(dateList.length==1) startDate = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");
+    else startDate=this.policyStartDate;
+    let dateList2 = String(this.policyEndDate).split('/');
+    if(dateList2.length==1) endDate = this.datePipe.transform(this.policyEndDate, "dd/MM/yyyy");
+    else endDate=this.policyEndDate;
+    if(index==null) riskId = this.currentFireIndex+1;
+    else riskId=index+1;
+    let ReqObj = {
+      "CreatedBy": this.loginId,
+        "InsuranceId": this.insuranceId,
+        "ProductId": "6",
+        "RequestReferenceNo": this.requestReferenceNo,
+        "RiskId": riskId,
+        "EndorsementDate": null,
+        "EndorsementEffectiveDate": null,
+        "EndorsementRemarks": null,
+        "EndorsementType": null,
+        "EndorsementTypeDesc": null,
+        "EndtCategoryDesc": null,
+        "EndtCount": null,
+        "EndtPrevPolicyNo": null,
+        "EndtPrevQuoteNo": null,
+        "EndtStatus": null,
+        "IsFinanceEndt": null,
+        "OrginalPolicyNo": null,
+        "ExchangeRate": this.exchangeRate,
+        "PolicyEndDate":endDate,
+        "PolicyStartDate": startDate,
+        "SectionIds": sectionIds, 
+        "SectionId": obj.SectionId,
+        "AgencyCode": this.agencyCode,
+        "SubUsertype": this.subuserType,
+        "BdmCode": this.customerCode,
+        "BranchCode": this.branchCode,
+        "Currency": this.currencyCode,
+        "BrokerCode": this.brokerCode,
+        "CustomerReferenceNo": refNo,
+        "BrokerBranchCode": this.brokerbranchCode,
+        "Havepromocode": havePromoYN,
+        "BuildingOwnerYn": "Y",
+        "CustomerName": this.customerName,
+        "SectionDesc": obj.SectionDesc,
+         "Status": "Y",
+          "LocationName": obj.LocationName,
+          "BuildingAddress": "fddsfd",
+          "IndustryType": obj.IndustryType,
+          "IndustryTypeDesc": obj.IndustryTypeDesc,
+          "OccupationId": obj.OccupationId,
+          "OccupationDesc": obj.OccupationDesc,
+          "CoveringDetails": obj.CoveringDetails,
+          "DescriptionOfRisk": obj.DescriptionOfRisk,
+          "RegionName": obj.RegionName,
+          "DistrictName": obj.DistrictName,
+          "BuildingSumInsured": obj.BuildingSumInsured
+    }
+        let urlLink = `${this.motorApiUrl}api/saveFire`;
+        this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+          (data: any) => {
+            if(data.Result){
+              if(data.Result.length!=0){
+                  obj['MSRefNo'] = data?.Result[0]?.MSRefNo;
+                  obj['CdRefNo'] = data?.Result[0]?.CdRefNo;
+                  obj['VdRefNo'] = data?.Result[0]?.VdRefNo;
+                  sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                  this.onCalculateFire(data.Result,type,index);
+              }
+            }
+            else{alert('Null Response')}
+          });
   }
   onCalculateFire(buildDetails,type,index) {
     let createdBy = ""
@@ -792,12 +805,11 @@ export class CommonProductDetailsComponent {
               i += 1;
               if (i == buildDetails.length) {
                   if(type=='Save'){
-                    this.router.navigate(['/quotation/plan/premium-details']);
-                    // this.productName='';this.IndustryTypes='56';this.LocationName='';
-                    // this.industryValue='';this.region='';this.stateName='';this.FireSumInsured='';
-                    // this.CoveringDetails='';this.DescriptionRisk='';this.industryDesc =null;this.sectionDesc=null;this.IndustryTypeValue=null;
-                    // this.currentFireIndex=null;
-                    // this.getFireIndustryList('direct');
+                    this.productName='';this.IndustryTypes='56';this.LocationName='';
+                    this.industryValue='';this.region='';this.stateName='';this.FireSumInsured='';
+                    this.CoveringDetails='';this.DescriptionRisk='';this.industryDesc =null;this.sectionDesc=null;this.IndustryTypeValue=null;
+                    this.currentFireIndex=null;
+                    this.getFireIndustryList('direct');
                   }
                   else{
                     index+=1;
@@ -4776,7 +4788,7 @@ backPlan()
           this.addFireTable('proceed')
         }
         else{
-          this.saveCommonDetails('Fire','proceed');
+          this.onSaveFireRiskDetails('proceed');
         }
       }
       else{this.onFormSubmit(type);}
