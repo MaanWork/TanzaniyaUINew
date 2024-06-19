@@ -225,7 +225,7 @@ remarksError: boolean=false;
   showDialogBrokerDetails(type){
     if(type=='AddBroker'){
       this.brokerDialogVisible=true;
-      // this.formRest()
+       this.formRest()
       this.editsSection;
     }
     else if(type=='AddUser'){
@@ -303,9 +303,9 @@ this.ChangePass=true;
       this.getBrokerList();
     }
   }
-  EditDetailsView(login){
+  EditDetailsView(rowData){
     this.brokerDialogVisible=true;
-    this.getEditBrokerDetails(login);
+    this.getEditBrokerDetails(rowData);
   }
   getMobileCodeList() {
     let ReqObj = { "InsuranceId": this.insuranceId }
@@ -365,8 +365,8 @@ this.ChangePass=true;
     }
     
   }
-  getEditBrokerDetails(brokerId) {
-    let ReqObj = { "LoginId": brokerId }
+  getEditBrokerDetails(rowData) {
+    let ReqObj = { "LoginId": rowData.LoginId }
     let urlLink = `${this.CommonApiUrl}admin/getbrokerbyid`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
@@ -490,7 +490,6 @@ this.ChangePass=true;
   onProceed() {
     
     if (this.editSection && this.changePasswordYN=='N') {
-     alert("if")
      let entry = this.checkValidation();
      if(entry){
       this.onSubmit();
@@ -571,7 +570,6 @@ this.ChangePass=true;
     //this.router.navigate(['/Admin/brokersList/newBrokerDetails/brokerConfigure'])
   }
   onSubmit() {
-
     if (this.commissionVatYN == 'N') this.vatRegNo = null;
     let bankCode = null;
     if (this.subUserType == 'bank' && this.bankCode != null && this.bankCode != undefined) bankCode = this.bankCode
@@ -648,7 +646,8 @@ this.ChangePass=true;
       }
     }
     if (ReqObj.LoginInformation.EffectiveDateStart != '' && ReqObj.LoginInformation.EffectiveDateStart != null && ReqObj.LoginInformation.EffectiveDateStart != undefined) {
-      ReqObj.LoginInformation['EffectiveDateStart'] = this.datePipe.transform(ReqObj.LoginInformation.EffectiveDateStart, "dd/MM/yyyy")
+      let dateList = String(ReqObj.LoginInformation.EffectiveDateStart).split('/');
+      if(dateList.length==1) ReqObj.LoginInformation['EffectiveDateStart'] = this.datePipe.transform(ReqObj.LoginInformation.EffectiveDateStart, "dd/MM/yyyy")
     }
     else {
       ReqObj.LoginInformation['EffectiveDateStart'] = "";
@@ -688,33 +687,32 @@ this.ChangePass=true;
   }
   checkValidation(){
     let i=0
-    if(this.customerCode!=null && this.customerCode!='' && this.customerCode!=undefined) {i+=1;this.customerCodeError=false;}
-    else this.customerCodeError=true;
-    if(this.userName!=null && this.userName!='' && this.userName!=undefined) {i+=1;this.userNameError=false;}
-    else this.userNameError=true;
-    if(this.stateCode!=null && this.stateCode!='' && this.stateCode!=undefined) {i+=1;this.stateCodeError=false;}
-    else this.stateCodeError=true;
-    if(this.cityCode!=null && this.cityCode!='' && this.cityCode!=undefined) {i+=1;this.cityCodeError=false;}
-    else this.cityCodeError=true;
-
-    if(this.userMail!=null && this.userMail!='' && this.userMail!=undefined) {i+=1;this.userMailError=false;}
-    else this.userMailError=true; 
-    if(this.mobileCode!=null && this.mobileCode!='' && this.mobileCode!=undefined) {i+=1;this.mobileCodeError=false;}
-    else this.mobileCodeError=true;
-    if(this.userMobile!=null && this.userMobile!='' && this.userMobile!=undefined) {i+=1;this.userMobileError=false;}
-    else this.userMobileError=true;
-    if(this.coreAppBrokerCode!=null && this.coreAppBrokerCode!='' && this.coreAppBrokerCode!=undefined) {i+=1;this.coreAppBrokerCodeError=false;}
-    else this.coreAppBrokerCodeError=true;
-    if(this.regulatoryCode!=null && this.regulatoryCode!='' && this.regulatoryCode!=undefined) {i+=1;this.regulatoryCodeError=false;}
-    else this.regulatoryCodeError=true;
-    if(this.creditLimit!=null && this.creditLimit!='' && this.creditLimit!=undefined) {i+=1;this.creditLimitError=false;}
-    else this.creditLimitError=true;
-    if(this.brokerLoginId!=null && this.brokerLoginId!='' && this.brokerLoginId!=undefined) {i+=1;this.brokerLoginIdError=false;}
-    else this.brokerLoginIdError=true;
-    if(this.effectiveDate!=null && this.effectiveDate!='' && this.effectiveDate!=undefined) {i+=1;this.effectiveDateError=false;}
-    else this.effectiveDateError=true;
-    if(this.remarks!=null && this.remarks!='' && this.remarks!=undefined) {i+=1;this.remarksError=false;}
-    else this.remarksError=true;
+    if(this.customerCode!=null && this.customerCode!='' && this.customerCode!=undefined) {this.customerCodeError=false;}
+    else{i+=1;this.customerCodeError=true;}
+    if(this.userName!=null && this.userName!='' && this.userName!=undefined) {this.userNameError=false;}
+    else{i+=1;this.userNameError=true;}
+    if(this.stateCode!=null && this.stateCode!='' && this.stateCode!=undefined) {this.stateCodeError=false;}
+    else{i+=1; this.stateCodeError=true;}
+    if(this.cityCode!=null && this.cityCode!='' && this.cityCode!=undefined) {this.cityCodeError=false;}
+    else{i+=1; this.cityCodeError=true;}
+    if(this.userMail!=null && this.userMail!='' && this.userMail!=undefined) {this.userMailError=false;}
+    else{i+=1; this.userMailError=true; }
+    if(this.mobileCode!=null && this.mobileCode!='' && this.mobileCode!=undefined) {this.mobileCodeError=false;}
+    else{i+=1; this.mobileCodeError=true;}
+    if(this.userMobile!=null && this.userMobile!='' && this.userMobile!=undefined) {this.userMobileError=false;}
+    else{i+=1; this.userMobileError=true;}
+    if(this.coreAppBrokerCode!=null && this.coreAppBrokerCode!='' && this.coreAppBrokerCode!=undefined) {this.coreAppBrokerCodeError=false;}
+    else{i+=1; this.coreAppBrokerCodeError=true;}
+    if(this.regulatoryCode!=null && this.regulatoryCode!='' && this.regulatoryCode!=undefined) {this.regulatoryCodeError=false;}
+    else{i+=1;this.regulatoryCodeError=true;}
+    if(this.creditLimit!=null && this.creditLimit!='' && this.creditLimit!=undefined) {this.creditLimitError=false;}
+    else{i+=1;this.creditLimitError=true;}
+    if(this.brokerLoginId!=null && this.brokerLoginId!='' && this.brokerLoginId!=undefined) {this.brokerLoginIdError=false;}
+    else{i+=1;this.brokerLoginIdError=true;}
+    if(this.effectiveDate!=null && this.effectiveDate!='' && this.effectiveDate!=undefined) {this.effectiveDateError=false;}
+    else{i+=1;this.effectiveDateError=true;}
+    if(this.remarks!=null && this.remarks!='' && this.remarks!=undefined) {this.remarksError=false;}
+    else {i+=1;this.remarksError=true;}
     return i==0;
   }
   formRest(){
@@ -723,8 +721,6 @@ this.ChangePass=true;
         this.insuranceId=''
         this.brokerLoginId=''
         this.whatsAppNo=''
-        this.whatsAppCode=''
-        this.mobileCode=''
         this.userName=''
         this.userMobile=''
         this.userMail=''
@@ -732,9 +728,8 @@ this.ChangePass=true;
         this.pobox=''
         this.creditLimit=''
         this.taxExcemptedCode=''
-        this.taxExcemptedYN=''
+        this.taxExcemptedYN='N'
         this.designation=''
-        this.countryCode=''
         this.coreAppBrokerCode=''
         this.contactPersonName=''
         this.companyCode=''
@@ -745,7 +740,7 @@ this.ChangePass=true;
         this.address2=''
         this.address1=''
         this.subUserType=''
-        this.statusValue=''
+        this.statusValue='Y'
         this.effectiveDate=''
         this.brokerCompanyYn=''
         this.cbcno=''
@@ -778,7 +773,6 @@ this.ChangePass=true;
   ProductDataList(value){
     //sessionStorage.setItem('brokerLoginId',value)
     this.userLoginId = value.LoginId;
-    alert(this.userLoginId)
     this.productPopup=true;
     this.getOptedProductDetails();
   }

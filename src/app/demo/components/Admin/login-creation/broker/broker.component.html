@@ -42,7 +42,7 @@
             <td *ngIf="data.Status=='Y'">Active</td><td *ngIf="data.Status=='N'">DeActive</td><td *ngIf="data.Status=='P'">Pending</td>
             <td>
                 <span class="p-buttonset">
-                    <button pButton pRipple icon="pi pi-pencil" title="Edit" class="p-button-outlined" (click)="EditDetailsView(data.LoginId)" ></button>
+                    <button pButton pRipple icon="pi pi-pencil" title="Edit" class="p-button-outlined" (click)="EditDetailsView(data)" ></button>
                     <button pButton pRipple icon="pi pi-cog" title="Configure" (click)="op.toggle($event)" class="p-button-outlined" ></button>
                     <button pButton pRipple icon="pi pi-eye" title="View" (click)="brokerDetailsView(data.LoginId)"  class="p-button-outlined"></button>
                 </span>
@@ -81,7 +81,6 @@
             <div class="p-inputgroup"> 
                 <input type="text" id="CustomerCode" pInputText placeholder="Customer Code" [(ngModel)]="customerCode" />
                 <button type="button" pButton icon="pi pi-search" class="p-button-outlined" (click)="customerSearchvisible=true" ></button>
-                
             </div>
             <div class="input-form-error" *ngIf="customerCodeError">
                 <div class="error-text text-danger">
@@ -289,7 +288,7 @@
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="EffectiveDate" class="font-semibold w-6rem">Effective Date *</label>
-            <p-calendar  
+            <p-calendar  appendTo="body"
             [showIcon]="true" 
             inputId="icondisplay" 
             styleClass="w-full"
@@ -314,19 +313,19 @@
         <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
             <label for="ExcemptedYN" class="font-semibold w-6rem">Status *</label>
             <div class="flex flex-warp">
-            <div class="flex align-items-center mr-1">
-                <p-radioButton name="Active" value="Y" [(ngModel)]="statusValue" inputId="ingredient2"></p-radioButton>
-                <span for="Active" class="ml-1">Active</span>
+                <div class="flex align-items-center mr-1">
+                    <p-radioButton name="Active" value="Y" [(ngModel)]="statusValue" inputId="ingredient2"></p-radioButton>
+                    <span for="Active" class="ml-1">Active</span>
+                </div>
+                <div class="flex align-items-center mr-1">
+                    <p-radioButton name="Pending" value="P" [(ngModel)]="statusValue" inputId="ingredient3"></p-radioButton>
+                    <span for="Pending" class="ml-1">Pending</span>
+                </div>
+                <div class="flex align-items-center mr-1">
+                    <p-radioButton name="DeActive" value="N" [(ngModel)]="statusValue" inputId="ingredient3"></p-radioButton>
+                    <span for="DeActive" class="ml-1">DeActive</span>
+                </div>
             </div>
-            <div class="flex align-items-center mr-1">
-                <p-radioButton name="Pending" value="P" [(ngModel)]="statusValue" inputId="ingredient3"></p-radioButton>
-                <span for="Pending" class="ml-1">Pending</span>
-            </div>
-            <div class="flex align-items-center mr-1">
-                <p-radioButton name="DeActive" value="N" [(ngModel)]="statusValue" inputId="ingredient3"></p-radioButton>
-                <span for="DeActive" class="ml-1">DeActive</span>
-            </div>
-        </div>
         </div>
     </div>
     <div class="flex justify-content-center gap-2">
