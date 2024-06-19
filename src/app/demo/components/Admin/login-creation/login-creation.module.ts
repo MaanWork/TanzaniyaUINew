@@ -36,6 +36,7 @@ import { LoginCreationComponent } from './login-creation.component';
 import { UserComponent } from './user/user.component';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { MaterialModule } from 'src/app/material/material.module';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
     OverlayPanelModule,
     InputSwitchModule,
     ToggleButtonModule,
-    MultiSelectModule
+    MultiSelectModule,
+    MaterialModule
   ],
   bootstrap: [],
   providers: [

@@ -342,7 +342,8 @@ this.ChangePass=true;
       (data: any) => {
         console.log(data);
         if (data.Result) {
-          this.mobileCodeList = data.Result;
+          let obj = [{"Code":null,"CodeDesc":"---Select---"}];
+        this.mobileCodeList = obj.concat(data?.Result);
           
 
         }
@@ -481,7 +482,8 @@ this.ChangePass=true;
     let urlLink = `${this.CommonApiUrl}master/dropdown/region`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
-        this.stateList = data?.Result;
+        let obj = [{"Code":null,"CodeDesc":"---Select---"}];
+        this.stateList = obj.concat(data?.Result);
         if (type == 'change') {
           this.stateCode = null;
           this.cityCode = null;
@@ -503,7 +505,8 @@ this.ChangePass=true;
     else urlLink = `${this.CommonApiUrl}master/dropdown/stategroups`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
-        this.cityList = data?.Result;
+        let obj = [{"Code":null,"CodeDesc":"---Select---"}];
+        this.cityList = obj.concat(data?.Result);
         if (type == 'change') {
           this.cityCode = null;
         }
@@ -560,38 +563,31 @@ this.ChangePass=true;
             })
         }
         else if (this.password != undefined || this.password != null || this.password != "") {
-        if (this.repassword != undefined || this.repassword != null || this.repassword != "") {
-          if (this.password != this.repassword) {
-            Swal.fire({
-              title: '<strong>Password Details</strong>',
-              icon: 'error',
-              html:
-                `Passwords are MisMatching`,
-              showCloseButton: true,
-              focusConfirm: false,
-              showCancelButton:false,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Error!',
-            })
-            // this.Toaster.open({
-            //   text: 'Passwords are MisMatching',
-            //   caption: 'password Details',
-            //   type: 'danger',
-            // });
+          if (this.repassword != undefined || this.repassword != null || this.repassword != "") {
+            if (this.password != this.repassword) {
+              Swal.fire({
+                title: '<strong>Password Details</strong>',
+                icon: 'error',
+                html:
+                  `Passwords are MisMatching`,
+                showCloseButton: true,
+                focusConfirm: false,
+                showCancelButton:false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Error!',
+              })
+              // this.Toaster.open({
+              //   text: 'Passwords are MisMatching',
+              //   caption: 'password Details',
+              //   type: 'danger',
+              // });
+            }
+            else this.onSubmit();
           }
+          else this.onSubmit();
         }
-          else {
-            this.onSubmit();
-            console.log('gggggggg', this.brokerLoginId)
-
-          }
-        }
-
       }
-
-
-
     }
     //this.router.navigate(['/Admin/brokersList/newBrokerDetails/brokerConfigure'])
   }
@@ -632,7 +628,7 @@ this.ChangePass=true;
         "OaCode": this.agencyCode,
         "Password": this.password,
         "Status": this.statusValue,
-        "SubUserType": this.subUserType,
+        "SubUserType": this.channelId,
         "UserType": "Broker",
         "CbcNo":this.cbcno
       },
@@ -762,10 +758,9 @@ this.ChangePass=true;
         this.stateCode=''
         this.cityName=''
         this.cityCode=''
-        this.loginId=''
+        this.brokerLoginId=''
         this.address2=''
         this.address1=''
-        this.subUserType=''
         this.statusValue='Y'
         this.effectiveDate=''
         this.brokerCompanyYn=''

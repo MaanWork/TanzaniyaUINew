@@ -641,6 +641,7 @@ export class CommonProductDetailsComponent {
   }
   onSaveFireRiskDetails(type){
     if(this.TableRowFire.length!=0){
+      alert(this.TableRowFire.length)
         let sectionIds = [],i=0,refNo=null;
         if(this.customerDetails){refNo = this.customerDetails?.CustomerReferenceNo;}
         if(this.userType!='Broker' && this.userType!='User'){
@@ -661,12 +662,14 @@ export class CommonProductDetailsComponent {
               let obj = this.TableRowFire[this.currentFireIndex];
               this.onFinalSaveFire(obj,sectionIds,type,refNo,havePromoYN,null)
             }
-            let j=0;
-            for(let obj of this.TableRowFire){
-              if((obj.VdRefNo==null || obj.VdRefNo==undefined) && this.modifiedYN=='Y'){
-                this.onFinalSaveFire(obj,sectionIds,type,refNo,havePromoYN,j)
+            else{
+              let j=0;
+              for(let obj of this.TableRowFire){
+                if((obj.VdRefNo==null || obj.VdRefNo==undefined) && this.modifiedYN=='Y'){
+                  this.onFinalSaveFire(obj,sectionIds,type,refNo,havePromoYN,j)
+                }
+                else{j+=1;if(j==this.TableRowFire.length){this.router.navigate(['/quotation/plan/premium-details']);}}
               }
-              else{j+=1;if(j==this.TableRowFire.length){this.router.navigate(['/quotation/plan/premium-details']);}}
             }
           }
         }
