@@ -16,7 +16,18 @@
 </div> 
 <ng-container >
     <!-- <h5>Selected Documents</h5><br> -->
-    <p-table  [value]="brokerData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+    <p-table #dtEmployeeExist [value]="brokerData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5"
+    [globalFilterFields]="['LoginId','UserName','UserMail','CreatedBy','UserMobile']">
+        <ng-template pTemplate="caption">
+            <div class="flex flex wrap justify-content-end">
+            <div class="table-header">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dtEmployeeExist.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                </span>
+            </div>
+            </div>
+        </ng-template>
         <ng-template pTemplate="header">
             <tr>
                 <th>S.No</th>
@@ -37,7 +48,7 @@
             <td>{{data.LoginId}}</td>
             <td>{{data.UserName}}</td>
             <td>{{data.UserMail}}</td>
-            <td>{{data.EntryDate}}</td>
+            <td>{{data.CreatedBy}}</td>
             <td>{{data.UserMobile}}</td>
             <td *ngIf="data.Status=='Y'">Active</td><td *ngIf="data.Status=='N'">DeActive</td><td *ngIf="data.Status=='P'">Pending</td>
             <td>
@@ -289,15 +300,15 @@
        
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="POBox" class="font-semibold w-6rem">PO Box</label>
-            <input pInputText id="POBox" class="w-full" [(ngModel)]="pobox" />
+            <input pInputText id="POBox" class="w-full" [(ngModel)]="pobox" maxlength="50" />
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="ContactPerson" class="font-semibold w-6rem">ContactPerson Name</label>
-            <input pInputText id="ContactPerson" class="w-full"  [(ngModel)]="contactPersonName"/>
+            <input pInputText id="ContactPerson" class="w-full"  [(ngModel)]="contactPersonName" maxlength="100" />
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Designation" class="font-semibold w-6rem">Designation</label>
-            <input pInputText id="Designation" class="w-full" [(ngModel)]="designation"/>
+            <input pInputText id="Designation" class="w-full" [(ngModel)]="designation" maxlength="100"/>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Mobile" class="font-semibold w-6rem">Mobile No *</label>
@@ -313,7 +324,7 @@
                     </div>
                 </div>
                 <div class="col-12 lg:col-8 md:col-8 lg:col-8" >
-                    <input pInputText id="Mobile" class="w-full" [(ngModel)]="userMobile" />
+                    <input pInputText id="Mobile" class="w-full" [(ngModel)]="userMobile" maxlength="10" />
                     <div class="input-form-error" *ngIf="userMobileError">
                         <div class="error-text text-danger">
                           Please  Enter Mobile Number
@@ -331,7 +342,7 @@
                     </p-dropdown> 
                 </div>
                 <div class="col-12 lg:col-8 md:col-8 lg:col-8">
-                    <input pInputText id="WhatsApp" class="w-full" [(ngModel)]="whatsAppNo"/>
+                    <input pInputText id="WhatsApp" class="w-full" [(ngModel)]="whatsAppNo" maxlength="10" />
                 </div>
             </div>
         </div>
@@ -1405,9 +1416,10 @@
               </ng-template>
                   <ng-template pTemplate="body" let-customer let-i="rowIndex">
                     <tr>
-                      <td><input pInputText type="radio" inputId="i" [id]="'type'+i" 
-                        (click)="selectProduct(customer)"
-                          /></td>
+                      <td>
+                        <mat-radio-button [id]="'type'+i"
+                            [name]="'customRadio'+i" (change)="selectProduct(customer)">
+                        </mat-radio-button></td>
                       <td>{{customer.CustomerCode}}</td>
                       <td>{{customer.CustomerName}}</td>
                     </tr>

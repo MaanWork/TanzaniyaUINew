@@ -393,7 +393,6 @@ export class CoverDetailsComponent {
   finalSaveLoading(modal){
     let vehData = this.vehicleDetailsList.filter(ele=>ele.VehicleId==this.selectedVehId);
     let secData = vehData.filter(ele=>ele.SectionId==this.selectedSectionId);
-    console.log("Final Sellec",vehData,secData,this.selectedSectionId)
     let coverData = secData[0].CoverList.filter(ele=>ele.CoverId==this.selectedCoverId);
     if(coverData[0]?.Endorsements){
       coverData[0].Endorsements[coverData[0].Endorsements.length-1].PremiumBeforeDiscount = this.beforeDiscount;
@@ -402,7 +401,6 @@ export class CoverDetailsComponent {
       coverData[0].Endorsements[coverData[0].Endorsements.length-1].ExcessPercent = this.excessPercent;
       coverData[0].Endorsements[coverData[0].Endorsements.length-1].ExcessAmount = this.excessAmount;
       coverData[0].Endorsements[coverData[0].Endorsements.length-1].EndorsementRate = this.ratePercent;
-
     }
     else{
       coverData[0].PremiumAfterDiscount = this.afterDiscount;
@@ -545,7 +543,6 @@ export class CoverDetailsComponent {
         console.log(data);
         if(data.Result){
           this.customerDetails = data.Result;
-          
         }
       },
       (err) => { },
