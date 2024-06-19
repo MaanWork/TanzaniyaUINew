@@ -138,6 +138,8 @@ export class UserComponent {
      if(channelId) this.channelId = channelId;
       this.getCompanyList();
       this.getChannelList('direct');
+      this.getCountryList();
+            this.getPolicyIdTypeList('direct');
    }
  
    ngOnInit(){
@@ -248,7 +250,7 @@ export class UserComponent {
       "AttachedCompany": this.subInsuranceId,
       "BrokerBranchCode": this.brokerBranchCode,
       "BranchType":this.branchType,
-      "BrokerBranchName": this.branchName,
+      "BrokerBranchName": this.brokerBranchName,
       "CreatedBy": this.loginId,
       "Email": this.email,
       "EffectiveDateStart": this.effectiveDate,
@@ -272,6 +274,7 @@ export class UserComponent {
       (data: any) => {
         console.log(data);
         if(data.Result){
+          this.getBrokerBranchList({"LoginId":this.userLoginId})
           this.branchDetailsPopup=false;
         }
       });
@@ -304,10 +307,11 @@ export class UserComponent {
   showDialogBrokerDetails(type,rowData){
   if(type=='AddUser'){
       this.AddUserPopup=true;
-      this.editsSection;
+      this.editsSection=false;
       this.formRest();
     }
-    else if (type=='editBranchDetail'){
+    else if (type=='editBranchDetail' || type=='branchDetail'){
+      this.getMainBranchList();
       this.branchDetailsPopup=true;
     }
     else if (type=='Product'){
@@ -328,6 +332,7 @@ export class UserComponent {
     }
     else if(type=='ProductCancel'){
       this.getOptedProductDetails();
+      this.editProduct = false;
       this.addProduct=false;this.existingProduct=true;
     }
   }
@@ -345,6 +350,7 @@ export class UserComponent {
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
             if(data.Result){
+              this.editProduct = false;
               let selectedList = data.Result;
               this.newList =[];
               this.newslist=[];
@@ -506,8 +512,7 @@ export class UserComponent {
             this.subUserType = loginInformation?.SubUserType;
             this.brokerCompanyYn = loginInformation?.BrokerCompanyYn;
             this.insuranceId = loginInformation.InsuranceId;
-            this.getCountryList();
-            this.getPolicyIdTypeList('direct');
+            
             this.agencyCode = loginInformation?.AgencyCode;
             //this.loginId = loginInformation?.LoginId;
             this.oaCode = loginInformation?.OaCode;
