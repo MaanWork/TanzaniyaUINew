@@ -768,7 +768,7 @@ this.ChangePass=true;
   }
 
   getBrokerBranchList(LoginId){
-    this.getEditBrokerDetails(LoginId);
+    //this.getEditBrokerDetails(LoginId);
     //let brokerLoginId =sessionStorage.getItem('brokerLoginId')
     let ReqObj = {
       "LoginId": LoginId
@@ -779,7 +779,7 @@ this.ChangePass=true;
         console.log(data);
         if(data.Result){
           this.branchData = data?.Result;
-          console.log(this.branchData,this.branchData)
+          this.brokerLoginId = LoginId
         }
       },
       (err) => { },
@@ -832,7 +832,7 @@ this.ChangePass=true;
       "Email": this.email,
       "EffectiveDateStart": this.effectiveDate,
       "InsuranceId": this.insuranceId,
-      "LoginId": this.userLoginId,
+      "LoginId": this.brokerLoginId,
       "Mobile": this.mobile,
       "Remarks": this.remarks,
       "Status": this.Status,

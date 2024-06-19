@@ -37,7 +37,7 @@ import { UserComponent } from './user/user.component';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { MaterialModule } from 'src/app/material/material.module';
-
+import { PickListModule } from 'primeng/picklist';
 @NgModule({
   declarations: [
     LoginCreationComponent,
@@ -80,7 +80,8 @@ import { MaterialModule } from 'src/app/material/material.module';
     InputSwitchModule,
     ToggleButtonModule,
     MultiSelectModule,
-    MaterialModule
+    MaterialModule,
+    PickListModule
   ],
   bootstrap: [],
   providers: [

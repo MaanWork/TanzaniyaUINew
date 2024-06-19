@@ -83,8 +83,12 @@ export class UserComponent {
   addProduct:boolean=false;
   existingProduct:boolean=true;
   brokerValue: any=null;brokerList:any[]=[];
-  oaCode: any=null;
-  executiveId: any=null;
+  oaCode: any=null;MobileYn: any;
+  executiveId: any=null;SwitchMobileYn:boolean;
+  SwitchCashYn:boolean;
+  SwitchCreditYn:boolean;
+  SwitchChequeYn:boolean;
+  SwitchOnlineYn:boolean;
   policyHolderTypeid: any=null;
   idNumber: any=null;
   userLoginId: any=null;
@@ -118,10 +122,6 @@ export class UserComponent {
   paymentMasterId: null;
   paymentdetalis: null;
   minDate: Date;
-  SwitchCashYn:boolean=true;
-  SwitchCreditYn: boolean=true;
-  SwitchChequeYn: boolean=true;
-  SwitchOnlineYn: boolean=true;
   constructor(private router:Router,
     private sharedService:SharedService,public datePipe:DatePipe) {
      this.productId =  sessionStorage.getItem('companyProductId');
@@ -139,7 +139,7 @@ export class UserComponent {
       this.getCompanyList();
       this.getChannelList('direct');
       this.getCountryList();
-            this.getPolicyIdTypeList('direct');
+      this.getPolicyIdTypeList('direct');
    }
  
    ngOnInit(){
@@ -899,9 +899,19 @@ onStateChange(type) {
     );
   }
   PaymentTypes(value){
+    console.log("valuevaluevaluevalue",value);
+    
     this.paymentTypesPopup=true;
     this.userLoginId=value;
+    this.userLoginId=value.LoginId;
+    this.agencyCode=value.AgencyCode;
+    this.UserType=value.UserType;
     this.getProductList()
+    if(this.CashYn=='N')this.SwitchCashYn==false;else this.SwitchCashYn==true;
+    if(this.CreditYn='N')this.SwitchCreditYn==false;else this.SwitchCreditYn==true;
+    if(this.ChequeYn=='N')this.SwitchChequeYn==false;else this.SwitchChequeYn==true;
+    if(this.OnlineYn=='N')this.SwitchOnlineYn==false;else this.SwitchOnlineYn==true;
+    if(this.MobileYn=='N')this.SwitchMobileYn==false;else this.SwitchMobileYn==true;
   }
   getProductList(){
    
@@ -988,7 +998,9 @@ onStateChange(type) {
     this.CreditYn=value.CreditYn,
     this.OnlineYn=value.OnlineYn,
     //this.EffectiveDateStart=value.EffectiveDateStart,
-    this.Status=value.Status
+    this.Status=value.Status,
+    this.agencyCode=value.AgencyCode,
+    this.oaCode=value.OaCode
   }
   onProceedPayment(){
     // alert(this.EffectiveDateStart)
@@ -997,8 +1009,8 @@ onStateChange(type) {
       "BranchCode":this.branchValue,
       "CashYn":this.CashYn,
       "ChequeYn":this.ChequeYn,
-      "CreatedBy":this.userLoginId,
-      "AgencyCode": "12974", //this.agencyCode,
+     "CreatedBy":this.loginId,
+      "AgencyCode": this.agencyCode,
       "CreditYn":this.CreditYn,
       "EffectiveDateStart": this.EffectiveDateStart,
       "InsuranceId": this.insuranceId,
@@ -1007,7 +1019,9 @@ onStateChange(type) {
       "Status":this.Status,
       "SubUserType":this.subUserType,
       "UserType":this.UserType,
-      "OnlineYn":this.OnlineYn
+      "OnlineYn":this.OnlineYn,
+      "MobilePaymentYn":this.MobileYn,
+      "OaCode":this.oaCode
     }
     let urlLink = `${this.CommonApiUrl}master/insertpayment`;
    
@@ -1076,5 +1090,9 @@ onStateChange(type) {
       this.OnlineYn='N';
     }
     else this.OnlineYn='Y';
+    if(this.SwitchMobileYn==false){
+      this.MobileYn='N';
+    }
+    else this.MobileYn='Y';
   }
 }

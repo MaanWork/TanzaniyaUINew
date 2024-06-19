@@ -1,8 +1,8 @@
 <div class="grid">
     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
         <label for="Company">Company *</label>
-        <p-dropdown inputId="companyId" class="w-full" styleClass="w-full" [(ngModel)]="insuranceId" [options]="companyList" (onChange)="getBrokersList('direct')" optionLabel="CodeDesc" optionValue="Code">
-        </p-dropdown> 
+        <p-dropdown inputId="companyId" class="w-full" styleClass="w-full" [(ngModel)]="insuranceId" [options]="companyList" (onChange)="getChannelList('direct')" optionLabel="CodeDesc" optionValue="Code">
+        </p-dropdown>
     </div>
     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
         <label for="Channel">Channel *</label>
@@ -11,8 +11,8 @@
     </div>
     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
         <label for="Channel">Broker *</label>
-        <p-dropdown inputId="brokerId"  class="w-full" styleClass="w-full"  [(ngModel)]="brokerValue" [options]="brokerList"  optionLabel="BrokerName" optionValue="BrokerId" >
-        </p-dropdown> 
+        <p-dropdown inputId="brokerId"  class="w-full" styleClass="w-full"  [(ngModel)]="brokerValue" (onChange)="onBrokerChange()" [options]="brokerList"  optionLabel="BrokerName" optionValue="BrokerId" >
+        </p-dropdown>
     </div>
 </div> 
 <ng-container >
@@ -73,7 +73,7 @@
                         <label for="Branch" style="background-color: primary;" ><img style="max-width: 30px;max-height: 10px;" >Branch</label>
                         <input id="Product" type="radio" name="rentOwnHome"   value="Product" (click)="showDialogBrokerDetails('Product',data)" >
                         <label for="Product" ><img style="max-width: 30px;max-height: 10px;">Product</label>
-                        <input id="PaymentTypes" type="radio" name="rentOwnHome"   value="PaymentTypes" (click)="PaymentTypes(data.LoginId)">
+                        <input id="PaymentTypes" type="radio" name="rentOwnHome"   value="PaymentTypes" (click)="PaymentTypes(data)">
                         <label for="PaymentTypes" ><img style="max-width: 30px;max-height: 10px;" >Payment Types</label>
                     </div>
                 </div>
@@ -798,7 +798,7 @@
             </p-dropdown> 
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4" >
-            <label >Product</label>
+            <label >Branch *</label>
             <p-dropdown  class="w-full" styleClass="w-full"   [options]="branchList" 
                         optionLabel="CodeDesc" optionValue="Code" (onChange)="getExistingPayment()" >
             </p-dropdown> 
@@ -855,7 +855,7 @@
             </div>
         </div>
         <div class="col-12 lg:col-3 md:col-3 lg:col-3 ">
-            <label for="Cash" class="font-semibold w-6rem">Credit </label>
+            <label for="Cash" class="font-semibold w-6rem">Credit </label><b><i class="pi pi-check-circle" *ngIf="CreditYn=='Y'" style="color: green"></i></b>
             <div class="p-2">
                 <p-inputSwitch [(ngModel)]="SwitchCreditYn" (click)="SwitchCash()" />
             </div>
@@ -901,6 +901,13 @@
                     <span for="OnlineYnNo" class="ml-1">No</span>
                 </div>
             </div> -->
+        </div>
+        <div class="col-12 lg:col-3 md:col-3 lg:col-3">
+            <label for="Cash" class="font-semibold w-6rem">Mobile Payment </label><b><i class="pi pi-check-circle" *ngIf="MobileYn=='Y'" style="color: green"></i></b>
+           
+            <div class="p-2">
+                <p-inputSwitch [(ngModel)]="SwitchMobileYn" (click)="SwitchCash()" />
+            </div>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="EffectiveDate" class="font-semibold w-6rem">Effective Date *</label>
