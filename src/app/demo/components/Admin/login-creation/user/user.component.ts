@@ -102,10 +102,31 @@ export class UserComponent {
   existings: boolean=false;
   editProduct: boolean=false;
   insertlist: any[]=[];
+  UserType: any;
+  ChequeYn: any;
+  CashYn: any;
+  CreditYn: any;
+  OnlineYn: any;
+  passwordPopup: boolean=false;
+  paymentTypesPopup: boolean=false;
+  productData: any[]=[];
+  branchList: any[]=[];
+  branchValue: string;
+  paymentData: any[]=[];
+  paymentTypesDetailPopup: boolean=false;
+  EffectiveDateStart: any;
+  paymentMasterId: null;
+  paymentdetalis: null;
+  minDate: Date;
+  SwitchCashYn:boolean=true;
+  SwitchCreditYn: boolean=true;
+  SwitchChequeYn: boolean=true;
+  SwitchOnlineYn: boolean=true;
   constructor(private router:Router,
     private sharedService:SharedService,public datePipe:DatePipe) {
      this.productId =  sessionStorage.getItem('companyProductId');
      this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+     this.minDate = new Date();
      const user = this.userDetails?.Result;
      this.brokerProductList=user.BrokerCompanyProducts;
      this.insuranceId = user.LoginBranchDetails[0].InsuranceId;
@@ -871,5 +892,184 @@ onStateChange(type) {
       },
       (err) => { },
     );
+  }
+  PaymentTypes(value){
+    this.paymentTypesPopup=true;
+    this.userLoginId=value;
+    this.getProductList()
+  }
+  getProductList(){
+   
+    let ReqObj = {
+      "LoginId": this.userLoginId,
+      "InsuranceId": this.insuranceId,
+      "EffectiveDateStart": null,
+      "Limit":"0",
+      "Offset":"100000"
+      }
+      let urlLink = `${this.CommonApiUrl}admin/getbrokercompanyproducts`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          if(data.Result){
+              this.productData = data.Result;
+              if(this.productData.length!=0) this.productId = this.productData[0].ProductId;
+              else{this.productId='99999'}
+              this.getBranchList();
+          }
+        });
+  }
+  getBranchList(){
+    let ReqObj = {
+      "InsuranceId": this.insuranceId
+    }
+    let urlLink = `${this.CommonApiUrl}master/dropdown/branchmaster`;
+  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    (data: any) => {
+      if(data.Result){
+        let obj = [{Code:"99999",CodeDesc:"ALL"}];
+        this.branchList = obj.concat(data?.Result);
+        let docObj = JSON.parse(sessionStorage.getItem('paymentMasterId'))
+        
+          this.branchValue="99999";
+          this.getExistingPayment();
+          //this.getIndustryList()
+        //if(!this.branchValue){ this.branchValue = "99999"; this.getExistingPayment() }
+      }
+    },
+    (err) => { },
+  
+  );
+  }
+  getExistingPayment(){
+    let ReqObj = {
+      "BranchCode":this.branchValue,
+      "InsuranceId": this.insuranceId,
+      "ProductId": this.productId,
+      "AgencyCode": this.agencyCode,
+      "UserType": this.UserType,
+      "SubUserType": this.subUserType
+    }
+    let urlLink = `${this.CommonApiUrl}master/getallpayment`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            this.paymentData = data?.Result;
+        }
+      },
+      (err) => { },
+    );
+  }
+  paymentEdit(value){
+    this.editSection = true;
+    this.paymentTypesDetailPopup=true;
+    if (this.EffectiveDateStart != null) {
+      this.EffectiveDateStart = this.onDateFormatInEdit(value.EffectiveDateStart)
+      // alert(this.EffectiveDateStart)
+      if (this.EffectiveDateStart != '' && this.EffectiveDateStart != null && this.EffectiveDateStart != undefined) {
+        this.EffectiveDateStart =  this.datePipe.transform(this.EffectiveDateStart, "dd/MM/yyyy")
+      }
+      else{
+        this.EffectiveDateStart = "";
+      }
+    }
+    
+    
+    // if (this.paymentdetalis?.EffectiveDateEnd != null) {
+    //   this.paymentdetalis.EffectiveDateEnd = this.onDateFormatInEdit(this.paymentdetalis?.EffectiveDateEnd)
+    // }
+    this.CashYn=value.CashYn,
+    this.ChequeYn=value.ChequeYn,
+    this.CreditYn=value.CreditYn,
+    this.OnlineYn=value.OnlineYn,
+    //this.EffectiveDateStart=value.EffectiveDateStart,
+    this.Status=value.Status
+  }
+  onProceedPayment(){
+    // alert(this.EffectiveDateStart)
+   this.UserType=this.userDetails.Result.UserType;
+    let ReqObj = {
+      "BranchCode":this.branchValue,
+      "CashYn":this.CashYn,
+      "ChequeYn":this.ChequeYn,
+      "CreatedBy":this.userLoginId,
+      "AgencyCode": "12974", //this.agencyCode,
+      "CreditYn":this.CreditYn,
+      "EffectiveDateStart": this.EffectiveDateStart,
+      "InsuranceId": this.insuranceId,
+      "ProductId":this.productId,
+      "PaymentMasterId":"23",
+      "Status":this.Status,
+      "SubUserType":this.subUserType,
+      "UserType":this.UserType,
+      "OnlineYn":this.OnlineYn
+    }
+    let urlLink = `${this.CommonApiUrl}master/insertpayment`;
+   
+    if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {
+      ReqObj['EffectiveDateStart'] =  this.datePipe.transform(ReqObj.EffectiveDateStart, "dd/MM/yyyy")
+    }
+    else{
+      ReqObj['EffectiveDateStart'] = "";
+    }
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+          console.log(data);
+          let res:any=data;
+          if(data.Result){
+           
+            this.editSection = false;
+            this.paymentTypesDetailPopup=false;
+            this.paymentMasterId = null;
+            this.paymentdetalis = null;
+            this.getExistingPayment();
+          }
+  
+        },
+        (err) => { },
+      );
+  }
+  
+  onDateFormatInEdit(date) {
+    if (date) {
+      let format = date.split('-');
+      if (format.length > 1) {
+        var NewDate = new Date(new Date(format[0], format[1], format[2]));
+        NewDate.setMonth(NewDate.getMonth() - 1);
+        return NewDate;
+      }
+      else {
+        format = date.split('/');
+        if (format.length > 1) {
+          // var NewDate = new Date(new Date(format[2], format[1], format[0]));
+          // NewDate.setMonth(NewDate.getMonth() - 1);
+          let NewDate = format[2] + '-' + format[1] + '-' + format[0];
+          return NewDate;
+        }
+      }
+    }
+  }
+  ConfigPopUp(type){
+    if (type=='paymentDetailCancel'){
+      this.paymentTypesDetailPopup=false;
+    }
+  }
+  SwitchCash(){
+    if(this.SwitchCashYn==false){
+      this.CashYn='N';
+    }
+    else this.CashYn='Y';
+    if(this.SwitchCreditYn==false){
+      this.CreditYn='N';
+    }
+    else this.CreditYn='Y';
+    if(this.SwitchChequeYn==false){
+      this.ChequeYn='N';
+    }
+    else this.ChequeYn='Y';
+    if(this.SwitchOnlineYn==false){
+      this.OnlineYn='N';
+    }
+    else this.OnlineYn='Y';
   }
 }

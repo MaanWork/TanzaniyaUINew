@@ -35,7 +35,7 @@ import { InsurenceEmpComponent } from './insurence-emp/insurence-emp.component';
 import { LoginCreationComponent } from './login-creation.component';
 import { UserComponent } from './user/user.component';
 import { ToggleButtonModule } from 'primeng/togglebutton';
-
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
   declarations: [
@@ -77,7 +77,8 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
     BadgeModule,
     OverlayPanelModule,
     InputSwitchModule,
-    ToggleButtonModule
+    ToggleButtonModule,
+    MultiSelectModule
   ],
   bootstrap: [],
   providers: [

@@ -37,7 +37,7 @@
             </td>
             <td>
                 <span class="p-buttonset">
-                    <button pButton pRipple icon="pi pi-pencil" title="Edit" class="p-button-outlined" (click)="EditDetailsView(data.data1)" ></button>
+                    <button pButton pRipple icon="pi pi-pencil" title="Edit" class="p-button-outlined" (click)="EditDetailsView(data)" ></button>
                     <button pButton pRipple icon="pi pi-cog" title="Configure"  class="p-button-outlined" (click)="showDialogBrokerDetails('Product')"></button>
                     <button pButton pRipple icon="pi pi-eye" title="View"   class="p-button-outlined" (click)="brokerDetailsView()"></button>
                 </span>
@@ -56,7 +56,7 @@
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Channel" class="font-semibold w-6rem">Menu Type &nbsp;<span class="text-danger">*</span></label>
-            <p-dropdown  class="w-full" styleClass="w-full" (onSelect)="onIssuerTypeChange()" [(ngModel)]="issuerType" [options]="typeList"
+            <p-dropdown  class="w-full" styleClass="w-full" (onChange)="getCompanyList()" (onSelect)="onIssuerTypeChange()" [(ngModel)]="issuerType" [options]="typeList"
                 optionLabel="CodeDesc" optionValue="Code" >
             </p-dropdown> 
         </div>
@@ -161,7 +161,7 @@
     <div class="grid">
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="LogInId" class="font-semibold w-6rem">LogIn Id&nbsp;<span class="text-danger">*</span></label>
-            <input pInputText id="LogInId" class="w-full" [disabled]="editSection" [(ngModel)]="brokerLoginId"/>
+            <input pInputText id="LogInId" class="w-full" [disabled]="editSection" [(ngModel)]="issuerLoginId"/>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="editSection">
         <label class="input-form-label">Do You Like to Change Password?<span class="text-danger">*</span></label>

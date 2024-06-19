@@ -46,7 +46,7 @@ export class InsurenceEmpComponent {
   countryCode: any;
   cityCode: any;
   cityName: any;
-  customerCode: any;
+  customerCode: any=null;
   address1: any;
   address2: any;
   companyName: any;
@@ -84,6 +84,8 @@ export class InsurenceEmpComponent {
   ProductsPopup:boolean=false;insuranceIds:any[]=[];
   existingProduct:boolean=true;userDetails:any=null;
   issuerType: any=null;productIds: any[]=[];typeList:any[]=[];
+  issuerLoginId: any;
+  ReferralIds: any[]=null;
   constructor(private router:Router,
     private sharedService:SharedService,public datePipe:DatePipe) {
      this.productId =  sessionStorage.getItem('companyProductId');
@@ -156,7 +158,14 @@ export class InsurenceEmpComponent {
       (data: any) => {
         console.log(data);
         if(data.Result){
+          if(this.issuerType=='SuperAdmin'){
             this.companyList = data.Result;
+          }
+          else if(this.issuerType!='SuperAdmin'){
+            let obj = [{"Code":null,"CodeDesc":"---Select---"}]
+            this.companyList = obj.concat(data.Result);
+          }
+         
             if(this.insuranceId) this.getIssuerList();
 
         }
@@ -185,6 +194,7 @@ export class InsurenceEmpComponent {
   onIssuerTypeChange(){
     if(this.issuerType!='low'){
           this.productIds = [];
+          this.onCompanyChange(null,null,null);
     }
    }
    onCompanyChange(type,branches,products){
@@ -201,6 +211,8 @@ export class InsurenceEmpComponent {
           console.log(data);
           if(data.Result){
               this.productList = data.Result;
+              console.log(this.productList,"productList");
+              
               if(type=='direct'){
                 this.productIds = products;
               }
@@ -221,6 +233,8 @@ export class InsurenceEmpComponent {
           console.log(data);
           if(data.Result){
               this.branchList = data.Result;
+              console.log(this.branchList,"this.branchList");
+              
               if(type=='direct'){
                 this.branchIds = branchValue;
               }
@@ -248,9 +262,9 @@ export class InsurenceEmpComponent {
   brokerDetailsView(){
     this.visibleIssuerDetails=true;
   }
-  EditDetailsView(login){
+  EditDetailsView(loginData){
     this.AddIssuerPopup=true;
-   // this.getEditBrokerDetails(login);
+    this.getEditIssuerDetails(loginData);
   }
   
   passChanged(){
@@ -339,80 +353,153 @@ export class InsurenceEmpComponent {
     //this.router.navigate(['/Admin/brokersList/newBrokerDetails/brokerConfigure'])
   }
 
-  onSubmit() {
-
-    if (this.commissionVatYN == 'N') this.vatRegNo = null;
-    let bankCode = null;
-    if (this.subUserType == 'bank' && this.bankCode != null && this.bankCode != undefined) bankCode = this.bankCode
-    let creditLimit = null;
-    if(this.creditLimit){
-      if(this.creditLimit.includes(',')) {//creditLimit = this.creditLimit.replace(',',''); 
-        creditLimit = this.creditLimit.replace(/,/g, '');
-      console.log('KKKKKKKKKKKKKKK',this.creditLimit);
-    }
-      else {creditLimit = this.creditLimit;}
-    }
-    console.log('this', this.brokerCompanyYn)
-    if (this.brokerCompanyYn == null || this.brokerCompanyYn == '' || this.brokerCompanyYn == undefined) {
-      this.brokerCompanyYn = 'N';
-
-      console.log('bbbbbbbbb', this.brokerCompanyYn)
-    }
-    let cityName = null;
-    if(this.cityCode!=null && this.cityCode!=''){
-      let entry = this.cityList.find(ele=>ele.Code==this.cityCode);
-      if(entry) cityName = entry.CodeDesc;
-    }
-    if(this.taxExcemptedYN=='N') this.taxExcemptedCode=null;
+  getEditIssuerDetails(issuerId){
+    this.editSection=true;
     let ReqObj = {
+      "LoginId": issuerId.LoginId
+    }
+    let urlLink = `${this.CommonApiUrl}admin/getissuerbyid`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+          let loginInformation = data?.Result?.LoginInformation;
+          let personalInfo = data?.Result?.PersonalInformation;
+          if(loginInformation?.Status==null)  loginInformation.Status = 'N';
+            if(loginInformation?.EffectiveDateStart!=null){
+              this.effectiveDate = this.onDateFormatInEdit(loginInformation?.EffectiveDateStart)
+            }
+          //this.insuranceId = loginInformation?.InsuranceId;
+          this.onCompanyChange('direct',loginInformation?.AttachedBranches,loginInformation?.ProductIds)
+
+          // let n=sessionStorage.getItem('ReferralId')
+          // if(n!="null" || n!=undefined){
+          // this.ReferralIds.push(n);
+          // }
+          alert(personalInfo?.UserName)
+          this.userName = personalInfo?.UserName;
+          this.userMobile = personalInfo?.UserMobile;
+          this.userMail = personalInfo?.UserMail;
+         
+          this.agencyCode = loginInformation?.AgencyCode;
+          this.issuerLoginId = loginInformation?.LoginId;
+          this.statusValue = loginInformation?.Status;
+          this.issuerType = loginInformation?.SubUserType;
+          if(loginInformation?.AttachedCompanies){
+            if(loginInformation?.AttachedCompanies.length!=0){
+              if(this.issuerType=='SuperAdmin') this.insuranceIds = loginInformation?.AttachedCompanies;
+              else this.insuranceId = loginInformation?.AttachedCompanies[0];
+            }
+          }
+          this.address1 = personalInfo?.Address1;
+          this.address2 = personalInfo?.Address2;
+          this.countryCode = personalInfo?.CountryCode;
+          this.stateCode = personalInfo?.StateCode;
+          this.onCountryChange('direct');
+          this.onStateChange('direct')
+          this.cityName = personalInfo?.CityName;
+          this.mobileCode = personalInfo?.MobileCode;
+          this.whatsAppCode = personalInfo?.WhatappCode;
+          this.whatsAppNo = personalInfo?.WhatsappNo;
+          this.remarks = personalInfo?.Remarks;
+          this.ReferralIds=null;
+        }
+      },
+      (err) => { },
+    );
+}
+onDateFormatInEdit(date) {
+  if (date) {
+    let format = date.split('-');
+    if(format.length >1){
+      var NewDate = new Date(new Date(format[0], format[1], format[2]));
+      NewDate.setMonth(NewDate.getMonth() - 1);
+      return NewDate;
+    }
+    else{
+      format = date.split('/');
+      if(format.length >1){
+        //var NewDate = new Date(new Date(format[2], format[1], format[0]));
+        //NewDate.setMonth(NewDate.getMonth() - 1);
+        let NewDate = format[2]+'-'+format[1]+'-'+format[0];
+        return NewDate;
+      }
+    }
+  }
+}
+  // getEditBrokerDetails(value){
+  //   // this.editSection=true;
+  //   // this.userName=value.UserName;
+  //   // this.issuerType=value.SubUserType;
+  //   // this.insuranceIds=value.AttachedCompanies;
+  //   // this.insuranceId=value.InsuranceId;
+  //   // this.productIds=value.ProductIds;
+  //   // this.branchIds=value.AttachedBranches;
+  //   // this.address1=value.Address1;
+  //   // this.address2=value.Address2;
+  //   // this.userMail=value.UserMail;
+  //   // this.countryCode=value.CountryCode;
+  //   // this.stateCode=value.StateCode;
+  //   // this.cityCode=value.CityName;
+  //   // this.mobileCode=value.MobileCode;
+  //   // this.userMobile=value.UserMobile;
+  //   // this.whatsAppCode=value.WhatappCode;
+  //   // this.whatsAppCode=value.WhatsappNo;
+  //   // this.issuerLoginId=value.LoginId;
+  //   // //this.changePasswordYN=value.ChangePasswordYN;
+  //   // this.password=value.Password;
+  //   // this.effectiveDate=value.EffectiveStartDate;
+  //   // this.remarks=value.Remarks;
+  //   // this.statusValue=value.Status;
+  //   // this.effectiveDate=value.EffectiveStartDate;
+  //   // this.remarks=value.Remarks;
+
+  // }
+  onSubmit() {
+    let referral:any;
+    if(this.ReferralIds!=null){
+    referral=this.ReferralIds;
+    }
+    else{
+      referral=[];
+    }
+    if(this.issuerType!='SuperAdmin' && this.insuranceId!=null && this.insuranceId!=undefined){
+      this.insuranceIds=[];
+      this.insuranceIds.push(this.insuranceId);
+    }
+    else this.insuranceId = null;
+    let ReqObj = {
+      
       "LoginInformation": {
-        "AgencyCode": this.agencyCode,
-        "BankCode": bankCode,
-        "BrokerCompanyYn": this.brokerCompanyYn,
+        "LoginId": this.issuerLoginId,
+        "UserType": "Issuer",
+        "SubUserType": this.issuerType,
         "Createdby": this.loginId,
-        "EffectiveDateStart": this.effectiveDate,
-        "InsuranceId": this.insuranceId,
-        "LoginId": this.brokerLoginId,
         "OaCode": this.agencyCode,
+        "AgencyCode": this.agencyCode,
         "Password": this.password,
         "Status": this.statusValue,
-        "SubUserType": this.subUserType,
-        "UserType": "Broker",
-        "CbcNo":this.cbcno
+         "AttachedBranches": this.branchIds,
+         "AttachedCompanies" : this.insuranceIds ,
+        "ProductIds": this.productIds,
+        "InsuranceId": this.insuranceId,
+        "EffectiveDateStart": this.effectiveDate,
+        "ReferralIds": referral
+
       },
       "PersonalInformation": {
-        "AcExecutiveId": "5",
         "Address1": this.address1,
         "Address2": this.address2,
-        "Address3": "None",
-        "ApprovedPreparedBy": this.loginId,
-        "CheckerYn": this.checkerYN,
-        "CityCode": this.cityCode,
-        "CityName": cityName,
-        "StateCode": this.stateCode,
-        "CommissionVatYn": this.commissionVatYN,
-        "CompanyName": this.companyCode,
-        "ContactPersonName": this.contactPersonName,
-        "CoreAppBrokerCode": this.coreAppBrokerCode,
-        "RegulatoryCode": this.regulatoryCode,
+        "CityName": this.cityCode,
+        "StateCode":this.stateCode,
         "CountryCode": this.countryCode,
-        "CustConfirmYn": this.custConfirmYN,
-        "Designation": this.designation,
-        "Fax": "0",
-        "MakerYn": this.makerYN,
-        "CreditLimit": creditLimit,
-        "TaxExemptedYn": this.taxExcemptedYN,
-        "TaxExemptedCode": this.taxExcemptedCode,
-        "Pobox": this.pobox,
+        "MobileCode": this.mobileCode,
         "Remarks": this.remarks,
         "UserMail": this.userMail,
         "UserMobile": this.userMobile,
         "UserName": this.userName,
-        "MobileCode": this.mobileCode,
-        "WhatsappCode": this.whatsAppCode,
-        "WhatsappNo": this.whatsAppNo,
-        "VatRegNo": this.vatRegNo,
-        "CustomerCode":this.customerCode
+        "WhatappCode": this.whatsAppCode,
+        "WhatsappNo": this.whatsAppNo
       }
     }
     if (ReqObj.LoginInformation.EffectiveDateStart != '' && ReqObj.LoginInformation.EffectiveDateStart != null && ReqObj.LoginInformation.EffectiveDateStart != undefined) {
@@ -529,4 +616,5 @@ onStateChange(type) {
     (err) => { },
   );
 }
+
 }
