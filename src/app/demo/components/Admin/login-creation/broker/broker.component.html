@@ -63,7 +63,7 @@
                         <label for="Deposit" ><img style="max-width: 30px;max-height: 10px;" >Deposit</label>
                         <input id="PaymentTypes" type="radio" name="rentOwnHome"   value="PaymentTypes" (click)="PaymentTypes(data.LoginId)">
                         <label for="PaymentTypes" ><img style="max-width: 30px;max-height: 10px;" >Payment Types</label>
-                        <input id="ChangePassword" type="radio" name="rentOwnHome"   value="ChangePassword" >
+                        <input id="ChangePassword" type="radio" name="rentOwnHome"   value="ChangePassword"  (click)="ChangePasswordClick(data)">
                         <label for="ChangePassword" ><img style="max-width: 30px;max-height: 10px;" >Change Password</label>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
     </p-table>
 </ng-container>
 <p-dialog header="Broker Details" [modal]="true" [(visible)]="brokerDialogVisible" [style]="{ width: '75rem' }">
-    <span class="p-text-dark block mb-5"><b>Personal Information</b></span>
+    <span class="p-text-dark block mb-5"><b>Broker SetUp</b></span>
     <div class="grid">
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="CustomerCode" class="font-semibold w-6rem">Customer Code</label>
@@ -108,99 +108,6 @@
             <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="insuranceId" [options]="companyList" [disabled]="subUserType!='SuperAdmin'" 
                 optionLabel="CodeDesc" optionValue="Code" >
             </p-dropdown> 
-        </div>
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Address1" class="font-semibold w-6rem">Address1</label>
-            <input pInputText id="Address1" [(ngModel)]="address1" class="w-full" />
-        </div>
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Address2" class="font-semibold w-6rem">Address2</label>
-            <input pInputText id="Address2"  [(ngModel)]="address2" class="w-full" />
-        </div>
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Country" class="font-semibold w-6rem">Country *</label>
-            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="countryCode" [options]="countryList" (onChange)="onCountryChange('change')"
-                optionLabel="CodeDesc" optionValue="Code" >
-            </p-dropdown> 
-        </div>
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Region" class="font-semibold w-6rem">Region *</label>
-            <p-dropdown  class="w-full" styleClass="w-full" [options]="stateList" (onChange)="onStateChange('change')" [(ngModel)]="stateCode"
-                optionLabel="CodeDesc" optionValue="Code" >
-            </p-dropdown> 
-            <div class="input-form-error" *ngIf="stateCodeError">
-                <div class="error-text text-danger">
-                  Please  Select Region
-                </div>
-            </div>
-        </div>
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="District" class="font-semibold w-6rem">District *</label>
-            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="cityCode" [options]="cityList"
-                optionLabel="CodeDesc" optionValue="Code" >
-            </p-dropdown> 
-            <div class="input-form-error" *ngIf="cityCodeError">
-                <div class="error-text text-danger">
-                  Please  Select District
-                </div>
-            </div>
-        </div>
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Email" class="font-semibold w-6rem">Email*</label>
-            <input pInputText id="Email" class="w-full" [(ngModel)]="userMail"/>
-            <div class="input-form-error" *ngIf="userMailError">
-                <div class="error-text text-danger">
-                  Please  Enter Mail ID
-                </div>
-            </div>
-        </div>
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="POBox" class="font-semibold w-6rem">PO Box</label>
-            <input pInputText id="POBox" class="w-full" [(ngModel)]="pobox" />
-        </div>
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="ContactPerson" class="font-semibold w-6rem">ContactPerson Name</label>
-            <input pInputText id="ContactPerson" class="w-full"  [(ngModel)]="contactPersonName"/>
-        </div>
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Designation" class="font-semibold w-6rem">Designation</label>
-            <input pInputText id="Designation" class="w-full" [(ngModel)]="designation"/>
-        </div>
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Mobile" class="font-semibold w-6rem">Mobile No *</label>
-            <div class="flex flex-warp">
-                <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-                    <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="mobileCode" [options]="mobileCodeList"
-                        optionLabel="CodeDesc" optionValue="Code" >
-                    </p-dropdown> 
-                    <div class="input-form-error" *ngIf="mobileCodeError">
-                        <div class="error-text text-danger">
-                          Please  Select Mobile Code
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 lg:col-8 md:col-8 lg:col-8" >
-                    <input pInputText id="Mobile" class="w-full" [(ngModel)]="userMobile" />
-                    <div class="input-form-error" *ngIf="userMobileError">
-                        <div class="error-text text-danger">
-                          Please  Enter Mobile Number
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="WhatsApp" class="font-semibold w-6rem">WhatsApp No </label>
-            <div class="flex flex-warp">
-                <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-                    <p-dropdown  class="w-full" styleClass="w-full"  [(ngModel)]="whatsAppCode" [options]="mobileCodeList" 
-                        optionLabel="CodeDesc" optionValue="Code" >
-                    </p-dropdown> 
-                </div>
-                <div class="col-12 lg:col-8 md:col-8 lg:col-8">
-                    <input pInputText id="WhatsApp" class="w-full" [(ngModel)]="whatsAppNo"/>
-                </div>
-            </div>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="CoreApp" class="font-semibold w-6rem">CoreApp Code *</label>
@@ -327,6 +234,108 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <p-divider class="mt-3 mb-3" />
+    <span class="p-text-dark block mb-5"><b>Personal Information</b></span>
+    <div class="grid">
+        
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Address1" class="font-semibold w-6rem">Address1</label>
+            <input pInputText id="Address1" [(ngModel)]="address1" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Address2" class="font-semibold w-6rem">Address2</label>
+            <input pInputText id="Address2"  [(ngModel)]="address2" class="w-full" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Email" class="font-semibold w-6rem">Email*</label>
+            <input pInputText id="Email" class="w-full" [(ngModel)]="userMail"/>
+            <div class="input-form-error" *ngIf="userMailError">
+                <div class="error-text text-danger">
+                  Please  Enter Mail ID
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Country" class="font-semibold w-6rem">Country *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="countryCode" [options]="countryList" (onChange)="onCountryChange('change')"
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Region" class="font-semibold w-6rem">Region *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" [options]="stateList" (onChange)="onStateChange('change')" [(ngModel)]="stateCode"
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+            <div class="input-form-error" *ngIf="stateCodeError">
+                <div class="error-text text-danger">
+                  Please  Select Region
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="District" class="font-semibold w-6rem">District *</label>
+            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="cityCode" [options]="cityList"
+                optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+            <div class="input-form-error" *ngIf="cityCodeError">
+                <div class="error-text text-danger">
+                  Please  Select District
+                </div>
+            </div>
+        </div>
+       
+       
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="POBox" class="font-semibold w-6rem">PO Box</label>
+            <input pInputText id="POBox" class="w-full" [(ngModel)]="pobox" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="ContactPerson" class="font-semibold w-6rem">ContactPerson Name</label>
+            <input pInputText id="ContactPerson" class="w-full"  [(ngModel)]="contactPersonName"/>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Designation" class="font-semibold w-6rem">Designation</label>
+            <input pInputText id="Designation" class="w-full" [(ngModel)]="designation"/>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Mobile" class="font-semibold w-6rem">Mobile No *</label>
+            <div class="flex flex-warp">
+                <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                    <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="mobileCode" [options]="mobileCodeList"
+                        optionLabel="CodeDesc" optionValue="Code" >
+                    </p-dropdown> 
+                    <div class="input-form-error" *ngIf="mobileCodeError">
+                        <div class="error-text text-danger">
+                          Please  Select Mobile Code
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 lg:col-8 md:col-8 lg:col-8" >
+                    <input pInputText id="Mobile" class="w-full" [(ngModel)]="userMobile" />
+                    <div class="input-form-error" *ngIf="userMobileError">
+                        <div class="error-text text-danger">
+                          Please  Enter Mobile Number
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="WhatsApp" class="font-semibold w-6rem">WhatsApp No </label>
+            <div class="flex flex-warp">
+                <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                    <p-dropdown  class="w-full" styleClass="w-full"  [(ngModel)]="whatsAppCode" [options]="mobileCodeList" 
+                        optionLabel="CodeDesc" optionValue="Code" >
+                    </p-dropdown> 
+                </div>
+                <div class="col-12 lg:col-8 md:col-8 lg:col-8">
+                    <input pInputText id="WhatsApp" class="w-full" [(ngModel)]="whatsAppNo"/>
+                </div>
+            </div>
+        </div>
+        
     </div>
     <div class="flex justify-content-center gap-2">
         <p-button label="Cancel" styleClass="p-button-outlined"  (click)="brokerDialogVisible=false" />
@@ -836,7 +845,7 @@
 
 
 
-<p-dialog  header="Product" [modal]="true"  [(visible)]="productPopup"  [style]="{ width: '75rem' }" >
+<p-dialog  header="Product" [modal]="true"  [(visible)]="productPopup"  [style]="{ width: '90rem' }" >
     <p-table [value]="newList"  [tableStyle]="{'min-width': '60rem'}" *ngIf="existingProduct"  [paginator]="true" [rows]="5">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
@@ -870,7 +879,7 @@
             </tr>
         </ng-template>
     </p-table> 
-    <p-table  [tableStyle]="{'min-width': '60rem'}" *ngIf="addProduct" [value]="newslist" [scrollable]="true" [paginator]="true" [rows]="5">
+    <p-table  [tableStyle]="{'min-width': '80rem'}" *ngIf="addProduct" [value]="newslist" [scrollable]="true" [paginator]="true" [rows]="5">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Add New Products
@@ -896,7 +905,7 @@
         <ng-template pTemplate="body" let-product let-i="rowIndex">
             <tr>
                 <td>
-                    <mat-checkbox class="example-margin text-center" [checked]="checkSelectedProducts(product)" (change)="onChangeSelectedProduct(product,$event.checked,j)">
+                    <mat-checkbox class="example-margin text-center"  [checked]="checkSelectedProducts(product)" (change)="onChangeSelectedProduct(product,$event.checked,i)">
                                                        
                     </mat-checkbox> 
                 </td>
@@ -1105,7 +1114,7 @@
                 <td>{{data.DepositUtilised}}</td>
                 <td>{{data.PolicyRefundAmt}}</td>
                 <td *ngIf="data.Status=='Y'">Active</td><td *ngIf="data.Status=='N'">DeActive</td>
-                <td> <p-button icon="pi pi-pencil"  (click)="showDialogBrokerDetails1('DepositAdd',data.CbcNo)" /></td>
+                <td> <p-button icon="pi pi-pencil"  (click)="showDialogBrokerDetails1('DepositAdd',data)" /></td>
             </tr>
         </ng-template>
     </p-table> 
@@ -1142,8 +1151,8 @@
         </ng-template>
         <ng-template pTemplate="summary" >
             <div class="flex justify-content-center gap-2">
-                <p-button label="Cancel" styleClass="p-button-outlined" (click)="showDialogBrokerDetails('PaymentAddCancel')" />
-                <p-button label="Submit" />
+                <p-button label="Back" styleClass="p-button-outlined" (click)="showDialogBrokerDetails('PaymentAddCancel')" />
+                <!-- <p-button label="Submit" /> -->
             </div>
         </ng-template>
     </p-table> 
@@ -1281,22 +1290,19 @@
 
 <p-dialog  header="Payment Types " [modal]="true"  [(visible)]="paymentTypesDetailPopup"  [style]="{ width: '50rem' }">
 <div class="grid">
-    <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
-        <label for="Cash" class="font-semibold w-6rem">Cash *</label>
-        <div class="flex flex-warp">
-            <div class="flex align-items-center mr-1">
-                <p-radioButton name="CashYes" value="Y" [(ngModel)]="CashYn" inputId="Cash"></p-radioButton>
-                <span for="CashYes" class="ml-1">Yes</span>
-            </div>
-            <div class="flex align-items-center mr-1">
-                <p-radioButton name="CashNo" value="N" [(ngModel)]="CashYn" inputId="Cash"></p-radioButton>
-                <span for="CashNo" class="ml-1">No</span>
-            </div>
+    <div class="col-12 lg:col-3 md:col-3 lg:col-3">
+        <label for="Cash" class="font-semibold w-6rem">Cash </label><b><i class="pi pi-check-circle" *ngIf="CashYn=='Y'" style="color: green"></i></b>
+       
+        <div class="p-2">
+            <p-inputSwitch [(ngModel)]="SwitchCashYn" (click)="SwitchCash()" />
         </div>
     </div>
-    <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
-        <label for="Cash" class="font-semibold w-6rem">Credit *</label>
-        <div class="flex flex-warp">
+    <div class="col-12 lg:col-3 md:col-3 lg:col-3 ">
+        <label for="Cash" class="font-semibold w-6rem">Credit </label>
+        <div class="p-2">
+            <p-inputSwitch [(ngModel)]="SwitchCreditYn" (click)="SwitchCash()" />
+        </div>
+        <!-- <div class="flex flex-warp">
             <div class="flex align-items-center mr-1">
                 <p-radioButton name="CreditYes" value="Y" [(ngModel)]="CreditYn" inputId="Credit"></p-radioButton>
                 <span for="CreditYes" class="ml-1">Yes</span>
@@ -1305,11 +1311,14 @@
                 <p-radioButton name="CreditNo" value="N" [(ngModel)]="CreditYn" inputId="Credit"></p-radioButton>
                 <span for="CreditNo" class="ml-1">No</span>
             </div>
-        </div>
+        </div> -->
     </div>
-    <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
-        <label for="Cash" class="font-semibold w-6rem">Cheque *</label>
-        <div class="flex flex-warp">
+    <div class="col-12 lg:col-3 md:col-3 lg:col-3 ">
+        <label for="Cash" class="font-semibold w-6rem">Cheque </label>
+        <div class="p-2">
+            <p-inputSwitch [(ngModel)]="SwitchChequeYn" (click)="SwitchCash()" />
+        </div>
+        <!-- <div class="flex flex-warp">
             <div class="flex align-items-center mr-1">
                 <p-radioButton name="ChequeYes" value="Y" [(ngModel)]="ChequeYn" inputId="Cheque"></p-radioButton>
                 <span for="ChequeYes" class="ml-1">Yes</span>
@@ -1318,11 +1327,14 @@
                 <p-radioButton name="ChequeNo" value="N" [(ngModel)]="ChequeYn" inputId="Cheque"></p-radioButton>
                 <span for="ChequeNo" class="ml-1">No</span>
             </div>
-        </div>
+        </div> -->
     </div>
-    <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
-        <label for="Cash" class="font-semibold w-6rem">Online *</label>
-        <div class="flex flex-warp">
+    <div class="col-12 lg:col-3 md:col-3 lg:col-3">
+        <label for="Cash" class="font-semibold w-6rem">Online </label>
+        <div class="p-2">
+            <p-inputSwitch [(ngModel)]="SwitchOnlineYn" (click)="SwitchCash()" />
+        </div>
+        <!-- <div class="flex flex-warp">
             <div class="flex align-items-center mr-1">
                 <p-radioButton name="OnlineYnYes" value="Y" [(ngModel)]="OnlineYn" inputId="OnlineYn"></p-radioButton>
                 <span for="OnlineYnYes" class="ml-1">Yes</span>
@@ -1331,7 +1343,7 @@
                 <p-radioButton name="OnlineYnNo" value="N" [(ngModel)]="OnlineYn" inputId="OnlineYn"></p-radioButton>
                 <span for="OnlineYnNo" class="ml-1">No</span>
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
         <label for="EffectiveDate" class="font-semibold w-6rem">Effective Date *</label>
@@ -1412,4 +1424,17 @@
             </div>
         </ng-container>
        
+</p-dialog>
+
+<p-dialog  header="Change Password" [modal]="true"  [(visible)]="passwordPopup"  [style]="{ width: '90rem' }" >
+   <div class="grid">
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4" >
+        <label >New Password<span class="text-danger">*</span></label>
+        <input type="password" pInputText id="Password1" class="w-full" [(ngModel)]="password"  />
+    </div>
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4" >
+        <label >Re-Enter New Password<span class="text-danger">*</span></label>
+        <input type="password" pInputText id="Password2" class="w-full" [(ngModel)]="repassword"  />
+    </div>
+   </div>
 </p-dialog>

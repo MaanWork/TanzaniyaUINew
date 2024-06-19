@@ -29,12 +29,20 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { DirectivesModule } from 'src/app/demo/service/directives.module';
 import { PipesModule } from 'src/app/demo/pipes/pipes.module';
 import { LoginCreationRoutingModule } from './login-creation-routing.module';
-
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { BrokerComponent } from './broker/broker.component';
+import { InsurenceEmpComponent } from './insurence-emp/insurence-emp.component';
+import { LoginCreationComponent } from './login-creation.component';
+import { UserComponent } from './user/user.component';
+import { ToggleButtonModule } from 'primeng/togglebutton';
 
 
 @NgModule({
   declarations: [
-   
+    LoginCreationComponent,
+    UserComponent,
+    InsurenceEmpComponent,
+    BrokerComponent,
     ],
   imports: [
     CommonModule,
@@ -67,7 +75,9 @@ import { LoginCreationRoutingModule } from './login-creation-routing.module';
     CalendarModule,
     InputTextareaModule,
     BadgeModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    InputSwitchModule,
+    ToggleButtonModule
   ],
   bootstrap: [],
   providers: [

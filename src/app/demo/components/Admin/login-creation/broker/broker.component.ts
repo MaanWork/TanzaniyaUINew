@@ -141,6 +141,7 @@ remarksError: boolean=false;
   paymentMasterId: null;
   paymentdetalis: null;
   CashYn: any;
+  SwitchCashYn:boolean=true;
   ChequeYn: any;
   CreditYn: any;
   EffectiveDateStart: any;
@@ -169,7 +170,10 @@ remarksError: boolean=false;
   editProduct:boolean=false;
   userLoginId: any;
   insertlist: any[]=[];
- 
+  SwitchCreditYn: boolean=true;
+  SwitchChequeYn: boolean=true;
+  SwitchOnlineYn: boolean=true;
+  passwordPopup: boolean=false;
   
   constructor(private router:Router,
    private sharedService:SharedService,public datePipe:DatePipe) {
@@ -190,6 +194,8 @@ remarksError: boolean=false;
   }
 
   ngOnInit(){
+    
+   
     this.getMobileCodeList();
     this.getCountryList();
     this.minDate = new Date();
@@ -222,6 +228,24 @@ remarksError: boolean=false;
       (err) => { },
     );
   }
+  SwitchCash(){
+    if(this.SwitchCashYn==false){
+      this.CashYn='N';
+    }
+    else this.CashYn='Y';
+    if(this.SwitchCreditYn==false){
+      this.CreditYn='N';
+    }
+    else this.CreditYn='Y';
+    if(this.SwitchChequeYn==false){
+      this.ChequeYn='N';
+    }
+    else this.ChequeYn='Y';
+    if(this.SwitchOnlineYn==false){
+      this.OnlineYn='N';
+    }
+    else this.OnlineYn='Y';
+  }
   showDialogBrokerDetails(type){
     if(type=='AddBroker'){
       this.brokerDialogVisible=true;
@@ -248,6 +272,9 @@ remarksError: boolean=false;
     
     
     else if(type=='PaymentAddCancel'){
+      this.userLoginId=sessionStorage.getItem('userLoginId');
+      this.getBrokersBranchList();
+      sessionStorage.removeItem('userLoginId');
       this.paymentTable=true;
       this.paymentTableAdd=false;
 
@@ -267,7 +294,8 @@ remarksError: boolean=false;
  if(type=='DepositAdd'){
     this.paymentTable=false;
     this.paymentTableAdd=true;
-    this.getDetails(value);
+    this.getDetails(value.CbcNo);
+    sessionStorage.setItem("userLoginId",value.BrokerName);
   }
 }
   brokerDetailsView(loginId){
@@ -494,46 +522,44 @@ this.ChangePass=true;
      if(entry){
       this.onSubmit();
      }
-      
     }
     else {
       let entry = this.checkValidation();
       if(entry){
-      if (this.password == null || this.password == "" || this.password == undefined) {
-               Swal.fire({
-                  title: '<strong>Password Details</strong>',
-                  icon: 'error',
-                  html:
-                    `Please enter Password`,
-                  showCloseButton: true,
-                  focusConfirm: false,
-                  showCancelButton:false,
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Error!',
-                })
-        // this.Toaster.open({
-        //   text: 'Please enter Password',
-        //   caption: 'password Details',
-        //   type: 'danger',
-        // });
-      }
-      else if (this.repassword == null || this.repassword == "" || this.repassword == undefined) {
-          Swal.fire({
-            title: '<strong>Password Details</strong>',
-            icon: 'error',
-            html:
-              `Please enter Re-Password`,
-            showCloseButton: true,
-            focusConfirm: false,
-            showCancelButton:false,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Error!',
-          })
-      }
-
-      else if (this.password != undefined || this.password != null || this.password != "") {
+        if (this.password == null || this.password == "" || this.password == undefined) {
+                Swal.fire({
+                    title: '<strong>Password Details</strong>',
+                    icon: 'error',
+                    html:
+                      `Please enter Password`,
+                    showCloseButton: true,
+                    focusConfirm: false,
+                    showCancelButton:false,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Error!',
+                  })
+          // this.Toaster.open({
+          //   text: 'Please enter Password',
+          //   caption: 'password Details',
+          //   type: 'danger',
+          // });
+        }
+        else if (this.repassword == null || this.repassword == "" || this.repassword == undefined) {
+            Swal.fire({
+              title: '<strong>Password Details</strong>',
+              icon: 'error',
+              html:
+                `Please enter Re-Password`,
+              showCloseButton: true,
+              focusConfirm: false,
+              showCancelButton:false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Error!',
+            })
+        }
+        else if (this.password != undefined || this.password != null || this.password != "") {
         if (this.repassword != undefined || this.repassword != null || this.repassword != "") {
           if (this.password != this.repassword) {
             Swal.fire({
@@ -1015,12 +1041,13 @@ this.ChangePass=true;
   }
   PaymentTypes(value){
     this.paymentTypesPopup=true;
-    this.getProductList(value)
+    this.userLoginId=value;
+    this.getProductList()
   }
-  getProductList(loginId){
-    this.brokerLoginId=loginId
+  getProductList(){
+   
     let ReqObj = {
-      "LoginId": this.brokerLoginId,
+      "LoginId": this.userLoginId,
       "InsuranceId": this.insuranceId,
       "EffectiveDateStart": null,
       "Limit":"0",
@@ -1117,7 +1144,7 @@ this.ChangePass=true;
       "EffectiveDateStart": this.EffectiveDateStart,
       "InsuranceId": this.insuranceId,
       "ProductId":this.productId,
-      "PaymentMasterId":this.paymentMasterId,
+      "PaymentMasterId":"23",
       "Status":this.Status,
       "SubUserType":this.subUserType,
       "UserType":this.UserType,
@@ -1148,14 +1175,18 @@ this.ChangePass=true;
         (err) => { },
       );
   }
-
-  depositList(value){
-    this.depositPopup=true;
-    this.getBrokersBranchList(value);
+  ChangePasswordClick(){
+    this.passwordPopup=true;
   }
-  getBrokersBranchList(brokerLoginId){
+  depositList(value){
+    this.userLoginId=value;
+   
+    this.depositPopup=true;
+    this.getBrokersBranchList();
+  }
+  getBrokersBranchList(){
     this.branchDatas=[];
-    let urlLink = `${this.CommonApiUrl}deposit/get/CbcbyBrokerId/${brokerLoginId}`;
+    let urlLink = `${this.CommonApiUrl}deposit/get/CbcbyBrokerId/${this.userLoginId}`;
     this.sharedService.onGetMethodSync(urlLink).subscribe(
       (data: any) => {
         console.log(data);
@@ -1330,9 +1361,10 @@ this.ChangePass=true;
         "EffectiveDateStart": effectiveDate,
         "Status": entry.Status,
         "InsuranceId": this.insuranceId,
-        "LoginId": this.brokerLoginId,
-        "Remarks": "nonr",
-        "CreatedBy": entry.CreatedBy
+        "LoginId": this.userLoginId,
+        "Remarks": "none",
+        "CreatedBy": entry.CreatedBy,
+        "SelectedYn":entry.SelectedYn
       }
       finalObj.push(Obj);
       i+=1;

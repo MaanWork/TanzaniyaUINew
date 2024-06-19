@@ -41,11 +41,6 @@ import {MultiSelectModule} from 'primeng/multiselect';
 @NgModule({
   declarations: [
     AdminComponent,
-    LoginCreationComponent,
-    UserComponent,
-    InsurenceEmpComponent,
-    BrokerComponent,
-   
     ],
   imports: [
     CommonModule,
