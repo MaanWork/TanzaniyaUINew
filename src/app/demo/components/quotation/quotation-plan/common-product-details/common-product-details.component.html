@@ -85,14 +85,24 @@
                         [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')"
                             optionLabel="CodeDesc" optionValue="Code" >
                         </p-dropdown>
+                        <div class="input-form-error bottomSpacing" *ngIf="currencyCodeError">
+                            <div class="error-text text-danger">
+                                <span class="spancommon span_font_size"> Please Select Currency</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="lg:col-4 md:col-4 col-12">
                         <label for="username">Exchange Rate</label>
-                        <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="exchangeRate" />
+                        <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="exchangeRate" (onChange)="onExchangeRateChange('change')" />
+                        <div class="input-form-error bottomSpacing" *ngIf="exchangeRateError">
+                            <div class="error-text text-danger">
+                                <span class="spancommon span_font_size"> Please Enter Valid Exchange Rate</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="lg:col-3 md:col-3 col-12">
                         <label for="username">PromoCode&nbsp;(Optional)</label>
-                        <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="promocode" placeholder="Enter Promo Code" />
+                        <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="promocode" (onChange)="onPromoCodeChange('change')" placeholder="Enter Promo Code" />
                     </div>
                 </div>
               

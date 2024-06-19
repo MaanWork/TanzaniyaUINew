@@ -212,6 +212,7 @@ export class CommonProductDetailsComponent {
   industryDesc: any=null;
   sectionDesc: any=null;
   modifiedYN: string;
+  exchangeRateError: boolean;
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -522,7 +523,7 @@ export class CommonProductDetailsComponent {
             entry['SectionId'] = this.productName;
             entry['SectionDesc'] = this.sectionDesc;
             entry['Status'] = "Y";
-            entry['RiskId'] = String(this.currentFireIndex.length+1);
+            entry['RiskId'] = String(this.currentFireIndex+1);
             entry['LocationName'] = this.LocationName;
             entry['BuildingAddress'] =  this.LocationName;
             entry['IndustryType'] = this.IndustryTypes;
@@ -687,7 +688,7 @@ export class CommonProductDetailsComponent {
         "InsuranceId": this.insuranceId,
         "ProductId": "6",
         "RequestReferenceNo": this.requestReferenceNo,
-        "RiskId": riskId,
+        "RiskId": obj.RiskId,
         "EndorsementDate": null,
         "EndorsementEffectiveDate": null,
         "EndorsementRemarks": null,
@@ -4812,7 +4813,7 @@ backPlan()
   }
   checkValidation(){
     this.customerError = false;this.policyStartDateError = false;this.policyEndDateError = false;
-    this.currencyCodeError = false;this.industryError = false;
+    this.currencyCodeError = false;this.industryError = false;this.exchangeRateError=false;
     let i=0;
     if(this.referenceNo==null || this.referenceNo==undefined){
         this.customerError = true;
@@ -4828,6 +4829,10 @@ backPlan()
     }
     if(this.currencyCode==null || this.currencyCode==undefined || this.currencyCode==''){
       this.currencyCodeError = true;
+      i+=1;
+    }
+    if(this.exchangeRate==null || this.exchangeRate==undefined || this.exchangeRate==''){
+      this.exchangeRateError = true;
       i+=1;
     }
     if((this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='32' || this.productId=='1' || this.productId=='21'
