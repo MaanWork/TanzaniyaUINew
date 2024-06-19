@@ -565,7 +565,8 @@ export class PaymentInfoComponent {
       "UserType": this.quoteUsertype,
       "SubUserType": this.quoteSubUsertype,
       "ProductId": this.productId,
-      "CreatedBy": this.loginId
+      "CreatedBy": this.loginId,
+      "AgencyCode": this.agencyCode
     }
     let urlLink = `${this.CommonApiUrl}master/dropdown/paymenttypes`;
      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
