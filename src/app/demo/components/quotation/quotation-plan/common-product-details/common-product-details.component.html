@@ -934,21 +934,16 @@
                 <p-button label="save & Add More" (click)="addFireTable('Save')" />
             </div>
 
-            <ng-container *ngIf="TableRowBurglary.length!=0 && (productId=='1' && insuranceId!='100004')">
+            <!-- <ng-container *ngIf="TableRowBurglary.length!=0 && (productId=='1' && insuranceId!='100004')">
                 <p-table [value]="TableRowBurglary" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
                     <ng-template pTemplate="header">
                         <tr>
                             <th>S.No</th>
-                            <!-- <th>Product Name</th> -->
-                            <!-- <th>Industry Types</th>
-                            <th>Industry</th>
-                            <th>Industry Structure</th> -->
                             <th>Location Name</th>
                             <th>Region</th>
                             <th>District</th>
                             <th>First Loss SI(%)</th>
                             <th>Sum Insured</th>
-                            <!-- <th>Description Of Risk</th> -->
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -958,14 +953,7 @@
                         <td>
                             {{i}}
                         </td>
-                        <!-- <td>
-                            {{emp.productName}}
-                        </td> -->
-                        <!-- <td>{{emp.IndustryTypes}}</td>
-                        <td>{{emp.Industry}}</td>
-                        <td>
-                            {{emp.productName}}
-                        </td> -->
+                        
                         <td>
                             {{emp.LocationName}}
                         </td>
@@ -973,7 +961,6 @@
                         <td>{{emp.stateName}}</td>
                         <td>{{emp.FirstLossSumInsured}}</td>
                         <td>{{emp.sumInsured}}</td>
-                        <!-- <td>{{emp.DescriptionRisk}}</td> -->
                         <td>
                             <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditBurglary(emp)"></button>  
                         </td>
@@ -1043,28 +1030,11 @@
                             </p-dropdown>
                             </div>
                         </div>
-                    
                 </div>
-                                                        <!-- <div class="grid">
-                                                            <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                                                            <div class="col-12 lg:col-3 md:col-3 lx:col-3">
-                                                                <div class="input-control-container">
-                                                                    <label for="ProductName">Covering Details</label>
-                                                                    <textarea pInputTextarea class="w-full" type="text" name="SampleType" [(ngModel)]="CoveringDetails" placeholder="Enter Covering Details"></textarea>
-                                                                    </div>
-                                                                    </div>
-                                                                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
-                                                                        <div class="input-control-container">
-                                                                            <label class="input-form-label">Description Of Risk *</label>
-                                                                            <textarea pInputTextarea class="w-full" type="text" name="SampleType" placeholder="Enter Description of Risk" [(ngModel)]="DescriptionRisk"></textarea>
-                                                                            </div>
-                                                                            </div>
-                </div> -->
-                   
                 </div>
             <div class="flex flex-wrap justify-content-center gap-2" *ngIf="productId=='1'">
                 <p-button label="save & Add More" (click)="addBurglaryTable()" />
-            </div>
+            </div> -->
 
 
 
