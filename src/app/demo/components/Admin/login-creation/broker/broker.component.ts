@@ -1324,11 +1324,9 @@ this.ChangePass=true;
     console.log('KKKKKKKKKKKKK',this.newList);
     if(this.addProduct){
       selectedList = this.newslist.filter(ele => ele.SelectedYn=='Y');
-      console.log("Final Selected List",selectedList)
     }
     else if(this.editProduct){
       selectedList = this.newList.filter(ele=>ele.SelectedYn=='N');
-      console.log("Existing Selected List",selectedList)
     }
     let finalObj = [];let i=0;
     for(let entry of selectedList){
