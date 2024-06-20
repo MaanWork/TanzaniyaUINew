@@ -193,6 +193,7 @@ export class UserComponent {
                 let obj = [{"BrokerId":null,"BrokerName":"---Select---"}];
                 this.brokerList = obj.concat(data?.Result);
                 this.brokerValue=this.brokerList[1].BrokerId;
+                //this.customerCode=
                 this.onBrokerChange()
               }
             /*if(this.brokerValue!=undefined && this.insuranceId!=undefined){
@@ -786,7 +787,7 @@ export class UserComponent {
         "WhatsappCode": this.whatsAppCode,
         "WhatsappNo":this.whatsAppNo,
         "VatRegNo": this.vatRegNo,
-        "CustomerCode": this.customerCode,
+       "CustomerCode": this.brokerValue,
         "IdType": this.policyHolderTypeid,
         "IdNumber": this.idNumber
       }
@@ -813,7 +814,7 @@ export class UserComponent {
             "UserType": "Broker",
             "RegulatoryCode": this.regulatoryCode,
             "SubUserType": this.subUserType,
-            "CustomerCode": this.customerCode
+            "CustomerCode": this.brokerValue
           }
           sessionStorage.setItem('brokerConfigureDetails', JSON.stringify(entry));
           this.formRest()
@@ -1003,7 +1004,6 @@ onStateChange(type) {
     this.oaCode=value.OaCode
   }
   onProceedPayment(){
-    // alert(this.EffectiveDateStart)
    this.UserType=this.userDetails.Result.UserType;
     let ReqObj = {
       "BranchCode":this.branchValue,

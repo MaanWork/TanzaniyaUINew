@@ -4,6 +4,7 @@ import { SharedService } from 'src/app/shared/shared.service';
 import Swal from 'sweetalert2';
 import * as Mydatas from '../../../../../app-config.json';
 import { DatePipe } from '@angular/common';
+import { Product } from '../../../customer/customer-create-form/product';
 
 @Component({
   selector: 'app-insurence-emp',
@@ -11,12 +12,17 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./insurence-emp.component.scss']
 })
 export class InsurenceEmpComponent {
+  sourceProducts!: Product[];
+
+    targetProducts!: Product[];
+
   public AppConfig: any = (Mydatas as any).default;
   public ApiUrl1: any = this.AppConfig.ApiUrl1;
   public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
   AddIssuerVisible:boolean=false;
   AddIssuerPopup: boolean=false;
   editsSection: boolean=false;
+  EndorsPopupTable: boolean=false;
   visibleIssuerDetails:boolean=false;
   companyList: any;loginId:any;
   insuranceId: any;channelId:any="broker";
@@ -78,6 +84,7 @@ export class InsurenceEmpComponent {
   issuerData:any[]=[];
   ChangePass: boolean=false;
   branchPopup: boolean=false;
+  ProductsPopupTable: boolean=false;
   branchDetailsPopup: boolean=false;branchList:any[]=[]
   productPopup: boolean=false;branchIds:any[]=[];
   addProduct:boolean=false;productList:any[]=[];
@@ -86,6 +93,19 @@ export class InsurenceEmpComponent {
   issuerType: any=null;productIds: any[]=[];typeList:any[]=[];
   issuerLoginId: any;
   ReferralIds: any[]=null;
+  issuerList:  any[]=[];
+  userList: any[]=[];
+  includedUserList:any[]=[];
+  includedIssuerList:any[]=[];
+  IsDesti: any;
+  userType: any;
+  columnList: any[]=[];
+  productSection: boolean;
+  referralSection: boolean;
+  endorseSection: boolean;
+  categoryId: string;
+  categoryList: { Code: string; CodeDesc: string; }[];
+  endorseData: any[]=[];
   constructor(private router:Router,
     private sharedService:SharedService,public datePipe:DatePipe) {
      this.productId =  sessionStorage.getItem('companyProductId');
@@ -94,6 +114,7 @@ export class InsurenceEmpComponent {
  
      this.insuranceId = user.LoginBranchDetails[0].InsuranceId;
      this.loginId = user.LoginId;
+     this.userType=user.UserType;
      this.subUser = sessionStorage.getItem('typeValue');
      let channelId =  sessionStorage.getItem('brokerChannelId');
      //this.insuranceId= sessionStorage.getItem('InsuranceId');
@@ -109,6 +130,7 @@ export class InsurenceEmpComponent {
       this.getCompanyList();
       this.getCountryList();
       this.getMobileCodeList();
+      
     //  this.getChannelList();
    }
  
@@ -251,19 +273,34 @@ export class InsurenceEmpComponent {
     else if (type=='editBranchDetail'){
       this.branchDetailsPopup=true;
     }
-    else if (type=='Product'){
-      this.ProductsPopup=true;
-    }
+    
     else if(type=='AddProduct'){
       this.addProduct=true;
       this.existingProduct=false;
     }
   }
+  quotationMenuList(value){
+    let session =sessionStorage.getItem('subUserType')
+    if(value!=session){
+      this.issuerLoginId=value.LoginId;
+      this.subUserType=value.SubUserType;
+    }
+    else{
+      this.subUserType=session;
+      sessionStorage.removeItem('subUserType');
+    }
+   
+    
+    this.ProductsPopup=true;
+     this.getIssuerMenuList()
+  }
   brokerDetailsView(){
     this.visibleIssuerDetails=true;
   }
   EditDetailsView(loginData){
+   
     this.AddIssuerPopup=true;
+   
     this.getEditIssuerDetails(loginData);
   }
   
@@ -274,7 +311,6 @@ export class InsurenceEmpComponent {
     this.ChangePass=true;
   }
   branchDataList(){
-    alert()
     this.branchPopup=true;
   }
   onProceed() {
@@ -366,9 +402,12 @@ export class InsurenceEmpComponent {
           let loginInformation = data?.Result?.LoginInformation;
           let personalInfo = data?.Result?.PersonalInformation;
           if(loginInformation?.Status==null)  loginInformation.Status = 'N';
-            if(loginInformation?.EffectiveDateStart!=null){
-              this.effectiveDate = this.onDateFormatInEdit(loginInformation?.EffectiveDateStart)
+          if (this.effectiveDate != null) {
+            this.effectiveDate = this.onDateFormatInEdit(issuerId.EffectiveDateStart)
+            if(this.effectiveDate != '' && this.effectiveDate != null && this.effectiveDate != undefined){
+              this.effectiveDate = this.datePipe.transform(loginInformation.EffectiveDateStart, "dd/MM/yyyy")
             }
+          }
           //this.insuranceId = loginInformation?.InsuranceId;
           this.onCompanyChange('direct',loginInformation?.AttachedBranches,loginInformation?.ProductIds)
 
@@ -376,7 +415,6 @@ export class InsurenceEmpComponent {
           // if(n!="null" || n!=undefined){
           // this.ReferralIds.push(n);
           // }
-          alert(personalInfo?.UserName)
           this.userName = personalInfo?.UserName;
           this.userMobile = personalInfo?.UserMobile;
           this.userMail = personalInfo?.UserMail;
@@ -484,7 +522,7 @@ onDateFormatInEdit(date) {
         "ProductIds": this.productIds,
         "InsuranceId": this.insuranceId,
         "EffectiveDateStart": this.effectiveDate,
-        "ReferralIds": referral
+        "ReferralIds": ["null"]
 
       },
       "PersonalInformation": {
@@ -616,5 +654,595 @@ onStateChange(type) {
     (err) => { },
   );
 }
+onChange(item,i){
+  console.log('PPPPPPPPPPPP',item);
+  console.log('New Items Index',i);
+  let index = this.userList.find(ele => ele.id == item.id)
+  console.log('UUUUUUUUUUU',index);
+  if(index){
+    this.userList[i].IsDesti=true;
+    console.log('YYYYYYYYYY',this.userList[i].IsDesti);
+    console.log('MMMMMMMMMMM',this.userList);
+  }
+  else{
+    this.userList[i].IsDesti=false;
+  }
+ 
+}
+onChangeissuer(item,i){
+  console.log('INSUUUUUUUUU',item);
+  console.log('New Items Index',i);
+  let index = this.issuerList.find(ele => ele.id == item.id)
+  console.log('UUUUUUUUUUU',index);
+  if(index){
+    this.issuerList[i].IsDesti=true;
+    console.log('YYYYYYYYYY',this.issuerList[i].IsDesti);
+    console.log('MMMMMMMMMMM',this.issuerList);
+  }
+  else{
+    this.issuerList[i].IsDesti=false;
+  }
+}
+onChangeissuerexclude(item,i){
+  console.log('INSUUUUUUUUU',item);
+  console.log('New Items Index',i);
+  let index = this.includedIssuerList.find(ele => ele.id == item.id)
+  console.log('UUUUUUUUUUU',index);
+  if(index){
+    this.includedIssuerList[i].IsDesti=true;
+    console.log('YYYYYYYYYY',this.includedIssuerList[i].IsDesti);
+    console.log('MMMMMMMMMMM',this.includedIssuerList);
+  }
+  else{
+    this.includedIssuerList[i].IsDesti=false;
+  }
+}
+onExcludeChange(item,i){
+  console.log('PPPPPPPPPPPP',item);
+  console.log('New Items Index',i);
+  let index = this.includedUserList.find(ele => ele.id == item.id)
+  console.log('UUUUUUUUUUU',index);
+  if(index){
+    this.includedUserList[i].IsDesti=true;
+    console.log('YYYYYYYYYY',this.includedUserList[i].IsDesti);
+    console.log('MMMMMMMMMMM',this.includedUserList);
+  }
+  else{
+    this.includedUserList[i].IsDesti=false;
+  }
+ 
+}
+unselect(): void {
+  this.IsDesti = undefined;
+}
+checkUncheckAll() {
+  for (var i = 0; i < this.userList.length; i++) {
+    this.userList[i].isSelected = this.IsDesti;
+  }
+  this.getMenuIds();
+}
+getIssuerMenuList(){
+    let ReqObj = {
+      "UserType":this.userType,
+      "SubUserType":this.subUserType
+    }
+    let urlLink = `${this.CommonApiUrl}master/menu`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data?.Result){
+            this.userList = data?.Result?.UserList;
+            console.log('User List',this.userList);
+            this.issuerList = data?.Result?.AdminList;
+            console.log('Issuer List',this.issuerList);
+            this.getMenuIds();
+        }
+      },
+      (err) => { },
+  );
+}
+getMenuIds(){
+  // let i=0; let j=0;
+    let ReqObj = { "LoginId":this.issuerLoginId}
+    let urlLink = `${this.CommonApiUrl}admin/getmenuids`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log('pppppppppp',data);
+        if(data.Result){
+          let menuList:any[]=[];
+          menuList= data.Result?.MenuId;
+          if(menuList.length!=0){
+            console.log('IN Menu User Id',this.userList);
+            for(let entry of menuList){           
+            
+              const result = (this.userList?.find(x => x.id === entry) ) ? true : false;
+              if(result){
+                if(this.userList.length!=0){
+                let index = this.userList?.findIndex(ele=>ele.id==entry);
+                console.log('ooooooooooooooooo',index);
+                if(index>0){
+                this.includedUserList.push(this.userList[index]);
+                this.userList.splice(index,1);
+                console.log("Checked",result);
+                }
+                 }
+                }
+              else{
+                if(this.issuerList.length!=0){
+                let index = this.issuerList?.findIndex(ele=>ele.id==entry);
+                console.log('mmmmmmmmmmmm',index);
+                if(index>0){
+                  this.includedIssuerList.push(this.issuerList[index]);
+                  this.issuerList.splice(index,1);
+                  console.log("unChecked",result);
+                }
+                
+                }
+              }
+              
+            }
+         
+         
+          }
+        }
+      },
+      (err) => { },
+      );
+}
+onSelected(arrayaside: string) {  
+  console.log('SSSSSSSSSSS',arrayaside);
+  if (arrayaside === 'right') {
+      console.log("User List",this.userList)
+    let filteredList = this.userList.filter(ele=>ele?.IsDesti==true);
+      console.log('iiiiiiiiiii',filteredList);
+      console.log('lllllllllll',this.userList[0].IsDesti);
+      if(filteredList.length!=0){
+        let index = 0;
+          for(let entry of filteredList){
+              entry.IsDesti = false;
+              this.includedUserList = [entry].concat(this.includedUserList);
+              this.userList = this.userList.filter(item => item.id != entry.id);
+              index+=1;
+              if(index==filteredList.length){
+                console.log("Final User",this.userList);
+              }
+          }
+      }
+  //   let obj:any = this.userList[index];
+  //   if(obj){
+  //     this.includedUserList.push(obj);
+  //     this.userList.splice(index,1);
+  //   }
+  }
+  if (arrayaside === 'left') {
+      let filteredList = this.includedUserList.filter(ele=>ele.IsDesti==true);
+      console.log(filteredList);
+    if(filteredList.length!=0){
+        for(let entry of filteredList){
+            entry.IsDesti = false;
+            this.userList = [entry].concat(this.userList);
+            this.includedUserList = this.includedUserList.filter(item => item.id != entry.id);
+        }
+    }
+    
+  //   let obj:any = this.includedUserList[index];
+  //   if(obj){
+  //     this.userList.push(obj);
+  //     this.includedUserList.splice(index,1);
+  //   }
+  }
+}
+onIssuerSelected(arrayaside: string){
+  if (arrayaside === 'right') {
+      let filteredList = this.issuerList.filter(ele=>ele.IsDesti==true);
+        console.log('lllllllllll',this.issuerList[0].IsDesti);
+        if(filteredList.length!=0){
+          let i=0;
+            for(let entry of filteredList){
+                entry.IsDesti = false;
+                this.includedIssuerList = [entry].concat(this.includedIssuerList);
+                this.issuerList = this.issuerList.filter(item => item.id != entry.id);
+                i+=1;
+                if(i==filteredList.length){
+                  console.log("Final Issuer",this.issuerList)
+                }
+            }
 
+        }
+    //   let obj:any = this.userList[index];
+    //   if(obj){
+    //     this.includedUserList.push(obj);
+    //     this.userList.splice(index,1);
+    //   }
+    }
+    if (arrayaside === 'left') {
+        let filteredList = this.includedIssuerList.filter(ele=>ele.IsDesti==true);
+        console.log(filteredList);
+      if(filteredList.length!=0){
+          for(let entry of filteredList){
+              entry.IsDesti = false;
+              this.issuerList = [entry].concat(this.issuerList);
+              this.includedIssuerList = this.includedIssuerList.filter(item => item.id != entry.id);
+          }
+      }
+    //   let obj:any = this.includedUserList[index];
+    //   if(obj){
+    //     this.userList.push(obj);
+    //     this.includedUserList.splice(index,1);
+    //   }
+    }
+}
+onMoveAll(arrayaside: string) {
+  if (arrayaside === 'right') {
+    this.includedUserList = [...this.includedUserList, ...this.userList];
+    this.userList = [];
+  }
+  if (arrayaside === 'left') {this.userList = [...this.userList, ...this.includedUserList];
+    this.includedUserList = [];
+  }
+}
+onMoveIssuerAll(arrayaside: string) {
+  if (arrayaside === 'right') {
+    this.includedIssuerList = [...this.includedIssuerList, ...this.issuerList];
+    this.issuerList = [];
+  }
+  if (arrayaside === 'left') {this.issuerList = [...this.issuerList, ...this.includedIssuerList];
+    this.includedIssuerList = [];
+  }
+}
+ongetBack(){
+  //this.router.navigate(['/Admin/issuerList/newIssuerDetails'])
+}
+onProceedMenu(){
+  let excludedList = [];
+  if(this.includedUserList.length!=0){
+      let i =0;
+      for(let entry of this.includedUserList){
+          if(entry.id){
+            excludedList.push(entry.id);
+          }
+
+          i+=1;
+          if(i==this.includedUserList.length){
+              this.includeIssuerList(excludedList);
+          }
+      }
+  }
+  else{
+      this.includeIssuerList(excludedList)
+  }
+  //excludedList = this.includedIssuerList.concat(this.includedUserList);
+
+  //this.router.navigate(['/Admin/issuerList'])
+}
+includeIssuerList(excludedList){
+    if(this.includedIssuerList.length!=0){
+        let i=0;
+        for(let entry of this.includedIssuerList){
+            if (!excludedList.includes(entry.id)) {
+                excludedList.push(entry.id);
+
+            }
+            i+=1;
+            if(i==this.includedIssuerList.length){
+                this.onSubmitMenu(excludedList);
+            }
+        }
+    }
+    else{
+        this.onSubmitMenu(excludedList)
+    }
+}
+onSubmitMenu(excludedList){
+  let ReqObj = {
+      "LoginId": this.issuerLoginId,
+      "MenuIds": excludedList
+  }
+  let urlLink = `${this.CommonApiUrl}admin/savemenuids`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+        
+            sessionStorage.removeItem('issuerTypeDetails');
+            this.ProductsPopup=false;
+        }
+        else if(data.ErrorMessage){
+          for(let entry of data.ErrorMessage){
+           
+          }
+          console.log("Error Iterate",data.ErrorMessage)
+          //this.loginService.errorService(data.ErrorMessage);
+        }
+      },
+      (err) => { },
+  );
+}
+issuerProduct(value){
+  this.ProductsPopupTable=true
+  this.issuerLoginId=value.LoginId;
+  sessionStorage.setItem('subUserType',value.SubUserType)
+  //this.subUserType=value.SubUserType;
+  this.getProductList();
+}
+getProductList(){
+  if(this.insuranceId!='' && this.insuranceId!= undefined){
+    let urlLink = `${this.CommonApiUrl}admin/getissuerproductbyid`;
+    let ReqObj ={
+      "LoginId": this.issuerLoginId,
+      "InsuranceId": this.insuranceId,
+      "UserType": 'Issuer'
+    }
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            let productList = data.Result;
+            if(productList.length!=0){
+              let i=0,products = [];
+              for(let product of productList){
+                  if(product?.IsOptedYn=='Y') product['Checked'] = true;
+                  else product['Checked'] = false;
+                  if(product?.IsOptedYn =='Y'){
+                    this.onTableChange(product.TableName)
+                  }
+                  this.onChangeSumInsuredStart(product);
+                  products.push(product);
+                  i+=1;
+                  if(i==productList.length){
+                    this.productList = productList;
+                   
+                   
+                  }
+              }
+            }
+        }
+      },
+      (err) => { },
+    );
+  }
+}
+onTableChange(rowData){
+  if(rowData!= null && rowData!= ''){
+    let ReqObj = {"TableName": rowData}
+    let urlLink = `${this.ApiUrl1}dropdown/gettabledetails`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+          this.columnList = data.Result;
+        }
+      },
+      (err) => { },
+    );
+  }
+}
+onChangeSumInsuredStart(rowData){
+  if (rowData.SumInsuredStart) {
+    rowData.SumInsuredStart = rowData.SumInsuredStart.replace(/\D/g, "")
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  if (rowData.SumInsuredEnd) {
+    rowData.SumInsuredEnd = rowData.SumInsuredEnd.replace(/\D/g, "")
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+}
+checkSelectedProducts(rowData){
+  return rowData.Status=='Y';
+}
+onChangeSelectedProduct(rowData,check){
+  console.log('Checked Statusss',rowData,check)
+  if(check){
+   return rowData.Status = 'Y';
+  }
+  else{
+    return rowData.Status = 'N';
+  }
+}
+onProceedIssuer(type){
+  console.log('MMMMMMMMMM',this.productList);
+  this.onProceedendorse(type);
+
+ }
+ onProceedendorse(type){
+  console.log('kkkkkkkkkkkk',this.productList)
+  if (this.productList.length != 0){
+      let reqList=[];let i=0;
+      for(let s of this.productList){
+        let sumInsured; let startsuminsured;
+        console.log('HHHHHHHHHHHHHHHH',s.SumInsuredEnd);
+        if(s.SumInsuredEnd == undefined || s.SumInsuredEnd == null)sumInsured = null;
+       if(s?.SumInsuredEnd.includes(',')){ 
+          sumInsured = s.SumInsuredEnd.replace(/,/g, '');
+          console.log('MMMMMMMMMMMM',sumInsured);
+         }
+        //else {sumInsured = s.SuminsuredEnd;}
+
+        if(s.SumInsuredStart==undefined || s.SumInsuredStart==null) {startsuminsured = null;}
+        else if(s.SumInsuredStart.includes(',')){  startsuminsured= s.SumInsuredStart.replace(/,/g, '') }
+        else {startsuminsured= s.SumInsuredStart;}
+           if(s.Checked==true){
+            console.log('FFFFFFFFFFFFFFFF',s.Checked);
+          let data = {
+                  "ProductId": s.ProductId,
+                    "ReferralIds":s.ReferralIds,
+                    "EndorsementIds":s.EndorsementIds,
+                    "SuminsuredEnd":sumInsured,
+                    "SuminsuredStart":startsuminsured,
+                     "ColumnName" :s.ColumnName,
+                     "Status" :s.Status                
+                    }
+              reqList.push(data)
+            }
+             i+=1; 
+             if(i==this.productList.length){
+              this.onsubmit(reqList,type);
+            }
+          }
+      }
+}
+onsubmit(reqList,type){
+  let ReqObj = {
+     "LoginId":this.issuerLoginId,
+     "InsuranceId":this.insuranceId,
+     "CreatedBy":this.loginId,
+      "IssuerProduct":reqList
+    }
+  let urlLink = `${this.CommonApiUrl}admin/attachissuerproducts`;
+  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+          console.log(data);
+          let res:any=data;
+          if(data.Result){
+            this.getProductList();
+            if(type=='direct'){
+              this.productSection=true;
+              this.referralSection = false;
+              this.endorseSection = false;
+              this.ProductsPopupTable=false
+              this.ProductsPopup=true;
+              this.subUserType=sessionStorage.getItem('subUserType')
+             
+              this.quotationMenuList(this.subUserType);
+            }
+            else{
+            this.productSection = false;
+            this.referralSection = false;
+            this.endorseSection = true;
+            this.EndorsPopupTable=false
+           // this.ProductsPopup=false;
+            }
+           
+            
+          //.referralSection = false;
+         //this.router.navigate(['/Admin/userList/UserproductList']);
+          }
+         
+        },
+        (err) => { },
+      );
+
+}
+showEndorsement(row){
+  this.productSection = false;
+  this.referralSection = false;
+  this.endorseSection = true;
+  this.EndorsPopupTable=true;
+  this.categoryId="1";
+  //this.productIds=row.ProductId;
+  this.getEndorsementList();
+  this.onProceedEndorse('endorse');
+
+  if(this.productIds){
+    this.categoryList = [
+      {"Code":"1","CodeDesc":"Non-Financial"},
+      {"Code":"2","CodeDesc":"Financial"}
+    ]
+  }
+}
+getEndorsementList(){
+  let s=sessionStorage.getItem('userproduct')
+  let ReqObj={
+    "CompanyId":this.insuranceId,
+    "EndtTypeCategoryId": this.categoryId,
+    "ProductId": this.productIds,
+    "LoginId":this.issuerLoginId//this.loginId
+    //"LoginId":this.issuerLoginId
+  }
+  let urlLink = `${this.CommonApiUrl}master/getactiveendorsement`;
+  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    (data: any) => {
+      console.log(data);
+      let res:any = data;
+
+      console.log('rrrrrr',res)
+      if(res){
+     console.log('dddddddddd',res?.Result.EndorsementMasterListRes)
+      if(res?.Result[0].EndorsementMasterListRes){
+          this.endorseData = res?.Result[0]?.EndorsementMasterListRes;
+        console.log('eeeeeeee',this.endorseData);
+        console.log('BBBBBBBBBBBB',this.productList);
+
+        if(this.categoryId!=undefined && this.categoryId!=null){
+          let docObj = {"ItemType":this.categoryId};
+          sessionStorage.setItem('addDocDetailsObj',JSON.stringify(docObj));
+        }
+      }
+  }
+    },
+    (err) => { },
+  );
+}
+onProceedEndorse(type){
+  console.log('MMMMMMMMMM',this.productList);
+  this.onProceedendorse(type);
+ //  if(rowData.Checked == true){
+ //   rowData[event].IsOptedYn ='Y'
+ //  }
+ //  else if(rowData.Checked == false){
+ //   rowData[event].IsOptedYn ='N'
+ //  }
+ }
+ onsubmitsEndorse(){
+
+  let i=0; let req:any=[];
+  let selectedList = this.endorseData.filter(ele=>ele.SelectedYn=='Y');
+  for(let s of selectedList){
+  req.push(s.EndtTypeId);
+  i+=1;
+  }
+  let product:any;let productid=this.productIds;
+  if(productid){
+     product=productid
+  }
+  else{
+    product=null;
+  }
+  let type:any;let types:any;
+  let categoryId=this.categoryList.find(ele=>ele.Code==this.categoryId)
+  if(categoryId){
+    type=categoryId.CodeDesc;
+  }
+  if(type){
+    if(type=='Non-Financial'){
+      types='NF'
+    }
+    else if(type=='Financial'){
+      types='F'
+    }
+    else if(type=='Referral'){
+      types='R'
+    }
+  }
+  let ReqObj = {
+     "LoginId":this.issuerLoginId,
+     "InsuranceId":this.insuranceId,
+     "CreatedBy":this.loginId,
+     "ProductId":product,
+     "IdType":types,
+     "Ids":req
+    }
+  let urlLink = `${this.CommonApiUrl}admin/attachloginendtids`;
+  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+          console.log(data);
+          let res:any=data;
+          if(data.Result){
+            this.productSection=true;
+            this.referralSection = false;
+            this.endorseSection = false;
+            this.EndorsPopupTable = false;
+            //this.getProductList();
+          
+            //this.router.navigate(['/Admin/issuerList/issuerMenuCongifuration']);
+            
+            //.referralSection = false;
+         //this.router.navigate(['/Admin/userList/UserproductList']);
+          }
+         
+        },
+        (err) => { },
+      );
+
+}
 }

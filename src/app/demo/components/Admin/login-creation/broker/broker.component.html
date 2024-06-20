@@ -55,7 +55,7 @@
                 <span class="p-buttonset">
                     <button pButton pRipple icon="pi pi-pencil" title="Edit" class="p-button-outlined" (click)="EditDetailsView(data)" ></button>
                     <button pButton pRipple icon="pi pi-cog" title="Configure" (click)="op.toggle($event)" class="p-button-outlined" ></button>
-                    <button pButton pRipple icon="pi pi-eye" title="View" (click)="brokerDetailsView(data.LoginId)"  class="p-button-outlined"></button>
+                    <button pButton pRipple icon="pi pi-eye" title="View" (click)="brokerDetailsView(data)"  class="p-button-outlined"></button>
                 </span>
             </td>
           </tr>
@@ -670,16 +670,16 @@
                 </div>
             </div>
             </div>
-            <div class="col-12 lg:col-12 md:col-12 lg:col-12">
+            <div class="col-12 lg:col-12 md:col-12 lg:col-12" *ngIf="ViewProducts.length!=0">
                 <p-card header="Products">
                     <hr>
                     <div class="grid" >
-                   <div class="col-12 lg:col-2 md:col-2 lg:col-2" *ngFor="let product of brokerProductList">
-                       <p  class="font-semibold broker_name"><i class="pi pi-map" style="font-size: 1rem"></i> &nbsp;{{product.ProductName}}</p>
+                   <div class="col-12 lg:col-2 md:col-2 lg:col-2" *ngFor="let product of ViewProducts">
+                       <p  class="font-semibold broker_name"><i class="pi pi-bars" style="font-size: 1rem"></i> &nbsp;{{product.ProductName}}</p>
                        <hr>
-                       <p>Quote &nbsp; <p-badge [value]="product.ProductId" /></p>
-                       <p>Policy &nbsp; <p-badge [value]="product.ProductIconId" /></p>
-                       <p>Endorsement &nbsp; <p-badge [value]="product.PackageYn" /></p>
+                       <p>Quote &nbsp; <p-badge [value]="product.QuoteTotalCount" /></p>
+                       <p>Policy &nbsp; <p-badge [value]="product.PolicyTotalCount" /></p>
+                       <p>Endorsement &nbsp; <p-badge [value]="product.EndtTotalCount" /></p>
                     </div>
                     </div>
                 </p-card>
@@ -687,26 +687,26 @@
             <div class="col-12 lg:col-6 md:col-6 lg:col-6">
                 <p-card header="Period">
                     <hr>
-                <div class="grid">
+                <div class="grid" >
                    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
                        <p class="font-semibold broker_name">Last Login Date</p>
-                       <p>12/06/2024</p>
+                       <p>{{LastLoginDate}}</p>
                     </div>
                     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
                         <p class="font-semibold broker_name">Last Policy Date</p>
-                        <p>12/06/2024</p>
+                        <p>{{LastPolicyDate}}</p>
                      </div>
                      <div class="col-12 lg:col-4 md:col-4 lg:col-4">
                         <p class="font-semibold broker_name">Last Quote Date</p>
-                        <p>12/06/2024</p>
+                        <p>{{LastQuoteDate}}</p>
                      </div>
                      <div class="col-12 lg:col-4 md:col-4 lg:col-4">
                          <p class="font-semibold broker_name">Collected Premium</p>
-                         <p>100,00000</p>
+                         <p>{{CollectedPremium}}</p>
                     </div>
-                    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-                        <p class="font-semibold broker_name">Policy Commission</p>
-                        <p>100,00</p>
+                    <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="PolicyCommission!=0 && PolicyCommission!=null && PolicyCommission!=''">
+                        <p class="font-semibold broker_name" >Policy Commission</p>
+                        <p>{{PolicyCommission}}</p>
                     </div>
                 </div>
                     <!-- <div class="col-12">
@@ -721,24 +721,12 @@
             <div class="col-12 lg:col-6 md:col-6 lg:col-6">
                 <p-card header="Users">
                     <hr>
-                <div class="grid">
+                <div class="grid" *ngFor="let item of userDataList">
                    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-                       <p class="font-semibold broker_name">Users</p>
-                       <!-- <p>12/06/2024</p> -->
+                       <b><p class="font-semibold broker_name">{{item.UserName}}</p></b>
+                       <p class="font-semibold broker_name">{{item.LoginId}}</p>
                     </div>
-                    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-                        <p class="font-semibold broker_name">Users</p>
-                        <!-- <p>12/06/2024</p> -->
-                     </div>
-                     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-                        <p class="font-semibold broker_name">Users</p>
-                        <!-- <p>12/06/2024</p> -->
-                     </div>
-                     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-                        <p class="font-semibold broker_name">Users</p>
-                        <!-- <p>100,000</p> -->
-                     </div>
-                    </div>
+                </div>
                 </p-card>
             </div>
         </div>

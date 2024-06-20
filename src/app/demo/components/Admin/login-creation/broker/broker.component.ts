@@ -174,6 +174,15 @@ remarksError: boolean=false;
   SwitchChequeYn: boolean=true;
   SwitchOnlineYn: boolean=true;
   passwordPopup: boolean=false;
+  ViewProducts: any[]=[];
+  dates:any;
+  LastLoginDate: any;
+  LastPolicyDate: any;
+  LastQuoteDate: any;
+  CollectedPremium: any;
+  PolicyCommission: any;
+  brokerValue: any;
+  OaCode: any;
   
   constructor(private router:Router,
    private sharedService:SharedService,public datePipe:DatePipe) {
@@ -186,7 +195,7 @@ remarksError: boolean=false;
     this.loginId = user.LoginId;
     this.subUser = sessionStorage.getItem('typeValue');
     let channelId =  sessionStorage.getItem('brokerChannelId');
-    this.UserType= sessionStorage.getItem('UserType');
+    //this.UserType= user.UserType;
     this.subUserType=channelId;
     if(channelId) this.channelId = channelId;
     this.getCompanyList();
@@ -195,7 +204,7 @@ remarksError: boolean=false;
 
   ngOnInit(){
     
-   
+    this.getBrokerList();
     this.getMobileCodeList();
     this.getCountryList();
     this.minDate = new Date();
@@ -249,7 +258,8 @@ remarksError: boolean=false;
   showDialogBrokerDetails(type){
     if(type=='AddBroker'){
       this.brokerDialogVisible=true;
-       this.formRest()
+       this.formRest();
+       this.onCountryChange('direct');
       this.editsSection;
     }
     else if(type=='AddUser'){
@@ -298,9 +308,15 @@ remarksError: boolean=false;
     sessionStorage.setItem("userLoginId",value.BrokerName);
   }
 }
-  brokerDetailsView(loginId){
+  brokerDetailsView(value){
+    this.brokerLoginId=value.LoginId;
+    this.subUserType=value.SubUserType;
+    this.UserType=value.UserType;
+   // this.OaCode=value.OaCode;
     this.visibleBrokerDetails=true;
-    this.getEditBrokerDetails(loginId);
+    this.getEditBrokerDetails();
+    this.getBranchuserList();
+    this.brokerProducts();
     this.editSection = true;
   }
   passwordField(){
@@ -331,9 +347,10 @@ this.ChangePass=true;
       this.getBrokerList();
     }
   }
-  EditDetailsView(rowData){
+  EditDetailsView(value){
+    this.brokerLoginId=value.LoginId
     this.brokerDialogVisible=true;
-    this.getEditBrokerDetails(rowData);
+    this.getEditBrokerDetails();
   }
   getMobileCodeList() {
     let ReqObj = { "InsuranceId": this.insuranceId }
@@ -351,7 +368,81 @@ this.ChangePass=true;
       (err) => { },
     );
   }
+  brokerProducts(){
+    let ReqObj ={
+      // "LoginId": this.brokerLoginId
+      "BrokerBranchCode": "",
+    "BranchCode": "",
+    "InsuranceId": this.insuranceId,
+    "LoginId": this.brokerLoginId,
+    "ApplicationId": "1",
+    "UserType": this.UserType,
+    "SubUserType": this.subUserType,
+    "SourceType": "",
+    "BdmCode": null,
+    "ProductId": "",
+    "Limit": 0,
+    "Offset": 1000
+      }
+    let urlLink = `${this.CommonApiUrl}api/viewlogindetails`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+          console.log(data.Result,"brokerProducts1");
+          
+            this.ViewProducts = data.Result.ProductDetails;
+           // this.dates =data.Result;
+            this.LastLoginDate=data.Result.LastLoginDate;
+            this.LastPolicyDate=data.Result.LastPolicyDate;
+            this.LastQuoteDate=data.Result.LastQuoteDate;
+            this.CollectedPremium=data.Result.CollectedPremium;
+            this.PolicyCommission=data.Result.PolicyCommission;
+
+        }
+      },
+      (err) => { },
+    );
+   }
+
+   getBranchuserList(){
+    let ReqObj = {
+      "InsuranceId": this.insuranceId
+    }
+    let urlLink = `${this.CommonApiUrl}master/dropdown/branchmaster`;
+  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    (data: any) => {
+      if(data.Result){
+        this.branchList =data?.Result;
+        this.onBrokerChange();
+      }
+    },
+    (err) => { },
   
+  );
+  }
+   onBrokerChange(){
+      let ReqObj = {
+        "UserType": "User",
+        "SubUserType":"",
+        "InsuranceId": this.insuranceId,
+        "OaCode":this.OaCode,
+        "Limit":"0",
+        "Offset":"10000",
+      }
+      let urlLink = `${this.CommonApiUrl}admin/getallusers`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          this.userDataList = data.Result;
+          // this.brokerValue = value;
+          // if(this.brokerValue && this.insuranceId){
+          //   let useObj = {"BrokerId":this.brokerValue,"InsuranceId":this.insuranceId,"channelId":this.subUserType,"UserId": null};
+          //   sessionStorage.setItem('userEditDetails',JSON.stringify(useObj));
+          // }
+        },
+        (err) => { },
+      );
+    
+  }
   getCompanyList(){
     let ReqObj ={
       "LoginId": this.loginId
@@ -373,6 +464,9 @@ this.ChangePass=true;
    getBrokerList(){
     if(this.insuranceId!=null && this.channelId!=null){
       sessionStorage.setItem('brokerChannelId',this.channelId);
+     
+     //    this.insuranceId= this.brokerProductList[0].InsuranceId;
+      
       let ReqObj = {
         "UserType": "Broker",
         "SubUserType":this.channelId,
@@ -394,8 +488,8 @@ this.ChangePass=true;
     }
     
   }
-  getEditBrokerDetails(rowData) {
-    let ReqObj = { "LoginId": rowData.LoginId }
+  getEditBrokerDetails() {
+    let ReqObj = { "LoginId": this.brokerLoginId }
     let urlLink = `${this.CommonApiUrl}admin/getbrokerbyid`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
@@ -403,7 +497,9 @@ this.ChangePass=true;
         if (data.Result) {
           //this.cityList = data.Result;
           this.editSection = true;
+         
           this.loginInformation = data.Result.LoginInformation;
+          this.OaCode=this.loginInformation.OaCode;
           this.PersonalInformation = data.Result.PersonalInformation;
           this.CbcDeposit= data.Result.DepositCbc;
            this.designation = this.PersonalInformation.Designation;
@@ -696,7 +792,9 @@ this.ChangePass=true;
           sessionStorage.setItem('brokerConfigureDetails', JSON.stringify(entry));
           this.formRest()
           this.brokerDialogVisible=false;
-          
+          // this.insuranceId=this.insuranceId
+          // this.getBrokerList();
+
         }
         else if (data.ErrorMessage) {
           for (let entry of data.ErrorMessage) {
@@ -738,6 +836,7 @@ this.ChangePass=true;
     return i==0;
   }
   formRest(){
+    this.editSection=false
         this.customerCode=''
         this.regulatoryCode=''
         this.insuranceId=''
@@ -1106,7 +1205,6 @@ this.ChangePass=true;
     this.paymentTypesDetailPopup=true;
     if (this.EffectiveDateStart != null) {
       this.EffectiveDateStart = this.onDateFormatInEdit(value.EffectiveDateStart)
-      // alert(this.EffectiveDateStart)
       if (this.EffectiveDateStart != '' && this.EffectiveDateStart != null && this.EffectiveDateStart != undefined) {
         this.EffectiveDateStart =  this.datePipe.transform(this.EffectiveDateStart, "dd/MM/yyyy")
       }
@@ -1127,7 +1225,6 @@ this.ChangePass=true;
     this.Status=value.Status
   }
   onProceedPayment(){
-    // alert(this.EffectiveDateStart)
    this.UserType=this.userDetails.Result.UserType;
     let ReqObj = {
       "BranchCode":this.branchValue,
@@ -1357,7 +1454,7 @@ this.ChangePass=true;
         "LoginId": this.userLoginId,
         "Remarks": "none",
         "CreatedBy": entry.CreatedBy,
-        "SelectedYn":entry.SelectedYn
+        //"SelectedYn":entry.SelectedYn
       }
       finalObj.push(Obj);
       i+=1;
