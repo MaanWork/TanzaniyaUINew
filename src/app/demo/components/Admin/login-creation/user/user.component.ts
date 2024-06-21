@@ -308,7 +308,7 @@ export class UserComponent {
   showDialogBrokerDetails(type,rowData){
   if(type=='AddUser'){
       this.AddUserPopup=true;
-      this.editsSection=false;
+      this.editSection=false;
       this.formRest();
     }
     else if (type=='editBranchDetail' || type=='branchDetail'){
