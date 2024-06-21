@@ -523,7 +523,7 @@ export class CommonProductDetailsComponent {
             entry['SectionId'] = this.productName;
             entry['SectionDesc'] = this.sectionDesc;
             entry['Status'] = "Y";
-            entry['RiskId'] = String(this.currentFireIndex+1);
+            entry['RiskId'] = String(this.currentFireIndex+2);
             entry['LocationName'] = this.LocationName;
             entry['BuildingAddress'] =  this.LocationName;
             entry['IndustryType'] = this.IndustryTypes;
@@ -543,7 +543,7 @@ export class CommonProductDetailsComponent {
               "SectionId": this.productName,
               "SectionDesc": this.sectionDesc,
               "Status": "Y",
-              "RiskId": String(this.TableRowFire.length+1),
+              "RiskId": String(this.TableRowFire.length+2),
               "LocationName": this.LocationName,
               "BuildingAddress":  this.LocationName,
               "IndustryType": this.IndustryTypes,
@@ -641,7 +641,6 @@ export class CommonProductDetailsComponent {
   }
   onSaveFireRiskDetails(type){
     if(this.TableRowFire.length!=0){
-      alert(this.TableRowFire.length)
         let sectionIds = [],i=0,refNo=null;
         if(this.customerDetails){refNo = this.customerDetails?.CustomerReferenceNo;}
         if(this.userType!='Broker' && this.userType!='User'){
@@ -1690,7 +1689,7 @@ export class CommonProductDetailsComponent {
           //this.getMotorCategoryList();
       }
     }
-    else if (this.productId == '1' && this.insuranceId =='100002') {
+    else if (this.productId == '1' && this.insuranceId !='100004') {
       
       let fireData = new Burglary();
       let entry = [];
@@ -4784,9 +4783,66 @@ backPlan()
   onSubmit(type){
     let valid = this.checkValidation();
     if(valid){
-      if(this.productId=='1' ||  this.productId=='13' || this.productId=='39' || this.productId=='43' || this.productId=='16' || this.productId=='42' || this.productId=='14' || this.productId=='59' || this.productId=='60' || this.productId=='57' || this.productId=='56' || this.productId=='26' || this.productId=='25' || this.productId=='21' || this.productId=='27' || this.productId=='24' || this.productId=='32'){ 
+      if(this.productId=='1' || this.productId=='59' ||  this.productId=='13' || this.productId=='39' || this.productId=='43' || this.productId=='16' || this.productId=='42' || this.productId=='14' || this.productId=='60' || this.productId=='57' || this.productId=='56' || this.productId=='26' || this.productId=='25' || this.productId=='21' || this.productId=='27' || this.productId=='24' || this.productId=='32'){ 
        this.saveCommonDetails('direct',null)
       }
+      // else if(this.productId=='59'){
+      //   let section = [],createdBy=null,appId=null,loginId=null,brokerbranchCode=null,quoteStatus=null,havePromoCode:any='N';this.IndustryId='99999';
+      //   if(this.promocode!=null && this.promocode!=undefined && this.promocode!='') havePromoCode = "Y";
+      //     if(this.BuildingOwnerYn!='N'){
+      //       if(this.coversRequired=='C'){
+      //         section=['47','3','36','76'];
+      //       }
+      //       else if(this.coversRequired =='B'){
+      //         section=['3','1','36','76'];
+      //       }
+      //       else if(this.coversRequired =='BC') section=['47','1','3','36','76'];
+      //     }
+      //     else {
+      //       section=['47','3','36','76'];
+      //     }
+         
+      //    if (quoteStatus == 'AdminRP' || quoteStatus == 'AdminRA' || quoteStatus == 'AdminRR') {
+      //     //createdBy = this.vehicleDetailsList[0].CreatedBy;
+      //   }
+      //   else {
+      //     createdBy = this.loginId;
+      //     if (this.userType != 'Issuer') {
+      //       this.brokerCode = this.agencyCode;
+      //       appId = "1"; loginId = this.loginId;
+      //     }
+      //     else {
+      //       appId = this.loginId;
+      //       loginId = this.brokerLoginId
+      //       brokerbranchCode = this.brokerBranchCode;
+      //     }
+      //   }
+       
+      //   this.commonDetails = [
+      //     {
+      //         "PolicyStartDate": this.policyStartDate,
+      //         "PolicyEndDate":this.policyEndDate,
+      //         "Currency": this.currencyCode,
+      //         "SectionId": section,
+      //         "AcexecutiveId": "",
+      //         "ExchangeRate": this.exchangeRate,
+      //         "StateExtent": "",
+      //         "NoOfDays": this.noOfDays,
+      //         "HavePromoCode": havePromoCode,
+      //         "PromoCode": this.promocode,
+      //         "SourceType": this.Code,
+      //         "BrokerCode": this.brokerCode,
+      //         "BranchCode": this.branchCode,
+      //         "BrokerBranchCode": this.brokerbranchCode,
+      //         "CustomerCode": this.customerCode,
+      //         "CustomerName": this.customerName,
+      //         "LoginId": loginId,
+      //         "IndustryName": null
+      //     }
+      //   ];
+      //   sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
+      //    this.onFormSubmit(null);
+      // }
       else if(this.productId=='6'){
         if(this.currentFireIndex!=null || (this.industryValue!=null && this.industryValue!='' && this.productName!=null && this.LocationName!=null)){
           this.addFireTable('proceed')
@@ -4956,7 +5012,8 @@ backPlan()
         else {
           section=['47','3','36','76'];
         }
-       this.IndustryId='99999'};
+       this.IndustryId='99999'
+    };
     let startDate=null,endDate=null;
     let dateList = String(this.policyStartDate).split('/');
     if(dateList.length==1) startDate = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");

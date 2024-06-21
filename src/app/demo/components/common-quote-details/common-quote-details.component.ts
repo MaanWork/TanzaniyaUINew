@@ -200,10 +200,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
       let fireData = new MotorVehicleSanlam();
       this.fields[0] = fireData?.fields;
     }
-    
-    //this.getUWDetails();
-    
-    
   }
   ngOnInit() {
     this.getCurrencyList();
@@ -214,31 +210,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.getInsuranceClassList();
     }
     else if(this.productId=='6' || this.productId=='13' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='32' || this.productId=='1' || this.productId=='21' || this.productId=='26' || this.productId == '25' || this.productId=='57'){this.getIndustryList()}
-    // $(document).ready(function () {
-
-    //   $('#CustomerInput').focus(function(){
-    //     $('input-group').css("color","red");
-    //   })
-    //   let lastClick = null;
-    //   $('#CustomerInput').mousedown(function (e) {
-    //     lastClick = e.target;
-    //   }).focus(function (e) {
-    //     if (e.target != lastClick) {
-    //       $(this).dropdown("toggle");
-    //     }
-    //     lastClick = null;
-    //   });
-
-    //   $('#CustomerInput').on('keyup', function () {
-    //     var value = $(this).val().toLowerCase();
-
-    //     $('.CustomerInput li').filter(function () {
-    //       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-    //     });
-    //   });
-
-
-    // });
+   
     this.customerColumn = [ 'Select','Reference No','Customer Name',  'Customer Type','ID Number'];
     var d= new Date();
     var year = d.getFullYear();
@@ -457,19 +429,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 this.onCurrencyChange('direct');
               }
             }
-            
-            //this.premiunDropdown()
-            //console.log(this.sourceCode)
         }
-        /*if(this.sourceCode =='Broker')
-        {
-        this.getBrokersList();
-        }
-      else(this.sourceCode =='Agent')
-      {
-        //this.getBranchList()
-      }*/
-
       },
 
       (err) => { },

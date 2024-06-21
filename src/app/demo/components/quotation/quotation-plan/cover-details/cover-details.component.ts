@@ -3364,7 +3364,7 @@ export class CoverDetailsComponent {
                 }
                 else{
                   if(!this.adminSection && this.userType=='Issuer' && this.statusValue == 'RA' && !this.endorsementSection){
-                    this.updateFinalizeYN('proceed')
+                    this.onFormSubmit(null);
                   }
                   else if(!this.adminSection && (this.userType!='Issuer'  || (this.userType=='Issuer' && this.subuserType=='low' && this.endorsementSection)) && (this.statusValue == 'RA' || (this.userType=='Issuer' && this.subuserType=='low' && this.endorsementSection))){
                     this.onFormSubmit(null);
@@ -3373,10 +3373,10 @@ export class CoverDetailsComponent {
                     this.onFormSubmit(null);
                   }
                   else if(this.userType=='Issuer' && this.subuserType=='low'  && this.statusValue != 'RA' && !this.endorsementSection){
-                    this.updateFinalizeYN('proceed');
+                    this.onFormSubmit(null);
                   }
                   else if(this.adminSection){
-                    this.onUpdateFactor('',null);
+                    this.onFormSubmit(null);
                   }
                 }
               }

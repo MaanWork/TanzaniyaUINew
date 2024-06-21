@@ -7,9 +7,11 @@
         <div class="col-12 sm:col-6">
             <div class="flex justify-content-start xl:justify-content-end align-items-center flex-wrap">
                 <div class="flex align-items-center mr-4 flex-wrap">
-                    <h5 class="mr-3 mb-2" *ngIf="insuranceId=='100027'">Customer Type:</h5>
-                    <h5 class="mr-3 mb-2" *ngIf="insuranceId!='100027'">Account Type:</h5>
-                    <p-selectButton [options]="policyHolderList" (click)="setPolicyType()" [(ngModel)]="productItem.IdType" optionLabel="CodeDesc" optionValue="Code"></p-selectButton>
+                    <h5 class="mr-3 mb-2" *ngIf="insuranceId=='100027'">Customer Type :</h5>
+                    <h5 class="mr-3 mb-2" *ngIf="insuranceId!='100027'">Account Type :</h5>
+                    <!-- <h5 class="mr-3 mb-2" *ngIf="insuranceId=='100027'">{{ 'HOME.CustomerType' | translate }} :</h5>
+                    <h5 class="mr-3 mb-2" *ngIf="insuranceId!='100027'">{{ 'HOME.AccountType' | translate }}:</h5> -->
+                    <p-selectButton [options]="policyHolderList" (click)="setPolicyType()" [(ngModel)]="productItem.IdType" [optionLabel]="getDisplayName()" optionValue="Code"></p-selectButton>
                 </div>
                 <!-- <p-button class="mt-4 lg:mt-0" label="Change Customer" size="small" (click)="navigateToCustomer()"></p-button> -->
             </div>
@@ -45,22 +47,25 @@
                             (change)="onTitleChange('change')"
                             [options]="titleList" 
                             [(ngModel)]="productItem.Title" 
-                            optionLabel="CodeDesc" 
+                            [optionLabel]="getDisplayName()" 
                             optionValue="Code" 
                             placeholder="Select Customer Title">
                         </p-dropdown>
                     </div>
                     <div class="flex flex-column m-3">
                         <label for="username">First Name*</label>
+                        <!-- <label for="username">{{ 'HOME.FirstName' | translate }}*</label> -->
                         <input pInputText id="FirstName"  maxlength="150" [(ngModel)]="productItem.ClientName" 
                         placeholder="Enter First Name"/>
                     </div>
                     <div class="flex flex-column m-3">
+                        <!-- <label for="username">{{ 'HOME.MiddleName' | translate }}*</label> -->
                         <label for="username">Middle Name</label>
                         <input pInputText id="middlename" maxlength="150" [(ngModel)]="productItem.MiddleName"
                         placeholder="Enter Middle Name"/>
                     </div>
                     <div class="flex flex-column m-3">
+                        <!-- <label for="username">{{ 'HOME.LastName' | translate }}*</label> -->
                         <label for="username">Last Name</label>
                         <input pInputText id="lastname" maxlength="150" [(ngModel)]="productItem.LastName"
                         placeholder="Enter Middle Name"/>
@@ -78,7 +83,7 @@
                             (change)="onTitleChange('change')"
                             [options]="titleList" 
                             [(ngModel)]="productItem.Title" 
-                            optionLabel="CodeDesc" 
+                            [optionLabel]="getDisplayName()" 
                             optionValue="Code" 
                             placeholder="Select Customer Title">
                         </p-dropdown>
@@ -99,7 +104,7 @@
                         styleClass="w-full" 
                         [options]="occupationList" (onChange)="onsavedatas('Occupation',null)"
                         [(ngModel)]="productItem.Occupation" 
-                        optionLabel="CodeDesc" 
+                        [optionLabel]="getDisplayName()" 
                         optionValue="Code" 
                         placeholder="Select Occupation">
                     </p-dropdown>
@@ -112,7 +117,7 @@
                         styleClass="w-full" 
                         [options]="genderList" (onChange)="onGenderChange()"
                         [(ngModel)]="productItem.Gender"
-                        optionLabel="CodeDesc" 
+                        [optionLabel]="getDisplayName()" 
                         optionValue="Code" 
                         placeholder="Select Code">
                     </p-dropdown>
@@ -125,7 +130,7 @@
                         styleClass="w-full" 
                         [options]="mobileCodeList" 
                         [(ngModel)]="productItem.MobileCode" 
-                        optionLabel="CodeDesc" 
+                        [optionLabel]="getDisplayName()" 
                         optionValue="Code" 
                         placeholder="Select Code">
                     </p-dropdown>
@@ -157,7 +162,7 @@
                         styleClass="w-full" 
                         [options]="policyHolderTypeList" 
                         [(ngModel)]="productItem.PolicyHolderTypeid" 
-                        optionLabel="CodeDesc" (onChange)="newidtype()"
+                        [optionLabel]="getDisplayName()" (onChange)="newidtype()"
                         optionValue="Code"
                         placeholder="Select Identity Type">
                     </p-dropdown>
@@ -190,7 +195,7 @@
                     <label for="username">Preferred Notification *</label>
                     <p-dropdown inputId="PreferedNotification2"  id="PreferedNotification"
                         class="w-full"  styleClass="w-full"   [options]="notificationList" 
-                        [(ngModel)]="productItem.PreferredNotification"   optionLabel="CodeDesc" 
+                        [(ngModel)]="productItem.PreferredNotification"   [optionLabel]="getDisplayName()" 
                         optionValue="Code" placeholder="Select Perferred Notification">
                     </p-dropdown>
                 </div>
@@ -219,15 +224,18 @@
                     <div class="flex justify-content-start gap-3">
                         <div class="flex align-items-center">
                             <p-radioButton name="Yes" value="Y" [(ngModel)]="productItem.Clientstatus" inputId="Status1"></p-radioButton>
+                            <!-- <span for="Status1" class="ml-2">{{'HOME.Active' | translate}}</span> -->
                             <span for="Status1" class="ml-2">Active</span>
                         </div>
                         <div class="flex align-items-center">
                             <p-radioButton name="No" value="N" [(ngModel)]="productItem.Clientstatus" inputId="Status2"></p-radioButton>
-                            <span for="Status2" class="ml-2">DeActive</span>
+                            <!-- <span for="Status2" class="ml-2">{{'HOME.DeActive' | translate}}</span> -->
+                            <span for="Status1" class="ml-2">DeActive</span>
                         </div>
                         <div class="flex align-items-center">
                             <p-radioButton name="Pending" value="P" [(ngModel)]="productItem.Clientstatus" inputId="Status3"></p-radioButton>
-                            <span for="Status3" class="ml-2">Pending</span>
+                            <!-- <span for="Status3" class="ml-2">{{'HOME.Pending' | translate}}</span> -->
+                            <span for="Status1" class="ml-2">Pending</span>
                         </div>
                     </div>
                 </div>
@@ -254,7 +262,7 @@
                         [options]="countryList" 
                         (onChange)="getRegionList('change')"
                         [(ngModel)]="productItem.Country" 
-                        optionLabel="CodeDesc"
+                        [optionLabel]="getDisplayName()"
                         optionValue="Code" 
                         placeholder="Select Country">
                     </p-dropdown>
@@ -268,7 +276,7 @@
                         [options]="regionList" 
                         (onChange)="getStateList('change')"
                         [(ngModel)]="productItem.state" 
-                        optionLabel="CodeDesc"
+                        [optionLabel]="getDisplayName()"
                         optionValue="Code" 
                         placeholder="Select Region">
                     </p-dropdown>
@@ -281,7 +289,7 @@
                         styleClass="w-full" 
                         [options]="stateList" 
                         [(ngModel)]="productItem.CityName" 
-                        optionLabel="CodeDesc"
+                        [optionLabel]="getDisplayName()"
                         optionValue="Code" 
                         placeholder="Select District">
                     </p-dropdown>
@@ -320,7 +328,7 @@
                             styleClass="w-full" 
                             [options]="policyHolderTypeList" 
                             [(ngModel)]="productItem.PolicyHolderTypeid" 
-                            optionLabel="CodeDesc" 
+                            [optionLabel]="getDisplayName()" 
                             optionValue="Code"
                             placeholder="Select Identity Type">
                         </p-dropdown>
@@ -345,7 +353,7 @@
                             styleClass="w-full" 
                             [options]="notificationList" 
                             [(ngModel)]="productItem.PreferredNotification"
-                            optionLabel="CodeDesc" 
+                            [optionLabel]="getDisplayName()" 
                         optionValue="Code"
                             placeholder="Select Perferred Notification">
                         </p-dropdown>
@@ -405,7 +413,7 @@
                             (change)="onTitleChange('change')"
                             [options]="titleList" 
                             [(ngModel)]="productItem.Title" 
-                            optionLabel="CodeDesc" 
+                            [optionLabel]="getDisplayName()" 
                             optionValue="Code" 
                             placeholder="Select Customer Title">
                         </p-dropdown>
@@ -421,7 +429,7 @@
                             styleClass="w-full" 
                             [options]="occupationList" 
                             [(ngModel)]="productItem.Occupation" 
-                            optionLabel="CodeDesc" 
+                            [optionLabel]="getDisplayName()" 
                             optionValue="Code" 
                             placeholder="Select Occupation" (change)="onsavedatas('Occupation',null)">
                         </p-dropdown>
@@ -433,7 +441,7 @@
                             styleClass="w-full" 
                             [options]="businessTypeList" 
                             [(ngModel)]="productItem.BusinessType" 
-                            optionLabel="CodeDesc" 
+                            [optionLabel]="getDisplayName()" 
                             optionValue="Code" 
                             placeholder="Select BusinessType">
                         </p-dropdown>
@@ -445,7 +453,7 @@
                             styleClass="w-full"
                             [options]="mobileCodeList" 
                             [(ngModel)]="productItem.MobileCode" 
-                            optionLabel="CodeDesc" 
+                            [optionLabel]="getDisplayName()" 
                             optionValue="Code" 
                             placeholder="Select Code">
                         </p-dropdown>

@@ -412,7 +412,7 @@
           </div>
       </ng-container>
     </p-tabPanel>
-    <p-tabPanel header="Short Quote" *ngIf="insuranceId=='100019'">
+    <p-tabPanel header="Short Quote" *ngIf="insuranceId=='100019' || insuranceId=='100027'">
       <div class="flex justify-content-end mb-4">
         <p-button icon="pi pi-table"  class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
         <p-button icon="pi pi-list" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>

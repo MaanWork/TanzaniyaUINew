@@ -9,6 +9,8 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ProductData } from '../models/product';
 import * as moment from 'moment';
 import { MotorShotQuoteCustomerUganda } from '../models/Uganda/MotorShotQuoteCustomerUganda';
+import { ShortQuoteCustomerSanlam } from '../models/sanlam/MotorShotQuoteCustomer';
+import { ShortQuoteSanlam } from '../models/sanlam/MotorShotQuote';
 
 @Component({
   templateUrl: './short-quote.component.html',
@@ -73,8 +75,8 @@ export class ShortQuoteComponent implements OnInit {
   showCustomerList: boolean=false;brokerBranchCode: any=null;
   brokerLoginId: any=null;commonSection: boolean=false;
   sourceCodeDesc: any=null;brokerList: any[]=[];customerList: any[]=[];
-  brokerBranchList: any[]=[];
-  mainBodyTypeList: any[]=[];
+  brokerBranchList: any[]=[];mainBodyTypeList: any[]=[];vehicleTypeList: any[]=[];
+  defencecostList: any[]=[];deductiblesList: any[]=[];
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
       this.loginId = this.userDetails.Result.LoginId;
@@ -105,13 +107,10 @@ export class ShortQuoteComponent implements OnInit {
     // this.years = this.getYearList();
   }
   ngOnInit(): void {
-    
     this.productItem.CarAlarmYN = 'N';
     this.productItem.GpsYN = 'N';
     this.productItem.ClaimsYN = 'N';
     this.yearList = this.getYearList();
-    
-    
     this.getCurrencyList();
     var d = new Date();
     var year = d.getFullYear();
@@ -120,14 +119,18 @@ export class ShortQuoteComponent implements OnInit {
     this.policyStartDate = this.datePipe.transform(new Date(year, month, day),'dd/MM/yyyy');
     this.policyEndDate = this.datePipe.transform(new Date(year + 1, month, day-1),'dd/MM/yyyy');
     this.onGetFormControl();
-    
-    
   }
   onGetFormControl(){
     this.fields = [];this.fields2 =[];
     let fireData:any=null,fireData2:any=null;
-    fireData2 = new MotorShotQuoteCustomerUganda();
-    fireData = new MotorShotQuoteUganda();
+    if(this.insuranceId=='100019'){
+      fireData2 = new MotorShotQuoteCustomerUganda();
+      fireData = new MotorShotQuoteUganda();
+    }
+    else if(this.insuranceId=='100027'){
+      fireData2 = new ShortQuoteCustomerSanlam();
+      fireData = new ShortQuoteSanlam();
+    }
     this.fields2[0] = fireData2?.fields;
     this.fields[0] = fireData?.fields;
       let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
@@ -136,7 +139,7 @@ export class ShortQuoteComponent implements OnInit {
         });
       } }
       this.fields[0].fieldGroup[0].fieldGroup[0].hooks = regionHooks;
-      if(this.insuranceId=='100002' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020' || this.insuranceId=='100004' || this.insuranceId=='100028'){
+      if(this.insuranceId=='100002' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020' || this.insuranceId=='100004' || this.insuranceId=='100027' || this.insuranceId=='100028'){
         let regionHooks2 ={ onInit: (field: FormlyFieldConfig) => {
           field.formControl.valueChanges.subscribe(() => {
             this.onChangeInsuranceClass('change')
@@ -171,13 +174,11 @@ export class ShortQuoteComponent implements OnInit {
           let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
           for(let field of fieldList){
             if(field.key=='ManufactureYear' && this.yearList.length!=0) field.props.options= defaultObj.concat(this.yearList);
-            if(field.key=='MotorUsage'){ field.hooks = regionHooks5;}
+            if(field.key=='MotorUsage'){field.hooks = regionHooks5;}
             if(field.key=='BodyType'){ field.hooks = regionHooks3;}
             if(field.key=='Make'){ field.hooks = regionHooks4;}
             if(field.key=='Model'){ field.hooks = regionHooks6;}
-            if(field.key=='InsuranceType' && this.insuranceId=='100028'){
-              field.hooks = regionHooks2;
-            }
+            if(field.key=='InsuranceType' && this.insuranceId=='100028'){field.hooks = regionHooks2;}
             else if(field.key=='InsuranceClass'  && this.insuranceId!='100028') field.hooks = regionHooks2;
           }
         }
@@ -197,6 +198,11 @@ export class ShortQuoteComponent implements OnInit {
       if(quoteReferenceNo){
         this.quoteRefNo = quoteReferenceNo;
         this.getmotorDetails();
+      }
+      if(this.insuranceId=='100027'){
+        this.getType1();
+        this.getType2();
+        this.getType3();
       }
   }
   onSourceTypeChange(type){
@@ -804,7 +810,103 @@ export class ShortQuoteComponent implements OnInit {
       },
       (err) => { },
     );
-}
+  }
+  getType1(){
+    let ReqObj = {
+      "InsuranceId": this.insuranceId,
+      "ItemType": "DEDUCTIBLES"
+    }
+    let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            this.deductiblesList = data.Result;
+            if(this.deductiblesList.length!=0){
+              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
+              for (let i = 0; i < this.deductiblesList.length; i++) {
+                this.deductiblesList[i].label = this.deductiblesList[i]['CodeDesc'];
+                this.deductiblesList[i].value = this.deductiblesList[i]['Code'];
+                if (i == this.deductiblesList.length - 1) {
+                    console.log("Dropdown List",this.fields)
+                    let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                    for(let field of fieldList){
+                      if(field.key=='Deductibles'){
+                        field.props.options = defaultObj.concat(this.deductiblesList);
+                      }
+                    }
+                }
+              }
+            }
+        }
+      },
+      (err) => { },
+    );
+  }
+
+  getType2(){
+    let ReqObj = {
+      "InsuranceId": this.insuranceId,
+      "ItemType": "DEFENCE_COST"
+    }
+    let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+            this.defencecostList = data.Result;
+            if(this.defencecostList.length!=0){
+              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
+              for (let i = 0; i < this.defencecostList.length; i++) {
+                this.defencecostList[i].label = this.defencecostList[i]['CodeDesc'];
+                this.defencecostList[i].value = this.defencecostList[i]['Code'];
+                if (i == this.defencecostList.length - 1) {
+                  let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                    for(let field of fieldList){
+                      if(field.key=='DefenceCost'){
+                        field.props.options = defaultObj.concat(this.defencecostList);
+                      }
+                    }
+                }
+              }
+            }
+        }
+      },
+      (err) => { },
+    );
+  }
+
+  getType3(){
+    let ReqObj = {
+      "InsuranceId": this.insuranceId,
+      "ItemType": "VEHICLE_VALUE_TYPE"
+    }
+    let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            this.vehicleTypeList = data.Result; 
+            if(this.vehicleTypeList.length!=0){
+              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
+              for (let i = 0; i < this.vehicleTypeList.length; i++) {
+                this.vehicleTypeList[i].label = this.vehicleTypeList[i]['CodeDesc'];
+                this.vehicleTypeList[i].value = this.vehicleTypeList[i]['Code'];
+                if (i == this.vehicleTypeList.length - 1) {
+                    console.log("Dropdown List",this.fields)
+                    let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                    for(let field of fieldList){
+                      if(field.key=='VehicleValue'){
+                        field.props.options = defaultObj.concat(this.vehicleTypeList);
+                      }
+                    }
+                }
+              }
+            }
+        }
+      },
+      (err) => { },
+    );
+  }
   getMotorUsageList(vehicleValue,type){
     let sectionId = null;
     this.productItem.MotorUsage = this.motorUsageValue;
@@ -1171,6 +1273,11 @@ export class ShortQuoteComponent implements OnInit {
       "VehiclemakeId": this.productItem.Make,
       "VehicleModel": this.productItem.ModelDesc,
       "VehcilemodelId": this.productItem.Model,
+      "VehicleValueType": this.productItem.VehicleValue,
+      "DefenceValue":this.productItem.DefenceCost,
+      "PurchaseDate":PurchaseDate,
+      "Deductibles": deductibles,
+      "Inflation": this.productItem.Inflation,
       "ManufactureYear": this.productItem.ManufactureYear,
       "Gpstrackinginstalled": this.productItem.GpsYN,
       "NcdYn": this.productItem.ClaimsYN,

@@ -164,8 +164,7 @@ export class RiskDetailsComponent {
           var day = d.getDate();
           this.minDate = new Date(year-18,month,day-1);
 
-         this.getContentDetail();
-         this.getallriskDetailsData();
+        
           this.getdropList();
           this.getCountryList();
           if(this.coversreuired!='B' && this.coversreuired!='BC'){this.contentSection=true;this.getAddInfo()}
@@ -182,11 +181,12 @@ export class RiskDetailsComponent {
           }]
           this.columnHeaderPersonalLiability =['Location *','Occupation *','Name *','Date Of Birth *','Salary *','Edit' ,'Delete'];
           this.columnHeaderPersonalAccident =['Location *','Occupation *','Name *','Date Of Birth *','Salary *','Edit' ,'Delete'];
-          this.columnHeaderBuilding =['Construction (Wall)','Construction (Roof)','Sum Insured',"Location",'Edit' ,'Delete']
+          this.columnHeaderBuilding =['Construction (Wall)','Construction (Roof)','Sum Insured','Address',"Location",'Edit' ,'Delete']
           this.TableRowBuilding =[{
             id:1,
             BuildingUsageId: '',
             BuildingBuildYear : '',
+            BuildingAddress : '',
             WallType: '',
             RoofType: '',
             BuildingSumInsured: 0,
@@ -250,7 +250,8 @@ export class RiskDetailsComponent {
             if(this.requestReferenceNo!=null && this.productId=='59'){
               this.getCommonDetails();
               this.getallriskList();
-             
+              this.getContentDetail();
+              this.getallriskDetailsData();
               if(this.coversreuired=='B' || this.coversreuired=='BC') this.getBuildingDetails('direct');
                this.getContentDetails('Content');
                 this.getAllRiskDetails('AllRisk');
@@ -258,6 +259,27 @@ export class RiskDetailsComponent {
                 this.getPersonalAccidentDetails('PersonalAccident');
                 this.getPersonalLiabilityDetails('PersonalLiability');
                 this.getDomesticServantDetails('PersonalLiability');
+            }
+            else if(this.productId=='59'){
+              let details = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
+              if(details){
+                  console.log("Final Display",details)
+                  let sectionIDs:any[] = details[0].SectionId;
+                  this.Content = sectionIDs.some(ele=>ele=='47');
+                  if(this.Content) this.editsections('Content');
+                  this.Building1 = sectionIDs.some(ele=>ele=='1');
+                  if(this.Building1) this.editsections('Building');
+                  this.ElecEquipment = sectionIDs.some(ele=>ele=='76');
+                  if(this.ElecEquipment) this.editsections('ElectronicEquipment');
+                  this.AllRisk = sectionIDs.some(ele=>ele=='3');
+                  if(this.AllRisk) this.editsections('AllRisk');
+                  this.personalIndemity = sectionIDs.some(ele=>ele=='35');
+                  if(this.personalIndemity) this.editsections('PersonalLiability');
+                  this.PersonalAccident = sectionIDs.some(ele=>ele=='36');
+                  if(this.PersonalAccident) this.editsections('PersonalAccident');
+                  this.DomesticServant = sectionIDs.some(ele=>ele=='106');
+                  if(this.DomesticServant) this.editsections('DomesticServant');
+              }
             }
             if(this.productId=='19'){
               this.getSectionList();
@@ -478,6 +500,10 @@ export class RiskDetailsComponent {
           }
           else return false;
         }
+        checkLocationDetails(){
+          if(this.locationList.length==1){return this.locationList.some(ele=>ele.BuildingAddress==null || ele.BuildingAddress=='' || ele.BuildingAddress==undefined || ele.LocationName==undefined || ele.LocationName=='' || ele.LocationName==null);}
+          else return !(this.locationList.length>1)
+        }
         showDialog() {
           console.log("Building",this.TableRowBuilding)
           if(((this.coversreuired=='B' || this.coversreuired=='BC') && this.Building1) && this.checkBuildingDetails()){
@@ -498,9 +524,25 @@ export class RiskDetailsComponent {
             })
           }
           else if(!((this.coversreuired=='B' || this.coversreuired=='BC') && this.Building1)){
-              this.contentSection = true;
-              
-              this.visible =true;
+              if(this.locationList.length==0 || this.checkLocationDetails()){
+                Swal.fire({
+                  title: '<strong>Error</strong>',
+                  icon: 'info',
+                  html:
+                    `<ul class="list-group errorlist">
+                      <li>Please Add Building Details First</li>
+                  </ul>`,
+                   showCloseButton: false,
+                  //focusConfirm: false,
+                  // showCancelButton:true,
+            
+                  //confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  cancelButtonText: 'Ok',
+                })
+              }
+              else{this.visible = true;
+                this.getContentDetail();}
           }
           else if(this.TableRowBuilding.length!=0 && !this.checkBuildingDetails()){
             this.visible = true;
@@ -561,7 +603,7 @@ export class RiskDetailsComponent {
       if(this.TableRowBuilding.length!=0){this.buildingEditSection=!this.buildingEditSection;this.locationList=this.TableRowBuilding}
       else if(type=='content'){this.visible=false;}
     }
-    showDialogAllRisk(type) { 
+    showFinalDialogAllRisk(type){
       if(type=='AR'){
         this.visibleAllRisk = true;
         this.getallriskDetailsData();
@@ -582,6 +624,44 @@ export class RiskDetailsComponent {
       else if(type=='DS'){
         this.domesticServantDialog = true;
         this.getDomesticServantDetails('DomesticServant');
+      }
+    }
+    showDialogAllRisk(type) { 
+      if(((this.coversreuired=='B' || this.coversreuired=='BC') && this.Building1) && this.checkBuildingDetails()){
+        Swal.fire({
+          title: '<strong>Error</strong>',
+          icon: 'info',
+          html:
+            `<ul class="list-group errorlist">
+              <li>Please Add Building Details First</li>
+          </ul>`,
+            showCloseButton: false,
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Ok',
+        })
+      }
+      else if(!((this.coversreuired=='B' || this.coversreuired=='BC') && this.Building1)){
+        if(this.locationList.length==0 || this.checkLocationDetails()){
+          Swal.fire({
+            title: '<strong>Error</strong>',
+            icon: 'info',
+            html:
+              `<ul class="list-group errorlist">
+                <li>Please Add Building Details First</li>
+            </ul>`,
+             showCloseButton: false,
+            //focusConfirm: false,
+            // showCancelButton:true,
+      
+            //confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Ok',
+          })
+        }
+        else this.showFinalDialogAllRisk(type);
+      }
+      else{
+        this.showFinalDialogAllRisk(type);
       }
     }
     addRow() {
@@ -3459,7 +3539,6 @@ export class RiskDetailsComponent {
                 for(let field of fieldList){
                   if(field.key=='BuildingBuildYear' && this.insuranceId=='100004'){
                     field.props.options = this.getYearList();
-                    console.log("Building JSON",this.fields)
                   }
                   if(field.key=='BuildingSuminsured'){
                       field.templateOptions.disabled = true;
@@ -4339,36 +4418,38 @@ export class RiskDetailsComponent {
               (err) => { },
             );
           }
-getAddInfo(){
-  let ReqObj = {
-    "RequestReferenceNO": this.quoteRefNo,
-    "SectionId": "1"
-  }
- 
-  let urlLink = `${this.motorApiUrl}api/getbuildingdetails`;
-  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-    (data: any) => {
-      if (data.Result) { 
-        console.log(data.Result,"this.LocationNamethis.LocationName");
-        if(this.contentSection){
-          
-          this.TableRowBuilding = data.Result;
-          this.onEditLocationDetails();
-        }
-        else{
-          let i = 0
-          for(i; i < data.Result.length; i++){
-          
-          this.TableRowBuilding[i]['LocationName']=data?.Result[i]?.LocationName;
-            console.log(this.TableRowBuilding);
+          getAddInfo(){
+            if(this.requestReferenceNo!=null){
+              let ReqObj = {
+                "RequestReferenceNO": this.quoteRefNo,
+                "SectionId": "1"
+              }
+            let urlLink = `${this.motorApiUrl}api/getbuildingdetails`;
+              this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+                (data: any) => {
+                  if (data.Result) { 
+                    console.log(data.Result,"this.LocationNamethis.LocationName");
+                    if(this.contentSection){
+                      
+                      this.TableRowBuilding = data.Result;
+                      this.onEditLocationDetails();
+                    }
+                    else{
+                      let i = 0
+                      for(i; i < data.Result.length; i++){
+                      
+                      this.TableRowBuilding[i]['LocationName']=data?.Result[i]?.LocationName;
+                        console.log(this.TableRowBuilding);
+                      }
+                    }
+                  }
+                  
+                },
+                (err) => { },
+              );
+            }
+            else{this.TableRowBuilding=[];if(this.contentSection)this.onEditLocationDetails();}
           }
-        }
-      }
-      
-    },
-    (err) => { },
-  );
-}
 
           getDomesticServantDetails(type){
             let ReqObj = {
@@ -4481,7 +4562,6 @@ getAddInfo(){
                       //   this.isFinanceEndt = entry?.IsFinanceEndt;
                       //   this.orginalPolicyNo = entry?.OrginalPolicyNo;
                       // }
-                      console.log("Products",this.productItem)
                   }
                   else{this.productItem.OccupationType = null; this.productItem.PersonalAccidentSuminsured=null;
                   this.getOccupationList('35','PersonalAccident');
@@ -4523,7 +4603,7 @@ getAddInfo(){
                     }
                     let additonalData = {
                       "BuildingSuminsured": entry.BuildingSumInsured,
-                      "BuildingAddress": "Add1",
+                      "BuildingAddress": entry.BuildingAddress,
                       "Createdby": this.loginId,
                       "InbuildConstructType": null,
                       "QuoteNo": sessionStorage.getItem('quoteNo'),
@@ -4866,26 +4946,8 @@ getAddInfo(){
             let homeDetails = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
             if (homeDetails) {
               if (homeDetails[0].SectionId == undefined || homeDetails[0].SectionId == "undefined") 
-              //homeDetails[0]['SectionId'] = sections;
-              // else homeDetails[0].SectionId = sections;
-              // if(this.IndustryId && this.industryList!=null)
-              // homeDetails[0]['IndustryName'] = this.industryList.find(ele=>ele.Code==this.IndustryId).CodeDesc;
               this.commonDetails = homeDetails;
             }
-            //let section = [];
-            // if(this.productId=='6'){section.push('40');};
-            // if(this.productId=='39'){section.push('41'); };
-            // if(this.productId=='16'){section.push('42');};
-            // if(this.productId=='14'){section.push('45');};
-            // if(this.productId=='32'){section.push('43');};
-            // if(this.productId=='1'){section.push('52');};
-            // if(this.productId=='21'){section.push('3');};
-            // if(this.productId=='26'){section.push('3');};
-            // if(this.productId=='25'){section.push('39');};
-            // if(this.productId=='13'){section.push('35');};
-            // if(this.productId=='43'){section.push('70');this.IndustryId='44'};
-            // if(this.productId=='42'){section.push('69');this.IndustryId='99999'};
-            // if( this.productId=='27'){section.push('54');this.IndustryId='44'};
             if( this.productId=='59'){this.IndustryId='99999'};
             let startDate=null,endDate=null;
             let dateList = String(this.policyStartDate).split('/');

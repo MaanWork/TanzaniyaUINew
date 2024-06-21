@@ -181,8 +181,9 @@ remarksError: boolean=false;
   LastQuoteDate: any;
   CollectedPremium: any;
   PolicyCommission: any;
-  brokerValue: any;
-  OaCode: any;
+  brokerValue: any;subBranchId:any=null;
+  OaCode: any;subBranchList:any[]=[];
+  sourceList: any[]=[];
   
   constructor(private router:Router,
    private sharedService:SharedService,public datePipe:DatePipe) {
@@ -257,6 +258,7 @@ remarksError: boolean=false;
   }
   showDialogBrokerDetails(type){
     if(type=='AddBroker'){
+      this.agencyCode = null;
       this.brokerDialogVisible=true;
        this.formRest();
        this.onCountryChange('direct');
@@ -268,7 +270,8 @@ remarksError: boolean=false;
     }
     else if(type=='branchDetail'){
       this.branchDetailsPopup=true;
-     
+      this.branchFormReset();
+      
     }
     else if(type=='AddProduct'){
       this.addProduct=true;
@@ -298,6 +301,42 @@ remarksError: boolean=false;
     else if(type=='paymentTableAddCancel'){
       this.ExistingPaymentAddPopup=false;
     }
+  }
+  branchFormReset(){
+    this.branchName=null,this.brokerBranchName=null;this.branchType='Main';this.salePointCode=null;
+    this.address1=null;this.address2=null;this.email=null;this.mobile=null;this.effectiveDate=null;
+    this.remarks=null;this.Status='Y';
+    this.getMainBranchList();
+  }
+  getMainBranchList(){
+    let ReqObj = {"InsuranceId": this.insuranceId}
+    let urlLink = `${this.CommonApiUrl}master/dropdown/branchmaster`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+            let obj=[{"Code":null,"CodeDesc":"---Select---"}]
+              this.branchList = obj.concat(data.Result);
+          }
+        },
+        (err) => { },
+      );
+  }
+  SourceType(){
+    let ReqObj = {"InsuranceId": this.insuranceId,
+    "BranchCode":this.subBranchId
+  }
+    let urlLink = `${this.CommonApiUrl}dropdown/sourcetype`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+              this.sourceList = data.Result;
+
+          }
+        },
+        (err) => { },
+      );
   }
   showDialogBrokerDetails1(type,value){
 
@@ -350,6 +389,7 @@ this.ChangePass=true;
   EditDetailsView(value){
     this.brokerLoginId=value.LoginId
     this.brokerDialogVisible=true;
+    
     this.getEditBrokerDetails();
   }
   getMobileCodeList() {
@@ -409,16 +449,16 @@ this.ChangePass=true;
       "InsuranceId": this.insuranceId
     }
     let urlLink = `${this.CommonApiUrl}master/dropdown/branchmaster`;
-  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-    (data: any) => {
-      if(data.Result){
-        this.branchList =data?.Result;
-        this.onBrokerChange();
-      }
-    },
-    (err) => { },
-  
-  );
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+          this.branchList =data?.Result;
+          this.onBrokerChange();
+        }
+      },
+      (err) => { },
+    
+    );
   }
    onBrokerChange(){
       let ReqObj = {
@@ -500,6 +540,7 @@ this.ChangePass=true;
          
           this.loginInformation = data.Result.LoginInformation;
           this.OaCode=this.loginInformation.OaCode;
+          this.agencyCode = this.loginInformation.AgencyCode
           this.PersonalInformation = data.Result.PersonalInformation;
           this.CbcDeposit= data.Result.DepositCbc;
            this.designation = this.PersonalInformation.Designation;
