@@ -175,14 +175,10 @@ remarksError: boolean=false;
   SwitchOnlineYn: boolean=true;
   passwordPopup: boolean=false;
   ViewProducts: any[]=[];
-  dates:any;
-  LastLoginDate: any;
-  LastPolicyDate: any;
-  LastQuoteDate: any;
-  CollectedPremium: any;
+  dates:any;LastLoginDate: any;LastPolicyDate: any;LastQuoteDate: any;CollectedPremium: any;
   PolicyCommission: any;branchSPDetailsPopup:boolean=false;
   brokerValue: any;subBranchId:any=null;
-  OaCode: any;subBranchList:any[]=[];
+  OaCode: any;subBranchList:any[]=[];CoverType:any='1';
   sourceList: any[]=[];SalePointCodeList: any[]=[];
   selectedBranchName: any=null;selectedSPCode: any=null;SalePointCode: any=null;
   
@@ -231,7 +227,6 @@ remarksError: boolean=false;
         console.log(data);
         if (data.Result) {
           this.channelList = data.Result;
-          
         }
       },
       (err) => { },
@@ -275,12 +270,18 @@ remarksError: boolean=false;
     }
     else if(type=='AddProduct'){
       this.addProduct=true;
+      this.editProduct = false;
+      this.existingProduct=false;
+    }
+    else if(type=='EditProduct'){
+      this.addProduct=false;
+      this.editProduct = true;
       this.existingProduct=false;
     }
     else if(type=='ProductCancel'){
       this.addProduct=false;
       this.existingProduct=true;
-
+      this.editProduct = false;
     }
     
     
@@ -969,7 +970,7 @@ this.ChangePass=true;
   editBranch(value){
     this.branchDetailsPopup=true;
       this.brokerBranchName=value.BrokerBranchName;
-      this.branchName=value.BranchName;
+      this.branchName=value.BranchCode;
       this.branchType=value.BranchType;
       this.salePointCode=value.SalePointCode;
       this.address1=value.Address1;
@@ -982,20 +983,20 @@ this.ChangePass=true;
       this.subSourceId = value.SourceType;
       this.DepartmentCode="11";
       this.AttachedBranchCode=value.AttachedBranchCode;
-      this.BranchCode=value.BranchCode;
+      this.BranchCode=value.BrokerBranchCode;
       this.BrokerBranchCode=value.BrokerBranchCode;
-      
+      this.getMainBranchList();
   }
   onFormSubmit(){
     console.log('kkkkkkkkkk',this.customerCode);
     let ReqObj = {
       "Address1": this.address1,
       "Address2": this.address2,
-      "BranchCode": this.BranchCode,
+      "BranchCode": this.branchName,
       "AttachedCompany": this.subInsuranceId,
-      "BrokerBranchCode": this.BrokerBranchCode,
+      "BrokerBranchCode": this.BranchCode,
       "BranchType":this.branchType,
-      "BrokerBranchName": this.branchName,
+      "BrokerBranchName": this.brokerBranchName,
       "CreatedBy": this.loginId,
       "Email": this.email,
       "EffectiveDateStart": this.effectiveDate,
@@ -1010,7 +1011,7 @@ this.ChangePass=true;
       "AttachedBranchCode":this.AttachedBranchCode
     }
     if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {
-      ReqObj['EffectiveDateStart'] =  this.datePipe.transform(ReqObj.EffectiveDateStart, "dd/MM/yyyy")
+      if(String(ReqObj.EffectiveDateStart).split('/').length==1) ReqObj['EffectiveDateStart'] =  this.datePipe.transform(ReqObj.EffectiveDateStart, "dd/MM/yyyy")
     }
     else{
       ReqObj['EffectiveDateStart'] = "";
@@ -1020,16 +1021,10 @@ this.ChangePass=true;
       (data: any) => {
         console.log(data);
         if(data.Result){
-         
           this.branchDetailsPopup=false;
-          this.branchPopup=false;
-      
         }
         else if(data.ErrorMessage){
-         
-          console.log("Error Iterate",data.ErrorMessage)
-         
-      }
+         }
       },
       (err) => { },
     );
@@ -1061,8 +1056,8 @@ this.ChangePass=true;
                       if(product?.CheckerYn==null) product.CheckerYn = 'N';
                       if(product?.SumInsuredEnd!=null){product.SumInsuredEnd =String(product?.SumInsuredEnd).split('.')[0]; this.CommaFormatted(product);}
                       if (product?.EffectiveDateStart != null) {
-                        product['EffectiveDate'] = this.newList;
-                        this.newslist;(product?.EffectiveDateStart)
+                        product['EffectiveDate'] = product?.EffectiveDateStart;
+                        
                       }
                       // if(product.SelectedYn=='Y'){
                       //   this.newList = selectedList;
@@ -1503,12 +1498,14 @@ this.ChangePass=true;
       let SumInsured =0;
       if(entry.SumInsuredEnd.includes(',')){ SumInsured = entry.SumInsuredEnd.replace(/,/g, '') }
       else SumInsured = entry.SumInsuredEnd;
+      console.log('Entry',entry)
       let effectiveDate=null;
       if(entry.EffectiveDate){
         let dateList = String(entry.EffectiveDate).split('/');
         if(dateList.length==1) effectiveDate = this.datePipe.transform(entry.EffectiveDate, "dd/MM/yyyy");
         else effectiveDate =entry.EffectiveDate
       }
+      
       let Obj =  {
         "ProductId": entry.ProductId,
         "ProductName": entry.ProductName,
