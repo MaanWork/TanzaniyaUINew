@@ -26,11 +26,11 @@ export class BrokerComponent {
   branchDetailsPopup:boolean=false;
   addProduct:boolean=false;
   existingProduct:boolean=true;
-  paymentTable:boolean=true;
-  paymentTableAdd:boolean=false;
+  paymentTable:boolean=true;coverEffectiveError:boolean=false;
+  paymentTableAdd:boolean=false;coverEffectiveDate:any=null;
   ExistingPaymentAddPopup:boolean=false;
-  brokerHeader:any[]=[];
-  brokerData:any[]=[];
+  brokerHeader:any[]=[];sectionList:any[]=[];
+  brokerData:any[]=[];sectionValue:any=null;
   public AppConfig: any = (Mydatas as any).default;
   public ApiUrl1: any = this.AppConfig.ApiUrl1;
   public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
@@ -111,10 +111,10 @@ export class BrokerComponent {
   AttachedBranchCode: any;
   BranchCode: any=null;
   BrokerBranchCode: any;
-  selectedProductList: any[]=[];
-  productData: any[];
-  customerSearchvisible:boolean=false;
-  position: string = 'top';
+  selectedProductList: any[]=[];productValue:any=null;
+  productData: any[];productList:any[]=[];
+  customerSearchvisible:boolean=false;selectedCoverListInc:any[]=[];
+  position: string = 'top';selectedCoverListExc:any[]=[];
   userNameError: boolean=false;
   customerCodeError: boolean=false;
   stateCodeError: boolean=false;
@@ -393,9 +393,13 @@ this.ChangePass=true;
   passChanged(){
     this.ChangePass=false;
   }
-  ConfigPopUp(type){
+  ConfigPopUp(type,value){
+    this.brokerLoginId=value.LoginId;
+    this.userLoginId = value.LoginId;
+    this.agencyCode = value.OaCode;
     if(type=='Cover'){
-      this.coverPopup=true;
+      this.coverPopup = true;
+      this.getBrokerProductList();
     }
     else if (type=='Deposit'){
       this.depositPopup=true;
@@ -410,10 +414,219 @@ this.ChangePass=true;
       this.paymentTypesDetailPopup=false;
     }
   }
+  getBrokerProductList(){
+    let ReqObj = {
+      "InsuranceId": this.insuranceId,
+      "LoginId": this.brokerLoginId
+    }
+    let urlLink = `${this.CommonApiUrl}admin/dropdown/brokerproducts`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+            let obj = [{"Code":null,"CodeDesc":"--Select--"}]
+            this.productList = obj.concat(data.Result);
+            if(data.Result.length!=0){
+              this.productValue = data.Result[0].Code;
+              //this.getBrokerBranchList();
+              this.onChangeProduct();
+            }
+        }
+      },
+      (err) => { },
+    );
+  }
+  onChangeProduct(){
+    this.sectionValue = null;
+    this.sectionList = [];
+    this.tableData = [];
+    let ReqObj = {
+      "InsuranceId": this.insuranceId,
+      "ProductId": this.productValue,
+      "BranchCode":this.branchValue,
+      "AgencyCode":this.agencyCode
+    }
+    let urlLink = `${this.ApiUrl1}master/dropdown/productsection`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+          let obj = [{"Code":null,"CodeDesc":"--Select--"}]
+            this.sectionList = obj.concat(data.Result);
+          let sectionValue = null;
+         if(data.Result.length!=0)sectionValue = data.Result[0].Code;
+          if(sectionValue){
+            this.sectionValue = sectionValue;
+            let Inc =sessionStorage.getItem('IncValue')
+            if(Inc) this.CoverType=Inc;
+            else{Inc = '1';this.CoverType='1'}
+            this.onChangeSection();
+            //this.getBrokerCoverList();
+          }
+        }
+        },
+        (err) => { },
+      );
+  }
+  onChangeSection(){
+    this.selectedCoverListInc=[];this.selectedCoverListExc=[];
+    let Inc = this.CoverType;
+    if(Inc =='1'){
+      this.branchValue = "99999";
+      this.getBrokerCoverList();
+     }
+     else if(Inc == '2'){
+      this.branchValue = "99999";
+      this.getBrokerAllCoverList();
+     }
+  }
+  getBrokerCoverList(){
+    
+    let ReqObj = {
+    "Limit":"",
+    "Offset":"100000",
+    "InsuranceId": this.insuranceId,
+    "SectionId":this.sectionValue,
+    "ProductId": this.productValue,
+    "BranchCode":this.branchValue,
+    "AgencyCode":this.agencyCode
+    }
+    let urlLink = `${this.ApiUrl1}master/getallsectionbrokercoverdetails`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+            //sessionStorage.setItem('companySectionId',this.sectionValue);
+            this.tableData = data.Result;
+        }
+      },
+      (err) => { },
+    );
+  }
+  getBrokerAllCoverList(){
+  
+  let ReqObj = {
+    "Limit":"",
+    "Offset":"100000",
+    "InsuranceId": this.insuranceId,
+    "SectionId":this.sectionValue,
+    "ProductId": this.productValue,
+    "BranchCode":this.branchValue,
+    "AgencyCode":this.agencyCode
+  }
+  let urlLink = `${this.ApiUrl1}master/getallsectioncoverbroker`;
+  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+  (data: any) => {
+    if(data.Result){
+        //sessionStorage.setItem('companySectionId',this.sectionValue);
+        this.tableData = data.Result;
+    }
+  },
+  (err) => { },
+  );
+  }
   changebroker(){
     if(this.channelId!=null && this.channelId!=undefined && this.channelId!=''){
       this.getBrokerList();
     }
+  }
+  onSaveCover(){
+    if(this.coverEffectiveDate==null || this.coverEffectiveDate==''){this.coverEffectiveError=true;}
+    else{
+      let t:any;
+      if(this.CoverType=='1'){
+        //this.Included(this.rowData)
+        if(this.coverEffectiveDate!=null){
+          if(String(this.coverEffectiveDate).split('/').length==1) t=  this.datePipe.transform(this.effectiveDate, "dd/MM/yyyy");
+          else t=this.coverEffectiveDate
+         //this.brokerList[0].EffectiveDateStart=t;
+       }
+        let i=0;
+          for(let u of this.selectedCoverListInc){
+            u['Status'] = this.statusValue;
+          u['EffectiveDateStart']=t;
+            i++;
+            if(i==this.selectedCoverListInc.length) this.Included(this.CoverType)
+        
+          }
+        }
+        else if(this.CoverType =='2'){
+          if(this.coverEffectiveDate!=null){
+            if(String(this.coverEffectiveDate).split('/').length==1) t=  this.datePipe.transform(this.coverEffectiveDate, "dd/MM/yyyy");
+            else t=this.coverEffectiveDate
+        }
+        let i=0;
+          for(let u of this.selectedCoverListExc){
+          u['EffectiveDateStart']=t;
+            i++;
+            if(i==this.selectedCoverListExc.length) this.Included(this.CoverType)
+        
+          }
+      }
+    }
+  }
+  Included(incValue){
+    let ReqObj = [];
+      if(incValue=='1') ReqObj = this.selectedCoverListInc
+      else ReqObj = this.selectedCoverListExc;
+      let urlLink = `${this.ApiUrl1}master/insertbrokersectioncover`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+            if(data.Result){
+                this.selectedCoverListExc=[];
+                this.selectedCoverListInc=[];
+                if(this.CoverType=='1') this.CoverType='2';
+                else this.CoverType='1';
+                this.onChangeSection()
+            }
+            else if(data.ErrorMessage){
+            }
+          },
+          (err) => { },
+        );
+  
+  }
+  onSelectCustomer(row:any,checked){
+    let t:any;
+    if(checked == true){
+      if(this.CoverType =='2'){
+        let entry =  {
+          "CreatedBy": this.brokerLoginId,
+          "InsuranceId": this.insuranceId,
+          "ProductId": this.productValue,
+          "SectionId":this.sectionValue,
+          "CoverId": row.CoverId,
+          "Type":"Included",
+          "EffectiveDateStart":t,
+          "AgencyCode":this.agencyCode,
+          "BranchCode":this.branchValue,
+          "Status":"Y",
+        }
+        this.selectedCoverListExc.push(entry);
+      }
+      else if(this.CoverType =='1'){
+        let entry={
+         "InsuranceId":this.insuranceId,
+         "ProductId":this.productValue,
+         "CoverId":row.CoverId,
+         "SectionId":this.sectionValue,
+         "Status":row.Status,
+         "Type":"Excluded",
+         "EffectiveDateStart":t,
+         "BranchCode":this.branchValue,
+         "AgencyCode":this.agencyCode
+        }
+        this.selectedCoverListInc.push(entry);
+   }  
+    }
+    else if(checked == false){
+      if(this.CoverType =='2'){
+      let index = this.selectedCoverListExc.findIndex(ele=>ele.CoverId==row.CoverId);
+      this.selectedCoverListExc.splice(index,1);
+      }
+      else if(this.CoverType =='1'){
+        let index = this.selectedCoverListInc.findIndex(ele=>ele.CoverId==row.CoverId);
+        this.selectedCoverListInc.splice(index,1);
+      }
+    }
+
   }
   EditDetailsView(value){
     this.brokerLoginId=value.LoginId
@@ -1021,6 +1234,7 @@ this.ChangePass=true;
       (data: any) => {
         console.log(data);
         if(data.Result){
+          this.getBrokerBranchList(this.brokerLoginId)
           this.branchDetailsPopup=false;
         }
         else if(data.ErrorMessage){
