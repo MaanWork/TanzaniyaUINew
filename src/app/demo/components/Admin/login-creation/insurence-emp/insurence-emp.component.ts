@@ -106,6 +106,12 @@ export class InsurenceEmpComponent {
   categoryId: string;
   categoryList: { Code: string; CodeDesc: string; }[];
   endorseData: any[]=[];
+  ViewProducts: any[]=[];
+  LastLoginDate: any;
+  LastPolicyDate: any;
+  LastQuoteDate: any;
+  CollectedPremium: any;
+  PolicyCommission: any;
   constructor(private router:Router,
     private sharedService:SharedService,public datePipe:DatePipe) {
      this.productId =  sessionStorage.getItem('companyProductId');
@@ -294,17 +300,60 @@ export class InsurenceEmpComponent {
     this.ProductsPopup=true;
      this.getIssuerMenuList()
   }
-  brokerDetailsView(){
+  brokerDetailsView(value){
+    this.issuerLoginId=value.LoginId;
+    this.subUserType=value.SubUserType;
+    this.userType=value.UserType;
     this.visibleIssuerDetails=true;
+    this.getEditIssuerDetails();
+    this.issuerProducts();
+    this.editSection = true;
+
   }
   EditDetailsView(loginData){
-   
+   this.issuerLoginId=loginData.LoginId;
     this.AddIssuerPopup=true;
    
-    this.getEditIssuerDetails(loginData);
+    this.getEditIssuerDetails();
   }
-  
+  issuerProducts(){
+    let ReqObj ={
+      // "LoginId": this.brokerLoginId
+      "BrokerBranchCode": "",
+    "BranchCode": "",
+    "InsuranceId": this.insuranceId,
+    "LoginId": this.issuerLoginId,
+    "ApplicationId": "1",
+    "UserType": this.userType,
+    "SubUserType": this.subUserType,
+    "SourceType": "",
+    "BdmCode": null,
+    "ProductId": "",
+    "Limit": 0,
+    "Offset": 1000
+      }
+    let urlLink = `${this.CommonApiUrl}api/viewlogindetails`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+          console.log(data.Result,"brokerProducts1");
+          
+            this.ViewProducts = data.Result.ProductDetails;
+           // this.dates =data.Result;
+            this.LastLoginDate=data.Result.LastLoginDate;
+            this.LastPolicyDate=data.Result.LastPolicyDate;
+            this.LastQuoteDate=data.Result.LastQuoteDate;
+            this.CollectedPremium=data.Result.CollectedPremium;
+            this.PolicyCommission=data.Result.PolicyCommission;
+
+        }
+      },
+      (err) => { },
+    );
+   }
   passChanged(){
+    this.changePasswordYN=='Y'
+    this.onProceed();
     this.ChangePass=false;
   }
   passwordField(){
@@ -389,10 +438,10 @@ export class InsurenceEmpComponent {
     //this.router.navigate(['/Admin/brokersList/newBrokerDetails/brokerConfigure'])
   }
 
-  getEditIssuerDetails(issuerId){
+  getEditIssuerDetails(){
     this.editSection=true;
     let ReqObj = {
-      "LoginId": issuerId.LoginId
+      "LoginId": this.issuerLoginId
     }
     let urlLink = `${this.CommonApiUrl}admin/getissuerbyid`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -403,7 +452,7 @@ export class InsurenceEmpComponent {
           let personalInfo = data?.Result?.PersonalInformation;
           if(loginInformation?.Status==null)  loginInformation.Status = 'N';
           if (this.effectiveDate != null) {
-            this.effectiveDate = this.onDateFormatInEdit(issuerId.EffectiveDateStart)
+            this.effectiveDate = this.onDateFormatInEdit(this.effectiveDate)
             if(this.effectiveDate != '' && this.effectiveDate != null && this.effectiveDate != undefined){
               this.effectiveDate = this.datePipe.transform(loginInformation.EffectiveDateStart, "dd/MM/yyyy")
             }
@@ -421,7 +470,7 @@ export class InsurenceEmpComponent {
          
           this.agencyCode = loginInformation?.AgencyCode;
           this.issuerLoginId = loginInformation?.LoginId;
-          this.statusValue = loginInformation?.Status;
+          this.Status = loginInformation?.Status;
           this.issuerType = loginInformation?.SubUserType;
           if(loginInformation?.AttachedCompanies){
             if(loginInformation?.AttachedCompanies.length!=0){
@@ -433,14 +482,17 @@ export class InsurenceEmpComponent {
           this.address2 = personalInfo?.Address2;
           this.countryCode = personalInfo?.CountryCode;
           this.stateCode = personalInfo?.StateCode;
-          this.onCountryChange('direct');
-          this.onStateChange('direct')
-          this.cityName = personalInfo?.CityName;
+         this.onCountryChange('direct');
+          this.onStateChange('direct');
+         // this.cityName = personalInfo?.CityName;
           this.mobileCode = personalInfo?.MobileCode;
           this.whatsAppCode = personalInfo?.WhatappCode;
           this.whatsAppNo = personalInfo?.WhatsappNo;
           this.remarks = personalInfo?.Remarks;
           this.ReferralIds=null;
+          //this.companyName=personalInfo?.CompanyName;
+          
+        //  this.stateName=personalInfo?.StateName;
         }
       },
       (err) => { },
@@ -625,7 +677,9 @@ onCountryChange(type) {
         this.cityCode = null;
       }
       else {
-        this.onStateChange('direct');
+        let entry = this.stateList.find(ele=>ele.Code==this.stateCode);
+        this.stateCode = entry.CodeDesc;
+       this.onStateChange('direct');
       }
     },
     (err) => { },
@@ -646,8 +700,9 @@ onStateChange(type) {
       if (type == 'change') {
         this.cityCode = null;
       }
-      else if(this.cityCode!=null){
+      else {
         let entry = this.cityList.find(ele=>ele.Code==this.cityCode);
+        this.cityName = entry.CodeDesc;
         if(!entry) this.cityCode = null;
       }
     },

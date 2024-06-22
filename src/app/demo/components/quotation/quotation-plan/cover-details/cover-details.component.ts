@@ -132,11 +132,13 @@ export class CoverDetailsComponent {
   proRataPercent: any=null;premiumAfterDiscount:any=null;fleetCoverDetails: any;columns:any[]=[];basePremium: any;premiumIncludedTax: any;premiumExcludedTax: any;factorViewList: any[]=[];factorPremiumDetails:any=null;factorDetailModal: boolean=false;
   newAddClauses: boolean = false; newAddExclusion:boolean = false; newAddWarranty:boolean = false;
   fleetDiscountModal: boolean=false;minTaxList: any[]=[];minPremiumExcludedTax: any=null;minCoverName: any;minBasePremium: any;minPremiumIncludedTax: number;
+  b2cType: any;
   constructor(private router:Router,private sharedService:SharedService,private messageService: MessageService){
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     let loginType = sessionStorage.getItem('resetLoginDetails');
     this.userType = this.userDetails?.Result?.UserType;
     this.subuserType = sessionStorage.getItem('typeValue');
+    this.b2cType = sessionStorage.getItem('b2cType');
     this.agencyCode = this.userDetails.Result.OaCode;
     this.branchCode = this.userDetails.Result.BranchCode;
     this.branchList = this.userDetails.Result.LoginBranchDetails;
@@ -3094,6 +3096,10 @@ export class CoverDetailsComponent {
     this.discountList = [];this.loadingList=[];
     if(this.userType!='Broker' && this.userType!='User') this.onUpdateFactor('fleetSave',null);
     else this.onFormSubmit(null);
+    if(this.b2cType=='guest') 
+      {
+        this.router.navigate(['/quotation/plan/OtpSection'])
+      }
   }
   onUpdateFleetFactorRate(modal){
     this.fleetCoverDetails.CoverList[0].Discount = this.discountList;

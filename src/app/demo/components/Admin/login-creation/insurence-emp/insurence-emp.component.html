@@ -39,7 +39,7 @@
                 <span class="p-buttonset">
                     <button pButton pRipple icon="pi pi-pencil" title="Edit" class="p-button-outlined" (click)="EditDetailsView(data)" ></button>
                     <button pButton pRipple icon="pi pi-cog" title="Configure"  class="p-button-outlined" (click)="opUser.toggle($event)"></button>
-                    <button pButton pRipple icon="pi pi-eye" title="View"   class="p-button-outlined" (click)="brokerDetailsView()"></button>
+                    <button pButton pRipple icon="pi pi-eye" title="View"   class="p-button-outlined" (click)="brokerDetailsView(data)"></button>
                 </span>
             </td>
           </tr>
@@ -241,7 +241,7 @@
                     <div class="flex flex-warp justify-content-end">
                         <div class="col-8 lg:col-8 md:col-8 lg:col-8" *ngIf="userName!=null && userName!=''">
                             <p class="font-semibold broker_name"> Name </p>
-                            <!-- <p>{{userName}}</p> -->
+                            <p>{{userName}}</p>
                         </div>
                         <div class="col-3 lg:col-3 md:col-3 lg:col-3">
                             <p-button label="Edit"  class="p-button-outlined" styleClass="p-button-outlined" />
@@ -253,21 +253,21 @@
                         </div>
                     </div>
                         <div class="grid ">
-                            <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="customerCode!=null && customerCode!=''">
+                            <!-- <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="customerCode!=null && customerCode!=''">
                                 <p  class="font-semibold broker_name">Menu Type </p>
-                                <!-- <p>{{customerCode}}</p> -->
-                            </div>
+                                <p>{{customerCode}}</p>
+                            </div> -->
                             <div class="col-12 lg:col-4 md:col-4 lg:col-4" >
                                 <p  class="font-semibold broker_name">Address </p>
-                                <!-- <p *ngIf="address1!=null && address1!='' || address2!=null && address2!=''">{{address1}},{{address2}}</p> -->
+                                <p *ngIf="address1!=null && address1!='' || address2!=null && address2!=''">{{address1}},{{address2}}</p>
                             </div>
                             <div class="col-12 lg:col-4 md:col-4 lg:col-4 flex-warp" *ngIf="userMail!=null && userMail!=''">
                                 <p  class="font-semibold broker_name">Email </p>
-                                <!-- <p>{{userMail}}</p> -->
+                                <p>{{userMail}}</p>
                             </div>
                             <div class="col-12 lg:col-4 md:col-4 lg:col-4" >
                                 <p  class="font-semibold broker_name">Mobile No </p>
-                                <!-- <p>{{userMobile}}</p> -->
+                                <p>{{userMobile}}</p>
                             </div>
                             
                         </div>
@@ -279,28 +279,28 @@
                         <div class="grid ">
                             <div class="col-8 lg:col-3 md:col-3 lg:col-3" *ngIf="channelId!=null && channelId!=''">
                                 <p  class="font-semibold broker_name">Branches </p>
-                                <!-- <p>{{channelId}}</p> -->
+                                <p>{{channelId}}</p>
                                 
                             </div>
                             <div class="col-12 lg:col-9 md:col-9 lg:col-9" *ngIf="companyName!=null && companyName!=''">
                                 <p  class="font-semibold broker_name">Insurance Company </p>
-                                <!-- <p>{{companyName}}</p> -->
+                                <p>{{companyName}}</p>
                             </div>
                             <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="countryCode!=null && countryCode!=''">
                                 <p  class="font-semibold broker_name">Country </p>
-                                <!-- <p>{{countryCode}}</p> -->
+                                <p>{{countryCode}}</p>
                             </div>
                             <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="stateName!=null && stateName!=''">
                                 <p  class="font-semibold broker_name">Region </p>
-                                <!-- <p>{{stateName}}</p> -->
+                                <p>{{stateName}}</p>
                             </div>
                             <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="cityName!=null && cityName!=''">
                                 <p  class="font-semibold broker_name">District </p>
-                                <!-- <p>{{cityName}}</p> -->
+                                <p>{{cityName}}</p>
                             </div>
                             <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="creditLimit!=null && creditLimit!=''">
                                 <p  class="font-semibold broker_name">Credit Limit</p>
-                                <!-- <p>{{creditLimit}}</p> -->
+                                <p>{{creditLimit}}</p>
                             </div>
                             <!-- <div class="col-12 lg:col-4 md:col-4 lg:col-4">
                                 <p  class="font-semibold broker_name">Contact Person</p>
@@ -318,7 +318,7 @@
                    </div>
                    <div class="col-12">
                        <p  class="font-semibold broker_name">Login Id</p>
-                       <!-- <p>{{brokerLoginId}}</p> -->
+                       <p>{{issuerLoginId}}</p>
                     </div>
                     <div class="col-12">
                     <p-button  label="Change Password"  class="p-button-outlined" styleClass="p-button-outlined" (click)="passwordField()" />
@@ -334,13 +334,13 @@
                 <div class="grid">
                 <div class="col-12 lg:col-4 md:col-4 lg:col-4">
                     <label for="username">New Password*</label><br>
-                    <input pInputText type="Password"   class="w-full" 
+                    <input pInputText type="Password"   class="w-full" [(ngModel)]="password"
                     styleClass="w-full"  
                     placeholder="Enter New Password"/>
                 </div>
                 <div class="col-12 lg:col-4 md:col-4 lg:col-4">
                     <label for="username">Re-Enter New Password*</label><br>
-                    <input pInputText type="Password"   class="w-full" 
+                    <input pInputText type="Password"  [(ngModel)]="repassword" class="w-full" 
                     styleClass="w-full" 
                     placeholder="Enter Re-Enter New Password"/>
                 </div>
@@ -373,23 +373,23 @@
                 <div class="grid">
                    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
                        <p class="font-semibold broker_name">Last Login Date</p>
-                       <p>12/06/2024</p>
+                       <p>{{LastLoginDate}}</p>
                     </div>
                     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
                         <p class="font-semibold broker_name">Last Policy Date</p>
-                        <p>12/06/2024</p>
+                        <p>{{LastPolicyDate}}</p>
                      </div>
                      <div class="col-12 lg:col-4 md:col-4 lg:col-4">
                         <p class="font-semibold broker_name">Last Quote Date</p>
-                        <p>12/06/2024</p>
+                        <p>{{LastQuoteDate}}</p>
                      </div>
                      <div class="col-12 lg:col-4 md:col-4 lg:col-4">
                          <p class="font-semibold broker_name">Collected Premium</p>
-                         <p>100,00000</p>
+                         <p>{{CollectedPremium}}</p>
                     </div>
                     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
                         <p class="font-semibold broker_name">Policy Commission</p>
-                        <p>100,00</p>
+                        <p>{{PolicyCommission}}</p>
                     </div>
                 </div>
                     <!-- <div class="col-12">

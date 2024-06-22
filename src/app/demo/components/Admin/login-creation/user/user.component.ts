@@ -122,6 +122,12 @@ export class UserComponent {
   paymentMasterId: null;
   paymentdetalis: null;
   minDate: Date;
+  ViewProducts: any[]=[];
+  LastLoginDate: any;
+  LastPolicyDate: any;
+  LastQuoteDate: any;
+  CollectedPremium: any;
+  PolicyCommission: any;
   constructor(private router:Router,
     private sharedService:SharedService,public datePipe:DatePipe) {
      this.productId =  sessionStorage.getItem('companyProductId');
@@ -491,9 +497,54 @@ export class UserComponent {
       (err) => { },
     );
   }
-  brokerDetailsView(){
+  brokerDetailsView(value){
+    this.userLoginId=value.LoginId;
+    this.subUserType=value.SubUserType;
+    this.UserType=value.UserType;
     this.visibleUserDetails=true;
+    this.EditDetailsView(value);
+    this.userProducts();
   }
+  userEdit(rowData){
+    this.AddUserPopup=true;
+    this.EditDetailsView(rowData);
+  }
+
+  userProducts(){
+    let ReqObj ={
+      // "LoginId": this.brokerLoginId
+      "BrokerBranchCode": "",
+    "BranchCode": "",
+    "InsuranceId": this.insuranceId,
+    "LoginId": this.userLoginId,
+    "ApplicationId": "5",
+    "UserType": "User",
+    "SubUserType": this.subUserType,
+    "SourceType": "",
+    "BdmCode": null,
+    "ProductId": "",
+    "Limit": 0,
+    "Offset": 1000
+      }
+    let urlLink = `${this.CommonApiUrl}api/viewlogindetails`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+          console.log(data.Result,"brokerProducts1");
+          
+            this.ViewProducts = data.Result.ProductDetails;
+           // this.dates =data.Result;
+            this.LastLoginDate=data.Result.LastLoginDate;
+            this.LastPolicyDate=data.Result.LastPolicyDate;
+            this.LastQuoteDate=data.Result.LastQuoteDate;
+            this.CollectedPremium=data.Result.CollectedPremium;
+            this.PolicyCommission=data.Result.PolicyCommission;
+
+        }
+      },
+      (err) => { },
+    );
+   }
   EditDetailsView(rowData){
     let ReqObj = {"LoginId": rowData.LoginId}
     let urlLink = `${this.CommonApiUrl}admin/getuserbyid`;
@@ -517,7 +568,7 @@ export class UserComponent {
             this.agencyCode = loginInformation?.AgencyCode;
             //this.loginId = loginInformation?.LoginId;
             this.oaCode = loginInformation?.OaCode;
-            this.statusValue = loginInformation?.Status;
+            this.Status = loginInformation?.Status;
             this.editSection = true;
             
             this.executiveId = PersonalInformation?.AcExecutiveId;
@@ -531,6 +582,9 @@ export class UserComponent {
             this.onCountryChange('direct');
             this.onStateChange('direct');
             this.cityCode = PersonalInformation?.CityName;
+            
+            //this.cityName = PersonalInformation?.CityName;
+            this.stateName = PersonalInformation?.StateName;
             this.designation = PersonalInformation?.Designation;
             this.customerCode = PersonalInformation?.CustomerCode;
             this.contactPersonName = PersonalInformation?.ContactPersonName;
@@ -548,7 +602,8 @@ export class UserComponent {
             this.whatsAppCode = PersonalInformation?.WhatsappCode;
             this.whatsAppNo = PersonalInformation?.WhatsappNo;
             this.vatRegNo = PersonalInformation?.VatRegNo;
-            this.AddUserPopup=true;
+            this.creditLimit = PersonalInformation?.CreditLimit;
+           // this.AddUserPopup=true;
         }
       });
    // this.getEditBrokerDetails(login);
@@ -578,10 +633,12 @@ export class UserComponent {
 		);
 	}
   passChanged(){
+    this.onProceed();
     this.ChangePass=false;
   }
   passwordField(){
     this.ChangePass=true;
+    this.changePasswordYN=='Y'
   }
   getBrokerBranchList(rowData){
     let ReqObj = {
@@ -745,6 +802,7 @@ export class UserComponent {
   }
 
   onSubmit() {
+    //let entry = this.cityList.some(ele=>ele.Code==this.cityCode);
     let ReqObj ={
       "LoginInformation": {
         "AgencyCode": this.agencyCode,
@@ -792,10 +850,11 @@ export class UserComponent {
         "IdNumber": this.idNumber
       }
     }
-     if (ReqObj.LoginInformation.EffectiveDateStart != '' && ReqObj.LoginInformation.EffectiveDateStart != null && ReqObj.LoginInformation.EffectiveDateStart != undefined) {
-      ReqObj.LoginInformation['EffectiveDateStart'] =  this.datePipe.transform(ReqObj.LoginInformation.EffectiveDateStart, "dd/MM/yyyy")
+    if (ReqObj.LoginInformation.EffectiveDateStart != '' && ReqObj.LoginInformation.EffectiveDateStart != null && ReqObj.LoginInformation.EffectiveDateStart != undefined) {
+      let dateList = String(ReqObj.LoginInformation.EffectiveDateStart).split('/');
+      if(dateList.length==1) ReqObj.LoginInformation['EffectiveDateStart'] = this.datePipe.transform(ReqObj.LoginInformation.EffectiveDateStart, "dd/MM/yyyy")
     }
-    else{
+    else {
       ReqObj.LoginInformation['EffectiveDateStart'] = "";
     }
     let urlLink = `${this.CommonApiUrl}admin/createuser`;
@@ -892,7 +951,9 @@ onStateChange(type) {
           this.cityCode = null;
         }
         else if(this.cityCode!=null){
-          let entry = this.cityList.find(ele=>ele.Code==this.cityCode);
+         // let entry = this.cityList.find(ele=>ele.Code==this.cityCode);
+          let entry = this.cityList.find(ele=>ele.Code == this.cityCode);
+            this.cityName = entry.CodeDesc;
           if(!entry) this.cityCode = null;
         }
       },
