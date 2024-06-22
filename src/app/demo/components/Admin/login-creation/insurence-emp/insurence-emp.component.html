@@ -67,7 +67,7 @@
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Channel" class="font-semibold w-6rem">Menu Type &nbsp;<span class="text-danger">*</span></label>
-            <p-dropdown  class="w-full" styleClass="w-full" (onChange)="getCompanyList()" (onSelect)="onIssuerTypeChange()" [(ngModel)]="issuerType" [options]="typeList"
+            <p-dropdown  class="w-full" styleClass="w-full" (onChange)="onIssuerTypeChange()" [(ngModel)]="issuerType" [options]="typeList"
                 optionLabel="CodeDesc" optionValue="Code" >
             </p-dropdown> 
         </div>
@@ -93,7 +93,7 @@
             </div>
         </div> -->
         
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="issuerType == 'low'">
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="issuerType != 'SuperAdmin'">
             <label for="Channel" class="font-semibold w-6rem">Products &nbsp;<span class="text-danger">*</span></label>
             <p-multiSelect  class="w-full" styleClass="w-full" [options]="productList" [(ngModel)]="productIds" defaultLabel="Select a Product" optionLabel="CodeDesc" optionValue="Code"
 	            display="chip"></p-multiSelect>
@@ -128,15 +128,13 @@
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Region" class="font-semibold w-6rem">Region&nbsp;<span class="text-danger">*</span></label>
-            <p-dropdown  class="w-full" styleClass="w-full" [options]="stateList" (onChange)="onStateChange('change')" [(ngModel)]="stateCode"
+            <p-dropdown  class="w-full" id="Region" styleClass="w-full" [options]="stateList" [(ngModel)]="stateCode"
                 optionLabel="CodeDesc" optionValue="Code" >
             </p-dropdown> 
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="District" class="font-semibold w-6rem">District&nbsp;<span class="text-danger">*</span></label>
-            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="cityCode" [options]="cityList"
-                optionLabel="CodeDesc" optionValue="Code" >
-            </p-dropdown> 
+            <input pInputText id="Email" class="w-full" [(ngModel)]="cityName"/>
         </div>
        
         

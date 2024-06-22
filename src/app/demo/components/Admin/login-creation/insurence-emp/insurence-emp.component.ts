@@ -107,11 +107,12 @@ export class InsurenceEmpComponent {
   categoryList: { Code: string; CodeDesc: string; }[];
   endorseData: any[]=[];
   ViewProducts: any[]=[];
-  LastLoginDate: any;
-  LastPolicyDate: any;
-  LastQuoteDate: any;
-  CollectedPremium: any;
-  PolicyCommission: any;
+  LastLoginDate: any=null;
+  LastPolicyDate: any=null;
+  LastQuoteDate: any=null;
+  CollectedPremium: any=null;
+  PolicyCommission: any=null;
+  companyId: any=null;
   constructor(private router:Router,
     private sharedService:SharedService,public datePipe:DatePipe) {
      this.productId =  sessionStorage.getItem('companyProductId');
@@ -119,6 +120,7 @@ export class InsurenceEmpComponent {
      const user = this.userDetails?.Result;
  
      this.insuranceId = user.LoginBranchDetails[0].InsuranceId;
+     this.companyId = user.LoginBranchDetails[0].InsuranceId;
      this.loginId = user.LoginId;
      this.userType=user.UserType;
      this.subUser = sessionStorage.getItem('typeValue');
@@ -163,13 +165,13 @@ export class InsurenceEmpComponent {
     );
    }
    getMobileCodeList(){
-    let ReqObj = { "InsuranceId": this.insuranceId}
+    let ReqObj = { "InsuranceId": this.companyId}
     let urlLink = `${this.CommonApiUrl}dropdown/mobilecodes`;
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       (data: any) => {
         console.log(data);
         if(data.Result){
-          let obj = [{"Code":null,"CodeDesc":"---Select---"}]
+          let obj = [{"Code":null,"CodeDesc":"-Select-"}]
             this.mobileCodeList = obj.concat(data.Result);
           }
         },
@@ -273,8 +275,10 @@ export class InsurenceEmpComponent {
   }
   showDialogBrokerDetails(type){
   if(type=='AddIssuer'){
+    this.formRest();
+      if(this.insuranceId){this.onCompanyChange('change',null,null)}
       this.AddIssuerPopup=true;
-      this.editsSection;
+      this.editsSection=false;
     }
     else if (type=='editBranchDetail'){
       this.branchDetailsPopup=true;
@@ -457,6 +461,7 @@ export class InsurenceEmpComponent {
               this.effectiveDate = this.datePipe.transform(loginInformation.EffectiveDateStart, "dd/MM/yyyy")
             }
           }
+          this.issuerType = loginInformation?.SubUserType;
           //this.insuranceId = loginInformation?.InsuranceId;
           this.onCompanyChange('direct',loginInformation?.AttachedBranches,loginInformation?.ProductIds)
 
@@ -471,7 +476,7 @@ export class InsurenceEmpComponent {
           this.agencyCode = loginInformation?.AgencyCode;
           this.issuerLoginId = loginInformation?.LoginId;
           this.Status = loginInformation?.Status;
-          this.issuerType = loginInformation?.SubUserType;
+          
           if(loginInformation?.AttachedCompanies){
             if(loginInformation?.AttachedCompanies.length!=0){
               if(this.issuerType=='SuperAdmin') this.insuranceIds = loginInformation?.AttachedCompanies;
@@ -482,8 +487,10 @@ export class InsurenceEmpComponent {
           this.address2 = personalInfo?.Address2;
           this.countryCode = personalInfo?.CountryCode;
           this.stateCode = personalInfo?.StateCode;
+          
          this.onCountryChange('direct');
-          this.onStateChange('direct');
+         // this.onStateChange('direct');
+          this.cityName = personalInfo?.CityName;
          // this.cityName = personalInfo?.CityName;
           this.mobileCode = personalInfo?.MobileCode;
           this.whatsAppCode = personalInfo?.WhatappCode;
@@ -599,24 +606,11 @@ onDateFormatInEdit(date) {
       ReqObj.LoginInformation['EffectiveDateStart'] = "";
     }
     let doc = null;
-    let urlLink = `${this.CommonApiUrl}admin/createbroker`;
-    this.sharedService.onPostBrokerDocumentMethodSync(urlLink, ReqObj,doc).subscribe(
+    let urlLink = `${this.CommonApiUrl}admin/createissuer`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         console.log(data);
         if (data.Result) {
-          sessionStorage.setItem('editBroker',this.brokerLoginId);
-          sessionStorage.setItem('editBrokerAgencyCode', data.Result.AgencyCode);
-          let entry = {
-            "loginId": this.brokerLoginId,
-            "brokerId": this.agencyCode,
-            "insuranceId": this.insuranceId,
-            "brokerCompanyYN": this.brokerCompanyYn,
-            "UserType": "Broker",
-            "RegulatoryCode": this.regulatoryCode,
-            "SubUserType": this.subUserType,
-            "CustomerCode": this.customerCode
-          }
-          sessionStorage.setItem('brokerConfigureDetails', JSON.stringify(entry));
           this.formRest()
           this.AddIssuerPopup=false;
           
@@ -631,61 +625,40 @@ onDateFormatInEdit(date) {
     );
   }
   formRest(){
-    this.customerCode=''
-    this.regulatoryCode=''
-    this.insuranceId=''
-    this.brokerLoginId=''
-    this.whatsAppNo=''
-    this.whatsAppCode=''
-    this.mobileCode=''
-    this.userName=''
-    this.userMobile=''
-    this.userMail=''
-    this.remarks=''
-    this.pobox=''
-    this.creditLimit=''
-    this.taxExcemptedCode=''
-    this.taxExcemptedYN=''
-    this.designation=''
-    this.countryCode=''
-    this.coreAppBrokerCode=''
-    this.contactPersonName=''
-    this.companyCode=''
-    this.stateCode=''
-    this.cityName=''
-    this.cityCode=''
-    this.loginId=''
-    this.address2=''
-    this.address1=''
-    this.subUserType=''
-    this.statusValue=''
-    this.effectiveDate=''
-    this.brokerCompanyYn=''
-    this.cbcno=''
+    this.userName='';this.issuerType=null;
+    this.brokerLoginId=null;this.whatsAppNo=null;
+    this.userMobile='';this.userMail='';this.remarks='';
+    this.pobox='';this.creditLimit='';this.taxExcemptedCode='';
+    this.taxExcemptedYN='';this.designation='';this.countryCode=''
+    this.coreAppBrokerCode='';this.contactPersonName='';
+    this.companyCode='';this.stateCode='';this.cityName='';
+    this.cityCode='';this.loginId='';this.address2=''
+    this.address1='';this.subUserType='';this.statusValue='';
+    this.effectiveDate='';this.brokerCompanyYn='';this.cbcno='';
+    this.productIds=[];this.branchIds=[];
 }
 onCountryChange(type) {
   let ReqObj = {
     "CountryId": this.countryCode
   }
-  let urlLink = `${this.CommonApiUrl}master/dropdown/region`;
+  let urlLink = `${this.CommonApiUrl}master/dropdown/state`;
   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
     (data: any) => {
       let obj = [{"Code":null,"CodeDesc":"---Select---"}]
       this.stateList = obj.concat(data.Result);
       if (type == 'change') {
-        this.stateCode = null;
-        this.cityCode = null;
       }
       else {
-        let entry = this.stateList.find(ele=>ele.Code==this.stateCode);
-        this.stateCode = entry.CodeDesc;
-       this.onStateChange('direct');
+      //   let entry = this.stateList.find(ele=>ele.Code==this.stateCode);
+      //   this.stateCode = entry.CodeDesc;
+      //  this.onStateChange('direct');
       }
     },
     (err) => { },
   );
 }
 onStateChange(type) {
+  alert(this.stateCode)
   let ReqObj = {
     "CountryId": this.countryCode,
     "RegionCode": this.stateCode
@@ -702,7 +675,7 @@ onStateChange(type) {
       }
       else {
         let entry = this.cityList.find(ele=>ele.Code==this.cityCode);
-        this.cityName = entry.CodeDesc;
+        if(this.cityCode) this.cityName = entry.CodeDesc;
         if(!entry) this.cityCode = null;
       }
     },
@@ -710,14 +683,9 @@ onStateChange(type) {
   );
 }
 onChange(item,i){
-  console.log('PPPPPPPPPPPP',item);
-  console.log('New Items Index',i);
   let index = this.userList.find(ele => ele.id == item.id)
-  console.log('UUUUUUUUUUU',index);
   if(index){
     this.userList[i].IsDesti=true;
-    console.log('YYYYYYYYYY',this.userList[i].IsDesti);
-    console.log('MMMMMMMMMMM',this.userList);
   }
   else{
     this.userList[i].IsDesti=false;
