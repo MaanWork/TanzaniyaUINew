@@ -3150,7 +3150,7 @@ export class CoverDetailsComponent {
                   for(let veh of entry){
                       let k=0;
                       for(let selectedCover of veh.Covers){
-                        let coverList = vehicle.CoverList.filter(ele=>ele.CoverId == selectedCover.CoverId)
+                        let coverList = vehicle.CoverList.filter(ele=>ele.CoverId == selectedCover.CoverId && ele.SectionId==vehicle.SectionId && !(covers.some(entry=>entry.CoverId==ele.CoverId && ele.SectionId==entry.SectionId)))
                         covers = covers.concat(coverList);
                         k+=1;
                         if(k==veh.Covers.length){

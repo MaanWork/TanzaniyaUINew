@@ -228,7 +228,7 @@
         </div>
     </div>
     <div class="flex justify-content-center gap-2">
-        <p-button label="Cancel" styleClass="p-button-outlined"  />
+        <p-button label="Cancel" styleClass="p-button-outlined" (click)="AddIssuerPopup=!AddIssuerPopup" />
         <p-button label="Submit" (click)="onProceed()"/>
     </div>
 </p-dialog> 

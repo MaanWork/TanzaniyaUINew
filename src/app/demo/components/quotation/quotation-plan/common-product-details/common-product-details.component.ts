@@ -387,7 +387,12 @@ export class CommonProductDetailsComponent {
                 ]
                 sessionStorage.setItem('homeCommonDetails',JSON.stringify(this.commonDetails));
                 this.currencyCode = this.commonDetails[0].Currency;
-                  this.TableRowFire = entryList;
+                  let k=0;
+                  for(let entry of entryList){
+                    entry['Saved']='Y';
+                    k+=1;
+                    if(k==entryList.length)  this.TableRowFire = entryList;
+                  }
                   this.IndustryTypes = '56';
                   this.getRegionList();
                   this.getFireIndustryTypeList();
@@ -470,9 +475,34 @@ export class CommonProductDetailsComponent {
       (err) => { },
     );
   }
-  Firedelete(index){
-    this.TableRowFire.splice(index,1);
-    this.currentFedIndex = null;
+  Firedelete(index,rowData){
+    if(rowData['Saved']=='Y'){
+        let ReqObj={
+          "RequestReferenceNo": this.requestReferenceNo,
+          "RiskId":rowData?.RiskId,
+          "SectionId": rowData?.SectionId
+        }
+        let urlLink = `${this.motorApiUrl}api/deletefire`;
+        this.sharedService.onPostMethodSync(urlLink,[ReqObj]).subscribe(
+          (data: any) => {
+            if(data.Result){
+              this.TableRowFire.splice(index,1);
+              this.productName='';this.IndustryTypes='56';this.LocationName='';
+              this.industryValue='';this.region='';this.stateName='';this.FireSumInsured='';
+              this.CoveringDetails='';this.DescriptionRisk='';this.industryDesc =null;this.sectionDesc=null;this.IndustryTypeValue=null;
+              this.currentFireIndex=null;
+            }
+          },
+          (err) => { },
+        );
+    }
+    else{
+      this.TableRowFire.splice(index,1);
+      this.productName='';this.IndustryTypes='56';this.LocationName='';
+      this.industryValue='';this.region='';this.stateName='';this.FireSumInsured='';
+      this.CoveringDetails='';this.DescriptionRisk='';this.industryDesc =null;this.sectionDesc=null;this.IndustryTypeValue=null;
+      this.currentFireIndex=null;
+    }
   }
   BurglaryDelete(index){
     this.TableRowBurglary.splice(index,1);
@@ -679,77 +709,80 @@ export class CommonProductDetailsComponent {
    
   }
   onFinalSaveFire(obj,sectionIds,type,refNo,havePromoYN,index){
-    let startDate=null,endDate=null,riskId=null;
-    let dateList = String(this.policyStartDate).split('/');
-    if(dateList.length==1) startDate = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");
-    else startDate=this.policyStartDate;
-    let dateList2 = String(this.policyEndDate).split('/');
-    if(dateList2.length==1) endDate = this.datePipe.transform(this.policyEndDate, "dd/MM/yyyy");
-    else endDate=this.policyEndDate;
-    if(index==null) riskId = this.currentFireIndex+1;
-    else riskId=index+1;
-    let ReqObj = {
-      "CreatedBy": this.loginId,
-        "InsuranceId": this.insuranceId,
-        "ProductId": "6",
-        "RequestReferenceNo": this.requestReferenceNo,
-        "RiskId": obj.RiskId,
-        "EndorsementDate": null,
-        "EndorsementEffectiveDate": null,
-        "EndorsementRemarks": null,
-        "EndorsementType": null,
-        "EndorsementTypeDesc": null,
-        "EndtCategoryDesc": null,
-        "EndtCount": null,
-        "EndtPrevPolicyNo": null,
-        "EndtPrevQuoteNo": null,
-        "EndtStatus": null,
-        "IsFinanceEndt": null,
-        "OrginalPolicyNo": null,
-        "ExchangeRate": this.exchangeRate,
-        "PolicyEndDate":endDate,
-        "PolicyStartDate": startDate,
-        "SectionIds": sectionIds, 
-        "SectionId": obj.SectionId,
-        "AgencyCode": this.agencyCode,
-        "SubUsertype": this.subuserType,
-        "BdmCode": this.customerCode,
-        "BranchCode": this.branchCode,
-        "Currency": this.currencyCode,
-        "BrokerCode": this.brokerCode,
-        "CustomerReferenceNo": refNo,
-        "BrokerBranchCode": this.brokerbranchCode,
-        "Havepromocode": havePromoYN,
-        "BuildingOwnerYn": "Y",
-        "CustomerName": this.customerName,
-        "SectionDesc": obj.SectionDesc,
-         "Status": "Y",
-          "LocationName": obj.LocationName,
-          "BuildingAddress": "fddsfd",
-          "IndustryType": obj.IndustryType,
-          "IndustryTypeDesc": obj.IndustryTypeDesc,
-          "OccupationId": obj.OccupationId,
-          "OccupationDesc": obj.OccupationDesc,
-          "CoveringDetails": obj.CoveringDetails,
-          "DescriptionOfRisk": obj.DescriptionOfRisk,
-          "RegionCode": obj.RegionCode,
-          "DistrictCode": obj.DistrictCode,
-          "BuildingSumInsured": obj.BuildingSumInsured
-    }
-        let urlLink = `${this.motorApiUrl}api/saveFire`;
-        this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-          (data: any) => {
-            if(data.Result){
-              if(data.Result.length!=0){
-                  obj['MSRefNo'] = data?.Result[0]?.MSRefNo;
-                  obj['CdRefNo'] = data?.Result[0]?.CdRefNo;
-                  obj['VdRefNo'] = data?.Result[0]?.VdRefNo;
-                  sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
-                  this.onCalculateFire(data.Result,type,index);
-              }
+    let valid = this.checkValidation();
+    if(valid){
+      let startDate=null,endDate=null,riskId=null;
+      let dateList = String(this.policyStartDate).split('/');
+      if(dateList.length==1) startDate = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");
+      else startDate=this.policyStartDate;
+      let dateList2 = String(this.policyEndDate).split('/');
+      if(dateList2.length==1) endDate = this.datePipe.transform(this.policyEndDate, "dd/MM/yyyy");
+      else endDate=this.policyEndDate;
+      if(index==null) riskId = this.currentFireIndex+1;
+      else riskId=index+1;
+      let ReqObj = {
+        "CreatedBy": this.loginId,
+          "InsuranceId": this.insuranceId,
+          "ProductId": "6",
+          "RequestReferenceNo": this.requestReferenceNo,
+          "RiskId": obj.RiskId,
+          "EndorsementDate": null,
+          "EndorsementEffectiveDate": null,
+          "EndorsementRemarks": null,
+          "EndorsementType": null,
+          "EndorsementTypeDesc": null,
+          "EndtCategoryDesc": null,
+          "EndtCount": null,
+          "EndtPrevPolicyNo": null,
+          "EndtPrevQuoteNo": null,
+          "EndtStatus": null,
+          "IsFinanceEndt": null,
+          "OrginalPolicyNo": null,
+          "ExchangeRate": this.exchangeRate,
+          "PolicyEndDate":endDate,
+          "PolicyStartDate": startDate,
+          "SectionIds": sectionIds, 
+          "SectionId": obj.SectionId,
+          "AgencyCode": this.agencyCode,
+          "SubUsertype": this.subuserType,
+          "BdmCode": this.customerCode,
+          "BranchCode": this.branchCode,
+          "Currency": this.currencyCode,
+          "BrokerCode": this.brokerCode,
+          "CustomerReferenceNo": refNo,
+          "BrokerBranchCode": this.brokerbranchCode,
+          "Havepromocode": havePromoYN,
+          "BuildingOwnerYn": "Y",
+          "CustomerName": this.customerName,
+          "SectionDesc": obj.SectionDesc,
+          "Status": "Y",
+            "LocationName": obj.LocationName,
+            "BuildingAddress": "fddsfd",
+            "IndustryType": obj.IndustryType,
+            "IndustryTypeDesc": obj.IndustryTypeDesc,
+            "OccupationId": obj.OccupationId,
+            "OccupationDesc": obj.OccupationDesc,
+            "CoveringDetails": obj.CoveringDetails,
+            "DescriptionOfRisk": obj.DescriptionOfRisk,
+            "RegionCode": obj.RegionCode,
+            "DistrictCode": obj.DistrictCode,
+            "BuildingSumInsured": obj.BuildingSumInsured
+      }
+      let urlLink = `${this.motorApiUrl}api/saveFire`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          if(data.Result){
+            if(data.Result.length!=0){
+                obj['MSRefNo'] = data?.Result[0]?.MSRefNo;
+                obj['CdRefNo'] = data?.Result[0]?.CdRefNo;
+                obj['VdRefNo'] = data?.Result[0]?.VdRefNo;
+                sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                this.onCalculateFire(data.Result,type,index);
             }
-            else{alert('Null Response')}
-          });
+          }
+          else{alert('Null Response')}
+        });
+    }
   }
   onCalculateFire(buildDetails,type,index) {
     let createdBy = ""
