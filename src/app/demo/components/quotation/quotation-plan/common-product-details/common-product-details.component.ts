@@ -477,22 +477,42 @@ export class CommonProductDetailsComponent {
   }
   Firedelete(index,rowData){
     if(rowData['Saved']=='Y'){
-        let ReqObj={
-          "RequestReferenceNo": this.requestReferenceNo,
-          "RiskId":rowData?.RiskId,
-          "SectionId": rowData?.SectionId
-        }
-        let urlLink = `${this.motorApiUrl}api/deletefire`;
-        this.sharedService.onPostMethodSync(urlLink,[ReqObj]).subscribe(
-          (data: any) => {
-              this.TableRowFire.splice(index,1);
-              this.productName='';this.IndustryTypes='56';this.LocationName='';
-              this.industryValue='';this.region='';this.stateName='';this.FireSumInsured='';
-              this.CoveringDetails='';this.DescriptionRisk='';this.industryDesc =null;this.sectionDesc=null;this.IndustryTypeValue=null;
-              this.currentFireIndex=null;
-          },
-          (err) => { },
-        );
+      Swal.fire({
+        title: '<strong> &nbsp;Delete Location!</strong>',
+        iconHtml: '<i class="fa-solid fa-trash fa-fade"></i>',
+        icon: 'info',
+        html:
+          `<ul class="list-group errorlist">
+              Are You Sure Want to Delete this Details?
+            </ul>`,
+              showCloseButton: true,
+              focusConfirm: false,
+              showCancelButton:true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              cancelButtonText: 'Cancel',
+              confirmButtonText: 'Delete!',
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            let ReqObj={
+              "RequestReferenceNo": this.requestReferenceNo,
+              "RiskId":rowData?.RiskId,
+              "SectionId": rowData?.SectionId
+            }
+            let urlLink = `${this.motorApiUrl}api/deletefire`;
+            this.sharedService.onPostMethodSync(urlLink,[ReqObj]).subscribe(
+              (data: any) => {
+                  this.TableRowFire.splice(index,1);
+                  this.productName='';this.IndustryTypes='56';this.LocationName='';
+                  this.industryValue='';this.region='';this.stateName='';this.FireSumInsured='';
+                  this.CoveringDetails='';this.DescriptionRisk='';this.industryDesc =null;this.sectionDesc=null;this.IndustryTypeValue=null;
+                  this.currentFireIndex=null;
+              },
+              (err) => { },
+            );
+          }
+        });
     }
     else{
       this.TableRowFire.splice(index,1);
