@@ -485,13 +485,11 @@ export class CommonProductDetailsComponent {
         let urlLink = `${this.motorApiUrl}api/deletefire`;
         this.sharedService.onPostMethodSync(urlLink,[ReqObj]).subscribe(
           (data: any) => {
-            if(data.Result){
               this.TableRowFire.splice(index,1);
               this.productName='';this.IndustryTypes='56';this.LocationName='';
               this.industryValue='';this.region='';this.stateName='';this.FireSumInsured='';
               this.CoveringDetails='';this.DescriptionRisk='';this.industryDesc =null;this.sectionDesc=null;this.IndustryTypeValue=null;
               this.currentFireIndex=null;
-            }
           },
           (err) => { },
         );
