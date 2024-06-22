@@ -664,12 +664,13 @@ export class CommonProductDetailsComponent {
               this.onFinalSaveFire(obj,sectionIds,type,refNo,havePromoYN,null)
             }
             else{
-              let j=0;
+              let j=0;this.totalIndex=0;
               for(let obj of this.TableRowFire){
                 if((obj.VdRefNo==null || obj.VdRefNo==undefined) && this.modifiedYN=='Y'){
+                  j+=1;
                   this.onFinalSaveFire(obj,sectionIds,type,refNo,havePromoYN,j)
                 }
-                else{j+=1;if(j==this.TableRowFire.length){this.router.navigate(['/quotation/plan/premium-details']);}}
+                else{j+=1;this.totalIndex+=1;if(this.totalIndex==this.TableRowFire.length){this.router.navigate(['/quotation/plan/premium-details']);}}
               }
             }
           }
@@ -731,8 +732,8 @@ export class CommonProductDetailsComponent {
           "OccupationDesc": obj.OccupationDesc,
           "CoveringDetails": obj.CoveringDetails,
           "DescriptionOfRisk": obj.DescriptionOfRisk,
-          "RegionName": obj.RegionName,
-          "DistrictName": obj.DistrictName,
+          "RegionCode": obj.RegionCode,
+          "DistrictCode": obj.DistrictCode,
           "BuildingSumInsured": obj.BuildingSumInsured
     }
         let urlLink = `${this.motorApiUrl}api/saveFire`;
@@ -818,7 +819,8 @@ export class CommonProductDetailsComponent {
                   }
                   else{
                     index+=1;
-                    if(index==this.TableRowFire.length){
+                    this.totalIndex+=1;
+                    if(this.totalIndex==this.TableRowFire.length){
                       this.router.navigate(['/quotation/plan/premium-details']);
                     }
                   }
@@ -847,8 +849,7 @@ export class CommonProductDetailsComponent {
               this.relationList[i].value = this.relationList[i]['Code'];
               delete this.relationList[i].CodeDesc;
               if (i == this.relationList.length - 1) {
-                 // this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.relationList);
-                  this.fields[0].fieldGroup[0].fieldGroup[0].fieldArray.fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.relationList);
+                 this.fields[0].fieldGroup[0].fieldGroup[0].fieldArray.fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.relationList);
                   this.showSection=true;
               }
             }
