@@ -388,11 +388,20 @@ remarksError: boolean=false;
     this.editSection = true;
   }
   passwordField(){
-this.ChangePass=true;
+this.passwordPopup=true;
+this.password='';
+    this.repassword='';
   }
   passChanged(){
-    this.ChangePass=false;
+    this.onProceed();
+    this.passwordPopup=false;
+    this.visibleBrokerDetails=false;
+    
   }
+  // passChange(){
+  //   this.onProceed();
+  //   this.passwordPopup=false;
+  // }
   ConfigPopUp(type,value){
     this.brokerLoginId=value.LoginId;
     this.userLoginId = value.LoginId;
@@ -1417,7 +1426,9 @@ this.ChangePass=true;
   }
   PaymentTypes(value){
     this.paymentTypesPopup=true;
-    this.userLoginId=value;
+    this.userLoginId=value.LoginId;
+    this.UserType=value.UserType;
+    this.agencyCode=value.AgencyCode;
     this.getProductList()
   }
   getProductList(){
@@ -1467,7 +1478,7 @@ this.ChangePass=true;
       "BranchCode":this.branchValue,
       "InsuranceId": this.insuranceId,
       "ProductId": this.productId,
-      "AgencyCode": this.agencyCode,
+      "AgencyCode": "13008",
       "UserType": this.UserType,
       "SubUserType": this.subUserType
     }
@@ -1485,14 +1496,11 @@ this.ChangePass=true;
   paymentEdit(value){
     this.editSection = true;
     this.paymentTypesDetailPopup=true;
-    if (this.EffectiveDateStart != null) {
-      this.EffectiveDateStart = this.onDateFormatInEdit(value.EffectiveDateStart)
-      if (this.EffectiveDateStart != '' && this.EffectiveDateStart != null && this.EffectiveDateStart != undefined) {
-        this.EffectiveDateStart =  this.datePipe.transform(this.EffectiveDateStart, "dd/MM/yyyy")
-      }
-      else{
-        this.EffectiveDateStart = "";
-      }
+    if (value.EffectiveDateStart != '' && value.EffectiveDateStart != null && value.EffectiveDateStart != undefined) {
+      if(String(value.EffectiveDateStart).split('/').length==1) value['EffectiveDateStart'] =  this.datePipe.transform(value.EffectiveDateStart, "dd/MM/yyyy")
+    }
+    else{
+      value['EffectiveDateStart'] = "";
     }
     
     
@@ -1508,12 +1516,14 @@ this.ChangePass=true;
   }
   onProceedPayment(){
    this.UserType=this.userDetails.Result.UserType;
+   this.agencyCode=this.userDetails.Result.OaCode;
+   this.loginId= this.userDetails.Result.LoginId;
     let ReqObj = {
       "BranchCode":this.branchValue,
       "CashYn":this.CashYn,
       "ChequeYn":this.ChequeYn,
-      "CreatedBy":this.brokerLoginId,
-      "AgencyCode": "12974", //this.agencyCode,
+      "CreatedBy":this.userLoginId,
+      "AgencyCode": this.agencyCode,
       "CreditYn":this.CreditYn,
       "EffectiveDateStart": this.EffectiveDateStart,
       "InsuranceId": this.insuranceId,
@@ -1550,6 +1560,8 @@ this.ChangePass=true;
       );
   }
   ChangePasswordClick(){
+    this.password='';
+    this.repassword='';
     this.passwordPopup=true;
   }
   depositList(value){

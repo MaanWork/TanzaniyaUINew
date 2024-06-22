@@ -75,7 +75,7 @@
                         <label for="Cover" ><img style="max-width: 30px;max-height: 10px;" >Cover</label>
                         <input id="Deposit" type="radio" name="rentOwnHome"   value="Deposit" (click)="depositList(data.LoginId)">
                         <label for="Deposit" ><img style="max-width: 30px;max-height: 10px;" >Deposit</label>
-                        <input id="PaymentTypes" type="radio" name="rentOwnHome"   value="PaymentTypes" (click)="PaymentTypes(data.LoginId)">
+                        <input id="PaymentTypes" type="radio" name="rentOwnHome"   value="PaymentTypes" (click)="PaymentTypes(data)">
                         <label for="PaymentTypes" ><img style="max-width: 30px;max-height: 10px;" >Payment Types</label>
                         <input id="ChangePassword" type="radio" name="rentOwnHome"   value="ChangePassword"  (click)="ChangePasswordClick(data)">
                         <label for="ChangePassword" ><img style="max-width: 30px;max-height: 10px;" >Change Password</label>
@@ -654,17 +654,17 @@
                     <!--  -->
                 </p-card>
             </div>
-            <div class="col-12 lg:col-12 md:col-12 lg:col-12" *ngIf="ChangePass">
+            <!-- <div class="col-12 lg:col-12 md:col-12 lg:col-12" *ngIf="ChangePass">
                 <div class="grid">
                 <div class="col-12 lg:col-4 md:col-4 lg:col-4">
                     <label for="username">New Password*</label><br>
-                    <input pInputText type="Password"   class="w-full" 
+                    <input pInputText type="Password"   class="w-full" [(ngModel)]="password"
                     styleClass="w-full"  
                     placeholder="Enter New Password"/>
                 </div>
                 <div class="col-12 lg:col-4 md:col-4 lg:col-4">
                     <label for="username">Re-Enter New Password*</label><br>
-                    <input pInputText type="Password"   class="w-full" 
+                    <input pInputText type="Password"   class="w-full" [(ngModel)]="repassword"
                     styleClass="w-full" 
                     placeholder="Enter Re-Enter New Password"/>
                 </div>
@@ -672,7 +672,7 @@
                     <p-button label="Submit"  (click)="passChanged()" />
                 </div>
             </div>
-            </div>
+            </div> -->
             <div class="col-12 lg:col-12 md:col-12 lg:col-12" *ngIf="ViewProducts.length!=0">
                 <p-card header="Products">
                     <hr>
@@ -1323,7 +1323,7 @@
         </p-dropdown> 
     </div>
     <div class="col-12 lg:col-4 md:col-4 lg:col-4" >
-        <label >Product</label>
+        <label >Branch</label>
         <p-dropdown  class="w-full" styleClass="w-full"   [options]="branchList" 
                     optionLabel="CodeDesc" optionValue="Code" (onChange)="getExistingPayment()" >
         </p-dropdown> 
@@ -1431,6 +1431,19 @@
         <label for="EffectiveDate" class="font-semibold w-6rem">Effective Date *</label>
         <p-calendar  dateFormat="dd/mm/yy"  [showIcon]="true" [minDate]="minDate" [(ngModel)]="EffectiveDateStart" inputId="icondisplay"  styleClass="w-full"  class="w-full" appendTo="body" />
     </div>
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+        <label for="Cash" class="font-semibold w-6rem">Status </label>
+        <div class="flex flex-warp">
+        <div class="flex align-items-center mr-1">
+            <p-radioButton name="StatusY" value="Y" [(ngModel)]="Status" inputId="Status"></p-radioButton>
+            <span for="StatusY" class="ml-1">Yes</span>
+        </div>
+        <div class="flex align-items-center mr-1">
+            <p-radioButton name="StatusN" value="N" [(ngModel)]="Status" inputId="Status"></p-radioButton>
+            <span for="StatusN" class="ml-1">No</span>
+        </div>
+    </div>
+    </div>
 </div>
 <div class="flex justify-content-center gap-2">
     <p-button label="Cancel" styleClass="p-button-outlined" (click)="paymentTypesDetailPopup=!paymentTypesDetailPopup" />
@@ -1511,13 +1524,20 @@
 
 <p-dialog  header="Change Password" [modal]="true"  [(visible)]="passwordPopup"  [style]="{ width: '90rem' }" >
    <div class="grid">
-    <div class="col-12 lg:col-4 md:col-4 lg:col-4" >
-        <label >New Password<span class="text-danger">*</span></label>
-        <input type="password" pInputText id="Password1" class="w-full" [(ngModel)]="password"  />
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+        <label for="username">New Password*</label><br>
+        <input pInputText type="Password"   class="w-full" [(ngModel)]="password"
+        styleClass="w-full"  
+        placeholder="Enter New Password"/>
     </div>
-    <div class="col-12 lg:col-4 md:col-4 lg:col-4" >
-        <label >Re-Enter New Password<span class="text-danger">*</span></label>
-        <input type="password" pInputText id="Password2" class="w-full" [(ngModel)]="repassword"  />
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+        <label for="username">Re-Enter New Password*</label><br>
+        <input pInputText type="Password"   class="w-full" [(ngModel)]="repassword"
+        styleClass="w-full" 
+        placeholder="Enter Re-Enter New Password"/>
+    </div>
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4 mt-4">
+        <p-button label="Submit"  (click)="passChanged()" />
     </div>
    </div>
 </p-dialog>
