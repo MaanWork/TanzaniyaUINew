@@ -50,7 +50,10 @@
             <td>{{data.UserMail}}</td>
             <td>{{data.CreatedBy}}</td>
             <td>{{data.UserMobile}}</td>
-            <td *ngIf="data.Status=='Y'">Active</td><td *ngIf="data.Status=='N'">DeActive</td><td *ngIf="data.Status=='P'">Pending</td>
+            <td >
+                <ng-container *ngIf="data.Status=='Y'">Active</ng-container>
+                <ng-container *ngIf="data.Status=='N'">DeActive</ng-container>
+                <ng-container *ngIf="data.Status=='P'">Pending</ng-container>
             <td>
                 <span class="p-buttonset">
                     <button pButton pRipple icon="pi pi-pencil" title="Edit" class="p-button-outlined" (click)="EditDetailsView(data)" ></button>
@@ -68,7 +71,7 @@
                         <label for="Branch" style="background-color: primary;" ><img style="max-width: 30px;max-height: 10px;" >Branch</label>
                         <input id="Product" type="radio" name="rentOwnHome"   value="Product" (click)="ProductDataList(data)">
                         <label for="Product" ><img style="max-width: 30px;max-height: 10px;">Product</label>
-                        <input id="Cover" type="radio" name="rentOwnHome"   value="Cover" (click)="ConfigPopUp('Cover')"> 
+                        <input id="Cover" type="radio" name="rentOwnHome"   value="Cover" (click)="ConfigPopUp('Cover',data)"> 
                         <label for="Cover" ><img style="max-width: 30px;max-height: 10px;" >Cover</label>
                         <input id="Deposit" type="radio" name="rentOwnHome"   value="Deposit" (click)="depositList(data.LoginId)">
                         <label for="Deposit" ><img style="max-width: 30px;max-height: 10px;" >Deposit</label>
@@ -734,7 +737,7 @@
     </p-dialog>
 
 <p-dialog  header="Branch " [modal]="true"  [(visible)]="branchPopup"  [style]="{ width: '75rem' }" >
-    <p-table  [tableStyle]="{'min-width': '60rem'}" [value]="branchData">
+    <p-table  [tableStyle]="{'min-width': '60rem'}" [value]="branchData" [rows]="5" [paginator]="true">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Branch 
@@ -1096,18 +1099,18 @@
 
 
 
-<p-dialog  header="Cover" [modal]="true"  [(visible)]="coverPopup"  [style]="{ width: '75rem' }">
+<p-dialog  header="Cover"  [modal]="true"  [(visible)]="coverPopup"  [style]="{ width: '75rem' }">
     <div class="grid">
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Insurance" class="font-semibold w-6rem">Product&nbsp;<span class="text-danger">*</span></label>
-            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="branchName" [options]="branchList"    
-                        optionLabel="CodeDesc" optionValue="Code" >
+            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="productValue" [options]="productList"    
+                    (onChange)="onChangeProduct()"    optionLabel="CodeDesc" optionValue="Code" >
             </p-dropdown> 
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Insurance" class="font-semibold w-6rem">Section&nbsp;<span class="text-danger">*</span></label>
-            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="branchName" [options]="branchList"    
-                        optionLabel="CodeDesc" optionValue="Code" >
+            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="sectionValue" [options]="sectionList"    
+            (onChange)="onChangeSection()"    optionLabel="CodeDesc" optionValue="Code" >
             </p-dropdown> 
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
@@ -1115,38 +1118,52 @@
             <div class="input-control-container">
                 <div class="input-form-radio-box mt-2">
                     <div class="radio-toolbar1 radio-toolbar">
-                        <input id="CoverTypeYes" type="radio" name="CoverType" [(ngModel)]="CoverType"  value="1">
+                        <input id="CoverTypeYes" type="radio" name="CoverType" [(ngModel)]="CoverType" (change)="onChangeSection()"  value="1">
                         <label for="CoverTypeYes" style="background-color: primary;" ><img style="max-width: 30px;max-height: 10px;" >Included</label>
-                        <input  id="CoverTypeNo" type="radio" name="CoverType" [(ngModel)]="CoverType"  value="2" >
+                        <input  id="CoverTypeNo" type="radio" name="CoverType" [(ngModel)]="CoverType" (change)="onChangeSection()"  value="2" >
                         <label for="CoverTypeNo" ><img style="max-width: 30px;max-height: 10px;">Excluded</label>
                     </div>
                 </div>
             </div>  
         </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="selectedCoverListInc.length!=0 || selectedCoverListExc.length!=0">
+            <label for="Insurance" class="font-semibold w-6rem">Effective Date&nbsp;<span class="text-danger">*</span></label>
+            <p-calendar  [showIcon]="true" [inputId]="'icondisplay'" dateFormat="dd/mm/yy" appendTo="body" styleClass="w-full" [(ngModel)]="coverEffectiveDate" class="w-full"/>
+            <div class="input-form-error" *ngIf="coverEffectiveError">
+                <div class="error-text text-danger">
+                  Please Select Valid Effective Date
+                </div>
+            </div>
+        </div>
     </div>
-    <p-table  [tableStyle]="{'min-width': '60rem'}">
+    <p-table [value]="tableData" [tableStyle]="{'min-width': '60rem'}" [rows]="5" [paginator]="true">
         <ng-template pTemplate="header">
             <tr>
                 <th>Select</th>
                 <th>Cover</th>
-                <th>Description</th>
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Status</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" >
+        <ng-template pTemplate="body" let-cover>
             <tr>
-                <th>
-                    <mat-checkbox class="example-margin text-center" (change)="onChangeSelectedProduct(product,$event.checked,i)">
+                <td>
+                    <mat-checkbox class="example-margin text-center" (change)="onSelectCustomer(cover,$event.checked)">
                     </mat-checkbox> 
-                </th>
-                <th>Cover</th>
-                <th>Description</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Status</th>
+                </td>
+                <td>{{cover.CoverName}}</td>
+                <td>{{cover.EffectiveDateStart}}</td>
+                <td>{{cover.EffectiveDateEnd}}</td>
+                <td><ng-container *ngIf="cover.Status=='Y'">Active</ng-container><ng-container *ngIf="cover.Status=='N'">DeActive</ng-container><ng-container *ngIf="cover.Status=='P'">Pending</ng-container> </td>
             </tr>
+        </ng-template>
+        <ng-template pTemplate="summary" >
+            <div class="flex justify-content-center gap-2">
+                <p-button label="Cancel" styleClass="p-button-outlined" (click)="coverPopup=!coverPopup" />&nbsp;&nbsp;
+                <p-button label="Submit" *ngIf="selectedCoverListInc.length!=0 || selectedCoverListExc.length!=0" (click)="onSaveCover()" />
+                <!-- <p-button label="Submit" /> -->
+            </div>
         </ng-template>
     </p-table> 
 </p-dialog>
@@ -1416,7 +1433,7 @@
     </div>
 </div>
 <div class="flex justify-content-center gap-2">
-    <p-button label="Cancel" styleClass="p-button-outlined" (click)="ConfigPopUp('paymentDetailCancel')" />
+    <p-button label="Cancel" styleClass="p-button-outlined" (click)="paymentTypesDetailPopup=!paymentTypesDetailPopup" />
     <p-button label="Submit" (click)="onProceedPayment()" />
 </div>
 </p-dialog>
