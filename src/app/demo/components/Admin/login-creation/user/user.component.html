@@ -69,12 +69,14 @@
             <div class="input-control-container">
                 <div class="input-form-radio-box mt-2">
                     <div class="radio-toolbar1 radio-toolbar">
-                        <input id="Branch" type="radio" name="rentOwnHome"   value="Branch" (click)="getBrokerBranchList(data)">
+                        <input id="Branch" type="radio" name="rentOwnHome"   value="Branch" (click)="getBrokerBranchList(data.LoginId)">
                         <label for="Branch" style="background-color: primary;" ><img style="max-width: 30px;max-height: 10px;" >Branch</label>
                         <input id="Product" type="radio" name="rentOwnHome"   value="Product" (click)="showDialogBrokerDetails('Product',data)" >
                         <label for="Product" ><img style="max-width: 30px;max-height: 10px;">Product</label>
                         <input id="PaymentTypes" type="radio" name="rentOwnHome"   value="PaymentTypes" (click)="PaymentTypes(data)">
                         <label for="PaymentTypes" ><img style="max-width: 30px;max-height: 10px;" >Payment Types</label>
+                        <input id="ChangePassword" type="radio" name="rentOwnHome"   value="ChangePassword"  (click)="ChangePasswordClick(data)">
+                        <label for="ChangePassword" ><img style="max-width: 30px;max-height: 10px;" >Change Password</label>
                     </div>
                 </div>
             </div>
@@ -474,7 +476,7 @@
        
 </p-dialog>
 <p-dialog  header="Branch " [modal]="true"  [(visible)]="branchPopup"  [style]="{ width: '75rem' }" >
-    <p-table  [tableStyle]="{'min-width': '60rem'}" [value]="branchData">
+    <p-table  [tableStyle]="{'min-width': '60rem'}" [value]="branchData" [scrollable]="true" [paginator]="true" [rows]="5">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Branch 
@@ -497,7 +499,7 @@
                 <td>{{branch.Mobile}}</td>
                 <td *ngIf="branch.Status=='Y'">Active</td>
                 <td *ngIf="branch.Status=='N'">DeActive</td>
-                <td><p-button icon="pi pi-pencil"  styleClass="p-button-outlined"  (click)="editBranch(branch)" /></td>
+                <td><p-button icon="pi pi-pencil"  styleClass="p-button-outlined"  (click)="clickEditOpen(branch)" /></td>
             </tr>
         </ng-template>
     </p-table> 
@@ -581,7 +583,7 @@
     </div>
 </p-dialog>
 <p-dialog  header="Product" [modal]="true"  [(visible)]="productPopup"  [style]="{ width: '75rem' }">
-    <p-table  [tableStyle]="{'min-width': '60rem'}"  *ngIf="existingProduct" [value]="newList">
+    <p-table  [tableStyle]="{'min-width': '60rem'}"  *ngIf="existingProduct" [value]="newList" [scrollable]="true" [paginator]="true" [rows]="5" >
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Existing Products
@@ -936,3 +938,24 @@
         <p-button label="Submit" (click)="onProceedPayment()" />
     </div>
     </p-dialog>
+
+    <p-dialog  header="Change Password" [modal]="true"  [(visible)]="passwordPopup"  [style]="{ width: '90rem' }" >
+        <div class="grid">
+         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+             <label for="username">New Password*</label><br>
+             <input pInputText type="Password"   class="w-full" [(ngModel)]="password"
+             styleClass="w-full"  
+             placeholder="Enter New Password"/>
+         </div>
+         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+             <label for="username">Re-Enter New Password*</label><br>
+             <input pInputText type="Password"   class="w-full" [(ngModel)]="repassword"
+             styleClass="w-full" 
+             placeholder="Enter Re-Enter New Password"/>
+         </div>
+         <div class="col-12 lg:col-4 md:col-4 lg:col-4 mt-4">
+             <p-button label="Submit"  (click)="passChanged()" />
+         </div>
+        </div>
+     </p-dialog>
+     

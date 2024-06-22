@@ -71,7 +71,7 @@ export class UserComponent {
   statusValue: String='Y';
   effectiveDate: any;
   changePasswordYN: string='N';
-  repassword: null;
+  repassword: any;
   bankCode: null;
   subUser: string;
   branchData: any[]=[];
@@ -250,6 +250,7 @@ export class UserComponent {
       );
   }
   onSaveBranchDetails(){
+
     let ReqObj = {
       "Address1": this.address1,
       "Address2": this.address2,
@@ -276,12 +277,14 @@ export class UserComponent {
     else{
       ReqObj['EffectiveDateStart'] = "";
     }
+    this.editBranch(ReqObj);
     let urlLink = `${this.CommonApiUrl}admin/attachbranches`;
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       (data: any) => {
         console.log(data);
         if(data.Result){
-          this.getBrokerBranchList({"LoginId":this.userLoginId})
+         
+          this.getBrokerBranchList(ReqObj.LoginId)
           this.branchDetailsPopup=false;
         }
       });
@@ -557,10 +560,14 @@ export class UserComponent {
             let PersonalInformation = data.Result.PersonalInformation;
             if(loginInformation){
               if(loginInformation?.Status==null)  loginInformation.Status = 'N';
-              if(loginInformation?.EffectiveDateStart!=null){
-                this.effectiveDate = loginInformation?.EffectiveDateStart
-              }
+              // if(loginInformation?.EffectiveDateStart!=null){
+
+              //   let dateList = String(loginInformation?.EffectiveDateStart).split('/');
+              //   if(dateList.length==1) 
+              //     this.effectiveDate = this.datePipe.transform(loginInformation?.EffectiveDateStart, "dd/MM/yyyy")
+              // }
             }
+            this.effectiveDate=loginInformation?.EffectiveDateStart
             this.subUserType = loginInformation?.SubUserType;
             this.brokerCompanyYn = loginInformation?.BrokerCompanyYn;
             this.insuranceId = loginInformation.InsuranceId;
@@ -634,30 +641,51 @@ export class UserComponent {
 	}
   passChanged(){
     this.onProceed();
-    this.ChangePass=false;
+    this.passwordPopup=false;
+    
   }
-  passwordField(){
-    this.ChangePass=true;
+  ChangePasswordClick(value){
+    this.password='';
+    this.repassword='';
+    this.editBranch(value);
+    this.passwordPopup=true;
     this.changePasswordYN=='Y'
   }
+  passwordField(){
+    this.visibleUserDetails=false;
+    this.passwordPopup=true;
+    this.password='';
+        this.repassword='';
+      }
   getBrokerBranchList(rowData){
+   // this.editBranch(rowData);
     let ReqObj = {
-      "LoginId": rowData.LoginId
+      "LoginId": rowData
     }
     let urlLink = `${this.CommonApiUrl}admin/getallbrokercompanybranch`;
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       (data: any) => {
         console.log(data);
         if(data.Result){
+         
           this.branchData = data.Result;
-          this.userLoginId = rowData.LoginId;
-          this.brokerBranchCode = rowData.BrokerBranchCode
+          for(let item of data.Result) {
+            this.userLoginId =  item.LoginId;
+            this.brokerBranchCode = item.BrokerBranchCode
+          }
+          
           this.branchPopup=true;
         }
       });
+      
   }
-  editBranch(value){
+  clickEditOpen(value){
     this.branchDetailsPopup=true;
+    this.editBranch(value);
+  }
+
+  editBranch(value){
+    
       this.brokerBranchName=value.BrokerBranchName;
       this.branchName=value.BranchName;
       this.branchType=value.BranchType;
@@ -666,7 +694,7 @@ export class UserComponent {
       this.address2=value.Address2;
       this.email=value.Email;
       this.mobile=value.Mobile;
-      this.effectiveDate=value.EffectiveDateStart;
+      this.effectiveDate=value.EntryDate;
       this.remarks=value.Remarks;
       this.Status=value.Status;
       this.subSourceId = value.SourceType;
