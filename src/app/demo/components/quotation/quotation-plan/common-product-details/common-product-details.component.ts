@@ -213,6 +213,8 @@ export class CommonProductDetailsComponent {
   sectionDesc: any=null;
   modifiedYN: string;
   exchangeRateError: boolean;
+  regionName: any=null;
+  stateDesc: any=null;
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -532,8 +534,8 @@ export class CommonProductDetailsComponent {
             entry['OccupationDesc'] = this.industryDesc;
             entry['CoveringDetails'] = this.CoveringDetails;
             entry['DescriptionOfRisk'] = this.DescriptionRisk;
-            entry['RegionName'] = this.region;
-            entry['DistrictName'] = this.stateName;
+            entry['RegionCode'] = this.region;
+            entry['DistrictCode'] = this.stateName;
             entry['BuildingSumInsured'] = String(this.FireSumInsured).replaceAll(',','');
             this.onSaveFireRiskDetails(type);
           }
@@ -552,8 +554,8 @@ export class CommonProductDetailsComponent {
               "OccupationDesc": this.industryDesc,
               "CoveringDetails": this.CoveringDetails,
               "DescriptionOfRisk": this.DescriptionRisk,
-              "RegionName": this.region,
-              "DistrictName": this.stateName,
+              "RegionCode": this.region,
+              "DistrictCode": this.stateName,
               "BuildingSumInsured":  String(this.FireSumInsured).replaceAll(',','')
             }
           )
@@ -654,7 +656,7 @@ export class CommonProductDetailsComponent {
         let havePromoYN = 'Y';
         if(this.promocode==null || this.promocode=='' || this.promocode==undefined) havePromoYN = 'N'
         for(let entry of this.TableRowFire){
-          sectionIds.push(entry.SectionId);
+         if(!sectionIds.some(ele=>ele==entry.SectionId)) sectionIds.push(entry.SectionId);
           i+=1;
           if(i==this.TableRowFire.length){
             if(type=='Save'){
@@ -3551,6 +3553,9 @@ backPlan()
       (err) => { },
     );
   }
+  onChangeDistrict(){
+
+  }
   ongetDistrictList(type){
     let ReqObj;
     if(type=='region'){
@@ -3560,7 +3565,6 @@ backPlan()
       }
     }
     else{
-
       ReqObj = {
         "CountryId": this.countryId,
         "RegionCode": this.productItem.RegionCode
@@ -3569,7 +3573,6 @@ backPlan()
     let urlLink = `${this.CommonApiUrl}master/dropdown/regionstate`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
-        console.log(data);
         if (data.Result) {
           this.stateList = data.Result;
           if (data.Result.length != 0) {

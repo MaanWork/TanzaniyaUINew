@@ -364,7 +364,7 @@ export class CoverDetailsComponent {
       if(menu.RiskDetails.TravelId=='4') return `Super Seniors (${menu.RiskDetails.TotalPassengers})`;
       if(menu.RiskDetails.TravelId=='5') return `Grand Seniors (${menu.RiskDetails.TotalPassengers})`;
     }
-    else if(this.productId=='6') return menu.RiskDetails.SectionName;
+    else if(this.productId=='6') return this.productName;
     else if(this.productId!='59' && this.productId!='4' && this.productId!='5' && this.productId!='6' && this.productId!='19' && this.productId!='14' && this.productId!='32') return this.productName;
     else if(this.productId=='59' || this.productId=='19' || this.productId=='14' || this.productId=='32'){
       if(this.productId=='59') return menu.LocationName

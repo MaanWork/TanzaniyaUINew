@@ -109,7 +109,7 @@ export class BrokerComponent {
   subSourceId: any;
   DepartmentCode: any;
   AttachedBranchCode: any;
-  BranchCode: any;
+  BranchCode: any=null;
   BrokerBranchCode: any;
   selectedProductList: any[]=[];
   productData: any[];
@@ -166,7 +166,7 @@ remarksError: boolean=false;
   VatAmount: any=null;
   chequeDate: any=null;
   refundDate: any=null;
-  show: boolean;
+  show: boolean;searchBranchValue:any=null;
   editProduct:boolean=false;
   userLoginId: any;
   insertlist: any[]=[];
@@ -180,10 +180,11 @@ remarksError: boolean=false;
   LastPolicyDate: any;
   LastQuoteDate: any;
   CollectedPremium: any;
-  PolicyCommission: any;
+  PolicyCommission: any;branchSPDetailsPopup:boolean=false;
   brokerValue: any;subBranchId:any=null;
   OaCode: any;subBranchList:any[]=[];
-  sourceList: any[]=[];
+  sourceList: any[]=[];SalePointCodeList: any[]=[];
+  selectedBranchName: any=null;selectedSPCode: any=null;SalePointCode: any=null;
   
   constructor(private router:Router,
    private sharedService:SharedService,public datePipe:DatePipe) {
@@ -204,7 +205,6 @@ remarksError: boolean=false;
   }
 
   ngOnInit(){
-    
     this.getBrokerList();
     this.getMobileCodeList();
     this.getCountryList();
@@ -232,7 +232,6 @@ remarksError: boolean=false;
         if (data.Result) {
           this.channelList = data.Result;
           
-
         }
       },
       (err) => { },
@@ -266,8 +265,9 @@ remarksError: boolean=false;
     }
     else if(type=='AddUser'){
       this.AddUserPopup=true;
-     
+      
     }
+    else if(type=='branchSPDetail'){this.branchSPDetailsPopup=true;}
     else if(type=='branchDetail'){
       this.branchDetailsPopup=true;
       this.branchFormReset();
@@ -302,10 +302,38 @@ remarksError: boolean=false;
       this.ExistingPaymentAddPopup=false;
     }
   }
+  onSaveBranchName(){
+    if(this.selectedBranchName) this.branchName = this.selectedBranchName;
+    if(this.selectedSPCode) this.salePointCode = this.selectedSPCode;
+    this.branchSPDetailsPopup = false;
+   }
+  searchBranchName(type,value,modal){
+    this.searchLengthSection = false;
+    this.selectedBranchName = this.branchName;
+    this.selectedSPCode = this.salePointCode;
+    this.SalePointCodeList = [];
+    if(type=='change') this.searchBranchValue = value;
+    if(this.searchBranchValue==null){
+      this.searchBranchValue=this.regulatoryCode;
+    }
+    let ReqObj = {
+      "InsuranceId": this.insuranceId,
+      "SpCode": this.searchBranchValue
+    }
+    let urlLink = `${this.motorApiUrl}api/getbrokerspcode`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    (data: any) => {
+        if(data.Result){
+          this.SalePointCodeList = data.Result;
+        }
+      },
+      (err) => { },
+    );
+  }
   branchFormReset(){
     this.branchName=null,this.brokerBranchName=null;this.branchType='Main';this.salePointCode=null;
     this.address1=null;this.address2=null;this.email=null;this.mobile=null;this.effectiveDate=null;
-    this.remarks=null;this.Status='Y';
+    this.remarks=null;this.Status='Y';this.BranchCode=null;
     this.getMainBranchList();
   }
   getMainBranchList(){
@@ -324,7 +352,7 @@ remarksError: boolean=false;
   }
   SourceType(){
     let ReqObj = {"InsuranceId": this.insuranceId,
-    "BranchCode":this.subBranchId
+    "BranchCode":this.BranchCode
   }
     let urlLink = `${this.CommonApiUrl}dropdown/sourcetype`;
       this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
@@ -1147,6 +1175,10 @@ this.ChangePass=true;
           (err) => { },
         ); 
       }
+  }
+  selectBranch(value){
+    this.selectedBranchName=value.CodeDesc;
+    this.selectedSPCode=value.Code;
   }
   selectProduct(value){
     this.sampleCustomerCode=value.CustomerCode;
