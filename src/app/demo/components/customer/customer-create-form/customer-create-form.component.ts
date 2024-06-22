@@ -142,7 +142,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
 				(data: any) => {
 					if (data.Result) {
-						let obj = [{ "Code": '', "CodeDesc": "-Select-" }]
+						let obj = [{ "Code": '', "CodeDesc": "-Select-", 'CodeDescLocal':'-Selecione-' }]
 						this.titleList = obj.concat(data.Result);
 						
 					}
@@ -173,6 +173,10 @@ export class CustomerCreateFormComponent implements OnInit {
 		this.ownerCategoryOptions = [{name: 'Category', code: 'category'}];
 		this.customerTypes = [{label: 'Personal', value: 'personal'}, {label: 'Corporate', value: 'corporate'}];
 		this.items = [{ label: 'Home', routerLink:'/' }, {label:'Customer', routerLink: '/customer'}, { label: 'Create Customer' }];
+	}
+	getDisplayName(){
+		if(this.lang=='en') return 'CodeDesc';
+		else return 'CodeDescLocal'
 	}
   	public async onSubmit(data) {
 		console.log("Total Data", data);
@@ -433,7 +437,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					if (data.Result) {
 						//this.holderTypeValue = null;
 						this.policyHolderTypeList = data.Result;
-						let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
+						let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
 						this.policyHolderTypeList = defaultRow.concat(this.policyHolderTypeList)
 						//this.fields[0].fieldGroup[0].fieldGroup[1].fieldGroup[0].props.options = defaultRow.concat(this.policyHolderTypeList);
 						if (type == 'change'){this.dob = "";this.productItem.PolicyHolderTypeid='';
@@ -455,7 +459,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.genderList = data.Result;
-						let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
+						let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
 						this.genderList = defaultRow.concat(this.genderList);
 						if(this.insuranceId=='100004'){
 							this.getOccupationLists('direct');
@@ -482,7 +486,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.countryList = data.Result;
-								let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
+								let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
 								this.countryList = defaultRow.concat(this.countryList);
 								//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[6].props.options = defaultRow.concat(this.countryList);
 								
@@ -503,7 +507,7 @@ export class CustomerCreateFormComponent implements OnInit {
 				console.log(data);
 				if (data.Result) {
 					this.occupationList = data.Result;
-							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
+							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
 							this.occupationList = defaultRow.concat(this.occupationList)
 							//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[0].props.options = defaultRow.concat(this.occupationList);
 							
@@ -524,7 +528,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.businessTypeList = data.Result;
-						let defaulObj = [{ 'CodeDesc': '-Select-', 'Code': '' }]
+						let defaulObj = [{ 'CodeDesc': '-Select-', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
 						this.businessTypeList = defaulObj.concat(this.businessTypeList);
 						//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[10].props.options = defaulObj.concat(this.businessTypeList);
 						
@@ -542,7 +546,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 
-						let obj = [{ "Code": '', "CodeDesc": "-Select-" }]
+						let obj = [{ "Code": '', "CodeDesc": "-Select-", 'CodeDescLocal':'-Selecione-' }]
 						this.mobileCodeList = obj.concat(data.Result);
 								if (this.customerReferenceNo) {
 									this.setValues();
@@ -592,7 +596,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.stateList = data.Result;
-								let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
+								let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
 								//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[8].props.options = defaultRow.concat(this.stateList);
 								this.stateList = defaultRow.concat(this.stateList)
 								if(type=='change'){ this.productItem.CityName = '';}
@@ -642,7 +646,7 @@ export class CustomerCreateFormComponent implements OnInit {
 				console.log(data);
 				if (data.Result) {
 					this.regionList = data.Result;
-							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
+							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
 							this.regionList = defaultRow.concat(this.regionList);
 							if(type=='change'){this.productItem.state = '';this.productItem.CityName=''};
 							//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[7].props.options = defaultRow.concat(this.regionList);
@@ -1158,7 +1162,7 @@ getType3(type){
 	  (data: any) => {
 		console.log(data);
 		if(data.Result){
-		  let obj = [{ "Code": '', "CodeDesc": "-Select-" }]
+		  let obj = [{ "Code": '', "CodeDesc": "-Select-", 'CodeDescLocal':'-Selecione-' }]
 		  this.titleList = obj.concat(data.Result);
 		}
 	  },
@@ -1189,7 +1193,7 @@ getType3(type){
 				console.log(data);
 				if (data.Result) {
 					this.occupationList = data.Result;
-							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
+							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
 							this.occupationList = defaultRow.concat(this.occupationList)
 							if(type!='change'){
 								this.getBusinessTypeList();
