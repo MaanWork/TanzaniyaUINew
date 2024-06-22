@@ -506,9 +506,9 @@ export class CommonProductDetailsComponent {
        this.industryValue = rowData.OccupationId;
        this.industryDesc = rowData.OccupationDesc;
        this.LocationName = rowData.LocationName;
-       this.region = rowData.RegionName;
+       this.region = rowData.RegionCode;
        this.ongetDistrictList('region');
-       this.stateName = rowData.DistrictName;
+       this.stateName = rowData.DistrictCode;
        this.FirstLossSumInsured= rowData.FirstLossSumInsured;
        this.FireSumInsured= rowData.BuildingSumInsured;
        this.CoveringDetails= rowData.CoveringDetails;
