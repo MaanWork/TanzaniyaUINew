@@ -920,7 +920,14 @@
         </ng-template>
         <ng-template pTemplate="body" let-product>
             <tr>
-                <td>{{product.ProductName}}</td>
+                <td>
+                    <ng-container *ngIf="product.ProductId!='5'">
+                        {{product.ProductName}}
+                    </ng-container>
+                    <ng-container *ngIf="product.ProductId=='5'">
+                        {{product.ProductName}}&nbsp;-&nbsp;{{product.PolicyTypeDesc}}
+                    </ng-container>
+                </td>
                 <td>{{product.SumInsuredEnd}}</td>
                 <td>{{product.CommissionPercent}}</td>
                 <td>{{product.BackDays}}</td>
@@ -932,16 +939,54 @@
             </tr>
         </ng-template>
     </p-table> 
-    <!-- <ng-container *ngIf="productEndorsement">
+    <ng-container *ngIf="productEndorsement">
         <div class="grid">
             <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-                <label for="Channel">Category *</label>
-                <p-dropdown  class="w-full" styleClass="w-full" [options]="categoryList" disabled  [(ngModel)]="categoryId" optionLabel="CodeDesc" optionValue="Code"  >
+                <label for="Channel">Endorsement Category&nbsp;<span class="text-danger">*</span></label>
+                <p-dropdown  class="w-full" styleClass="w-full" [options]="categoryList"  [(ngModel)]="categoryId" optionLabel="CodeDesc" optionValue="Code"  >
                 </p-dropdown> 
             </div>
         </div>
-        
-    </ng-container> -->
+        <p-table #dtEmployeeEndt [tableStyle]="{'min-width': '80rem'}" [value]="endorseData" [scrollable]="true" 
+        [globalFilterFields]="['ProductName','SumInsuredEnd','CommissionPercent','BackDays','EffectiveDateStart']" [paginator]="true" [rows]="5">
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                    Endorsements
+                    <div class="table-header">
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dtEmployeeEndt.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                        </span>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Select</th>
+                    <th>Type</th>
+                    <th>CoreApp Code</th>
+                    <th>Regulatory Code</th>
+                    <th>Effective Date</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product let-i="rowIndex">
+                <tr>
+                    <td>
+                        <mat-checkbox class="example-margin text-center" [checked]="onCheckEndorseSelect(product)" (change)="onSelectProduct(product,$event.checked,i)">
+                        </mat-checkbox> 
+                    </td>
+                    <td>{{product.EndtType}}</td>
+                    <td>{{product.CoreAppCode}}</td>
+                    <td>{{product.RegulatoryCode}}</td>
+                    <td>{{product.EffectiveDateStart}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <div class="flex flex-warp justify-content-center gap-2">
+            <p-button label="Cancel" styleClass="p-button-outlined" (click)="productEndorsement=!productEndorsement;existingProduct=!existingProduct" />
+                <p-button label="Submit" (click)="onsubmitEndorsement()" />
+        </div>
+    </ng-container>
     <p-table #dtEmployeeProductAdd [tableStyle]="{'min-width': '80rem'}" *ngIf="addProduct" [value]="newslist" [scrollable]="true" 
     [globalFilterFields]="['ProductName','SumInsuredEnd','CommissionPercent','BackDays','EffectiveDateStart']" [paginator]="true" [rows]="5">
         <ng-template pTemplate="caption">
@@ -979,7 +1024,14 @@
                                                        
                     </mat-checkbox> 
                 </td>
-                <td>{{product.ProductName}}</td>
+                <td>
+                    <ng-container *ngIf="product.ProductId!='5'">
+                        {{product.ProductName}}
+                    </ng-container>
+                    <ng-container *ngIf="product.ProductId=='5'">
+                        {{product.ProductName}}&nbsp;-&nbsp;{{product.PolicyTypeDesc}}
+                    </ng-container>
+                </td>
                 <td>
                     <input pInputText id="sumInsured" class="w-full" [(ngModel)]="product.SumInsuredEnd" maxlength="16" />
                 </td>
@@ -1072,7 +1124,14 @@
                                                        
                     </mat-checkbox> 
                 </td>
-                <td>{{product.ProductName}}</td>
+                <td>
+                    <ng-container *ngIf="product.ProductId!='5'">
+                        {{product.ProductName}}
+                    </ng-container>
+                    <ng-container *ngIf="product.ProductId=='5'">
+                        {{product.ProductName}}&nbsp;-&nbsp;{{product.PolicyTypeDesc}}
+                    </ng-container>
+                </td>
                 <td>
                     <input pInputText id="sumInsured" class="w-full" [(ngModel)]="product.SumInsuredEnd" maxlength="16" />
                 </td>

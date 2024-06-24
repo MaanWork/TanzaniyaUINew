@@ -113,6 +113,7 @@ export class InsurenceEmpComponent {
   CollectedPremium: any=null;
   PolicyCommission: any=null;
   companyId: any=null;
+  viewIssuerDetails: any=null;
   constructor(private router:Router,
     private sharedService:SharedService,public datePipe:DatePipe) {
      this.productId =  sessionStorage.getItem('companyProductId');
@@ -308,6 +309,7 @@ export class InsurenceEmpComponent {
     this.issuerLoginId=value.LoginId;
     this.subUserType=value.SubUserType;
     this.userType=value.UserType;
+    this.viewIssuerDetails = value;
     this.visibleIssuerDetails=true;
     this.getEditIssuerDetails();
     this.issuerProducts();
@@ -317,7 +319,6 @@ export class InsurenceEmpComponent {
   EditDetailsView(loginData){
    this.issuerLoginId=loginData.LoginId;
     this.AddIssuerPopup=true;
-   
     this.getEditIssuerDetails();
   }
   issuerProducts(){
@@ -357,8 +358,8 @@ export class InsurenceEmpComponent {
    }
   passChanged(){
     this.changePasswordYN=='Y'
-    this.onProceed();
-    this.ChangePass=false;
+    this.onProceed('viewChangePass');
+    
   }
   passwordField(){
     this.ChangePass=true;
@@ -366,10 +367,10 @@ export class InsurenceEmpComponent {
   branchDataList(){
     this.branchPopup=true;
   }
-  onProceed() {
+  onProceed(type) {
 
     if (this.editSection && this.changePasswordYN=='N') {
-      this.onSubmit();
+      this.onSubmit(type);
     }
     else {
       if (this.password == null || this.password == "" || this.password == undefined) {
@@ -428,7 +429,7 @@ export class InsurenceEmpComponent {
             // });
           }
           else {
-            this.onSubmit();
+            this.onSubmit(type);
             console.log('gggggggg', this.brokerLoginId)
 
           }
@@ -455,12 +456,7 @@ export class InsurenceEmpComponent {
           let loginInformation = data?.Result?.LoginInformation;
           let personalInfo = data?.Result?.PersonalInformation;
           if(loginInformation?.Status==null)  loginInformation.Status = 'N';
-          if (this.effectiveDate != null) {
-            this.effectiveDate = this.onDateFormatInEdit(this.effectiveDate)
-            if(this.effectiveDate != '' && this.effectiveDate != null && this.effectiveDate != undefined){
-              this.effectiveDate = this.datePipe.transform(loginInformation.EffectiveDateStart, "dd/MM/yyyy")
-            }
-          }
+          this.effectiveDate= loginInformation?.EffectiveDateStart;
           this.issuerType = loginInformation?.SubUserType;
           //this.insuranceId = loginInformation?.InsuranceId;
           this.onCompanyChange('direct',loginInformation?.AttachedBranches,loginInformation?.ProductIds)
@@ -475,7 +471,7 @@ export class InsurenceEmpComponent {
          
           this.agencyCode = loginInformation?.AgencyCode;
           this.issuerLoginId = loginInformation?.LoginId;
-          this.Status = loginInformation?.Status;
+          this.statusValue = loginInformation?.Status;
           
           if(loginInformation?.AttachedCompanies){
             if(loginInformation?.AttachedCompanies.length!=0){
@@ -552,7 +548,7 @@ onDateFormatInEdit(date) {
   //   // this.remarks=value.Remarks;
 
   // }
-  onSubmit() {
+  onSubmit(type) {
     let referral:any;
     if(this.ReferralIds!=null){
     referral=this.ReferralIds;
@@ -600,7 +596,7 @@ onDateFormatInEdit(date) {
       }
     }
     if (ReqObj.LoginInformation.EffectiveDateStart != '' && ReqObj.LoginInformation.EffectiveDateStart != null && ReqObj.LoginInformation.EffectiveDateStart != undefined) {
-      ReqObj.LoginInformation['EffectiveDateStart'] = this.datePipe.transform(ReqObj.LoginInformation.EffectiveDateStart, "dd/MM/yyyy")
+     if(String(ReqObj.LoginInformation.EffectiveDateStart).split('/').length==1) ReqObj.LoginInformation['EffectiveDateStart'] = this.datePipe.transform(ReqObj.LoginInformation.EffectiveDateStart, "dd/MM/yyyy")
     }
     else {
       ReqObj.LoginInformation['EffectiveDateStart'] = "";
@@ -611,7 +607,8 @@ onDateFormatInEdit(date) {
       (data: any) => {
         console.log(data);
         if (data.Result) {
-          this.formRest()
+          if(type==null) this.formRest()
+          this.ChangePass=false;
           this.AddIssuerPopup=false;
           
         }
@@ -632,10 +629,10 @@ onDateFormatInEdit(date) {
     this.taxExcemptedYN='';this.designation='';this.countryCode=''
     this.coreAppBrokerCode='';this.contactPersonName='';
     this.companyCode='';this.stateCode='';this.cityName='';
-    this.cityCode='';this.address2=''
-    this.address1='';this.subUserType='';this.statusValue='';
+    this.cityCode='';this.address2='';this.issuerLoginId='';
+    this.address1='';this.subUserType='';this.statusValue='Y';
     this.effectiveDate='';this.brokerCompanyYn='';this.cbcno='';
-    this.productIds=[];this.branchIds=[];
+    this.productIds=[];this.branchIds=[];this.editSection=false;
 }
 onCountryChange(type) {
   let ReqObj = {
@@ -1033,7 +1030,8 @@ onTableChange(rowData){
       (data: any) => {
         console.log(data);
         if(data.Result){
-          this.columnList = data.Result;
+          let obj = [{"Code":null,"CodeDesc":"---Select---"}]
+          this.columnList = obj.concat(data.Result);
         }
       },
       (err) => { },
@@ -1051,15 +1049,16 @@ onChangeSumInsuredStart(rowData){
   }
 }
 checkSelectedProducts(rowData){
-  return rowData.Status=='Y';
+  return rowData.IsOptedYn=='Y';
 }
 onChangeSelectedProduct(rowData,check){
   console.log('Checked Statusss',rowData,check)
   if(check){
-   return rowData.Status = 'Y';
+    rowData.IsOptedYn = 'Y';
+    this.onTableChange(rowData.TableName)
   }
   else{
-    return rowData.Status = 'N';
+    rowData.IsOptedYn = 'N';
   }
 }
 onProceedIssuer(type){

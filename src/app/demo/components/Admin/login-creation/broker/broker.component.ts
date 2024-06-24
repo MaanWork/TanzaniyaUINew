@@ -1087,7 +1087,8 @@ this.password='';
             "CustomerCode": this.customerCode
           }
           sessionStorage.setItem('brokerConfigureDetails', JSON.stringify(entry));
-          this.formRest()
+          this.formRest();
+          this.getBrokerList();
           this.brokerDialogVisible=false;
           this.passwordPopup=false;
           this.visibleBrokerDetails=false;
@@ -1141,7 +1142,6 @@ this.password='';
     this.editSection=false
         this.customerCode=''
         this.regulatoryCode=''
-        this.insuranceId=''
         this.brokerLoginId=''
         this.whatsAppNo=''
         this.userName=''
@@ -1165,7 +1165,7 @@ this.password='';
         this.statusValue='Y'
         this.effectiveDate=''
         this.brokerCompanyYn=''
-        this.cbcno=''
+        this.cbcno='';this.password='';this.repassword='';
   }
 
   getBrokerBranchList(LoginId){
@@ -1211,7 +1211,7 @@ this.password='';
       "CompanyId":this.insuranceId,
       "EndtTypeCategoryId": this.categoryId,
       "ProductId": this.selectedProductId,
-      "LoginId":this.insuranceId
+      "LoginId":this.userLoginId
     }
     let urlLink = `${this.CommonApiUrl}master/getactiveendorsement`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -1221,9 +1221,67 @@ this.password='';
           if(res?.Result.length!=0){
             this.endorseData = res?.Result[0]?.EndorsementMasterListRes;
           }
-            this.productEndorsement = true;this.addProduct=false;
+            this.productEndorsement = true;
+            this.existingProduct=false;
+            this.addProduct=false;
         }
       });
+  }
+  onCheckEndorseSelect(rowData){
+    return rowData.SelectedYn=='Y';
+  }
+  onSelectProduct(rowData,event,i){
+    if(event){
+        rowData.SelectedYn = 'Y';
+        //rowData.Checked = true;
+    }
+    else{
+        rowData.SelectedYn = 'N';
+    }
+  }
+  onsubmitEndorsement(){
+    let i=0; let req:any=[];
+    let selectedList = this.endorseData.filter(ele=>ele.SelectedYn=='Y');
+    for(let s of selectedList){
+    req.push(s.EndtTypeId);
+    i+=1;
+    }
+    let type:any;let types:any;
+    let categoryId=this.categoryList.find(ele=>ele.Code==this.categoryId)
+    if(categoryId){
+      type=categoryId.CodeDesc;
+    }
+    if(type){
+      if(type=='Non-Financial'){
+        types='NF'
+      }
+      else if(type=='Financial'){
+        types='F'
+      }
+      else if(type=='Referral'){
+        types='R'
+      }
+    }
+    let ReqObj = {
+       "LoginId": this.userLoginId,
+       "InsuranceId":this.insuranceId,
+       "CreatedBy":this.loginId,
+       "ProductId":this.selectedProductId,
+      "IdType":types,
+      "Ids":req
+    }
+    let urlLink = `${this.CommonApiUrl}admin/attachloginendtids`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+            console.log(data);
+            let res:any=data;
+            if(data.Result){
+                this.productEndorsement = false;
+                this.existingProduct = true;
+            }
+          },
+          (err) => { },
+        );
   }
   editBranch(value){
     this.branchDetailsPopup=true;

@@ -234,7 +234,7 @@
     </div>
     <div class="flex justify-content-center gap-2">
         <p-button label="Cancel" styleClass="p-button-outlined" (click)="AddIssuerPopup=!AddIssuerPopup" />
-        <p-button label="Submit" (click)="onProceed()"/>
+        <p-button label="Submit" (click)="onProceed(null)"/>
     </div>
 </p-dialog> 
 <p-dialog  header="Issuer Details" [modal]="true"  [(visible)]="visibleIssuerDetails"  [style]="{ width: '90rem' }" 
@@ -249,7 +249,7 @@
                             <p>{{userName}}</p>
                         </div>
                         <div class="col-3 lg:col-3 md:col-3 lg:col-3">
-                            <p-button label="Edit"  class="p-button-outlined" styleClass="p-button-outlined" />
+                            <p-button label="Edit"  class="p-button-outlined" (click)="visibleIssuerDetails=!visibleIssuerDetails;AddIssuerPopup=!AddIssuerPopup" styleClass="p-button-outlined" />
                             <!-- <i class="pi pi-check-circle" style="color: green"></i> -->
                         </div>
                         <div class="col-1 lg:col-1 md:col-1 lg:col-1">
@@ -349,10 +349,21 @@
                     styleClass="w-full" 
                     placeholder="Enter Re-Enter New Password"/>
                 </div>
-                <div class="col-12 lg:col-4 md:col-4 lg:col-4 mt-4">
+                <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                    <label for="EffectiveDate" class="font-semibold w-6rem">Effective Date&nbsp;<span class="text-danger">*</span></label>
+                    <p-calendar  
+                    [showIcon]="true" 
+                    inputId="icondisplay" 
+                    styleClass="w-full"
+                    dateFormat="dd/mm/yy"
+                    [(ngModel)]="effectiveDate"
+                    class="w-full"/>
+                </div>
+                
+                </div>
+                <div class="flex flex-warp justify-content-center mt-4">
                     <p-button label="Submit"  (click)="passChanged()" />
                 </div>
-            </div>
             </div>
             <div class="col-12 lg:col-12 md:col-12 lg:col-12">
                 <p-card header="Products">
@@ -515,7 +526,7 @@
                                                        
                 </mat-checkbox> </td>
                 <td>{{data.ProductName}}</td>
-                <td> <p-dropdown  class="w-full" styleClass="w-full"  [options]="columnList" 
+                <td> <p-dropdown  class="w-full" styleClass="w-full" appendTo="body" [options]="columnList" 
                     optionLabel="CodeDesc" optionValue="Code" >
                 </p-dropdown></td>
                 <td><input pInputText id="sumInsured" class="w-full" [(ngModel)]="data.SumInsuredStart" maxlength="16" /></td>
