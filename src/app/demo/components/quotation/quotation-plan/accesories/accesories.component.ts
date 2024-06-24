@@ -3508,6 +3508,9 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       "QuoteNo":sessionStorage.getItem('quoteNo'),
       "RequestReferenceNo":this.quoteRefNo,
       "SectionId": "99999",
+      "Companyid": this.insuranceId,
+      "ProductId": this.productId,
+      "BranchCode": this.branchCode,
        "Type":type,
        "ContentRiskDetails":reqList
       }
