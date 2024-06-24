@@ -6,6 +6,8 @@ import { AuthService } from '../Auth/auth.service';
 import * as Mydatas from '../../../../app-config.json';
 import { LoginService } from './login.service';
 import Swal from 'sweetalert2';
+import { TranslateService } from '@ngx-translate/core';
+import { AppComponent } from 'src/app/app.component';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -27,11 +29,24 @@ export class LoginComponent {
     branchList: any[];  forget: boolean=false; loginfirst:any=false;
     branchValue: any;errorSection:boolean=false;
   messageText: any;pa:any;changePasswordSection: boolean;pass:any;
-  temps: boolean;
+  temps: boolean;lang:any=null;
   passExpiredError: boolean;
     constructor(public layoutService: LayoutService, private router: Router,private loginService:LoginService,
-        private authService: AuthService) { }
-
+        private authService: AuthService,private translate: TranslateService,private appComp:AppComponent) { 
+          this.appComp.getLanguage().subscribe((res:any)=>{  
+            this.lang=res;
+            translate.setDefaultLang(res);
+           });
+           if(!this.lang){this.lang='en';translate.setDefaultLang('en');}
+        }
+    setLanguage(value){
+          this.lang=value;
+          sessionStorage.setItem('language',value);
+          this.appComp.setLanguage(value);
+    }
+    getTranslateName(value){
+      return 'LOGIN.Signintocontinue'
+    }
     submit(val) {
         if(this.password && this.username) {
             let urlLink =  `${this.CommonApiUrl}authentication/login`;

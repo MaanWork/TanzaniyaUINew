@@ -14,7 +14,13 @@ import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { LoginService } from './login.service';
-
+import { MaterialModule } from 'src/app/material/material.module';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+export function HttpLoaderFactory(httpClient: HttpClient) {
+    return new TranslateHttpLoader(httpClient);
+  }
 @NgModule({
     imports: [
         CommonModule,
@@ -29,7 +35,15 @@ import { LoginService } from './login.service';
         CardModule,
         ToastModule,
         MessagesModule,
-        SelectButtonModule
+        SelectButtonModule,
+        MaterialModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
     ],
     providers:[LoginService],
     declarations: [LoginComponent]
