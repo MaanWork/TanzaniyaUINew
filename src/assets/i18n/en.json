@@ -14,7 +14,9 @@
       "CustomerName":"Customer Name",
       "FirstName": "First Name",
       "MiddleName": "Middle Name",
+      "LastName": "Last Name",
       "CustomerType":"Customer Type",
+      "AccountType": "Account Type",
       "Gender":"Gender",
       "Occupation":"Occupation",
       "MobileNumber": "Mobile Number",
@@ -35,6 +37,29 @@
       "DETAILONE": "Hello All, Welcome to my youtube channel, I hope you like my video, if you like please don't forget to subscribe my channel",
       "DETAILTWO": "If you talk to a man in a language he understands, that goes to his head. If you talk to him in his own language, that goes to his heart.",
       "DETAILLAST": "My main language was music, and my teacher was nature."
-    }
+    },
+    "LOGIN":{
+        "WelcometoXYZInsurance":"Welcome to XYZ Insurance",
+        "Signintocontinue": "Sign in to continue",
+        "UserName": "UserName",
+        "Password": "Password",
+        "ForgotPassword?":"Forgot password?",
+        "ChangePassword?": "Change password?",
+        "SignIn":"Sign In",
+        "OldPassword":"Old Password",
+        "NewPassword": "New Password",
+        "ResetPassword":"Reset Password",
+        "ForgotPassword":"Forgot Password",
+        "Reset": "Reset",
+        "Cancel": "Cancel",
+        "Submit": "Submit",
+        "ProceedLogin": "Proceed Login!",
+        "Email": "Email"
+    },
+    "PRODUCT":{
+      "SelecttheBranch":"Select the Branch",
+      "ProductYouWishtobuy":"Product You Wish to buy"
+    },
+    "QUOTEGRID":{}
   }
   

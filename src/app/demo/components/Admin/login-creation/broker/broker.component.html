@@ -734,7 +734,7 @@
             </div>
         </div>
        
-    </p-dialog>
+</p-dialog>
 
 <p-dialog  header="Branch " [modal]="true"  [(visible)]="branchPopup"  [style]="{ width: '75rem' }" >
     <p-table  [tableStyle]="{'min-width': '60rem'}" [value]="branchData" [rows]="5" [paginator]="true">
@@ -926,10 +926,22 @@
                 <td>{{product.BackDays}}</td>
                 <td *ngIf="product.Status=='Y'">Active</td><td *ngIf="product.Status=='N'">DeActive</td>
                 <td>{{product.EffectiveDateStart}}</td>
-                <td></td>
+                <td>
+                    <button pButton pRipple icon="pi pi-cog" title="Configure" (click)="onGetEndorsement(product)"  class="p-button-outlined" ></button>
+                </td>
             </tr>
         </ng-template>
     </p-table> 
+    <!-- <ng-container *ngIf="productEndorsement">
+        <div class="grid">
+            <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+                <label for="Channel">Category *</label>
+                <p-dropdown  class="w-full" styleClass="w-full" [options]="categoryList" disabled  [(ngModel)]="categoryId" optionLabel="CodeDesc" optionValue="Code"  >
+                </p-dropdown> 
+            </div>
+        </div>
+        
+    </ng-container> -->
     <p-table #dtEmployeeProductAdd [tableStyle]="{'min-width': '80rem'}" *ngIf="addProduct" [value]="newslist" [scrollable]="true" 
     [globalFilterFields]="['ProductName','SumInsuredEnd','CommissionPercent','BackDays','EffectiveDateStart']" [paginator]="true" [rows]="5">
         <ng-template pTemplate="caption">
@@ -1478,10 +1490,7 @@
 
 
 
-<p-dialog 
-        header="Customer Search" 
-        [modal]="true"
-        [(visible)]="customerSearchvisible" 
+<p-dialog header="Customer Search"  [modal]="true" [(visible)]="customerSearchvisible" 
         [position]="position" 
         [style]="{ width: '70rem' }">
     <div class="grid">

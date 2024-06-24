@@ -181,7 +181,9 @@ remarksError: boolean=false;
   OaCode: any;subBranchList:any[]=[];CoverType:any='1';
   sourceList: any[]=[];SalePointCodeList: any[]=[];
   selectedBranchName: any=null;selectedSPCode: any=null;SalePointCode: any=null;
-  viewBrokerDetails: any;
+  viewBrokerDetails: any;categoryId:any=null;categoryList:any[]=[]
+  selectedProductId: any;productEndorsement: boolean=false;
+  endorseData: any[]=[];
   
   constructor(private router:Router,
    private sharedService:SharedService,public datePipe:DatePipe) {
@@ -270,17 +272,17 @@ remarksError: boolean=false;
       
     }
     else if(type=='AddProduct'){
-      this.addProduct=true;
+      this.addProduct=true;this.productEndorsement=false;
       this.editProduct = false;
       this.existingProduct=false;
     }
     else if(type=='EditProduct'){
-      this.addProduct=false;
+      this.addProduct=false;this.productEndorsement=false;
       this.editProduct = true;
       this.existingProduct=false;
     }
     else if(type=='ProductCancel'){
-      this.addProduct=false;
+      this.addProduct=false;this.productEndorsement=false;
       this.existingProduct=true;
       this.editProduct = false;
     }
@@ -1192,11 +1194,37 @@ this.password='';
   }
   ProductDataList(value){
     //sessionStorage.setItem('brokerLoginId',value)
-    this.userLoginId = value.LoginId;
-    this.productPopup=true;
+    this.userLoginId = value.LoginId;this.productEndorsement=false;
+    this.productPopup=true;this.existingProduct = true;this.addProduct= false;this.editProduct=false;
     this.getOptedProductDetails();
   }
-
+  onGetEndorsement(rowData){
+    this.selectedProductId = rowData.ProductId;this.endorseData=[];
+    this.categoryList = [
+      {"Code":"1","CodeDesc":"Non-Financial"}
+    ]
+    this.categoryId = "1";
+    this.getExistingEndorsementList();
+  }
+  getExistingEndorsementList(){
+    let ReqObj={
+      "CompanyId":this.insuranceId,
+      "EndtTypeCategoryId": this.categoryId,
+      "ProductId": this.selectedProductId,
+      "LoginId":this.insuranceId
+    }
+    let urlLink = `${this.CommonApiUrl}master/getactiveendorsement`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        let res:any = data;
+        if(res?.Result){
+          if(res?.Result.length!=0){
+            this.endorseData = res?.Result[0]?.EndorsementMasterListRes;
+          }
+            this.productEndorsement = true;this.addProduct=false;
+        }
+      });
+  }
   editBranch(value){
     this.branchDetailsPopup=true;
       this.brokerBranchName=value.BrokerBranchName;

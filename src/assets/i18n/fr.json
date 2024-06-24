@@ -12,6 +12,7 @@
       "CountryCode": "Code postal",
       "CustomerTitle": "Titre du client",
       "CustomerType":"Type de client",
+      "AccountType":"Type de compte",
       "CustomerName":"Nom du client",
       "FirstName": "Prénom",
       "MiddleName": "Deuxième prénom",

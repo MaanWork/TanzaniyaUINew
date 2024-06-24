@@ -16,6 +16,7 @@
       "AccountType": "Tipo de conta",
       "FirstName": "Primeiro nome",
       "MiddleName": "Nome do meio",
+      "LastName": "Sobre nome",
       "Gender":"Gênero",
       "Occupation":"Ocupação",
       "MobileNumber": "Número de telemóvel",
@@ -70,6 +71,28 @@
       "ReferenceNo": "Número de referência",
       "Close": "Fechar",
       "Proceed": "Continuar"
+    },
+    "LOGIN":{
+        "WelcometoXYZInsurance":"Bem-vindo à XYZ Seguros",
+        "Signintocontinue": "Faça login para continuar",
+        "UserName": "Nome de usuário",
+        "Password": "Senha",
+        "ForgotPassword?":"Esqueceu sua senha?",
+        "ChangePassword?": "Alterar a senha?",
+        "SignIn":"Entrar",
+        "OldPassword":"Senha Antiga",
+        "NewPassword": "Nova Senha",
+        "ResetPassword":"Redefinir senha",
+        "ForgotPassword":"Esqueceu sua senha",
+        "Reset": "Reiniciar",
+        "Cancel": "Cancelar",
+        "Submit": "Enviar",
+        "ProceedLogin": "Prosseguir Login!",
+        "Email": "E-mail"
+    },
+    "PRODUCT":{
+      "SelecttheBranch":"Selecione a filial",
+      "ProductYouWishtobuy":"Produto que você deseja comprar"
     }
   }
   
