@@ -6,10 +6,17 @@
     </div>
 </div> 
 <ng-container >
-    <p-table  [value]="issuerData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+    <p-table  [value]="issuerData" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5" #dtEmployeeExist
+        [globalFilterFields]="['LoginId','UserName','UserMail','CreatedBy','UserMobile']">
         <ng-template pTemplate="caption">
-            <div class="flex align-items-center justify-content-end">
-                <p-button label="Add New Issuer" size="small" (click)="showDialogBrokerDetails('AddIssuer')"></p-button>
+            <div class="flex flex wrap justify-content-end">
+            <div class="table-header">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dtEmployeeExist.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                </span>&nbsp;
+            </div>
+            <div><p-button label="Add New Issuer" size="small" (click)="showDialogBrokerDetails('AddIssuer')"></p-button></div>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -48,7 +55,7 @@
                 <div class="input-form-radio-box mt-2">
                     <div class="radio-toolbar1 radio-toolbar">
                         <input id="Product" type="radio" name="rentOwnHome"   value="Product" *ngIf="data.SubUserType=='high' || data.SubUserType == 'both'" (click)="issuerProduct(data)">
-                        <label for="Product" ><img style="max-width: 30px;max-height: 10px;">Product</label>
+                        <label for="Product" *ngIf="data.SubUserType=='high' || data.SubUserType == 'both'"><img style="max-width: 30px;max-height: 10px;" >Product</label>
                         <input id="PaymentTypes" type="radio" name="rentOwnHome"   value="PaymentTypes" (click)="quotationMenuList(data)">
                         <label for="PaymentTypes" ><img style="max-width: 30px;max-height: 10px;" >Menu List</label>
                     </div>

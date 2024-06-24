@@ -1,35 +1,50 @@
 <div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
     <div class="flex flex-column align-items-center justify-content-center">                
         <div class="loginCard1">
+            
             <div class="w-full surface-card py-8 px-5 sm:px-8 loginCardBorder">
+                <div class="flex flex-warp justify-content-end">
+                    <p-button icon="pi pi-language" [label]="lang" mat-icon-button [matMenuTriggerFor]="menu" shape="circle" severity="danger" />&nbsp;&nbsp;
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="setLanguage('en')">
+                            <span>English</span>
+                        </button>
+                        <!-- <button mat-menu-item (click)="setLanguage('fr')">
+                            <span>French</span>
+                        </button> -->
+                        <button mat-menu-item (click)="setLanguage('po')">
+                            <span>Portugese</span>
+                        </button>
+                    </mat-menu>
+                </div>
                 <div class="text-center mb-5">
                     <img src="assets/demo/images/login/userIcon.png" alt="Image" height="50" class="mb-3">
-                    <div class="text-900 text-3xl font-medium mb-3">Welcome to XYZ Insurance</div>
-                    <span class="text-600 font-medium" *ngIf="!errorSection">Sign in to continue</span>
+                    <div class="text-900 text-3xl font-medium mb-3">{{ 'LOGIN.WelcometoXYZInsurance' | translate }}</div>
+                    <span class="text-600 font-medium" *ngIf="!errorSection">{{ 'LOGIN.Signintocontinue' | translate }}</span>
                     <span class="text-600 font-medium" *ngIf="errorSection">Session Error!</span>
                 </div>
                 <p-messages [(value)]="messages" [enableService]="false"></p-messages>
                 <div *ngIf="!errorSection && !changePasswordSection && !forget">
-                    <label for="email1" class="block text-900 text-xl font-medium mb-2">Username</label>
-                    <input id="email1" type="text" [(ngModel)]="username" placeholder="Username" pInputText class="w-full mb-5 padding1Rem">
+                    <label for="email1" class="block text-900 text-xl font-medium mb-2">{{ 'LOGIN.UserName' | translate }}</label>
+                    <input id="email1" type="text" [(ngModel)]="username" [placeholder]="'LOGIN.UserName' | translate" pInputText class="w-full mb-5 padding1Rem">
 
-                    <label for="password1" class="block text-900 font-medium text-xl mb-2">Password</label>
-                    <p-password id="password1" [(ngModel)]="password" [feedback]="false" [toggleMask]="true" placeholder="Password" styleClass="mb-5 w-full" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+                    <label for="password1" class="block text-900 font-medium text-xl mb-2">{{ 'LOGIN.Password' | translate }}</label>
+                    <p-password id="password1" [(ngModel)]="password" [feedback]="false" [toggleMask]="true" [placeholder]="'LOGIN.Password' | translate" styleClass="mb-5 w-full" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
 
                     <div class="flex align-items-center justify-content-between mb-5 gap-5">
-                        <a class="font-medium no-underline ml-2 text-right cursor-pointer primaryTextColor" (click)="Forget('foget','ForgotPassword');changepass('ForgotPassword')">Forgot password?</a>
-                        <a class="font-medium no-underline ml-2 text-right cursor-pointer primaryTextColor" (click)="Forget('change','ChangePassword');changepass('ChangePassword')">Change password?</a>
+                        <a class="font-medium no-underline ml-2 text-right cursor-pointer primaryTextColor" (click)="Forget('foget','ForgotPassword');changepass('ForgotPassword')">{{ 'LOGIN.ForgotPassword?' | translate }}</a>
+                        <a class="font-medium no-underline ml-2 text-right cursor-pointer primaryTextColor" (click)="Forget('change','ChangePassword');changepass('ChangePassword')">{{ 'LOGIN.ChangePassword?' | translate }}</a>
                     </div>
                   
-                    <button pButton pRipple label="Sign In" class="w-full p-3 text-xl" (click)="submit('N')"></button>
+                    <button pButton pRipple [label]="'LOGIN.SignIn' | translate" class="w-full p-3 text-xl" (click)="submit('N')"></button>
                 </div>
                 <div *ngIf="errorSection">
                       <div class="text-center customText">
                                 <span>{{messageText}}</span>
                       </div>
                       <div class="flex justify-content-center mt-3">
-                            <div><p-button styleClass="p-button-outlined" (click)="onCancelLogin()">Cancel</p-button>&nbsp;</div>
-                            <div>&nbsp;<p-button (click)="submit('Y')">Proceed Login!</p-button></div>
+                            <div><p-button styleClass="p-button-outlined" [label]="'LOGIN.Cancel' | translate" (click)="onCancelLogin()">Cancel</p-button>&nbsp;</div>
+                            <div>&nbsp;<p-button (click)="submit('Y')" [label]="'LOGIN.ProceedLogin' | translate"></p-button></div>
                       </div>
                 </div>
 
@@ -38,7 +53,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="middle-line">
-                                    <span>Reset Password</span>
+                                    <span>{{'LOGIN.ResetPassword' | translate}}</span>
                                 </div>
                             </div>
                         </div>
@@ -50,14 +65,14 @@
                             </div>
                         </div>
                         <form [formGroup]="changeForm">
-                            <label for="email1" class="block text-900 text-xl font-medium mb-2">Username</label>
-                            <input id="email1" type="text" [(ngModel)]="username1" placeholder="Username" pInputText class="w-full mb-5 padding1Rem">
+                            <label for="email1" class="block text-900 text-xl font-medium mb-2">{{ 'LOGIN.UserName' | translate }}</label>
+                            <input id="email1" type="text" [(ngModel)]="username1" [placeholder]="'LOGIN.UserName' | translate" pInputText class="w-full mb-5 padding1Rem">
         
-                            <label for="password1" class="block text-900 font-medium text-xl mb-2">Old Password</label>
-                            <p-password id="password1" [(ngModel)]="password2" [feedback]="false" [toggleMask]="true" placeholder="Password" styleClass="mb-5 w-full" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+                            <label for="password1" class="block text-900 font-medium text-xl mb-2">{{ 'LOGIN.OldPassword' | translate }}</label>
+                            <p-password id="password1" [(ngModel)]="password2" [feedback]="false" [toggleMask]="true" [placeholder]="'LOGIN.OldPassword' | translate" styleClass="mb-5 w-full" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
 
-                            <label for="password2" class="block text-900 font-medium text-xl mb-2">New Password</label>
-                            <p-password id="password2" [(ngModel)]="password1" [feedback]="false" [toggleMask]="true" placeholder="Password" styleClass="mb-5 w-full" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+                            <label for="password2" class="block text-900 font-medium text-xl mb-2">{{ 'LOGIN.NewPassword' | translate }}</label>
+                            <p-password id="password2" [(ngModel)]="password1" [feedback]="false" [toggleMask]="true" [placeholder]="'LOGIN.NewPassword' | translate" styleClass="mb-5 w-full" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
                             <!-- <div class="row">
                                 <div class="col-12">
                                         <div class="input-control-container">
@@ -106,9 +121,9 @@
                             <div class="mt-3">
                                 <!--class="grid mt-4 ml-5" style="text-align: center !important;"-->
                                 <div style="text-align: center !important;">
-                                    <p-button class="mr-4 mb-4" label="Reset" (click)="resetForm()"></p-button>
-                                    <p-button class="mr-4 mb-4" label="Cancel" (click)="cancel(value_cancel)"></p-button>
-                                    <p-button class="mr-4 mb-4" label="Submit" (click)="onsubmit()"></p-button>
+                                    <p-button class="mr-4 mb-4" [label]="'LOGIN.Reset' | translate" (click)="resetForm()"></p-button>
+                                    <p-button class="mr-4 mb-4" [label]="'LOGIN.Cancel' | translate" (click)="cancel(value_cancel)"></p-button>
+                                    <p-button class="mr-4 mb-4" [label]="'LOGIN.Submit' | translate" (click)="onsubmit()"></p-button>
                                 </div>
                             </div>
                         </form>
@@ -120,16 +135,16 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="middle-line">
-                                    <span>Forgot Password</span>
+                                    <span>{{'LOGIN.ForgotPassword' | translate}}</span>
                                 </div>
                             </div>
                         </div>      
                         <div class="grid">
-                            <label for="email1" class="block text-900 text-xl font-medium mb-2">Username</label>
-                            <input id="email1" type="text" [(ngModel)]="username2" placeholder="Username" pInputText class="w-full mb-5 padding1Rem">
+                            <label for="email1" class="block text-900 text-xl font-medium mb-2">{{ 'LOGIN.UserName' | translate }}</label>
+                            <input id="email1" type="text" [(ngModel)]="username2" [placeholder]="'LOGIN.UserName' | translate" pInputText class="w-full mb-5 padding1Rem">
         
-                            <label for="password1" class="block text-900 font-medium text-xl mb-2">Email</label>
-                            <input id="password1" type="text" [(ngModel)]="Email" placeholder="Email" pInputText class="w-full mb-5 padding1Rem">
+                            <label for="password1" class="block text-900 font-medium text-xl mb-2">{{ 'LOGIN.Email' | translate }}</label>
+                            <input id="password1" type="text" [(ngModel)]="Email" [placeholder]="'LOGIN.Email' | translate" pInputText class="w-full mb-5 padding1Rem">
                           
                         </div>            
                                   <!-- <div class="row">
@@ -155,8 +170,8 @@
                                   </div> -->
                                     <div><!--class="grid mt-4 ml-5"-->
                                       <div style="text-align: center !important;">
-                                        <p-button class="mr-4 mb-4" label="Cancel" (click)="cancel(value_cancel)"></p-button>
-                                        <p-button class="mr-4 mb-4" label="Submit" (click)="forgetSubmit()"></p-button>
+                                        <p-button class="mr-4 mb-4" [label]="'LOGIN.Cancel' | translate" (click)="cancel(value_cancel)"></p-button>
+                                        <p-button class="mr-4 mb-4" [label]="'LOGIN.Submit' | translate" (click)="forgetSubmit()"></p-button>
                                       </div>
                                   </div>
                              

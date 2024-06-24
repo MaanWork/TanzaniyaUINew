@@ -181,6 +181,7 @@ remarksError: boolean=false;
   OaCode: any;subBranchList:any[]=[];CoverType:any='1';
   sourceList: any[]=[];SalePointCodeList: any[]=[];
   selectedBranchName: any=null;selectedSPCode: any=null;SalePointCode: any=null;
+  viewBrokerDetails: any;
   
   constructor(private router:Router,
    private sharedService:SharedService,public datePipe:DatePipe) {
@@ -377,6 +378,8 @@ remarksError: boolean=false;
   }
 }
   brokerDetailsView(value){
+    this.formRest();
+    this.viewBrokerDetails = value;
     this.brokerLoginId=value.LoginId;
     this.subUserType=value.SubUserType;
     this.UserType=value.UserType;
@@ -394,8 +397,7 @@ this.password='';
   }
   passChanged(){
     this.onProceed();
-    this.passwordPopup=false;
-    this.visibleBrokerDetails=false;
+    
     
   }
   // passChange(){
@@ -638,9 +640,10 @@ this.password='';
 
   }
   EditDetailsView(value){
+    this.formRest();
     this.brokerLoginId=value.LoginId
     this.brokerDialogVisible=true;
-    
+    this.visibleBrokerDetails=false;
     this.getEditBrokerDetails();
   }
   getMobileCodeList() {
@@ -1084,6 +1087,8 @@ this.password='';
           sessionStorage.setItem('brokerConfigureDetails', JSON.stringify(entry));
           this.formRest()
           this.brokerDialogVisible=false;
+          this.passwordPopup=false;
+          this.visibleBrokerDetails=false;
           // this.insuranceId=this.insuranceId
           // this.getBrokerList();
 
@@ -1098,7 +1103,7 @@ this.password='';
     );
   }
   checkValidation(){
-    let i=0
+   let i=0
     if(this.customerCode!=null && this.customerCode!='' && this.customerCode!=undefined) {this.customerCodeError=false;}
     else{i+=1;this.customerCodeError=true;}
     if(this.userName!=null && this.userName!='' && this.userName!=undefined) {this.userNameError=false;}
@@ -1128,6 +1133,9 @@ this.password='';
     return i==0;
   }
   formRest(){
+    this.customerCodeError=false;this.userNameError=false;this.stateCodeError=false;this.cityCodeError=false;this.userMailError=false;
+    this.mobileCodeError=false;this.userMobileError=false;this.coreAppBrokerCodeError=false;this.regulatoryCodeError=false;this.creditLimitError=false;
+    this.effectiveDateError=false;this.brokerLoginIdError=false;this.remarksError=false;
     this.editSection=false
         this.customerCode=''
         this.regulatoryCode=''

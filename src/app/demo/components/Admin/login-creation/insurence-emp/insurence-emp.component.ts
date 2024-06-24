@@ -587,7 +587,7 @@ onDateFormatInEdit(date) {
       "PersonalInformation": {
         "Address1": this.address1,
         "Address2": this.address2,
-        "CityName": this.cityCode,
+        "CityName": this.cityName,
         "StateCode":this.stateCode,
         "CountryCode": this.countryCode,
         "MobileCode": this.mobileCode,
@@ -632,7 +632,7 @@ onDateFormatInEdit(date) {
     this.taxExcemptedYN='';this.designation='';this.countryCode=''
     this.coreAppBrokerCode='';this.contactPersonName='';
     this.companyCode='';this.stateCode='';this.cityName='';
-    this.cityCode='';this.loginId='';this.address2=''
+    this.cityCode='';this.address2=''
     this.address1='';this.subUserType='';this.statusValue='';
     this.effectiveDate='';this.brokerCompanyYn='';this.cbcno='';
     this.productIds=[];this.branchIds=[];
