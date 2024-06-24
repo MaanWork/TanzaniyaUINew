@@ -828,11 +828,11 @@
             <label for="ExcemptedYN" class="font-semibold w-6rem">Status&nbsp;<span class="text-danger">*</span></label>
             <div class="flex flex-warp">
                 <div class="flex align-items-center mr-1">
-                    <p-radioButton name="Yes" value="Y"  inputId="Active" [(ngModel)]="Status"></p-radioButton>
+                    <p-radioButton name="Yes" value="Y"  inputId="Active" [(ngModel)]="statusValue"></p-radioButton>
                     <span for="Active" class="ml-1">Active</span>
                 </div>
                 <div class="flex align-items-center mr-1">
-                    <p-radioButton name="No" value="N"  inputId="DeActive" [(ngModel)]="Status"></p-radioButton>
+                    <p-radioButton name="No" value="N"  inputId="DeActive" [(ngModel)]="statusValue"></p-radioButton>
                     <span for="DeActive" class="ml-1">DeActive</span>
                 </div>
             </div>

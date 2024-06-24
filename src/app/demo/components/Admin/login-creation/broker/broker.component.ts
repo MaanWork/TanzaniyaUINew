@@ -825,7 +825,7 @@ this.password='';
            this.companyName=this.PersonalInformation?.CompanyName;
            this.stateCode = this.PersonalInformation?.StateCode;
            this.stateName= this.PersonalInformation?.StateName;
-           this.Status= this.loginInformation.Status;
+           this.statusValue= this.loginInformation.Status;
            this.creditLimit= this.PersonalInformation?.CreditLimit;
            this.effectiveDate= this.loginInformation?.EffectiveDateStart;
           
