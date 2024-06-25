@@ -74,7 +74,7 @@ export class SharedService {
       .get<any>(UrlLink, { headers: headers })
       .pipe(catchError(this.handleError));
   }
-
+  
   onPostMethodSync(UrlLink: string, ReqObj: any): Observable<any[]> {
     this.cookieService.set("XSRF-TOKEN", this.getToken(), 1, '/','localhost', false, "Strict");
     let headers = new HttpHeaders();
@@ -87,9 +87,9 @@ export class SharedService {
       .post<any>(UrlLink, ReqObj, { headers: headers })
       .pipe(catchError(this.handleError));
   }
- onPostMethodUnAuthAsync(UrlLink: any, ReqObj: any):Observable<any[]> {
+  async onPostMethodUnAuthAsync(UrlLink: any, ReqObj: any): Promise<Observable<any[]>> {
     let headers = new HttpHeaders();
-    return this.http
+    return await this.http
       .post<any>(UrlLink, ReqObj, { headers: headers })
       .pipe(retry(1), catchError(this.handleError));
   }
@@ -285,7 +285,7 @@ export class SharedService {
     }
   }
 
-  onProceed(type){
+  async onProceed(type){
      if(type=='Yes'){
       this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
       this.loginId = this.userDetails.Result.LoginId;
@@ -294,7 +294,7 @@ export class SharedService {
         "LoginId":this.loginId
       }
       let urlLink = `${this.CommonApiUrl}authentication/tokenregenrate`;
-          this.onPostMethodUnAuthAsync(urlLink, ReqObj).subscribe(
+          (await this.onPostMethodUnAuthAsync(urlLink, ReqObj)).subscribe(
             (data: any) => {
                 if(data){
                   const Token = data?.Result?.Token;

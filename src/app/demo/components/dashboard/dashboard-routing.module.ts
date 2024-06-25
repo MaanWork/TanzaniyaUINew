@@ -22,6 +22,8 @@ import { ApproverPortfolioComponent } from '../approverportfolio/approverportfol
 import { FollowupComponent } from '../FollowUp/followup.component';
 import { LoginCreationComponent } from '../Admin/login-creation/login-creation.component';
 import { InsurenceEmpComponent } from '../Admin/login-creation/insurence-emp/insurence-emp.component';
+import { CustomerComponent } from '../auth/login/customer/customer.component';
+import { CustomerInfoComponent } from '../auth/login/customer-info/customer-info.component';
 
 
 @NgModule({
@@ -47,6 +49,8 @@ import { InsurenceEmpComponent } from '../Admin/login-creation/insurence-emp/ins
         { path: 'report', component: ReportComponent },
         { path: 'referralCases', component: ReferralCasesComponent },
         { path: 'Search', component : SearchComponent},
+        { path: 'customerview', component: CustomerComponent },
+        { path: 'customer-info', component: CustomerInfoComponent },
         { path: 'Admin', loadChildren: () => import('../Admin/admin.module').then(m => m.AdminModule) },
         {
             path:'ApproverPortfolio',

@@ -8,6 +8,7 @@ import { LoginService } from './login.service';
 import Swal from 'sweetalert2';
 import { TranslateService } from '@ngx-translate/core';
 import { AppComponent } from 'src/app/app.component';
+import { SharedService } from 'src/app/shared/shared.service';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -29,10 +30,10 @@ export class LoginComponent {
     branchList: any[];  forget: boolean=false; loginfirst:any=false;
     branchValue: any;errorSection:boolean=false;
   messageText: any;pa:any;changePasswordSection: boolean;pass:any;
-  temps: boolean;lang:any=null;
+  temps: boolean;lang:any=null;branchselection: boolean=false;
   passExpiredError: boolean;
     constructor(public layoutService: LayoutService, private router: Router,private loginService:LoginService,
-        private authService: AuthService,private translate: TranslateService,private appComp:AppComponent) { 
+        private authService: AuthService,private translate: TranslateService,private appComp:AppComponent,private shared:SharedService) { 
           this.appComp.getLanguage().subscribe((res:any)=>{  
             this.lang=res;
             translate.setDefaultLang(res);
@@ -135,7 +136,108 @@ export class LoginComponent {
             this.messages = [{ severity: 'error', summary: 'Error', detail: 'Incorrect Credentials' }];
         }
     }
-
+    B2c(){
+      this.onB2CNavigate();
+      this.router.navigate(['/customerProducts']);
+    }
+    async onB2CNavigate(){
+      let urlLink = `${this.CommonApiUrl}authentication/doauth`
+      let ReqObj = {
+          "e":'kjIeGIM/2PWZlQUsLQBGq0uOWULX0QWRTSfk2dEbvBik/KTyszKentir1ZMEPiDD4ccgJA4xIW5Km9gKJ+DaeNJt0wornRee8Y+ohOoE2DiMJhNEV2QiwB8W7LxFFzGnt5+3eZt7jIeQM9ZbpCm6/U5emAvchppFSl+fHhFsY2ApKhnOdQyrL+jhC1QFOIhbJguJM8WzWFk80avvZEGedQZZM+ZzlwqZTm+/+1SnaGM4VBkPH7pBHbx+EoI7Rh7fejj+W/dEb0euc7wvAswDFjhUGQ8fukEdvH4SgjtGHt+ZE8Zk+f2/2Q=='
+      };
+      (await this.shared.onPostMethodUnAuthAsync(urlLink, ReqObj)).subscribe(
+        (data: any) => {
+          let res: any = data;
+          console.log(data);
+          if (data.Result) {
+            if(data.AdditionalInfo){
+              let details = data.AdditionalInfo;
+              if(details.QuoteNo!='null' && details.QuoteNo!=null){
+                  sessionStorage.setItem('quoteNo',details?.QuoteNo)
+              }
+              let custRefNo = details?.CustomerRefNo;
+              if(custRefNo!='' && custRefNo!='null' && custRefNo!=null && custRefNo!=undefined){
+                sessionStorage.setItem('customerReferenceNo',custRefNo);
+              }
+              let refNo = details?.RefNo;
+              if(refNo!='' && refNo!='null' && refNo!=null && refNo!=undefined){
+                sessionStorage.setItem('quoteReferenceNo',refNo);
+              }
+              
+              let result = data.Result;
+              let insuranceId = details?.InsuranceId;
+              if(insuranceId!='' && insuranceId!='null' && insuranceId!=null && insuranceId!=undefined){
+                result['InsuranceId'] = insuranceId;
+              }
+              let productId = details?.ProductId;
+              if(productId!='' && productId!='null' && productId!=null && productId!=undefined){
+                result['ProductId'] = productId;
+              }
+              let branchCode = details?.BranchCode;
+              if(branchCode!='' && branchCode!='null' && branchCode!=null && branchCode!=undefined){
+                result['BranchCode'] = branchCode;
+              }
+             const Token = data?.Result?.Token;
+              this.authService.login(data);
+              this.authService.UserToken(Token);
+              sessionStorage.setItem('UserToken',Token);
+              if(data?.Result?.LoginBranchDetails){
+                if(data?.Result?.LoginBranchDetails.length!=0){
+                  data.Result['BranchCode'] = data?.Result?.LoginBranchDetails[0].BranchCode;
+                  data.Result['BrokerBranchCode'] = data?.Result?.LoginBranchDetails[0].BrokerBranchCode;
+                  data.Result['CurrencyId'] = data?.Result?.LoginBranchDetails[0].CurrencyId;
+                }
+              }
+              console.log("Final Setted Data",data)
+              sessionStorage.setItem('Userdetails',JSON.stringify(data));
+              if(details?.PageType){
+                if(details.PageType=='RP'){
+                  sessionStorage.setItem('QuoteStatus','AdminRP');
+  
+                }
+                else if(details.PageType=='B2C'){
+                    let branchList: any[] = data?.Result?.LoginBranchDetails;
+                    if (branchList.length != 0 && branchList.length > 1) {
+                      console.log("Entered Branch", branchList)
+                      // this.router.navigate(['/branch']);
+                      this.branchselection=true;
+                      this.branchList = branchList;
+                    }
+                    else if (branchList.length != 0){
+                      this.branchList = branchList;
+                      this.branchValue = branchList[0].BrokerBranchCode;
+                      let branchData: any = this.branchList.find(ele => ele.BrokerBranchCode == this.branchValue);
+                      let userDetails = JSON.parse(sessionStorage.getItem('Userdetails') as any);
+                      userDetails.Result['ProductId'] = data.Result.BrokerCompanyProducts[0].ProductId;
+                      userDetails.Result['ProductName'] = data.Result.BrokerCompanyProducts[0].ProductName;
+                      userDetails.Result['BrokerBranchCode'] = this.branchValue;
+                      userDetails.Result['BranchCode'] = branchData.BranchCode;
+                      userDetails.Result['CurrencyId'] = branchData?.CurrencyId;
+                      userDetails.Result['InsuranceId'] = branchData?.InsuranceId;
+                      userDetails.Result['LoginType'] = 'B2CFlow';
+                      sessionStorage.setItem('b2cType','guest')
+                      sessionStorage.setItem('Userdetails', JSON.stringify(userDetails));
+                      sessionStorage.removeItem('customerReferenceNo');
+                      //this.router.navigate(['/Home/customer/Client/client-details']);
+                    }
+                }
+                this.router.navigate([details?.RouterLink]);
+              }
+            }
+          }
+          else if(data.ErrorMessage){
+              // if(data.ErrorMessage.length!=0){
+              //   this.errorSection = true;
+              //   this.errorList = data.ErrorMessage;
+              // }
+          }
+        },
+        (err: any) => {
+          alert("Error")
+          // console.log(err);
+        },
+      );
+    }
     cancel(v){
       this.errorSection=false;
       this.changePasswordSection=false;this.forget=false;

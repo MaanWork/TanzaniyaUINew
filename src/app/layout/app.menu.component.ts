@@ -25,7 +25,7 @@ export class AppMenuComponent implements OnInit {
     public ApiUrl1: any = this.AppConfig.ApiUrl1;
     menuSection: boolean = true;menu:any[]=[];typeList:any[]=[];
     parentSection:boolean = true;submenuList:any[]=[];
-    typeName: any;
+    typeName: any;b2cType:any=null
     branchValue: any;
     branchList: any[]=[];
     branchName: any;
@@ -210,6 +210,11 @@ export class AppMenuComponent implements OnInit {
       }
     
       setMenuSection(menuList) {
+        this.b2cType =sessionStorage.getItem('b2cType')
+        if(this.b2cType=='guest'){
+        
+        }
+        else { 
         if (menuList.length != 0) {
           let menus = [], i = 0;
           for (let menu of menuList) {
@@ -300,6 +305,7 @@ export class AppMenuComponent implements OnInit {
           this.parentSection = true;
           this.submenuList = [];
         }
+      }
         //}
         //}
           console.log("Final Menu 2",this.model)

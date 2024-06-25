@@ -18,6 +18,14 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
+import { TabViewModule } from 'primeng/tabview';
+import { TableModule } from 'primeng/table';
+import { DividerModule } from 'primeng/divider';
+import { CalendarModule } from 'primeng/calendar';
+import { CustomerProductsComponent } from './customer-products/customer-products.component';
+import { OTPComponent } from './otp/otp.component';
+import { CustomerComponent } from './customer/customer.component';
+import { CustomerInfoComponent } from './customer-info/customer-info.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
   }
@@ -37,6 +45,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         MessagesModule,
         SelectButtonModule,
         MaterialModule,
+        TabViewModule,
+        TableModule,
+        DividerModule,
+        CalendarModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -46,6 +58,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         })
     ],
     providers:[LoginService],
-    declarations: [LoginComponent]
+    declarations: [LoginComponent,CustomerProductsComponent,OTPComponent, CustomerComponent, CustomerInfoComponent]
 })
 export class LoginModule { }

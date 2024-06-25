@@ -17,6 +17,7 @@ import { RiskDetailsComponent } from './Riskpage/Riskdetails.component';
 import { CopyQuoteComponent } from './copyQuote/copyquote.component';
 import { ShortQuoteComponent } from './short-quote/short-quote.component';
 import { TravelQuoteDetailsComponent } from './travel-quote-details/travel-quote-details.component';
+import { OTPComponent } from '../../auth/login/otp/otp.component';
 
 const routes: Routes = [
   { 
@@ -49,6 +50,10 @@ const routes: Routes = [
   { 
     path: 'travel-quote-details', 
     component: TravelQuoteDetailsComponent,
+  },
+  { 
+    path: 'OtpSection', 
+    component: OTPComponent,
   },
   {path:"shortQuote" , component:ShortQuoteComponent}
 ];

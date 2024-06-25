@@ -655,7 +655,6 @@ onCountryChange(type) {
   );
 }
 onStateChange(type) {
-  alert(this.stateCode)
   let ReqObj = {
     "CountryId": this.countryCode,
     "RegionCode": this.stateCode
@@ -744,12 +743,12 @@ checkUncheckAll() {
 getIssuerMenuList(){
     let ReqObj = {
       "UserType":this.userType,
-      "SubUserType":this.subUserType
+      "SubUserType":this.subUserType,
+      "InsuranceId": this.insuranceId
     }
     let urlLink = `${this.CommonApiUrl}master/menu`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
-        console.log(data);
         if(data?.Result){
             this.userList = data?.Result?.UserList;
             console.log('User List',this.userList);
