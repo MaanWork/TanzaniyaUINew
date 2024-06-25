@@ -36,7 +36,7 @@ export class AppTopBarComponent implements OnInit {
     public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
     branchValue:any=null;branchList:any[]=[];typeName:any=null;
     loginType:any=null;customerCode:any=null;customerName:any=null;
-    insuranceid: any;
+    insuranceid: any;b2cType:any=null;
   lang: string;
     constructor(public layoutService: LayoutService, private router: Router,private loginService: LoginService,private appComp:AppComponent,
         private authService: AuthService,private cookieService: CookieService,private SharedService: SharedService) { 
@@ -45,6 +45,7 @@ export class AppTopBarComponent implements OnInit {
         console.log("UserDetails",this.userDetails);
         this.loginId = this.userDetails.Result.LoginId;
         this.userType = this.userDetails?.Result?.UserType;
+        this.b2cType = sessionStorage.getItem('b2cType');
         let language =  sessionStorage.getItem('language');
         if(language){this.lang=language; this.appComp.setLanguage(language);}
         else{this.lang='en'; this.appComp.setLanguage('en');}
@@ -78,7 +79,8 @@ export class AppTopBarComponent implements OnInit {
     }
     
     onProductRedirect(){
-      this.router.navigate(['/auth/login/product']);
+      if(this.typeValue=='B2C Broker') this.router.navigate(['/customerProducts']);
+      else this.router.navigate(['/auth/login/product']);
     }
     getBranchList() {
       let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));

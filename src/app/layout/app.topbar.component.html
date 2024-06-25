@@ -35,7 +35,7 @@
         
         <ng-container *ngIf="showUserDetails()">
             <p-button [label]="productname" icon="pi pi-home" class="productBtn" (click)="onProductRedirect()" severity="warning"></p-button>&nbsp;
-            <ng-container *ngIf="typeList.length!=0">
+            <ng-container *ngIf="typeList.length!=0 && typeValue!='B2C Broker'">
                 <p-dropdown inputId="make" 
                     class="w-full min300" 
                     styleClass="w-full" 
@@ -46,7 +46,7 @@
                     [(ngModel)]="typeValue"  >
                 </p-dropdown>&nbsp;&nbsp;
             </ng-container>
-            <ng-container *ngIf="branchList.length!=0">
+            <ng-container *ngIf="branchList.length!=0 && typeValue!='B2C Broker'">
                 
                 <p-dropdown inputId="make" 
                     class="w-full min300" 
