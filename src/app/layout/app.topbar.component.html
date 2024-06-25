@@ -32,18 +32,7 @@
     </button>
     
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <!-- <p-button icon="pi pi-language" mat-icon-button [matMenuTriggerFor]="menu" shape="circle" severity="danger" />&nbsp;&nbsp;
-        <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="setLanguage('en')">
-                <span>English</span>
-            </button>
-            <button mat-menu-item (click)="setLanguage('fr')">
-                <span>French</span>
-            </button>
-            <button mat-menu-item (click)="setLanguage('po')">
-                <span>Portugese</span>
-            </button>
-        </mat-menu> -->
+        
         <ng-container *ngIf="showUserDetails()">
             <p-button [label]="productname" icon="pi pi-home" class="productBtn" (click)="onProductRedirect()" severity="warning"></p-button>&nbsp;
             <ng-container *ngIf="typeList.length!=0">
@@ -80,5 +69,14 @@
             <p-avatar image="assets/demo/images/login/userIcon.png" styleClass="mr-2" size="medium" shape="circle"></p-avatar>
             <p-button (click)="op.toggle($event)" [label]="loginId"></p-button>
         </div>
+        <!-- <p-button icon="pi pi-language" [label]="lang" mat-icon-button [matMenuTriggerFor]="menu" shape="circle" severity="danger" />&nbsp;&nbsp;
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="setLanguage('en')">
+                <span>English</span>
+            </button>
+            <button mat-menu-item (click)="setLanguage('po')">
+                <span>Portugese</span>
+            </button>
+        </mat-menu> -->
     </div>
 </div>

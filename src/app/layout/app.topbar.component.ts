@@ -37,6 +37,7 @@ export class AppTopBarComponent implements OnInit {
     branchValue:any=null;branchList:any[]=[];typeName:any=null;
     loginType:any=null;customerCode:any=null;customerName:any=null;
     insuranceid: any;
+  lang: string;
     constructor(public layoutService: LayoutService, private router: Router,private loginService: LoginService,private appComp:AppComponent,
         private authService: AuthService,private cookieService: CookieService,private SharedService: SharedService) { 
         this.productName = sessionStorage.getItem('productName');
@@ -45,8 +46,8 @@ export class AppTopBarComponent implements OnInit {
         this.loginId = this.userDetails.Result.LoginId;
         this.userType = this.userDetails?.Result?.UserType;
         let language =  sessionStorage.getItem('language');
-        if(language) this.appComp.setLanguage(language);
-        else this.appComp.setLanguage('en');
+        if(language){this.lang=language; this.appComp.setLanguage(language);}
+        else{this.lang='en'; this.appComp.setLanguage('en');}
         if(this.userDetails.Result.LoginBranchDetails.length!=0) this.insuranceid = this.userDetails.Result.LoginBranchDetails[0].InsuranceId;
       
         if(sessionStorage.getItem('Userdetails')){
@@ -182,6 +183,7 @@ export class AppTopBarComponent implements OnInit {
       }
     }
     setLanguage(value){
+        this.lang=value;
         sessionStorage.setItem('language',value);
         this.appComp.setLanguage(value);
     }

@@ -273,13 +273,13 @@
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
             <label for="Country" class="font-semibold w-6rem">Country *</label>
-            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="countryCode" [options]="countryList" (onChange)="onCountryChange('change')"
+            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="countryCode" [options]="countryList" (onChange)="onCountryChange('change',null,null)"
                 optionLabel="CodeDesc" optionValue="Code" >
             </p-dropdown> 
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
-            <label for="Region" class="font-semibold w-6rem">Region *</label>
-            <p-dropdown  class="w-full" styleClass="w-full" [options]="stateList" (onChange)="onStateChange('change')" [(ngModel)]="stateCode"
+            <label for="Region" class="font-semibold w-6rem">Region*</label>
+            <p-dropdown  class="w-full" styleClass="w-full" [options]="stateList" (onChange)="onStateChange('change',null)" [(ngModel)]="stateCode"
                 optionLabel="CodeDesc" optionValue="Code" >
             </p-dropdown> 
             <div class="input-form-error" *ngIf="stateCodeError">
@@ -646,7 +646,7 @@
                        <p>{{brokerLoginId}}</p>
                     </div>
                     <div class="col-12">
-                    <p-button style="font-size: '9.9px'" label="Change Password"  class="p-button-outlined" styleClass="p-button-outlined" (click)="passwordField()" />
+                    <p-button label="Change Password"  class="p-button-outlined" styleClass="p-button-outlined" (click)="passwordField()" />
                     </div>
                     <!--  -->
                         <!-- <p  class="font-semibold broker_name">Last Login Date</p>

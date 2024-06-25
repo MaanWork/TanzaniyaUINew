@@ -258,7 +258,7 @@ remarksError: boolean=false;
       this.agencyCode = null;
       this.brokerDialogVisible=true;
        this.formRest();
-       this.onCountryChange('direct');
+       if(this.stateList.length!=0) this.onCountryChange('direct',null,null);
       this.editsSection;
     }
     else if(type=='AddUser'){
@@ -829,8 +829,8 @@ this.password='';
            this.creditLimit= this.PersonalInformation?.CreditLimit;
            this.effectiveDate= this.loginInformation?.EffectiveDateStart;
           
-      if(this.stateCode && this.cityCode)
-           this.onCountryChange(this.stateCode);
+        if(this.stateCode && this.cityCode)
+           this.onCountryChange('direct',this.stateCode,this.cityCode);
         }
       },
       (err) => { },
@@ -857,7 +857,7 @@ this.password='';
                 this.countryCode = this.countryList.find(ele=>ele.Code=='TZS')?.Code;
               }
               else this.countryCode = this.countryList[0].Code;
-              this.onCountryChange('change');
+              if(this.stateList.length!=0) this.onCountryChange('change',null,null);
             }
             this.mobileCode = '255';
             this.whatsAppCode = '255';
@@ -868,7 +868,7 @@ this.password='';
       (err) => { },
     );
   }
-  onCountryChange(type) {
+  onCountryChange(type,stateCode,cityCode) {
     let ReqObj = {
       "CountryId": this.countryCode
     }
@@ -877,18 +877,14 @@ this.password='';
       (data: any) => {
         let obj = [{"Code":null,"CodeDesc":"---Select---"}];
         this.stateList = obj.concat(data?.Result);
-        if (type == 'change') {
-          this.stateCode = null;
-          this.cityCode = null;
-        }
-        else {
-          this.onStateChange('direct');
-        }
+          this.stateCode = stateCode;
+          this.cityCode = cityCode;
+          this.onStateChange('direct',cityCode);
       },
       (err) => { },
     );
   }
-  onStateChange(type) {
+  onStateChange(type,cityCode) {
     let ReqObj = {
       "CountryId": this.countryCode,
       "RegionCode": this.stateCode
@@ -900,13 +896,7 @@ this.password='';
       (data: any) => {
         let obj = [{"Code":null,"CodeDesc":"---Select---"}];
         this.cityList = obj.concat(data?.Result);
-        if (type == 'change') {
-          this.cityCode = null;
-        }
-        else if(this.cityCode!=null){
-          let entry = this.cityList.find(ele=>ele.Code==this.cityCode);
-          if(!entry) this.cityCode = null;
-        }
+        this.cityCode=cityCode;
       },
       (err) => { },
     );
@@ -1284,7 +1274,7 @@ this.password='';
         );
   }
   editBranch(value){
-    this.branchDetailsPopup=true;
+      this.branchDetailsPopup=true;
       this.brokerBranchName=value.BrokerBranchName;
       this.branchName=value.BranchCode;
       this.branchType=value.BranchType;
@@ -1523,6 +1513,7 @@ this.password='';
     this.userLoginId=value.LoginId;
     this.UserType=value.UserType;
     this.agencyCode=value.AgencyCode;
+    
     this.getProductList()
   }
   getProductList(){
@@ -1556,7 +1547,6 @@ this.password='';
         let obj = [{Code:"99999",CodeDesc:"ALL"}];
         this.branchList = obj.concat(data?.Result);
         let docObj = JSON.parse(sessionStorage.getItem('paymentMasterId'))
-        
           this.branchValue="99999";
           this.getExistingPayment();
           //this.getIndustryList()
@@ -1572,7 +1562,7 @@ this.password='';
       "BranchCode":this.branchValue,
       "InsuranceId": this.insuranceId,
       "ProductId": this.productId,
-      "AgencyCode": "13008",
+      "AgencyCode": this.agencyCode,
       "UserType": this.UserType,
       "SubUserType": this.subUserType
     }

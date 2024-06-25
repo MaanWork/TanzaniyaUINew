@@ -4054,6 +4054,7 @@ export class RiskDetailsComponent {
                   ReqObj['ContentDetails'] = null;
                 }
               }
+              if(!this.DomesticServant){ReqObj['DomesticServant']=null;}
               if(this.productItem?.AllriskSumInsured==null || this.productItem?.AllriskSumInsured==undefined || this.productItem?.AllriskSumInsured==''){
                 ReqObj['AllRiskDetails'] = null;                  
               }
@@ -4112,7 +4113,6 @@ export class RiskDetailsComponent {
                 else this.finalSave(ReqObj,type);
               }
               else this.finalSave(ReqObj,type);
-              console.log("final request",ReqObj)
           }
           finalSave(ReqObj,RequestType){
             let urlLink = `${this.motorApiUrl}api/saveAllSection`;

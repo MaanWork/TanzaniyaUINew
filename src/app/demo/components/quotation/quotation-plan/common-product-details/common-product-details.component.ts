@@ -593,7 +593,7 @@ export class CommonProductDetailsComponent {
               "SectionId": this.productName,
               "SectionDesc": this.sectionDesc,
               "Status": "Y",
-              "RiskId": String(this.TableRowFire.length+2),
+              "RiskId": String(this.TableRowFire.length+1),
               "LocationName": this.LocationName,
               "BuildingAddress":  this.LocationName,
               "IndustryType": this.IndustryTypes,
@@ -703,24 +703,18 @@ export class CommonProductDetailsComponent {
         } 
         let havePromoYN = 'Y';
         if(this.promocode==null || this.promocode=='' || this.promocode==undefined) havePromoYN = 'N'
-        for(let entry of this.TableRowFire){
-         if(!sectionIds.some(ele=>ele==entry.SectionId)) sectionIds.push(entry.SectionId);
-          i+=1;
-          if(i==this.TableRowFire.length){
-            if(type=='Save'){
-              let obj = this.TableRowFire[this.currentFireIndex];
-              this.onFinalSaveFire(obj,sectionIds,type,refNo,havePromoYN,null)
+        if(type=='Save'){
+          let obj = this.TableRowFire[this.currentFireIndex];
+          this.onFinalSaveFire(obj,sectionIds,type,refNo,havePromoYN,null)
+        }
+        else{
+          let j=0;this.totalIndex=0;
+          for(let obj of this.TableRowFire){
+            if((obj.VdRefNo==null || obj.VdRefNo==undefined) && this.modifiedYN=='Y'){
+              j+=1;
+              this.onFinalSaveFire(obj,sectionIds,type,refNo,havePromoYN,j)
             }
-            else{
-              let j=0;this.totalIndex=0;
-              for(let obj of this.TableRowFire){
-                if((obj.VdRefNo==null || obj.VdRefNo==undefined) && this.modifiedYN=='Y'){
-                  j+=1;
-                  this.onFinalSaveFire(obj,sectionIds,type,refNo,havePromoYN,j)
-                }
-                else{j+=1;this.totalIndex+=1;if(this.totalIndex==this.TableRowFire.length){this.router.navigate(['/quotation/plan/premium-details']);}}
-              }
-            }
+            else{j+=1;this.totalIndex+=1;if(this.totalIndex==this.TableRowFire.length){this.router.navigate(['/quotation/plan/premium-details']);}}
           }
         }
     }
@@ -784,7 +778,11 @@ export class CommonProductDetailsComponent {
             "DescriptionOfRisk": obj.DescriptionOfRisk,
             "RegionCode": obj.RegionCode,
             "DistrictCode": obj.DistrictCode,
-            "BuildingSumInsured": obj.BuildingSumInsured
+            "BuildingSumInsured": obj.BuildingSumInsured,
+            "Usertype": this.userType,
+            "SourceTypeId": this.userType,
+            "CustomerCode": this.customerCode,
+            "ProductType":"A",
       }
       let urlLink = `${this.motorApiUrl}api/saveFire`;
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -2098,7 +2096,6 @@ export class CommonProductDetailsComponent {
         });
       } }
       this.fields[0].fieldGroup[0].fieldGroup[1].hooks = aggHooks;
-      console.log("Final Machhinery Form",this.fields)
       let referenceNo = sessionStorage.getItem('quoteReferenceNo');
       if (referenceNo) {
         this.requestReferenceNo = referenceNo;
@@ -2106,7 +2103,6 @@ export class CommonProductDetailsComponent {
         this.getAooSIList();
         if(this.productId!='4')this.getExistingBuildingList();
         this.setCommonFormValues();
-        //this.setCommonFormValues();
       }
       else{
         this.getAooSIList();
@@ -2150,19 +2146,16 @@ export class CommonProductDetailsComponent {
     //       this.formSection = true; this.viewSection = false;
     //   }
     // }
-    if(this.productId=='13' && this.insuranceId=='100004'){
+    if(this.productId=='13'){
       let contentData = new PersonalAccident();
       this.fields = [contentData?.fields];
-    //   // let modelHooks = { onInit: (field: FormlyFieldConfig) => {
-    //   //   field.formControl.valueChanges.subscribe(() => {
-    //   //     this.onoccChangepersonalInd('change');
-    //   //   });
-    //   // } }
-    //   // console.log('HHHHHHHHHHHHHH',this.fields);
-    //   // this.fields[0].fieldGroup[0].fieldGroup[0].hooks = modelHooks;
-    //   // console.log('HHHHHHHHHHHHHH', this.fields[0].fieldGroup[0].fieldGroup[0].hooks );
-
-    //   //this.fields[0].fieldArray.fieldGroup[0].fieldGroup[0].hooks = modelHooks;
+      let modelHooks = { onInit: (field: FormlyFieldConfig) => {
+        field.formControl.valueChanges.subscribe(() => {
+          this.onoccChangepersonalInd('change');
+        });
+      } }
+      console.log('HHHHHHHHHHHHHH',this.fields);
+      this.fields[0].fieldGroup[0].fieldGroup[0].hooks = modelHooks;
 
       let referenceNo = sessionStorage.getItem('quoteReferenceNo');
       if (referenceNo) {
@@ -3791,9 +3784,6 @@ backPlan()
                 else this.issuerSection = false;
                 if(this.productId=='42'){ this.ProductCode=entry?.SectionIds[0]; this.setCommonFormValues();}
               }
-              console.log(
-                "Code",this.Code,this.branchCode,this.brokerbranchCode,this.customerCode,this.brokerCode
-              )
           }
       });
     }

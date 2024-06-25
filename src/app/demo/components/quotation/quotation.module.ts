@@ -20,6 +20,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormlyModule } from '@ngx-formly/core';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpLoaderFactory } from 'src/app/app.module';
+import { HttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [QuotationPlanComponent ],
@@ -44,6 +47,13 @@ import { InputNumberModule } from 'primeng/inputnumber';
     ReactiveFormsModule,
     FormlyModule,
     InputNumberModule,
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
+  })
   ]
 })
 export class QuotationModule { }

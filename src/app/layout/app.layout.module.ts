@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InputTextModule } from 'primeng/inputtext';
 import { SidebarModule } from 'primeng/sidebar';
@@ -23,7 +23,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { AvatarModule } from 'primeng/avatar';
 import { CommonQuoteDetailsModule } from '../demo/components/common-quote-details/common-quote-details.module';
 import { ProductComponent } from '../demo/components/auth/login/product/product.component';
-import { CustomerModule } from '../demo/components/customer/customer.module';
+import { CustomerModule, HttpLoaderFactory } from '../demo/components/customer/customer.module';
 import { QuotationModule } from '../demo/components/quotation/quotation.module';
 import { PolicyModule } from '../demo/components/policy/policy.module';
 import { TiraSearchModule } from '../demo/components/tira-search/tira-search.module';
@@ -36,6 +36,7 @@ import { CommonModule } from '@angular/common';
 import { SearchModule } from '../demo/components/Search/search.module';
 import { ButtonModule } from 'primeng/button';
 import { MaterialModule } from '../material/material.module';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     declarations: [
@@ -74,7 +75,14 @@ import { MaterialModule } from '../material/material.module';
         DropdownModule,
         SearchModule,
         ButtonModule,
-        MaterialModule
+        MaterialModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
     ],
     exports: [AppLayoutComponent]
 })

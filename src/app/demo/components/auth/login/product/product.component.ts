@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { AppComponent } from 'src/app/app.component';
 
 class Product {
   name:string = '';
@@ -19,10 +21,10 @@ class Product {
 export class ProductComponent implements OnInit {
   products:Product[];
   branches:any[] | undefined;
-  selectedBranch:any=null;
+  selectedBranch:any=null;lang:any=null;
   cities:any[] = [];userType:any=null;
   selectedProduct:string = '';userDetails:any;
-    constructor(private router:Router){
+    constructor(private router:Router,private translate: TranslateService,private appComp:AppComponent){
       this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails')); 
       this.branches = this.userDetails?.Result?.LoginBranchDetails;
       this.userType = this.userDetails.Result.UserType;
@@ -43,6 +45,11 @@ export class ProductComponent implements OnInit {
           let branch = this.branches.find(ele=>ele.BrokerBranchCode==this.selectedBranch);
           if(branch) this.selectBranch(branch)}
         }
+        this.appComp.getLanguage().subscribe((res:any)=>{  
+          this.lang=res;
+          translate.setDefaultLang(res);
+         });
+         if(!this.lang){this.lang='en';translate.setDefaultLang('en');}
       
     }
   ngOnInit(): void {
