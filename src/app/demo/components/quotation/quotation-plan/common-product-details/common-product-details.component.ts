@@ -573,7 +573,7 @@ export class CommonProductDetailsComponent {
             entry['SectionId'] = this.productName;
             entry['SectionDesc'] = this.sectionDesc;
             entry['Status'] = "Y";
-            entry['RiskId'] = String(this.currentFireIndex+2);
+            entry['RiskId'] = String(this.currentFireIndex+1);
             entry['LocationName'] = this.LocationName;
             entry['BuildingAddress'] =  this.LocationName;
             entry['IndustryType'] = this.IndustryTypes;
@@ -753,7 +753,6 @@ export class CommonProductDetailsComponent {
           "ExchangeRate": this.exchangeRate,
           "PolicyEndDate":endDate,
           "PolicyStartDate": startDate,
-          "SectionIds": sectionIds, 
           "SectionId": obj.SectionId,
           "AgencyCode": this.agencyCode,
           "SubUsertype": this.subuserType,
@@ -8258,6 +8257,7 @@ let requestNO=null;
       "BranchCode": this.branchCode,
       "ProductId": this.productId
     }
+    if(this.productId=='14')  ReqObj['TitleType'] = 'I';
     let urlLink = `${this.CommonApiUrl}master/dropdown/occupation`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
