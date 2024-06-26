@@ -50,7 +50,7 @@ export class AppTopBarComponent implements OnInit {
         if(language){this.lang=language; this.appComp.setLanguage(language);}
         else{this.lang='en'; this.appComp.setLanguage('en');}
         if(this.userDetails.Result.LoginBranchDetails.length!=0) this.insuranceid = this.userDetails.Result.LoginBranchDetails[0].InsuranceId;
-      
+        
         if(sessionStorage.getItem('Userdetails')){
           this.productName = sessionStorage.getItem('productName');
           this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -58,7 +58,8 @@ export class AppTopBarComponent implements OnInit {
           this.loginId = this.userDetails.Result.LoginId;
           this.productId = this.userDetails.Result.ProductId;
           this.userType = this.userDetails.Result.UserType;
-          this.productname = this.userDetails.Result.ProductName;
+          if(this.SharedService.ProductName) this.productname = this.SharedService.ProductName;
+          else this.productname = this.userDetails.Result.ProductName;
           if(this.userDetails.Result.LoginType) this.loginType = this.userDetails.Result.LoginType;
           if(this.userType!='Issuer'){
             this.customerCode = this.userDetails.Result.CustomerCode;

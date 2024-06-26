@@ -5712,7 +5712,7 @@ console.log('Eventsss',event);
             emp['InsuranceId'] = this.insuranceId;
             emp['ProductId'] = this.productId;
             emp['RequestReferenceNo'] = this.requestReferenceNo;
-            emp['RiskId'] = "1";
+            emp['RiskId'] = i+1;
             emp['EndorsementDate'] = this.endorsementDate;
             emp['EndorsementEffectiveDate'] = this.endorsementEffectiveDate;
             emp['EndorsementRemarks'] = this.endorsementRemarks;
@@ -8254,7 +8254,7 @@ let requestNO=null;
   getOccupationList(sections) {
     let ReqObj = {
       "InsuranceId": this.insuranceId,
-      "BranchCode": this.branchCode,
+      "BranchCode": "99999",
       "ProductId": this.productId
     }
     if(this.productId=='14')  ReqObj['TitleType'] = 'I';
