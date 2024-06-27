@@ -467,7 +467,7 @@ export class RiskDetailsComponent {
                         field.props.disabled = true;
                     }
                     else if(field.key=='OccupationType'){
-                      field.formControl.setValue(this.pAOccupationId);
+                      if(field.formControl) field.formControl.setValue(this.pAOccupationId);
                     }
                   }
                 }
