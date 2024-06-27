@@ -92,7 +92,7 @@ export class QuotationPlanComponent {
       // if(menu.TravelId=='5') return `Grand Seniors (${menu.TotalPassengers})`;
     }
     else if(this.productId!='59' && this.productId!='4' && this.productId!='5' && this.productId!='19' && this.productId!='14' && this.productId!='32') return this.productName;
-    else if(this.productId=='19' || this.productId=='14' || this.productId=='32') return menu.SectionName;
+    else if(this.productId=='19' || this.productId=='14' || this.productId=='32') return menu.SectionDetails[0].SectionName;
     else if(this.productId=='59') return menu.LocationName
     else return '';
   }

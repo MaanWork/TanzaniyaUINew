@@ -140,7 +140,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
   FESumInsured: any=null;ProfessionalOccupation:any;ProfessionalType:any;GISI:any;
   ProfessionalSI:any;IndemnityTypes:any;maxDate: "2022-09-25";DomesticServantSi:any='0';
   MiddleName:any='';LastName:any='';MobileCode:any=null;MobileNo:any=null;
-	PassengerFirstName: any=''
+	PassengerFirstName: any='';
 	PassengerLastName: any=''
 	GenderId: any=''
 	RelationId: any=''

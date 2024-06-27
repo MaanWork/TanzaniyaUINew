@@ -138,7 +138,7 @@ export class LoginComponent {
     }
     B2c(){
       this.onB2CNavigate();
-      this.router.navigate(['/customerProducts']);
+      
     }
     async onB2CNavigate(){
       let urlLink = `${this.CommonApiUrl}authentication/doauth`
@@ -197,13 +197,7 @@ export class LoginComponent {
                 }
                 else if(details.PageType=='B2C'){
                     let branchList: any[] = data?.Result?.LoginBranchDetails;
-                    if (branchList.length != 0 && branchList.length > 1) {
-                      console.log("Entered Branch", branchList)
-                      // this.router.navigate(['/branch']);
-                      this.branchselection=true;
-                      this.branchList = branchList;
-                    }
-                    else if (branchList.length != 0){
+                    if(branchList.length != 0){
                       this.branchList = branchList;
                       this.branchValue = branchList[0].BrokerBranchCode;
                       let branchData: any = this.branchList.find(ele => ele.BrokerBranchCode == this.branchValue);
@@ -218,7 +212,7 @@ export class LoginComponent {
                       sessionStorage.setItem('b2cType','guest')
                       sessionStorage.setItem('Userdetails', JSON.stringify(userDetails));
                       sessionStorage.removeItem('customerReferenceNo');
-                      //this.router.navigate(['/Home/customer/Client/client-details']);
+                      this.router.navigate(['/customerProducts']);
                     }
                 }
                 this.router.navigate([details?.RouterLink]);

@@ -142,6 +142,8 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
         sessionStorage.removeItem('endorseTypeId');
         sessionStorage.removeItem('commonDetails');
         sessionStorage.removeItem('QuoteType');
+        sessionStorage.removeItem('reloadType');
+        sessionStorage.removeItem('b2cType');
         if (this.item.disabled) {
             event.preventDefault();
             return;

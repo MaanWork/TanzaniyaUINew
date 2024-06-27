@@ -76,6 +76,7 @@ import { NgSelectAlt } from './formlyTypes/ngselectAlt';
 import { CopyQuoteComponent } from './copyQuote/copyquote.component';
 import { ShortQuoteComponent } from './short-quote/short-quote.component';
 import { TravelQuoteDetailsComponent } from './travel-quote-details/travel-quote-details.component';
+import { CustomerInfoComponent } from '../../auth/login/customer-info/customer-info.component';
 //import { textareaTypeField } from './formlyTypes/textareaTypeField';
 export function maxlengthValidationMessage(err, field) {
   return `This value should be less than ${field.templateOptions.maxLength} characters`;
@@ -113,6 +114,7 @@ export function maxlengthValidationMessage(err, field) {
     RiskDetailsComponent,
     ShortQuoteComponent,
     TravelQuoteDetailsComponent,
+    CustomerInfoComponent
   ],
   imports: [
     CommonModule,

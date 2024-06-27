@@ -52,6 +52,8 @@ export class VehicleCreateFormComponent implements OnInit {
   modelColumns:any[]=[];selectedRowData:any=null;
   constructor(private messageService: MessageService,private sharedService: SharedService,
     private datePipe:DatePipe,private router:Router) {
+      let entry = sessionStorage.getItem('reloadOnce');
+      if(entry){sessionStorage.removeItem('reloadOnce');window.location.reload();}
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
       this.loginId = this.userDetails.Result.LoginId;
       this.userType = this.userDetails?.Result?.UserType;

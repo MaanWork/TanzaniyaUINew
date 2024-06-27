@@ -101,12 +101,12 @@ export class OTPComponent {
 			"LoginId": 'guest',
 			"TemplateName":null,
 			"OtpUser": {
-				"UserMailId": null,
+				"UserMailId": this.customerDetails.Email1,
 				"UserMobileNo":this.customerDetails.MobileNo1,
 				"UserMobileCode": this.customerDetails.MobileCode1,
 				"UserWhatsappNo": this.customerDetails.WhatsappNo,
 				"UserWhatsappCode": this.customerDetails.WhatsappCode,
-				"CustomerName": null
+				"CustomerName": this.customerDetails.ClientName
 			}
 		}
 		let url = `${this.CommonApiUrl}otp/generate`;
@@ -120,8 +120,7 @@ export class OTPComponent {
 			  for (let i = 0; i < data.Errors.length; i++) {
 				  element += '<div class="my-1"><i class="far fa-dot-circle text-danger p-1"></i>' + data.Errors[i].Message + "</div>";
 			  }
-	
-			  Swal.fire(
+	    Swal.fire(
 				'Please Fill Valid Value',
 				`${element}`,
 				'error',
@@ -176,7 +175,7 @@ export class OTPComponent {
         "AgencyCode": this.oaCode,
         "OtpToken": this.otpId,
         "UserOTP": this.otpValue,
-        "CreateUser": false,
+        "CreateUser": true,
         "CustomerId": this.CustomerReferenceNo,
         "ReferenceNo": sessionStorage.getItem('quoteReferenceNo') 
         }
@@ -190,7 +189,6 @@ export class OTPComponent {
             for (let i = 0; i < data.Errors.length; i++) {
             element += '<div class="my-1"><i class="far fa-dot-circle text-danger p-1"></i>' + data.Errors[i].Message + "</div>";
             }
-    
             Swal.fire(
             'Please Fill Valid Value',
             `${element}`,
@@ -200,8 +198,8 @@ export class OTPComponent {
           else {
             this.otpId = "";
             this.otpValue = "";
-            this.onGuestLogin()
-           this.onProceedBuyPolicy();
+            this.onGuestLogin(data)
+           
           }
           }
         }, (err) => {
@@ -211,72 +209,29 @@ export class OTPComponent {
       }
     }
 
-    onGuestLogin(){
-      const urlLink = `${this.CommonApiUrl}authentication/login`;
-      //const formData = this.loginForm.value;
+    onGuestLogin(data){
+      this.otpId = "";
+      this.otpValue = "";
       let loginId=this.customerDetails.MobileCode1+this.customerDetails.MobileNo1
-      const reqData = {
-      "LoginId": loginId,
-      "Password": 'Admin@01',
-      "ReLoginKey": 'Y'
-      };
-    
-        this.SharedService.onPostMethodSync(urlLink, reqData).subscribe(
-          (data: any) => {
-            let res: any = data;
-            console.log(data);
-              if (data.Result) {
-                // Swal.fire(
-                //   'Success',
-                //   `Otp Validated Successfully`,
-                //   'success',
-                //   )
-                const Token = data?.Result?.Token;
-              this.authService.login(data);
-              this.authService.UserToken(Token);
-              sessionStorage.setItem('Userdetails', JSON.stringify(data));
-              sessionStorage.setItem('UserToken', Token);
-              sessionStorage.setItem('menuSection', 'navMenu');
-              this.userType = data.Result.UserType;
-              if ((data.Result.UserType == 'Issuer' || data.Result.UserType == 'Broker' || data.Result.UserType == 'User') && data.Result.SubUserType!='SuperAdmin') {
-
-                let currencyId=data?.Result?.CurrencyId;
-                console.log('IIIIIIIIIIIIIIII',currencyId);
-                sessionStorage.setItem('CurrencyidLogin',currencyId);
-
-                let branchList: any[] = data?.Result?.LoginBranchDetails;
-                if (branchList.length != 0 && branchList.length > 1) {
-                  console.log("Entered Branch", branchList)
-                  // this.router.navigate(['/branch']);
-                  this.loginSection=false;
-                  this.branchselection=true;
-                  this.branchList = branchList;
-                }
-                else {
-                  this.branchList = branchList;
-                  if (this.userType == 'Issuer') {
-                    this.branchValue = branchList[0].BranchCode;
-                    this.onBranchProceed();
-                  }
-                  else {
-                    this.branchValue = branchList[0].BrokerBranchCode;
-                    this.onBranchProceed();
-                  }
-
-                }
-              }
-              else{
-                this.router.navigate(['/Admin']);
-              }
-           
-            
-            }
-            },
-            (err: any) => {
-              alert("Error")
-              // console.log(err);
-            },
-          );
+      this.loginId = loginId;
+      const Token = data?.LoginResponse?.Result?.Token;
+      this.authService.login(data.LoginResponse);
+      this.authService.UserToken(Token);
+      data.LoginResponse.Result['LoginType'] = 'B2CFlow';
+      sessionStorage.setItem('Userdetails', JSON.stringify(data.LoginResponse));
+      sessionStorage.setItem('UserToken', Token);
+      sessionStorage.setItem('menuSection', 'navMenu');
+      sessionStorage.removeItem('b2cType')
+      let userDetails = JSON.parse(sessionStorage.getItem('Userdetails') as any);
+      userDetails.Result['ProductId'] = this.productId;
+      userDetails.Result['ProductName'] = this.userDetails.Result.ProductName;
+      userDetails.Result['BrokerBranchCode'] = data?.Result?.LoginBranchDetails[0].BrokerBranchCode;
+      userDetails.Result['BranchCode'] = this.branchValue;
+      userDetails.Result['CurrencyId'] = this.userDetails.Result.CurrencyId;
+      userDetails.Result['InsuranceId'] = this.insuranceId;
+      sessionStorage.setItem('Userdetails', JSON.stringify(userDetails));
+      sessionStorage.setItem('resetLoginDetails','true');
+      this.onProceedBuyPolicy();
     }
 
     onBranchProceed() {
@@ -303,7 +258,8 @@ export class OTPComponent {
           userDetails.Result['InsuranceId'] = branchData?.InsuranceId;
           userDetails.Result['LoginType'] = 'B2CFlow2';
           sessionStorage.setItem('Userdetails', JSON.stringify(userDetails));
-          this.router.navigate(['/quotation/plan/main/document-info']);
+          sessionStorage.setItem('reloadOnce',"Y");
+          this.router.navigate(['/quotation/plan/motor-details'])
         }
   
       }
