@@ -27,59 +27,132 @@ export class Money{
           fieldGroup: [
             {
               fieldGroupClassName: 'grid',
-                fieldGroup: [
-                  {
-                    className: 'col-12 md:col-3 lg:col-3 col-offset-3 endText',
-                    type: 'displays',
+                // fieldGroup: [
+                  
+                //   {
+                //     className: 'col-12 md:col-3 lg:col-3 col-offset-3 endText',
+                //     type: 'displays',
             
-                    templateOptions: {
-                      label: `Premises`,
-                      required: false,
+                //     templateOptions: {
+                //       label: `Premises`,
+                //       required: false,
   
-                    },
-                  },
+                //     },
+                //   },
+                //   {
+                //     className: 'col-12 md:col-6 lg:col-6',
+                //     type: 'commaSeparator',
+                //     key: 'MoneyDirectorResidence',
+                //     props: { 
+                //       label: `Sum Insured`,
+                //       maxLength: 15
+                //     },
+                //     templateOptions: {
+                //       disabled: this.checkDisable('SumInsured')
+                //     },
+                //     validators: {
+                //       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                //     },
+                //     hooks: {
+                //     },
+    
+                //     expressions: {
+                    
+                //     },
+                //   }
+                // ],
+                fieldGroup:[
                   {
-                    className: 'col-12 md:col-6 lg:col-6',
-                    type: 'commaSeparator',
-                    key: 'MoneyDirectorResidence',
-                    props: { 
-                      label: `Sum Insured`,
-                      maxLength: 15
-                    },
+                    type: 'input',
+                    key: 'LocationName',
+                    defaultValue: '',
+                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                     templateOptions: {
-                      disabled: this.checkDisable('SumInsured')
+                      label: `Location`,
+                      required: true,
+                      placeholder: 'Enter LocationName',
                     },
                     validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
                     },
                     hooks: {
                     },
-    
                     expressions: {
-                    
                     },
-                  }
-                ],
-              },
-              {
-              fieldGroupClassName: 'grid',
-                fieldGroup: [
-                  {
-                    className: 'col-12 md:col-3 lg:col-3 col-offset-3 endText',
-                    type: 'displays',
-            
-                    templateOptions: {
-                      label: `Money in Transit`,
-                      required: false,
-  
-                    },
+                },
+                {
+                  type: 'ngselect',
+                  key: 'Region',
+                  defaultValue: '',
+                  className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                  templateOptions: {
+                    label: `Region`,
+                    placeholder: 'Select Region',
+                   // disabled: true,
+                    required: true,
+                    options: [
+    
+                    ],
+    
                   },
-                  {
-                    className: 'col-12 md:col-6 lg:col-6',
+                  validators: {
+                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                  },
+                  hooks: {
+                  },
+                  expressions: {
+                  },
+                },
+                {
+                  type: 'ngselect',
+                  key: 'District',
+                  defaultValue: '',
+                  className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                  templateOptions: {
+                    label: `District`,
+                    placeholder: 'Select District',
+                   // disabled: true,
+                    required: true,
+                    options: [
+    
+                    ],
+    
+                  },
+                  validators: {
+                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                  },
+                  hooks: {
+                  },
+                  expressions: {
+                  },
+                },
+                {
+                  className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                  type: 'commaSeparator',
+                  key: 'MoneyDirectorResidence',
+                  props: { 
+                    label: `Premises Sum Insured`,
+                    maxLength: 15
+                  },
+                  templateOptions: {
+                    disabled: this.checkDisable('SumInsured')
+                  },
+                  validators: {
+                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                  },
+                  hooks: {
+                  },
+  
+                  expressions: {
+                  
+                  },
+                },
+                {
+                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                     type: 'commaSeparator',
                     key: 'MoneyMajorLoss',
                     props: { 
-                      label: `Sum Insured`,
+                      label: `Money in Transit Sum Insured`,
                       maxLength: 15
                     },
                     templateOptions: {
@@ -93,29 +166,14 @@ export class Money{
     
                     expressions: {
                     
-                    },
-                  }
-                ],
-              },
-              {
-              fieldGroupClassName: 'grid',
-                fieldGroup: [
-                  {
-                    className: 'col-12 md:col-3 lg:col-3 col-offset-3 endText',
-                    type: 'displays',
-            
-                    templateOptions: {
-                      label: `Strong Room`,
-                      required: false,
-  
                     },
                   },
                   {
-                    className: 'col-12 md:col-6 lg:col-6',
+                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                     type: 'commaSeparator',
                     key: 'StrongroomSi',
                     props: { 
-                      label: `Sum Insured`,
+                      label: `Strong Room Sum Insured`,
                       maxLength: 15
                     },
                     templateOptions: {
@@ -130,117 +188,253 @@ export class Money{
                     expressions: {
                     
                     },
-                  }
-                ],
-              },
-              {
-                fieldGroupClassName: 'grid',
-                  fieldGroup: [
-                    {
-                      className: 'col-12 md:col-3 lg:col-3 col-offset-3 endText',
-                      type: 'displays',
-              
-                      templateOptions: {
-                        label: `Safe Limit`,
-                        required: false,
+                  },
+                  {
+                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    type: 'commaSeparator',
+                    key: 'MoneySafeLimit',
+                    props: { 
+                      label: `Safe Limit Sum Insured`,
+                      maxLength: 15
+                    },
+                    templateOptions: {
+                      disabled: this.checkDisable('SumInsured')
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
     
-                      },
-                    },
-                    {
-                      className: 'col-12 md:col-6 lg:col-6',
-                      type: 'commaSeparator',
-                      key: 'MoneySafeLimit',
-                      props: { 
-                        label: `Sum Insured`,
-                        maxLength: 15
-                      },
-                      templateOptions: {
-                        disabled: this.checkDisable('SumInsured')
-                      },
-                      validators: {
-                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                      },
-                      hooks: {
-                      },
-      
-                      expressions: {
-                      
-                      },
-                    }
-                  ],
-              },
-              {
-                fieldGroupClassName: 'grid',
-                  fieldGroup: [
-                    {
-                      className: 'col-12 md:col-3 lg:col-3 col-offset-3 endText',
-                      type: 'displays',
-              
-                      templateOptions: {
-                        label: `Collector Amount`,
-                        required: false
-                      },
-                    },
-                    {
-                      className: 'col-12 md:col-6 lg:col-6',
-                      type: 'commaSeparator',
-                      key: 'MoneyCollector',
-                      props: { 
-                        label: `Sum Insured`,
-                        maxLength: 15
-                      },
-                      templateOptions: {
-                        disabled: this.checkDisable('SumInsured')
-                      },
-                      validators: {
-                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                      },
-                      hooks: {
-                      },
-      
-                      expressions: {
-                      
-                      },
-                    },
+                    expressions: {
                     
-                  ],
-              },
-              {
-                fieldGroupClassName: 'grid',
-                  fieldGroup: [
-                    {
-                      className: 'col-12 md:col-5 lg:col-5 col-offset-1 endText',
-                      type: 'displays',
-              
-                      templateOptions: {
-                        label: `Estimated Annual Carry Amount`,
-                        required: false
-                      },
                     },
-                    {
-                      className: 'col-12 md:col-6 lg:col-6',
-                      type: 'commaSeparator',
-                      key: 'MoneyAnnualEstimate',
-                      props: { 
-                        label: `Sum Insured`,
-                        maxLength: 15
-                      },
-                      templateOptions: {
-                        disabled: this.checkDisable('SumInsured')
-                      },
-                      validators: {
-                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                      },
-                      hooks: {
-                      },
-      
-                      expressions: {
-                      
-                      },
+                  },
+                  {
+                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    type: 'commaSeparator',
+                    key: 'MoneyCollector',
+                    props: { 
+                      label: `Collector Amount Sum Insured`,
+                      maxLength: 15
                     },
+                    templateOptions: {
+                      disabled: this.checkDisable('SumInsured')
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+    
+                    expressions: {
                     
-                  ],
+                    },
+                  },
+                  {
+                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    type: 'commaSeparator',
+                    key: 'MoneyAnnualEstimate',
+                    props: { 
+                      label: `Estimated Annual Carry Amount Sum Insured`,
+                      maxLength: 15
+                    },
+                    templateOptions: {
+                      disabled: this.checkDisable('SumInsured')
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+    
+                    expressions: {
+                    
+                    },
+                  },
+
+                ]
               },
+              // {
+              // fieldGroupClassName: 'grid',
+              //   // fieldGroup: [
+              //   //   {
+              //   //     className: 'col-12 md:col-3 lg:col-3 col-offset-3 endText',
+              //   //     type: 'displays',
+            
+              //   //     templateOptions: {
+              //   //       label: `Money in Transit`,
+              //   //       required: false,
+  
+              //   //     },
+              //   //   },
+              //   //   {
+              //   //     className: 'col-12 md:col-6 lg:col-6',
+              //   //     type: 'commaSeparator',
+              //   //     key: 'MoneyMajorLoss',
+              //   //     props: { 
+              //   //       label: `Sum Insured`,
+              //   //       maxLength: 15
+              //   //     },
+              //   //     templateOptions: {
+              //   //       disabled: this.checkDisable('SumInsured')
+              //   //     },
+              //   //     validators: {
+              //   //       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+              //   //     },
+              //   //     hooks: {
+              //   //     },
+    
+              //   //     expressions: {
+                    
+              //   //     },
+              //   //   }
+              //   // ],
+              // },
+              // {
+              // fieldGroupClassName: 'grid',
+              //   // fieldGroup: [
+              //   //   {
+              //   //     className: 'col-12 md:col-3 lg:col-3 col-offset-3 endText',
+              //   //     type: 'displays',
+            
+              //   //     templateOptions: {
+              //   //       label: `Strong Room`,
+              //   //       required: false,
+  
+              //   //     },
+              //   //   },
+              //   //   {
+              //   //     className: 'col-12 md:col-6 lg:col-6',
+              //   //     type: 'commaSeparator',
+              //   //     key: 'StrongroomSi',
+              //   //     props: { 
+              //   //       label: `Sum Insured`,
+              //   //       maxLength: 15
+              //   //     },
+              //   //     templateOptions: {
+              //   //       disabled: this.checkDisable('SumInsured')
+              //   //     },
+              //   //     validators: {
+              //   //       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+              //   //     },
+              //   //     hooks: {
+              //   //     },
+    
+              //   //     expressions: {
+                    
+              //   //     },
+              //   //   }
+              //   // ],
+              // },
+              // {
+              //   fieldGroupClassName: 'grid',
+              //     // fieldGroup: [
+              //     //   {
+              //     //     className: 'col-12 md:col-3 lg:col-3 col-offset-3 endText',
+              //     //     type: 'displays',
+              
+              //     //     templateOptions: {
+              //     //       label: `Safe Limit`,
+              //     //       required: false,
+    
+              //     //     },
+              //     //   },
+              //     //   {
+              //     //     className: 'col-12 md:col-6 lg:col-6',
+              //     //     type: 'commaSeparator',
+              //     //     key: 'MoneySafeLimit',
+              //     //     props: { 
+              //     //       label: `Sum Insured`,
+              //     //       maxLength: 15
+              //     //     },
+              //     //     templateOptions: {
+              //     //       disabled: this.checkDisable('SumInsured')
+              //     //     },
+              //     //     validators: {
+              //     //       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+              //     //     },
+              //     //     hooks: {
+              //     //     },
+      
+              //     //     expressions: {
+                      
+              //     //     },
+              //     //   }
+              //     // ],
+              // },
+              // {
+              //   fieldGroupClassName: 'grid',
+              //     fieldGroup: [
+              //       {
+              //         className: 'col-12 md:col-3 lg:col-3 col-offset-3 endText',
+              //         type: 'displays',
+              
+              //         templateOptions: {
+              //           label: `Collector Amount`,
+              //           required: false
+              //         },
+              //       },
+              //       {
+              //         className: 'col-12 md:col-6 lg:col-6',
+              //         type: 'commaSeparator',
+              //         key: 'MoneyCollector',
+              //         props: { 
+              //           label: `Sum Insured`,
+              //           maxLength: 15
+              //         },
+              //         templateOptions: {
+              //           disabled: this.checkDisable('SumInsured')
+              //         },
+              //         validators: {
+              //           validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+              //         },
+              //         hooks: {
+              //         },
+      
+              //         expressions: {
+                      
+              //         },
+              //       },
+                    
+              //     ],
+              // },
+              // {
+              //   fieldGroupClassName: 'grid',
+              //     fieldGroup: [
+              //       {
+              //         className: 'col-12 md:col-5 lg:col-5 col-offset-1 endText',
+              //         type: 'displays',
+              
+              //         templateOptions: {
+              //           label: `Estimated Annual Carry Amount`,
+              //           required: false
+              //         },
+              //       },
+              //       {
+              //         className: 'col-12 md:col-6 lg:col-6',
+              //         type: 'commaSeparator',
+              //         key: 'MoneyAnnualEstimate',
+              //         props: { 
+              //           label: `Sum Insured`,
+              //           maxLength: 15
+              //         },
+              //         templateOptions: {
+              //           disabled: this.checkDisable('SumInsured')
+              //         },
+              //         validators: {
+              //           validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+              //         },
+              //         hooks: {
+              //         },
+      
+              //         expressions: {
+                      
+              //         },
+              //       },
+                    
+              //     ],
+              // },
               
           ],
         }

@@ -24,122 +24,145 @@ export class PersonalAccident{
         }
         this.fields={
             props: { label: 'Personal Accident' },
-            // fieldGroup: [
-            //   {
-            //     fieldGroupClassName: 'newclassname',
-            //       fieldGroup: [
-            //         {
-            //           className: 'w-full md:mt-0 mt-3 md\:w-1\/4',
-            //           type: 'displays',
-              
-            //           templateOptions: {
-            //             label: `Occupation`,
-            //             required: true,
-    
-            //           },
-            //         },
-            //         {
-            //           type: 'ngselect',
-            //         key: 'OccupationType',
-            //         defaultValue: '',
-            //         className: 'w-full md:mt-0 mt-3 md\:w-1\/4',
-            //         props: {
-            //           //label: `Occupation`,
-            //           disabled: this.checkDisable('OccupationType'),
-            //           //required: true,
-            //           options: [
-      
-            //           ],
-      
-            //         },
-            //         validators: {
-            //           validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-            //         },
-            //         hooks: {
-            //         },
-            //         expressions: {
-            //         },
-            //         }
-                   
-            //       ]
-            //   },
-            //   {
-            //     fieldGroupClassName: 'grid mt-2',
-            //       fieldGroup: [
-            //         {
-            //           className: 'col-12 md:col-6 lg:col-6 p-2',
-            //           type: 'displays',
-              
-            //           templateOptions: {
-            //             label: `Sum Insured`,
-            //             required: false,
-    
-            //           },
-            //         },
-            //  {
-            //   type: 'commaSeparator',
-            //         className: 'col-12 md:col-6 lg:col-6',
-            //         key: 'PersonalAccidentSuminsured',
-            //         defaultValue: '0',
-            //         props: {
-            //           //label: `Sum Insured`,
-            //           maxLength: 15,
-            //           disabled: this.checkDisable('PersonalAccidentSuminsured'),
-            //           //required: true,
-            //           options: [
-      
-            //           ],
-      
-            //         },
-            //         validators: {
-            //           validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-            //         },
-            //         hooks: {
-            //         },
-            //         expressions: {
-            //         },
-            //  }
-            //       ]
-            //   },
-            // ]
             fieldGroup: [
               {
-                fieldGroupClassName: 'newclassname',
+                fieldGroupClassName: 'grid',
                 fieldGroup: [
-                  // {
-                  //   type: 'ngselect',
-                  //   key: 'OccupationType',
-                  //   defaultValue: '',
-                  //   className: 'w-full md:mt-0 mt-3 md\:w-1\/4',
-                  //   props: {
-                  //     label: `Occupation`,
-                  //     disabled: true,
-                  //     required: true,
-                  //     options: [
-      
-                  //     ],
-      
-                  //   },
-                  //   validators: {
-                  //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                  //   },
-                  //   hooks: {
-                  //   },
-                  //   expressions: {
-                  //   },
-                  // },
                   {
-                    type: 'commaSeparator',
-                    className: 'w-full md:mt-0 mt-3 md\:w-1\/4',
-                    key: 'PersonalAccidentSuminsured',
-                    defaultValue: '0',
-                    props: {
-                      label: `Sum Insured`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('PersonalAccidentSuminsured'),
+                    type: 'input',
+                    key: 'LocationName',
+                    defaultValue: '',
+                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    templateOptions: {
+                      label: `Location`,
+                      required: true,
+                      placeholder: 'Enter LocationName',
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                },
+                // {
+                //   type: 'ngselect',
+                //   key: 'Region',
+                //   defaultValue: '',
+                //   className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                //   templateOptions: {
+                //     label: `Region`,
+                //     placeholder: 'Select Region',
+                //    // disabled: true,
+                //     required: true,
+                //     options: [
+    
+                //     ],
+    
+                //   },
+                //   validators: {
+                //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                //   },
+                //   hooks: {
+                //   },
+                //   expressions: {
+                //   },
+                // },
+                // {
+                //   type: 'ngselect',
+                //   key: 'District',
+                //   defaultValue: '',
+                //   className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                //   templateOptions: {
+                //     label: `District`,
+                //     placeholder: 'Select District',
+                //    // disabled: true,
+                //     required: true,
+                //     options: [
+    
+                //     ],
+    
+                //   },
+                //   validators: {
+                //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                //   },
+                //   hooks: {
+                //   },
+                //   expressions: {
+                //   },
+                // },
+                  {
+                    type: 'ngselect',
+                    key: 'OccupationType',
+                    defaultValue: '',
+                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    templateOptions: {
+                      label: `Occupation`,
+                      placeholder: 'Select OccupationType',
+                     // disabled: true,
                       required: true,
                       options: [
       
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    type: 'input',
+                    key: 'Name',
+                    defaultValue: '',
+                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    templateOptions: {
+                      label: `Name`,
+                      placeholder: 'Enter Name',
+                      required: true,
+                      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                },
+                {
+                  className: 'col-12 md:col-4 lg:col-4',
+                  type: 'datepicker',
+                  key: 'Dob',
+                  templateOptions: {
+                    label: `Date Of Birth`,
+                    required: true,
+                    placeholder: 'Select Date Of Birth',
+                    disabled: this.checkDisable('Dob'),
+                    
+                  },
+                  validators: {
+                  },
+                  hooks: {
+                  },
+                  expressions: {
+                  },
+                },
+                  {
+                    type: 'commaSeparator',
+                    className: ' col-12 md:col-4 lg:col-4',
+                    key: 'SumInsured',
+                    defaultValue: '0',
+                    templateOptions: {
+                      label: `Salary`,
+                      maxLength: 15,
+                      disabled: this.checkDisable('SumInsured'),
+                      required: true,
+                      options: [
                       ],
       
                     },

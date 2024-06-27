@@ -19,14 +19,85 @@ export class PublicLiability{
       }
       this.fields = {
         props: { label: 'Public Liability' },
+        
         fieldGroup: [
           {
             fieldGroupClassName: 'row',
+            
             fieldGroup: [
               {
+                fieldGroupClassName: 'grid',
+                fieldGroup: [
+                  {
+                    type: 'input',
+                    key: 'LocationName',
+                    defaultValue: '',
+                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    templateOptions: {
+                      label: `Location`,
+                      required: true,
+                      placeholder: 'Enter LocationName',
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                },
+                {
+                  type: 'ngselect',
+                  key: 'Region',
+                  defaultValue: '',
+                  className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                  templateOptions: {
+                    label: `Region`,
+                    placeholder: 'Select Region',
+                   // disabled: true,
+                    required: true,
+                    options: [
+    
+                    ],
+    
+                  },
+                  validators: {
+                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                  },
+                  hooks: {
+                  },
+                  expressions: {
+                  },
+                },
+                {
+                  type: 'ngselect',
+                  key: 'District',
+                  defaultValue: '',
+                  className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                  templateOptions: {
+                    label: `District`,
+                    placeholder: 'Select District',
+                   // disabled: true,
+                    required: true,
+                    options: [
+    
+                    ],
+    
+                  },
+                  validators: {
+                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                  },
+                  hooks: {
+                  },
+                  expressions: {
+                  },
+                },
+              ]
+              },
+              {
                 
-                fieldGroupClassName: 'col-8 col-md-8 col-lg-8 offset-2',
-                type: 'tables',
+                
+                type: 'table',
                 fieldGroup: [
                   {
                       fieldGroup:[
@@ -34,14 +105,13 @@ export class PublicLiability{
                       ]
                   },
                   {
+                    fieldGroupClassName: 'grid',
                     fieldGroup:[
                       {
                         fieldGroup:[
-                         
                           {
-                            className: "splitCardHeaderss",
+                            className: "W-full col-12 lg:col-4 md:col-4 xl:col-4",
                             type: 'displays',
-          
                             templateOptions: {
                               label: `Any one Accident / Event / Occurence`,
                               required: false,

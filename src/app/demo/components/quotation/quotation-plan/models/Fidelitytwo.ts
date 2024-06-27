@@ -34,46 +34,46 @@ export class Fidelitytwo{
                     {
                       fieldGroupClassName: 'row',
                       fieldGroup: [
-                        {
-                            type: 'ngselect',
-                            key: 'LiabilityOccupationId',
-                            defaultValue: '',
-                            className: 'col-12',
-                            props: {
-                              label: `Occupation`,
-                              disabled: this.checkDisable('OccupationType'),
-                              required: true,
-                              options: [
+                        // {
+                        //     type: 'ngselect',
+                        //     key: 'LiabilityOccupationId',
+                        //     defaultValue: '',
+                        //     className: 'col-12',
+                        //     props: {
+                        //       label: `Occupation`,
+                        //       disabled: this.checkDisable('OccupationType'),
+                        //       required: true,
+                        //       options: [
               
-                              ],
+                        //       ],
               
-                            },
-                            validators: {
-                              validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                            },
-                            hooks: {
-                            },
-                            expressions: {
-                            },
-                          },
-                          {
-                            type: 'input',
-                            key: 'otherFioption',
-                            defaultValue: '',
-                            className: 'col-12',
-                            props: {
-                              label: `Others Description`,
-                              disabled: this.checkDisable('LiabilityOccupationId'),
-                            },
-                            validators: {
-                              validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
-                            },
-                            hooks: {
-                            },
-                            expressions: {
-                            },
+                        //     },
+                        //     validators: {
+                        //       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                        //     },
+                        //     hooks: {
+                        //     },
+                        //     expressions: {
+                        //     },
+                        //   },
+                          // {
+                          //   type: 'input',
+                          //   key: 'otherFioption',
+                          //   defaultValue: '',
+                          //   className: 'col-12',
+                          //   props: {
+                          //     label: `Others Description`,
+                          //     disabled: this.checkDisable('LiabilityOccupationId'),
+                          //   },
+                          //   validators: {
+                          //     validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
+                          //   },
+                          //   hooks: {
+                          //   },
+                          //   expressions: {
+                          //   },
       
-                          },
+                          // },
                           {
                             className: 'col-12',
                             type: 'number',
