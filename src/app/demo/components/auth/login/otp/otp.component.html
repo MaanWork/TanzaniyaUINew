@@ -18,8 +18,7 @@
                     <div class="justify-content-center ">
                        <!-- <label class="p-2"> Not Received OTP?</label> -->
                         <button pButton pRipple class="p-button-outlined mt-1" (click)="onLogin()" [disabled]="OtpBtnEnable">
-                            Resend OTP
-                            <span *ngIf="OtpBtnEnable">in ( {{ OtpBtnTime }} seconds)</span>
+                            Resend OTP <span *ngIf="OtpBtnEnable">in ( {{ OtpBtnTime }} seconds)</span>
                         </button>
                     </div>
                     <div class="flex flex-warp justify-content-center mt-5">

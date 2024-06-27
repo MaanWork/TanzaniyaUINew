@@ -146,6 +146,8 @@ export class CoverDetailsComponent {
     this.productName =  this.userDetails.Result.ProductName;
     this.insuranceId = this.userDetails.Result.InsuranceId;
     this.brokerbranchCode = this.userDetails.Result.BrokerBranchCode;
+    this.subuserType = sessionStorage.getItem('typeValue');
+    if(this.subuserType=='b2c' || this.subuserType=='B2C Broker'){ this.productId='5';this.productName='Motor';}
     this.loginType = this.userDetails.Result.LoginType;
     let finalize = sessionStorage.getItem('FinalizeYN');
       if(finalize) this.finalizeYN = finalize;
@@ -3451,7 +3453,7 @@ export class CoverDetailsComponent {
         );
   }
   ongetBack(){
-    if(sessionStorage.getItem('b2cType')){this.router.navigate(['/customer-info']);}
+    if(sessionStorage.getItem('b2cType') || this.subuserType=='b2c' || this.subuserType=='B2C Broker'){this.router.navigate(['/customer-info']);}
     else if(this.statusValue=='RA' && !this.adminSection){
       this.router.navigate(['/referral']);
     }
@@ -3849,14 +3851,16 @@ export class CoverDetailsComponent {
                }
                else {
                 if(this.productId=='5' && this.insuranceId!='100028' && this.insuranceId!='100020'){
-                  this.router.navigate(['/quotation/plan/main/driver-info']);
+                  if(this.subuserType=='b2c' || this.subuserType=='B2C Broker') this.router.navigate(['/quotation/plan/main/document-info']);
+                  else this.router.navigate(['/quotation/plan/main/driver-info']);
                 }
                 else this.router.navigate(['/quotation/plan/main/document-info']);
                }
             }
             else{
               if(this.productId=='5' && this.insuranceId!='100028' && this.insuranceId!='100020'){
-                this.router.navigate(['/quotation/plan/main/driver-info'])
+                if(this.subuserType=='b2c' || this.subuserType=='B2C Broker') this.router.navigate(['/quotation/plan/motor-details'])
+                else this.router.navigate(['/quotation/plan/main/driver-info']);
               }
               else this.router.navigate(['/quotation/plan/main/document-info']);
             }

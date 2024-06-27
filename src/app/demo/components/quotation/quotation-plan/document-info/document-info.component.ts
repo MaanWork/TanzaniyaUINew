@@ -390,7 +390,8 @@ export class DocumentInfoComponent {
   }
   getBacks(){
     this.BackSession = sessionStorage.getItem('back');
-    if(this.BackSession=="skipBack"){
+    if(this.subuserType=='b2c' || this.subuserType=='B2C Broker'){ this.router.navigate(['/quotation/plan/motor-details'])}
+    else if(this.BackSession=="skipBack"){
       sessionStorage.removeItem('back');
       if(this.productId!='4') this.router.navigate(['/quotation/plan/premium-details']);
       else this.router.navigate(['/quotation/plan/travel-quote-details']);
@@ -502,7 +503,7 @@ export class DocumentInfoComponent {
           if((this.productId=='5' || this.productId=='46' || this.productId=='29') && this.driverDetailsList.length!=0 && (!this.endorsementSection || (this.endorsementSection && this.enableDriverDetails))){
             sessionStorage.setItem('quotePaymentId',data.Result.PaymentId);
             if(this.loginType=='B2CFlow' || (this.loginType=='B2CFlow2')){
-              this.router.navigate(['/Home/customer/ClientDetails']);
+              this.router.navigate(['/quotation/plan/main/payment']);
             }
             else {
               if(this.EmiYn!='Y'){
@@ -510,7 +511,7 @@ export class DocumentInfoComponent {
               }
               else{
                 sessionStorage.removeItem('Makepaymentid');
-                this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/Emi-Details']);
+                this.router.navigate(['/quotation/plan/main/payment']);
               }
               
             }
@@ -518,7 +519,7 @@ export class DocumentInfoComponent {
           else if(data.Result.PaymentId){
             sessionStorage.setItem('quotePaymentId',data.Result.PaymentId);
             if(this.loginType=='B2CFlow' || (this.loginType=='B2CFlow2')){
-              this.router.navigate(['/Home/customer/ClientDetails']);
+              this.router.navigate(['/quotation/plan/main/payment']);
             }
             else this.router.navigate(['/quotation/plan/main/payment']);
           }

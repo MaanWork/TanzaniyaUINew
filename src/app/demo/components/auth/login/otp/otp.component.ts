@@ -81,6 +81,8 @@ export class OTPComponent {
     this.CustomerReferenceNo = sessionStorage.getItem('customerReferenceNo');
     this.oaCode =  this.userDetails.Result.OaCode;
     this.loginId =this.userDetails.Result.LoginId;
+    let entry = sessionStorage.getItem('reloadOnce');
+    if(entry){sessionStorage.removeItem('reloadOnce');this.router.navigate(['/quotation/plan/motor-details'])}
     //this.getRegionList();
    // this.onLogin();
    this.getCustomerDetails(this.CustomerReferenceNo);
@@ -184,7 +186,7 @@ export class OTPComponent {
         this.SharedService.onPostMethodSync(url, reqObj).subscribe((data: any) => {
           console.log("Otp Generate", data);
           if (data) {
-          if (data.Errors.length!=0) {
+          if (data.Errors) {
             let element = '';
             for (let i = 0; i < data.Errors.length; i++) {
             element += '<div class="my-1"><i class="far fa-dot-circle text-danger p-1"></i>' + data.Errors[i].Message + "</div>";
@@ -223,9 +225,9 @@ export class OTPComponent {
       sessionStorage.setItem('menuSection', 'navMenu');
       sessionStorage.removeItem('b2cType')
       let userDetails = JSON.parse(sessionStorage.getItem('Userdetails') as any);
-      userDetails.Result['ProductId'] = this.productId;
-      userDetails.Result['ProductName'] = this.userDetails.Result.ProductName;
-      userDetails.Result['BrokerBranchCode'] = data?.Result?.LoginBranchDetails[0].BrokerBranchCode;
+      userDetails.Result['ProductId'] = '5'
+      userDetails.Result['ProductName'] = 'Motor';
+      userDetails.Result['BrokerBranchCode'] = data.LoginResponse?.Result?.LoginBranchDetails[0].BrokerBranchCode;
       userDetails.Result['BranchCode'] = this.branchValue;
       userDetails.Result['CurrencyId'] = this.userDetails.Result.CurrencyId;
       userDetails.Result['InsuranceId'] = this.insuranceId;
@@ -254,6 +256,8 @@ export class OTPComponent {
           console.log("Branch Value", this.branchValue, branchData)
           userDetails.Result['BrokerBranchCode'] = branchData.BrokerBranchCode;
           userDetails.Result['BranchCode'] = branchData.BranchCode;
+          userDetails.Result['ProductId'] = '5';
+          userDetails.Result['ProductId'] = 'Motor';
           userDetails.Result['CurrencyId'] = branchData?.CurrencyId;
           userDetails.Result['InsuranceId'] = branchData?.InsuranceId;
           userDetails.Result['LoginType'] = 'B2CFlow2';
@@ -266,14 +270,7 @@ export class OTPComponent {
     }
 
     onProceedBuyPolicy(){
-      let ReqObj = {
-        "RequestReferenceNo": this.referenceNo,
-        "CreatedBy": this.loginId,
-        "ProductId": '5',
-        "ManualReferralYn": 'N',
-        "ReferralRemarks": "none",
-        "Vehicles" : null
-      }
+      let ReqObj = JSON.parse(sessionStorage.getItem('buyPolicy'))
       let urlLink = `${this.CommonApiUrl}quote/buypolicy`;
       this.SharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
@@ -282,17 +279,10 @@ export class OTPComponent {
               this.quoteNo = data.Result?.QuoteNo;
               sessionStorage.setItem('quoteNo',data.Result?.QuoteNo);
               sessionStorage.setItem('quoteReferenceNo',data.Result?.RequestReferenceNo);
-              let clausesList: any[] = [],
-              exclusionList: any[] = [],
-              warrantiesList: any[] = [];
-            //console.log("Cccccccc", this.CoversList);
-            //console.log("VVVVVVVV", this.vehicleDetailsList);
-            let vechileId: any;
-            let sectionId: any;
-            let i = 0;
-  
-            
-            }
+              sessionStorage.setItem('reloadOnce',"Y");
+              sessionStorage.setItem('Editcars','SavedFroms');
+              window.location.reload();
+             }
            
           }
         },
@@ -306,7 +296,7 @@ export class OTPComponent {
       this.loginfirst = false;
       this.router.navigate(['/quotation/plan/premium-details'])
   }
-  getCustomerDetails(refNo){
+    getCustomerDetails(refNo){
     let ReqObj = {
       "CustomerReferenceNo": refNo
     }
