@@ -2517,6 +2517,16 @@ export class CommonQuoteDetailsComponent implements OnInit {
   checActiveIndex(){
     return Number(this.tabIndex);
   }
+  getYearList(){
+    var d = new Date();
+    var year = d.getFullYear();
+    const currentYear = new Date().getFullYear()-20, years = [];
+    while ( year >= currentYear ) {
+      let yearEntry = year--
+      years.push({"Code":String(yearEntry),'label':String(yearEntry),"value":String(yearEntry),"CodeDesc":String(yearEntry)});
+    }   
+    return years;
+  }
   saveMotorDetails(index){
     sessionStorage.removeItem('loadingType');
     

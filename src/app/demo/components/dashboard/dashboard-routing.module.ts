@@ -24,6 +24,7 @@ import { LoginCreationComponent } from '../Admin/login-creation/login-creation.c
 import { InsurenceEmpComponent } from '../Admin/login-creation/insurence-emp/insurence-emp.component';
 import { CustomerComponent } from '../auth/login/customer/customer.component';
 import { CustomerInfoComponent } from '../auth/login/customer-info/customer-info.component';
+import { CustomerProductsComponent } from '../auth/login/customer-products/customer-products.component';
 
 
 @NgModule({
@@ -42,7 +43,7 @@ import { CustomerInfoComponent } from '../auth/login/customer-info/customer-info
         { path: 'referral', component: ReferralComponent },
         { path: 'portfolio', component: PortfolioComponent },
         { path: 'logincreation', loadChildren: () => import('../Admin/login-creation/login-creation.module').then(m => m.LoginCreationModule) },
-       
+        { path: 'customerProducts', component: CustomerProductsComponent },
         { path: 'portfolio/endorsement', component: EndorsementComponent },
         { path: 'portfolio/endorsementtype', component: EndorsementTypeComponent},
         { path: 'portfolio/motorDocuments', component: MotorDocumentsDetailComponent},

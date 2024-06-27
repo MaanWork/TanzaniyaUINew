@@ -146,6 +146,8 @@ export class CoverDetailsComponent {
     this.productName =  this.userDetails.Result.ProductName;
     this.insuranceId = this.userDetails.Result.InsuranceId;
     this.brokerbranchCode = this.userDetails.Result.BrokerBranchCode;
+    this.subuserType = sessionStorage.getItem('typeValue');
+    if(this.subuserType=='b2c' || this.subuserType=='B2C Broker'){ this.productId='5';this.productName='Motor';}
     this.loginType = this.userDetails.Result.LoginType;
     let finalize = sessionStorage.getItem('FinalizeYN');
       if(finalize) this.finalizeYN = finalize;
@@ -2883,18 +2885,18 @@ export class CoverDetailsComponent {
       let coverList:any[]=[];
       let loginType = this.userDetails.Result.LoginType;
       let i=0;
-      if(loginType){
-        if(loginType=='B2CFlow' && this.sampleloginId =='guest'){
-          this.customerReferenceNo = null;
-          let customerObj = JSON.parse(sessionStorage.getItem('b2cCustomerObj'));
-            this.customerObj = this.customerDetails
-						this.customerReferenceNo = sessionStorage.getItem('customerReferenceNo');
-						this.generateOtp();
-          //this.onCustomerSave(customerObj);
-        }
-        else this.onProceed(this.selectedCoverList);
-      }
-      else this.onProceed(this.selectedCoverList);
+      this.onProceed(this.selectedCoverList);
+      // if(loginType){
+      //   if(loginType=='B2CFlow' && this.sampleloginId =='guest'){
+      //     this.customerReferenceNo = null;
+      //     let customerObj = JSON.parse(sessionStorage.getItem('b2cCustomerObj'));
+      //       this.customerObj = this.customerDetails
+			// 			this.customerReferenceNo = sessionStorage.getItem('customerReferenceNo');
+			// 			this.generateOtp();
+      //   }
+      //   else this.onProceed(this.selectedCoverList);
+      // }
+      // else 
 
     }
   }
@@ -3038,7 +3040,11 @@ export class CoverDetailsComponent {
         // }
         
         // else{
-          this.finalFormSubmit(ReqObj);
+          if(this.b2cType=='guest'){
+              sessionStorage.setItem('buyPolicy',JSON.stringify(ReqObj))
+              this.router.navigate(['/quotation/plan/OtpSection'])
+          }
+          else this.finalFormSubmit(ReqObj);
         //}
         
       }
@@ -3094,12 +3100,9 @@ export class CoverDetailsComponent {
   }
   onViewOverAllPremium(){
     this.discountList = [];this.loadingList=[];
-    if(this.userType!='Broker' && this.userType!='User') this.onUpdateFactor('fleetSave',null);
+    if(this.userType!='Broker' && this.userType!='User' && this.b2cType!='guest') this.onUpdateFactor('fleetSave',null);
     else this.onFormSubmit(null);
-    if(this.b2cType=='guest') 
-      {
-        this.router.navigate(['/quotation/plan/OtpSection'])
-      }
+   
   }
   onUpdateFleetFactorRate(modal){
     this.fleetCoverDetails.CoverList[0].Discount = this.discountList;
@@ -3450,7 +3453,8 @@ export class CoverDetailsComponent {
         );
   }
   ongetBack(){
-    if(this.statusValue=='RA' && !this.adminSection){
+    if(sessionStorage.getItem('b2cType') || this.subuserType=='b2c' || this.subuserType=='B2C Broker'){this.router.navigate(['/customer-info']);}
+    else if(this.statusValue=='RA' && !this.adminSection){
       this.router.navigate(['/referral']);
     }
     else{
@@ -3514,9 +3518,6 @@ export class CoverDetailsComponent {
             this.quoteNo = data.Result?.QuoteNo;
             sessionStorage.setItem('quoteNo',data.Result?.QuoteNo);
             sessionStorage.setItem('quoteReferenceNo',data.Result?.RequestReferenceNo);
-            let clausesList: any[] = [],
-            exclusionList: any[] = [],
-            warrantiesList: any[] = [];
           //console.log("Cccccccc", this.CoversList);
           //console.log("VVVVVVVV", this.vehicleDetailsList);
           let vechileId: any;
@@ -3850,14 +3851,16 @@ export class CoverDetailsComponent {
                }
                else {
                 if(this.productId=='5' && this.insuranceId!='100028' && this.insuranceId!='100020'){
-                  this.router.navigate(['/quotation/plan/main/driver-info']);
+                  if(this.subuserType=='b2c' || this.subuserType=='B2C Broker') this.router.navigate(['/quotation/plan/main/document-info']);
+                  else this.router.navigate(['/quotation/plan/main/driver-info']);
                 }
                 else this.router.navigate(['/quotation/plan/main/document-info']);
                }
             }
             else{
               if(this.productId=='5' && this.insuranceId!='100028' && this.insuranceId!='100020'){
-                this.router.navigate(['/quotation/plan/main/driver-info'])
+                if(this.subuserType=='b2c' || this.subuserType=='B2C Broker') this.router.navigate(['/quotation/plan/motor-details'])
+                else this.router.navigate(['/quotation/plan/main/driver-info']);
               }
               else this.router.navigate(['/quotation/plan/main/document-info']);
             }

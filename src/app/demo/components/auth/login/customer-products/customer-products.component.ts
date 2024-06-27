@@ -4,7 +4,8 @@ import { FormBuilder } from '@angular/forms';
 import { LoginService } from '../login.service';
 import { AuthService } from '../../Auth/auth.service';
 import { Router } from '@angular/router';
-import { SharedService } from 'src/app/shared/shared.service';
+import { AppTopBarComponent } from 'src/app/layout/app.topbar.component';
+import { SharedService } from 'src/app/demo/service/shared.service';
 class Product {
   name:string = '';
   imageUrl:string = '';
@@ -122,8 +123,6 @@ export class CustomerProductsComponent {
                       this.branchValue = branchList[0].BrokerBranchCode;
                       let branchData: any = this.branchList.find(ele => ele.BrokerBranchCode == this.branchValue);
                       let userDetails = JSON.parse(sessionStorage.getItem('Userdetails') as any);
-                      userDetails.Result['ProductId'] = data.Result.BrokerCompanyProducts[0].ProductId;
-                      userDetails.Result['ProductName'] = data.Result.BrokerCompanyProducts[0].ProductName;
                       userDetails.Result['BrokerBranchCode'] = this.branchValue;
                       userDetails.Result['BranchCode'] = branchData.BranchCode;
                       userDetails.Result['CurrencyId'] = branchData?.CurrencyId;
@@ -156,15 +155,19 @@ export class CustomerProductsComponent {
   selectProduct(product) {
     this.selectedProduct = product.ProductId;
     let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+    
     userDetails.Result['ProductId'] = product.ProductId;
-    console.log('ppppppp',product.ProductId)
     userDetails.Result['ProductName'] = product.ProductName;
+    userDetails.Result['ProductId'] = product.ProductId;
+    this.shared.ProductName = product.ProductName;
+    sessionStorage.setItem('reloadType','YES');
+    console.log('ppppppp',product.ProductId)
     console.log('PPPPPNNNNNNN',product.ProductName)
 
     userDetails.Result['PackageYn'] = product.PackageYn;
       sessionStorage.setItem('Userdetails', JSON.stringify(userDetails));
     console.log("Products",product,userDetails.Result)
-    this.router.navigate(['/customer/create']);
+    this.router.navigate(['/customer-info']);
   }
   getProductUrl(product){
       if(product.ProductId=='5') return './assets/layout/images/motor.png';

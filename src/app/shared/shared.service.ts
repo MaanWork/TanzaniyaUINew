@@ -30,6 +30,7 @@ export class SharedService {
   public AppConfig: any = (Mydatas as any).default;
   public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
   timer: any;
+  ProductName: any;
   constructor(
     private http: HttpClient,
     private authService: AuthService,

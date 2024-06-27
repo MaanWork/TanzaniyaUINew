@@ -573,7 +573,7 @@ export class CommonProductDetailsComponent {
             entry['SectionId'] = this.productName;
             entry['SectionDesc'] = this.sectionDesc;
             entry['Status'] = "Y";
-            entry['RiskId'] = String(this.currentFireIndex+2);
+            entry['RiskId'] = String(this.currentFireIndex+1);
             entry['LocationName'] = this.LocationName;
             entry['BuildingAddress'] =  this.LocationName;
             entry['IndustryType'] = this.IndustryTypes;
@@ -753,7 +753,6 @@ export class CommonProductDetailsComponent {
           "ExchangeRate": this.exchangeRate,
           "PolicyEndDate":endDate,
           "PolicyStartDate": startDate,
-          "SectionIds": sectionIds, 
           "SectionId": obj.SectionId,
           "AgencyCode": this.agencyCode,
           "SubUsertype": this.subuserType,
@@ -5713,7 +5712,8 @@ console.log('Eventsss',event);
             emp['InsuranceId'] = this.insuranceId;
             emp['ProductId'] = this.productId;
             emp['RequestReferenceNo'] = this.requestReferenceNo;
-            emp['RiskId'] = "1";
+            emp['RiskId'] = i+1;
+            emp['originalRiskId'] = i+1;
             emp['EndorsementDate'] = this.endorsementDate;
             emp['EndorsementEffectiveDate'] = this.endorsementEffectiveDate;
             emp['EndorsementRemarks'] = this.endorsementRemarks;
@@ -8255,9 +8255,10 @@ let requestNO=null;
   getOccupationList(sections) {
     let ReqObj = {
       "InsuranceId": this.insuranceId,
-      "BranchCode": this.branchCode,
+      "BranchCode": "99999",
       "ProductId": this.productId
     }
+    if(this.productId=='14')  ReqObj['TitleType'] = 'I';
     let urlLink = `${this.CommonApiUrl}master/dropdown/occupation`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
@@ -11415,8 +11416,8 @@ this.BuildingOwnerYn = type;
             emp['InsuranceId'] = this.insuranceId;
             emp['ProductId'] = this.productId;
             emp['RequestReferenceNo'] = this.requestReferenceNo;
-            emp['RiskId'] = "1";
-            emp['originalRiskId'] = "1";
+            emp['RiskId'] = i+1;
+            emp['originalRiskId'] = i+1;
             emp['EndorsementDate'] = this.endorsementDate;
             emp['EndorsementEffectiveDate'] = this.endorsementEffectiveDate;
             emp['EndorsementRemarks'] = this.endorsementRemarks;

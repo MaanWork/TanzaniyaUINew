@@ -1,52 +1,5 @@
 <div class="card">
-    <div class="grid" *ngIf="customerDetails">
-        <div class="col-12 pl-5 pr-5 pb-0">
-            <div>
-                <h4 class="m-0 p-0">Customer Details</h4>
-            </div>
-                
-        </div> 
-        </div>
-        <div class="grid mt-2 ml-2" *ngIf="customerDetails">
-        <div class="lg:col-6 md:col-6 col-12">
-            <h3>Personal Information</h3>
-            <div class="flex flex-wrap">
-                <div class="lg:col-4 md:col-6 col-12">
-                    <b>Customer Name</b>
-                    <p>{{customerDetails.TitleDesc}}&nbsp;{{customerDetails.ClientName}}</p>
-                </div>
-                <div class="lg:col-4 md:col-6 col-12">
-                    <b>Customer Type</b>
-                    <p>{{customerDetails.PolicyHolderTypeDesc}}</p>
-                </div>
-                <!-- <div class="lg:col-4 md:col-6 col-12">
-                    <b>Occupation</b>
-                    <p>{{customerDetails.OccupationDesc}}</p>
-                </div> -->
     
-            </div>
-        </div>
-        <div class="lg:col-6 md:col-6 col-12">
-            <div class="flex flex-wrap justify-content-between">
-                <div><h3>Address Details</h3></div>
-                <div><p-button label="Change Customer" icon="pi pi-user" (click)="showSearchForm('change')"></p-button></div>
-            </div>
-            <div class="flex flex-wrap">
-                <div class="lg:col-4 md:col-6 col-12">
-                    <b>Address</b>
-                    <p>{{customerDetails.Address1}}</p>
-                </div>
-                <div class="lg:col-4 md:col-6 col-12">
-                    <b>Country</b>
-                    <p>{{customerDetails.Nationality}}</p>
-                </div>
-                <div class="lg:col-4 md:col-6 col-12">
-                    <b>District</b>
-                    <p>{{customerDetails.StateName}}</p>
-                </div>
-            </div>
-        </div>
-        </div>
         <div class="flex flex-column align-items-center justify-content-center mt-5">                
             <div class="loginCard1">
                 <div class="w-full surface-card py-8 px-5 sm:px-8 loginCardBorder">
@@ -65,8 +18,7 @@
                     <div class="justify-content-center ">
                        <!-- <label class="p-2"> Not Received OTP?</label> -->
                         <button pButton pRipple class="p-button-outlined mt-1" (click)="onLogin()" [disabled]="OtpBtnEnable">
-                            Resend OTP
-                            <span *ngIf="OtpBtnEnable">in ( {{ OtpBtnTime }} seconds)</span>
+                            Resend OTP <span *ngIf="OtpBtnEnable">in ( {{ OtpBtnTime }} seconds)</span>
                         </button>
                     </div>
                     <div class="flex flex-warp justify-content-center mt-5">

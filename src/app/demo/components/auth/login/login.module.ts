@@ -25,7 +25,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { CustomerProductsComponent } from './customer-products/customer-products.component';
 import { OTPComponent } from './otp/otp.component';
 import { CustomerComponent } from './customer/customer.component';
-import { CustomerInfoComponent } from './customer-info/customer-info.component';
+
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
   }
@@ -58,6 +58,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         })
     ],
     providers:[LoginService],
-    declarations: [LoginComponent,CustomerProductsComponent,OTPComponent, CustomerComponent, CustomerInfoComponent]
+    declarations: [LoginComponent,CustomerProductsComponent,OTPComponent, CustomerComponent]
 })
 export class LoginModule { }

@@ -24,7 +24,7 @@ export class SharedService {
   timeoutHandle:any=null;
   redirectSection: boolean = false;
   timeLimit: Subscription; public value: number;
-  userDetails: any;
+  userDetails: any;ProductName:any=null;
   loginId: any;
   public AppConfig: any = (Mydatas as any).default;
   public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
@@ -61,6 +61,12 @@ export class SharedService {
     return await this.http
       .post<any>(UrlLink, ReqObj, { headers: headers })
       .pipe(catchError(this.handleError));
+  }
+  async onPostMethodUnAuthAsync(UrlLink: any, ReqObj: any): Promise<Observable<any[]>> {
+    let headers = new HttpHeaders();
+    return await this.http
+      .post<any>(UrlLink, ReqObj, { headers: headers })
+      .pipe(retry(1), catchError(this.handleError));
   }
   async onGetMethodAsync(UrlLink: any): Promise<Observable<any[]>> {
     this.cookieService.set("XSRF-TOKEN", this.getToken(), 1, '/','localhost', false, "Strict");

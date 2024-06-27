@@ -3,8 +3,9 @@
         <div class="loginCard1">
             
             <div class="w-full surface-card py-8 px-5 sm:px-8 loginCardBorder">
-                <!-- <div class="flex flex-warp justify-content-end">
-                    <p-button icon="pi pi-language" [label]="lang" mat-icon-button [matMenuTriggerFor]="menu" shape="circle" severity="danger" />&nbsp;&nbsp;
+                <div class="flex flex-warp justify-content-end">
+                    <p-button label="B2C" class="p-3 text-xl mt-2" (click)="B2c()"></p-button>
+                    <!-- <p-button icon="pi pi-language" [label]="lang" mat-icon-button [matMenuTriggerFor]="menu" shape="circle" severity="danger" />&nbsp;&nbsp;
                     <mat-menu #menu="matMenu">
                         <button mat-menu-item (click)="setLanguage('en')">
                             <span>English</span>
@@ -12,8 +13,8 @@
                         <button mat-menu-item (click)="setLanguage('po')">
                             <span>Portugese</span>
                         </button>
-                    </mat-menu>
-                </div> -->
+                    </mat-menu> -->
+                </div>
                 <div class="text-center mb-5">
                     <img src="assets/demo/images/login/userIcon.png" alt="Image" height="50" class="mb-3">
                     <div class="text-900 text-3xl font-medium mb-3">Welcome to XYZ Insurance</div>
@@ -34,7 +35,7 @@
                     </div>
                   
                     <button pButton pRipple label="SignIn" class="w-full p-3 text-xl" (click)="submit('N')"></button>
-                    <button pButton pRipple label="B2c" class="w-full p-3 text-xl mt-2" (click)="B2c()"></button>
+                    
                 </div>
                 <div *ngIf="errorSection">
                       <div class="text-center customText">

@@ -55,6 +55,7 @@ export class VehicleCreateFormComponent implements OnInit {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
       this.loginId = this.userDetails.Result.LoginId;
       this.userType = this.userDetails?.Result?.UserType;
+      this.subuserType = this.userDetails?.Result?.SubUserType;
       this.brokerbranchCode = this.userDetails.Result.BrokerBranchCode;
       this.branchList = this.userDetails.Result.LoginBranchDetails;
     this.insuranceId = this.userDetails.Result.InsuranceId;
@@ -63,6 +64,7 @@ export class VehicleCreateFormComponent implements OnInit {
       this.branchCode = this.userDetails.Result.BranchCode;
       this.productId = this.userDetails.Result.ProductId;
       this.insuranceId = this.userDetails.Result.InsuranceId;
+      if(this.subuserType=='b2c' || this.subuserType=='B2C Broker'){ this.productId='5';}
       this.modelColumns = ['Select','Model','Body Type','Fuel Type','Transmission','WeightKg'];
       let vehicleList = JSON.parse(sessionStorage.getItem('vehicleDetailsList'));
       if(vehicleList) this.vehicleDetailsList = vehicleList;
@@ -226,11 +228,13 @@ export class VehicleCreateFormComponent implements OnInit {
         console.log(data);
         if(data.Result){
           let customerDetails:any = data.Result;
+          sessionStorage.setItem('customerDetails',JSON.stringify(data.Result))
           this.customerDetails = customerDetails;
           if(this.customerDetails){
             // this.title = this.customerDetails?.TitleDesc;
             // this.clientName = this.customerDetails?.ClientName;
              this.ownerName = this.customerDetails?.ClientName;
+             this.customerName = this.customerDetails?.ClientName
             // this.dateOfBirth = this.customerDetails?.DobOrRegDate;
             // if(this.customerDetails?.PolicyHolderType == '1') this.clientType = "Individual";
             // if(this.customerDetails?.PolicyHolderType == '2') this.clientType = "Corporate";
@@ -528,7 +532,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "NumberOfAxels": this.vehicleDetails?.NumberOfAxels,
         "BranchCode": this.branchCode,
         "AgencyCode": this.agencyCode,
-        "ProductId": this.productId,
+        "ProductId": '5',
         "SectionId": this.vehicleDetails?.SectionId,
         "PolicyType": this.vehicleDetails?.PolicyType,
         "RadioOrCasseteplayer": null,
@@ -630,10 +634,9 @@ export class VehicleCreateFormComponent implements OnInit {
               sessionStorage.removeItem('editCars');
               this.vehicleDetails = null;
               this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Motor Details Updated Successfully' });
-              this.router.navigate(['/policyDetails'])
+              if(this.subuserType=='b2c' || this.subuserType =='B2C Broker') this.router.navigate(['/quotation/plan/main/document-info']);
+              else this.router.navigate(['/policyDetails'])
             }
-            
-
           }
         },
         (err) => { },
@@ -728,7 +731,6 @@ export class VehicleCreateFormComponent implements OnInit {
             this.usageList = data.Result;
             this.getMotorCategoryList();
         }
-
       },
       (err) => { },
     );
@@ -738,8 +740,11 @@ export class VehicleCreateFormComponent implements OnInit {
       this.bodyTypeId = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeValue)?.Code;
       if(type=='change' && this.insuranceId!='100020'){this.makeValue=null;this.modelValue=null;}
       if(this.bodyTypeId && this.insuranceId!='100020'){ this.getMakeList(); } 
-      
     }
+  }
+  getBack(){
+    if(this.subuserType=='b2c' || this.subuserType=='B2C Broker') this.router.navigate(['/quotation/plan/premium-details']);
+    else{this.router.navigate(['/policyDetails']);}
   }
   getMakeList(){
     let ReqObj = {
@@ -762,9 +767,7 @@ export class VehicleCreateFormComponent implements OnInit {
                 }
               }
             }
-            
         }
-
       },
       (err) => { },
     );
@@ -854,6 +857,7 @@ export class VehicleCreateFormComponent implements OnInit {
     //   "CreatedBy": this.loginId,
     //   "SavedFrom": 'WEB'
     // }
+    if(this.subuserType=='b2c'){sessioncar={"Idnumber":null,"Vehicleid":"1"}}
     let ReqObj = {
       "RequestReferenceNo": this.quoteRefNo,
       "Idnumber": sessioncar?.Idnumber,
@@ -894,6 +898,9 @@ export class VehicleCreateFormComponent implements OnInit {
     this.bodyTypeId = vehDetails?.VehicleType;
     this.bodyTypeValue = vehDetails?.VehicleTypeDesc;
     this.modelDesc = vehDetails?.VehicleModelDesc;
+    this.currencyCode = vehDetails?.Currency;
+    this.exchangeRate = vehDetails?.ExchangeRate;
+    
      if(this.insuranceId!='100020') this.onBodyTypeChange('direct');
      else{
       if(vehDetails?.Vehiclemake!=null && vehDetails?.Vehiclemake!='' && this.makeList.length!=0){
