@@ -278,6 +278,7 @@
                         <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="promocode" placeholder="Enter Promo Code" />
                     </div>
                     </div>
+                    <div class="grid">
                     <div class="lg:col-3 md:col-3 col-12" *ngIf="this.productId=='16' || productId=='39' || productId=='14' || productId=='32' || productId=='1' || productId=='21'
                      || this.productId=='25' || productId=='13' || productId=='24'"><!--|| productId=='57'-->
                             <label for="username">Industry</label>
@@ -291,6 +292,11 @@
                                 </div>
                             </div>
                     </div>
+                    <div class="lg:col-2 md:col-2 col-12" *ngIf="productId=='25'">
+                        <label for="username">Location</label>
+                        <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="LoctionName" placeholder="Enter LoctionName" />
+                    </div>
+                </div>
             </div>
         </ng-container>
     </div>
@@ -547,11 +553,9 @@
                                 <ng-template pTemplate="body" let-group>
                                   <tr>
                                     <td>
-                                            {{group?.FidEmpCount}}
+                                        {{group?.FidEmpCount}}
                                     </td>
                                     <td>{{group?.FidEmpSi}}</td>
-                                    <!-- <td>{{group?.LiabilityOccupationId}}</td> -->
-                                    <td>{{group?.OtherOccupation}}</td>
                                     <td>
                                         <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditGroup(group)"></button>  
                                     </td>
@@ -627,6 +631,7 @@
                                     </div>
                                 </div>
                             </div>
+                           
                             <!-- <div>
                             <span style="width: 126px;
                             height: 24px;
@@ -702,10 +707,43 @@
                     </div>
                 </div>
             </div>
-            <div class="grid mt-2 pl-5 pr-2 pb-0" *ngIf="(productId=='60' || productId=='21' || productId=='26' || productId=='16' || productId=='25' || productId=='43' || productId=='13'  || (productId=='39' && insuranceId!='100004') || (productId=='27' && insuranceId!='100004')) && formSection">
+            <div class="grid mt-2 pl-5 pr-2 pb-0" *ngIf="(productId=='60' || productId=='21' || productId=='26'  || productId=='25' || productId=='43' || productId=='13'  || (productId=='39' && insuranceId!='100004') || (productId=='27' && insuranceId!='100004')) && formSection">
                 <ng-container *ngFor="let step of fields; let index = index; let last = last">
-                <ng-container *ngIf="step.props.label=='Plant All Risk' ||step.props.label=='Fire And Material Damage'  || step.props.label=='Burglary' || step.props.label=='Money' || step.props.label=='Machinery BreakDown' || step.props.label=='Medical Insurance' || step.props.label=='Public Liability'">
-                    <div class="col-12 sm:col-9 md:col-9 m-0 p-0">
+                <ng-container *ngIf="step.props.label=='Plant All Risk' ||step.props.label=='Fire And Material Damage'  || step.props.label=='Burglary' || step.props.label=='Machinery BreakDown' || step.props.label=='Medical Insurance' || step.props.label=='Public Liability'">
+                    <ng-container *ngIf="step.props.label=='Public Liability'">
+                        <p-table  [tableStyle]="{'min-width':'100rem'}" [paginator]="true" [rows]="5">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>S.No</th>
+                                    <!-- <th>Product Name</th> -->
+                                    <!-- <th>Industry Types</th> -->
+                                    <th>Location Name</th>
+                                    <th>Region</th>
+                                    <th>District</th>
+                                    <th>Salary</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" >
+                              <tr>
+                                <td> </td>
+                                <td></td>
+                                <td> </td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" ></button>  
+                                </td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" ></button>  
+                                </td>
+                              </tr>
+                            </ng-template>
+                          </p-table>
+                    </ng-container>
+                
+                    <div class="col-12 sm:col-12 md:col-12 m-0 p-0">
                         <div>
                             <div class="col-12 sm:col-4 md:col-4 m-0 p-0 d-flex justify-content-between" (click)="selectedIndex=index">
                                 <div (click)="selectedIndex=index"><h4 class="headings m-0 p-0">{{ step.props.label }}</h4></div>
@@ -717,33 +755,229 @@
                         <div class="card-body pl-5">
                             <div class="grid">
                                 <div class="lg:col-2 md:col-2 col-12"></div>
-                                <div class="lg:col-9 md:col-9 col-12">
+                                <div class="lg:col-8 md:col-8 col-12">
                                     <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
                                         <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
                                     </form>
                                 </div>
                             </div>
                         </div>
+                        <div class="flex flex-warp justify-content-center">
+                            <p-button *ngIf="productId=='27'" label="Save & Add New" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
                     </div>
+                   
                 </ng-container>
+                
                 <ng-container *ngIf="step.props.label=='Business All Risk' || step.props.label=='Electronic Equipment' || step.props.label=='Personal Accident'">
-                    <div class="col-md-6 col-lg-5 col-xl-5 col-12 ml-2 splitCard">
+                    <ng-container *ngIf="TableRowEE.length!=0 && step.props.label=='Electronic Equipment'">
+                        <p-table [value]="TableRowEE"  [tableStyle]="{'min-width':'100rem'}" [paginator]="true" [rows]="2">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>S.No</th>
+                                    <!-- <th>Product Name</th> -->
+                                    <!-- <th>Industry Types</th> -->
+                                    <!-- <th>Location Name</th> -->
+                                    <th>ContentType</th>
+                                    <!-- <th>Serial No</th>
+                                    <th>Description</th> -->
+                                    <th>Salary</th>
+                                    <th>Edit</th>
+                                    <th *ngIf="TableRowEE.length>1">Delete</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-EE let-i="rowIndex">
+                              <tr>
+                                <td>{{i+1}}</td>
+                                <!-- <td>{{EE.LocationName}}</td> -->
+                                <td>{{EE.ContentType}}</td>
+                                <!-- <td>{{EE.Serial}}</td>
+                                <td>{{EE.Description}}</td> -->
+                                <td>{{EE.Salary}}</td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" ></button>  
+                                </td>
+                                <td *ngIf="TableRowEE.length>1">
+                                    <button pButton  pRipple  icon="pi pi-trash" class="p-button-outlined" (click)="deleteEE(i)" ></button>  
+                                </td>
+                              </tr>
+                            </ng-template>
+                          </p-table>
+                    </ng-container>
+                    <ng-container *ngIf="tableRowPA.length!=0 && step.props.label=='Personal Accident'">
+                        <p-table [value]="tableRowPA"  [tableStyle]="{'min-width':'100rem'}" [paginator]="true" [rows]="2">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>S.No</th>
+                                  
+                                    <th>Name</th>
+                                    <th>Location Name</th>
+                                    <th>Occupation Type</th>
+                                    <th>Date Of Birth</th>
+                                    <th>Salary</th>
+                                    <th>Edit</th>
+                                    <th *ngIf="tableRowPA.length>1">Delete</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-PA let-i="rowIndex">
+                              <tr>
+                                <td>{{i+1}}</td>
+                                <td>{{PA.PersonName}}</td>
+                                <td>{{PA.LocationName}}</td>
+                                <td>{{PA.OccupationId}}</td>
+                                <td>{{PA.Dob}}</td>
+                                <td>{{PA.Salary}}</td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" ></button>  
+                                </td>
+                                <td *ngIf="tableRowPA.length>1">
+                                    <button pButton  pRipple  icon="pi pi-trash" class="p-button-outlined" (click)="deleteEE(i)" ></button>  
+                                </td>
+                              </tr>
+                            </ng-template>
+                          </p-table>
+                    </ng-container>
+                    <div class=" col-12  splitCard">
                         <div class="col-md-12 col-lg-12 col-xl-12 splitCardHeader d-flex justify-content-between m-0 p-0" (click)="selectedIndex=index">
-                            <div (click)="selectedIndex=index" class="mt-2 pl-4"><h1 class="headings2 m-0 p-0">{{ step.props.label }}</h1></div>
+                            <div (click)="selectedIndex=index" class=""><h4 class="headings2 m-0 p-0">{{ step.props.label }}</h4></div>
                             <div class="pr-3 pt-1">
                                 
                             </div>
                         </div>
-                        <div>
-                            <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
-                                <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
-                            </form>
+                        <div class="grid">
+                            <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                            <div class="col-12 lg:col-6 md:col-6 lx:col-6">
+                                <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
+                                    <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="flex flex-warp justify-content-center">
+                            <p-button  label="Save & Add New" *ngIf="step.props.label=='Electronic Equipment'" size="small" (click)="saveElectronicEquip(productItem)"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <p-button  label="Save & Add New" *ngIf="step.props.label=='Personal Accident'" size="small" (click)="addPA(productItem)"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </div>
                     </div>
+                   
                 </ng-container>
             </ng-container>
             </div>
-            
+            <div class="flex flex-warp justify-content-end" *ngIf="productId=='16' && formSection">
+                <button pButton pRipple icon="pi pi-plus" label="Add New" class="p-button-outlined" (click)="openMoneyform()"></button>
+            </div>
+            <div class="grid mt-2 pl-5 pr-2 pb-0" *ngIf="productId=='16' && formSection">
+                <ng-container *ngFor="let step of fields; let index = index; let last = last">
+                    <div>
+                        <div class="col-12 sm:col-4 md:col-4 m-0 p-0 d-flex justify-content-between" (click)="selectedIndex=index">
+                            <div (click)="selectedIndex=index"><h4 class="headings m-0 p-0">{{ step.props.label }}</h4></div>
+                            <div class="pr-3 pt-1">
+                            </div>
+                        </div>
+                    </div>
+                <ng-container *ngIf="step.props.label=='Money'">
+                   
+                    <ng-container *ngIf="step.props.label=='Money' && TableRowMoney.length!=0">
+                        <p-table [value]="TableRowMoney" [tableStyle]="{'min-width':'100rem'}" [paginator]="true" [rows]="5">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>S.No</th>
+                                    <!-- <th>Product Name</th> -->
+                                    <!-- <th>Industry Types</th> -->
+                                    <th>Location Name</th>
+                                    <th>Premises</th>
+                                    <th>Money in Transit SI</th> 
+                                    <th>Strong Room SI</th>
+                                    <th>Safe Limit SI</th>
+                                    <th>Collector Amount SI</th>
+                                    <th>Estimated Annual SI</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-money let-i="rowIndex">
+                              <tr>
+                                <td>{{i+1}} </td>
+                                <td>{{money.LocationName}}</td>
+                                <td>{{money.Premises}}</td>
+                                <td>{{money.MoneyInTransit}}</td>
+                                <td>{{money.StrongRoom}}</td>
+                                <td>{{money.MoneySafeLimit}}</td>
+                                <td>{{money.MoneyCollector}}</td>
+                                <td>{{money.MoneyAnnualEstimate}}</td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" ></button>  
+                                </td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="deleteMoney(i)"></button>  
+                                </td>
+                              </tr>
+                            </ng-template>
+                          </p-table>
+                    </ng-container>
+                
+                  
+                   
+                </ng-container>
+                
+                <ng-container *ngIf="step.props.label=='Business All Risk' || step.props.label=='Electronic Equipment' || step.props.label=='Personal Accident'">
+                    
+                    <ng-container *ngIf="TableRowEE.length!=0">
+                        <p-table [value]="TableRowEE"  [tableStyle]="{'min-width':'100rem'}" [paginator]="true" [rows]="5">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>S.No</th>
+                                    <!-- <th>Product Name</th> -->
+                                    <!-- <th>Industry Types</th> -->
+                                    <!-- <th>Location Name</th> -->
+                                    <th>ContentType</th>
+                                    <!-- <th>Serial No</th>
+                                    <th>Description</th> -->
+                                    <th>Salary</th>
+                                    <th>Edit</th>
+                                    <th *ngIf="TableRowEE.length>1">Delete</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-EE let-i="rowIndex">
+                              <tr>
+                                <td>{{i+1}}</td>
+                                <!-- <td>{{EE.LocationName}}</td> -->
+                                <td>{{EE.ContentType}}</td>
+                                <!-- <td>{{EE.Serial}}</td>
+                                <td>{{EE.Description}}</td> -->
+                                <td>{{EE.Salary}}</td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" ></button>  
+                                </td>
+                                <td *ngIf="TableRowEE.length>1">
+                                    <button pButton  pRipple  icon="pi pi-trash" class="p-button-outlined" (click)="deleteEE(i)" ></button>  
+                                </td>
+                              </tr>
+                            </ng-template>
+                          </p-table>
+                    </ng-container>
+                
+                    <div class=" col-12  splitCard">
+                        <div class="col-md-12 col-lg-12 col-xl-12 splitCardHeader d-flex justify-content-between m-0 p-0" (click)="selectedIndex=index">
+                            <div (click)="selectedIndex=index" class=""><h4 class="headings2 m-0 p-0">{{ step.props.label }}</h4></div>
+                            <div class="pr-3 pt-1">
+                                
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                            <div class="col-12 lg:col-6 md:col-6 lx:col-6">
+                                <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
+                                    <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="flex flex-warp justify-content-center">
+                            <p-button  label="Save & Add New" size="small" (click)="saveElectronicEquip(productItem)"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
+                    </div>
+                   
+                </ng-container>
+            </ng-container>
+            </div>
             <div *ngIf="productId=='6'">
                     <div class="grid">
                         <div class="md:col-6 lg:col-6 col-12">
@@ -1036,9 +1270,6 @@
                 <p-button label="save & Add More" (click)="addBurglaryTable()" />
             </div> -->
 
-
-
-
             <div>
                 <div class="form__wrapper" *ngIf="productId!='46' && productId!='14' && productId!='16' && productId!='57' && productId!='32' && productId!='19' && productId!='24' && productId!='59' && productId!='42' && productId!='13' && productId!='21' && productId!='26' && productId!='6' && productId!='25' && productId!='56' && (productId!='1' || (productId=='1' && insuranceId=='100004'))  && (productId!='39' || (productId=='39' && insuranceId=='100004')) && (productId!='27' || (productId=='27' && insuranceId=='100004'))">
                     <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
@@ -1222,7 +1453,6 @@
                 </form>
             </div>
         </div>
-        
     </div>
     <div class="flex flex-wrap justify-content-center">
         <p-button  styleClass="p-button-outlined" label="Cancel"
@@ -1306,4 +1536,31 @@
         <p-button label="Cancel" styleClass="p-button-outlined" (click)="visible = false" />
         <p-button label="Save" (click)="visible = false" />
     </div>
+</p-dialog>
+<p-dialog header="Money" [(visible)]="Moneyform" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+<div class="grid m-0 p-0">
+    <!-- <div>
+        <div class="col-12 sm:col-4 md:col-4 m-0 p-0 d-flex justify-content-between" (click)="selectedIndex=index">
+            <div (click)="selectedIndex=index"><h4 class="headings m-0 p-0">{{ step.props.label }}</h4></div>
+            <div class="pr-3 pt-1">
+            </div>
+        </div>
+    </div> -->
+    <ng-container *ngFor="let step of fields; let index = index; let last = last">
+    <div class="card-body pl-5">
+        <div class="grid">
+            <!-- <div class="lg:col-2 md:col-2 col-12"></div> -->
+            <div class="lg:col-12 md:col-12 col-12">
+                <form [formGroup]="form" (ngSubmit)="addMoney(productItem)">
+                    <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-container>
+   
+</div>
+<div class="flex flex-warp justify-content-center">
+    <p-button  label="Save & Add New" size="small" (click)="addMoney(productItem)"></p-button>
+</div>
 </p-dialog>
