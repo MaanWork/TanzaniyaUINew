@@ -4020,7 +4020,7 @@ export class RiskDetailsComponent {
                if(this.TableRowEE.length!=0){
                   let filterList = this.TableRowEE.filter(ele=>ele.RiskId!=null && ele.RiskId!='' && ele.SumInsured!=null && ele.SumInsured!='0' && ele.SumInsured!=0);
                   if(filterList.length!=0){
-                      ReqObj['ElectronicEquipment'] ={
+                      ReqObj['ElectronicEquipment'] =[{
                         "SectionId": "76",
                         "ContentSuminsured": this.productItem.ElectronicEquipmentSI,
                         "Status": "Y",
@@ -4028,7 +4028,7 @@ export class RiskDetailsComponent {
                         "PaitingsSi": "0",
                         "CarpetsSi": "0",
                         "EquipmentSi": "0"
-                      };
+                      }];
                       
                   }
                   else ReqObj['ElectronicEquipment'] = null;
