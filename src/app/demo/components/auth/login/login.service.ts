@@ -64,7 +64,6 @@ export class LoginService {
   }
   onPostMethodSync(UrlLink: string, ReqObj: any): Observable<any[]> {
     let headers = new HttpHeaders();
-    headers = headers.append('Authorization', 'Basic ' + this.getToken());
     return this.http
       .post<any>(UrlLink, ReqObj, { headers: headers })
       .pipe(retry(1), catchError(this.handleError));
