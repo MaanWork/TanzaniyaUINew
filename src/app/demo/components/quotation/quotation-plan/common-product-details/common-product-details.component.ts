@@ -8373,7 +8373,7 @@ let requestNO=null;
                   let fireData = new Fidelitytwo();
                   let entry = [];
                   let fields:any = fireData?.fields;
-                  fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
+                 // fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
                   //fields[0].fieldArray.fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
                   let modelHooks = { onInit: (field: FormlyFieldConfig) => {
                     field.formControl.valueChanges.subscribe(() => {
@@ -10476,7 +10476,7 @@ this.BuildingOwnerYn = type;
     // this.productItem.FidEmpSi=0;
     // this.productItem.FidEmpCount=0;
     // this.productItem.otherFioption='';
-    this.FidelityListNew[this.currentFidelityIndex]['LiabilityOccupationId'] =  this.productItem.LiabilityOccupationId;
+    this.FidelityListNew[this.currentFidelityIndex]['LiabilityOccupationId'] =  '99999';
     this.FidelityListNew[this.currentFidelityIndex]['FidEmpCount'] = this.productItem.FidEmpCount;
     this.FidelityListNew[this.currentFidelityIndex]['FidEmpSi'] = this.productItem.FidEmpSi;
     if(this.productItem.LiabilityOccupationId!='99999'){
@@ -10499,13 +10499,13 @@ this.BuildingOwnerYn = type;
     let errorList = [];
     let ulList:any='',i=0;
     console.log('Fedility List',this.FidelityListNew)
-     if(this.productItem.LiabilityOccupationId=='' ||  this.productItem.LiabilityOccupationId==null){
-      i+=1;
-      ulList +=`<li class="list-group-login-field">
-        <div style="color: darkgreen;">Field<span class="mx-2">:</span>Occupation Type</div>
-        <div style="color: red;">Message<span class="mx-2">:</span>Please Select OccupationType</div>
-      </li>`
-    }
+    //  if(this.productItem.LiabilityOccupationId=='' ||  this.productItem.LiabilityOccupationId==null){
+    //   i+=1;
+    //   ulList +=`<li class="list-group-login-field">
+    //     <div style="color: darkgreen;">Field<span class="mx-2">:</span>Occupation Type</div>
+    //     <div style="color: red;">Message<span class="mx-2">:</span>Please Select OccupationType</div>
+    //   </li>`
+    // }
      if(this.productItem.FidEmpCount=='' ||  this.productItem.FidEmpCount==null){
       i+=1;
       ulList +=`<li class="list-group-login-field">
