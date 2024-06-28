@@ -217,6 +217,8 @@ export class CommonProductDetailsComponent {
   regionName: any=null;
   stateDesc: any=null; TableRowEE: any[]=[];model: {};
   dropList: any[]=[];Moneyform: boolean=false;TableRowMoney: any[]=[];tableRowPA:any[]=[];
+  contentTypeError: boolean=false;
+  salaryError: boolean=false;
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -280,7 +282,7 @@ export class CommonProductDetailsComponent {
      'No Of Persons','Occupation','Death Sum Insured','Temporary Disability','Permanant Disability','Medical','Funeral Expense','Action','Delete'
     ];
     this.customerColumn = [ 'Select','Reference No','Customer Name',  'Customer Type','ID Number'];
-    if(this.productId=='6' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='32' || this.productId=='1' || this.productId=='21'
+    if(this.productId=='6' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='15' || this.productId=='32' || this.productId=='1' || this.productId=='21'
     || this.productId=='26' || this.productId=='25' || this.productId=='13' || this.productId=='57'){this.getIndustryList();}
     this.policyStartDate = new Date();
     this.onStartDateChange('change');
@@ -1323,371 +1325,6 @@ export class CommonProductDetailsComponent {
     else if (this.productId == '14') {
       
     }
-    else if (this.productId == '15') {
-      // this.fields = [
-      //   {
-      //     fieldGroup: [
-      //       {
-      //         fieldGroupClassName: 'row',
-      //         fieldGroup: [
-      //           {
-      //             className: 'col-4',
-      //             type: 'input',
-      //             key: 'CustomerName',
-      //             props: {
-      //               label: 'Insurer Name',
-      //               required: true,
-      //               maxlength: 100,
-      //               pattern: /[a-zA-Z ]+/gm,
-      //               disabled: this.checkDisable('CustomerName'),
-      //               options: [
-
-      //               ],
-      //             },
-      //             validation: {
-      //               messages: {
-      //                 pattern: (error: any, field: FormlyFieldConfig) => field.formControl.setValue(field.formControl.value.replace(/[^a-zA-Z ]+/gm, ''))
-      //               },
-      //             },
-      //             expressions: {
-      //             },
-      //           },
-      //           {
-      //             className: 'col-4',
-      //             key: 'Dob',
-      //             type: 'datepicker',
-      //             props: {
-      //               label: 'Date Of Birth',
-      //               required: true,
-      //               disabled: this.checkDisable('Dob'),
-      //               type: 'date',
-      //               datepickerOptions: {
-      //                 max: this.dobDate,
-      //               },
-      //             }
-      //           },
-      //           {
-      //             className: 'col-4',
-      //             type: 'select',
-      //             key: 'OccupationType',
-      //             props: {
-      //               label: 'Occupation',
-      //               disabled: this.checkDisable('OccupationType'),
-      //               required: true,
-      //               options: [
-      //               ],
-      //             },
-      //             expressions: {
-      //               'props.disabled': '!model.CustomerName',
-      //             },
-      //           },
-      //           {
-      //             className: 'col-4',
-      //             type: 'commaSeparator',
-      //             key: 'SalaryPerAnnum',
-
-      //             props: {
-      //               label: `Salary/Year (${this.commonDetails[0].Currency})`,
-      //               disabled: this.checkDisable('SalaryPerAnnum'),
-      //               required: true,
-      //               options: [
-
-      //               ],
-      //             },
-      //             validators: {
-      //               validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-      //             },
-      //             hooks: {
-      //               onInit: (field: FormlyFieldConfig) => {
-      //                 field.formControl.valueChanges.subscribe(() => {
-      //                   this.getSIValue();
-      //                 });
-      //               },
-      //             },
-      //             expressions: {
-      //             },
-      //           },
-      //           {
-      //             className: 'col-4',
-      //             type: 'select',
-      //             key: 'JobJoiningMonth',
-      //             props: {
-      //               label: 'Job Joined  Year',
-      //               disabled: this.checkDisable('JobJoiningMonth'),
-      //               required: true,
-      //               options: [
-      //                 { label: '12 Months', value: '12' },
-      //                 { label: '24 Months', value: '24' },
-      //                 { label: '36 Months', value: '36' },
-      //               ],
-      //             },
-      //             expressions: {
-      //               'props.disabled': '!model.CustomerName',
-      //             },
-      //           },
-      //           // {
-      //           //   className: 'col-4',
-      //           //   type: 'select',
-      //           //   key: 'BetweenDiscontinued',
-      //           //   props: {
-      //           //   label: 'Between Discontinued?',
-      //           //   required: true,
-      //           //   options: [
-      //           //     { label: '- Select -', value: '' },
-      //           //     { label: 'Yes', value: 'Y' },
-      //           //     { label: 'No', value: 'N' },
-      //           //   ],
-      //           //   },
-
-      //           //   expressions: {
-      //           //   'props.disabled': '!model.CustomerName',
-      //           //   },
-      //           // },
-      //           // {
-      //           //   className: 'col-4',
-      //           //   type: 'select',
-      //           //   key: 'EthicalWorkInvolved',
-      //           //   props: {
-      //           //   label: 'Involved in Unethical Work?',
-      //           //   required: true,
-      //           //   options: [
-      //           //     { label: '- Select -', value: '' },
-      //           //     { label: 'Yes', value: 'Y' },
-      //           //     { label: 'No', value: 'N' },
-      //           //   ],
-      //           //   },
-      //           //   expressions: {
-      //           //   'hide': "model.BetweenDiscontinued!='Y'",
-      //           //   },
-      //           // },
-      //           {
-      //             className: 'col-4',
-      //             type: 'commaSeparator',
-      //             key: 'SumInsured',
-      //             disabled: this.checkDisable('SumInsured'),
-      //             props: {
-      //               label: `WorkMen's SumInsured  (${this.commonDetails[0].Currency})`,
-      //               required: true,
-      //               options: [
-
-      //               ],
-      //             },
-      //             validators: {
-      //               validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-      //             },
-      //             expressions: {
-
-      //             },
-      //           },
-      //         ]
-      //       }
-      //     ],
-      //   }
-
-      // ];
-      this.fields = [
-        {
-          fieldGroup: [
-            {
-              fieldGroupClassName: 'row',
-              fieldGroup: [
-                // {
-                //   key: 'CustomerName',
-                //   type: 'input',
-                //   className: 'col-4',
-                //   id: 'CustomerName',
-                //   props: {
-                //     label: 'Insurer Name',
-                //     pattern: /[a-zA-Z ]+/gm,
-                //     required: true,
-                //     maxLength: 10
-                //   },
-                //   validation: {
-                //     messages: {
-                //       pattern: (error: any, field: FormlyFieldConfig) => field.formControl.setValue(field.formControl.value.replace(/[^a-zA-Z ]+/gm, ''))
-                //     },
-                //   },
-                // },
-                // {
-                //   className: 'col-4',
-                //   key: 'Dob',
-                //   type: 'datepicker',
-                //   props: {
-                //     label: 'Date Of Birth',
-                //     disabled: this.checkDisable('Dob'),
-                //     required: true,
-                //     type: 'date',
-                //     datepickerOptions: {
-                //       max: this.dobDate
-                //     },
-                //   }
-
-                // },
-                // {
-                //   className: 'col-4',
-                //   type: 'select',
-                //   key: 'OccupationType',
-                //   props: {
-                //     label: 'Occupation',
-                //     required: true,
-                //     disabled: this.checkDisable('OccupationType'),
-                //     options: [
-                //     ],
-                //   },
-                //   expressions: {
-                //     'props.disabled': '!model.CustomerName',
-                //   },
-                // },
-                // {
-                //   className: 'col-4',
-                //   type: 'commaSeparator',
-                //   key: 'SalaryPerAnnum',
-
-                //   props: {
-                //     label: `Salary/Year (${this.commonDetails[0].Currency})`,
-                //     disabled: this.checkDisable('SalaryPerAnnum'),
-                //     required: true,
-                //     options: [
-
-                //     ],
-                //   },
-                //   validators: {
-                //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                //   },
-                //   hooks: {
-                //     onInit: (field: FormlyFieldConfig) => {
-                //       field.formControl.valueChanges.subscribe(() => {
-                //         this.getSIValue();
-                //       });
-                //     },
-                //   },
-                //   expressions: {
-                //   },
-                // },
-                // {
-                //   className: 'col-4',
-                //   type: 'select',
-                //   key: 'JobJoiningMonth',
-                //   props: {
-                //     label: 'Job Joined Year',
-                //     disabled: this.checkDisable('JobJoiningMonth'),
-                //     required: true,
-                //     options: [
-                //       { label: '12 Months', value: '12' },
-                //       { label: '24 Months', value: '24' },
-                //       { label: '36 Months', value: '36' },
-                //     ],
-                //   },
-                //   expressions: {
-                //     'props.disabled': '!model.CustomerName',
-                //   },
-                // },
-
-                // {
-                //   className: 'col-4',
-                //   type: 'commaSeparator',
-                //   key: 'SumInsured',
-                //   props: {
-                //     label: `Employee's SumInsured  (${this.commonDetails[0].Currency})`,
-                //     disabled: this.checkDisable('SumInsured'),
-                //     required: true,
-                //     options: [
-
-                //     ],
-                //   },
-                //   validators: {
-                //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                //   },
-                //   expressions: {
-
-                //   },
-                // },
-                {
-                  className: 'col-6',
-                  type: 'select',
-                  key: 'TotalNoOfEmployees',
-                  props: {
-                    label: 'Total no of Employees',
-                    disabled: this.checkDisable('TotalNoOfEmployees'),
-                    required: true,
-                    options: [
-                    ],
-                  },
-                  expressions: {
-
-                  },
-                },
-                {
-                  className: 'col-6',
-                  type: 'input',
-                  key: 'TotalExcludedEmployees',
-                  props: {
-                    label: 'Excluded Employees',
-                    placeholder: "",
-                    required: true,
-                    maxLength: 4,
-                    pattern: /[0-9]+/gm,
-                    disabled: this.checkDisable('TotalExcludedEmployees'),
-                    options: [
-                    ],
-                  },
-                  validation: {
-                    messages: {
-                      pattern: (error: any, field: FormlyFieldConfig) => field.formControl.setValue(field.formControl.value.replace(/[^0-9]+/gm, ''))
-                    },
-                  },
-                  expressions: {
-
-                  },
-                },
-                {
-                  className: 'col-6',
-                  type: 'input',
-                  key: 'TotalRejoinedEmployees',
-                  props: {
-                    label: 'Rejoined Employees',
-                    placeholder: "",
-                    required: true,
-                    maxLength: 4,
-                    pattern: /[0-9]+/gm,
-                    disabled: this.checkDisable('TotalRejoinedEmployees'),
-                    options: [
-                    ],
-                  },
-                  validation: {
-                    messages: {
-                      pattern: (error: any, field: FormlyFieldConfig) => field.formControl.setValue(field.formControl.value.replace(/[^0-9]+/gm, ''))
-                    },
-                  },
-                  expressions: {
-
-                  },
-                },
-                {
-                  className: 'col-6',
-                  type: 'commaSeparator',
-                  key: 'SumInsured',
-                  props: {
-                    maxLength:15,
-                    label: `Sum Insured (${this.currencyCode})`,
-                    disabled: this.checkDisable('SumInsured'),
-                    required: true,
-                    options: [
-                    ],
-                  },
-                  expressions: {
-
-                  }
-                },
-              ]
-            }
-          ],
-        }
-
-      ];
-      this.getIndustryTypeList();
-      this.getEmployeeCountList();
-    }
     else if (this.productId == '19' || this.productId=='59' || this.productId=='24') {
       //this.checkDomesticForm('direct')
       console.log(JSON.stringify(this.fields))
@@ -2160,7 +1797,7 @@ export class CommonProductDetailsComponent {
       //this.ongetDistrictList('region')
       let DistHooks = { onInit: (field: FormlyFieldConfig) => {
         field.formControl.valueChanges.subscribe(() => {
-          this.ongetDistrictList('direct');
+          this.getOccupationList('direct');
         });
       } }
      
@@ -3523,14 +3160,7 @@ backPlan()
               this.regionList[i].value = this.regionList[i]['Code'];
               delete this.regionList[i].CodeDesc;
               if (i == this.regionList.length - 1) {
-                if(this.productId=='13'){
-                  if(this.fields[0].props.label=='Personal Liability' || this.fields[0].props.label=='Personal Accident'){
-                    let defaultObj = [{ 'label': '-Select-', 'value': '' }]
-                  this.fields[0].fieldGroup[0].fieldGroup[1].templateOptions.options = defaultObj.concat(this.regionList);
-                 
-                  }
-                }
-                else if(this.productId!='19' && this.productId!='6') this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.regionList);
+                if(this.productId!='19' && this.productId!='6' && this.productId!='13') this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.regionList);
                 else{
                   let fields = this.fields[0].fieldGroup;
                   for(let field of fields){
@@ -3805,7 +3435,7 @@ backPlan()
     }
     //if(this.productId=='59') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
     if(this.productId!='6'){
-      if(this.productId=='57' || this.productId=='60'||this.productId=='59' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='13'  || this.productId=='19' || this.productId=='32' || this.productId=='1' || this.productId=='26' || this.productId=='21' || this.productId == '25' || this.productId=='42' || this.productId=='59' || this.productId=='24' || this.productId=='43') urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
+      if(this.productId=='57' || this.productId=='60'||this.productId=='59' || this.productId=='16' || this.productId=='39' || this.productId=='15' || this.productId=='14' || this.productId=='13'  || this.productId=='19' || this.productId=='32' || this.productId=='1' || this.productId=='26' || this.productId=='21' || this.productId == '25' || this.productId=='42' || this.productId=='59' || this.productId=='24' || this.productId=='43') urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
       else urlLink =  `${this.motorApiUrl}api/geteservicebyriskid`;
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
@@ -3928,6 +3558,7 @@ backPlan()
     else if(this.productId=='13'){ReqObj.SectionId='35';urlLink=`${this.motorApiUrl}api/slide13/getpersonlaaccident`}
     else if(this.productId=='16'){ReqObj.SectionId='42';urlLink=`${this.motorApiUrl}api/slide10/getmoneydetails`;}
     else if(this.productId=='14'){ReqObj.SectionId='45';urlLink=`${this.motorApiUrl}api/slide7/getempliablity`;}
+    else if(this.productId=='15'){ReqObj.SectionId='38';urlLink=`${this.motorApiUrl}api/slide7/getempliablity`;}
     else if(this.productId=='32'){ReqObj.SectionId='43';urlLink=`${this.motorApiUrl}api/slide8/getfidelityemp`;}
     else if(this.productId=='1'){ReqObj.SectionId='52';urlLink=`${this.motorApiUrl}api/slide3/getburglaryandhouse`;}
     else if(this.productId=='21'){ReqObj.SectionId='3';urlLink=`${this.motorApiUrl}api/slide2/getallriskdetails`;}
@@ -3944,7 +3575,7 @@ backPlan()
       (data: any) => {
         if (data.Result) {
             let details = data?.Result;
-            if(this.productId=='14'){
+            if(this.productId=='14' || this.productId=='15'){
               if(data.Result.length!=0){
                 let entry = data.Result[0];
                 if(entry.EndorsementDate){
@@ -4954,7 +4585,7 @@ backPlan()
   onSubmit(type){
     let valid = this.checkValidation();
     if(valid){
-      if(this.productId=='1' || this.productId=='59' ||  this.productId=='13' || this.productId=='39' || this.productId=='43' || this.productId=='16' || this.productId=='42' || this.productId=='14' || this.productId=='60' || this.productId=='57' || this.productId=='56' || this.productId=='26' || this.productId=='25' || this.productId=='21' || this.productId=='27' || this.productId=='24' || this.productId=='32'){ 
+      if(this.productId=='1' || this.productId=='59' ||  this.productId=='13' || this.productId=='39' || this.productId=='43' || this.productId=='16' || this.productId=='42' || this.productId=='15' || this.productId=='14' || this.productId=='60' || this.productId=='57' || this.productId=='56' || this.productId=='26' || this.productId=='25' || this.productId=='21' || this.productId=='27' || this.productId=='24' || this.productId=='32'){ 
        this.saveCommonDetails('direct',null)
       }
       // else if(this.productId=='59'){
@@ -5065,7 +4696,7 @@ backPlan()
       this.exchangeRateError = true;
       i+=1;
     }
-    if((this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='32' || this.productId=='1' || this.productId=='21'
+    if((this.productId=='16' || this.productId=='39' || this.productId=='15' || this.productId=='14' || this.productId=='32' || this.productId=='1' || this.productId=='21'
      || this.productId=='25' || this.productId=='13') && (this.IndustryId==null || this.IndustryId==undefined || this.IndustryId=='')){
       //|| this.productId=='26'
       this.industryError = true;
@@ -5154,6 +4785,7 @@ backPlan()
     if(this.productId=='39'){section.push('41'); };
     if(this.productId=='16'){section.push('42');};
     if(this.productId=='14'){section.push('45');};
+    if(this.productId=='15'){section.push('38');};
     if(this.productId=='32'){section.push('43');};
     if(this.productId=='1'){section.push('52');};
     if(this.productId=='21'){section.push('3');};
@@ -5377,8 +5009,8 @@ console.log('Eventsss',event);
     else if(this.productId=='43'){this.onSaveMedicalDetails('proceed','individual')}
     else if(this.productId=='16'){this.onSaveMoneyDetails('proceed','individual')}
     else if(this.productId=='42'){this.anothercyberSave('proceed','individual')}
-    else if(this.productId=='14'){this.onsaveemployeenew('proceed','individual')}
-    else if(this.productId=='13'){this.onSavePersonalAccidentDetails('proceed','individual')}
+    else if(this.productId=='14' || this.productId=='15'){this.onsaveemployeenew('proceed','individual')}
+    else if(this.productId=='13'){this.onSavePersonalAccident('proceed','individual')}
     //else if(this.productId=='60'){this.onprofessionalsave('proceed','individual')}
     else if(this.productId=='21'){this.onSaveplantaLLrisk('proceed','individual')}
     else if(this.productId =='27'){this.onSavePublicLiability('proceed','individual')}
@@ -5855,6 +5487,7 @@ console.log('Eventsss',event);
             emp['OrginalPolicyNo'] = this.orginalPolicyNo;
             if(this.productId=='14' || this.productId=='19' || this.productId=='24') emp['SectionId'] = "45";
             else if(this.productId=='32') emp['SectionId'] = "43";
+            else if(this.productId=='15') emp['SectionId'] = "38";
             i+=1;
             if(i==this.EmployeeListNew.length){
               let urlLink = `${this.motorApiUrl}api/slide7/saveempliablity`;
@@ -5870,6 +5503,14 @@ console.log('Eventsss',event);
                             if(!this.commonDetails[0].SectionId.some(ele=>ele=='45')) this.commonDetails[0].SectionId.push('45');
                           }
                           else  this.commonDetails[0]['SectionId']=['45'];
+                        }
+                      }
+                      if(this.productId=='15'){
+                        if(this.commonDetails){
+                          if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                            if(!this.commonDetails[0].SectionId.some(ele=>ele=='38')) this.commonDetails[0].SectionId.push('45');
+                          }
+                          else  this.commonDetails[0]['SectionId']=['38'];
                         }
                       }
                       else if(this.productId=='32'){
@@ -7024,7 +6665,11 @@ console.log('Eventsss',event);
     }
   }
   saveElectronicEquip(rowData){
-  
+    let i =0;
+    if(rowData.ContentType==null || rowData.ContentType!='' || rowData.ContentType!=undefined){i+=1;this.contentTypeError=true;}
+    else this.contentTypeError = false;
+    if(rowData.Salary==null || rowData.Salary!='' || rowData.Salary!=undefined){i+=1;this.salaryError=true;}
+    else this.salaryError = false;
     let data = {
       "LocationName":rowData.LocationName,
       "ContentType": rowData.ContentType,
@@ -7034,58 +6679,76 @@ console.log('Eventsss',event);
     }
     this.TableRowEE.push(data);
     this.form.reset();
-    let sectionId=null;
-    if(this.productId=='25') sectionId='39';
-    else sectionId = '76';
-    let ReqObj={
-      "CreatedBy": this.loginId,
-      "InsuranceId": this.insuranceId,
-      "ProductId": this.productId,
-      "RequestReferenceNo":sessionStorage.getItem('quoteReferenceNo'),
-      "RiskId": "1",
-      "SectionId": sectionId,
-      "ElecEquipSuminsured":this.productItem.ElectronicEquipSuminsured
-    }
-    let urlLink = `${this.motorApiUrl}api/slide6/saveelectronicequip`;
-    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-      (data: any) => {
-        if (data?.Result) {
-         
-        }
-      }
-    )
   }
 
   deleteEE(index){
     this.TableRowEE.splice(index,1);
   }
+  getContenDesc(rowData){
+    let entry = this.dropList.find(ele=>ele.Code==rowData);
+    return entry.CodeDesc;
+  }
   onSaveElectronicEquipment(type,formType){
     let sectionId=null;
     if(this.productId=='25') sectionId='39';
     else sectionId = '76';
-    let ReqObj={
-      "CreatedBy": this.loginId,
-      "InsuranceId": this.insuranceId,
-      "ProductId": this.productId,
-      "RequestReferenceNo":sessionStorage.getItem('quoteReferenceNo'),
-      "RiskId": "1",
-      "SectionId": sectionId,
-      "ElecEquipSuminsured":this.productItem.ElectronicEquipSuminsured
+    let ReqObj=[]
+    // {
+    //   "CreatedBy": this.loginId,
+    //   "InsuranceId": this.insuranceId,
+    //   "ProductId": this.productId,
+    //   "RequestReferenceNo":sessionStorage.getItem('quoteReferenceNo'),
+    //   "RiskId": "1",
+    //   "SectionId": sectionId,
+    //   "ElecEquipSuminsured":this.productItem.ElectronicEquipSuminsured
+    // }
+    let i = 0;
+    for(let items of this.TableRowEE){
+      let entry= {
+            "InsuranceId": this.insuranceId,
+            "ProductId": this.productId,
+            "RequestReferenceNo": sessionStorage.getItem('quoteReferenceNo'),
+            "RiskId": i+1,
+            "SectionId": sectionId,
+            "ElecEquipSuminsured": items.Salary,
+            "Status": "Y",
+            "ContentId": items.ContentType,
+            "ContentDesc": this.getContenDesc(items.ContentType),
+            "CreatedBy": this.loginId,
+            "EndorsementDate": null,
+            "EndorsementEffectiveDate": null,
+            "EndorsementRemarks": null,
+            "EndorsementType": null,
+            "EndorsementTypeDesc": null,
+            "EndtCategoryDesc": null,
+            "EndtCount": null,
+            "EndtPrevPolicyNo": null,
+            "EndtPrevQuoteNo": null,
+            "EndtStatus": null,
+            "IsFinanceEndt": null,
+            "OrginalPolicyNo": null
+        }
+        if (this.endorsementSection) {
+          if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
+            entry['Status'] = 'E';
+          }
+          else {
+            entry['Status'] = this.productItem?.Status;
+          }
+          entry['PolicyNo'] = this.endorsePolicyNo
+        }
+        else {
+          entry['Status'] = 'Y';
+        }
+        ReqObj.push(entry);
+        i+=1;
+        if(i==this.TableRowEE.length){this.finalSaveEE(ReqObj,type,formType)}
+  
     }
-    if (this.endorsementSection) {
-      if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
-        ReqObj['Status'] = 'E';
-      }
-      else {
-        ReqObj['Status'] = this.productItem?.Status;
-      }
-      ReqObj['PolicyNo'] = this.endorsePolicyNo
-    }
-    else {
-      ReqObj['Status'] = 'Y';
-    }
+  }
+  finalSaveEE(finalList,type,formType){
     let urlLink = `${this.motorApiUrl}api/slide6/saveelectronicequip`;
-    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    this.sharedService.onPostMethodSync(urlLink, finalList).subscribe(
       (data: any) => {
         if (data?.Result) {
           this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
@@ -7123,7 +6786,7 @@ console.log('Eventsss',event);
         }
     },
     (err) => { },
-  );
+    );
   }
   // onSaveBuildingDetails(type,formType){
   //   this.subuserType = sessionStorage.getItem('typeValue');
@@ -7872,6 +7535,7 @@ console.log('Eventsss',event);
           }
           if(this.productId=='14') emp['SectionId'] = "45";
           else if(this.productId=='32' || this.productId=='19' || this.productId=='24') emp['SectionId'] = "43";
+          else if(this.productId=='15') emp['SectionId']='38';
           i+=1;
           if(i==this.FidelityListNew.length){
             let urlLink = `${this.motorApiUrl}api/slide8/savefidelityemp`;
@@ -7888,6 +7552,14 @@ console.log('Eventsss',event);
                         if(!this.commonDetails[0].SectionId.some(ele=>ele=='45')) this.commonDetails[0].SectionId.push('45');
                       }
                       else  this.commonDetails[0]['SectionId']=['45'];
+                    }
+                  } 
+                  if(this.productId=='15'){
+                    if(this.commonDetails){
+                      if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                        if(!this.commonDetails[0].SectionId.some(ele=>ele=='38')) this.commonDetails[0].SectionId.push('38');
+                      }
+                      else  this.commonDetails[0]['SectionId']=['38'];
                     }
                   } 
                   else if(this.productId=='32'){
@@ -7975,10 +7647,15 @@ console.log('Eventsss',event);
   }
   addPA(rowData){
     //alert(rowData.LocationName)
+    let dob = null
+    if(rowData.Dob!=null && rowData.Dob!='' && rowData.Dob!=undefined){
+      if(String(rowData.Dob).split('/').length==1) dob = this.datePipe.transform(rowData.Dob,'dd/MM/yyyy');
+      else dob = rowData.Dob
+    }
     let i= this.tableRowPA.length;
-    let data =[
+    let data =
       {
-            "Dob":rowData.Dob,
+            "Dob":dob,
             "OccupationId": rowData.OccupationType,
             "PersonName": rowData.Name,
             "NationalityId": "01",
@@ -7987,15 +7664,50 @@ console.log('Eventsss',event);
             "LocationName": rowData.LocationName,
             "SectionId": "35"
       }
-    ]
     this.tableRowPA.push(data);
+    this.form.reset();
     console.log( this.tableRowPA," this.tableRowPA");
     
   }
-  onSavePersonalAccident(){
+ 
+  onSavePersonalAccident(type,formType){
+    alert("savePA")
+    this.subuserType = sessionStorage.getItem('typeValue');
+    let quoteStatus = sessionStorage.getItem('QuoteStatus');
+    this.requestReferenceNo = sessionStorage.getItem('quoteReferenceNo');
+let requestNO=null;
+    if(this.requestReferenceNo !=undefined && this.requestReferenceNo!=null){
+      requestNO = this.requestReferenceNo;
+    }
+    else{
+      requestNO = null;
+    }
+    let appId = "1",loginId="",brokerbranchCode="";
+    let createdBy="";
+      if(quoteStatus=='AdminRP' || quoteStatus=='AdminRA' || quoteStatus=='AdminRR'){
+        brokerbranchCode = this.commonDetails[0].BrokerBranchCode;
+          createdBy = this.commonDetails[0].CreatedBy;
+      }
+      else{
+        createdBy = this.loginId;
+        if(this.userType!='Issuer'){
+          this.brokerCode = this.agencyCode;
+          appId = "1"; 
+          //loginId=this.loginId;
+          brokerbranchCode = this.brokerbranchCode;
+        }
+        else{
+          appId = this.loginId;
+          //loginId = this.commonDetails[0].LoginId;
+          // loginId = this.updateComponent.brokerLoginId
+          //brokerbranchCode = this.commonDetails[0].BrokerBranchCode;
+        }
+      }
+      // let referenceNo = sessionStorage.getItem('quoteReferenceNo');
+
     let ReqObj;
     for(let items of this.tableRowPA){
-
+alert(  items.LocationName)
     
       ReqObj = {
       "PersonalAccidentRequest": [
@@ -8040,6 +7752,17 @@ console.log('Eventsss',event);
             this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
             // this.updateComponent.quoteRefNo = data?.Result[0]?.RequestReferenceNo;
             sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+            if(type=='proceed'){
+              // if(this.commonDetails){
+              //   if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+              //     if(!this.commonDetails[0].SectionId.some(ele=>ele=='35')) this.commonDetails[0].SectionId.push('35');
+              //   }
+              //   else  this.commonDetails[0]['SectionId']=['35'];
+              // }
+              sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
+            }
+            this.Products=false;
+             this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
           }
         }
       },
@@ -8048,7 +7771,7 @@ console.log('Eventsss',event);
       
   }
   onSavePersonalAccidentDetails(type,formType){
-    this.onSavePersonalAccident();
+   // this.onSavePersonalAccident();
     this.subuserType = sessionStorage.getItem('typeValue');
     let quoteStatus = sessionStorage.getItem('QuoteStatus');
     this.requestReferenceNo = sessionStorage.getItem('quoteReferenceNo');
@@ -8500,7 +8223,7 @@ let requestNO=null;
     let urlLink = `${this.CommonApiUrl}master/dropdown/occupation`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
-        console.log(data);
+        console.log(data,"getOccupationListgetOccupationList");
         if (data.Result) {
           let defaultObj = [{ 'label': '-Select-', 'value': '' }]
           this.occupationList = data.Result;
@@ -8516,7 +8239,7 @@ let requestNO=null;
                 if(this.productId=='13'){
                   if(this.fields[0].props.label=='Personal Liability' || this.fields[0].props.label=='Personal Accident'){
                     let defaultObj = [{ 'label': '-Select-', 'value': '' }]
-                  this.fields[0].fieldGroup[0].fieldGroup[3].templateOptions.options = defaultObj.concat(this.occupationList);
+                  this.fields[0].fieldGroup[0].fieldGroup[1].templateOptions.options = defaultObj.concat(this.occupationList);
                   }
                 }
                 else if(this.productId=='19' || this.productId=='59' || this.productId=='24'  || this.productId=='60'){
@@ -8565,11 +8288,11 @@ let requestNO=null;
                       console.log("Fields in Occupation",this.productItem,this.fields)
                 }
                 else if(this.productId=='13'){
-                  this.fields[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
+                  this.fields[0].fieldGroup[0].fieldGroup[1].templateOptions.options = defaultObj.concat(this.occupationList);
                 }
                 
                 //if (this.productId != '19' && this.productId!='24' && this.productId != '59' && this.productId!='6' && this.productId != '1' && this.productId != '32' && this.productId!='14' && this.productId!='16' && this.productId!='25' && this.productId!='26' && this.productId!='21' && this.productId!='27' && this.productId!='13' && this.productId!='57') this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.occupationList);
-                if(this.productId=='14'){
+                if(this.productId=='14' || this.productId=='15'){
                   //let fireData = new EmployersLiability();
                   let fireData = new EmployersLiabilitytwo();
                   let entry = [];
@@ -8674,7 +8397,7 @@ let requestNO=null;
                 }
                
                 else if (this.productId == '6') this.setCommonFormValues();
-                if (this.productId != '59' && this.productId != '59' && this.productId!='13' && this.productId != '6' && this.productId != '19' && this.productId!='24' && this.productId!='14' && this.productId!='32' && this.productId!='57' && this.productId!='60') {
+                if (this.productId != '59' && this.productId != '59' && this.productId!='13' && this.productId != '6' && this.productId != '19' && this.productId!='24' && this.productId!='14' && this.productId!='15' && this.productId!='32' && this.productId!='57' && this.productId!='60') {
   
                   let referenceNo = sessionStorage.getItem('quoteReferenceNo');
                   if (referenceNo) {
@@ -8701,7 +8424,7 @@ let requestNO=null;
             }
           }
           else {
-            if(this.productId!='14' && this.productId!='59' && this.productId!='59'){
+            if(this.productId!='14' && this.productId!='15' && this.productId!='59' && this.productId!='59'){
               let referenceNo = sessionStorage.getItem('quoteReferenceNo');
               if (referenceNo) {
                 this.requestReferenceNo = referenceNo;
@@ -11686,6 +11409,7 @@ this.BuildingOwnerYn = type;
               emp['Status'] = 'Y';
             }
             if(this.productId=='14') emp['SectionId'] = "45";
+            if(this.productId=='15') emp['SectionId'] = "38";
             else if(this.productId=='32' || this.productId=='19' || this.productId=='24') emp['SectionId'] = "43";
             i+=1;
             if(i==this.FidelityListNew.length){
@@ -11702,6 +11426,14 @@ this.BuildingOwnerYn = type;
                           if(!this.commonDetails[0].SectionId.some(ele=>ele=='45')) this.commonDetails[0].SectionId.push('45');
                         }
                         else  this.commonDetails[0]['SectionId']=['45'];
+                      }
+                    } 
+                    if(this.productId=='15'){
+                      if(this.commonDetails){
+                        if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
+                          if(!this.commonDetails[0].SectionId.some(ele=>ele=='38')) this.commonDetails[0].SectionId.push('38');
+                        }
+                        else  this.commonDetails[0]['SectionId']=['38'];
                       }
                     } 
                     else if(this.productId=='32'){
