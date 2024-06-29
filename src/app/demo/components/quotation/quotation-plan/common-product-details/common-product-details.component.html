@@ -292,10 +292,10 @@
                             </div>
                         </div>
                 </div>
-                <div class="lg:col-2 md:col-2 col-12" *ngIf="productId=='25'">
+                <!-- <div class="lg:col-2 md:col-2 col-12" *ngIf="productId=='25'">
                     <label for="username">Location</label>
                     <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="LoctionName" placeholder="Enter LoctionName" />
-                </div>
+                </div> -->
             </div>
         </div>
     </ng-container>
@@ -952,7 +952,7 @@
                                 <th>S.No</th>
                                 <!-- <th>Product Name</th> -->
                                 <!-- <th>Industry Types</th> -->
-                                <th>Location Name</th>
+                                <!-- <th>Location Name</th> -->
                                 <th>Premises</th>
                                 <th>Money in Transit SI</th> 
                                 <th>Strong Room SI</th>
@@ -966,7 +966,7 @@
                         <ng-template pTemplate="body" let-money let-i="rowIndex">
                             <tr>
                             <td>{{i+1}} </td>
-                            <td>{{money.LocationName}}</td>
+                            <!-- <td>{{money.LocationName}}</td> -->
                             <td>{{money.Premises}}</td>
                             <td>{{money.MoneyInTransit}}</td>
                             <td>{{money.StrongRoom}}</td>

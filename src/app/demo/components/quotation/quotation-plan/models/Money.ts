@@ -62,70 +62,70 @@ export class Money{
                 //   }
                 // ],
                 fieldGroup:[
-                  {
-                    type: 'input',
-                    key: 'LocationName',
-                    defaultValue: '',
-                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-                    templateOptions: {
-                      label: `Location`,
-                      required: true,
-                      placeholder: 'Enter LocationName',
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                },
-                {
-                  type: 'ngselect',
-                  key: 'Region',
-                  defaultValue: '',
-                  className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-                  templateOptions: {
-                    label: `Region`,
-                    placeholder: 'Select Region',
-                   // disabled: true,
-                    required: true,
-                    options: [
+                //   {
+                //     type: 'input',
+                //     key: 'LocationName',
+                //     defaultValue: '',
+                //     className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                //     templateOptions: {
+                //       label: `Location`,
+                //       required: true,
+                //       placeholder: 'Enter LocationName',
+                //     },
+                //     validators: {
+                //       validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
+                //     },
+                //     hooks: {
+                //     },
+                //     expressions: {
+                //     },
+                // },
+                // {
+                //   type: 'ngselect',
+                //   key: 'Region',
+                //   defaultValue: '',
+                //   className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                //   templateOptions: {
+                //     label: `Region`,
+                //     placeholder: 'Select Region',
+                //    // disabled: true,
+                //     required: true,
+                //     options: [
     
-                    ],
+                //     ],
     
-                  },
-                  validators: {
-                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                  },
-                  hooks: {
-                  },
-                  expressions: {
-                  },
-                },
-                {
-                  type: 'ngselect',
-                  key: 'District',
-                  defaultValue: '',
-                  className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-                  templateOptions: {
-                    label: `District`,
-                    placeholder: 'Select District',
-                   // disabled: true,
-                    required: true,
-                    options: [
+                //   },
+                //   validators: {
+                //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                //   },
+                //   hooks: {
+                //   },
+                //   expressions: {
+                //   },
+                // },
+                // {
+                //   type: 'ngselect',
+                //   key: 'District',
+                //   defaultValue: '',
+                //   className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                //   templateOptions: {
+                //     label: `District`,
+                //     placeholder: 'Select District',
+                //    // disabled: true,
+                //     required: true,
+                //     options: [
     
-                    ],
+                //     ],
     
-                  },
-                  validators: {
-                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                  },
-                  hooks: {
-                  },
-                  expressions: {
-                  },
-                },
+                //   },
+                //   validators: {
+                //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                //   },
+                //   hooks: {
+                //   },
+                //   expressions: {
+                //   },
+                // },
                 {
                   className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                   type: 'commaSeparator',
