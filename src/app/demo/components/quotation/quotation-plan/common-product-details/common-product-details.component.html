@@ -214,7 +214,7 @@
                                 </div>
                             </div>
                         </div> -->
-                    <div class="lg:col-6 md:col-6 col-12" *ngIf="productId=='6' || this.productId=='16' || productId=='39' || productId=='14' || productId=='15' || productId=='32' || productId=='1' || productId=='21'
+                    <div class="lg:col-6 md:col-6 col-12" *ngIf="productId=='6' || this.productId=='16' || productId=='39' || productId=='14' || productId=='15' || productId=='32' || productId=='1' || productId=='21' 
                     || this.productId=='25' || productId=='13' || productId=='24'"><!--|| productId=='57'-->
                             <label for="username">Industry</label>
                             <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="industryList"
@@ -280,7 +280,7 @@
                 </div>
                 <div class="grid">
                 <div class="lg:col-3 md:col-3 col-12" *ngIf="this.productId=='16' || productId=='39' || productId=='14' || productId=='15' || productId=='32' || productId=='1' || productId=='21'
-                    || this.productId=='25' || productId=='13' || productId=='24'"><!--|| productId=='57'-->
+                    || this.productId=='25' || productId=='13' || productId=='24' || productId=='61'"><!--|| productId=='57'-->
                         <label for="username">Industry</label>
                         <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="industryList"
                             [(ngModel)]="IndustryId" 
@@ -575,6 +575,76 @@
             </div>
 
         </div>
+        <div *ngIf="productId=='61'">
+            <div class="grid pl-5 pr-5 pb-0">
+                <div class="md:col-6 lg:col-6 col-12">
+                    <h4 class="m-0 p-0">Bond Details</h4>
+                </div>
+            </div>
+            <!-- <div class="grid pl-5 pr-2 pb-0">
+                <div class="lg:col-10 xl:col-10 md:col-10 col-10 m-0 p-0">
+                    <div class="flex flex-wrap justify-content-end">
+                        <div>
+                            <p-button  styleClass="p-button-outlined"
+                                size="small" (click)="openBond()" > <i class="fas fa-plus"></i>&nbsp;Add New
+                            </p-button>&nbsp;
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="grid ml-5 mt-2">
+                <div class="lg:col-10 xl:col-10 md:col-10 col-10 m-0 p-0 ">
+                    <ng-container *ngIf="BondListNew.length!=0">
+                        <p-table [value]="BondListNew" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th [pSortableColumn]="queryHeader5" *ngFor="let column of queryHeader5">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-group>
+                                <tr>
+                                <td>
+                                    {{group?.TypeOfBond}}
+                                </td>
+                                <td>{{group?.NoOfYears}}</td>
+                                <td>{{group?.SumInsured}}</td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" ></button>  
+                                </td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" ></button>  
+                                </td>
+                                </tr>
+                            </ng-template>
+                            </p-table>
+                    </ng-container>
+                    <ng-container *ngIf="BondListNew.length==0">
+                            <div class="flex flex-wrap justify-content-center">
+                                <b>No Data Avaliabe</b>
+                            </div>
+                    </ng-container>
+                </div>
+            </div> -->
+            <div class="body mt-1">
+                <div class="grid p-2">
+                    <div class="col-12 lg:col-4 xl:col-4"></div>
+                    <div class="col-12 lg:col-4 xl:col-4">
+                        <form [formGroup]="form">
+                            <formly-form [form]="form" [fields]="fieldsBond" [model]="productItem"></formly-form>
+                        </form>
+                        <div class="input-form-error" *ngIf="bondTypeError || noYearsError || BondSumSIError" style="position: relative;">
+                            <div class="error-text text-danger">
+                                <span class="spancommon span_font_size" *ngIf="bondTypeError"> Please Select Bond Type</span><br>
+                                <span class="spancommon span_font_size" *ngIf="noYearsError"> Please Select Number Years</span><br>
+                                <span class="spancommon span_font_size" *ngIf="BondSumSIError"> Please Enter Valid Amount</span><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
 
         <div *ngIf="productId=='59'">
             <div class="col-12 pl-3 pr-2 pb-0" >
@@ -826,9 +896,9 @@
                             <td>{{PA.LocationName}}</td>
                             <td>{{PA.OccupationId}}</td>
                             <td>{{PA.Dob}}</td>
-                            <td>{{PA.Salary}}</td>
+                            <td>{{PA.SumInsured}}</td>
                             <td>
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" ></button>  
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="editPA(PA)"></button>  
                             </td>
                             <td *ngIf="tableRowPA.length>1">
                                 <button pButton  pRipple  icon="pi pi-trash" class="p-button-outlined" (click)="deleteEE(i)" ></button>  
@@ -1058,7 +1128,6 @@
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3 ">
                         <div class="input-control-container">
                             <label for="ProductName">Industry</label>&nbsp;<span class="text-danger">*</span>
-                            
                             <p-dropdown inputId="industryType" class="w-full" styleClass="w-full" [options]="fireIndustryList" optionValue="Code" optionLabel="CodeDesc"
                             (onChange)="onChangeIndusty()" [(ngModel)]="industryValue" placeholder="-Select-">
                             </p-dropdown>
@@ -1168,7 +1237,7 @@
             <p-button label="save & Add More" (click)="addFireTable('Save')" />
         </div>
 
-        <!-- <ng-container *ngIf="TableRowBurglary.length!=0 && (productId=='1' && insuranceId!='100004')">
+        <ng-container *ngIf="TableRowBurglary.length!=0 && (productId=='1' && insuranceId!='100004')">
             <p-table [value]="TableRowBurglary" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
                 <ng-template pTemplate="header">
                     <tr>
@@ -1268,7 +1337,7 @@
             </div>
         <div class="flex flex-wrap justify-content-center gap-2" *ngIf="productId=='1'">
             <p-button label="save & Add More" (click)="addBurglaryTable()" />
-        </div> -->
+        </div>
 
         <div>
             <div class="form__wrapper" *ngIf="productId!='46' && productId!='14' && productId!='16' && productId!='57' && productId!='32' && productId!='19' && productId!='24' && productId!='59' && productId!='42' && productId!='15' && productId!='13' && productId!='21' && productId!='26' && productId!='6' && productId!='25' && productId!='56' && (productId!='1' || (productId=='1' && insuranceId=='100004'))  && (productId!='39' || (productId=='39' && insuranceId=='100004')) && (productId!='27' || (productId=='27' && insuranceId=='100004'))">
@@ -1349,7 +1418,7 @@
         </ng-container>
     <p-button label="Next" size="small" *ngIf="productId=='46' && currentIndex!=totalIndex" (click)="onFormSubmit('Next')"></p-button>
     </div>
-    <div class="flex justify-content-center mt-3" *ngIf="productId=='1' || productId=='6' || productId=='39' || productId=='43' || productId=='46' || productId=='16' || productId=='42' || productId=='21' || productId=='14' || productId=='15' || productId=='59' || productId=='60' || productId=='57' || productId=='56' || productId=='26' || productId=='25' || productId=='13' || this.productId=='27' || this.productId=='24' || this.productId=='19' || this.productId=='32'">
+    <div class="flex justify-content-center mt-3" *ngIf="productId=='1' || productId=='6' || productId=='39' || productId=='43' || productId=='46' || productId=='16' || productId=='42' || productId=='21' || productId=='14' || productId=='15' || productId=='59' || productId=='60' || productId=='57' || productId=='56' || productId=='26' || productId=='25' || productId=='13' || this.productId=='27' || this.productId=='24' || this.productId=='19' || this.productId=='32'|| this.productId=='61'">
         <p-button  styleClass="p-button-outlined" label="Back"
             size="small" [routerLink]="['/quotation']" routerLinkActive="router-link-active" ></p-button>&nbsp;
             
@@ -1564,3 +1633,24 @@
     <p-button  label="Save & Add New" size="small" (click)="addMoney(productItem)"></p-button>
 </div>
 </p-dialog>
+
+<!-- <p-dialog header="Bond Details" [(visible)]="isBondForm" [modal]="true" styleClass="w-10 md:w-4 lg:w-4" [draggable]="false" [resizable]="false">
+    <div class="body mt-1">
+        <div class="grid p-2">
+            <div class="col-12 lg:col-12 xl:col-12">
+                <form [formGroup]="form">
+                    <formly-form [form]="form" [fields]="fieldsBond" [model]="productItem"></formly-form>
+                </form>
+            </div>
+        </div>
+        
+    </div> -->
+    <!-- <div class="flex flex-wrap justify-content-center">
+        <p-button  styleClass="p-button-outlined" label="Cancel"
+        size="small" *ngIf="editss" (click)="cancelnes()"></p-button>&nbsp;
+        <p-button  styleClass="p-button-outlined" label="Cancel"
+            size="small" *ngIf="!editss" (click)="cancelnew()"></p-button>&nbsp;
+        <p-button 
+            label="Submit" size="small" (click)="onSubmitNewBond()"></p-button>
+    </div> -->
+<!-- </p-dialog> -->
