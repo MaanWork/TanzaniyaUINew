@@ -608,6 +608,7 @@ onDateFormatInEdit(date) {
         console.log(data);
         if (data.Result) {
           if(type==null) this.formRest()
+          this.getIssuerList()
           this.ChangePass=false;
           this.AddIssuerPopup=false;
           
@@ -789,11 +790,9 @@ getMenuIds(){
               else{
                 if(this.issuerList.length!=0){
                 let index = this.issuerList?.findIndex(ele=>ele.id==entry);
-                console.log('mmmmmmmmmmmm',index);
                 if(index>0){
                   this.includedIssuerList.push(this.issuerList[index]);
                   this.issuerList.splice(index,1);
-                  console.log("unChecked",result);
                 }
                 
                 }

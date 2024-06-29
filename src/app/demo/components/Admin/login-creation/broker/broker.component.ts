@@ -78,8 +78,8 @@ export class BrokerComponent {
   mobileCodeList: any[]=[];
   countryList:any[]=[];
   editSection: boolean=false;
-  stateList: any;
-  cityList: any;
+  stateList: any[]=[];
+  cityList: any[]=[];
   agencyCode: any=null;
   brokerCompanyYn: any;
   taxExcemptedYN: any='N';
@@ -842,6 +842,7 @@ this.password='';
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         console.log(data);
+        
         if (data.Result) {
           this.countryList = data.Result;
           let brokerId = sessionStorage.getItem('editBroker');
@@ -854,10 +855,11 @@ this.password='';
             // this.getBankList();
             if(this.countryList.length!=0){
               if(this.countryList.find(ele=>ele.Code=='TZS')){
-                this.countryCode = this.countryList.find(ele=>ele.Code=='TZS')?.Code;
+                this.countryCode = 'TZS';
               }
               else this.countryCode = this.countryList[0].Code;
-              if(this.stateList.length!=0) this.onCountryChange('change',null,null);
+             
+              if(this.stateList.length==0) this.onCountryChange('change',null,null);
             }
             this.mobileCode = '255';
             this.whatsAppCode = '255';
