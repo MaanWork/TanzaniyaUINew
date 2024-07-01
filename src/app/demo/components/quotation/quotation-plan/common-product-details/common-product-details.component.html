@@ -840,7 +840,9 @@
             </ng-container>
             
             <ng-container *ngIf="step.props.label=='Business All Risk' || step.props.label=='Electronic Equipment' || step.props.label=='Personal Accident'">
-                <button pButton  pRipple *ngIf="step.props.label=='Electronic Equipment' || step.props.label=='Personal Accident'" icon="pi pi-plus" label="Add New" class="p-button-outlined" (click)="openEE()" ></button>  
+                <div class="flex flex-warp justify-content-end">
+                    <button pButton  pRipple *ngIf="step.props.label=='Electronic Equipment' || step.props.label=='Personal Accident'" icon="pi pi-plus" label="Add New" class="p-button-outlined" (click)="openEE()" ></button>  
+                </div>
                 <ng-container *ngIf="TableRowEE.length!=0 && step.props.label=='Electronic Equipment'">
                     <p-table [value]="TableRowEE"  [tableStyle]="{'min-width':'100rem'}" [paginator]="true" [rows]="2">
                         <ng-template pTemplate="header">
@@ -910,8 +912,8 @@
                     </div> -->
                     <div class="grid">
                         <div class="col-12 lg:col-12 md:col-12 lx:col-12">
-                            <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
-                                <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
+                            <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)" [appendTo]="body">
+                                <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem" ></formly-form>
                             </form>
                             <div class="input-form-error bottomSpacing" *ngIf="contentTypeDuplicateError || contentTypeError || salaryError">
                                 <div class="error-text text-danger" *ngIf="contentTypeDuplicateError">
@@ -927,6 +929,7 @@
                         </div>
                     </div>
                     <div class="flex flex-warp justify-content-center">
+                        <p-button  label="Cancel" size="small" (click)="isEEForm=false"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <p-button  label="Save & Add New" *ngIf="step.props.label=='Electronic Equipment'" size="small" (click)="saveElectronicEquip(productItem)"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <p-button  label="Save & Add New" *ngIf="step.props.label=='Personal Accident'" size="small" (click)="addPA(productItem)"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </div>

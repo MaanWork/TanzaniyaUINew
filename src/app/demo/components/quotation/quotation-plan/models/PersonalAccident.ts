@@ -138,12 +138,15 @@ export class PersonalAccident{
                   className: 'col-12 md:col-4 lg:col-4',
                   type: 'datepicker',
                   key: 'Dob',
+                  
                   templateOptions: {
                     label: `Date Of Birth`,
                     required: true,
                     placeholder: 'Select Date Of Birth',
                     disabled: this.checkDisable('Dob'),
-                    
+                    customDatePickerOption: {
+                      appendTo: 'body' 
+                    }
                   },
                   validators: {
                   },
@@ -151,6 +154,7 @@ export class PersonalAccident{
                   },
                   expressions: {
                   },
+                 
                 },
                   {
                     type: 'commaSeparator',
