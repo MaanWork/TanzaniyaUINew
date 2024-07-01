@@ -1600,7 +1600,6 @@ this.password='';
     this.OnlineYn=value.OnlineYn,
     //this.EffectiveDateStart=value.EffectiveDateStart,
     this.Status=value.Status
-    alert(value.AgencyCode)
     this.agencyCode=value.AgencyCode
   }
   onProceedPayment(){
