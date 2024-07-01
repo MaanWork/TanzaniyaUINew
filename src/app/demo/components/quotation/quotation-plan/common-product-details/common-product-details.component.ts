@@ -408,7 +408,6 @@ export class CommonProductDetailsComponent {
   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
     (data: any) => {
       if(data.Result!=0){
-        alert(data.Result[0].BondYear)
         this.fieldsBond[0].formControl.setValue(data.Result[0].Insustry);
         this.fieldsBond[1].formControl.setValue(data.Result[0].BondType);
         this.fieldsBond[2].formControl.setValue(data.Result[0].BondYear);
@@ -4804,7 +4803,7 @@ backPlan()
   }
   onSubmit(type){
     let valid = this.checkValidation();
-    if(this.productId=='25') valid=true;
+    if(this.productId=='25' || this.productId=="16") valid=true;
     if(valid){
       if(this.productId=='1' || this.productId=='59' || this.productId=='61' ||  this.productId=='13' || this.productId=='39'
          || this.productId=='43' || this.productId=='16' || this.productId=='42' || this.productId=='15' || this.productId=='14'
