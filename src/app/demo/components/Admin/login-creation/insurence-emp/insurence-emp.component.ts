@@ -1052,10 +1052,12 @@ checkSelectedProducts(rowData){
 onChangeSelectedProduct(rowData,check){
   console.log('Checked Statusss',rowData,check)
   if(check){
+    rowData['Checked'] = true;
     rowData.IsOptedYn = 'Y';
     this.onTableChange(rowData.TableName)
   }
   else{
+    rowData['Checked'] = false;
     rowData.IsOptedYn = 'N';
   }
 }
