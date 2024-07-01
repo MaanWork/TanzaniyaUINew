@@ -1152,7 +1152,7 @@ showEndorsement(row){
   this.EndorsPopupTable=true;
   this.categoryId="1";
   //this.productIds=row.ProductId;
-  this.getEndorsementList();
+  this.getEndorsementList(row);
   this.onProceedEndorse('endorse');
 
   if(this.productIds){
@@ -1162,12 +1162,12 @@ showEndorsement(row){
     ]
   }
 }
-getEndorsementList(){
+getEndorsementList(rowData){
   let s=sessionStorage.getItem('userproduct')
   let ReqObj={
     "CompanyId":this.insuranceId,
     "EndtTypeCategoryId": this.categoryId,
-    "ProductId": this.productIds,
+    "ProductId": rowData.ProductId,
     "LoginId":this.issuerLoginId//this.loginId
     //"LoginId":this.issuerLoginId
   }
