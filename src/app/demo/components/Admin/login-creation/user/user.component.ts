@@ -294,7 +294,7 @@ export class UserComponent {
       let value = this.brokerValue;
       let ReqObj = {
         "UserType": "User",
-        "SubUserType":"",
+        "SubUserType":this.subUserType,
         "InsuranceId": this.insuranceId,
         "OaCode": this.brokerValue,
         "Limit":"0",

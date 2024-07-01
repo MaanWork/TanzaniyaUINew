@@ -184,6 +184,7 @@ remarksError: boolean=false;
   viewBrokerDetails: any;categoryId:any=null;categoryList:any[]=[]
   selectedProductId: any;productEndorsement: boolean=false;
   endorseData: any[]=[];
+  existProduct: any;
   
   constructor(private router:Router,
    private sharedService:SharedService,public datePipe:DatePipe) {
@@ -1563,9 +1564,9 @@ this.password='';
     let ReqObj = {
       "BranchCode":this.branchValue,
       "InsuranceId": this.insuranceId,
-      "ProductId": this.productId,
+      "ProductId": this.existProduct,
       "AgencyCode": this.agencyCode,
-      "UserType": this.UserType,
+      "UserType": "broker",
       "SubUserType": this.subUserType
     }
     let urlLink = `${this.CommonApiUrl}master/getallpayment`;
@@ -1599,10 +1600,11 @@ this.password='';
     this.OnlineYn=value.OnlineYn,
     //this.EffectiveDateStart=value.EffectiveDateStart,
     this.Status=value.Status
+    this.agencyCode=value.AgencyCode
   }
   onProceedPayment(){
    this.UserType=this.userDetails.Result.UserType;
-   this.agencyCode=this.userDetails.Result.OaCode;
+  // this.agencyCode=this.userDetails.Result.OaCode;
    this.loginId= this.userDetails.Result.LoginId;
     let ReqObj = {
       "BranchCode":this.branchValue,
@@ -1613,11 +1615,11 @@ this.password='';
       "CreditYn":this.CreditYn,
       "EffectiveDateStart": this.EffectiveDateStart,
       "InsuranceId": this.insuranceId,
-      "ProductId":this.productId,
+      "ProductId":this.existProduct,
       "PaymentMasterId":"23",
       "Status":this.Status,
       "SubUserType":this.subUserType,
-      "UserType":this.UserType,
+      "UserType":"broker",
       "OnlineYn":this.OnlineYn
     }
     let urlLink = `${this.CommonApiUrl}master/insertpayment`;

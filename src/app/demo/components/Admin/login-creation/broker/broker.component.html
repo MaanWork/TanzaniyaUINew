@@ -1407,10 +1407,10 @@
 
 
 <p-dialog  header="Payment Types " [modal]="true"  [(visible)]="paymentTypesPopup"  [style]="{ width: '75rem' }">
-<div class="grid">
+<div class="grid justify-content-end">
     <div class="col-12 lg:col-4 md:col-4 lg:col-4" >
         <label >Product</label>
-        <p-dropdown  class="w-full" styleClass="w-full"   [options]="productData" 
+        <p-dropdown  class="w-full" styleClass="w-full"   [options]="productData" [(ngModel)]="existProduct"
                     optionLabel="ProductName" optionValue="ProductId" (onChange)="getExistingPayment()" >
         </p-dropdown> 
     </div>
@@ -1420,6 +1420,9 @@
                     optionLabel="CodeDesc" optionValue="Code" (onChange)="getExistingPayment()" >
         </p-dropdown> 
     </div>
+    <div class="col-12 lg:col-4 md:col-4 lg:col-4 " >
+    <p-button icon="pi pi-plus"  styleClass="p-button-outlined" label="Add Payment" (click)="paymentEdit(null)" />
+</div>
 </div>
     <p-table [value]="paymentData" [tableStyle]="{'min-width': '60rem'}" [rows]="5"
     [paginator]="true">
