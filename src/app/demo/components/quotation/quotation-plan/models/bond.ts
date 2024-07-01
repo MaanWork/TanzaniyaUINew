@@ -31,13 +31,35 @@ export class Bond{
                 {
                   fieldGroupClassName: 'grid',
                   fieldGroup: [
+                    {
+                      type: 'ngselect',
+                      key: 'IndustryId',
+                      defaultValue: '',
+                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                      templateOptions: {
+                        label: `Industry`,
+                        disabled: this.checkDisable('TypeOfBond'),
+                        required: true,
+                        options: [
+        
+                        ],
+        
+                      },
+                      validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      },
+                      hooks: {
+                      },
+                      expressions: {
+                      },
+                    },
                         {
                             type: 'ngselect',
                             key: 'TypeOfBond',
                             defaultValue: '',
                             className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                             templateOptions: {
-                              label: `Type Of Bond`,
+                              label: `Bond Type`,
                               disabled: this.checkDisable('TypeOfBond'),
                               required: true,
                               options: [

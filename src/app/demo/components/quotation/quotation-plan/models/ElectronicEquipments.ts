@@ -46,12 +46,12 @@ export class ElectronicEquipments{
                 // },
                 {
                   type: 'ngselect',
-                  key: 'ContentType',
+                  key: 'ContentId',
                   defaultValue: '',
                   className: 'col-12 lg:col-6 md:col-6 xl:col-6',
                   templateOptions: {
                     label: `Content Type`,
-                    placeholder: 'Select Region',
+                    placeholder: 'Select Content Type',
                    // disabled: true,
                     required: true,
                     options: [
@@ -106,7 +106,7 @@ export class ElectronicEquipments{
                   {
                     className: 'col-12 lg:col-6 md:col-6 xl:col-6 mt-2',
                     type: 'commaSeparator',
-                    key: 'Salary',
+                    key: 'ElecEquipSuminsured',
                     templateOptions: {
                       label: `Salary`,
                       required: true,
@@ -124,46 +124,7 @@ export class ElectronicEquipments{
                 ]
               }
             ]
-            // fieldGroup: [
-            //   {
-            //     fieldGroupClassName: 'newclassname',
-            //     fieldGroup: [
-            //       {
-            //         className: 'w-full md:mt-0 mt-3 md:w-1/3',
-            //         type: 'displays',
-            
-            //         templateOptions: {
-            //           label: `Sum Insured`,
-            //           required: true,
-  
-            //         },
-            //       },
-            //       {
-            //         className: 'w-full md:mt-0 mt-5 mdw-5',
-            //         type: 'commaSeparator',
-            //         key: 'AllriskSumInsured',
-  
-            //         props: {
-            //           //label: `Sum Insured`,
-            //           //(${this.commonDetails[0].Currency})`,
-            //           maxLength: 15,
-            //           disabled: this.checkDisable('AllriskSumInsured'),
-            //           //required: true,
-            //           options: [
-  
-            //           ],
-  
-            //         },
-            //         validators: {
-            //         },
-            //         hooks: {
-            //         },
-            //         expressions: {
-            //         },
-            //       },
-            //     ]
-            //   }
-            // ]
+          
           }
     }
   fields:FormlyFieldConfig;
