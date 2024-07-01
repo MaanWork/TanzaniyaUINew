@@ -835,14 +835,24 @@
                     <div class="flex flex-warp justify-content-center">
                         <p-button *ngIf="productId=='27'" label="Save & Add New" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </div>
+
                 </div>
                 
             </ng-container>
             
             <ng-container *ngIf="step.props.label=='Business All Risk' || step.props.label=='Electronic Equipment' || step.props.label=='Personal Accident'">
-                <div class="flex flex-warp justify-content-end">
-                    <button pButton  pRipple *ngIf="step.props.label=='Electronic Equipment' || step.props.label=='Personal Accident'" icon="pi pi-plus" label="Add New" class="p-button-outlined" (click)="openEE()" ></button>  
+                <div class="grid pl-5 pr-2 pb-0 w-full" *ngIf="step.props.label=='Electronic Equipment' || step.props.label=='Personal Accident'">
+                    <div class="lg:col-12 xl:col-12 md:col-12 col-12 m-0 p-0">
+                        <div class="flex flex-wrap justify-content-end" >
+                            <div>
+                                <button pButton  pRipple *ngIf="step.props.label=='Electronic Equipment' || step.props.label=='Personal Accident'" icon="pi pi-plus" label="Add New" class="p-button-outlined" (click)="openEE()" ></button>  
+                            </div>
+                        </div>
+                        
+                    </div>
                 </div>
+
+
                 <ng-container *ngIf="TableRowEE.length!=0 && step.props.label=='Electronic Equipment'">
                     <p-table [value]="TableRowEE"  [tableStyle]="{'min-width':'100rem'}" [paginator]="true" [rows]="2">
                         <ng-template pTemplate="header">
@@ -1438,7 +1448,7 @@
 
 
 
-<p-dialog header="Fedility Details" [(visible)]="isFedilityForm" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+<p-dialog header="Fedility Details" [(visible)]="isFedilityForm" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="true" [resizable]="false">
     <div class="body mt-1">
         <div class="grid p-2">
             <div class="col-12 lg:col-12 xl:col-12">

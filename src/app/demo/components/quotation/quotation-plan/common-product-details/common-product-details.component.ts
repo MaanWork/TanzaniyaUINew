@@ -2803,8 +2803,9 @@ backPlan()
     //   }
     //   this.currentFidelityIndex= this.fidelityList.length;
     //   this.fidelityList.push(entry);
-    this.isFedilityForm= true;
+    
   }
+  this.isFedilityForm= true;
   }
   onEditBuilding(rowData){
     this.productItem = new ProductData();
@@ -8173,9 +8174,9 @@ let requestNO=null;
         "RequestReferenceNo": requestNO,
         "RiskId": "1",
         "SectionId": "35",
-         "OccupationType": this.productItem.OccupationType,
-             "SumInsured": this.productItem.PersonalAccidentSuminsured,
-             "OtherOccupation":this.productItem.otheroptionPer,
+        "OccupationType": this.productItem.OccupationType,
+         "SumInsured": this.productItem.PersonalAccidentSuminsured,
+          "OtherOccupation":this.productItem.otheroptionPer,
           "TotalNoOfPersons": "1",
           "EndorsementDate": this.endorsementDate,
           "EndorsementEffectiveDate": this.endorsementEffectiveDate,
@@ -10854,21 +10855,23 @@ this.BuildingOwnerYn = type;
     this.FidelityListNew[this.currentFidelityIndex]['LiabilityOccupationId'] =  '99999';
     this.FidelityListNew[this.currentFidelityIndex]['FidEmpCount'] = this.productItem.FidEmpCount;
     this.FidelityListNew[this.currentFidelityIndex]['FidEmpSi'] = this.productItem.FidEmpSi;
-    if(this.productItem.LiabilityOccupationId!='99999'){
-      console.log(this.occupationList.find(ele=>ele.Code==this.productItem.LiabilityOccupationId).label);
-      this.FidelityListNew[this.currentFidelityIndex]['OtherOccupation'] = this.occupationList.find(ele=>ele.Code==this.productItem.LiabilityOccupationId).label
+    // if(this.productItem.LiabilityOccupationId!='99999'){
+    //   console.log(this.occupationList.find(ele=>ele.Code==this.productItem.LiabilityOccupationId).label);
+    //   this.FidelityListNew[this.currentFidelityIndex]['OtherOccupation'] = this.occupationList.find(ele=>ele.Code==this.productItem.LiabilityOccupationId).label
      
-    }
-    else{
-      this.FidelityListNew[this.currentFidelityIndex]['OtherOccupation'] = this.productItem.otherFioption;
-    }
+    // }
+    // else{
+    //   this.FidelityListNew[this.currentFidelityIndex]['OtherOccupation'] = this.productItem.otherFioption;
+    // }
     this.listnFed=false;
     this.listSectionFed= true;
-    this.isFedilityForm= false;
+    
+    
     //this.editFed=false;
   this.productItem.LiabilityOccupationId=null; this.productItem.FidEmpCount=null;
   this.productItem.FidEmpSi=null; this.productItem.otherFioption=null;
       // this.LocationName = null; this.BuildingAddress = null; this.BuildingSuminsured = null;
+      this.isFedilityForm= false;
   }
   checkManda(){
     let errorList = [];
