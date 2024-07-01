@@ -4250,11 +4250,10 @@ backPlan()
     //console.log(this.currentPAIndex,"this.currentPAIndex");
     this.getPersonalAccidentDetails(rowData);
   }
-  editEE(rowData){
-    alert(rowData.RiskId)
+  editEE(rowData,index){
      let edit = rowData.RiskId;
      this.currentEEIndex = edit;
-     if(edit==undefined) this.currentEEIndex=0;
+     if(edit==undefined) this.currentEEIndex=index+1;
      this.isEEForm=true;
      this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.ContentId);
     this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(rowData.ElecEquipSuminsured);
