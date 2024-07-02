@@ -135,7 +135,7 @@ export class Money{
                     maxLength: 15
                   },
                   templateOptions: {
-                    disabled: this.checkDisable('SumInsured')
+                   // disabled: this.checkDisable('SumInsured')
                   },
                   validators: {
                     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
@@ -156,7 +156,7 @@ export class Money{
                       maxLength: 15
                     },
                     templateOptions: {
-                      disabled: this.checkDisable('SumInsured')
+                     // disabled: this.checkDisable('SumInsured')
                     },
                     validators: {
                       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
@@ -177,7 +177,7 @@ export class Money{
                       maxLength: 15
                     },
                     templateOptions: {
-                      disabled: this.checkDisable('SumInsured')
+                      //disabled: this.checkDisable('SumInsured')
                     },
                     validators: {
                       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
@@ -198,7 +198,7 @@ export class Money{
                       maxLength: 15
                     },
                     templateOptions: {
-                      disabled: this.checkDisable('SumInsured')
+                     // disabled: this.checkDisable('SumInsured')
                     },
                     validators: {
                       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
@@ -219,7 +219,7 @@ export class Money{
                       maxLength: 15
                     },
                     templateOptions: {
-                      disabled: this.checkDisable('SumInsured')
+                      //disabled: this.checkDisable('SumInsured')
                     },
                     validators: {
                       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
@@ -240,7 +240,7 @@ export class Money{
                       maxLength: 15
                     },
                     templateOptions: {
-                      disabled: this.checkDisable('SumInsured')
+                     // disabled: this.checkDisable('SumInsured')
                     },
                     validators: {
                       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]

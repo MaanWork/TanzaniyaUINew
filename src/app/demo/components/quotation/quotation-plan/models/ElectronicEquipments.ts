@@ -108,7 +108,7 @@ export class ElectronicEquipments{
                     type: 'commaSeparator',
                     key: 'ElecEquipSuminsured',
                     templateOptions: {
-                      label: `Salary`,
+                      label: `Sum Insured`,
                       required: true,
                       disabled: this.checkDisable('Salary'),
                       maxLength: 15
