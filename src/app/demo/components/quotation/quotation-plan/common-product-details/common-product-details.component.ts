@@ -239,6 +239,11 @@ export class CommonProductDetailsComponent {
   contentTypeDuplicateError: boolean=false;
   currentEEIndex: any=0;
   fireSectionList: any[]=[];
+  sumInsuredError: boolean;
+  PersonNameError: boolean;
+  LocationNameError: boolean;
+  OccupationError: boolean;
+  DobError: boolean;
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -521,7 +526,6 @@ export class CommonProductDetailsComponent {
           this.fireIndustryList = obj.concat(data.Result);
           let entry = this.fireIndustypeList.find(ele=>ele.Code==this.IndustryTypes)?.CodeDesc;
           if(entry) this.IndustryTypeValue = entry;
-          this.getFireSectionList();
         }
       },
       (err) => { },
@@ -539,26 +543,8 @@ export class CommonProductDetailsComponent {
         if(data.Result){
           let obj = [{"Code":null,"CodeDesc":"- - Select - -"}]
           this.fireSectionList = data.Result;
-         
           this.productNameList  = data.Result;
-            let i=0;
-            alert(this.fireSectionList.length)
-            for (i = 0; i < this.fireSectionList.length; ){
-              if(this.fireSectionList[i].IndustryType=='G'){
-                // this.fireSectionList[i].IndustryType.length();
-                // this.productNameList= this.fireSectionList.find(ele=>ele.IndustryType=='G')?.CodeDesc;
-                
-              }
-              else if(this.fireSectionList[i].IndustryType!='G'){
-                //this.productNameList= this.fireSectionList.find(ele=>ele.IndustryType!='G')?.CodeDesc;
-               
-              }
-              i++
-              
-              console.log(this.productNameList,"this.productNameList");
-            //  this.productNameList = [entry];
-           }
-           
+          this.filterSectionList('direct')
         }
       },
       (err) => { },
@@ -629,6 +615,11 @@ export class CommonProductDetailsComponent {
      // console.log("Occupation",this.productItem.LiabilityOccupationId)
      // this.isEmployeeForm = true;
    }
+   filterSectionList(type){
+    if(this.IndustryTypes=='57'){this.productNameList=this.fireSectionList.filter(ele=>ele.IndustryType=='G')}
+    else{this.productNameList=this.fireSectionList.filter(ele=>ele.IndustryType!='G')};
+    if(type=='change') this.industryValue = null;
+  }
    onEditFire(rowData){
       console.log("Final RowData",rowData);
        this.editss=true;
@@ -644,6 +635,7 @@ export class CommonProductDetailsComponent {
        this.industryDesc = rowData.OccupationDesc;
        this.LocationName = rowData.LocationName;
        this.region = rowData.RegionCode;
+       this.filterSectionList('direct')
        this.ongetDistrictList('region');
        this.stateName = rowData.DistrictCode;
        this.FirstLossSumInsured= rowData.FirstLossSumInsured;
@@ -4874,6 +4866,33 @@ backPlan()
         }
       }
   }
+  checkPAValidation() {
+    this.LocationNameError=false;this.OccupationError =false;this.PersonNameError=false;
+    this.DobError=false;this.sumInsuredError=false;
+    let i=0;
+    if(this.productItem.LocationName==null || this.productItem.LocationName==undefined || this.productItem.LocationName==''){
+      this.LocationNameError = true;
+      i+=1;
+    }
+    if(this.productItem.OccupationType==null || this.productItem.OccupationType==undefined || this.productItem.OccupationType==''){
+      this.OccupationError = true;
+      i+=1;
+    }
+    if(this.productItem.Name==null || this.productItem.Name==undefined || this.productItem.Name==''){
+      this.PersonNameError = true;
+      i+=1;
+    }
+    if(this.productItem.Dob==null || this.productItem.Dob==undefined || this.productItem.Dob==''){
+      this.DobError = true;
+      i+=1;
+    }
+    if(this.productItem.SumInsured==null || this.productItem.SumInsured==undefined || this.productItem.SumInsured=='' || this.productItem.SumInsured==0){
+      this.sumInsuredError = true;
+      i+=1;
+    }
+    if(i==0) return true;
+    else return false;
+  }
   checkValidation(){
     this.customerError = false;this.policyStartDateError = false;this.policyEndDateError = false;
     this.currencyCodeError = false;this.industryError = false;this.exchangeRateError=false;
@@ -7947,6 +7966,8 @@ finalSaveMoney(finalList,type,formType) {
   }
   addPA(rowData){
     let dob = null
+    let valid = this.checkPAValidation();
+    if(valid){
     if(rowData.Dob!=null && rowData.Dob!='' && rowData.Dob!=undefined){
       if(String(rowData.Dob).split('/').length==1) dob = this.datePipe.transform(rowData.Dob,'dd/MM/yyyy');
       else dob = rowData.Dob
@@ -7981,7 +8002,7 @@ finalSaveMoney(finalList,type,formType) {
     this.form.reset();
     this.isEEForm=false;
     console.log( this.tableRowPA," this.tableRowPA");
-    
+  }
   }
   onSaveBond(type,formType){
     this.subuserType = sessionStorage.getItem('typeValue');

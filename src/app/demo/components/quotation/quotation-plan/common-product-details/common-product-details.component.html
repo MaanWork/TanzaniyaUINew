@@ -937,6 +937,24 @@
                                     <span class="spancommon span_font_size">Please Enter Valid Sum Insured</span>
                                 </div>
                             </div>
+                            <div class="input-form-error bottomSpacing" *ngIf="LocationNameError || OccupationError 
+                            || PersonNameError || DobError|| sumInsuredError">
+                                <div class="error-text text-danger" *ngIf="LocationNameError">
+                                    <span class="spancommon span_font_size"> Please Enter LocationName</span>
+                                </div>
+                                <div class="error-text text-danger" *ngIf="OccupationError">
+                                    <span class="spancommon span_font_size">Please Select Occupation </span>
+                                </div>
+                                <div class="error-text text-danger" *ngIf="PersonNameError">
+                                    <span class="spancommon span_font_size">Please Enter Person Name </span>
+                                </div>
+                                <div class="error-text text-danger" *ngIf="DobError">
+                                    <span class="spancommon span_font_size">Please Select DOB </span>
+                                </div>
+                                <div class="error-text text-danger" *ngIf="sumInsuredError">
+                                    <span class="spancommon span_font_size">Please Enter sum Insured </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="flex flex-warp justify-content-center">
@@ -1069,7 +1087,7 @@
                             <div class="input-form-radio-box mt-2">
                                 <div class="radio-toolbar1 radio-toolbar">
                                     <ng-container *ngFor="let entry of fireIndustypeList,let i=index">
-                                        <input [id]="'type'+i" type="radio" name="rentOwnHome" [(ngModel)]="IndustryTypes" [value]="entry.Code" (change)="getFireIndustryList('change')">
+                                        <input [id]="'type'+i" type="radio" name="rentOwnHome" [(ngModel)]="IndustryTypes" [value]="entry.Code" (change)="getFireIndustryList('change');filterSectionList('change')">
                                         <label [for]="'type'+i" style="background-color: primary;" ><img style="max-width: 30px;max-height: 10px;">{{entry.CodeDesc}}</label>
                                     </ng-container>
                                 </div>
