@@ -114,6 +114,7 @@ export class InsurenceEmpComponent {
   PolicyCommission: any=null;
   companyId: any=null;
   viewIssuerDetails: any=null;
+  selectedProductId: any;
   constructor(private router:Router,
     private sharedService:SharedService,public datePipe:DatePipe) {
      this.productId =  sessionStorage.getItem('companyProductId');
@@ -291,15 +292,8 @@ export class InsurenceEmpComponent {
     }
   }
   quotationMenuList(value){
-    let session =sessionStorage.getItem('subUserType')
-    if(value!=session){
       this.issuerLoginId=value.LoginId;
       this.subUserType=value.SubUserType;
-    }
-    else{
-      this.subUserType=session;
-      sessionStorage.removeItem('subUserType');
-    }
    
     
     this.ProductsPopup=true;
@@ -751,10 +745,10 @@ getIssuerMenuList(){
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if(data?.Result){
-            this.userList = data?.Result?.UserList;
-            console.log('User List',this.userList);
-            this.issuerList = data?.Result?.AdminList;
-            console.log('Issuer List',this.issuerList);
+            //this.userList = data?.Result?.UserList;
+            //this.userList = data?.Result?.AdminList;
+           this.userList = data?.Result?.MenuList;
+           this.includedUserList = [];
             this.getMenuIds();
         }
       },
@@ -780,7 +774,7 @@ getMenuIds(){
                 if(this.userList.length!=0){
                 let index = this.userList?.findIndex(ele=>ele.id==entry);
                 console.log('ooooooooooooooooo',index);
-                if(index>0){
+                if(index!=null && index!=undefined){
                 this.includedUserList.push(this.userList[index]);
                 this.userList.splice(index,1);
                 console.log("Checked",result);
@@ -1049,6 +1043,9 @@ onChangeSumInsuredStart(rowData){
 checkSelectedProducts(rowData){
   return rowData.IsOptedYn=='Y';
 }
+onCheckEndorseSelect(rowData){
+  return rowData.SelectedYn=='Y';
+}
 onChangeSelectedProduct(rowData,check){
   console.log('Checked Statusss',rowData,check)
   if(check){
@@ -1125,7 +1122,7 @@ onsubmit(reqList,type){
               this.ProductsPopup=true;
               this.subUserType=sessionStorage.getItem('subUserType')
              
-              this.quotationMenuList(this.subUserType);
+              this.quotationMenuList({"LoginId":this.issuerLoginId,"SubUserType":this.subUserType});
             }
             else{
             this.productSection = false;
@@ -1151,9 +1148,9 @@ showEndorsement(row){
   this.endorseSection = true;
   this.EndorsPopupTable=true;
   this.categoryId="1";
+  this.selectedProductId = row.ProductId
   //this.productIds=row.ProductId;
-  this.getEndorsementList(row);
-  this.onProceedEndorse('endorse');
+  this.getEndorsementList();
 
   if(this.productIds){
     this.categoryList = [
@@ -1162,12 +1159,21 @@ showEndorsement(row){
     ]
   }
 }
-getEndorsementList(rowData){
+onSelectendorse(rowData,event,i){
+  if(event){
+      rowData.SelectedYn = 'Y';
+      //rowData.Checked = true;
+  }
+  else{
+      rowData.SelectedYn = 'N';
+  }
+}
+getEndorsementList(){
   let s=sessionStorage.getItem('userproduct')
   let ReqObj={
     "CompanyId":this.insuranceId,
     "EndtTypeCategoryId": this.categoryId,
-    "ProductId": rowData.ProductId,
+    "ProductId": this.selectedProductId,
     "LoginId":this.issuerLoginId//this.loginId
     //"LoginId":this.issuerLoginId
   }
@@ -1240,7 +1246,7 @@ onProceedEndorse(type){
      "LoginId":this.issuerLoginId,
      "InsuranceId":this.insuranceId,
      "CreatedBy":this.loginId,
-     "ProductId":product,
+     "ProductId":this.selectedProductId,
      "IdType":types,
      "Ids":req
     }
