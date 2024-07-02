@@ -162,7 +162,7 @@ export class PersonalAccident{
                     key: 'SumInsured',
                     defaultValue: '0',
                     templateOptions: {
-                      label: `Salary`,
+                      label: `Sum Insured`,
                       maxLength: 15,
                       disabled: this.checkDisable('SumInsured'),
                       required: true,

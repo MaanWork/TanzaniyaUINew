@@ -841,7 +841,7 @@
             </ng-container>
             
             <ng-container *ngIf="step.props.label=='Business All Risk' || step.props.label=='Electronic Equipment' || step.props.label=='Personal Accident'">
-                <div class="grid pl-5 pr-2 pb-0 w-full" *ngIf="step.props.label=='Electronic Equipment' || step.props.label=='Personal Accident'">
+                <!-- <div class="grid pl-5 pr-2 pb-0 w-full" *ngIf="step.props.label=='Electronic Equipment' || step.props.label=='Personal Accident'">
                     <div class="lg:col-12 xl:col-12 md:col-12 col-12 m-0 p-0">
                         <div class="flex flex-wrap justify-content-end" >
                             <div>
@@ -850,7 +850,7 @@
                         </div>
                         
                     </div>
-                </div>
+                </div> -->
 
 
                 <ng-container *ngIf="TableRowEE.length!=0 && step.props.label=='Electronic Equipment'">
@@ -859,7 +859,7 @@
                             <tr>
                                 <th>S.No</th>
                                 <th>ContentType</th>
-                                <th>Salary</th>
+                                <th>Equipment Value</th>
                                 <th>Edit</th>
                                 <th *ngIf="TableRowEE.length>1">Delete</th>
                             </tr>
@@ -912,16 +912,17 @@
                         </p-table>
                 </ng-container>
             <ng-container  >
-                <p-dialog header="{{ step.props.label }}" [(visible)]="isEEForm" [modal]="true" styleClass="w-10 md:w-5 lg:w-5" [draggable]="false" [resizable]="false">
-                <!-- <div class=" col-12  splitCard">
+                <!-- <p-dialog header="{{ step.props.label }}" [(visible)]="isEEForm" [modal]="true" styleClass="w-10 md:w-5 lg:w-5" [draggable]="false" [resizable]="false"> -->
+                <div class=" col-12  splitCard">
                     <div class="col-md-12 col-lg-12 col-xl-12 splitCardHeader d-flex justify-content-between m-0 p-0" (click)="selectedIndex=index">
                         <div (click)="selectedIndex=index" class=""><h4 class="headings2 m-0 p-0">{{ step.props.label }}</h4></div>
                         <div class="pr-3 pt-1">
                             
                         </div>
-                    </div> -->
+                    </div>
                     <div class="grid">
-                        <div class="col-12 lg:col-12 md:col-12 lx:col-12">
+                        <div class="col-12 lg:col-2 md:col-2 lx:col-2"></div>
+                        <div class="col-12 lg:col-8 md:col-8 lx:col-8">
                             <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)" [appendTo]="body">
                                 <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem" ></formly-form>
                             </form>
@@ -939,12 +940,12 @@
                         </div>
                     </div>
                     <div class="flex flex-warp justify-content-center">
-                        <p-button  label="Cancel" size="small" (click)="isEEForm=false"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <!-- <p-button  label="Cancel" size="small" (click)="isEEForm=false"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
                         <p-button  label="Save & Add New" *ngIf="step.props.label=='Electronic Equipment'" size="small" (click)="saveElectronicEquip(productItem)"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <p-button  label="Save & Add New" *ngIf="step.props.label=='Personal Accident'" size="small" (click)="addPA(productItem)"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </div>
-                <!-- </div> -->
-            </p-dialog>
+                </div>
+            <!-- </p-dialog> -->
             </ng-container>
 
             </ng-container>

@@ -238,6 +238,7 @@ export class CommonProductDetailsComponent {
   isEEForm: boolean=false;
   contentTypeDuplicateError: boolean=false;
   currentEEIndex: any=0;
+  fireSectionList: any[]=[];
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -520,6 +521,7 @@ export class CommonProductDetailsComponent {
           this.fireIndustryList = obj.concat(data.Result);
           let entry = this.fireIndustypeList.find(ele=>ele.Code==this.IndustryTypes)?.CodeDesc;
           if(entry) this.IndustryTypeValue = entry;
+          this.getFireSectionList();
         }
       },
       (err) => { },
@@ -536,7 +538,27 @@ export class CommonProductDetailsComponent {
       (data: any) => {
         if(data.Result){
           let obj = [{"Code":null,"CodeDesc":"- - Select - -"}]
-          this.productNameList = obj.concat(data.Result);
+          this.fireSectionList = data.Result;
+         
+          this.productNameList  = data.Result;
+            let i=0;
+            alert(this.fireSectionList.length)
+            for (i = 0; i < this.fireSectionList.length; ){
+              if(this.fireSectionList[i].IndustryType=='G'){
+                // this.fireSectionList[i].IndustryType.length();
+                // this.productNameList= this.fireSectionList.find(ele=>ele.IndustryType=='G')?.CodeDesc;
+                
+              }
+              else if(this.fireSectionList[i].IndustryType!='G'){
+                //this.productNameList= this.fireSectionList.find(ele=>ele.IndustryType!='G')?.CodeDesc;
+               
+              }
+              i++
+              
+              console.log(this.productNameList,"this.productNameList");
+            //  this.productNameList = [entry];
+           }
+           
         }
       },
       (err) => { },
