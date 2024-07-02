@@ -8663,7 +8663,7 @@ let requestNO=null;
                 if(this.productId=='13'){
                   if(this.fields[0].props.label=='Personal Liability' || this.fields[0].props.label=='Personal Accident'){
                     let defaultObj = [{ 'label': '-Select-', 'value': '' }]
-                  this.fields[0].fieldGroup[0].fieldGroup[1].templateOptions.options = defaultObj.concat(this.occupationList);
+                  this.fields[0].fieldGroup[0].fieldGroup[0].templateOptions.options = defaultObj.concat(this.occupationList);
                   }
                 }
                 else if(this.productId=='19' || this.productId=='59' || this.productId=='24'  || this.productId=='60'){
@@ -10900,9 +10900,9 @@ this.BuildingOwnerYn = type;
     // this.productItem.FidEmpSi=0;
     // this.productItem.FidEmpCount=0;
     // this.productItem.otherFioption='';
-    this.FidelityListNew[this.currentFidelityIndex]['LiabilityOccupationId'] =  '99999';
-    this.FidelityListNew[this.currentFidelityIndex]['FidEmpCount'] = this.productItem.FidEmpCount;
-    this.FidelityListNew[this.currentFidelityIndex]['FidEmpSi'] = this.productItem.FidEmpSi;
+    // this.FidelityListNew[this.currentFidelityIndex]['LiabilityOccupationId'] =  '99999';
+    // this.FidelityListNew[this.currentFidelityIndex]['FidEmpCount'] = this.productItem.FidEmpCount;
+    // this.FidelityListNew[this.currentFidelityIndex]['FidEmpSi'] = this.productItem.FidEmpSi;
     // if(this.productItem.LiabilityOccupationId!='99999'){
     //   console.log(this.occupationList.find(ele=>ele.Code==this.productItem.LiabilityOccupationId).label);
     //   this.FidelityListNew[this.currentFidelityIndex]['OtherOccupation'] = this.occupationList.find(ele=>ele.Code==this.productItem.LiabilityOccupationId).label
@@ -11812,6 +11812,7 @@ this.BuildingOwnerYn = type;
 
     onSaveFidelityDetails(type,formType){
       console.log('DDDDD',this.FidelityListNew)
+      this.onsubmitnewfed();
       if(this.FidelityListNew.length!=0){
         this.employeeError = false;
         let i=0;
