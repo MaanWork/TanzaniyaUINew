@@ -529,49 +529,24 @@
                     <h4 class="m-0 p-0">Fidelity Details</h4>
                 </div>
             </div>
-            <div class="grid pl-5 pr-2 pb-0">
-                <div class="lg:col-10 xl:col-10 md:col-10 col-10 m-0 p-0">
-                    <div class="flex flex-wrap justify-content-end">
-                        <div>
-                            <p-button  styleClass="p-button-outlined"
-                                size="small" (click)="createCover4(null,myModal3)" > <i class="fas fa-plus"></i>&nbsp;Add New Employee
-                            </p-button>&nbsp;
-                        </div>
+            <div class="body mt-1">
+                <div class="grid p-2">
+                    <div class="col-12 lg:col-3 xl:col-3 md:col-3"></div>
+                    <div class="col-12 lg:col-6 xl:col-6 md:col-6">
+                        <form [formGroup]="form">
+                            <formly-form [form]="form" [fields]="fieldsFidelity" [model]="productItem"></formly-form>
+                        </form>
                     </div>
-                    
                 </div>
+                
             </div>
-            <div class="grid ml-5 mt-2">
-                <div class="lg:col-10 xl:col-10 md:col-10 col-10 m-0 p-0 ">
-                    <ng-container *ngIf="FidelityListNew.length!=0">
-                        <p-table [value]="FidelityListNew" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th [pSortableColumn]="queryHeader4" *ngFor="let column of queryHeader4">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-group>
-                                <tr>
-                                <td>
-                                    {{group?.FidEmpCount}}
-                                </td>
-                                <td>{{group?.FidEmpSi}}</td>
-                                <td>
-                                    <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditGroup(group)"></button>  
-                                </td>
-                                <td>
-                                    <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="deleteGroup(group)"></button>  
-                                </td>
-                                </tr>
-                            </ng-template>
-                            </p-table>
-                    </ng-container>
-                    <ng-container *ngIf="FidelityListNew.length==0">
-                            <div class="flex flex-wrap justify-content-center">
-                                <b>No Employees Avaliabe</b>
-                            </div>
-                    </ng-container>
-                </div>
+            <div class="flex flex-wrap justify-content-center">
+                <p-button  styleClass="p-button-outlined" label="Cancel"
+                size="small" *ngIf="editss" (click)="cancelnes()"></p-button>&nbsp;
+                <p-button  styleClass="p-button-outlined" label="Cancel"
+                    size="small" *ngIf="!editss" (click)="cancelnew()"></p-button>&nbsp;
+                <p-button 
+                    label="Submit" size="small" (click)="onsubmitnewfed()"></p-button>
             </div>
 
         </div>
@@ -851,7 +826,7 @@
                         
                     </div>
                 </div> -->
-
+                
 
                 <ng-container *ngIf="TableRowEE.length!=0 && step.props.label=='Electronic Equipment'">
                     <p-table [value]="TableRowEE"  [tableStyle]="{'min-width':'100rem'}" [paginator]="true" [rows]="2">
@@ -896,7 +871,7 @@
                         <ng-template pTemplate="body" let-PA let-i="rowIndex">
                             <tr>
                             <td>{{i+1}}</td>
-                            <td>{{PA.PersonName}}</td>
+                            <td>{{PA.CustomerName}}</td>
                             <td>{{PA.LocationName}}</td>
                             <td>{{PA.OccupationId}}</td>
                             <td>{{PA.Dob}}</td>
@@ -1395,7 +1370,10 @@
         </ng-container>
     <p-button label="Next" size="small" *ngIf="productId=='46' && currentIndex!=totalIndex" (click)="onFormSubmit('Next')"></p-button>
     </div>
-    <div class="flex justify-content-center mt-3" *ngIf="productId=='1' || productId=='6' || productId=='39' || productId=='43' || productId=='46' || productId=='16' || productId=='42' || productId=='21' || productId=='14' || productId=='15' || productId=='59' || productId=='60' || productId=='57' || productId=='56' || productId=='26' || productId=='25' || productId=='13' || this.productId=='27' || this.productId=='24' || this.productId=='19' || this.productId=='32'|| this.productId=='61'">
+    <div class="flex justify-content-center mt-3" *ngIf="productId=='1' || productId=='6' || productId=='39' || productId=='43' || productId=='46' || productId=='16' 
+    || productId=='42' || productId=='21' || productId=='14' || productId=='15' || productId=='59' || productId=='60' 
+    || productId=='57' || productId=='56' || productId=='26' || productId=='25' || productId=='13' || this.productId=='27' 
+    || this.productId=='24' || this.productId=='19' || this.productId=='32'|| this.productId=='61'">
         <p-button  styleClass="p-button-outlined" label="Back"
             size="small" [routerLink]="['/quotation']" routerLinkActive="router-link-active" ></p-button>&nbsp;
             
@@ -1467,26 +1445,9 @@
 
 
 
-<p-dialog header="Fedility Details" [(visible)]="isFedilityForm" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="true" [resizable]="false">
-    <div class="body mt-1">
-        <div class="grid p-2">
-            <div class="col-12 lg:col-12 xl:col-12">
-                <form [formGroup]="form">
-                    <formly-form [form]="form" [fields]="fieldsFidelity" [model]="productItem"></formly-form>
-                </form>
-            </div>
-        </div>
-        
-    </div>
-    <div class="flex flex-wrap justify-content-center">
-        <p-button  styleClass="p-button-outlined" label="Cancel"
-        size="small" *ngIf="editss" (click)="cancelnes()"></p-button>&nbsp;
-        <p-button  styleClass="p-button-outlined" label="Cancel"
-            size="small" *ngIf="!editss" (click)="cancelnew()"></p-button>&nbsp;
-        <p-button 
-            label="Submit" size="small" (click)="onsubmitnewfed()"></p-button>
-    </div>
-</p-dialog>
+<!-- <p-dialog header="Fedility Details" [(visible)]="isFedilityForm" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="true" [resizable]="false">
+    
+</p-dialog> -->
 
 
 

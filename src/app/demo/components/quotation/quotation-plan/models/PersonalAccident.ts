@@ -28,24 +28,24 @@ export class PersonalAccident{
               {
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
-                  {
-                    type: 'input',
-                    key: 'LocationName',
-                    defaultValue: '',
-                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-                    templateOptions: {
-                      label: `Location`,
-                      required: true,
-                      placeholder: 'Enter LocationName',
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                },
+                //   {
+                //     type: 'input',
+                //     key: 'LocationName',
+                //     defaultValue: '',
+                //     className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                //     templateOptions: {
+                //       label: `Location`,
+                //       required: true,
+                //       placeholder: 'Enter LocationName',
+                //     },
+                //     validators: {
+                //       validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
+                //     },
+                //     hooks: {
+                //     },
+                //     expressions: {
+                //     },
+                // },
                 // {
                 //   type: 'ngselect',
                 //   key: 'Region',

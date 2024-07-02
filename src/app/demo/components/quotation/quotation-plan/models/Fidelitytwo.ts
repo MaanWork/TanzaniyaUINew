@@ -29,53 +29,14 @@ export class Fidelitytwo{
             {
               fieldGroup: [
                 {
-                  fieldGroupClassName: 'row',
+                  fieldGroupClassName: 'grid',
                   fieldGroup: [
                     {
-                      fieldGroupClassName: 'row',
+                      fieldGroupClassName: 'grid',
                       fieldGroup: [
-                        // {
-                        //     type: 'ngselect',
-                        //     key: 'LiabilityOccupationId',
-                        //     defaultValue: '',
-                        //     className: 'col-12',
-                        //     props: {
-                        //       label: `Occupation`,
-                        //       disabled: this.checkDisable('OccupationType'),
-                        //       required: true,
-                        //       options: [
-              
-                        //       ],
-              
-                        //     },
-                        //     validators: {
-                        //       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                        //     },
-                        //     hooks: {
-                        //     },
-                        //     expressions: {
-                        //     },
-                        //   },
-                          // {
-                          //   type: 'input',
-                          //   key: 'otherFioption',
-                          //   defaultValue: '',
-                          //   className: 'col-12',
-                          //   props: {
-                          //     label: `Others Description`,
-                          //     disabled: this.checkDisable('LiabilityOccupationId'),
-                          //   },
-                          //   validators: {
-                          //     validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
-                          //   },
-                          //   hooks: {
-                          //   },
-                          //   expressions: {
-                          //   },
-      
-                          // },
+                       
                           {
-                            className: 'col-12',
+                            className: 'col-12 md:col-6 lg:col-6 lx:col-6',
                             type: 'number',
                             key: 'FidEmpCount',
                             templateOptions: {
@@ -90,11 +51,11 @@ export class Fidelitytwo{
                           
                           {
                             type: 'commaSeparator',
-                            className: 'col-12',
+                            className: 'col-12 md:col-6 lg:col-6 lx:col-6',
                             key: 'FidEmpSi',
                             defaultValue: '0',
                             props: {
-                              label: `SumInsured`,
+                              label: `Sum Insured`,
                               disabled: this.checkDisable('SumInsured'),
                               maxLength: 15,
                               required: true,
