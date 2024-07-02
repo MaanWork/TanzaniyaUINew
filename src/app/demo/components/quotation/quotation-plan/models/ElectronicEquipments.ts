@@ -67,42 +67,42 @@ export class ElectronicEquipments{
                   expressions: {
                   },
                 },
-            //     {
-            //       type: 'input',
-            //       key: 'Serial',
-            //       defaultValue: '',
-            //       className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-            //       templateOptions: {
-            //         label: `Serial No`,
-            //         required: true,
-            //         placeholder: 'Enter Serial No',
-            //       },
-            //       validators: {
-            //         validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
-            //       },
-            //       hooks: {
-            //       },
-            //       expressions: {
-            //       },
-            //   },
-            //   {
-            //     type: 'input',
-            //     key: 'Description',
-            //     defaultValue: '',
-            //     className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-            //     templateOptions: {
-            //       label: `Description`,
-            //       required: true,
-            //       placeholder: 'Enter Description',
-            //     },
-            //     validators: {
-            //       validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
-            //     },
-            //     hooks: {
-            //     },
-            //     expressions: {
-            //     },
-            // },
+                {
+                  type: 'input',
+                  key: 'Serial',
+                  defaultValue: '',
+                  className: 'col-12 lg:col-6 md:col-6 xl:col-6',
+                  templateOptions: {
+                    label: `Serial No`,
+                    required: true,
+                    placeholder: 'Enter Serial No',
+                  },
+                  validators: {
+                    validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
+                  },
+                  hooks: {
+                  },
+                  expressions: {
+                  },
+              },
+              {
+                type: 'input',
+                key: 'Description',
+                defaultValue: '',
+                className: 'col-12 lg:col-6 md:col-6 xl:col-6',
+                templateOptions: {
+                  label: `Description`,
+                  required: true,
+                  placeholder: 'Enter Description',
+                },
+                validators: {
+                  validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
+                },
+                hooks: {
+                },
+                expressions: {
+                },
+            },
                   {
                     className: 'col-12 lg:col-6 md:col-6 xl:col-6 mt-2',
                     type: 'commaSeparator',

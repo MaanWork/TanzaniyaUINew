@@ -81,7 +81,7 @@
                 </div>
                 <div class="lg:col-4 md:col-4 col-12">
                     <label for="username">Currency*</label>
-                    <p-dropdown inputId="make" class="w-full" styleClass="w-full"  [options]="currencyList"
+                    <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="make" class="w-full" styleClass="w-full"  [options]="currencyList"
                     [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')"
                         optionLabel="CodeDesc" optionValue="Code" >
                     </p-dropdown>
@@ -143,7 +143,7 @@
             <div class="grid mt-1">
                     <div class="lg:col-6 md:col-6 col-12">
                         <label for="username">Source Type *</label>
-                        <p-dropdown inputId="sourceType" class="w-full" styleClass="w-full"
+                        <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="sourceType" class="w-full" styleClass="w-full"
                         [options]="productList13" [(ngModel)]="Code" (onChange)="onSourceTypeChange('change')" optionLabel="CodeDesc" optionValue="Code" placeholder="Select SourceType">
                         </p-dropdown>
                     </div>
@@ -217,7 +217,7 @@
                     <div class="lg:col-6 md:col-6 col-12" *ngIf="productId=='6' || this.productId=='16' || productId=='39' || productId=='14' || productId=='15' || productId=='32' || productId=='1' || productId=='21' 
                     || this.productId=='25' || productId=='13' || productId=='24'"><!--|| productId=='57'-->
                             <label for="username">Industry</label>
-                            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="industryList"
+                            <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="make" class="w-full" styleClass="w-full" [options]="industryList"
                                 [(ngModel)]="IndustryId" 
                                 optionLabel="CodeDesc" optionValue="Code" placeholder="Select Industry">
                             </p-dropdown>
@@ -264,7 +264,7 @@
                 </div>
                 <div class="lg:col-3 md:col-3 col-12">
                     <label for="username">Currency*</label>
-                    <p-dropdown inputId="make" class="w-full" styleClass="w-full"  [options]="currencyList"
+                    <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="make" class="w-full" styleClass="w-full"  [options]="currencyList"
                     [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')"
                         optionLabel="CodeDesc" optionValue="Code" >
                     </p-dropdown>
@@ -282,7 +282,7 @@
                 <div class="lg:col-3 md:col-3 col-12" *ngIf="this.productId=='16' || productId=='39' || productId=='14' || productId=='15' || productId=='32' || productId=='1' || productId=='21'
                     || this.productId=='25' || productId=='13' || productId=='24' "><!--|| productId=='57'-->
                         <label for="username">Industry</label>
-                        <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="industryList"
+                        <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="make" class="w-full" styleClass="w-full" [options]="industryList"
                             [(ngModel)]="IndustryId" 
                             optionLabel="CodeDesc" optionValue="Code" placeholder="Select Industry">
                         </p-dropdown>
@@ -310,19 +310,19 @@
                 <div class="grid mt-2">
                     <div class="col-12 lg:col-6 md:col-6 lx:col-6">
                         <label for="">Destination Country</label>
-                            <p-dropdown  class="w-full" styleClass="w-full" [options]="countryList"
+                            <p-dropdown [filter]="true" filterBy="CodeDesc" class="w-full" styleClass="w-full" [options]="countryList"
                             [(ngModel)]="country"  (onChange)="premiunDropdown4(country)"  optionLabel="CodeDesc" optionValue="Code"  placeholder="Select Destination Country">
                         </p-dropdown>
                     </div>
                     <div class="col-12 lg:col-6 md:col-6 lx:col-6" *ngIf="premiumList.length!=0 || country" >
                         <label for="">Premium Plan*</label>
-                            <p-dropdown  class="w-full" styleClass="w-full" [options]="premiumList"
+                            <p-dropdown [filter]="true" filterBy="CodeDesc" class="w-full" styleClass="w-full" [options]="premiumList"
                             [(ngModel)]="premium" (onChange)="getPlanTypeList(premium)"  optionLabel="CodeDesc" optionValue="Code" placeholder="Select Premium Plan">
                         </p-dropdown>
                     </div>
                     <div class="col-12 lg:col-6 md:col-6 lx:col-6" *ngIf="planTypeList.length!=0 || premium">
                         <label for="">Type Of Plan</label><a style="text-decoration:underline;color: rgb(18, 174, 236);cursor: pointer;" (click)="viewplanBenifits()">View Plan Benefits</a>
-                            <p-dropdown  class="w-full" styleClass="w-full" [options]="planTypeList"
+                            <p-dropdown [filter]="true" filterBy="CodeDesc" class="w-full" styleClass="w-full" [options]="planTypeList"
                             [(ngModel)]="planType" optionLabel="CodeDesc" optionValue="Code" placeholder="Select Type Of Plan">
                         </p-dropdown>
                     </div>
@@ -833,6 +833,8 @@
                             <tr>
                                 <th>S.No</th>
                                 <th>ContentType</th>
+                                <th>Serial No</th>
+                                <th>Description</th>
                                 <th>Equipment Value</th>
                                 <th>Edit</th>
                                 <th *ngIf="TableRowEE.length>1">Delete</th>
@@ -842,6 +844,8 @@
                             <tr>
                             <td>{{i+1}}</td>
                             <td>{{this.getContenDesc(EE.ContentId)}}</td>
+                            <td>{{EE.Serial}}</td>
+                            <td>{{EE.Description}}</td>
                             <td>{{EE.ElecEquipSuminsured}}</td>
                             <td>
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="editEE(EE,i)"></button>  
@@ -1077,7 +1081,8 @@
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3 ">
                         <div class="input-control-container">
                             <label for="ProductName">Industry</label>&nbsp;<span class="text-danger">*</span>
-                            <p-dropdown inputId="industryType" class="w-full" styleClass="w-full" [options]="fireIndustryList" optionValue="Code" optionLabel="CodeDesc"
+                            <p-dropdown [filter]="true" filterBy="CodeDesc"  inputId="industryType" class="w-full"
+                             styleClass="w-full" [options]="fireIndustryList" optionValue="Code" optionLabel="CodeDesc"
                             (onChange)="onChangeIndusty()" [(ngModel)]="industryValue" placeholder="-Select-">
                             </p-dropdown>
                             <div class="input-form-error" *ngIf="industryError">
@@ -1091,7 +1096,7 @@
                         <div class="input-control-container">
                             <label for="ProductName">Industry Cover</label>&nbsp;<span class="text-danger">*</span>
                             
-                            <p-dropdown inputId="industry" class="w-full" styleClass="w-full" [options]="productNameList" optionValue="Code" optionLabel="CodeDesc" (onChange)="onChangeSection()" [(ngModel)]="productName" placeholder="-Select-">
+                            <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="industry" class="w-full" styleClass="w-full" [options]="productNameList" optionValue="Code" optionLabel="CodeDesc" (onChange)="onChangeSection()" [(ngModel)]="productName" placeholder="-Select-">
                             </p-dropdown>
                             <div class="input-form-error" *ngIf="productNameError">
                                 <div class="error-text text-danger">
@@ -1158,7 +1163,7 @@
                     <div class="col-12 lg:col-2 md:col-2 lx:col-2 ">
                         <div class="input-control-container">
                         <label for="ProductName">Region&nbsp;<span class="text-danger">*</span></label>
-                        <p-dropdown inputId="regionId" class="w-full" styleClass="w-full" (onChange)="ongetDistrictList('region')" [options]="regionList" optionValue="Code" optionLabel="label" [(ngModel)]="region" placeholder="-Select-">
+                        <p-dropdown [filter]="true" filterBy="label" inputId="regionId" class="w-full" styleClass="w-full" (onChange)="ongetDistrictList('region')" [options]="regionList" optionValue="Code" optionLabel="label" [(ngModel)]="region" placeholder="-Select-">
                         </p-dropdown>
                         <div class="input-form-error" *ngIf="regionError">
                             <div class="error-text text-danger">
@@ -1171,7 +1176,7 @@
                 <div class="col-12 lg:col-2 md:col-2 lx:col-2">
                     <div class="input-control-container">
                     <label for="ProductName">District&nbsp;<span class="text-danger">*</span></label>
-                    <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="stateList" optionValue="Code" optionLabel="label" [(ngModel)]="stateName" placeholder="-Select-">
+                    <p-dropdown  [filter]="true" filterBy="label" inputId="make" class="w-full" styleClass="w-full" [options]="stateList" optionValue="Code" optionLabel="label" [(ngModel)]="stateName" placeholder="-Select-">
                     </p-dropdown>
                         <div class="input-form-error" *ngIf="districtError">
                             <div class="error-text text-danger">
@@ -1271,14 +1276,14 @@
                 <div class="col-12 lg:col-2 md:col-2 lx:col-2 ">
                     <div class="input-control-container">
                     <label for="ProductName">Region</label>
-                    <p-dropdown inputId="make" class="w-full" styleClass="w-full" (onChange)="ongetDistrictList('region')" [options]="regionList" optionValue="Code" optionLabel="label" [(ngModel)]="region" placeholder="-Select-">
+                    <p-dropdown [filter]="true" filterBy="label" inputId="make" class="w-full" styleClass="w-full" (onChange)="ongetDistrictList('region')" [options]="regionList" optionValue="Code" optionLabel="label" [(ngModel)]="region" placeholder="-Select-">
                     </p-dropdown>
                 </div>
                 </div>
                     <div class="col-12 lg:col-2 md:col-2 lx:col-2">
                         <div class="input-control-container">
                         <label for="ProductName">District</label>
-                        <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="stateList" optionValue="Code" optionLabel="label" [(ngModel)]="stateName" placeholder="-Select-">
+                        <p-dropdown [filter]="true" filterBy="label" inputId="make" class="w-full" styleClass="w-full" [options]="stateList" optionValue="Code" optionLabel="label" [(ngModel)]="stateName" placeholder="-Select-">
                         </p-dropdown>
                         </div>
                     </div>
