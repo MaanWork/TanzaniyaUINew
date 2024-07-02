@@ -902,7 +902,7 @@
                             <td>{{PA.Dob}}</td>
                             <td>{{PA.SumInsured}}</td>
                             <td>
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="editPA(PA)"></button>  
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="editPA(PA,i)"></button>  
                             </td>
                             <td *ngIf="tableRowPA.length>1">
                                 <button pButton  pRipple  icon="pi pi-trash" class="p-button-outlined" (click)="deletePA(i)" ></button>  
@@ -992,7 +992,7 @@
                             <td>{{money.MoneyCollector}}</td>
                             <td>{{money.MoneyAnnualEstimate}}</td>
                             <td>
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="editMoney(money)" ></button>  
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="editMoney(money,i)" ></button>  
                             </td>
                             <td>
                                 <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="deleteMoney(i)"></button>  
@@ -1564,6 +1564,7 @@
         <p-button label="Save" (click)="visible = false" />
     </div>
 </p-dialog>
+<ng-container *ngFor="let step of fields; let index = index; let last = last">
 <p-dialog header="Money" [(visible)]="Moneyform" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
 <div class="grid m-0 p-0">
     <!-- <div>
@@ -1573,12 +1574,11 @@
             </div>
         </div>
     </div> -->
-    <ng-container *ngFor="let step of fields; let index = index; let last = last">
     <div class="card-body pl-5">
         <div class="grid">
             <!-- <div class="lg:col-2 md:col-2 col-12"></div> -->
             <div class="lg:col-12 md:col-12 col-12">
-                <form [formGroup]="form" (ngSubmit)="addMoney(productItem)">
+                <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
                     <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
                 </form>
             </div>
@@ -1589,11 +1589,13 @@
                 </div>
         </div>
     </div>
-</ng-container>
-   
+    
+    
 </div>
 <div class="flex flex-warp justify-content-center">
     <p-button  label="Save & Add New" size="small" (click)="addMoney(productItem)"></p-button>
 </div>
+
 </p-dialog>
 
+</ng-container>

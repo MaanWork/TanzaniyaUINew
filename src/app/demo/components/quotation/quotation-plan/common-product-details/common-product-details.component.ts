@@ -318,11 +318,7 @@ export class CommonProductDetailsComponent {
     }
     if(this.productId=='61'){
       this.getIndustryList() ;
-      let referenceNo =  sessionStorage.getItem('quoteReferenceNo');
-      if(referenceNo){
-        this.quoteRefNo = referenceNo;
-      this.getBondDetails();
-      }
+      
     }
      if(this.productId=='6')
       {
@@ -394,9 +390,8 @@ export class CommonProductDetailsComponent {
        SectionId = homeDetails[0].SectionId[0];
     }
     else {
-      SectionId = "119"
+      SectionId = this.SectionId;
     }
-    
   let ReqObj = {
     "RequestReferenceNo": referenceNo,
     "RiskId": "1",
@@ -408,7 +403,7 @@ export class CommonProductDetailsComponent {
   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
     (data: any) => {
       if(data.Result!=0){
-        this.fieldsBond[0].formControl.setValue(data.Result[0].Insustry);
+        this.fieldsBond[0].formControl.setValue(this.IndustryId);
         this.fieldsBond[1].formControl.setValue(data.Result[0].BondType);
         this.fieldsBond[2].formControl.setValue(data.Result[0].BondYear);
         this.fieldsBond[3].formControl.setValue(data.Result[0].BondSuminsured);
@@ -2044,9 +2039,9 @@ export class CommonProductDetailsComponent {
       RiskId =this.currentMoneyIndex;
     }
     let data = {
-      "LocationName":rowData.LocationName,
+     // "LocationName":rowData.LocationName,
       // "Region": rowData.Region,
-      // "District" : rowData.District,
+      // "District" : rowData.District,this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.MoneyDirectorResidence);
       "MoneyDirectorResidence": rowData.MoneyDirectorResidence,
       "MoneyMajorLoss": rowData.MoneyMajorLoss,
       "StrongroomSi": rowData.StrongroomSi,
@@ -2056,15 +2051,18 @@ export class CommonProductDetailsComponent {
     }
     if (this.currentMoneyIndex !=0) {
       this.TableRowMoney[this.currentMoneyIndex-1] = data;
+      this.form.reset();
       this.currentMoneyIndex=0
     } else {
       this.TableRowMoney.push(data);
+      this.form.reset();
       // If currentBurglaryIndex is out of range, you might want to push the data
   } 
    // this.TableRowMoney.push(data);
     this.Moneyform=false;
-    this.form.reset();
+    
 }
+
   }
 
   deleteMoney(index){
@@ -3594,7 +3592,11 @@ backPlan()
     }
     //if(this.productId=='59') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
     if(this.productId!='6'){
-      if(this.productId=='57' || this.productId=='60'||this.productId=='59' || this.productId=='16' || this.productId=='39' || this.productId=='61' || this.productId=='15' || this.productId=='14' || this.productId=='13'  || this.productId=='19' || this.productId=='32' || this.productId=='1' || this.productId=='26' || this.productId=='21' || this.productId == '25' || this.productId=='42' || this.productId=='59' || this.productId=='24' || this.productId=='43') urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
+      if(this.productId=='57' || this.productId=='60'||this.productId=='59' || this.productId=='16' || this.productId=='39' 
+        || this.productId=='61' || this.productId=='15' || this.productId=='14' || this.productId=='13'  || this.productId=='19' 
+        || this.productId=='32' || this.productId=='1' || this.productId=='26' || this.productId=='21' || this.productId == '25'
+         || this.productId=='42' || this.productId=='59' || this.productId=='24' || this.productId=='43') 
+         urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
       else urlLink =  `${this.motorApiUrl}api/geteservicebyriskid`;
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
@@ -3604,6 +3606,15 @@ backPlan()
                 let entry:any;
                 //if(this.productId=='59') entry = this.customerData[0];
                  entry = data.Result;this.colorSections=[];let j=0;
+                 if(this.productId=='61'){
+                  this.IndustryId = entry?.IndustryId;
+                  this.SectionId = entry?.SectionIds[0];
+                  let referenceNo =  sessionStorage.getItem('quoteReferenceNo');
+                  if(referenceNo){
+                    this.quoteRefNo = referenceNo;
+                  this.getBondDetails();
+                  }
+                 }
                  this.updatedDetails = true;
                  if(this.productId=='59'){
                  if(entry.SectionIds.length!=0){
@@ -4226,10 +4237,11 @@ backPlan()
     }
     else if(this.coversRequired==null) this.coversRequired='BC';
   }
-  editMoney(rowData){
+  editMoney(rowData,index){
     this.Moneyform=true;
     let edit = rowData.RiskId;
     this.currentMoneyIndex = edit;
+    if(edit==undefined) this.currentMoneyIndex=index+1;
     this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.MoneyDirectorResidence);
     this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(rowData.MoneyMajorLoss);
     this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(rowData.StrongroomSi);
@@ -4238,10 +4250,11 @@ backPlan()
     this.fields[0].fieldGroup[0].fieldGroup[5].formControl.setValue(rowData.MoneyAnnualEstimate);
     this.getMoneyDetails(rowData);
   }
-  editPA(rowData){
+  editPA(rowData,index){
     this.isEEForm=true;
     let edit = rowData.RiskId;
     this.currentPAIndex = edit;
+    if(edit==undefined) this.currentPAIndex=index+1;
     this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.LocationName);
     this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(rowData.OccupationId);
     this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(rowData.PersonName);
@@ -5022,7 +5035,7 @@ backPlan()
     if( this.productId=='27'){section.push('54');this.IndustryId='44'};
     if (this.productId=='61'){
       section.push(this.productItem.TypeOfBond);
-      this.IndustryId='99999'
+      this.IndustryId=this.productItem.IndustryId;
     }
     if (this.productId=='26'){
       this.IndustryId = this.productItem.IndustryBussinessAllRisk;
@@ -7467,14 +7480,6 @@ finalSaveMoney(finalList,type,formType) {
             this.fields[0].fieldGroup[0].fieldGroup[4].formControl.setValue(this.productItem.MoneyCollector);
             this.fields[0].fieldGroup[0].fieldGroup[5].formControl.setValue(this.productItem.MoneyAnnualEstimate);
           }
-          let details = data?.Result;
-          this.productItem.StrongroomSi = details?.StrongroomSi;
-          this.productItem.MoneySafeLimit=details?.MoneySafeLimit;
-          this.productItem.MoneyOutofSafe=details?.MoneyOutofSafe;
-          this.productItem.MoneyDirectorResidence=details?.MoneyDirectorResidence;
-          this.productItem.MoneyCollector=details?.MoneyCollector;
-          this.productItem.MoneyAnnualEstimate=details?.MoneyAnnualEstimate;
-          this.productItem.MoneyMajorLoss=details?.MoneyMajorLoss;
           // this.productItem.CashInHandEmployees = details?.CashInHandEmployees;
           // this.productItem.CashInSafe = details?.CashInSafe;
           // this.productItem.CashInTransit = details?.CashInTransit;
@@ -7482,20 +7487,20 @@ finalSaveMoney(finalList,type,formType) {
           // this.productItem.MoneyInPremises = details?.MoneyInPremises;
           // this.productItem.MoneyInSafeBusiness = details?.MoneyInSafeBusiness;
           // this.productItem.MoneyOutSafeBusiness = details?.MoneyOutSafeBusiness;
-          if(details?.EndorsementDate){
-            this.endorsementDate = details?.EndorsementDate;
-            this.endorsementEffectiveDate = details?.EndorsementEffectiveDate;
-            this.endorsementRemarks = details?.EndorsementRemarks;
-            this.endorsementType = details?.EndorsementType;
-            this.endorsementTypeDesc = details?.EndorsementTypeDesc;
-            this.endtCategoryDesc = details?.EndtCategoryDesc;
-            this.endtCount = details?.EndtCount;
-            this.endtPrevPolicyNo = details?.EndtPrevPolicyNo;
-            this.endtPrevQuoteNo = details?.EndtPrevQuoteNo;
-            this.endtStatus = details?.EndtStatus;
-            this.isFinanceEndt = details?.IsFinanceEndt;
-            this.orginalPolicyNo = details?.OrginalPolicyNo;
-          }
+          // if(details?.EndorsementDate){
+          //   this.endorsementDate = details?.EndorsementDate;
+          //   this.endorsementEffectiveDate = details?.EndorsementEffectiveDate;
+          //   this.endorsementRemarks = details?.EndorsementRemarks;
+          //   this.endorsementType = details?.EndorsementType;
+          //   this.endorsementTypeDesc = details?.EndorsementTypeDesc;
+          //   this.endtCategoryDesc = details?.EndtCategoryDesc;
+          //   this.endtCount = details?.EndtCount;
+          //   this.endtPrevPolicyNo = details?.EndtPrevPolicyNo;
+          //   this.endtPrevQuoteNo = details?.EndtPrevQuoteNo;
+          //   this.endtStatus = details?.EndtStatus;
+          //   this.isFinanceEndt = details?.IsFinanceEndt;
+          //   this.orginalPolicyNo = details?.OrginalPolicyNo;
+          // }
           // if(this.productItem.CashInHandEmployees!=null && this.productItem.CashInHandEmployees!='0' && this.productItem.CashInHandEmployees!='' && this.productItem.CashInHandEmployees!='0.0') this.productItem.CashInHandEmployeesSIYN = true;
           // if(this.productItem.CashInSafe!=null && this.productItem.CashInSafe!='0' && this.productItem.CashInSafe!='' && this.productItem.CashInSafe!='0.0') this.productItem.CashInSafeSIYN = true;
           // if(this.productItem.CashInTransit!=null && this.productItem.CashInTransit!='0' && this.productItem.CashInTransit!='' && this.productItem.CashInTransit!='0.0') this.productItem.CashInTransitSIYN = true;
@@ -8175,12 +8180,12 @@ let requestNO=null;
         "RiskId": "1",
         "SectionId": "35",
         "OccupationType": this.productItem.OccupationType,
-         "SumInsured": this.productItem.PersonalAccidentSuminsured,
-          "OtherOccupation":this.productItem.otheroptionPer,
-          "TotalNoOfPersons": "1",
-          "EndorsementDate": this.endorsementDate,
-          "EndorsementEffectiveDate": this.endorsementEffectiveDate,
-          "EndorsementRemarks": this.endorsementRemarks,
+        "SumInsured": this.productItem.PersonalAccidentSuminsured,
+        "OtherOccupation":this.productItem.otheroptionPer,
+        "TotalNoOfPersons": "1",
+        "EndorsementDate": this.endorsementDate,
+        "EndorsementEffectiveDate": this.endorsementEffectiveDate,
+        "EndorsementRemarks": this.endorsementRemarks,
           "EndorsementType": this.endorsementType,
           "EndorsementTypeDesc": this.endorsementTypeDesc,
           "EndtCategoryDesc": this.endtCategoryDesc,
