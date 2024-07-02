@@ -5297,7 +5297,7 @@ console.log('Eventsss',event);
     else if(this.productId=='57'){this.onsaveGroupPADetails('proceed','individual')}
     else if(this.productId=='26'){this.onSaveBussinessrisk('proceed','individual');}
     else if(this.productId=='25'){this.onSaveElectronicEquipment('proceed','individual')}
-    else if(this.productId=='32'){this.onSaveFidelityDetails('proceed','individual')}
+    else if(this.productId=='32'){ this.onsubmitnewfed();}
     else if(this.productId == '59' || this.productId == '56' || this.productId=='60' || this.productId=='24'){
       this.onFinalProceed();
       // let i=0;
@@ -8125,11 +8125,11 @@ let requestNO=null;
         {
             "Dob": items.Dob,
             "OccupationId": items.OccupationId,
-            "PersonName":  items.PersonName,
+            "PersonName":  items.CustomerName,
             "NationalityId": "01",
             "Salary": items.SumInsured,
             "RiskId":  items.RiskId,
-            "LocationName":  items.LocationName,
+            "LocationName":  "Chennai",
             "SectionId": "35"
         }
           
@@ -10747,7 +10747,7 @@ this.BuildingOwnerYn = type;
   onsubmitnewfed(){
     let validate = this.checkManda();
       if(validate){
-        this.onFedilitySave();
+        this.onSaveFidelityDetails('proceed','individual')
       }
   }
   onSubmitnewGroup(){
@@ -11812,7 +11812,6 @@ this.BuildingOwnerYn = type;
 
     onSaveFidelityDetails(type,formType){
       console.log('DDDDD',this.FidelityListNew)
-      this.onsubmitnewfed();
       if(this.FidelityListNew.length!=0){
         this.employeeError = false;
         let i=0;

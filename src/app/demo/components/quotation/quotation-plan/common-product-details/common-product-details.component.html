@@ -859,7 +859,7 @@
                             <tr>
                                 <th>S.No</th>
                                 <th>Name</th>
-                                <th>Location Name</th>
+                                <!-- <th>Location Name</th> -->
                                 <th>Occupation Type</th>
                                 <th>Date Of Birth</th>
                                 <th>Salary</th>
@@ -871,7 +871,7 @@
                             <tr>
                             <td>{{i+1}}</td>
                             <td>{{PA.CustomerName}}</td>
-                            <td>{{PA.LocationName}}</td>
+                            <!-- <td>{{PA.LocationName}}</td> -->
                             <td>{{PA.OccupationId}}</td>
                             <td>{{PA.Dob}}</td>
                             <td>{{PA.SumInsured}}</td>
@@ -911,11 +911,9 @@
                                     <span class="spancommon span_font_size">Please Enter Valid Sum Insured</span>
                                 </div>
                             </div>
-                            <div class="input-form-error bottomSpacing" *ngIf="LocationNameError || OccupationError 
+                            <div class="input-form-error bottomSpacing" *ngIf=" OccupationError 
                             || PersonNameError || DobError|| sumInsuredError">
-                                <div class="error-text text-danger" *ngIf="LocationNameError">
-                                    <span class="spancommon span_font_size"> Please Enter LocationName</span>
-                                </div>
+                                
                                 <div class="error-text text-danger" *ngIf="OccupationError">
                                     <span class="spancommon span_font_size">Please Select Occupation </span>
                                 </div>
