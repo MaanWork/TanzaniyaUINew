@@ -4269,11 +4269,11 @@ backPlan()
     let edit = rowData.RiskId;
     this.currentPAIndex = edit;
     if(edit==undefined) this.currentPAIndex=index+1;
-    this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.LocationName);
-    this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(rowData.OccupationId);
-    this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(rowData.PersonName);
-    this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(rowData.Dob);
-    this.fields[0].fieldGroup[0].fieldGroup[4].formControl.setValue(rowData.SumInsured);
+    //this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.LocationName);
+    this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.OccupationId);
+    this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(rowData.CustomerName);
+    this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(rowData.Dob);
+    this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(rowData.SumInsured);
     //console.log(this.currentPAIndex,"this.currentPAIndex");
     this.getPersonalAccidentDetails(rowData);
   }
@@ -4870,10 +4870,10 @@ backPlan()
     this.LocationNameError=false;this.OccupationError =false;this.PersonNameError=false;
     this.DobError=false;this.sumInsuredError=false;
     let i=0;
-    if(this.productItem.LocationName==null || this.productItem.LocationName==undefined || this.productItem.LocationName==''){
-      this.LocationNameError = true;
-      i+=1;
-    }
+    // if(this.productItem.LocationName==null || this.productItem.LocationName==undefined || this.productItem.LocationName==''){
+    //   this.LocationNameError = true;
+    //   i+=1;
+    // }
     if(this.productItem.OccupationType==null || this.productItem.OccupationType==undefined || this.productItem.OccupationType==''){
       this.OccupationError = true;
       i+=1;
@@ -7984,7 +7984,7 @@ finalSaveMoney(finalList,type,formType) {
       {
             "Dob":dob,
             "OccupationId": rowData.OccupationType,
-            "PersonName": rowData.Name,
+            "CustomerName": rowData.Name,
             "NationalityId": "01",
             "SumInsured": rowData.SumInsured,
             "RiskId": RiskId,
@@ -8157,7 +8157,7 @@ let requestNO=null;
         "Currency": this.currencyCode,
         "BrokerCode": null,
         "CustomerReferenceNo": sessionStorage.getItem('customerReferenceNo'),
-        "BrokerBranchCode": this.brokerbranchCode,
+        "BrokerBranchCode":'1',
         "Havepromocode": havePromoCode,
         "BuildingOwnerYn": this.BuildingOwnerYn,
         "CustomerName": this.customerName,
@@ -8534,15 +8534,15 @@ let requestNO=null;
           if(data.Result.length!=0){
             this.productItem.LocationName=data.Result[i-1].LocationName;
             this.productItem.OccupationType=data.Result[i-1].OccupationType;
-            this.productItem.Name=data.Result[i-1].PersonName;
+            this.productItem.Name=data.Result[i-1].CustomerName;
             this.productItem.Dob=data.Result[i-1].Dob;
             this.productItem.SumInsured=data.Result[i-1].SumInsured;
             //this.form.get('SumInsured').setValue(value);
-            this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(this.productItem.LocationName);
-            this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(this.productItem.OccupationType);
-            this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(this.productItem.Name);
-            this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(this.productItem.Dob);
-            this.fields[0].fieldGroup[0].fieldGroup[4].formControl.setValue(this.productItem.SumInsured);
+           // this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(this.productItem.LocationName);
+            this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(this.productItem.OccupationType);
+            this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(this.productItem.Name);
+            this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(this.productItem.Dob);
+            this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(this.productItem.SumInsured);
             this.productItem.PersonalAccidentSuminsured = data.Result[0].SumInsured;
             if(data.Result[0].OccupationType!=null)this.productItem.OccupationType = data.Result[0].OccupationType;
             else this.productItem.OccupationType = null;
@@ -11659,7 +11659,6 @@ this.BuildingOwnerYn = type;
               this.customerCode = null;
               this.customerName=null;
               this.brokerCode = null;
-              this.brokerBranchCode = null;
               this.brokerLoginId = null;
             }
             else{
