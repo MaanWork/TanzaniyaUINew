@@ -4870,10 +4870,10 @@ backPlan()
     this.LocationNameError=false;this.OccupationError =false;this.PersonNameError=false;
     this.DobError=false;this.sumInsuredError=false;
     let i=0;
-    if(this.productItem.LocationName==null || this.productItem.LocationName==undefined || this.productItem.LocationName==''){
-      this.LocationNameError = true;
-      i+=1;
-    }
+    // if(this.productItem.LocationName==null || this.productItem.LocationName==undefined || this.productItem.LocationName==''){
+    //   this.LocationNameError = true;
+    //   i+=1;
+    // }
     if(this.productItem.OccupationType==null || this.productItem.OccupationType==undefined || this.productItem.OccupationType==''){
       this.OccupationError = true;
       i+=1;
