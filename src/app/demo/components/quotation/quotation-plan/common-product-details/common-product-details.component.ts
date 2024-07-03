@@ -2102,7 +2102,7 @@ export class CommonProductDetailsComponent {
             this.dropList[i].value = this.dropList[i]['Code'];
           //   delete this.dropList[i].CodeDesc;
           //   if (i == this.dropList.length - 1) {
-              this.fields[0].fieldGroup[0].fieldGroup[0].templateOptions.options = defaultObj.concat(this.dropList);
+              this.fields[0].fieldGroup[0].fieldGroup[1].templateOptions.options = defaultObj.concat(this.dropList);
           //   }
           }
             
@@ -4251,10 +4251,11 @@ backPlan()
      this.currentEEIndex = edit;
      if(edit==undefined) this.currentEEIndex=index+1;
      this.isEEForm=true;
-     this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.ContentId);
-     this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(rowData.Serial);
-     this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(rowData.Description);
-     this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(rowData.ElecEquipSuminsured);
+     this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.LocationName);
+     this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(rowData.ContentId);
+     this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(rowData.Serial);
+     this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(rowData.Description);
+     this.fields[0].fieldGroup[0].fieldGroup[4].formControl.setValue(rowData.ElecEquipSuminsured);
      //console.log(this.currentPAIndex,"this.currentPAIndex");
      this.getElectronicEquipment(rowData);
    }
@@ -4945,7 +4946,7 @@ backPlan()
         if(this.productItem.ElecEquipSuminsured==null || this.productItem.ElecEquipSuminsured=='' || this.productItem.ElecEquipSuminsured==undefined || this.productItem.ElecEquipSuminsured==0){i+=1;this.salaryError=true;}
     }
     if((this.productId=='16' || this.productId=='39' || this.productId=='15' || this.productId=='14' || this.productId=='32' || this.productId=='1' || this.productId=='21'
-     || this.productId=='25' || this.productId=='13') && (this.IndustryId==null || this.IndustryId==undefined || this.IndustryId=='')){
+    || this.productId=='13') && (this.IndustryId==null || this.IndustryId==undefined || this.IndustryId=='')){
       //|| this.productId=='26'
       this.industryError = true;
       i+=1;
@@ -6544,7 +6545,7 @@ finalSaveMoney(finalList,type,formType) {
       "PDRefNo":res?.PDRefNo
     }
     let urlLink = `${this.CommonApiUrl}calculator/policy/calc`;
-    if(this.insuranceId!='100028' && this.insuranceId!='100027' && this.insuranceId!='100019'){
+    if(this.insuranceId!='100028' && this.insuranceId!='100027' && this.insuranceId!='100040'  && this.insuranceId!='100019'){
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
           if(data.CoverList){
@@ -6658,13 +6659,15 @@ finalSaveMoney(finalList,type,formType) {
         if (data.Result) {
           let details = data?.Result;
           this.productItem.ContentId=data.Result[i-1].ContentId;
-          this.productItem.Serial=data.Result[i-1].ElecEquipSuminsured;
-          this.productItem.ContentId=data.Result[i-1].SerialNo;
+          this.productItem.Serial=data.Result[i-1].SerialNo;
+          this.productItem.ElecEquipSuminsured=data.Result[i-1].ElecEquipSuminsured;
           this.productItem.Description=data.Result[i-1].Description;
-          this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(this.productItem.ContentId);
-          this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(this.productItem.Serial);
-          this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(this.productItem.Description);
-          this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(this.productItem.ElecEquipSuminsured);
+          this.productItem.LocationName=data.Result[i-1].LocationName;
+          this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(this.productItem.LocationName);
+          this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(this.productItem.ContentId);
+          this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(this.productItem.Serial);
+          this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(this.productItem.Description);
+          this.fields[0].fieldGroup[0].fieldGroup[4].formControl.setValue(this.productItem.ElecEquipSuminsured);
           this.productItem.ElectronicEquipSuminsured = details?.MiningPlantSi;
           if(this.productId=='19') this.productItem.ElectronicEquipSuminsured = details?.ElecEquipSuminsured;
           this.sectionCount +=1;
@@ -6952,9 +6955,9 @@ finalSaveMoney(finalList,type,formType) {
         RiskId =this.currentEEIndex;
       }
     let data = {
-     // "LocationName":rowData.LocationName,
+      "LocationName":rowData.LocationName,
       "ContentId": rowData.ContentId,
-     "Serial" : rowData.Serial,
+     "SerialNo" : rowData.Serial,
       "Description": rowData.Description,
       "ElecEquipSuminsured": rowData.ElecEquipSuminsured,
     }
@@ -7011,7 +7014,11 @@ finalSaveMoney(finalList,type,formType) {
             "EndtPrevQuoteNo": null,
             "EndtStatus": null,
             "IsFinanceEndt": null,
-            "OrginalPolicyNo": null
+            "OrginalPolicyNo": null,
+            "LocationName":items.LocationName,
+            "Description":items.Description,
+            "SerialNo":items.Serial,
+
         }
         if (this.endorsementSection) {
           if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {

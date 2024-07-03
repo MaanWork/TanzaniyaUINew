@@ -214,13 +214,7 @@ html {
   
  /* Cover Details Component */
 
- .form-control{
-    width: 100% !important;
-    max-width: 100% !important;
-    border: 1px solid gray;
-    border-radius: 15px;
-    padding:8px 12px !important
-}
+
 .ui-ex{
     font-weight: 500;
     font-size: 14px;
@@ -893,4 +887,29 @@ cursor:  pointer !important;
 }
 .p-overlaypanel{
     z-index: 900 !important;
+}
+
+// .form-control{
+//     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+//     font-size: 1rem;
+//     color: #495057;
+//     background: #ffffff;
+//     padding: 0.5rem 0.5rem;
+//     border: 1px solid #ced4da;
+//     transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+//     appearance: none;
+//     border-radius: 3px;
+// }
+.form-control{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 1rem;
+    width: 100% !important;
+    max-width: 100% !important;
+    color: #495057;
+    background: #ffffff;
+    padding: 0.5rem 0.5rem;
+    border: 1px solid #ced4da;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    border-radius: 3px;
+    
 }
