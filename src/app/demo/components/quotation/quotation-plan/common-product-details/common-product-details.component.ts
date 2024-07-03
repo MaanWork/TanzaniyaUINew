@@ -804,6 +804,13 @@ export class CommonProductDetailsComponent {
    
   }
   onFinalSaveFire(obj,sectionIds,type,refNo,havePromoYN,index){
+    let sourcecode;
+    if(this.userType!= 'Broker' && this.userType != 'User'){
+      sourcecode=this.Code
+    }
+    else{
+      sourcecode=this.userType;
+    }
     let valid = this.checkValidation();
     if(valid){
       let startDate=null,endDate=null,riskId=null;
@@ -862,7 +869,7 @@ export class CommonProductDetailsComponent {
             "DistrictCode": obj.DistrictCode,
             "BuildingSumInsured": obj.BuildingSumInsured,
             "Usertype": this.userType,
-            "SourceTypeId": this.Code,
+            "SourceTypeId": sourcecode,
             "CustomerCode": this.customerCode,
             "ProductType":"A",
       }
