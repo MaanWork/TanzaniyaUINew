@@ -862,7 +862,7 @@ export class CommonProductDetailsComponent {
             "DistrictCode": obj.DistrictCode,
             "BuildingSumInsured": obj.BuildingSumInsured,
             "Usertype": this.userType,
-            "SourceTypeId": this.userType,
+            "SourceTypeId": this.Code,
             "CustomerCode": this.customerCode,
             "ProductType":"A",
       }
@@ -4253,7 +4253,7 @@ backPlan()
      this.isEEForm=true;
      this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.LocationName);
      this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(rowData.ContentId);
-     this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(rowData.Serial);
+     this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(rowData.SerialNo);
      this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(rowData.Description);
      this.fields[0].fieldGroup[0].fieldGroup[4].formControl.setValue(rowData.ElecEquipSuminsured);
      //console.log(this.currentPAIndex,"this.currentPAIndex");
@@ -7017,7 +7017,7 @@ finalSaveMoney(finalList,type,formType) {
             "OrginalPolicyNo": null,
             "LocationName":items.LocationName,
             "Description":items.Description,
-            "SerialNo":items.Serial,
+            "SerialNo":items.SerialNo,
 
         }
         if (this.endorsementSection) {
