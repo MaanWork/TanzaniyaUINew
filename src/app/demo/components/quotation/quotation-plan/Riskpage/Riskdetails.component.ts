@@ -157,7 +157,6 @@ export class RiskDetailsComponent {
           }
         }
         ngOnInit() {
-         // this.Total = this.TableRow[3].Sum;
          var d = new Date();
           var year = d.getFullYear();
           var month = d.getMonth();
@@ -167,7 +166,7 @@ export class RiskDetailsComponent {
         
           this.getdropList();
           this.getCountryList();
-          if(this.coversreuired!='B' && this.coversreuired!='BC'){this.contentSection=true;this.getAddInfo()}
+          this.contentSection=true;this.getAddInfo()
           this.buildingColumnHeader =['Location','Address','Delete']
           this.columnHeader =['Location *','Content Type *','Serial No','Description','Sum Insured *','Edit' ,'Delete']
           this.TableRow =[{
@@ -252,7 +251,7 @@ export class RiskDetailsComponent {
               this.getallriskList();
               this.getContentDetail();
               this.getallriskDetailsData();
-              if(this.coversreuired=='B' || this.coversreuired=='BC') this.getBuildingDetails('direct');
+               this.getBuildingDetails('direct');
                this.getContentDetails('Content');
                 this.getAllRiskDetails('AllRisk');
                 this.getElectronicEquipDetails('ElectronicEquipment');
@@ -496,7 +495,8 @@ export class RiskDetailsComponent {
         checkBuildingDetails(){
           if(this.TableRowBuilding.length!=0){
             if((this.coversreuired=='B' || this.coversreuired=='BC') && this.Building1)  return this.TableRowBuilding.some(ele=>ele.RoofType==null || ele.RoofType=='' || ele.RoofType==undefined || ele.LocationName==undefined || ele.LocationName=='' || ele.LocationName==null);
-            else return  !this.TableRowBuilding.some(ele=>ele.RiskId==null || ele.RiskId=='' || ele.RiskId==undefined || ele.LocationName==undefined || ele.LocationName=='' || ele.LocationName==null);
+            else 
+            return  !this.TableRowBuilding.some(ele=>ele.RiskId==null || ele.RiskId=='' || ele.RiskId==undefined || ele.LocationName==undefined || ele.LocationName=='' || ele.LocationName==null);
           }
           else return false;
         }
@@ -506,31 +506,15 @@ export class RiskDetailsComponent {
         }
         showDialog() {
           console.log("Building",this.TableRowBuilding)
-          if(((this.coversreuired=='B' || this.coversreuired=='BC') && this.Building1) && this.checkBuildingDetails()){
-            Swal.fire({
-              title: '<strong>Error</strong>',
-              icon: 'info',
-              html:
-                `<ul class="list-group errorlist">
-                  <li>Please Add Building Details First</li>
-              </ul>`,
-               showCloseButton: false,
-              //focusConfirm: false,
-              // showCancelButton:true,
-        
-              //confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              cancelButtonText: 'Ok',
-            })
-          }
-          else if(!((this.coversreuired=='B' || this.coversreuired=='BC') && this.Building1)){
+          
+          if(!((this.coversreuired=='B' || this.coversreuired=='BC') && this.Building1)){
               if(this.locationList.length==0 || this.checkLocationDetails()){
                 Swal.fire({
                   title: '<strong>Error</strong>',
                   icon: 'info',
                   html:
                     `<ul class="list-group errorlist">
-                      <li>Please Add Building Details First</li>
+                      <li>Please Add Location Details First</li>
                   </ul>`,
                    showCloseButton: false,
                   //focusConfirm: false,
@@ -541,7 +525,8 @@ export class RiskDetailsComponent {
                   cancelButtonText: 'Ok',
                 })
               }
-              else{this.visible = true;
+              else{
+                this.visible = true;
                 this.getContentDetail();}
           }
           else if(this.TableRowBuilding.length!=0 && !this.checkBuildingDetails()){
@@ -551,8 +536,32 @@ export class RiskDetailsComponent {
          
       }
       showDialogBuilding() {
-        this.getBuildingDetails('direct');
+        if((this.coversreuired=='B' || this.coversreuired=='BC') && this.Building1){
+          if(this.locationList.length==0 || this.checkLocationDetails()){
+            Swal.fire({
+              title: '<strong>Error</strong>',
+              icon: 'info',
+              html:
+                `<ul class="list-group errorlist">
+                  <li>Please Add Location Details First</li>
+              </ul>`,
+               showCloseButton: false,
+              //focusConfirm: false,
+              // showCancelButton:true,
+        
+              //confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              cancelButtonText: 'Ok',
+            })
+          }
+          else{ this.getBuildingDetails('direct');
+            this.visibleBuilding = true;}
+      }
+      else if(this.TableRowBuilding.length!=0 && !this.checkBuildingDetails()){
         this.visibleBuilding = true;
+        this.getBuildingDetails('direct');
+      }
+       
     }
     onEditLocationDetails(){
       if(this.TableRowBuilding.length!=0){
@@ -647,7 +656,7 @@ export class RiskDetailsComponent {
             icon: 'info',
             html:
               `<ul class="list-group errorlist">
-                <li>Please Add Building Details First</li>
+                <li>Please Add Location Details First</li>
             </ul>`,
              showCloseButton: false,
             //focusConfirm: false,
@@ -1380,40 +1389,11 @@ export class RiskDetailsComponent {
                       for( let n of vars.fieldGroup){      
                         console.log('HHHHHHHHHHHHH',n);  
                         this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.relationList);       
-                      //   if(n.type=='commaSeparator'){
-                      //   if(n.templateOptions.label=='Sum Insured'){
-                      //      this.fieldsContent[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].hooks = regionHooks;
-                      //   }
-                      // }
+                      
                         j+=1;
                       }
                 }
-                  //   if (i == this.relationList.length - 1) {
-                  //      this.fields[0].fieldGroup[0].fieldGroup[0].fieldArray.fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.relationList);
-                  //      this.showSection=true;
-                  //  }
-                    // let count = this.productItem?.patientList.length;
-                    // console.log('KKKKKKK',count)
-                  //   if(type=='direct'){
-                  //   for(let n=0;n<2;n++){
-                  //     this.fields[0].fieldGroup[0].fieldGroup[i].fieldGroup[0].props.options = defaultObj.concat(this.relationList);
-                  //   }
-                  // }
-                  // else if(type=='change'){
-                  //   alert('FFFF')
-                  //   console.log('HHHHHHHH',this.fields[0].fieldGroup[0].fieldGroup[i]);
-                  //   let f= (this.productItem.patientList.length)-1;
-                  //     this.fields[0].fieldGroup[0].fieldGroup[f].fieldGroup[0].props.options= defaultObj.concat(this.relationList);
-                  // }
-                      //console.log('JJJJJJJJJJ',this.fields[0].fieldGroup[0].fieldGroup[i].fieldGroup[0].props.options);
-                    // if (i == this.relationList.length - 1) {
-                    //   console.log('GGGGGGGGGGGGGGGGGGGGGGG',this.fields[0].fieldGroup[i],i)
-                    //   for(let i=0;i<=this.fields[0].fieldGroup[i].length;i++){
-                    //     this.fields[0].fieldGroup[i].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.relationList);
-                    //   }
-                    //     //this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[i].props.options = defaultObj.concat(this.relationList);
-                        
-                    // }
+                  
                   }
                 }
               }
@@ -2050,7 +2030,6 @@ export class RiskDetailsComponent {
                   this.sumInsured =false;
                   let fireData = new LocationDetails();
                   this.fieldss = fireData?.fields;  
-                  // alert('Details');
                   this.productItem = new ProductData();
                   this.formSection = true; this.viewSection = false;
                 }
@@ -2526,14 +2505,14 @@ export class RiskDetailsComponent {
                 else this.buildingSection = false;
                 //else this.buildingSection = false;
                 this.building = res.Result;
-                let i=0;
-                for(let entry of this.building){
-                  if (i == 0) {
-                    this.LocationList = [];
-                  }
-                  this.LocationList.push({ "Code": String(this.LocationList.length+1), "CodeDesc": entry.LocationName })
-                  i+=1;
-                }
+                // let i=0;
+                // for(let entry of this.building){
+                //   if (i == 0) {
+                //     this.LocationList = [];
+                //   }
+                //   this.LocationList.push({ "Code": String(this.LocationList.length+1), "CodeDesc": entry.LocationName })
+                //   i+=1;
+                // }
       
                 if(this.first || this.second || this.fifth || this.ten || this.third || this.nine || this.seven || this.eight || this.six){
                   if(this.LocationList.length !=0){
@@ -3049,20 +3028,7 @@ export class RiskDetailsComponent {
               this.occupationList[i].value = this.occupationList[i]['Code'];
               if (i == this.occupationList.length - 1) {
                
-                // if(type== 'PersonalAccident'){
-                //   this.fields3[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
-                // }
-                // if(type== 'PersonalLiability'){
-                //   this.fields4[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
-                // }
-                // if(type== 'ProfessionalIntermidity'){
-                //   this.fields8[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.occupationList);
-                //   //this.fields4[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
-                // }
-                // if(this.productId=='57'){
-                //   alert('JJJJJJJJJJJJ')
-                //   this.fieldsGroupPa[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
-                // }
+              
               }
             }
           }
@@ -3150,9 +3116,6 @@ export class RiskDetailsComponent {
         finalSaveRiskDetails(reqList,type,SaveType){
           let ReqObj;let urlLink;
           if(type=='SB'){
-            // for(let data of reqList){
-            // alert(data.BuildingSumInsured) 
-            //  }
           }
           if(type=='EA' && (this.productId=='5' || this.productId=='29'))
           {
@@ -3566,7 +3529,6 @@ export class RiskDetailsComponent {
                  let contentData6 = new ElectronicEquipmentNew();
                 this.fields6[0] = contentData6?.fields;
               }
-                  //alert(sections)
               if(types=='AllRisk'){
                   let contentData3 
                   if(this.insuranceId=='100004'){
@@ -3798,10 +3760,7 @@ export class RiskDetailsComponent {
               (data: any) => {
                 console.log(data);
                 if (data.Result) {
-                  
                       this.productItem.ContentSuminsured = data?.Result?.ContentSuminsured;
-                      // alert(this.productItem.ContentSuminsured)
-                      
                       if(this.insuranceId=='100004'){
                         this.productItem.CarpetsSi = data?.Result?.CarpetsSi;
                         this.productItem.JewellerySi= data?.Result?.JewellerySi;
@@ -3836,7 +3795,6 @@ export class RiskDetailsComponent {
             );
           }
           onSaveContentRiskDetails(){
-            // alert('Contents')
             let sectionId = null;
             if(this.productId=='24') sectionId='47';
             else sectionId='47';
@@ -4402,6 +4360,8 @@ export class RiskDetailsComponent {
                   
                       this.productItem.BuildingSuminsured = data?.Result?.BuildingSumInsured;
                       this.TableRowBuilding=data?.Result;
+                      console.log(this.TableRowBuilding,"this.TableRothis.TableRowBuildingwBuilding");
+                      
                       if(this.TableRowBuilding.length!=0){
                         for(let build of this.TableRowBuilding){
                           build['SavedYN'] = 'Y';
@@ -4639,7 +4599,6 @@ export class RiskDetailsComponent {
           
         
           onSaveBuildingDetails(){
-            // alert('Save Building')
             this.subuserType = sessionStorage.getItem('typeValue');
             let quoteStatus = sessionStorage.getItem('QuoteStatus');
             let appId = "1",loginId="",brokerbranchCode="";
@@ -5391,7 +5350,7 @@ export class RiskDetailsComponent {
               "PDRefNo":res?.PDRefNo
             }
             let urlLink = `${this.CommonApiUrl}calculator/policy/calc`;
-            if(this.insuranceId!='100028' && this.insuranceId!='100027' && this.insuranceId!='100019'){
+            if(this.insuranceId!='100028' && this.insuranceId!='100027' && this.insuranceId!='100040' && this.insuranceId!='100019'){
               this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
                 (data: any) => {
                   if(data.CoverList){
