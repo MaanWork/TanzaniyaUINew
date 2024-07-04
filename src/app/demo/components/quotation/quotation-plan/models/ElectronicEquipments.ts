@@ -26,31 +26,31 @@ export class ElectronicEquipments{
               {
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
-                //   {
-                //     type: 'input',
-                //     key: 'LocationName',
-                //     defaultValue: '',
-                //     className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-                //     templateOptions: {
-                //       label: `Location`,
-                //       required: true,
-                //       placeholder: 'Enter LocationName',
-                //     },
-                //     validators: {
-                //       validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
-                //     },
-                //     hooks: {
-                //     },
-                //     expressions: {
-                //     },
-                // },
+                  {
+                    type: 'input',
+                    key: 'LocationName',
+                    defaultValue: '',
+                    className: 'col-12 ',
+                    templateOptions: {
+                      label: `Location`,
+                      required: true,
+                      placeholder: 'Enter LocationName',
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                },
                 {
                   type: 'ngselect',
                   key: 'ContentId',
                   defaultValue: '',
-                  className: 'col-12 lg:col-6 md:col-6 xl:col-6',
+                  className: 'col-12 ',
                   templateOptions: {
-                    label: `Content Type`,
+                    label: `Electronic Item`,
                     placeholder: 'Select Content Type',
                    // disabled: true,
                     required: true,
@@ -67,44 +67,44 @@ export class ElectronicEquipments{
                   expressions: {
                   },
                 },
-            //     {
-            //       type: 'input',
-            //       key: 'Serial',
-            //       defaultValue: '',
-            //       className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-            //       templateOptions: {
-            //         label: `Serial No`,
-            //         required: true,
-            //         placeholder: 'Enter Serial No',
-            //       },
-            //       validators: {
-            //         validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
-            //       },
-            //       hooks: {
-            //       },
-            //       expressions: {
-            //       },
-            //   },
-            //   {
-            //     type: 'input',
-            //     key: 'Description',
-            //     defaultValue: '',
-            //     className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-            //     templateOptions: {
-            //       label: `Description`,
-            //       required: true,
-            //       placeholder: 'Enter Description',
-            //     },
-            //     validators: {
-            //       validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
-            //     },
-            //     hooks: {
-            //     },
-            //     expressions: {
-            //     },
-            // },
+                {
+                  type: 'input',
+                  key: 'Serial',
+                  defaultValue: '',
+                  className: 'col-12 ',
+                  templateOptions: {
+                    label: `Serial No`,
+                    required: true,
+                    placeholder: 'Enter Serial No',
+                  },
+                  validators: {
+                    validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
+                  },
+                  hooks: {
+                  },
+                  expressions: {
+                  },
+              },
+              {
+                type: 'textarea',
+                key: 'Description',
+                defaultValue: '',
+                className: 'col-12',
+                templateOptions: {
+                  label: `Description`,
+                  required: true,
+                  placeholder: 'Enter Description',
+                },
+                validators: {
+                  validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
+                },
+                hooks: {
+                },
+                expressions: {
+                },
+            },
                   {
-                    className: 'col-12 lg:col-6 md:col-6 xl:col-6 mt-2',
+                    className: 'col-12  mt-2',
                     type: 'commaSeparator',
                     key: 'ElecEquipSuminsured',
                     templateOptions: {
