@@ -30,10 +30,14 @@ export class QuotationPlanComponent {
     this.brokerbranchCode = this.userDetails.Result.BrokerBranchCode;
     this.loginType = this.userDetails.Result.LoginType;
     this.appComp.getLanguage().subscribe((res:any)=>{  
-      this.lang=res;
-      this.translate.setDefaultLang(res);
-    });
-    if(!this.lang){this.lang=sessionStorage.getItem('language');this.translate.setDefaultLang(sessionStorage.getItem('language'));}
+			if(res) this.lang=res;
+			else this.lang='en';
+			this.translate.setDefaultLang(this.lang);
+		  });
+		if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+		else this.lang='en';
+		sessionStorage.setItem('language',this.lang)
+		this.translate.setDefaultLang(sessionStorage.getItem('language'));}
   }
   setRiskDetails(riskDetails){
     if(riskDetails.length!=0){

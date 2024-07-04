@@ -85,7 +85,7 @@
                                 <label for="username">{{'MOTORQUOTE.SourceType' | translate}} *</label>
                                 <p-dropdown inputId="sourceType" class="w-full" styleClass="w-full" [disabled]="endorsementSection  || checkDisableField()"
                                     [options]="sourceTypeList" [(ngModel)]="Code" (onChange)="onSourceTypeChange('change')"
-                                    optionLabel="CodeDesc" optionValue="Code" [placeholder]="'MOTORQUOTE.SelectSourceType' | translate">
+                                    [optionLabel]="getDisplayName()" optionValue="Code" [placeholder]="'MOTORQUOTE.SelectSourceType' | translate">
                                 </p-dropdown>
                                 <div class="input-form-error" *ngIf="sourceCodeError">
                                     <div class="error-text">
@@ -256,7 +256,7 @@
                                     <label for="username">{{'MOTORQUOTE.Currency' | translate}} *</label>
                                     <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="currencyList"
                                         [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')" [disabled]="(endorsementSection && !enableCurrency) || checkDisableField() "
-                                        optionLabel="CodeDesc" optionValue="Code" [placeholder]="'MOTORQUOTE.SelectCurrency' | translate">
+                                        [optionLabel]="getDisplayName()" optionValue="Code" [placeholder]="'MOTORQUOTE.SelectCurrency' | translate">
                                     </p-dropdown>
                                     <div class="input-form-error" *ngIf="currencyCodeError">
                                         <div class="error-text">

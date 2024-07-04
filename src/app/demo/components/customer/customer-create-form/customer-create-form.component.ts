@@ -159,20 +159,20 @@ export class CustomerCreateFormComponent implements OnInit {
 	}
 	ngOnInit(): void {
 		let endorseObj = JSON.parse(sessionStorage.getItem('endorseTypeId'))
-      if(endorseObj){
-        this.endorsementSection = true;
-        this.endorseCategory = endorseObj.Category;
-        this.endorsementName = endorseObj?.EndtName;
-        this.enableFieldsList = endorseObj.FieldsAllowed;
-        this.endorsementId = endorseObj.EndtTypeId;
-        if(endorseObj.QuoteNo) this.quoteNo = endorseObj.QuoteNo;
-        if(this.endorsementId!=42 && this.endorsementId!=842){
-          this.enableCustomerDetails = this.enableFieldsList.some(ele=>ele=='customerName' || ele=='Title');
-        }
-      }
-      else{
-        this.endorsementSection = false;this.enableCustomerDetails = false;
-      }
+		if(endorseObj){
+			this.endorsementSection = true;
+			this.endorseCategory = endorseObj.Category;
+			this.endorsementName = endorseObj?.EndtName;
+			this.enableFieldsList = endorseObj.FieldsAllowed;
+			this.endorsementId = endorseObj.EndtTypeId;
+			if(endorseObj.QuoteNo) this.quoteNo = endorseObj.QuoteNo;
+			if(this.endorsementId!=42 && this.endorsementId!=842){
+			this.enableCustomerDetails = this.enableFieldsList.some(ele=>ele=='customerName' || ele=='Title');
+			}
+		}
+		else{
+			this.endorsementSection = false;this.enableCustomerDetails = false;
+		}
 		this.primeNGConfig.ripple = true;
 		this.ownerCategoryOptions = [{name: 'Category', code: 'category'}];
 		this.customerTypes = [{label: 'Personal', value: 'personal'}, {label: 'Corporate', value: 'corporate'}];

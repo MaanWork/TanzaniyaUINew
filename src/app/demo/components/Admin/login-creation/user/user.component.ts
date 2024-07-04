@@ -830,7 +830,9 @@ export class UserComponent {
   }
 
   onSubmit() {
-    //let entry = this.cityList.some(ele=>ele.Code==this.cityCode);
+    let entry = this.cityList.find(ele=>ele.Code==this.cityCode)?.CodeDesc;
+    if(entry) this.cityName = entry
+    else this.cityName = null;
     let ReqObj ={
       "LoginInformation": {
         "AgencyCode": this.agencyCode,
@@ -854,6 +856,7 @@ export class UserComponent {
         "ApprovedPreparedBy": this.loginId,
         "CheckerYn": this.checkerYN,
         "CityCode": this.cityCode,
+        "CityName": this.cityName,
         "CommissionVatYn": this.commissionVatYN,
         "CompanyName": this.companyCode,
         "ContactPersonName": this.contactPersonName,

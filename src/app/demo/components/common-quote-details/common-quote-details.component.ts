@@ -243,11 +243,14 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.showSearchForm('direct');
     }
     this.appComp.getLanguage().subscribe((res:any)=>{  
-      this.lang=res;
-      this.translate.setDefaultLang(res);
-      this.checkFieldNames();
-  });
-  if(!this.lang){this.lang=sessionStorage.getItem('language');this.checkFieldNames();this.translate.setDefaultLang(sessionStorage.getItem('language'));}
+			if(res) this.lang=res;
+			else this.lang='en';
+			this.translate.setDefaultLang(this.lang);this.checkFieldNames();
+		  });
+		if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+		else this.lang='en';
+		sessionStorage.setItem('language',this.lang);this.checkFieldNames();
+		this.translate.setDefaultLang(sessionStorage.getItem('language'));}
     // let s = sessionStorage.getItem('Addnew');
     // if(s='Addnew'){
     //   console.log('Half page',s)
@@ -262,6 +265,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
     let name=val.replaceAll(' ','');
     return 'QUOTEGRID.'+name
   }
+  getDisplayName(){
+		if(this.lang=='en') return 'CodeDesc';
+		else return 'CodeDescLocal'
+	}
   getIndustryList(){
     this.industryList = [];
     let ReqObj = {

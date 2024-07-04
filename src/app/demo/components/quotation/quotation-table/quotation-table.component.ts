@@ -97,15 +97,14 @@ export class QuotationTableComponent implements OnInit {
     this.quotations = [{referenceNo:'123'}, {referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'}];
     this.getBrokerList();
     this.appComp.getLanguage().subscribe((res:any)=>{  
-      this.lang=res;
-      if(this.lang=='en'){this.items = [{ label: 'Home', routerLink:'/' }, {label:'Quotation'}];}
-      else if(this.lang=='po'){this.items = [{ label: 'Lar', routerLink:'/' }, {label:'cotação'}];}
-      this.translate.setDefaultLang(res);
-  });
-  if(!this.lang){this.lang=sessionStorage.getItem('language');
-    if(this.lang=='en'){this.items = [{ label: 'Home', routerLink:'/' }, {label:'Quotation'}];}
-      else if(this.lang=='po'){this.items = [{ label: 'Lar', routerLink:'/' }, {label:'cotação'}];}
-      this.translate.setDefaultLang(sessionStorage.getItem('language'));}
+			if(res) this.lang=res;
+			else this.lang='en';
+			this.translate.setDefaultLang(this.lang);
+		  });
+		if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+		else this.lang='en';
+		sessionStorage.setItem('language',this.lang)
+		this.translate.setDefaultLang(sessionStorage.getItem('language'));}
     // this.getLapsedBrokerList();
     // this.getRejectedBrokerList();
   }

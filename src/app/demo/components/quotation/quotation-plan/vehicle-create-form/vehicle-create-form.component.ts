@@ -111,6 +111,10 @@ export class VehicleCreateFormComponent implements OnInit {
           }
     }
   }
+  getDisplayName(){
+		if(this.lang=='en') return 'CodeDesc';
+		else return 'CodeDescLocal'
+	}
   getNewMakeList(){
     let ReqObj = {
       "InsuranceId": this.insuranceId,
