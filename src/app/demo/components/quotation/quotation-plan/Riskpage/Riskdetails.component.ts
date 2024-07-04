@@ -680,8 +680,6 @@ export class RiskDetailsComponent {
     }
     onChangeContentLocation(entry){
       if(entry.RiskId) entry['LocationName'] = this.locationList.find(ele=>ele.RiskId==entry.RiskId)?.LocationName;
-      alert(entry.RiskId)
-      alert(entry.LocationName)
     }
     getOccupationName(entry){
       if(entry?.OccupationId){return this.occupationList.find(ele=>ele.Code==entry.OccupationId)?.CodeDesc}
