@@ -721,50 +721,21 @@ export class CommonProductDetailsComponent {
     
     if (this.TableRowBurglary.length != 0) {
       console.log(this.TableRowBurglary,"this.TableRowBurglary");
-      
-      // let i=0,j=0, reqList =[],additionalList=[];
-      // for(let entry of this.TableRowFire){
-          // if(entry.BuildingUsageId!=null && entry.BuildingUsageId!='' && entry.BuildingUsageId!=undefined) entry['BuildingUsageIdError']=false;
-          // else{ j+=1; entry['BuildingUsageIdError']=true;}
-          // if(entry.WallType!=null && entry.WallType!='' && entry.WallType!=undefined) entry['WallTypeError']=false;
-          // else{ j+=1; entry['WallTypeError']=true;}
-          // if(entry.RoofType!=null && entry.RoofType!='' && entry.RoofType!=undefined) entry['RoofTypeError']=false;
-          // else{ j+=1; entry['RoofTypeError']=true;}
-          // if(entry.BuildingSumInsured!=null && entry.BuildingSumInsured!='' && entry.BuildingSumInsured!=undefined && entry.BuildingSumInsured!=0 && entry.BuildingSumInsured!='0') entry['SumInsuredError']=false;
-          // else{ j+=1; entry['SumInsuredError']=true;}
-          // if(entry.LocationName!=null && entry.LocationName!='' && entry.LocationName!=undefined && entry.LocationName!=0) entry['LocationError']=false;
-          // else{ j+=1; entry['LocationError']=true;}
             let data = {
-                // "ItemId":entry.ItemId,
-                // "RiskId":i+1,
-                // "productName":this.productName,
-                // "IndustryTypes": this.IndustryTypes,
-                // "Industry":this.IndustryId,
-                "LocationName":this.LocationName,
-                "region":this.region,
-                "stateName": this.stateName,
-                "FirstLossSumInsured": this.FirstLossSumInsured,
-                "sumInsured": this.FireSumInsured,
-                // "CoveringDetails": this.CoveringDetails,
-                // "DescriptionRisk": this.DescriptionRisk,
+                "LocationName":this.productItem.LocationName,
+                "region":this.productItem.region,
+                "stateName": this.productItem.stateName,
+                "FirstLossSumInsured": this.productItem.BurglarySi,
+                "sumInsured": this.productItem.FireSumInsured,
+                "CoveringDetails": this.productItem.CoveringDetails,
+                "DescriptionRisk": this.productItem.DescriptionRisk,
             }
             if (this.currentBurglaryIndex !=0) {
               this.TableRowBurglary[this.currentBurglaryIndex] = data;
           } else {
-              // If currentBurglaryIndex is out of range, you might want to push the data
               this.TableRowBurglary.push(data);
           } 
-          //  this.productName=''
-          //  this.IndustryTypes=''
-           this.LocationName=''
-           //this.IndustryId=''
-           this.region=''
-           this.stateName=''
-           this.FirstLossSumInsured=''
-           this.FireSumInsured=''
-          //  this.CoveringDetails=''
-          //  this.DescriptionRisk=''
-        
+        this.form.reset();
     }
   
   }
@@ -6007,7 +5978,7 @@ console.log('Eventsss',event);
         reqRefNo = sessionStorage.getItem('quoteReferenceNo')
       }
       if (reqRefNo == 'undefined' || reqRefNo == undefined) reqRefNo = null;
-    let ReqObj = {
+    let ReqObj = [{
       "AgencyCode": this.agencyCode,
       "ApplicationId": appId,
       "BdmCode": null,
@@ -6079,7 +6050,7 @@ console.log('Eventsss',event);
       "OrginalPolicyNo": this.orginalPolicyNo,
       "PolicyNo": this.endorsePolicyNo,
       "Status": "Y"
-    }
+    }]
     if (this.endorsementSection) {
       if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
         ReqObj['Status'] = 'E';
@@ -6092,7 +6063,7 @@ console.log('Eventsss',event);
     else {
       ReqObj['Status'] = 'Y';
     }
-    let urlLink = `${this.motorApiUrl}api/slide3/saveburglaryandhouse`;
+    let urlLink = `${this.motorApiUrl}api/slide3/saveburglaryandhouselist`;
         this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
           (data: any) => {
             if (data?.Result) {

@@ -27,26 +27,17 @@ export class Burglary{
               fieldGroupClassName: 'grid mt-2',
                 fieldGroup: [
                   {
-                    className: 'col-12 md:col-6 lg:col-6 p-2',
-                    type: 'displays',
-            
-                    templateOptions: {
-                      label: `Not limited to Goods in trusts (customers vehicles), Spare Parts,Tools, equipments and the like`,
-                      required: false,
-  
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4',
+                    className: 'col-12 md:col-6 lg:col-6',
                     type: 'commaSeparator',
                       key: 'BurglarySi',
                       
                       props: { 
                         maxLength: 15,
-                        label: `Sum Insured`,
+                        label: `First Loss SI(%)`,
                       },
                       templateOptions: {
-                        disabled: this.checkDisable('BuildingSuminsured')
+                        //disabled: this.checkDisable('BuildingSuminsured')
+                        required: true,
                       },
                       validators: {
                         validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
@@ -58,59 +49,145 @@ export class Burglary{
                       
                       },
                   },
-                // {
-                  
-                //   fieldGroupClassName: 'col-8 col-md-8 col-lg-8 offset-2',
-                //   type: 'tables',
-                //   fieldGroup: [
-                //     {
-                //         fieldGroup:[
-                //           {props:{label:`Sum Insured`}},
-                //         ]
-                //     },
-                //     {
-                //       fieldGroup:[
-                //         {
-                //           fieldGroup:[
-                           
-                //             {
-                //               className: "splitCardHeaderss",
-                //               type: 'displays',
-            
-                //               templateOptions: {
-                //                 label: `Not limited to Goods in trusts (customers vehicles), Spare Parts,Tools, equipments and the like`,
-                //                 required: false,
-            
-                //               },
-                //             },
-                //             {
-                //               className:"labelsum",
-                //               type: 'commaSeparator',
-                //               key: 'BurglarySi',
-                              
-                //               props: { 
-                //                 maxLength: 15,
-                //                 label: `Sum Insured`,
-                //               },
-                //               templateOptions: {
-                //                 disabled: this.checkDisable('BuildingSuminsured')
-                //               },
-                //               validators: {
-                //                 validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                //               },
-                //               hooks: {
-                //               },
-              
-                //               expressions: {
-                              
-                //               },
-                //             }
-                //           ]
-                //         },
-                //       ] 
-                //     }
-                //   ]
-                // }
+                  {
+                    className: 'col-12 md:col-6 lg:col-6',
+                    type: 'commaSeparator',
+                      key: 'FireSumInsured',
+                      
+                      props: { 
+                        maxLength: 15,
+                        label: `Sum Insured`,
+                      },
+                      templateOptions: {
+                        //disabled: this.checkDisable('BuildingSuminsured')
+                        required: true,
+                      },
+                      validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      },
+                      hooks: {
+                      },
+      
+                      expressions: {
+                      
+                      },
+                  },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6',
+                    type: 'textarea',
+                      key: 'CoveringDetails',
+                      
+                      props: { 
+                        maxLength: 15,
+                        label: `Covering Details`,
+                      },
+                      templateOptions: {
+                        //disabled: this.checkDisable('BuildingSuminsured')
+                        required: true,
+                      },
+                      validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      },
+                      hooks: {
+                      },
+      
+                      expressions: {
+                      
+                      },
+                  },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6',
+                    type: 'textarea',
+                      key: 'DescriptionRisk',
+                      
+                      props: { 
+                        maxLength: 15,
+                        label: `Description Of Risk`,
+                      },
+                      templateOptions: {
+                        //disabled: this.checkDisable('BuildingSuminsured')
+                        required: true,
+                      },
+                      validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      },
+                      hooks: {
+                      },
+      
+                      expressions: {
+                      
+                      },
+                  },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6',
+                    type: 'input',
+                    key: 'LocationName',
+                    props: { 
+                      maxLength: 15,
+                      label: `Location Name`,
+                    },
+                    templateOptions: {
+                        //disabled: this.checkDisable('BuildingSuminsured')
+                        required: true,
+                    },
+                    validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+      
+                    expressions: {
+                      
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6',
+                    type: 'ngselect',
+                      key: 'region',
+                      
+                      props: { 
+                        maxLength: 15,
+                        label: `Region`,
+                      },
+                      templateOptions: {
+                        //disabled: this.checkDisable('BuildingSuminsured')
+                        required: true,
+                        options: []
+                      },
+                      validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      },
+                      hooks: {
+                      },
+      
+                      expressions: {
+                      
+                      },
+                  },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6',
+                    type: 'ngselect',
+                      key: 'stateName',
+                      
+                      props: { 
+                        maxLength: 15,
+                        label: `District`,
+                      },
+                      templateOptions: {
+                        //disabled: this.checkDisable('BuildingSuminsured')
+                        required: true,
+                        options: []
+                      },
+                      validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      },
+                      hooks: {
+                      },
+      
+                      expressions: {
+                      
+                      },
+                  },
               ]
             }
           ]

@@ -214,7 +214,7 @@
                                 </div>
                             </div>
                         </div> -->
-                    <div class="lg:col-6 md:col-6 col-12" *ngIf="productId=='6' || this.productId=='16' || productId=='39' || productId=='14' || productId=='15' || productId=='32' || productId=='1' || productId=='21' 
+                    <div class="lg:col-6 md:col-6 col-12" *ngIf=" this.productId=='16' || productId=='39' || productId=='14' || productId=='15' || productId=='32' || productId=='1' || productId=='21' 
                      || productId=='13' || productId=='24'"><!--|| productId=='57'-->
                             <label for="username">Industry</label>
                             <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="make" class="w-full" styleClass="w-full" [options]="industryList"
@@ -751,7 +751,7 @@
                 </div>
             </div>
         </div>
-        <div class="grid mt-2 pl-5 pr-2 pb-0" *ngIf="(productId=='60' || productId=='21' || productId=='26'  || productId=='25' || productId=='43' || productId=='13'  || (productId=='39' && insuranceId!='100004') || (productId=='27' && insuranceId!='100004')) && formSection">
+        <div class="grid mt-2 pl-5 pr-2 pb-0" *ngIf="(productId=='1' || productId=='60' || productId=='21' || productId=='26'  || productId=='25' || productId=='43' || productId=='13'  || (productId=='39' && insuranceId!='100004') || (productId=='27' && insuranceId!='100004')) && formSection">
             <ng-container *ngFor="let step of fields; let index = index; let last = last">
             <ng-container *ngIf="step.props.label=='Plant All Risk' ||step.props.label=='Fire And Material Damage'  || step.props.label=='Burglary' || step.props.label=='Machinery BreakDown' || step.props.label=='Medical Insurance' || step.props.label=='Public Liability'">
                 <ng-container *ngIf="step.props.label=='Public Liability'">
@@ -786,7 +786,44 @@
                         </ng-template>
                         </p-table>
                 </ng-container>
-            
+                <ng-container *ngIf="TableRowBurglary.length!=0 && (productId=='1' && insuranceId!='100004')">
+                    <p-table [value]="TableRowBurglary" [tableStyle]="{'min-width':'100rem'}" [paginator]="true" [rows]="5">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>S.No</th>
+                                <th>Location Name</th>
+                                <th>Region</th>
+                                <th>District</th>
+                                <th>First Loss SI(%)</th>
+                                <th>Sum Insured</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-emp let-i="rowIndex">
+                            <tr *ngIf="emp.LocationName!='' && emp.LocationName!=null">
+                            <td>
+                                {{i}}
+                            </td>
+                            
+                            <td>
+                                {{emp.LocationName}}
+                            </td>
+                            <td>{{emp.region}}</td>
+                            <td>{{emp.stateName}}</td>
+                            <td>{{emp.FirstLossSumInsured}}</td>
+                            <td>{{emp.sumInsured}}</td>
+                            <td>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditBurglary(emp)"></button>  
+                            </td>
+                            <td>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="BurglaryDelete(i)"></button>  
+                            </td>
+                            </tr>
+                        </ng-template>
+                        <!-- <ng-container *ngIf=""></ng-container> -->
+                        </p-table>
+                </ng-container>
                 <div class="col-12 sm:col-12 md:col-12 m-0 p-0">
                     <div>
                         <div class="col-12 sm:col-4 md:col-4 m-0 p-0 d-flex justify-content-between" (click)="selectedIndex=index">
@@ -806,12 +843,80 @@
                             </div>
                         </div>
                     </div>
+                    <div class="flex flex-wrap justify-content-center gap-2" *ngIf="productId=='1'">
+                        <p-button label="save & Add More" (click)="addBurglaryTable()" />
+                    </div>
                     <div class="flex flex-warp justify-content-center">
                         <p-button *ngIf="productId=='27'" label="Save & Add New" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </div>
 
                 </div>
+                <!-- <ng-container *ngIf="step.props.label=='Burglary'">
                 
+                <div *ngIf="productId=='1' && insuranceId!='100004'">
+                    <div class="grid">
+                        <div class="md:col-6 lg:col-6 col-12">
+                            <h4 class="m-0 p-0">Burglary</h4>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                        <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                            <div class="input-control-container">
+                                <label class="input-form-label">First Loss SI(%) &nbsp;<span class="text-danger">*</span></label>
+                                <input pInputText class="w-full" type="text" name="SampleType" placeholder="Enter First Loss SI" [(ngModel)]="FirstLossSumInsured">
+                            </div>
+                        </div>
+                        <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                            <div class="input-control-container">
+                                <label class="input-form-label">SumInsured&nbsp;<span class="text-danger">*</span></label>
+                                <input pInputText class="w-full" type="text" name="SampleType" placeholder="Enter SumInsured" [(ngModel)]="FireSumInsured">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                        <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                            <div class="input-control-container">
+                                <label for="ProductName">Covering Details</label>
+                                <textarea pInputTextarea class="w-full" type="text" name="SampleType" [(ngModel)]="CoveringDetails" placeholder="Enter Covering Details"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                            <div class="input-control-container">
+                                <label class="input-form-label">Description Of Risk&nbsp;<span class="text-danger">*</span></label>
+                                <textarea pInputTextarea class="w-full" type="text" name="SampleType" placeholder="Enter Description of Risk" [(ngModel)]="DescriptionRisk"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                        <div class="col-12 lg:col-2 md:col-2 lx:col-2">
+                            <div class="input-control-container">
+                                <label class="input-form-label">Location Name&nbsp;<span class="text-danger">*</span></label>
+                                <input pInputText class="w-full" type="text" name="SampleType" [(ngModel)]="LocationName" placeholder="Enter Location Name">
+                            </div>
+                        </div>
+                        <div class="col-12 lg:col-2 md:col-2 lx:col-2 ">
+                            <div class="input-control-container">
+                            <label for="ProductName">Region</label>
+                            <p-dropdown [filter]="true" filterBy="label" inputId="make" class="w-full" styleClass="w-full" (onChange)="ongetDistrictList('region')" [options]="regionList" optionValue="Code" optionLabel="label" [(ngModel)]="region" placeholder="-Select-">
+                            </p-dropdown>
+                        </div>
+                        </div>
+                            <div class="col-12 lg:col-2 md:col-2 lx:col-2">
+                                <div class="input-control-container">
+                                <label for="ProductName">District</label>
+                                <p-dropdown [filter]="true" filterBy="label" inputId="make" class="w-full" styleClass="w-full" [options]="stateList" optionValue="Code" optionLabel="label" [(ngModel)]="stateName" placeholder="-Select-">
+                                </p-dropdown>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap justify-content-center gap-2" *ngIf="productId=='1'">
+                    <p-button label="save & Add More" (click)="addBurglaryTable()" />
+                </div>
+            </ng-container> -->
             </ng-container>
             
             <ng-container *ngIf="step.props.label=='Business All Risk' || step.props.label=='Electronic Equipment' || step.props.label=='Personal Accident'">
@@ -1199,107 +1304,7 @@
             <p-button label="save & Add More" (click)="addFireTable('Save')" />
         </div>
 
-        <ng-container *ngIf="TableRowBurglary.length!=0 && (productId=='1' && insuranceId!='100004')">
-            <p-table [value]="TableRowBurglary" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>S.No</th>
-                        <th>Location Name</th>
-                        <th>Region</th>
-                        <th>District</th>
-                        <th>First Loss SI(%)</th>
-                        <th>Sum Insured</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-emp let-i="rowIndex">
-                    <tr *ngIf="emp.LocationName!='' && emp.LocationName!=null">
-                    <td>
-                        {{i}}
-                    </td>
-                    
-                    <td>
-                        {{emp.LocationName}}
-                    </td>
-                    <td>{{emp.region}}</td>
-                    <td>{{emp.stateName}}</td>
-                    <td>{{emp.FirstLossSumInsured}}</td>
-                    <td>{{emp.sumInsured}}</td>
-                    <td>
-                        <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditBurglary(emp)"></button>  
-                    </td>
-                    <td>
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="BurglaryDelete(i)"></button>  
-                    </td>
-                    </tr>
-                </ng-template>
-                <ng-container *ngIf=""></ng-container>
-                </p-table>
-        </ng-container>
-        <div *ngIf="productId=='1' && insuranceId!='100004'">
-            <div class="grid">
-                <div class="md:col-6 lg:col-6 col-12">
-                    <h4 class="m-0 p-0">Burglary</h4>
-                </div>
-            </div>
-            <div class="grid">
-                <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                <div class="col-12 lg:col-3 md:col-3 lx:col-3">
-                    <div class="input-control-container">
-                        <label class="input-form-label">First Loss SI(%) &nbsp;<span class="text-danger">*</span></label>
-                        <input pInputText class="w-full" type="text" name="SampleType" placeholder="Enter First Loss SI" [(ngModel)]="FirstLossSumInsured">
-                    </div>
-                </div>
-                <div class="col-12 lg:col-3 md:col-3 lx:col-3">
-                    <div class="input-control-container">
-                        <label class="input-form-label">SumInsured&nbsp;<span class="text-danger">*</span></label>
-                        <input pInputText class="w-full" type="text" name="SampleType" placeholder="Enter SumInsured" [(ngModel)]="FireSumInsured">
-                    </div>
-                </div>
-            </div>
-            <div class="grid">
-                <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                <div class="col-12 lg:col-3 md:col-3 lx:col-3">
-                    <div class="input-control-container">
-                        <label for="ProductName">Covering Details</label>
-                        <textarea pInputTextarea class="w-full" type="text" name="SampleType" [(ngModel)]="CoveringDetails" placeholder="Enter Covering Details"></textarea>
-                    </div>
-                </div>
-                <div class="col-12 lg:col-3 md:col-3 lx:col-3">
-                    <div class="input-control-container">
-                        <label class="input-form-label">Description Of Risk&nbsp;<span class="text-danger">*</span></label>
-                        <textarea pInputTextarea class="w-full" type="text" name="SampleType" placeholder="Enter Description of Risk" [(ngModel)]="DescriptionRisk"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="grid">
-                <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                <div class="col-12 lg:col-2 md:col-2 lx:col-2">
-                    <div class="input-control-container">
-                        <label class="input-form-label">Location Name&nbsp;<span class="text-danger">*</span></label>
-                        <input pInputText class="w-full" type="text" name="SampleType" [(ngModel)]="LocationName" placeholder="Enter Location Name">
-                    </div>
-                </div>
-                <div class="col-12 lg:col-2 md:col-2 lx:col-2 ">
-                    <div class="input-control-container">
-                    <label for="ProductName">Region</label>
-                    <p-dropdown [filter]="true" filterBy="label" inputId="make" class="w-full" styleClass="w-full" (onChange)="ongetDistrictList('region')" [options]="regionList" optionValue="Code" optionLabel="label" [(ngModel)]="region" placeholder="-Select-">
-                    </p-dropdown>
-                </div>
-                </div>
-                    <div class="col-12 lg:col-2 md:col-2 lx:col-2">
-                        <div class="input-control-container">
-                        <label for="ProductName">District</label>
-                        <p-dropdown [filter]="true" filterBy="label" inputId="make" class="w-full" styleClass="w-full" [options]="stateList" optionValue="Code" optionLabel="label" [(ngModel)]="stateName" placeholder="-Select-">
-                        </p-dropdown>
-                        </div>
-                    </div>
-            </div>
-            </div>
-        <div class="flex flex-wrap justify-content-center gap-2" *ngIf="productId=='1'">
-            <p-button label="save & Add More" (click)="addBurglaryTable()" />
-        </div>
+        
 
         <div>
             <div class="form__wrapper" *ngIf="productId!='46' && productId!='14' && productId!='16' && productId!='57' && productId!='32' && productId!='19' && productId!='24' && productId!='59' && productId!='42' && productId!='15' && productId!='13' && productId!='21' && productId!='26' && productId!='6' && productId!='25' && productId!='56' && (productId!='1' || (productId=='1' && insuranceId=='100004'))  && (productId!='39' || (productId=='39' && insuranceId=='100004')) && (productId!='27' || (productId=='27' && insuranceId=='100004'))">
