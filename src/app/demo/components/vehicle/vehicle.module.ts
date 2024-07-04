@@ -19,6 +19,9 @@ import { CalendarModule } from 'primeng/calendar';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { AccordionModule } from 'primeng/accordion';
 import { ChipModule } from 'primeng/chip';
+import { HttpClient } from '@angular/common/http';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpLoaderFactory } from 'src/app/app.module';
 
 
 
@@ -42,7 +45,14 @@ import { ChipModule } from 'primeng/chip';
     CalendarModule,
     ConfirmDialogModule,
     AccordionModule,
-    ChipModule
+    ChipModule,
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
+  })
   ]
 })
 export class VehicleModule { }

@@ -3,7 +3,7 @@
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { ForceLengthValidators } from "../../personal-quote-details/personal-quote-details.component";
 
-export class MotorVehicleSanlam{
+export class ShortQuoteSanlam{
     customerDetails: any;
     commonDetails: any[]=[];
     endorsementSection: boolean=false;subuserType:any=null;
@@ -13,7 +13,6 @@ export class MotorVehicleSanlam{
         if(finalize) this.finalizeYN = finalize;
         this.subuserType = sessionStorage.getItem('typeValue');
         this.customerDetails = JSON.parse(sessionStorage.getItem('customerDetails'));
-       
         if (sessionStorage.getItem('endorsePolicyNo')) {
             this.endorsementSection = true;
             let endorseObj = JSON.parse(sessionStorage.getItem('endorseTypeId'))
@@ -22,39 +21,16 @@ export class MotorVehicleSanlam{
             }
         }
         this.fields={
-            props: { label: 'All Risk' },
+            props: { label: 'Policy Details' },
             fieldGroup: [
               {
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
                   {
                     type: 'ngselect',
-                    id:'InsuranceType',
-                    key: 'InsuranceType',
-                    defaultValue: '',
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    props: {
-                      label: `Insurance Type`,
-                      disabled: this.checkDisable('InsuranceType'),
-                      required: true,
-                      options: [
-      
-                      ],
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    type: 'ngselect',
-                    id:'MotorUsage',
                     key: 'MotorUsage',
                     defaultValue: '',
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     props: {
                       label: `Motor Usage`,
                       disabled: this.checkDisable('MotorUsage'),
@@ -74,7 +50,252 @@ export class MotorVehicleSanlam{
                   },
                   {
                     type: 'ngselect',
-                    id:'Deductibles',
+                    key: 'BodyType',
+                    defaultValue: '',
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
+                    props: {
+                      label: `Body Type`,
+                      disabled: this.checkDisable('BodyType'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    type: 'ngselect',
+                    key: 'Make',
+                    defaultValue: '',
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
+                    props: {
+                      label: `Make`,
+                      disabled: this.checkDisable('Make'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    type: 'ngselect',
+                    key: 'Model',
+                    defaultValue: '',
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
+                    props: {
+                      label: `Model`,
+                      disabled: this.checkDisable('Model'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    type: 'input',
+                    key: 'ModelDesc',
+                    defaultValue: '',
+                    hide: true,
+                    hideExpression:true,
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
+                    props: {
+                      label: `Model Description`,
+                      disabled: this.checkDisable('ModelDesc'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    type: 'ngselect',
+                    key: 'ManufactureYear',
+                    defaultValue: '',
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
+                    props: {
+                      label: `Manufacture Year`,
+                      disabled: this.checkDisable('ManufactureYear'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  // {
+                  //   className: 'col-12 md:col-6 lg:col-6 xl:col-6',
+                  //   type: 'input',
+                  //   key: 'ChassisNo',
+                  //   props: {
+                  //     label: `Chassis No`,
+                  //     maxLength: 15,
+                  //     disabled: this.checkDisable('ChassisNo'),
+                  //     required: true,
+                  //     options: [
+  
+                  //     ],
+  
+                  //   },
+                  //   validators: {
+                  //   },
+                  //   hooks: {
+                  //   },
+                  //   expressions: {
+                  //   },
+                  // },
+                  {
+                    type: 'ngselect',
+                    key: 'InsuranceType',
+                    defaultValue: '',
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
+                    props: {
+                      label: `Insurance Type`,
+                      disabled: this.checkDisable('InsuranceType'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  // {
+                  //   type: 'ngselect',
+                  //   key: 'InsuranceClass',
+                  //   defaultValue: '',
+                  //   className: 'col-12 md:col-6 lg:col-6 xl:col-6',
+                  //   props: {
+                  //     label: `Insurance Class`,
+                  //     disabled: this.checkDisable('InsuranceClass'),
+                  //     required: true,
+                  //     options: [
+      
+                  //     ],
+      
+                  //   },
+                  //   validators: {
+                  //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                  //   },
+                  //   hooks: {
+                  //   },
+                  //   expressions: {
+                  //   },
+                  // },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'commaSeparator',
+                    key: 'VehicleSI',
+                    hide: true,
+                    hideExpression:true,
+                    props: {
+                      label: `VehicleSI`,
+                      maxLength: 15,
+                      disabled: this.checkDisable('VehicleSI'),
+                      required: true,
+                      options: [
+  
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'commaSeparator',
+                    key: 'AccessoriesSI',
+                    hide: true,
+                    hideExpression:true,
+                    props: {
+                      label: `Accessories SumInured`,
+                      maxLength: 15,
+                      disabled: this.checkDisable('AccessoriesSI'),
+                      required: false,
+                      options: [
+  
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'commaSeparator',
+                    key: 'WindShieldSI',
+                    hide: true,
+                    hideExpression:true,
+                    props: {
+                      label: `WindShield SumInured`,
+                      maxLength: 15,
+                      disabled: this.checkDisable('WindShieldSI'),
+                      required: false,
+                      options: [
+  
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    type: 'ngselect',
                     key: 'Deductibles',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
@@ -97,7 +318,6 @@ export class MotorVehicleSanlam{
                   },
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                      id:'PurchaseDate',
                       key: 'PurchaseDate',
                       type: 'datepicker',
                       defaultValue: '',
@@ -106,6 +326,7 @@ export class MotorVehicleSanlam{
                       },
                       props: {
                         label: 'Purchase Date',
+                        
                         required: true,
                         type: 'date',
                         datepickerOptions: {
@@ -115,7 +336,6 @@ export class MotorVehicleSanlam{
                   },
                   {
                     type: 'ngselect',
-                    id:'DefenceCost',
                     key: 'DefenceCost',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
@@ -138,7 +358,6 @@ export class MotorVehicleSanlam{
                   },
                   {
                     type: 'ngselect',
-                    id:'VehicleValue',
                     key: 'VehicleValue',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
@@ -163,7 +382,7 @@ export class MotorVehicleSanlam{
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'input',
                     key: 'Inflation',
-                    id:'Inflation',
+  
                     props: {
                       label: `Inflation`,
                       maxLength: 15,
@@ -183,13 +402,38 @@ export class MotorVehicleSanlam{
                   },
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'commaSeparator',
-                    id:'VehicleSI',
-                    key: 'VehicleSI',
+                    key: 'ClaimsYN',
+                    type: 'radioList',
+                    templateOptions: {
+                      type: 'radioList',
+                      label: 'Claims',
+                      required: true,
+                      disabled: this.checkDisable('ClaimsYN'),
+                      name: 'ClaimsYN',
+                      options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
+                    }
+                  },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    key: 'GpsYN',
+                    type: 'radioList',
+                    templateOptions: {
+                      type: 'radioList',
+                      label: 'Gps Tracking Enabled',
+                      required: true,
+                      disabled: this.checkDisable('ClaimsYN'),
+                      name: 'GpsYN',
+                      options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
+                    }
+                  },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'input',
+                    key: 'Tonnage',
                     hide: true,
                     hideExpression:true,
                     props: {
-                      label: `SumInsured`,
+                      label: `Tonnage`,
                       maxLength: 15,
                       disabled: this.checkDisable('VehicleSI'),
                       required: true,
@@ -206,194 +450,28 @@ export class MotorVehicleSanlam{
                     },
                   },
                   // {
-                  //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                  //   type: 'commaSeparator',
-                  //   key: 'InflationSumInsured',
-                  //   hide: false,
-                  //   hideExpression:false,
-                  //   props: {
-                  //     label: `Inflation SumInsured`,
-                  //     maxLength: 15,
-                  //     disabled: this.checkDisable('InflationSumInsured'),
-                  //     required: true,
-                  //     options: [
-  
-                  //     ],
-  
-                  //   },
-                  //   validators: {
-                  //   },
-                  //   hooks: {
-                  //   },
-                  //   expressions: {
-                  //   },
-                  // },
-                  
-                 
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'commaSeparator',
-                    key: 'AccessoriesSI',
-                    id:'AccessoriesSI',
-                    hide: true,
-                    hideExpression:true,
-                    props: {
-                      label: `Accessories SumInured`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('AccessoriesSI'),
-                      required: false,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'commaSeparator',
-                    key: 'WindShieldSI',
-                    id:'WindShieldSI',
-                    hide: true,
-                   // hideExpression:true,
-                    props: {
-                      label: `WindShield SumInured`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('WindShieldSI'),
-                      required: false,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'input',
-                    key: 'NoOfPassengers',
-                    id:'NoOfPassengers',
-                    props: {
-                      label: `Number Of Passengers's `,
-                      maxLength: 15,
-                      disabled: this.checkDisable('NumberOfPassengers'),
-                    //  required: true,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'input',
-                    key: 'Mileage',
-                    id:'Mileage',
-                    props: {
-                      label: `Mileage (Km/lit)`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('Mileage'),
-                    //  required: true,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'input',
-                    key: 'NoOfClaimYears',
-                    id:'NoOfClaimYears',
-                    props: {
-                      label: `Number Of Claim Years`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('NoOfClaimYears'),
-                    //  required: true,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                
-
-
-
-
-                  // {
-                  //   type: 'ngselect',
-                  //   key: 'ExtendedTPPDSI',
-                  //   defaultValue: '',
                   //   className: 'col-12 col-md-4 col-lg-4 col-xl-4',
+                  //   type: 'input',
+                  //   key: 'CubicCapacity',
                   //   hide: true,
                   //   hideExpression:true,
                   //   props: {
-                  //     label: `Extended TPPD SumInsured`,
-                  //     disabled: this.checkDisable('ExtendedTPPDSI'),
+                  //     label: `Cubic Capacity`,
+                  //     maxLength: 15,
+                  //     disabled: this.checkDisable('VehicleSI'),
                   //     required: true,
                   //     options: [
-      
+  
                   //     ],
-      
+  
                   //   },
                   //   validators: {
-                  //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
                   //   },
                   //   hooks: {
                   //   },
                   //   expressions: {
                   //   },
                   // },
-                  
-                   
-                    
-                    {
-                      className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                      key: 'ClaimsYN',
-                      id:'Claims',
-                      type: 'radioList',
-                      templateOptions: {
-                        type: 'radioList',
-                        label: 'Claims',
-                        required: true,
-                        disabled: this.checkDisable('ClaimsYN'),
-                       
-                        name: 'Claims',
-                        options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
-                      }
-                    },
                 ]
               }
             ]

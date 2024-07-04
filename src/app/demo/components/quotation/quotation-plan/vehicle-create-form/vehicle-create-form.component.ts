@@ -4,6 +4,8 @@ import * as Mydatas from '../../../../../app-config.json';
 import { SharedService } from 'src/app/demo/service/shared.service';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-vehicle-create-form',
@@ -49,9 +51,9 @@ export class VehicleCreateFormComponent implements OnInit {
   endorsePolicyNo: any=null;years:any[]=[];modelHeader:any[]=[];
   referenceNo: string;mainBodyTypeList:any[]=[];makeError:boolean = false;
   commonDetails: any;editSectionAlt:boolean=false;modelSearchVisible:boolean = false;
-  modelColumns:any[]=[];selectedRowData:any=null;
-  constructor(private messageService: MessageService,private sharedService: SharedService,
-    private datePipe:DatePipe,private router:Router) {
+  modelColumns:any[]=[];selectedRowData:any=null;lang:any=null;
+  constructor(private messageService: MessageService,private sharedService: SharedService,private appComp:AppComponent,
+    private translate:TranslateService,private datePipe:DatePipe,private router:Router) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
       this.loginId = this.userDetails.Result.LoginId;
       this.userType = this.userDetails?.Result?.UserType;
@@ -71,13 +73,22 @@ export class VehicleCreateFormComponent implements OnInit {
       if(this.insuranceId=='100020') this.getNewMakeList();
       this.getBodyTypeList();
       this.getOwnerCategoryList();
-      
+      this.appComp.getLanguage().subscribe((res:any)=>{  
+        if(res) this.lang=res;
+        else this.lang='en';
+        this.translate.setDefaultLang(this.lang);
+      });
+      if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+        else this.lang='en';
+        sessionStorage.setItem('language',this.lang)
+        this.translate.setDefaultLang(sessionStorage.getItem('language'));}
   }
 
   ngOnInit(): void {
     this.ownerCategoryOptions = [{name: 'Category', code: 'category'}];
     this.customerTypes = [{label: 'Personal', value: 'personal'}, {label: 'Corporate', value: 'corporate'}];
-    this.items = [{ label: 'Home', routerLink:'/' }, {label:'Vehicle', routerLink: '/vehicle'}, { label: 'Create Vehicle' }];
+    if(this.lang=='en'){this.items = [{ label: 'Home', routerLink:'/' }, {label:'Vehicle', routerLink: '/vehicle'},{label:'Create Vehicle'}];}
+    else if(this.lang=='po'){this.items = [{ label: 'Lar', routerLink:'/' }, {label:'Veículo', routerLink: '/vehicle'},{label:'Criar veículo'}];}
     this.getdetails= sessionStorage.getItem('Editcars');
     this.years = this.getYearList();
     
@@ -85,12 +96,10 @@ export class VehicleCreateFormComponent implements OnInit {
     if(referenceNo){
       this.referenceNo = referenceNo;
       this.getCustomerDetails(referenceNo);
-      
     }
     else{
 
     }
-    
   }
   onChangeMotorUsage(type){
      if(this.bodyTypeList.length!=0 && this.usageValue!=null && this.usageValue!='' && this.usageValue!=undefined){

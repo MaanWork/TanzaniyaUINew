@@ -22,6 +22,9 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { AvatarModule } from 'primeng/avatar';
 import { DialogModule } from 'primeng/dialog';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { HttpLoaderFactory } from 'src/app/app.module';
 
 @NgModule({
     imports: [
@@ -46,7 +49,14 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
         AvatarModule,
         TableModule,
         DynamicDialogModule,
-        DialogModule
+        DialogModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
     ],
     declarations: [DashboardComponent,ReferralCasesComponent]
 })

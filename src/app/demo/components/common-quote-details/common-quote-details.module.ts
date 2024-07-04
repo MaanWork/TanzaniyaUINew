@@ -47,6 +47,9 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonQuoteDetailsComponent } from './common-quote-details.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpLoaderFactory } from '../customer/customer.module';
+import { HttpClient } from '@angular/common/http';
 export function maxlengthValidationMessage(err, field) {
   return `This value should be less than ${field.templateOptions.maxLength} characters`;
 }
@@ -148,6 +151,13 @@ export function maxlengthValidationMessage(err, field) {
     MatNativeDateModule,
     FormlyMatDatepickerModule,
 		FormlyMatToggleModule,
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
+  })
   ]
 })
 export class CommonQuoteDetailsModule { }

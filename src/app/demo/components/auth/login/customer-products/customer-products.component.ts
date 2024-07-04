@@ -161,8 +161,6 @@ export class CustomerProductsComponent {
     userDetails.Result['ProductId'] = product.ProductId;
     this.shared.ProductName = product.ProductName;
     sessionStorage.setItem('reloadType','YES');
-    console.log('ppppppp',product.ProductId)
-    console.log('PPPPPNNNNNNN',product.ProductName)
 
     userDetails.Result['PackageYn'] = product.PackageYn;
       sessionStorage.setItem('Userdetails', JSON.stringify(userDetails));

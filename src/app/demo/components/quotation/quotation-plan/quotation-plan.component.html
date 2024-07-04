@@ -7,7 +7,7 @@
                         <p-tabPanel [header]="getHeaderName(veh)" >
                             <ng-container *ngFor="let sec of veh.SectionDetails">
                                 <ng-container *ngIf="checkCovers(sec,'opted')">
-                                    <p><b>Opted Covers</b></p>
+                                    <p><b>{{'PREMIUM.OptedCovers' | translate}}</b></p>
                                     <div class="grid p-0">
                                         <ng-container *ngFor="let cover of sec.Covers">
                                             <ng-container *ngIf="checkCoverSelected(cover)">
@@ -27,7 +27,7 @@
                                     </div>
                                 </ng-container>
                                 <ng-container *ngIf="checkCovers(sec,'default')">
-                                    <p><b>Default Covers</b></p>
+                                    <p><b>{{'PREMIUM.DefaultCovers' | translate}}</b></p>
                                     <div class="grid p-0">
                                         <ng-container *ngFor="let cover of sec.Covers">
                                             <ng-container *ngIf="cover.isSelected=='D' && cover.CoverageType!='A'">
@@ -49,7 +49,7 @@
                                     </div>
                                 </ng-container>
                                 <ng-container *ngIf="checkCovers(sec,'benefit')">
-                                    <p><b>Benefit Covers</b></p>
+                                    <p><b>{{'PREMIUM.BenefitCovers' | translate}}</b></p>
                                     <div class="grid">
                                         <ng-container *ngFor="let cover of sec.Covers">
                                             <ng-container *ngIf="cover.isSelected=='D' && cover.CoverageType=='A'">

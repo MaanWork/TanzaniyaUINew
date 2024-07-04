@@ -77,6 +77,9 @@ import { CopyQuoteComponent } from './copyQuote/copyquote.component';
 import { ShortQuoteComponent } from './short-quote/short-quote.component';
 import { TravelQuoteDetailsComponent } from './travel-quote-details/travel-quote-details.component';
 import { CustomerInfoComponent } from '../../auth/login/customer-info/customer-info.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpLoaderFactory } from 'src/app/app.module';
+import { HttpClient } from '@angular/common/http';
 //import { textareaTypeField } from './formlyTypes/textareaTypeField';
 export function maxlengthValidationMessage(err, field) {
   return `This value should be less than ${field.templateOptions.maxLength} characters`;
@@ -223,6 +226,13 @@ export function maxlengthValidationMessage(err, field) {
         // }
       ],
 		  }),
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
+    }),
     FormlyMaterialModule,
     FormlyBootstrapModule,
     MatNativeDateModule,

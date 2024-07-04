@@ -26,12 +26,24 @@ export class LoginComponent {
     public AppConfig: any = (Mydatas as any).default;
     public ApiUrl1: any = this.AppConfig.ApiUrl1;
     public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
-    userType: any;
+    userType: any;retrieveSection:boolean=false;mobileCodeList:any[]=[];
     branchList: any[];  forget: boolean=false; loginfirst:any=false;
-    branchValue: any;errorSection:boolean=false;
+    branchValue: any;errorSection:boolean=false;insuranceId:any=null
   messageText: any;pa:any;changePasswordSection: boolean;pass:any;
   temps: boolean;lang:any=null;branchselection: boolean=false;
-  passExpiredError: boolean;
+  passExpiredError: boolean;mobileNo: any=null;mobileCode: any=null;
+  customerDetails: any;
+  otpValue: string;
+  otpId: string;
+  loginId: any;
+  userDetails: any;
+  CustomerReferenceNo: any;
+  oaCode: any;
+  OtpBtnEnable: boolean;
+  OtpBtnTime: any;
+  otpSection: boolean;
+  otpGenerated: any;
+  submitted: boolean;
     constructor(public layoutService: LayoutService, private router: Router,private loginService:LoginService,
         private authService: AuthService,private translate: TranslateService,private appComp:AppComponent,private shared:SharedService) { 
           this.appComp.getLanguage().subscribe((res:any)=>{  
@@ -47,6 +59,22 @@ export class LoginComponent {
     }
     getTranslateName(value){
       return 'LOGIN.Signintocontinue'
+    }
+    getMobileCodeList() {
+      let ReqObj = { "InsuranceId": this.insuranceId }
+      let urlLink = `${this.CommonApiUrl}dropdown/mobilecodes`;
+      this.loginService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          if (data.Result) {
+            let obj = [{ "Code": '', "CodeDesc": "-Select-" }]
+            this.mobileCodeList = obj.concat(data.Result); 
+            if(this.mobileCodeList.length!=0 && this.mobileCode==null){ 
+              
+              this.mobileCode = this.mobileCodeList.find(ele=>ele.CodeDesc=='255')?.Code;};  
+          }
+        },
+        (err) => { },
+      );
     }
     submit(val) {
         if(this.password && this.username) {
@@ -136,11 +164,7 @@ export class LoginComponent {
             this.messages = [{ severity: 'error', summary: 'Error', detail: 'Incorrect Credentials' }];
         }
     }
-    B2c(){
-      this.onB2CNavigate();
-      
-    }
-    async onB2CNavigate(){
+    async onB2CNavigate(type){
       let urlLink = `${this.CommonApiUrl}authentication/doauth`
       let ReqObj = {
           "e":'kjIeGIM/2PWZlQUsLQBGq0uOWULX0QWRTSfk2dEbvBik/KTyszKentir1ZMEPiDD4ccgJA4xIW5Km9gKJ+DaeNJt0wornRee8Y+ohOoE2DiMJhNEV2QiwB8W7LxFFzGnt5+3eZt7jIeQM9ZbpCm6/U5emAvchppFSl+fHhFsY2ApKhnOdQyrL+jhC1QFOIhbJguJM8WzWFk80avvZEGedQZZM+ZzlwqZTm+/+1SnaGM4VBkPH7pBHbx+EoI7Rh7fejj+W/dEb0euc7wvAswDFjhUGQ8fukEdvH4SgjtGHt+ZE8Zk+f2/2Q=='
@@ -212,7 +236,8 @@ export class LoginComponent {
                       sessionStorage.setItem('b2cType','guest')
                       sessionStorage.setItem('Userdetails', JSON.stringify(userDetails));
                       sessionStorage.removeItem('customerReferenceNo');
-                      this.router.navigate(['/customerProducts']);
+                     if(type=='direct') this.router.navigate(['/customerProducts']);
+                     else{this.getMobileCodeList();}
                     }
                 }
                 this.router.navigate([details?.RouterLink]);
@@ -232,8 +257,13 @@ export class LoginComponent {
         },
       );
     }
+    onRetrieveQuote(){
+        this.username=null;this.password=null;this.mobileCode='255';this.mobileNo='';
+        this.retrieveSection=true;this.errorSection=false;this.changePasswordSection=false;this.forget=false;
+    }
     cancel(v){
-      this.errorSection=false;
+      this.mobileCode='255';this.mobileNo = null;this.username=null;this.password=null;
+      this.errorSection=false;this.retrieveSection=false;
       this.changePasswordSection=false;this.forget=false;
     }
     forgetSubmit(){
@@ -335,7 +365,6 @@ export class LoginComponent {
     }
 
     onsubmit() {
-
       let p=this.pa
       if(this.password2!=this.password1){
         const urlLink = `${this.CommonApiUrl}api/changepassword`;
@@ -410,11 +439,11 @@ export class LoginComponent {
               icon: 'info',
               html:
                 `<ul class="list-group errorlist">
-                <li class="list-group-login-field">
-                  <div style="color: darkgreen;">Field<span class="mx-2">:</span>Old Password</div>
-                  <div style="color: red;">Message<span class="mx-2">:</span>Please Enter Old Password</div>
-               </li>
-              </ul>`,
+                    <li class="list-group-login-field">
+                      <div style="color: darkgreen;">Field<span class="mx-2">:</span>Old Password</div>
+                      <div style="color: red;">Message<span class="mx-2">:</span>Please Enter Old Password</div>
+                    </li>
+                </ul>`,
               showCloseButton: true,
               focusConfirm: false,
               confirmButtonText:
@@ -498,7 +527,11 @@ export class LoginComponent {
         }
   
       }
-  
+    }
+    onsubmitMobileLogin(){
+      sessionStorage.setItem('mobLogin',this.mobileNo);
+      this.onLogin();
+      
     }
     resetForm(){
       this.username=null;this.password=null;this.password1=null;
@@ -538,4 +571,153 @@ export class LoginComponent {
       }
   
     }
+
+
+    onLogin() {
+      this.submitted = true;
+      let searchValue = "";
+      let mobileCode = ""; let mobileNumber = "";
+      let token = sessionStorage.getItem('UserToken');
+     // const formData = this.customerDetails;
+      // if(formData.mobileCode !=null){
+      //   this.mobileCodeDesc = this.mobileCodeList.find(ele=>ele.Code==formData?.mobileCode).CodeDesc;
+      // }
+      let reqObj = {
+        "CompanyId":'100002',
+        "ProductId": '5',
+        "LoginId": 'guest',
+        "TemplateName":null,
+        "OtpUser": {
+          "UserMailId": null,
+          "UserMobileNo":this.mobileNo,
+          "UserMobileCode": this.mobileCode,
+          "UserWhatsappNo": this.mobileNo,
+          "UserWhatsappCode": this.mobileCode,
+          "CustomerName": this.mobileNo
+        }
+      }
+      let url = `${this.CommonApiUrl}otp/generate`;
+      try {
+        this.shared.onPostMethodSync(url, reqObj).subscribe((data: any) => {
+        console.log("Otp Generate Res", data);
+        if (data.Errors) {
+          this.otpSection = false;
+          this.otpGenerated = null;
+          let element = '';
+          for (let i = 0; i < data.Errors.length; i++) {
+            element += '<div class="my-1"><i class="far fa-dot-circle text-danger p-1"></i>' + data.Errors[i].Message + "</div>";
+          }
+        Swal.fire(
+          'Please Fill Valid Value',
+          `${element}`,
+          'error',
+          )
+        }
+        else {
+          
+           this.otpId = data.OtpToken;
+           this.otpGenerated = data.OTP;
+           this.loginfirst = true;
+          this.otpSection = true;
+          this.OtpBtnEnable = true;
+          this.setTimeInterval();
+        }
+        }, (err) => {
+        console.log(err);
+        })
+       } catch (error) {
+      }
+    }
+    setTimeInterval() {
+  
+      var count = 15,
+        timer = setInterval(() => {
+          var seconds = (count--) - 1;
+          var percent_complete = (seconds / 60) * 100;
+          percent_complete = Math.floor(percent_complete);
+  
+          this.OtpBtnTime = count;
+          if (seconds == 0) {
+            clearInterval(timer);
+            this.OtpBtnEnable = false;
+            this.OtpBtnTime = '';
+          }
+        }, 1000);
+      }
+      onOtpValidate() {
+  
+        if (this.otpValue == "" || this.otpValue == undefined || this.otpValue == null) {
+          let element = '<div class="my-1"><i class="far fa-dot-circle text-danger p-1"></i>Please Enter OTP</div>';
+          Swal.fire(
+          'Please Fill Valid Value',
+          `${element}`,
+          'error',
+          )
+        }
+        else {
+          this.otpValue = this.otpValue.replace(/\D/g, '');
+          let reqObj = {
+          "CompanyId": '100002',
+          "ProductId":"5",
+          "AgencyCode": this.oaCode,
+          "OtpToken": this.otpId,
+          "UserOTP": this.otpValue,
+          "CreateUser": true,
+          "CustomerId": this.CustomerReferenceNo,
+          "ReferenceNo": sessionStorage.getItem('quoteReferenceNo') 
+          }
+          let url = `${this.CommonApiUrl}otp/validate`;
+          try {
+          this.shared.onPostMethodSync(url, reqObj).subscribe((data: any) => {
+            console.log("Otp Generate", data);
+            if (data) {
+            if (data.Errors) {
+              let element = '';
+              for (let i = 0; i < data.Errors.length; i++) {
+              element += '<div class="my-1"><i class="far fa-dot-circle text-danger p-1"></i>' + data.Errors[i].Message + "</div>";
+              }
+              Swal.fire(
+              'Please Fill Valid Value',
+              `${element}`,
+              'error',
+              )
+            }
+            else {
+              this.otpId = "";
+              this.otpValue = "";
+              this.onGuestLogin(data)
+             
+            }
+            }
+          }, (err) => {
+          })
+          } catch (error) {
+          }
+        }
+      }
+  
+      onGuestLogin(data){
+        this.otpId = "";
+        this.otpValue = "";
+        let loginId=this.customerDetails.MobileCode1+this.customerDetails.MobileNo1
+        this.loginId = loginId;
+        const Token = data?.LoginResponse?.Result?.Token;
+        this.authService.login(data.LoginResponse);
+        this.authService.UserToken(Token);
+        data.LoginResponse.Result['LoginType'] = 'B2CFlow';
+        sessionStorage.setItem('Userdetails', JSON.stringify(data.LoginResponse));
+        sessionStorage.setItem('UserToken', Token);
+        sessionStorage.setItem('menuSection', 'navMenu');
+        sessionStorage.removeItem('b2cType')
+        let userDetails = JSON.parse(sessionStorage.getItem('Userdetails') as any);
+        userDetails.Result['ProductId'] = '5'
+        userDetails.Result['ProductName'] = 'Motor';
+        userDetails.Result['BrokerBranchCode'] = data.LoginResponse?.Result?.LoginBranchDetails[0].BrokerBranchCode;
+        userDetails.Result['BranchCode'] = this.branchValue;
+        userDetails.Result['CurrencyId'] = this.userDetails.Result.CurrencyId;
+        userDetails.Result['InsuranceId'] = this.insuranceId;
+        sessionStorage.setItem('Userdetails', JSON.stringify(userDetails));
+        sessionStorage.setItem('resetLoginDetails','true');
+       // this.onProceedBuyPolicy();
+      }
 }

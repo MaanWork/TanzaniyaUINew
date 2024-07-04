@@ -7,10 +7,10 @@
         <div class="col-12 sm:col-6">
             <div class="flex justify-content-start xl:justify-content-end align-items-center flex-wrap">
                 <div class="flex align-items-center mr-4 flex-wrap">
-                    <h5 class="mr-3 mb-2" *ngIf="insuranceId=='100027'">Customer Type :</h5>
-                    <h5 class="mr-3 mb-2" *ngIf="insuranceId!='100027'">Account Type :</h5>
-                    <!-- <h5 class="mr-3 mb-2" *ngIf="insuranceId=='100027'">{{ 'HOME.CustomerType' | translate }} :</h5>
-                    <h5 class="mr-3 mb-2" *ngIf="insuranceId!='100027'">{{ 'HOME.AccountType' | translate }}:</h5> -->
+                    <!-- <h5 class="mr-3 mb-2" *ngIf="insuranceId=='100027' || insuranceId=='100040'">Customer Type :</h5>
+                    <h5 class="mr-3 mb-2" *ngIf="insuranceId!='100027' && insuranceId!='100040'">Account Type :</h5> -->
+                    <h5 class="mr-3 mb-2" *ngIf="insuranceId=='100027'">{{ 'HOME.CustomerType' | translate }} :</h5>
+                    <h5 class="mr-3 mb-2" *ngIf="insuranceId!='100027'">{{ 'HOME.AccountType' | translate }}:</h5>
                     <p-selectButton [options]="policyHolderList" (click)="setPolicyType()" [(ngModel)]="productItem.IdType" [optionLabel]="getDisplayName()" optionValue="Code"></p-selectButton>
                 </div>
                 <!-- <p-button class="mt-4 lg:mt-0" label="Change Customer" size="small" (click)="navigateToCustomer()"></p-button> -->
@@ -34,13 +34,13 @@
    
     <div class="col-12 lg:col-6 py-0" *ngIf="productItem.IdType == '1'; else coporatePersonalForm">
         <div class="card">
-            <!-- <h4 class="ml-3">{{ 'HOME.PersonalInformation' | translate }}</h4> -->
-            <h4 class="ml-3">Personal Information</h4>
-            <ng-container *ngIf="insuranceId=='100027' && productItem.IdType!='2'">
+            <h4 class="ml-3">{{ 'HOME.PersonalInformation' | translate }}</h4>
+            <!-- <h4 class="ml-3">Personal Information</h4> -->
+            <ng-container *ngIf="(insuranceId=='100027' || insuranceId=='100040') && productItem.IdType!='2'">
                 <div class="flex flex-wrap w-full form-container justify-content-start">
                     <div class="flex flex-column m-3">
-                        <!-- <label for="username">{{ 'HOME.CustomerTitle' | translate }}*</label> -->
-                        <label for="username">Title *</label>
+                        <label for="username">{{ 'HOME.CustomerTitle' | translate }}*</label>
+                        <!-- <label for="username">Title *</label> -->
                         <p-dropdown inputId="Title" 
                             class="w-full" 
                             styleClass="w-full" 
@@ -53,65 +53,58 @@
                         </p-dropdown>
                     </div>
                     <div class="flex flex-column m-3">
-                        <label for="username">First Name*</label>
-                        <!-- <label for="username">{{ 'HOME.FirstName' | translate }}*</label> -->
+                        <!-- <label for="username">First Name*</label> -->
+                        <label for="username">{{ 'HOME.FirstName' | translate }}*</label>
                         <input pInputText id="FirstName"  maxlength="150" [(ngModel)]="productItem.ClientName" 
                         placeholder="Enter First Name"/>
                     </div>
                     <div class="flex flex-column m-3">
-                        <!-- <label for="username">{{ 'HOME.MiddleName' | translate }}*</label> -->
-                        <label for="username">Middle Name</label>
+                        <label for="username">{{ 'HOME.MiddleName' | translate }}*</label>
+                        <!-- <label for="username">Middle Name</label> -->
                         <input pInputText id="middlename" maxlength="150" [(ngModel)]="productItem.MiddleName"
                         placeholder="Enter Middle Name"/>
                     </div>
                     <div class="flex flex-column m-3">
-                        <!-- <label for="username">{{ 'HOME.LastName' | translate }}*</label> -->
-                        <label for="username">Last Name</label>
+                        <label for="username">{{ 'HOME.LastName' | translate }}*</label>
+                        <!-- <label for="username">Last Name</label> -->
                         <input pInputText id="lastname" maxlength="150" [(ngModel)]="productItem.LastName"
                         placeholder="Enter Middle Name"/>
                     </div>
                 </div>
             </ng-container>
             <div class="flex justify-content-start flex-wrap w-full form-container">
-                <ng-container *ngIf="insuranceId!='100027' || productItem.IdType=='2'">
+                <ng-container *ngIf="(insuranceId!='100027' && insuranceId!='100040') || productItem.IdType=='2'">
                     <div class="flex flex-column m-3">
-                        <!-- <label for="username">{{ 'HOME.CustomerTitle' | translate }}*</label> -->
-                        <label for="username">Title *</label>
-                        <p-dropdown inputId="Title2" 
-                            class="w-full" 
-                            styleClass="w-full" 
-                            (change)="onTitleChange('change')"
-                            [options]="titleList" 
-                            [(ngModel)]="productItem.Title" 
-                            [optionLabel]="getDisplayName()" 
-                            optionValue="Code" 
+                        <label for="username">{{ 'HOME.CustomerTitle' | translate }}*</label>
+                        <!-- <label for="username">Title *</label> -->
+                        <p-dropdown inputId="Title2"  class="w-full" 
+                            styleClass="w-full"   (change)="onTitleChange('change')"
+                            [options]="titleList"  [(ngModel)]="productItem.Title" 
+                            [optionLabel]="getDisplayName()"  optionValue="Code" 
                             placeholder="Select Customer Title">
                         </p-dropdown>
                     </div>
                     <div class="flex flex-column m-3" >
-                        <!-- <label for="username">{{ 'HOME.CustomerName' | translate }} *</label> -->
-                        <label for="username">Customer Name *</label>
+                        <label for="username">{{ 'HOME.CustomerName' | translate }} *</label>
+                        <!-- <label for="username">Customer Name *</label> -->
                         <input pInputText id="CustomerName" maxlength="150" [(ngModel)]="productItem.ClientName" 
                         (change)="onsavedatas('Customer',null)" placeholder="Enter Customer Name"/>
                     </div>
                 </ng-container>
                 
                 <div class="flex flex-column m-3">
-                    <!-- <label for="username">{{ 'HOME.Occupation' | translate }}*</label> -->
-                    <label for="username">Occupation *</label>
+                    <label for="username">{{ 'HOME.Occupation' | translate }}*</label>
+                    <!-- <label for="username">Occupation *</label> -->
                     <p-dropdown inputId="Occupation" 
-                        class="w-full" 
-                        styleClass="w-full" 
+                        class="w-full"  styleClass="w-full" 
                         [options]="occupationList" (onChange)="onsavedatas('Occupation',null)"
-                        [(ngModel)]="productItem.Occupation" 
-                        [optionLabel]="getDisplayName()" 
-                        optionValue="Code" 
-                        placeholder="Select Occupation">
+                        [(ngModel)]="productItem.Occupation"  [optionLabel]="getDisplayName()" 
+                        optionValue="Code"  placeholder="Select Occupation">
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3">
-                    <!-- <label for="username">{{ 'HOME.Gender' | translate }}*</label> -->
-                    <label for="username">Gender</label>
+                    <label for="username">{{ 'HOME.Gender' | translate }}*</label>
+                    <!-- <label for="username">Gender</label> -->
                     <p-dropdown inputId="gender" 
                         class="w-full" 
                         styleClass="w-full" 
@@ -123,27 +116,24 @@
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3">
-                    <!-- <label for="username">{{ 'HOME.CountryCode' | translate }}*</label> -->
-                    <label for="username">Country Code *</label>
+                    <label for="username">{{ 'HOME.CountryCode' | translate }}*</label>
+                    <!-- <label for="username">Country Code *</label> -->
                     <p-dropdown inputId="CountryCode" 
-                        class="w-full" 
-                        styleClass="w-full" 
-                        [options]="mobileCodeList" 
-                        [(ngModel)]="productItem.MobileCode" 
-                        [optionLabel]="getDisplayName()" 
-                        optionValue="Code" 
+                        class="w-full"  styleClass="w-full" 
+                        [options]="mobileCodeList"  [(ngModel)]="productItem.MobileCode" 
+                        [optionLabel]="getDisplayName()"  optionValue="Code" 
                         placeholder="Select Code">
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3">
-                    <!-- <label for="username">{{ 'HOME.MobileNumber' | translate }}*</label> -->
-                    <label for="username">Mobile No</label>
+                    <label for="username">{{ 'HOME.MobileNumber' | translate }}*</label>
+                    <!-- <label for="username">Mobile No</label> -->
                     <input pInputText id="mobileNo" maxlength="10" [(ngModel)]="productItem.MobileNo"
                         placeholder="Enter Phone Number" (change)="onsavedatas('Mobile',null)">
                 </div>
                 <div class="flex flex-column m-3">
-                    <!-- <label for="username">{{ 'HOME.EmailId' | translate }}</label> -->
-                    <label for="username">EmailId</label>
+                    <label for="username">{{ 'HOME.EmailId' | translate }}</label>
+                    <!-- <label for="username">EmailId</label> -->
                     <input pInputText id="emailId" [(ngModel)]="productItem.EmailId" placeholder="Enter Email ID"/>
                 </div>
             </div>
@@ -151,12 +141,12 @@
     </div>
     <div class="col-12 lg:col-6 py-0" *ngIf="productItem.IdType == '1'; else coporateAdditionalForm">
         <div class="card">
-            <!-- <h4 class="ml-3">{{ 'HOME.AdditionalInformation' | translate }}</h4> -->
-            <h4 class="ml-3">Additional Information</h4>
+            <h4 class="ml-3">{{ 'HOME.AdditionalInformation' | translate }}</h4>
+            <!-- <h4 class="ml-3">Additional Information</h4> -->
             <div class="flex justify-content-start flex-wrap w-full form-container">
                 <div class="flex flex-column m-3">
-                    <!-- <label for="username">{{ 'HOME.IdentityType' | translate }}*</label> -->
-                    <label for="username">ID Type *</label>
+                    <label for="username">{{ 'HOME.IdentityType' | translate }}*</label>
+                    <!-- <label for="username">ID Type *</label> -->
                     <p-dropdown inputId="IdType" 
                         class="w-full" 
                         styleClass="w-full" 
@@ -168,8 +158,8 @@
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3">
-                    <!-- <label for="username">{{ 'HOME.IDNumber' | translate}}*</label> -->
-                    <label for="username">ID No *</label>
+                    <label for="username">{{ 'HOME.IDNumber' | translate}}*</label>
+                    <!-- <label for="username">ID No *</label> -->
                     <ng-container *ngIf="!shows">
                         <input pInputText id="IdNumber" [(ngModel)]="productItem.IdNumber" (change)="onsavedatas('IdValue',null)" [maxLength]="maxTextLen" placeholder="Enter ID Number"/>
                     </ng-container>
@@ -191,8 +181,8 @@
                     </p-calendar>
                 </div> -->
                 <div class="flex flex-column m-3">
-                    <!-- <label for="username">{{ 'HOME.PreferedNotification' | translate}}*</label> -->
-                    <label for="username">Preferred Notification *</label>
+                    <label for="username">{{ 'HOME.PreferedNotification' | translate}}*</label>
+                    <!-- <label for="username">Preferred Notification *</label> -->
                     <p-dropdown inputId="PreferedNotification2"  id="PreferedNotification"
                         class="w-full"  styleClass="w-full"   [options]="notificationList" 
                         [(ngModel)]="productItem.PreferredNotification"   [optionLabel]="getDisplayName()" 
@@ -200,8 +190,8 @@
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3">
-                    <!-- <label for="username">{{'HOME.TaxExcempted' | translate}}*</label> -->
-                    <label for="username">Tax Exempted *</label>
+                    <label for="username">{{'HOME.TaxExcempted' | translate}}*</label>
+                    <!-- <label for="username">Tax Exempted *</label> -->
                     <div class="flex justify-content-start gap-3">
                         <div class="flex align-items-center">
                             <p-radioButton name="Yes" value="Y" [(ngModel)]="productItem.isTaxExempted" inputId="ingredient1"></p-radioButton>
@@ -214,28 +204,28 @@
                     </div>
                 </div>
                 <div class="flex flex-column m-3" *ngIf="productItem.isTaxExempted=='Y'">
-                    <!-- <label for="username">{{'HOME.TaxExcemptedNo' | translate}}*</label> -->
-                    <label for="TaxExcemptedNo">Tax Exempted No *</label>
+                    <label for="username">{{'HOME.TaxExcemptedNo' | translate}}*</label>
+                    <!-- <label for="TaxExcemptedNo">Tax Exempted No *</label> -->
                     <input pInputText id="TaxExcemptedNo" [(ngModel)]="productItem.TaxExemptedId" placeholder="Enter Tax Exempted No"/>
                 </div>
                 <div class="flex flex-column m-3">
-                    <!-- <label for="username">{{'HOME.Status' | translate}}*</label> -->
-                    <label for="username">Status</label>
+                    <label for="username">{{'HOME.Status' | translate}}*</label>
+                    <!-- <label for="username">Status</label> -->
                     <div class="flex justify-content-start gap-3">
                         <div class="flex align-items-center">
                             <p-radioButton name="Yes" value="Y" [(ngModel)]="productItem.Clientstatus" inputId="Status1"></p-radioButton>
-                            <!-- <span for="Status1" class="ml-2">{{'HOME.Active' | translate}}</span> -->
-                            <span for="Status1" class="ml-2">Active</span>
+                            <span for="Status1" class="ml-2">{{'HOME.Active' | translate}}</span>
+                            <!-- <span for="Status1" class="ml-2">Active</span> -->
                         </div>
                         <div class="flex align-items-center">
                             <p-radioButton name="No" value="N" [(ngModel)]="productItem.Clientstatus" inputId="Status2"></p-radioButton>
-                            <!-- <span for="Status2" class="ml-2">{{'HOME.DeActive' | translate}}</span> -->
-                            <span for="Status1" class="ml-2">DeActive</span>
+                            <span for="Status2" class="ml-2">{{'HOME.DeActive' | translate}}</span>
+                            <!-- <span for="Status1" class="ml-2">DeActive</span> -->
                         </div>
                         <div class="flex align-items-center">
                             <p-radioButton name="Pending" value="P" [(ngModel)]="productItem.Clientstatus" inputId="Status3"></p-radioButton>
-                            <!-- <span for="Status3" class="ml-2">{{'HOME.Pending' | translate}}</span> -->
-                            <span for="Status1" class="ml-2">Pending</span>
+                            <span for="Status3" class="ml-2">{{'HOME.Pending' | translate}}</span>
+                            <!-- <span for="Status1" class="ml-2">Pending</span> -->
                         </div>
                     </div>
                 </div>
@@ -245,17 +235,17 @@
     </div>
     <div class="col-12 lg:col-12 py-0">
         <div class="card">
-            <!-- <h4 class="ml-3">{{ 'HOME.AddressDetails' | translate }}</h4> -->
-            <h4 class="ml-3">Address Details</h4>
+            <h4 class="ml-3">{{ 'HOME.AddressDetails' | translate }}</h4>
+            <!-- <h4 class="ml-3">Address Details</h4> -->
             <div class="flex justify-content-start flex-wrap w-full form-container">
                 <div class="flex flex-column m-3">
-                    <!-- <label for="username">{{ 'HOME.Street' | translate}} *</label> -->
-                    <label for="username">Street *</label>
+                    <label for="username">{{ 'HOME.Street' | translate}} *</label>
+                    <!-- <label for="username">Street *</label> -->
                     <input pInputText id="Street"  maxlength="100" (change)="onsavedatas('Address',null)" [(ngModel)]="productItem.Address1" placeholder="Enter Street"/>
                 </div>
                 <div class="flex flex-column m-3">
-                    <!-- <label for="username">{{ 'HOME.Country' | translate}}*</label> -->
-                    <label for="username">Country *</label>
+                    <label for="username">{{ 'HOME.Country' | translate}}*</label>
+                    <!-- <label for="username">Country *</label> -->
                     <p-dropdown inputId="Country" 
                         class="w-full" 
                         styleClass="w-full" 
@@ -268,8 +258,8 @@
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3">
-                    <!-- <label for="username">{{ 'HOME.Region' | translate}}*</label> -->
-                    <label for="username">Region *</label>
+                    <label for="username">{{ 'HOME.Region' | translate}}*</label>
+                    <!-- <label for="username">Region *</label> -->
                     <p-dropdown inputId="Region" 
                         class="w-full" 
                         styleClass="w-full" 
@@ -282,8 +272,8 @@
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3">
-                    <label *ngIf="insuranceId=='100027'" for="username">Municipal *</label>
-                    <label *ngIf="insuranceId!='100027'" for="username">District  *</label>
+                    <label *ngIf="insuranceId=='100027' || insuranceId=='100040'" for="username">{{ 'HOME.Municipal' | translate}} *</label>
+                    <label *ngIf="insuranceId!='100027' && insuranceId!='100040'" for="username">{{ 'HOME.District' | translate}}   *</label>
                     <p-dropdown inputId="Distrivt" 
                         class="w-full" 
                         styleClass="w-full" 
@@ -295,13 +285,13 @@
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3" *ngIf="productItem.CityName=='99999'">
-                    <label for="username">Other District<span class="star">*</span></label>
+                    <label for="username">{{ 'HOME.OtherDistrict' | translate}}<span class="star">*</span></label>
                     <input pInputText type="text" id="otherDistrict" maxlength="200" class="w-full" [(ngModel)]="productItem.districtcode">
                 
                 </div>
                 <div class="flex flex-column m-3">
-                    <!-- <label for="username">{{ 'HOME.PoBox' | translate}}</label> -->
-                    <label for="username">PoBox</label>
+                    <label for="username">{{ 'HOME.PoBox' | translate}}</label>
+                    <!-- <label for="username">PoBox</label> -->
                     <p-inputNumber mode="decimal" 
                         inputId="poBoxNo" 
                         maxlength="15"
@@ -319,7 +309,7 @@
     <ng-template #coporateAdditionalForm>
         <div class="col-12 lg:col-6 py-0">
             <div class="card">
-                <h4 class="ml-3">Additional Information</h4>
+                <h4 class="ml-3">{{ 'HOME.AdditionalInformation' | translate}}</h4>
                 <div class="flex justify-content-start flex-wrap w-full form-container">
                     <div class="flex flex-column m-3">
                         <label for="username">Identity Type*</label>
@@ -334,11 +324,11 @@
                         </p-dropdown>
                     </div>
                     <div class="flex flex-column m-3">
-                        <label for="IdNumber4">ID Number*</label>
+                        <label for="IdNumber4">{{ 'HOME.IDNumber' | translate}} *</label>
                         <input pInputText id="IdNumber4" [(ngModel)]="productItem.IdNumber" (change)="onsavedatas('IdValue',null)" placeholder="Enter ID Number"/>
                     </div>
                     <div class="flex flex-column m-3">
-                        <label for="username">Registration Date*</label>
+                        <label for="username">{{ 'HOME.RegistrationDate' | translate}}*</label>
                         <p-calendar class="w-full" 
                             styleClass="w-full" 
                             [(ngModel)]="productItem.dobOrRegDate"
@@ -347,7 +337,7 @@
                         </p-calendar>
                     </div>
                     <div class="flex flex-column m-3">
-                        <label for="username">Prefered Notification*</label>
+                        <label for="username">{{ 'HOME.PreferedNotification' | translate}}*</label>
                         <p-dropdown inputId="PreferedNotification3" 
                             class="w-full" 
                             styleClass="w-full" 
@@ -359,41 +349,46 @@
                         </p-dropdown>
                     </div>
                     <div class="flex flex-column m-3">
-                        <label for="username">Status*</label>
+                        <label for="username">{{ 'HOME.Status' | translate}} *</label>
                         <div class="flex justify-content-start gap-3">
                             <div class="flex align-items-center">
-                                <p-radioButton name="Yes" value="Y" [(ngModel)]="productItem.Clientstatus" inputId="Status4"></p-radioButton>
-                                <span for="Status4" class="ml-2">Active</span>
+                                <p-radioButton name="Yes" value="Y" [(ngModel)]="productItem.Clientstatus" inputId="Status1"></p-radioButton>
+                                <span for="Status1" class="ml-2">{{'HOME.Active' | translate}}</span>
+                                <!-- <span for="Status1" class="ml-2">Active</span> -->
                             </div>
                             <div class="flex align-items-center">
-                                <p-radioButton name="No" value="N" [(ngModel)]="productItem.Clientstatus" inputId="Status5"></p-radioButton>
-                                <span for="Status5" class="ml-2">DeActive</span>
+                                <p-radioButton name="No" value="N" [(ngModel)]="productItem.Clientstatus" inputId="Status2"></p-radioButton>
+                                <span for="Status2" class="ml-2">{{'HOME.DeActive' | translate}}</span>
+                                <!-- <span for="Status1" class="ml-2">DeActive</span> -->
                             </div>
                             <div class="flex align-items-center">
-                                <p-radioButton name="Pending" value="P" [(ngModel)]="productItem.Clientstatus" inputId="Status6"></p-radioButton>
-                                <span for="Status6" class="ml-2">Pending</span>
+                                <p-radioButton name="Pending" value="P" [(ngModel)]="productItem.Clientstatus" inputId="Status3"></p-radioButton>
+                                <span for="Status3" class="ml-2">{{'HOME.Pending' | translate}}</span>
+                                <!-- <span for="Status1" class="ml-2">Pending</span> -->
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-column m-3">
-                        <label for="vrnGstNo">VRN/ GST Number*</label>
+                        <label for="vrnGstNo">{{'HOME.VRN/GSTNumber' | translate}} *</label>
                         <input pInputText id="vrnGstNo" [(ngModel)]="productItem.vrngst" maxlength="20" placeholder="Enter VRN/ GST Number"/>
                     </div>
                     <div class="flex flex-column m-3">
-                        <label for="username">Tax Exempted*</label>
+                        <label for="username">{{'HOME.TaxExempted' | translate}} *</label>
                         <div class="flex justify-content-start gap-3">
                             <div class="flex align-items-center">
                                 <p-radioButton name="Yes" value="Y" [(ngModel)]="productItem.isTaxExempted" inputId="excemptedY"></p-radioButton>
-                                <span for="excemptedY" class="ml-2">Yes</span>
+                                <span for="Status3" class="ml-2">{{'PREMIUM.Yes' | translate}}</span>
+                                <!-- <span for="excemptedY" class="ml-2">Yes</span> -->
                             </div>
                             <div class="flex align-items-center">
                                 <p-radioButton name="No" value="N" [(ngModel)]="productItem.isTaxExempted" inputId="excemptedN"></p-radioButton>
-                                <span for="excemptedN" class="ml-2">No</span>
+                                <span for="Status3" class="ml-2">{{'PREMIUM.No' | translate}}</span>
+                                <!-- <span for="excemptedN" class="ml-2">No</span> -->
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-column m-3" *ngIf="productItem.isTaxExempted=='Y'">
-                        <label for="TaxExcemptedNo2">Tax Exempted No*</label>
+                        <label for="TaxExcemptedNo2">{{'HOME.TaxExemptedNo' | translate}} *</label>
                         <input pInputText id="TaxExcemptedNo2" [(ngModel)]="productItem.TaxExemptedId" placeholder="Enter Tax Exempted No"/>
                     </div>
                 </div>
@@ -403,10 +398,10 @@
     <ng-template #coporatePersonalForm>
         <div class="col-12 lg:col-6 py-0">
             <div class="card">
-                <h4 class="ml-3">Personal Information</h4>
+                <h4 class="ml-3">{{'HOME.PersonalInformation' | translate}}</h4>
                 <div class="flex justify-content-start flex-wrap w-full form-container">
                     <div class="flex flex-column m-3">
-                        <label for="CustomerTitle3">Customer Title*</label>
+                        <label for="CustomerTitle3">{{'HOME.CustomerTitle' | translate}} *</label>
                         <p-dropdown inputId="CustomerTitle3" 
                             class="w-full" 
                             styleClass="w-full" 
@@ -419,11 +414,11 @@
                         </p-dropdown>
                     </div>
                     <div class="flex flex-column m-3">
-                        <label for="CustomerName5">Customer Name*</label>
+                        <label for="CustomerName5">{{'HOME.CustomerName' | translate}}*</label>
                     <input pInputText id="CustomerName5" maxlength="150" [(ngModel)]="productItem.ClientName" (change)="onsavedatas('Customer',null)" placeholder="Enter Customer Name"/>
                     </div>
                     <div class="flex flex-column m-3">
-                        <label for="Occupation2">Occupation*</label>
+                        <label for="Occupation2">{{'HOME.Occupation' | translate}} *</label>
                         <p-dropdown inputId="Occupation2" 
                             class="w-full" 
                             styleClass="w-full" 
@@ -435,7 +430,7 @@
                         </p-dropdown>
                     </div>
                     <div class="flex flex-column m-3">
-                        <label for="BusinessType2">Business Type*</label>
+                        <label for="BusinessType2">{{'HOME.BusinessType' | translate}} *</label>
                         <p-dropdown inputId="BusinessType2" 
                             class="w-full" 
                             styleClass="w-full" 
@@ -447,7 +442,7 @@
                         </p-dropdown>
                     </div>
                     <div class="flex flex-column m-3">
-                        <label for="CountryCode2">Country Code*</label>
+                        <label for="CountryCode2">{{'HOME.CountryCode' | translate}} *</label>
                         <p-dropdown inputId="CountryCode2" 
                             class="w-full" 
                             styleClass="w-full"
@@ -459,12 +454,12 @@
                         </p-dropdown>
                     </div>
                     <div class="flex flex-column m-3">
-                        <label for="MobileNo2">Mobile Number*</label>
+                        <label for="MobileNo2">{{'HOME.MobileNumber' | translate}}*</label>
                         <input pInputText id="MobileNo2" maxlength="10" [(ngModel)]="productItem.MobileNo"
                         placeholder="Enter Phone Number" (onChange)="onsavedatas('Mobile',null)">
                     </div>
                     <div class="flex flex-column m-3">
-                        <label for="emailId2">Email ID</label>
+                        <label for="emailId2">{{'HOME.EmailId' | translate}}</label>
                         <input pInputText id="emailId2" (change)="onsavedatas('Email',null)" [(ngModel)]="productItem.EmailId" placeholder="Enter Email ID"/>
                     </div>
                 </div>

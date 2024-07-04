@@ -4,6 +4,8 @@ import { QuotationPlanComponent } from '../quotation-plan.component';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import * as Mydatas from '../../../../../app-config.json';
+import { AppComponent } from 'src/app/app.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-driver-info',
@@ -35,10 +37,10 @@ export class DriverInfoComponent {
   vehicleDetailsList: any[]=[];
   NoOfDoorList: any[]=[];
   plateTypeList: any[]=[];
-  CylinderTypeList: any;
+  CylinderTypeList: any;lang:any=null;
   NoOfDoorsList: any;
   constructor(private sharedService: SharedService,private quoteComponent:QuotationPlanComponent,
-    private router:Router,
+    private router:Router,private appComp:AppComponent,private translate:TranslateService,
     private datePipe:DatePipe) {
     //this.quoteNo = sessionStorage.getItem('quoteNo');
     //this.updateComponent.quoteNo = this.quoteNo;
@@ -99,6 +101,11 @@ export class DriverInfoComponent {
     this.getPlateTypeList();
     this.getCylinderTypeList();
     this.getDoorTypeList();
+    this.appComp.getLanguage().subscribe((res:any)=>{  
+      this.lang=res;
+      this.translate.setDefaultLang(res);
+    });
+    if(!this.lang){this.lang=sessionStorage.getItem('language');this.translate.setDefaultLang(sessionStorage.getItem('language'));}
   }
  
   getEditQuoteDetails(){
@@ -595,7 +602,7 @@ addNewDriver(vehId){
       if(i==this.driverDetailsList.length){
         console.log("Final List Driver",this.entryList)
        // this.saveDriverDetails(entryList);
-       if(this.insuranceId=='100027') this.saveVehicleInfo();
+       if(this.insuranceId=='100027' || this.insuranceId=='100040') this.saveVehicleInfo();
        else this.saveDriverDetails(this.entryList);
       }
    }

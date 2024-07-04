@@ -18,6 +18,9 @@ import { PolicyTableComponent } from '../../components/policy/policy-table/polic
 import { DragDropFileUploadDirective } from '../../service/drag-drop.directive';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpLoaderFactory } from 'src/app/app.module';
+import { HttpClient } from '@angular/common/http';
 
 
 @NgModule({
@@ -41,7 +44,14 @@ import { FormsModule } from '@angular/forms';
     AutoCompleteModule,
     ChipModule,
     CheckboxModule,
-    DropdownModule
+    DropdownModule,
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
+  })
     
   ],
   exports: [TableViewComponent]

@@ -27,7 +27,7 @@ import { OTPComponent } from './otp/otp.component';
 import { CustomerComponent } from './customer/customer.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
-    return new TranslateHttpLoader(httpClient);
+    return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
   }
 @NgModule({
     imports: [

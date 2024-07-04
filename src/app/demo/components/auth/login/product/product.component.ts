@@ -46,7 +46,9 @@ export class ProductComponent implements OnInit {
           if(branch) this.selectBranch(branch)}
         }
         this.appComp.getLanguage().subscribe((res:any)=>{  
+          
           this.lang=res;
+          
           translate.setDefaultLang(res);
          });
          if(!this.lang){this.lang='en';translate.setDefaultLang('en');}

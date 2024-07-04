@@ -33,7 +33,7 @@ export class MotorVehicleTanzaniya{
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     props: {
-                      label: `Insurance Type`,
+                      label: `InsuranceType`,
                       disabled: this.checkDisable('InsuranceType'),
                       required: true,
                       options: [
@@ -121,7 +121,7 @@ export class MotorVehicleTanzaniya{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     key: 'ClaimsYN',
-                    id: 'ClaimsYN',
+                    id: 'Claims',
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
@@ -135,7 +135,7 @@ export class MotorVehicleTanzaniya{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     key: 'GpsYN',
-                    id: 'GpsYN',
+                    id: 'GPS',
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',

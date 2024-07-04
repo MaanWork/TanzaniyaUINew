@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { SharedService } from 'src/app/demo/service/shared.service';
 import * as Mydatas from '../../../../../app-config.json';
+import { TranslateService } from '@ngx-translate/core';
+import { AppComponent } from 'src/app/app.component';
 interface Plan {
   title:string;
   excess:number;
@@ -132,8 +134,10 @@ export class CoverDetailsComponent {
   proRataPercent: any=null;premiumAfterDiscount:any=null;fleetCoverDetails: any;columns:any[]=[];basePremium: any;premiumIncludedTax: any;premiumExcludedTax: any;factorViewList: any[]=[];factorPremiumDetails:any=null;factorDetailModal: boolean=false;
   newAddClauses: boolean = false; newAddExclusion:boolean = false; newAddWarranty:boolean = false;
   fleetDiscountModal: boolean=false;minTaxList: any[]=[];minPremiumExcludedTax: any=null;minCoverName: any;minBasePremium: any;minPremiumIncludedTax: number;
-  b2cType: any;
-  constructor(private router:Router,private sharedService:SharedService,private messageService: MessageService){
+  b2cType: any;lang:any=null;
+  constructor(private router:Router,private sharedService:SharedService,private messageService: MessageService,
+    private translate:TranslateService,private appComp:AppComponent
+  ){
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     let loginType = sessionStorage.getItem('resetLoginDetails');
     this.userType = this.userDetails?.Result?.UserType;
@@ -164,8 +168,16 @@ export class CoverDetailsComponent {
     this.localCurrency = this.userDetails.Result.CurrencyId;
     this.loginId = this.userDetails.Result.LoginId;
     this.sampleloginId = this.loginId;
-    
-    sessionStorage.removeItem('vehicleDetailsList');
+    this.appComp.getLanguage().subscribe((res:any)=>{  
+      if(res) this.lang=res;
+      else this.lang='en';
+      this.translate.setDefaultLang(this.lang);
+    });
+    if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+      else this.lang='en';
+      sessionStorage.setItem('language',this.lang)
+      this.translate.setDefaultLang(sessionStorage.getItem('language'));}
+      sessionStorage.removeItem('vehicleDetailsList');
       let endorseObj = JSON.parse(sessionStorage.getItem('endorseTypeId'))
       if(endorseObj){
         this.endorsementSection = true;
@@ -731,7 +743,7 @@ export class CoverDetailsComponent {
     }
   }
   checkCurrentSection(){
-    if((this.insuranceId=='100028' || this.insuranceId=='100027') && this.productId=='5'){
+    if((this.insuranceId=='100028' || this.insuranceId=='100027' || this.insuranceId=='100040') && this.productId=='5'){
       let duplicateId = null;
       let i=0,j=0;
       for(let veh of this.vehicleDetailsList){
@@ -1978,7 +1990,7 @@ export class CoverDetailsComponent {
     }
   }
   onEmiYNChange(){
-    //if(this.emiYN == 'Y') this.EmiInstallment();
+    if(this.emiYN == 'Y') this.EmiInstallment();
   }
   setEmiTableValues(yearlyList,nineList,sixList,threeList,fiveList,eightList){
     if(this.yearlySection){
@@ -3147,7 +3159,7 @@ export class CoverDetailsComponent {
           for(let vehicle of this.vehicleData){
               let vehEntry = this.selectedCoverList.filter(ele=>ele.RiskId==vehicle.RiskId);
               if(vehEntry.length!=0){
-                let entry = vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId || ele.RiskId==vehicle.RiskId);
+                let entry = vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId);
                 if(entry.length!=0){
                   let j=0; let covers = [];
                   for(let veh of entry){
@@ -3168,7 +3180,6 @@ export class CoverDetailsComponent {
                                 "InsuranceId": this.insuranceId,
                                 "Covers":covers
                               }
-                              console.log("Final Req",vehicle,veh,ReqObj)
                               if(covers.length!=0){
                                 let urlLink = `${this.CommonApiUrl}api/updatefactorrate`;
                                 this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -3177,7 +3188,6 @@ export class CoverDetailsComponent {
                                         i+=1;
                                         if(i==this.vehicleDetailsList.length){
                                           if(type=='calculate'){
-                                            
                                             // this.getcall();
                                             //sessionStorage.removeItem('vehicleDetailsList');
                                             window.location.reload();

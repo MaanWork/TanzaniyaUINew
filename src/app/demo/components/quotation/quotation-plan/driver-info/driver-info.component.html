@@ -3,8 +3,8 @@
     </div>
     <div class="col-12 md:col-5 lg:col-5 xl:col-5">
         <div class="flex flex-wrap justify-content-start">
-            <div *ngIf="quoteNo"><b>QuoteNo- <span class="primaryTextColor">{{quoteNo}}</span></b>&nbsp;|&nbsp;</div>
-            <div *ngIf="quoteRefNo">RefNo- <span class="primaryTextColor">{{quoteRefNo}}</span></div>
+            <div *ngIf="quoteNo"><b>{{'PREMIUM.QuoteNo' | translate}} - <span class="primaryTextColor">{{quoteNo}}</span></b>&nbsp;|&nbsp;</div>
+            <div *ngIf="quoteRefNo">{{'PREMIUM.ReferenceNo' | translate}} - <span class="primaryTextColor">{{quoteRefNo}}</span></div>
         </div>
     </div>
 </div>
@@ -16,10 +16,10 @@
         <p-tabPanel [header]="getHeaderName(veh)">
             <div class="grid">
                 <div class="col-12 md:col-9 lg:col-9 xl:col-9">
-                    <h2>Driver Information</h2>
+                    <h2>{{'DRIVERINFO.DriverInformation' | translate}}</h2>
                 </div>
                 <div class="col-12 md:col-3 lg:col-3 xl:col-3">
-                    <p-button icon="pi pi-plus" label="Add New Driver" (click)="addNewDriver(veh.RiskId)"></p-button>
+                    <p-button icon="pi pi-plus" [label]="'DRIVERINFO.AddNewDriver' | translate" (click)="addNewDriver(veh.RiskId)"></p-button>
                 </div>
             </div>
             <ng-container *ngFor="let row of driverDetailsList;let i = index">
@@ -32,11 +32,11 @@
                     </div>
                     <div class="grid w-full" styleClass="w-full">
                         <div class="col-12 md:col-3 lg:col-3 xl:col-3">
-                            <label for="username">Driver Name*</label>
-                            <input pInputText id="username" [(ngModel)]="row.DriverName" class="customInput" [disabled]="endorsementSection && !enableDriverDetails"  maxlength="100" placeholder="Enter Driver Name"/>
+                            <label for="username">{{'MOTORQUOTE.DriverName' | translate}}*</label>
+                            <input pInputText id="username" [(ngModel)]="row.DriverName" class="customInput" [disabled]="endorsementSection && !enableDriverDetails"  maxlength="100" [placeholder]="'DRIVERINFO.EnterDriverName' | translate"/>
                             <div class="input-form-error" *ngIf="row.driverNameError">
                                 <div class="error-text text-danger">
-                                    Please Enter Valid Driver Name
+                                    {{'DRIVERINFO.PleaseEnterValidDriverName' | translate}}
                                 </div>
                             </div>
                         </div>
@@ -46,34 +46,34 @@
                             </p-dropdown>
                         </div> -->
                         <div class="col-12 md:col-3 lg:col-3 xl:col-3">
-                            <label for="username">Licence Number*</label>
-                            <input pInputText id="username" [(ngModel)]="row.LicenseNo"  class="customInput" [disabled]="endorsementSection && !enableDriverDetails"  maxlength="14" placeholder="Enter Licence Number"/>
+                            <label for="username">{{'MOTORQUOTE.LicenseNumber' | translate}}*</label>
+                            <input pInputText id="username" [(ngModel)]="row.LicenseNo"  class="customInput" [disabled]="endorsementSection && !enableDriverDetails"  maxlength="14" [placeholder]="'DRIVERINFO.EnterLicenceNumber' | translate"/>
                             <div class="input-form-error" *ngIf="row.licenseNoError">
                                 <div class="error-text text-danger">
-                                    Please Enter Valid License Number
+                                    {{'DRIVERINFO.PleaseEnterValidLicenseNumber' | translate}}
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 md:col-2 lg:col-2 xl:col-2">
-                            <label for="username">Date of Birth*</label>
+                            <label for="username">{{'MOTORQUOTE.DateOfBirth' | translate}}*</label>
                             <p-calendar class="w-full" [(ngModel)]="row.DriverDob" styleClass="w-full" [disabled]="endorsementSection && !enableDriverDetails"  [maxDate]="minDate"
-                                dateFormat="dd/mm/yy" placeholder="Select DOB">
+                                dateFormat="dd/mm/yy" [placeholder]="'DRIVERINFO.SelectDOB' | translate">
                             </p-calendar>
                             <div class="input-form-error" *ngIf="row.driverDobError">
                                 <div class="error-text text-danger">
-                                    Please Select Valid Date Of Birth
+                                    {{'DRIVERINFO.PleaseSelectValidDateOfBirth' | translate}}
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 md:col-3 lg:col-3 xl:col-3">
-                            <label for="username">Driver Type</label>
+                            <label for="username"> {{'MOTORQUOTE.DriverType' | translate}}</label>
                             <div class="flex justify-content-start gap-3">
                                 <p-selectButton [options]="driverOptions" [disabled]="endorsementSection && !enableDriverDetails" [(ngModel)]="row.DriverType"
                                 optionLabel="label" optionValue="value"></p-selectButton>
                             </div>
                             <div class="input-form-error" *ngIf="row.driverTypeError">
                                 <div class="error-text text-danger">
-                                    Please Select Valid Driver Type
+                                    {{'DRIVERINFO.PleaseSelectValidDriverType' | translate}}
                                 </div>
                             </div>
                         </div>
@@ -84,47 +84,47 @@
                 </ng-container>
                 
             </ng-container>
-            <div class="grid" *ngIf="insuranceId=='100027'">
+            <div class="grid" *ngIf="insuranceId=='100027' || insuranceId=='100040'">
                 <div class="col-12 md:col-7 lg:col-7 xl:col-7">
-                    <h2>Other Information About Vehicle</h2>
+                    <h2>{{'DRIVERINFO.OtherInformationAboutVehicle' | translate}}</h2>
                 </div>
             </div>
-            <div class="grid" *ngIf="insuranceId=='100027'">
+            <div class="grid" *ngIf="insuranceId=='100027' || insuranceId=='100040'">
                 <ng-container *ngFor="let list of vehicleDetailsList">
                     <ng-container *ngIf="list.VehicleId==veh.RiskId">
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                            <label for="username">Series Number</label>
-                            <input pInputText maxlength="20" class="w-full" styleClass="w-full" [(ngModel)]="list.SeriesNo" placeholder="Enter Series Number"/>
+                            <label for="username">{{'DRIVERINFO.SeriesNumber' | translate}}</label>
+                            <input pInputText maxlength="20" class="w-full" styleClass="w-full" [(ngModel)]="list.SeriesNo" [placeholder]="'DRIVERINFO.EnterSeriesNumber' | translate"/>
                         </div>
                     
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                            <label for="username">Number Of Cylinder's</label>
+                            <label for="username">{{'DRIVERINFO.NumberOfCylinders' | translate}}</label>
                             <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [(ngModel)]="list.NoCylinder" [options] ="CylinderTypeList"
-                            optionLabel="CodeDesc" optionValue="Code" placeholder="Enter No Of Cylinders">
+                            optionLabel="CodeDesc" optionValue="Code" [placeholder]="'DRIVERINFO.EnterNoOfCylinders' | translate">
                         </p-dropdown>
                         </div>
                     
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                            <label for="username">Plate Type</label>
+                            <label for="username">{{'DRIVERINFO.PlateType' | translate}}</label>
                             <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [options] ="plateTypeList" [(ngModel)]="list.PlateType"
-                                optionLabel="CodeDesc" optionValue="Code" placeholder="Select Plate Type">
+                                optionLabel="CodeDesc" optionValue="Code" [placeholder]="'DRIVERINFO.SelectPlateType' | translate">
                             </p-dropdown>
                         </div>
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                            <label for="username">Plate Color</label>
+                            <label for="username">{{'DRIVERINFO.PlateColor' | translate}}</label>
                             <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" 
                             [options]="colorList"
                             [(ngModel)]="list.PlateColorId"
                                 optionLabel="CodeDesc" 
                                 optionValue="Code" 
-                                placeholder="Select Color">
+                                [placeholder]="'DRIVERINFO.SelectColor' | translate">
                             </p-dropdown>
                         </div>
                     
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                            <label for="username">Number Of Door's</label>
+                            <label for="username">{{'DRIVERINFO.NumberOfDoors' | translate}}</label>
                             <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [options] ="NoOfDoorsList"  [(ngModel)]="list.NoDoors"
-                                optionLabel="CodeDesc" optionValue="Code" placeholder="Select Doors">
+                                optionLabel="CodeDesc" optionValue="Code" [placeholder]="'DRIVERINFO.SelectDoors' | translate">
                             </p-dropdown>
                         </div>
                     </ng-container>
@@ -151,18 +151,18 @@
             <div class="flex flex-wrap justify-content-center mt-2">
                 <div>
                     <ng-container *ngIf="tabIndex==0">
-                        <p-button label="Back" (click)="ongetBack()" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                        <p-button [label]="'PREMIUM.Back' | translate" (click)="ongetBack()" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
                     </ng-container>
                     <ng-container *ngIf="tabIndex!=0">
-                        <p-button label="Back" (click)="tabIndex=tabIndex-1" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                        <p-button [label]="'PREMIUM.Back' | translate" (click)="tabIndex=tabIndex-1" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
                     </ng-container>
                 </div>
                <div>
                 <ng-container *ngIf="tabIndex!=(vehicleList.length-1)">
-                    <p-button label="Next" (click)="onNextProceed()" class="text-l pi-button mt-6"></p-button>
+                    <p-button [label]="'MOTORQUOTE.Next' | translate" (click)="onNextProceed()" class="text-l pi-button mt-6"></p-button>
                 </ng-container>
                 <ng-container *ngIf="tabIndex==(vehicleList.length-1)">
-                    <p-button label="Proceed" (click)="onsave()" class="text-l pi-button mt-6"></p-button>
+                    <p-button [label]="'PREMIUM.Proceed' | translate" (click)="onsave()" class="text-l pi-button mt-6"></p-button>
                 </ng-container>
                </div>
                 

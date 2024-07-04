@@ -2805,7 +2805,7 @@ emiyn="N";
              
             //}
             // if(!this.endorsementSection){
-            if(this.insuranceId=='100027')   this.EmiInstallment();
+            if(this.insuranceId=='100027' || this.insuranceId=='100040')   this.EmiInstallment();
             // }
             
             console.log("Final Vehicle Listaaaa",this.vehicleDetailsList,this.selectedCoverList)

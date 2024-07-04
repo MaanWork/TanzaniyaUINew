@@ -3394,7 +3394,6 @@ export class RiskDetailsComponent {
                       else if(this.productId=='19' && this.nine)this.selectedTab +=1; 
                       else this.checkValidation();
                     }
-              
                   },
                   (err) => { },
                   );

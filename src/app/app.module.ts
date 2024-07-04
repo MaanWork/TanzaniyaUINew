@@ -15,7 +15,6 @@ import { AuthGuard } from './demo/components/auth/Auth/auth.guard';
 import { AuthService } from './demo/components/auth/Auth/auth.service';
 import { PipesModule } from './demo/pipes/pipes.module';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
-import { HttpXsrfInterceptor } from './HttpInterceptors/http-xsrf-interceptor.service';
 import { HttpInterceptorService } from './demo/components/HttpInterceptors/http-interceptor.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -32,7 +31,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { TableModule } from 'primeng/table';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 export function HttpLoaderFactory(httpClient: HttpClient) {
-    return new TranslateHttpLoader(httpClient);
+    return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
 
 @NgModule({

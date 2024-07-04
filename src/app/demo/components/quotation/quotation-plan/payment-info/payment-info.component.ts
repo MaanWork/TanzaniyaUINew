@@ -13,7 +13,6 @@ import { QuotationPlanComponent } from '../quotation-plan.component';
 })
 export class PaymentInfoComponent {
   displayPayment:boolean = false;
-
   paymentOptions:MenuItem[] = [
     {'label': 'Cash', 'target': 'cash'}, 
     {'label':'Cheque', 'target': 'cheque'}, 
@@ -38,33 +37,18 @@ export class PaymentInfoComponent {
   vehicleList: any;quoteDetails:any=null;orgPolicyNo:any=null;quoteLoginId:any=null;endtPremium:any=null;
   quoteUsertype:any=null;quoteBranchCode:any=null;currencyCode:any=null;IsChargeOrRefund:any=null;policySection:boolean=false;
   stickerNo: any=null;CoverNoteNo:any=null;paymentTypeList:any[]=[];nineMonthSection:boolean=false;
-  commonDocTypeList: any[]=[];yearlySection:boolean=false;sixMonthSection:boolean=false;
-  Emilist1: any[]=[];
-  bankList: any[]=[];
+  commonDocTypeList: any[]=[];yearlySection:boolean=false;sixMonthSection:boolean=false;Emilist1: any[]=[];bankList: any[]=[];
   threeMonthSection: boolean=false;fiveMonthSection: boolean=false;eightMonthSection: boolean=false;
-  emiSection: boolean=false;
-  emiyn: any=null;chequeSection: boolean=false;
-  payAmount: any=null;
-  uploadedDocList: any[]=[];
-  Menu: any=null;first: boolean;
+  emiSection: boolean=false;emiyn: any=null;chequeSection: boolean=false;
+  payAmount: any=null;uploadedDocList: any[]=[];Menu: any=null;first: boolean;
   second: boolean=false;Third: boolean=false;Fourth: boolean=false;Fifth: boolean=false;bankName: any=null;
   chequeDate: any=null;chequeNo: any=null;Sixth: boolean=false;seven: boolean=false;
-  payeeName: any=null;
-  activeMenu: any=null;
-  iBanNo: any=null;accNo: any=null;micrNo: any=null;
-  Riskdetails: any=null;
-  imageUrl: any;
-  uploadDocList: any[]=[];
-  uploadSection: boolean=false;
-  Seventh: boolean=false;
-  mpaisaCode: any=null;
-  mpaisaNumber: any=null;
-  MobileCode: any=null;customerReferenceNo:any=null;
+  payeeName: any=null;activeMenu: any=null;iBanNo: any=null;accNo: any=null;micrNo: any=null;
+  Riskdetails: any=null;imageUrl: any;uploadDocList: any[]=[];
+  uploadSection: boolean=false;Seventh: boolean=false;mpaisaCode: any=null;
+  mpaisaNumber: any=null;MobileCode: any=null;customerReferenceNo:any=null;
   customerName: any=null;mobileCodeList:any[]=[];
-  MobileNo: any=null;MobileCodeDesc:any=null;
-  mobilePaymentPending: boolean=false;
-  checkStatusSection: boolean=false;
-  loadingCount: any=0;
+  MobileNo: any=null;MobileCodeDesc:any=null;mobilePaymentPending: boolean=false;checkStatusSection: boolean=false;loadingCount: any=0;
   constructor(private messageService: MessageService,private quoteComponent:QuotationPlanComponent,
     private router:Router,private sharedService: SharedService,private route:ActivatedRoute,
    private datePipe:DatePipe) {

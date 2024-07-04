@@ -4,6 +4,8 @@ import { MenuItem, PrimeIcons } from 'primeng/api';
 import { SharedService } from 'src/app/demo/service/shared.service';
 import * as Mydatas from '../../../../app-config.json';
 import { formatDate } from '@angular/common';
+import { AppComponent } from 'src/app/app.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-quotation-table',
@@ -27,11 +29,7 @@ export class QuotationTableComponent implements OnInit {
   public ApiUrl1: any = this.AppConfig.ApiUrl1;
   public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
   public motorurl:any = this.AppConfig.MotorApiUrl;
-  totalQuoteRecords: any=null;
-  pageCount: any=null;
-  quotePageNo: any=null;
-  startIndex: any=null;
-  endIndex: any=null;
+  totalQuoteRecords: any=null;pageCount: any=null;quotePageNo: any=null;startIndex: any=null;endIndex: any=null;
   brokerLapsedList: any[]=[];
   brokerlapsedCode: any=null;lapsedQuoteData:any[]=[];
   totalLapsedQuoteRecords: any;
@@ -56,8 +54,9 @@ export class QuotationTableComponent implements OnInit {
   remarksError: boolean=false;
   MotorList: any[]=[];
   LapsedList: any;
-  sqBrokerList: any[]=[];
-  constructor(private router: Router,private sharedService: SharedService) {
+  sqBrokerList: any[]=[];lang:any=null;
+  constructor(private router: Router,private sharedService: SharedService,private appComp:AppComponent,
+    private translate: TranslateService,) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
     this.agencyCode = this.userDetails.Result.OaCode;
@@ -81,13 +80,13 @@ export class QuotationTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.items = [{ label: 'Home', routerLink:'/' }, {label:'Quotation'}];
+    
     this.customerColumn = [ 'Select','Reference No','Customer Name',  'Customer Type','ID Number'];
     if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
-      this.columns = [ 'Vehicle Details','Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium','CurrencyCode', 'Active'];
+      this.columns = [ 'Vehicle Details','Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium','CurrencyCode', 'Action'];
       this.rejectedColumns = [ 'Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium','CurrencyCode','Reason'];
     }
-    else{ this.columns = ['Quote No','Reference No','Customer Name','Start Date','End Date','Premium','CurrencyCode','Actions'] 
+    else{ this.columns = ['Quote No','Reference No','Customer Name','Start Date','End Date','Premium','CurrencyCode','Action'] 
     this.rejectedColumns = [ 'Quote No', 'Reference No', 'Customer Name', 'Policy Start Date', 'Policy End Date', 'Premium','CurrencyCode','Reason'];
     }
     this.cols = [ 
@@ -97,8 +96,22 @@ export class QuotationTableComponent implements OnInit {
     ]; 
     this.quotations = [{referenceNo:'123'}, {referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'}];
     this.getBrokerList();
+    this.appComp.getLanguage().subscribe((res:any)=>{  
+      this.lang=res;
+      if(this.lang=='en'){this.items = [{ label: 'Home', routerLink:'/' }, {label:'Quotation'}];}
+      else if(this.lang=='po'){this.items = [{ label: 'Lar', routerLink:'/' }, {label:'cotação'}];}
+      this.translate.setDefaultLang(res);
+  });
+  if(!this.lang){this.lang=sessionStorage.getItem('language');
+    if(this.lang=='en'){this.items = [{ label: 'Home', routerLink:'/' }, {label:'Quotation'}];}
+      else if(this.lang=='po'){this.items = [{ label: 'Lar', routerLink:'/' }, {label:'cotação'}];}
+      this.translate.setDefaultLang(sessionStorage.getItem('language'));}
     // this.getLapsedBrokerList();
     // this.getRejectedBrokerList();
+  }
+  checkHeaderName(val){
+    let name=val.replaceAll(' ','');
+    return 'QUOTEGRID.'+name
   }
   onTabClicked(event){
     console.log("Event",event)
@@ -109,6 +122,7 @@ export class QuotationTableComponent implements OnInit {
    if(this.tabIndex==2) this.getRejectedBrokerList();
    if(this.tabIndex==3) this.getSQBrokerList();
   }
+  
   getBrokerList(){
     let appId = "1",loginId="",brokerbranchCode="";
     if(this.userType!='Issuer'){

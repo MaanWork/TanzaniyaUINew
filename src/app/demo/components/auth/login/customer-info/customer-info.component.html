@@ -8,17 +8,17 @@
             <div class="col-12 sm:col-6">
                 <div class="flex justify-content-start xl:justify-content-end align-items-center flex-wrap">
                     <div class="flex align-items-center mr-4 flex-wrap">
-                        <h5 class="mr-3 mb-2" >Account Type :</h5>
+                        <h5 class="mr-3 mb-2" >{{ 'HOME.AccountType' | translate }} :</h5>
                         <p-selectButton [options]="policyHolderList" (click)="setPolicyType()" [(ngModel)]="productItem.IdType" [optionLabel]="getDisplayName()" optionValue="Code"></p-selectButton>
                     </div>
                 </div>
             </div>
         </div>
         <div class="grid"> 
-            <ng-container *ngIf="insuranceId!='100027'">
+            <ng-container *ngIf="insuranceId!='100027' || insuranceId!='100040'">
                 <div class="col-12 lg:col-1 md:col-1 xl:col-1">
-                    <!-- <label for="username">{{ 'HOME.CustomerTitle' | translate }}*</label> -->
-                    <label for="username">Title *</label>
+                    <label for="username">{{ 'HOME.CustomerTitle' | translate }}*</label>
+                    <!-- <label for="username">Title *</label> -->
                     <p-dropdown inputId="Title2"  class="w-full" 
                         styleClass="w-full"  (change)="onTitleChange('change')" [options]="titleList" 
                         [(ngModel)]="productItem.Title" [optionLabel]="getDisplayName()" 
@@ -31,8 +31,8 @@
                     </div>
                 </div>
                 <div class="col-12 lg:col-3 md:col-3 xl:col-3" >
-                    <!-- <label for="username">{{ 'HOME.CustomerName' | translate }} *</label> -->
-                    <label for="username">Customer Name *</label>
+                    <label for="username">{{ 'HOME.CustomerName' | translate }} *</label>
+                    <!-- <label for="username">Customer Name *</label> -->
                     <input pInputText id="CustomerName" class="w-full"  maxlength="150" [(ngModel)]="productItem.ClientName" 
                             (change)="onsavedatas('Customer',null)" placeholder="Enter Customer Name"/>
                         <div class="input-form-error" *ngIf="customerNameError">
@@ -43,8 +43,8 @@
                 </div>
             </ng-container>
             <div class="col-12 lg:col-2 md:col-2 xl:col-2">
-                <!-- <label for="username">{{ 'HOME.CountryCode' | translate }}*</label> -->
-                <label for="username">Country Code *</label>
+                <label for="username">{{ 'HOME.CountryCode' | translate }}*</label>
+                <!-- <label for="username">Country Code *</label> -->
                 <p-dropdown inputId="CountryCode" class="w-full" styleClass="w-full"   [options]="mobileCodeList"   [(ngModel)]="productItem.MobileCode" 
                     [optionLabel]="getDisplayName()"  optionValue="Code" placeholder="Select Code">
                 </p-dropdown>
@@ -55,8 +55,8 @@
                 </div>
             </div>
             <div class="col-12 lg:col-3 md:col-3 xl:col-3">
-                <!-- <label for="username">{{ 'HOME.MobileNumber' | translate }}*</label> -->
-                <label for="username">Mobile No</label>
+                <label for="username">{{ 'HOME.MobileNumber' | translate }}*</label>
+                <!-- <label for="username">Mobile No</label> -->
                 <input pInputText id="mobileNo" class="w-full"  maxlength="10" [(ngModel)]="productItem.MobileNo"
                     placeholder="Enter Phone Number" (change)="onsavedatas('Mobile',null)">
                     <div class="input-form-error" *ngIf="mobileNoError">

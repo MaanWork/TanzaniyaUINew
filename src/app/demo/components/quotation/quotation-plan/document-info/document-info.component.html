@@ -1,21 +1,20 @@
 <div class="grid" >
     <div class="lg:col-7 md:col-7 col-12">
-        <h2>Document Info for Verification</h2>
-        <p>Hi, We need your attention to start your Insurance</p>
+        <h2>{{'DOCUMENT.DocumentInfoforVerification' | translate}}</h2>
+        <p>{{'DOCUMENT.HiWeneedyourattentiontostartyourInsurance' | translate}}</p>
     </div>
     <div class="lg:col-5 md:col-5 col-12">
         <div class="flex flex-wrap justify-content-start">
-            <div *ngIf="quoteNo"><b>QuoteNo- <span class="primaryTextColor">{{quoteNo}}</span></b>&nbsp;|&nbsp;</div>
-            <div *ngIf="quoteRefNo">RefNo- <span class="primaryTextColor">{{quoteRefNo}}</span></div>
+            <div *ngIf="quoteNo"><b>{{'PREMIUM.QuoteNo' | translate}} - <span class="primaryTextColor">{{quoteNo}}</span></b>&nbsp;|&nbsp;</div>
+            <div *ngIf="quoteRefNo">{{'PREMIUM.ReferenceNo' | translate}}- <span class="primaryTextColor">{{quoteRefNo}}</span></div>
         </div>
-        
     </div>
     
 </div>
 <div class="flex flex-wrap justify-content-end">
     <div class="card grid text-white surface-900 px-2 py-2" >
         <div class="col-12">
-            <p class="mb-0">Total Premium</p>
+            <p class="mb-0">{{'PREMIUM.TotalPremium' | translate}}</p>
             <h6 class="text-white mt-0">{{totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
         </div>
     </div>
@@ -27,7 +26,7 @@
             <div>
                 <div class="center">
                     <b class="text-dark" style="font-size:1rem;position: relative;top:25px">
-                        <i class="far fa-images"></i> Drag or Click</b>
+                        <i class="far fa-images"></i> {{'DOCUMENT.DragorClick' | translate}}</b>
                 </div>
             </div>
         </div>
@@ -35,11 +34,11 @@
     
 </div>
 <ng-container *ngIf="uploadListDoc.length!=0">
-    <h5>Selected Documents</h5><br>
+    <h5>{{'DOCUMENT.SelectedDocuments' | translate}}</h5><br>
     <p-table *ngIf="tableView == 'table' else cardTableView" [value]="uploadListDoc" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
         <ng-template pTemplate="header">
             <tr>
-                <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}}</th>
+                <th [pSortableColumn]="column" *ngFor="let column of columns">{{'DOCUMENT.'+column | translate}}</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-doc let-i="rowIndex">
@@ -55,7 +54,7 @@
                     (onChange)="onChangeLocation(doc)"
                     optionLabel="LocationName" 
                     optionValue="LocationId" 
-                    placeholder="Select Location">
+                    [placeholder]="'DOCUMENT.SelectLocation' | translate">
                 </p-dropdown>
             </td>
             <td>
@@ -68,7 +67,7 @@
                     (onChange)="onChangeSectionType(doc,i)"
                     optionLabel="SectionName" 
                     optionValue="SectionId" 
-                    placeholder="Select Section">
+                    [placeholder]="'DOCUMENT.SelectSection' | translate">
                 </p-dropdown>
             </td>
             <td>
@@ -79,7 +78,7 @@
                     (onChange)="onChangeIdType(doc)"
                     optionLabel="Id" 
                     optionValue="Id" 
-                    placeholder="---Select---">
+                    [placeholder]="'QUOTEGRID.Selectt' | translate">
                 </p-dropdown>
             </td>
             <td>
@@ -92,7 +91,7 @@
                     (onChange)="onChangeIdType(doc)"
                     optionLabel="CodeDesc" 
                     optionValue="Code" 
-                    placeholder="---Select---">
+                    [placeholder]="'QUOTEGRID.Selectt' | translate">
                 </p-dropdown>
             </td>
             <!-- <td>{{ doc.PolicyEndDate }}</td> -->
@@ -179,14 +178,14 @@
 </ng-container>
 <div class="flex flex-wrap justify-content-center">
     <div>
-        <p-button label="Back" (click)="getBacks()" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+        <p-button [label]="'MOTORQUOTE.Back' | translate" (click)="getBacks()" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
     </div>
     <div>
-        <p-button label="Proceed" (click)="onProceed()" class="text-l pi-button mt-6"></p-button>
+        <p-button [label]="'QUOTEGRID.Proceed' | translate" (click)="onProceed()" class="text-l pi-button mt-6"></p-button>
     </div>
     
 </div>
-<p-dialog header="View Document" [(visible)]="viewImageSection" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+<p-dialog [header]="'DOCUMENT.ViewDocument' | translate" [(visible)]="viewImageSection" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
     <div class="grid">
         <div class="col-12 sm:col-12 md:col-12">
             <div class="text-center">

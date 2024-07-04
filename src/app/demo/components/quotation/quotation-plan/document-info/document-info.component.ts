@@ -5,6 +5,8 @@ import { SharedService } from 'src/app/demo/service/shared.service';
 import * as Mydatas from '../../../../../app-config.json';
 import Swal from 'sweetalert2';
 import { QuotationPlanComponent } from '../quotation-plan.component';
+import { AppComponent } from 'src/app/app.component';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-document-info',
   templateUrl: './document-info.component.html',
@@ -40,10 +42,10 @@ export class DocumentInfoComponent {
   viewImageFileName: any=null;
   viewImageSection: boolean;
   driverDetailsList: any[]=[];
-  coverlist: any[]=[];
+  coverlist: any[]=[];lang:any=null;
   BackSession: string;
   constructor(private sharedService: SharedService,private quoteComponent:QuotationPlanComponent,
-    private router:Router,
+    private router:Router,private appComp:AppComponent,private translate:TranslateService,
     private datePipe:DatePipe) {
     //this.vehicleId = sessionStorage.getItem('editVehicleId');
     //this.quoteNo = sessionStorage.getItem('quoteNo');
@@ -96,27 +98,36 @@ export class DocumentInfoComponent {
     // }
     
     this.vehicleDetails = JSON.parse(sessionStorage.getItem('vehicleDetails'));
+    this.appComp.getLanguage().subscribe((res:any)=>{  
+      if(res) this.lang=res;
+      else this.lang='en';
+      this.translate.setDefaultLang(this.lang);
+    });
+    if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+      else this.lang='en';
+      sessionStorage.setItem('language',this.lang)
+      this.translate.setDefaultLang(sessionStorage.getItem('language'));}
    }
    ngOnInit(){
     if(this.productId=='5' || this.productId=='46'){
-      this.columns = ['S.No','FileName','Section','Registration Number','Document Type','Actions'];
-      this.uploadedColumns = ['S.No','FileName','Section','Registration Number','Document Type','Actions'];
+      this.columns = ['SNo','FileName','Section','RegistrationNumber','DocumentType','Actions'];
+      this.uploadedColumns = ['SNo','FileName','Section','RegistrationNumber','DocumentType','Actions'];
     }
     else if(this.productId=='43'){
-      this.columns = ['S.No','FileName','Section','Employee Name','Document Type','Actions'];
-      this.uploadedColumns = ['S.No','FileName','Section','Employee Name','Document Type','Actions'];
+      this.columns = ['SNo','FileName','Section','EmployeeName','DocumentType','Actions'];
+      this.uploadedColumns = ['SNo','FileName','Section','EmployeeName','DocumentType','Actions'];
     }
     else if(this.productId=='42'){
-      this.columns = ['S.No','FileName','Section','Serial No','Document Type','Actions'];
-      this.uploadedColumns = ['S.No','FileName','Section','Serial No','Document Type','Actions'];
+      this.columns = ['SNo','FileName','Section','SerialNo','DocumentType','Actions'];
+      this.uploadedColumns = ['SNo','FileName','Section','SerialNo','DocumentType','Actions'];
     }
     else if(this.productId=='59'){
-      this.columns = ['S.No','FileName','Location','Section','ID','Document Type','Actions'];
-      this.uploadedColumns = ['S.No','FileName','Location','Section','ID','Document Type','Actions'];
+      this.columns = ['SNo','FileName','Location','Section','ID','DocumentType','Actions'];
+      this.uploadedColumns = ['SNo','FileName','Location','Section','ID','DocumentType','Actions'];
     }
     else{
-      this.columns = ['S.No','FileName','Section','ID','Document Type','Actions'];
-      this.uploadedColumns = ['S.No','FileName','Section','ID','Document Type','Actions'];
+      this.columns = ['SNo','FileName','Section','ID','DocumentType','Actions'];
+      this.uploadedColumns = ['SNo','FileName','Section','ID','DocumentType','Actions'];
     }
       this.getCommonDocTypeList();
       this.getUploadedDocList(null,-1,null);

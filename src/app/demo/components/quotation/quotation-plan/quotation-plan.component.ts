@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { AppComponent } from 'src/app/app.component';
 import { SharedService } from 'src/app/demo/service/shared.service';
 
 @Component({
@@ -11,8 +13,10 @@ export class QuotationPlanComponent {
   riskDetails:any[]=[];tabIndex:any=0;productId:any=null;
   vehicleDetailsList:any[]=[];userType:any=null;agencyCode:any=null;branchList:any[]=[];
   currencyCode:any=null;userDetails:any=null;subuserType:any=null;branchCode:any=null;productName:any=null;
-  insuranceId:any=null;brokerbranchCode:any=null;loginType:any=null;
-  constructor(private router:Router,private sharedService:SharedService){
+  insuranceId:any=null;brokerbranchCode:any=null;loginType:any=null;lang:any=null;
+  constructor(private router:Router,private sharedService:SharedService,
+    private translate:TranslateService,private appComp:AppComponent
+  ){
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     let loginType = sessionStorage.getItem('resetLoginDetails');
     this.userType = this.userDetails?.Result?.UserType;
@@ -25,6 +29,11 @@ export class QuotationPlanComponent {
     this.insuranceId = this.userDetails.Result.InsuranceId;
     this.brokerbranchCode = this.userDetails.Result.BrokerBranchCode;
     this.loginType = this.userDetails.Result.LoginType;
+    this.appComp.getLanguage().subscribe((res:any)=>{  
+      this.lang=res;
+      this.translate.setDefaultLang(res);
+    });
+    if(!this.lang){this.lang=sessionStorage.getItem('language');this.translate.setDefaultLang(sessionStorage.getItem('language'));}
   }
   setRiskDetails(riskDetails){
     if(riskDetails.length!=0){

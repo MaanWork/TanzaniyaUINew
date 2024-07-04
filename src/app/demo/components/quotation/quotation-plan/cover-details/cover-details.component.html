@@ -2,25 +2,23 @@
 <div class="card">
     <div class="grid">
       <div class="col-12 sm:col-6 md:col-4">
-        <h3 class="mr-3 p-0 m-0">Quote Details</h3>
+        <h3 class="mr-3 p-0 m-0">{{'MOTORQUOTE.QuoteDetails' | translate}}</h3>
         <ng-container *ngIf="checkCurrentSection()">
             <br><br>
-            <div><b>Registration No - <span class="primaryTextColor">{{vehicleDetailsList[0].RiskDetails.Registrationnumber}}</span></b></div>
+            <div><b>{{'MOTORDETAILS.RegistrationNo' | translate}} - <span class="primaryTextColor">{{vehicleDetailsList[0].RiskDetails.Registrationnumber}}</span></b></div>
         </ng-container>
       </div>
       <div class="col-12 sm:col-6 md:col-8">
         <div class="flex flex-wrap justify-content-end">
-                <div *ngIf="quoteNo"><b>QuoteNo- <span class="primaryTextColor">{{quoteNo}}</span></b>&nbsp;|&nbsp;</div>
-                <div *ngIf="quoteRefNo">RefNo- <span class="primaryTextColor">{{quoteRefNo}}</span></div>
+            <div *ngIf="quoteNo"><b>{{'PREMIUM.QuoteNo' | translate}} - <span class="primaryTextColor">{{quoteNo}}</span></b>&nbsp;|&nbsp;</div>
+            <div *ngIf="quoteRefNo">{{'PREMIUM.ReferenceNo' | translate}} - <span class="primaryTextColor">{{quoteRefNo}}</span></div>
         </div>
       </div>
     </div>
-    
-
     <div class="flex justify-content-end mb-4" *ngIf="!checkCurrentSection()">
         <p-button icon="pi pi-table"  class="mr-3" [styleClass]="verticalSection == false ? '':'p-button-outlined'" (click)="verticalSection=!verticalSection" severity="success "></p-button>
         <p-button icon="pi pi-list" [styleClass]="verticalSection==true ? '':'p-button-outlined'" (click)="verticalSection=!verticalSection"  severity="success "></p-button>
-      </div>
+    </div>
     <p-divider></p-divider>
     
     <ng-container *ngIf="vehicleDetailsList.length!=0">
@@ -32,17 +30,17 @@
                             
                                 <ng-container *ngIf="productId=='5'">
                                     <div class="flex flex-wrap justify-content-between">
-                                            <div class="flex flex-wrap" *ngIf="insuranceId!='100027'">
+                                            <div class="flex flex-wrap" *ngIf="insuranceId!='100027' && insuranceId!='100040'">
                                                 <p class="mr-5" *ngIf="menu.RiskDetails.PolicyTypeDesc"><i class="pi pi-tag mr-2"></i>{{menu.RiskDetails.PolicyTypeDesc}}</p>
                                                 <p class="mr-5"><i class="pi pi-tag mr-2"></i>{{ menu.RiskDetails.Registrationnumber }}</p>
                                             </div>
                                             <div class="flex flex-wrap">
                                                 <ng-container *ngIf="(insuranceId=='100020' || insuranceId=='100028') && productId!='56' ">
-                                                    <p-button icon="pi pi-rate" label="View Factor Details" (click)="onViewFactorDetails()"  class="mr-3" styleClass='p-button-outlined' severity="success "></p-button>
+                                                    <p-button icon="pi pi-rate" [label]="'PREMIUM.ViewFactorDetails' | translate" (click)="onViewFactorDetails()"  class="mr-3" styleClass='p-button-outlined' severity="success "></p-button>
                                                 </ng-container>
-                                                <div class="bg-blue-800 customSizeDiv"></div> &nbsp; Default Opted Covers &nbsp;
-                                                <div class="customOptCoverBg customSizeDiv"></div> &nbsp; Opted Covers &nbsp;
-                                                <i class="pi pi-bookmark-fill customReferralBorder"></i> &nbsp; Referral Covers &nbsp;
+                                                <div class="bg-blue-800 customSizeDiv"></div> &nbsp; {{'PREMIUM.DefaultOptedCovers' | translate}} &nbsp;
+                                                <div class="customOptCoverBg customSizeDiv"></div> &nbsp; {{'PREMIUM.OptedCovers' | translate}} &nbsp;
+                                                <i class="pi pi-bookmark-fill customReferralBorder"></i> &nbsp; {{'PREMIUM.ReferralCovers' | translate}} &nbsp;
                                             </div>
                                     </div>
                                     
@@ -53,7 +51,7 @@
                                             <div class="customCard4">
                                                 <div class="flex flex-wrap justify-content-start">
                                                     <div class="flex flex-wrap">
-                                                        <span class="spancommon referalRemarksHeading" >Refferal Reasons</span>
+                                                        <span class="spancommon referalRemarksHeading" >{{'PREMIUM.RefferalReasons' | translate}}</span>
                                                     </div>
                                                 </div>
                                                 <div class="mt-1">
@@ -74,7 +72,7 @@
                                     <div class="flex flex-wrap">
                                         <div class="col-12 md:col-6 lg:col-6 border-right-1 border-500">
                                             <ng-container *ngIf="checkBenefitSection2(menu)">
-                                                <h3>Default Covers</h3><br>
+                                                <h3>{{'PREMIUM.DefaultCovers' | translate}}</h3><br>
                                             </ng-container>
                                             <div class="flex flex-wrap justify-content-between">
                                                 <ng-container *ngFor="let cover of menu.CoverList">
@@ -94,16 +92,16 @@
                                                         </div>
                                                         
                                                         
-                                                        <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>SumInsured
+                                                        <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}
                                                             &nbsp;&nbsp;<a
                                                                 class="mt-0 viewDetailsText"
-                                                                (click)="setDiscountDetails(menu,cover,'excess')">View Details
+                                                                (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
                                                             </a>
                                                         </p><br>
-                                                        <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>Premium After Discount
+                                                        <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>{{'PREMIUM.PremiumAfterDiscount' | translate}} 
                                                             &nbsp;&nbsp;<a
                                                             class="mt-0 viewDetailsText"
-                                                            (click)="ongetTaxDetails(cover)">View Details</a>
+                                                            (click)="ongetTaxDetails(cover)">{{'PREMIUM.ViewDetails' | translate}}</a>
                                                         </p>
                                                         
                                                         <p><span class="font-bold text-4xl float-right">{{cover.PremiumIncludedTax | commaseparator}}&nbsp;<span class="text-base">( {{currencyCode}} )</span></span></p>
@@ -112,7 +110,7 @@
                                                 </ng-container>
                                             </div>
                                             <ng-container *ngIf="checkBenefitSection(menu)">
-                                                <h3>Benefit Covers</h3><br>
+                                                <h3>{{'PREMIUM.BenefitCovers' | translate}}</h3><br>
                                             </ng-container>
                                             <div class="flex flex-wrap justify-content-between">
                                                 <div class="grid">
@@ -140,14 +138,14 @@
                                                     
                                             </div>
                                             <div class="flex flex-wrap justify-content-center">
-                                                <ng-container *ngIf="ClausesData.length!=0 || userType=='Issuer'"> <p-button label="Clauses" (click)="ClausesStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
-                                                    <ng-container *ngIf="ExclusionData.length!=0 || userType=='Issuer'"><p-button label="Exclusions"  (click)="ExclusioStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
-                                                    <ng-container *ngIf="WarrantyData.length!=0 || userType=='Issuer'"><p-button label="Warranties" (click)="WarrantyStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                                <ng-container *ngIf="ClausesData.length!=0 || userType=='Issuer'"> <p-button [label]="'PREMIUM.Clauses' | translate" (click)="ClausesStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                                    <ng-container *ngIf="ExclusionData.length!=0 || userType=='Issuer'"><p-button [label]="'PREMIUM.Exclusions' | translate"  (click)="ExclusioStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                                    <ng-container *ngIf="WarrantyData.length!=0 || userType=='Issuer'"><p-button [label]="'PREMIUM.Warranties' | translate" (click)="WarrantyStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
                                             </div>
                                         </div>
                                         <div class="col-12 md:col-6 lg:col-6 px-5">
                                             <ng-container *ngIf="checkBenefitSection2(menu)">
-                                                <h3>Default Covers</h3><br>
+                                                <h3>{{'PREMIUM.DefaultCovers' | translate}}</h3><br>
                                             </ng-container>
                                             <div class="flex flex-wrap justify-content-between">
                                                 <ng-container *ngFor="let cover of menu.CoverList">
@@ -172,25 +170,25 @@
                                                             </div>
                                                             <div class="grid">
                                                                 <div class="col-12 md:col-12 lg:col-12 xl:col-12" *ngIf="cover.SubCovers">
-                                                                    <label for="username">SubCover</label>
+                                                                    <label for="username">{{'PREMIUM.SubCover' | translate}}</label>
                                                                     <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="cover.SubCoverId"
                                                                     (onChange)="onChangeSubCover(null,cover,menu,true,$event)"  [options]="cover.SubCovers"
-                                                                        optionLabel="SubCoverName" optionValue="SubCoverId" placeholder="- - -Select- - -">
+                                                                        optionLabel="SubCoverName" optionValue="SubCoverId" [placeholder]="'QUOTEGRID.Selectt' | translate">
                                                                     </p-dropdown>
                                                                 </div>
                                                             </div>
                                                            <div class="flex flex-wrap mt-3 justify-content-between">
                                                                 <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
                                                                     <div class="mb-3">
-                                                                        <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>SumInsured  &nbsp;&nbsp;<a
+                                                                        <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}  &nbsp;&nbsp;<a
                                                                             class="mt-0 viewDetailsText2"
-                                                                            (click)="setDiscountDetails(menu,cover,'excess')">View Details
+                                                                            (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
                                                                         </a></p><br>
-                                                                        <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>Premium After Discount 
+                                                                        <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>{{'PREMIUM.PremiumAfterDiscount' | translate}} 
                                                                             &nbsp;&nbsp;<a
                                                                             class="mt-0 viewDetailsText2"
                                                                             (click)="ongetTaxDetails(cover)"
-                                                                            >View Details</a>
+                                                                            >{{'PREMIUM.ViewDetails' | translate}}</a>
                                                                         </p>
                                                                     </div>
                                                                 </ng-container>
@@ -243,13 +241,13 @@
                                                 <div></div>
                                                 <div></div>
                                                 <div class="mb-4">
-                                                    <p-button label="Next" *ngIf="!checkNextBtn(menu,i)" (click)="onNext()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>&nbsp;
+                                                    <p-button [label]="'MOTORQUOTE.Next' | translate" *ngIf="!checkNextBtn(menu,i)" (click)="onNext()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>&nbsp;
                                                 </div>
                                                 <div class="card grid text-white surface-900 px-4 py-2" (click)="showSidebar()" *ngIf="!checkCurrentSection()">
                                                     <div class="col-6">
                                                         <h6 class="text-white mt-0">{{totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
                                                     </div>
-                                                    <p-button class="col-6" styleClass="surface-900" label="View Cart" severity="primary"></p-button>
+                                                    <p-button class="col-6" styleClass="surface-900" [label]="'PREMIUM.ViewCart' | translate" severity="primary"></p-button>
                                                 </div>
                                             </div>
                                         </div>
@@ -259,7 +257,7 @@
                                         <div class="flex flex-wrap">
                                             <div class="col-12 md:col-12 lg:col-12 border-500">
                                                 <ng-container *ngIf="checkBenefitSection2(menu)">
-                                                    <h3>Default Covers</h3><br>
+                                                    <h3>{{'PREMIUM.DefaultCovers' | translate}}</h3><br>
                                                 </ng-container>
                                                 <div class="flex flex-wrap justify-content-start">
                                                     <ng-container *ngFor="let cover of menu.CoverList">
@@ -284,25 +282,25 @@
                                                                 </div>
                                                                 <div class="grid">
                                                                     <div class="col-12 md:col-12 lg:col-12 xl:col-12" *ngIf="cover.SubCovers">
-                                                                        <label for="username">SubCover</label>
+                                                                        <label for="username">{{'PREMIUM.SubCover' | translate}}</label>
                                                                         <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="cover.SubCoverId"
                                                                         (onChange)="onChangeSubCover(null,cover,menu,true,$event)"  [options]="cover.SubCovers"
-                                                                            optionLabel="SubCoverName" optionValue="SubCoverId" placeholder="- - -Select- - -">
+                                                                            optionLabel="SubCoverName" optionValue="SubCoverId" [placeholder]="'QUOTEGRID.Selectt' | translate">
                                                                         </p-dropdown>
                                                                     </div>
                                                                 </div>
                                                                <div class="flex flex-wrap mt-3 justify-content-between">
                                                                     <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
                                                                         <div class="mb-3">
-                                                                            <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>SumInsured  &nbsp;&nbsp;<a
+                                                                            <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}  &nbsp;&nbsp;<a
                                                                                 class="mt-0 viewDetailsText2"
-                                                                                (click)="setDiscountDetails(menu,cover,'excess')">View Details
+                                                                                (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
                                                                             </a></p><br>
-                                                                            <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>Premium After Discount 
+                                                                            <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>{{'PREMIUM.PremiumAfterDiscount' | translate}} 
                                                                                 &nbsp;&nbsp;<a
                                                                                 class="mt-0 viewDetailsText2"
                                                                                 (click)="ongetTaxDetails(cover)"
-                                                                                >View Details</a>
+                                                                                >{{'PREMIUM.ViewDetails' | translate}}</a>
                                                                             </p>
                                                                         </div>
                                                                     </ng-container>
@@ -330,7 +328,7 @@
                                             </div>   
                                             <div class="col-12 md:col-12 lg:col-12 border-500">
                                                 <ng-container *ngIf="checkBenefitSection2(menu)">
-                                                    <h3>Default Covers</h3><br>
+                                                    <h3>{{'PREMIUM.DefaultCovers' | translate}}</h3><br>
                                                 </ng-container>
                                                 <div class="flex flex-wrap justify-content-start">
                                                     <ng-container *ngFor="let cover of menu.CoverList">
@@ -350,16 +348,16 @@
                                                             </div>
                                                             
                                                             
-                                                            <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>SumInsured
+                                                            <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}
                                                                 &nbsp;&nbsp;<a
                                                                     class="mt-0 viewDetailsText"
-                                                                    (click)="setDiscountDetails(menu,cover,'excess')">View Details
+                                                                    (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
                                                                 </a>
                                                             </p><br>
-                                                            <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>Premium After Discount
+                                                            <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>{{'PREMIUM.PremiumAfterDiscount' | translate}} 
                                                                 &nbsp;&nbsp;<a
                                                                 class="mt-0 viewDetailsText"
-                                                                (click)="ongetTaxDetails(cover)">View Details</a>
+                                                                (click)="ongetTaxDetails(cover)">{{'PREMIUM.ViewDetails' | translate}}</a>
                                                             </p>
                                                             
                                                             <p><span class="font-bold text-4xl float-right">{{cover.PremiumIncludedTax | commaseparator}}&nbsp;<span class="text-base">( {{currencyCode}} )</span></span></p>
@@ -414,26 +412,26 @@
                                                         
                                                 </div>
                                                 <div class="flex flex-wrap justify-content-center">
-                                                    <ng-container *ngIf="ClausesData.length!=0 || userType=='Issuer'"> <p-button label="Clauses" (click)="ClausesStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
-                                                    <ng-container *ngIf="ExclusionData.length!=0 || userType=='Issuer'"><p-button label="Exclusions" (click)="ExclusioStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
-                                                    <ng-container *ngIf="WarrantyData.length!=0 || userType=='Issuer'"><p-button label="Warranties" (click)="WarrantyStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                                    <ng-container *ngIf="ClausesData.length!=0 || userType=='Issuer'"> <p-button [label]="'PREMIUM.Clauses' | translate" (click)="ClausesStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                                    <ng-container *ngIf="ExclusionData.length!=0 || userType=='Issuer'"><p-button [label]="'PREMIUM.Exclusions' | translate" (click)="ExclusioStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
+                                                    <ng-container *ngIf="WarrantyData.length!=0 || userType=='Issuer'"><p-button [label]="'PREMIUM.Warranties' | translate" (click)="WarrantyStatuss()" styleClass="mr-3 mb-3 p-button-outlined"></p-button></ng-container>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="flex flex-wrap justify-content-between mt-2">
                                             <div></div>
                                             <div class="mb-4">
-                                                <p-button label="Next" *ngIf="!checkNextBtn(menu,i)" (click)="onNext()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>&nbsp;
+                                                <p-button [label]="'MOTORQUOTE.Next' | translate" *ngIf="!checkNextBtn(menu,i)" (click)="onNext()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>&nbsp;
                                             </div>
                                             <div class="card grid text-white surface-900 px-4 py-2" style="min-width: 200px !important;" (click)="showSidebar()" *ngIf="!checkCurrentSection()">
                                                 <div class="col-6">
                                                     <h6 class="text-white mt-0">{{totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
                                                 </div>
-                                                <p-button class="col-6" styleClass="surface-900" label="View Cart" severity="primary"></p-button>
+                                                <p-button class="col-6" styleClass="surface-900" [label]="'PREMIUM.ViewCart' | translate" severity="primary"></p-button>
                                             </div>
                                             <div class="card grid text-white surface-900 px-4 py-2" *ngIf="checkCurrentSection() && vehicleDetailsList[tabIndex].totalPremium!=null && vehicleDetailsList[tabIndex].totalPremium!=0 && vehicleDetailsList[tabIndex].totalPremium!='0'" style="min-width: 200px !important;">
                                                 <div class="col-10">
-                                                    <label>Total Premium</label>
+                                                    <label>{{'PREMIUM.TotalPremium' | translate}}</label>
                                                     <h6 class="text-white mt-0">{{vehicleDetailsList[tabIndex].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
                                                 </div>
                                             </div>
@@ -447,11 +445,11 @@
         <ng-container *ngIf="checkCurrentSection()">
             <div class="grid pl-5 pt-5">
                 <div  class="rightSide w-full">
-                    <h3>Information Summary</h3>
+                    <h3>{{'PREMIUM.InformationSummary' | translate}}</h3>
                     <div class="grid w-full">
                         <ng-container *ngFor="let menu of vehicleDetailsList;let i = index">
                             <div class="card ml-6-per col-12 md:col-3 lg:col-3 xl:col-3">
-                                <h2 class="optiontxt1">Option {{i+1}}</h2>
+                                <h2 class="optiontxt1">{{'PREMIUM.Option' | translate}} {{i+1}}</h2>
                                 <span class="greentxt">{{menu.SectionName}}</span>
                                 <hr class="hr new4">
                                 <ng-container *ngFor="let cover of menu.CoverList">
@@ -476,20 +474,20 @@
                                 </ng-container>
                                 <div class="felx flex-warp t-a-r viewDetailsText2" >
 
-                                    <h6 (click)="onChooseCompareSection(menu,target)"><a >View More Covers >></a></h6>
+                                    <h6 (click)="onChooseCompareSection(menu,target)"><a >{{'PREMIUM.ViewMoreCovers' | translate}} >></a></h6>
                                 </div>
                                 <hr class="hr new4">
                                 <div class="grid mt-2 justify-content-end" style="padding: 12px;">
                                     <div class="custom-grid text-white  p-0 text-end" *ngIf="checkCurrentSection() && vehicleDetailsList[i].totalPremium!=null && vehicleDetailsList[i].totalPremium!=0 && vehicleDetailsList[i].totalPremium!='0'" >
                                         <div class="col-12 md:col-4 lg:col-4 xl:col-4" style="width:100%;background-color: #000;border-radius: 5px;padding: 5px !important;">
-                                        <label>Total Premium</label>
+                                        <label>{{'PREMIUM.TotalPremium' | translate}}</label>
                                         <p class="text-white mt-0">{{vehicleDetailsList[i].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</p>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- <h3>After discount (MUR)</h3>
                                 <h2 class="optiontxt1">RS.3,456</h2> -->
-                                <button type="button" class="input bluebtn buybtn" (click)="onChooseCompareSection(menu,target)">Buy</button>
+                                <button type="button" class="input bluebtn buybtn" (click)="onChooseCompareSection(menu,target)">{{'PREMIUM.Buy' | translate}}</button>
                             </div>&nbsp;&nbsp;
                         </ng-container>
                     </div>
@@ -503,10 +501,10 @@
                             <ng-container *ngFor="let menu of vehicleDetailsList;let i = index">
                                 <ng-container *ngIf="menu.SectionId==selectedSectionId">
                                     <div class="flex flex-wrap justify-content-between">
-                                            <div><h3>Default Covers</h3></div>
+                                            <div><h3>{{'PREMIUM.DefaultCovers' | translate}}</h3></div>
                                             <ng-container *ngIf="(insuranceId=='100020' || insuranceId=='100028') && productId!='56' ">
                                                 <div *ngIf="menu.SectionName=='Comprehensive'">
-                                                    <p-button icon="pi pi-rate" label="View Factor Details" (click)="onViewFactorDetails()"  class="mr-3" styleClass='p-button-outlined' severity="success "></p-button>
+                                                    <p-button icon="pi pi-rate" [label]="'PREMIUM.ViewFactorDetails' | translate" (click)="onViewFactorDetails()"  class="mr-3" styleClass='p-button-outlined' severity="success "></p-button>
                                                 </div>
                                             </ng-container>
                                             <div><h2 class="optiontxt1">{{menu.SectionName}}</h2></div>
@@ -530,23 +528,23 @@
                                                 </div>
                                                 
                                                 
-                                                <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>SumInsured
+                                                <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}
                                                     &nbsp;&nbsp;<a
                                                         class="mt-0 viewDetailsText"
-                                                        (click)="setDiscountDetails(menu,cover,'excess')">View Details
+                                                        (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
                                                     </a>
                                                 </p><br>
-                                                <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>Premium After Discount
+                                                <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>{{'PREMIUM.PremiumAfterDiscount' | translate}} 
                                                     &nbsp;&nbsp;<a
                                                     class="mt-0 viewDetailsText"
-                                                    (click)="ongetTaxDetails(cover)">View Details</a>
+                                                    (click)="ongetTaxDetails(cover)">{{'PREMIUM.ViewDetails' | translate}}</a>
                                                 </p>
                                                 
                                                 <p><span class="font-bold text-4xl float-right">{{cover.PremiumIncludedTax | commaseparator}}&nbsp;<span class="text-base">( {{currencyCode}} )</span></span></p>
                                             </div>
                                         </ng-container>
                                     </div>
-                                    <h3>Add On Covers</h3>
+                                    <h3>{{'PREMIUM.AddOnCovers' | translate}}</h3>
                                     <div class="flex flex-wrap justify-content-start">
                                         <ng-container *ngFor="let cover of menu.CoverList">
                                             <ng-container *ngIf="(cover.isSelected!='D' && cover.CoverageType!='A') && ! checkCoverSelection(menu,cover)">
@@ -570,25 +568,25 @@
                                                     </div>
                                                     <div class="grid">
                                                         <div class="col-12 md:col-12 lg:col-12 xl:col-12" *ngIf="cover.SubCovers">
-                                                            <label for="username">SubCover</label>
+                                                            <label for="username">{{'PREMIUM.SubCover' | translate}}</label>
                                                             <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="cover.SubCoverId"
                                                             (onChange)="onChangeSubCover(null,cover,menu,true,$event)"  [options]="cover.SubCovers"
-                                                                optionLabel="SubCoverName" optionValue="SubCoverId" placeholder="- - -Select- - -">
+                                                                optionLabel="SubCoverName" optionValue="SubCoverId" [placeholder]="'QUOTEGRID.Selectt' | translate">
                                                             </p-dropdown>
                                                         </div>
                                                     </div>
                                                 <div class="flex flex-wrap mt-3 justify-content-between">
                                                         <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
                                                             <div class="mb-3">
-                                                                <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>SumInsured  &nbsp;&nbsp;<a
+                                                                <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}  &nbsp;&nbsp;<a
                                                                     class="mt-0 viewDetailsText2"
-                                                                    (click)="setDiscountDetails(menu,cover,'excess')">View Details
+                                                                    (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
                                                                 </a></p><br>
-                                                                <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>Premium After Discount 
+                                                                <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>{{'PREMIUM.PremiumAfterDiscount' | translate}} 
                                                                     &nbsp;&nbsp;<a
                                                                     class="mt-0 viewDetailsText2"
                                                                     (click)="ongetTaxDetails(cover)"
-                                                                    >View Details</a>
+                                                                    >{{'PREMIUM.ViewDetails' | translate}}</a>
                                                                 </p>
                                                             </div>
                                                         </ng-container>
@@ -613,7 +611,7 @@
                                     <div class="flex flex-wrap justify-content-end">
                                         <div class="card custom-grid text-white surface-900 p-0 text-end" *ngIf="checkCurrentSection() && vehicleDetailsList[i].totalPremium!=null && vehicleDetailsList[i].totalPremium!=0 && vehicleDetailsList[i].totalPremium!='0'" style="min-width: 200px !important;">
                                             <div class="col-10">
-                                                <label>Total Premium</label>
+                                                <label>{{'PREMIUM.TotalPremium' | translate}}</label>
                                                 <h6 class="text-white mt-0">{{vehicleDetailsList[i].totalPremium | commaseparator}}&nbsp;({{currencyCode}})</h6>
                                             </div>
                                         </div>
@@ -730,7 +728,7 @@
                                                                     <label for="username">SubCover</label>
                                                                     <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="cover.SubCoverId"
                                                                     (onChange)="onChangeSubCover(null,cover,menu,true,$event)"  [options]="cover.SubCovers"
-                                                                        optionLabel="SubCoverName" optionValue="SubCoverId" placeholder="- - -Select- - -">
+                                                                        optionLabel="SubCoverName" optionValue="SubCoverId" [placeholder]="'QUOTEGRID.Selectt' | translate">
                                                                     </p-dropdown>
                                                                 </div>
                                                             </div>
@@ -932,7 +930,7 @@
                                                             <label for="username">SubCover</label>
                                                             <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="cover.SubCoverId"
                                                             (onChange)="onChangeSubCover(null,cover,menu,true,$event)"  [options]="cover.SubCovers"
-                                                                optionLabel="SubCoverName" optionValue="SubCoverId" placeholder="- - -Select- - -">
+                                                                optionLabel="SubCoverName" optionValue="SubCoverId" [placeholder]="'QUOTEGRID.Selectt' | translate">
                                                             </p-dropdown>
                                                         </div>
                                                     </div>
@@ -1101,7 +1099,7 @@
                                                                 <label for="username">SubCover</label>
                                                                 <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="cover.SubCoverId"
                                                                 (onChange)="onChangeSubCover(null,cover,menu,true,$event)"  [options]="cover.SubCovers"
-                                                                    optionLabel="SubCoverName" optionValue="SubCoverId" placeholder="- - -Select- - -">
+                                                                    optionLabel="SubCoverName" optionValue="SubCoverId" [placeholder]="'QUOTEGRID.Selectt' | translate">
                                                                 </p-dropdown>
                                                             </div>
                                                         </div>
@@ -1238,24 +1236,24 @@
                 </div>
             </div> -->
             <div class="lg:col-3 md:col-3 col-12" *ngIf="((!statusValue || checkManualReferral()) && !adminSection) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
-                <label class="input-form-label">Do You Like to Move this Quote to Referral Manually?</label>
+                <label class="input-form-label">{{'PREMIUM.DoYouLiketoMovethisQuotetoReferralManually' | translate}}</label>
                 <div class="flex justify-content-start gap-3 mt-2">
                     <div class="flex align-items-center">
                         <p-radioButton name="referral" value="Y" [(ngModel)]="isMannualReferal"
                             inputId="referral_Yes"></p-radioButton>
-                        <span for="referral_Yes" class="ml-2">Yes</span>
+                        <span for="referral_Yes" class="ml-2">{{'PREMIUM.Yes' | translate}}</span>
                     </div>
                     <div class="flex align-items-center">
                         <p-radioButton name="referral" value="N" [(ngModel)]="isMannualReferal"
                             inputId="referral_No"></p-radioButton>
-                        <span for="referral_No" class="ml-2">No</span>
+                        <span for="referral_No" class="ml-2">{{'PREMIUM.No' | translate}}</span>
                     </div>
                 </div>
             </div>
             <ng-container *ngIf="isMannualReferal == 'Y'">
                 <div class="lg:col-3 md:col-3 col-12" *ngIf="((!statusValue || checkManualReferral()) && !adminSection) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
                     <div class="mb-3">
-                            <label class="input-form-label">Remarks</label>
+                            <label class="input-form-label">{{'PREMIUM.Remarks' | translate}}</label>
                             <textarea pInputTextarea cols="40" class="textAreaHeight" maxlength="1000" rows="2" [(ngModel)]="remarks"
                                 ></textarea>
                     </div>
@@ -1268,32 +1266,32 @@
                 <tr class="firstclass tableRowWidth">
                     <th scope="col" colspan="3"></th>
                     <th scope="col" colspan="4" class="textAlignCenter" class="spancommon span_font_size">
-                        Installment Amount ({{localCurrency}})
+                        {{'PREMIUM.InstallmentAmount' | translate}} ({{localCurrency}})
                     </th>
                 </tr>
                 <tr class="firstclass">
-                    <th scope="col" class="spancommon span_font_size textAlignCenter" style="text-align:center;">EMI Month
+                    <th scope="col" class="spancommon span_font_size textAlignCenter" style="text-align:center;">{{'PREMIUM.EMIMonth' | translate}}
                     </th>
                     <th scope="col" class="spancommon span_font_size textAlignCenter">
-                        Installment Type</th>
-                    <th scope="col" class="spancommon span_font_size textAlignCenter">Due Date
+                        {{'PREMIUM.InstallmentType' | translate}}</th>
+                    <th scope="col" class="spancommon span_font_size textAlignCenter">{{'PREMIUM.DueDate' | translate}}
                     </th>
-                    <th scope="col" class="spancommon span_font_size textAlignCenter" *ngIf="yearlySection" id="first">(12 Months)
+                    <th scope="col" class="spancommon span_font_size textAlignCenter" *ngIf="yearlySection" id="first">({{'PREMIUM.12Months' | translate}})
                     </th>
                     <th scope="col" class="spancommon span_font_size textAlignCenter" *ngIf="nineMonthSection" id="second"
-                        >(9 Months)
+                        >({{'PREMIUM.9Months' | translate}})
                     </th>
                     <th scope="col" class="spancommon span_font_size textAlignCenter" id="sixth" 
-                        *ngIf="eightMonthSection">(8 Months)
+                        *ngIf="eightMonthSection">({{'PREMIUM.8Months' | translate}})
                     </th>
                     <th scope="col" class="spancommon span_font_size textAlignCenter" id="third" 
-                        *ngIf="sixMonthSection">(6 Months)
+                        *ngIf="sixMonthSection">({{'PREMIUM.6Months' | translate}})
                     </th>
                     <th scope="col" class="spancommon span_font_size textAlignCenter" id="fifth" 
-                        *ngIf="fiveMonthSection">(5 Months)
+                        *ngIf="fiveMonthSection">({{'PREMIUM.5Months' | translate}})
                     </th>
                     <th scope="col" class="spancommon span_font_size textAlignCenter" id="fourth" 
-                        *ngIf="threeMonthSection">(3 Months)
+                        *ngIf="threeMonthSection">({{'PREMIUM.3Months' | translate}})
                     </th>
 
 
@@ -1333,42 +1331,42 @@
     </div>
     <div class="col-12 col-md-6" *ngIf="isMannualReferal != 'Y' && emiYN=='Y' && Emilist1.length!=0">
         <div class="mb-3 mt-3">
-                <label class="input-form-label spancommon span_font_size">EMI Period</label>
+                <label class="input-form-label spancommon span_font_size">{{'PREMIUM.EMIPeriod' | translate}}</label>
                 <div class="flex justify-content-start gap-3 mt-1">
                     <div class="flex align-items-center">
                         <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="0" [(ngModel)]="emiPeriod"
                             inputId="emi_None"></p-radioButton>
-                        <span for="emi_None" class="ml-2">None</span>
+                        <span for="emi_None" class="ml-2">{{'PREMIUM.None' | translate}}</span>
                     </div>
                     <div class="flex align-items-center">
                         <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="3" [(ngModel)]="emiPeriod"
                             inputId="emi_three"></p-radioButton>
-                        <span for="emi_three" class="ml-2">3 Months</span>
+                        <span for="emi_three" class="ml-2">{{'PREMIUM.3Months' | translate}}</span>
                     </div>
                     <div class="flex align-items-center">
                         <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="5" [(ngModel)]="emiPeriod"
                             inputId="emi_five"></p-radioButton>
-                        <span for="emi_five" class="ml-2">5 Months</span>
+                        <span for="emi_five" class="ml-2">{{'PREMIUM.5Months' | translate}}</span>
                     </div>
                     <div class="flex align-items-center">
                         <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="6" [(ngModel)]="emiPeriod"
                             inputId="emi_six"></p-radioButton>
-                        <span for="emi_six" class="ml-2">6 Months</span>
+                        <span for="emi_six" class="ml-2">{{'PREMIUM.6Months' | translate}}</span>
                     </div>
                     <div class="flex align-items-center">
                         <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="8" [(ngModel)]="emiPeriod"
                             inputId="emi_eight"></p-radioButton>
-                        <span for="emi_eight" class="ml-2">8 Months</span>
+                        <span for="emi_eight" class="ml-2">{{'PREMIUM.8Months' | translate}}</span>
                     </div>
                     <div class="flex align-items-center">
                         <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="9" [(ngModel)]="emiPeriod"
                             inputId="emi_nine"></p-radioButton>
-                        <span for="emi_nine" class="ml-2">9 Months</span>
+                        <span for="emi_nine" class="ml-2">{{'PREMIUM.9Months' | translate}}</span>
                     </div>
                     <div class="flex align-items-center">
                         <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="12" [(ngModel)]="emiPeriod"
                             inputId="emi_twelve"></p-radioButton>
-                        <span for="emi_twelve" class="ml-2">12 Months</span>
+                        <span for="emi_twelve" class="ml-2">{{'PREMIUM.12Months' | translate}}</span>
                     </div>
                 </div>
         </div>
@@ -1378,25 +1376,25 @@
         <div></div>
         <div></div>
         <div class="mb-4">
-           <p-button label="Back"  (click)="ongetBack()" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
-            <p-button label="Modify Rate Details" *ngIf="userType=='issuer' || userType=='Issuer'"   [routerLink]="['/quotation/plan/premium-info']" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+           <p-button [label]="'MOTORDETAILS.Back' | translate"  (click)="ongetBack()" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
+            <p-button [label]="'PREMIUM.ModifyRateDetails' | translate" *ngIf="userType=='issuer' || userType=='Issuer'"   [routerLink]="['/quotation/plan/premium-info']" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
             <ng-container *ngIf="!checkCurrentSection()">
-                <p-button label="Proceed"  (click)="onViewOverAllPremium()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                <p-button [label]="'PREMIUM.Proceed' | translate"  (click)="onViewOverAllPremium()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                 <!-- <p-button label="Buy Policy"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
                 (click)="onFormSubmit(null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                <p-button label="Buy Policy" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                <p-button label="Buy Policy"   *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
                (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-4"></p-button> -->
-               <p-button label="Proceed"  *ngIf="adminSection"
+               <p-button [label]="'PREMIUM.Proceed' | translate"  *ngIf="adminSection"
                (click)="onUpdateFactor('',null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
             </ng-container>
             <ng-container *ngIf="selectedSectionId && checkCurrentSection()">
-                <p-button label="Proceed"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
+                <p-button [label]="'PREMIUM.Proceed' | translate"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
                 (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-                <p-button label="Proceed" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-                <p-button label="Proceed"   *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
+                <p-button [label]="'PREMIUM.Proceed' | translate" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                <p-button [label]="'PREMIUM.Proceed' | translate"   *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
                 (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-                <p-button label="Proceed"  *ngIf="adminSection"
+                <p-button [label]="'PREMIUM.Proceed' | translate"  *ngIf="adminSection"
                 (click)="onUpdateFactor('',null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
             </ng-container>
                 
@@ -1427,8 +1425,8 @@
                                         <th scope="col" class="p-2" style="min-width: 50px;padding: 8px;">
     
                                         </th>
-                                        <th scope="col" class="text-center p-2"><b>Cover Name</b></th>
-                                        <th scope="col" class="text-center p-2"><b>Premium ({{currencyCode}})</b></th>
+                                        <th scope="col" class="text-center p-2"><b>{{'PREMIUM.CoverName' | translate}}</b></th>
+                                        <th scope="col" class="text-center p-2"><b>{{'PREMIUM.Premium' | translate}} ({{currencyCode}})</b></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1458,27 +1456,27 @@
         <div class="flex flex-wrap justify-content-between">
             <div class="mr-0">
                 <ng-container *ngIf="!checkCurrentSection()">
-                    <p-button label="Proceed"  (click)="onViewOverAllPremium()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                    <p-button [label]="'PREMIUM.Proceed' | translate"  (click)="onViewOverAllPremium()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                     <!-- <p-button label="Buy Policy"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
                     (click)="onFormSubmit(null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                    <p-button label="Buy Policy" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                    <p-button label="Buy Policy"   *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
                    (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-4"></p-button> -->
-                   <p-button label="Proceed"  *ngIf="adminSection"
+                   <p-button [label]="'PREMIUM.Proceed' | translate"  *ngIf="adminSection"
                    (click)="onUpdateFactor('',null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                 </ng-container>
                 <ng-container *ngIf="selectedSectionId && checkCurrentSection()">
-                    <p-button label="Proceed"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
+                    <p-button [label]="'PREMIUM.Proceed' | translate"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
                     (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-                    <p-button label="Proceed" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-                    <p-button label="Proceed"   *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
+                    <p-button [label]="'PREMIUM.Proceed' | translate" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                    <p-button [label]="'PREMIUM.Proceed' | translate"   *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
                     (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-                    <p-button label="Proceed"  *ngIf="adminSection"
+                    <p-button [label]="'PREMIUM.Proceed' | translate"  *ngIf="adminSection"
                     (click)="onUpdateFactor('',null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                 </ng-container>
             </div>
             <div class="text-white surface-900 px-6 py-3 border-round-lg flex" (click)="showSidebar()">
-                <h5 class="text-white mb-1 mr-3">Total</h5>
+                <h5 class="text-white mb-1 mr-3">{{'PREMIUM.Total' | translate}}</h5>
                 <div>
                     <h6 class="text-white my-0">{{totalPremium | commaseparator}}</h6>
                 </div>
@@ -1487,20 +1485,20 @@
     </ng-template>
 </p-sidebar>
 
-<p-dialog class="p-su-header" header="Excess & Discount Details" [(visible)]="excessDetailModal" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+<p-dialog class="p-su-header" [header]="'PREMIUM.Excess&DiscountDetails' | translate" [(visible)]="excessDetailModal" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
     <div class="grid">
         <div class="col-12 sm:col-12 md:col-12">
             <table class="table table-bordered customTableWidth" >
                 <thead>
                     <tr>
                         <th scope="col"></th>
-                        <th scope="col" class="textEnd" ><b class="customDangerColor">Excess (%)</b></th>
+                        <th scope="col" class="textEnd" ><b class="customDangerColor">{{'PREMIUM.Excess' | translate}} (%)</b></th>
                         <th scope="col" class="textEnd"><b style="color:#d81b60">Excess Amount ({{currencyCode}})</b></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td style="padding: 5px !important;"><span class="ui-ex">Excess:</span></td>
+                        <td style="padding: 5px !important;"><span class="ui-ex">{{'PREMIUM.Excess' | translate}}</span></td>
                         <td style="text-align: center;float:right !important;padding: 5px !important;">
                             <div class="input-group">
                                 <input type="text" disabled class="input-form-control without-icon" style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important; border: 1px solid;
@@ -1532,19 +1530,19 @@
             <table class="table table-bordered" *ngIf="!discountEndtSection" style="width: 100%;margin-top:15px">
                 <thead>
                     <tr>
-                        <th scope="col" style="text-align: left;padding:12px 14px"><b>Description</b></th>
-                        <th scope="col" style="text-align: center;padding:12px 14px"><b>Rate</b></th>
-                        <th scope="col" style="text-align: end;padding:12px 14px"><b>Amount ({{currencyCode}})</b></th>
+                        <th scope="col" style="text-align: left;padding:12px 14px"><b>{{'PREMIUM.Description' | translate}}</b></th>
+                        <th scope="col" style="text-align: center;padding:12px 14px"><b>{{'PREMIUM.Rate' | translate}}</b></th>
+                        <th scope="col" style="text-align: end;padding:12px 14px"><b>{{'PREMIUM.Amount' | translate}} ({{currencyCode}})</b></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngIf="productId!='42'">
-                        <td style="padding:12px 14px">Sum Insured</td>
+                        <td style="padding:12px 14px">{{'PREMIUM.SumInsured' | translate}}</td>
                         <td></td>
                         <td style="text-align: end;padding:12px 14px"><span class="spancommon span_font_size">{{sumInsured | commaseparator}}</span></td>
                     </tr>
                     <tr>
-                        <td style="max-width: 300px;padding:12px 14px">{{CoverName}}&nbsp;Premium</td>
+                        <td style="max-width: 300px;padding:12px 14px">{{CoverName}}&nbsp;{{'PREMIUM.Premium' | translate}}</td>
                         <td style="padding:12px 14px">
                                 <ng-container *ngIf="calcType=='A'">
                                     <ng-container *ngIf="((!adminSection && userType!='Issuer') || endorsementSection ) || finalizeYN=='Y'">
@@ -1575,7 +1573,7 @@
                     </tr>
                     <ng-container *ngIf="discountList.length!=0">
                         <tr>
-                            <th scope="col">Discounts</th>
+                            <th scope="col">{{'PREMIUM.Discounts' | translate}}</th>
                             <td></td>
                             <td></td>
                         </tr>
@@ -1595,7 +1593,7 @@
 
                     <ng-container *ngIf="loadingList.length!=0">
                         <tr>
-                            <th scope="col" style="text-align: start;padding:12px 14px" colspan="3">Loadings</th>
+                            <th scope="col" style="text-align: start;padding:12px 14px" colspan="3">{{'PREMIUM.Loadings' | translate}}</th>
                         </tr>
                         <tr *ngFor="let loading of loadingList;let i=index">
                             <td style="padding:12px 14px">{{loading.LoadingDesc}}</td>
@@ -1638,7 +1636,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td style="padding:12px 14px"><b>Total</b></td>
+                        <td style="padding:12px 14px"><b>{{'PREMIUM.Total' | translate}}</b></td>
                         <td></td>
                         <td style="text-align: end;padding:12px 14px"><span class="spancommon span_font_size">
                             <b>{{afterDiscount | commaseparator}}</b></span></td>
@@ -1648,14 +1646,14 @@
             <table class="table table-bordered" *ngIf="discountEndtSection">
                 <thead>
                     <tr>
-                        <th scope="col"><b>Description</b></th>
-                        <th scope="col" style="text-align: end;"><b>Rate</b></th>
-                        <th scope="col" style="text-align: end;"><b>Amount ({{currencyCode}})</b></th>
+                        <th scope="col"><b>{{'PREMIUM.Description' | translate}}</b></th>
+                        <th scope="col" style="text-align: end;"><b>{{'PREMIUM.Rate' | translate}}</b></th>
+                        <th scope="col" style="text-align: end;"><b>{{'PREMIUM.Amount' | translate}} ({{currencyCode}})</b></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Actual SumInsured</td>
+                        <td>{{'PREMIUM.ActualSumInsured' | translate}}</td>
                         <td style="text-align: end;">
                                
                         </td>
@@ -1664,7 +1662,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Difference SumInsured</td>
+                        <td>{{'PREMIUM.DifferenceSumInsured' | translate}}</td>
                         <td style="text-align: end;">
                                
                         </td>
@@ -1673,7 +1671,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Premium Before Discount</td>
+                        <td>{{'PREMIUM.PremiumBeforeDiscount' | translate}}</td>
                         <td style="text-align: end;">
                                 <ng-container *ngIf="!adminSection">
                                     <span class="spancommon span_font_size">{{ratePercent}}</span>
@@ -1689,7 +1687,7 @@
                     </tr>
                     <ng-container *ngIf="discountList.length!=0">
                         <tr>
-                            <th style="text-align: start;" colspan="3" scope="col">Discounts</th>
+                            <th style="text-align: start;" colspan="3" scope="col">{{'PREMIUM.Discounts' | translate}}</th>
                         </tr>
                         <tr *ngFor="let discount of discountList">
                             <td  colspan="3">{{discount.DiscountDesc}}</td>
@@ -1707,7 +1705,7 @@
 
                     <ng-container *ngIf="loadingList.length!=0">
                         <tr>
-                            <th scope="col" style="text-align: start;" colspan="3">Loadings</th>
+                            <th scope="col" style="text-align: start;" colspan="3">{{'PREMIUM.Loadings' | translate}}</th>
                         </tr>
                         <tr *ngFor="let loading of loadingList;let i=index">
                             <td>{{loading.LoadingDesc}}</td>
@@ -1751,7 +1749,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td><b>Total</b></td>
+                        <td><b>{{'PREMIUM.Total' | translate}}</b></td>
                         <td></td>
                         <td style="text-align: end;"><span class="spancommon span_font_size">
                             <b>{{beforeDiscount | commaseparator}}</b></span></td>
@@ -1762,7 +1760,7 @@
     </div>
     <div class="flex justify-content-end">
 
-        <p-button class="p-3 text-l pi-button mr-0" (click)="excessDetailModal=!excessDetailModal">Close</p-button>
+        <p-button class="p-3 text-l pi-button mr-0" (click)="excessDetailModal=!excessDetailModal">{{'PREMIUM.close' | translate}}</p-button>
     </div>
 </p-dialog>
 <p-dialog class="p-su-header" header="Discount Details" [(visible)]="discountDetailModal" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
@@ -1771,16 +1769,16 @@
             <table class="table table-bordered" style="width: 100%;margin-top:15px">
                 <thead>
                     <tr>
-                        <th scope="col" style="padding: 8px;"><b>Description</b></th>
+                        <th scope="col" style="padding: 8px;"><b>{{'PREMIUM.Description' | translate}}</b></th>
                         <th scope="col" style="text-align: center;padding: 8px;"><b>Rate</b></th>
                         <th scope="col" style="text-align: center;padding: 8px;"><b>Amount ({{currencyCode}})</b></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td style="text-align: start;padding: 8px;">Premium After Discount</td>
+                        <td style="text-align: start;padding: 8px;">{{'PREMIUM.PremiumAfterDiscount' | translate}} </td>
                         <td style="text-align: center;padding: 8px;">
-                            ProRata({{proRataPercent}}%)
+                            {{'PREMIUM.ProRata' | translate}} ({{proRataPercent}}%)
                         </td>
                         <td style="text-align: end;padding: 8px;">
                             <ng-container
@@ -1790,14 +1788,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: start;padding: 8px;">Minimum Premium</td>
+                        <td style="text-align: start;padding: 8px;">{{'PREMIUM.MinimumPremium' | translate}}</td>
                         <td></td>
                         <td style="text-align: end;padding: 8px;">
                             {{MinimumPremium | number: '1.0'}}
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: start;padding: 8px;">Excluded Tax</td>
+                        <td style="text-align: start;padding: 8px;">{{'PREMIUM.ExcludedTax' | translate}}</td>
                         <td></td>
                         <td style="text-align: end;padding: 8px;">
                             {{premiumExcluedTax}}
@@ -1818,7 +1816,7 @@
                     </ng-container>
                     <ng-container *ngIf="taxList.length!=0">
                         <tr>
-                            <td style="text-align: start;padding: 8px;">Premium Before Tax</td>
+                            <td style="text-align: start;padding: 8px;">{{'PREMIUM.PremiumBeforeTax' | translate}}</td>
                             <td></td>
                             <td style="text-align: end;padding: 8px;">
                                 {{premiumBeforeTax}}
@@ -1842,7 +1840,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td style="padding: 8px;"><b>Total Premium</b></td>
+                        <td style="padding: 8px;"><b>{{'PREMIUM.TotalPremium' | translate}}</b></td>
                         <td></td>
                         <td style="text-align: end;padding: 8px;"><span class="spancommon span_font_size">
                             <b>{{premiumIncluedTax | commaseparator}}</b></span></td>
@@ -1852,22 +1850,22 @@
         </div>
     </div>
     <div class="flex justify-content-end">
-        <p-button class=" text-l pi-button mr-0"  (click)="discountDetailModal=!discountDetailModal">Close</p-button>
+        <p-button class=" text-l pi-button mr-0"  (click)="discountDetailModal=!discountDetailModal">{{'PREMIUM.close' | translate}}</p-button>
     </div>
 </p-dialog>
-<p-dialog class="p-su-header" header="Factor Details" [(visible)]="factorDetailModal" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+<p-dialog class="p-su-header" [header]="'PREMIUM.FactorDetails' | translate" [(visible)]="factorDetailModal" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
     <div class="grid">
         <div class="col-12 lg:col-12 md:col-12 xl:col-12">
             <ng-container *ngIf="factorViewList.length!=0">
                 <table class="table table-bordered" style="width: 100%;margin-top:15px">
                     <thead>
                         <tr>
-                            <th scope="col" style="padding: 8px;"><b>Factor Name</b></th>
-                            <th scope="col" style="text-align: center;padding: 8px;"><b>Own Damage</b></th>
-                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>Wind Screen</b></th>
-                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>Theft</b></th>
-                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>Fire</b></th>
-                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>Third party</b></th>
+                            <th scope="col" style="padding: 8px;"><b>{{'PREMIUM.FactorName' | translate}}</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;"><b>{{'PREMIUM.OwnDamage' | translate}}</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>{{'PREMIUM.WindScreen' | translate}}</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>{{'PREMIUM.Theft' | translate}}</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>{{'PREMIUM.Fire' | translate}}</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>{{'PREMIUM.Thirdparty' | translate}}</b></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1926,52 +1924,52 @@
             </ng-container>
             <ng-container *ngIf="factorViewList.length==0">
                 <div class="flex flex-wrap justify-content-center">
-                    No Data Available
+                    {{'PREMIUM.NoDataAvailable' | translate}}
                 </div>
             </ng-container>
         </div>
     </div>
     <div class="row" *ngIf="factorPremiumDetails && insuranceId!='100028'">
         <div class="flex flex-wrap justify-content-center">
-            <b><u>ANNUAL PREMIUM DETAILS</u></b>
+            <b><u>{{'PREMIUM.ANNUALPREMIUMDETAILS' | translate}}</u></b>
         </div>
         <div class="col-12 lg:col-7 md:col-7 xl:col-7 md:col-offset-3 lg:col-offset-3 xl:col-offset-3">
             <table class="table table-bordered" style="width: 100%;margin-top:15px">
                 <tbody>
                     <tr>
-                        <td style="text-align: start;padding: 8px;"><b>Risk Premium Amount</b></td>
+                        <td style="text-align: start;padding: 8px;"><b>{{'PREMIUM.RiskPremiumAmount' | translate}}</b></td>
                         <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.RiskPremiumAmt | commaseparator}}</b></td>
                     </tr>
                     <tr>
-                        <td style="text-align: start;padding: 8px;"><b>Risk Premium Rate</b></td>
+                        <td style="text-align: start;padding: 8px;"><b>{{'PREMIUM.RiskPremiumRate' | translate}}</b></td>
                         <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.RiskPremiumRate}}</b></td>
                     </tr>
                     <tr>
-                        <td style="text-align: start;padding: 8px;"><b>Target Loss Ratio</b></td>
+                        <td style="text-align: start;padding: 8px;"><b>{{'PREMIUM.TargetLossRatio' | translate}}</b></td>
                         <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.TargetLossRatio | commaseparator}}</b></td>
                     </tr>
                     <tr>
-                        <td style="text-align: start;padding: 8px;"><b>Minimum Rate</b></td>
+                        <td style="text-align: start;padding: 8px;"><b>{{'PREMIUM.MinimumRate' | translate}}</b></td>
                         <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.MinRate | commaseparator}}</b></td>
                     </tr>
                     <tr>
-                        <td style="text-align: start;padding: 8px;"><b>Minimum Rate With Loading</b></td>
+                        <td style="text-align: start;padding: 8px;"><b>{{'PREMIUM.MinimumRateWithLoading' | translate}}</b></td>
                         <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.MinRateWithLoading | commaseparator}}</b></td>
                     </tr>
                     <tr>
-                        <td style="text-align: start;padding: 8px;"><b>Minimum Premium</b></td>
+                        <td style="text-align: start;padding: 8px;"><b>{{'PREMIUM.MinimumPremium' | translate}}</b></td>
                         <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.MinPremium | commaseparator}}</b></td>
                     </tr>
                     <tr>
-                        <td style="text-align: start;padding: 8px;"><b>Minimum Premium With Loading</b></td>
+                        <td style="text-align: start;padding: 8px;"><b>{{'PREMIUM.MinimumPremiumWithLoading' | translate}}</b></td>
                         <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.MinPremiumWithLoading | commaseparator}}</b></td>
                     </tr>
                     <tr>
-                        <td style="text-align: start;padding: 8px;"><b>Final Premium Amount (excl VAT)</b></td>
+                        <td style="text-align: start;padding: 8px;"><b>{{'PREMIUM.FinalPremiumAmount(exclVAT)' | translate}}</b></td>
                         <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.FinalPremiumAmtExclTax | commaseparator}}</b></td>
                     </tr>
                     <tr>
-                        <td style="text-align: start;padding: 8px;"><b>Final Premium Rate (excl VAT)</b></td>
+                        <td style="text-align: start;padding: 8px;"><b>{{'PREMIUM.FinalPremiumRate(exclVAT)' | translate}}</b></td>
                         <td style="text-align: end;padding: 8px;"><b>{{factorPremiumDetails.FinalPremiumRateExclTax | commaseparator}}</b></td>
                     </tr>
                 </tbody>
@@ -1979,19 +1977,19 @@
         </div>
     </div>
     <div class="flex justify-content-center">
-        <p-button class=" text-l pi-button mr-0"  (click)="factorDetailModal=!factorDetailModal">Close</p-button>
+        <p-button class=" text-l pi-button mr-0"  (click)="factorDetailModal=!factorDetailModal">{{'PREMIUM.close' | translate}}</p-button>
     </div>
 </p-dialog>
-<p-dialog class="p-su-header" header="Clauses Details" [(visible)]="onClauses" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+<p-dialog class="p-su-header" [header]="'PREMIUM.ClausesDetails' | translate" [(visible)]="onClauses" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
     <div class="flex flex-wrap justify-content-between mt-2" >
         <div>
-            <label for="username">Section</label>
+            <label for="username">{{'PREMIUM.Section' | translate}}</label>
             <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="termsSectionId" [options]="termsSectionList" (onChange)="viewCondition('change')"
-                optionLabel="SectionName" optionValue="SectionId" placeholder="- - -Select- - -">
+                optionLabel="SectionName" optionValue="SectionId" [placeholder]="'QUOTEGRID.Selectt' | translate">
             </p-dropdown>
         </div>
         <div *ngIf="!newAddClauses && userType!='Broker'">
-            <p-button label="Add New Clause" icon="pi pi-plus" (click)="onAddClause()"></p-button>
+            <p-button [label]="'MOTORDETAILS.AddNewClause' | translate" icon="pi pi-plus" (click)="onAddClause()"></p-button>
         </div>
     </div>
     <div class="grid mt-2">
@@ -2014,9 +2012,9 @@
             <table class="table table-bordered mt-2 p-2 w-full" *ngIf="userType!='Broker' && !newAddClauses">
                 <thead>
                     <tr>
-                        <th class="p-2">Select</th>
+                        <th class="p-2">{{'QUOTEGRID.Select' | translate}}</th>
     
-                        <th class="p-2">Description</th>
+                        <th class="p-2">{{'PREMIUM.Description' | translate}}</th>
                     </tr>
                 </thead>
     
@@ -2039,12 +2037,11 @@
                 </tbody>
             </table>
             <ng-container *ngIf="newAddClauses">
-                <button class="btn btn-primary" style="float:right;margin-bottom:13px;" (click)="addItem()">Add
-                  New</button>
+                <button class="btn btn-primary" style="float:right;margin-bottom:13px;" (click)="addItem()">{{'PREMIUM.AddNew' | translate}}</button>
                 <table class="mt-5 ml-2">
                   <thead>
-                      <th>Clauses Description</th>
-                      <th>Delete</th>
+                      <th>{{'PREMIUM.ClausesDescription' | translate}}</th>
+                      <th>{{'MOTORQUOTE.Delete' | translate}}</th>
                   </thead>
                   <tbody>
                       <tr *ngFor="let row of jsonList;let i = index">
@@ -2069,31 +2066,31 @@
     <div class="flex flex-wrap justify-content-center mt-2">
         <ng-container *ngIf="!newAddClauses">
             <div>
-                <p-button label="Close" class="p-button-outlined" styleClass="p-button-outlined" (click)="OnClose()"></p-button>&nbsp;
+                <p-button [label]="'PREMIUM.close' | translate" class="p-button-outlined" styleClass="p-button-outlined" (click)="OnClose()"></p-button>&nbsp;
             </div>
             <div>
-                <p-button label="Submit" *ngIf="userType!='Broker'" class="p-button-success" (click)="saveClausesData(ClausesData,'Clauses')"></p-button>
+                <p-button [label]="'PREMIUM.Submit' | translate" *ngIf="userType!='Broker'" class="p-button-success" (click)="saveClausesData(ClausesData,'Clauses')"></p-button>
             </div>
         </ng-container>
         <ng-container *ngIf="newAddClauses">
-            <p-button class="p-button-outlined" label="Cancel" styleClass="p-button-outlined" (click)="newAddClauses=!newAddClauses"></p-button>&nbsp;
-            <p-button class="mr-4 mb-4" label="Save" (click)="saveChanges()"></p-button>
+            <p-button class="p-button-outlined" [label]="'PREMIUM.Cancel' | translate" styleClass="p-button-outlined" (click)="newAddClauses=!newAddClauses"></p-button>&nbsp;
+            <p-button class="mr-4 mb-4" [label]="'PREMIUM.Save' | translate" (click)="saveChanges()"></p-button>
             <!-- <button type="button" class="btn btn-primary ml-3" (click)="saveChanges()">Save
                 changes</button> -->
         </ng-container>
     </div>
 </p-dialog>
-<p-dialog class="p-su-header" header="Exclusion Details" [(visible)]="onExclusion" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+<p-dialog class="p-su-header" [header]="'PREMIUM.ExclusionDetails' | translate" [(visible)]="onExclusion" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
     <div class="flex flex-wrap justify-content-between mt-2" >
         <div>
-            <label for="username">Section</label>
+            <label for="username">{{'PREMIUM.Section' | translate}}</label>
             <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="termsSectionId" [options]="termsSectionList" (onChange)="viewCondition('change')"
-                optionLabel="SectionName" optionValue="SectionId" placeholder="- - -Select- - -">
+                optionLabel="SectionName" optionValue="SectionId" [placeholder]="'QUOTEGRID.Selectt' | translate">
             </p-dropdown>
         </div>
         <ng-container *ngIf="userType!='Broker' && !newAddExclusion">
             <div *ngIf="!newAddExclusion">
-                <p-button label="Add New Exclusion" icon="pi pi-plus" (click)="onAddExclusion()"></p-button>
+                <p-button [label]="'PREMIUM.AddNewExclusion' | translate" icon="pi pi-plus" (click)="onAddExclusion()"></p-button>
             </div>
         </ng-container>
         <!-- <div>
@@ -2120,9 +2117,9 @@
             <table class="table table-bordered mt-2 p-2 w-full" *ngIf="userType!='Broker' && !newAddExclusion">
                 <thead>
                     <tr>
-                        <th class="p-2">Select</th>
+                        <th class="p-2">{{'PREMIUM.Select' | translate}}</th>
     
-                        <th class="p-2">Description</th>
+                        <th class="p-2">{{'PREMIUM.Description' | translate}}</th>
                     </tr>
                 </thead>
     
@@ -2147,13 +2144,13 @@
         </div>
         <ng-container *ngIf="newAddExclusion" class="mt-3">
             <div style="float: right !important;">
-            <p-button class="mb-4" label="Add New" (click)="addExclusion()"></p-button>
+            <p-button class="mb-4" [label]="'PREMIUM.AddNew' | translate" (click)="addExclusion()"></p-button>
             </div>
             <!-- <button class="btn btn-primary" (click)="addExclusion()">Add New</button> -->
             <table class="mt-5 ml-2">
               <thead>
-                  <th>Exclusion Description</th>
-                  <th>Delete</th>
+                  <th>{{'PREMIUM.ExclusionDescription' | translate}}</th>
+                  <th>{{'MOTORQUOTE.Delete' | translate}}</th>
               </thead>
               <tbody>
                   <tr *ngFor="let row of ExclusionList;let i = index">
@@ -2180,28 +2177,28 @@
     <div class="flex flex-wrap justify-content-center mt-2">
         <ng-container *ngIf="!newAddExclusion">
         <div>
-            <p-button label="Close" class="p-button-outlined" styleClass="p-button-outlined" (click)="OnClose()"></p-button>&nbsp;
+            <p-button [label]="'PREMIUM.close' | translate" class="p-button-outlined" styleClass="p-button-outlined" (click)="OnClose()"></p-button>&nbsp;
         </div>
         <div>
-            <p-button label="Submit" *ngIf="userType!='Broker'" class="p-button-success" (click)="saveClausesData(ExclusionData,'Exclusion')"></p-button>
+            <p-button [label]="'PREMIUM.Submit' | translate" *ngIf="userType!='Broker'" class="p-button-success" (click)="saveClausesData(ExclusionData,'Exclusion')"></p-button>
         </div>
     </ng-container>
     <ng-container *ngIf="newAddExclusion">
-        <p-button class="mr-4 mb-4" label="Save" (click)="saveExclusion()"></p-button>
+        <p-button class="mr-4 mb-4" [label]="'PREMIUM.Save' | translate" (click)="saveExclusion()"></p-button>
         <!-- <button type="button" class="btn btn-primary ml-3" (click)="saveExclusion()">Save</button> -->
     </ng-container>
     </div>
 </p-dialog>
-<p-dialog class="p-su-header" header="Warranties Details" [(visible)]="onWarranty" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+<p-dialog class="p-su-header" [header]="'PREMIUM.WarrantiesDetails' | translate" [(visible)]="onWarranty" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
     <div class="flex flex-wrap justify-content-between mt-2" >
         <div>
-            <label for="username">Section</label>
+            <label for="username">{{'PREMIUM.Section' | translate}}</label>
             <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="termsSectionId" [options]="termsSectionList" (onChange)="viewCondition('change')"
-                optionLabel="SectionName" optionValue="SectionId" placeholder="- - -Select- - -">
+                optionLabel="SectionName" optionValue="SectionId" [placeholder]="'QUOTEGRID.Selectt' | translate">
             </p-dropdown>
         </div>
         <div *ngIf="userType!='Broker' && !newAddWarranty">
-            <p-button label="Add New Warranty" icon="pi pi-plus" (click)="onAddWarranty()"></p-button>
+            <p-button [label]="'PREMIUM.AddNewWarranty' | translate" icon="pi pi-plus" (click)="onAddWarranty()"></p-button>
         </div>
     </div>
     <div class="grid mt-2">
@@ -2224,9 +2221,9 @@
             <table class="table table-bordered mt-2 p-2 w-full" *ngIf="userType!='Broker' && !newAddWarranty">
                 <thead>
                     <tr>
-                        <th class="p-2">Select</th>
+                        <th class="p-2">{{'PREMIUM.Select' | translate}}</th>
     
-                        <th class="p-2">Description</th>
+                        <th class="p-2">{{'PREMIUM.Description' | translate}}</th>
                     </tr>
                 </thead>
     
@@ -2250,12 +2247,12 @@
             </table>
 
             <ng-container *ngIf="newAddWarranty">
-                <p-button label="Add New" style="float:right" (click)="addwarranty()"></p-button>
+                <p-button [label]="'PREMIUM.AddNew' | translate" style="float:right" (click)="addwarranty()"></p-button>
                 <!-- <button class="btn btn-primary" style="float:right" (click)="addwarranty()">Add New</button> -->
                 <table class="mt-3 ml-2 maan-grid-item-body">
                     <thead>
-                        <th>Warrranty Description</th>
-                        <th>Delete</th>
+                        <th>{{'PREMIUM.WarrrantyDescription' | translate}}</th>
+                        <th>{{'MOTORQUOTE.Delete' | translate}}</th>
                     </thead>
                     <tbody>
                         <tr *ngFor="let row of json;let i = index">
@@ -2282,19 +2279,19 @@
     <div class="flex flex-wrap justify-content-center mt-2">
         <ng-container *ngIf="!newAddWarranty">
         <div>
-            <p-button label="Close" class="p-button-outlined" styleClass="p-button-outlined" (click)="OnClose()"></p-button>&nbsp;
+            <p-button [label]="'PREMIUM.close' | translate" class="p-button-outlined" styleClass="p-button-outlined" (click)="OnClose()"></p-button>&nbsp;
         </div>
         <div>
-            <p-button label="Submit" *ngIf="userType!='Broker'" class="p-button-success" (click)="saveClausesData(WarrantyData,'Warranty')"></p-button>
+            <p-button [label]="'PREMIUM.Submit' | translate" *ngIf="userType!='Broker'" class="p-button-success" (click)="saveClausesData(WarrantyData,'Warranty')"></p-button>
         </div>
         </ng-container>
         <ng-container *ngIf="newAddWarranty">
-            <p-button (click)="saveWarranty()">Save</p-button>
+            <p-button (click)="saveWarranty()">{{'PREMIUM.Save' | translate}}</p-button>
             <!-- <button type="button" class="btn btn-primary ml-3" (click)="saveWarranty()">Save</button> -->
         </ng-container>
     </div>
 </p-dialog>
-<p-dialog class="p-su-header" header="Discount Details" [(visible)]="fleetDiscountModal" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+<p-dialog class="p-su-header" [header]="'PREMIUM.DiscountDetails' | translate" [(visible)]="fleetDiscountModal" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
     <div class="grid">
         <!-- <div class="col-md-12 col-lg-12 col-xl-12">
             <table class="table">
@@ -2322,14 +2319,14 @@
             <table class="table table-bordered mt-5 p-5 w-full">
                 <thead>
                     <tr>
-                        <th scope="col" style="padding: 0.5rem;"><b>Description</b></th>
-                        <th scope="col" ><b>Rate</b></th>
-                        <th scope="col" style="text-align: end;"><b>Amount ({{currencyCode}})</b></th>
+                        <th scope="col" style="padding: 0.5rem;"><b>{{'PREMIUM.Description' | translate}}</b></th>
+                        <th scope="col" ><b>{{'PREMIUM.Rate' | translate}}</b></th>
+                        <th scope="col" style="text-align: end;"><b>{{'PREMIUM.Amount' | translate}} ({{currencyCode}})</b></th>
                     </tr>
                 </thead>
                 <tbody class="p-5">
                     <tr cl>
-                        <td style="padding: 0.5rem;">Base Premium</td>
+                        <td style="padding: 0.5rem;">{{'PREMIUM.BasePremium' | translate}}</td>
                         <td style="text-align: center;">{{ratePercent}}</td>
                         <td style="text-align: end;"><span class="spancommon span_font_size">{{ basePremium | commaseparator}}</span></td>
                     </tr>
@@ -2339,14 +2336,14 @@
                         <td style="text-align: end;"><span class="spancommon span_font_size">{{ minBasePremium | commaseparator}}</span></td>
                     </tr>
                     <tr>
-                        <td style="padding: 0.5rem;"><b>Premium Before Tax</b></td>
+                        <td style="padding: 0.5rem;"><b>{{'PREMIUM.PremiumBeforeTax' | translate}}</b></td>
                         <td style="text-align: center;"></td>
                         <td style="text-align: end;"><span class="spancommon span_font_size">
                             <b>{{minPremiumExcludedTax | commaseparator}}</b></span></td>
                     </tr>
                     <ng-container *ngIf="minTaxList.length!=0">
                         <tr>
-                            <th scope="col" style="text-align: start;padding: 0.5rem;" colspan="3">Tax</th>
+                            <th scope="col" style="text-align: start;padding: 0.5rem;" colspan="3">{{'PREMIUM.Tax' | translate}}</th>
                         </tr>
                         <tr *ngFor="let loading of minTaxList;let i=index">
                             <td style="padding: 0.5rem;">{{loading.TaxDesc}}</td>
@@ -2380,7 +2377,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td style="padding: 0.5rem;"><b>Total</b></td>
+                        <td style="padding: 0.5rem;"><b>{{'PREMIUM.Total' | translate}}</b></td>
                         <td></td>
                         <td style="text-align: end;"><span class="spancommon span_font_size">
                             <b>{{minPremiumIncludedTax | commaseparator}}</b></span></td>
@@ -2391,14 +2388,14 @@
         </div>
         <div class="col-offset-4 col-4">
         <ng-container class="mt-5 " *ngIf="((!adminSection && userType!='Issuer') || endorsementSection) || finalizeYN=='Y'">
-            <p-button label="Back" (click)="fleetDiscountModal=!fleetDiscountModal" class="p-3 mr-2 text-l mr-0 justify-content-center" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
-            <p-button label="Proceed"  
+            <p-button [label]="'MOTORQUOTE.Back' | translate" (click)="fleetDiscountModal=!fleetDiscountModal" class="p-3 mr-2 text-l mr-0 justify-content-center" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
+            <p-button [label]="'PREMIUM.Proceed' | translate"  
             (click)="onFleetProceed(modal)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
         </ng-container>
     
         <ng-container *ngIf="adminSection || (userType=='Issuer' && finalizeYN!='Y' && !endorsementSection)">
-            <p-button label="Back" (click)="fleetDiscountModal=!fleetDiscountModal" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
-            <p-button label="Submit"  
+            <p-button [label]="'MOTORQUOTE.Back' | translate" (click)="fleetDiscountModal=!fleetDiscountModal" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
+            <p-button [label]="'PREMIUM.Submit' | translate"  
             (click)="onUpdateFleetFactorRate(modal)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
             
         </ng-container>

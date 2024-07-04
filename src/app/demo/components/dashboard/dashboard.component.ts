@@ -7,6 +7,8 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { DatePipe } from '@angular/common';
 import { SharedService } from '../../service/shared.service';
 import * as Mydatas from '../../../app-config.json';
+import { AppComponent } from 'src/app/app.component';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
     templateUrl: './dashboard.component.html',
 })
@@ -16,7 +18,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	public ApiUrl1: any = this.AppConfig.ApiUrl1;
 	public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
 	public motorApiUrl: any = this.AppConfig.MotorApiUrl;
-    items!: MenuItem[];rangeValue:any=1;
+    items!: MenuItem[];rangeValue:any=1;lang:any;
     products!: Product[];rangeList:any[]=[];
     chartData: any;chart2Data:any;chartOptions: any;
     subscription!: Subscription;userDetails:any=null;agencyCode:any=null;
@@ -24,8 +26,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     countList:any[]=[];rangeEndtValue:any=1;endorsementList:any[]=[];
     userType:any=null;subuserType:any=null;countryId:any=null;brokerbranchCode:any=null;
     notificationList: any;rangeNotifyValue:any=1;columns:any[]=[];
-    constructor(private productService: ProductService,private datePipe: DatePipe,
-        private sharedService:SharedService, public layoutService: LayoutService) {
+    constructor(private productService: ProductService,private datePipe: DatePipe,private appComp:AppComponent,
+        private translate: TranslateService,private sharedService:SharedService, public layoutService: LayoutService) {
             this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
             console.log("UserDetails",this.userDetails);
             this.loginId = this.userDetails.Result.LoginId;
@@ -42,11 +44,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
             //     this.initChart();
             // });
             this.rangeList = [
-                {"Code":1,"CodeDesc":"Last 30 Days"},
-                {"Code":2,"CodeDesc":"Last 60 Days"},
-                {"Code":3,"CodeDesc":"Last 90 Days"},
-                {"Code":4,"CodeDesc":"Last 120 Days"},
-            ]
+                {"Code":1,"CodeDesc":"Last 30 Days","CodeDescLocal":"Últimos 30 dias"},
+                {"Code":2,"CodeDesc":"Last 60 Days","CodeDescLocal":"Últimos 60 dias"},
+                {"Code":3,"CodeDesc":"Last 90 Days","CodeDescLocal":"Últimos 90 dias"},
+                {"Code":4,"CodeDesc":"Last 120 Days","CodeDescLocal":"Últimos 120 dias"},
+            ];
+            
     }
 
     ngOnInit() {
@@ -61,6 +64,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
             { label: 'Add New', icon: 'pi pi-fw pi-plus' },
             { label: 'Remove', icon: 'pi pi-fw pi-minus' }
         ];
+        this.appComp.getLanguage().subscribe((res:any)=>{  
+            this.lang=res;
+            this.translate.setDefaultLang(res);
+        });
+        if(!this.lang){this.lang=sessionStorage.getItem('language');this.translate.setDefaultLang(sessionStorage.getItem('language'));}
         this.getCountDetails();
         this.getQuoteOverview();
         this.getEndorsementRecordList();
@@ -123,6 +131,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
             }
         });
     }
+    getDisplayName(){
+		if(this.lang=='en') return 'CodeDesc';
+		else return 'CodeDescLocal'
+	}
     getQuoteOverview(){
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');

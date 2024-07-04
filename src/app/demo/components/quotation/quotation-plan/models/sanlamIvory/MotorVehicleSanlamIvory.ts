@@ -3,7 +3,7 @@
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { ForceLengthValidators } from "../../personal-quote-details/personal-quote-details.component";
 
-export class MotorVehicleSanlam{
+export class MotorVehicleSanlamIvory{
     customerDetails: any;
     commonDetails: any[]=[];
     endorsementSection: boolean=false;subuserType:any=null;

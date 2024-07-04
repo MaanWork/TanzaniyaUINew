@@ -62,10 +62,14 @@ export class CustomerCreateFormComponent implements OnInit {
 		var month = d.getMonth();
 		var day = d.getDate();
 		this.appComp.getLanguage().subscribe((res:any)=>{  
-			this.lang=res;
-			translate.setDefaultLang(res);
-		 });
-		 if(!this.lang){this.lang='en';translate.setDefaultLang('en');}
+			if(res) this.lang=res;
+			else this.lang='en';
+			this.translate.setDefaultLang(this.lang);
+		  });
+		if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+		else this.lang='en';
+		sessionStorage.setItem('language',this.lang)
+		this.translate.setDefaultLang(sessionStorage.getItem('language'));}
      	this.maxDobDate = new Date(year - 18,month, day );
 		this.loginId = this.userDetails.Result.LoginId;
 		this.agencyCode = this.userDetails.Result.OaCode;
