@@ -252,6 +252,48 @@ export class Money{
                     
                     },
                   },
+                  {
+                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    type: 'input',
+                    key: 'LocationName',
+                    props: { 
+                      label: `Location Name`,
+                      maxLength: 15
+                    },
+                    templateOptions: {
+                     // disabled: this.checkDisable('SumInsured')
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+    
+                    expressions: {
+                    
+                    },
+                  },
+                  {
+                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    type: 'input',
+                    key: 'Address',
+                    props: { 
+                      label: `Address`,
+                      maxLength: 15
+                    },
+                    templateOptions: {
+                     // disabled: this.checkDisable('SumInsured')
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+    
+                    expressions: {
+                    
+                    },
+                  },
 
                 ]
               },

@@ -2062,8 +2062,8 @@ export class CommonProductDetailsComponent {
       RiskId =this.currentMoneyIndex;
     }
     let data = {
-     // "LocationName":rowData.LocationName,
-      // "Region": rowData.Region,
+     "LocationName":rowData.LocationName,
+       "Address": rowData.Address,
       // "District" : rowData.District,this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.MoneyDirectorResidence);
       "MoneyDirectorResidence": rowData.MoneyDirectorResidence,
       "MoneyMajorLoss": rowData.MoneyMajorLoss,
@@ -4238,6 +4238,8 @@ backPlan()
     this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(rowData.MoneySafeLimit);
     this.fields[0].fieldGroup[0].fieldGroup[4].formControl.setValue(rowData.MoneyCollector);
     this.fields[0].fieldGroup[0].fieldGroup[5].formControl.setValue(rowData.MoneyAnnualEstimate);
+    this.fields[0].fieldGroup[0].fieldGroup[6].formControl.setValue(rowData.LocationName);
+    this.fields[0].fieldGroup[0].fieldGroup[7].formControl.setValue(rowData.Address);
     this.getMoneyDetails(rowData);
   }
   editPA(rowData,index){
@@ -6210,6 +6212,8 @@ console.log('Eventsss',event);
       "EndtStatus": this.endtStatus,
       "IsFinanceEndt": this.isFinanceEndt,
       "OrginalPolicyNo": this.orginalPolicyNo,
+      "LocationName":items.LocationName,
+      "Address":items.Address
     }
     if (this.endorsementSection) {
       if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
@@ -7504,6 +7508,8 @@ finalSaveMoney(finalList,type,formType) {
             this.productItem.MoneyCollector=data.Result[i-1].MoneyCollector;
             this.productItem.MoneyAnnualEstimate=data.Result[i-1].MoneyAnnualEstimate;
             this.productItem.MoneyMajorLoss=data.Result[i-1].MoneyMajorLoss;
+            this.productItem.LocationName=data.Result[i-1].LocationName;
+            this.productItem.Address=data.Result[i-1].Address;
             //this.form.get('SumInsured').setValue(value);
             this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(this.productItem.MoneyDirectorResidence);
             this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(this.productItem.MoneyMajorLoss);
@@ -7511,6 +7517,8 @@ finalSaveMoney(finalList,type,formType) {
             this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(this.productItem.MoneySafeLimit);
             this.fields[0].fieldGroup[0].fieldGroup[4].formControl.setValue(this.productItem.MoneyCollector);
             this.fields[0].fieldGroup[0].fieldGroup[5].formControl.setValue(this.productItem.MoneyAnnualEstimate);
+            this.fields[0].fieldGroup[0].fieldGroup[6].formControl.setValue(this.productItem.LocationName);
+            this.fields[0].fieldGroup[0].fieldGroup[7].formControl.setValue(this.productItem.Address);
           }
           // this.productItem.CashInHandEmployees = details?.CashInHandEmployees;
           // this.productItem.CashInSafe = details?.CashInSafe;
