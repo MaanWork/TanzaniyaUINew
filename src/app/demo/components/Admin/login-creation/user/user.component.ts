@@ -84,11 +84,11 @@ export class UserComponent {
   existingProduct:boolean=true;
   brokerValue: any=null;brokerList:any[]=[];
   oaCode: any=null;MobileYn: any;
-  executiveId: any=null;SwitchMobileYn:boolean;
-  SwitchCashYn:boolean;
-  SwitchCreditYn:boolean;
-  SwitchChequeYn:boolean;
-  SwitchOnlineYn:boolean;
+  executiveId: any=null;SwitchMobileYn:boolean=false;
+  SwitchCashYn:boolean=false;
+  SwitchCreditYn:boolean=false;
+  SwitchChequeYn:boolean=false;
+  SwitchOnlineYn:boolean=false;
   policyHolderTypeid: any=null;
   idNumber: any=null;
   userLoginId: any=null;
@@ -853,7 +853,7 @@ export class UserComponent {
         "Address3": "None",
         "ApprovedPreparedBy": this.loginId,
         "CheckerYn": this.checkerYN,
-        "CityName": this.cityCode,
+        "CityCode": this.cityCode,
         "CommissionVatYn": this.commissionVatYN,
         "CompanyName": this.companyCode,
         "ContactPersonName": this.contactPersonName,
@@ -975,15 +975,7 @@ onStateChange(type) {
       (data: any) => {
         let obj = [{"Code":null,"CodeDesc":"---Select---"}];
         this.cityList = obj.concat(data?.Result);
-        if (type == 'change') {
-          this.cityCode = null;
-        }
-        else if(this.cityCode!=null){
-         // let entry = this.cityList.find(ele=>ele.Code==this.cityCode);
-          let entry = this.cityList.find(ele=>ele.Code == this.cityCode);
-            this.cityName = entry.CodeDesc;
-          if(!entry) this.cityCode = null;
-        }
+       
       },
       (err) => { },
     );
@@ -1083,17 +1075,24 @@ onStateChange(type) {
     // if (this.paymentdetalis?.EffectiveDateEnd != null) {
     //   this.paymentdetalis.EffectiveDateEnd = this.onDateFormatInEdit(this.paymentdetalis?.EffectiveDateEnd)
     // }
-    this.CashYn=value.CashYn,
-    this.ChequeYn=value.ChequeYn,
-    this.CreditYn=value.CreditYn,
-    this.OnlineYn=value.OnlineYn,
-    //this.EffectiveDateStart=value.EffectiveDateStart,
-    this.Status=value.Status,
-    this.agencyCode=value.AgencyCode,
-    this.oaCode=value.OaCode
+    if(value){
+      this.CashYn=value.CashYn;
+      this.ChequeYn=value.ChequeYn;
+      this.CreditYn=value.CreditYn;
+      this.OnlineYn=value.OnlineYn;
+      //this.EffectiveDateStart=value.EffectiveDateStart,
+       this.Status=value.Status;
+       this.agencyCode=value.AgencyCode,
+      this.oaCode=value.OaCode
+    }
+    else{
+      this.CashYn='N';
+      this.ChequeYn='N';
+      this.CreditYn='N';
+      this.OnlineYn='N';this.Status = 'Y'
+    }
   }
   onProceedPayment(){
-   this.UserType=this.userDetails.Result.UserType;
     let ReqObj = {
       "BranchCode":this.branchValue,
       "CashYn":this.CashYn,
