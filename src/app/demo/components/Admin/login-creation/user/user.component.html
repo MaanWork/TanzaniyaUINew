@@ -292,7 +292,7 @@
                             <p>{{userName}}</p>
                         </div>
                         <div class="col-3 lg:col-3 md:col-3 lg:col-3">
-                            <p-button label="Edit"  class="p-button-outlined" styleClass="p-button-outlined" />
+                            <p-button label="Edit" (click)="userEdit(selectedUserData);visibleUserDetails=!visibleUserDetails;" class="p-button-outlined" styleClass="p-button-outlined" />
                             <!-- <i class="pi pi-check-circle" style="color: green"></i> -->
                         </div>
                         <div class="col-1 lg:col-1 md:col-1 lg:col-1">

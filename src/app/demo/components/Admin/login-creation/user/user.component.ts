@@ -128,6 +128,7 @@ export class UserComponent {
   LastQuoteDate: any;
   CollectedPremium: any;
   PolicyCommission: any;
+  selectedUserData: any=null;
   constructor(private router:Router,
     private sharedService:SharedService,public datePipe:DatePipe) {
      this.productId =  sessionStorage.getItem('companyProductId');
@@ -504,6 +505,7 @@ export class UserComponent {
     this.userLoginId=value.LoginId;
     this.subUserType=value.SubUserType;
     this.UserType=value.UserType;
+    this.selectedUserData = value;
     this.visibleUserDetails=true;
     this.EditDetailsView(value);
     this.userProducts();
@@ -588,7 +590,7 @@ export class UserComponent {
             this.idNumber = PersonalInformation?.IdNumber;
             this.onCountryChange('direct');
             this.onStateChange('direct');
-            this.cityCode = PersonalInformation?.CityName;
+            this.cityCode = PersonalInformation?.CityCode;
             
             //this.cityName = PersonalInformation?.CityName;
             this.stateName = PersonalInformation?.StateName;
@@ -659,6 +661,7 @@ export class UserComponent {
       }
   getBrokerBranchList(rowData){
    // this.editBranch(rowData);
+   this.userLoginId =  rowData;
     let ReqObj = {
       "LoginId": rowData
     }
@@ -670,7 +673,7 @@ export class UserComponent {
          
           this.branchData = data.Result;
           for(let item of data.Result) {
-            this.userLoginId =  item.LoginId;
+           
             this.brokerBranchCode = item.BrokerBranchCode
           }
           
@@ -909,7 +912,7 @@ export class UserComponent {
           sessionStorage.setItem('brokerConfigureDetails', JSON.stringify(entry));
           this.formRest()
           this.AddUserPopup=false;
-          
+          this.onBrokerChange();
         }
         else if (data.ErrorMessage) {
           for (let entry of data.ErrorMessage) {
