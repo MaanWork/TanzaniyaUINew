@@ -163,7 +163,7 @@
                                       <td>
                                           <ng-container *ngIf="currentContentRowIndex==ri">
                                               <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Location"
-                                                  [options]="TableRowBuilding" (onChange)="onChangeContentLocation(product)"
+                                                  [options]="locationList" (onChange)="onChangeContentLocation(product)"
                                                       appendTo="body" optionLabel="LocationName" optionValue="RiskId"  [(ngModel)]="product.RiskId" />
                                                
                                           </ng-container>

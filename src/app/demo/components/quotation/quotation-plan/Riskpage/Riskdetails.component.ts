@@ -477,7 +477,7 @@ export class RiskDetailsComponent {
           else return 0;
         }
         getProductLocation(entry){
-          if(entry!='' && entry!=null) return this.TableRowBuilding.find(ele=>ele.RiskId==entry.RiskId)?.LocationName
+          if(entry!='' && entry!=null) return this.locationList.find(ele=>ele.RiskId==entry.RiskId)?.LocationName
           else return '';
         }
         onEditBuilding(index){
@@ -679,8 +679,9 @@ export class RiskDetailsComponent {
         this.currentContentRowIndex = this.TableRow.length-1;
     }
     onChangeContentLocation(entry){
-      if(entry.RiskId) entry['LocationName'] = this.TableRowBuilding.find(ele=>ele.RiskId==entry.RiskId)?.LocationName;
-      
+      if(entry.RiskId) entry['LocationName'] = this.locationList.find(ele=>ele.RiskId==entry.RiskId)?.LocationName;
+      alert(entry.RiskId)
+      alert(entry.LocationName)
     }
     getOccupationName(entry){
       if(entry?.OccupationId){return this.occupationList.find(ele=>ele.Code==entry.OccupationId)?.CodeDesc}
@@ -3878,7 +3879,7 @@ export class RiskDetailsComponent {
               let obj = {  
                 "SectionId": "1",
                 "Status": "Y",
-                "RiskId" : i+1,
+                "RiskId" : entry.RiskId,
                 "RoofType": entry.RoofType,
                 "WallType": entry.WallType,
                 "BuildingBuildYear": '2024',
@@ -4553,7 +4554,7 @@ export class RiskDetailsComponent {
                   else{ j+=1; entry['LocationError']=true;}
                     let data = {
                         "ItemId":entry.ItemId,
-                        "RiskId":i+1,
+                        "RiskId":entry.RiskId,
                         "BuildingUsageId":entry.BuildingUsageId,
                         "BuildingBuildYear": entry.BuildingBuildYear,
                         "WallType":entry.WallType,
@@ -4569,7 +4570,7 @@ export class RiskDetailsComponent {
                       "QuoteNo": sessionStorage.getItem('quoteNo'),
                       "RequestReferenceNo": this.quoteRefNo,
                       "SectionId": "1",
-                      "RiskId":i+1,
+                      "RiskId":entry.RiskId,
                       "LocationName": entry.LocationName
                     }
                     additionalList.push(additonalData);
