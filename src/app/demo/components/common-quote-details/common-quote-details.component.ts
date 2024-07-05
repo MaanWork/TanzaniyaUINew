@@ -1976,6 +1976,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               this.vehicleDetails['OldSumInsured']= data?.Result.SumInsured;
               this.vehicleDetails['OldTppdIncreaeLimit'] = data?.Result.TppdIncreaeLimit;
               this.vehicleDetails['OldWindScreenSumInsured'] = data?.Result.WindScreenSumInsured;
+              this.vehicleDetails['HoursePower'] = data?.Result.HoursePower;
               this.typeValue = this.vehicleDetails?.Insurancetype;
               this.classValue = this.vehicleDetails?.InsuranceClass;
                 if(this.insuranceId!='100004') this.getMotorTypeList('direct',this.vehicleDetails?.VehicleType,this.vehicleDetails?.Motorusage)
@@ -2371,6 +2372,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         "IsFinanceEndt": this.isFinanceEndt,
         "OrginalPolicyNo": this.orginalPolicyNo,
         "Mileage":this.productItem.Mileage,
+        "HoursePower": this.productItem.HoursePower,
         "NoOfClaimYears":null,
         "NoOfPassengers":null,
         "Scenarios": {
@@ -2762,6 +2764,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           else this.productItem.PreviousLossRatio=null;
           let ReqObj = {
+            "HoursePower": this.vehicleDetails?.HoursePower,
             "ExcessLimit": null,
             "Deductibles": deductibles,
             "BrokerBranchCode": brokerbranchCode,
@@ -3437,6 +3440,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               "Mileage": vehicleDetails?.Mileage,
               "NoOfClaimYears": vehicleDetails?.NoOfClaimYears,
               "NoOfPassengers": vehicleDetails?.NoOfPassengers,
+              "HoursePower":vehicleDetails?.HoursePower,
               "Scenarios": {
                   "ExchangeRateScenario": {
                     "OldAcccessoriesSumInsured": vehicleDetails.AcccessoriesSumInsured,
