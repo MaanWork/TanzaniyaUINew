@@ -28,16 +28,35 @@ export class Burglary{
                 fieldGroup: [
                   {
                     className: 'col-12 md:col-6 lg:col-6',
-                    type: 'commaSeparator',
-                      key: 'BurglarySi',
-                      
-                      props: { 
-                        maxLength: 15,
-                        label: `First Loss SI(%)`,
-                      },
+                    type: 'ngselect',
+                      key: 'IndustryId',
                       templateOptions: {
                         //disabled: this.checkDisable('BuildingSuminsured')
+                        maxLength: 15,
+                        label: `Industry`,
                         required: true,
+                        options: []
+                      },
+                      validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      },
+                      hooks: {
+                      },
+      
+                      expressions: {
+                      
+                      },
+                  },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6',
+                    type: 'ngselect',
+                      key: 'BurglarySi',
+                      templateOptions: {
+                        //disabled: this.checkDisable('BuildingSuminsured')
+                        maxLength: 15,
+                        label: `First Loss SI(%)`,
+                        required: true,
+                        options:[]
                       },
                       validators: {
                         validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
@@ -71,6 +90,28 @@ export class Burglary{
                       expressions: {
                       
                       },
+                  },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6',
+                    type: 'input',
+                    key: 'LocationName',
+                    props: { 
+                      maxLength: 15,
+                      label: `Location Name`,
+                    },
+                    templateOptions: {
+                        //disabled: this.checkDisable('BuildingSuminsured')
+                        required: true,
+                    },
+                    validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+      
+                    expressions: {
+                      
+                    },
                   },
                   {
                     className: 'col-12 md:col-6 lg:col-6',
@@ -118,32 +159,11 @@ export class Burglary{
                       
                       },
                   },
-                  {
-                    className: 'col-12 md:col-6 lg:col-6',
-                    type: 'input',
-                    key: 'LocationName',
-                    props: { 
-                      maxLength: 15,
-                      label: `Location Name`,
-                    },
-                    templateOptions: {
-                        //disabled: this.checkDisable('BuildingSuminsured')
-                        required: true,
-                    },
-                    validators: {
-                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-      
-                    expressions: {
-                      
-                    },
-                  },
+                 
                   {
                     className: 'col-12 md:col-6 lg:col-6',
                     type: 'ngselect',
-                      key: 'region',
+                      key: 'RegionCode',
                       
                       props: { 
                         maxLength: 15,
@@ -167,7 +187,7 @@ export class Burglary{
                   {
                     className: 'col-12 md:col-6 lg:col-6',
                     type: 'ngselect',
-                      key: 'stateName',
+                      key: 'DistrictCode',
                       
                       props: { 
                         maxLength: 15,

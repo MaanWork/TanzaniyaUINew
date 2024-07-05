@@ -214,7 +214,7 @@
                                 </div>
                             </div>
                         </div> -->
-                    <div class="lg:col-6 md:col-6 col-12" *ngIf=" this.productId=='16' || productId=='39' || productId=='14' || productId=='15' || productId=='32' || productId=='1' || productId=='21' 
+                    <div class="lg:col-6 md:col-6 col-12" *ngIf=" this.productId=='16' || productId=='39' || productId=='14' || productId=='15' || productId=='32'  || productId=='21' 
                      || productId=='13' || productId=='24'"><!--|| productId=='57'-->
                             <label for="username">Industry</label>
                             <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="make" class="w-full" styleClass="w-full" [options]="industryList"
@@ -279,7 +279,7 @@
                 </div>
                 </div>
                 <div class="grid">
-                <div class="lg:col-3 md:col-3 col-12" *ngIf="this.productId=='16' || productId=='39' || productId=='14' || productId=='15' || productId=='32' || productId=='1' || productId=='21'
+                <div class="lg:col-3 md:col-3 col-12" *ngIf="this.productId=='16' || productId=='39' || productId=='14' || productId=='15' || productId=='32'  || productId=='21'
                     || productId=='13' || productId=='24' "><!--|| productId=='57'-->
                         <label for="username">Industry</label>
                         <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="make" class="w-full" styleClass="w-full" [options]="industryList"
@@ -531,7 +531,7 @@
             </div>
             <div class="body mt-1">
                 <div class="grid p-2">
-                    <div class="col-12 lg:col-3 xl:col-3 md:col-3"></div>
+                    <div class="col-12 lg:col-4 xl:col-4 md:col-4"></div>
                     <div class="col-12 lg:col-6 xl:col-6 md:col-6">
                         <form [formGroup]="form">
                             <formly-form [form]="form" [fields]="fieldsFidelity" [model]="productItem"></formly-form>
@@ -803,18 +803,18 @@
                         <ng-template pTemplate="body" let-emp let-i="rowIndex">
                             <tr *ngIf="emp.LocationName!='' && emp.LocationName!=null">
                             <td>
-                                {{i}}
+                                {{i+1}}
                             </td>
                             
                             <td>
                                 {{emp.LocationName}}
                             </td>
-                            <td>{{emp.region}}</td>
-                            <td>{{emp.stateName}}</td>
+                            <td>{{getRegionDesc(emp.RegionCode)}}</td>
+                            <td>{{getDistrictDesc(emp.stateName)}}</td>
                             <td>{{emp.FirstLossSumInsured}}</td>
                             <td>{{emp.sumInsured}}</td>
                             <td>
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditBurglary(emp)"></button>  
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditBurglary(emp,i)"></button>  
                             </td>
                             <td>
                                 <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="BurglaryDelete(i)"></button>  
@@ -844,7 +844,7 @@
                         </div>
                     </div>
                     <div class="flex flex-wrap justify-content-center gap-2" *ngIf="productId=='1'">
-                        <p-button label="save & Add More" (click)="addBurglaryTable()" />
+                        <p-button label="save & Add More" (click)="addBurglaryTable(productItem)" />
                     </div>
                     <div class="flex flex-warp justify-content-center">
                         <p-button *ngIf="productId=='27'" label="Save & Add New" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -948,7 +948,7 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-EE let-i="rowIndex">
                             <tr>
-                            <td>{{i+1}}</td>
+                            <td>{{i}}</td>
                             <td>{{EE.LocationName}}</td>
                             <td>{{this.getContenDesc(EE.ContentId)}}</td>
                             <td>{{EE.SerialNo}}</td>
@@ -1058,9 +1058,9 @@
             </ng-container>
         </ng-container>
         </div>
-        <div class="flex flex-warp justify-content-end" *ngIf="productId=='16' && formSection">
+        <!-- <div class="flex flex-warp justify-content-end" *ngIf="productId=='16' && formSection">
             <button pButton pRipple icon="pi pi-plus" label="Add New" class="p-button-outlined" (click)="openMoneyform()"></button>
-        </div>
+        </div> -->
         <div class="grid mt-2 pl-5 pr-2 pb-0" *ngIf="productId=='16' && formSection">
             <ng-container *ngFor="let step of fields; let index = index; let last = last">
                 <div>
@@ -1081,7 +1081,7 @@
                                 <th>Location Name</th>
                                 <th>Premises</th>
                                 <th>Money in Transit SI</th> 
-                                <th>Strong Room SI</th>
+                                <th>Residence of director</th>
                                 <th>Safe Limit SI</th>
                                 <th>Collector Amount SI</th>
                                 <th>Estimated Annual SI</th>
@@ -1107,13 +1107,45 @@
                             </td>
                             </tr>
                         </ng-template>
-                        </p-table>
+                        </p-table> 
+                            
                 </ng-container>
+                <div class="grid mt-5 p-0" >
+                    <!-- <div>
+                        <div class="col-12 sm:col-4 md:col-4 m-0 p-0 d-flex justify-content-between" (click)="selectedIndex=index">
+                            <div (click)="selectedIndex=index"><h4 class="headings m-0 p-0">{{ step.props.label }}</h4></div>
+                            <div class="pr-3 pt-1">
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="card-body pl-5">
+                        <div class="grid">
+                            <div class="lg:col-3 md:col-3 col-12"></div>
+                            <div class="lg:col-6 md:col-6 col-12">
+                                <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
+                                    <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
+                                </form>
+                            </div>
+                            <div class="lg:col-3 md:col-3 col-12"></div>
+                            <div class="lg:col-3 md:col-3 col-12"></div>
+                            <div class="flex flex-warp bottomSpacing justify-content-center" *ngIf="MoneyAnnualEstimateError">
+                                <div class="error-text text-danger" *ngIf="MoneyAnnualEstimateError">
+                                    <span class="spancommon span_font_size" > Please Enter Amount</span><br>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </ng-container>
             
-           
+            
         </ng-container>
-        </div>
+    </div>
+    <div class="flex flex-warp justify-content-center" *ngIf="productId=='16'">
+        <p-button  label="Save & Add New" size="small" (click)="addMoney(productItem)"></p-button>
+    </div>
         <div *ngIf="productId=='6'">
                 <div class="grid">
                     <div class="md:col-6 lg:col-6 col-12">
@@ -1559,38 +1591,7 @@
         <p-button label="Save" (click)="visible = false" />
     </div>
 </p-dialog>
-<ng-container *ngFor="let step of fields; let index = index; let last = last">
-<p-dialog header="Money" [(visible)]="Moneyform" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
-<div class="grid m-0 p-0">
-    <!-- <div>
-        <div class="col-12 sm:col-4 md:col-4 m-0 p-0 d-flex justify-content-between" (click)="selectedIndex=index">
-            <div (click)="selectedIndex=index"><h4 class="headings m-0 p-0">{{ step.props.label }}</h4></div>
-            <div class="pr-3 pt-1">
-            </div>
-        </div>
-    </div> -->
-    <div class="card-body pl-5">
-        <div class="grid">
-            <!-- <div class="lg:col-2 md:col-2 col-12"></div> -->
-            <div class="lg:col-12 md:col-12 col-12">
-                <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
-                    <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
-                </form>
-            </div>
-            <div class="input-form-error bottomSpacing" *ngIf="MoneyAnnualEstimateError">
-                    <div class="error-text text-danger" *ngIf="MoneyAnnualEstimateError">
-                        <span class="spancommon span_font_size" > Please Enter Amount</span><br>
-                    </div>
-                </div>
-        </div>
-    </div>
-    
-    
-</div>
-<div class="flex flex-warp justify-content-center">
-    <p-button  label="Save & Add New" size="small" (click)="addMoney(productItem)"></p-button>
-</div>
+<!-- <ng-container *ngFor="let step of fields; let index = index; let last = last">
 
-</p-dialog>
 
-</ng-container>
+</ng-container> -->

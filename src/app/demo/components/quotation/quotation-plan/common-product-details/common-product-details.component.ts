@@ -246,6 +246,7 @@ export class CommonProductDetailsComponent {
   DobError: boolean=false;
   SerialError: boolean=false;
   DescriptionError: boolean=false;
+  sumInsuredList: any;
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -370,9 +371,22 @@ export class CommonProductDetailsComponent {
         // ]
       }
       if(this.productId=='1'){
-        this.TableRowBurglary=[{}]
+        //this.TableRowBurglary=[{}]
         this.getRegionList();
+        let referenceNo =  sessionStorage.getItem('quoteReferenceNo');
+        if(referenceNo){
+          this.getBurglaryDetails(null);
+        }
         // this.currentBurglaryIndex=0
+      }
+      if(this.productId=='16'){
+        let referenceNo =  sessionStorage.getItem('quoteReferenceNo');
+        if(referenceNo){
+        //this.TableRowBurglary=[{}]
+        // this.getRegionList();
+        // this.ongetDistrictList('direct');
+        // this.currentBurglaryIndex=0
+        }
       }
       if(this.productId=='61'){
         this.getNOYears();
@@ -602,20 +616,31 @@ export class CommonProductDetailsComponent {
   BurglaryDelete(index){
     this.TableRowBurglary.splice(index,1);
   }
-  onEditBurglary(rowData){
+  onEditBurglary(rowData,index){
     // this.productItem = new ProductData();
      this.editss=true;
      this.editEmp=true;
      let edit = this.TableRowBurglary.findIndex(ele=>ele.LocationName == rowData.LocationName );
      this.currentBurglaryIndex = edit;
+     if(edit==undefined) this.currentEEIndex=index+1;
      console.log(this.currentBurglaryIndex,"this.currentBurglaryIndex");
-     this.LocationName = rowData.LocationName;
-     this.region = rowData.region;
-     this.stateName = rowData.stateName;
-     this.FirstLossSumInsured= rowData.FirstLossSumInsured;
-     this.FireSumInsured= rowData.sumInsured;
+    //  this.LocationName = rowData.LocationName;
+    //  this.region = rowData.region;
+    //  this.stateName = rowData.stateName;
+    //  this.FirstLossSumInsured= rowData.FirstLossSumInsured;
+    //  this.FireSumInsured= rowData.sumInsured;
+    this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.IndustryId);
+    this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(rowData.FirstLossSumInsured);
+    this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(rowData.sumInsured);
+    this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(rowData.LocationName);
+     this.fields[0].fieldGroup[0].fieldGroup[4].formControl.setValue(rowData.DescriptionRisk);
+     this.fields[0].fieldGroup[0].fieldGroup[5].formControl.setValue(rowData.CoveringDetails);
+     this.fields[0].fieldGroup[0].fieldGroup[6].formControl.setValue(rowData.RegionCode);
+     this.fields[0].fieldGroup[0].fieldGroup[7].formControl.setValue(rowData.DistrictCode);
+    // this.fields[0].fieldGroup[0].fieldGroup[7].formControl.setValue(rowData.ElecEquipSuminsured);
      // console.log("Occupation",this.productItem.LiabilityOccupationId)
      // this.isEmployeeForm = true;
+     
    }
    filterSectionList(type){
     if(this.IndustryTypes=='57'){this.productNameList=this.fireSectionList.filter(ele=>ele.IndustryType=='G')}
@@ -717,27 +742,33 @@ export class CommonProductDetailsComponent {
     else this.districtError=false;
     return i==0;
   }
-  addBurglaryTable(){
+  addBurglaryTable(rowData){
+    let RiskId;
+    let i= this.TableRowBurglary.length;
+    if(this.currentBurglaryIndex==0){
+      RiskId=i+1;
+    }
+    else {
+      RiskId =this.currentBurglaryIndex;
+    }
     
-    if (this.TableRowBurglary.length != 0) {
-      console.log(this.TableRowBurglary,"this.TableRowBurglary");
-            let data = {
-                "LocationName":this.productItem.LocationName,
-                "region":this.productItem.region,
-                "stateName": this.productItem.stateName,
-                "FirstLossSumInsured": this.productItem.BurglarySi,
-                "sumInsured": this.productItem.FireSumInsured,
-                "CoveringDetails": this.productItem.CoveringDetails,
-                "DescriptionRisk": this.productItem.DescriptionRisk,
-            }
+        let data = {
+            "LocationName":rowData.LocationName,
+            "RegionCode":rowData.RegionCode,
+            "DistrictCode": rowData.DistrictCode,
+            "FirstLossSumInsured": rowData.BurglarySi,
+            "sumInsured": rowData.FireSumInsured,
+            "CoveringDetails": rowData.CoveringDetails,
+            "DescriptionRisk": rowData.DescriptionRisk,
+            "RiskId": RiskId,
+        }
             if (this.currentBurglaryIndex !=0) {
-              this.TableRowBurglary[this.currentBurglaryIndex] = data;
-          } else {
+              this.TableRowBurglary[this.currentBurglaryIndex-1] = data;
+              this.currentBurglaryIndex=0;
+            } else {
               this.TableRowBurglary.push(data);
           } 
-        this.form.reset();
-    }
-  
+        this.onSaveBurglaryDetails('save','individual')
   }
   checkTableRowFire(entry){
     return (entry.IndustryTypes!=null && entry.BuildingSumInsured!=0 && entry.BuildingSumInsured!='0' && entry.CoveringDetails!='' && entry.CoveringDetails!=null && entry.RegionName!=null && entry.RegionName!='' 
@@ -1441,12 +1472,13 @@ export class CommonProductDetailsComponent {
       let fireData = new Burglary();
       let entry = [];
       this.fields[0] = fireData?.fields;
-      // let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
-      //   field.formControl.valueChanges.subscribe(() => {
-      //     this.ongetDistrictList('change')
-      //   });
-      // } }
-      //this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[1].hooks = regionHooks;
+      this.getRegionList();
+      let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
+        field.formControl.valueChanges.subscribe(() => {
+          this.ongetDistrictList('change')
+        });
+      } }
+      this.fields[0].fieldGroup[0].fieldGroup[6].hooks = regionHooks;
       //  this.getNatureTradeList();
       //  this.getInsuranceForList();
       //  this.getWallMaterialList();
@@ -1577,12 +1609,14 @@ export class CommonProductDetailsComponent {
       console.log('MMMMMMMMMMMMMMMM',this.productId,this.insuranceId)
       let fireData = new Money();
       let entry = [];
-      let checkYnHooks ={ onInit: (field: FormlyFieldConfig) => {
+      this.getRegionList();
+      let districtHooks ={ onInit: (field: FormlyFieldConfig) => {
         field.formControl.valueChanges.subscribe(() => {
-            this.checkMoneyYNChanges()
+          this.ongetDistrictList('change');
         });
       }};
       this.fields[0] = fireData?.fields;
+      this.fields[0].fieldGroup[0].fieldGroup[8].hooks =districtHooks;
       let referenceNo = sessionStorage.getItem('quoteReferenceNo');
         this.checkMoneyYNChanges();
         if (referenceNo) {
@@ -2022,7 +2056,6 @@ export class CommonProductDetailsComponent {
   }
   addMoney(rowData){
     let valid = this.checkValidation();
-    
     if(valid){
     let RiskId;
     let i= this.TableRowMoney.length;
@@ -2034,14 +2067,15 @@ export class CommonProductDetailsComponent {
     }
     let data = {
      "LocationName":rowData.LocationName,
-       "Address": rowData.Address,
-      // "District" : rowData.District,this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.MoneyDirectorResidence);
+       "RegionCode": rowData.RegionCode,
+       "DistrictCode" : rowData.DistrictCode,//this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.MoneyDirectorResidence);
       "MoneyDirectorResidence": rowData.MoneyDirectorResidence,
       "MoneyMajorLoss": rowData.MoneyMajorLoss,
       "StrongroomSi": rowData.StrongroomSi,
       "MoneySafeLimit" : rowData.MoneySafeLimit,
       "MoneyCollector": rowData.MoneyCollector,
       "MoneyAnnualEstimate": rowData.MoneyAnnualEstimate,
+      "RiskId": rowData.RiskId
     }
     if (this.currentMoneyIndex !=0) {
       this.TableRowMoney[this.currentMoneyIndex-1] = data;
@@ -2050,10 +2084,10 @@ export class CommonProductDetailsComponent {
     } else {
       this.TableRowMoney.push(data);
       this.form.reset();
-      // If currentBurglaryIndex is out of range, you might want to push the data
+     
   } 
    // this.TableRowMoney.push(data);
-    this.Moneyform=false;
+  // this.Moneyform=false;
     
 }
 
@@ -3305,22 +3339,66 @@ backPlan()
             let defaultObj = [{ 'label': '-Select-', 'Code': '' }]
             this.regionList = data.Result;
             console.log(this.regionList,"this.regionList");
-            
-            for (let i = 0; i < this.regionList.length; i++) {
-              this.regionList[i].label = this.regionList[i]['CodeDesc'];
-              this.regionList[i].value = this.regionList[i]['Code'];
-              delete this.regionList[i].CodeDesc;
-              if (i == this.regionList.length - 1) {
-                if(this.productId!='19' && this.productId!='6' && this.productId!='13') this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.regionList);
-                else{
-                  let fields = this.fields[0].fieldGroup;
-                  for(let field of fields){
-                    if(field.props.label=='Burglary'){
-                            console.log("Burglary Filtered Fields Region",field)
-                        field.fieldGroup[0].fieldGroup[1].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.regionList);
-                    }
-                  }
+          
+          
+              for (let i = 0; i < this.regionList.length; i++) {
+                this.regionList[i].label = this.regionList[i]['CodeDesc'];
+                this.regionList[i].value = this.regionList[i]['Code'];
+                delete this.regionList[i].CodeDesc;
+
+                if(this.productId=='1'){
+             
+                  this.fields[0].fieldGroup[0].fieldGroup[6].templateOptions.options = defaultObj.concat(this.regionList);
                 }
+                else{
+                  if(this.productId=='16')this.fields[0].fieldGroup[0].fieldGroup[8].templateOptions.options = defaultObj.concat(this.regionList);
+                 else {
+
+                   if (i == this.regionList.length - 1) {
+                     if(this.productId!='19' && this.productId!='6' && this.productId!='13') this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.regionList);
+                    
+                   }
+                 }
+                }
+              }
+            
+          }
+        }
+      },
+      (err) => { },
+    );
+  }
+  getFidSumInsuredList() {
+    let ReqObj = {
+      "InsuranceId": this.insuranceId,
+    "ItemType": "FIDELITY_SUMINSURED",
+    }
+    let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if (data.Result) {
+          this.sumInsuredList = data.Result;
+          if (data.Result.length != 0) {
+            let defaultObj = [{ 'label': '-Select-', 'Code': '' }]
+            this.sumInsuredList = data.Result;
+            console.log(this.sumInsuredList,"this.sumInsuredList");
+            
+            for (let i = 0; i < this.sumInsuredList.length; i++) {
+              this.sumInsuredList[i].label = this.sumInsuredList[i]['CodeDesc'];
+              this.sumInsuredList[i].value = this.sumInsuredList[i]['Code'];
+              delete this.sumInsuredList[i].CodeDesc;
+              if (i == this.sumInsuredList.length - 1) {
+                this.fieldsFidelity[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].templateOptions.options = defaultObj.concat(this.sumInsuredList);
+                // else{
+                //   let fields = this.fields[0].fieldGroup;
+                //   for(let field of fields){
+                //     if(field.props.label=='Burglary'){
+                //             console.log("Burglary Filtered Fields Region",field)
+                //         field.fieldGroup[0].fieldGroup[1].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.regionList);
+                //     }
+                //   }
+                // }
               }
             }
           }
@@ -3534,17 +3612,19 @@ backPlan()
               this.stateList[i].label = this.stateList[i]['CodeDesc'];
               this.stateList[i].value = this.stateList[i]['Code'];
               this.stateList[i].CodeDesc;
-              if (i == this.stateList.length - 1) {
-                if(this.productId!='19' && this.productId!='6') this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.stateList);
-                else if(this.productId!='6'){
-                  let fields = this.fields[0].fieldGroup;
-                  for(let field of fields){
-                    if(field.props.label=='Burglary'){
-                        field.fieldGroup[0].fieldGroup[1].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.stateList);
-                    }
+              if(this.productId=='1'){
+                this.fields[0].fieldGroup[0].fieldGroup[7].templateOptions.options = defaultObj.concat(this.stateList);
+              }
+              else{
+                if(this.productId=='16')this.fields[0].fieldGroup[0].fieldGroup[9].templateOptions.options = defaultObj.concat(this.stateList);
+                else
+                {
+
+                  if (i == this.stateList.length - 1) {
+                    if(this.productId!='19' && this.productId!='6') this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.stateList);
+                    if (type == 'change') this.productItem.DistrictCode = '';
                   }
                 }
-                if (type == 'change') this.productItem.DistrictCode = '';
               }
             }
           }
@@ -4209,10 +4289,16 @@ backPlan()
     this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(rowData.MoneySafeLimit);
     this.fields[0].fieldGroup[0].fieldGroup[4].formControl.setValue(rowData.MoneyCollector);
     this.fields[0].fieldGroup[0].fieldGroup[5].formControl.setValue(rowData.MoneyAnnualEstimate);
-    this.fields[0].fieldGroup[0].fieldGroup[6].formControl.setValue(rowData.LocationName);
-    this.fields[0].fieldGroup[0].fieldGroup[7].formControl.setValue(rowData.Address);
-    this.getMoneyDetails(rowData);
-  }
+    this.fields[0].fieldGroup[0].fieldGroup[6].formControl.setValue(rowData.MoneyAnnualEstimate);
+    this.fields[0].fieldGroup[0].fieldGroup[7].formControl.setValue(rowData.LocationName);
+    this.fields[0].fieldGroup[0].fieldGroup[8].formControl.setValue(rowData.RegionCode);
+    this.fields[0].fieldGroup[0].fieldGroup[9].formControl.setValue(rowData.DistrictCode);
+    let referenceNo =  sessionStorage.getItem('quoteReferenceNo');
+    if(referenceNo){
+      this.getMoneyDetails(rowData);
+    }
+    }
+   
   editPA(rowData,index){
     this.isEEForm=true;
     let edit = rowData.RiskId;
@@ -4639,6 +4725,7 @@ backPlan()
             props: { label: 'Fidelity' },
             fieldGroup: fidelity.fields
           }
+         // this.getFidSumInsuredList();
           let modelHooks = { onInit: (field: FormlyFieldConfig) => {
             field.formControl.valueChanges.subscribe(() => {
               this.onoccFedilityChange('change');
@@ -4783,7 +4870,7 @@ backPlan()
   }
   onSubmit(type){
     let valid = this.checkValidation();
-    if(this.productId=='25' || this.productId=="16") valid=true;
+    if(this.productId=='25' || (this.productId=="16" && this.TableRowMoney.length!=0)) valid=true;
     if(valid){
       if(this.productId=='1' || this.productId=='59' || this.productId=='61' ||  this.productId=='13' || this.productId=='39'
          || this.productId=='43' || this.productId=='16' || this.productId=='42' || this.productId=='15' || this.productId=='14'
@@ -4925,7 +5012,7 @@ backPlan()
         if(this.productItem.ContentId==null || this.productItem.ContentId=='' || this.productItem.ContentId==undefined){i+=1;this.contentTypeError=true;}
         if(this.productItem.ElecEquipSuminsured==null || this.productItem.ElecEquipSuminsured=='' || this.productItem.ElecEquipSuminsured==undefined || this.productItem.ElecEquipSuminsured==0){i+=1;this.salaryError=true;}
     }
-    if((this.productId=='16' || this.productId=='39' || this.productId=='15' || this.productId=='14' || this.productId=='32' || this.productId=='1' || this.productId=='21'
+    if((this.productId=='16' || this.productId=='39' || this.productId=='15' || this.productId=='14' || this.productId=='32' ||  this.productId=='21'
     || this.productId=='13') && (this.IndustryId==null || this.IndustryId==undefined || this.IndustryId=='')){
       //|| this.productId=='26'
       this.industryError = true;
@@ -5016,7 +5103,7 @@ backPlan()
     if(this.productId=='14'){section.push('45');};
     if(this.productId=='15'){section.push('38');};
     if(this.productId=='32'){section.push('43');};
-    if(this.productId=='1'){section.push('52');};
+    if(this.productId=='1'){section.push('52'); this.IndustryId='99999'};
     if(this.productId=='21'){section.push('3');};
     if(this.productId=='24'){section.push('3','47');};
     if(this.productId=='26'){section.push('3');};
@@ -5978,7 +6065,11 @@ console.log('Eventsss',event);
         reqRefNo = sessionStorage.getItem('quoteReferenceNo')
       }
       if (reqRefNo == 'undefined' || reqRefNo == undefined) reqRefNo = null;
-    let ReqObj = [{
+      let ReqObj =[]
+      let entry
+      let i =0;
+    for(let items of this.TableRowBurglary){
+   entry = {
       "AgencyCode": this.agencyCode,
       "ApplicationId": appId,
       "BdmCode": null,
@@ -5996,7 +6087,7 @@ console.log('Eventsss',event);
       "CustomerCode": this.customerCode,
       "InsuranceId": this.insuranceId,
       "InsuranceType": null,
-      "RiskId": "1",
+      "RiskId": items.RiskId,
       "LoginId": this.loginId,
       "UserType": this.userType,
       "OutbuildConstructType": null,
@@ -6008,7 +6099,7 @@ console.log('Eventsss',event);
       "WallType": this.productItem.WallType,
       "InternalWallType": this.productItem.InternalWallType,
       "CeilingType": this.productItem.CeilingType,
-      "FirstLossPercentId": null,
+      "FirstLossPercentId": items.FirstLossSumInsured,
       "StockInTradeSi": this.productItem.StockInTradeSi,
       "GoodsSi": this.productItem.GoodsSi,
       "FurnitureSi": this.productItem.FurnitureSi,
@@ -6020,8 +6111,8 @@ console.log('Eventsss',event);
       "ApplianceLossPercent": this.productItem.ApplianceLossPercent,
       "CashValueablesLossPercent": this.productItem.CashValueablesLossPercent,
       "Address": this.productItem.Address,
-      "RegionCode": this.productItem.RegionCode,
-      "DistrictCode": this.productItem.DistrictCode,
+      "RegionCode": items.RegionCode,
+      "DistrictCode": items.stateName,
       "OccupiedYear": this.productItem.OccupiedYear,
       "WatchmanGuardHours": this.productItem.WatchmanGuardHours,
       "AccessibleWindows": this.productItem.AccessibleWindows,
@@ -6033,7 +6124,7 @@ console.log('Eventsss',event);
       "DoorsMaterialId": this.productItem?.DoorsMaterialId,
       "NightLeftDoor": this.productItem?.NightLeftDoor,
       "BuildingOccupied": this.productItem?.BuildingOccupied,
-      "BurglarySi":this.productItem?.BurglarySi,
+      "BurglarySi":items.sumInsured,
       "RoofType": this.productItem?.RoofType,
       "RequestReferenceNo": reqRefNo,
       "EndorsementDate": this.endorsementDate,
@@ -6050,7 +6141,11 @@ console.log('Eventsss',event);
       "OrginalPolicyNo": this.orginalPolicyNo,
       "PolicyNo": this.endorsePolicyNo,
       "Status": "Y"
-    }]
+    }
+    ReqObj.push(entry);
+    i+=1;
+  }
+   
     if (this.endorsementSection) {
       if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
         ReqObj['Status'] = 'E';
@@ -6063,10 +6158,15 @@ console.log('Eventsss',event);
     else {
       ReqObj['Status'] = 'Y';
     }
+ 
     let urlLink = `${this.motorApiUrl}api/slide3/saveburglaryandhouselist`;
         this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
           (data: any) => {
             if (data?.Result) {
+              if(type=='save'){
+                alert('save')
+                this.form.reset();
+              }
               if(data.Result.length!=0){
                 this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
                 sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
@@ -6145,11 +6245,24 @@ console.log('Eventsss',event);
         (err) => { },
       );
   }
+  getRegionDesc(rowData){
+    let entry = this.regionList.find(ele=>ele.Code==rowData);
+    console.log(entry,"entry",rowData +" getRegionDesc(rowDa");
+    if(entry) return entry.label;
+    else return ''
+  }
+  getDistrictDesc(rowData){
+    let entry = this.stateList.find(ele=>ele.Code==rowData);
+    console.log(entry,"entry",rowData);
+    if(entry) return entry.CodeDesc;
+    else return ''
+  }
   onSaveMoneyDetails(type,formType){
     let ReqObj=[]
     let i = 0;
     //let j=this.TableRowMoney.length
     for(let items of this.TableRowMoney){
+
       let entry= {
       "CreatedBy": this.loginId,
       "InsuranceId": this.insuranceId,
@@ -6184,7 +6297,10 @@ console.log('Eventsss',event);
       "IsFinanceEndt": this.isFinanceEndt,
       "OrginalPolicyNo": this.orginalPolicyNo,
       "LocationName":items.LocationName,
-      "Address":items.Address
+      "RegionCode":items.RegionCode,
+      "DistrictCode":items.DistrictCode,
+      // "RegionDesc":this.getRegionDesc(items.RegionCode),
+      // "DistrictDesc":this.getDistrictDesc(items.DistrictCode)
     }
     if (this.endorsementSection) {
       if (this.productItem?.Status == undefined || this.productItem?.Status == null || this.productItem?.Status == 'Y') {
@@ -7388,6 +7504,10 @@ finalSaveMoney(finalList,type,formType) {
         );
   }
   getBurglaryDetails(sections){
+    let i= sections.RiskId;
+    let RiskId=null;
+    if(this.productId=='1') RiskId=i;
+    else RiskId;
     let sectionId = null;
     if(this.productId=='19' || this.productId=='24') sectionId='52';
     let ReqObj = {
@@ -7401,6 +7521,17 @@ finalSaveMoney(finalList,type,formType) {
         console.log(data);
         if (data.Result) {
           let details = data?.Result;
+          this.productItem.LocationName=data.Result[i-1].LocationName;
+            this.productItem.OccupationType=data.Result[i-1].OccupationType;
+            this.productItem.Name=data.Result[i-1].CustomerName;
+            this.productItem.Dob=data.Result[i-1].Dob;
+            this.productItem.SumInsured=data.Result[i-1].SumInsured;
+            //this.form.get('SumInsured').setValue(value);
+            this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(this.productItem.LocationName);
+            this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(this.productItem.OccupationType);
+            this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(this.productItem.Name);
+            this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(this.productItem.Dob);
+            this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(this.productItem.SumInsured);
           this.productItem.AccessibleWindows = details?.AccessibleWindows;
               this.productItem.Address = details?.Address;
               this.productItem.BackDoors = details?.BackDoors;
@@ -7480,7 +7611,8 @@ finalSaveMoney(finalList,type,formType) {
             this.productItem.MoneyAnnualEstimate=data.Result[i-1].MoneyAnnualEstimate;
             this.productItem.MoneyMajorLoss=data.Result[i-1].MoneyMajorLoss;
             this.productItem.LocationName=data.Result[i-1].LocationName;
-            this.productItem.Address=data.Result[i-1].Address;
+            this.productItem.RegionCode=data.Result[i-1].RegionCode;
+            this.productItem.DistrictCode=data.Result[i-1].DistrictCode;
             //this.form.get('SumInsured').setValue(value);
             this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(this.productItem.MoneyDirectorResidence);
             this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(this.productItem.MoneyMajorLoss);
@@ -7488,8 +7620,10 @@ finalSaveMoney(finalList,type,formType) {
             this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(this.productItem.MoneySafeLimit);
             this.fields[0].fieldGroup[0].fieldGroup[4].formControl.setValue(this.productItem.MoneyCollector);
             this.fields[0].fieldGroup[0].fieldGroup[5].formControl.setValue(this.productItem.MoneyAnnualEstimate);
-            this.fields[0].fieldGroup[0].fieldGroup[6].formControl.setValue(this.productItem.LocationName);
-            this.fields[0].fieldGroup[0].fieldGroup[7].formControl.setValue(this.productItem.Address);
+            this.fields[0].fieldGroup[0].fieldGroup[6].formControl.setValue(this.productItem.MoneyAnnualEstimate);
+            this.fields[0].fieldGroup[0].fieldGroup[7].formControl.setValue(this.productItem.LocationName);
+            this.fields[0].fieldGroup[0].fieldGroup[8].formControl.setValue(this.productItem.RegionCode);
+            this.fields[0].fieldGroup[0].fieldGroup[9].formControl.setValue(this.productItem.DistrictCode);
           }
           // this.productItem.CashInHandEmployees = details?.CashInHandEmployees;
           // this.productItem.CashInSafe = details?.CashInSafe;
@@ -8767,6 +8901,7 @@ let requestNO=null;
                   let fireData = new Fidelitytwo();
                   let entry = [];
                   let fields:any = fireData?.fields;
+                 this.getFidSumInsuredList();
                  // fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
                   //fields[0].fieldArray.fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.occupationList);
                   let modelHooks = { onInit: (field: FormlyFieldConfig) => {
@@ -11182,8 +11317,18 @@ this.BuildingOwnerYn = type;
               delete this.industryList[i].CodeDesc;
              
           }
-          this.fieldsBond[0].templateOptions.options = this.industryList;
+          this.fields[0].templateOptions.options = this.industryList;
         }
+        if(this.productId=='1'){
+          for (let i = 0; i < this.industryList.length; i++) {
+            this.industryList[i].label = this.industryList[i]['CodeDesc'];
+            this.industryList[i].value = this.industryList[i]['Code'];
+            delete this.industryList[i].CodeDesc;
+           
+        }
+        this.fields[0].fieldGroup[0].fieldGroup[0].templateOptions.options = this.industryList;
+        this.fields[0].fieldGroup[0].fieldGroup[1].templateOptions.options = this.industryList;
+      }
           if(this.productId=='26'){
             //this.productItem.IndustryBussinessAllRisk = this.IndustryId;
             for (let i = 0; i < this.industryList.length; i++) {

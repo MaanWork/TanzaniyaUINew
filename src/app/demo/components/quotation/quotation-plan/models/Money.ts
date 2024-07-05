@@ -131,7 +131,7 @@ export class Money{
                   type: 'commaSeparator',
                   key: 'MoneyDirectorResidence',
                   props: { 
-                    label: `Premises Sum Insured`,
+                    label: `Estimated annual cash carryings`,
                     maxLength: 15
                   },
                   templateOptions: {
@@ -152,7 +152,7 @@ export class Money{
                     type: 'commaSeparator',
                     key: 'MoneyMajorLoss',
                     props: { 
-                      label: `Money in Transit Sum Insured`,
+                      label: `Cash in transit limit`,
                       maxLength: 15
                     },
                     templateOptions: {
@@ -173,7 +173,7 @@ export class Money{
                     type: 'commaSeparator',
                     key: 'StrongroomSi',
                     props: { 
-                      label: `Strong Room Sum Insured`,
+                      label: `Custody of collectors`,
                       maxLength: 15
                     },
                     templateOptions: {
@@ -194,7 +194,7 @@ export class Money{
                     type: 'commaSeparator',
                     key: 'MoneySafeLimit',
                     props: { 
-                      label: `Safe Limit Sum Insured`,
+                      label: `Safe during working hours`,
                       maxLength: 15
                     },
                     templateOptions: {
@@ -215,7 +215,7 @@ export class Money{
                     type: 'commaSeparator',
                     key: 'MoneyCollector',
                     props: { 
-                      label: `Collector Amount Sum Insured`,
+                      label: `safe outside working hours`,
                       maxLength: 15
                     },
                     templateOptions: {
@@ -236,7 +236,48 @@ export class Money{
                     type: 'commaSeparator',
                     key: 'MoneyAnnualEstimate',
                     props: { 
-                      label: `Estimated Annual Carry Amount Sum Insured`,
+                      label: `Residence of director or partner`,
+                      maxLength: 15
+                    },
+                    templateOptions: {
+                     // disabled: this.checkDisable('SumInsured')
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+    
+                    expressions: {
+                    
+                    },
+                  },
+                  // {
+                  //   className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                  //   type: 'commaSeparator',
+                  //   key: 'MoneyAnnualEstimate',
+                  //   props: { 
+                  //     label: `Residence of director or partner`,
+                  //     maxLength: 15
+                  //   },
+                  //   templateOptions: {
+                  //    // disabled: this.checkDisable('SumInsured')
+                  //   },
+                  //   validators: {
+                  //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                  //   },
+                  //   hooks: {
+                  //   },
+                  //   expressions: {
+                    
+                  //   },
+                  // },
+                  {
+                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    type: 'commaSeparator',
+                    key: 'MoneyAnnualEstimate',
+                    props: { 
+                      label: `Value of safe`,
                       maxLength: 15
                     },
                     templateOptions: {
@@ -275,14 +316,17 @@ export class Money{
                   },
                   {
                     className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-                    type: 'input',
-                    key: 'Address',
+                    type: 'ngselect',
+                    key: 'RegionCode',
                     props: { 
-                      label: `Address`,
+                      label: `Region`,
                       maxLength: 15
                     },
                     templateOptions: {
                      // disabled: this.checkDisable('SumInsured')
+                     options:[
+
+                     ]
                     },
                     validators: {
                       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
@@ -294,7 +338,30 @@ export class Money{
                     
                     },
                   },
+                  {
+                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    type: 'ngselect',
+                    key: 'DistrictCode',
+                    props: { 
+                      label: `District`,
+                      maxLength: 15
+                    },
+                    templateOptions: {
+                     // disabled: this.checkDisable('SumInsured')
+                     options:[
 
+                     ]
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+    
+                    expressions: {
+                    
+                    },
+                  },
                 ]
               },
              

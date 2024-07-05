@@ -36,7 +36,7 @@ export class Fidelitytwo{
                       fieldGroup: [
                        
                           {
-                            className: 'col-12 md:col-6 lg:col-6 lx:col-6',
+                            className: 'col-12',
                             type: 'number',
                             key: 'FidEmpCount',
                             templateOptions: {
@@ -48,13 +48,12 @@ export class Fidelitytwo{
                               validation: [ForceLengthValidators.maxLength(3), ForceLengthValidators.min(1)]
                             },
                           },
-                          
                           {
-                            type: 'commaSeparator',
-                            className: 'col-12 md:col-6 lg:col-6 lx:col-6',
+                            type: 'ngselect',
+                            className: 'col-12',
                             key: 'FidEmpSi',
                             defaultValue: '0',
-                            props: {
+                            templateOptions: {
                               label: `Sum Insured`,
                               disabled: this.checkDisable('SumInsured'),
                               maxLength: 15,
