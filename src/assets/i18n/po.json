@@ -77,7 +77,17 @@
       "SearchByName/TINNo/PassportNo": "Pesquisar por nome/Nº TIN/Nº passaporte",
       "ReferenceNo": "Número de referência",
       "Close": "Fechar",
-      "Proceed": "Continuar"
+      "Proceed": "Continuar",
+      "All":"Todos",
+      "NoCustomerAvailable":"Nenhum cliente disponível",
+      "SelectCustomerTitle":"Selecione o título do cliente",
+      "EnterFirstName":"Introduza o primeiro nome",
+      "EnterMiddleName":"Digite o nome do meio",
+      "EnterLastName":"Insira o último nome",
+      "EnterCustomerName":"Enter Customer Name",
+      "SelectOccupation":"Selecione Ocupação",
+      "SelectCode":"Selecione o código",
+      "EnterPhoneNumber":"Enter Phone Number"
     },
     "LOGIN":{
         "WelcometoXYZInsurance":"Bem-vindo à XYZ Seguros",

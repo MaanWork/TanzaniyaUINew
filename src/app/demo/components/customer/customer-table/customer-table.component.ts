@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { MenuItem, PrimeIcons } from 'primeng/api';
 import * as Mydatas from '../../../../app-config.json';
 import { SharedService } from 'src/app/demo/service/shared.service';
+import { AppComponent } from 'src/app/app.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-customer-table',
@@ -25,8 +27,8 @@ export class CustomerTableComponent implements OnInit{
   public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
   searchValue: any=null;deActiveCustomers:any[]=[];
   clearSearchSection: boolean=false;pendingCustomers:any[]=[];
-  activeCustomers: any[]=[];
-  constructor(private router:Router,private sharedService: SharedService) {
+  activeCustomers: any[]=[];lang:any=null;
+  constructor(private router:Router,private sharedService: SharedService,private appComp:AppComponent,private translate:TranslateService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
     this.agencyCode = this.userDetails.Result.OaCode;
@@ -37,12 +39,23 @@ export class CustomerTableComponent implements OnInit{
     this.brokerbranchCode = this.userDetails.Result.BrokerBranchCode;
     sessionStorage.removeItem('endorsePolicyNo');
     sessionStorage.removeItem('endorseTypeId');
+    this.appComp.getLanguage().subscribe((res:any)=>{  
+			if(res) this.lang=res;
+			else this.lang='en';
+			this.translate.setDefaultLang(this.lang);
+		  });
+		if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+		else this.lang='en';
+		sessionStorage.setItem('language',this.lang)
+		this.translate.setDefaultLang(sessionStorage.getItem('language'));}
     this.getCustomersList();
   }
   ngOnInit() {
     this.items = [{ label: 'Home', routerLink:'/' }, {label:'Customer'}];
     this.tableActions = [{label: 'Edit', icon:'pi pi-pencil'}, {label: 'Delete',icon: PrimeIcons.TRASH}];
-    this.columns = [ 'Reference No','Customer Name',  'Customer Type','ID Number', 'Mobile No', 'TaxExcempted', 'Created By', 'Status', 'Action'];
+    if(this.lang=='en'){ this.columns = [ 'Reference No','Customer Name',  'Customer Type','ID Number', 'Mobile No', 'TaxExempted', 'Created By', 'Status', 'Action'];}
+    else if(this.lang=='po'){ this.columns = [ 'Número de referência','Nome do cliente',  'Tipo de Cliente','Número de identidade', 'Número de telemóvel', 'Isento de Imposto', 'Criado por', 'Status', 'Ação'];}
+    
     this.customers = [{referenceNo:'123'}, {referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'}];
 
   }

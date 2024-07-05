@@ -1,7 +1,7 @@
 <div class="card">
     <div class="grid">
         <div class="col-12 sm:col-6">
-          <h3 class="mr-3">Create Customer</h3>
+          <h3 class="mr-3">{{ 'HOME.CreateCustomer' | translate }}</h3>
           <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
         </div>
         <div class="col-12 sm:col-6">
@@ -49,26 +49,26 @@
                             [(ngModel)]="productItem.Title" 
                             [optionLabel]="getDisplayName()" 
                             optionValue="Code" 
-                            placeholder="Select Customer Title">
+                            [placeholder]="'HOME.SelectCustomerTitle' | translate">
                         </p-dropdown>
                     </div>
                     <div class="flex flex-column m-3">
                         <!-- <label for="username">First Name*</label> -->
                         <label for="username">{{ 'HOME.FirstName' | translate }}*</label>
                         <input pInputText id="FirstName"  maxlength="150" [(ngModel)]="productItem.ClientName" 
-                        placeholder="Enter First Name"/>
+                        [placeholder]="'HOME.EnterFirstName' | translate"/>
                     </div>
                     <div class="flex flex-column m-3">
                         <label for="username">{{ 'HOME.MiddleName' | translate }}*</label>
                         <!-- <label for="username">Middle Name</label> -->
                         <input pInputText id="middlename" maxlength="150" [(ngModel)]="productItem.MiddleName"
-                        placeholder="Enter Middle Name"/>
+                        [placeholder]="'HOME.EnterMiddleName' | translate"/>
                     </div>
                     <div class="flex flex-column m-3">
                         <label for="username">{{ 'HOME.LastName' | translate }}*</label>
                         <!-- <label for="username">Last Name</label> -->
                         <input pInputText id="lastname" maxlength="150" [(ngModel)]="productItem.LastName"
-                        placeholder="Enter Middle Name"/>
+                        [placeholder]="'HOME.EnterLastName' | translate"/>
                     </div>
                 </div>
             </ng-container>
@@ -81,14 +81,14 @@
                             styleClass="w-full"   (change)="onTitleChange('change')"
                             [options]="titleList"  [(ngModel)]="productItem.Title" 
                             [optionLabel]="getDisplayName()"  optionValue="Code" 
-                            placeholder="Select Customer Title">
+                            [placeholder]="'HOME.SelectCustomerTitle' | translate">
                         </p-dropdown>
                     </div>
                     <div class="flex flex-column m-3" >
                         <label for="username">{{ 'HOME.CustomerName' | translate }} *</label>
                         <!-- <label for="username">Customer Name *</label> -->
                         <input pInputText id="CustomerName" maxlength="150" [(ngModel)]="productItem.ClientName" 
-                        (change)="onsavedatas('Customer',null)" placeholder="Enter Customer Name"/>
+                        (change)="onsavedatas('Customer',null)" [placeholder]="'HOME.EnterCustomerName' | translate"/>
                     </div>
                 </ng-container>
                 
@@ -99,7 +99,7 @@
                         class="w-full"  styleClass="w-full" 
                         [options]="occupationList" (onChange)="onsavedatas('Occupation',null)"
                         [(ngModel)]="productItem.Occupation"  [optionLabel]="getDisplayName()" 
-                        optionValue="Code"  placeholder="Select Occupation">
+                        optionValue="Code"  [placeholder]="'HOME.SelectOccupation' | translate">
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3">
@@ -112,7 +112,7 @@
                         [(ngModel)]="productItem.Gender"
                         [optionLabel]="getDisplayName()" 
                         optionValue="Code" 
-                        placeholder="Select Code">
+                        [placeholder]="'HOME.SelectCode' | translate">
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3">
@@ -122,14 +122,14 @@
                         class="w-full"  styleClass="w-full" 
                         [options]="mobileCodeList"  [(ngModel)]="productItem.MobileCode" 
                         [optionLabel]="getDisplayName()"  optionValue="Code" 
-                        placeholder="Select Code">
+                        [placeholder]="'HOME.SelectCode' | translate">
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.MobileNumber' | translate }}*</label>
                     <!-- <label for="username">Mobile No</label> -->
                     <input pInputText id="mobileNo" maxlength="10" [(ngModel)]="productItem.MobileNo"
-                        placeholder="Enter Phone Number" (change)="onsavedatas('Mobile',null)">
+                        [placeholder]="'HOME.EnterPhoneNumber' | translate" (change)="onsavedatas('Mobile',null)">
                 </div>
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.EmailId' | translate }}</label>
@@ -247,14 +247,8 @@
                     <label for="username">{{ 'HOME.Country' | translate}}*</label>
                     <!-- <label for="username">Country *</label> -->
                     <p-dropdown inputId="Country" 
-                        class="w-full" 
-                        styleClass="w-full" 
-                        [options]="countryList" 
-                        (onChange)="getRegionList('change')"
-                        [(ngModel)]="productItem.Country" 
-                        [optionLabel]="getDisplayName()"
-                        optionValue="Code" 
-                        placeholder="Select Country">
+                        class="w-full"  styleClass="w-full" [options]="countryList"  (onChange)="getRegionList('change')" [(ngModel)]="productItem.Country" 
+                        [optionLabel]="getDisplayName()" optionValue="Code" placeholder="Select Country">
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3">
@@ -469,7 +463,7 @@
 </div>
 
 <div class="flex justify-content-center">
-    <p-button label="Back" [routerLink]="['/customer']" class="p-3 mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+    <p-button [label]="'PREMIUM.Back' | translate" [routerLink]="['/customer']" class="p-3 mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
     <p-button class="p-3 text-l pi-button mr-0" (keyup)="onsavedatas('direct',productItem)" (click)="onsavedatas('direct',productItem)">Submit</p-button>
 </div>
 

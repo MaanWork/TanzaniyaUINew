@@ -114,10 +114,10 @@ export class ReferralCasesComponent implements OnInit {
   }
   getExistingQuotes(element,entryType){
     if(element==null) this.quoteData=[];
+    if(element==null){ this.quoteData=[];}
     let appId = "1",loginId="",brokerbranchCode="",bdmCode=null;
     if(this.userType!='Issuer'){
       appId = "1"; loginId = this.brokerCode;
-      brokerbranchCode = this.brokerbranchCode;
       bdmCode=this.agencyCode;
     }
     else{
@@ -131,27 +131,29 @@ export class ReferralCasesComponent implements OnInit {
       // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
       // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
         if(this.userType=='Issuer'){
-        loginId='';
-        bdmCode=this.brokerCode;
+        loginId=this.brokerCode;
+        bdmCode='';
       }
       else{
         bdmCode=null;
       }
+      let type=null;
+      if(this.section=='quote'){type='Q'}
+      else type='E';
       let ReqObj = {
-          "BrokerBranchCode": brokerbranchCode,
           "BranchCode":this.branchCode,
-          "InsuranceId": this.insuranceId,
-          "LoginId":loginId,
-          "ApplicationId":appId,
-          "UserType":this.userType,
-          "SubUserType":sessionStorage.getItem('typeValue'),
-          "SourceType":"",
-          "BdmCode": bdmCode,
-           "ProductId":this.productId,
-          "Limit":this.limit,
-          "Type":'Q',
-          "Offset":1000
-    }
+            "InsuranceId": this.insuranceId,
+            "LoginId":loginId,
+            "ApplicationId":appId,
+            "UserType":this.userType,
+            "SubUserType":sessionStorage.getItem('typeValue'),
+            "SourceType":"",
+            "BdmCode": bdmCode,
+            "ProductId":this.productId,
+            "Type":type,
+            "Limit":this.limit,
+            "Offset": 60
+      }
     let urlLink = `${this.CommonApiUrl}api/adminreferralpending`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {

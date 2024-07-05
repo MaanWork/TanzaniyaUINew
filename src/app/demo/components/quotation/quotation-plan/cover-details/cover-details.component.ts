@@ -2927,7 +2927,7 @@ export class CoverDetailsComponent {
           }
           else{
             if(this.productId=='59') this.getExistingBuildingList();
-            else if(this.productId=='6') this.router.navigate(['/quotation/plan/main/document-info']);
+            else if(this.productId=='6' || this.productId=='14') this.router.navigate(['/quotation/plan/main/document-info']);
             else  if(this.loginType=='B2CFlow' && this.loginId=='guest'){
               window.location.reload();
             }

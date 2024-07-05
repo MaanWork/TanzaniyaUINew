@@ -5653,8 +5653,8 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       })
   }
   changeComponent(){
-    if(this.second==false && this.fifth==false || this.second==undefined && this.fifth==undefined){
-      
+    if((this.second==false && this.fifth==false || this.second==undefined && this.fifth==undefined) && this.productId!='14'){
+      alert('Enter')
       sessionStorage.setItem('back','skipBack');
       this.router.navigate(['/quotation/plan/main/document-info'])
     }

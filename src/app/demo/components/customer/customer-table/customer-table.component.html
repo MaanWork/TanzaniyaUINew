@@ -1,7 +1,7 @@
 <div class="card">
   <div class="grid">
     <div class="col-12 sm:col-6 md:col-4">
-      <h3 class="mr-3">Customer</h3>
+      <h3 class="mr-3">{{ 'HOME.Customer' | translate}}</h3>
       <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
     </div>
     <div class="col-12 sm:col-6 md:col-8">
@@ -11,7 +11,7 @@
           <input type="text" placeholder="Search" pInputText/>
         </span> -->
         <!-- <p-button styleClass="p-button-outlined" icon="pi pi-cloud-download" label="Export" class="mr-3" size="small"></p-button> -->
-        <p-button icon="pi pi-plus" label="Add New" severity="warning" size="small" (click)="onAddCustomer(null)"></p-button>
+        <p-button icon="pi pi-plus" [label]="'PREMIUM.AddNew' | translate" severity="warning" size="small" (click)="onAddCustomer(null)"></p-button>
       </div>
     </div>
   </div>
@@ -19,7 +19,7 @@
   <p-divider></p-divider>
   
   <p-tabView>
-    <p-tabPanel header="All">
+    <p-tabPanel [header]="'HOME.All' | translate">
       <ng-container *ngIf="customers.length!=0">
         <div class="flex justify-content-end mb-4">
           <p-button icon="pi pi-list" class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
@@ -53,14 +53,14 @@
               <td>{{ customer?.IdNumber }}</td>
               <td>{{ customer.MobileCode1 }}&nbsp;{{customer?.MobileNo1}}</td>
               <td>
-                <ng-container *ngIf="customer?.IsTaxExempted=='N'">No</ng-container>
-                <ng-container *ngIf="customer?.IsTaxExempted!='N'">Yes ({{customer?.TaxExemptedId}})</ng-container>
+                <ng-container *ngIf="customer?.IsTaxExempted=='N'">{{ 'PREMIUM.No' | translate}}</ng-container>
+                <ng-container *ngIf="customer?.IsTaxExempted!='N'">{{ 'PREMIUM.Yes' | translate}} ({{customer?.TaxExemptedId}})</ng-container>
               </td>
               <td>{{ customer.CreatedBy }}</td>
               <td>
-                <ng-container *ngIf="customer?.Status=='N'">DeActive</ng-container>
-                <ng-container *ngIf="customer?.Status=='Y'">Active</ng-container>
-                <ng-container *ngIf="customer?.Status=='P'">Pending</ng-container>
+                <ng-container *ngIf="customer?.Status=='N'">{{ 'HOME.DeActive' | translate}}</ng-container>
+                <ng-container *ngIf="customer?.Status=='Y'">{{ 'HOME.Active' | translate}}</ng-container>
+                <ng-container *ngIf="customer?.Status=='P'">{{ 'HOME.Pending' | translate}}</ng-container>
               </td>
               <td>
                 <span class="p-buttonset">
@@ -79,17 +79,17 @@
                 <tr>
                   <td><p-chip [label]="customer?.PolicyHolderTypeDesc" styleClass="bg-orange-500 text-white"></p-chip></td>
                   <td class="text-right"><span class="pi pi-circle-fill text-teal-600"></span>
-                    <ng-container *ngIf="customer?.Status=='N'">DeActive</ng-container>
-                    <ng-container *ngIf="customer?.Status=='Y'">Active</ng-container>
-                    <ng-container *ngIf="customer?.Status=='P'">Pending</ng-container>
+                    <ng-container *ngIf="customer?.Status=='N'">{{ 'HOME.DeActive' | translate}}</ng-container>
+                    <ng-container *ngIf="customer?.Status=='Y'">{{ 'HOME.Active' | translate}}</ng-container>
+                    <ng-container *ngIf="customer?.Status=='P'">{{ 'HOME.Pending' | translate}}</ng-container>
                   </td>
                 </tr>
                 <tr>
                   <td><h5>{{customer.ClientName}}</h5></td>
                 </tr>
                 <tr>
-                  <td><b>Reference No</b></td>
-                  <td class="text-right"><b>ID Number</b></td>
+                  <td><b>{{ 'QUOTEGRID.ReferenceNo' | translate}}</b></td>
+                  <td class="text-right"><b>{{ 'QUOTEGRID.IDNumber' | translate}}</b></td>
                 </tr>
                 <tr>
                   <td>{{customer.CustomerReferenceNo}}</td>
@@ -116,11 +116,11 @@
       </ng-container>
       <ng-container *ngIf="customers.length==0">
           <div class="text-center">
-                  No Customer Available
+                  {{ 'HOME.NoCustomerAvailable' | translate}}
           </div>
       </ng-container>
     </p-tabPanel>
-    <p-tabPanel header="Active">
+    <p-tabPanel [header]="'HOME.Active' | translate">
       <ng-container *ngIf="activeCustomers.length!=0">
         <div class="flex justify-content-end mb-4">
           <p-button icon="pi pi-list" class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
@@ -141,14 +141,14 @@
               <td>{{ customer?.IdNumber }}</td>
               <td>{{ customer.MobileCode1 }}&nbsp;{{customer?.MobileNo1}}</td>
               <td>
-                <ng-container *ngIf="customer?.IsTaxExempted=='N'">No</ng-container>
-                <ng-container *ngIf="customer?.IsTaxExempted!='N'">Yes ({{customer?.TaxExemptedId}})</ng-container>
+                <ng-container *ngIf="customer?.IsTaxExempted=='N'">{{ 'PREMIUM.No' | translate}}</ng-container>
+                <ng-container *ngIf="customer?.IsTaxExempted!='N'">{{ 'PREMIUM.Yes' | translate}} ({{customer?.TaxExemptedId}})</ng-container>
               </td>
               <td>{{ customer.CreatedBy }}</td>
               <td>
-                <ng-container *ngIf="customer?.Status=='N'">DeActive</ng-container>
-                <ng-container *ngIf="customer?.Status=='Y'">Active</ng-container>
-                <ng-container *ngIf="customer?.Status=='P'">Pending</ng-container>
+                <ng-container *ngIf="customer?.Status=='N'">{{ 'HOME.DeActive' | translate}}</ng-container>
+                <ng-container *ngIf="customer?.Status=='Y'">{{ 'HOME.Active' | translate}}</ng-container>
+                <ng-container *ngIf="customer?.Status=='P'">{{ 'HOME.Pending' | translate}}</ng-container>
               </td>
               <td>
                 <span class="p-buttonset">
@@ -167,17 +167,17 @@
                 <tr>
                   <td><p-chip [label]="customer?.PolicyHolderTypeDesc" styleClass="bg-orange-500 text-white"></p-chip></td>
                   <td class="text-right"><span class="pi pi-circle-fill text-teal-600"></span>
-                    <ng-container *ngIf="customer?.Status=='N'">DeActive</ng-container>
-                    <ng-container *ngIf="customer?.Status=='Y'">Active</ng-container>
-                    <ng-container *ngIf="customer?.Status=='P'">Pending</ng-container>
+                    <ng-container *ngIf="customer?.Status=='N'">{{ 'HOME.DeActive' | translate}}</ng-container>
+                    <ng-container *ngIf="customer?.Status=='Y'">{{ 'HOME.Active' | translate}}</ng-container>
+                    <ng-container *ngIf="customer?.Status=='P'">{{ 'HOME.Pending' | translate}}</ng-container>
                   </td>
                 </tr>
                 <tr>
                   <td><h5>{{customer.ClientName}}</h5></td>
                 </tr>
                 <tr>
-                  <td><b>Reference No</b></td>
-                  <td class="text-right"><b>ID Number</b></td>
+                  <td><b>{{ 'QUOTEGRID.ReferenceNo' | translate}}</b></td>
+                  <td class="text-right"><b>{{ 'QUOTEGRID.IDNumber' | translate}}</b></td>
                 </tr>
                 <tr>
                   <td>{{customer.CustomerReferenceNo}}</td>
@@ -203,11 +203,11 @@
       </ng-container>
       <ng-container *ngIf="activeCustomers.length==0">
             <div class="text-center">
-                    No Customer Available
+              {{ 'HOME.NoCustomerAvailable' | translate}}
             </div>
       </ng-container>
     </p-tabPanel>
-    <p-tabPanel header="In-active">
+    <p-tabPanel [header]="'HOME.DeActive' | translate">
       <ng-container *ngIf="deActiveCustomers.length!=0">
         <div class="flex justify-content-end mb-4">
           <p-button icon="pi pi-list" class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
@@ -228,14 +228,14 @@
               <td>{{ customer?.IdNumber }}</td>
               <td>{{ customer.MobileCode1 }}&nbsp;{{customer?.MobileNo1}}</td>
               <td>
-                <ng-container *ngIf="customer?.IsTaxExempted=='N'">No</ng-container>
-                <ng-container *ngIf="customer?.IsTaxExempted!='N'">Yes ({{customer?.TaxExemptedId}})</ng-container>
+                <ng-container *ngIf="customer?.IsTaxExempted=='N'">{{ 'PREMIUM.No' | translate}}</ng-container>
+                <ng-container *ngIf="customer?.IsTaxExempted!='N'">{{ 'PREMIUM.Yes' | translate}} ({{customer?.TaxExemptedId}})</ng-container>
               </td>
               <td>{{ customer.CreatedBy }}</td>
               <td>
-                <ng-container *ngIf="customer?.Status=='N'">DeActive</ng-container>
-                <ng-container *ngIf="customer?.Status=='Y'">Active</ng-container>
-                <ng-container *ngIf="customer?.Status=='P'">Pending</ng-container>
+                <ng-container *ngIf="customer?.Status=='N'">{{ 'HOME.DeActive' | translate}}</ng-container>
+                <ng-container *ngIf="customer?.Status=='Y'">{{ 'HOME.Active' | translate}}</ng-container>
+                <ng-container *ngIf="customer?.Status=='P'">{{ 'HOME.Pending' | translate}}</ng-container>
               </td>
               <td>
                 <span class="p-buttonset">
@@ -254,17 +254,17 @@
                 <tr>
                   <td><p-chip [label]="customer?.PolicyHolderTypeDesc" styleClass="bg-orange-500 text-white"></p-chip></td>
                   <td class="text-right"><span class="pi pi-circle-fill text-teal-600"></span>
-                    <ng-container *ngIf="customer?.Status=='N'">DeActive</ng-container>
-                    <ng-container *ngIf="customer?.Status=='Y'">Active</ng-container>
-                    <ng-container *ngIf="customer?.Status=='P'">Pending</ng-container>
+                    <ng-container *ngIf="customer?.Status=='N'">{{ 'HOME.DeActive' | translate}}</ng-container>
+                    <ng-container *ngIf="customer?.Status=='Y'">{{ 'HOME.Active' | translate}}</ng-container>
+                    <ng-container *ngIf="customer?.Status=='P'">{{ 'HOME.Pending' | translate}}</ng-container>
                   </td>
                 </tr>
                 <tr>
                   <td><h5>{{customer.ClientName}}</h5></td>
                 </tr>
                 <tr>
-                  <td><b>Reference No</b></td>
-                  <td class="text-right"><b>ID Number</b></td>
+                  <td><b>{{ 'QUOTEGRID.ReferenceNo' | translate}}</b></td>
+                  <td class="text-right"><b>{{ 'QUOTEGRID.IDNumber' | translate}}</b></td>
                 </tr>
                 <tr>
                   <td>{{customer.CustomerReferenceNo}}</td>
@@ -290,11 +290,11 @@
       </ng-container>
       <ng-container *ngIf="deActiveCustomers.length==0">
         <div class="text-center">
-                No Customer Available
+          {{ 'HOME.NoCustomerAvailable' | translate}}
         </div>
       </ng-container>
     </p-tabPanel>
-    <p-tabPanel header="Pending">
+    <p-tabPanel [header]="'HOME.Pending' | translate">
       <ng-container *ngIf="pendingCustomers.length!=0">
         <div class="flex justify-content-end mb-4">
           <p-button icon="pi pi-list" class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
@@ -315,14 +315,14 @@
               <td>{{ customer?.IdNumber }}</td>
               <td>{{ customer.MobileCode1 }}&nbsp;{{customer?.MobileNo1}}</td>
               <td>
-                <ng-container *ngIf="customer?.IsTaxExempted=='N'">No</ng-container>
-                <ng-container *ngIf="customer?.IsTaxExempted!='N'">Yes ({{customer?.TaxExemptedId}})</ng-container>
+                <ng-container *ngIf="customer?.IsTaxExempted=='N'">{{ 'PREMIUM.No' | translate}}</ng-container>
+                <ng-container *ngIf="customer?.IsTaxExempted!='N'">{{ 'PREMIUM.Yes' | translate}} ({{customer?.TaxExemptedId}})</ng-container>
               </td>
               <td>{{ customer.CreatedBy }}</td>
               <td>
-                <ng-container *ngIf="customer?.Status=='N'">DeActive</ng-container>
-                <ng-container *ngIf="customer?.Status=='Y'">Active</ng-container>
-                <ng-container *ngIf="customer?.Status=='P'">Pending</ng-container>
+                <ng-container *ngIf="customer?.Status=='N'">{{ 'HOME.DeActive' | translate}}</ng-container>
+                <ng-container *ngIf="customer?.Status=='Y'">{{ 'HOME.Active' | translate}}</ng-container>
+                <ng-container *ngIf="customer?.Status=='P'">{{ 'HOME.Pending' | translate}}</ng-container>
               </td>
               <td>
                 <span class="p-buttonset">
@@ -341,17 +341,17 @@
                 <tr>
                   <td><p-chip [label]="customer?.PolicyHolderTypeDesc" styleClass="bg-orange-500 text-white"></p-chip></td>
                   <td class="text-right"><span class="pi pi-circle-fill text-teal-600"></span>
-                    <ng-container *ngIf="customer?.Status=='N'">DeActive</ng-container>
-                    <ng-container *ngIf="customer?.Status=='Y'">Active</ng-container>
-                    <ng-container *ngIf="customer?.Status=='P'">Pending</ng-container>
+                    <ng-container *ngIf="customer?.Status=='N'">{{ 'HOME.DeActive' | translate}}</ng-container>
+                    <ng-container *ngIf="customer?.Status=='Y'">{{ 'HOME.Active' | translate}}</ng-container>
+                    <ng-container *ngIf="customer?.Status=='P'">{{ 'HOME.Pending' | translate}}</ng-container>
                   </td>
                 </tr>
                 <tr>
                   <td><h5>{{customer.ClientName}}</h5></td>
                 </tr>
                 <tr>
-                  <td><b>Reference No</b></td>
-                  <td class="text-right"><b>ID Number</b></td>
+                  <td><b>{{ 'QUOTEGRID.ReferenceNo' | translate}}</b></td>
+                  <td class="text-right"><b>{{ 'QUOTEGRID.IDNumber' | translate}}</b></td>
                 </tr>
                 <tr>
                   <td>{{customer.CustomerReferenceNo}}</td>
@@ -377,7 +377,7 @@
       </ng-container>
       <ng-container *ngIf="pendingCustomers.length==0">
         <div class="text-center">
-          No Customer Available
+          {{ 'HOME.NoCustomerAvailable' | translate}}
         </div>
       </ng-container>
     </p-tabPanel>
