@@ -116,7 +116,7 @@ export class RiskDetailsComponent {
   TableRowPA: any[]=[];countryId:any=null;currentPARowIndex: any=0;ElecEquipment: boolean=false;
   fields6: any[]=[];electronicEquipDialog: boolean=false;currentEERiskRowIndex:any=null;
   TableRowEE: any[]=[];DomesticServant: boolean=false;currentDSRowIndex: any=null;TableRowDS: any[]=[];
-  fields7: any[]=[];
+  fields7: any[]=[];locationIndex:any=0;
   domesticServantDialog: boolean;
         constructor(private router: Router,private datePipe:DatePipe,
           private sharedService: SharedService,public http: HttpClient) {
@@ -180,7 +180,7 @@ export class RiskDetailsComponent {
           }]
           this.columnHeaderPersonalLiability =['Location *','Occupation *','Name *','Date Of Birth *','Salary *','Edit' ,'Delete'];
           this.columnHeaderPersonalAccident =['Location *','Occupation *','Name *','Date Of Birth *','Salary *','Edit' ,'Delete'];
-          this.columnHeaderBuilding =['Construction (Wall)','Construction (Roof)','Sum Insured','Address',"Location",'Edit' ,'Delete']
+          this.columnHeaderBuilding =['Construction (Wall)','Construction (Roof)','Sum Insured',"Location",'Edit' ,'Delete']
           this.TableRowBuilding =[{
             id:1,
             BuildingUsageId: '',
@@ -563,16 +563,17 @@ export class RiskDetailsComponent {
       }
        
     }
-    onEditLocationDetails(){
-      if(this.TableRowBuilding.length!=0){
-          this.locationList = this.TableRowBuilding;
+    onEditLocationDetails(listData){
+      if(listData.length!=0){
+        this.locationList = listData;
         if(this.locationList.some(ele=>ele.LocationName==null || ele.LocationName==undefined))  this.buildingEditSection = true;
         else this.buildingEditSection = false;
+        this.locationIndex=null;
       }
       else{this.buildingEditSection = true; if(this.locationList.length==0)this.onAddLocationDetails(); }
     }
     deleteLocation(index){this.locationList.splice(index,1);if(this.locationList.length==0)this.onAddLocationDetails()}
-    onAddLocationDetails(){this.locationList.push({"RiskId":String(this.locationList.length+1),"LocationName":null,"BuildingAddress":null})}
+    onAddLocationDetails(){this.locationList.push({"RiskId":String(this.locationList.length+1),"LocationName":null,"BuildingAddress":null});this.locationIndex= this.locationList.length-1}
     onSaveLocationDetails(){
       if(this.locationList.length!=0){
         let i=0,j=0,reqList=[];
@@ -4389,15 +4390,12 @@ export class RiskDetailsComponent {
                     console.log(data.Result,"this.LocationNamethis.LocationName");
                     if(this.contentSection){
                       
-                      this.TableRowBuilding = data.Result;
-                      this.onEditLocationDetails();
+                      this.onEditLocationDetails(data.Result);
                     }
                     else{
                       let i = 0
                       for(i; i < data.Result.length; i++){
-                      
-                      this.TableRowBuilding[i]['LocationName']=data?.Result[i]?.LocationName;
-                        console.log(this.TableRowBuilding);
+                          
                       }
                     }
                   }
@@ -4406,7 +4404,7 @@ export class RiskDetailsComponent {
                 (err) => { },
               );
             }
-            else{this.TableRowBuilding=[];if(this.contentSection)this.onEditLocationDetails();}
+            else{if(this.contentSection)this.onEditLocationDetails([]);}
           }
 
           getDomesticServantDetails(type){

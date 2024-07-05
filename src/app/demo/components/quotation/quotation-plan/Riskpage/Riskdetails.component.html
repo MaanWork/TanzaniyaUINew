@@ -26,17 +26,27 @@
                                             <ng-template pTemplate="body" let-product let-ri="rowIndex">
                                                 <tr>
                                                     <td>
-                                                        <input class="w-full p-button-outlined" placeholder="Enter Location Name" styleClass="w-full"  pInputText type="text" 
-                                                        [(ngModel)]="product.LocationName" />
+                                                        <ng-container *ngIf="locationIndex==ri">
+                                                            <input class="w-full p-button-outlined" placeholder="Enter Location Name" styleClass="w-full"  pInputText type="text" 
+                                                            [(ngModel)]="product.LocationName" />
+                                                        </ng-container>
+                                                        <ng-container *ngIf="locationIndex!=ri">
+                                                            {{product.LocationName}}
+                                                        </ng-container>
                                                         <div class="input-form-error" *ngIf="product.LocationNameError">
                                                             <div class="error-text text-danger">
-                                                               Enter Valid LocationName
+                                                            Enter Valid LocationName
                                                             </div>
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <input class="w-full p-button-outlined" placeholder="Enter Address" styleClass="w-full"  pInputText type="text" 
-                                                        [(ngModel)]="product.BuildingAddress" />
+                                                        <ng-container *ngIf="locationIndex==ri">
+                                                            <input class="w-full p-button-outlined" placeholder="Enter Address" styleClass="w-full"  pInputText type="text" 
+                                                            [(ngModel)]="product.BuildingAddress" />
+                                                        </ng-container>
+                                                        <ng-container *ngIf="locationIndex!=ri">
+                                                            {{product.BuildingAddress}}
+                                                        </ng-container>
                                                         <div class="input-form-error" *ngIf="product.BuildingAddressError">
                                                             <div class="error-text text-danger">
                                                                Enter Valid Address
@@ -45,6 +55,9 @@
                                                     </td>
                                                     <td>
                                                         <div class="flex align-items-center justify-content-center gap-2" >
+                                                            <button  pButton type="button"  *ngIf="locationIndex!=ri"  icon="pi pi-pencil"  (click)="locationIndex=ri" 
+                                                                styleClass="p-button-outlined" >
+                                                            </button>
                                                             <button  pButton type="button"    icon="pi pi-trash"  (click)="deleteLocation(ri)" 
                                                                 styleClass="p-button-outlined" >
                                                             </button>
@@ -365,15 +378,7 @@
                                 </div>
                             </div>      
                         </td>
-                        <td>
-                            <ng-container *ngIf="currentBuildingRowIndex==ri">
-                                <input pInputText  type="text"  [(ngModel)]="Building.BuildingAddress" />
-                                
-                            </ng-container>
-                            <ng-container *ngIf="currentBuildingRowIndex!=ri">
-                                {{Building.BuildingAddress }}
-                            </ng-container>
-                        </td>
+                       
                         <td>
                             <!-- <ng-container *ngIf="currentBuildingRowIndex==ri">
                                 <input pInputText  type="text"  [(ngModel)]="Building.LocationName" />
@@ -504,7 +509,7 @@
                             <td>
                                 <ng-container *ngIf="currentEERiskRowIndex==ri">
                                     <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Location"
-                                        [options]="TableRowBuilding" (onChange)="onChangeContentLocation(product)"
+                                        [options]="locationList" (onChange)="onChangeContentLocation(product)"
                                             appendTo="body" optionLabel="LocationName" optionValue="RiskId"  [(ngModel)]="product.RiskId" />
                                      <div class="input-form-error" *ngIf="product.LocationNameError">
                                         <div class="error-text text-danger">
@@ -661,7 +666,7 @@
                             <td>
                                 <ng-container *ngIf="currentAllRiskRowIndex==ri">
                                     <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Location"
-                                        [options]="TableRowBuilding" (onChange)="onChangeContentLocation(product)"
+                                    [options]="locationList" (onChange)="onChangeContentLocation(product)"
                                             appendTo="body" optionLabel="LocationName" optionValue="RiskId"  [(ngModel)]="product.RiskId" />
                                      <div class="input-form-error" *ngIf="product.LocationNameError">
                                         <div class="error-text text-danger">
@@ -1127,7 +1132,7 @@
                         <td>
                             <ng-container *ngIf="currentPLRowIndex==ri">
                                 <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Location"
-                                    [options]="TableRowBuilding" (onChange)="onChangeContentLocation(product)"
+                                    [options]="locationList" (onChange)="onChangeContentLocation(product)"
                                         appendTo="body" optionLabel="LocationName" optionValue="RiskId"  [(ngModel)]="product.RiskId" />
                                 
                             </ng-container>
