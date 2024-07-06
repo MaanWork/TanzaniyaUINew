@@ -666,8 +666,8 @@
                         <p-table [value]="employeeList" [tableStyle]="{ 'min-width': '50rem' }">
                             <ng-template pTemplate="header">
                                 <tr>
+                                    <th>Employee Name</th>
                                     <th>Location Name</th>
-                                    <th>Address</th>
                                     <th>SumInsured</th>
                                     <th>Action</th>
                                 </tr>
@@ -675,8 +675,8 @@
                             <ng-template pTemplate="body" let-employee let-i="rowIndex">
                                 <ng-container>
                                     <tr>
-                                        <td>{{getLocationName(employee?.RiskId)}}</td>
-                                        <td>{{employee.Address}}</td>
+                                        <td>{{employee.EmployeeName}}</td>
+                                        <td>{{employee.LocationId}}</td>
                                         <td>{{employee.Salary}}</td>
                                         <td>
                                             <p-button icon="pi pi-pencil" severity="danger" (click)="onEditEmployee(i,employee)" styleClass="p-button-outlined"></p-button>&nbsp;

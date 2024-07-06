@@ -3275,6 +3275,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
               //this.fieldsMachinery[0].fieldGroup[0].fieldGroup[0].fieldGroup[0].props.options = this.LocationList;
             }
             if(this.seven){
+             
               for(let x of this.fieldsEmpFields){
                 console.log('NNNNNNNNNNNNNNNN',x.fieldGroup[0].fieldGroup[0]);
                 let vars = x.fieldGroup[0].fieldGroup[0];
@@ -5654,6 +5655,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
   }
   changeComponent(){
     if((this.second==false && this.fifth==false || this.second==undefined && this.fifth==undefined) && this.productId!='14'){
+      alert('Enter')
       sessionStorage.setItem('back','skipBack');
       this.router.navigate(['/quotation/plan/main/document-info'])
     }
@@ -6029,9 +6031,9 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     this.editEmployeeSection = true;
     this.enableEmployeeEditSection = true;
     this.productItem = new ProductData();
-    this.productItem.EmpsLocation= String(rowdata.RiskId);
+    this.productItem.EmpsLocation= rowdata.EmpsLocation;
     this.productItem.EmpsName=rowdata.EmployeeName;// this.employeeName this.employeeList[index].
-    this.productItem.EmpsAddress = rowdata.Address;//this.empAddress 
+    //this.productItem.EmpsAddress = rowdata.Address;//this.empAddress 
     this.productItem.EmpsOccupation = rowdata.OccupationId;//this.occupationType 
     this.productItem.EmpsSI= rowdata.Salary;//this.employeeSalary
     this.productItem.EmpsNationality = rowdata.NationalityId;//this.nationality

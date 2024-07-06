@@ -74,6 +74,29 @@ export class MotorVehicleSanlamIvory{
                     },
                   },
                   {
+                    type: 'ngselect',
+                    id:'Deductibles',
+                    key: 'Deductibles',
+                    defaultValue: '',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    props: {
+                      label: `Deductibles`,
+                      disabled: this.checkDisable('Deductibles'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
                     type: 'number',
                     key: 'HoursePower',
                     id: 'HoursePower',
