@@ -275,7 +275,7 @@
                         [(ngModel)]="productItem.CityName" 
                         [optionLabel]="getDisplayName()"
                         optionValue="Code" 
-                        placeholder="'HOME.SelectDistrict' | translate">
+                        [placeholder]="'HOME.SelectDistrict' | translate">
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3" *ngIf="productItem.CityName=='99999'">

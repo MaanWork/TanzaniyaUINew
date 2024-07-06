@@ -5655,7 +5655,6 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
   }
   changeComponent(){
     if((this.second==false && this.fifth==false || this.second==undefined && this.fifth==undefined) && this.productId!='14'){
-      alert('Enter')
       sessionStorage.setItem('back','skipBack');
       this.router.navigate(['/quotation/plan/main/document-info'])
     }
@@ -7290,55 +7289,45 @@ return true;
     }
   }
   onemployeesavelast(){
-    console.log("Final Additional Info",this.currentEmployeeIndex);
     if(this.currentEmployeeIndex!=null){
-      console.log("Emps Locations", this.productItem.EmpsLocation);
       this.employeeList[this.currentEmployeeIndex]['RiskId'] = this.productItem.EmpsLocation;
       this.employeeList[this.currentEmployeeIndex]['LocationId'] = this.productItem.EmpsLocation;
       this.employeeList[this.currentEmployeeIndex]['EmployeeName'] = this.productItem.EmpsName;
       this.employeeList[this.currentEmployeeIndex]['OccupationId'] = this.productItem.EmpsOccupation;
-      // this.employeeList[this.currentEmployeeIndex]['LocationName'] = this.LocationList.find(ele=>ele.Code==this.productItem.EmpsLocation).Code;
       this.employeeList[this.currentEmployeeIndex]['OccupationDesc'] = this.employeeOccupationList.find(ele=>ele.Code==this.productItem.EmpsOccupation).label;
-      if(this.productItem.EmpsDob!=null && this.productItem.EmpsDob!='') this.employeeList[this.currentEmployeeIndex]['DateOfBirth'] = this.datePipe.transform(this.productItem.EmpsDob, "dd/MM/yyyy");
-      this.employeeList[this.currentEmployeeIndex]['DateOfJoiningYear'] =this.productItem.EmpsPeriod; 
-      this.employeeList[this.currentEmployeeIndex]['DateOfJoiningMonth'] = this.productItem.EmpsJoin;
       this.employeeList[this.currentEmployeeIndex]['Salary'] = this.productItem.EmpsSI;
       console.log('JJJJJ',this.employeeList[this.currentEmployeeIndex]['Salary']);
-      this.employeeList[this.currentEmployeeIndex]['NationalityId'] = this.productItem.EmpsNationality; 
-      this.employeeList[this.currentEmployeeIndex]['Address'] = this.productItem.EmpsAddress;
       this.employeeList[this.currentEmployeeIndex]['Createdby'] = this.loginId;
-      //this.getTotalSICost('Employee');
-      // this.onsubmitemployee();
       this.currentEmployeeIndex = null;
       this.getTotalSICost('Employee');
       this.productItem = new ProductData(); 
-      // this.AllAdd();     // this.AddNew();
     }
     else{
-      console.log("Final Additional Info",this.employeeOccupationList,this.productItem.EmpsOccupation);
-      let entry = {
-        "Address": this.productItem.EmpsAddress,
-        "Createdby": this.loginId,
-        "EmployeeName": this.productItem.EmpsName,
-        "EmployeeId":null,
-        "InsuranceId": this.insuranceId,
-        "OccupationDesc":this.employeeOccupationList.find(ele=>ele.Code==this.productItem.EmpsOccupation).label,
-        "OccupationId":this.productItem.EmpsOccupation,
-        "DateOfBirth": this.datePipe.transform(this.productItem.EmpsDob, "dd/MM/yyyy"),
-        "DateOfJoiningYear": this.productItem.EmpsPeriod,
-        "DateOfJoiningMonth":this.productItem.EmpsJoin,
-        "ProductId": this.productId,
-        "QuoteNo": this.quoteNo,
-        "RequestReferenceNo": this.quoteRefNo,
-        "RiskId":this.productItem.EmpsLocation,
-        "Salary": this.productItem.EmpsSI,
-        "NationalityId":this.productItem.EmpsNationality,
-        "LocationId":this.productItem.EmpsLocation,
-        // "LocationName":null
+      if(this.productItem.EmpsLocation!=null && this.productItem.EmpsName!=null && this.productItem.EmpsSI!=null && this.productItem.EmpsOccupation!=null){
+        let entry = {
+          "Address": this.productItem.EmpsAddress,
+          "Createdby": this.loginId,
+          "EmployeeName": this.productItem.EmpsName,
+          "EmployeeId":null,
+          "InsuranceId": this.insuranceId,
+          "OccupationDesc":this.employeeOccupationList.find(ele=>ele.Code==this.productItem.EmpsOccupation).label,
+          "OccupationId":this.productItem.EmpsOccupation,
+          "DateOfBirth": this.datePipe.transform(this.productItem.EmpsDob, "dd/MM/yyyy"),
+          "DateOfJoiningYear": this.productItem.EmpsPeriod,
+          "DateOfJoiningMonth":this.productItem.EmpsJoin,
+          "ProductId": this.productId,
+          "QuoteNo": this.quoteNo,
+          "RequestReferenceNo": this.quoteRefNo,
+          "RiskId":this.productItem.EmpsLocation,
+          "Salary": this.productItem.EmpsSI,
+          "NationalityId":this.productItem.EmpsNationality,
+          "LocationId":this.productItem.EmpsLocation,
+          // "LocationName":null
+        }
+        this.employeeList.push(entry);
+        this.getTotalSICost('Employee');
+        this.productItem = new ProductData();
       }
-      this.employeeList.push(entry);
-      this.getTotalSICost('Employee');
-      this.productItem = new ProductData();
     }
       // this.employeeList[this.currentEmployeeIndex]['RiskId'] = this.productItem.EmpsLocation;
       // this.employeeList[this.currentEmployeeIndex]['LocationId'] = this.productItem.EmpsLocation;

@@ -36,7 +36,7 @@ export class EmployeeLiablityss{
                     fieldGroupClassName: 'grid',
                     fieldGroup: [
                         {
-                            className: 'lg:col-4 md:col-4 col-12',
+                            className: 'lg:col-3 md:col-3 col-12',
                             type: 'input',
                             key: 'EmpsName',
                             templateOptions: {
@@ -146,7 +146,7 @@ export class EmployeeLiablityss{
                         type: 'input',
                         key: 'EmpsLocation',
                         defaultValue: '',
-                        className: 'lg:col-4 md:col-4 col-12 mb-1',
+                        className: 'lg:col-3 md:col-3 col-12 mb-1',
                         props: {
                           label: `Location`,
                           required: true,
@@ -164,7 +164,7 @@ export class EmployeeLiablityss{
                         },
                       },
                       {
-                        className: 'lg:col-4 md:col-4 col-12 mb-2',
+                        className: 'lg:col-2 md:col-2 col-12 mb-2',
                         type: 'commaSeparator',
                         key: 'EmpsSI',
                         templateOptions: {

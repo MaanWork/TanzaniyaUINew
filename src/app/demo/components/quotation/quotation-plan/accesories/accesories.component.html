@@ -548,7 +548,7 @@
 
                 </div>
                 <div class="lg:col-10 md:col-10 col-12">
-                    <p-button label="Upload" (click)="onUploadEmployeeSection()" class="text-l pi-button mr-0"><i class="fa fa-upload"></i>&nbsp;</p-button>
+                    <!-- <p-button label="Upload" (click)="onUploadEmployeeSection()" class="text-l pi-button mr-0"><i class="fa fa-upload"></i>&nbsp;</p-button>
                     <div *ngIf="enableEmployeeUploadSection && !showEmpRecordsSection">
                         <div class="row" *ngIf="uploadStatus==null">
                             <div class="col-md-8 col-lg-8 offset-2" >
@@ -588,8 +588,7 @@
                         <div class="text-center mt-2" *ngIf="uploadStatus==null">
                             <p-button label="Cancel" class="mr-5" (click)="enableEmployeeUploadSection=!enableEmployeeUploadSection;uploadDocList=[]"></p-button>
                             <p-button label="Upload" *ngIf="uploadDocList.length!=0" (click)="onUploadEmployeeDetails()"></p-button>
-                            <!-- <button class="btn btn-danger btn-sm mr-5" (click)="enableEmployeeUploadSection=!enableEmployeeUploadSection;uploadDocList=[]"> Cancel</button>&nbsp;&nbsp;
-                            <button class="btn btn-success btn-sm" *ngIf="uploadDocList.length!=0" (click)="onUploadEmployeeDetails()">Upload</button> -->
+                            
                         </div>
                         <div class="text-center">
                             <p>{{uploadStatus}}</p>
@@ -660,13 +659,14 @@
                                 </div>
                             </ng-container>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- <button class="groupBtnMembers__btn custom-btn btn-7 maan-button-data  mx-2" (click)="onUploadEmployeeSection()"><i class="fa fa-upload"></i>&nbsp;Upload</button> -->
                     <ng-container *ngIf="employeeList.length!=0 && getemployeeList(employeeList,employeeList.length)">
                         <p-table [value]="employeeList" [tableStyle]="{ 'min-width': '50rem' }">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th>Employee Name</th>
+                                    <th>Occupation</th>
                                     <th>Location Name</th>
                                     <th>SumInsured</th>
                                     <th>Action</th>
@@ -676,6 +676,7 @@
                                 <ng-container>
                                     <tr>
                                         <td>{{employee.EmployeeName}}</td>
+                                        <td>{{employee.OccupationDesc}}</td>
                                         <td>{{employee.LocationId}}</td>
                                         <td>{{employee.Salary}}</td>
                                         <td>

@@ -768,7 +768,8 @@ export class CommonProductDetailsComponent {
             } else {
               this.TableRowBurglary.push(data);
           } 
-        this.onSaveBurglaryDetails('save','individual')
+        if(this.requestReferenceNo==null || this.requestReferenceNo==undefined){this.saveCommonDetails('direct','Save')}
+        else this.onSaveBurglaryDetails('save','individual')
   }
   checkTableRowFire(entry){
     return (entry.IndustryTypes!=null && entry.BuildingSumInsured!=0 && entry.BuildingSumInsured!='0' && entry.CoveringDetails!='' && entry.CoveringDetails!=null && entry.RegionName!=null && entry.RegionName!='' 
@@ -8271,7 +8272,7 @@ let requestNO=null;
     }
     
     finalSavePA(ReqObj,type,formType){
-    let urlLink = `http://192.168.1.18:8085/nonmotor/onetime/insert`;
+    let urlLink = `${this.motorApiUrl}nonmotor/onetime/insert`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if (data?.Result) {

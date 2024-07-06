@@ -270,9 +270,9 @@ export class ReferralCasesComponent implements OnInit {
       console.log("Entry Received",entry) 
       // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
       // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
-        if(this.userType=='Issuer'){
-        loginId='';
-        bdmCode=this.ApproverbrokerCode;
+      if(this.userType=='Issuer'){
+          loginId=this.ApproverbrokerCode;
+          bdmCode='';
       }
       else{
         bdmCode=null;
@@ -335,7 +335,7 @@ export class ReferralCasesComponent implements OnInit {
       "BranchCode": this.branchCode,
       "Type": type
     }
-    let urlLink = `${this.CommonApiUrl}api/referralrejectdropdown`;
+    let urlLink = `${this.CommonApiUrl}api/adminreferralrejectropdown`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if(data.Result){
@@ -380,28 +380,28 @@ export class ReferralCasesComponent implements OnInit {
       // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
       // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
         if(this.userType=='Issuer'){
-        loginId='';
-        bdmCode=this.Rejecedbrokercode;
+          loginId=this.Rejecedbrokercode;
+          bdmCode='';
       }
       else{
         bdmCode=null;
       }
       let ReqObj = {
-          "BrokerBranchCode": brokerbranchCode,
-          "BranchCode":this.branchCode,
-          "InsuranceId": this.insuranceId,
-          "LoginId":loginId,
-          "ApplicationId":appId,
-          "UserType":this.userType,
-          "SubUserType":sessionStorage.getItem('typeValue'),
-          "SourceType":"",
-          "BdmCode": bdmCode,
-           "ProductId":this.productId,
-          "Limit":0,
-          "Type":'Q',
-          "Offset":1000
-    }
-    let urlLink = `${this.CommonApiUrl}api/referralrejected`;
+        "BrokerBranchCode": brokerbranchCode,
+        "BranchCode":this.branchCode,
+        "InsuranceId": this.insuranceId,
+        "LoginId":loginId,
+        "ApplicationId":appId,
+        "UserType":this.userType,
+        "SubUserType":sessionStorage.getItem('typeValue'),
+        "SourceType":"",
+        "BdmCode": bdmCode,
+         "ProductId":this.productId,
+        "Limit":0,
+        "Type":'Q',
+        "Offset":1000
+  }
+    let urlLink = `${this.CommonApiUrl}api/adminreferralrejected`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         console.log(data);

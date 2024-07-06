@@ -119,8 +119,8 @@
         "QuoteNo":"Quote No",
         "ReferenceNo": "Reference No",
         "CustomerName": "Customer Name",
-        "PolicyStartDate": "Start Date",
-        "PolicyEndDate": "End Date",
+        "StartDate": "Start Date",
+        "EndDate": "End Date",
         "Premium": "Premium",
         "CurrencyCode": "Currency Code",
         "Action": "Action",
@@ -220,7 +220,6 @@
       "SubUrban":"Sub Urban",
       "VehicleUsage":"Vehicle Usage",
       "EngineNo":"Engine No",
-      
       "EngineCapacity":"Engine Capacity",
       "SeatingCapacity":"Seating Capacity",
       "ManufactureYear":"Manufacture Year",
