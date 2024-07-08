@@ -199,7 +199,7 @@ export class CommonProductDetailsComponent {
   CoveringDetails: any;
   DescriptionRisk: any;
   FirstLossSumInsured: any;
-  currentBurglaryIndex:any=0;
+  currentBurglaryIndex:any=null;
   currentFireIndex:any=null;
   fireIndustypeList: any[]=[];
   industryTypeError: boolean=false;
@@ -756,24 +756,22 @@ export class CommonProductDetailsComponent {
         "IndustryId":rowData.IndustryId,
         "RiskId": RiskId,
     }
-
       if(data.IndustryType!=null && data.IndustryType!='' && data.IndustryType!=undefined){
         data["IndustryTypeDesc"] = this.industryList.find(ele=>ele.Code==data.IndustryType)?.label;
       }
-      console.log("Final Data",data)
           if (this.currentBurglaryIndex !=null && this.currentBurglaryIndex!=undefined) {
             this.TableRowBurglary[this.currentBurglaryIndex] = data;
             this.currentBurglaryIndex=null;
           } else {
-            this.TableRowBurglary.push(data);
+            if(type!='redirectType') this.TableRowBurglary.push(data);
             this.currentBurglaryIndex=null;
         } 
         if(this.requestReferenceNo==null || this.requestReferenceNo==undefined){this.saveCommonDetails('direct','save')}
-        else if(type=='save') this.onSaveBurglaryDetails('save','individual')
+        else if(type=='save' || type == 'redirectType') this.onSaveBurglaryDetails('save','individual')
         else if(type!='save')this.onFormSubmit(type)
         
     }
-        
+    else if(type!='save')this.onFormSubmit(type)  
   }
   checkTableRowFire(entry){
     return (entry.IndustryTypes!=null && entry.BuildingSumInsured!=0 && entry.BuildingSumInsured!='0' && entry.CoveringDetails!='' && entry.CoveringDetails!=null && entry.RegionName!=null && entry.RegionName!='' 
@@ -5263,7 +5261,7 @@ backPlan()
                     // homeDetails[0]['IndustryName'] = this.industryList.find(ele=>ele.Code==this.IndustryId).CodeDesc;
                     this.commonDetails = homeDetails;
                     sessionStorage.setItem('homeCommonDetails', JSON.stringify(homeDetails))
-                    if(this.productId=='1')  this.addBurglaryTable(this.productItem,'Proceed');
+                    if(this.productId=='1'){if(redirectType=='save') this.addBurglaryTable(this.productItem,'redirectType'); else this.addBurglaryTable(this.productItem,redirectType);}  
                     else this.onFormSubmit(null);
                 }
                 else{
@@ -5290,7 +5288,8 @@ backPlan()
                     }
                   ];
                   sessionStorage.setItem('homeCommonDetails', JSON.stringify(homeDetails))
-                   this.onFormSubmit(null);
+                  if(this.productId=='1'){if(redirectType=='save') this.addBurglaryTable(this.productItem,'redirectType'); else this.addBurglaryTable(this.productItem,redirectType);}  
+                    else this.onFormSubmit(null);
                 }
         }
       },
