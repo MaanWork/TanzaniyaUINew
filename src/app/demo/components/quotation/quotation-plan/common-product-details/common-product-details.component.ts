@@ -247,6 +247,7 @@ export class CommonProductDetailsComponent {
   SerialError: boolean=false;
   DescriptionError: boolean=false;
   sumInsuredList: any;
+  firstLossList: any[]=[];
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -621,26 +622,23 @@ export class CommonProductDetailsComponent {
      this.editss=true;
      this.editEmp=true;
      let edit = this.TableRowBurglary.findIndex(ele=>ele.LocationName == rowData.LocationName );
-     this.currentBurglaryIndex = edit;
-     if(edit==undefined) this.currentEEIndex=index+1;
+     this.currentBurglaryIndex = index;
+     if(edit==undefined) this.currentBurglaryIndex=index+1;
      console.log(this.currentBurglaryIndex,"this.currentBurglaryIndex");
-    //  this.LocationName = rowData.LocationName;
-    //  this.region = rowData.region;
-    //  this.stateName = rowData.stateName;
-    //  this.FirstLossSumInsured= rowData.FirstLossSumInsured;
-    //  this.FireSumInsured= rowData.sumInsured;
-    this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.IndustryId);
-    this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(rowData.FirstLossSumInsured);
-    this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(rowData.sumInsured);
+     if(rowData.FirstLossPercentId){
+        let entry = this.firstLossList.find(ele=>ele.CodeDesc==rowData.FirstLossPercentId)
+        if(entry){this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(entry.Code);}
+     }
+    this.productItem.DistrictCode = rowData.DistrictCode;
+    this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.IndustryType);
+    
+    this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(rowData.BurglarySi);
     this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(rowData.LocationName);
-     this.fields[0].fieldGroup[0].fieldGroup[4].formControl.setValue(rowData.DescriptionRisk);
+     this.fields[0].fieldGroup[0].fieldGroup[4].formControl.setValue(rowData.DescriptionOfRisk);
      this.fields[0].fieldGroup[0].fieldGroup[5].formControl.setValue(rowData.CoveringDetails);
      this.fields[0].fieldGroup[0].fieldGroup[6].formControl.setValue(rowData.RegionCode);
      this.fields[0].fieldGroup[0].fieldGroup[7].formControl.setValue(rowData.DistrictCode);
-    // this.fields[0].fieldGroup[0].fieldGroup[7].formControl.setValue(rowData.ElecEquipSuminsured);
-     // console.log("Occupation",this.productItem.LiabilityOccupationId)
-     // this.isEmployeeForm = true;
-     
+    this.productItem.FireSumInsured = rowData.FirstLossPercentId
    }
    filterSectionList(type){
     if(this.IndustryTypes=='57'){this.productNameList=this.fireSectionList.filter(ele=>ele.IndustryType=='G')}
@@ -745,7 +743,7 @@ export class CommonProductDetailsComponent {
   addBurglaryTable(rowData){
     let RiskId;
     let i= this.TableRowBurglary.length;
-    if(this.currentBurglaryIndex==0){
+    if(this.currentBurglaryIndex==null || this.currentBurglaryIndex==undefined){
       RiskId=i+1;
     }
     else {
@@ -757,13 +755,16 @@ export class CommonProductDetailsComponent {
             "IndustryType":rowData.IndustryId,
             "RegionCode":rowData.RegionCode,
             "DistrictCode": rowData.DistrictCode,
-            "FirstLossSumInsured": rowData.BurglarySi,
-            "sumInsured": rowData.FireSumInsured,
+            "FirstLossSumInsured": rowData.FireSumInsured,
+            "FirstLossPercentId":rowData.FireSumInsured,
+            "sumInsured": rowData.BurglarySi,
+            "BurglarySi": rowData.BurglarySi,
             "CoveringDetails": rowData.CoveringDetails,
-            "DescriptionRisk": rowData.DescriptionRisk,
+            "DescriptionRisk": rowData.DescriptionOfRisk,
             "IndustryId":rowData.IndustryId,
             "RiskId": RiskId,
         }
+
         if(data.IndustryType!=null && data.IndustryType!='' && data.IndustryType!=undefined){
           data["IndustryTypeDesc"] = this.industryList.find(ele=>ele.Code==data.IndustryType)?.label;
         }
@@ -3320,7 +3321,6 @@ backPlan()
                   let fields = this.fields[0].fieldGroup;
                   for(let field of fields){
                     if(field.props.label=='Burglary'){
-                            console.log("Burglary Filtered Fields",field)
                         field.fieldGroup[0].fieldGroup[0].fieldGroup[0].fieldGroup[8].props.options = defaultObj.concat(this.ceilingMaterialList);
                     }
                   }
@@ -3392,18 +3392,18 @@ backPlan()
         console.log(data);
         if (data.Result) {
           let lossList = data.Result;
+          this.firstLossList = data.Result;
           if (data.Result.length != 0) {
             let defaultObj = [{ 'label': '-Select-', 'Code': '' }]
               let i=0;
               for (let entry of lossList) {
                 entry.label = entry['CodeDesc'];
                 entry.value = entry['Code'];
-                delete lossList[i].CodeDesc;
                 i+=1;
                 if(i==lossList.length){
                   let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
                   for(let field of fieldList){
-                    if(field.key=='BurglarySi') field.templateOptions.options = defaultObj.concat(lossList);
+                    if(field.key=='FireSumInsured') field.templateOptions.options = defaultObj.concat(lossList);
                   }
                 }
               }
@@ -6115,15 +6115,17 @@ console.log('Eventsss',event);
       let entry
       let i =0;
     for(let items of this.TableRowBurglary){
+      console.log("Burg Item",items)
    entry = {
+      "BurglarySuminsured":items.BurglarySi,
       "LocationName":items.LocationName,
       "IndustryType":items.IndustryId,
       "RegionCode":items.RegionCode,
       "DistrictCode": items.DistrictCode,
-      "FirstLossSumInsured": items.BurglarySi,
-      "sumInsured": items.FireSumInsured,
+      "FirstLossSumInsured": items.FireSumInsured,
+      "sumInsured": items.BurglarySi,
       "CoveringDetails": items.CoveringDetails,
-      "DescriptionRisk": items.DescriptionRisk,
+      "DescriptionOfRisk": items.DescriptionOfRisk,
       "IndustryId":items.IndustryId,
       "AgencyCode": this.agencyCode,
       "ApplicationId": appId,
@@ -6142,7 +6144,7 @@ console.log('Eventsss',event);
       "CustomerCode": this.customerCode,
       "InsuranceId": this.insuranceId,
       "InsuranceType": null,
-      "RiskId": items.RiskId,
+      "RiskId": i+1,
       "LoginId": this.loginId,
       "UserType": this.userType,
       "OutbuildConstructType": null,
@@ -6177,7 +6179,7 @@ console.log('Eventsss',event);
       "DoorsMaterialId": this.productItem?.DoorsMaterialId,
       "NightLeftDoor": this.productItem?.NightLeftDoor,
       "BuildingOccupied": this.productItem?.BuildingOccupied,
-      "BurglarySi":items.sumInsured,
+      "BurglarySi":items.BurglarySi,
       "RoofType": this.productItem?.RoofType,
       "RequestReferenceNo": reqRefNo,
       "EndorsementDate": this.endorsementDate,
@@ -6219,17 +6221,20 @@ console.log('Eventsss',event);
               if(type=='save'){
                 this.form.reset();
               }
-              if(data.Result.length!=0){
-                this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
-                sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
-                if(type=='proceed' && this.productId!='19'){
-                this.commonDetails[0]['SectionId'] = ['52'];
-                sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
+              else{
+
+                if(data.Result.length!=0){
+                  this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
+                  sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                  if(type=='proceed' && this.productId!='19'){
+                  this.commonDetails[0]['SectionId'] = ['52'];
+                  sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
+                  }
+                   this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
                 }
-                 this.onCheckUWQuestionProceed(data.Result,type,formType,'none');
+                
               }
-              
-            }
+              }
         },
         (err) => { },
       );
@@ -6304,7 +6309,7 @@ console.log('Eventsss',event);
   }
   getIndustryDesc(rowData){
     console.log(rowData);
-    let entry = this.industryList.find(ele=>ele.Code==rowData.IndustryId);
+    let entry = this.industryList.find(ele=>ele.Code==rowData.IndustryType);
     console.log(entry)
     if(entry!=undefined) return entry.label;
     else return ''
@@ -6585,6 +6590,7 @@ finalSaveMoney(finalList,type,formType) {
                   }
                   else this.onFinalProceed();
                 }
+                else{this.currentBurglaryIndex=null;}
               }
             }
           },
@@ -7559,12 +7565,9 @@ finalSaveMoney(finalList,type,formType) {
         );
   }
   getBurglaryDetails(sections){
-   
     let RiskId=null;
-    if(this.productId=='1') RiskId=null;
-    else RiskId;
     let sectionId = null;
-    if(this.productId=='19' || this.productId=='24') sectionId='52';
+    if(this.productId=='19' || this.productId=='24' || this.productId=='1') sectionId='52';
     let ReqObj = {
       "RequestReferenceNo": this.requestReferenceNo,
       "SectionId":  sectionId
@@ -7638,7 +7641,9 @@ finalSaveMoney(finalList,type,formType) {
                 this.formSection = true; this.viewSection = false;
               }
             }
-            else{this.formSection = true; this.viewSection = false;} 
+            else{
+              this.TableRowBurglary = details;
+              this.formSection = true; this.viewSection = false;} 
         }
       },
       (err) => { },
@@ -11599,7 +11604,7 @@ this.BuildingOwnerYn = type;
   //  }
  
      this.formSection = true; this.viewSection = false;
-    this.editsections(sections);
+      this.editsections(sections);
       console.log('Sectionsssss',sections);
     }
 
