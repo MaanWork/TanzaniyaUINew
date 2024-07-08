@@ -139,13 +139,13 @@
     </ng-template>
 </ng-container>
 <ng-container *ngIf="uploadedIndividualList.length!=0">
-    <h5>Uploaded Documents</h5><br>
+    <h5>{{'DOCUMENT.UploadedDocuments' | translate}}</h5><br>
     <div class="grid">
         <div class="col-12 sm:col-12 md:col-12">
             <p-table *ngIf="tableView == 'table' else cardTableView" [value]="uploadedIndividualList" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th [pSortableColumn]="column" *ngFor="let column of uploadedColumns">{{column}}</th>
+                        <th [pSortableColumn]="column" *ngFor="let column of uploadedColumns">{{'DOCUMENT.'+column | translate}}</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-doc let-i="rowIndex">

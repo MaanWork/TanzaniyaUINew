@@ -144,6 +144,8 @@
         "CustomerName": "Nome do cliente",
         "StartDate": "Data de início",
         "EndDate": "Data final",
+        "PolicyStartDate": "Data de início da política",
+        "PolicyEndDate": "Data de término da política",
         "Premium": "Prêmio",
         "CurrencyCode": "Código da moeda",
         "Action": "Ação",

@@ -119,6 +119,8 @@
         "QuoteNo":"Quote No",
         "ReferenceNo": "Reference No",
         "CustomerName": "Customer Name",
+        "PolicyStartDate": "Policy Start Date",
+        "PolicyEndDate": "Policy End Date",
         "StartDate": "Start Date",
         "EndDate": "End Date",
         "Premium": "Premium",

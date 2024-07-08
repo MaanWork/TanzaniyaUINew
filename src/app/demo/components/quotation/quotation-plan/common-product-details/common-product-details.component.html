@@ -791,9 +791,9 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>S.No</th>
+                                <th>Industry</th>
                                 <th>Location Name</th>
                                 <th>Region</th>
-                                <th>District</th>
                                 <th>First Loss SI(%)</th>
                                 <th>Sum Insured</th>
                                 <th>Edit</th>
@@ -805,12 +805,13 @@
                             <td>
                                 {{i+1}}
                             </td>
-                            
+                            <td>
+                                {{getIndustryDesc(emp)}}
+                            </td>
                             <td>
                                 {{emp.LocationName}}
                             </td>
                             <td>{{getRegionDesc(emp.RegionCode)}}</td>
-                            <td>{{getDistrictDesc(emp.DistrictCode)}}</td>
                             <td>{{emp.FirstLossSumInsured}}</td>
                             <td>{{emp.sumInsured}}</td>
                             <td>
@@ -1063,7 +1064,7 @@
         </div> -->
         <div class="grid mt-2 pl-5 pr-2 pb-0" *ngIf="productId=='16' && formSection">
             <ng-container *ngFor="let step of fields; let index = index; let last = last">
-                <div>
+                <div class="grid">
                     <div class="col-12 sm:col-4 md:col-4 m-0 p-0 d-flex justify-content-between" (click)="selectedIndex=index">
                         <div (click)="selectedIndex=index"><h4 class="headings m-0 p-0">{{ step.props.label }}</h4></div>
                         <div class="pr-3 pt-1">
@@ -1093,9 +1094,9 @@
                             <tr>
                             <td>{{i+1}} </td>
                             <td>{{money.LocationName}}</td>
+                            <td>{{money.MoneyOutofSafe}}</td>
+                            <td>{{money.MoneyInTransit}}</td>
                             <td>{{money.MoneyDirectorResidence}}</td>
-                            <td>{{money.MoneyMajorLoss}}</td>
-                            <td>{{money.StrongroomSi}}</td>
                             <td>{{money.MoneySafeLimit}}</td>
                             <td>{{money.MoneyCollector}}</td>
                             <td>{{money.MoneyAnnualEstimate}}</td>

@@ -754,21 +754,27 @@ export class CommonProductDetailsComponent {
     
         let data = {
             "LocationName":rowData.LocationName,
+            "IndustryType":rowData.IndustryId,
             "RegionCode":rowData.RegionCode,
             "DistrictCode": rowData.DistrictCode,
             "FirstLossSumInsured": rowData.BurglarySi,
             "sumInsured": rowData.FireSumInsured,
             "CoveringDetails": rowData.CoveringDetails,
             "DescriptionRisk": rowData.DescriptionRisk,
+            "IndustryId":rowData.IndustryId,
             "RiskId": RiskId,
         }
+        if(data.IndustryType!=null && data.IndustryType!='' && data.IndustryType!=undefined){
+          data["IndustryTypeDesc"] = this.industryList.find(ele=>ele.Code==data.IndustryType)?.label;
+        }
+        console.log("Final Data",data)
             if (this.currentBurglaryIndex !=0) {
               this.TableRowBurglary[this.currentBurglaryIndex-1] = data;
               this.currentBurglaryIndex=0;
             } else {
               this.TableRowBurglary.push(data);
           } 
-        if(this.requestReferenceNo==null || this.requestReferenceNo==undefined){this.saveCommonDetails('direct','Save')}
+        if(this.requestReferenceNo==null || this.requestReferenceNo==undefined){this.saveCommonDetails('direct','save')}
         else this.onSaveBurglaryDetails('save','individual')
   }
   checkTableRowFire(entry){
@@ -1473,7 +1479,7 @@ export class CommonProductDetailsComponent {
       let fireData = new Burglary();
       let entry = [];
       this.fields[0] = fireData?.fields;
-      this.getRegionList();
+      this.getRegionList();this.getFireLossList();
       let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
         field.formControl.valueChanges.subscribe(() => {
           this.ongetDistrictList('change')
@@ -1617,7 +1623,7 @@ export class CommonProductDetailsComponent {
         });
       }};
       this.fields[0] = fireData?.fields;
-      this.fields[0].fieldGroup[0].fieldGroup[8].hooks =districtHooks;
+      this.fields[0].fieldGroup[0].fieldGroup[1].hooks =districtHooks;
       let referenceNo = sessionStorage.getItem('quoteReferenceNo');
         this.checkMoneyYNChanges();
         if (referenceNo) {
@@ -2074,8 +2080,10 @@ export class CommonProductDetailsComponent {
       "MoneyMajorLoss": rowData.MoneyMajorLoss,
       "StrongroomSi": rowData.StrongroomSi,
       "MoneySafeLimit" : rowData.MoneySafeLimit,
+      "MoneyOutofSafe": rowData.MoneyOutofSafe,
       "MoneyCollector": rowData.MoneyCollector,
       "MoneyAnnualEstimate": rowData.MoneyAnnualEstimate,
+      "MoneyInTransit":rowData.MoneyInTransit,
       "RiskId": rowData.RiskId
     }
     if (this.currentMoneyIndex !=0) {
@@ -3327,6 +3335,7 @@ backPlan()
     );
   }
   getRegionList() {
+   
     let ReqObj = {
       "CountryId": this.countryId
     }
@@ -3340,39 +3349,72 @@ backPlan()
             let defaultObj = [{ 'label': '-Select-', 'Code': '' }]
             this.regionList = data.Result;
             console.log(this.regionList,"this.regionList");
-          
-          
-              for (let i = 0; i < this.regionList.length; i++) {
-                this.regionList[i].label = this.regionList[i]['CodeDesc'];
-                this.regionList[i].value = this.regionList[i]['Code'];
+              let i=0;
+              for (let entry of this.regionList) {
+                entry.label = entry['CodeDesc'];
+                entry.value = entry['Code'];
                 delete this.regionList[i].CodeDesc;
-
-                if(this.productId=='1'){
-             
-                  this.fields[0].fieldGroup[0].fieldGroup[6].templateOptions.options = defaultObj.concat(this.regionList);
-                }
-                else{
-                  if(this.productId=='16')this.fields[0].fieldGroup[0].fieldGroup[8].templateOptions.options = defaultObj.concat(this.regionList);
-                 else {
-
-                   if (i == this.regionList.length - 1) {
-                     if(this.productId!='19' && this.productId!='6' && this.productId!='13') this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.regionList);
-                    
-                   }
-                 }
+                i+=1;
+                if(i==this.regionList.length){
+                  
+                  if(this.productId=='1'){
+                    let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                    for(let field of fieldList){
+                      if(field.key=='RegionCode') field.templateOptions.options = defaultObj.concat(this.regionList);
+                    }
+                  }
+                  else if(this.productId=='16'){
+                    let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                    for(let field of fieldList){
+                      if(field.key=='RegionCode'){ field.templateOptions.options = defaultObj.concat(this.regionList); field.props.options = defaultObj.concat(this.regionList);}
+                      console.log("Final Resgion",field)
+                    }
+                  }
+                  else {
+                      if(this.productId!='19' && this.productId!='6' && this.productId!='13') this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.regionList);
+                  }
                 }
               }
-            
           }
         }
       },
       (err) => { },
     );
   }
+  getFireLossList(){
+    let ReqObj = {
+      "InsuranceId": this.insuranceId,
+      "ItemType": "BURGLARY_FIRST_LOSS"
+    }
+    let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if (data.Result) {
+          let lossList = data.Result;
+          if (data.Result.length != 0) {
+            let defaultObj = [{ 'label': '-Select-', 'Code': '' }]
+              let i=0;
+              for (let entry of lossList) {
+                entry.label = entry['CodeDesc'];
+                entry.value = entry['Code'];
+                delete lossList[i].CodeDesc;
+                i+=1;
+                if(i==lossList.length){
+                  let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                  for(let field of fieldList){
+                    if(field.key=='BurglarySi') field.templateOptions.options = defaultObj.concat(lossList);
+                  }
+                }
+              }
+          }
+        }
+      })
+  }
   getFidSumInsuredList() {
     let ReqObj = {
       "InsuranceId": this.insuranceId,
-    "ItemType": "FIDELITY_SUMINSURED",
+    "ItemType": "FIDELITY_SI",
     }
     let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -3617,7 +3659,7 @@ backPlan()
                 this.fields[0].fieldGroup[0].fieldGroup[7].templateOptions.options = defaultObj.concat(this.stateList);
               }
               else{
-                if(this.productId=='16')this.fields[0].fieldGroup[0].fieldGroup[9].templateOptions.options = defaultObj.concat(this.stateList);
+                if(this.productId=='16')this.fields[0].fieldGroup[0].fieldGroup[2].templateOptions.options = defaultObj.concat(this.stateList);
                 else
                 {
 
@@ -3776,11 +3818,9 @@ backPlan()
                 this.customerCode = entry?.CustomerCode;
                 this.brokerCode = entry?.BrokerCode;
                 this.currentStatus = entry?.Status;
-                this.onSourceTypeChange('direct');
+                if(this.userType!='Broker' && this.userType!='User') this.onSourceTypeChange('direct');
                 let quoteStatus = sessionStorage.getItem('QuoteStatus');
-                if(quoteStatus=='AdminRP' || quoteStatus=='AdminRA' || quoteStatus=='AdminRR'){
-                  this.adminSection = true;this.issuerSection = false;
-                }
+                if(quoteStatus=='AdminRP' || quoteStatus=='AdminRA' || quoteStatus=='AdminRR'){ this.adminSection = true;this.issuerSection = false;}
                 else if(this.userType!='Broker' && this.userType!='User'){ this.issuerSection = true;this.adminSection=false; }
                 else this.issuerSection = false;
                 if(this.productId=='42'){ this.ProductCode=entry?.SectionIds[0]; this.setCommonFormValues();}
@@ -4284,16 +4324,20 @@ backPlan()
     let edit = rowData.RiskId;
     this.currentMoneyIndex = edit;
     if(edit==undefined) this.currentMoneyIndex=index+1;
-    this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.MoneyDirectorResidence);
-    this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(rowData.MoneyMajorLoss);
-    this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(rowData.StrongroomSi);
-    this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(rowData.MoneySafeLimit);
-    this.fields[0].fieldGroup[0].fieldGroup[4].formControl.setValue(rowData.MoneyCollector);
-    this.fields[0].fieldGroup[0].fieldGroup[5].formControl.setValue(rowData.MoneyAnnualEstimate);
-    this.fields[0].fieldGroup[0].fieldGroup[6].formControl.setValue(rowData.MoneyAnnualEstimate);
-    this.fields[0].fieldGroup[0].fieldGroup[7].formControl.setValue(rowData.LocationName);
-    this.fields[0].fieldGroup[0].fieldGroup[8].formControl.setValue(rowData.RegionCode);
-    this.fields[0].fieldGroup[0].fieldGroup[9].formControl.setValue(rowData.DistrictCode);
+    let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+    for(let field of fieldList){
+      if(field.key=='MoneyDirectorResidence')  field.formControl.setValue(rowData.MoneyDirectorResidence);
+      if(field.key=='MoneyMajorLoss')  field.formControl.setValue(rowData.MoneyMajorLoss);
+      if(field.key=='StrongroomSi')  field.formControl.setValue(rowData.StrongroomSi);
+      if(field.key=='MoneySafeLimit')  field.formControl.setValue(rowData.MoneySafeLimit);
+      if(field.key=='MoneyCollector')  field.formControl.setValue(rowData.MoneyCollector);
+      if(field.key=='MoneyAnnualEstimate')  field.formControl.setValue(rowData.MoneyAnnualEstimate);
+      if(field.key=='MoneyInTransit')  field.formControl.setValue(rowData.MoneyInTransit);
+      if(field.key=='MoneyInSafe')  field.formControl.setValue(rowData.MoneyInSafe);
+      if(field.key=='LocationName')  field.formControl.setValue(rowData.LocationName);
+      if(field.key=='RegionCode')  field.formControl.setValue(rowData.RegionCode);
+      if(field.key=='DistrictCode')  field.formControl.setValue(rowData.DistrictCode);
+    }
     let referenceNo =  sessionStorage.getItem('quoteReferenceNo');
     if(referenceNo){
       this.getMoneyDetails(rowData);
@@ -5221,7 +5265,8 @@ backPlan()
                     // homeDetails[0]['IndustryName'] = this.industryList.find(ele=>ele.Code==this.IndustryId).CodeDesc;
                     this.commonDetails = homeDetails;
                     sessionStorage.setItem('homeCommonDetails', JSON.stringify(homeDetails))
-                     this.onFormSubmit(null);
+                    if(this.productId=='1')  this.onFormSubmit(redirectType);
+                    else this.onFormSubmit(null);
                 }
                 else{
                  this.commonDetails = [
@@ -5324,7 +5369,7 @@ console.log('Eventsss',event);
   }
   
   onFormSubmit(type){
-    if(this.productId=='1'){this.onSaveBurglaryDetails('proceed','individual')}
+    if(this.productId=='1'){this.onSaveBurglaryDetails(type,'individual')}
     else if(this.productId=='6'){this.onSaveFireAlliedDetails('proceed','individual');}
     else if(this.productId=='39'){this.onSaveMachineryDetails('proceed','individual')}
     else if(this.productId=='43'){this.onSaveMedicalDetails('proceed','individual')}
@@ -6071,6 +6116,15 @@ console.log('Eventsss',event);
       let i =0;
     for(let items of this.TableRowBurglary){
    entry = {
+      "LocationName":items.LocationName,
+      "IndustryType":items.IndustryId,
+      "RegionCode":items.RegionCode,
+      "DistrictCode": items.DistrictCode,
+      "FirstLossSumInsured": items.BurglarySi,
+      "sumInsured": items.FireSumInsured,
+      "CoveringDetails": items.CoveringDetails,
+      "DescriptionRisk": items.DescriptionRisk,
+      "IndustryId":items.IndustryId,
       "AgencyCode": this.agencyCode,
       "ApplicationId": appId,
       "BdmCode": null,
@@ -6112,8 +6166,6 @@ console.log('Eventsss',event);
       "ApplianceLossPercent": this.productItem.ApplianceLossPercent,
       "CashValueablesLossPercent": this.productItem.CashValueablesLossPercent,
       "Address": this.productItem.Address,
-      "RegionCode": items.RegionCode,
-      "DistrictCode": items.stateName,
       "OccupiedYear": this.productItem.OccupiedYear,
       "WatchmanGuardHours": this.productItem.WatchmanGuardHours,
       "AccessibleWindows": this.productItem.AccessibleWindows,
@@ -6165,7 +6217,6 @@ console.log('Eventsss',event);
           (data: any) => {
             if (data?.Result) {
               if(type=='save'){
-                alert('save')
                 this.form.reset();
               }
               if(data.Result.length!=0){
@@ -6248,14 +6299,14 @@ console.log('Eventsss',event);
   }
   getRegionDesc(rowData){
     let entry = this.regionList.find(ele=>ele.Code==rowData);
-    console.log(entry,"entry",rowData +" getRegionDesc(rowDa");
     if(entry) return entry.label;
     else return ''
   }
-  getDistrictDesc(rowData){
-    let entry = this.stateList.find(ele=>ele.Code==rowData);
-    console.log(entry,"entry",rowData);
-    if(entry) return entry.CodeDesc;
+  getIndustryDesc(rowData){
+    console.log(rowData);
+    let entry = this.industryList.find(ele=>ele.Code==rowData.IndustryId);
+    console.log(entry)
+    if(entry!=undefined) return entry.label;
     else return ''
   }
   onSaveMoneyDetails(type,formType){
@@ -6272,12 +6323,15 @@ console.log('Eventsss',event);
       "RiskId": i+1,
       "SectionId":  "42",
       "MoneySafeLimit": items.MoneySafeLimit,
-     // "MoneyOutofSafe": this.productItem?.MoneyOutofSafe,
+      // "MoneyOutofSafe": this.productItem?.MoneyOutofSafe,
+      "MoneyInSafe": items.MoneyInSafe,
+      "MoneyInTransit": items.MoneyInTransit,
       "MoneyDirectorResidence": items.MoneyDirectorResidence,
       "MoneyCollector": items.MoneyCollector,
        "MoneyAnnualEstimate":items.MoneyAnnualEstimate,
        "MoneyMajorLoss":items.MoneyMajorLoss,
        "StrongroomSi": items.StrongroomSi,
+       "MoneyOutofSafe": items.MoneyOutofSafe,
       // "CashInHandEmployees": this.productItem?.CashInHandEmployees,
       // "CashInSafe": this.productItem?.CashInSafe,
       // "CashInTransit": this.productItem?.CashInTransit,
@@ -7505,15 +7559,14 @@ finalSaveMoney(finalList,type,formType) {
         );
   }
   getBurglaryDetails(sections){
-    let i= sections.RiskId;
+   
     let RiskId=null;
-    if(this.productId=='1') RiskId=i;
+    if(this.productId=='1') RiskId=null;
     else RiskId;
     let sectionId = null;
     if(this.productId=='19' || this.productId=='24') sectionId='52';
     let ReqObj = {
       "RequestReferenceNo": this.requestReferenceNo,
-      "RiskId": "1",
       "SectionId":  sectionId
     }
     let urlLink = `${this.motorApiUrl}api/slide3/getburglaryandhouse`;
@@ -7522,66 +7575,70 @@ finalSaveMoney(finalList,type,formType) {
         console.log(data);
         if (data.Result) {
           let details = data?.Result;
-          this.productItem.LocationName=data.Result[i-1].LocationName;
-            this.productItem.OccupationType=data.Result[i-1].OccupationType;
-            this.productItem.Name=data.Result[i-1].CustomerName;
-            this.productItem.Dob=data.Result[i-1].Dob;
-            this.productItem.SumInsured=data.Result[i-1].SumInsured;
-            //this.form.get('SumInsured').setValue(value);
-            this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(this.productItem.LocationName);
-            this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(this.productItem.OccupationType);
-            this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(this.productItem.Name);
-            this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(this.productItem.Dob);
-            this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(this.productItem.SumInsured);
-          this.productItem.AccessibleWindows = details?.AccessibleWindows;
-              this.productItem.Address = details?.Address;
-              this.productItem.BackDoors = details?.BackDoors;
-              this.productItem.BuildingOccupied = details?.BuildingOccupied;
-              this.productItem.CeilingType = details?.CeilingType;
-              this.productItem.BurglarySi  = details?.BurglarySi;
-               if(details?.RegionCode!=null && details?.RegionCode!=''){
-                this.productItem.RegionCode = details?.RegionCode;
-                this.ongetDistrictList('direct');
-                this.productItem.DistrictCode = details?.DistrictCode
-              }
-              this.productItem.DoorsMaterialId = details?.DoorsMaterialId;
-              this.productItem.WallType = details?.WallType;
-              this.productItem.RoofType = details?.RoofType;
-              this.productItem.BuildingOwnerYn = details?.BuildingOwnerYn;
-              this.productItem.BuildingBuildYear = details?.BuildingBuildYear;
-              this.productItem.FrontDoors = details?.FrontDoors;
-              this.productItem.InternalWallType = details?.InternalWallType;
-              this.productItem.NatureOfTradeId = details?.NatureOfTradeId;
-              this.productItem.NightLeftDoor = details?.NightLeftDoor;
-              this.productItem.OccupiedYear = details?.OccupiedYear;
-              this.productItem.ShowWindow = details?.ShowWindow;
-              this.productItem.TrapDoors = details?.TrapDoors;
-              this.productItem.WatchmanGuardHours = details?.WatchmanGuardHours;
-              this.productItem.WindowsMaterialId = details?.WindowsMaterialId;
-              this.productItem.ApplianceSi = details?.ApplianceSi;
-              this.productItem.GoodsSi = details?.GoodsSi;
-              this.productItem.FurnitureSi = details?.FurnitureSi;
-              this.productItem.CashValueablesSi = details?.CashValueablesSi;
-              this.productItem.StockInTradeSi = details?.StockInTradeSi;
-              if(details?.ApplianceLossPercent!='0' && details?.ApplianceLossPercent != null) this.productItem.ApplianceLossPercent = details?.ApplianceLossPercent;
-              if(details?.CashValueablesLossPercent!='0' && details?.CashValueablesLossPercent != null) this.productItem.CashValueablesLossPercent = details?.CashValueablesLossPercent;
-              if(details?.FurnitureLossPercent!='0' && details?.FurnitureLossPercent != null) this.productItem.FurnitureLossPercent = details?.FurnitureLossPercent;
-              if(details?.GoodsLossPercent!='0' && details?.GoodsLossPercent != null) this.productItem.GoodsLossPercent = details?.GoodsLossPercent;
-              if(details?.StockLossPercent!='0' && details?.StockLossPercent != null) this.productItem.StockLossPercent = details?.StockLossPercent;
-              if (details?.InsuranceForId != null) {
-                let value = {}, i = 0;
-                for (let element of details?.InsuranceForId) {
-                  if (element != '0') {
-                    value[element] = true;
-                  }
-                  i += 1;
-                  if (i == details?.InsuranceForId.length)this.productItem.InsuranceForId = value;
+            if(sections){
+              let i= sections.RiskId;
+              this.productItem.LocationName=data.Result[i-1].LocationName;
+              this.productItem.OccupationType=data.Result[i-1].OccupationType;
+              this.productItem.Name=data.Result[i-1].CustomerName;
+              this.productItem.Dob=data.Result[i-1].Dob;
+              this.productItem.SumInsured=data.Result[i-1].SumInsured;
+              //this.form.get('SumInsured').setValue(value);
+              this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(this.productItem.LocationName);
+              this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(this.productItem.OccupationType);
+              this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(this.productItem.Name);
+              this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(this.productItem.Dob);
+              this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(this.productItem.SumInsured);
+            this.productItem.AccessibleWindows = details?.AccessibleWindows;
+                this.productItem.Address = details?.Address;
+                this.productItem.BackDoors = details?.BackDoors;
+                this.productItem.BuildingOccupied = details?.BuildingOccupied;
+                this.productItem.CeilingType = details?.CeilingType;
+                this.productItem.BurglarySi  = details?.BurglarySi;
+                 if(details?.RegionCode!=null && details?.RegionCode!=''){
+                  this.productItem.RegionCode = details?.RegionCode;
+                  this.ongetDistrictList('direct');
+                  this.productItem.DistrictCode = details?.DistrictCode
                 }
-              }
-              this.sectionCount +=1;
+                this.productItem.DoorsMaterialId = details?.DoorsMaterialId;
+                this.productItem.WallType = details?.WallType;
+                this.productItem.RoofType = details?.RoofType;
+                this.productItem.BuildingOwnerYn = details?.BuildingOwnerYn;
+                this.productItem.BuildingBuildYear = details?.BuildingBuildYear;
+                this.productItem.FrontDoors = details?.FrontDoors;
+                this.productItem.InternalWallType = details?.InternalWallType;
+                this.productItem.NatureOfTradeId = details?.NatureOfTradeId;
+                this.productItem.NightLeftDoor = details?.NightLeftDoor;
+                this.productItem.OccupiedYear = details?.OccupiedYear;
+                this.productItem.ShowWindow = details?.ShowWindow;
+                this.productItem.TrapDoors = details?.TrapDoors;
+                this.productItem.WatchmanGuardHours = details?.WatchmanGuardHours;
+                this.productItem.WindowsMaterialId = details?.WindowsMaterialId;
+                this.productItem.ApplianceSi = details?.ApplianceSi;
+                this.productItem.GoodsSi = details?.GoodsSi;
+                this.productItem.FurnitureSi = details?.FurnitureSi;
+                this.productItem.CashValueablesSi = details?.CashValueablesSi;
+                this.productItem.StockInTradeSi = details?.StockInTradeSi;
+                if(details?.ApplianceLossPercent!='0' && details?.ApplianceLossPercent != null) this.productItem.ApplianceLossPercent = details?.ApplianceLossPercent;
+                if(details?.CashValueablesLossPercent!='0' && details?.CashValueablesLossPercent != null) this.productItem.CashValueablesLossPercent = details?.CashValueablesLossPercent;
+                if(details?.FurnitureLossPercent!='0' && details?.FurnitureLossPercent != null) this.productItem.FurnitureLossPercent = details?.FurnitureLossPercent;
+                if(details?.GoodsLossPercent!='0' && details?.GoodsLossPercent != null) this.productItem.GoodsLossPercent = details?.GoodsLossPercent;
+                if(details?.StockLossPercent!='0' && details?.StockLossPercent != null) this.productItem.StockLossPercent = details?.StockLossPercent;
+                if (details?.InsuranceForId != null) {
+                  let value = {}, i = 0;
+                  for (let element of details?.InsuranceForId) {
+                    if (element != '0') {
+                      value[element] = true;
+                    }
+                    i += 1;
+                    if (i == details?.InsuranceForId.length)this.productItem.InsuranceForId = value;
+                  }
+                }
+                this.sectionCount +=1;
               if(sections.length==this.sectionCount){
                 this.formSection = true; this.viewSection = false;
               }
+            }
+            else{this.formSection = true; this.viewSection = false;} 
         }
       },
       (err) => { },
@@ -7610,21 +7667,28 @@ finalSaveMoney(finalList,type,formType) {
             this.productItem.MoneyDirectorResidence=data.Result[i-1].MoneyDirectorResidence;
             this.productItem.MoneyCollector=data.Result[i-1].MoneyCollector;
             this.productItem.MoneyAnnualEstimate=data.Result[i-1].MoneyAnnualEstimate;
+            this.productItem.MoneyInTransit = data.Result[i-1].MoneyInTransit;
+            this.productItem.MoneyOutofSafe = data.Result[i-1].MoneyOutofSafe;
+            this.productItem.MoneyInSafe= data.Result[i-1].MoneyInSafe;
             this.productItem.MoneyMajorLoss=data.Result[i-1].MoneyMajorLoss;
             this.productItem.LocationName=data.Result[i-1].LocationName;
             this.productItem.RegionCode=data.Result[i-1].RegionCode;
             this.productItem.DistrictCode=data.Result[i-1].DistrictCode;
             //this.form.get('SumInsured').setValue(value);
-            this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(this.productItem.MoneyDirectorResidence);
-            this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(this.productItem.MoneyMajorLoss);
-            this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(this.productItem.StrongroomSi);
-            this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(this.productItem.MoneySafeLimit);
-            this.fields[0].fieldGroup[0].fieldGroup[4].formControl.setValue(this.productItem.MoneyCollector);
-            this.fields[0].fieldGroup[0].fieldGroup[5].formControl.setValue(this.productItem.MoneyAnnualEstimate);
-            this.fields[0].fieldGroup[0].fieldGroup[6].formControl.setValue(this.productItem.MoneyAnnualEstimate);
-            this.fields[0].fieldGroup[0].fieldGroup[7].formControl.setValue(this.productItem.LocationName);
-            this.fields[0].fieldGroup[0].fieldGroup[8].formControl.setValue(this.productItem.RegionCode);
-            this.fields[0].fieldGroup[0].fieldGroup[9].formControl.setValue(this.productItem.DistrictCode);
+            let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+            for(let field of fieldList){
+              if(field.key=='MoneyDirectorResidence')  field.formControl.setValue(this.productItem.MoneyDirectorResidence);
+              if(field.key=='MoneyMajorLoss')  field.formControl.setValue(this.productItem.MoneyMajorLoss);
+              if(field.key=='StrongroomSi')  field.formControl.setValue(this.productItem.StrongroomSi);
+              if(field.key=='MoneySafeLimit')  field.formControl.setValue(this.productItem.MoneySafeLimit);
+              if(field.key=='MoneyCollector')  field.formControl.setValue(this.productItem.MoneyCollector);
+              if(field.key=='MoneyAnnualEstimate')  field.formControl.setValue(this.productItem.MoneyAnnualEstimate);
+              if(field.key=='MoneyInTransit')  field.formControl.setValue(this.productItem.MoneyInTransit);
+              if(field.key=='MoneyInSafe')  field.formControl.setValue(this.productItem.MoneyInSafe);
+              if(field.key=='LocationName')  field.formControl.setValue(this.productItem.LocationName);
+              if(field.key=='RegionCode')  field.formControl.setValue(this.productItem.RegionCode);
+              if(field.key=='DistrictCode')  field.formControl.setValue(this.productItem.DistrictCode);
+            }
           }
           // this.productItem.CashInHandEmployees = details?.CashInHandEmployees;
           // this.productItem.CashInSafe = details?.CashInSafe;
@@ -11315,8 +11379,6 @@ this.BuildingOwnerYn = type;
             for (let i = 0; i < this.industryList.length; i++) {
               this.industryList[i].label = this.industryList[i]['CodeDesc'];
               this.industryList[i].value = this.industryList[i]['Code'];
-              delete this.industryList[i].CodeDesc;
-             
           }
           this.fields[0].templateOptions.options = this.industryList;
         }
@@ -11328,7 +11390,6 @@ this.BuildingOwnerYn = type;
            
         }
         this.fields[0].fieldGroup[0].fieldGroup[0].templateOptions.options = this.industryList;
-        this.fields[0].fieldGroup[0].fieldGroup[1].templateOptions.options = this.industryList;
       }
           if(this.productId=='26'){
             //this.productItem.IndustryBussinessAllRisk = this.IndustryId;

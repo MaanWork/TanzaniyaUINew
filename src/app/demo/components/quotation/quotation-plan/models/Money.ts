@@ -128,8 +128,77 @@ export class Money{
                 // },
                 {
                   className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                  type: 'input',
+                  key: 'LocationName',
+                  props: { 
+                    label: `Location Name`,
+                    maxLength: 15
+                  },
+                  templateOptions: {
+                   // disabled: this.checkDisable('SumInsured')
+                  },
+                  validators: {
+                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                  },
+                  hooks: {
+                  },
+  
+                  expressions: {
+                  
+                  },
+                },
+                {
+                  className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                  type: 'ngselect',
+                  key: 'RegionCode',
+                  props: { 
+                    label: `Region`,
+                    maxLength: 15
+                  },
+                  templateOptions: {
+                   // disabled: this.checkDisable('SumInsured')
+                   options:[
+
+                   ]
+                  },
+                  validators: {
+                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                  },
+                  hooks: {
+                  },
+  
+                  expressions: {
+                  
+                  },
+                },
+                {
+                  className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                  type: 'ngselect',
+                  key: 'DistrictCode',
+                  props: { 
+                    label: `District`,
+                    maxLength: 15
+                  },
+                  templateOptions: {
+                   // disabled: this.checkDisable('SumInsured')
+                   options:[
+
+                   ]
+                  },
+                  validators: {
+                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                  },
+                  hooks: {
+                  },
+  
+                  expressions: {
+                  
+                  },
+                },
+                {
+                  className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                   type: 'commaSeparator',
-                  key: 'MoneyDirectorResidence',
+                  key: 'MoneyAnnualEstimate',
                   props: { 
                     label: `Estimated annual cash carryings`,
                     maxLength: 15
@@ -150,7 +219,7 @@ export class Money{
                 {
                     className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                     type: 'commaSeparator',
-                    key: 'MoneyMajorLoss',
+                    key: 'MoneyInTransit',
                     props: { 
                       label: `Cash in transit limit`,
                       maxLength: 15
@@ -171,7 +240,7 @@ export class Money{
                   {
                     className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                     type: 'commaSeparator',
-                    key: 'StrongroomSi',
+                    key: 'MoneyCollector',
                     props: { 
                       label: `Custody of collectors`,
                       maxLength: 15
@@ -213,7 +282,7 @@ export class Money{
                   {
                     className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                     type: 'commaSeparator',
-                    key: 'MoneyCollector',
+                    key: 'MoneyOutofSafe',
                     props: { 
                       label: `safe outside working hours`,
                       maxLength: 15
@@ -234,7 +303,7 @@ export class Money{
                   {
                     className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                     type: 'commaSeparator',
-                    key: 'MoneyAnnualEstimate',
+                    key: 'MoneyDirectorResidence',
                     props: { 
                       label: `Residence of director or partner`,
                       maxLength: 15
@@ -275,7 +344,7 @@ export class Money{
                   {
                     className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                     type: 'commaSeparator',
-                    key: 'MoneyAnnualEstimate',
+                    key: 'MoneyInSafe',
                     props: { 
                       label: `Value of safe`,
                       maxLength: 15
@@ -292,76 +361,8 @@ export class Money{
                     expressions: {
                     
                     },
-                  },
-                  {
-                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-                    type: 'input',
-                    key: 'LocationName',
-                    props: { 
-                      label: `Location Name`,
-                      maxLength: 15
-                    },
-                    templateOptions: {
-                     // disabled: this.checkDisable('SumInsured')
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-    
-                    expressions: {
-                    
-                    },
-                  },
-                  {
-                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-                    type: 'ngselect',
-                    key: 'RegionCode',
-                    props: { 
-                      label: `Region`,
-                      maxLength: 15
-                    },
-                    templateOptions: {
-                     // disabled: this.checkDisable('SumInsured')
-                     options:[
-
-                     ]
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-    
-                    expressions: {
-                    
-                    },
-                  },
-                  {
-                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-                    type: 'ngselect',
-                    key: 'DistrictCode',
-                    props: { 
-                      label: `District`,
-                      maxLength: 15
-                    },
-                    templateOptions: {
-                     // disabled: this.checkDisable('SumInsured')
-                     options:[
-
-                     ]
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-    
-                    expressions: {
-                    
-                    },
-                  },
+                  }
+                 
                 ]
               },
              
