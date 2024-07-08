@@ -373,7 +373,7 @@ export class CommonProductDetailsComponent {
       }
       if(this.productId=='1'){
         //this.TableRowBurglary=[{}]
-        this.getRegionList();
+        
         let referenceNo =  sessionStorage.getItem('quoteReferenceNo');
         if(referenceNo){
           this.getBurglaryDetails(null);
@@ -624,10 +624,8 @@ export class CommonProductDetailsComponent {
      let edit = this.TableRowBurglary.findIndex(ele=>ele.LocationName == rowData.LocationName );
      this.currentBurglaryIndex = index;
      if(edit==undefined) this.currentBurglaryIndex=index+1;
-     console.log(this.currentBurglaryIndex,"this.currentBurglaryIndex");
      if(rowData.FirstLossPercentId){
-        let entry = this.firstLossList.find(ele=>ele.CodeDesc==rowData.FirstLossPercentId)
-        if(entry){this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(entry.Code);}
+       this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(rowData.FirstLossPercentId);
      }
     this.productItem.DistrictCode = rowData.DistrictCode;
     this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.IndustryType);
@@ -740,43 +738,42 @@ export class CommonProductDetailsComponent {
     else this.districtError=false;
     return i==0;
   }
-  addBurglaryTable(rowData){
+  addBurglaryTable(rowData,type){
     let RiskId;
     let i= this.TableRowBurglary.length;
-    if(this.currentBurglaryIndex==null || this.currentBurglaryIndex==undefined){
-      RiskId=i+1;
+    if(rowData.LocationName!=undefined && rowData.BurglarySi!=undefined){
+      let data = {
+        "LocationName":rowData.LocationName,
+        "IndustryType":rowData.IndustryId,
+        "RegionCode":rowData.RegionCode,
+        "DistrictCode": rowData.DistrictCode,
+        "FirstLossSumInsured": rowData.FireSumInsured,
+        "FirstLossPercentId":rowData.FireSumInsured,
+        "sumInsured": rowData.BurglarySi,
+        "BurglarySi": rowData.BurglarySi,
+        "CoveringDetails": rowData.CoveringDetails,
+        "DescriptionRisk": rowData.DescriptionOfRisk,
+        "IndustryId":rowData.IndustryId,
+        "RiskId": RiskId,
     }
-    else {
-      RiskId =this.currentBurglaryIndex;
-    }
-    
-        let data = {
-            "LocationName":rowData.LocationName,
-            "IndustryType":rowData.IndustryId,
-            "RegionCode":rowData.RegionCode,
-            "DistrictCode": rowData.DistrictCode,
-            "FirstLossSumInsured": rowData.FireSumInsured,
-            "FirstLossPercentId":rowData.FireSumInsured,
-            "sumInsured": rowData.BurglarySi,
-            "BurglarySi": rowData.BurglarySi,
-            "CoveringDetails": rowData.CoveringDetails,
-            "DescriptionRisk": rowData.DescriptionOfRisk,
-            "IndustryId":rowData.IndustryId,
-            "RiskId": RiskId,
-        }
 
-        if(data.IndustryType!=null && data.IndustryType!='' && data.IndustryType!=undefined){
-          data["IndustryTypeDesc"] = this.industryList.find(ele=>ele.Code==data.IndustryType)?.label;
-        }
-        console.log("Final Data",data)
-            if (this.currentBurglaryIndex !=0) {
-              this.TableRowBurglary[this.currentBurglaryIndex-1] = data;
-              this.currentBurglaryIndex=0;
-            } else {
-              this.TableRowBurglary.push(data);
-          } 
+      if(data.IndustryType!=null && data.IndustryType!='' && data.IndustryType!=undefined){
+        data["IndustryTypeDesc"] = this.industryList.find(ele=>ele.Code==data.IndustryType)?.label;
+      }
+      console.log("Final Data",data)
+          if (this.currentBurglaryIndex !=null && this.currentBurglaryIndex!=undefined) {
+            this.TableRowBurglary[this.currentBurglaryIndex] = data;
+            this.currentBurglaryIndex=null;
+          } else {
+            this.TableRowBurglary.push(data);
+            this.currentBurglaryIndex=null;
+        } 
         if(this.requestReferenceNo==null || this.requestReferenceNo==undefined){this.saveCommonDetails('direct','save')}
-        else this.onSaveBurglaryDetails('save','individual')
+        else if(type=='save') this.onSaveBurglaryDetails('save','individual')
+        else if(type!='save')this.onFormSubmit(type)
+        
+    }
+        
   }
   checkTableRowFire(entry){
     return (entry.IndustryTypes!=null && entry.BuildingSumInsured!=0 && entry.BuildingSumInsured!='0' && entry.CoveringDetails!='' && entry.CoveringDetails!=null && entry.RegionName!=null && entry.RegionName!='' 
@@ -1496,6 +1493,7 @@ export class CommonProductDetailsComponent {
       //  this.getRegionList();
       //  this.getWindowConsMaterialList();
       //  this.getDoorsMaterilalList(); this.getNightLeftDoorList(); this.getBuildingOccupiedList();
+      this.getRegionList();
        let referenceNo = sessionStorage.getItem('quoteReferenceNo');
       if (referenceNo) {
         this.requestReferenceNo = referenceNo;
@@ -3360,7 +3358,7 @@ backPlan()
                   if(this.productId=='1'){
                     let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
                     for(let field of fieldList){
-                      if(field.key=='RegionCode') field.templateOptions.options = defaultObj.concat(this.regionList);
+                      if(field.key=='RegionCode') field.props.options = defaultObj.concat(this.regionList);
                     }
                   }
                   else if(this.productId=='16'){
@@ -5090,10 +5088,10 @@ backPlan()
     let appId = "1", loginId = "", brokerbranchCode = "";let createdBy = "";
     let quoteStatus = sessionStorage.getItem('QuoteStatus');
     let referenceNo =  sessionStorage.getItem('quoteReferenceNo');
-      if(referenceNo){
-        this.quoteRefNo = referenceNo;
-      }
-      else this.quoteRefNo = null;
+    if(referenceNo){
+      this.quoteRefNo = referenceNo;
+    }
+    else this.quoteRefNo = null;
     if (quoteStatus == 'AdminRP' || quoteStatus == 'AdminRA' || quoteStatus == 'AdminRR') {
       //createdBy = this.vehicleDetailsList[0].CreatedBy;
     }
@@ -5265,7 +5263,7 @@ backPlan()
                     // homeDetails[0]['IndustryName'] = this.industryList.find(ele=>ele.Code==this.IndustryId).CodeDesc;
                     this.commonDetails = homeDetails;
                     sessionStorage.setItem('homeCommonDetails', JSON.stringify(homeDetails))
-                    if(this.productId=='1')  this.onFormSubmit(redirectType);
+                    if(this.productId=='1')  this.addBurglaryTable(this.productItem,'Proceed');
                     else this.onFormSubmit(null);
                 }
                 else{

@@ -2309,7 +2309,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
       } 
       else {
         Insurancetype =this.vehicleDetails?.Insurancetype;
-        sectionId=this.vehicleDetails?.Insurancetype;
+        if(this.vehicleDetails?.Insurancetype){
+          if(this.vehicleDetails?.Insurancetype.length!=0) sectionId=this.vehicleDetails?.Insurancetype[0];
+          else sectionId = null;
+        }
+        else sectionId = null;
       }
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
@@ -2820,7 +2824,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
           let Insurancetype,sectionId ;
           if(this.insuranceId=='100040') {Insurancetype= ["401"];sectionId=this.vehicleDetails.InsuranceClass;}
           else {
-            Insurancetype=this.vehicleDetails?.Insurancetype;sectionId=this.vehicleDetails?.Insurancetype;
+            Insurancetype=this.vehicleDetails?.Insurancetype;  
+            if(this.vehicleDetails?.Insurancetype){
+              if(this.vehicleDetails?.Insurancetype.length!=0) sectionId=this.vehicleDetails?.Insurancetype[0];
+              else sectionId = null;
+            }
+            else sectionId = null;
           }
           if(this.insuranceId=='100040') this.typeValue = this.vehicleDetails.InsuranceClass;
           // if(this.vehicleDetails?.HorsePower==undefined) this.vehicleDetails.HorsePower="10"
@@ -4017,8 +4026,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
             sectionId=this.productItem.InsuranceClass;
           } 
           else {
-            Insurancetype =this.vehicleDetails?.Insurancetype;
-            sectionId=this.vehicleDetails?.Insurancetype;
+            Insurancetype =insuranceType;
+            if(insuranceType){
+              if(insuranceType.length!=0) sectionId=insuranceType[0];
+              else sectionId = null;
+            }
+            else sectionId = null;
           }
           if(this.motorDetails?.SavedFrom=='SQ') this.motorDetails.SavedFrom = 'WEB';
           let ReqObj = {
