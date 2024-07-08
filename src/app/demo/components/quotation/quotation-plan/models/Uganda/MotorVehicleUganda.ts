@@ -28,6 +28,7 @@ export class MotorVehicleUganda{
                 fieldGroup: [
                   {
                     type: 'ngselect',
+                    id: 'InsuranceType',
                     key: 'InsuranceType',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
@@ -50,6 +51,7 @@ export class MotorVehicleUganda{
                   },
                   {
                     type: 'ngselect',
+                    id: 'InsuranceClass',
                     key: 'InsuranceClass',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
@@ -72,6 +74,7 @@ export class MotorVehicleUganda{
                   },
                   {
                     type: 'ngselect',
+                    id: 'BodyType',
                     key: 'BodyType',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
@@ -94,6 +97,7 @@ export class MotorVehicleUganda{
                   },
                   {
                     type: 'ngselect',
+                    id: 'MotorUsage',
                     key: 'MotorUsage',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
@@ -117,6 +121,7 @@ export class MotorVehicleUganda{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     key: 'ClaimsYN',
+                    id: 'ClaimsYN',
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
@@ -130,6 +135,7 @@ export class MotorVehicleUganda{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     key: 'GpsYN',
+                    id: 'GpsYN',
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
@@ -143,6 +149,7 @@ export class MotorVehicleUganda{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     type: 'commaSeparator',
+                    id: 'VehicleSI',
                     key: 'VehicleSI',
                     hide: true,
                     hideExpression:true,
@@ -166,6 +173,7 @@ export class MotorVehicleUganda{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     type: 'commaSeparator',
+                    id: 'AccessoriesSI',
                     key: 'AccessoriesSI',
                     hide: true,
                     hideExpression:true,
@@ -189,6 +197,7 @@ export class MotorVehicleUganda{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     type: 'commaSeparator',
+                    id: 'WindShieldSI',
                     key: 'WindShieldSI',
                     hide: true,
                     hideExpression:true,
@@ -212,6 +221,7 @@ export class MotorVehicleUganda{
                   {
                     type: 'commaSeparator',
                     key: 'ExtendedTPPDSI',
+                    id: 'ExtendedTPPDSI',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     hide: true,
@@ -236,6 +246,7 @@ export class MotorVehicleUganda{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     key: 'CarAlarmYN',
+                    id: 'CarAlarmYN',
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',

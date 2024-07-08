@@ -50,7 +50,7 @@ export class Burglary{
                   {
                     className: 'col-12 md:col-6 lg:col-6',
                     type: 'ngselect',
-                      key: 'BurglarySi',
+                      key: 'FireSumInsured',
                       templateOptions: {
                         //disabled: this.checkDisable('BuildingSuminsured')
                         maxLength: 15,
@@ -71,7 +71,7 @@ export class Burglary{
                   {
                     className: 'col-12 md:col-6 lg:col-6',
                     type: 'commaSeparator',
-                      key: 'FireSumInsured',
+                      key: 'BurglarySi',
                       
                       props: { 
                         maxLength: 15,
