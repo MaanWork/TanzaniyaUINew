@@ -2432,6 +2432,7 @@ onFidelitySave(){
           if(entry['EmployeeId']==null || entry['EmployeeId']==undefined || entry['EmployeeId']=='') entry['EmployeeId'] = null;
           else entry['EmployeeId'] = String(entry.EmployeeId);
           entry['RiskId']=this.employeeOccupationList.find(ele=>ele.Code==entry.OccupationId)?.RiskId;
+          entry['LocationId']=entry['RiskId']
           empList.push(entry);
           i+=1;
           if(i==this.employeeList.length){
@@ -6242,7 +6243,7 @@ return true;
   }
 
   getemployeeList(risk,i){
-    if(risk[0].RiskId==null && risk[0].Address==null && risk[0].NationalityId==null && i==1){
+    if(risk[0].OccupationDesc==null && risk[0].LocationName==null && i==1){
       return false;
       }
   else {
@@ -7287,8 +7288,7 @@ return true;
   }
   onemployeesavelast(){
     if(this.currentEmployeeIndex!=null){
-      this.employeeList[this.currentEmployeeIndex]['RiskId'] = this.productItem.EmpsLocation;
-      this.employeeList[this.currentEmployeeIndex]['LocationId'] = this.productItem.EmpsLocation;
+      this.employeeList[this.currentEmployeeIndex]['LocationName'] = this.productItem.EmpsLocation;
       this.employeeList[this.currentEmployeeIndex]['EmployeeName'] = this.productItem.EmpsName;
       this.employeeList[this.currentEmployeeIndex]['OccupationId'] = this.productItem.EmpsOccupation;
       this.employeeList[this.currentEmployeeIndex]['OccupationDesc'] = this.employeeOccupationList.find(ele=>ele.Code==this.productItem.EmpsOccupation).label;
@@ -7315,10 +7315,9 @@ return true;
           "ProductId": this.productId,
           "QuoteNo": this.quoteNo,
           "RequestReferenceNo": this.quoteRefNo,
-          "RiskId":this.productItem.EmpsLocation,
           "Salary": this.productItem.EmpsSI,
           "NationalityId":this.productItem.EmpsNationality,
-          "LocationId":this.productItem.EmpsLocation,
+          "LocationName":this.productItem.EmpsLocation,
           // "LocationName":null
         }
         this.employeeList.push(entry);
