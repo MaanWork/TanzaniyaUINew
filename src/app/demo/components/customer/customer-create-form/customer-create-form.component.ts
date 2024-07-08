@@ -334,6 +334,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			"SaveOrSubmit": 'Submit',
 			"MiddleName":data?.MiddleName,
 			"LastName":data?.LastName,
+			"Zone":"1",
 		}
 		let quoteNo = sessionStorage.getItem('quoteNo'),refNo = null;
 		if(this.loginType=='B2CFlow' || (this.loginType=='B2CFlow2')){
@@ -1184,6 +1185,10 @@ getType3(type){
 		}
 		if(type=='change'){
 			this.productItem.Occupation = '';
+		}
+		if(this.insuranceId=='100004') {
+			this.productId='';
+			product='';
 		}
 		let ReqObj = {
 			"InsuranceId": this.insuranceId,

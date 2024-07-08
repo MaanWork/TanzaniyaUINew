@@ -146,6 +146,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 	RelationId: any=''
 	Nationality: any=''
 	PassportNo: any=''
+	HorsePower: any=''
 	constructor(data?) {
 		this.id = data?.id ?? ''
 		this.CustomerName = data?.CustomerName ?? '';
@@ -349,6 +350,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.RelationId = data?.RelationId ?? '';
 		this.Nationality = data?.Nationality ?? '';
 		this.PassportNo = data?.PassportNo ?? '';
+		this.HorsePower = data?.HorsePower ?? '';
 		// this.EquipmentSi = data?.EquipmentSi ?? '0';
 		// this.ElectronicEquipSuminsured = data.ElectronicEquipSuminsured ?? '0';
 	}
