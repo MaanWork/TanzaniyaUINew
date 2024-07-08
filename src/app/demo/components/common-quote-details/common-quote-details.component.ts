@@ -19,6 +19,7 @@ import { MotorVehicleMadison } from '../quotation/quotation-plan/models/Madison/
 import { AppComponent } from 'src/app/app.component';
 import { TranslateService } from '@ngx-translate/core';
 import { MotorVehicleSanlamIvory } from '../quotation/quotation-plan/models/sanlamIvory/MotorVehicleSanlamIvory';
+import { el } from '@fullcalendar/core/internal-common';
 declare var $:any;
 interface Plan {
   title:string;
@@ -206,6 +207,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
       if(this.insuranceId=='100027') fireData = new MotorVehicleSanlam();
       else if(this.insuranceId=='100040') fireData = new MotorVehicleSanlamIvory();
       this.fields[0] = fireData?.fields;
+      console.log("this.fields[0]",this.fields[0]);
+      
     }
   }
   ngOnInit() {
@@ -291,8 +294,21 @@ export class CommonQuoteDetailsComponent implements OnInit {
       let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
       let i=0;
       for(let field of fieldList){
-        this.translate.get('MOTORQUOTE.'+field.id).subscribe((translation: string) => {
-          if(field.props) field.props.label = translation;
+        let key =null;
+        if(field.id) key=field.id
+        else key = field.key
+        this.translate.get('MOTORQUOTE.'+key).subscribe((translation: string) => {
+          if(field.props){field.props.label = translation;
+            if(field.props.options){
+              for(let entry of field.props.options){
+                if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+                  entry['CodeDescLocal'] = 'Other';
+                }
+                if(this.lang=='en') entry['label'] = entry.CodeDesc
+                else entry['label'] = entry.CodeDescLocal
+              }
+            }
+          }
           else if(field.templateOptions) field.templateOptions.label = translation;
         });
         i+=1;
@@ -340,7 +356,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                       console.log("Dropdown List",this.fields);
                       let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
                       for(let field of fieldList){
-                          if(field.key=='VehicleClass') field.props.options = defaultObj.concat(this.vehicleClassList);
+                          if(field.key=='VehicleClass'){ field.props.options = defaultObj.concat(this.vehicleClassList);this.checkFieldNames();}
                       }
                   }
                 }
@@ -1205,8 +1221,14 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 this.typeList[i].label = this.typeList[i]['CodeDesc'];
                 this.typeList[i].value = this.typeList[i]['Code'];
                 if (i == this.typeList.length - 1) {
-                  if(this.fields.length!=0)  this.fields[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.typeList);
-                    
+                  if(this.insuranceId=="100040"){
+
+                    if(this.fields.length!=0)  this.fields[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.typeList);
+                  }
+                  else{
+                    if(this.fields.length!=0)  this.fields[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.typeList);
+                  }
+                  this.checkFieldNames();
                 }
               }
             }
@@ -1234,7 +1256,14 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 this.deductiblesList[i].value = this.deductiblesList[i]['Code'];
                 if (i == this.deductiblesList.length - 1) {
                     console.log("Dropdown List",this.fields)
-                    this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.deductiblesList);
+                    if(this.insuranceId=="100040"){
+
+                      this.fields[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.deductiblesList);
+                    }
+                    else{
+                      this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.deductiblesList);
+                    }
+                    this.checkFieldNames();
                 }
               }
             }
@@ -1264,6 +1293,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                     for(let field of fieldList){
                       if(field.key=='DefenceCost'){
                         field.props.options = defaultObj.concat(this.defencecostList);
+                        this.checkFieldNames();
                       }
                     }
                 }
@@ -1303,7 +1333,14 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 this.vehicleTypeList[i].value = this.vehicleTypeList[i]['Code'];
                 if (i == this.vehicleTypeList.length - 1) {
                     console.log("Dropdown List",this.fields)
-                    this.fields[0].fieldGroup[0].fieldGroup[5].props.options = defaultObj.concat(this.vehicleTypeList);
+                    if(this.insuranceId=="100040"){
+
+                      this.fields[0].fieldGroup[0].fieldGroup[6].props.options = defaultObj.concat(this.vehicleTypeList);
+                    }
+                    else{
+                      this.fields[0].fieldGroup[0].fieldGroup[5].props.options = defaultObj.concat(this.vehicleTypeList);
+                    }
+                    this.checkFieldNames();
                 }
               }
             }
@@ -1353,6 +1390,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                               console.log('Field ',field)
                               if(field.key=='InsuranceClass'){
                                   field.props.options= defaultObj.concat(this.classList);
+                                  this.checkFieldNames();
                               }
                             }
                           }
@@ -1436,6 +1474,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                       }
                       if(field.key=='BodyType'){
                         field.props.options = defaultObj.concat(this.motorTypeList);
+                        this.checkFieldNames();
                       }
                     }
                   }
@@ -1492,6 +1531,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                         }
                         else{field.formControl.setValue(vehicleValue);this.motorUsageType=type;}
                             field.props.options= defaultObj.concat(this.motorUsageList);
+                            this.checkFieldNames();
                       }
                     }
                 }
@@ -1976,7 +2016,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               this.vehicleDetails['OldSumInsured']= data?.Result.SumInsured;
               this.vehicleDetails['OldTppdIncreaeLimit'] = data?.Result.TppdIncreaeLimit;
               this.vehicleDetails['OldWindScreenSumInsured'] = data?.Result.WindScreenSumInsured;
-              this.vehicleDetails['HoursePower'] = data?.Result.HoursePower;
+              this.vehicleDetails['HorsePower'] = data?.Result.HorsePower;
               this.typeValue = this.vehicleDetails?.Insurancetype;
               this.classValue = this.vehicleDetails?.InsuranceClass;
                 if(this.insuranceId!='100004') this.getMotorTypeList('direct',this.vehicleDetails?.VehicleType,this.vehicleDetails?.Motorusage)
@@ -2046,6 +2086,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 if (i == this.motorTypeList.length - 1) {
                     if(this.insuranceId!='100004') this.fields[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.motorTypeList);
                     else this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.motorTypeList);
+                    this.checkFieldNames();
                 }
               }
             }
@@ -2123,6 +2164,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
   }
   onSearchVehicle(){
+    // alert("3")
     let entry = this.checMandatories()
     this.regNoError = false;
     if(this.regNo==null || this.regNo==undefined || this.regNo=='') this.regNoError = true;
@@ -2260,6 +2302,15 @@ export class CommonQuoteDetailsComponent implements OnInit {
       }
       if(this.vehicleDetails?.SavedFrom=='SQ') this.vehicleDetails.SavedFrom = 'WEB';
       if(this.endorsementSection && this.enableAddVehicle){this.vehicleDetails['EndorsementYn']='Y';}
+      let Insurancetype=null,sectionId=null
+      if(this.insuranceId=='100040'){
+        Insurancetype= ["401"];
+        if(this.productItem.InsuranceClass!='')sectionId=this.productItem.InsuranceClass;
+      } 
+      else {
+        Insurancetype =this.vehicleDetails?.Insurancetype;
+        sectionId=this.vehicleDetails?.Insurancetype;
+      }
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": null,
@@ -2294,7 +2345,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         "Gpstrackinginstalled":  gpsYn,
         "Grossweight": this.vehicleDetails?.Grossweight,
         "HoldInsurancePolicy": "N",
-        "Insurancetype": null,
+        "Insurancetype": Insurancetype,
         "InsuranceId": this.insuranceId,
         "InsuranceClass": null,
         "InsurerSettlement": "",
@@ -2313,7 +2364,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         "BranchCode": this.branchCode,
         "AgencyCode": this.agencyCode,
         "ProductId": this.productId,
-        "SectionId": null,
+        "SectionId": sectionId,
         "PolicyType": null,
         "RadioOrCasseteplayer": null,
         "RegistrationYear": regYear,
@@ -2372,7 +2423,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
         "IsFinanceEndt": this.isFinanceEndt,
         "OrginalPolicyNo": this.orginalPolicyNo,
         "Mileage":this.productItem.Mileage,
-        "HoursePower": this.productItem.HoursePower,
+        "HorsePower": this.productItem.HorsePower,
+        "Zone":"1",
         "NoOfClaimYears":null,
         "NoOfPassengers":null,
         "Scenarios": {
@@ -2568,10 +2620,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
     return years;
   }
   saveMotorDetails(index){
+    // alert("1")
     sessionStorage.removeItem('loadingType');
     
     if(this.finalizeYN!='Y'){
         if(this.insuranceId=='100004') this.typeValue = this.classValue;
+       
         let createdBy="";
         let startDate = "",endDate = "",vehicleSI="",accSI="",windSI="",tppSI="";
         if(this.vehicleSI==undefined) vehicleSI = null;
@@ -2706,7 +2760,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
         }
        
-        if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100028' || this.insuranceId=='100040'){
+        if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100028' ){
           if(Array.isArray(insuranceType)){
             if(insuranceType.length!=0) this.productItem.InsuranceClass = insuranceType[0];
           }
@@ -2763,8 +2817,16 @@ export class CommonQuoteDetailsComponent implements OnInit {
             this.productItem.PreviousLossRatio = Number(String(this.productItem.PreviousLossRatio).replace(/\D/g,''));
           }
           else this.productItem.PreviousLossRatio=null;
+          let Insurancetype,sectionId ;
+          if(this.insuranceId=='100040') {Insurancetype= ["401"];sectionId=this.vehicleDetails.InsuranceClass;}
+          else {
+            Insurancetype=this.vehicleDetails?.Insurancetype;sectionId=this.vehicleDetails?.Insurancetype;
+          }
+          if(this.insuranceId=='100040') this.typeValue = this.vehicleDetails.InsuranceClass;
+          // if(this.vehicleDetails?.HorsePower==undefined) this.vehicleDetails.HorsePower="10"
           let ReqObj = {
-            "HoursePower": this.vehicleDetails?.HoursePower,
+            "HorsePower": this.productItem?.HorsePower,
+            "Zone":'1',
             "ExcessLimit": null,
             "Deductibles": deductibles,
             "BrokerBranchCode": brokerbranchCode,
@@ -2800,9 +2862,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "Gpstrackinginstalled": this.productItem.GpsYN,
             "Grossweight": this.vehicleDetails?.Grossweight,
             "HoldInsurancePolicy": "N",
-            "Insurancetype": insuranceType,
+            "Insurancetype": Insurancetype,
             "InsuranceId": this.insuranceId,
-            "InsuranceClass": this.productItem.InsuranceClass,
+            "InsuranceClass": this.vehicleDetails.InsuranceClass,
             "InsurerSettlement": "",
             "InterestedCompanyDetails": "",
             "ManufactureYear": this.vehicleDetails?.ManufactureYear,
@@ -2817,7 +2879,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "BranchCode": this.branchCode,
             "AgencyCode": this.agencyCode,
             "ProductId": this.productId,
-            "SectionId": this.productItem.InsuranceType,
+            "SectionId": sectionId,
             "PolicyType": IdType,
             "RadioOrCasseteplayer": null,
             "RegistrationYear": regYear,
@@ -2932,7 +2994,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 areaGroup = this.districtList.find(ele=>ele.Code==this.subUrbanCode)?.AreaGroup;
               }
               if(this.insuranceId=='100028'){this.stateValue=null;this.cityCode=null;this.subUrbanCode=null; areaGroup=null;}
-                ReqObj['DriverDetails']={
+                
+              ReqObj['DriverDetails']={
                   'DriverName':this.driverName,
                   'DriverType':this.driverType,
                   'Gender' : this.gender,
@@ -3327,7 +3390,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   vehicleDetails['MobileNumber'] = customerDetails?.MobileNo1;
                 }
               }
+
               if(vehicleDetails?.SavedFrom=='SQ') vehicleDetails.SavedFrom = 'WEB';
+              let Insurancetype;
+              if(this.insuranceId=='100040') Insurancetype= ["401"];
+              else Insurancetype=vehicleDetails?.Insurancetype;
               let ReqObj = {
                 "BrokerBranchCode": brokerbranchCode,
                 "AcExecutiveId": this.acExecutiveId,
@@ -3365,7 +3432,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               "Gpstrackinginstalled": vehicleDetails?.Gpstrackinginstalled,
               "Grossweight": vehicleDetails?.Grossweight,
               "HoldInsurancePolicy": "N",
-              "Insurancetype": vehicleDetails?.Insurancetype,
+              "Insurancetype": Insurancetype,
               "InsuranceId": this.insuranceId,
               "InsuranceClass": vehicleDetails?.InsuranceClass,
               "InsurerSettlement": "",
@@ -3382,7 +3449,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               "BranchCode": this.branchCode,
               "AgencyCode": this.agencyCode,
               "ProductId": this.productId,
-              "SectionId": vehicleDetails?.Insurancetype,
+              "SectionId": Insurancetype,
               "PolicyType": IdType,
               "RadioOrCasseteplayer": null,
               "RegistrationYear": regYear,
@@ -3440,7 +3507,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
               "Mileage": vehicleDetails?.Mileage,
               "NoOfClaimYears": vehicleDetails?.NoOfClaimYears,
               "NoOfPassengers": vehicleDetails?.NoOfPassengers,
-              "HoursePower":vehicleDetails?.HoursePower,
+              "HorsePower":vehicleDetails?.HorsePower,
+              "Zone":"1",
               "Scenarios": {
                   "ExchangeRateScenario": {
                     "OldAcccessoriesSumInsured": vehicleDetails.AcccessoriesSumInsured,
@@ -3715,6 +3783,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
   }
   onFormSubmit(type){
+    // alert("2")
     sessionStorage.removeItem('loadingType');
     this.currentIndex = 1;
     if(this.finalizeYN!='Y'){
@@ -3890,7 +3959,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               else insuranceType.push(this.productItem.InsuranceType);
             }
           }
-          if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100028' || this.insuranceId=='100040'){
+          if(this.insuranceId=='100027' || this.insuranceId=='100028'){
             if(Array.isArray(insuranceType)){
               if(insuranceType.length!=0) this.productItem.InsuranceClass = insuranceType[0];
             }
@@ -3941,6 +4010,16 @@ export class CommonQuoteDetailsComponent implements OnInit {
               }
             }
           }
+          let Insurancetype,sectionId;
+         // alert(this.productItem.InsuranceClass+"this.vehicleDetails.InsuranceClass")
+          if(this.insuranceId=='100040'){
+            Insurancetype= ["401"];
+            sectionId=this.productItem.InsuranceClass;
+          } 
+          else {
+            Insurancetype =this.vehicleDetails?.Insurancetype;
+            sectionId=this.vehicleDetails?.Insurancetype;
+          }
           if(this.motorDetails?.SavedFrom=='SQ') this.motorDetails.SavedFrom = 'WEB';
           let ReqObj = {
             "ExcessLimit": null,
@@ -3978,7 +4057,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "Gpstrackinginstalled": this.productItem.GpsYN,
             "Grossweight": this.vehicleDetails?.Grossweight,
             "HoldInsurancePolicy": "N",
-            "Insurancetype": insuranceType,
+            "Insurancetype": Insurancetype,
             "InsuranceId": this.insuranceId,
             "InsuranceClass": this.productItem.InsuranceClass,
             "InsurerSettlement": "",
@@ -3995,7 +4074,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "BranchCode": this.branchCode,
             "AgencyCode": this.agencyCode,
             "ProductId": this.productId,
-            "SectionId": this.productItem.InsuranceType,
+            "SectionId": sectionId,
             "PolicyType": IdType,
             "RadioOrCasseteplayer": null,
             "RegistrationYear": regYear,
@@ -4063,6 +4142,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "NoOfPassengers":this.productItem.NoOfPassengers,
             "PreviousInsuranceYN":this.productItem.PreviousInsuranceYN,
             "PreviousLossRatio": this.productItem.PreviousLossRatio,
+            "HorsePower":this.productItem.HorsePower,
+            "Zone":"1",
             "Scenarios": {
               "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": this.vehicleDetails.OldAcccessoriesSumInsured,
@@ -4225,12 +4306,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
                     // }
                     // else 
                     if(this.finalizeYN!='Y'){
-                   
                         entry['MSRefNo'] = data?.Result[0].MSRefNo;
                         entry['VdRefNo'] = data?.Result[0].VdRefNo;
                         entry['CdRefNo'] = data?.Result[0].CdRefNo;
                         entry['Active'] = true;
                         entry['VehicleId'] = data.Result[0].VehicleId;
+                        if(this.insuranceId=="100040") veh['SectionId'] = sectionId;
                         this.onCalculateVehDetails(veh,type,i,data.Result.length,insuranceType.length);
                         i+=1;
                       //this.getCalculationDetails(veh,type,this.currentIndex-1,'proceedSave');
@@ -4533,6 +4614,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
     // 
   }
   onCalculateVehDetails(vehicleDetails,type,entry,totalCount,sectionCount){
+    console.log(vehicleDetails,"vehicleDetails");
+    
     let createdBy="";
           let coverModificationYN = 'N';
           if(this.endorsementSection){
@@ -4577,7 +4660,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               "InsuranceId": this.insuranceId,
               "BranchCode": this.branchCode,
               "AgencyCode": this.agencyCode,
-              "SectionId": vehicleDetails?.SectionId,
+              "SectionId": vehicleDetails.SectionId,
               "ProductId": this.productId,
               "MSRefNo": vehicleDetails?.MSRefNo,
               "VehicleId": vehicleDetails?.VehicleId,
@@ -4586,7 +4669,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               "VdRefNo": vehicleDetails?.VdRefNo,
               "CreatedBy": createdBy,
               "productId": this.productId,
-              "sectionId": vehicleDetails?.SectionId,
+              //"sectionId": vehicleDetails?.SectionId,
               "RequestReferenceNo": this.quoteRefNo,
               "EffectiveDate": effectiveDate,
               "PolicyEndDate": endDate,
@@ -4759,7 +4842,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
     this.fields = [];
     let fireData:any=null;
     if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100002' || this.insuranceId=='100028' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020' || this.insuranceId=='100004'){
-      if(this.insuranceId=='100027' || this.insuranceId=='100040')  fireData = new MotorVehicleSanlam();
+      if(this.insuranceId=='100027' )  fireData = new MotorVehicleSanlam();
+      else if( this.insuranceId=='100040') fireData = new MotorVehicleSanlamIvory();
       else if(this.insuranceId=='100002') { fireData = new MotorVehicleTanzaniya(); this.getInsuranceClassList()}
       else if(this.insuranceId=='100028'){ fireData = new MotorVehicleEagle(); }
       else if(this.insuranceId=='100018'){ fireData = new MotorVehicleOromia();this.getInsuranceClassList()}
@@ -5040,9 +5124,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
         }
       }
-      if(field.key=='InsuranceType' && (this.insuranceId=='100028' || this.insuranceId=='100027' || this.insuranceId=='100040') && this.vehicleDetailsList.length==1){
-        field.hideExpression = true;field.hide=true;
-      }
+      // if(field.key=='InsuranceType' && (this.insuranceId=='100028' || this.insuranceId=='100027' || this.insuranceId=='100040') && this.vehicleDetailsList.length==1){
+      //   field.hideExpression = true;field.hide=true;
+      // }
       if(field.key=='VehicleSI' || field.key=='AccessoriesSI' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI'){
         if(this.insuranceId=='100028' && this.vehicleDetailsList.length==1){
           field.hideExpression = false;field.hide=false;

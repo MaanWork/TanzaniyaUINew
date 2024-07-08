@@ -629,6 +629,7 @@ export class MotorVehicleSanlamIvory{
                       disabled: this.checkDisable('NoOfClaimYears'),
                     //  required: true,
                     //hidden:ClaimsYN,
+                     hide: '!model.ClaimsYN',
                       options: [
   
                       ],

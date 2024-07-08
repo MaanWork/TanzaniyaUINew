@@ -217,6 +217,7 @@
       "MartialStatus":"Martial Status",
       "ClaimType":"Claim Type",
       "DriverType":"Driver Type",
+      "HorsePower":"Horse Power",
       "Gender":"Gender",
       "City":"City",
       "SubUrban":"Sub Urban",
