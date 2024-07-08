@@ -1655,7 +1655,6 @@ export class AccesoriesComponent {
                 console.log('EMPLOYEEEEEEEEE',this.employeeList)
               }
               else {
-                console.log('TTTTTTTT',this.employeeList);
                 this.EmployeeAdd();
               }
               console.log('SSSSSSSSSS',this.employeeList);
@@ -2432,6 +2431,7 @@ onFidelitySave(){
           // if(emp.LocationName==undefined) emp['LocationName'] = this.LocationList.find(ele=>ele.Code==emp['LocationId']).CodeDesc;
           if(entry['EmployeeId']==null || entry['EmployeeId']==undefined || entry['EmployeeId']=='') entry['EmployeeId'] = null;
           else entry['EmployeeId'] = String(entry.EmployeeId);
+          entry['RiskId']=this.employeeOccupationList.find(ele=>ele.Code==entry.OccupationId)?.RiskId;
           empList.push(entry);
           i+=1;
           if(i==this.employeeList.length){
@@ -2808,7 +2808,6 @@ onFidelitySave(){
                   for (let i = 0; i < this.employeeOccupationList.length; i++) {
                     this.employeeOccupationList[i].label = this.employeeOccupationList[i]['CodeDesc'];
                     this.employeeOccupationList[i].value = this.employeeOccupationList[i]['Code'];
-                    delete this.employeeOccupationList[i].CodeDesc;
                     if (i == this.employeeOccupationList.length - 1) {
                       this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = defobj.concat(this.employeeOccupationList);
                     }
@@ -2834,7 +2833,6 @@ onFidelitySave(){
             for (let i = 0; i < this.occupationList.length; i++) {
               this.occupationList[i].label = this.occupationList[i]['CodeDesc'];
               this.occupationList[i].value = this.occupationList[i]['Code'];
-              delete this.occupationList[i].CodeDesc;
               if (i == this.occupationList.length - 1) {
                 if(this.eight){
                   this.fieldFEFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = defobj.concat(this.occupationList);
@@ -6024,13 +6022,12 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
 
   onEditEmployee(index,rowdata){
     //this.currentEmployeeIndex = index;
-    let edit = this.employeeList.findIndex(ele=>ele.NationalityId == rowdata.NationalityId && ele.EmployeeName == rowdata.EmployeeName);
+    let edit = this.employeeList.findIndex(ele=>ele.EmployeeName == rowdata.EmployeeName);
     this.currentEmployeeIndex = edit;
-    console.log('SSSSSSSSSSSSSSSS',edit);
     this.editEmployeeSection = true;
     this.enableEmployeeEditSection = true;
     this.productItem = new ProductData();
-    this.productItem.EmpsLocation= rowdata.EmpsLocation;
+    this.productItem.EmpsLocation= rowdata.LocationId;
     this.productItem.EmpsName=rowdata.EmployeeName;// this.employeeName this.employeeList[index].
     //this.productItem.EmpsAddress = rowdata.Address;//this.empAddress 
     this.productItem.EmpsOccupation = rowdata.OccupationId;//this.occupationType 

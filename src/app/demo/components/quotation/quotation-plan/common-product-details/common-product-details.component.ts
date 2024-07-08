@@ -2081,6 +2081,7 @@ export class CommonProductDetailsComponent {
       "MoneyCollector": rowData.MoneyCollector,
       "MoneyAnnualEstimate": rowData.MoneyAnnualEstimate,
       "MoneyInTransit":rowData.MoneyInTransit,
+      "MoneyInSafe":rowData.MoneyInSafe,
       "RiskId": rowData.RiskId
     }
     if (this.currentMoneyIndex !=0) {
@@ -3969,7 +3970,6 @@ backPlan()
               }
             }
             else if(this.productId=='16'){
-              
               if(details?.EndorsementDate){
                 this.endorsementDate = details?.EndorsementDate;
                 this.endorsementEffectiveDate = details?.EndorsementEffectiveDate;
@@ -3991,6 +3991,7 @@ backPlan()
               this.productItem.MoneyCollector=details?.MoneyCollector;
               this.productItem.MoneyAnnualEstimate=details?.MoneyAnnualEstimate;
               this.productItem.MoneyMajorLoss=details?.MoneyMajorLoss;
+              this.productItem.MoneyInTransit=details?.MoneyMajorLoss;
               let list = data.Result;
               let i=0;
               for(let entry of list){
@@ -4000,6 +4001,7 @@ backPlan()
                 entry['MoneyCollector']=entry?.MoneyCollector;
                 entry['MoneyAnnualEstimate']=entry?.MoneyAnnualEstimate
                 entry['MoneyMajorLoss']=entry?.MoneyMajorLoss;
+                entry['MoneyInTransit']=entry?.MoneyMajorLoss;
                 i+=1;if(i==list.length) this.TableRowMoney=list;
               }
              console.log(data.Result,"this.TableRowMoney");
@@ -4330,6 +4332,7 @@ backPlan()
       if(field.key=='MoneyAnnualEstimate')  field.formControl.setValue(rowData.MoneyAnnualEstimate);
       if(field.key=='MoneyInTransit')  field.formControl.setValue(rowData.MoneyInTransit);
       if(field.key=='MoneyInSafe')  field.formControl.setValue(rowData.MoneyInSafe);
+      if(field.key=='MoneyOutofSafe')  field.formControl.setValue(rowData.MoneyOutofSafe);
       if(field.key=='LocationName')  field.formControl.setValue(rowData.LocationName);
       if(field.key=='RegionCode')  field.formControl.setValue(rowData.RegionCode);
       if(field.key=='DistrictCode')  field.formControl.setValue(rowData.DistrictCode);
@@ -7669,9 +7672,9 @@ finalSaveMoney(finalList,type,formType) {
             this.productItem.MoneyDirectorResidence=data.Result[i-1].MoneyDirectorResidence;
             this.productItem.MoneyCollector=data.Result[i-1].MoneyCollector;
             this.productItem.MoneyAnnualEstimate=data.Result[i-1].MoneyAnnualEstimate;
-            this.productItem.MoneyInTransit = data.Result[i-1].MoneyInTransit;
+            this.productItem.MoneyInTransit = data.Result[i-1].MoneyMajorLoss;
             this.productItem.MoneyOutofSafe = data.Result[i-1].MoneyOutofSafe;
-            this.productItem.MoneyInSafe= data.Result[i-1].MoneyInSafe;
+            this.productItem.MoneyInSafe= data.Result[i-1].StrongroomSi;
             this.productItem.MoneyMajorLoss=data.Result[i-1].MoneyMajorLoss;
             this.productItem.LocationName=data.Result[i-1].LocationName;
             this.productItem.RegionCode=data.Result[i-1].RegionCode;
@@ -7690,6 +7693,7 @@ finalSaveMoney(finalList,type,formType) {
               if(field.key=='LocationName')  field.formControl.setValue(this.productItem.LocationName);
               if(field.key=='RegionCode')  field.formControl.setValue(this.productItem.RegionCode);
               if(field.key=='DistrictCode')  field.formControl.setValue(this.productItem.DistrictCode);
+              if(field.key=='MoneyOutofSafe')  field.formControl.setValue(this.productItem.MoneyOutofSafe);
             }
           }
           // this.productItem.CashInHandEmployees = details?.CashInHandEmployees;
