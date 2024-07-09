@@ -423,7 +423,7 @@
                                     <th [pSortableColumn]="queryHeader1" *ngFor="let column of queryHeader1">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="body" let-emp>
+                            <ng-template pTemplate="body" let-emp let-i="rowIndex">
                                 <tr>
                                 <td>
                                     {{emp.TotalNoOfEmployees}}
@@ -431,10 +431,10 @@
                                 <td>{{emp?.EmpLiabilitySi}}</td>
                                 <td>{{emp?.OtherOccupation}}</td>
                                 <td>
-                                    <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditBuilding(emp)"></button>  
+                                    <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditBuilding(emp,i)"></button>  
                                 </td>
                                 <td>
-                                    <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="delete(emp)"></button>  
+                                    <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="delete(i)"></button>  
                                 </td>
                                 </tr>
                             </ng-template>
@@ -835,6 +835,13 @@
                     </div>
                     
                     <div class="card-body pl-5">
+                        <div class="row" *ngIf="productId=='1' && burglaryError">
+                            <div class="input-form-error text-center">
+                                <div class="error-text  text-danger">
+                                    <b>Please Add Atleast One Burglary Details</b>
+                                </div>
+                            </div>
+                        </div>
                         <div class="grid">
                             <div class="lg:col-2 md:col-2 col-12"></div>
                             <div class="lg:col-8 md:col-8 col-12">
@@ -949,7 +956,7 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-EE let-i="rowIndex">
                             <tr>
-                            <td>{{i}}</td>
+                            <td>{{i+1}}</td>
                             <td>{{EE.LocationName}}</td>
                             <td>{{this.getContenDesc(EE.ContentId)}}</td>
                             <td>{{EE.SerialNo}}</td>
@@ -1273,7 +1280,7 @@
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3">
                         <div class="input-control-container">
                             <label for="ProductName">Covering Details&nbsp;<span class="text-danger">*</span></label>
-                            <textarea pInputTextarea class="w-full" type="text" name="SampleType" [(ngModel)]="CoveringDetails" placeholder="Enter Covering Details"></textarea>
+                            <textarea pInputTextarea class="w-full" type="text" maxlength="1000" name="SampleType" [(ngModel)]="CoveringDetails" placeholder="Enter Covering Details"></textarea>
                             <div class="input-form-error" *ngIf="coveringDetailsError">
                                 <div class="error-text text-danger">
                                     Please Enter Covering Details
@@ -1284,7 +1291,7 @@
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3">
                         <div class="input-control-container">
                             <label class="input-form-label">Description Of Risk&nbsp;<span class="text-danger">*</span></label>
-                                <textarea pInputTextarea class="w-full" type="text" name="SampleType" placeholder="Enter Description of Risk" [(ngModel)]="DescriptionRisk"></textarea>
+                                <textarea pInputTextarea class="w-full" maxlength="1000" type="text" name="SampleType" placeholder="Enter Description of Risk" [(ngModel)]="DescriptionRisk"></textarea>
                                 <div class="input-form-error" *ngIf="descriptionRiskError">
                                     <div class="error-text text-danger">
                                         Please Enter Description Risk
