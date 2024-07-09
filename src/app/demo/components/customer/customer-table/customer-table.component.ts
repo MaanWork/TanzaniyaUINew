@@ -43,21 +43,33 @@ export class CustomerTableComponent implements OnInit{
 			if(res) this.lang=res;
 			else this.lang='en';
 			this.translate.setDefaultLang(this.lang);
+        this.setHeaders()
 		  });
 		if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
 		else this.lang='en';
 		sessionStorage.setItem('language',this.lang)
-		this.translate.setDefaultLang(sessionStorage.getItem('language'));}
+		this.translate.setDefaultLang(sessionStorage.getItem('language'));
+      this.setHeaders();
+    }
     this.getCustomersList();
   }
   ngOnInit() {
-    this.items = [{ label: 'Home', routerLink:'/' }, {label:'Customer'}];
+   
     this.tableActions = [{label: 'Edit', icon:'pi pi-pencil'}, {label: 'Delete',icon: PrimeIcons.TRASH}];
-    if(this.lang=='en'){ this.columns = [ 'Reference No','Customer Name',  'Customer Type','ID Number', 'Mobile No', 'TaxExempted', 'Created By', 'Status', 'Action'];}
-    else if(this.lang=='po'){ this.columns = [ 'Número de referência','Nome do cliente',  'Tipo de Cliente','Número de identidade', 'Número de telemóvel', 'Isento de Imposto', 'Criado por', 'Status', 'Ação'];}
+    
     
     this.customers = [{referenceNo:'123'}, {referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'},{referenceNo:'123'}];
 
+  }
+  setHeaders(){
+    if(this.lang=='en'){ 
+      this.columns = [ 'Reference No','Customer Name',  'Customer Type','ID Number', 'Mobile No', 'TaxExempted', 'Created By', 'Status', 'Action'];
+      this.items = [{ label: 'Home', routerLink:'/' }, {label:'Customer'}];
+    }
+    else if(this.lang=='po'){ 
+      this.columns = [ 'Número de referência','Nome do cliente',  'Tipo de Cliente','Número de identidade', 'Número de telemóvel', 'Isento de Imposto', 'Criado por', 'Status', 'Ação'];
+      this.items = [{ label: 'Lar', routerLink:'/' }, {label:'Cliente'}];
+    }
   }
   onAddCustomer(rowData){
     if(rowData){

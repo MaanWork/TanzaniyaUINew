@@ -603,7 +603,7 @@ export class RiskDetailsComponent {
                 let res: any = data;
                 if (data.ErrorMessage.length != 0) {
                 }
-                else{this.TableRowBuilding=this.locationList;this.buildingEditSection=false;}
+                else{this.buildingEditSection=false;this.locationIndex=null}
               });
           }
         }
