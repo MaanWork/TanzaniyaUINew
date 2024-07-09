@@ -227,6 +227,7 @@
       "DefenceCost":"Custo de Defesa",
       "VehicleValue":"Valor do veículo",
       "HorsePower":"Potência do cavalo",
+      "EnterHorsePower": "Insira a potência do cavalo",
       "Inflation":"Inflação",
       "NoOfPassengers":"Número de passageiros",
       "NoOfClaimYears":"Número de anos de reclamação",

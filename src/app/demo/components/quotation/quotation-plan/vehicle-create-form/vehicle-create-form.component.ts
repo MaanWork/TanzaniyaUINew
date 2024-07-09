@@ -51,7 +51,7 @@ export class VehicleCreateFormComponent implements OnInit {
   endorsePolicyNo: any=null;years:any[]=[];modelHeader:any[]=[];
   referenceNo: string;mainBodyTypeList:any[]=[];makeError:boolean = false;
   commonDetails: any;editSectionAlt:boolean=false;modelSearchVisible:boolean = false;
-  modelColumns:any[]=[];selectedRowData:any=null;lang:any=null;
+  modelColumns:any[]=[];selectedRowData:any=null;lang:any=null;horsePower:any=null;
   constructor(private messageService: MessageService,private sharedService: SharedService,private appComp:AppComponent,
     private translate:TranslateService,private datePipe:DatePipe,private router:Router) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -601,6 +601,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "EndtStatus": this.endtStatus,
         "IsFinanceEndt": this.isFinanceEndt,
         "OrginalPolicyNo": this.orginalPolicyNo,
+        "HorsePower": this.horsePower,
         "Scenarios": {
             "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": null,
@@ -913,7 +914,7 @@ export class VehicleCreateFormComponent implements OnInit {
     this.modelDesc = vehDetails?.VehicleModelDesc;
     this.currencyCode = vehDetails?.Currency;
     this.exchangeRate = vehDetails?.ExchangeRate;
-    
+    this.horsePower = vehDetails?.HorsePower;
      if(this.insuranceId!='100020') this.onBodyTypeChange('direct');
      else{
       if(vehDetails?.Vehiclemake!=null && vehDetails?.Vehiclemake!='' && this.makeList.length!=0){

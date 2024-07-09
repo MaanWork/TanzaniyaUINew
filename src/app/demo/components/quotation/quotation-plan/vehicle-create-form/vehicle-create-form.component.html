@@ -189,6 +189,10 @@
                 <label for="axis-distance">{{'MOTORDETAILS.AxleDistance' | translate }}*</label>
                 <input pInputText id="axis-distance" digitOnly [(ngModel)]="axelDistance" maxlength="50" [disabled]="editSection" [placeholder]="'MOTORDETAILS.EnterAxleDistance' | translate"/>
             </div>
+            <div class="flex flex-column m-3" *ngIf="insuranceId=='100040'">
+                <label for="axis-distance">{{'MOTORQUOTE.HorsePower' | translate }}*</label>
+                <input pInputText id="axis-distance" digitOnly [(ngModel)]="horsePower" maxlength="50" [disabled]="editSection" [placeholder]="'MOTORQUOTE.EnterHorsePower' | translate"/>
+            </div>
         </div>
         <div class="flex justify-content-center mt-2">
             <p-button styleClass="p-button-outlined"  [label]="'MOTORDETAILS.Back' | translate" class="p-3 text-l mr-0" icon="pi pi-chevron-left" (click)="getBack()"></p-button>&nbsp;
