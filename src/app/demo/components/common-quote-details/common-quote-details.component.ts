@@ -3960,10 +3960,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           else{
             if(this.typeValue==null || this.typeValue==undefined){
-
+            
             }
             else{
-              if(this.insuranceId=='100004'){this.productItem.InsuranceType = this.productItem.InsuranceClass;}
               if(Array.isArray(this.productItem.InsuranceType)) insuranceType = this.productItem.InsuranceType;
               else insuranceType.push(this.productItem.InsuranceType);
             }
@@ -5122,8 +5121,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
   onChangeInsuranceClass(type){
     let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
     for(let field of fieldList){
+      if(this.insuranceId=='100004'){ this.productItem.InsuranceType = this.productItem.InsuranceClass; this.classValue=this.productItem.InsuranceClass}
       if(field.key=='GpsYN' || field.key=='CarAlarmYN'){
         if(this.productItem.InsuranceClass!='' && this.productItem.InsuranceClass!=null && this.productItem.InsuranceClass!=undefined){
+          
+          
           if(this.productItem.InsuranceClass=='1'){
             field.hideExpression = false;field.hide=false;  
             if(this.productItem.GpsYN==null || this.productItem.GpsYN=='') this.productItem.GpsYN = 'N';
