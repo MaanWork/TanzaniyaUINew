@@ -1256,14 +1256,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 this.deductiblesList[i].value = this.deductiblesList[i]['Code'];
                 if (i == this.deductiblesList.length - 1) {
                     console.log("Dropdown List",this.fields)
-                    if(this.insuranceId=="100040"){
-
-                      this.fields[0].fieldGroup[0].fieldGroup[3].props.options = defaultObj.concat(this.deductiblesList);
-                    }
-                    else{
                       this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.deductiblesList);
-                    }
-                    this.checkFieldNames();
+                      this.checkFieldNames();
                 }
               }
             }
@@ -4871,13 +4865,17 @@ export class CommonQuoteDetailsComponent implements OnInit {
         });
       } }
       this.fields[0].fieldGroup[0].fieldGroup[0].hooks = regionHooks;
-      if(this.insuranceId=='100002' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020' || this.insuranceId=='100004' || this.insuranceId=='100028'){
+      if(this.insuranceId=='100002' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100040' || this.insuranceId=='100020' || this.insuranceId=='100004' || this.insuranceId=='100028'){
         let regionHooks2 ={ onInit: (field: FormlyFieldConfig) => {
-          field.formControl.valueChanges.subscribe(() => {
+          field.form.controls['InsuranceClass'].valueChanges.subscribe(() => {
             this.onChangeInsuranceClass('change')
-          });
+           });
         } 
        }
+       if(this.insuranceId=='100040'){
+        this.fields[0].fieldGroup[0].fieldGroup[1].hooks = regionHooks2;
+        
+      } 
         if(this.insuranceId!='100004') {
           let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
           for(let field of fieldList){
@@ -5147,6 +5145,17 @@ export class CommonQuoteDetailsComponent implements OnInit {
           field.hideExpression = false;field.hide=false;
         }
         else if(this.productItem.InsuranceClass!='' && this.productItem.InsuranceClass!=null && this.productItem.InsuranceClass!=undefined){
+          if(this.productId=='1000040'){
+              console.log("iffffffffffffff");
+              field.hideExpression = (this.productItem.InsuranceClass=='121' || this.productItem.InsuranceClass=='122');
+              field.hide=(this.productItem.InsuranceClass=='121' || this.productItem.InsuranceClass=='122'); 
+              this.fields[0].fieldGroup[0].fieldGroup[7].hideExpression=field.hideExpression;
+              this.fields[0].fieldGroup[0].fieldGroup[7].hide=field.hide;
+              // field.hideExpression = (this.productItem.InsuranceClass=='121' || this.productItem.InsuranceClass=='122');
+              // field.hide=(this.productItem.InsuranceClass=='121' || this.productItem.InsuranceClass=='122'); 
+             console.log(field.hideExpression);
+          }
+          else{
             if(this.productItem.InsuranceClass=='1' || this.productItem.InsuranceClass=='2'){
               field.hideExpression = false;field.hide=false;
             }
@@ -5155,7 +5164,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
               this.productItem.WindShieldSI = null;
               this.productItem.Accessories 
               field.hideExpression = true;field.hide=true;}
-        }
+            }
+          }  
+          
       }
     }
   }
