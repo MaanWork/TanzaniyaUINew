@@ -86,6 +86,7 @@
                                                             </div>
                                                             <div class="col-2 md:col-2 lg:col-2 xl:col-2">
                                                                 <div class="flex align-items-center justify-content-between">
+                                                                    <i class="pi pi-question-circle " *ngIf="insuranceId == '100040'"></i>
                                                                     <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>
                                                                 </div>
                                                             </div>
@@ -256,7 +257,7 @@
                                 <ng-container *ngIf="!verticalSection">
                                         <div class="flex flex-wrap">
                                             <div class="col-12 md:col-12 lg:col-12 border-500">
-                                                <ng-container *ngIf="checkBenefitSection2(menu)">
+                                                <ng-container *ngIf="checkBenefitSection2(menu)"><!-- sanlam Ivory-->
                                                     <h3>{{'PREMIUM.DefaultCovers' | translate}}</h3><br>
                                                 </ng-container>
                                                 <div class="flex flex-wrap justify-content-start">
@@ -264,7 +265,7 @@
                                                         <ng-container *ngIf="(cover.isSelected!='D' && cover.CoverageType!='A') && !checkCoverSelection(menu,cover)">
                                                              <div class="card p-3 ml-3 w-25rem customOptCoverCard" [ngClass]="canbeChecked(cover) ? 'customOptCoverBg' : ''" >
                                                                 <div class="grid">
-                                                                    <div class="col-11 md:col-11 lg:col-11 xl:col-11">
+                                                                    <div class="col-10 md:col-10 lg:col-10 xl:col-10">
                                                                         <div class="flex align-items-center justify-content-start">
                                                                             <div>
                                                                                 <input type="checkbox" [checked]="canbeChecked(cover)" (change)="onSelectCover(cover,$event.target.checked,menu.Vehicleid,menu,'coverList','change')" id="vehicle1" name="vehicle1">&nbsp;
@@ -272,11 +273,13 @@
                                                                             </div>
                                                                             <div class="customWidth">
                                                                                 <h5 class="my-0 mr-4">{{cover.CoverName}}</h5>
+                                                                               
                                                                                 <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-1 md:col-1 lg:col-1 xl:col-1">
+                                                                    <div class="col-2 md:col-2 lg:col-2 xl:col-2">
+                                                                        <i class="pi pi-question-circle" style="font-size: 2rem" (click)="benefitPopup(cover)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                         <i class="pi pi-spin pi-" style="font-size: 2rem" *ngIf="cover.isReferal === 'Y'"></i>
                                                                     </div>
                                                                 </div>
@@ -2400,6 +2403,109 @@
             
         </ng-container>
     </div>
+    </div>
+   
+    
+
+</p-dialog>
+
+<p-dialog class="p-su-header" header="CoverDetails" [(visible)]="BenefitPopup" [modal]="true" [position]="position"  styleClass="w-10 md:w-10 lg:w-10" [draggable]="false" [resizable]="false">
+    <div class="grid">
+        <div class="col-12 md:col-12 lg:col-12 xl:col-12">
+            <p-table #CoverD class="table table-bordered mt-5 p-5 w-full" [paginator]="true"
+            [rows]="5" [value]="CoverList" globalFilterFields="[]"
+            >
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                        <input 
+                            pInputText 
+                            type="text" 
+                            (input)="CoverD.filterGlobal($event.target.value, 'contains')" 
+                            placeholder="Search keyword" />
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                    <tr>
+                        <th scope="col" style="padding: 0.5rem;"><b>{{'PREMIUM.BenefitId' | translate}}</b></th>
+                        <th scope="col" style="padding: 0.5rem;"><b>{{'PREMIUM.BenefitDescription' | translate}}</b></th>
+                        <th scope="col" style="padding: 0.5rem;"><b>{{'PREMIUM.CalcType' | translate}}</b></th>
+                        <th scope="col" style="padding: 0.5rem;"><b>{{'PREMIUM.SectionDescriptio' | translate}}</b></th>
+                        <th scope="col" style="padding: 0.5rem;"><b>{{'PREMIUM.Value' | translate}}</b></th>
+                        <th scope="col" style="padding: 0.5rem;"><b>{{'PREMIUM.Long Description' | translate}}</b></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-cover>
+                    <tr>
+                        <td>{{cover.BenefitId}}</td>
+                        <td>{{cover.BenefitDescription}}</td>
+                        <td>{{cover.CalcType}}</td>
+                        <td>{{cover.SectionDesc}}</td>
+                        <td>{{cover.Value}}</td>
+                        <td>{{cover.LongDesc}}</td>
+    
+                    </tr>
+                </ng-template>
+                
+                <!-- <tbody class="p-5"> -->
+                    <!-- <tr cl> -->
+                        <!-- <td style="padding: 0.5rem;">{{'PREMIUM.BasePremium' | translate}}</td>
+                        <td style="text-align: center;">{{ratePercent}}</td>
+                        <td style="text-align: end;"><span class="spancommon span_font_size">{{ basePremium | commaseparator}}</span></td>
+                    </tr>
+                    <tr >
+                        <td style="padding: 0.5rem;">{{minCoverName}}</td>
+                        <td style="text-align: center;">{{minCoverRatePercent}}</td>
+                        <td style="text-align: end;"><span class="spancommon span_font_size">{{ minBasePremium | commaseparator}}</span></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;"><b>{{'PREMIUM.PremiumBeforeTax' | translate}}</b></td>
+                        <td style="text-align: center;"></td>
+                        <td style="text-align: end;"><span class="spancommon span_font_size">
+                            <b>{{minPremiumExcludedTax | commaseparator}}</b></span></td>
+                    </tr>
+                    <ng-container *ngIf="minTaxList.length!=0">
+                        <tr>
+                            <th scope="col" style="text-align: start;padding: 0.5rem;" colspan="3">{{'PREMIUM.Tax' | translate}}</th>
+                        </tr>
+                        <tr *ngFor="let loading of minTaxList;let i=index">
+                            <td style="padding: 0.5rem;">{{loading.TaxDesc}}</td>
+                            <td style="text-align: end;">
+                              
+                                    <ng-container *ngIf="loading.TaxRate==null">
+                                        0
+                                    </ng-container>
+                                    <ng-container *ngIf="loading.TaxRate!=0 && loading.TaxRate!=null">
+                                        <span class="spancommon span_font_size">{{loading.LoadingRate}}</span>
+                                    </ng-container>
+
+                            </td>
+                            
+                            <td style="text-align: end;">
+
+                                    <ng-container *ngIf="loading.TaxAmount==0 || loading.TaxAmount==null">
+                                        0
+                                    </ng-container>
+                                    <ng-container *ngIf="loading.TaxAmount!=0 && loading.TaxAmount!=null">
+                                        <span class="spancommon span_font_size">{{loading.TaxAmount |
+                                            commaseparator}}</span>
+                                    </ng-container>
+
+                            </td>
+                        </tr>
+
+                    </ng-container>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td style="padding: 0.5rem;"><b>{{'PREMIUM.Total' | translate}}</b></td>
+                        <td></td>
+                        <td style="text-align: end;"><span class="spancommon span_font_size">
+                            <b>{{minPremiumIncludedTax | commaseparator}}</b></span></td>
+                    </tr>
+                </tfoot> -->
+            </p-table>
+            
+        </div>
     </div>
    
     

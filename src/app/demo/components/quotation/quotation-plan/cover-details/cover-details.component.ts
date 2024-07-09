@@ -135,6 +135,9 @@ export class CoverDetailsComponent {
   newAddClauses: boolean = false; newAddExclusion:boolean = false; newAddWarranty:boolean = false;
   fleetDiscountModal: boolean=false;minTaxList: any[]=[];minPremiumExcludedTax: any=null;minCoverName: any;minBasePremium: any;minPremiumIncludedTax: number;
   b2cType: any;lang:any=null;
+  BenefitPopup: boolean=false;
+  position: string;
+  CoverList: any[]=[];
   constructor(private router:Router,private sharedService:SharedService,private messageService: MessageService,
     private translate:TranslateService,private appComp:AppComponent
   ){
@@ -441,6 +444,53 @@ export class CoverDetailsComponent {
     this.years = [{label: '1 Year'}, {label: '2 Year'}];
     this.vehicles = [{label: 'Vehicle 1'}, {label: 'Vehicle 2'}];
   }
+
+  benefitPopup(rowData){
+    this.covernameinfo(rowData);
+    this.position= "top";
+    this.BenefitPopup=true;
+  }
+  covernameinfo(row){
+    // this.tooltip=true;
+     console.log('UUUUUUUUUUUUUUUUUUU',row);
+    this.CoverName=row.CoverDesc
+    //this.open(modal);
+    let ReqObj = {
+      "InsuranceId":this.insuranceId,
+      "ProductId":this.productId,
+      "SectionId":row.SectionId,
+      "CoverId":row.CoverId
+    }
+    let urlLink = `${this.CommonApiUrl}master/dropdown/productbenefit`;
+  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    (data: any) => {
+      if(data.Result){
+
+        // this.CoverHeader=[
+        //   {key: 'BenefitId',display: 'BenefitId'},
+        //   {key: 'BenefitDescription',display: 'Benefit Description'},
+        //   //{key: 'CoverName',display: 'CoverName'},
+        //   {key: 'CalcType',display: 'Calc Type'},
+        //   {key: 'SectionDesc',display: 'Section Description'},
+        //   {key: 'Value',display: 'Value'},
+        //   {key: 'LongDesc',display: 'Long Description'},
+          
+
+        // ]
+
+            this.CoverList=data?.Result;
+
+        //this.CoverList = obj.concat(data?.Result);
+        //this.getExistingDocument();
+        //if(!this.CountryValue){ this.CountryValue = "99999"; this.getStateList() }
+      }
+    },
+
+    (err) => { },
+  );
+    
+  }
+
   getTermsSectionList(){
       let riskId = String(this.tabIndex+1);
       let urlLink = `${this.CommonApiUrl}api/sectionlistbasedonriskid?requestReferenceNo=${this.quoteRefNo}&riskId=${riskId}`;
