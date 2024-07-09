@@ -129,7 +129,7 @@ export class MotorVehicleTanzaniya{
                       required: true,
                       disabled: this.checkDisable('ClaimsYN'),
                       name: 'ClaimsYN',
-                      options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
+                      options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
                     }
                   },
                   {
@@ -143,7 +143,7 @@ export class MotorVehicleTanzaniya{
                       required: true,
                       disabled: this.checkDisable('ClaimsYN'),
                       name: 'GpsYN',
-                      options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
+                      options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
                     }
                   },
                   {
