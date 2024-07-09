@@ -69,7 +69,8 @@ export class CustomerCreateFormComponent implements OnInit {
 		if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
 		else this.lang='en';
 		sessionStorage.setItem('language',this.lang)
-		this.translate.setDefaultLang(sessionStorage.getItem('language'));}
+		this.translate.setDefaultLang(sessionStorage.getItem('language'));
+		this.setHeaders();}
      	this.maxDobDate = new Date(year - 18,month, day );
 		this.loginId = this.userDetails.Result.LoginId;
 		this.agencyCode = this.userDetails.Result.OaCode;
@@ -133,7 +134,10 @@ export class CustomerCreateFormComponent implements OnInit {
 			this.getTitleList();
 		}
     }
-	
+	setHeaders(){
+		if(this.lang=='en'){this.items = [{ label: 'Home', routerLink:'/' }, {label:'Customer', routerLink: '/customer'}, { label: 'Create Customer' }];}
+		else if(this.lang=='po'){this.items = [{ label: 'Lar', routerLink:'/' }, {label:'Cliente', routerLink: '/customer'}, { label: 'Criar cliente' }];}
+	}
 	onLanguageChange(item: any) {
 		this.translate.use(item.value);
 	}
@@ -176,7 +180,7 @@ export class CustomerCreateFormComponent implements OnInit {
 		this.primeNGConfig.ripple = true;
 		this.ownerCategoryOptions = [{name: 'Category', code: 'category'}];
 		this.customerTypes = [{label: 'Personal', value: 'personal'}, {label: 'Corporate', value: 'corporate'}];
-		this.items = [{ label: 'Home', routerLink:'/' }, {label:'Customer', routerLink: '/customer'}, { label: 'Create Customer' }];
+		
 	}
 	getDisplayName(){
 		if(this.lang=='en') return 'CodeDesc';

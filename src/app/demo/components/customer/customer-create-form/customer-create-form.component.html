@@ -306,7 +306,7 @@
                 <h4 class="ml-3">{{ 'HOME.AdditionalInformation' | translate}}</h4>
                 <div class="flex justify-content-start flex-wrap w-full form-container">
                     <div class="flex flex-column m-3">
-                        <label for="username">Identity Type*</label>
+                        <label for="username">{{ 'HOME.IdentityType' | translate}} *</label>
                         <p-dropdown inputId="TdType2" 
                             class="w-full" 
                             styleClass="w-full" 
@@ -464,7 +464,7 @@
 
 <div class="flex justify-content-center">
     <p-button [label]="'PREMIUM.Back' | translate" [routerLink]="['/customer']" class="p-3 mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
-    <p-button class="p-3 text-l pi-button mr-0" (keyup)="onsavedatas('direct',productItem)" (click)="onsavedatas('direct',productItem)">Submit</p-button>
+    <p-button class="p-3 text-l pi-button mr-0" [label]="'LOGIN.Submit' | translate" (keyup)="onsavedatas('direct',productItem)" (click)="onsavedatas('direct',productItem)"></p-button>
 </div>
 
 
