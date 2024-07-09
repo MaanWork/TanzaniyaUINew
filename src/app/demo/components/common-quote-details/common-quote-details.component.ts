@@ -155,6 +155,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   duplicateRegister: boolean=false;enableCollateralDetails:boolean=false;enableCustomerDetails: boolean=false;
   motorUsageType: any=null;VehicleSI: any=null;WindShieldSI: any=null;orgPolicyNo: any=null;endorseCategory: any=null;endorsementName: any=null;endorseShortCode: any=null;enableFieldsList: any[]=[];enablePolicyStart: boolean=false;enablePolicyEnd: boolean=false;enableCurrency: boolean=false;
   hideSection:boolean=false;
+  typeListAlt: any[]=[];
   constructor(private router:Router,private sharedService:SharedService,private datePipe:DatePipe,
     private appComp:AppComponent,
     private translate: TranslateService,private messageService: MessageService){
@@ -213,7 +214,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
   }
   ngOnInit() {
     this.getCurrencyList();
-   
+    
+    if(this.insuranceId=='100040') this.getInsuranceTypeAltList()
     
     if(this.productId=='5'){
       this.getInsuranceTypeList();
@@ -348,7 +350,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           if(data.Result){
               this.vehicleClassList = data.Result;
               if(this.vehicleClassList.length!=0){
-                let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
+                let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
                 for (let i = 0; i < this.vehicleClassList.length; i++) {
                   this.vehicleClassList[i].label = this.vehicleClassList[i]['CodeDesc'];
                   this.vehicleClassList[i].value = this.vehicleClassList[i]['Code'];
@@ -1203,20 +1205,44 @@ export class CommonQuoteDetailsComponent implements OnInit {
       (err) => { },
     );
   }
+  getInsuranceTypeAltList(){
+    let ReqObj=null,urlLink=null;
+      ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "ItemType": "Insurance_type"
+      }
+      urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          if(data.Result){
+              this.typeListAlt = data.Result;
+              if(this.typeListAlt.length!=0){
+                let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+                for (let i = 0; i < this.typeListAlt.length; i++) {
+                  this.typeListAlt[i].label = this.typeListAlt[i]['CodeDesc'];
+                  this.typeListAlt[i].value = this.typeListAlt[i]['Code'];
+                  if (i == this.typeListAlt.length - 1) {
+                      if(this.fields.length!=0)  this.fields[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.typeListAlt);
+                  }
+                }
+              }
+          }
+      });            
+  }
   getInsuranceTypeList(){
-    let ReqObj = {
-      "ProductId": this.productId,
-      "InsuranceId": this.insuranceId,
-      "BranchCode": this.branchCode
-    }
-    let urlLink = `${this.ApiUrl1}master/dropdown/productsection`;
+    let ReqObj=null,urlLink=null;
+      ReqObj = {
+        "ProductId": this.productId,
+        "InsuranceId": this.insuranceId,
+        "BranchCode": this.branchCode
+      }
+      urlLink = `${this.ApiUrl1}master/dropdown/productsection`;
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       (data: any) => {
-        console.log(data);
         if(data.Result){
             this.typeList = data.Result;
             if(this.typeList.length!=0){
-              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
+              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
               for (let i = 0; i < this.typeList.length; i++) {
                 this.typeList[i].label = this.typeList[i]['CodeDesc'];
                 this.typeList[i].value = this.typeList[i]['Code'];
@@ -1250,7 +1276,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if(data.Result){
             this.deductiblesList = data.Result;
             if(this.deductiblesList.length!=0){
-              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
+              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
               for (let i = 0; i < this.deductiblesList.length; i++) {
                 this.deductiblesList[i].label = this.deductiblesList[i]['CodeDesc'];
                 this.deductiblesList[i].value = this.deductiblesList[i]['Code'];
@@ -1280,7 +1306,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if(data.Result){
             this.defencecostList = data.Result;
             if(this.defencecostList.length!=0){
-              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
+              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
               for (let i = 0; i < this.defencecostList.length; i++) {
                 this.defencecostList[i].label = this.defencecostList[i]['CodeDesc'];
                 this.defencecostList[i].value = this.defencecostList[i]['Code'];
@@ -1323,7 +1349,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if(data.Result){
             this.vehicleTypeList = data.Result; 
             if(this.vehicleTypeList.length!=0){
-              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
+              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
               for (let i = 0; i < this.vehicleTypeList.length; i++) {
                 this.vehicleTypeList[i].label = this.vehicleTypeList[i]['CodeDesc'];
                 this.vehicleTypeList[i].value = this.vehicleTypeList[i]['Code'];
@@ -1368,7 +1394,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               this.classList = data.Result;
               if(this.insuranceId!='100027' && this.insuranceId!='100040'){
                 if(this.classList.length!=0){
-                  let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
+                  let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
                   for (let i = 0; i < this.classList.length; i++) {
                     this.classList[i].label = this.classList[i]['CodeDesc'];
                     this.classList[i].value = this.classList[i]['Code'];
@@ -1435,7 +1461,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             }
             //this.getMotorUsageList(vehicleUsage,'direct');
             if(this.motorTypeList.length!=0){
-              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
+              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
               for (let i = 0; i < this.motorTypeList.length; i++) {
                 this.motorTypeList[i].label = this.motorTypeList[i]['CodeDesc'];
                 this.motorTypeList[i].value = this.motorTypeList[i]['Code'];
@@ -2060,33 +2086,36 @@ export class CommonQuoteDetailsComponent implements OnInit {
           });
   } 
   getMotorTypeAltList(type){
-    let ReqObj = {
-      "SectionId": this.motorUsageValue,
-      "InsuranceId": this.insuranceId,
-      "BranchCode": this.branchCode
-    }
-    let urlLink = `${this.CommonApiUrl}master/dropdown/bodytype`;
-    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-      (data: any) => {
-        if(data.Result){
-            this.motorTypeList = data.Result;
-            if(this.motorTypeList.length!=0){
-              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
-              for (let i = 0; i < this.motorTypeList.length; i++) {
-                this.motorTypeList[i].label = this.motorTypeList[i]['CodeDesc'];
-                this.motorTypeList[i].value = this.motorTypeList[i]['Code'];
-                if (i == this.motorTypeList.length - 1) {
-                    if(this.insuranceId!='100004') this.fields[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.motorTypeList);
-                    else this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.motorTypeList);
-                    this.checkFieldNames();
+    if(this.insuranceId!='100040'){
+      let ReqObj = {
+        "SectionId": this.motorUsageValue,
+        "InsuranceId": this.insuranceId,
+        "BranchCode": this.branchCode
+      }
+      let urlLink = `${this.CommonApiUrl}master/dropdown/bodytype`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          if(data.Result){
+              this.motorTypeList = data.Result;
+              if(this.motorTypeList.length!=0){
+                let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+                for (let i = 0; i < this.motorTypeList.length; i++) {
+                  this.motorTypeList[i].label = this.motorTypeList[i]['CodeDesc'];
+                  this.motorTypeList[i].value = this.motorTypeList[i]['Code'];
+                  if (i == this.motorTypeList.length - 1) {
+                      if(this.insuranceId!='100004') this.fields[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.motorTypeList);
+                      else this.fields[0].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.motorTypeList);
+                      this.checkFieldNames();
+                  }
                 }
               }
-            }
-            if(type=='change') this.bodyTypeValue = '';
-        }
-      },
-      (err) => { },
-    );
+              if(type=='change') this.bodyTypeValue = '';
+          }
+        },
+        (err) => { },
+      );
+    }
+    
   }
   onStartDateChange(type){
     if(this.productId!='4'){
@@ -2296,7 +2325,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
       if(this.endorsementSection && this.enableAddVehicle){this.vehicleDetails['EndorsementYn']='Y';}
       let Insurancetype=null,sectionId=null
       if(this.insuranceId=='100040'){
-        Insurancetype= ["401"];
         if(this.productItem.InsuranceClass!='')sectionId=this.productItem.InsuranceClass;
       } 
       else {
@@ -2814,7 +2842,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           else this.productItem.PreviousLossRatio=null;
           let Insurancetype,sectionId ;
-          if(this.insuranceId=='100040') {Insurancetype= ["401"];sectionId=this.vehicleDetails.InsuranceClass;}
+          if(this.insuranceId=='100040') {sectionId=this.productItem.InsuranceClass;}
           else {
               Insurancetype =insuranceType;
               if(insuranceType){
@@ -3394,8 +3422,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
               if(vehicleDetails?.SavedFrom=='SQ') vehicleDetails.SavedFrom = 'WEB';
               let Insurancetype;
-              if(this.insuranceId=='100040') Insurancetype= ["401"];
-              else Insurancetype=vehicleDetails?.Insurancetype;
+              Insurancetype=vehicleDetails?.Insurancetype;
               let ReqObj = {
                 "BrokerBranchCode": brokerbranchCode,
                 "AcExecutiveId": this.acExecutiveId,
@@ -4013,7 +4040,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
           let Insurancetype,sectionId;
          // alert(this.productItem.InsuranceClass+"this.vehicleDetails.InsuranceClass")
           if(this.insuranceId=='100040'){
-            Insurancetype= ["401"];
             sectionId=this.productItem.InsuranceClass;
           } 
           else {
@@ -5185,7 +5211,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if(data.Result){
             this.motorUsageList = data.Result;
             if(this.motorUsageList.length!=0){
-              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
+              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
               for (let i = 0; i < this.motorUsageList.length; i++) {
                 this.motorUsageList[i].label = this.motorUsageList[i]['CodeDesc'];
                 this.motorUsageList[i].value = this.motorUsageList[i]['Code'];

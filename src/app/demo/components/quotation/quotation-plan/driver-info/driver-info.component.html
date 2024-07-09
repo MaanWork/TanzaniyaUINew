@@ -100,14 +100,14 @@
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
                             <label for="username">{{'DRIVERINFO.NumberOfCylinders' | translate}}</label>
                             <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [(ngModel)]="list.NoCylinder" [options] ="CylinderTypeList"
-                            optionLabel="CodeDesc" optionValue="Code" [placeholder]="'DRIVERINFO.EnterNoOfCylinders' | translate">
+                            [optionLabel]="getDisplayName()" optionValue="Code" [placeholder]="'DRIVERINFO.EnterNoOfCylinders' | translate">
                         </p-dropdown>
                         </div>
                     
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
                             <label for="username">{{'DRIVERINFO.PlateType' | translate}}</label>
                             <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [options] ="plateTypeList" [(ngModel)]="list.PlateType"
-                                optionLabel="CodeDesc" optionValue="Code" [placeholder]="'DRIVERINFO.SelectPlateType' | translate">
+                            [optionLabel]="getDisplayName()" optionValue="Code" [placeholder]="'DRIVERINFO.SelectPlateType' | translate">
                             </p-dropdown>
                         </div>
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
@@ -115,7 +115,7 @@
                             <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" 
                             [options]="colorList"
                             [(ngModel)]="list.PlateColorId"
-                                optionLabel="CodeDesc" 
+                            [optionLabel]="getDisplayName()"
                                 optionValue="Code" 
                                 [placeholder]="'DRIVERINFO.SelectColor' | translate">
                             </p-dropdown>
@@ -124,7 +124,7 @@
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
                             <label for="username">{{'DRIVERINFO.NumberOfDoors' | translate}}</label>
                             <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [options] ="NoOfDoorsList"  [(ngModel)]="list.NoDoors"
-                                optionLabel="CodeDesc" optionValue="Code" [placeholder]="'DRIVERINFO.SelectDoors' | translate">
+                            [optionLabel]="getDisplayName()" optionValue="Code" [placeholder]="'DRIVERINFO.SelectDoors' | translate">
                             </p-dropdown>
                         </div>
                     </ng-container>

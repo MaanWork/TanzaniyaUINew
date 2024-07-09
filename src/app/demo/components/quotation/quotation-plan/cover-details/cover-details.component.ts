@@ -445,52 +445,47 @@ export class CoverDetailsComponent {
     this.vehicles = [{label: 'Vehicle 1'}, {label: 'Vehicle 2'}];
   }
 
-  benefitPopup(rowData){
-    this.covernameinfo(rowData);
+  benefitPopup(rowData,veh){
+    this.covernameinfo(rowData,veh);
     this.position= "top";
     this.BenefitPopup=true;
   }
-  covernameinfo(row){
+  covernameinfo(row,veh){
     // this.tooltip=true;
-     console.log('UUUUUUUUUUUUUUUUUUU',row);
     this.CoverName=row.CoverDesc
-    //this.open(modal);
+    let subCoverId=null;
+    let entry = this.vehicleDetailsList.filter(ele=>ele.VehicleId==veh.VehicleId && veh.SectionId)
+    if(entry.length!=0){
+      let coverEntry = entry[0].CoverList.find(ele=>ele.CoverId==row.CoverId)
+      if(coverEntry){
+        if(coverEntry.SubCovers){
+            if(coverEntry.SubCoverId!=undefined){
+                subCoverId = coverEntry.SubCoverId;
+                this.getBenefitList(subCoverId,row)
+            }
+        }
+        else this.getBenefitList(subCoverId,row)
+      }
+    }
+  }
+  getBenefitList(subCoverId,row){
     let ReqObj = {
       "InsuranceId":this.insuranceId,
       "ProductId":this.productId,
       "SectionId":row.SectionId,
-      "CoverId":row.CoverId
+      "CoverId":row.CoverId,
+      "SubCoverId": subCoverId
     }
     let urlLink = `${this.CommonApiUrl}master/dropdown/productbenefit`;
   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
     (data: any) => {
       if(data.Result){
-
-        // this.CoverHeader=[
-        //   {key: 'BenefitId',display: 'BenefitId'},
-        //   {key: 'BenefitDescription',display: 'Benefit Description'},
-        //   //{key: 'CoverName',display: 'CoverName'},
-        //   {key: 'CalcType',display: 'Calc Type'},
-        //   {key: 'SectionDesc',display: 'Section Description'},
-        //   {key: 'Value',display: 'Value'},
-        //   {key: 'LongDesc',display: 'Long Description'},
-          
-
-        // ]
-
-            this.CoverList=data?.Result;
-
-        //this.CoverList = obj.concat(data?.Result);
-        //this.getExistingDocument();
-        //if(!this.CountryValue){ this.CountryValue = "99999"; this.getStateList() }
+          this.CoverList=data?.Result;
       }
     },
-
     (err) => { },
   );
-    
   }
-
   getTermsSectionList(){
       let riskId = String(this.tabIndex+1);
       let urlLink = `${this.CommonApiUrl}api/sectionlistbasedonriskid?requestReferenceNo=${this.quoteRefNo}&riskId=${riskId}`;
@@ -1156,6 +1151,7 @@ export class CoverDetailsComponent {
                   cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
                   cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
                   cover['Taxes'] = sub.Taxes;
+                  cover['SubCoverId'] = sub.SubCoverId
                   sub['selected'] = true;
                 }
                 else{
@@ -1236,6 +1232,7 @@ export class CoverDetailsComponent {
                   cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
                   cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
                   cover['Taxes'] = sub.Taxes;
+                  cover['SubCoverId'] = sub.SubCoverId
                   sub['selected'] = true;
                 }
                 else{
@@ -1309,6 +1306,7 @@ export class CoverDetailsComponent {
                     cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
                     cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
                     cover['Taxes'] = sub.Taxes;
+                    cover['SubCoverId'] = sub.SubCoverId
                     sub['selected'] = true;
                   }
                   else{
@@ -1373,6 +1371,7 @@ export class CoverDetailsComponent {
                       cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
                       cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
                       cover['Taxes'] = sub.Taxes;
+                      cover['SubCoverId'] = sub.SubCoverId
                       sub['selected'] = true;
                     }
                     else{
@@ -1446,6 +1445,7 @@ export class CoverDetailsComponent {
                 cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
                 cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
                 cover['Taxes'] = sub.Taxes;
+                cover['SubCoverId'] = sub.SubCoverId
                 sub['selected'] = true;
               }
               else{
@@ -1556,6 +1556,7 @@ export class CoverDetailsComponent {
               cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
               cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
               cover['Taxes'] = sub.Taxes;
+              cover['SubCoverId'] = sub.SubCoverId
               sub['selected'] = true;
             }
             else{
@@ -1642,6 +1643,7 @@ export class CoverDetailsComponent {
               cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
               cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
               cover['Taxes'] = sub.Taxes;
+              cover['SubCoverId'] = sub.SubCoverId
               sub['selected'] = true;
             }
             else{
@@ -1724,6 +1726,7 @@ export class CoverDetailsComponent {
                 cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
                 cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
                 cover['Taxes'] = sub.Taxes;
+                cover['SubCoverId'] = sub.SubCoverId
                 sub['selected'] = true;
               }
               else{
@@ -1797,6 +1800,7 @@ export class CoverDetailsComponent {
                   cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
                   cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
                   cover['Taxes'] = sub.Taxes;
+                  cover['SubCoverId'] = sub.SubCoverId
                   sub['selected'] = true;
                 }
                 else{
@@ -1880,6 +1884,7 @@ export class CoverDetailsComponent {
             cover['PremiumExcluedTax'] = sub?.PremiumExcluedTax;
             cover['PremiumIncludedTax'] = sub?.PremiumIncludedTax;
             cover['Taxes'] = sub.Taxes;
+            cover['SubCoverId'] = sub.SubCoverId
             sub['selected'] = true;
           }
           else{

@@ -98,15 +98,15 @@ export class CustomerCreateFormComponent implements OnInit {
 			{ CodeDesc: 'Pending', Code: 'P' }
 		];
 		this.notificationList = [
-			{ CodeDesc: '-Select-', Code: '' },
-			{ CodeDesc: 'SMS', Code: 'Sms' },
-			{ CodeDesc: 'Mail', Code: 'Mail' },
-			{ CodeDesc: 'Whatsapp', Code: 'Whatsapp' }
+			{ CodeDesc: 'Select', Code: '','CodeDescLocal':'Selecione' },
+			{ CodeDesc: 'SMS', Code: 'Sms','CodeDescLocal':'Sms -P' },
+			{ CodeDesc: 'Mail', Code: 'Mail','CodeDescLocal':'E-mail -P' },
+			{ CodeDesc: 'Whatsapp', Code: 'Whatsapp','CodeDescLocal':'Whatsapp -P' }
 		];
 		this.taxExcemptedList = [
-			{ CodeDesc: '-Select-', Code: '' },
-			{ CodeDesc: 'Yes', Code: 'Y' },
-			{ CodeDesc: 'No', Code: 'N' }
+			{ CodeDesc: '-Select-', Code: '','CodeDescLocal':'Selecione' },
+			{ CodeDesc: 'Yes', Code: 'Y','CodeDescLocal':'Sim' },
+			{ CodeDesc: 'No', Code: 'N','CodeDescLocal':'Não'  }
 		];
     let refNo = sessionStorage.getItem('customerReferenceNo');
 		if (refNo) {
@@ -134,6 +134,9 @@ export class CustomerCreateFormComponent implements OnInit {
 			this.getTitleList();
 		}
     }
+	getHeaders(codeDesc){
+		return 'HOME.'+codeDesc
+	}
 	setHeaders(){
 		if(this.lang=='en'){this.items = [{ label: 'Home', routerLink:'/' }, {label:'Customer', routerLink: '/customer'}, { label: 'Create Customer' }];}
 		else if(this.lang=='po'){this.items = [{ label: 'Lar', routerLink:'/' }, {label:'Cliente', routerLink: '/customer'}, { label: 'Criar cliente' }];}

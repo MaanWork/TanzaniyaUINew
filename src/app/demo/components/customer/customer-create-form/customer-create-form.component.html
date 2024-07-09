@@ -185,7 +185,7 @@
                     <!-- <label for="username">Preferred Notification *</label> -->
                     <p-dropdown inputId="PreferedNotification2"  id="PreferedNotification"
                         class="w-full"  styleClass="w-full"   [options]="notificationList" 
-                        [(ngModel)]="productItem.PreferredNotification"   [optionLabel]="getDisplayName()" 
+                        [(ngModel)]="productItem.PreferredNotification"   [optionLabel]="'Home.'+CodeDesc | translate" 
                         optionValue="Code" [placeholder]="'HOME.SelectPerferredNotification' | translate">
                     </p-dropdown>
                 </div>
@@ -337,8 +337,8 @@
                             styleClass="w-full" 
                             [options]="notificationList" 
                             [(ngModel)]="productItem.PreferredNotification"
-                            [optionLabel]="getDisplayName()" 
-                        optionValue="Code"
+                            optionLabel="getHeaders(CodeDesc) | translate" 
+                            optionValue="Code"
                             [placeholder]="'HOME.SelectPerferredNotification' | translate">
                         </p-dropdown>
                     </div>
