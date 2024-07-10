@@ -11,4 +11,5 @@ export class Exchange
     "CoreAppCode": null;
     "MinDiscount":null;
     "MaxLoading":null;
+    "CodeDescLocal":null;
 }

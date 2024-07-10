@@ -154,7 +154,8 @@ getMenu(rowData){
       "Status":this.taxDetails.Status,
       "TaxDesc":this.taxDetails.TaxDesc,
       "TaxId":this.taxId,
-      "TaxName":this.taxDetails.TaxName
+      "TaxName":this.taxDetails.TaxName,
+      "CodeDescLocal": this.taxDetails.CodeDescLocal,
     }
     let urlLink = `${this.ApiUrl1}master/savecountrytax`;
     if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {

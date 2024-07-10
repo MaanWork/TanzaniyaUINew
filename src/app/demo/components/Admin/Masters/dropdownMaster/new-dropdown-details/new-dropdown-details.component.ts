@@ -245,7 +245,8 @@ let ItemId
         "ItemValue":this.DropDownDetails.ItemValue,
         "RegulatoryCode":this.DropDownDetails.RegulatoryCode,
         "Remarks":this.DropDownDetails.Remarks,
-        "Status":this.DropDownDetails.Status
+        "Status":this.DropDownDetails.Status,
+        "CodeDescLocal": this.DropDownDetails.CodeDescLocal,
 
     }
     let urlLink = `${this.CommonApiUrl1}master/insertlovdetails`;

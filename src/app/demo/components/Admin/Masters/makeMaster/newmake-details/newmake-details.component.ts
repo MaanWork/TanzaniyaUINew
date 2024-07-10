@@ -171,8 +171,8 @@ this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       "Status":this.MakeDetails.Status,
       "InsuranceId": this.insuranceId,
       "BranchCode":this.BranchCode,
-      "CreatedBy":this.loginId
-
+      "CreatedBy":this.loginId,
+    "CodeDescLocal": this.MakeDetails.CodeDescLocal,
 
     }
     let urlLink = `${this.CommonApiUrl}master/savemakemotor`;

@@ -84,7 +84,7 @@
                           <ng-template pTemplate="body" let-Make>
                             <tr>
                               <td>{{ Make.MakeNameEn }}</td>
-                              <!-- <td>{{ Make.CoreAppCode }}</td> -->
+                              <td>{{ Make.CodeDescLocal }}</td>
                               <td>{{ Make.EffectiveDateStart }}</td>
                               <td>
                                 <ng-container *ngIf="Make?.Status=='N'">DeActive</ng-container>

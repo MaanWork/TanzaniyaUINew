@@ -19,4 +19,5 @@ export class Clauses {
         "CoreAppCode": null;
         "RegulatoryCode": null;
         "EntryDate": null;
+        "CodeDescLocal":null;
 }

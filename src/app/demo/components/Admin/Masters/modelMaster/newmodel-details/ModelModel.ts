@@ -45,5 +45,5 @@ export class Model {
   "VehWeight": null;
   "VehicleModelCode": null;
   "batchId": null;
-
+"CodeDescLocal":null;
 }

@@ -11,4 +11,5 @@ export class BodyType{
     "SeatingCapacity": null;
     "Tonnage": null;
     "Cylinders": null;
+    "CodeDescLocal":null;
 }

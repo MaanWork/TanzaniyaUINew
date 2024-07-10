@@ -11,4 +11,5 @@ export class Bank{
     "CoreAppCode":null;
     "RegulatoryCode":null;
     "Status":null;
+    "CodeDescLocal":null;
 }

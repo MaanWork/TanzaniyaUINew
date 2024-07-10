@@ -255,7 +255,7 @@ onSaveModel() {
   "VehWeight": this.ModelDetails.VehWeight,
   "VehicleModelCode": this.ModelDetails.VehicleModelCode,
   "batchId": this.ModelDetails.batchId,
-
+"CodeDescLocal": this.ModelDetails.CodeDescLocal,
   }
   let urlLink = `${this.CommonApiUrl}master/savemakemodel`;
 

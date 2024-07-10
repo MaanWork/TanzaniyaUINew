@@ -13,4 +13,5 @@ export class Mail{
   "SmtpPwd": null;
   "SmtpUser": null;
   "Status": "Y";
+  "CodeDescLocal":null;
 }

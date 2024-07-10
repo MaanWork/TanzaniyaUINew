@@ -10,5 +10,6 @@ export class ErrorModal {
     "Language":null;
     "LocalLangErrorField":null;
     "LocalLanguageDesc":null;
-    "Status": "Y";  
+    "Status": "Y"; 
+    "CodeDescLocal":null;
 }

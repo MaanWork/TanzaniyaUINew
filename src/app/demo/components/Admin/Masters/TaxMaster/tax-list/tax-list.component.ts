@@ -42,6 +42,7 @@ export class TaxListComponent implements OnInit {
      'Country Id',
     'Tax Name' ,
      'Tax Description' ,
+     'Local Name',
      'Effective Date' ,
      'Status' ,
      'Action',

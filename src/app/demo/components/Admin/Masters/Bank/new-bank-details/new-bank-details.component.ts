@@ -131,7 +131,9 @@ this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       "CoreAppCode":this.BankDetails.CoreAppCode,
       "RegulatoryCode":this.BankDetails.RegulatoryCode,
       "Status":this.BankDetails.Status,
-      "BranchCode": this.BankDetails.BranchCode
+      "BranchCode": this.BankDetails.BranchCode,
+      "CodeDescLocal": this.BankDetails.CodeDescLocal,
+
     }
     let urlLink = `${this.CommonApiUrl}master/insertbank`;
   // if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {

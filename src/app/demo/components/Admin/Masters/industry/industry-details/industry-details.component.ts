@@ -214,7 +214,8 @@ export class IndustryDetailsComponent implements OnInit {
     "Status": this.Industrydetails.Status,
     "Remarks":this.Industrydetails.Remarks,
     "CoreAppCode":this.Industrydetails.CoreAppCode,
-    "RegulatoryCode":this.Industrydetails.RegulatoryCode
+    "RegulatoryCode":this.Industrydetails.RegulatoryCode,
+    "CodeDescLocal": this.Industrydetails.CodeDescLocal,
     }
     let urlLink = `${this.CommonApiUrl}master/saveindustry`;
     if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {

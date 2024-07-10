@@ -59,7 +59,7 @@ export class MenuListComponent implements OnInit {
       //{ key: 'MakeId', display: 'Make Id' },
     'Menu Name' ,
      'Menu Type' ,
-    'Display Order' ,
+    'Display Order' ,'Local Name',
    'Status' ,
  'Action',
     ];

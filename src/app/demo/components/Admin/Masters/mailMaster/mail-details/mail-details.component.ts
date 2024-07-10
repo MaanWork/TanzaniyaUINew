@@ -249,8 +249,8 @@ onSaveMail() {
     "SmtpPort": this.MailDetails.SmtpPort,
     "SmtpPwd": this.MailDetails.SmtpPwd,
     "SmtpUser": this.MailDetails.SmtpUser,
-    "Status": this.MailDetails.Status
-
+    "Status": this.MailDetails.Status,
+"CodeDescLocal": this.MailDetails.CodeDescLocal,
 
   }
   let urlLink = `${this.ApiUrl1}master/insertmailmaster`;

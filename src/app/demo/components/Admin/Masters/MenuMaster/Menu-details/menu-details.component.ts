@@ -199,7 +199,8 @@ edits='update'
       "DisplayOrder":this.MenuDetails.DisplayOrder,
       "EntryDate": this.MenuDetails.EntryDate,
       "MenuId":null,
-      "InsertType":edits 
+      "InsertType":edits, 
+      "CodeDescLocal": this.MenuDetails.CodeDescLocal,
   }
   let urlLink = `${this.CommonApiUrl1}master/savemenu`;
   this.sharedService.onPostMethodSync(urlLink, RegObj).subscribe(

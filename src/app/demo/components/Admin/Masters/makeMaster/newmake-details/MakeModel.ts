@@ -11,4 +11,5 @@ export class Make {
     "InsuranceId":null;
     "BranchCode":null;
     "CreatedBy":null;
+    "CodeDescLocal":null;
 }

@@ -218,8 +218,8 @@ export class NewWarrantyDetailsComponent implements OnInit {
       "ProductId": this.productValue,
       "SectionId": this.sectionValue,
       "DocRefNo": Id,
-      "TypeId":this.TypeId
-
+      "TypeId":this.TypeId,
+      "CodeDescLocal": this.WarrantyDetails.CodeDescLocal,
     }
     let urlLink = `${this.CommonApiUrl}master/insertwarranty`;
     if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {

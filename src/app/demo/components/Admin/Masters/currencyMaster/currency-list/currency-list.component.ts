@@ -40,6 +40,7 @@ export class CurrencyListComponent implements OnInit {
     this.currencyHeader = [
     'Currency Name' ,
      'Currency Code' ,
+     ' Local Name ',
    'Effective Date' ,
   'Status' , 'Action',
 

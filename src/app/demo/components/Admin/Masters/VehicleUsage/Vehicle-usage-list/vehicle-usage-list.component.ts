@@ -43,7 +43,7 @@ export class VehicleUsageListComponent implements OnInit {
 
   ngOnInit(): void {
     sessionStorage.removeItem('VehicleUsageId')
-    this.columnHeader = ['VehicleUsageDesc' ,'InsuranceType',
+    this.columnHeader = ['VehicleUsageDesc' ,'InsuranceType','Local Name',
       'StartDate',
      'Status' ,
     'Action', 

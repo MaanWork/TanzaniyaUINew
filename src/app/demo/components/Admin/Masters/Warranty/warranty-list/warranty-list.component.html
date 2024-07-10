@@ -63,7 +63,7 @@
                             [(ngModel)]="productValue" 
                             optionLabel="ProductName" 
                             optionValue="ProductId" 
-                            placeholder="Select Insurance Company">
+                            >
                         </p-dropdown>
                     </div>
                     <div class="flex flex-wrap md:col-4 lg:col-4 ">
@@ -124,6 +124,7 @@
                             <tr>
                               <td>{{ Warranty.WarrantyDescription }}</td>
                               <td>{{ Warranty.CoreAppCode }}</td>
+                              <td>{{ Warranty.CodeDescLocal }}</td>
                               <td>{{ Warranty.EffectiveDateStart }}</td>
                               <td>
                                 <ng-container *ngIf="Warranty?.Status=='N'">DeActive</ng-container>

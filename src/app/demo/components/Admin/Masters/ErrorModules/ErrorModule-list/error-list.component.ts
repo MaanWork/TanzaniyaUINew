@@ -46,7 +46,7 @@ activeMenu='Error Module Master ';
      'Error Code' ,
     'Error Description' ,
       'Error Field' ,
-     'Language' ,
+     'Language' ,'Local Name',
      'Local Error Field' ,
      'Effective Date' ,
    'Status' ,

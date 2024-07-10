@@ -154,6 +154,7 @@ onSaveColor() {
     "CreatedBy":this.loginId,
     "RegulatoryCode":this.ColorDetails.RegulatoryCode,
     "Status": this.ColorDetails.Status,
+    "CodeDescLocal": this.ColorDetails.CodeDescLocal,
   }
   let urlLink = `${this.CommonApiUrl}master/savemotorcolor`;
   // if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {

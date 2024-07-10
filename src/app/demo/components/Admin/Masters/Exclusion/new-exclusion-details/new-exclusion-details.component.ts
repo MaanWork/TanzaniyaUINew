@@ -156,7 +156,8 @@ getTypeId(){
         "DocRefNo": Id,
         "ProductId": this.productValue,
         "SectionId":this.sectionValue,
-        "TypeId":this.TypeId
+        "TypeId":this.TypeId,
+        "CodeDescLocal": this.ExclusionDetails.CodeDescLocal,
     }
     let urlLink = `${this.CommonApiUrl}master/insertexclusion`;
   // if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {

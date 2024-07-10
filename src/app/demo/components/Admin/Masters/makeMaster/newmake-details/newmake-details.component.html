@@ -30,7 +30,13 @@
             styleClass="w-full"   maxlength="100"
             placeholder="Enter Bank Full Name"/>
         </div>
-       
+        <div class="col-12 md:col-4 lg:col-4">
+            <label for="CodeDescLocal">Local Name*</label><br>
+            <input pInputText type="text" 
+            [(ngModel)]="MakeDetails.CodeDescLocal"  maxlength="100"
+            class="w-full" styleClass="w-full"
+            placeholder="Enter Local Name Name"/>
+        </div>
         <div class="col-12 md:col-4 lg:col-4">
             <label for="Bankname">Color Desc*</label><br>
             <input pInputText 

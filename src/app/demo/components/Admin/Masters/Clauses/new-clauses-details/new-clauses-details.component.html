@@ -57,6 +57,13 @@
             placeholder="Enter Description"></textarea>
         </div>
         <div class="col-12 md:col-4 lg:col-4">
+            <label for="CodeDescLocal">Local Name*</label><br>
+            <input pInputText type="text" 
+            [(ngModel)]="ClausesDetails.CodeDescLocal"  maxlength="100"
+            class="w-full" styleClass="w-full"
+            placeholder="Enter Local Name Name"/>
+        </div>
+        <div class="col-12 md:col-4 lg:col-4">
             <label for="Bankname">Core App Code*</label><br>
             <input pInputText 
             [(ngModel)]="ClausesDetails.CoreAppCode"  maxlength="100"

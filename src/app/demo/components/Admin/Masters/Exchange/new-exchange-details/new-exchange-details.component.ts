@@ -137,8 +137,8 @@ export class NewExchangeDetailsComponent implements OnInit {
       "CoreAppCode":  this.exchangeDetails.CoreAppCode,
       "MinDiscount": this.exchangeDetails.MinDiscount,
       "MaxLoading": this.exchangeDetails.MaxLoading,
-      "InsuranceId":this.insuranceId
-
+      "InsuranceId":this.insuranceId,
+"CodeDescLocal": this.exchangeDetails.CodeDescLocal,
     }
     let urlLink = `${this.CommonApiUrl}master/insertexchangemaster`;
     // if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {

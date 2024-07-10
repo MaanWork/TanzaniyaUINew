@@ -12,5 +12,5 @@ export class MenuDetails {
 "EntryDate": null;
 "MenuId":null;
 "CompanyId":null;
-
+"CodeDescLocal":null;
 }

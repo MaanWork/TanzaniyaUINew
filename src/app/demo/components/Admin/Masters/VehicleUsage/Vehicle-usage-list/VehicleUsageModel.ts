@@ -11,4 +11,5 @@ export class VehicleUsage{
     "RegulatoryCode":null;
     "BranchCode":null;
     "InsuranceId":null;
+    "CodeDescLocal":null;
 }

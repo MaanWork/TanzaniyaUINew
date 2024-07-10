@@ -52,7 +52,7 @@ export class ClausesListComponent implements OnInit {
   ngOnInit(): void {
     this.columnHeader = [
        'Clauses Description' ,
-     'CoreAppCode' ,
+     'CoreAppCode' ,'Local Name',
      'Effective Date Start' ,
      'Status' ,'Action',
     ];

@@ -55,7 +55,7 @@ export class IndustryListComponent implements OnInit {
     
     // this.insuranceId = user.LoginBranchDetails[0].InsuranceId;
     this.columnHeader = [
-     'Industry Name' ,'Remarks' ,
+     'Industry Name' ,'Local Name','Remarks' ,
      'Effective Date' ,'Status' ,
       'Action',
     ];

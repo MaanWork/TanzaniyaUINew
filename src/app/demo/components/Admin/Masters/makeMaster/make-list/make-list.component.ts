@@ -52,7 +52,7 @@ export class MakeListComponent implements OnInit {
     }
     this.columnHeader = [
       //{ key: 'MakeId', display: 'Make Id' },
-       'Make Name En',
+       'Make Name En','Local Name',
       'EffectiveDateStart',
       'Status' ,'Action',
     ];

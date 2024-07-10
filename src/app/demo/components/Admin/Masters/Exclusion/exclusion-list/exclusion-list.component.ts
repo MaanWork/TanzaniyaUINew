@@ -52,7 +52,7 @@ export class ExclusionListComponent implements OnInit {
     //sessionStorage.removeItem('ExclusionId')
     this.columnHeader = [
       'Exclusion Description',
-    'Core App Code' ,
+    'Core App Code' ,'Local Name',
      'Effective Date Start' ,
      'Status','Action',
     ];

@@ -133,7 +133,8 @@ export class NewCountryDetailsComponent implements OnInit {
       "Status": this.CountryDetails.Status,
       "RegulatoryCode": this.CountryDetails.RegulatoryCode,
       "Remarks":this.CountryDetails.Remarks,
-      "Nationality":this.CountryDetails.Nationality
+      "Nationality":this.CountryDetails.Nationality,
+      "CodeDescLocal": this.CountryDetails.CodeDescLocal,
     }
     let urlLink = `${this.CommonApiUrl}master/insertcountry`;
   if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {

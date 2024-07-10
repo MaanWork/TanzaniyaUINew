@@ -113,7 +113,8 @@ export class NewClausesDetailsComponent implements OnInit {
       "RegulatoryCode":this.ClausesDetails.RegulatoryCode,
       "SectionId":this.sectionValue,
       "TypeId":this.TypeId,
-      "DocRefNo": UniqueId
+      "DocRefNo": UniqueId,
+      "CodeDescLocal": this.ClausesDetails.CodeDescLocal,
 
     }
     let urlLink = `${this.CommonApiUrl}master/insertclauses`;
