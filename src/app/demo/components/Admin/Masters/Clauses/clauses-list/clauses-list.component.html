@@ -45,7 +45,7 @@
                         <p-dropdown inputId="branchList" 
                             class="w-full" 
                             styleClass="w-full" 
-                            (onChange)="getCompanyProductList('change')"
+                            (onChange)="getCompanyProductList('change');"
                             [options]="branchList" 
                             [(ngModel)]="branchValue" 
                             optionLabel="CodeDesc" 
@@ -54,14 +54,14 @@
                     </div>
                     <div class="col-12 lg:col-4 xl:col-4 md:col-4">
                       <label for="username">ProductId*</label>
-                      <p-dropdown inputId="productValue" 
+                      <p-dropdown inputId="productList" 
                           class="w-full" 
                           styleClass="w-full" 
-                          (onChange)="getSectionList();getExistingClauses()"
+                          (onChange)="getExistingClauses();getSectionList()"
                           [options]="productList" 
                           [(ngModel)]="productValue" 
                           optionLabel="ProductName" 
-                          optionValue="productId" >
+                          optionValue="ProductId" >
                       </p-dropdown>
                   </div>
     
@@ -79,11 +79,11 @@
                 </div>
                 <div class="col-12 lg:col-4 xl:col-4 md:col-4" *ngIf="sectionYn!='N'">
                   <label for="username">Section*</label>
-                  <p-dropdown inputId="productValue" 
+                  <p-dropdown inputId="sectionList" 
                       class="w-full" 
                       styleClass="w-full" 
                       (onChange)="getExistingClauses()"
-                      [options]="productList" 
+                      [options]="sectionList" 
                       [(ngModel)]="sectionValue" 
                       optionLabel="CodeDesc" 
                       optionValue="Code" >

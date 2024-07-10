@@ -119,12 +119,14 @@ this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
 
   }
   onProceed(){
-    //
+    let startDate;
+    if(String(this.BankDetails.EffectiveDateStart).includes('/')) startDate = this.BankDetails.EffectiveDateStart
+    else startDate = this.datePipe.transform(this.BankDetails.EffectiveDateStart,'dd/MM/yyyy');
     let ReqObj = {
       "BankCode":this.BankId,
       "BankShortName":this.BankDetails.BankShortName,
       "BankFullName":this.BankDetails.BankFullName,
-      "EffectiveDateStart":this.BankDetails.EffectiveDateStart,
+      "EffectiveDateStart":startDate,
       "Remarks":this.BankDetails.Remarks,
       "CreatedBy":this.loginId,
       "InsuranceId":this.insuranceId,

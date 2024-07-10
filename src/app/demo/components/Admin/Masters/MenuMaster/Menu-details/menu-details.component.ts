@@ -181,6 +181,9 @@ edits='update'
   else{
     edits='insert'
   }
+  let startDate;
+    if(String(this.MenuDetails.EntryDate).includes('/')) startDate = this.MenuDetails.EntryDate
+    else startDate = this.datePipe.transform(this.MenuDetails.EntryDate,'dd/MM/yyyy');
   let RegObj = {
       "MenuName":this.MenuDetails.MenuName,
       "MenuURL":this.MenuDetails.MenuURL,
@@ -197,7 +200,7 @@ edits='update'
       "CreatedBY":this.loginId,
       "MenuLogo":this.MenuDetails.MenuLogo,
       "DisplayOrder":this.MenuDetails.DisplayOrder,
-      "EntryDate": this.MenuDetails.EntryDate,
+      "EntryDate": startDate,
       "MenuId":null,
       "InsertType":edits, 
       "CodeDescLocal": this.MenuDetails.CodeDescLocal,

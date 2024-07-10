@@ -125,12 +125,15 @@ export class NewExchangeDetailsComponent implements OnInit {
     this.router.navigate(['/Admin/exchangeMaster'])
   }
   onProceed(){
+    let startDate;
+    if(String(this.exchangeDetails.EffectiveDateStart).includes('/')) startDate = this.exchangeDetails.EffectiveDateStart
+    else startDate = this.datePipe.transform(this.exchangeDetails.EffectiveDateStart,'dd/MM/yyyy');
     let ReqObj = {
       "ExchangeId": this.ExchangeId,
       "ExchangeRate":  this.exchangeDetails.ExchangeRate,
       "CurrencyId":  this.exchangeDetails.CurrencyId,
       "Status":  this.exchangeDetails.Status,
-      "EffectiveDateStart":  this.exchangeDetails.EffectiveDateStart,
+      "EffectiveDateStart": startDate,
       "Remarks":  this.exchangeDetails.Remarks,
       //"InsuranceId":  this.exchangeDetails.InsuranceId,
       "CreatedBy":  this.loginId,

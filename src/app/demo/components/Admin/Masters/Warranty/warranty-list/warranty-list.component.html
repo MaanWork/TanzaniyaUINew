@@ -131,7 +131,7 @@
                                 <ng-container *ngIf="Warranty?.Status=='Y'">Active</ng-container>
                                 <ng-container *ngIf="Warranty?.Status=='P'">Pending</ng-container>
                             </td>
-                            <td> <button pButton pRipple icon="pi pi-pencil"  class="p-button-outlined"  ></button></td>
+                            <td> <button pButton pRipple icon="pi pi-pencil"  class="p-button-outlined"  (click)="onEditSection(Warranty)" ></button></td>
                               </tr>
                               </ng-template>
                     </p-table>

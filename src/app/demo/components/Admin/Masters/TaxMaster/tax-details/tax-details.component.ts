@@ -146,10 +146,13 @@ getMenu(rowData){
     else{
       tax=null;
     }
+    let startDate;
+    if(String(this.taxDetails.EffectiveDateStart).includes('/')) startDate = this.taxDetails.EffectiveDateStart
+    else startDate = this.datePipe.transform(this.taxDetails.EffectiveDateStart,'dd/MM/yyyy');
     let ReqObj = {
       "CountryId": this.CountryId,
       "CreatedBy": this.loginId,
-      "EffectiveDateStart":this.taxDetails.EffectiveDateStart,
+      "EffectiveDateStart":startDate,
       "Remarks":this.taxDetails.Remarks,
       "Status":this.taxDetails.Status,
       "TaxDesc":this.taxDetails.TaxDesc,
@@ -158,12 +161,12 @@ getMenu(rowData){
       "CodeDescLocal": this.taxDetails.CodeDescLocal,
     }
     let urlLink = `${this.ApiUrl1}master/savecountrytax`;
-    if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {
-      ReqObj['EffectiveDateStart'] =  this.datePipe.transform(ReqObj.EffectiveDateStart, "dd/MM/yyyy")
-    }
-    else{
-      ReqObj['EffectiveDateStart'] = "";
-    }
+    // if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {
+    //   ReqObj['EffectiveDateStart'] =  this.datePipe.transform(ReqObj.EffectiveDateStart, "dd/MM/yyyy")
+    // }
+    // else{
+    //   ReqObj['EffectiveDateStart'] = "";
+    // }
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
           console.log(data);

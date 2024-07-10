@@ -142,12 +142,15 @@ export class NewcolorDetailsComponent implements OnInit {
 
 onSaveColor() {
   if(this.ColorDetails.RegulatoryCode==undefined) this.ColorDetails.RegulatoryCode = null;
+  let startDate;
+    if(String(this.ColorDetails.EffectiveDateStart).includes('/')) startDate = this.ColorDetails.EffectiveDateStart
+    else startDate = this.datePipe.transform(this.ColorDetails.EffectiveDateStart,'dd/MM/yyyy');
   let ReqObj = {
 
     "ColorId":this.ColorId,
     "ColorCode":this.ColorDetails.ColorCode,
     "ColorDesc":this.ColorDetails.ColorDesc,
-    "EffectiveDateStart":this.ColorDetails.EffectiveDateStart,
+    "EffectiveDateStart":startDate,
     "Remarks":this.ColorDetails.Remarks,
      "InsuranceId":this.insuranceId,
     "BranchCode":"99999",

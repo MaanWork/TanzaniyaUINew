@@ -64,6 +64,8 @@ export class NewmodelDetailsComponent implements OnInit {
     let modelObj = JSON.parse(sessionStorage.getItem('editModelId'));
     if(this.ModelId!=null && this.ModelId!=undefined){
       this.getEditModelDetails();
+      this.ModelDetails = new Model();
+      this.MakeId = modelObj.MakeId;
     }
     else{
       this.ModelDetails = new Model();
@@ -208,6 +210,9 @@ export class NewmodelDetailsComponent implements OnInit {
   }
 
 onSaveModel() {
+  let startDate;
+    if(String(this.ModelDetails.EffectiveDateStart).includes('/')) startDate = this.ModelDetails.EffectiveDateStart
+    else startDate = this.datePipe.transform(this.ModelDetails.EffectiveDateStart,'dd/MM/yyyy');
   let ReqObj = {
 
     "BranchCode":this.branchValue,
@@ -221,7 +226,7 @@ onSaveModel() {
   "CoreModelId": this.ModelDetails.CoreModelId,
   "CoreRefNo": this.ModelDetails.CoreRefNo,
   "CreatedBy": this.loginId,
-  "EffectiveDateStart":this.ModelDetails.EffectiveDateStart ,
+  "EffectiveDateStart":startDate,
   "InsuranceId": this.insuranceId,
   "MakeId": this.ModelDetails.MakeId,
   "MakeNameEn": this.MakeId,

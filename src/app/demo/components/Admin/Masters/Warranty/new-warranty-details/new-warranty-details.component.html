@@ -57,12 +57,25 @@
             styleClass="w-full"   maxlength="500"
             placeholder="Enter Bank Full Name"></textarea>
         </div>
+
         <div class="col-12 md:col-4 lg:col-4">
             <label for="CodeDescLocal">Local Name*</label><br>
             <input pInputText type="text" 
             [(ngModel)]="WarrantyDetails.CodeDescLocal"  maxlength="100"
             class="w-full" styleClass="w-full"
             placeholder="Enter Local Name Name"/>
+        </div>
+        <div class="col-12 lg:col-4 xl:col-4 md:col-4" >
+            <label for="username">Type Id*</label>
+            <p-dropdown inputId="Code" 
+                class="w-full"
+                styleClass="w-full" 
+                [options]="TypeList" 
+                [(ngModel)]="TypeId" 
+                optionLabel="CodeDesc" 
+                optionValue="Code" 
+                placeholder="">
+            </p-dropdown>
         </div>
         <div class="col-12 lg:col-4 xl:col-4 md:col-4" *ngIf="sectionValue!='99999'">
             <label for="username">Section*</label>
@@ -119,7 +132,7 @@
                 <span for="ingredient1" class="ml-1">Referral</span>
             </div>
         </div>
-        <div class="col-12 lg:col-4 xl:col-4 md:col-4" *ngIf="sectionValue!='99999'">
+        <!-- <div class="col-12 lg:col-4 xl:col-4 md:col-4" *ngIf="sectionValue!='99999'">
             <label for="username">Type Id*</label>
             <p-dropdown inputId="TypeList" 
                 class="w-full" 
@@ -131,7 +144,7 @@
                 [disabled]="true"
                 placeholder="">
             </p-dropdown>
-        </div>
+        </div> -->
         <div class="col-12 md:col-4 lg:col-4">
             <label for="Bankname">Remarks*</label><br>
             <textarea pInputTextarea  type="text" 
