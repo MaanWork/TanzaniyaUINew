@@ -4951,13 +4951,10 @@ backPlan()
     if(this.productId=='25' && this.TableRowEE.length==0 && valid==false){
       this.EEErrorFun();
     }
-    if(this.productId=='16' && this.TableRowMoney.length==0 && valid==false){
-      this.MoneyErrorFun();
-    }
     if(this.productId=='13' && this.tableRowPA.length==0 && valid==false || (this.tableRowPA.length==0 && valid==true)){
       this.PAErrorFun();
     }
-    else if(valid){
+    if(valid){
       if(this.productId=='1' || this.productId=='59' || this.productId=='61' ||  this.productId=='13' || this.productId=='39'
          || this.productId=='43' || this.productId=='16' || this.productId=='42' || this.productId=='15' || this.productId=='14'
           || this.productId=='60' || this.productId=='57' || this.productId=='56' || this.productId=='26' || this.productId=='25' 
@@ -6445,9 +6442,6 @@ console.log('Eventsss',event);
     ReqObj.push(entry);
         i+=1;
   if(i==this.TableRowMoney.length){this.finalSaveMoney(ReqObj,type,formType)}
-  else{
-    alert()
-  }
     }
   
 }
