@@ -66,8 +66,8 @@ export class DriverInfoComponent {
      var day = d.getDate();
       this.currentDate = new Date();
       this.driverOptions = [
-        {"label":'Driver',"value":'2'},
-        {"label":'Owner',"value":'1'},
+        {"label":'Driver',"value":'2','CodeDesc':'Driver','CodeDescLocal':'Driver -P'},
+        {"label":'Owner',"value":'1','CodeDesc':'Owner','CodeDescLocal':'Owner -P'},
       ];
      this.minDate = new Date(year - 18,month, day );
      let referenceNo =  sessionStorage.getItem('customerReferenceNo');
@@ -734,7 +734,10 @@ getCylinderTypeList(){
     (err) => { },
   );
 }
-
+getDisplayName(){
+  if(this.lang=='en') return 'CodeDesc';
+  else return 'CodeDescLocal'
+}
 getDoorTypeList(){
   let ReqObj = {
     "InsuranceId": this.insuranceId,
