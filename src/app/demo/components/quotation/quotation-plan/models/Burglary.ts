@@ -119,7 +119,7 @@ export class Burglary{
                       key: 'CoveringDetails',
                       
                       props: { 
-                        maxLength: 15,
+                        maxLength: 1000,
                         label: `Covering Details`,
                       },
                       templateOptions: {
@@ -127,7 +127,7 @@ export class Burglary{
                         required: true,
                       },
                       validators: {
-                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                        validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
                       },
                       hooks: {
                       },
@@ -142,7 +142,7 @@ export class Burglary{
                       key: 'DescriptionRisk',
                       
                       props: { 
-                        maxLength: 15,
+                        maxLength: 1000,
                         label: `Description Of Risk`,
                       },
                       templateOptions: {
@@ -150,7 +150,7 @@ export class Burglary{
                         required: true,
                       },
                       validators: {
-                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                        validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
                       },
                       hooks: {
                       },

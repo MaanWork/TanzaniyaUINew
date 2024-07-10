@@ -42,7 +42,7 @@ export class EmployersLiability{
                       className: 'col-sm-12 col-md-6 col-lg-4',
                       props: {
                         label: `Occupation`,
-                        disabled: this.checkDisable('OccupationType'),
+                        disabled: this.checkDisable('LiabilityOccupationId'),
                         required: true,
                         options: [
         
@@ -63,7 +63,7 @@ export class EmployersLiability{
                       key: 'TotalNoOfEmployees',
                       templateOptions: {
                         label: 'Employee Count',
-                        disabled: this.checkDisable('SumInsured'),
+                        disabled: this.checkDisable('TotalNoOfEmployees'),
                         required: true,
                       },
                       validators: {
@@ -79,7 +79,7 @@ export class EmployersLiability{
                       props: {
                         label: `SumInsured`,
                         maxLength: 15,
-                        disabled: this.checkDisable('SumInsured'),
+                        disabled: this.checkDisable('EmpLiabilitySi'),
                         required: true,
                         options: [
                             
