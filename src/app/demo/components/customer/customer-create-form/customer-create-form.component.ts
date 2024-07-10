@@ -1183,7 +1183,7 @@ getType3(type){
   }
   
 	getOccupationLists(type) {
-		let product:any;this.occupationList=[];
+		let product:any;this.occupationList=[];let productId=this.productId
 		if(this.productItem.IdType == '1'){
         product = 'I'
 		}
@@ -1194,13 +1194,13 @@ getType3(type){
 			this.productItem.Occupation = '';
 		}
 		if(this.insuranceId=='100004') {
-			this.productId='';
+			productId=''
 			product='';
 		}
 		let ReqObj = {
 			"InsuranceId": this.insuranceId,
 			"BranchCode": this.branchCode,
-			"ProductId":this.productId,
+			"ProductId":productId,
 		    "TitleType":product
 		}
 		let urlLink = `${this.CommonApiUrl}master/dropdown/occupation`;
