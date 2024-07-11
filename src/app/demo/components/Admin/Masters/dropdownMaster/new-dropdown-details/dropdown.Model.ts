@@ -11,5 +11,6 @@ export class Dropdown {
         "KeyName":null;
         "KeyTable":null;
         "RequestYn":"N";
-        "Status":"N";    
+        "Status":"N";
+        "CodeDescLocal":null;
 }

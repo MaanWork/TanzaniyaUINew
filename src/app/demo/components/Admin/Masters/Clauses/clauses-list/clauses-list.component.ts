@@ -52,7 +52,7 @@ export class ClausesListComponent implements OnInit {
   ngOnInit(): void {
     this.columnHeader = [
        'Clauses Description' ,
-     'CoreAppCode' ,
+     'CoreAppCode' ,'Local Name',
      'Effective Date Start' ,
      'Status' ,'Action',
     ];
@@ -95,6 +95,7 @@ export class ClausesListComponent implements OnInit {
   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
     (data: any) => {
       if(data.Result){
+        //this.getSectionList();
         let obj = [{Code:"99999",CodeDesc:"ALL"}];
         this.branchList = obj.concat(data?.Result);
         if(!this.branchValue){ this.branchValue = "99999"; this.getCompanyProductList('change')}
@@ -132,9 +133,9 @@ export class ClausesListComponent implements OnInit {
        if(docObj){ this.sectionValue = docObj?.SectionId;
          this.productValue = docObj?.ProductId;
          console.log('LLLLLLLLLL',this.sectionValue);
-         this.getSectionList(); this.getExistingClauses()  }
-       else{ this.productValue='5'; this.getSectionList(); this.getExistingClauses()  }
-      //  if(!this.productValue){ this.productValue = "5";
+          this.getExistingClauses();  }
+       else{ this.productValue='5';  this.getExistingClauses()  }
+      //  if(!this;.productValue){ this.productValue = "5";
       //  this.getSectionList();
       //  this.getExistingClauses() }
        }
@@ -160,6 +161,7 @@ export class ClausesListComponent implements OnInit {
       (data: any) => {
         console.log(data);
         if(data.Result){
+          //this.getSectionList();
             this.ClausesData = data?.Result;
         }
       },

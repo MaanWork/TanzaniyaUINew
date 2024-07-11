@@ -6,4 +6,5 @@ export class Taxdetails {
     "TaxDesc":null;
     "TaxId": null;
     "TaxName": null;
+    "CodeDescLocal":null;
 }

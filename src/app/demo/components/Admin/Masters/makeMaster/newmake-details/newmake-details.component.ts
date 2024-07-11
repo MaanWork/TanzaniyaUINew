@@ -159,20 +159,23 @@ this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
     return this;
   }
   onSaveMake() {
+    let startDate;
+    if(String(this.MakeDetails.EffectiveDateStart).includes('/')) startDate = this.MakeDetails.EffectiveDateStart
+    else startDate = this.datePipe.transform(this.MakeDetails.EffectiveDateStart,'dd/MM/yyyy');
     let ReqObj = {
 
       "MakeId":this.MakeId,
       "MakeNameEn":this.MakeDetails.MakeNameEn,
       "ColorDesc":this.MakeDetails.ColorDesc,
-      "EffectiveDateStart":this.MakeDetails.EffectiveDateStart,
+      "EffectiveDateStart":startDate,
       "Remarks":this.MakeDetails.Remarks,
       //"EffectiveDateEnd":this.MakeDetails.EffectiveDateEnd,
       "EntryDate":this.MakeDetails.EntryDate,
       "Status":this.MakeDetails.Status,
       "InsuranceId": this.insuranceId,
       "BranchCode":this.BranchCode,
-      "CreatedBy":this.loginId
-
+      "CreatedBy":this.loginId,
+    "CodeDescLocal": this.MakeDetails.CodeDescLocal,
 
     }
     let urlLink = `${this.CommonApiUrl}master/savemakemotor`;

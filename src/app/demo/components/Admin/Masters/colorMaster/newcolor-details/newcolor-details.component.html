@@ -43,6 +43,13 @@
             placeholder="Enter Color Name"/>
         </div>
         <div class="col-12 md:col-4 lg:col-4">
+            <label for="CodeDescLocal">Local Name*</label><br>
+            <input pInputText type="text" 
+            [(ngModel)]="ColorDetails.CodeDescLocal"  maxlength="100"
+            class="w-full" styleClass="w-full"
+            placeholder="Enter Local Name Name"/>
+        </div>
+        <div class="col-12 md:col-4 lg:col-4">
             <label for="username">Regulatory Code*</label><br>
             <input pInputText type="text" [(ngModel)]="ColorDetails.RegulatoryCode"  class="w-full" 
             styleClass="w-full"   maxlength="100"

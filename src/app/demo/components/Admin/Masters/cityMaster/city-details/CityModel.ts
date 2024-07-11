@@ -11,4 +11,5 @@ export class City {
   "Remarks":null;
   "CreatedBy":null;
   "RegulatoryCode":null;
+  "CodeDescLocal":null;
 }

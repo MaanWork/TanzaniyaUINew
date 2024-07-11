@@ -72,7 +72,7 @@ export class BankListComponent implements OnInit {
       //   },
       // }
 
-      'Bank Full Name','Bank Short Name',
+      'Bank Full Name','Bank Short Name','Local Name',
       'Effective Date Start','Status','Action'
     ];
     this.getCompanyList();

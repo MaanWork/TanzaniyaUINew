@@ -43,7 +43,7 @@ export class ExisitingDropdownsComponent implements OnInit {
   ngOnInit(): void {
     sessionStorage.removeItem("ItemId")
     this.dropdownHeader = ['Description' ,
-    'Code' ,
+    'Code' ,'Local Name',
      'Effective Date' ,
    'Status' ,
    'Action',

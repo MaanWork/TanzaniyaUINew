@@ -51,7 +51,7 @@ export class WarrantyListComponent implements OnInit {
 
     this.columnHeader = [
     'Warranty Description' ,
-     'Core App Code' ,
+     'Core App Code' ,'Local Name',
     'Effective Date Start' ,
     'Status' ,
      'Action',

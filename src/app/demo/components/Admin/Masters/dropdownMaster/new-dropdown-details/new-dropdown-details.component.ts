@@ -223,7 +223,9 @@ let ItemId
     else{
       ItemId=null;
     }
-
+    let startDate;
+    if(String(this.DropDownDetails.EffectiveDateStart).includes('/')) startDate = this.DropDownDetails.EffectiveDateStart
+    else startDate = this.datePipe.transform(this.DropDownDetails.EffectiveDateStart,'dd/MM/yyyy');
     /*if(this.ItemValue!=undefined && this.ItemValue!=null && this.ItemValue!=''){
       //let code = this.productItem
       let code = this.TypeList.find(ele=>ele.CodeDesc==this.ItemValue)
@@ -237,7 +239,7 @@ let ItemId
         "BranchCode": "99999",
         "CoreAppCode": this.DropDownDetails.CoreAppCode,
         "CreatedBy": this.loginId,
-        "EffectiveDateStart":this.DropDownDetails.EffectiveDateStart,
+        "EffectiveDateStart":startDate,
         "InsuranceId": this.insuranceId,
         "ItemCode":this.DropDownDetails.ItemCode,
         "ItemId": ItemId,
@@ -245,7 +247,8 @@ let ItemId
         "ItemValue":this.DropDownDetails.ItemValue,
         "RegulatoryCode":this.DropDownDetails.RegulatoryCode,
         "Remarks":this.DropDownDetails.Remarks,
-        "Status":this.DropDownDetails.Status
+        "Status":this.DropDownDetails.Status,
+        "CodeDescLocal": this.DropDownDetails.CodeDescLocal,
 
     }
     let urlLink = `${this.CommonApiUrl1}master/insertlovdetails`;

@@ -43,7 +43,7 @@ export class ModelListComponent implements OnInit {
 
   ngOnInit(): void {
     this.columnHeader = ['Model Name' ,
-   'Core APP Code' , 'EffectiveDateStart' ,'Status' ,
+   'Core APP Code' , 'Local Name','EffectiveDateStart' ,'Status' ,
       'Action'
     ];
     this.getCompanyList();

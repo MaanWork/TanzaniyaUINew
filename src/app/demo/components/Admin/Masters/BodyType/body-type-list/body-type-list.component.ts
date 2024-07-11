@@ -54,7 +54,7 @@ export class BodyTypeListComponent implements OnInit {
       this.insuranceId = obj.InsuranceId
     }
     this.columnHeader = ['Body Name' ,
-     'Regulatory Code' ,
+     'Regulatory Code' ,'Local Name',
      'Effective Date Start' ,
       'Status' , 'actions',
     ];

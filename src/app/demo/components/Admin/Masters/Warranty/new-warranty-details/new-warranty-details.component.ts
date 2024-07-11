@@ -62,7 +62,7 @@ export class NewWarrantyDetailsComponent implements OnInit {
         this.sectionValue = docObj?.SectionId;
         this.insuranceId=docObj?.InsuranceId;
     };
-    this.getTypeId()
+    
   }
   ngOnInit(): void {
     console.log("Warranty Id", this.WarrantyId);
@@ -75,7 +75,7 @@ export class NewWarrantyDetailsComponent implements OnInit {
       if (this.WarrantyDetails?.Status == null) this.WarrantyDetails.Status = 'N';
     }
     this.getBranchList();
-    this.getSectionList();
+    this.getTypeId()
   }
   getBranchList() {
     let ReqObj = {
@@ -96,6 +96,7 @@ export class NewWarrantyDetailsComponent implements OnInit {
             this.getCompanyProductList();
             if (this.WarrantyId) this.getEditWarrantyDetails();
             else this.WarrantyId = null;
+            this.getSectionList();
           }
           else this.WarrantyId = null;
         }
@@ -218,8 +219,8 @@ export class NewWarrantyDetailsComponent implements OnInit {
       "ProductId": this.productValue,
       "SectionId": this.sectionValue,
       "DocRefNo": Id,
-      "TypeId":this.TypeId
-
+      "TypeId":this.TypeId,
+      "CodeDescLocal": this.WarrantyDetails.CodeDescLocal,
     }
     let urlLink = `${this.CommonApiUrl}master/insertwarranty`;
     if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {

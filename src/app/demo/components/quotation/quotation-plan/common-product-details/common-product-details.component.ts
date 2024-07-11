@@ -4950,9 +4950,9 @@ backPlan()
     if(this.productId=='25' && this.TableRowEE.length==0 && valid==false){
       this.EEErrorFun();
     }
-    if(this.productId=='13' && this.tableRowPA.length==0 && valid==false || (this.tableRowPA.length==0 && valid==true)){
-      this.PAErrorFun();
-    }
+    // if(this.productId=='13' && this.tableRowPA.length==0 && valid==false || (this.tableRowPA.length==0 && valid==true)){
+    //   this.PAErrorFun();
+    // }
     if(valid){
       if(this.productId=='1' || this.productId=='59' || this.productId=='61' ||  this.productId=='13' || this.productId=='39'
          || this.productId=='43' || this.productId=='16' || this.productId=='42' || this.productId=='15' || this.productId=='14'

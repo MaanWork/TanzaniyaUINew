@@ -41,7 +41,7 @@ export class CountryListComponent implements OnInit {
       this.ProductId = userDetails?.Result?.ProductId;
     }
     this.countryHeader = [
-      'Country Name','Country Code','Effective Date Start','Status','Action',
+      'Country Name','Country Code','Local Name','Effective Date Start','Status','Action',
     ];
 
   }

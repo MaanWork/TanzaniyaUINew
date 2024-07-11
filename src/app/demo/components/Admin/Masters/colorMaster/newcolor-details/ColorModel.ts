@@ -13,4 +13,5 @@ export class Color{
   "InsuranceId": null;
   "BranchCode": null;
     "CreatedBy":null;
+    "CodeDescLocal":null;
 }

@@ -56,7 +56,7 @@ export class ExchangeListComponent implements OnInit {
     }
     this.columnHeader = [
     'ExchangeRate' ,
-    'CoreAppCode' ,
+    'CoreAppCode' ,'Local Name',
     'EffectiveDate','Status' ,'Action'
     ];
     this.getCompanyList();

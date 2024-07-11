@@ -63,7 +63,7 @@
                           [(ngModel)]="productValue" 
                           optionLabel="ProductName" 
                           optionValue="ProductId" 
-                          placeholder="Select Insurance Company">
+                          >
                       </p-dropdown>
                   </div>
                   <div class="flex flex-wrap md:col-4 lg:col-4 ">
@@ -84,7 +84,7 @@
                   </div>
                   <div class="col-12 lg:col-4 xl:col-4 md:col-4 ml-3" *ngIf="sectionYn!='N'">
                     <label for="username">Section</label>
-                    <p-dropdown inputId="productValue" 
+                    <p-dropdown inputId="sectionList" 
                         class="w-full" 
                         styleClass="w-full" 
                         [options]="sectionList" 
@@ -127,6 +127,7 @@
                             <tr>
                               <td>{{ Exclusion.ExclusionDescription }}</td>
                               <td>{{ Exclusion.CoreAppCode }}</td>
+                              <td>{{ Exclusion.CodeDescLocal }}</td>
                               <td>{{ Exclusion.EffectiveDateStart }}</td>
                             <td>
                                 <ng-container *ngIf="Exclusion?.Status=='N'">DeActive</ng-container>

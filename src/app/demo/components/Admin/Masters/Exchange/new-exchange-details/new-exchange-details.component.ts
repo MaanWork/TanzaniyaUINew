@@ -125,20 +125,23 @@ export class NewExchangeDetailsComponent implements OnInit {
     this.router.navigate(['/Admin/exchangeMaster'])
   }
   onProceed(){
+    let startDate;
+    if(String(this.exchangeDetails.EffectiveDateStart).includes('/')) startDate = this.exchangeDetails.EffectiveDateStart
+    else startDate = this.datePipe.transform(this.exchangeDetails.EffectiveDateStart,'dd/MM/yyyy');
     let ReqObj = {
       "ExchangeId": this.ExchangeId,
       "ExchangeRate":  this.exchangeDetails.ExchangeRate,
       "CurrencyId":  this.exchangeDetails.CurrencyId,
       "Status":  this.exchangeDetails.Status,
-      "EffectiveDateStart":  this.exchangeDetails.EffectiveDateStart,
+      "EffectiveDateStart": startDate,
       "Remarks":  this.exchangeDetails.Remarks,
       //"InsuranceId":  this.exchangeDetails.InsuranceId,
       "CreatedBy":  this.loginId,
       "CoreAppCode":  this.exchangeDetails.CoreAppCode,
       "MinDiscount": this.exchangeDetails.MinDiscount,
       "MaxLoading": this.exchangeDetails.MaxLoading,
-      "InsuranceId":this.insuranceId
-
+      "InsuranceId":this.insuranceId,
+"CodeDescLocal": this.exchangeDetails.CodeDescLocal,
     }
     let urlLink = `${this.CommonApiUrl}master/insertexchangemaster`;
     // if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {

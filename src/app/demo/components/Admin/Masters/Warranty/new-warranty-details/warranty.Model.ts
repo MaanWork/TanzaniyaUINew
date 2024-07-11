@@ -14,4 +14,5 @@ export class Warranty{
     "CoreAppCode": null;
     "RegulatoryCode": null;
     "EntryDate": null;
+    "CodeDescLocal":null;
 }

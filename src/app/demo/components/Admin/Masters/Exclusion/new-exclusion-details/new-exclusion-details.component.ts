@@ -141,12 +141,14 @@ getTypeId(){
     else{
       section='99999';
     }*/
-
+      let startDate;
+      if(String(this.ExclusionDetails.EffectiveDateStart).includes('/')) startDate = this.ExclusionDetails.EffectiveDateStart
+      else startDate = this.datePipe.transform(this.ExclusionDetails.EffectiveDateStart,'dd/MM/yyyy');
     let ReqObj = {
         "ExclusionId":this.ExclusionId,
         "ExclusionDescription":this.ExclusionDetails.ExclusionDescription,
         "Status":this.ExclusionDetails.Status,
-        "EffectiveDateStart":this.ExclusionDetails.EffectiveDateStart,
+        "EffectiveDateStart":startDate,
         "Remarks":this.ExclusionDetails.Remarks,
         "InsuranceId":this.insuranceId,
         "CreatedBy":this.loginId,
@@ -156,7 +158,8 @@ getTypeId(){
         "DocRefNo": Id,
         "ProductId": this.productValue,
         "SectionId":this.sectionValue,
-        "TypeId":this.TypeId
+        "TypeId":this.TypeId,
+        "CodeDescLocal": this.ExclusionDetails.CodeDescLocal,
     }
     let urlLink = `${this.CommonApiUrl}master/insertexclusion`;
   // if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {

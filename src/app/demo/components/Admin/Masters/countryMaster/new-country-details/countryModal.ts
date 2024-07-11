@@ -14,4 +14,5 @@ export class Country
     "Remarks": null;
     "UpdatedBy": null;
     "UpdatedDate": null;
+    "CodeDescLocal":null;
 }

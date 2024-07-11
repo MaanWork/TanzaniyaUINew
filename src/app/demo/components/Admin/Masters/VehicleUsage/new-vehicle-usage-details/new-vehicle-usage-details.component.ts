@@ -154,6 +154,7 @@ this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       "RegulatoryCode":this.VehicleDetails.RegulatoryCode,
       "BranchCode":this.branchValue,
       "InsuranceId":this.insuranceId,
+      "CodeDescLocal": this.VehicleDetails.CodeDescLocal,
     }
     let urlLink = `${this.CommonApiUrl}api/savemotorvehicleusagedetails`;
   if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {

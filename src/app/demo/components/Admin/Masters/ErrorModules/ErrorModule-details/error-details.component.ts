@@ -203,7 +203,7 @@ export class NewErrorDetailsComponent implements OnInit {
         "Language":this.ErrorModelDetails.Language,
         "LocalLangErrorField":this.ErrorModelDetails.LocalLangErrorField,
         "LocalLanguageDesc":this.ErrorModelDetails.LocalLanguageDesc,
-
+"CodeDescLocal": this.ErrorModelDetails.CodeDescLocal,
     }
     let urlLink = `${this.CommonApiUrl1}master/inserterrormodules`;
     if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined)

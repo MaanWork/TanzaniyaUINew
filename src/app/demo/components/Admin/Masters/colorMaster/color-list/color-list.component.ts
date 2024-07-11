@@ -44,7 +44,7 @@ export class ColorListComponent implements OnInit {
     }
     this.columnHeader = [
     'Color Code' ,
-    'Color Desc' ,
+    'Color Desc' ,'Local Name',
      'EffectiveDateStart' ,
     'Status' ,
       'Action',

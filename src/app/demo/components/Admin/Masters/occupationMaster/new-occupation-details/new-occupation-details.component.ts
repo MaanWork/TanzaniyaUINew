@@ -25,6 +25,7 @@ export class NewOccupationDetailsComponent implements OnInit {
   public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
   insuranceId:any;userDetails:any;productList:any[]=[];categoryList:any[]=[];
   categoryvalue:any;
+  CodeDescLocal: any;
 
   constructor(private router:Router,private datePipe:DatePipe,private sharedService: SharedService,private layoutService:LayoutService
     ) {
@@ -207,7 +208,9 @@ export class NewOccupationDetailsComponent implements OnInit {
       "InsuranceId": this.insuranceId,
       "BranchCode": this.branchValue,
       "ProductId":this.productId,
-      "CategoryId":this.categoryvalue
+      "CategoryId":this.categoryvalue,
+      "CodeDescLocal": this.CodeDescLocal,
+
     }
     if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {
       ReqObj['EffectiveDateStart'] =  this.datePipe.transform(ReqObj.EffectiveDateStart, "dd/MM/yyyy")

@@ -143,7 +143,7 @@ this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       "CreatedBy":this.loginId,
       "Status":this.BodyTypeDetails.Status,
       "Remarks":this.BodyTypeDetails.Remarks,
-
+      "CodeDescLocal": this.BodyTypeDetails.CodeDescLocal,
     }
     let urlLink = `${this.CommonApiUrl}master/savemotorbodytype`;
   if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {

@@ -50,7 +50,7 @@ export class ExistingOccupationsComponent implements OnInit {
   ngOnInit(): void {
     this.occupationHeader = [
 'OccupationName' ,
-    'CoreAppCode' ,
+    'CoreAppCode' ,'Local Name',
     'EffectiveDate' ,
    'Status' ,
    'Action',

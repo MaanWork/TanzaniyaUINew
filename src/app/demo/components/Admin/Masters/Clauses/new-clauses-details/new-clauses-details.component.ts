@@ -84,14 +84,16 @@ export class NewClausesDetailsComponent implements OnInit {
 
   onProceed(UniqueId){
 
-    /*let section
-    if(this.ClausesId){
-      section=this.sectionValue;
-    }
-    else{
-      section='99999';
-    }*/
-
+    // /*let section
+    // if(this.ClausesId){
+    //   section=this.sectionValue;
+    // }
+    // else{
+    //   section='99999';
+    // }*/
+    let startDate;
+    if(String(this.ClausesDetails.EffectiveDateStart).includes('/')) startDate = this.ClausesDetails.EffectiveDateStart
+    else startDate = this.datePipe.transform(this.ClausesDetails.EffectiveDateStart,'dd/MM/yyyy');
     let ReqObj = {
 
       "ClausesDescription":this.ClausesDetails.ClausesDescription,
@@ -102,7 +104,7 @@ export class NewClausesDetailsComponent implements OnInit {
       //"OptionalType":this.ClausesDetails.OptionalType,
       //"IntCode":this.ClausesDetails.IntCode,
       "Status":this.ClausesDetails.Status,
-      "EffectiveDateStart":this.ClausesDetails.EffectiveDateStart,
+      "EffectiveDateStart":startDate,
       "Remarks":this.ClausesDetails.Remarks,
       "CreatedBy":this.loginId,
       "ProductId":this.productValue,
@@ -113,7 +115,8 @@ export class NewClausesDetailsComponent implements OnInit {
       "RegulatoryCode":this.ClausesDetails.RegulatoryCode,
       "SectionId":this.sectionValue,
       "TypeId":this.TypeId,
-      "DocRefNo": UniqueId
+      "DocRefNo": UniqueId,
+      "CodeDescLocal": this.ClausesDetails.CodeDescLocal,
 
     }
     let urlLink = `${this.CommonApiUrl}master/insertclauses`;
