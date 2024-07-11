@@ -120,11 +120,14 @@ export class MotorVehicleOromia{
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
-                      label: 'Claims YN ?',
                       required: true,
                       disabled: this.checkDisable('ClaimsYN'),
                       name: 'ClaimsYN',
-                      options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
+                      
+                    },
+                    props: {
+                      label: 'Claims',
+                      options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
                     }
                   },
                   {
@@ -133,11 +136,14 @@ export class MotorVehicleOromia{
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
-                      label: 'Gps YN ?',
+                      
                       required: true,
                       disabled: this.checkDisable('ClaimsYN'),
-                      name: 'GpsYN',
-                      options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
+                      name: 'GpsYN'
+                    },
+                    props: {
+                      label: 'GPS',
+                      options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
                     }
                   },
                   {

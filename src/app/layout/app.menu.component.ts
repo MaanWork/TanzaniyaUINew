@@ -2,6 +2,8 @@ import { OnInit, Component } from '@angular/core';
 import { LayoutService } from './service/app.layout.service';
 import * as Mydatas from '../../app/app-config.json';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { AppComponent } from '../app.component';
 declare var $:any;
 
 @Component({
@@ -25,11 +27,11 @@ export class AppMenuComponent implements OnInit {
     public ApiUrl1: any = this.AppConfig.ApiUrl1;
     menuSection: boolean = true;menu:any[]=[];typeList:any[]=[];
     parentSection:boolean = true;submenuList:any[]=[];
-    typeName: any;b2cType:any=null
+    typeName: any;b2cType:any=null;lang:any=null;
     branchValue: any;
     branchList: any[]=[];
     branchName: any;
-    constructor(public layoutService: LayoutService,private router:Router) { 
+    constructor(public layoutService: LayoutService,private router:Router,private translate:TranslateService,private appComp:AppComponent) { 
         this.productName = sessionStorage.getItem('productName');
         this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
         this.typeValue = sessionStorage.getItem('typeValue');
@@ -45,6 +47,15 @@ export class AppMenuComponent implements OnInit {
         let type = sessionStorage.getItem('typeValue');
         if(type) this.typeValue = type;
         this.insuranceid = this.userDetails.Result.LoginBranchDetails[0].InsuranceId;
+        this.appComp.getLanguage().subscribe((res:any)=>{  
+          if(res) this.lang=res;
+          else this.lang='en';
+          this.translate.setDefaultLang(this.lang);
+        });
+        if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+          else this.lang='en';
+          sessionStorage.setItem('language',this.lang)
+          this.translate.setDefaultLang(sessionStorage.getItem('language'));}
         this.getTypeList();
 
     }
@@ -219,12 +230,16 @@ export class AppMenuComponent implements OnInit {
           let menus = [], i = 0;
           for (let menu of menuList) {
             let entry: any;
+            menu['CodeDesc'] =  menu.title;
+            menu['CodeDescLocal'] = menu.titleLocal
+            if(this.lang=='en') menu.title=menu.CodeDesc
+            else menu.title = menu.CodeDescLocal
             entry = {
               "label": menu.title,
               "icon": 'pi pi-car',
               "routerLink": [menu.link]
             }
-            if (menu.children && menu.title!='Quote Register' && menu.title!='Login Creation' && menu.title!='Referral' && menu.title!='Portfolio' && menu.title!='Referal Management' && menu.title!='Masters') {
+            if (menu.children && menu.CodeDesc!='Quote Register' && menu.CodeDesc!='Login Creation' && menu.CodeDesc!='Referral' && menu.CodeDesc!='Portfolio' && menu.CodeDesc!='Referal Management' && menu.CodeDesc!='Masters') {
              entry['items'] = [];
               let j = 0;
               for (let child of menu.children) {
@@ -258,25 +273,27 @@ export class AppMenuComponent implements OnInit {
             }
             else {
               entry["icon"] = menu.icon;
-              if(menu.title=='Quote Register') entry["routerLink"] =  ['/quotation'];
-              else if(menu.title=='Login Creation') entry["routerLink"] =  ['/logincreation'];
-              else if(menu.title=='Customer') entry["routerLink"] =  ['/customer'];
-              else if(menu.title=='New Quote'){
+              if(menu.CodeDesc=='Quote Register') entry["routerLink"] =  ['/quotation'];
+              else if(menu.CodeDesc=='Login Creation') entry["routerLink"] =  ['/logincreation'];
+              else if(menu.CodeDesc=='Customer') entry["routerLink"] =  ['/customer'];
+              else if(menu.CodeDesc=='New Quote'){
                 if(this.productId=='5')  entry['routerLink'] = ['/policyDetails']
                 else entry['routerLink'] = ['/quotation/plan/quote-details']
               }
-              else if(menu.title=='Referal Management') entry["routerLink"] =  ['/referralCases']
-              else if(menu.title=='Customer') entry["routerLink"] =  ['/customer']
-              else if(menu.title=='Referral') entry["routerLink"] =  ['/referral']
-              else if(menu.title=='Portfolio') entry["routerLink"] =  ['/portfolio']
-              else if(menu.title=='Copy Quote') entry["routerLink"] =  ['/quotation/plan/copy-quote']
-              else if(menu.title=='Short Quote') entry["routerLink"] =  ['/quotation/plan/shortQuote']
-              else if(menu.title=='Report') entry["routerLink"] =  ['/report']
-              else if(menu.title=='Search') entry["routerLink"] =  ['/Search']
-              else if(menu.title=='Masters') entry["routerLink"] =  ['/Admin/bankMaster']
-              else if(menu.title=='Tira Vehicle Search'){entry["routerLink"] =  ['/tira-search']}
+              else if(menu.CodeDesc=='Referal Management') entry["routerLink"] =  ['/referralCases']
+              else if(menu.CodeDesc=='Customer') entry["routerLink"] =  ['/customer']
+              else if(menu.CodeDesc=='Referral') entry["routerLink"] =  ['/referral']
+              else if(menu.CodeDesc=='Portfolio') entry["routerLink"] =  ['/portfolio']
+              else if(menu.CodeDesc=='Copy Quote') entry["routerLink"] =  ['/quotation/plan/copy-quote']
+              else if(menu.CodeDesc=='Short Quote') entry["routerLink"] =  ['/quotation/plan/shortQuote']
+              else if(menu.CodeDesc=='Report') entry["routerLink"] =  ['/report']
+              else if(menu.CodeDesc=='Search') entry["routerLink"] =  ['/Search']
+              else if(menu.CodeDesc=='Masters') entry["routerLink"] =  ['/Admin/bankMaster']
+              else if(menu.CodeDesc=='Tira Vehicle Search'){entry["routerLink"] =  ['/tira-search']}
               else entry["routerLink"] =  [menu.link]
               entry['link'] = menu.link;
+              if(this.lang=='en') menu.title=menu.CodeDesc
+              else menu.title = menu.CodeDescLocal
               menus.push(entry);
               i += 1;
               if (i == menuList.length) {

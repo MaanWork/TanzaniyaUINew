@@ -386,12 +386,13 @@ export class MotorVehicleSanlam{
                       type: 'radioList',
                       templateOptions: {
                         type: 'radioList',
-                        label: 'Claims',
                         required: true,
                         disabled: this.checkDisable('ClaimsYN'),
-                       
                         name: 'Claims',
-                        options: [{ value: 'Y', label: 'Yes', CodeDesc:'Yes', CodeDescLabel:'Sim' }, { value: 'N', label: 'No', CodeDesc:'No', CodeDescLabel:'Não' }],
+                      },
+                      props: {
+                        label: 'Claims',
+                        options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
                       }
                     },
                 ]

@@ -125,10 +125,12 @@ export class MotorVehicleTanzaniya{
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
-                      label: 'Claims',
                       required: true,
                       disabled: this.checkDisable('ClaimsYN'),
                       name: 'ClaimsYN',
+                    },
+                    props: {
+                      label: 'Claims',
                       options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
                     }
                   },
@@ -139,10 +141,13 @@ export class MotorVehicleTanzaniya{
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
-                      label: 'GPS',
                       required: true,
                       disabled: this.checkDisable('ClaimsYN'),
                       name: 'GpsYN',
+                      
+                    },
+                    props: {
+                      label: 'GPS',
                       options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
                     }
                   },

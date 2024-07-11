@@ -21,39 +21,37 @@
       <div class="col-12 py-0">
         <div class=" flex justify-content-start flex-wrap w-full form-container">
             <div class="flex flex-column m-3">
-                <label for="username">Branch</label>
+                <label for="username">{{'Report.Branch' | translate}}</label>
                 <p-dropdown inputId="make" 
                     class="w-full" 
                     styleClass="w-full" 
                     optionLabel="CodeDesc" 
                     [options]="branchList" 
                     optionValue="Code" 
-                    [(ngModel)]="branchValue"
-                    placeholder="Select Customer Title">
+                    [(ngModel)]="branchValue">
                 </p-dropdown>
             </div>
             <div class="flex flex-column m-3">
-                <label for="username">Start Date</label>
-                <input type="date" pInputText id="username" [(ngModel)]="startdate" maxlength="150" placeholder="Enter Customer Name"/>
+                <label for="username">{{'Report.StartDate' | translate}}</label>
+                <input type="date" pInputText id="username" [(ngModel)]="startdate" maxlength="150" />
             </div>
             <div class="flex flex-column m-3">
-              <label for="username">End Date</label>
-              <input type="date" pInputText id="username" maxlength="150" [(ngModel)]="enddate" placeholder="Enter Customer Name"/>
+              <label for="username">{{'Report.EndDate' | translate}}</label>
+              <input type="date" pInputText id="username" maxlength="150" [(ngModel)]="enddate" />
           </div>
             <!-- <div class="flex flex-column m-3">
                 <label for="username">Start Date</label>
                 <input pInputText id="username" maxlength="150" placeholder="Enter Customer Name"/>
             </div> -->
             <div class="flex flex-column m-3">
-              <label for="username">Broker Name</label>
+              <label for="username">{{'Report.BrokerName' | translate}}</label>
               <p-dropdown inputId="make" 
                     class="w-full" 
                     styleClass="w-full" 
                     [(ngModel)]="brokerCode"
                     optionLabel="CodeDesc" 
                     optionValue="Code" 
-                    [options]="brokerList"
-                    placeholder="Select Customer Title">
+                    [options]="brokerList">
                 </p-dropdown>
             </div>
         </div>
@@ -73,14 +71,14 @@
               <div class="table-header">
                   <span class="p-input-icon-left">
                       <i class="pi pi-search"></i>
-                      <input pInputText type="text" (input)="dtEmployee.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                      <input pInputText type="text" (input)="dtEmployee.filterGlobal($event.target.value, 'contains')" [placeholder]="'DASHBOARD.GlobalSearch' | translate" />
                   </span>
               </div>
             </div>
           </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+                    <th [pSortableColumn]="column" *ngFor="let column of columns">{{'Report.'+column | translate}} <p-sortIcon [field]="column"></p-sortIcon></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-customer>

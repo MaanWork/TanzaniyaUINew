@@ -312,15 +312,15 @@ export class CommonQuoteDetailsComponent implements OnInit {
             }
           }
           else if(field.templateOptions){field.templateOptions.label = translation;
-            if(field.templateOptions.options){
-              for(let entry of field.templateOptions.options){
-                if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
-                  entry['CodeDescLocal'] = 'Other';
-                }
-                if(this.lang=='en') entry['label'] = entry.CodeDesc
-                else entry['label'] = entry.CodeDescLocal
-              }
-            }
+            // if(field.templateOptions.options){
+            //   for(let entry of field.templateOptions.options){
+            //     if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+            //       entry['CodeDescLocal'] = 'Other';
+            //     }
+            //     if(this.lang=='en') entry['label'] = entry.CodeDesc
+            //     else entry['label'] = entry.CodeDescLocal
+            //   }
+            // }
           }
         });
         i+=1;
@@ -2196,7 +2196,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
   }
   onSearchVehicle(){
-    // alert("3")
     let entry = this.checMandatories()
     this.regNoError = false;
     if(this.regNo==null || this.regNo==undefined || this.regNo=='') this.regNoError = true;
@@ -2802,7 +2801,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
           else this.productItem.InsuranceClass = insuranceType
           this.classValue = this.typeValue;
         } 
-        alert(this.productItem.InsuranceType)
         let PurchaseDate= null;
         if(this.productItem.PurchaseDate!=null && this.productItem.PurchaseDate!='' && this.productItem.PurchaseDate!=undefined){
          if(String(this.productItem.PurchaseDate).includes('/')){

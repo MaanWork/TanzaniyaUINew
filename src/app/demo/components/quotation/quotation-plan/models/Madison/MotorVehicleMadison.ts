@@ -29,6 +29,7 @@ export class MotorVehicleMadison{
                   {
                     type: 'ngselect',
                     key: 'InsuranceClass',
+                    id: 'InsuranceClass',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     props: {
@@ -51,6 +52,7 @@ export class MotorVehicleMadison{
                   {
                     type: 'ngselect',
                     key: 'MotorUsage',
+                    id: 'MotorUsage',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     props: {
@@ -73,6 +75,7 @@ export class MotorVehicleMadison{
                   {
                     type: 'ngselect',
                     key: 'BodyType',
+                    id: 'BodyType',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     props: {
@@ -97,6 +100,7 @@ export class MotorVehicleMadison{
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     type: 'commaSeparator',
                     key: 'VehicleSI',
+                    id: 'VehicleSI',
                     hide: true,
                     hideExpression:true,
                     props: {
@@ -116,29 +120,30 @@ export class MotorVehicleMadison{
                     expressions: {
                     },
                   },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4',
-                    type: 'commaSeparator',
-                    key: 'AccessoriesSI',
-                    hide: true,
-                    hideExpression:true,
-                    props: {
-                      label: `Accessories SumInured`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('AccessoriesSI'),
-                      required: true,
-                      options: [
+                  // {
+                  //   className: 'col-12 md:col-4 lg:col-4 xl:col-4',
+                  //   type: 'commaSeparator',
+                  //   key: 'AccessoriesSI',
+                  //   id: 'AccessoriesSI',
+                  //   hide: true,
+                  //   hideExpression:true,
+                  //   props: {
+                  //     label: `Accessories SumInured`,
+                  //     maxLength: 15,
+                  //     disabled: this.checkDisable('AccessoriesSI'),
+                  //     required: true,
+                  //     options: [
   
-                      ],
+                  //     ],
   
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  }
+                  //   },
+                  //   validators: {
+                  //   },
+                  //   hooks: {
+                  //   },
+                  //   expressions: {
+                  //   },
+                  // }
                 ]
               }
             ]

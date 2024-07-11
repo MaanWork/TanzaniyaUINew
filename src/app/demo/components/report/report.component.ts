@@ -121,7 +121,7 @@ export class ReportComponent implements OnInit {
       // },
       
     ];
-    this.columns = [ 'Policy No', 'Quote No', 'Customer Name', 'Start Date', 'End Date', 'Sum Inured','Policy Desc','Commision Amt','Premium','CreditLimit','Payment Type'];
+    this.columns = [ 'PolicyNo', 'QuoteNo', 'CustomerName', 'StartDate', 'EndDate', 'SumInured','PolicyDesc','CommisionAmt','Premium','CreditLimit','PaymentType'];
   }
   
   getBranchList(){
