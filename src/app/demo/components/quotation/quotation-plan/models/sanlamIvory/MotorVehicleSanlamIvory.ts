@@ -272,60 +272,14 @@ export class MotorVehicleSanlamIvory{
                     },
                   },
                   {
-                        type: 'ngselect',
-                        key: 'InsuranceClass',
-                        id:'InsuranceClass',
-                        defaultValue: '',
-                        className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
-                        props: {
-                          label: `Insurance Class`,
-                          disabled: this.checkDisable('InsuranceClass'),
-                          required: true,
-                          options: [
-          
-                          ],
-          
-                        },
-                        validators: {
-                          validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                        },
-                        hooks: {
-                        },
-                        expressions: {
-                        },
-                      },
-                  {
                     type: 'ngselect',
-                    id:'MotorUsage',
-                    key: 'MotorUsage',
+                    key: 'InsuranceClass',
+                    id:'InsuranceClass',
                     defaultValue: '',
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     props: {
-                      label: `Motor Usage`,
-                      disabled: this.checkDisable('MotorUsage'),
-                      required: true,
-                      options: [
-      
-                      ],
-      
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    type: 'ngselect',
-                    id:'Deductibles',
-                    key: 'Deductibles',
-                    defaultValue: '',
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    props: {
-                      label: `Deductibles`,
-                      disabled: this.checkDisable('Deductibles'),
+                      label: `Insurance Class`,
+                      disabled: this.checkDisable('InsuranceClass'),
                       required: true,
                       options: [
       
@@ -360,6 +314,55 @@ export class MotorVehicleSanlamIvory{
                   },
                   // {
                   //   type: 'ngselect',
+                  //   id:'MotorUsage',
+                  //   key: 'MotorUsage',
+                  //   defaultValue: '',
+                  //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                  //   props: {
+                  //     label: `Motor Usage`,
+                  //     disabled: this.checkDisable('MotorUsage'),
+                  //     required: true,
+                  //     options: [
+      
+                  //     ],
+      
+                  //   },
+                  //   validators: {
+                  //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                  //   },
+                  //   hooks: {
+                  //   },
+                  //   expressions: {
+                  //   },
+                  // },
+                  {
+                    type: 'ngselect',
+                    id:'Deductibles',
+                    key: 'Deductibles',
+                    defaultValue: '',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    hide: true,
+                    hideExpression:true,
+                    props: {
+                      label: `Deductibles`,
+                      disabled: this.checkDisable('Deductibles'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  
+                  // {
+                  //   type: 'ngselect',
                   //   id:'DefenceCost',
                   //   key: 'DefenceCost',
                   //   defaultValue: '',
@@ -386,6 +389,8 @@ export class MotorVehicleSanlamIvory{
                     id:'VehicleValue',
                     key: 'VehicleValue',
                     defaultValue: '',
+                    hide: true,
+                    hideExpression:true,
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     props: {
                       label: `Vehicle Value`,
@@ -409,6 +414,8 @@ export class MotorVehicleSanlamIvory{
                     type: 'input',
                     key: 'Inflation',
                     id:'Inflation',
+                    hide: true,
+                    hideExpression:true,
                     props: {
                       label: `Inflation`,
                       maxLength: 15,
@@ -431,8 +438,8 @@ export class MotorVehicleSanlamIvory{
                     type: 'commaSeparator',
                     id:'VehicleSI',
                     key: 'VehicleSI',
-                    hide: false,
-                    hideExpression:false,
+                    hide: true,
+                    hideExpression:true,
                     props: {
                       label: `SumInsured`,
                       maxLength: 15,
@@ -480,8 +487,8 @@ export class MotorVehicleSanlamIvory{
                     type: 'commaSeparator',
                     key: 'AccessoriesSI',
                     id:'AccessoriesSI',
-                    hide: false,
-                    hideExpression:false,
+                    hide: true,
+                    hideExpression:true,
                     props: {
                       label: `Accessories SumInured`,
                       maxLength: 15,
@@ -499,31 +506,6 @@ export class MotorVehicleSanlamIvory{
                     expressions: {
                     },
                   },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'commaSeparator',
-                    key: 'WindShieldSI',
-                    id:'WindShieldSI',
-                    hide: false,
-                    hideExpression:false,
-                    props: {
-                      label: `WindShield SumInured`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('WindShieldSI'),
-                      required: false,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'input',
@@ -589,6 +571,8 @@ export class MotorVehicleSanlamIvory{
                     type: 'input',
                     key: 'NoOfClaimYears',
                     id:'NoOfClaimYears',
+                    hide: true,
+                    hideExpression:true,
                     props: {
                       label: `Number Of Claim Years`,
                       maxLength: 3,
@@ -608,30 +592,30 @@ export class MotorVehicleSanlamIvory{
                   },
                     
                     
-                    {
-                      type: 'number',
-                      key: 'HorsePower',
-                      id: 'HorsePower',
-                      defaultValue: '',
-                      className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
-                      props: {
+                    // {
+                    //   type: 'number',
+                    //   key: 'HorsePower',
+                    //   id: 'HorsePower',
+                    //   defaultValue: '',
+                    //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
+                    //   props: {
                         
-                        label: `Horse Power`,
-                        disabled: this.checkDisable('HorsePower'),
-                        required: true,
-                        options: [
+                    //     label: `Horse Power`,
+                    //     disabled: this.checkDisable('HorsePower'),
+                    //     required: true,
+                    //     options: [
         
-                        ],
+                    //     ],
         
-                      },
-                      validators: {
-                        validation: [ForceLengthValidators.maxLength(3), ForceLengthValidators.min(1)]
-                      },
-                      hooks: {
-                      },
-                      expressions: {
-                      },
-                    },
+                    //   },
+                    //   validators: {
+                    //     validation: [ForceLengthValidators.maxLength(3), ForceLengthValidators.min(1)]
+                    //   },
+                    //   hooks: {
+                    //   },
+                    //   expressions: {
+                    //   },
+                    // },
                 ]
               }
             ]

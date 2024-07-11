@@ -4,6 +4,8 @@ import { MenuItem } from 'primeng/api';
 import { SharedService } from '../../service/shared.service';
 import * as Mydatas from '../../../app-config.json';
 import Swal from 'sweetalert2';
+import { AppComponent } from 'src/app/app.component';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html'
@@ -30,7 +32,7 @@ export class PortfolioComponent implements OnInit {
   public motorApiUrl:any = this.AppConfig.MotorApiUrl;
   cancelbrokerList: any[]=[];
   CancelbrokerCode: any;CancelledquoteData:any[]=[];
-  pageCount1: number;
+  pageCount1: number;lang:any=null;
   quotePageNo1: number;
   show: boolean = false;
   pendingBrokerList: any[]=[];
@@ -42,7 +44,7 @@ export class PortfolioComponent implements OnInit {
   endPendingIndex: any;
   pendingQuoteData: any[]=[];
   MotorList: any[]=[];
-  constructor(private router:Router,private sharedService: SharedService) {
+  constructor(private router:Router,private sharedService: SharedService,private appComp:AppComponent,private translate: TranslateService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
     this.agencyCode = this.userDetails.Result.OaCode;
@@ -53,21 +55,39 @@ export class PortfolioComponent implements OnInit {
     this.userType = this.userDetails?.Result?.UserType;
     this.insuranceId = this.userDetails.Result.InsuranceId;
     if(this.userType!='Issuer')this.brokerCode = this.loginId;
-    sessionStorage.removeItem('loadingType');
-    sessionStorage.removeItem('firstLoad');
-    sessionStorage.removeItem('VechileDetails');
+      sessionStorage.removeItem('loadingType');
+      sessionStorage.removeItem('firstLoad');
+      sessionStorage.removeItem('VechileDetails');
     
    }
   ngOnInit() {
-    this.items = [{ label: 'Home', routerLink:'/' }, {label:'Portfolio'}];
+    
+    this.appComp.getLanguage().subscribe((res:any)=>{  
+			if(res) this.lang=res;
+			else this.lang='en';
+			this.translate.setDefaultLang(this.lang);this.setHeaders();
+		  });
+		if(!this.lang){
+      if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+		else this.lang='en';
+		sessionStorage.setItem('language',this.lang)
+		this.translate.setDefaultLang(sessionStorage.getItem('language')); this.setHeaders();}
     this.branches = [
       { label: 'Test', target: 'T' },
     ];
-    if(this.productId=='5') this.columns = ['Vehicle Details','PolicyNo','Quote No','Customer Name','Currency','Start Date','End Date','Premium','Actions']
-    else this.columns = ['PolicyNo','Quote No','Customer Name','Currency','Start Date','End Date','Premium','Actions']
+    if(this.productId=='5') this.columns = ['VehicleDetails','PolicyNo','QuoteNo','CustomerName','Currency','StartDate','EndDate','Premium','Actions']
+    else this.columns = ['PolicyNo','QuoteNo','CustomerName','Currency','StartDate','EndDate','Premium','Actions']
     this.getBrokerList();
     this.getPendingList();
     this.getCancelledList();
+  }
+  setHeaders(){
+    if(this.lang=='en'){
+      this.items = [{ label: 'Home', routerLink:'/' }, {label:'Portfolio'}];
+    }
+    else if(this.lang=='po'){
+      this.items = [{ label: 'Lar', routerLink:'/' }, {label:'Portfólio'}];
+    }
   }
   getBrokerList(){
     let appId = "1",loginId="",brokerbranchCode="";

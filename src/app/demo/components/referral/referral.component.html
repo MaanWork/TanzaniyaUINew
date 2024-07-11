@@ -2,7 +2,7 @@
 <div class="card">
     <div class="grid">
       <div class="col-12 sm:col-6 md:col-4">
-        <h3 class="mr-3">Referral</h3>
+        <h3 class="mr-3">{{'Referral.Referral' | translate}}</h3>
         <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb>
       </div>
       <div class="col-12 sm:col-6 md:col-8">
@@ -20,15 +20,15 @@
     <p-tabView>
       <!-- <p-tabPanel header="All">
       </p-tabPanel> -->
-      <p-tabPanel header="Pending">
+      <p-tabPanel [header]="'Referral.Pending' | translate">
         <div class="flex justify-content-end mb-4">
           <p-button icon="pi pi-table"  class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
           <p-button icon="pi pi-list" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
         </div>
         <div class="grid">
           <div class="col-12 md:col-4 lg:col-4">
-            <label for="username">Broker</label><span class="text-danger">*</span>
-            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="brokerCode"  [options]="brokerList" (onChange)="getExistingQuotes(null,'change')"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
+            <label for="username">{{'Referral.Broker' | translate}}</label><span class="text-danger">*</span>
+            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="brokerCode"  [options]="brokerList" (onChange)="getExistingQuotes(null,'change')"  optionLabel="CodeDesc" optionValue="Code" [placeholder]="'QUOTEGRID.Selectt' | translate">
             </p-dropdown>
           </div>
         </div>
@@ -40,14 +40,14 @@
               <div class="table-header">
                   <span class="p-input-icon-left">
                       <i class="pi pi-search"></i>
-                      <input pInputText type="text" (input)="dtEmployeePending.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                      <input pInputText type="text" (input)="dtEmployeePending.filterGlobal($event.target.value, 'contains')" [placeholder]="'DASHBOARD.GlobalSearch' | translate" />
                   </span>
               </div>
             </div>
           </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+                    <th [pSortableColumn]="column" *ngFor="let column of columns">{{'Referral.'+column | translate}} <p-sortIcon [field]="column"></p-sortIcon></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-customer>
@@ -118,7 +118,7 @@
         </ng-container>
         
       </p-tabPanel>
-      <p-tabPanel header="Approved">
+      <p-tabPanel [header]="'Referral.Approved' | translate">
         <div class="flex justify-content-end mb-4">
           <p-button icon="pi pi-table"  class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
           <p-button icon="pi pi-list" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
@@ -126,7 +126,7 @@
         <div class="grid">
           <div class="col-12 md:col-4 lg:col-4">
             <label for="username">Broker</label><span class="text-danger">*</span>
-            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="ApproverbrokerCode"  [options]="ApproveredList" (onChange)="getApprovedQuotes(null,'change')"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
+            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="ApproverbrokerCode"  [options]="ApproveredList" (onChange)="getApprovedQuotes(null,'change')"  optionLabel="CodeDesc" optionValue="Code" [placeholder]="'QUOTEGRID.Selectt' | translate">
             </p-dropdown>
           </div>
         </div>
@@ -138,14 +138,14 @@
                 <div class="table-header">
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dtEmployeeApproved.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                        <input pInputText type="text" (input)="dtEmployeeApproved.filterGlobal($event.target.value, 'contains')" [placeholder]="'DASHBOARD.GlobalSearch' | translate" />
                     </span>
                 </div>
               </div>
           </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+                    <th [pSortableColumn]="column" *ngFor="let column of columns">{{'Referral.'+column | translate}} <p-sortIcon [field]="column"></p-sortIcon></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-customer>
@@ -217,7 +217,7 @@
         </ng-container>
        
       </p-tabPanel>
-      <p-tabPanel header="Cancelled">
+      <p-tabPanel [header]="'Referral.Cancelled' | translate">
         <div class="flex justify-content-end mb-4">
           <p-button icon="pi pi-table"  class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
           <p-button icon="pi pi-list" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>
@@ -225,7 +225,7 @@
         <div class="grid">
           <div class="col-12 md:col-4 lg:col-4">
             <label for="username">Broker</label><span class="text-danger">*</span>
-            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="Rejecedbrokercode"  [options]="RejectedList" (onChange)="getRejectedQuotes(null,'change')"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
+            <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="Rejecedbrokercode"  [options]="RejectedList" (onChange)="getRejectedQuotes(null,'change')"  optionLabel="CodeDesc" optionValue="Code" [placeholder]="'QUOTEGRID.Selectt' | translate">
             </p-dropdown>
           </div>
         </div>
@@ -237,14 +237,14 @@
                 <div class="table-header">
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dtEmployeeRejected.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                        <input pInputText type="text" (input)="dtEmployeeRejected.filterGlobal($event.target.value, 'contains')" [placeholder]="'DASHBOARD.GlobalSearch' | translate" />
                     </span>
                 </div>
               </div>
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th [pSortableColumn]="column" *ngFor="let column of columnss">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+                    <th [pSortableColumn]="column" *ngFor="let column of columnss">{{'Referral.'+column | translate}} <p-sortIcon [field]="column"></p-sortIcon></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-customer>

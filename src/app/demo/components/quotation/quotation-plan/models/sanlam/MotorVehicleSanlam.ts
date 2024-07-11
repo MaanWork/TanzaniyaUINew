@@ -391,7 +391,7 @@ export class MotorVehicleSanlam{
                         disabled: this.checkDisable('ClaimsYN'),
                        
                         name: 'Claims',
-                        options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
+                        options: [{ value: 'Y', label: 'Yes', CodeDesc:'Yes', CodeDescLabel:'Sim' }, { value: 'N', label: 'No', CodeDesc:'No', CodeDescLabel:'Não' }],
                       }
                     },
                 ]

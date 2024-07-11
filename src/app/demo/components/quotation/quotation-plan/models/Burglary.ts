@@ -29,7 +29,7 @@ export class Burglary{
                   {
                     className: 'col-12 md:col-6 lg:col-6',
                     type: 'ngselect',
-                      key: 'IndustryId',
+                      key: 'IndustryType',
                       templateOptions: {
                         //disabled: this.checkDisable('BuildingSuminsured')
                         maxLength: 15,
@@ -139,7 +139,7 @@ export class Burglary{
                   {
                     className: 'col-12 md:col-6 lg:col-6',
                     type: 'textarea',
-                      key: 'DescriptionRisk',
+                      key: 'DescriptionOfRisk',
                       
                       props: { 
                         maxLength: 1000,

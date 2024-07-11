@@ -4,6 +4,8 @@ import { SharedService } from 'src/app/demo/service/shared.service';
 import * as Mydatas from '../../../app-config.json';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-report',
@@ -35,11 +37,13 @@ export class ReportComponent implements OnInit {
   public motorApiUrl:any = this.AppConfig.MotorApiUrl;
   Currency:any;brokerList:any[]=[];
   brokerCode: any;btype:any;buisnessList:any[]=[];
-  columns:any[]=[];
+  columns:any[]=[];lang:any=null;
   custumData: any[];
   // @Output('Currency') Currency:any='TZS';
 
-  constructor(private router:Router,private sharedService: SharedService,private datePipe:DatePipe) {
+  constructor(private router:Router,private sharedService: SharedService,private datePipe:DatePipe,
+    private appComp:AppComponent,private translate: TranslateService
+  ) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     console.log("UserDetails",this.userDetails);
     this.loginId = this.userDetails.Result.LoginId;
@@ -56,7 +60,15 @@ export class ReportComponent implements OnInit {
    }
 
   ngOnInit(): void {
-
+    this.appComp.getLanguage().subscribe((res:any)=>{  
+			if(res) this.lang=res;
+			else this.lang='en';
+			this.translate.setDefaultLang(this.lang);
+		  });
+		if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+		else this.lang='en';
+		sessionStorage.setItem('language',this.lang)
+		this.translate.setDefaultLang(sessionStorage.getItem('language'));}
     if(this.insuranceId!=null){
       this.getBranchList();
       

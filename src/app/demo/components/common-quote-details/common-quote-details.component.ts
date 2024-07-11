@@ -311,7 +311,17 @@ export class CommonQuoteDetailsComponent implements OnInit {
               }
             }
           }
-          else if(field.templateOptions) field.templateOptions.label = translation;
+          else if(field.templateOptions){field.templateOptions.label = translation;
+            if(field.templateOptions.options){
+              for(let entry of field.templateOptions.options){
+                if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+                  entry['CodeDescLocal'] = 'Other';
+                }
+                if(this.lang=='en') entry['label'] = entry.CodeDesc
+                else entry['label'] = entry.CodeDescLocal
+              }
+            }
+          }
         });
         i+=1;
         if(i==fieldList.length)  console.log('Final Field Lang',fieldList);
