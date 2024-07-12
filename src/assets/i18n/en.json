@@ -550,6 +550,21 @@
       "CreditLimit":"Limite de crédito",
       "PaymentType":"Tipo de pagamento",
       "GlobalSearch":"Pesquisa global"
+    },
+    "Search":{
+      "Search":"Search",
+      "SearchBy":"Search By",
+      "SearchValue":"Search Value",
+      "QuoteDate":"Quote Date",
+      "View":"View",
+      "QuoteNo":"Quote No",
+      "ReferenceNo":"Reference No",
+      "PolicyNo":"Policy No",
+      "CustomerName":"Customer Name",
+      "BranchName":"Branch Name",
+      "LoginId": "Login Id",
+      "Status":"Status",
+      "MobileNumber":"Mobile Number"
     }
     
   }

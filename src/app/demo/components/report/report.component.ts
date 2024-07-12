@@ -129,59 +129,63 @@ export class ReportComponent implements OnInit {
       "InsuranceId": this.insuranceId
     }
     let urlLink = `${this.CommonApiUrl}master/dropdown/branchmaster`;
-  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-    (data: any) => {
-      if(data.Result){
-        //let obj = [{Code:"",CodeDesc:"ALL"}];
-        this.branchList = data?.Result;
-        if(!this.branchValue && this.branchList.length!=0){ 
-          this.branchValue = this.branchList[0].Code;
-          this.getBrokerList();
-         }
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+          //let obj = [{Code:"",CodeDesc:"ALL"}];
+          this.branchList = data?.Result;
+          if(!this.branchValue && this.branchList.length!=0){ 
+            this.branchValue = this.branchList[0].Code;
+            this.getBrokerList();
+          }
 
-      }
-    },
-    (err) => { },
-  );
-} 
-newQuote(){
-  this.router.navigate(['/policyDetails']);
-}
-onCommonDocumentDownload(){
-  let startdate=this.datePipe.transform(this.startdate, "dd/MM/yyyy");
-  let enddate=this.datePipe.transform(this.enddate, "dd/MM/yyyy");
-  let ReqObj = {
-    "BranchCode": this.branchValue,
-    "EndDate": enddate,
-    "LoginId": this.loginId,
-    "StartDate": startdate,
-    "ProductId": this.productId,
+        }
+      },
+      (err) => { },
+    );
+  } 
+  getDisplayName(){
+    if(this.lang=='en') return 'CodeDesc';
+    else return 'CodeDescLocal'
   }
-  let urlLink = `${this.CommonApiUrl}pdf/premium/report`;
-  this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-    (data: any) => {
-      console.log(data);
-      const link = document.createElement('a');
-      link.setAttribute('target', '_blank');
-      link.setAttribute('href', data?.Result?.Base64);
-      link.setAttribute('download', data?.Result?.FileName);
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-  },
-    (err) => { },
-  );
-}
+  newQuote(){
+    this.router.navigate(['/policyDetails']);
+  }
+  onCommonDocumentDownload(){
+    let startdate=this.datePipe.transform(this.startdate, "dd/MM/yyyy");
+    let enddate=this.datePipe.transform(this.enddate, "dd/MM/yyyy");
+    let ReqObj = {
+      "BranchCode": this.branchValue,
+      "EndDate": enddate,
+      "LoginId": this.loginId,
+      "StartDate": startdate,
+      "ProductId": this.productId,
+    }
+    let urlLink = `${this.CommonApiUrl}pdf/premium/report`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', data?.Result?.Base64);
+        link.setAttribute('download', data?.Result?.FileName);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      },
+      (err) => { },
+    );
+  }
 
-getsearchs(){
-  this.showgrid=false;
-}
+  getsearchs(){
+    this.showgrid=false;
+  }
 
-getsearch(){
-  this.showgrid=true;
-  this.getQuotes();
-}
- 
+  getsearch(){
+    this.showgrid=true;
+    this.getQuotes();
+  }
+  
 getQuotes(){
   let brokertype;let brokertypes;let brokerCode;
   if(this.brokerCode){

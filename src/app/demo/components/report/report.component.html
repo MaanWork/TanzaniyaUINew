@@ -25,7 +25,7 @@
                 <p-dropdown inputId="make" 
                     class="w-full" 
                     styleClass="w-full" 
-                    optionLabel="CodeDesc" 
+                    [optionLabel]="getDisplayName()" 
                     [options]="branchList" 
                     optionValue="Code" 
                     [(ngModel)]="branchValue">

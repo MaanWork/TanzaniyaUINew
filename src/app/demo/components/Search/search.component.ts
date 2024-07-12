@@ -5,6 +5,8 @@ import * as Mydatas from '../../../app-config.json';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-search',
@@ -44,9 +46,11 @@ export class SearchComponent implements OnInit {
     pageCount: any;
     quotePageNo: number;
     startIndex: number;
-    endIndex: any;columns:any[]=[];
+    endIndex: any;columns:any[]=[];lang:any=null;
     limit: string;branchValue:any;branchList:any[]=[];
-    constructor(public router:Router,private sharedService: SharedService,private datePipe:DatePipe){
+    constructor(public router:Router,private sharedService: SharedService,private datePipe:DatePipe,
+      private translate:TranslateService,private appComp:AppComponent
+    ){
       this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
       this.loginId = this.userDetails.Result.LoginId;
       this.agencyCode = this.userDetails.Result.OaCode;
@@ -55,9 +59,16 @@ export class SearchComponent implements OnInit {
       this.productId = this.userDetails.Result.ProductId;
       this.userType = this.userDetails?.Result?.UserType;
       this.insuranceId = this.userDetails.Result.InsuranceId;
-  
+      this.appComp.getLanguage().subscribe((res:any)=>{  
+        if(res) this.lang=res;
+        else this.lang='en';
+        this.translate.setDefaultLang(this.lang);
+        });
+      if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+      else this.lang='en';
+      sessionStorage.setItem('language',this.lang)
+      this.translate.setDefaultLang(sessionStorage.getItem('language'));}
       this.quoteHeader =  [
-            
         {
              key: "more",
              display: "",
@@ -122,9 +133,12 @@ export class SearchComponent implements OnInit {
       this.getCustomersList();
     }
     ngOnInit(): void {
-        this.columns = [ 'View','ReferenceNo', 'Quote No', 'Policy No','Customer Name', 'Branch Name','Login Id','Status','Mobile Number'];
+        this.columns = [ 'View','ReferenceNo', 'QuoteNo', 'PolicyNo','CustomerName', 'BranchName','LoginId','Status','MobileNumber'];
     }
-
+    getDisplayName(){
+      if(this.lang=='en') return 'CodeDesc';
+      else return 'CodeDescLocal'
+    }
     getCustomersList(){
       let ReqObj = {
         "InsuranceId":this.insuranceId,
@@ -136,7 +150,8 @@ export class SearchComponent implements OnInit {
         (data: any) => {
           console.log(data);
           if(data.Result){
-            this.SearchList = data?.Result;
+            let defaultObj=[{"Code":'',"CodeDesc":"--Select--","CodeDescLocal":"--Selecione--"}]
+            this.SearchList = defaultObj.concat(data?.Result);
              //this.search=sessionStorage.getItem('search');
                  
              //let sr=sessionStorage.getItem('searchvaue');

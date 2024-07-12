@@ -65,7 +65,7 @@
                     [options]="doc.sectionList" 
                     [(ngModel)]="doc.sectionId" 
                     (onChange)="onChangeSectionType(doc,i)"
-                    optionLabel="SectionName" 
+                    [optionLabel]="getSectionName()" 
                     optionValue="SectionId" 
                     [placeholder]="'DOCUMENT.SelectSection' | translate">
                 </p-dropdown>
@@ -89,7 +89,7 @@
                     [options]="doc.docTypeList" 
                     [(ngModel)]="doc.DocTypeId" 
                     (onChange)="onChangeIdType(doc)"
-                    optionLabel="CodeDesc" 
+                    [optionLabel]="getDisplayName()" 
                     optionValue="Code" 
                     [placeholder]="'QUOTEGRID.Selectt' | translate">
                 </p-dropdown>

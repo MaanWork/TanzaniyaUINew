@@ -320,7 +320,7 @@
         "Total":"Total",
         "close":"fechar",
         "MinimumPremium":"Prêmio Mínimo",
-        "Excluded Tax":"Imposto excluído",
+        "ExcludedTax":"Imposto excluído",
         "Tax":"Imposto",
         "TotalPremium":"Prêmio total",
         "ProRata":"Prorata",
@@ -567,6 +567,21 @@
       "CreditLimit":"Limite de crédito",
       "PaymentType":"Tipo de pagamento",
       "GlobalSearch":"Pesquisa global"
+    },
+    "Search":{
+      "Search":"Procurar",
+      "SearchBy":"SearchBy",
+      "SearchValue":"Valor de pesquisa",
+      "QuoteDate":"Data da cotação",
+      "View":"Visualizar",
+      "QuoteNo":"Número de cotação",
+      "ReferenceNo":"Número de referência",
+      "PolicyNo":"Política Não",
+      "CustomerName":"Nome do cliente",
+      "BranchName":"Nome da filial",
+      "LoginId": "Identificação de usuário",
+      "Status":"Status",
+      "MobileNumber":"Número de telemóvel"
     }
   }
   

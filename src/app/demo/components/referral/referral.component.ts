@@ -58,7 +58,7 @@ export class ReferralComponent implements OnInit {
   }
   ngOnInit() {
     this.columns = ['QuoteNo','ReferenceNo','CustomerName','StartDate','EndDate','Actions'];
-    this.columnss = ['QuoteNo','ReferenceNo','Customer Name','StartDate','EndDate']
+    this.columnss = ['QuoteNo','ReferenceNo','CustomerName','StartDate','EndDate']
     this.appComp.getLanguage().subscribe((res:any)=>{  
 			if(res) this.lang=res;
 			else this.lang='en';

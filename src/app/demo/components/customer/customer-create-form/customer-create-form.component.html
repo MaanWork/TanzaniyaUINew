@@ -195,11 +195,11 @@
                     <div class="flex justify-content-start gap-3">
                         <div class="flex align-items-center">
                             <p-radioButton name="Yes" value="Y" [(ngModel)]="productItem.isTaxExempted" inputId="ingredient1"></p-radioButton>
-                            <span for="ingredient1" class="ml-2">Yes</span>
+                            <span for="ingredient1" class="ml-2">{{'PREMIUM.Yes' | translate}}</span>
                         </div>
                         <div class="flex align-items-center">
                             <p-radioButton name="No" value="N" [(ngModel)]="productItem.isTaxExempted" inputId="ingredient2"></p-radioButton>
-                            <span for="ingredient2" class="ml-2">No</span>
+                            <span for="ingredient2" class="ml-2">{{'PREMIUM.No' | translate}}</span>
                         </div>
                     </div>
                 </div>
