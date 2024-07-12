@@ -4975,7 +4975,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
         // }
       }
       //this.productItem.InsuranceType = this.vehicleDetails?.Insurancetype;
-      this.productItem.InsuranceClass = this.vehicleDetails?.InsuranceClass;
+      this.getInsuranceTypeListIvory();
+      if(this.vehicleDetails?.InsuranceClass!=null && this.vehicleDetails?.InsuranceClass!='' && this.insuranceId=='100040') this.productItem.InsuranceClass = Number(this.vehicleDetails?.InsuranceClass);
+      else this.productItem.InsuranceClass = this.vehicleDetails?.InsuranceClass;
       if(this.insuranceId=='100002' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020' || this.insuranceId=='100004' || this.insuranceId=='100028'){this.onChangeInsuranceClass('direct');}
       this.productItem.ClaimType = this.vehicleDetails?.ClaimType;
       if(this.vehicleDetails?.CarAlarmYn!=null && this.vehicleDetails?.CarAlarmYn!='') {

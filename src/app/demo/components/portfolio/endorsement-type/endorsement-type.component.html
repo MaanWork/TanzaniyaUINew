@@ -13,7 +13,7 @@
 
 <div class="card "> 
 <p-accordion>
-<p-accordionTab header="Financial">
+<p-accordionTab header="Financial" *ngIf="financialList.length!=0">
     <ng-container *ngIf="financialList.length!=0">
         <ng-container *ngIf="financialCoversSection">
             <div class="grid customHeader mt-2 p-2">
@@ -101,7 +101,7 @@
     
     </div>
 </p-accordionTab>
-<p-accordionTab header="Cancellation Of Policy">
+<p-accordionTab header="Cancellation Of Policy" *ngIf="checkCancellation()">
         <p-radioButton 
         name="Yes" 
         value="Y" 

@@ -150,6 +150,19 @@ export class PaymentInfoComponent {
 			(err) => { },
 		);
 	}
+  getBack(){
+    if(this.endorsementSection){
+        if(this.endorsementId==42 || this.endorsementId=='42' || this.endorsementId==842 || this.endorsementId=='842'){
+          this.router.navigate(['/portfolio/endorsementtype'])
+        }
+        else{
+          this.router.navigate(['quotation/plan/main/document-info'])
+        } 
+    }
+    else{
+      this.router.navigate(['quotation/plan/main/document-info'])
+    }
+  }
   getCustomerDetails(refNo){
     let ReqObj = {
       "CustomerReferenceNo": refNo

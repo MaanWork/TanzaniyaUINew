@@ -177,7 +177,7 @@
     -->
     <div class="grid p-3 justify-content-between" style="max-width: 35rem;">
         
-        <p-button [label]="'MOTORQUOTE.Back' | translate" [routerLink]="['/quotation/plan/main/document-info']" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+        <p-button [label]="'MOTORQUOTE.Back' | translate" (click)="getBack()" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
         <p-button [label]="'PAYMENT.ConvertToDraft' | translate" *ngIf="!mobilePaymentPending" (click)="convertDraft()" class="text-l pi-button"></p-button>
         <p-button [label]="'PAYMENT.MakePayment' | translate" *ngIf="!draftSection && !mobilePaymentPending" (click)="onCashPayment()" class="text-l pi-button"></p-button>
     </div>
