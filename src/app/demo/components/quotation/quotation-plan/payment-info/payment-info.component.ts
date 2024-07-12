@@ -6,6 +6,8 @@ import { SharedService } from 'src/app/demo/service/shared.service';
 import * as Mydatas from '../../../../../app-config.json';
 import Swal from 'sweetalert2';
 import { QuotationPlanComponent } from '../quotation-plan.component';
+import { TranslateService } from '@ngx-translate/core';
+import { AppComponent } from 'src/app/app.component';
 @Component({
   selector: 'app-payment-info',
   templateUrl: './payment-info.component.html',
@@ -47,10 +49,11 @@ export class PaymentInfoComponent {
   Riskdetails: any=null;imageUrl: any;uploadDocList: any[]=[];
   uploadSection: boolean=false;Seventh: boolean=false;mpaisaCode: any=null;
   mpaisaNumber: any=null;MobileCode: any=null;customerReferenceNo:any=null;
-  customerName: any=null;mobileCodeList:any[]=[];
+  customerName: any=null;mobileCodeList:any[]=[];lang:any=null;
   MobileNo: any=null;MobileCodeDesc:any=null;mobilePaymentPending: boolean=false;checkStatusSection: boolean=false;loadingCount: any=0;
   constructor(private messageService: MessageService,private quoteComponent:QuotationPlanComponent,
-    private router:Router,private sharedService: SharedService,private route:ActivatedRoute,
+    private router:Router,private sharedService: SharedService,private route:ActivatedRoute,private appComp:AppComponent,
+    private translate: TranslateService,
    private datePipe:DatePipe) {
     this.minDate = new Date();
     sessionStorage.removeItem('buyPolicyDetails');
@@ -95,6 +98,15 @@ export class PaymentInfoComponent {
   }
 
   ngOnInit(): void {
+    this.appComp.getLanguage().subscribe((res:any)=>{  
+      if(res) this.lang=res;
+      else this.lang='en';
+      this.translate.setDefaultLang(this.lang);
+    });
+    if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+      else this.lang='en';
+      sessionStorage.setItem('language',this.lang)
+      this.translate.setDefaultLang(sessionStorage.getItem('language'));}
     this.route.queryParamMap.subscribe((params: any) => {
       console.log("Params",params.params)
       let quoteNo = params?.params?.QuoteNo;
@@ -153,6 +165,10 @@ export class PaymentInfoComponent {
         }
       })
   }
+  getDisplayName(){
+		if(this.lang=='en') return 'CodeDesc';
+		else return 'CodeDescLocal'
+	}
   alphaNumberOnly (e) {  // Accept only alpha numerics, not special characters 
     var regex = new RegExp("^[a-zA-Z0-9 ]+$");
     var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);

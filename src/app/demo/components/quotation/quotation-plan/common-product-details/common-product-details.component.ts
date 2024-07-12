@@ -635,8 +635,8 @@ export class CommonProductDetailsComponent {
     
     this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(rowData.BurglarySi);
     this.fields[0].fieldGroup[0].fieldGroup[3].formControl.setValue(rowData.LocationName);
-     this.fields[0].fieldGroup[0].fieldGroup[4].formControl.setValue(rowData.DescriptionOfRisk);
-     this.fields[0].fieldGroup[0].fieldGroup[5].formControl.setValue(rowData.CoveringDetails);
+     this.fields[0].fieldGroup[0].fieldGroup[4].formControl.setValue(rowData.CoveringDetails);
+     this.fields[0].fieldGroup[0].fieldGroup[5].formControl.setValue(rowData.DescriptionOfRisk);
      this.fields[0].fieldGroup[0].fieldGroup[6].formControl.setValue(rowData.RegionCode);
      this.fields[0].fieldGroup[0].fieldGroup[7].formControl.setValue(rowData.DistrictCode);
     this.productItem.FireSumInsured = rowData.FirstLossPercentId
@@ -645,9 +645,8 @@ export class CommonProductDetailsComponent {
     if(this.IndustryTypes=='57'){this.productNameList=this.fireSectionList.filter(ele=>ele.IndustryType=='G')}
     else{this.productNameList=this.fireSectionList.filter(ele=>ele.IndustryType!='G')};
     if(type=='change') this.industryValue = null;
-  }
+    }
    onEditFire(rowData){
-      console.log("Final RowData",rowData);
        this.editss=true;
        this.editEmp=true;
        let edit = this.TableRowFire.findIndex(ele=>ele.OccupationId == rowData.OccupationId && ele.SectionId==rowData.SectionId);
@@ -747,7 +746,7 @@ export class CommonProductDetailsComponent {
     if(rowData.LocationName!=undefined && rowData.BurglarySi!=undefined){
       let data = {
         "LocationName":rowData.LocationName,
-        "IndustryType":rowData.IndustryId,
+        "IndustryType":rowData.IndustryType,
         "RegionCode":rowData.RegionCode,
         "DistrictCode": rowData.DistrictCode,
         "FirstLossSumInsured": rowData.FireSumInsured,
@@ -755,7 +754,7 @@ export class CommonProductDetailsComponent {
         "sumInsured": rowData.BurglarySi,
         "BurglarySi": rowData.BurglarySi,
         "CoveringDetails": rowData.CoveringDetails,
-        "DescriptionRisk": rowData.DescriptionOfRisk,
+        "DescriptionOfRisk": rowData.DescriptionOfRisk,
         "IndustryId":rowData.IndustryId,
         "RiskId": RiskId,
     }
@@ -6164,14 +6163,14 @@ console.log('Eventsss',event);
    entry = {
       "BurglarySuminsured":items.BurglarySi,
       "LocationName":items.LocationName,
-      "IndustryType":items.IndustryId,
+      "IndustryType":items.IndustryType,
       "RegionCode":items.RegionCode,
       "DistrictCode": items.DistrictCode,
       "FirstLossSumInsured": items.FireSumInsured,
       "sumInsured": items.BurglarySi,
       "CoveringDetails": items.CoveringDetails,
       "DescriptionOfRisk": items.DescriptionOfRisk,
-      "IndustryId":items.IndustryId,
+      "IndustryId": items.IndustryType,
       "AgencyCode": this.agencyCode,
       "ApplicationId": appId,
       "BdmCode": null,
@@ -6372,10 +6371,14 @@ console.log('Eventsss',event);
     if(entry) return entry.label;
     else return ''
   }
+  getFirstLossDesc(rowData){
+    let entry = this.firstLossList.find(ele=>ele.Code==rowData);
+    if(entry) return entry.label;
+    else return ''
+  }
   getIndustryDesc(rowData){
     console.log(rowData);
     let entry = this.industryList.find(ele=>ele.Code==rowData.IndustryType);
-    console.log(entry)
     if(entry!=undefined) return entry.label;
     else return ''
   }

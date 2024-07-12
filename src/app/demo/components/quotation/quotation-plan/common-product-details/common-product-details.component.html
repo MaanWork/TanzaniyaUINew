@@ -812,7 +812,7 @@
                                 {{emp.LocationName}}
                             </td>
                             <td>{{getRegionDesc(emp.RegionCode)}}</td>
-                            <td>{{emp.FirstLossPercentId}}</td>
+                            <td>{{getFirstLossDesc(emp.FirstLossPercentId)}}</td>
                             <td>{{emp.BurglarySi}}</td>
                             <td>
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditBurglary(emp,i)"></button>  
@@ -941,7 +941,7 @@
                 
 
                 <ng-container *ngIf="TableRowEE.length!=0 && step.props.label=='Electronic Equipment'">
-                    <p-table [value]="TableRowEE"  [tableStyle]="{'min-width':'100rem'}" [paginator]="true" [rows]="2">
+                    <p-table [value]="TableRowEE"  [tableStyle]="{'min-width':'100rem'}">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>S.No</th>
@@ -978,7 +978,6 @@
                             <tr>
                                 <th>S.No</th>
                                 <th>Name</th>
-                                <!-- <th>Location Name</th> -->
                                 <th>Occupation Type</th>
                                 <th>Date Of Birth</th>
                                 <th>Salary</th>

@@ -7,8 +7,13 @@ export class PersonalAccident{
     endorsementSection: boolean=false;
     enableFieldsList: any[]=[];
     finalizeYN: any='N';
-    subuserType: any=null;
+    subuserType: any=null;dobDate:any=null;
     constructor() {
+      var d = new Date();
+      var year = d.getFullYear();
+      var month = d.getMonth();
+      var day = d.getDate();
+      this.dobDate = new Date(year - 18, month, day);
       let finalize = sessionStorage.getItem('FinalizeYN');
       if(finalize) this.finalizeYN = finalize;
       this.subuserType = sessionStorage.getItem('typeValue');
@@ -144,6 +149,10 @@ export class PersonalAccident{
                     required: true,
                     placeholder: 'Select Date Of Birth',
                     disabled: this.checkDisable('Dob'),
+                    defaultValue:  this.dobDate,
+                    datepickerOptions: {
+                      max: this.dobDate
+                    },
                     customDatePickerOption: {
                       appendTo: 'body' 
                     }

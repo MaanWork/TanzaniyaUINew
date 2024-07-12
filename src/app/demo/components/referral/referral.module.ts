@@ -12,6 +12,9 @@ import { SharedModule } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpLoaderFactory } from 'src/app/app.module';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -30,7 +33,14 @@ import { ToastModule } from 'primeng/toast';
     FormsModule,
     ToastModule,
     DropdownModule,
-    TableModule
+    TableModule,
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
+  })
   ]
 })
 export class ReferralModule { }

@@ -388,7 +388,7 @@ export class DocumentInfoComponent {
                     this.individualDocumentList = data?.Result?.InduvidualDocuments;
                     if(data.Result?.CommonDocuments && this.individualDocumentList.length!=0){
                       let sectionList = this.individualDocumentList[0].SectionList;
-                      let defaultObj = [{"SectionId":'99999',"SectionName":'ALL',
+                      let defaultObj = [{"SectionId":'99999',"SectionName":'ALL',"CodeDescLocal":'Todos',
                       "IdList":[{RiskId: "99999", Id: "ALL", IdType: "REGISTER_NUMBER"}]
                       }];
                       this.individualDocumentList[0].SectionList = defaultObj.concat(sectionList);
@@ -398,6 +398,14 @@ export class DocumentInfoComponent {
           },
           (err) => { },
         );
+  }
+  getSectionName(){
+     if(this.lang=='en') return 'SectionName';
+		 else return 'CodeDescLocal'
+  }
+  getDisplayName(){
+    if(this.lang=='en') return 'CodeDesc';
+		else return 'CodeDescLocal'
   }
   getBacks(){
     this.BackSession = sessionStorage.getItem('back');

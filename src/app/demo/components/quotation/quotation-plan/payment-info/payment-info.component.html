@@ -19,7 +19,7 @@
         </div>
     </div>
     
-    <p-selectButton [options]="paymentTypeList" [(ngModel)]="selectedPaymentOption" (click)="onRedirect()" optionLabel="CodeDesc" optionValue="Code"></p-selectButton>
+    <p-selectButton [options]="paymentTypeList" [(ngModel)]="selectedPaymentOption" (click)="onRedirect()" [optionLabel]="getDisplayName()" optionValue="Code"></p-selectButton>
     
     <h4>{{'PAYMENT.PaymentDetails' | translate}}</h4> 
     <ng-container *ngIf="Third || seven">

@@ -3,6 +3,8 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/demo/service/shared.service';
 import * as Mydatas from '../../../app-config.json';
+import { AppComponent } from 'src/app/app.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-referral',
@@ -35,12 +37,14 @@ export class ReferralComponent implements OnInit {
   columns:string[] = [];
   columnss:string[] = [];
   ApproveredList:any[]=[];
-  tableView = 'table'; 
+  tableView = 'table';lang:any=null;
   ApproverbrokerCode: any=null;
   Rejecedbrokercode: any=null;sampleRefNo:any=null;
   RejectedList: any[];RejectedquoteData:any[]=[];
   
-  constructor(private router: Router,private sharedService: SharedService,private messageService: MessageService) {
+  constructor(private router: Router,private sharedService: SharedService,private messageService: MessageService,
+    private appComp:AppComponent,private translate: TranslateService
+  ) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
     this.agencyCode = this.userDetails.Result.OaCode;
@@ -53,14 +57,27 @@ export class ReferralComponent implements OnInit {
     
   }
   ngOnInit() {
-    this.items = [{ label: 'Home', routerLink:'/' }, {label:'Referral'}];
-    this.tableActions = [{label: 'Edit', icon:'pi pi-pencil'}];
+    this.columns = ['QuoteNo','ReferenceNo','CustomerName','StartDate','EndDate','Actions'];
+    this.columnss = ['QuoteNo','ReferenceNo','CustomerName','StartDate','EndDate']
+    this.appComp.getLanguage().subscribe((res:any)=>{  
+			if(res) this.lang=res;
+			else this.lang='en';
+			this.translate.setDefaultLang(this.lang);this.setHeaders();
+		  });
+		if(!this.lang){
+      if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+		else this.lang='en';
+		sessionStorage.setItem('language',this.lang)
+		this.translate.setDefaultLang(sessionStorage.getItem('language')); this.setHeaders();}
+    this.branches = [
+      { label: 'Test', target: 'T' },
+    ];
+    
     this.branches = [
       { label: 'Test', target: 'T' },
     ];
     //if(this.productId=='5' || this.productId=='46' || this.productId=='29'){
-      this.columns = ['Quote No','ReferenceNo','Customer Name','Start Date','End Date','Actions'];
-      this.columnss = ['Quote No','ReferenceNo','Customer Name','Start Date','End Date']
+      
     //}
     let refNo = sessionStorage.getItem('referralRefNo');
     if(refNo){
@@ -72,7 +89,16 @@ export class ReferralComponent implements OnInit {
     this.getApprovedList();
     this.getRejectedList();
   }
-
+  setHeaders(){
+      if(this.lang=='en'){
+        this.items = [{ label: 'Home', routerLink:'/' }, {label:'Referral'}];
+        this.tableActions = [{label: 'Edit', icon:'pi pi-pencil'}];
+      }
+      else if(this.lang=='po'){
+        this.items = [{ label: 'Lar', routerLink:'/' }, {label:'Referência'}];
+        this.tableActions = [{label: 'Editar', icon:'pi pi-pencil'}];
+      }
+  }
 
   getBrokerList(){
     let type='Q';

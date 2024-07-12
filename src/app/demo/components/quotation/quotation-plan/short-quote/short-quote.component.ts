@@ -11,6 +11,8 @@ import * as moment from 'moment';
 import { MotorShotQuoteCustomerUganda } from '../models/Uganda/MotorShotQuoteCustomerUganda';
 import { ShortQuoteCustomerSanlam } from '../models/sanlam/MotorShotQuoteCustomer';
 import { ShortQuoteSanlam } from '../models/sanlam/MotorShotQuote';
+import { MotorShotQuoteCustomerMadison } from '../models/Madison/MotorShotQuoteCustomerUganda';
+import { MotorShotQuoteMadison } from '../models/Madison/MotorShotQuoteMadison';
 
 @Component({
   templateUrl: './short-quote.component.html',
@@ -127,6 +129,10 @@ export class ShortQuoteComponent implements OnInit {
       fireData2 = new MotorShotQuoteCustomerUganda();
       fireData = new MotorShotQuoteUganda();
     }
+    if(this.insuranceId=='100004'){
+      fireData2 = new MotorShotQuoteCustomerMadison();
+      fireData = new MotorShotQuoteMadison();
+    }
     else if(this.insuranceId=='100027' || this.insuranceId=='100040'){
       fireData2 = new ShortQuoteCustomerSanlam();
       fireData = new ShortQuoteSanlam();
@@ -139,7 +145,7 @@ export class ShortQuoteComponent implements OnInit {
         });
       } }
       this.fields[0].fieldGroup[0].fieldGroup[0].hooks = regionHooks;
-      if(this.insuranceId=='100002' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020' || this.insuranceId=='100004' || this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100028'){
+      if(this.insuranceId=='100002' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020' || this.insuranceId=='100004' || this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100028' || this.insuranceId=='100004'){
         let regionHooks2 ={ onInit: (field: FormlyFieldConfig) => {
           field.formControl.valueChanges.subscribe(() => {
             this.onChangeInsuranceClass('change')
@@ -169,7 +175,7 @@ export class ShortQuoteComponent implements OnInit {
             this.onModelChange('change');
           });
         }} 
-        if(this.insuranceId!='100004') {
+        //if(this.insuranceId!='100004') {
           let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
           let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---'}];
           for(let field of fieldList){
@@ -181,8 +187,8 @@ export class ShortQuoteComponent implements OnInit {
             if(field.key=='InsuranceType' && this.insuranceId=='100028'){field.hooks = regionHooks2;}
             else if(field.key=='InsuranceClass'  && this.insuranceId!='100028') field.hooks = regionHooks2;
           }
-        }
-        else this.fields[0].fieldGroup[0].fieldGroup[0].hooks = regionHooks2;
+        // }
+        // else this.fields[0].fieldGroup[0].fieldGroup[0].hooks = regionHooks2;
       }
       this.getInsuranceTypeList();
       this.getInsuranceClassList();
@@ -973,6 +979,7 @@ export class ShortQuoteComponent implements OnInit {
     );
   }
   onChangeInsuranceClass(type){
+    if(this.insuranceId=='100004'){ this.productItem.InsuranceType = this.productItem.InsuranceClass; this.classValue=this.productItem.InsuranceClass;}
     let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
     for(let field of fieldList){
       if(field.key=='GpsYN' || field.key=='CarAlarmYN'){
@@ -1061,7 +1068,7 @@ export class ShortQuoteComponent implements OnInit {
                 this.motorTypeList[i].value = this.motorTypeList[i]['Code'];
                 if (i == this.motorTypeList.length - 1) {
                   if(this.motordetails && this.editSection) this.onBodyTypeChange('direct');
-                  if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100002' || this.insuranceId=='100028' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020'){
+                  if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100002' || this.insuranceId=='100028' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020' || this.insuranceId=='100004'){
                     let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
                     for(let field of fieldList){
                       if(field.key=='VehicleSI' || field.key=='AccessoriesSI' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI'){
@@ -1297,6 +1304,7 @@ export class ShortQuoteComponent implements OnInit {
       "SearchFromApi":false
       
     }
+    if(this.insuranceId=='100004') ReqObj['SectionId']=this.productItem.InsuranceType
     ReqObj['DriverDetails'] = null;
             if(this.insuranceId=='100019') ReqObj['CarAlarmYn'] = this.productItem.CarAlarmYN;
             if(this.insuranceId=='100020') ReqObj['VehicleClass'] = this.productItem.VehicleClass

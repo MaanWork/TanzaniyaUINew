@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { SharedService } from 'src/app/demo/service/shared.service';
 import * as Mydatas from '../../../../../app-config.json';
+import { AppComponent } from 'src/app/app.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-copyquote',
@@ -21,11 +23,13 @@ export class CopyQuoteComponent implements OnInit {
   public motorApiUrl:any = this.AppConfig.MotorApiUrl;SearchList:any;
   public userDetails: any;loginId: any;agencyCode: any;branchCode: any;
   public brokerbranchCode: any;productId: any;insuranceId: any;userType: any;
-  customerValue: boolean;
+  customerValue: boolean;lang:any=null;
   referenceNo: string;search:any;
   quoteno: any;
     columns: any=[];
-  constructor(private router:Router,private sharedService: SharedService,private datePipe:DatePipe) {
+  constructor(private router:Router,private sharedService: SharedService,private datePipe:DatePipe,
+    private translate:TranslateService,private appComp:AppComponent
+  ) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
     this.agencyCode = this.userDetails.Result.OaCode;
@@ -77,9 +81,20 @@ export class CopyQuoteComponent implements OnInit {
       this.referenceNo = refno;
     }
     console.log('RRRRRRRRRRRRRR',refno);
-    this.columns = [ 'Select','Quote No', 'Reference No', 'Customer Name','CurrencyCode'];
+    this.columns = [ 'Select','QuoteNo', 'ReferenceNo', 'CustomerName','CurrencyCode'];
     //'Actions'
-
+    this.appComp.getLanguage().subscribe((res:any)=>{  
+      if(res) this.lang=res;
+      else this.lang='en';
+      this.translate.setDefaultLang(this.lang);this.setHeaders();
+    });
+    if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+      else this.lang='en';
+      sessionStorage.setItem('language',this.lang)
+      this.translate.setDefaultLang(sessionStorage.getItem('language'));this.setHeaders();}
+  }
+  setHeaders(){
+    
   }
   getCustomersList(){
       let ReqObj = {
@@ -100,8 +115,13 @@ export class CopyQuoteComponent implements OnInit {
         (err) => { },
       );
   }
-
-
+  getHeaderName(value){
+    return `'CopyQuote.'+value | translate`
+  }
+  getDisplayName(){
+		if(this.lang=='en') return 'CodeDesc';
+		else return 'CodeDescLocal'
+	}
   onDateFormatInEdit(date) {
     console.log(date);
     if (date) {

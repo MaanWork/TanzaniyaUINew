@@ -122,11 +122,15 @@ export class MotorVehicleEagle{
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
-                      label: 'Renewal YN ?',
+                     
                       required: true,
                       disabled: this.checkDisable('RenewalYn'),
                       name: 'RenewalYn',
-                      options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
+                     
+                    },
+                    props:{
+                      label: 'Renewal',
+                      options: [{ value: 'Y', label: 'Yes',CodeDesc:'Yes','CodeDescLocal':'Sim' }, { value: 'N', label: 'No',CodeDesc:'No','CodeDescLocal':'Não' }],
                     }
                   },
                 ]

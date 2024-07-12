@@ -4,6 +4,8 @@ import { SharedService } from 'src/app/demo/service/shared.service';
 import * as Mydatas from '../../../app-config.json';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-report',
@@ -35,11 +37,13 @@ export class ReportComponent implements OnInit {
   public motorApiUrl:any = this.AppConfig.MotorApiUrl;
   Currency:any;brokerList:any[]=[];
   brokerCode: any;btype:any;buisnessList:any[]=[];
-  columns:any[]=[];
+  columns:any[]=[];lang:any=null;
   custumData: any[];
   // @Output('Currency') Currency:any='TZS';
 
-  constructor(private router:Router,private sharedService: SharedService,private datePipe:DatePipe) {
+  constructor(private router:Router,private sharedService: SharedService,private datePipe:DatePipe,
+    private appComp:AppComponent,private translate: TranslateService
+  ) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     console.log("UserDetails",this.userDetails);
     this.loginId = this.userDetails.Result.LoginId;
@@ -56,7 +60,15 @@ export class ReportComponent implements OnInit {
    }
 
   ngOnInit(): void {
-
+    this.appComp.getLanguage().subscribe((res:any)=>{  
+			if(res) this.lang=res;
+			else this.lang='en';
+			this.translate.setDefaultLang(this.lang);
+		  });
+		if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+		else this.lang='en';
+		sessionStorage.setItem('language',this.lang)
+		this.translate.setDefaultLang(sessionStorage.getItem('language'));}
     if(this.insuranceId!=null){
       this.getBranchList();
       
@@ -109,7 +121,7 @@ export class ReportComponent implements OnInit {
       // },
       
     ];
-    this.columns = [ 'Policy No', 'Quote No', 'Customer Name', 'Start Date', 'End Date', 'Sum Inured','Policy Desc','Commision Amt','Premium','CreditLimit','Payment Type'];
+    this.columns = [ 'PolicyNo', 'QuoteNo', 'CustomerName', 'StartDate', 'EndDate', 'SumInured','PolicyDesc','CommisionAmt','Premium','CreditLimit','PaymentType'];
   }
   
   getBranchList(){
@@ -117,59 +129,63 @@ export class ReportComponent implements OnInit {
       "InsuranceId": this.insuranceId
     }
     let urlLink = `${this.CommonApiUrl}master/dropdown/branchmaster`;
-  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-    (data: any) => {
-      if(data.Result){
-        //let obj = [{Code:"",CodeDesc:"ALL"}];
-        this.branchList = data?.Result;
-        if(!this.branchValue && this.branchList.length!=0){ 
-          this.branchValue = this.branchList[0].Code;
-          this.getBrokerList();
-         }
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+          //let obj = [{Code:"",CodeDesc:"ALL"}];
+          this.branchList = data?.Result;
+          if(!this.branchValue && this.branchList.length!=0){ 
+            this.branchValue = this.branchList[0].Code;
+            this.getBrokerList();
+          }
 
-      }
-    },
-    (err) => { },
-  );
-} 
-newQuote(){
-  this.router.navigate(['/policyDetails']);
-}
-onCommonDocumentDownload(){
-  let startdate=this.datePipe.transform(this.startdate, "dd/MM/yyyy");
-  let enddate=this.datePipe.transform(this.enddate, "dd/MM/yyyy");
-  let ReqObj = {
-    "BranchCode": this.branchValue,
-    "EndDate": enddate,
-    "LoginId": this.loginId,
-    "StartDate": startdate,
-    "ProductId": this.productId,
+        }
+      },
+      (err) => { },
+    );
+  } 
+  getDisplayName(){
+    if(this.lang=='en') return 'CodeDesc';
+    else return 'CodeDescLocal'
   }
-  let urlLink = `${this.CommonApiUrl}pdf/premium/report`;
-  this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-    (data: any) => {
-      console.log(data);
-      const link = document.createElement('a');
-      link.setAttribute('target', '_blank');
-      link.setAttribute('href', data?.Result?.Base64);
-      link.setAttribute('download', data?.Result?.FileName);
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-  },
-    (err) => { },
-  );
-}
+  newQuote(){
+    this.router.navigate(['/policyDetails']);
+  }
+  onCommonDocumentDownload(){
+    let startdate=this.datePipe.transform(this.startdate, "dd/MM/yyyy");
+    let enddate=this.datePipe.transform(this.enddate, "dd/MM/yyyy");
+    let ReqObj = {
+      "BranchCode": this.branchValue,
+      "EndDate": enddate,
+      "LoginId": this.loginId,
+      "StartDate": startdate,
+      "ProductId": this.productId,
+    }
+    let urlLink = `${this.CommonApiUrl}pdf/premium/report`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', data?.Result?.Base64);
+        link.setAttribute('download', data?.Result?.FileName);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      },
+      (err) => { },
+    );
+  }
 
-getsearchs(){
-  this.showgrid=false;
-}
+  getsearchs(){
+    this.showgrid=false;
+  }
 
-getsearch(){
-  this.showgrid=true;
-  this.getQuotes();
-}
- 
+  getsearch(){
+    this.showgrid=true;
+    this.getQuotes();
+  }
+  
 getQuotes(){
   let brokertype;let brokertypes;let brokerCode;
   if(this.brokerCode){
