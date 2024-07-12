@@ -456,6 +456,9 @@ export class CommonProductDetailsComponent {
                 let startDate=null,endDate=null;
                 startDate = details.PolicyStartDate;
                 endDate = details.PolicyEndDate;
+                this.Code= details?.SourceTypeId;
+                if(this.Code)this.onSourceTypeChange('Change')
+                this.customerCode=details?.CustomerCode,
                 this.commonDetails = [
                   {
                       "PolicyStartDate": startDate,
@@ -832,7 +835,17 @@ export class CommonProductDetailsComponent {
   
   }
   onFinalSaveFire(obj,sectionIds,type,refNo,havePromoYN,index){
-    let sourcecode;
+    let sourcecode,appId;
+    if (this.userType != 'Issuer') {
+     // this.brokerCode = this.agencyCode;
+      appId = "1";
+    }
+    else {
+      appId = this.loginId;
+      // loginId = this.brokerLoginId
+      // brokerbranchCode = this.brokerBranchCode;
+    }
+  this.applicationId = appId;
     if(this.userType!= 'Broker' && this.userType != 'User'){
       sourcecode=this.Code
     }
@@ -886,7 +899,7 @@ export class CommonProductDetailsComponent {
           "SectionDesc": obj.SectionDesc,
           "Status": "Y",
             "LocationName": obj.LocationName,
-            "BuildingAddress": "fddsfd",
+            "BuildingAddress": "",
             "IndustryType": obj.IndustryType,
             "IndustryTypeDesc": obj.IndustryTypeDesc,
             "OccupationId": obj.OccupationId,
@@ -900,6 +913,7 @@ export class CommonProductDetailsComponent {
             "SourceTypeId": sourcecode,
             "CustomerCode": this.customerCode,
             "ProductType":"A",
+            "ApplicationId": this.applicationId
       }
       let urlLink = `${this.motorApiUrl}api/saveFire`;
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(

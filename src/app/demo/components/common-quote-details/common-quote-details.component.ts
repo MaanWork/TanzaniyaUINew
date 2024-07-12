@@ -2067,6 +2067,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
             if(data.Result){
               this.vehicleDetails = data.Result;
               this.tabIndex = index+1;
+              if(this.insuranceId=='100040')this.getInsuranceTypeListIvory();
+              this.productItem.InsuranceClass= data?.Result.InsuranceClass;
+              this.vehicleDetails['InsuranceClass'] =this.productItem.InsuranceClass;
               this.vehicleDetails['NoOfClaimYears'] = data?.Result.NoOfClaimYears;
               this.vehicleDetails['NoOfPassengers'] = data?.Result.NoOfPassengers;
               this.vehicleDetails['Mileage'] = data?.Result.Mileage;
