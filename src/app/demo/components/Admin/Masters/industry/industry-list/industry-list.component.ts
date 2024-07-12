@@ -183,7 +183,7 @@ getBranchList(type){
         if(docObj){ this.CategoryValue = docObj?.Catogry;
           console.log('IIIIIIIIII',this.CategoryValue);
           this.getExistingTinyUrl();}
-        else{ this.CategoryValue='3'; this.getExistingTinyUrl();}
+        else{ this.CategoryValue='99999'; this.getExistingTinyUrl();}
         //if(!this.branchValue){ this.branchValue = "99999";  }
       }
     },
