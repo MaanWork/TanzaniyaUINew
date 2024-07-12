@@ -52,7 +52,7 @@
                     class="w-full" styleClass="w-full" 
                     [options]="individualDocumentList" [(ngModel)]="doc.locationId" 
                     (onChange)="onChangeLocation(doc)"
-                    optionLabel="LocationName" 
+                    [optionLabel]="getLocationName()" 
                     optionValue="LocationId" 
                     [placeholder]="'DOCUMENT.SelectLocation' | translate">
                 </p-dropdown>
