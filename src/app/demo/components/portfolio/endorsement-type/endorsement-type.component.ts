@@ -1439,6 +1439,12 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
                 }
                 let motorUsageId = vehicleDetails.Motorusage
                 let motorUsage = vehicleDetails.MotorUsageDesc;
+                let sectionId = null;
+                if(vehicleDetails?.Insurancetype){
+                  if(vehicleDetails?.Insurancetype.length!=0){
+                    sectionId = vehicleDetails?.Insurancetype[0]
+                  }
+                }
                 console.log("AcExecutive",this.acExecutiveId,veh,vehicleDetails);
                 let ReqObj = {
                   "BrokerBranchCode": vehicleDetails?.BrokerBranchCode,
@@ -1489,7 +1495,7 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
                 "BranchCode": this.branchCode,
                 "AgencyCode": this.agencyCode,
                 "ProductId": this.productId,
-                "SectionId": vehicleDetails?.Insurancetype,
+                "SectionId": sectionId,
                 "PolicyType": vehicleDetails?.PolicyType,
                 "RadioOrCasseteplayer": null,
                 "RegistrationYear": vehicleDetails?.RegistrationYear,
@@ -1506,7 +1512,7 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
                 "VehicleModel": vehicleDetails?.VehicleModelDesc,
                 "VehcilemodelId": vehicleDetails?.Vehcilemodel,
                 "VehicleType": vehicleDetails.VehicleType,
-                "VehicleTypeId": vehicleDetails?.VehicleTypeId,
+                "VehicleTypeId": vehicleDetails?.VehicleType,
                 "Vehiclemake": vehicleDetails?.VehiclemakeDesc,
                 "VehiclemakeId": vehicleDetails?.Vehiclemake,
                 "WindScreenSumInsured": vehicleDetails?.WindScreenSumInsured,
@@ -1623,6 +1629,12 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
           if(this.vehilceCount==this.vehicleList.length)  this.router.navigate(['/quotation/plan/premium-info']);
         }
       }
+    }
+    checkCancellation(){
+      if(this.financialList.length!=0){
+         return this.financialList.some(ele=>ele.EndtShortCode=='42' || ele.EndtShortCode=='842');
+      }
+      else return false
     }
     getCalculationDetails(vehicleDetails,veh,i,type,coverIndex,coverLength){
       let createdBy="";

@@ -403,6 +403,10 @@ export class DocumentInfoComponent {
      if(this.lang=='en') return 'SectionName';
 		 else return 'CodeDescLocal'
   }
+  getLocationName(){
+    if(this.lang=='en') return 'LocationName';
+		 else return 'CodeDescLocal'
+  }
   getDisplayName(){
     if(this.lang=='en') return 'CodeDesc';
 		else return 'CodeDescLocal'

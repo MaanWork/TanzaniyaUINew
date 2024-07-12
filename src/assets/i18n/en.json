@@ -130,6 +130,7 @@
         "EndDate": "End Date",
         "Premium": "Premium",
         "CurrencyCode": "Currency Code",
+        "Endorsement":"Endorsement",
         "Action": "Action",
         "VehicleID": "VehicleID",
         "RegistrationNo":"RegistrationNo",

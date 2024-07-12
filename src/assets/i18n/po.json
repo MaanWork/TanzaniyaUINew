@@ -152,6 +152,7 @@
         "PolicyEndDate": "Data de término da política",
         "Premium": "Prêmio",
         "CurrencyCode": "Código da moeda",
+        "Endorsement":"Endosso",
         "Action": "Ação",
         "VehicleID": "ID do veículo",
         "RegistrationNo":"número de registro",
