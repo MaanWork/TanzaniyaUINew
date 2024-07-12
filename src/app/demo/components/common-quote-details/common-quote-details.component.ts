@@ -156,6 +156,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   motorUsageType: any=null;VehicleSI: any=null;WindShieldSI: any=null;orgPolicyNo: any=null;endorseCategory: any=null;endorsementName: any=null;endorseShortCode: any=null;enableFieldsList: any[]=[];enablePolicyStart: boolean=false;enablePolicyEnd: boolean=false;enableCurrency: boolean=false;
   hideSection:boolean=false;
   typeListAlt: any[]=[];
+  typeListIvory: any[]=[];
   constructor(private router:Router,private sharedService:SharedService,private datePipe:DatePipe,
     private appComp:AppComponent,
     private translate: TranslateService,private messageService: MessageService){
@@ -1257,13 +1258,44 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 this.typeList[i].label = this.typeList[i]['CodeDesc'];
                 this.typeList[i].value = this.typeList[i]['Code'];
                 if (i == this.typeList.length - 1) {
-                  if(this.insuranceId=="100040"){
-
-                    if(this.fields.length!=0)  this.fields[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.typeList);
-                  }
-                  else{
+                  
                     if(this.fields.length!=0)  this.fields[0].fieldGroup[0].fieldGroup[0].props.options = defaultObj.concat(this.typeList);
-                  }
+                  
+                  this.checkFieldNames();
+                }
+              }
+            }
+        }
+
+      },
+      (err) => { },
+    );
+  }
+  getInsuranceTypeListIvory(){
+    let ReqObj=null,urlLink=null;
+      ReqObj = {
+        
+        "CompanyId":this.insuranceId,
+        "ProductId":this.productId,
+        "IndustryType":this.productItem.InsuranceType,
+      }
+      urlLink = `${this.CommonApiUrl}api/getByIndsutryType`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+            this.typeListIvory = data.Result;
+            console.log(this.typeListIvory,"this.typeListthis.typeList");
+            
+            if(this.typeListIvory.length!=0){
+              let i=0;
+              let defaultObj = [{'label':'---Select--','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+              for (let entry of this.typeListIvory) {
+                entry['label'] = entry.CodeDesc
+                entry['value'] = entry.Code;
+                i+=1;
+                if (i == this.typeListIvory.length) {
+                  console.log("final list",this.typeListIvory)
+                  if(this.fields.length!=0)  this.fields[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.typeListIvory);
                   this.checkFieldNames();
                 }
               }
@@ -4912,6 +4944,14 @@ export class CommonQuoteDetailsComponent implements OnInit {
         this.fields[0].fieldGroup[0].fieldGroup[1].hooks = regionHooks2;
         
       } 
+      if(this.insuranceId=='100040'){
+        let InsuranceHooks ={ onInit: (field: FormlyFieldConfig) => {
+          field.form.controls['InsuranceType'].valueChanges.subscribe(() => {
+             this.getInsuranceTypeListIvory();
+          });
+        } }
+        this.fields[0].fieldGroup[0].fieldGroup[0].hooks = InsuranceHooks;
+      }
         if(this.insuranceId!='100004') {
           let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
           for(let field of fieldList){
@@ -4967,7 +5007,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       else this.productItem.CarAlarmYN = 'N';
       
     }
-    if(this.insuranceId!='100004') this.getInsuranceTypeList();
+    if(this.insuranceId!='100004' && this.insuranceId!='100040') this.getInsuranceTypeList();
     else{this.getMotorUsageAltList();}
     //if(this.insuranceId=='100027') this.getMotorTypeList('direct',null,null)
     if(this.insuranceId=='100027' || this.insuranceId=='100040'){
