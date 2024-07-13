@@ -76,7 +76,7 @@
                     styleClass="w-full" [options]="doc.typeList" 
                     [(ngModel)]="doc.Id" 
                     (onChange)="onChangeIdType(doc)"
-                    optionLabel="Id" 
+                    [optionLabel]="getIdValue()" 
                     optionValue="Id" 
                     [placeholder]="'QUOTEGRID.Selectt' | translate">
                 </p-dropdown>

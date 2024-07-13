@@ -12,6 +12,7 @@ import { TableModule } from 'primeng/table';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpLoaderFactory } from 'src/app/app.module';
+import { CalendarModule } from 'primeng/calendar';
 
 
 
@@ -26,6 +27,7 @@ import { HttpLoaderFactory } from 'src/app/app.module';
     DividerModule,
     InputTextModule,
     DropdownModule,
+    CalendarModule,
     FormsModule,
     TableModule,
     TabViewModule,

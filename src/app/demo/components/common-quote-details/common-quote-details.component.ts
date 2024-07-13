@@ -1590,7 +1590,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                             this.productItem.MotorUsage='';field.formControl.setValue(''); this.motorUsageValue='';this.motorUsageType=type;
                           }
                         }
-                        else{field.formControl.setValue(vehicleValue);this.motorUsageType=type;}
+                        else{field.formControl.setValue(vehicleValue);this.motorUsageType=type;this.productItem.MotorUsage=vehicleValue}
                             field.props.options= defaultObj.concat(this.motorUsageList);
                             this.checkFieldNames();
                       }
@@ -1625,23 +1625,39 @@ export class CommonQuoteDetailsComponent implements OnInit {
       (err) => { },
     );
   }
+  getDeleteName(){
+    if(this.lang=='en') return 'Delete Vehicle!'
+    else return 'Excluir veículo!'
+  }
+  getDeleteMessage(){
+    if(this.lang=='en') return 'Are You Sure Want to Delete this Vehicle Details?'
+    else return 'Tem certeza de que deseja excluir os detalhes deste veículo'
+  }
+  getDeleteYN(val){
+    if(val=='Y'){
+      if(this.lang=='en') return 'Delete!'
+      else return 'Excluir!'
+    }
+    else {if(this.lang=='en') return 'Cancel'
+       else return 'Cancelar'}
+  }
   onDelete(rowData){
     if(rowData.Active){
       Swal.fire({
-          title: '<strong> &nbsp;Delete Vehicle!</strong>',
+          title: `<strong> &nbsp;${this.getDeleteName()}</strong>`,
           iconHtml: '<i class="fa-solid fa-trash fa-fade"></i>',
           icon: 'info',
           html:
             `<ul class="list-group errorlist">
-            Are You Sure Want to Delete this Vehicle Details?
+            ${this.getDeleteMessage()}
         </ul>`,
           showCloseButton: true,
           focusConfirm: false,
           showCancelButton:true,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
-          cancelButtonText: 'Cancel',
-          confirmButtonText: 'Delete!',
+          cancelButtonText: `${this.getDeleteYN('N')}`,
+          confirmButtonText: `${this.getDeleteYN('Y')}`,
       })
       .then((result) => {
         if (result.isConfirmed) {
@@ -2010,7 +2026,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
     if(this.currencyCode==null || this.currencyCode=='' || this.currencyCode==undefined){
       i+=1;
-      this.currencyCodeError = false;
+      this.currencyCodeError = true;
     }
     if(this.issuerSection){
       if(this.Code=='' || this.Code==null || this.Code==undefined){
@@ -2691,8 +2707,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
   saveMotorDetails(index){
     // alert("1")
     sessionStorage.removeItem('loadingType');
-    
-    if(this.finalizeYN!='Y'){
+    let entry = this.checkMandatories();
+    if(this.finalizeYN!='Y' && !entry){
         if(this.insuranceId=='100004') this.typeValue = this.classValue;
        
         let createdBy="";
@@ -3147,6 +3163,45 @@ export class CommonQuoteDetailsComponent implements OnInit {
           });
         }
     }
+  }
+  checkMandatories(){
+    if(this.insuranceId=='100040'){
+      let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+      let i=0,j=0;
+      console.log(this.fields)
+          for(let field of fieldList){
+              if(field.key=='InsuranceType'){
+                if(this.productItem.InsuranceType==null || this.productItem.InsuranceType=='' || this.productItem.InsuranceType==undefined){ i+=1;field.formControl.setErrors({'incorrect': true})}
+                else field.formControl.setErrors(null);
+              }
+              if(field.key=='InsuranceClass'){
+                if(this.productItem.InsuranceClass==null || this.productItem.InsuranceClass=='' || this.productItem.InsuranceClass==undefined){ i+=1;field.formControl.setErrors({'incorrect': true})}
+                else field.formControl.setErrors(null);
+              }
+              if(this.productItem.InsuranceClass!='121' && this.productItem.InsuranceClass!='122'){
+                if(field.key=='VehicleValue'){
+                  if(this.productItem.VehicleValue==null || this.productItem.VehicleValue=='' || this.productItem.VehicleValue==undefined){ i+=1;field.formControl.setErrors({'incorrect': true})}
+                  else field.formControl.setErrors(null);
+                }
+                else if(field.key=='VehicleSI'){
+                  if(this.productItem.VehicleSI==null || this.productItem.VehicleSI=='' || this.productItem.VehicleSI==undefined || this.productItem.VehicleSI=='0' || this.productItem.VehicleSI==0){ i+=1;field.formControl.setErrors({'incorrect': true})}
+                  else field.formControl.setErrors(null);
+                }
+                else if(field.key=='Deductibles'){
+                  if(this.productItem.Deductibles==null || this.productItem.Deductibles=='' || this.productItem.Deductibles==undefined){ i+=1;field.formControl.setErrors({'incorrect': true})}
+                  else field.formControl.setErrors(null);
+                }
+                else if(field.key=='Inflation'){
+                  if(this.productItem.Inflation==null || this.productItem.Inflation=='' || this.productItem.Inflation==undefined){ i+=1;field.formControl.setErrors({'incorrect': true})}
+                  else field.formControl.setErrors(null);
+                }
+              }
+            
+            j+=1;
+            if(j==fieldList.length){alert(i); return i!=0;}
+          }
+    }
+    else return false;
   }
   getCalculationDetails(vehicleDetails,type,index,returnType){
     let createdBy="";
@@ -3859,8 +3914,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
     // alert("2")
     sessionStorage.removeItem('loadingType');
     this.currentIndex = 1;
+    let entry = this.checkMandatories();
     if(this.finalizeYN!='Y'){
       if(this.checkDisableField()){
+        
         if(this.currentIndex<this.vehicleDetailsList.length){
           this.collateralYN = "N";
           if(this.collateralYN=='Y') this.collateralValue = true;
@@ -3893,7 +3950,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
             }
         }
       }
-      else{
+      else if(!entry) {
+        
         if(this.insuranceId=='100004') this.typeValue = this.classValue;
         let createdBy="";
         let startDate = "",endDate = "",vehicleSI="",accSI="",windSI="",tppSI="";

@@ -76,7 +76,7 @@
                      <div><h5>{{ 'DASHBOARD.RecentPolicies/Quotes' | translate }}</h5></div>
                      <div>
                         <p-dropdown inputId="rangeSearch" class="w-full" styleClass="w-full" [options]="rangeList"
-                            [(ngModel)]="rangeValue" optionLabel="CodeDesc" optionValue="Code"
+                            [(ngModel)]="rangeValue" [optionLabel]="getDisplayName()" optionValue="Code"
                             (onChange)="getQuoteOverview()" placeholder="---Select---">
                         </p-dropdown>
                      </div>
@@ -174,7 +174,7 @@
                         <div class="table-header">
                             <span class="p-input-icon-left">
                                 <i class="pi pi-search"></i>
-                                <input pInputText type="text" (input)="dtEmployee.filterGlobal($event.target.value, 'contains')" [placeholder]="'LOGIN.GlobalSearch' | translate" />
+                                <input pInputText type="text" (input)="dtEmployee.filterGlobal($event.target.value, 'contains')" [placeholder]="'DASHBOARD.GlobalSearch' | translate" />
                             </span>
                         </div>
                         </div>

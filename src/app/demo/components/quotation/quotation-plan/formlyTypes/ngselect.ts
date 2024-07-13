@@ -9,7 +9,8 @@ import { FieldType } from '@ngx-formly/core';
                      <p-dropdown [filter]="true" filterBy="label" inputId="make"  appendTo="body" class="w-full w-full1" styleClass="w-full w-full1" [formControl]="formControl" [options]="to.options"
                         optionLabel="label" optionValue="value">
                      </p-dropdown>
-                     </div>
+                     <div class="text-danger" *ngIf="formControl.errors">This field is Required</div>
+       </div>
  `,
 })
 export class NgSelect extends FieldType {

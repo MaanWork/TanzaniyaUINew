@@ -6,6 +6,7 @@ import { FieldType } from '@ngx-formly/core';
  template: `
  <p-inputNumber [formControl]="formControl" class="w-full" styleClass="w-full"
  [formlyAttributes]="field" inputId="integeronly"> </p-inputNumber>
+  <div class="text-danger" *ngIf="formControl.errors">This field is Required</div>
  `,
 })
 export class CommaSeparatorInput extends FieldType {

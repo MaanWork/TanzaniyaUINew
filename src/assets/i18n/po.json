@@ -473,7 +473,8 @@
       "AccountNumber":"Número de conta",
       "IBANNumber": "Número do iban",
       "TotalRefundPremium": "Prêmio de reembolso total",
-      "Submit":"Enviar"
+      "Submit":"Enviar",
+      "DraftSuccessMessage":"Rascunho de mensagem de sucesso"
     },
     "PolicyInfo":{
       "Hurray!!!":"Vivo!!!",
@@ -496,6 +497,7 @@
       "Pending":"Pendente",
       "Cancelled":"Cancelado",
       "Rejected":"Rejeitado",
+      "Endorsement":"Endosso",
       "VehicleDetails":"Detalhes do veículo",
       "PolicyNo":"PolíticaNão",
       "QuoteNo":"Citação Não",
@@ -571,7 +573,7 @@
     },
     "Search":{
       "Search":"Procurar",
-      "SearchBy":"SearchBy",
+      "SearchBy":"Procurar por",
       "SearchValue":"Valor de pesquisa",
       "QuoteDate":"Data da cotação",
       "View":"Visualizar",

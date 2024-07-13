@@ -33,11 +33,13 @@
             </div>
             <div class="flex flex-column m-3">
                 <label for="username">{{'Report.StartDate' | translate}}</label>
-                <input type="date" pInputText id="username" [(ngModel)]="startdate" maxlength="150" />
+                <p-calendar class="w-full" styleClass="w-full"  [(ngModel)]="startdate" dateFormat="dd/mm/yy">
+                </p-calendar>
             </div>
             <div class="flex flex-column m-3">
               <label for="username">{{'Report.EndDate' | translate}}</label>
-              <input type="date" pInputText id="username" maxlength="150" [(ngModel)]="enddate" />
+              <p-calendar class="w-full" styleClass="w-full"  [(ngModel)]="enddate" dateFormat="dd/mm/yy">
+              </p-calendar>
           </div>
             <!-- <div class="flex flex-column m-3">
                 <label for="username">Start Date</label>
@@ -57,8 +59,8 @@
         </div>
       </div>
       <div class="col-12 mx-auto flex flex-wrap justify-content-center">
-        <p-button class="mr-4 mb-4" label="Search" (click)="getsearch()"></p-button>
-        <p-button icon="pi pi-cloud-download" label="Download All" styleClass="p-button-outlined" (click)="onCommonDocumentDownload()"></p-button>
+        <p-button class="mr-4 mb-4" [label]="'Report.Search' | translate" (click)="getsearch()"></p-button>
+        <p-button icon="pi pi-cloud-download" [label]="'Report.DownloadAll' | translate" styleClass="p-button-outlined" (click)="onCommonDocumentDownload()"></p-button>
       </div>
       <div class="grid">
         <ng-container *ngIf="customerData.length!=0">

@@ -456,7 +456,8 @@
       "AccountNumber":"Account Number",
       "IBANNumber": "IBAN Number",
       "TotalRefundPremium": "Total Refund Premium",
-      "Submit":"Submit"
+      "Submit":"Submit",
+      "DraftSuccessMessage":"Draft Success Message"
     },
     "PolicyInfo":{
       "Hurray!!!":"Hurray!!!",
@@ -479,6 +480,7 @@
       "Pending":"Pending",
       "Cancelled":"Cancelled",
       "Rejected":"Rejected",
+      "Endorsement":"Endorsement",
       "VehicleDetails":"Vehicle Details",
       "PolicyNo":"Policy No",
       "QuoteNo":"Quote No",

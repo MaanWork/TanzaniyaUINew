@@ -389,7 +389,7 @@ export class DocumentInfoComponent {
                     if(data.Result?.CommonDocuments && this.individualDocumentList.length!=0){
                       let sectionList = this.individualDocumentList[0].SectionList;
                       let defaultObj = [{"SectionId":'99999',"SectionName":'ALL',"CodeDescLocal":'Todos',
-                      "IdList":[{RiskId: "99999", Id: "ALL", IdType: "REGISTER_NUMBER"}]
+                      "IdList":[{RiskId: "99999", Id: "ALL","CodeDescLocal":'Todos', IdType: "REGISTER_NUMBER"}]
                       }];
                       this.individualDocumentList[0].SectionList = defaultObj.concat(sectionList);
                     }
@@ -398,6 +398,10 @@ export class DocumentInfoComponent {
           },
           (err) => { },
         );
+  }
+  getIdValue(){
+    if(this.lang=='en') return 'Id';
+		 else return 'CodeDescLocal'
   }
   getSectionName(){
      if(this.lang=='en') return 'SectionName';
@@ -410,6 +414,24 @@ export class DocumentInfoComponent {
   getDisplayName(){
     if(this.lang=='en') return 'CodeDesc';
 		else return 'CodeDescLocal'
+  }
+  getDeleteYN(val){
+    if(val=='Y'){
+        if(this.lang=='en') return 'Yes';
+		    else return 'Sim'
+    }
+    else{
+      if(this.lang=='en') return 'No';
+		  else return 'Não'
+    }
+  }
+  getDeleteName(){
+    if(this.lang=='en') return 'Delete!!!';
+		else return 'Excluir!!!'
+  }
+  getDeleteMsg(){
+    if(this.lang=='en') return 'Do You Want to Delete this Document?';
+		else return 'Você deseja excluir este documento?'
   }
   getBacks(){
     this.BackSession = sessionStorage.getItem('back');
@@ -808,19 +830,19 @@ export class DocumentInfoComponent {
   }
   onDeleteListDocument(vehIndex,rowData){
     Swal.fire({
-      title: '<strong>Delete!</strong>',
+      title: `<strong>${this.getDeleteName()}</strong>`,
       icon: 'info',
       html:
         `<ul class="list-group errorlist">
-         <li>Do You Want to Delete this Document?</li>
+         <li>${this.getDeleteMsg()}</li>
      </ul>`,
       showCloseButton: false,
       //focusConfirm: false,
       showCancelButton:true,
      //confirmButtonColor: '#3085d6',
      cancelButtonColor: '#d33',
-     confirmButtonText: 'YES',
-     cancelButtonText: 'NO',
+     confirmButtonText: this.getDeleteYN('Y'),
+     cancelButtonText: this.getDeleteYN('N'),
     }).then((result) => {
       if (result.isConfirmed) {
           this.onDeleteListDocProceed(vehIndex,rowData);

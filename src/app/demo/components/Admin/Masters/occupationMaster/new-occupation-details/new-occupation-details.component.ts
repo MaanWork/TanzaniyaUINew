@@ -150,7 +150,7 @@ export class NewOccupationDetailsComponent implements OnInit {
           this.remarks = res?.Remarks;
           this.statusValue = res?.Status;
           this.categoryvalue=res?.CategoryId
-
+          this.CodeDescLocal = res?.CodeDescLocal;
           
           if(res?.EffectiveDateStart!=null){
             this.effectiveDate = this.onDateFormatInEdit(res?.EffectiveDateStart)

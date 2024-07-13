@@ -6,6 +6,7 @@ import { FieldType } from '@ngx-formly/core';
  template: `
         <input type="text" [id]="field.key" pInputText [formControl]="formControl" 
         [formlyAttributes]="field"  class="w-full w-full1">
+         
  `,
 })
 export class InputFieldType extends FieldType {}
