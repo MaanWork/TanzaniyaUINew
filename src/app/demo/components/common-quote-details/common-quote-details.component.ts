@@ -3198,7 +3198,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               }
             
             j+=1;
-            if(j==fieldList.length){alert(i); return i!=0;}
+            if(j==fieldList.length){return i!=0;}
           }
     }
     else return false;
