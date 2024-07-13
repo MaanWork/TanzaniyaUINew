@@ -181,7 +181,7 @@
                     </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
-                                <th [pSortableColumn]="column" *ngFor="let column of columns">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+                                <th [pSortableColumn]="column" *ngFor="let column of columns">{{'DASHBOARD.'+column | translate}} <p-sortIcon [field]="column"></p-sortIcon></th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-data let-index="rowIndex"  let-expanded="expanded">

@@ -130,7 +130,9 @@
         "GlobalSearch":"Pesquisa Global",
         "Notifications":"Notificações",
         "RecentEndorsements": "Endossos recentes",
-        "NoEndorsementAvailable": "Nenhum endosso disponível"
+        "NoEndorsementAvailable": "Nenhum endosso disponível",
+         "Email":"E-mail",
+        "PhoneNo":"Telefone não","Date":"Data","Content":"Contente"
     },
     "QUOTEGRID":{
         "Quotation": "cotação",

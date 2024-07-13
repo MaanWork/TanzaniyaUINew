@@ -108,7 +108,9 @@
         "GlobalSearch":"Global Search",
         "Notifications":"Notifications",
         "RecentEndorsements": "Recent Endorsements",
-        "NoEndorsementAvailable": "No Endorsement Available"
+        "NoEndorsementAvailable": "No Endorsement Available",
+        "Email":"Email'",
+        "PhoneNo":"PhoneNo","Date":"Date","Content":"Content"
     },
     "QUOTEGRID":{
         "Quotation": "Quotation",
