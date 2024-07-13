@@ -167,7 +167,7 @@ export class MenuListComponent implements OnInit {
     let ReqObj = {
       "MakeId": event.MakeId,
       "Status": event.ChangedStatus,
-      "InsuranceId": this.insuranceId,
+      "InsuranceId": this.InsuranceId,
       "BranchCode": this.branchValue,
       "EffectiveDateStart":event.ChangedEffectiveDate
     }
@@ -187,7 +187,7 @@ export class MenuListComponent implements OnInit {
   getBranchList(type){
     if(type=='change'){this.branchValue=null;this.MakeData=[];}
     let ReqObj = {
-      "InsuranceId": this.insuranceId
+      "InsuranceId": this.InsuranceId
     }
     let urlLink = `${this.CommonApiUrl}master/dropdown/branchmaster`;
   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -212,7 +212,7 @@ export class MenuListComponent implements OnInit {
 
   getExistingColor(){
     let ReqObj = {
-      "InsuranceId":this.insuranceId,
+      "InsuranceId":this.InsuranceId,
       "BranchCode":this.branchValue,
     }
     let urlLink = `${this. CommonApiUrl}master/getallmotormake`;

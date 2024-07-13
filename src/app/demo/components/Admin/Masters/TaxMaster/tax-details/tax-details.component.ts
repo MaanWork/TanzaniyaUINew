@@ -76,12 +76,12 @@ getMenu(rowData){
       if(res.Result){
         this.taxDetails = res.Result;
         this.CountryId = res?.Result.CountryId;
-        if(this.taxDetails){
-          if(this.taxDetails?.EffectiveDateStart!=null){
-            this.taxDetails.EffectiveDateStart = this.onDateFormatInEdit(this.taxDetails?.EffectiveDateStart)
-          }
+        // if(this.taxDetails){
+        //   if(this.taxDetails?.EffectiveDateStart!=null){
+        //     this.taxDetails.EffectiveDateStart = this.onDateFormatInEdit(this.taxDetails?.EffectiveDateStart)
+        //   }
         
-        }
+        // }
       }
       console.log("Final Modal Class",this.taxDetails);
     },
@@ -171,8 +171,7 @@ getMenu(rowData){
       (data: any) => {
           console.log(data);
           let res:any=data;
-          if(data.Result){
-                    this.router.navigate(['/Admin/taxMaster'])
+          if(data.Result){this.router.navigate(['/Admin/taxMaster'])
           }
           else if(data.ErrorMessage){
               if(res.ErrorMessage){

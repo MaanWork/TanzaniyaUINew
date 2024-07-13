@@ -19,7 +19,7 @@
           <!-- <h3 class="mr-3">Existing Menu</h3> -->
           <!-- <p-breadcrumb class="max-w-full" [model]="items"></p-breadcrumb> -->
         </div>
-        <div class="col-12 sm:col-6 md:col-8">
+        <div class="col-12 sm:col-6 md:col-8" *ngIf="InsuranceId">
           <div class="flex justify-content-start sm:justify-content-end  flex-wrap" >
             <p-button icon="pi pi-plus" label="Add New" severity="warning" size="small" (click)="onAddColor()" ></p-button>
           </div>
@@ -42,7 +42,7 @@
                 </div>
                 <ng-container *ngIf="MenuList" class="mt-5">
                     <p-table [value]="MenuList" #dtEmployee
-                             [globalFilterFields]="['MenuName','MenuType','DisplayOrder',
+                             [globalFilterFields]="['Menu Name','MenuType','DisplayOrder',
                                                    'Status']"
                              [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5" >
                              <ng-template pTemplate="caption">
