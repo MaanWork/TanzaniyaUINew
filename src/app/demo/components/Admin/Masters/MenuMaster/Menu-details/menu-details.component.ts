@@ -174,6 +174,7 @@ visible: boolean = false;
     }
   }
 saveMenuDetails(){
+  alert(this.MenuDetails.CompanyId)
   let edits:any
   if(this.editValue){
 edits='update'
@@ -182,6 +183,8 @@ edits='update'
     edits='insert'
   }
   let startDate;
+  if(this.MenuDetails.CompanyId==undefined || this.MenuDetails.CompanyId ==null)this.MenuDetails.CompanyId=this.insuranceId
+  else this.MenuDetails.CompanyId;
     if(String(this.MenuDetails.EntryDate).includes('/')) startDate = this.MenuDetails.EntryDate
     else startDate = this.datePipe.transform(this.MenuDetails.EntryDate,'dd/MM/yyyy');
   let RegObj = {
