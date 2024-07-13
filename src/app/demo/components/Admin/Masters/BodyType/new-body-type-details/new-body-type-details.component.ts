@@ -128,12 +128,14 @@ this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
 
   }
   onProceed(){
-
+    let startDate;
+    if(String(this.BodyTypeDetails.EffectiveDateStart).includes('/')) startDate = this.BodyTypeDetails.EffectiveDateStart
+    else startDate = this.datePipe.transform(this.BodyTypeDetails.EffectiveDateStart,'dd/MM/yyyy');
     let ReqObj = {
       "BodyId":this.BodyTypeId,
       "SectionId":this.BodyTypeDetails.SectionId,
       "BodyNameEn":this.BodyTypeDetails.BodyNameEn,
-      "EffectiveDateStart":this.BodyTypeDetails.EffectiveDateStart,
+      "EffectiveDateStart":startDate,
       "RegulatoryCode":this.BodyTypeDetails.RegulatoryCode,
       "SeatingCapacity":this.BodyTypeDetails.SeatingCapacity,
       "Tonnage":this.BodyTypeDetails.Tonnage,
@@ -146,12 +148,12 @@ this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       "CodeDescLocal": this.BodyTypeDetails.CodeDescLocal,
     }
     let urlLink = `${this.CommonApiUrl}master/savemotorbodytype`;
-  if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {
-    ReqObj['EffectiveDateStart'] =  this.datePipe.transform(ReqObj.EffectiveDateStart, "dd/MM/yyyy")
-  }
-  else{
-    ReqObj['EffectiveDateStart'] = "";
-  }
+  // if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {
+  //   ReqObj['EffectiveDateStart'] =  this.datePipe.transform(ReqObj.EffectiveDateStart, "dd/MM/yyyy")
+  // }
+  // else{
+  //   ReqObj['EffectiveDateStart'] = "";
+  // }
   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
     (data: any) => {
         console.log(data);

@@ -121,12 +121,14 @@ export class NewCountryDetailsComponent implements OnInit {
     this.router.navigate(['/Admin/countryMaster'])
   }
   onProceed(){
-
+    let startDate;
+    if(String(this.CountryDetails.EffectiveDateStart).includes('/')) startDate = this.CountryDetails.EffectiveDateStart
+    else startDate = this.datePipe.transform(this.CountryDetails.EffectiveDateStart,'dd/MM/yyyy');
     let ReqObj = {
       "InsuranceId": this.insuranceId,
       "CountryId":this.CountryId,
       "CountryShortCode": this.CountryDetails.CountryShortCode,
-      "EffectiveDateStart": this.CountryDetails.EffectiveDateStart,
+      "EffectiveDateStart": startDate,
       "CreatedBy": this.loginId,
       "CountryName": this.CountryDetails.CountryName,
       "MobileCode": this.CountryDetails.MobileCode,
@@ -137,12 +139,12 @@ export class NewCountryDetailsComponent implements OnInit {
       "CodeDescLocal": this.CountryDetails.CodeDescLocal,
     }
     let urlLink = `${this.CommonApiUrl}master/insertcountry`;
-  if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {
-    ReqObj['EffectiveDateStart'] =  this.datePipe.transform(ReqObj.EffectiveDateStart, "dd/MM/yyyy")
-  }
-  else{
-    ReqObj['EffectiveDateStart'] = "";
-  }
+  // if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {
+  //   ReqObj['EffectiveDateStart'] =  this.datePipe.transform(ReqObj.EffectiveDateStart, "dd/MM/yyyy")
+  // }
+  // else{
+  //   ReqObj['EffectiveDateStart'] = "";
+  // }
   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
     (data: any) => {
         console.log(data);

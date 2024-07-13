@@ -178,12 +178,12 @@ export class NewWarrantyDetailsComponent implements OnInit {
           this.getTypeId();
           this.TypeId=this.WarrantyDetails.TypeId
           if (this.WarrantyDetails) {
-            if (this.WarrantyDetails?.EffectiveDateStart != null) {
-              this.WarrantyDetails.EffectiveDateStart = this.onDateFormatInEdit(this.WarrantyDetails?.EffectiveDateStart)
-            }
-            if (this.WarrantyDetails?.EffectiveDateEnd != null) {
-              this.WarrantyDetails.EffectiveDateEnd = this.onDateFormatInEdit(this.WarrantyDetails?.EffectiveDateEnd)
-            }
+            // if (this.WarrantyDetails?.EffectiveDateStart != null) {
+            //   this.WarrantyDetails.EffectiveDateStart = this.onDateFormatInEdit(this.WarrantyDetails?.EffectiveDateStart)
+            // }
+            // if (this.WarrantyDetails?.EffectiveDateEnd != null) {
+            //   this.WarrantyDetails.EffectiveDateEnd = this.onDateFormatInEdit(this.WarrantyDetails?.EffectiveDateEnd)
+            // }
             if(this.WarrantyDetails.DocRefNo!=null) this.getUploadedDocList(this.WarrantyDetails.DocRefNo)
           }
         }
@@ -205,12 +205,15 @@ export class NewWarrantyDetailsComponent implements OnInit {
     // else{
     //   section='99999';
     // }
+    let startDate;
+    if(String(this.WarrantyDetails.EffectiveDateStart).includes('/')) startDate = this.WarrantyDetails.EffectiveDateStart
+    else startDate = this.datePipe.transform(this.WarrantyDetails.EffectiveDateStart,'dd/MM/yyyy');
     let ReqObj = {
       "WarrantyId": this.WarrantyId,
       "WarrantyDescription": this.WarrantyDetails.WarrantyDescription,
       "BranchCode": this.branchValue,
       "InsuranceId": this.insuranceId,
-      "EffectiveDateStart": this.WarrantyDetails.EffectiveDateStart,
+      "EffectiveDateStart": startDate,
       "Remarks": this.WarrantyDetails.Remarks,
       "Status": this.WarrantyDetails.Status,
       "CreatedBy": this.loginId,
@@ -223,12 +226,12 @@ export class NewWarrantyDetailsComponent implements OnInit {
       "CodeDescLocal": this.WarrantyDetails.CodeDescLocal,
     }
     let urlLink = `${this.CommonApiUrl}master/insertwarranty`;
-    if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {
-      ReqObj['EffectiveDateStart'] = this.datePipe.transform(ReqObj.EffectiveDateStart, "dd/MM/yyyy")
-    }
-    else {
-      ReqObj['EffectiveDateStart'] = "";
-    }
+    // if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {
+    //   ReqObj['EffectiveDateStart'] = this.datePipe.transform(ReqObj.EffectiveDateStart, "dd/MM/yyyy")
+    // }
+    // else {
+    //   ReqObj['EffectiveDateStart'] = "";
+    // }
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         console.log(data);

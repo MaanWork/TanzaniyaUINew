@@ -195,6 +195,9 @@ export class IndustryDetailsComponent implements OnInit {
 
       //this.mobileCodeList.label = this.productItem.MobileCod['CodeDesc'];
      }*/
+      let startDate;
+      if(String(this.Industrydetails.EffectiveDateStart).includes('/')) startDate = this.Industrydetails.EffectiveDateStart
+      else startDate = this.datePipe.transform(this.Industrydetails.EffectiveDateStart,'dd/MM/yyyy');
      let IndustryId
      if(this.IndustryId){
       IndustryId=this.IndustryId
@@ -209,7 +212,7 @@ export class IndustryDetailsComponent implements OnInit {
     "InsuranceId": this.insuranceId,
     "BranchCode": this.BranchCode,
     "ProductId": this.productId,
-    "EffectiveDateStart": this.Industrydetails.EffectiveDateStart,
+    "EffectiveDateStart": startDate,
     "CreatedBy":this.loginId,
     "Status": this.Industrydetails.Status,
     "Remarks":this.Industrydetails.Remarks,
@@ -218,12 +221,12 @@ export class IndustryDetailsComponent implements OnInit {
     "CodeDescLocal": this.Industrydetails.CodeDescLocal,
     }
     let urlLink = `${this.CommonApiUrl}master/saveindustry`;
-    if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {
-      ReqObj['EffectiveDateStart'] =  this.datePipe.transform(ReqObj.EffectiveDateStart, "dd/MM/yyyy")
-    }
-    else{
-      ReqObj['EffectiveDateStart'] = "";
-    }
+    // if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {
+    //   ReqObj['EffectiveDateStart'] =  this.datePipe.transform(ReqObj.EffectiveDateStart, "dd/MM/yyyy")
+    // }
+    // else{
+    //   ReqObj['EffectiveDateStart'] = "";
+    // }
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
           console.log(data);

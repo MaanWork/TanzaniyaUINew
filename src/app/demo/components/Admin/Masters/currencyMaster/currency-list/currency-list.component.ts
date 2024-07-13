@@ -20,13 +20,21 @@ export class CurrencyListComponent implements OnInit {
   currencyData:any[]=[];currencyHeader:any[]=[];
   userDetails: any;
   UserType: any;
-  ProductId: any;
+  ProductId: any;insuranceList:any[]=[];
   MenuMasterList: any[]=[];
-  InsuranceId: any;
-  LoginId: any;
+  InsuranceId: any;SubUserType:any=null;
+  LoginId: any;loginId:any=null;
   constructor(private router:Router,private sharedService:SharedService,private layoutService:LayoutService ) {
     this.activeMenu = "Currency Master";
+    let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     
+    this.MenuMasterList = this.userDetails?.Result?.MenuMasterList;
+    if(userDetails){
+      this.loginId = userDetails?.Result?.LoginId;
+      this.UserType = userDetails?.Result?.UserType;
+      this.SubUserType = userDetails?.Result?.SubUserType;
+      this.ProductId = userDetails?.Result?.ProductId;
+    }
     this.stateList = [
       { "Code":"01","CodeDesc":"TamilNadu"},
       { "Code":"02","CodeDesc":"Kerala"},
@@ -37,51 +45,37 @@ export class CurrencyListComponent implements OnInit {
       { "Code":"02","CodeDesc":"Chennai"},
       { "Code":"03","CodeDesc":"Madurai"},
     ];
-    this.currencyHeader = [
-    'Currency Name' ,
-     'Currency Code' ,
-     ' Local Name ',
-   'Effective Date' ,
-  'Status' , 'Action',
-
-    ];
-    this.currencyData = [
-      {
-        "CurrencyId": "100001",
-        "CurrencyName": "Rupees",
-        "MobileCode":"+91",
-        "EntryDate": "14/09/2022",
-        "Status": "Y",
-        "CoreAppCode": "1",
-        "AmendId": 1,
-        "Remarks": "Ok"
-       },
-       {
-        "CurrencyId": "100002",
-        "CurrencyName": "EURO",
-        "MobileCode":"+114",
-        "EntryDate": "14/09/2022",
-        "Status": "Y",
-        "CoreAppCode": "2",
-        "AmendId": 1,
-        "Remarks": "Ok"
-       },
-       {
-        "CurrencyId": "100003",
-        "CurrencyName": "Dollar",
-        "MobileCode":"+811",
-        "EntryDate": "14/09/2022",
-        "Status": "Y",
-        "CoreAppCode": "3",
-        "AmendId": 1,
-        "Remarks": "Ok"
-       },
-    ];
+    this.currencyHeader = ['Currency Name' ,'Currency Code' , ' Local Name ','Effective Date' ,'Status' , 'Action',];
+    this.getCompanyList();
    }
 
   ngOnInit(): void {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.MenuMasterList = this.userDetails?.Result?.MenuMasterList;
+  }
+  getCompanyList(){
+    let ReqObj = {
+      "BrokerCompanyYn":"",
+      "LoginId": this.loginId
+  }
+  let urlLink = `${this.ApiUrl1}master/dropdown/superadmincompanies`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+          let defaultObj = [{"Code":"99999","CodeDesc":"ALL"}]
+          this.insuranceList = defaultObj.concat(data.Result);
+          let insurance = sessionStorage.getItem('countryInsurance');
+          if(insurance){
+            this.InsuranceId = insurance;
+            this.getExistingCurrency();
+          }
+          else{
+            this.InsuranceId = this.insuranceList[0].Code
+            this.getExistingCurrency();
+          }
+        }
+      });
   }
   // onRedirect(value){
   //   if(value == 'State'){
@@ -100,7 +94,14 @@ export class CurrencyListComponent implements OnInit {
   //     this.router.navigate(['/Admin/countryMaster/regionList']);
   //   }
   // }
+  onEditCurrency(rowdata){
+    sessionStorage.setItem('editCurrencyId',rowdata.CurrencyId);
+    sessionStorage.setItem('Insuranceid',this.InsuranceId);
+    this.router.navigate(['/Admin/currencyMaster/newCurrencyDetails']);
+  }
   onAddNew(){
+    sessionStorage.removeItem('editCurrencyId');
+    sessionStorage.setItem('Insuranceid',this.InsuranceId);
     this.router.navigate(['/Admin/currencyMaster/newCurrencyDetails']);
   }
   backtoMainGrid(){
@@ -108,9 +109,23 @@ export class CurrencyListComponent implements OnInit {
   }
   EditStatus(event){
     console.log("Status Changed",event)
-}
+  }
  getMenu(rowData){
   this.layoutService.setMaster(rowData);
-}
+  }
+  getExistingCurrency(){
+      let ReqObj={
+        "InsuranceId": this.InsuranceId
+    }
+    let urlLink = `${this.CommonApiUrl}master/getallcurrencydetails`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+            this.currencyData = data.Result
+        }
+      })
+
+  }
 
 }

@@ -1,6 +1,25 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { SharedService } from 'src/app/shared/shared.service';
+export class currency{
+  "CurrencyId":null;
+"CurrencyName":null;
+  "CurrencyShortCode":null;
+"Remarks":null;
+"ShortName":null;
+"Rfactor":null;
+"SubCurrency":null;
+"ExMinlmt":null;
+"ExMaxlmt":null;
+"MinDiscount": null;
+"MaxLoading": null;
+"Status":"Y";
+"EffectiveDateStart":any;
+"EffectiveDateEnd":any;
+"CoreAppCode":null;
+"DecimalDigit":null;
+}
 @Component({
   selector: 'app-currency-details',
   templateUrl: './currency-details.component.html',
@@ -8,10 +27,26 @@ import { Router } from '@angular/router';
 })
 export class CurrencyDetailsComponent implements OnInit {
 
-  activeMenu:any;statusValue:any="YES";
-  constructor(private router:Router) {
-    this.activeMenu="Currency";
-   }
+  activeMenu:any;statusValue:any="YES";minDate:any=null;
+  insuranceName:any=null;productId:any=null;
+  loginId: any=null;CurrencyId:any=null;
+  CurrencyDetails: any=null;insuranceId:any=null;
+  constructor(
+    private sharedService: SharedService,private datePipe:DatePipe, private router: Router) {
+      this.activeMenu="Currency";
+      this.minDate = new Date();
+      this.insuranceName = sessionStorage.getItem('insuranceConfigureName');
+      // this.insuranceId = sessionStorage.getItem('insuranceConfigureId');
+    this.productId =  sessionStorage.getItem('companyProductId');
+      let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+    if(userDetails){
+      this.loginId = userDetails?.Result?.LoginId;
+    }
+    this.CurrencyDetails = new currency();
+    this.CurrencyId = sessionStorage.getItem('editCurrencyId');
+    console.log(this.CurrencyId);
+    this.insuranceId=sessionStorage.getItem('Insuranceid');
+  }
 
   ngOnInit(): void {
   }
