@@ -174,7 +174,6 @@ visible: boolean = false;
     }
   }
 saveMenuDetails(){
-  alert(this.MenuDetails.CompanyId)
   let edits:any
   if(this.editValue){
 edits='update'
