@@ -52,6 +52,7 @@ export class VehicleCreateFormComponent implements OnInit {
   referenceNo: string;mainBodyTypeList:any[]=[];makeError:boolean = false;
   commonDetails: any;editSectionAlt:boolean=false;modelSearchVisible:boolean = false;
   modelColumns:any[]=[];selectedRowData:any=null;lang:any=null;horsePower:any=null;
+  horsePowerError: boolean=false;
   constructor(private messageService: MessageService,private sharedService: SharedService,private appComp:AppComponent,
     private translate:TranslateService,private datePipe:DatePipe,private router:Router) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -930,7 +931,15 @@ export class VehicleCreateFormComponent implements OnInit {
     this.onChangeMotorUsage('direct')
   }
   onFormSubmit(){
-     this.onProceed()
+    let i=0;
+    if(this.insuranceId=='100040' && (this.horsePower==null || this.horsePower=='' || this.horsePower==undefined)){
+      this.horsePowerError = true;
+    }
+    else{
+      this.horsePowerError = false;
+      this.onProceed()
+    }
+     
   }
   onProceed(){
     let make = "";
@@ -996,6 +1005,7 @@ export class VehicleCreateFormComponent implements OnInit {
       "ResStatusCode": "Y",
       "ResStatusDesc": "None",
       "SeatingCapacity": this.seatingCapacity,
+      "HorsePower": this.horsePower,
       "Tareweight": tareweight,
       "Vehcilemodel": modelDesc,
       "VehicleType": this.bodyTypeValue,

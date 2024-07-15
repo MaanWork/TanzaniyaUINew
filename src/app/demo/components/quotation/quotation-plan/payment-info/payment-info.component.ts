@@ -107,16 +107,15 @@ export class PaymentInfoComponent {
       else this.lang='en';
       sessionStorage.setItem('language',this.lang)
       this.translate.setDefaultLang(sessionStorage.getItem('language'));}
-    this.route.queryParamMap.subscribe((params: any) => {
-      console.log("Params",params.params)
-      let quoteNo = params?.params?.QuoteNo;
-      let type = params?.params?.type;
-      if(quoteNo){
-        this.quoteNo = quoteNo;
-        console.log('NNNNNNNNNNNNNN')
-        // if(type!='cancel') this.successSection = true;
-      }
-    })
+      this.route.queryParamMap.subscribe((params: any) => {
+        console.log("Params",params.params)
+        let quoteNo = params?.params?.QuoteNo;
+        let type = params?.params?.type;
+        if(quoteNo){
+          this.quoteNo = quoteNo;
+          // if(type!='cancel') this.successSection = true;
+        }
+      })
     if(this.customerDetails){
       this.title = this.customerDetails?.TitleDesc;
       this.clientName = this.customerDetails?.ClientName;
@@ -810,7 +809,7 @@ export class PaymentInfoComponent {
             
             // let newTab = window.open();
             // newTab.location.href = atob(this.redirectUrl);
-            window.open(atob(this.redirectUrl));
+           window.location.href =  atob(this.redirectUrl);
             setTimeout(() =>{
                   this.checkStatus();
             },(90 * 1000));

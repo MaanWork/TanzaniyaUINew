@@ -21,8 +21,8 @@
     
     <p-selectButton [options]="paymentTypeList" [(ngModel)]="selectedPaymentOption" (click)="onRedirect()" [optionLabel]="getDisplayName()" optionValue="Code"></p-selectButton>
     
-    <h4>{{'PAYMENT.PaymentDetails' | translate}}</h4> 
-    <ng-container *ngIf="Third || seven">
+    <h4 *ngIf="Third || seven || Fourth">{{'PAYMENT.PaymentDetails' | translate}}</h4> 
+    <ng-container *ngIf="Third || seven || Seventh">
         <div class="my-4">
             <div class="mb-3">
                 <label for="username">{{'PAYMENT.PayeeName' | translate}}*</label><br>
