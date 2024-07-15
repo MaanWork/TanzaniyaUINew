@@ -301,7 +301,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if(field.id) key=field.id
         else key = field.key
         this.translate.get('MOTORQUOTE.'+key).subscribe((translation: string) => {
-          if(field.props){field.props.label = translation;
+          if(field.props){
+            field.props.label = translation;
             if(field.props.options){
               for(let entry of field.props.options){
                 if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
@@ -312,7 +313,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
               }
             }
           }
-          else if(field.templateOptions){field.templateOptions.label = translation;
+          else if(field.templateOptions){
+            field.templateOptions.label = translation;
             // if(field.templateOptions.options){
             //   for(let entry of field.templateOptions.options){
             //     if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
@@ -1557,7 +1559,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   }
   getMotorUsageList(vehicleValue,type){
     let sectionId = null;
-    this.productItem.MotorUsage = this.motorUsageValue;
+    //this.productItem.MotorUsage = this.motorUsageValue;
     if(this.insuranceId=='100027' || this.insuranceId=='100040') sectionId='91';
     else{
       if(Array.isArray(this.productItem?.InsuranceType)) sectionId = null;
@@ -1590,7 +1592,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
                             this.productItem.MotorUsage='';field.formControl.setValue(''); this.motorUsageValue='';this.motorUsageType=type;
                           }
                         }
-                        else{field.formControl.setValue(vehicleValue);this.motorUsageType=type;this.productItem.MotorUsage=vehicleValue}
+                        else{
+                          let entry = this.motorUsageList.find(ele=>ele.Code== vehicleValue || ele.CodeDesc==this.vehicleDetails.MotorUsageDesc);
+                          if(entry){ field.formControl.setValue(entry.Code);this.motorUsageType=type;this.productItem.MotorUsage=entry.Code}
+                          }
                             field.props.options= defaultObj.concat(this.motorUsageList);
                             this.checkFieldNames();
                       }
@@ -1609,10 +1614,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
             if(this.insuranceId!='100028') this.productItem.MotorUsage = vehicleValue;
             if(this.vehicleDetails && this.motorUsageList.length!=0 && this.motorUsageValue==null){
               let value = this.motorUsageList.find(ele=>ele.CodeDesc == this.vehicleDetails?.Motorusage || ele.Code==this.vehicleDetails?.Motorusage);
-              if(value){ this.motorUsageValue = value.Code;this.productItem.MotorUsage = value.Code;}
+              if(value){ 
+                this.motorUsageValue = value.Code;
+                this.productItem.MotorUsage = value.Code;
+              }
               else this.productItem.MotorUsage = this.vehicleDetails.Motorusage;
             }
-            
             // if(this.motorDetails){
             //   let value = this.motorTypeList.find(ele=>ele.CodeDesc == this.motorDetails?.Motorusage);
             //   if(value){ this.motorUsageValue = value.Code}
@@ -5078,7 +5085,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.getType2();
       this.getType3();
     }
-    
+    this.motorUsageValue = this.vehicleDetails?.Motorusage;
     this.typeValue = this.vehicleDetails?.Insurancetype;
     this.classValue = this.vehicleDetails?.InsuranceClass;
     this.claimTypeValue = this.vehicleDetails?.ClaimType;

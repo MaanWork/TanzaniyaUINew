@@ -13,6 +13,7 @@ import { MotorShotQuoteUganda } from '../../../quotation/quotation-plan/models/U
 import { FormGroup } from '@angular/forms';
 import { MotorB2CQuoteTanzaniya } from '../../../quotation/quotation-plan/models/Tanzaniya/MotorB2CQuoteTanzaniya';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-customer-info',
   templateUrl: './customer-info.component.html',
@@ -94,7 +95,7 @@ export class CustomerInfoComponent {
   endorseCoverModification: any;
   disabledSection: boolean;
   constructor( private sharedService: SharedService,private datePipe: DatePipe,
-    private router: Router, ) {
+    private router: Router,private appComp:AppComponent,private translate:TranslateService ) {
       this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
 	  let type = sessionStorage.getItem('QuoteType')
 	  if(type) this.shortQuoteYN = true;
@@ -147,12 +148,21 @@ export class CustomerInfoComponent {
             
             this.productItem.IdType='1';
           }
-        
+          
          this.getmotorDetails();
         //this.setCommonFormValues();
       }
   }
   ngOnInit(){
+    this.appComp.getLanguage().subscribe((res:any)=>{  
+      if(res) this.lang=res;
+      else this.lang='en';
+      this.translate.setDefaultLang(this.lang);
+    });
+    if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+      else this.lang='en';
+      sessionStorage.setItem('language',this.lang)
+      this.translate.setDefaultLang(sessionStorage.getItem('language'));}
     this.productItem.CarAlarmYN = 'N';
     this.productItem.GpsYN = 'N';
     this.productItem.ClaimsYN = 'N';
@@ -2069,6 +2079,8 @@ export class CustomerInfoComponent {
         "HavePromoCode":"N",
         "SearchFromApi":false,
         "Registrationnumber": this.productItem.RegistrationNo,
+        "HorsePower":null,
+        "Zone":'1'
       }
       ReqObj['DriverDetails'] = null;
             if(this.insuranceId=='100019') ReqObj['CarAlarmYn'] = this.productItem.CarAlarmYN;
