@@ -131,8 +131,8 @@ export class ReferralCasesComponent implements OnInit {
       // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
       // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
         if(this.userType=='Issuer'){
-        loginId=this.brokerCode;
-        bdmCode='';
+        loginId='';
+        bdmCode=this.brokerCode;
       }
       else{
         bdmCode=null;
@@ -271,8 +271,8 @@ export class ReferralCasesComponent implements OnInit {
       // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
       // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
       if(this.userType=='Issuer'){
-          loginId=this.ApproverbrokerCode;
-          bdmCode='';
+          loginId='';
+          bdmCode=this.ApproverbrokerCode;
       }
       else{
         bdmCode=null;
@@ -380,8 +380,8 @@ export class ReferralCasesComponent implements OnInit {
       // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
       // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
         if(this.userType=='Issuer'){
-          loginId=this.Rejecedbrokercode;
-          bdmCode='';
+          loginId='';
+          bdmCode=this.Rejecedbrokercode;
       }
       else{
         bdmCode=null;
