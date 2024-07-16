@@ -57,9 +57,9 @@ export class MenuListComponent implements OnInit {
     // }
     this.columnHeader = [
       //{ key: 'MakeId', display: 'Make Id' },
-    'Menu Name' ,
-     'Menu Type' ,
-    'Display Order' ,'Local Name',
+    'MenuName' ,
+     'MenuType' ,
+    'DisplayOrder' ,'Local Name',
    'Status' ,
  'Action',
     ];
