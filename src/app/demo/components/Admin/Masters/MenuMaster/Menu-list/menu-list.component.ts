@@ -120,7 +120,7 @@ export class MenuListComponent implements OnInit {
   getMenuList(){
     let ReqObj = {
       "Limit": "0",
-      "Offset": "1000",
+      "Offset": "10000",
       "GetType":"getallmenu",
       "InsuranceId": this.InsuranceId,
       "MenuId":null
