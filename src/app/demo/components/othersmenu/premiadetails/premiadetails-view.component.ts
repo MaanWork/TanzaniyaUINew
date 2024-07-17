@@ -260,59 +260,47 @@ export class PremiaDetailsViewComponent implements OnInit {
   }
   Details(type){
         if(type=='Section'){
-          let Section ='Section'+1;
           this.onCustomerSearchsection();
-          type=Section;
         } else{
            
         }
         if(type=='PolicyDetail'){
-          this.Name='PolicyDetail';
           this.onPolicySection();
           this.shows=true;
         }
         if(type=='Risk'){
-          this.Name='Risk';
           this.onriskinfo();
           this.shows=true;
         }
         if(type=='Driver'){
-          this.Name='Driver';
           this.ondiverDetails();
           this.shows=true;
         }
         if(type=='Cover'){
-          this.Name='Cover';
           this.onCustomerSearchCover();
           this.shows=true;
         }
         if(type=='Discount'){
-          this.Name='Discount';
           this.ondiscountdetail();
           this.shows=true;
         }
         if(type=='Charge'){
-          this.Name='Charge';
           this.onChargeDetails();
           this.shows=true;
         }
         if(type=='vat'){
-          this.Name='vat';
           this.onVatdetail();
           this.shows=true;
         }
         if(type=='precal'){
-          this.Name='precal';
           this.onCustomerSearch();
           this.shows=true;
         }
         if(type=='Approval'){
-          this.Name='Approval';
           this.onpolicyDetails();
           this.shows=true;
         }
         if(type=='Credit'){
-          this.Name='Credit';
           this.oncreditlimit();
           this.shows=true;
         }

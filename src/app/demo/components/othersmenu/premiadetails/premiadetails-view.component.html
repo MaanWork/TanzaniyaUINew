@@ -52,6 +52,7 @@
                            <div><b> Policy Issue Date</b></div>
                            <div>{{s?.PolicyIssueDt}}</div>
                        </div>
+                       <p-divider *ngIf="PolicyData.length>1" class="w-full"></p-divider>
                     </div>
                     </ng-container>
                     <ng-container *ngIf="PolicyData.length==0">
@@ -105,6 +106,7 @@
                             <div><b> ServiceId</b></div>
                             <div>{{s?.serviceId}}</div>
                         </div>
+                        <p-divider *ngIf="SectionData.length>1" class="w-full"></p-divider>
                      </div>
                     </ng-container>
                     <ng-container *ngIf="SectionData.length==0">
@@ -142,6 +144,7 @@
                             <div><b>Product Code</b></div>
                             <div>{{s?.PraiProdCode}}</div>
                         </div>
+                        <p-divider *ngIf="riskData.length>1" class="w-full"></p-divider>
                      </div>
                     </ng-container>
                     <ng-container *ngIf="riskData.length==0">
@@ -215,6 +218,7 @@
                             <div><b>L1s2Id</b></div>
                              <div>{{s.L1s2Id}}</div>
                         </div>
+                        <p-divider *ngIf="DriverDetail.length>1" class="w-full"></p-divider>
                      </div>
                 </ng-container>
                  <ng-container *ngIf="DriverDetail.length==0">
@@ -274,7 +278,7 @@
                                  <div>{{s?.Premium}}</div>
                             </div>
                          </div>
-                       
+                         <p-divider *ngIf="CoverData.length>1" class="w-full"></p-divider>
                     </div>
                     </ng-container>
                     <ng-container *ngIf="CoverData.length==0">
@@ -310,6 +314,7 @@
                                     <div>{{s?.ProdCode}}</div>
                                 </div>
                              </div>
+                             <p-divider *ngIf="DiscountDetail.length>1" class="w-full"></p-divider>
                         </div>
                     </ng-container>
                     <ng-container *ngIf="DiscountDetail.length==0">
@@ -375,7 +380,7 @@
                             <div><b>Charge Id</b></div>
                             <div>{{s?.ChgId}}</div>
                         </div>
-                      
+                        <p-divider *ngIf="ChargeDetail.length>1" class="w-full"></p-divider>
                      </div>
                     </ng-container>
                      <ng-container *ngIf="ChargeDetail.length==0">
@@ -430,6 +435,7 @@
                             <div><b>Vat ModifiedYn</b></div>
                             <div>{{s?.vatModifiedYn}}</div>
                         </div>
+                        <p-divider *ngIf="VatDetail.length>1" class="w-full"></p-divider>
                      </div>
                     </ng-container>
                      <ng-container *ngIf="VatDetail.length==0">
@@ -487,7 +493,7 @@
                             <div><b>Product Code</b></div>
                             <div>{{s?.ProductCode}}</div>
                         </div>
-                       
+                        <p-divider *ngIf="issuerData.length>1" class="w-full"></p-divider>
                      </div>
                     </ng-container>
                     <ng-container *ngIf="issuerData.length==0">
@@ -533,6 +539,7 @@
                             <div><b>Document No</b></div>
                             <div>{{s?.DocNo}}</div>
                         </div>
+                        <p-divider *ngIf="PolicyDetail.length>1" class="w-full"></p-divider>
                      </div>
                     </ng-container>
                     <ng-container *ngIf="PolicyDetail.length==0">
@@ -562,6 +569,7 @@
                             <div><b>PWs Error </b></div>
                             <div>{{s?.PWsError}}</div>
                         </div>
+                        <p-divider *ngIf="CreditDetail.length>1" class="w-full"></p-divider>
                      </div>
                 </ng-container>
                 <ng-container *ngIf="CreditDetail.length==0">
