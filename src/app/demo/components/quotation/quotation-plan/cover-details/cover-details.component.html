@@ -30,7 +30,7 @@
                             
                                 <ng-container *ngIf="productId=='5'">
                                     <div class="flex flex-wrap justify-content-between">
-                                            <div class="flex flex-wrap" *ngIf="insuranceId!='100027' && insuranceId!='100040'">
+                                            <div class="flex flex-wrap" *ngIf="insuranceId!='100027' && insuranceId!='100040' && this.insuranceId!='100042'">
                                                 <p class="mr-5" *ngIf="menu.RiskDetails.PolicyTypeDesc"><i class="pi pi-tag mr-2"></i>{{menu.RiskDetails.PolicyTypeDesc}}</p>
                                                 <p class="mr-5"><i class="pi pi-tag mr-2"></i>{{ menu.RiskDetails.Registrationnumber }}</p>
                                             </div>
@@ -86,7 +86,7 @@
                                                             </div>
                                                             <div class="col-2 md:col-2 lg:col-2 xl:col-2">
                                                                 <div class="flex align-items-center justify-content-between">
-                                                                    <i class="pi pi-question-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                     <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>
                                                                 </div>
                                                             </div>
@@ -128,7 +128,7 @@
                                                                 </div>
                                                                 <div class="col-2 md:col-2 lg:col-2 xl:col-2">
                                                                     <div class="flex align-items-center justify-content-between">
-                                                                        <i class="pi pi-question-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                         <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>
                                                                     </div>
                                                                 </div>
@@ -167,7 +167,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-1 md:col-1 lg:col-1 xl:col-1">
-                                                                    <i class="pi pi-question-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                     <i class="pi pi-spin pi-" style="font-size: 2rem" *ngIf="cover.isReferal === 'Y'"></i>
                                                                 </div>
                                                             </div>
@@ -233,7 +233,7 @@
                                                             </div>
                                                             <div class="col-2 md:col-2 lg:col-2 xl:col-2">
                                                                 <div class="flex align-items-center justify-content-between">
-                                                                    <i class="pi pi-question-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                     <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>
                                                                 </div>
                                                             </div>
@@ -282,7 +282,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-2 md:col-2 lg:col-2 xl:col-2">
-                                                                        <i class="pi pi-question-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                         <i class="pi pi-spin pi-" style="font-size: 2rem" *ngIf="cover.isReferal === 'Y'"></i>
                                                                     </div>
                                                                 </div>
@@ -348,7 +348,7 @@
                                                                 </div>
                                                                 <div class="col-2 md:col-2 lg:col-2 xl:col-2">
                                                                     <div class="flex align-items-center justify-content-between">
-                                                                        <i class="pi pi-question-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                         <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>
                                                                     </div>
                                                                 </div>
@@ -388,7 +388,7 @@
                                                                 </div>
                                                                 <div class="col-2 md:col-2 lg:col-2 xl:col-2">
                                                                     <div class="flex align-items-center justify-content-between">
-                                                                        <i class="pi pi-question-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                         <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>
                                                                     </div>
                                                                 </div>
@@ -410,7 +410,7 @@
                                                                     </div>
                                                                     <div class="col-2 md:col-2 lg:col-2 xl:col-2">
                                                                         <div class="flex align-items-center justify-content-between">
-                                                                            <i class="pi pi-question-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                            <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                             <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>
                                                                         </div>
                                                                     </div>
@@ -531,7 +531,7 @@
                                                     </div>
                                                     <div class="col-2 md:col-2 lg:col-2 xl:col-2">
                                                         <div class="flex align-items-center justify-content-between">
-                                                            <i class="pi pi-question-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                                             <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>
                                                         </div>
                                                     </div>
@@ -573,7 +573,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-1 md:col-1 lg:col-1 xl:col-1">
-                                                            <i class="pi pi-question-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                                             <i class="pi pi-spin pi-" style="font-size: 2rem" *ngIf="cover.isReferal === 'Y'"></i>
                                                         </div>
                                                     </div>
@@ -2417,7 +2417,7 @@
 
 </p-dialog>
 
-<p-dialog class="p-su-header" header="CoverDetails" [(visible)]="BenefitPopup" [modal]="true" [position]="position"  styleClass="w-10 md:w-10 lg:w-10" [draggable]="false" [resizable]="false">
+<p-dialog class="p-su-header" header="Benefits of Cover" [(visible)]="BenefitPopup" [modal]="true" [position]="position"  styleClass="w-10 md:w-10 lg:w-10" [draggable]="false" [resizable]="false">
     <div class="grid">
         <div class="col-12 md:col-12 lg:col-12 xl:col-12">
             <ng-container *ngIf="CoverList.length!=0">
@@ -2425,11 +2425,8 @@
                 [rows]="5" [value]="CoverList" globalFilterFields="['BenefitId','BenefitDescription','CalcType','SectionDesc','Value','Description']">
                 <ng-template pTemplate="caption">
                     <div class="flex">
-                            <input 
-                                pInputText 
-                                type="text" 
-                                (input)="CoverD.filterGlobal($event.target.value, 'contains')" 
-                                placeholder="Search keyword" />
+                            <input  pInputText   type="text"  (input)="CoverD.filterGlobal($event.target.value, 'contains')" 
+                             placeholder="Search keyword" />
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header">

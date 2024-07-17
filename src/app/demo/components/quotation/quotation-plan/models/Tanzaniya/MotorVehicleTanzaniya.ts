@@ -186,7 +186,7 @@ export class MotorVehicleTanzaniya{
                       label: `Accessories SumInured`,
                       maxLength: 15,
                       disabled: this.checkDisable('AccessoriesSI'),
-                      required: true,
+                      required: false,
                       options: [
   
                       ],
@@ -210,7 +210,7 @@ export class MotorVehicleTanzaniya{
                       label: `WindShield SumInured`,
                       maxLength: 15,
                       disabled: this.checkDisable('WindShieldSI'),
-                      required: true,
+                      required: false,
                       options: [
   
                       ],
@@ -234,7 +234,7 @@ export class MotorVehicleTanzaniya{
                     props: {
                       label: `Extended TPPD SumInsured`,
                       disabled: this.checkDisable('ExtendedTPPDSI'),
-                      required: true,
+                      required: false,
                       options: [
       
                       ],

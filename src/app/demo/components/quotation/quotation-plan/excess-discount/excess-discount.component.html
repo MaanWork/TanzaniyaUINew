@@ -4,26 +4,26 @@
         <div class="grid ml-3 mr-3" *ngIf="customerDetails">
             <div class="lg:col-12 md:col-12 col-12 ui-bg-cu">
                 <div class="flex flex-wrap">
-                    <h3 class="ui-cu-header"><i class="fa fa-user"></i>&nbsp;Customer Details</h3>
+                    <h3 class="ui-cu-header"><i class="fa fa-user"></i>&nbsp;{{'Modify.CustomerDetails' | translate}}</h3>
                     <div *ngIf="promoCode" style="background-color: #333b85;padding-left: 5px;padding-right: 5px;">
                         <span class="spancommon" style="font-weight: 600;color: #fff;">PromoCode - {{promoCode}}</span>
                     </div>
                 </div>
                 <div class="flex flex-wrap">
                     <div class="lg:col-3 md:col-3 col-12">
-                        <label class="input-form-label ui-b">Client Name</label><br>
+                        <label class="input-form-label ui-b">{{'Modify.ClientName' | translate}}</label><br>
                         <span class="spancommon span_font_size">{{title}} &nbsp; {{clientName}}</span>
                     </div>
                     <div class="lg:col-3 md:col-3 col-12">
-                        <label class="input-form-label ui-b">Client Type</label><br>
+                        <label class="input-form-label ui-b">{{'Modify.ClientType' | translate}}</label><br>
                         <span class="spancommon span_font_size">{{customerDetails.PolicyHolderTypeDesc}}</span>
                     </div>
                     <div class="lg:col-3 md:col-3 col-12">
-                        <label class="input-form-label ui-b">Mobile No</label><br>
+                        <label class="input-form-label ui-b">{{'Modify.MobileNo' | translate}}</label><br>
                         <span class="spancommon span_font_size">{{mobileNo}}</span>
                     </div>
                     <div class="lg:col-3 md:col-3 col-12">
-                        <label class="input-form-label ui-b">ID Number</label><br>
+                        <label class="input-form-label ui-b">{{'Modify.IDNumber' | translate}}</label><br>
                         <span class="spancommon span_font_size">{{idNumber}}</span>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
             [ngClass]="vehicleDetailsList.length==1 ?'lg:col-12 md:col-12 col-12  p-0':'lg:col-9 md:col-9 col-12  p-0'" style="margin-top:12px">
             <div class="flex flex-wrap justify-content-between">
                 <div>
-                    <h3 class="ui-cu-header"><i class="fas fa-book mx-1"></i>&nbsp;Coverage Details</h3>
+                    <h3 class="ui-cu-header"><i class="fas fa-book mx-1"></i>&nbsp;{{'Modify.CoverageDetails' | translate}}</h3>
                 </div>
                 <div>
                     <ng-container *ngIf="ClausesData.length!=0">
@@ -60,7 +60,7 @@
                             >W</button> -->
                     </ng-container>
                     <ng-container *ngIf="insuranceId=='100020'">
-                        <p-button label="Factor Details" styleClass="mr-3 mb-3 p-button-outlined"
+                        <p-button [label]="'Modify.FactorDetails' | translate" styleClass="mr-3 mb-3 p-button-outlined"
                             (click)="onViewFactorDetails(factorView)"></p-button>&nbsp;
                         <!-- <button class="btn clausebutton btn-sm" data-toggle="tooltip" data-placement="top"
                         title="Factor Details"
@@ -79,7 +79,7 @@
                                 <ng-option [value]="menu">
                                     <ng-container *ngIf="productId=='5'">
                                         <span class="spancommon" style="color:navy;font-size: 1rem;">
-                                            <ng-container *ngIf="menu.RiskDetails.PolicyTypeDesc && insuranceId!='100027' && insuranceId!='100040'">
+                                            <ng-container *ngIf="menu.RiskDetails.PolicyTypeDesc && insuranceId!='100027' && insuranceId!='100040' && insuranceId!='100042'">
                                                 {{menu.RiskDetails.PolicyTypeDesc}} &nbsp;|&nbsp;
                                             </ng-container>
                                             <ng-container *ngIf="menu.SectionName">
@@ -91,27 +91,25 @@
                                     <ng-container *ngIf="productId=='4'">
                                         <ng-container *ngIf="menu.RiskDetails.TravelId=='1'">
                                             <span class="spancommon"
-                                                style="color:navy;font-size: 1rem;">Kids&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                                style="color:navy;font-size: 1rem;">{{'Modify.Kids' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                         </ng-container>
                                         <ng-container *ngIf="menu.RiskDetails.TravelId=='2'">
                                             <span class="spancommon"
-                                                style="color:navy;font-size: 1rem;">Adults&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                                style="color:navy;font-size: 1rem;">{{'Modify.Adults' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                         </ng-container>
                                         <ng-container *ngIf="menu.RiskDetails.TravelId=='3'">
                                             <span class="spancommon"
-                                                style="color:navy;font-size: 1rem;">Seniors&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                                style="color:navy;font-size: 1rem;">{{'Modify.Seniors' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                         </ng-container>
                                         <ng-container *ngIf="menu.RiskDetails.TravelId=='4'">
-                                            <span class="spancommon" style="color:navy;font-size: 1rem;">Super
-                                                Seniors&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                            <span class="spancommon" style="color:navy;font-size: 1rem;">{{'Modify.SuperSeniors' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                         </ng-container>
                                         <ng-container *ngIf="menu.RiskDetails.TravelId=='5'">
-                                            <span class="spancommon" style="color:navy;font-size: 1rem;">Grand
-                                                Seniors&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                            <span class="spancommon" style="color:navy;font-size: 1rem;">{{'Modify.GrandSeniors' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                         </ng-container>
                                         <span class="spancommon" style="color:navy;font-size: 1rem;"> &nbsp;|&nbsp;
@@ -154,27 +152,25 @@
                             <ng-container *ngIf="productId=='4'">
                                 <ng-container *ngIf="menu.RiskDetails.TravelId=='1'">
                                     <span class="spancommon"
-                                        style="color:navy;font-size: 1rem;font-weight: 600;">Kids&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                        style="color:navy;font-size: 1rem;font-weight: 600;">{{'Modify.Kids' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                 </ng-container>
                                 <ng-container *ngIf="menu.RiskDetails.TravelId=='2'">
                                     <span class="spancommon"
-                                        style="color:navy;font-size: 1rem;font-weight: 600;">Adults&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                        style="color:navy;font-size: 1rem;font-weight: 600;">{{'Modify.Adults' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                 </ng-container>
                                 <ng-container *ngIf="menu.RiskDetails.TravelId=='3'">
                                     <span class="spancommon"
-                                        style="color:navy;font-size: 1rem;font-weight: 600;">Seniors&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                        style="color:navy;font-size: 1rem;font-weight: 600;">{{'Modify.Seniors' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                 </ng-container>
                                 <ng-container *ngIf="menu.RiskDetails.TravelId=='4'">
-                                    <span class="spancommon" style="color:navy;font-size: 1rem;font-weight: 600;">Super
-                                        Seniors&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                    <span class="spancommon" style="color:navy;font-size: 1rem;font-weight: 600;">{{'Modify.SuperSeniors' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                 </ng-container>
                                 <ng-container *ngIf="menu.RiskDetails.TravelId=='5'">
-                                    <span class="spancommon" style="color:navy;font-size: 1rem;font-weight: 600;">Grand
-                                        Seniors&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                    <span class="spancommon" style="color:navy;font-size: 1rem;font-weight: 600;">{{'Modify.GrandSeniors' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                 </ng-container>
                                 <span class="spancommon" style="color:navy;font-size: 1rem;font-weight: 600;">
@@ -207,13 +203,12 @@
                 <div class="col-12 col-md-4 col-lg-4 col-xl-4 mt-3" *ngIf="selectedVehicleList.length!=0">
                     <span class="spancommon text-end"
                         style="color:navy;padding:10px !important;border-radius:10px;font-size: 1rem;background-color: #fd7e14!important;"
-                        *ngIf="selectedVehicleList[0].Status=='D' && productId=='5'">Removed Vehicle</span>
+                        *ngIf="selectedVehicleList[0].Status=='D' && productId=='5'">{{'Modify.RemovedVehicle' | translalte}}</span>
                     <span class="spancommon text-end"
                         style="color:navy;padding:10px !important;border-radius:10px;font-size: 1rem;background-color: #fd7e14!important;"
-                        *ngIf="endorsementSection && endorsementId==846 && selectedVehicleList[0].Status=='D'">Removed
-                        Occupation</span>
+                        *ngIf="endorsementSection && endorsementId==846 && selectedVehicleList[0].Status=='D'">{{'Modify.RemovedOccupation' | translalte}}</span>
                     <span class="spancommon text-end" *ngIf="selectedVehicleList[0].ReferralList.length!=0"
-                        style="color:navy;padding:7px !important;border-radius:10px;font-size: 1rem;background-color: #fd7e14!important;">Refferal</span>
+                        style="color:navy;padding:7px !important;border-radius:10px;font-size: 1rem;background-color: #fd7e14!important;">{{'Modify.Refferal' | translalte}}</span>
                 </div>
                 <!-- <div class="col-12 col-md-3 col-lg-3 col-xl-3 mt-5 mr-2" *ngIf="commissionValue">
                     <label class="custom-control-label" style="float: right !important;font-size: 17px !important;"
@@ -227,7 +222,7 @@
                             <div class="display1">
                                 <div class=" referal_remark" *ngIf="menu.ReferralList.length!=0">
                                     <div>
-                                        <b class="text-danger referal_data">Referral Remarks</b><br>
+                                        <b class="text-danger referal_data">{{'Modify.ReferralRemarks'}}</b><br>
                                     </div>
                                     <div class="mt-1">
                                         <ul class="b listrefereal" *ngFor="let doc of menu.ReferralList">
@@ -268,27 +263,25 @@
                                 <ng-container *ngIf="productId=='4'">
                                     <ng-container *ngIf="menu.RiskDetails.TravelId=='1'">
                                         <span class="spancommon"
-                                            style="color:navy;font-size: 1rem;">Kids&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                            style="color:navy;font-size: 1rem;">{{'Modify.Kids' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                     </ng-container>
                                     <ng-container *ngIf="menu.RiskDetails.TravelId=='2'">
                                         <span class="spancommon"
-                                            style="color:navy;font-size: 1rem;">Adults&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                            style="color:navy;font-size: 1rem;">{{'Modify.Adults' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                     </ng-container>
                                     <ng-container *ngIf="menu.RiskDetails.TravelId=='3'">
                                         <span class="spancommon"
-                                            style="color:navy;font-size: 1rem;">Seniors&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                            style="color:navy;font-size: 1rem;">{{'Modify.Seniors' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                     </ng-container>
                                     <ng-container *ngIf="menu.RiskDetails.TravelId=='4'">
-                                        <span class="spancommon" style="color:navy;font-size: 1rem;">Super
-                                            Seniors&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                        <span class="spancommon" style="color:navy;font-size: 1rem;">{{'Modify.SuperSeniors' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                     </ng-container>
                                     <ng-container *ngIf="menu.RiskDetails.TravelId=='5'">
-                                        <span class="spancommon" style="color:navy;font-size: 1rem;">Grand
-                                            Seniors&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                        <span class="spancommon" style="color:navy;font-size: 1rem;">{{'Modify.GrandSeniors' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                     </ng-container>
                                     <span class="spancommon" style="color:navy;font-size: 1rem;"> &nbsp;|&nbsp;
@@ -319,7 +312,7 @@
                                 <ng-container>
                                     <span class="spancommon"
                                         style="color:navy;padding:10px !important;border-radius:10px;font-size: 1rem;background-color: #fd7e14!important;"
-                                        *ngIf="menu.Status=='D'">Removed Vehicle</span>
+                                        *ngIf="menu.Status=='D'">{{'Modify.RemovedVehicle' | translate}}</span>
                                 </ng-container>
                             </div>
 
@@ -344,7 +337,7 @@
                                             </ng-container>
                                             <ng-container matColumnDef="header-row-second-group">
                                                 <th mat-header-cell *matHeaderCellDef [attr.colspan]="6"
-                                                    class="text-center outerHead mat-header-cell">Premium </th>
+                                                    class="text-center outerHead mat-header-cell">{{'Modify.Premium' | translate}}</th>
                                             </ng-container>
                                         </ng-container>
                                         <ng-container *ngFor="let col of columnHeader; let i = index;"
@@ -357,33 +350,33 @@
                                                     *ngIf="columnHeader[i]['display']=='Sum Insured' || columnHeader[i]['display']=='Minimum' || columnHeader[i]['display']=='After Discount' || columnHeader[i]['display']=='Included Tax'">
                                                     <ng-container *ngIf="columnHeader[i]['display']=='Sum Insured'">
                                                         <ng-container *ngIf="productId!='42'">
-                                                            {{ columnHeader[i]["display"] }}&nbsp;({{currencyCode}})
+                                                            {{'Modify.'+columnHeader[i]["display"] | translate }}&nbsp;({{currencyCode}})
                                                         </ng-container>
                                                         <ng-container *ngIf="productId=='42'">
-                                                            Coverage Limit&nbsp;({{currencyCode}})
+                                                            {{'Modify.CoverageLimit' | translate}}&nbsp;({{currencyCode}})
                                                         </ng-container>
                                                     </ng-container>
                                                     <ng-container *ngIf="columnHeader[i]['display']!='Sum Insured'">
-                                                        {{ columnHeader[i]["display"] }}&nbsp;({{currencyCode}})
+                                                        {{'Modify.'+columnHeader[i]["display"] | translate }}&nbsp;({{currencyCode}})
                                                     </ng-container>
                                                 </ng-container>
                                                 <ng-container *ngIf="columnHeader[i]['display']=='Rate'">
                                                     <ng-container *ngIf="productId=='42'">
-                                                        {{ columnHeader[i]["display"] }}&nbsp;({{currencyCode}})
+                                                        {{ 'Modify.'+columnHeader[i]["display"] | translate }}&nbsp;({{currencyCode}})
                                                     </ng-container>
                                                     <ng-container *ngIf="productId!='42'">
-                                                        {{ columnHeader[i]["display"] }}&nbsp;(%)
+                                                        {{ 'Modify.'+columnHeader[i]["display"] | translate}}&nbsp;(%)
                                                     </ng-container>
                                                 </ng-container>
                                                 <ng-container *ngIf="columnHeader[i]['display']=='Excess Percent'">
-                                                    Excess&nbsp;(%)
+                                                    {{ 'Modify.Excess' | translate}}&nbsp;(%)
                                                 </ng-container>
                                                 <ng-container *ngIf="columnHeader[i]['display']=='Excess Amount'">
-                                                    Excess<br>({{currencyCode}})
+                                                    {{ 'Modify.Excess' | translate}}<br>({{currencyCode}})
                                                 </ng-container>
                                                 <ng-container
                                                     *ngIf="columnHeader[i]['display']!='Sum Insured' && columnHeader[i]['display']!='Referral' && columnHeader[i]['display']!='Excess Amount' && columnHeader[i]['display']!='Excess Percent' && columnHeader[i]['display']!='Rate' && columnHeader[i]['display']!='Minimum' && columnHeader[i]['display']!='After Discount' && columnHeader[i]['display']!='Included Tax'">
-                                                    {{ columnHeader[i]["display"] }}
+                                                    {{ 'Modify.'+columnHeader[i]["display"]  | translate}}
                                                 </ng-container>
                                             </th>
                                             <td mat-cell *matCellDef="let element" class="customCell"
@@ -1226,7 +1219,7 @@
                                             </td>
                                             <td mat-footer-cell *matFooterCellDef="let event">
                                                 <ng-container *ngIf="col.key=='CoverName'">
-                                                    <b>Total</b>
+                                                    <b>{{'Modify.Total' | translate}}</b>
                                                 </ng-container>
                                                 <ng-container *ngIf="col.key=='PremiumIncludedTax'">
                                                     <div class="flex flex-wrap  justify-content-between">
@@ -1260,7 +1253,7 @@
                                                                             [attr.colspan]="3"
                                                                             [style.text-align]="center"
                                                                             class="innerHead mat-header-cell">
-                                                                            Premium </th>
+                                                                            {{'Modify.Premium' | translalte}} </th>
                                                                     </ng-container>
                                                                     <ng-container
                                                                         *ngFor="let col of innerColumnHeader; let i = index;"
@@ -1272,22 +1265,19 @@
                                                                             style="white-space: pre-line !important;">
                                                                             <ng-container
                                                                                 *ngIf="innerColumnHeader[i]['display']=='Sum Insured' || innerColumnHeader[i]['display']=='Minimum' || innerColumnHeader[i]['display']=='After Discount' || innerColumnHeader[i]['display']=='Included Tax'">
-                                                                                {{ innerColumnHeader[i]["display"]
-                                                                                }}&nbsp;({{currencyCode}})
+                                                                                {{ 'Modify.'+innerColumnHeader[i]["display"] | translalte}}&nbsp;({{currencyCode}})
                                                                             </ng-container>
                                                                             <ng-container
                                                                                 *ngIf="innerColumnHeader[i]['display']=='Rate'">
-                                                                                {{ innerColumnHeader[i]["display"]
-                                                                                }}&nbsp;(%)
+                                                                                {{ 'Modify.'+innerColumnHeader[i]["display"] | translalte}}&nbsp;(%)
                                                                             </ng-container>
                                                                             <ng-container
                                                                                 *ngIf="innerColumnHeader[i]['display']=='ExcessPercent'">
-                                                                                Excess
+                                                                                {{ 'Modify.Excess' | translate}}
                                                                             </ng-container>
                                                                             <ng-container
                                                                                 *ngIf="innerColumnHeader[i]['display']!='Sum Insured' && innerColumnHeader[i]['display']!='ExcessPercent' && innerColumnHeader[i]['display']!='Rate' && innerColumnHeader[i]['display']!='Minimum' && innerColumnHeader[i]['display']!='After Discount' && innerColumnHeader[i]['display']!='Included Tax'">
-                                                                                {{ innerColumnHeader[i]["display"]
-                                                                                }}
+                                                                                {{ 'Modify.'+innerColumnHeader[i]["display"] | translate}}
                                                                             </ng-container>
 
                                                                         </th>
@@ -1442,7 +1432,7 @@
                                         </ng-container>
                                         <ng-container matColumnDef="header-row-second-group">
                                             <th mat-header-cell *matHeaderCellDef [attr.colspan]="6"
-                                                class="text-center outerHead mat-header-cell">Premium </th>
+                                                class="text-center outerHead mat-header-cell">{{'Modify.Premium' | translate}} </th>
                                         </ng-container>
 
                                         <ng-container *ngFor="let col of columnHeader; let i = index;"
@@ -1455,33 +1445,33 @@
                                                     *ngIf="columnHeader[i]['display']=='Sum Insured' || columnHeader[i]['display']=='Minimum' || columnHeader[i]['display']=='After Discount' || columnHeader[i]['display']=='Included Tax'">
                                                     <ng-container *ngIf="columnHeader[i]['display']=='Sum Insured'">
                                                         <ng-container *ngIf="productId!='42'">
-                                                            {{ columnHeader[i]["display"] }}&nbsp;({{currencyCode}})
+                                                            {{'Modify.'+columnHeader[i]["display"] | translate}}&nbsp;({{currencyCode}})
                                                         </ng-container>
                                                         <ng-container *ngIf="productId=='42'">
-                                                            Coverage Limit&nbsp;({{currencyCode}})
+                                                            {{'Modify.CoverageLimit' | translate}}&nbsp;({{currencyCode}})
                                                         </ng-container>
                                                     </ng-container>
                                                     <ng-container *ngIf="columnHeader[i]['display']!='Sum Insured'">
-                                                        {{ columnHeader[i]["display"] }}&nbsp;({{currencyCode}})
+                                                        {{'Modify.'+columnHeader[i]["display"] | translate}}&nbsp;({{currencyCode}})
                                                     </ng-container>
                                                 </ng-container>
                                                 <ng-container *ngIf="columnHeader[i]['display']=='Rate'">
                                                     <ng-container *ngIf="productId=='42'">
-                                                        {{ columnHeader[i]["display"] }}&nbsp;({{currencyCode}})
+                                                        {{ 'Modify.'+columnHeader[i]["display"] | translate}}&nbsp;({{currencyCode}})
                                                     </ng-container>
                                                     <ng-container *ngIf="productId!='42'">
-                                                        {{ columnHeader[i]["display"] }}&nbsp;(%)
+                                                        {{ 'Modify.'+columnHeader[i]["display"] | translate}}&nbsp;(%)
                                                     </ng-container>
                                                 </ng-container>
                                                 <ng-container *ngIf="columnHeader[i]['display']=='Excess Percent'">
-                                                    Excess&nbsp;(%)
+                                                    {{ 'Modify.Excess' | translate}}&nbsp;(%)
                                                 </ng-container>
                                                 <ng-container *ngIf="columnHeader[i]['display']=='Excess Amount'">
-                                                    Excess<br>({{currencyCode}})
+                                                    {{ 'Modify.Excess' | translate}}<br>({{currencyCode}})
                                                 </ng-container>
                                                 <ng-container
                                                     *ngIf="columnHeader[i]['display']!='Sum Insured' && columnHeader[i]['display']!='Referral' && columnHeader[i]['display']!='Excess Amount' && columnHeader[i]['display']!='Excess Percent' && columnHeader[i]['display']!='Rate' && columnHeader[i]['display']!='Minimum' && columnHeader[i]['display']!='After Discount' && columnHeader[i]['display']!='Included Tax'">
-                                                    {{ columnHeader[i]["display"] }}
+                                                    {{ 'Modify.'+columnHeader[i]["display"] | translate }}
                                                 </ng-container>
                                             </th>
                                             <td mat-cell *matCellDef="let element" class="customCell"
@@ -1496,8 +1486,7 @@
 
 
                                                         <div class="col-6">
-                                                            <span class="mobile-label"> {{
-                                                                columnHeader[i]["display"] }}</span>
+                                                            <span class="mobile-label"> {{'Modify.'+columnHeader[i]["display"] | translate }}</span>
                                                         </div>
                                                         <div class="col-6" style="text-align: left !important;">
                                                             <ng-container *ngIf="col.key=='PremiumAfterDiscount'">
@@ -2006,7 +1995,7 @@
                                                                                                 style="z-index: 10 !important">
                                                                                                 <div class="card-header"
                                                                                                     status="warning">
-                                                                                                    Premium Details!
+                                                                                                    {{'Modify.PremiumDetails' | translate }}
                                                                                                 </div>
                                                                                                 <div
                                                                                                     class="card-body p-0">
@@ -2017,16 +2006,14 @@
                                                                                                             <div>
                                                                                                                 <span
                                                                                                                     class="spancommon span_font_size">
-                                                                                                                    <ng-container>Premium
-                                                                                                                        After
-                                                                                                                        Discount</ng-container>
+                                                                                                                    <ng-container>{{'Modify.PremiumAfterDiscount' | translate}}</ng-container>
 
                                                                                                                 </span>
                                                                                                             </div>
                                                                                                             <div>
                                                                                                                 <span
                                                                                                                     class="spancommon span_font_size">
-                                                                                                                    ProRata({{element?.ProRata}}%)
+                                                                                                                    {{'Modify.ProRata' | translate}} ({{element?.ProRata}}%)
                                                                                                                 </span>
                                                                                                             </div>
                                                                                                             <div>
@@ -2803,39 +2790,39 @@
                     </div>  
                 </div> -->
                 <div class="lg:col-3 md:col-3 col-12" *ngIf="isMannualReferal != 'Y' && (coverSection && (((!statusValue || checkManualReferral()) && !adminSection) || (statusValue && adminSection ))) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
-                    <label class="input-form-label">Do You Like to Choose EMI Option?</label>
+                    <label class="input-form-label">{{ 'Modify.DoYouLiketoChooseEMIOption?' | translate}}</label>
                     <div class="flex justify-content-start gap-3 mt-1">
                         <div class="flex align-items-center">
                             <p-radioButton name="emiYN" value="Y" (change)="onEmiYNChange()" [(ngModel)]="emiYN"
                                 inputId="emi_Yes"></p-radioButton>
-                            <span for="emi_Yes" class="ml-2">Yes</span>
+                            <span for="emi_Yes" class="ml-2">{{ 'Modify.Yes' | translate}}</span>
                         </div>
                         <div class="flex align-items-center">
                             <p-radioButton name="emiYN" value="N" (change)="onEmiYNChange()" [(ngModel)]="emiYN"
                                 inputId="emi_No"></p-radioButton>
-                            <span for="emi_No" class="ml-2">No</span>
+                            <span for="emi_No" class="ml-2">{{ 'Modify.No' | translate}}</span>
                         </div>
                     </div>
                 </div>
                 <div class="lg:col-3 md:col-3 col-12" *ngIf="((!statusValue || checkManualReferral()) && !adminSection) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
-                    <label class="input-form-label">Do You Like to Move this Quote to Referral Manually?</label>
+                    <label class="input-form-label">{{ 'Modify.DoYouLiketoMovethisQuotetoReferralManually?' | translate}}</label>
                     <div class="flex justify-content-start gap-3 mt-2">
                         <div class="flex align-items-center">
                             <p-radioButton name="referral" value="Y" [(ngModel)]="isMannualReferal"
                                 inputId="referral_Yes"></p-radioButton>
-                            <span for="referral_Yes" class="ml-2">Yes</span>
+                            <span for="referral_Yes" class="ml-2">{{ 'Modify.Yes' | translate}}</span>
                         </div>
                         <div class="flex align-items-center">
                             <p-radioButton name="referral" value="N" [(ngModel)]="isMannualReferal"
                                 inputId="referral_No"></p-radioButton>
-                            <span for="referral_No" class="ml-2">No</span>
+                            <span for="referral_No" class="ml-2">{{ 'Modify.No' | translate}}</span>
                         </div>
                     </div>
                 </div>
                 <ng-container *ngIf="isMannualReferal == 'Y'">
                     <div class="lg:col-3 md:col-3 col-12" *ngIf="((!statusValue || checkManualReferral()) && !adminSection) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
                         <div class="mb-3">
-                                <label class="input-form-label">Remarks</label>
+                                <label class="input-form-label">{{ 'Modify.Remarks' | translate}}</label>
                                 <textarea pInputTextarea cols="40" rows="2" [(ngModel)]="remarks"
                                     style="height: 45px;"></textarea>
                         </div>
@@ -2850,33 +2837,33 @@
                         <tr class="firstclass">
                             <th scope="col" colspan="3"></th>
                             <th scope="col" colspan="4" style="text-align:center;" class="spancommon span_font_size">
-                                Installment Amount ({{localCurrency}})
+                                {{ 'Modify.InstallmentAmount' | translate}} ({{localCurrency}})
                             </th>
                         </tr>
                         <tr class="firstclass">
-                            <th scope="col" class="spancommon span_font_size" style="text-align:center;">EMI Month
+                            <th scope="col" class="spancommon span_font_size" style="text-align:center;">{{ 'Modify.EMIMonth' | translate}}
                             </th>
                             <th scope="col" class="spancommon span_font_size" style="text-align:center;">
-                                Installment Type</th>
+                                {{ 'Modify.InstallmentType' | translate}}</th>
                             <th scope="col" class="spancommon span_font_size" style="text-align:center;">Due Date
                             </th>
                             <th scope="col" class="spancommon span_font_size" *ngIf="yearlySection" id="first"
-                                style="text-align:center">(12 Months)
+                                style="text-align:center">{{ 'Modify.(12 Months)' | translate}}
                             </th>
                             <th scope="col" class="spancommon span_font_size" *ngIf="nineMonthSection" id="second"
-                                style="text-align:center">(9 Months)
+                                style="text-align:center">{{ 'Modify.(9 Months)' | translate}}
                             </th>
                             <th scope="col" class="spancommon span_font_size" id="sixth" style="text-align:center"
-                                *ngIf="eightMonthSection">(8 Months)
+                                *ngIf="eightMonthSection">{{ 'Modify.(8 Months)' | translate}}
                             </th>
                             <th scope="col" class="spancommon span_font_size" id="third" style="text-align:center"
-                                *ngIf="sixMonthSection">(6 Months)
+                                *ngIf="sixMonthSection">{{ 'Modify.(6 Months)' | translate}}
                             </th>
                             <th scope="col" class="spancommon span_font_size" id="fifth" style="text-align:center"
-                                *ngIf="fiveMonthSection">(5 Months)
+                                *ngIf="fiveMonthSection">{{ 'Modify.(5 Months)' | translate}}
                             </th>
                             <th scope="col" class="spancommon span_font_size" id="fourth" style="text-align:center"
-                                *ngIf="threeMonthSection">(3 Months)
+                                *ngIf="threeMonthSection">{{ 'Modify.(3 Months)' | translate}}
                             </th>
 
 
@@ -2921,42 +2908,42 @@
             </div>
             <div class="col-12 col-md-6" *ngIf="isMannualReferal != 'Y' && emiYN=='Y' && Emilist1.length!=0">
                 <div class="mb-3 mt-3">
-                        <label class="input-form-label spancommon span_font_size">EMI Period</label>
+                        <label class="input-form-label spancommon span_font_size">{{ 'Modify.EMIPeriod' | translate}}</label>
                         <div class="flex justify-content-start gap-3 mt-1">
                             <div class="flex align-items-center">
                                 <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="0" [(ngModel)]="emiPeriod"
                                     inputId="emi_None"></p-radioButton>
-                                <span for="emi_None" class="ml-2">None</span>
+                                <span for="emi_None" class="ml-2">{{ 'Modify.None' | translate}}</span>
                             </div>
                             <div class="flex align-items-center">
                                 <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="3" [(ngModel)]="emiPeriod"
                                     inputId="emi_three"></p-radioButton>
-                                <span for="emi_three" class="ml-2">3 Months</span>
+                                <span for="emi_three" class="ml-2">{{ 'Modify.3Months' | translate}}</span>
                             </div>
                             <div class="flex align-items-center">
                                 <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="5" [(ngModel)]="emiPeriod"
                                     inputId="emi_five"></p-radioButton>
-                                <span for="emi_five" class="ml-2">5 Months</span>
+                                <span for="emi_five" class="ml-2">{{ 'Modify.5Months' | translate}}</span>
                             </div>
                             <div class="flex align-items-center">
                                 <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="6" [(ngModel)]="emiPeriod"
                                     inputId="emi_six"></p-radioButton>
-                                <span for="emi_six" class="ml-2">6 Months</span>
+                                <span for="emi_six" class="ml-2">{{ 'Modify.6Months' | translate}}</span>
                             </div>
                             <div class="flex align-items-center">
                                 <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="8" [(ngModel)]="emiPeriod"
                                     inputId="emi_eight"></p-radioButton>
-                                <span for="emi_eight" class="ml-2">8 Months</span>
+                                <span for="emi_eight" class="ml-2">{{ 'Modify.8Months' | translate}}</span>
                             </div>
                             <div class="flex align-items-center">
                                 <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="9" [(ngModel)]="emiPeriod"
                                     inputId="emi_nine"></p-radioButton>
-                                <span for="emi_nine" class="ml-2">9 Months</span>
+                                <span for="emi_nine" class="ml-2">{{ 'Modify.9Months' | translate}}</span>
                             </div>
                             <div class="flex align-items-center">
                                 <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="12" [(ngModel)]="emiPeriod"
                                     inputId="emi_twelve"></p-radioButton>
-                                <span for="emi_twelve" class="ml-2">12 Months</span>
+                                <span for="emi_twelve" class="ml-2">{{ 'Modify.12Months' | translate}}</span>
                             </div>
                         </div>
                 </div>
@@ -2969,7 +2956,7 @@
                     <div class="grid">
                         <div class="col-12 md:col-4 lg:col-4 xl:xol-4">
                             <div class="input-control-container">
-                                <label class="input-form-label">Referral Status</label><span
+                                <label class="input-form-label">{{ 'Modify.ReferralStatus' | translate}}</label><span
                                     class="text-danger">*</span>
                                 <ng-select class="input-form-select" appendTo="body" [disabled]="!adminSection"
                                     [(ngModel)]="statusValue" [items]="statusList" bindValue="Code"
@@ -2980,24 +2967,24 @@
                         <div class="col-12 md:col-4 lg:col-4 xl:xol-4"
                             *ngIf="statusValue && adminSection && statusValue!='RE' && statusValue!='RR' && SourceType!='Premia Broker' && SourceType!='Premia Direct' && SourceType!='Premia Agent'">
                             <div class="input-control-container">
-                                <label class="input-form-label">Modify Commission (%)</label>
+                                <label class="input-form-label">{{ 'Modify.ModifyCommission' | translate}} (%)</label>
                                 <!-- <p-selectButton [options]="modifyOptions" [(ngModel)]="modifyCommissionYN"
                                     optionLabel="label" optionValue="value"></p-selectButton> -->
                                 <div class="custom-radio-btn" style="position: relative;top: 1rem;right: 0.3rem;">
                                     <div class="radio-toolbar">
                                         <input id="commission_Yes" type="radio" [(ngModel)]="modifyCommissionYN"
                                             name="commission" value="Y">
-                                        <label for="commission_Yes" class="yes">Yes</label>
+                                        <label for="commission_Yes" class="yes">{{ 'Modify.Yes' | translate}}</label>
                                         <input type="radio" id="commission_No" [(ngModel)]="modifyCommissionYN"
                                             name="commission" value="N">
-                                        <label for="commission_No" class="no">No</label>
+                                        <label for="commission_No" class="no">{{ 'Modify.No' | translate}}</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4"
                             *ngIf="modifyCommissionYN=='Y' && SourceType!='Premia Broker' && SourceType!='Premia Direct' && SourceType!='Premia Agent'">
-                            <label class="input-form-label">Commission (%)<span class="text-required">*</span></label>
+                            <label class="input-form-label">{{ 'Modify.Commission' | translate}} (%)<span class="text-required">*</span></label>
                                     <input type="text" class="w-full"
                                         [(ngModel)]="commissionPercent" pInputText name="commissionPercent" maxlength="5">
                         </div>
@@ -3006,12 +2993,12 @@
                     </div>
                     <div class="grid">
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 ml-4" *ngIf="statusValue=='RR'">
-                                <label class="input-form-label">Rejected Reason</label>
+                                <label class="input-form-label">{{ 'Modify.RejectedReason' | translate}}</label>
                                     <input type="text" pInputText [(ngModel)]="rejectedReason" maxlength="100" [disabled]="!adminSection"
                                         class="w-full">
                         </div>
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4">
-                                <label class="input-form-label">Remarks<span class="text-required">*</span></label>
+                                <label class="input-form-label">{{ 'Modify.Remarks' | translate}}<span class="text-required">*</span></label>
                                     <textarea cols="120" rows="2" pInputTextarea  [(ngModel)]="remarks" [disabled]="!adminSection"
                                         class="w-full" maxlength="1000"></textarea>
                         </div>
@@ -3022,7 +3009,7 @@
         <div class="lg:col-3 md:col-3 col-12 p-0" *ngIf="vehicleDetailsList.length!=1 && vehicleDetailsList.length!=0">
             <div class="flex flex-wrap  justify-content-between">
                 <div>
-                    <h3><i class="fas fa-book mx-1"></i>&nbsp;OverAll Premium</h3>
+                    <h3><i class="fas fa-book mx-1"></i>&nbsp;{{ 'Modify.OverAllPremium' | translate}}</h3>
                 </div>
             </div>
             <div *ngIf="coverSection">
@@ -3039,15 +3026,15 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">
-                                            <ng-container *ngIf="productId=='5'"><b>Registration No.</b></ng-container>
-                                            <ng-container *ngIf="productId=='4'"><b>Passengers</b></ng-container>
+                                            <ng-container *ngIf="productId=='5'"><b>{{ 'Modify.RegistrationNo' | translate}}</b></ng-container>
+                                            <ng-container *ngIf="productId=='4'"><b>{{ 'Modify.Passengers' | translate}}</b></ng-container>
                                             <ng-container
-                                                *ngIf="productId!='59' && productId!='4' && productId!='5' && productId!='19' && productId!='14' && productId!='32'"><b>Product</b></ng-container>
+                                                *ngIf="productId!='59' && productId!='4' && productId!='5' && productId!='19' && productId!='14' && productId!='32'"><b>{{'Modify.Product' | translate}}</b></ng-container>
                                             <ng-container
-                                                *ngIf="productId=='59' || productId=='19' || productId=='14' || productId=='32'"><b>Section</b></ng-container>
+                                                *ngIf="productId=='59' || productId=='19' || productId=='14' || productId=='32'"><b>{{'Modify.Section' | translate}}</b></ng-container>
                                         </th>
                                         <th scope="col"></th>
-                                        <th scope="col" style="text-align: end;"><b>Premium</b></th>
+                                        <th scope="col" style="text-align: end;"><b>{{'Modify.Premium' | translate}}</b></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -3065,27 +3052,25 @@
                                             <ng-container *ngIf="productId=='4'">
                                                 <ng-container *ngIf="menu.RiskDetails.TravelId=='1'">
                                                     <span class="spancommon"
-                                                        style="color:navy;font-size: 13px;">Kids&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                                        style="color:navy;font-size: 13px;">{{'Modify.Kids' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                                 </ng-container>
                                                 <ng-container *ngIf="menu.RiskDetails.TravelId=='2'">
                                                     <span class="spancommon"
-                                                        style="color:navy;font-size: 13px;">Adults&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                                        style="color:navy;font-size: 13px;">{{'Modify.Adults' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                                 </ng-container>
                                                 <ng-container *ngIf="menu.RiskDetails.TravelId=='3'">
                                                     <span class="spancommon"
-                                                        style="color:navy;font-size: 13px;">Seniors&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                                        style="color:navy;font-size: 13px;">{{'Modify.Seniors' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                                 </ng-container>
                                                 <ng-container *ngIf="menu.RiskDetails.TravelId=='4'">
-                                                    <span class="spancommon" style="color:navy;font-size: 13px;">Super
-                                                        Seniors&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                                    <span class="spancommon" style="color:navy;font-size: 13px;">{{'Modify.SuperSeniors' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                                 </ng-container>
                                                 <ng-container *ngIf="menu.RiskDetails.TravelId=='5'">
-                                                    <span class="spancommon" style="color:navy;font-size: 13px;">Grand
-                                                        Seniors&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
+                                                    <span class="spancommon" style="color:navy;font-size: 13px;">{{'Modify.GrandSeniors' | translate}}&nbsp;({{menu.RiskDetails.TotalPassengers}})</span>
 
                                                 </ng-container>
                                                 <span class="spancommon" style="color:navy;font-size: 13px;">
@@ -3159,7 +3144,7 @@
                         </div>
                     </div>
                     <div class="flex flex-wrap  justify-content-between botomdisplay">
-                        <div><span class="spancommon" style="color:rgb(22, 22, 37);font-size: 16px;"><b>Total</b></span>
+                        <div><span class="spancommon" style="color:rgb(22, 22, 37);font-size: 16px;"><b>{{'Modify.Total' | translate}}</b></span>
                         </div>
                         <div style="text-align: end;"><span class="spancommon"
                                 style="color:rgb(75, 75, 161);font-size: 16px;"><b>
@@ -3184,7 +3169,7 @@
                 <div class="flex flex-wrap  justify-content-between">
                     <div>
                         <span class="mx-1">
-                            Otp Verification
+                            {{'Modify.OtpVerification' | translate}}
                         </span>
                     </div>
                     <div>
