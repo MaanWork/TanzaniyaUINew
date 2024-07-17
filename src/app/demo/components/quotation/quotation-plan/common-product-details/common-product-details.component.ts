@@ -250,7 +250,8 @@ export class CommonProductDetailsComponent {
   sumInsuredList: any;
   firstLossList: any[]=[];
   EEError: boolean=false;
-  BondError: boolean=false;
+  BondError: boolean=false;endorseShortCode:any=null;
+  endorseCategory: any=null;endorsementName: any=null;endorsementId: any=null;  
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -264,7 +265,22 @@ export class CommonProductDetailsComponent {
     this.currencyCode = this.userDetails.Result.CurrencyId;
     console.log('product Idssssss',this.productId);
     this.insuranceId = this.userDetails.Result.InsuranceId;
-    
+    let endorseObj = JSON.parse(sessionStorage.getItem('endorseTypeId'))
+    if(endorseObj){
+      this.endorsementDetails = endorseObj;
+      this.endorseCategory = endorseObj.Category;
+      this.endorsementName = endorseObj?.EndtName;
+      this.endorsementId = endorseObj.EndtTypeId;
+      this.endorsePolicyNo = endorseObj.PolicyNo;
+      this.endorseShortCode = endorseObj?.EndtShortCode;
+      this.enableFieldsList = endorseObj.FieldsAllowed;
+      this.endorseEffectiveDate = endorseObj?.EffectiveDate;
+      this.endorsementRemarks = endorseObj?.Remarks;
+      this.endtCount = endorseObj?.EndtCount;
+      this.endorsementTypeDesc = endorseObj?.EndtName;
+      this.endtPrevPolicyNo = endorseObj?.EndtPrevPolicyNo;
+      this.endtPrevQuoteNo = endorseObj?.EndtPrevQuoteNo
+    }
     let finalize = sessionStorage.getItem('FinalizeYN');
     if(finalize) this.finalizeYN = finalize;
     this.subuserType = sessionStorage.getItem('typeValue');
@@ -3617,7 +3633,6 @@ backPlan()
                   for(let field of fields){
                     if(field.props.label=='Burglary'){
                         field.fieldGroup[0].fieldGroup[2].fieldGroup[0].fieldGroup[8].props.options = defaultObj.concat(this.buildingOccupiedList);
-                        
                     }
                   }
                }
@@ -6214,7 +6229,7 @@ console.log('Eventsss',event);
       "WallType": this.productItem.WallType,
       "InternalWallType": this.productItem.InternalWallType,
       "CeilingType": this.productItem.CeilingType,
-      "FirstLossPercentId": items.FirstLossSumInsured,
+      "FirstLossPercentId": items.FirstLossPercentId,
       "StockInTradeSi": this.productItem.StockInTradeSi,
       "GoodsSi": this.productItem.GoodsSi,
       "FurnitureSi": this.productItem.FurnitureSi,

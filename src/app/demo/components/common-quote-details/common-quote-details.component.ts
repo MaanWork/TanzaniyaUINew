@@ -2092,7 +2092,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             if(data.Result){
               this.vehicleDetails = data.Result;
               this.tabIndex = index+1;
-              if(this.insuranceId=='100040' || this.insuranceId=='100040')this.getInsuranceTypeListIvory();
+              if(this.insuranceId=='100040' || this.insuranceId=='100042')this.getInsuranceTypeListIvory();
               this.productItem.InsuranceClass= data?.Result.InsuranceClass;
               this.vehicleDetails['InsuranceClass'] =this.productItem.InsuranceClass;
               this.vehicleDetails['NoOfClaimYears'] = data?.Result.NoOfClaimYears;
@@ -5261,7 +5261,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.productItem.ExtendedTPPDSI = this.vehicleDetails?.TppdIncreaeLimit;
       this.productItem.AccessoriesSI = this.vehicleDetails?.AcccessoriesSumInsured;
       this.productItem.VehicleClass = this.vehicleDetails?.VehicleClass;
-      if(this.insuranceId=='100027' || this.insuranceId=='100040')  this.onChangeInsuranceClass('direct');
+      if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042')  this.onChangeInsuranceClass('direct');
   }
 
   onChangeInsuranceClass(type){
