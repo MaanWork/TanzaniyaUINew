@@ -5346,7 +5346,7 @@ export class RiskDetailsComponent {
               "PDRefNo":res?.PDRefNo
             }
             let urlLink = `${this.CommonApiUrl}calculator/policy/calc`;
-            if(this.insuranceId!='100028' && this.insuranceId!='100027' && this.insuranceId!='100040' && this.insuranceId!='100019'){
+            if(this.insuranceId!='100028' && this.insuranceId!='100027' && this.insuranceId!='100040' && this.insuranceId!='100042' && this.insuranceId!='100019'){
               this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
                 (data: any) => {
                   if(data.CoverList){

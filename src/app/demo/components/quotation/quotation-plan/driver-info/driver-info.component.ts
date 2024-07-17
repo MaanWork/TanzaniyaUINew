@@ -606,7 +606,7 @@ addNewDriver(vehId){
       if(i==this.driverDetailsList.length){
         console.log("Final List Driver",this.entryList)
        // this.saveDriverDetails(entryList);
-       if(this.insuranceId=='100027' || this.insuranceId=='100040') this.saveVehicleInfo();
+       if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042') this.saveVehicleInfo();
        else this.saveDriverDetails(this.entryList);
       }
    }

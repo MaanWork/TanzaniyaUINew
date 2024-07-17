@@ -84,12 +84,12 @@
                 </ng-container>
                 
             </ng-container>
-            <div class="grid" *ngIf="insuranceId=='100027' || insuranceId=='100040'">
+            <div class="grid" *ngIf="insuranceId=='100027' || insuranceId=='100040' || this.insuranceId=='100042'">
                 <div class="col-12 md:col-7 lg:col-7 xl:col-7">
                     <h2>{{'DRIVERINFO.OtherInformationAboutVehicle' | translate}}</h2>
                 </div>
             </div>
-            <div class="grid" *ngIf="insuranceId=='100027' || insuranceId=='100040'">
+            <div class="grid" *ngIf="insuranceId=='100027' || insuranceId=='100040' || this.insuranceId=='100042'">
                 <ng-container *ngFor="let list of vehicleDetailsList">
                     <ng-container *ngIf="list.VehicleId==veh.RiskId">
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">

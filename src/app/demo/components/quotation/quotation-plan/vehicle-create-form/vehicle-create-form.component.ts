@@ -932,7 +932,7 @@ export class VehicleCreateFormComponent implements OnInit {
   }
   onFormSubmit(){
     let i=0;
-    if(this.insuranceId=='100040' && (this.horsePower==null || this.horsePower=='' || this.horsePower==undefined)){
+    if((this.insuranceId=='100040' || this.insuranceId=='100042') && (this.horsePower==null || this.horsePower=='' || this.horsePower==undefined)){
       this.horsePowerError = true;
     }
     else{

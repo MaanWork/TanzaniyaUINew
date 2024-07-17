@@ -18,6 +18,8 @@ import { SharedService } from 'src/app/demo/service/shared.service';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { DialogComponent } from '../dialog/dialog.component';
 import { MessageService } from 'primeng/api';
+import { AppComponent } from 'src/app/app.component';
+import { TranslateService } from '@ngx-translate/core';
 
 declare var $:any;
 
@@ -85,20 +87,8 @@ export class ExcessDiscountComponent implements OnInit {
   vehicleList: any[]=[];config = { multi: false };vehicleDetailsList:any[]=[];
   vehicleData: any;adminSection:boolean=false;statusList:any[]=[];
   MinimumPremium: any;emiYN:any="N"; gridshow=false;
-  requestReferenceNo:any;
-  typeList: any[]=[];
-  typeValue:any;
-  motorTypeList: any[]=[];
-  bodyTypeValue:any;
-  vehicleSI:any;accessoriesSI:any;
-  windShieldSI:any;tppdSI:any;
-  cityValue:any;
-  classList:any[]=[];
-  borrowerList:any[]=[];
-  bankList:any[]=[];
-   motorUsageValue: any;
-  motorUsageList: any[]=[];
-  classValue: any;collateralYN:any="N";
+  requestReferenceNo:any;typeList: any[]=[];typeValue:any;motorTypeList: any[]=[];bodyTypeValue:any;vehicleSI:any;accessoriesSI:any;windShieldSI:any;tppdSI:any;cityValue:any;
+  classList:any[]=[];borrowerList:any[]=[];bankList:any[]=[];motorUsageValue: any;motorUsageList: any[]=[];classValue: any;collateralYN:any="N";
   collateralValue: boolean;coverSection:boolean=false;
   firstLossPayee: any="";
   borrowerValue: any;
@@ -253,11 +243,12 @@ emiyn="N";
   basePremium: any;factorDetailModal:boolean = false;
   premiumIncludedTax: any;
   premiumExcludedTax: any;
-  benefitCoverList: any;
+  benefitCoverList: any;lang:any=null;
   termsSectionList: { SectionId: string; SectionName: string; }[];
   termsSectionId: string;
   showCoverList: boolean=false;newAddClauses: boolean=false;newAddExclusion: boolean=false;newAddWarranty: boolean=false;
   constructor(public sharedService: SharedService,private authService: AuthService,private router:Router,private modalService: NgbModal,
+    private appComp:AppComponent,private translate:TranslateService,
     private datePipe:DatePipe,public dialog: MatDialog) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     let loginType = sessionStorage.getItem('resetLoginDetails');
@@ -557,7 +548,15 @@ emiyn="N";
     let chassisNo = sessionStorage.getItem('vehChassisNo');
     //this.vehicleId = String(this.vehicleDetailsList.Vehicleid);
     // if(chassisNo) this.getVehicleDetails(chassisNo);
-
+    this.appComp.getLanguage().subscribe((res:any)=>{  
+      if(res) this.lang=res;
+      else this.lang='en';
+      this.translate.setDefaultLang(this.lang);
+    });
+    if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+      else this.lang='en';
+      sessionStorage.setItem('language',this.lang)
+      this.translate.setDefaultLang(sessionStorage.getItem('language'));}
      this.checkSelectedCovers();
 
      console.log('Final Status Value',this.statusValue)
@@ -2790,22 +2789,22 @@ emiyn="N";
                     isChecked:true
                   },
                 },
-                { key: 'CoverName', display: 'Cover Name' },
+                { key: 'CoverName', display: 'CoverName' },
                 // { key: 'ReferalDescription', display: 'Referral' },
-                { key: 'SumInsured', display: 'Sum Insured' },
+                { key: 'SumInsured', display: 'SumInsured' },
                 // { key: 'Rate', display: 'Rate' },
                 // { key: 'ExcessPercent', display: 'Excess Percent' },
                 // { key: 'ExcessAmount', display: 'Excess Amount' },
                 //{ key: 'MinimumPremium', display: 'Minimum' },
-                { key: 'PremiumAfterDiscount', display: 'After Discount' },
-                { key: 'PremiumIncludedTax', display: 'Included Tax' },
+                { key: 'PremiumAfterDiscount', display: 'AfterDiscount' },
+                { key: 'PremiumIncludedTax', display: 'IncludedTax' },
         
               ]
         
              
             //}
             // if(!this.endorsementSection){
-            if(this.insuranceId=='100027' || this.insuranceId=='100040')   this.EmiInstallment();
+            if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042')   this.EmiInstallment();
             // }
             
             console.log("Final Vehicle Listaaaa",this.vehicleDetailsList,this.selectedCoverList)

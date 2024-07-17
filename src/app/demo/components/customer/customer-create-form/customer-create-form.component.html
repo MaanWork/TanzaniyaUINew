@@ -36,7 +36,7 @@
         <div class="card">
             <h4 class="ml-3">{{ 'HOME.PersonalInformation' | translate }}</h4>
             <!-- <h4 class="ml-3">Personal Information</h4> -->
-            <ng-container *ngIf="(insuranceId=='100027' || insuranceId=='100040') && productItem.IdType!='2'">
+            <ng-container *ngIf="(insuranceId=='100027' || insuranceId=='100040' || this.insuranceId=='100042') && productItem.IdType!='2'">
                 <div class="flex flex-wrap w-full form-container justify-content-start">
                     <div class="flex flex-column m-3">
                         <label for="username">{{ 'HOME.CustomerTitle' | translate }}*</label>
@@ -73,7 +73,7 @@
                 </div>
             </ng-container>
             <div class="flex justify-content-start flex-wrap w-full form-container">
-                <ng-container *ngIf="(insuranceId!='100027' && insuranceId!='100040') || productItem.IdType=='2'">
+                <ng-container *ngIf="(insuranceId!='100027' && insuranceId!='100040' && this.insuranceId!='100042') || productItem.IdType=='2'">
                     <div class="flex flex-column m-3">
                         <label for="username">{{ 'HOME.CustomerTitle' | translate }}*</label>
                         <!-- <label for="username">Title *</label> -->
@@ -266,8 +266,8 @@
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3">
-                    <label *ngIf="insuranceId=='100027' || insuranceId=='100040'" for="username">{{ 'HOME.Municipal' | translate}} *</label>
-                    <label *ngIf="insuranceId!='100027' && insuranceId!='100040'" for="username">{{ 'HOME.District' | translate}}   *</label>
+                    <label *ngIf="insuranceId=='100027' || insuranceId=='100040' || this.insuranceId=='100042'" for="username">{{ 'HOME.Municipal' | translate}} *</label>
+                    <label *ngIf="insuranceId!='100027' && insuranceId!='100040' && this.insuranceId!='100042'" for="username">{{ 'HOME.District' | translate}}   *</label>
                     <p-dropdown inputId="Distrivt" 
                         class="w-full" 
                         styleClass="w-full" 
