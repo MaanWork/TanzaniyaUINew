@@ -42,7 +42,7 @@
                 </div>
                 <ng-container *ngIf="MenuList" class="mt-5">
                     <p-table [value]="MenuList" #dtEmployee
-                             [globalFilterFields]="['Menu Name','MenuType','DisplayOrder',
+                             [globalFilterFields]="['MenuName','MenuType','DisplayOrder',
                                                    'Status']"
                              [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5" >
                              <ng-template pTemplate="caption">

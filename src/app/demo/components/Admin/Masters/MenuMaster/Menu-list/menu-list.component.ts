@@ -57,9 +57,9 @@ export class MenuListComponent implements OnInit {
     // }
     this.columnHeader = [
       //{ key: 'MakeId', display: 'Make Id' },
-    'Menu Name' ,
-     'Menu Type' ,
-    'Display Order' ,'Local Name',
+    'MenuName' ,
+     'MenuType' ,
+    'DisplayOrder' ,'Local Name',
    'Status' ,
  'Action',
     ];
@@ -120,7 +120,7 @@ export class MenuListComponent implements OnInit {
   getMenuList(){
     let ReqObj = {
       "Limit": "0",
-      "Offset": "1000",
+      "Offset": "10000",
       "GetType":"getallmenu",
       "InsuranceId": this.InsuranceId,
       "MenuId":null

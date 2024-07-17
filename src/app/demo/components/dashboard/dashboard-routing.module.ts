@@ -25,6 +25,7 @@ import { InsurenceEmpComponent } from '../Admin/login-creation/insurence-emp/ins
 import { CustomerComponent } from '../auth/login/customer/customer.component';
 import { CustomerInfoComponent } from '../auth/login/customer-info/customer-info.component';
 import { CustomerProductsComponent } from '../auth/login/customer-products/customer-products.component';
+import { ReInsuranceComponent } from '../Admin/re-insurance/re-insurance.component';
 
 
 @NgModule({
@@ -50,9 +51,11 @@ import { CustomerProductsComponent } from '../auth/login/customer-products/custo
         { path: 'report', component: ReportComponent },
         { path: 'referralCases', component: ReferralCasesComponent },
         { path: 'Search', component : SearchComponent},
+        { path: 'reinsurance', component:ReInsuranceComponent},
         { path: 'customerview', component: CustomerComponent },
         { path: 'customer-info', component: CustomerInfoComponent },
         { path: 'Admin', loadChildren: () => import('../Admin/admin.module').then(m => m.AdminModule) },
+        { path: 'Home/others/premiaintegration', loadChildren: () => import('../../components/othersmenu/premia.module').then(m => m.PremiaIntegrationViewModule) },
         {
             path:'ApproverPortfolio',
             component:ApproverPortfolioComponent,
@@ -71,6 +74,7 @@ import { CustomerProductsComponent } from '../auth/login/customer-products/custo
           {
             path:'Home/Sms',loadChildren: () => import('../../components/Sms/Sms.module').then(m => m.SmsModule),
           }
+          
     ])],
     exports: [RouterModule]
 })

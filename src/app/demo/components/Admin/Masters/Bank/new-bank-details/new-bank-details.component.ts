@@ -149,48 +149,13 @@ this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         console.log(data);
         let res:any=data;
         if(data.Result){
-          // this.Toaster.open({
-          //   text:'Bank Details Inserted/Updated Successfully',
-          //   caption: 'Bank Details',
-          //   type: 'success',
-          // });
-
-          // let type: NbComponentStatus = 'success';
-          //       const config = {
-          //         status: type,
-          //         destroyByClick: true,
-          //         duration: 4000,
-          //         hasIcon: true,
-          //         position: NbGlobalPhysicalPosition.TOP_RIGHT,
-          //         preventDuplicates: false,
-          //       };
-          //       this.toastrService.show(
-          //         'Bank Details Inserted/Updated Successfully',
-          //         'Bank Details',
-          //         config);
+         
                   this.router.navigate(['/Admin/bankMaster'])
         }
         else if(data.ErrorMessage){
             if(res.ErrorMessage){
               for(let entry of res.ErrorMessage){
-                // this.toaster.open({
-                //   text:entry.Message,
-                //   caption: entry.Field,
-                //   type: 'danger',
-                // });
-                // let type: NbComponentStatus = 'danger';
-                // const config = {
-                //   status: type,
-                //   destroyByClick: true,
-                //   duration: 4000,
-                //   hasIcon: true,
-                //   position: NbGlobalPhysicalPosition.TOP_RIGHT,
-                //   preventDuplicates: false,
-                // };
-                // this.toastrService.show(
-                //   entry.Field,
-                //   entry.Message,
-                //   config);
+                
               }
               console.log("Error Iterate",data.ErrorMessage)
               //this.loginService.errorService(data.ErrorMessage);

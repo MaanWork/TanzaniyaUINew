@@ -4,12 +4,8 @@ import { CommonModule, DatePipe, CurrencyPipe } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgModule } from '@angular/core';
 // tslint:disable-next-line: max-line-length
-import { AdminRoutingModule } from './admin-routing.module';
-import { AdminComponent } from './admin.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { DirectivesModule } from '../../service/directives.module';
-import { PipesModule } from '../../pipes/pipes.module';
 import { FormlyModule } from '@ngx-formly/core';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
@@ -26,23 +22,21 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { TreeSelectModule } from 'primeng/treeselect';
-import { LoginCreationComponent } from './login-creation/login-creation.component';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { BadgeModule } from 'primeng/badge';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
-import { UserComponent } from './login-creation/user/user.component';
-import { InsurenceEmpComponent } from './login-creation/insurence-emp/insurence-emp.component';
-import { BrokerComponent } from './login-creation/broker/broker.component';
+import { DirectivesModule } from 'src/app/demo/service/directives.module';
+import { PipesModule } from 'src/app/demo/pipes/pipes.module';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { MaterialModule } from 'src/app/material/material.module';
-import {MultiSelectModule} from 'primeng/multiselect';
-import { ReInsuranceComponent } from './re-insurance/re-insurance.component';
-
-
+import { PickListModule } from 'primeng/picklist';
+import { ReInsuranceComponent } from './re-insurance.component';
 @NgModule({
   declarations: [
-    AdminComponent,
-    ReInsuranceComponent,
+    ReInsuranceComponent
     ],
   imports: [
     CommonModule,
@@ -50,7 +44,6 @@ import { ReInsuranceComponent } from './re-insurance/re-insurance.component';
     ReactiveFormsModule,
     DirectivesModule,
     NgSelectModule,
-    AdminRoutingModule,
     PipesModule,
     NgxPaginationModule,
     HttpClientModule,
@@ -75,13 +68,16 @@ import { ReInsuranceComponent } from './re-insurance/re-insurance.component';
     CalendarModule,
     InputTextareaModule,
     BadgeModule,
-    MaterialModule,
+    OverlayPanelModule,
+    InputSwitchModule,
+    ToggleButtonModule,
     MultiSelectModule,
-    OverlayPanelModule
+    MaterialModule,
+    PickListModule
   ],
   bootstrap: [],
   providers: [
     CurrencyPipe
   ],
 })
-export class AdminModule { }
+export class ReInsuranceModule { }
