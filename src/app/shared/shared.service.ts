@@ -88,6 +88,7 @@ export class SharedService {
       .post<any>(UrlLink, ReqObj, { headers: headers })
       .pipe(catchError(this.handleError));
   }
+  
   async onPostMethodUnAuthAsync(UrlLink: any, ReqObj: any): Promise<Observable<any[]>> {
     let headers = new HttpHeaders();
     return await this.http
@@ -375,4 +376,16 @@ fnToastMoveHoverSuccess(msg: any) {
 fnToastMoveOutSuccess = function () {
   $('.toastDisplaySuccess').fadeOut(10000);
 };
+
+onPostMethodWithOutAuth(UrlLink: string, ReqObj: any): Observable<any[]> {
+  let headers = new HttpHeaders();
+    headers = headers.append('Cache-Control', 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+    headers = headers.append('Pragma','no-cache');
+    headers = headers.append('Expires','0');
+    headers = headers.append('Content-Type', 'application/json');
+    return this.http
+      .post<any>(UrlLink, ReqObj, { headers: headers })
+      .pipe(catchError(this.handleError));
+}
+
 }
