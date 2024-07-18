@@ -3187,7 +3187,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 if(this.productItem.InsuranceClass==null || this.productItem.InsuranceClass=='' || this.productItem.InsuranceClass==undefined){ i+=1;field.formControl.setErrors({'incorrect': true})}
                 else field.formControl.setErrors(null);
               }
-              if(this.productItem.InsuranceClass!='121' && this.productItem.InsuranceClass!='122'){
+              if((this.insuranceId=='100040' && (this.productItem.InsuranceClass!='121' && this.productItem.InsuranceClass!='122')) || (this.insuranceId=='100042' && (this.productItem.InsuranceClass!='135' && this.productItem.InsuranceClass!='136' && this.productItem.InsuranceClass!='137'))){
                 if(field.key=='VehicleValue'){
                   if(this.productItem.VehicleValue==null || this.productItem.VehicleValue=='' || this.productItem.VehicleValue==undefined){ i+=1;field.formControl.setErrors({'incorrect': true})}
                   else field.formControl.setErrors(null);
@@ -3204,6 +3204,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   if(this.productItem.Inflation==null || this.productItem.Inflation=='' || this.productItem.Inflation==undefined){ i+=1;field.formControl.setErrors({'incorrect': true})}
                   else field.formControl.setErrors(null);
                 }
+              }
+              else{
+                this.productItem.VehicleValue = null;
               }
             
             j+=1;
@@ -3759,7 +3762,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         }
         if(this.currencyCode==null || this.currencyCode=='' || this.currencyCode==undefined){
           i+=1;
-          this.currencyCodeError = false;
+          this.currencyCodeError = true;
         }
         if(this.issuerSection){
           if(this.Code=='' || this.Code==null || this.Code==undefined){
@@ -5287,14 +5290,13 @@ export class CommonQuoteDetailsComponent implements OnInit {
       //   field.hideExpression = true;field.hide=true;
       // }
       if(this.insuranceId=='100040' || this.insuranceId=='100042'){
-        if(field.key=='VehicleSI' || field.key=='AccessoriesSI' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI' || field.key=='Deductibles' || field.key=='Inflation' || field.key=='VehicleValue' ){
-          if(this.productItem.InsuranceClass!='121' && this.productItem.InsuranceClass!='122'){
-           
+        if(field.key=='VehicleSI' || field.key=='AccessoriesSI' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI' || field.key=='Deductibles' || field.key=='Inflation' || field.key=='VehicleValue' || (field.key=='NoOfPassengers' && this.insuranceId=='100042') || (field.key=='PurchaseDate' && this.insuranceId=='100042') ){
+          if((this.insuranceId=='100040' && this.productItem.InsuranceClass!='121' && this.productItem.InsuranceClass!='122') || (this.insuranceId=='100042' && this.productItem.InsuranceClass!='135' && this.productItem.InsuranceClass!='136' && this.productItem.InsuranceClass!='137')){
             field.hideExpression = false;
             field.hide=false; 
           }else{
-             this.productItem.Inflation = null;
-            this.productItem.Deductibles=null;this.productItem.VehicleValue = 0;
+            if(this.insuranceId=='100042'){ this.productItem.PurchaseDate = null;this.productItem.NoOfPassengers = null;}
+            this.productItem.Inflation = null;this.productItem.Deductibles=null;this.productItem.VehicleValue = null;
             this.productItem.VehicleSI = 0;this.productItem.AccessoriesSI = 0;
             field.hideExpression = true;
             field.hide=true; 

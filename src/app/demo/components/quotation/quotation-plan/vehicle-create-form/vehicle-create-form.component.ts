@@ -762,15 +762,17 @@ export class VehicleCreateFormComponent implements OnInit {
     else{this.router.navigate(['/policyDetails']);}
   }
   getMakeList(){
+    let bodyType = null;
+    if(this.insuranceId!='100042') bodyType = this.bodyTypeId
+    else bodyType = '99999'
     let ReqObj = {
       "InsuranceId": this.insuranceId,
       "BranchCode": this.branchCode,
-      "BodyId": this.bodyTypeId
+      "BodyId": bodyType
     }
     let urlLink = `${this.commonApiUrl}master/dropdown/motormake`;
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       (data: any) => {
-        console.log(data);
         if(data.Result){
             this.makeList = data.Result;
             if(this.getdetails== 'SavedFroms'){
