@@ -529,7 +529,7 @@ export class RiskDetailsComponent {
                 this.visible = true;
                 this.getContentDetail();}
           }
-          else if(this.TableRowBuilding.length!=0 && !this.checkBuildingDetails()){
+          else if(!this.checkBuildingDetails()){
             this.visible = true;
             this.getContentDetail();
           }
@@ -1081,6 +1081,9 @@ export class RiskDetailsComponent {
       // }
       // else this.TableRowBuilding.splice(index,1);
       this.TableRowBuilding.splice(index,1);
+      if(this.TableRowBuilding.length==0){
+        this.onSaveBuildingList();
+      }
     }
     getTotal(){
       this.Total = 0;let i=0;
@@ -3741,7 +3744,6 @@ export class RiskDetailsComponent {
                     this.getTotal();
                   }
                 }
-        
               })
           }
 
@@ -4036,10 +4038,11 @@ export class RiskDetailsComponent {
                 }
                 else if(ReqObj['BuildingDetails']!=null){
                   //if(ReqObj.BuildingDetails[i]?.BuildingSumInsured==0 || ReqObj.BuildingDetails[i]?.BuildingSumInsured=='0' || ReqObj.BuildingDetails[i]?.BuildingSumInsured==null){
-                  if(ReqObj.BuildingDetails.length==0){
+                  if(ReqObj.BuildingDetails.length==0  && type!='delete'){
                     this.errorproceed(2);
                   }
                   else{
+                    if(type=='delete') ReqObj['BuildingDetails'] = null;
                     this.finalSave(ReqObj,type);
                   }
                 }
@@ -4081,6 +4084,19 @@ export class RiskDetailsComponent {
                             this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
                             if(RequestType=='Save')  this.visibleBuilding = false;
                             else{
+                              if(this.TableRowBuilding.length==0){
+                                  this.TableRowBuilding =[{
+                                  id:1,
+                                  BuildingUsageId: '',
+                                  BuildingBuildYear : '',
+                                  BuildingAddress : '',
+                                  WallType: '',
+                                  RoofType: '',
+                                  BuildingSumInsured: 0,
+                                  LocationName: '',
+                                }]
+                                this.currentBuildingRowIndex = this.TableRowBuilding.length-1;
+                              }
                               sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
                               this.onCalculate(data.Result);
                             }
@@ -4575,6 +4591,8 @@ export class RiskDetailsComponent {
                         this.onfinalsave('Save');
                     }
               }
+            }
+            else{this.onfinalsave('delete');
             }
           }
           SaveBuildingList(datas){
