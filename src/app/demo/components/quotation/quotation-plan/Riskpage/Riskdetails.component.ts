@@ -4563,6 +4563,12 @@ export class RiskDetailsComponent {
                   else{ j+=1; entry['SumInsuredError']=true;}
                   if(entry.LocationName!=null && entry.LocationName!='' && entry.LocationName!=undefined && entry.LocationName!=0) entry['LocationError']=false;
                   else{ j+=1; entry['LocationError']=true;}
+                  let entryList = this.TableRowBuilding.filter(ele=>(ele.RiskId==entry.RiskId) && ele.RiskId!=null && ele.RiskId!='');
+                  if(entryList.length>1){
+                    j+=1;
+                    for(let obj of entryList) obj['DuplicateError'] = true;
+                  }
+                  else{entry['DuplicateError']=false}
                     let data = {
                         "ItemId":entry.ItemId,
                         "RiskId":entry.RiskId,

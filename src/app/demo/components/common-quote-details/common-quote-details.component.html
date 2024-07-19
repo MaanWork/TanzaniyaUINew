@@ -240,7 +240,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="lg:col-2 md:col-2 col-3">
+                                <div class="lg:col-2 md:col-2 col-3" *ngIf="insuranceId!='100004'">
                                     <label for="username">{{'QUOTEGRID.PolicyEndDate' | translate}}</label>
                                     <p-calendar class="w-full" styleClass="w-full" [(ngModel)]="policyEndDate"
                                         (onSelect)="onStartDateChange('change')" dateFormat="dd/mm/yy" [disabled]="(endorsementSection && !enablePolicyStart) || (checkDisableField() && !checkDatesDisabled())"
@@ -251,6 +251,11 @@
                                             <span class="spancommon span_font_size">{{'MOTORQUOTE.PleaseEnterPolicyEndDate' | translate}}</span>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="lg:col-2 md:col-2 col-3" *ngIf="insuranceId=='100004'">
+                                    <label for="username">{{'QUOTEGRID.NoOfDays' | translate}}</label>{{noOfDays}}
+                                    <p-selectButton [options]="noOfDaysList" [(ngModel)]="noOfDays" id="gender2"
+                                    (click)="onNoOfDaysChange('change')"    optionLabel="Code" optionValue="CodeDesc"></p-selectButton>
                                 </div>
                                 <div class="lg:col-2 md:col-2 col-3">
                                     <label for="username">{{'MOTORQUOTE.Currency' | translate}} *</label>
