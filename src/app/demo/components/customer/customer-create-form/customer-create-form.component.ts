@@ -638,7 +638,7 @@ export class CustomerCreateFormComponent implements OnInit {
 		}
 	}
 	newidtype(){
-		if(this.productItem.PolicyHolderTypeid=='1'){
+		if(this.productItem.PolicyHolderTypeid=='1' && this.insuranceId=='100004'){
 			this.shows=true;
 		}
 		else {
@@ -719,7 +719,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					this.productItem.MobileCodeDesc = customerDetails.MobileCodeDesc1;
 
 					this.productItem.PolicyHolderTypeid = customerDetails.PolicyHolderTypeid;
-					if(this.productItem.PolicyHolderTypeid =='1'){
+					if(this.productItem.PolicyHolderTypeid =='1' && this.insuranceId=='100004'){
 						this.shows=true;
 						if(customerDetails.IdNumber!='NA'){
 							this.Idnumber= customerDetails.IdNumber.substr(0, 5);

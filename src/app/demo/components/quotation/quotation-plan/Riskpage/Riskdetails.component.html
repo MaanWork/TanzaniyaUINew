@@ -353,7 +353,6 @@
                                 <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Roof Type" 
                                  [options]="roofMaterialList" 
                                         appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="Building.RoofType" />
-                                        
                             </ng-container>
                             <ng-container *ngIf="currentBuildingRowIndex!=ri">
                                 {{getRoofTypeDescription(Building.RoofType)}}
@@ -392,16 +391,19 @@
                                 <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Location"
                                     [options]="locationList" (onChange)="onChangeContentLocation(Building)"
                                         appendTo="body" optionLabel="LocationName" optionValue="RiskId"  [(ngModel)]="Building.RiskId" />
-                                 <div class="input-form-error" *ngIf="Building.LocationError">
-                                    <div class="error-text text-danger">
-                                       Select Location
-                                    </div>
-                                </div>
+                                 
                             </ng-container>
                             <ng-container *ngIf="currentBuildingRowIndex!=ri">
                                {{Building.LocationName}}
                             </ng-container>
-
+                            <div class="input-form-error" *ngIf="Building.LocationError || Building.DuplicateError">
+                                <div class="error-text text-danger" *ngIf="Building.LocationError">
+                                   Select Location
+                                </div>
+                                <div class="error-text text-danger" *ngIf="Building.DuplicateError">
+                                     Mutliple Times Same Location Used
+                                 </div>
+                            </div>
 
                             <!-- <div class="input-form-error" *ngIf="Building.LocationError">
                                 <div class="error-text text-danger">
