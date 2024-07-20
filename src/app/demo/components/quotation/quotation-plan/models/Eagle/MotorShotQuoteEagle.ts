@@ -207,8 +207,6 @@ export class MotorShotQuoteEagle{
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     type: 'commaSeparator',
                     key: 'VehicleSI',
-                    hide: true,
-                    hideExpression:true,
                     props: {
                       label: `VehicleSI`,
                       maxLength: 15,
@@ -315,5 +313,5 @@ export class MotorShotQuoteEagle{
         else if(this.subuserType=='low') return this.finalizeYN=='Y'; 
         else return false;
       
-      }
+    }
 }
