@@ -729,9 +729,11 @@ export class ShortQuoteComponent implements OnInit {
                 this.typeList[i].value = this.typeList[i]['Code'];
                 if (i == this.typeList.length - 1) {
                   if(this.fields.length!=0){let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
-                    for(let field of fieldList){if(field.key=='InsuranceType') field.props.options = defaultObj.concat(this.typeList);}
+                    for(let field of fieldList){
+                      if(field.key=='InsuranceType' && this.insuranceId!='100028') field.props.options = defaultObj.concat(this.typeList);
+                      else if(field.key=='InsuranceClass' && this.insuranceId=='100028') field.props.options = defaultObj.concat(this.typeList);
+                    }
                   }
-                    
                 }
               }
             }

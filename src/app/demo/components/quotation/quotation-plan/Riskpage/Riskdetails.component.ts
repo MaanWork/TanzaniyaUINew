@@ -186,7 +186,7 @@ export class RiskDetailsComponent {
             BuildingUsageId: '',
             BuildingBuildYear : '',
             BuildingAddress : '',
-            FirstossPayee: '',
+            FirstLossPayee: '',
             WallType: '',
             RoofType: '',
             BuildingSumInsured: 0,
@@ -1048,7 +1048,7 @@ export class RiskDetailsComponent {
       else{this.productItem.SumInsured =0;return 0;} 
     }
     addRowBuilding(){
-    const newItem = { id: this.TableRowBuilding.length + 1, BuildingUsageId: '', BuildingBuildYear : '',FirstossPayee: '',SavedYN:'N',
+    const newItem = { id: this.TableRowBuilding.length + 1, BuildingUsageId: '', BuildingBuildYear : '',FirstLossPayee: '',SavedYN:'N',
     WallType: '',RoofType: '', BuildingSumInsured: 0,LocationName:'',RiskId:this.TableRowBuilding.length + 1};
     this.TableRowBuilding.push(newItem);
     this.currentBuildingRowIndex = this.TableRowBuilding.length-1;
@@ -3885,7 +3885,7 @@ export class RiskDetailsComponent {
                 "WallType": entry.WallType,
                 "BuildingBuildYear": '2024',
                 "BuildingOwnerYn": "N",
-                "FirstossPayee": entry.FirstossPayee,
+                "FirstLossPayee": entry.FirstLossPayee,
                 "BuildingSumInsured": entry.BuildingSumInsured,
                 "BuildingUsageId": entry.BuildingUsageId,
                 "WaterTankSi": this.productItem?.WaterTankSi,
