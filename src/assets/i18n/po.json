@@ -135,6 +135,7 @@
         "PhoneNo":"Telefone não","Date":"Data","Content":"Contente"
     },
     "QUOTEGRID":{
+        "NoOfDays":"Número de dias",
         "Quotation": "cotação",
         "Existing": "Existir",
         "Lapsed": "Caducada",
@@ -220,6 +221,7 @@
       "MotorUsage":"Uso do motor",
       "Claims": "Reivindicações",
       "GPS":"GPS",
+      "Selectt": "---Selecione---",
       "EngineNo":"Número do motor",
       "EngineCapacity":"Capacidade do motor",
       "SeatingCapacity":"Capacidade de assentos",

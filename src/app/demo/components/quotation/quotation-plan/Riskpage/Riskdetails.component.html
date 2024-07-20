@@ -365,6 +365,22 @@
                         </td>
                         <td>
                             <ng-container *ngIf="currentBuildingRowIndex==ri">
+                                <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select FirstLossPayee"
+                                    [options]="locationList"
+                                        appendTo="body" optionLabel="LocationName" optionValue="RiskId"  [(ngModel)]="Building.FirstossPayee" />
+                                 
+                            </ng-container>
+                            <ng-container *ngIf="currentBuildingRowIndex!=ri">
+                               {{Building.FirstossPayee}}
+                            </ng-container>
+                            <div class="input-form-error" *ngIf="Building.FirstLossPayeeError">
+                                <div class="error-text text-danger">
+                                   Select FirstLossPayee
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <ng-container *ngIf="currentBuildingRowIndex==ri">
                                 <p-inputNumber  type="number" [(ngModel)]="Building.BuildingSumInsured" inputId="integeronly"/>
                                 
                             </ng-container>
@@ -379,14 +395,6 @@
                         </td>
                        
                         <td>
-                            <!-- <ng-container *ngIf="currentBuildingRowIndex==ri">
-                                <input pInputText  type="text"  [(ngModel)]="Building.LocationName" />
-                                
-                            </ng-container>
-                            <ng-container *ngIf="currentBuildingRowIndex!=ri">
-                                {{Building.LocationName }}
-                            </ng-container> -->
-
                             <ng-container *ngIf="currentBuildingRowIndex==ri">
                                 <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Location"
                                     [options]="locationList" (onChange)="onChangeContentLocation(Building)"

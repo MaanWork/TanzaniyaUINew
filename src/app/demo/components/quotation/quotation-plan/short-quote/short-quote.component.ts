@@ -13,6 +13,8 @@ import { ShortQuoteCustomerSanlam } from '../models/sanlam/MotorShotQuoteCustome
 import { ShortQuoteSanlam } from '../models/sanlam/MotorShotQuote';
 import { MotorShotQuoteCustomerMadison } from '../models/Madison/MotorShotQuoteCustomerUganda';
 import { MotorShotQuoteMadison } from '../models/Madison/MotorShotQuoteMadison';
+import { MotorShotQuoteCustomerEagle } from '../models/Eagle/MotorShotQuoteCustomerEagle';
+import { MotorShotQuoteEagle } from '../models/Eagle/MotorShotQuoteEagle';
 
 @Component({
   templateUrl: './short-quote.component.html',
@@ -136,6 +138,10 @@ export class ShortQuoteComponent implements OnInit {
     else if(this.insuranceId=='100027' || this.insuranceId=='100040'){
       fireData2 = new ShortQuoteCustomerSanlam();
       fireData = new ShortQuoteSanlam();
+    }
+    else if(this.insuranceId=='100028'){
+      fireData2 = new MotorShotQuoteCustomerEagle();
+      fireData = new MotorShotQuoteEagle();
     }
     this.fields2[0] = fireData2?.fields;
     this.fields[0] = fireData?.fields;
