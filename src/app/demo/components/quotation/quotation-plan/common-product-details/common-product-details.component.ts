@@ -689,7 +689,7 @@ export class CommonProductDetailsComponent {
     this.productItem.FireSumInsured = rowData.FirstLossPercentId
    }
    filterSectionList(type){
-    if(this.IndustryTypes=='57'){this.productNameList=this.fireSectionList.filter(ele=>ele.IndustryType=='G')}
+    if(this.IndustryTypes=='57'){}
     else{this.productNameList=this.fireSectionList.filter(ele=>ele.IndustryType!='G')};
     if(type=='change') this.industryValue = null;
     }
