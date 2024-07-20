@@ -366,8 +366,8 @@
                         <td>
                             <ng-container *ngIf="currentBuildingRowIndex==ri">
                                 <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select FirstLossPayee"
-                                    [options]="locationList"
-                                        appendTo="body" optionLabel="LocationName" optionValue="RiskId"  [(ngModel)]="Building.FirstLossPayee" />
+                                    [options]="bankList" (onChange)="onChangeFirstLoss(Building)"
+                                        appendTo="body" optionLabel="CodeDesc" optionValue="Code"  [(ngModel)]="Building.FirstLossPayee" />
                                  
                             </ng-container>
                             <ng-container *ngIf="currentBuildingRowIndex!=ri">
