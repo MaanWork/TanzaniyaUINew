@@ -267,6 +267,7 @@ export class CommonProductDetailsComponent {
     this.insuranceId = this.userDetails.Result.InsuranceId;
     let endorseObj = JSON.parse(sessionStorage.getItem('endorseTypeId'))
     if(endorseObj){
+      this.endorsementSection = true;
       this.endorsementDetails = endorseObj;
       this.endorseCategory = endorseObj.Category;
       this.endorsementName = endorseObj?.EndtName;
@@ -281,6 +282,7 @@ export class CommonProductDetailsComponent {
       this.endtPrevPolicyNo = endorseObj?.EndtPrevPolicyNo;
       this.endtPrevQuoteNo = endorseObj?.EndtPrevQuoteNo
     }
+    else{this.endorsementSection=false}
     let finalize = sessionStorage.getItem('FinalizeYN');
     if(finalize) this.finalizeYN = finalize;
     this.subuserType = sessionStorage.getItem('typeValue');
@@ -324,9 +326,18 @@ export class CommonProductDetailsComponent {
     else if(this.userType!='Broker' && this.userType!='User'){ this.issuerSection = true;this.adminSection=false; }
     else this.issuerSection = false
      this.currencyCode = this.userDetails?.Result?.CurrencyId;
-    this.queryHeader1 = [ 'No Of Employees','Sum Insured','Occupation','Action','Delete'];
-    this.queryHeader4 = [ 'No Of Employees','Sum Insured','Action','Delete'];
-    this.queryHeader5 = [ 'Types Of Bond','Number Of Years','Sum Insured','Action','Delete'];
+    if(!this.endorsementSection){
+      this.queryHeader1 = [ 'No Of Employees','Sum Insured','Occupation','Action','Delete'];
+      this.queryHeader4 = [ 'No Of Employees','Sum Insured','Action','Delete'];
+      this.queryHeader5 = [ 'Types Of Bond','Number Of Years','Sum Insured','Action','Delete'];
+    } 
+    else{
+      this.queryHeader1 = [ 'No Of Employees','Sum Insured','Occupation'];
+      this.queryHeader4 = [ 'No Of Employees','Sum Insured'];
+      this.queryHeader5 = [ 'Types Of Bond','Number Of Years','Sum Insured'];
+    } 
+    
+    
     this.groupHeader = [
      'No Of Persons','Occupation','Death Sum Insured','Temporary Disability','Permanant Disability','Medical','Funeral Expense','Action','Delete'
     ];

@@ -180,12 +180,13 @@ export class RiskDetailsComponent {
           }]
           this.columnHeaderPersonalLiability =['Location *','Occupation *','Name *','Date Of Birth *','Salary *','Edit' ,'Delete'];
           this.columnHeaderPersonalAccident =['Location *','Occupation *','Name *','Date Of Birth *','Salary *','Edit' ,'Delete'];
-          this.columnHeaderBuilding =['Construction (Wall)','Construction (Roof)','Sum Insured',"Location",'Edit' ,'Delete']
+          this.columnHeaderBuilding =['Construction (Wall)','Construction (Roof)','First Loss Payee','Sum Insured',"Location",'Edit' ,'Delete']
           this.TableRowBuilding =[{
             id:1,
             BuildingUsageId: '',
             BuildingBuildYear : '',
             BuildingAddress : '',
+            FirstossPayee: '',
             WallType: '',
             RoofType: '',
             BuildingSumInsured: 0,
@@ -1047,7 +1048,7 @@ export class RiskDetailsComponent {
       else{this.productItem.SumInsured =0;return 0;} 
     }
     addRowBuilding(){
-    const newItem = { id: this.TableRowBuilding.length + 1, BuildingUsageId: '', BuildingBuildYear : '',SavedYN:'N',
+    const newItem = { id: this.TableRowBuilding.length + 1, BuildingUsageId: '', BuildingBuildYear : '',FirstossPayee: '',SavedYN:'N',
     WallType: '',RoofType: '', BuildingSumInsured: 0,LocationName:'',RiskId:this.TableRowBuilding.length + 1};
     this.TableRowBuilding.push(newItem);
     this.currentBuildingRowIndex = this.TableRowBuilding.length-1;
@@ -3884,6 +3885,7 @@ export class RiskDetailsComponent {
                 "WallType": entry.WallType,
                 "BuildingBuildYear": '2024',
                 "BuildingOwnerYn": "N",
+                "FirstossPayee": entry.FirstossPayee,
                 "BuildingSumInsured": entry.BuildingSumInsured,
                 "BuildingUsageId": entry.BuildingUsageId,
                 "WaterTankSi": this.productItem?.WaterTankSi,
