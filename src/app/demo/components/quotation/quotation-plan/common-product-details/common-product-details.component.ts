@@ -795,7 +795,7 @@ export class CommonProductDetailsComponent {
     else this.regionError=false;
     if(this.stateName==null || this.stateName=='' || this.stateName==undefined){i+=1;this.districtError=true;}
     else this.districtError=false;
-    if(this.BusinessName==null || this.BusinessName=='' || this.BusinessName==undefined){i+=1;this.businessNameError=true;}
+    if((this.BusinessName==null || this.BusinessName=='' || this.BusinessName==undefined) && this.BusinessName!=0){i+=1;this.businessNameError=true;}
     else this.businessNameError=false;
     return i==0;
   }
