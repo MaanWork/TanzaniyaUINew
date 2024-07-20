@@ -3602,7 +3602,8 @@ export class RiskDetailsComponent {
             let urlLink = `${this.CommonApiUrl}master/dropdown/bankmaster`;
             this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
               (data: any) => {
-                  this.bankList = data.Result;
+                let obj=[{"Code":"None",CodeDesc:"None"}]
+                  this.bankList = obj.concat(data.Result);
               })
             
           }  
