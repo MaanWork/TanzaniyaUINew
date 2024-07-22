@@ -26,43 +26,53 @@ export class MachineryBreakDown{
           props: { label: 'Machinery BreakDown' },
           fieldGroup: [
             {
-              fieldGroupClassName: 'row',
-              fieldGroup: [
+              fieldGroupClassName: 'grid',
+              fieldGroup: [     
                   {
-                  fieldGroupClassName: 'grid mt-2',
-                    fieldGroup: [
-                      {
-                        className: 'col-12 md:col-6 lg:col-6 p-2',
-                        type: 'displays',
-                
-                        templateOptions: {
-                          label: `Sum Insured`,
-                          required: false,
+                    type: 'commaSeparator',
+                    key: 'PowerPlantSi',
+                    defaultValue: '',
+                    className: 'col-12 md:col-4 lg:col-4',
+                    templateOptions: {
+                      label: `Sum Insured`,
+                      placeholder: 'Enter Sum Insured',
+                     // disabled: true,
+                      required: true,
+                      options: [
+                          
+                      ],
       
-                        },
-                      },
-                      {
-                        className: 'col-12 md:col-4 lg:col-4',
-                        type: 'commaSeparator',
-                        key: 'PowerPlantSi',
-                        props: { 
-                          label: ``,
-                          maxLength: 15
-                        },
-                        templateOptions: {
-                          disabled: this.checkDisable('BuildingSuminsured')
-                        },
-                        validators: {
-                          validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                        },
-                        hooks: {
-                        },
-        
-                        expressions: {
-                        
-                        },
-                      }
-                    ],
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    type: 'ngselect',
+                    key: 'FirstLossPayee',
+                    defaultValue: '',
+                    className: 'col-12 md:col-4 lg:col-4',
+                    templateOptions: {
+                      label: `First Loss Payee`,
+                      placeholder: 'Select First Loss Payee',
+                     // disabled: true,
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
                   },
                 ]
             }
