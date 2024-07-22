@@ -388,4 +388,23 @@ onPostMethodWithOutAuth(UrlLink: string, ReqObj: any): Observable<any[]> {
       .pipe(catchError(this.handleError));
 }
 
+onPutMethodWithOutAuth(UrlLink: string, ReqObj: any): Observable<any[]> {
+  let headers = new HttpHeaders();
+    headers = headers.append('Cache-Control', 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+    headers = headers.append('Pragma','no-cache');
+    headers = headers.append('Expires','0');
+    headers = headers.append('Content-Type', 'application/json');
+    return this.http
+      .put<any>(UrlLink, ReqObj, { headers: headers })
+      .pipe(catchError(this.handleError));
+}
+onGetMethodWithOutAuth(UrlLink: string): Observable<any[]> {
+  let headers = new HttpHeaders();
+  headers = headers.append('Cache-Control', 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+  headers = headers.append('Pragma','no-cache');
+  headers = headers.append('Expires','0');
+  return this.http
+    .get<any>(UrlLink, { headers: headers })
+    .pipe(catchError(this.handleError));
+}
 }

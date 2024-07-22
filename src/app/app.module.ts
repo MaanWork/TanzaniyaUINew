@@ -30,6 +30,7 @@ import { MotorDocumentsDetailComponent } from './demo/components/MotorDocuments/
 import { TabViewModule } from 'primeng/tabview';
 import { TableModule } from 'primeng/table';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { CardModule } from 'primeng/card';
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
@@ -53,6 +54,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         TreeModule,
         TabViewModule,
         TableModule,
+        CardModule,
         AccordionModule,
         TranslateModule.forRoot({
             loader: {

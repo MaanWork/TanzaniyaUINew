@@ -40,7 +40,7 @@ export class MotorDocumentsDetailComponent {
   PremiumInfo: any;
   sectionnameopted: any;
   tiradetails: any;
-  DocumentInfo: any;
+  DocumentInfo: any[]=[];
   CommonDoc: any[]=[];
   tittlepay: any;
   PremiumInfoList: any;
@@ -50,6 +50,9 @@ export class MotorDocumentsDetailComponent {
   accessoriesList: any;
   LocationList: any;
   risk: any;
+  AllRiskSumInsured: any;
+  ContentSumInsured: void;
+  PersonalLiability: any[]=[];
   constructor(private router:Router,private sharedService: SharedService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -91,6 +94,7 @@ export class MotorDocumentsDetailComponent {
         this.payment();
         this.getDriverDetails();
         this.Documentview();
+        this.domesticRisk();
         //  this.getallriskDetails();
        this.getTiraDetails();
         }
@@ -439,6 +443,29 @@ export class MotorDocumentsDetailComponent {
               this.ViewRisk=data?.Result;
               //this.ChasNo(this.ViewRisk,this.ViewRisk[0].Chassisnumber,'1');
               console.log('mmmmmmmmmm',this.ViewRisk)
+          }
+        },
+        (err) => { },
+      );
+    
+    }
+
+    domesticRisk(){
+      let Reqobj={
+        "QuoteNo": this.quoteNo,
+        "ProductId": this.productId,
+        "RequestReferenceNo": this.ReferenceNo,
+        "InsuranceId": this.insuranceId
+      }
+      let urlLink = `${this.CommonApiUrl}api/adminviewquoteriskdetails`;
+      this.sharedService.onPostMethodSync(urlLink, Reqobj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data?.Result){
+              this.AllRiskSumInsured=data?.Result.AllRisk.AllRiskSumInsured;
+              this.ContentSumInsured=data?.Result.ContentRisk.ContentSumInsured;
+              this.PersonalLiability=data?.Result.PersonalLiability;
+             
           }
         },
         (err) => { },
