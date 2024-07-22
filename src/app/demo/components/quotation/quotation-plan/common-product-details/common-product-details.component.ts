@@ -253,6 +253,8 @@ export class CommonProductDetailsComponent {
   BondError: boolean=false;endorseShortCode:any=null;
   endorseCategory: any=null;endorsementName: any=null;endorsementId: any=null;  
   businessNameError: boolean;
+  TableRowFireAlt: any[]=[];
+  firesubList:any[]=[];
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -495,7 +497,9 @@ export class CommonProductDetailsComponent {
       (data: any) => {
         if (data.Result) {
             if(data.Result.length!=0){
+              sessionStorage.setItem('FireObj',JSON.stringify(data.Result.filter(ele=>ele.SectionId!='0')));
               let entryList = data.Result.filter(ele=>ele.SectionId!='0' && (ele.SectionId!=ele.Business_Interruption));
+              
               if(entryList.length!=0){
                 let details = entryList[0];
                 let startDate=null,endDate=null;
@@ -532,7 +536,7 @@ export class CommonProductDetailsComponent {
                   for(let entry of entryList){
                     entry['Saved']='Y';
                     k+=1;
-                    if(k==entryList.length)  this.TableRowFire = entryList;
+                    if(k==entryList.length){  this.TableRowFire = entryList;}
                   }
                   this.IndustryTypes = '56';
                   this.getRegionList();
@@ -551,7 +555,9 @@ export class CommonProductDetailsComponent {
                 this.formSection=true;
               }
             }
-            else{this.IndustryTypes = '56';
+            else{
+              sessionStorage.removeItem('FireObj');
+              this.IndustryTypes = '56';
               this.TableRowFire=[];
               this.getRegionList();
               this.getFireIndustryTypeList();
@@ -617,51 +623,60 @@ export class CommonProductDetailsComponent {
       (err) => { },
     );
   }
-  Firedelete(index,rowData){
-    if(rowData['Saved']=='Y'){
-      Swal.fire({
-        title: '<strong> &nbsp;Delete Location!</strong>',
-        iconHtml: '<i class="fa-solid fa-trash fa-fade"></i>',
-        icon: 'info',
-        html:
-          `<ul class="list-group errorlist">
-              Are You Sure Want to Delete this Details?
-            </ul>`,
-              showCloseButton: true,
-              focusConfirm: false,
-              showCancelButton:true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              cancelButtonText: 'Cancel',
-              confirmButtonText: 'Delete!',
-        })
-        .then((result) => {
-          if (result.isConfirmed) {
-            let ReqObj={
-              "RequestReferenceNo": this.requestReferenceNo,
-              "RiskId":rowData?.RiskId,
-              "SectionId": rowData?.SectionId
+  Firedelete(index,rowData,type,Obj){
+    if(type=='change'){
+      if(rowData['Saved']=='Y'){
+        Swal.fire({
+          title: '<strong> &nbsp;Delete Location!</strong>',
+          iconHtml: '<i class="fa-solid fa-trash fa-fade"></i>',
+          icon: 'info',
+          html:
+            `<ul class="list-group errorlist">
+                Are You Sure Want to Delete this Details?
+              </ul>`,
+                showCloseButton: true,
+                focusConfirm: false,
+                showCancelButton:true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Cancel',
+                confirmButtonText: 'Delete!',
+          })
+          .then((result) => {
+            if (result.isConfirmed) {
+              let ReqObj={
+                "RequestReferenceNo": this.requestReferenceNo,
+                "RiskId":rowData?.RiskId,
+                "SectionId": rowData?.SectionId
+              }
+              let urlLink = `${this.motorApiUrl}api/deletefire`;
+              this.sharedService.onPostMethodSync(urlLink,[ReqObj]).subscribe(
+                (data: any) => {
+                    this.TableRowFire.splice(index,1);
+                    this.productName='';this.IndustryTypes='56';this.LocationName='';
+                    this.industryValue='';this.region='';this.stateName='';this.FireSumInsured='';
+                    this.CoveringDetails='';this.DescriptionRisk='';this.industryDesc =null;this.sectionDesc=null;this.IndustryTypeValue=null;
+                    this.currentFireIndex=null;
+                },
+                (err) => { },
+              );
             }
-            let urlLink = `${this.motorApiUrl}api/deletefire`;
-            this.sharedService.onPostMethodSync(urlLink,[ReqObj]).subscribe(
-              (data: any) => {
-                  this.TableRowFire.splice(index,1);
-                  this.productName='';this.IndustryTypes='56';this.LocationName='';
-                  this.industryValue='';this.region='';this.stateName='';this.FireSumInsured='';
-                  this.CoveringDetails='';this.DescriptionRisk='';this.industryDesc =null;this.sectionDesc=null;this.IndustryTypeValue=null;
-                  this.currentFireIndex=null;
-              },
-              (err) => { },
-            );
-          }
-        });
+          });
+      }
+      else{
+        this.TableRowFire.splice(index,1);
+        this.productName='';this.IndustryTypes='56';this.LocationName='';
+        this.industryValue='';this.region='';this.stateName='';this.FireSumInsured='';
+        this.CoveringDetails='';this.DescriptionRisk='';this.industryDesc =null;this.sectionDesc=null;this.IndustryTypeValue=null;
+        this.currentFireIndex=null;
+      }
     }
     else{
-      this.TableRowFire.splice(index,1);
-      this.productName='';this.IndustryTypes='56';this.LocationName='';
-      this.industryValue='';this.region='';this.stateName='';this.FireSumInsured='';
-      this.CoveringDetails='';this.DescriptionRisk='';this.industryDesc =null;this.sectionDesc=null;this.IndustryTypeValue=null;
-      this.currentFireIndex=null;
+      let urlLink = `${this.motorApiUrl}api/deletefire`;
+      this.sharedService.onPostMethodSync(urlLink,Obj).subscribe(
+        (data: any) => {
+              this.onSaveFireRiskDetails(type);
+        });
     }
   }
   BurglaryDelete(index){
@@ -706,7 +721,7 @@ export class CommonProductDetailsComponent {
        this.industryValue = rowData.OccupationId;
        this.industryDesc = rowData.OccupationDesc;
        this.LocationName = rowData.LocationName;
-       if(rowData.Business_Interruption!=null && rowData.Business_Interruption!='' && rowData.Business_Interruption!=undefined) this.BusinessName = Number(rowData.Business_Interruption);
+       if(rowData.Business_Interruption!=null && rowData.Business_Interruption!=undefined) this.BusinessName = Number(rowData.Business_Interruption);
        this.region = rowData.RegionCode;
        this.onChangeBusinessSection();
        this.filterSectionList('direct')
@@ -719,6 +734,7 @@ export class CommonProductDetailsComponent {
        
    }
   addFireTable(type){
+    console.log("Final List",this.TableRowFireAlt,this.TableRowFire)
     this.industryTypeError=false;this.industryError=false;
     let entry = this.checkFireValidation();
       if(entry){
@@ -742,7 +758,21 @@ export class CommonProductDetailsComponent {
             entry['Business_Interruption'] = this.BusinessName;
             entry['BusinessNameDesc'] = this.getBusinessNameDesc(this.BusinessName);
             entry['BuildingSumInsured'] = String(this.FireSumInsured).replaceAll(',','');
-            this.onSaveFireRiskDetails(type);
+            if(sessionStorage.getItem('FireObj')) this.TableRowFireAlt = JSON.parse(sessionStorage.getItem('FireObj'));
+            let obj = this.TableRowFireAlt.filter(ele=>ele.RiskId==this.currentFireIndex+1 || ele.RiskId==String(this.currentFireIndex+1))
+            if(obj.length!=0){
+                let deleteList = [],j=0;
+                for(let detail of obj){
+                  let deleteObj = {
+                    "RequestReferenceNo": this.requestReferenceNo,
+                    "RiskId": detail.RiskId,
+                    "SectionId": detail.SectionId 
+                  }
+                  deleteList.push(deleteObj);j+=1;
+                  if(j==obj.length){this.Firedelete(null,null,type,deleteList)}
+                }
+            }
+            else this.onSaveFireRiskDetails(type);
           }
         } 
         else{
@@ -767,7 +797,21 @@ export class CommonProductDetailsComponent {
             }
           )
           this.currentFireIndex = this.TableRowFire.length-1;
-          this.onSaveFireRiskDetails(type);
+          if(sessionStorage.getItem('FireObj')) this.TableRowFireAlt = JSON.parse(sessionStorage.getItem('FireObj'));
+            let obj = this.TableRowFireAlt.filter(ele=>ele.RiskId==this.currentFireIndex+1 || ele.RiskId==String(this.currentFireIndex+1))
+            if(obj.length!=0){
+                let deleteList = [],j=0;
+                for(let detail of obj){
+                  let deleteObj = {
+                    "RequestReferenceNo": this.requestReferenceNo,
+                    "RiskId": detail.RiskId,
+                    "SectionId": detail.SectionId 
+                  }
+                  deleteList.push(deleteObj);j+=1;
+                  if(j==obj.length){this.Firedelete(null,null,type,deleteList)}
+                }
+            }
+            else this.onSaveFireRiskDetails(type);
         }
       }
   }
@@ -896,7 +940,8 @@ export class CommonProductDetailsComponent {
               }
             ];
             let listIndex=0;
-            for(let entry of list){listIndex+=1;this.onFinalSaveFire(entry,sectionIds,type,refNo,havePromoYN,null,listIndex)}
+            this.firesubList = list;
+            for(let entry of list){listIndex+=1;if(listIndex==1)this.onFinalSaveFire(entry,sectionIds,type,refNo,havePromoYN,null,listIndex)}
            
           }
           else{ this.onFinalSaveFire(obj,sectionIds,type,refNo,havePromoYN,null,0)}
@@ -947,14 +992,15 @@ export class CommonProductDetailsComponent {
                   }
                 ];
                 let listIndex=0;
-                for(let entry of list){listIndex+=1;if(listIndex==2){j+=1}this.onFinalSaveFire(entry,sectionIds,type,refNo,havePromoYN,j,null)}
+                this.firesubList = list;
+                for(let entry of list){listIndex+=1;if(listIndex==2){j+=1}if(!(listIndex==2 && this.requestReferenceNo==null)) this.onFinalSaveFire(entry,sectionIds,type,refNo,havePromoYN,j,null)}
               }
               else{
                 j+=1;
                 this.onFinalSaveFire(obj,sectionIds,type,refNo,havePromoYN,j,null)
               }
             }
-            else{j+=1;this.totalIndex+=1;if(this.totalIndex==this.TableRowFire.length){this.router.navigate(['/quotation/plan/premium-details']);}}
+            else{j+=1;this.totalIndex+=1;if(this.totalIndex==this.TableRowFire.length){sessionStorage.removeItem('FireObj');this.router.navigate(['/quotation/plan/premium-details']);}}
           }
         }
     }
@@ -1071,6 +1117,9 @@ export class CommonProductDetailsComponent {
                 obj['MSRefNo'] = data?.Result[0]?.MSRefNo;
                 obj['CdRefNo'] = data?.Result[0]?.CdRefNo;
                 obj['VdRefNo'] = data?.Result[0]?.VdRefNo;
+                if(subIndex==1 && this.firesubList.length!=0){ this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;this.onFinalSaveFire(this.firesubList[1],sectionIds,type,refNo,havePromoYN,index,2)} 
+                else if(index==1 && this.requestReferenceNo == null && this.firesubList.length!=0 ){ this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo; this.onFinalSaveFire(this.firesubList[1],sectionIds,type,refNo,havePromoYN,2,null)}
+                this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
                 sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
                 this.onCalculateFire(data.Result,type,index,subIndex,obj);
             }
@@ -1138,12 +1187,13 @@ export class CommonProductDetailsComponent {
               i += 1;
               if (i == buildDetails.length) {
                   if(type=='Save'){
-                    if((subObj.Business_Interruption!=0 && subIndex==2) || subObj.Business_Interruption==0){
+                    if(((subObj.Business_Interruption!=0 && subObj.Business_Interruption!='0') && subIndex==2) || subObj.Business_Interruption==0 || subObj.Business_Interruption=='0'){
                       this.productName='';this.IndustryTypes='56';this.LocationName='';this.BusinessName='';
                       this.industryValue='';this.region='';this.stateName='';this.FireSumInsured='';
                       this.CoveringDetails='';this.DescriptionRisk='';this.industryDesc =null;this.sectionDesc=null;this.IndustryTypeValue=null;
                       this.currentFireIndex=null;
                       this.getFireIndustryList('direct');
+                      this.getFireRiskDetails();
                     }
                   }
                   else{

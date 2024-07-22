@@ -1201,7 +1201,7 @@
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditFire(emp)"></button>  
                             </td>
                             <td>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="Firedelete(i,emp)"></button>  
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="Firedelete(i,emp,'change',null)"></button>  
                             </td>
                             </tr>
                         </ng-template>
@@ -1228,7 +1228,7 @@
                         </div>
                     </div>
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3 ">
-                        <div class="input-control-container">
+                        <div class="input-control-container mt-2">
                             <label for="ProductName">Industry</label>&nbsp;<span class="text-danger">*</span>
                             <p-dropdown [filter]="true" filterBy="CodeDesc"  inputId="industryType" class="w-full"
                              styleClass="w-full" [options]="fireIndustryList" optionValue="Code" optionLabel="CodeDesc"

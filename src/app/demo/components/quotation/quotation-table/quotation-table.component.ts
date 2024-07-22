@@ -76,7 +76,7 @@ export class QuotationTableComponent implements OnInit {
     sessionStorage.removeItem('firstLoad');
     sessionStorage.removeItem('VechileDetails');
     sessionStorage.removeItem('FinalizeYN');
-
+    sessionStorage.removeItem('FireObj');
   }
 
   ngOnInit() {
