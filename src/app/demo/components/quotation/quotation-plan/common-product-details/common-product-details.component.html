@@ -58,7 +58,7 @@
                 <div class="lg:col-3 md:col-3 col-12">
                     <label for="username">Start Date</label>
                     <p-calendar class="w-full" styleClass="w-full" [(ngModel)]="policyStartDate"
-                        (onSelect)="onStartDateChange('change')" 
+                        (onSelect)="onStartDateChange('change')" [disabled]="endorsementSection"
                         dateFormat="dd/mm/yy" placeholder="Select Start Date">
                     </p-calendar>
                     <div class="input-form-error bottomSpacing" *ngIf="policyStartDateError">
@@ -70,7 +70,7 @@
                 <div class="lg:col-3 md:col-3 col-12">
                         <label for="username">End Date</label>
                         <p-calendar class="w-full" styleClass="w-full"  [(ngModel)]="policyEndDate"
-                        (onSelect)="onChangeEndDate()" dateFormat="dd/mm/yy"
+                        (onSelect)="onChangeEndDate()" dateFormat="dd/mm/yy" [disabled]="endorsementSection"
                             placeholder="Select End Date">
                         </p-calendar>
                         <div class="input-form-error bottomSpacing" *ngIf="policyEndDateError">
@@ -82,7 +82,7 @@
                 <div class="lg:col-4 md:col-4 col-12">
                     <label for="username">Currency*</label>
                     <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="make" class="w-full" styleClass="w-full"  [options]="currencyList"
-                    [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')"
+                    [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')" [disabled]="endorsementSection"
                         optionLabel="CodeDesc" optionValue="Code" >
                     </p-dropdown>
                     <div class="input-form-error bottomSpacing" *ngIf="currencyCodeError">
@@ -93,7 +93,7 @@
                 </div>
                 <div class="lg:col-4 md:col-4 col-12">
                     <label for="username">Exchange Rate</label>
-                    <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="exchangeRate" (onChange)="onExchangeRateChange('change')" />
+                    <input pInputText class="w-full" id="username" [disabled]="endorsementSection" maxlength="50" [(ngModel)]="exchangeRate" (onChange)="onExchangeRateChange('change')" />
                     <div class="input-form-error bottomSpacing" *ngIf="exchangeRateError">
                         <div class="error-text text-danger">
                             <span class="spancommon span_font_size"> Please Enter Valid Exchange Rate</span>
@@ -102,7 +102,7 @@
                 </div>
                 <div class="lg:col-3 md:col-3 col-12">
                     <label for="username">PromoCode&nbsp;(Optional)</label>
-                    <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="promocode" (onChange)="onPromoCodeChange('change')" placeholder="Enter Promo Code" />
+                    <input pInputText class="w-full" id="username" maxlength="50" [disabled]="endorsementSection" [(ngModel)]="promocode" (onChange)="onPromoCodeChange('change')" placeholder="Enter Promo Code" />
                 </div>
             </div>
             
@@ -144,19 +144,19 @@
                     <div class="lg:col-6 md:col-6 col-12">
                         <label for="username">Source Type *</label>
                         <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="sourceType" class="w-full" styleClass="w-full"
-                        [options]="productList13" [(ngModel)]="Code" (onChange)="onSourceTypeChange('change')" optionLabel="CodeDesc" optionValue="Code" placeholder="Select SourceType">
+                        [options]="productList13" [(ngModel)]="Code" [disabled]="endorsementSection" (onChange)="onSourceTypeChange('change')" optionLabel="CodeDesc" optionValue="Code" placeholder="Select SourceType">
                         </p-dropdown>
                     </div>
                         <div class="lg:col-6 md:col-6 col-12"
                             *ngIf="issuerSection && (sourceCodeDesc=='Premia Agent' || sourceCodeDesc=='Premia Broker' || sourceCodeDesc=='Premia Direct')">
                             <label for="username">Source Name *</label>
-                            <input pInputText id="username" class="w-full" [(ngModel)]="customerName" disabled type="text"
+                            <input pInputText id="username" class="w-full" [disabled]="endorsementSection" [(ngModel)]="customerName" disabled type="text"
                                 placeholder="Source Name" />
                         </div>
                         <div class="lg:col-6 md:col-6 col-12" *ngIf="issuerSection && (sourceCodeDesc=='agent' || sourceCodeDesc=='Agent' || sourceCodeDesc=='broker' || sourceCodeDesc=='direct' || sourceCodeDesc=='Direct' || sourceCodeDesc=='bank' || sourceCodeDesc=='Bank' || sourceCodeDesc=='Broker' || sourceCodeDesc=='whatsapp' || sourceCodeDesc=='Whatsapp')">
                         <label for="username">Source Code*</label>
                         <input pInputText id="username" class="w-full" maxlength="50" 
-                                    [(ngModel)]="customerCode"
+                                    [(ngModel)]="customerCode" [disabled]="endorsementSection"
                                 type="text" (keyup)="onGetCustomerList('change',$event.target.value)" autocomplete="off"
                                 placeholder="Search here" data-toggle="dropdown" />
                                 <ul class="dropdown-menu dropdown-list-style CustomerInput" appendTo="body"
@@ -218,7 +218,7 @@
                      || productId=='13' || productId=='24'"><!--|| productId=='57'-->
                             <label for="username">Industry</label>
                             <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="make" class="w-full" styleClass="w-full" [options]="industryList"
-                                [(ngModel)]="IndustryId" 
+                                [(ngModel)]="IndustryId" [disabled]="endorsementSection" 
                                 optionLabel="CodeDesc" optionValue="Code" placeholder="Select Industry">
                             </p-dropdown>
                             <div class="input-form-error" *ngIf="industryError">
@@ -241,7 +241,7 @@
                 <div class="lg:col-2 md:col-2 col-12">
                     <label for="username">Start Date</label>
                     <p-calendar class="w-full" styleClass="w-full" [(ngModel)]="policyStartDate"
-                        (onSelect)="onStartDateChange('change')" 
+                        (onSelect)="onStartDateChange('change')" [disabled]="endorsementSection"
                         dateFormat="dd/mm/yy" placeholder="Select Start Date">
                     </p-calendar>
                     <div class="input-form-error bottomSpacing" *ngIf="policyStartDateError">
@@ -253,7 +253,7 @@
                 <div class="lg:col-2 md:col-2 col-12">
                         <label for="username">End Date</label>
                         <p-calendar class="w-full" styleClass="w-full"  [(ngModel)]="policyEndDate"
-                        (onSelect)="onChangeEndDate()" dateFormat="dd/mm/yy"
+                        (onSelect)="onChangeEndDate()" dateFormat="dd/mm/yy" [disabled]="endorsementSection"
                             placeholder="Select End Date">
                         </p-calendar>
                         <div class="input-form-error bottomSpacing" *ngIf="policyEndDateError">
@@ -265,17 +265,17 @@
                 <div class="lg:col-3 md:col-3 col-12">
                     <label for="username">Currency*</label>
                     <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="make" class="w-full" styleClass="w-full"  [options]="currencyList"
-                    [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')"
+                    [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')" [disabled]="endorsementSection"
                         optionLabel="CodeDesc" optionValue="Code" >
                     </p-dropdown>
                 </div>
                 <div class="lg:col-2 md:col-2 col-12">
                     <label for="username">Exchange Rate</label>
-                    <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="exchangeRate" />
+                    <input pInputText class="w-full" id="username" maxlength="50" [disabled]="endorsementSection" [(ngModel)]="exchangeRate" />
                 </div>
                 <div class="lg:col-2 md:col-2 col-12">
                     <label for="username">PromoCode&nbsp;(Optional)</label>
-                    <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="promocode" placeholder="Enter Promo Code" />
+                    <input pInputText class="w-full" id="username" maxlength="50" [disabled]="endorsementSection" [(ngModel)]="promocode" placeholder="Enter Promo Code" />
                 </div>
                 </div>
                 <div class="grid">
@@ -283,7 +283,7 @@
                     || productId=='13' || productId=='24' "><!--|| productId=='57'-->
                         <label for="username">Industry</label>
                         <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="make" class="w-full" styleClass="w-full" [options]="industryList"
-                            [(ngModel)]="IndustryId" 
+                            [(ngModel)]="IndustryId" [disabled]="endorsementSection"
                             optionLabel="CodeDesc" optionValue="Code" placeholder="Select Industry">
                         </p-dropdown>
                         <div class="input-form-error" *ngIf="industryError">
@@ -404,9 +404,9 @@
             </div>
             <div class="grid pl-5 pr-2 pb-0">
                 <div class="lg:col-10 xl:col-10 md:col-10 col-10 m-0 p-0">
-                    <div class="flex flex-wrap justify-content-end">
+                    <div class="flex flex-wrap justify-content-end" *ngIf="!endorsementSection">
                         <div>
-                            <p-button  styleClass="p-button-outlined"
+                            <p-button  styleClass="p-button-outlined" 
                                 size="small" (click)="createCover(null,myModal2)" > <i class="fas fa-plus"></i>&nbsp;Add New Employee
                             </p-button>&nbsp;
                         </div>
@@ -430,10 +430,10 @@
                                 </td>
                                 <td>{{emp?.EmpLiabilitySi}}</td>
                                 <td>{{emp?.OtherOccupation}}</td>
-                                <td>
+                                <td *ngIf="!endorsementSection">
                                     <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditBuilding(emp,i)"></button>  
                                 </td>
-                                <td>
+                                <td *ngIf="!endorsementSection">
                                     <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="delete(i)"></button>  
                                 </td>
                                 </tr>
@@ -1201,7 +1201,7 @@
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditFire(emp)"></button>  
                             </td>
                             <td>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="Firedelete(i,emp)"></button>  
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" (click)="Firedelete(i,emp,'change',null)"></button>  
                             </td>
                             </tr>
                         </ng-template>
@@ -1209,7 +1209,7 @@
                 </ng-container>
                 <div class="grid">
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                    <div class="col-12 lg:col-4 md:col-4 lx:col-4">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
                         <div class="input-control-container">
                             <label >Industry Type <span class="text-danger">*</span></label><br>
                             <div class="input-form-radio-box mt-2">
@@ -1227,11 +1227,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="grid">
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3 ">
-                        <div class="input-control-container">
+                        <div class="input-control-container mt-2">
                             <label for="ProductName">Industry</label>&nbsp;<span class="text-danger">*</span>
                             <p-dropdown [filter]="true" filterBy="CodeDesc"  inputId="industryType" class="w-full"
                              styleClass="w-full" [options]="fireIndustryList" optionValue="Code" optionLabel="CodeDesc"
@@ -1244,11 +1241,15 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="grid">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                    
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3 ">
                         <div class="input-control-container">
                             <label for="ProductName">Industry Cover</label>&nbsp;<span class="text-danger">*</span>
                             
-                            <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="industry" class="w-full" styleClass="w-full" [options]="productNameList" optionValue="Code" optionLabel="CodeDesc" (onChange)="onChangeSection()" [(ngModel)]="productName" placeholder="-Select-">
+                            <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="industry" class="w-full" styleClass="w-full" [options]="productNameList" optionValue="Code" optionLabel="CodeDesc" (onChange)="onChangeSection();onChangeBusinessSection()" [(ngModel)]="productName" placeholder="-Select-">
                             </p-dropdown>
                             <div class="input-form-error" *ngIf="productNameError">
                                 <div class="error-text text-danger">
@@ -1257,7 +1258,18 @@
                             </div>
                         </div>
                     </div>
-                    
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3 ">
+                        <div class="input-control-container">
+                            <label for="ProductName">Business Interruption</label>&nbsp;<span class="text-danger">*</span>
+                            <p-dropdown [filter]="true" filterBy="CodeDesc"  class="w-full" styleClass="w-full" [options]="businessInterruptionList" optionValue="Code" optionLabel="CodeDesc"  [(ngModel)]="BusinessName" placeholder="-Select-">
+                            </p-dropdown>
+                            <div class="input-form-error" *ngIf="businessNameError">
+                                <div class="error-text text-danger">
+                                    Please Select Business Interruption
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="grid">
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>

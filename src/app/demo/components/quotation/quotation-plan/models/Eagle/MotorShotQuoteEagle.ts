@@ -3,7 +3,7 @@
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { ForceLengthValidators } from "../../personal-quote-details/personal-quote-details.component";
 
-export class MotorShotQuoteMadison{
+export class MotorShotQuoteEagle{
     customerDetails: any;
     commonDetails: any[]=[];
     endorsementSection: boolean=false;subuserType:any=null;
@@ -207,8 +207,6 @@ export class MotorShotQuoteMadison{
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     type: 'commaSeparator',
                     key: 'VehicleSI',
-                    hide: true,
-                    hideExpression:true,
                     props: {
                       label: `VehicleSI`,
                       maxLength: 15,
@@ -315,5 +313,5 @@ export class MotorShotQuoteMadison{
         else if(this.subuserType=='low') return this.finalizeYN=='Y'; 
         else return false;
       
-      }
+    }
 }

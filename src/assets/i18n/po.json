@@ -135,6 +135,7 @@
         "PhoneNo":"Telefone não","Date":"Data","Content":"Contente"
     },
     "QUOTEGRID":{
+        "NoOfDays":"Número de dias",
         "Quotation": "cotação",
         "Existing": "Existir",
         "Lapsed": "Caducada",
@@ -200,6 +201,7 @@
        "EnteranycodetoSearch": "Digite qualquer código para pesquisar",
        "PleaseEnterValidSourceCode": "Insira o código-fonte válido",
        "Search":"Procurar",
+       "RenewalYn": "Renovação Sim/não",
        "PeriodOfInsurance":"Período de seguro",
        "SelectStartDate":"Selecione a data de início",
       "SelectEndDate":"Selecione a data de término",
@@ -220,6 +222,7 @@
       "MotorUsage":"Uso do motor",
       "Claims": "Reivindicações",
       "GPS":"GPS",
+      "Selectt": "---Selecione---",
       "EngineNo":"Número do motor",
       "EngineCapacity":"Capacidade do motor",
       "SeatingCapacity":"Capacidade de assentos",

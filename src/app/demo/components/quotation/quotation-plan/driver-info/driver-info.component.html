@@ -93,8 +93,9 @@
                 <ng-container *ngFor="let list of vehicleDetailsList">
                     <ng-container *ngIf="list.VehicleId==veh.RiskId">
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
-                            <label for="username">{{'DRIVERINFO.SeriesNumber' | translate}}</label>
+                            <label for="username">{{'DRIVERINFO.SeriesNumber' | translate}} &nbsp;(Eg: TRN-123)</label>
                             <input pInputText maxlength="20" class="w-full" styleClass="w-full" [(ngModel)]="list.SeriesNo" [placeholder]="'DRIVERINFO.EnterSeriesNumber' | translate"/>
+                            
                         </div>
                     
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">

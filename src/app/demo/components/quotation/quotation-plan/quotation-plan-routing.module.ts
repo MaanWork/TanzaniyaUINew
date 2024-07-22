@@ -33,9 +33,6 @@ const routes: Routes = [
       { path: 'document-info', component: DocumentInfoComponent },
       { path: 'payment', component: PaymentInfoComponent },
       { path: 'policy-info', component: PolicyInfoComponent },
-     
-     
-      
     ] 
   },
   { path: 'motor-details', component: VehicleCreateFormComponent },

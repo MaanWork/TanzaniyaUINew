@@ -21,8 +21,7 @@ declare var $:any;
 
 @Component({
   selector: 'app-Sms',
-  templateUrl: './Sms.component.html',
-  styleUrls: ['./Sms.component.scss'],
+  templateUrl: './Sms.component.html'
 })
 
 

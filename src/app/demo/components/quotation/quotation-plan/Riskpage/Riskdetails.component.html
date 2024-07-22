@@ -69,7 +69,7 @@
                                     </div>
                                     
                                 </div>
-                                <div class="flex flex-warp justify-content-center mt-2" *ngIf="locationIndex">
+                                <div class="flex flex-warp justify-content-center mt-2" *ngIf="locationIndex!=null">
                                     <!-- <p-button label="Cancel" (click)="onCancelLocation('content')" />&nbsp; -->
                                     <p-button label="Save Locations" (click)="onSaveLocationDetails()" />
                                 </div>
@@ -161,7 +161,7 @@
                       <ng-container *ngFor="let item of TableRowBuilding">
                       <p-tabPanel [header]="item.LocationName"> -->
                      
-                      <ng-container  class="mt-5" *ngIf="!buildingEditSection && TableRowBuilding.length!=0">
+                      <ng-container  class="mt-5" *ngIf="!buildingEditSection">
                           <p-table [value]="TableRow" dataKey="id" editMode="row" [rows]="5" [paginator]="false" [tableStyle]="{'min-width': '50rem' }" >
                               <ng-template pTemplate="header">
                                   <tr>
@@ -353,7 +353,6 @@
                                 <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Roof Type" 
                                  [options]="roofMaterialList" 
                                         appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="Building.RoofType" />
-                                        
                             </ng-container>
                             <ng-container *ngIf="currentBuildingRowIndex!=ri">
                                 {{getRoofTypeDescription(Building.RoofType)}}
@@ -363,6 +362,22 @@
                                     Select RoofType
                                 </div>
                             </div>  
+                        </td>
+                        <td>
+                            <ng-container *ngIf="currentBuildingRowIndex==ri">
+                                <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select FirstLossPayee"
+                                    [options]="bankList" (onChange)="onChangeFirstLoss(Building)"
+                                        appendTo="body" optionLabel="CodeDesc" optionValue="Code"  [(ngModel)]="Building.FirstLossPayee" />
+                                 
+                            </ng-container>
+                            <ng-container *ngIf="currentBuildingRowIndex!=ri">
+                               {{Building.FirstLossPayee}}
+                            </ng-container>
+                            <div class="input-form-error" *ngIf="Building.FirstLossPayeeError">
+                                <div class="error-text text-danger">
+                                   Select FirstLossPayee
+                                </div>
+                            </div>
                         </td>
                         <td>
                             <ng-container *ngIf="currentBuildingRowIndex==ri">
@@ -380,28 +395,23 @@
                         </td>
                        
                         <td>
-                            <!-- <ng-container *ngIf="currentBuildingRowIndex==ri">
-                                <input pInputText  type="text"  [(ngModel)]="Building.LocationName" />
-                                
-                            </ng-container>
-                            <ng-container *ngIf="currentBuildingRowIndex!=ri">
-                                {{Building.LocationName }}
-                            </ng-container> -->
-
                             <ng-container *ngIf="currentBuildingRowIndex==ri">
                                 <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Location"
                                     [options]="locationList" (onChange)="onChangeContentLocation(Building)"
                                         appendTo="body" optionLabel="LocationName" optionValue="RiskId"  [(ngModel)]="Building.RiskId" />
-                                 <div class="input-form-error" *ngIf="Building.LocationError">
-                                    <div class="error-text text-danger">
-                                       Select Location
-                                    </div>
-                                </div>
+                                 
                             </ng-container>
                             <ng-container *ngIf="currentBuildingRowIndex!=ri">
                                {{Building.LocationName}}
                             </ng-container>
-
+                            <div class="input-form-error" *ngIf="Building.LocationError || Building.DuplicateError">
+                                <div class="error-text text-danger" *ngIf="Building.LocationError">
+                                   Select Location
+                                </div>
+                                <div class="error-text text-danger" *ngIf="Building.DuplicateError">
+                                     Mutliple Times Same Location Used
+                                 </div>
+                            </div>
 
                             <!-- <div class="input-form-error" *ngIf="Building.LocationError">
                                 <div class="error-text text-danger">

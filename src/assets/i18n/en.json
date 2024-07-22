@@ -113,6 +113,7 @@
         "PhoneNo":"PhoneNo","Date":"Date","Content":"Content"
     },
     "QUOTEGRID":{
+        "NoOfDays":"No Of Days",
         "Quotation": "Quotation",
         "Existing": "Existing",
         "Lapsed": "Lapsed",
@@ -179,6 +180,7 @@
       "EnteranycodetoSearch": "Enter any code to Search",
       "PleaseEnterValidSourceCode": "Please Enter Valid Source Code",
       "Search":"Search",
+      "RenewalYn": "RenewalYn",
       "PeriodOfInsurance":"Period Of Insurance",
       "SelectStartDate":"Select Start Date",
       "SelectEndDate":"Select End Date",
@@ -200,6 +202,7 @@
       "MotorUsage":"Motor Usage",
       "Claims": "Claims",
       "GPS":"GPS",
+      "Selectt": "---Select---",
       "VehicleSI":"VehicleSI",
       "AccessoriesSI":"AccessoriesSI",
       "WindShieldSI":"WindShieldSI",
