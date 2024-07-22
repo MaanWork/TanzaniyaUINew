@@ -34,9 +34,11 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { MaterialModule } from 'src/app/material/material.module';
 import { PickListModule } from 'primeng/picklist';
 import { ReInsuranceComponent } from './re-insurance.component';
+import { PolicySearchComponent } from './transaction/policy-search/policy-search.component';
 @NgModule({
   declarations: [
-    ReInsuranceComponent
+    ReInsuranceComponent,
+    PolicySearchComponent
     ],
   imports: [
     CommonModule,

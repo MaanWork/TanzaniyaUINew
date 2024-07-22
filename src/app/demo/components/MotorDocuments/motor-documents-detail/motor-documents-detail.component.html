@@ -147,7 +147,7 @@
              </p-tabPanel>
              <p-tabPanel header="Integration">
                 <p-tabView>
-                <p-tabPanel header="Tira Integration">
+                <p-tabPanel *ngIf="productId=='5'" header="Tira Integration">
                     <div class="grid">
                         <div class="col-12 sm:col-3 md:col-3 ">
                             <h5>Status</h5>
@@ -276,7 +276,7 @@
     </p-tabView>
     </p-accordionTab>
     
-    <p-accordionTab header="Vehicle Info">
+    <p-accordionTab *ngIf="productId=='5'" header="Vehicle Info">
         <p-tabView>
             <p-tabPanel header="Vehicle Information">
                 <p-table [value]="RopVechileDetails" [tableStyle]="{ 'min-width': '50rem' }">
@@ -339,6 +339,107 @@
                 </p-table>
             </p-tabPanel>
         </p-tabView>
+    </p-accordionTab>
+
+    <p-accordionTab *ngIf="productId=='59'" header="Domestic Details">
+        <div class="grid">
+            <!-- <div class="col-12 lg:col-4 md:col-4">
+                    <p-card header="Building Details">
+                        <div class="grid justify-content-between ">
+                            <div class="col-12 lg:col-2 md:col-2"></div>
+                            <div class="col-12 lg:col-4 md:col-4">
+                            <p>
+                               <b>All Risk</b>
+                            </p>
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4">
+                            <p>
+                                {{AllRiskSumInsured}}
+                            </p>
+                        </div>
+                        </div>
+                    </p-card>
+            </div> -->
+            <div class="col-12 lg:col-4 md:col-4">
+                    <p-card header="Contents Risk">
+                        <div class="grid justify-content-between ">
+                            <div class="col-12 lg:col-2 md:col-2"></div>
+                            <div class="col-12 lg:col-4 md:col-4">
+                            <p>
+                               <b>Contents Risk</b>
+                            </p>
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4">
+                            <p>
+                                {{ContentSumInsured}}
+                            </p>
+                        </div>
+                        </div>
+                    </p-card>
+            </div>
+            <div class="col-12 lg:col-4 md:col-4">
+                    <p-card header="All Risk">
+                        <div class="grid justify-content-between ">
+                            <div class="col-12 lg:col-2 md:col-2"></div>
+                            <div class="col-12 lg:col-4 md:col-4">
+                            <p>
+                               <b>All Risk</b>
+                            </p>
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4">
+                            <p>
+                                {{AllRiskSumInsured}}
+                            </p>
+                        </div>
+                        </div>
+                    </p-card>
+            </div>
+            <div class="col-12 lg:col-4 md:col-4">
+                    <p-card header="Personal Liability">
+                        <div class="grid justify-content-between ">
+                            <div class="col-12 lg:col-2 md:col-2"></div>
+                            <div class="col-12 lg:col-4 md:col-4">
+                                <p>
+                                <b>Occupation</b>
+                                </p>
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4">
+                                <p>
+                                    {{PersonalLiability.OccupationTypeDesc}}
+                                </p>
+                            </div>
+                            </div>
+                            <div class="grid justify-content-between ">
+                            <div class="col-12 lg:col-2 md:col-2"></div>
+                            <div class="col-12 lg:col-4 md:col-4">
+                                <p>
+                                <b>Sum Insured</b>
+                                </p>
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4">
+                                <p>
+                                    {{PersonalLiability.SumInsured}}
+                                </p>
+                            </div>
+                            </div>
+                        
+                    </p-card>
+            </div>
+            <!-- <div class="col-12 lg:col-4 md:col-4">
+                    <p-card header="Electronic Equipment">
+                        <p class="m-0">
+                        </p>
+                        </p-card>
+              
+            </div>
+            <div class="col-12 lg:col-4 md:col-4">
+                    <p-card header="Personal Accident">
+                        <p class="m-0">
+                        </p>
+                    </p-card>
+            </div> -->
+        </div>
+       
     </p-accordionTab>
     <p-accordionTab header="Payment">
         <p-tabView>
@@ -466,7 +567,7 @@
                 </p-tabPanel>
             </p-tabView>
     </p-accordionTab>
-    <p-accordionTab header="Tira Details">
+    <p-accordionTab *ngIf="insuranceId=='100004' && productId=='5'" header="Tira Details">
         <ng-container *ngIf="tiradetails.length!=0">
             <p-tabView>
                 <p-tabPanel header="Tira Details">

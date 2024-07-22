@@ -80,6 +80,7 @@ import { CustomerInfoComponent } from '../../auth/login/customer-info/customer-i
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from 'src/app/app.module';
 import { HttpClient } from '@angular/common/http';
+import { HomePremiumComponent } from './home-premium/home-premium.component';
 //import { textareaTypeField } from './formlyTypes/textareaTypeField';
 export function maxlengthValidationMessage(err, field) {
   return `This value should be less than ${field.templateOptions.maxLength} characters`;
@@ -117,7 +118,8 @@ export function maxlengthValidationMessage(err, field) {
     RiskDetailsComponent,
     ShortQuoteComponent,
     TravelQuoteDetailsComponent,
-    CustomerInfoComponent
+    CustomerInfoComponent,
+    HomePremiumComponent
   ],
   imports: [
     CommonModule,
