@@ -18,6 +18,7 @@ import { CopyQuoteComponent } from './copyQuote/copyquote.component';
 import { ShortQuoteComponent } from './short-quote/short-quote.component';
 import { TravelQuoteDetailsComponent } from './travel-quote-details/travel-quote-details.component';
 import { OTPComponent } from '../../auth/login/otp/otp.component';
+import { HomePremiumComponent } from './home-premium/home-premium.component';
 
 const routes: Routes = [
   { 
@@ -43,6 +44,7 @@ const routes: Routes = [
   { path: 'risk-page', component: RiskDetailsComponent },
   { path: 'personal-quote-details', component: PersonalQuoteDetailsComponent },
   { path: 'copy-quote', component: CopyQuoteComponent },
+  { path: 'homepremium', component: HomePremiumComponent },
   { 
     path: 'premium-details', 
     component: CoverDetailsComponent,

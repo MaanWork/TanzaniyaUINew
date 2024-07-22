@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { SharedService } from 'src/app/shared/shared.service';
-
+import * as Mydatas from '../../../../app-config.json';
 @Component({
   selector: 'app-re-insurance',
   templateUrl: './re-insurance.component.html',
@@ -12,48 +12,19 @@ import { SharedService } from 'src/app/shared/shared.service';
 })
 export class ReInsuranceComponent implements OnInit{
   
-  columnHeader: any[];
-  columnHeader1: any[];
-  columnHeader2: any[];
-  columnHeader3: any[];
-  visible1:boolean=false;
-  visible2:boolean=false;
-  visible3:boolean=false;
-  visible4:boolean=false;
-  insuranceName: string;
-  insuranceId: string;
-  activeMenu: string;
-  userDetails: any;
-  UserType: any;
-  ProductId: any;
-  MenuMasterList: any;
-  loginId: any;
-  CommonApiUrl1: any;
-  branchList:any[]=[];
-  branchValue: any;
-  treatyTypeMasterList: any[]=[];
-  TreatyName: any;
-  TreatyNumber: any;
-  EffectiveStartDate: any;
-  Status: any;
-  TreatyEditSection: boolean=false;
-  LayerNo: any;
-  treatyMasterList: any[]=[];
-  AmendId: any;
-  Cover: any;
-  EffectiveDate: any;
-  EndDate: any;
-  LeadershipYn: any;
-  NumberOfLines: any;
-  OverallLimit: any;
-  Product: any;
-  RetentionPercentage: any;
-  Section: any;
-  StartDate: any;
-  TreatyCode: any;
-  TreatyPercentage: any;
-  TreatyType: any;
-  Year: any;
+  columnHeader: any[];  columnHeader1: any[];  columnHeader2: any[];  columnHeader3: any[];
+  visible1:boolean=false;  visible2:boolean=false;  visible3:boolean=false;  visible4:boolean=false;  insuranceName: string;
+  insuranceId: string;  activeMenu: string;  userDetails: any;  UserType: any;  ProductId: any;  MenuMasterList: any;
+  loginId: any;  CommonApiUrl1: any;  branchList:any[]=[];  branchValue: any;  treatyTypeMasterList: any[]=[];
+  TreatyName: any;  TreatyNumber: any;  EffectiveStartDate: any;  Status: any;  TreatyEditSection: boolean=false;
+  LayerNo: any;  TreatyTypeDesc:any[]=[]; treatyMasterList: any[]=[];  AmendId: any;  Cover: any;EffectiveEndDate:any;
+  EffectiveDate: any;  EndDate: any; LeadershipYn: any;  NumberOfLines: any;  OverallLimit: any;  Product: any; 
+  Section: any;  StartDate: any;  TreatyCode: any;  TreatyPercentage: any;  TreatyType: any;  Year: any;  RetentionPercentage: any; 
+  Sno: any;  public AppConfig: any = (Mydatas as any).default;public ReInsurance: any = this.AppConfig.ReInsurance;
+  treatyTypeList: any[]=[];  treatyTypeDescList:any[]=[];  treatyNumberList: any[]=[];  treatyNameList: any[]=[];
+  layerNoList: any[]=[];ReinsuranceCompanyName:any;CompanyShortCode:any;Address1:any;Address2:any;City:any;
+  Country:any;PhoneNo:any;Remarks:any;ReinsuranceCompanyId:any;
+  RCMList: any[]=[];
   constructor(private router:Router,private sharedService: SharedService,private layoutService:LayoutService,
     private datePipe:DatePipe,/*private toastrService:NbToastrService,*/) {
       this.insuranceName = sessionStorage.getItem('insuranceConfigureName');
@@ -75,26 +46,35 @@ export class ReInsuranceComponent implements OnInit{
      }
   ngOnInit(): void {
     this.columnHeader=[
-      'Treaty Name','Treaty Number','Start Date','Status','Action'
+      'Treaty Name','Treaty Number','Treaty Type','Start Date','Status','Action'
     ]
     this.columnHeader1=[
-      'Treaty Code','Year','Product','Section','Cover','Treaty Percentage','Retention Percentage'
+      'Treaty Code','Year','Product','Section','Cover','Treaty Percentage','Retention Percentage','Action'
     ]
     this.columnHeader2=[
-      'Reinsurance Company Id','Company Short Code','Address1','Address2','City','Country','Phone No','Product Name'
+      'Reinsurance Company Id','Company Short Code','Address1','Address2','City','Country','Phone No','Product Name','Action'
     ]
     this.columnHeader3=[
-      'Retention Percentage','Commission Percentage','Amend Id','Effective Date','Start Date','End Date','Status'
+      'Retention Percentage','Commission Percentage','Amend Id','Effective Date','Start Date','End Date','Status','Action'
     ]
+   this.getAllRCM();
     this.getTreatyTypeMaster();
+    this.getTreatyTypeList();
+    this.getTreatyNameList();
+    this.getTreatyNumberList();
+    this.getTreatyTypeDescList();
     this.getAllTreatyType();
+    this.getLayerNoList();
   }
   openPopup(type){
     if(type=='TTM'){
+      this.reset();
       this.visible1=true;
     }
     else if(type=='TM'){
+      this.reset();
       this.visible2=true;
+     
     }
     else if(type=='RCM'){
       this.visible3=true;
@@ -103,16 +83,16 @@ export class ReInsuranceComponent implements OnInit{
       this.visible4=true;
     }
   }
-
-  getTreatyTypeMaster(){
-    let ReqObj ={
-      "UWYear": "2020"
-    }
-      let urlLink = `http://192.168.1.15:2321/master/treatyTypeMaster/list`;
-    this.sharedService.onPostMethodWithOutAuth(urlLink, ReqObj).subscribe(
+//TTM
+   getTreatyTypeMaster(){
+   
+      let urlLink = `${this.ReInsurance}api/treatyTypeMasters`;
+    ( this.sharedService.onGetMethodWithOutAuth(urlLink)).subscribe(
       (data: any) => {
-        if(data.TreatyTypeMasterList){
-          this.treatyTypeMasterList = data?.TreatyTypeMasterList;
+        console.log(data,"datatadata");
+        
+        if(data){
+          this.treatyTypeMasterList = data;
          
         }
       },
@@ -121,46 +101,167 @@ export class ReInsuranceComponent implements OnInit{
     );
     }
     
-  getAllTreatyType(){
-    let ReqObj ={
-      "UWYear": ""
+  
+    CommonTTM(){
+      let sno;
+      if(this.TreatyEditSection){
+        sno =this.Sno;
+        this.editsaveTreatyTypeMaster();
+       }
+       else{
+        this.saveTreatyTypeMaster();
+       }
     }
-      let urlLink = `http://192.168.1.15:2321/master/treatyMaster/list`;
-    this.sharedService.onPostMethodWithOutAuth(urlLink, ReqObj).subscribe(
-      (data: any) => {
-        if(data.TreatyMaster){
-          this.treatyMasterList = data?.TreatyMaster;
-         
-        }
-      },
-      (err) => { },
-    
-    );
-    }
-
-    saveTreatyTypeMaster(){
-      let layer;
-     if(this.TreatyEditSection){
-      layer =this.LayerNo
-     }
-     else{
-      layer =this.treatyTypeMasterList.length+1;
-     }
+    editsaveTreatyTypeMaster(){
+      let startDate,endDate;
+      if(String(this.EffectiveStartDate).includes('/')) startDate = this.EffectiveStartDate
+      else startDate = this.datePipe.transform(this.EffectiveStartDate,'dd/MM/yyyy');
+      if(String(this.EffectiveEndDate).includes('/')) endDate = this.EffectiveEndDate
+      else endDate = this.datePipe.transform(this.EffectiveEndDate,'dd/MM/yyyy');
       let ReqObj ={
-        "TreatyNumber": this.TreatyNumber,
-        "LayerNo": layer,
-        "TreatyName": this.TreatyName,
-        "TreatyType": "string",
-        "TreatyTypeDesc": "string",
-        "EffectiveStartDate":this.EffectiveStartDate,
-        "Status": this.Status
+        "sno": this.Sno,
+        "treatyNumber": this.TreatyNumber,
+        "treatyName": this.TreatyName,
+        "layerNo": this.LayerNo,
+        "treatyType": this.TreatyType,
+        "treatyTypeDesc":  this.TreatyTypeDesc,
+        "amendId": 0,
+        "effectiveStartDate": startDate,
+        "effectiveEndDate": endDate,
+        "status": this.Status
       }
-        let urlLink = `http://192.168.1.15:2321/master/treatyTypeMaster/save`;
+        let urlLink = `${this.ReInsurance}api/treatyTypeMasters/${this.Sno}`;
+      this.sharedService.onPutMethodWithOutAuth(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          if(data){
+            this.visible1=false;
+            this.TreatyEditSection=false;
+            this.getTreatyTypeMaster();
+            this.reset();
+          }
+        },
+        (err) => { },
+      
+      );
+    }
+    saveTreatyTypeMaster(){
+      let startDate,endDate;
+      if(String(this.EffectiveStartDate).includes('/')) startDate = this.EffectiveStartDate
+      else startDate = this.datePipe.transform(this.EffectiveStartDate,'dd/MM/yyyy');
+      if(String(this.EffectiveEndDate).includes('/')) endDate = this.EffectiveEndDate
+      else endDate = this.datePipe.transform(this.EffectiveEndDate,'dd/MM/yyyy');
+      let ReqObj ={
+        "sno": this.treatyTypeMasterList.length+1,
+        "treatyNumber": this.TreatyNumber,
+        "treatyName": this.TreatyName,
+        "layerNo": this.LayerNo,
+        "treatyType": this.TreatyType,
+        "treatyTypeDesc": this.TreatyTypeDesc,
+        "amendId": 0,
+        "effectiveStartDate":startDate,
+        "effectiveEndDate": endDate,
+        "status": this.Status
+      }
+        let urlLink = `${this.ReInsurance}api/treatyTypeMasters`;
+      this.sharedService.onPostMethodWithOutAuth(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          if(data){
+            this.visible1=false;
+            this.getTreatyTypeMaster();
+            this.reset();
+          }
+        },
+        (err) => { },
+      
+      );
+    }
+    treatyTypeMasterEdit(rowData,index){
+      this.TreatyEditSection=true;
+      this.visible1=true;
+        let urlLink = `${this.ReInsurance}api/treatyTypeMasters/${rowData.sno}`;
+        this.sharedService.onGetMethodWithOutAuth(urlLink).subscribe(
+        (data: any) => {
+           this.TreatyNumber=data.treatyNumber;
+           this.TreatyName=data.treatyName;
+           let startDate,endDate;
+           if(String(data.effectiveStartDate).includes('/')) startDate = data.effectiveStartDate
+           else startDate = this.datePipe.transform(data.effectiveStartDate,'dd/MM/yyyy');
+           if(String(data.effectiveEndtDate).includes('/')) endDate = data.effectiveEndtDate
+           else endDate = this.datePipe.transform(data.effectiveEndtDate,'dd/MM/yyyy');
+          // this.treatyTypeMasterList['EffectiveStartDate']=startDate;
+           this.EffectiveStartDate=startDate;
+           this.Status=data.status;
+           this.LayerNo=data.layerNo;
+           this.Sno=data.sno;
+           this.TreatyType=data.treatyType;
+           this.EffectiveEndDate=endDate;
+        },
+        (err) => { },
+      
+      );
+    }
+   
+//TT
+commonSaveTM(){
+  let layer;
+  if(this.TreatyEditSection){
+    layer =this.LayerNo;
+    this.editTreaty();
+   }
+   else{
+    this.saveTreatyMaster();
+   }
+}
+    getAllTreatyType(){
+      let urlLink = `${this.ReInsurance}api/treatyMasters`;
+    this.sharedService.onGetMethodWithOutAuth(urlLink).subscribe(
+      (data: any) => {
+        if(data){
+          this.treatyMasterList = data;
+         
+        }
+      },
+      (err) => { },
+    
+    );
+    }
+    editTreaty(){
+      let startDate,endDate;
+      if(String(this.EffectiveStartDate).includes('/')) startDate = this.EffectiveStartDate
+      else startDate = this.datePipe.transform(this.EffectiveStartDate,'dd/MM/yyyy');
+      if(String(this.EffectiveEndDate).includes('/')) endDate = this.EffectiveEndDate
+      else endDate = this.datePipe.transform(this.EffectiveEndDate,'dd/MM/yyyy');
+      let ReqObj =
+      {
+        "sno": this.Sno,
+        "treatyCode": this.TreatyCode,
+        "year": this.Year,
+        "product":  this.Product,
+        "section": this.Section,
+        "cover": this.Cover,
+        "treatyPercentage":this.TreatyPercentage,
+        "retentionPercentage": this.RetentionPercentage,
+        "overallLimit":this.OverallLimit,
+        "numberOfLines":this.NumberOfLines,
+        "amendId": 0,
+        "effectiveDate": startDate,
+        "startDate": startDate,
+        "endDate":endDate,
+        "status":this.Status,
+        "leadershipYn":this.LeadershipYn,
+        "treatyNumber": this.TreatyNumber,
+        "layerNo": this.LayerNo,
+        "treatyName": this.TreatyName,
+        "treatyType":this.TreatyType,
+        "treatyTypeDesc": this.TreatyTypeDesc,
+      }
+        let urlLink = `${this.ReInsurance}api/treatyMasters`;
       this.sharedService.onPostMethodWithOutAuth(urlLink, ReqObj).subscribe(
         (data: any) => {
           if(data.Success=true){
-            this.visible1=false;
-            this.getTreatyTypeMaster();
+            this.visible2=false;
+            this.TreatyEditSection=false;
+            this.getAllTreatyType();
           }
         },
         (err) => { },
@@ -168,44 +269,43 @@ export class ReInsuranceComponent implements OnInit{
       );
     }
     saveTreatyMaster(){
-      let layer;
-     if(this.TreatyEditSection){
-      layer =this.LayerNo
-     }
-     else{
-      layer =this.treatyTypeMasterList.length+1;
-     }
-      let ReqObj ={
-        "TreatyCode": "string",
-        "Product": "string",
-        "Section": "string",
-        "Cover": "string",
-        "Year": "string",
-        "TreatyCodeSetupList": [
-          {
-            "TreatyNumber": "string",
-            "TreatyName": "string",
-            "TreatyType": "string",
-            "TreatyTypeDesc": "string",
-            "TreatyPercentage": "string",
-            "RetentionPercentage": "string",
-            "OverallLimit": "string",
-            "NumberOfLines": "string",
-            "AmendId": "string",
-            "EffectiveDate": "string",
-            "StartDate": "string",
-            "EndDate": "string",
-            "Status": "string",
-            "LeadershipYn": "string"
-          }
-        ]
+      // this.treatyTypeMasterList.length+1
+      let startDate,endDate;
+      if(String(this.EffectiveStartDate).includes('/')) startDate = this.EffectiveStartDate
+      else startDate = this.datePipe.transform(this.EffectiveStartDate,'dd/MM/yyyy');
+      if(String(this.EffectiveEndDate).includes('/')) endDate = this.EffectiveEndDate
+      else endDate = this.datePipe.transform(this.EffectiveEndDate,'dd/MM/yyyy');
+      let ReqObj =
+      {
+        "sno": this.treatyMasterList.length+1,
+        "treatyCode": this.TreatyCode,
+        "year": this.Year,
+        "product":  this.Product,
+        "section": this.Section,
+        "cover": this.Cover,
+        "treatyPercentage":this.TreatyPercentage,
+        "retentionPercentage": parseInt(this.RetentionPercentage),
+        "overallLimit":this.OverallLimit,
+        "numberOfLines":this.NumberOfLines,
+        "amendId": 0,
+        "effectiveDate": startDate,
+        "startDate": startDate,
+        "endDate":endDate,
+        "status":this.Status,
+        "leadershipYn":this.LeadershipYn,
+        "treatyNumber": this.TreatyNumber,
+        "layerNo":this.LayerNo,
+        "treatyName": this.TreatyName,
+        "treatyType":this.TreatyType,
+        "treatyTypeDesc": this.TreatyTypeDesc,
       }
-        let urlLink = `http://192.168.1.15:2321/master/treatyTypeMaster/save`;
+      
+        let urlLink = `${this.ReInsurance}api/treatyMasters`;
       this.sharedService.onPostMethodWithOutAuth(urlLink, ReqObj).subscribe(
         (data: any) => {
           if(data.Success=true){
-            this.visible1=false;
-            this.getTreatyTypeMaster();
+            this.visible2=false;
+            this.getAllTreatyType();
           }
         },
         (err) => { },
@@ -213,68 +313,162 @@ export class ReInsuranceComponent implements OnInit{
       );
     }
  
-    treatyTypeMasterEdit(rowData,index){
-      this.TreatyEditSection=true;
-      this.visible1=true;
-      let ReqObj ={
-        "TreatyNumber": rowData.TreatyNumber,
-        "TreatyName": rowData.TreatyName
-      }
-        let urlLink = `http://192.168.1.15:2321/master/treatyTypeMaster/edit`;
-        this.sharedService.onPostMethodWithOutAuth(urlLink, ReqObj).subscribe(
-        (data: any) => {
-           this.TreatyNumber=data.TreatyNumber;
-           this.TreatyName=data.TreatyName;
-           let startDate;
-           if(String(data.EffectiveStartDate).includes('/')) startDate = data.EffectiveStartDate
-           else startDate = this.datePipe.transform(data.EffectiveStartDate,'dd/MM/yyyy');
-          // this.treatyTypeMasterList['EffectiveStartDate']=startDate;
-           this.EffectiveStartDate=startDate;
-           this.Status=data.Status;
-           this.LayerNo=data.LayerNo;
-           
-          
-        },
-        (err) => { },
-      
-      );
-    }
+   
     editTreatyMaster(rowData){
       this.visible2=true;
       this.TreatyEditSection=true;
-      let ReqObj ={
-        "TreatyCode": rowData.TreatyCode,
-        "ProductId": rowData.Product,
-        "SectionId": rowData.Section,
-        "CoverId": rowData.Cover,
-        "UWYear": rowData.Year,
-      }
-        let urlLink = `http://192.168.1.15:2321/master/treatyMaster/edit`;
-        this.sharedService.onPostMethodWithOutAuth(urlLink, ReqObj).subscribe(
+        let urlLink = `${this.ReInsurance}api/treatyMasters/${rowData.sno}`;
+        this.sharedService.onGetMethodWithOutAuth(urlLink).subscribe(
         (data: any) => {
           if(data){
-          this.AmendId=data.AmendId;
-          this.Cover=data.Cover;
-          this.EffectiveDate=data.EffectiveDate;
-          this.EndDate=data.EndDate;
-          this.LeadershipYn=data.LeadershipYn;
-          this.NumberOfLines=data.NumberOfLines;
-          this.OverallLimit=data.OverallLimit;
-          this.Product=data.Product;
-          this.RetentionPercentage=data.RetentionPercentage;
-          this.Section=data.Section;
-          this.StartDate=data.StartDate;
-          this.Status=data.Status;
-          this.TreatyCode=data.TreatyCode;
-          this.TreatyName=data.TreatyName;
-          this.TreatyNumber=data.TreatyNumber;
-          this.TreatyPercentage=data.TreatyPercentage;
-          this.TreatyType=data.TreatyType;
-          this.Year=data.Year;
+          this.Sno=data.sno;
+          this.AmendId=data.amendId;
+          this.Cover=data.cover;
+          this.EffectiveDate=data.effectiveDate;
+          this.EndDate=data.endDate;
+          this.LeadershipYn=data.leadershipYn;
+          this.NumberOfLines=data.numberOfLines;
+          this.OverallLimit=data.overallLimit;
+          this.Product=data.product;
+          this.RetentionPercentage=data.retentionPercentage;
+          this.Section=data.section;
+          this.StartDate=data.startDate;
+          this.Status=data.status;
+          this.TreatyCode=data.treatyCode;
+          this.TreatyName=data.treatyName;
+          this.TreatyNumber=data.treatyNumber;
+          this.TreatyPercentage=data.treatyPercentage;
+          this.TreatyType=data.treatyType;
+          this.Year=data.year;
         }
         },
         (err) => { },
       
       );
     }
+//RCM
+getAllRCM(){
+  let urlLink = `${this.ReInsurance}api/reinsuranceMasters`;
+this.sharedService.onGetMethodWithOutAuth(urlLink).subscribe(
+  (data: any) => {
+    if(data){
+      this.RCMList = data;
+     
+    }
+  },
+  (err) => { },
+
+);
+}
+
+
+
+//common
+reset(){
+  this.TreatyNumber=''
+   this.TreatyName=''
+  this.LayerNo=''
+  this.TreatyType=''
+ this.TreatyType=''
+ this.EffectiveStartDate=''
+ this.Status=''
+ this.Cover=''
+ this.EffectiveDate=''
+ this.EndDate=''
+ this.LeadershipYn=''
+ this.NumberOfLines=''
+ this.OverallLimit=''
+ this.Product=''
+ this.RetentionPercentage=''
+ this.Section=''
+ this.StartDate=''
+ this.TreatyCode=''
+ this.TreatyPercentage=''
+ this.Year=''
+}
+getTreatyTypeList(){
+  let urlLink = `${this.ReInsurance}api/treatyMasters/treatyTypeValues`;
+    this.sharedService.onGetMethodWithOutAuth(urlLink).subscribe(
+      (data: any) => {
+        console.log("treatyTypeList",data);
+        if(data){
+          this.treatyTypeList = data;
+        }
+      },
+      (err) => { },
+    
+    );
+}
+getTreatyNameList(){
+  let urlLink = `${this.ReInsurance}api/treatyMasters/treatyNameValues`;
+    this.sharedService.onGetMethodWithOutAuth(urlLink).subscribe(
+      (data: any) => {
+        console.log("treatyTypeList",data);
+        if(data){
+          this.treatyNameList = data;
+        
+        }
+      },
+      (err) => { },
+    
+    );
+}
+getTreatyNumberList(){
+  let urlLink = `${this.ReInsurance}api/treatyMasters/treatyNumberValues`;
+    this.sharedService.onGetMethodWithOutAuth(urlLink).subscribe(
+      (data: any) => {
+        console.log("treatyTypeList",data);
+        if(data){
+          this.treatyNumberList = data;
+         
+        }
+      },
+      (err) => { },
+    
+    );
+}
+getTreatyTypeDescList(){
+  let urlLink = `${this.ReInsurance}api/treatyMasters/treatyTypeDescValues`;
+    this.sharedService.onGetMethodWithOutAuth(urlLink).subscribe(
+      (data: any) => {
+        console.log("treatyTypeList",data);
+        if(data){
+          this.treatyTypeDescList = data;
+         
+        }
+      },
+      (err) => { },
+    
+    );
+}
+getLayerNoList(){
+  let urlLink = `${this.ReInsurance}api/treatyMasters/layerNoValues`;
+    this.sharedService.onGetMethodWithOutAuth(urlLink).subscribe(
+      (data: any) => {
+        console.log("treatyTypeList",data);
+        if(data){
+          this.layerNoList = data;
+        
+        }
+      },
+      (err) => { },
+    
+    );
+}
+listDiscType(rowData){
+  let entry = this.treatyTypeList.find(ele=>ele.Code==rowData).CodeDesc;
+  return entry;
+}
+listDiscName(rowData){
+  let entry = this.treatyNameList.find(ele=>ele.Code==rowData).CodeDesc;
+  return entry;
+}
+listDiscTypeDesc(rowData){
+  let entry = this.treatyTypeDescList.find(ele=>ele.Code==rowData).CodeDesc;
+  return entry;
+}
+listDiscNumber(rowData){
+  let entry = this.treatyNumberList.find(ele=>ele.Code==rowData).CodeDesc;
+  return entry;
+}
 }
