@@ -191,7 +191,7 @@
             </div>
             <div class="flex flex-column m-3" *ngIf="insuranceId=='100040' || this.insuranceId=='100042'">
                 <label for="axis-distance">{{'MOTORQUOTE.HorsePower' | translate }}*</label>
-                <input pInputText id="axis-distance" digitOnly [(ngModel)]="horsePower" maxlength="50" [disabled]="editSection" [placeholder]="'MOTORQUOTE.EnterHorsePower' | translate"/>
+                <input pInputText id="axis-distance" digitOnly [(ngModel)]="horsePower" id="HorsePower" maxlength="50" [disabled]="editSection" [placeholder]="'MOTORQUOTE.EnterHorsePower' | translate"/>
                 <div class="input-form-error" *ngIf="horsePowerError">
                     <div class="text-danger" style="font-size: 12px;">
                         {{'MOTORDETAILS.ValidHorsePower' | translate}}

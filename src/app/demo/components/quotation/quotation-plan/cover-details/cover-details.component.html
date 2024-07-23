@@ -1503,16 +1503,16 @@
                 <thead>
                     <tr>
                         <th scope="col"></th>
-                        <th scope="col" class="textEnd" ><b class="customDangerColor">{{'PREMIUM.Excess' | translate}} (%)</b></th>
+                        <th scope="col" class="textEnd" ><b class="customDangerColor" >{{'PREMIUM.Excess' | translate}} (%)</b></th>
                         <th scope="col" class="textEnd"><b style="color:#d81b60">{{'PREMIUM.ExcessAmount' | translate}} ({{currencyCode}})</b></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td style="padding: 5px !important;"><span class="ui-ex">{{'PREMIUM.Excess' | translate}}</span></td>
+                        <td style="padding: 5px !important;"><span class="ui-ex" id="ExcessAlt">{{'PREMIUM.Excess' | translate}}</span></td>
                         <td style="text-align: center;float:right !important;padding: 5px !important;">
                             <div class="input-group">
-                                <input type="text" disabled class="input-form-control without-icon" style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important; border: 1px solid;
+                                <input type="text" disabled class="input-form-control without-icon" id="ExcessPercent" style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important; border: 1px solid;
                                 padding: 4px 12px;" [(ngModel)]="excessPercent">
                             </div>
                         </td>
@@ -1520,13 +1520,13 @@
                                 <ng-container *ngIf="excessAmount==null || excessAmount=='0.0' || excessAmount=='0'">
                                     <div class="input-group">
                                         <input type="text" disabled class="input-form-control without-icon" style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important; border: 1px solid;
-                                        padding: 4px 12px;" [(ngModel)]="excessAmount">
+                                        padding: 4px 12px;" id="ExcessAmount" [(ngModel)]="excessAmount">
                                     </div>
                                 </ng-container>
                                 <ng-container *ngIf="excessAmount!=null && excessAmount!='0.0' && excessAmount!='0'">
                                     <div class="input-group">
                                         <input type="text" disabled class="input-form-control without-icon" style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important; border: 1px solid;
-                                        padding: 4px 12px;" [(ngModel)]="excessAmount">
+                                        padding: 4px 12px;" id="ExcessAmount" [(ngModel)]="excessAmount">
                                     </div>
                                     
                                 </ng-container>
@@ -1557,12 +1557,12 @@
                         <td style="padding:12px 14px">
                                 <ng-container *ngIf="calcType=='A'">
                                     <ng-container *ngIf="((!adminSection && userType!='Issuer') || endorsementSection ) || finalizeYN=='Y'">
-                                        <span class="spancommon span_font_size">{{ratePercent}}</span>
+                                        <span class="spancommon span_font_size" id="ratePercent">{{ratePercent}}</span>
                                     </ng-container>
                                     <ng-container *ngIf="adminSection || (userType=='Issuer' && finalizeYN!='Y' && !endorsementSection)">
                                         <div class="input-group">
                                             <input type="text" class="input-form-control without-icon" style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important; border: 1px solid;
-                                            padding: 4px 12px;"
+                                            padding: 4px 12px;" id="ratePercent"
                                             [(ngModel)]="ratePercent">
                                               <span class="input-group-text" style="padding: 0.05rem 0.5rem;" id="basic-addon2">{{currencyCode}}</span>
                                             
@@ -1572,14 +1572,14 @@
                                 <ng-container *ngIf="calcType=='P'">
                                         <div class="input-group">
                                             <input type="text" class="input-form-control without-icon" disabled  style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important; border: 1px solid;padding: 4px 12px;"
-                                            [(ngModel)]="ratePercent">
+                                            [(ngModel)]="ratePercent" id="ratePercent">
                                               <span class="input-group-text" style="padding: 0.05rem 0.5rem;" id="basic-addon2">%</span>
                                           
                                         </div>
                                 </ng-container>
                         </td>
                         <td style="text-align: end;padding:12px 14px">
-                            <span class="spancommon span_font_size">{{beforeDiscount | commaseparator}}</span>
+                            <span class="spancommon span_font_size" id="beforeDiscount">{{beforeDiscount | commaseparator}}</span>
                         </td>
                     </tr>
                     <ng-container *ngIf="discountList.length!=0">
@@ -1596,7 +1596,7 @@
                                     0
                                 </ng-container>
                                 <ng-container *ngIf="discount.DiscountAmount!=0 && discount.DiscountAmount!=null || discount.DiscountAmount!='0.0'">
-                                        {{discount.DiscountAmount | commaseparator}}
+                                        <span id="DiscountAmount">{{discount.DiscountAmount | commaseparator}}</span>
                                 </ng-container>
                             </td>
                         </tr>
@@ -1612,11 +1612,11 @@
                                 
                                     <ng-container *ngIf="loading.LoadingCalcType!='P'">
                                         <ng-container *ngIf="loading.LoadingRate!=null">
-                                            <span class="spancommon span_font_size">0</span>
+                                            <span class="spancommon span_font_size" id="LoadingRate">0</span>
                                         </ng-container>
                                     </ng-container>
                                     <ng-container *ngIf="loading.LoadingCalcType=='P'">
-                                        <input type="text" [id]="'Rate'+i" class="input-form-control without-icon" disabled
+                                        <input type="text" [id]="'Rate'+i" class="input-form-control without-icon" disabled [id]="'LoadingRate'+i"
                                             style="width: auto !important;max-width:80px;text-align:right !important; border: 1px solid;padding: 4px 12px;"
                                             [(ngModel)]="loading['LoadingRate']" maxlength="5">
                                     </ng-container>
@@ -1629,7 +1629,7 @@
                                         </ng-container>
                                         <ng-container
                                             *ngIf="loading.LoadingAmount!=0 && loading.LoadingAmount!=null">
-                                            <span class="spancommon span_font_size">{{loading.LoadingAmount}}</span>
+                                            <span class="spancommon span_font_size" [id]="'LoadingAmount'+i">{{loading.LoadingAmount}}</span>
                                         </ng-container>
                                     </ng-container>
                                     <ng-container *ngIf="loading.LoadingCalcType=='A'">
@@ -1650,7 +1650,7 @@
                         <td style="padding:12px 14px"><b>{{'PREMIUM.Total' | translate}}</b></td>
                         <td></td>
                         <td style="text-align: end;padding:12px 14px"><span class="spancommon span_font_size">
-                            <b>{{afterDiscount | commaseparator}}</b></span></td>
+                            <b id="afterDiscount">{{afterDiscount | commaseparator}}</b></span></td>
                     </tr>
                 </tfoot>
             </table>
@@ -1669,7 +1669,7 @@
                                
                         </td>
                         <td style="text-align: end;">
-                            <span class="spancommon span_font_size">{{sumInsured | commaseparator}}</span>
+                            <span class="spancommon span_font_size" id="sumInsured">{{sumInsured | commaseparator}}</span>
                         </td>
                     </tr>
                     <tr>
@@ -1678,29 +1678,29 @@
                                
                         </td>
                         <td style="text-align: end;">
-                            <span class="spancommon span_font_size">{{differenceSI | commaseparator}}</span>
+                            <span class="spancommon span_font_size" id="differenceSI">{{differenceSI | commaseparator}}</span>
                         </td>
                     </tr>
                     <tr>
                         <td>{{'PREMIUM.PremiumBeforeDiscount' | translate}}</td>
                         <td style="text-align: end;">
                                 <ng-container *ngIf="!adminSection">
-                                    <span class="spancommon span_font_size">{{ratePercent}}</span>
+                                    <span class="spancommon span_font_size" id="ratePercentAlt">{{ratePercent}}</span>
                                 </ng-container>
                                 <ng-container *ngIf="(adminSection)">
-                                    <input type="text"  style="width: auto !important;max-width:80px;text-align:right !important"
+                                    <input type="text" id="ratePercentAlt"  style="width: auto !important;max-width:80px;text-align:right !important"
                                         [(ngModel)]="ratePercent">
                                 </ng-container>
                         </td>
                         <td style="text-align: end;">
-                            <span class="spancommon span_font_size">{{beforeDiscount | commaseparator}}</span>
+                            <span class="spancommon span_font_size" id="beforeDiscount">{{beforeDiscount | commaseparator}}</span>
                         </td>
                     </tr>
                     <ng-container *ngIf="discountList.length!=0">
                         <tr>
                             <th style="text-align: start;" colspan="3" scope="col">{{'PREMIUM.Discounts' | translate}}</th>
                         </tr>
-                        <tr *ngFor="let discount of discountList">
+                        <tr *ngFor="let discount of discountList;let i =index">
                             <td  colspan="3">{{discount.DiscountDesc}}</td>
                             <td></td>
                             <td style="text-align: end;">
@@ -1708,7 +1708,7 @@
                                     0
                                 </ng-container>
                                 <ng-container *ngIf="discount.DiscountAmount!=0 && discount.DiscountAmount!=null || discount.DiscountAmount!='0.0'">
-                                        {{discount.DiscountAmount | commaseparator}}
+                                        <span [id]="'beforeDiscount'+i"></span>{{discount.DiscountAmount | commaseparator}}
                                 </ng-container>
                             </td>
                         </tr>
@@ -1742,7 +1742,7 @@
                                         </ng-container>
                                         <ng-container
                                             *ngIf="loading.LoadingAmount!=0 && loading.LoadingAmount!=null">
-                                            <span class="spancommon span_font_size">{{loading.LoadingAmount}}</span>
+                                            <span class="spancommon span_font_size" [id]="'LoadingAmount'+i">{{loading.LoadingAmount}}</span>
                                         </ng-container>
                                     </ng-container>
                                     <ng-container *ngIf="loading.LoadingCalcType=='A'">
@@ -1771,7 +1771,7 @@
     </div>
     <div class="flex justify-content-end">
 
-        <p-button class="p-3 text-l pi-button mr-0" (click)="excessDetailModal=!excessDetailModal">{{'PREMIUM.close' | translate}}</p-button>
+        <p-button class="p-3 text-l pi-button mr-0" (click)="excessDetailModal=!excessDetailModal" id="closeExcess">{{'PREMIUM.close' | translate}}</p-button>
     </div>
 </p-dialog>
 <p-dialog class="p-su-header" header="Discount Details" [(visible)]="discountDetailModal" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
@@ -1795,33 +1795,33 @@
                             <ng-container
                             *ngIf="premiumAfterDiscount==null || premiumAfterDiscount==0"><b>0</b></ng-container>
                             <ng-container
-                            *ngIf="premiumAfterDiscount!=null && premiumAfterDiscount!=0"><b>{{premiumAfterDiscount | commaseparator}}</b></ng-container>
+                            *ngIf="premiumAfterDiscount!=null && premiumAfterDiscount!=0"><b id="premiumAfterDiscount">{{premiumAfterDiscount | commaseparator}}</b></ng-container>
                         </td>
                     </tr>
                     <tr>
                         <td style="text-align: start;padding: 8px;">{{'PREMIUM.MinimumPremium' | translate}}</td>
                         <td></td>
-                        <td style="text-align: end;padding: 8px;">
+                        <td style="text-align: end;padding: 8px;" id="MinimumPremium">
                             {{MinimumPremium | number: '1.0'}}
                         </td>
                     </tr>
                     <tr>
                         <td style="text-align: start;padding: 8px;">{{'PREMIUM.ExcludedTax' | translate}}</td>
                         <td></td>
-                        <td style="text-align: end;padding: 8px;">
+                        <td style="text-align: end;padding: 8px;" id="premiumExcluedTax">
                             {{premiumExcluedTax}}
                         </td>
                     </tr>
                     <ng-container *ngIf="dependantTaxList.length!=0">
-                        <tr *ngFor="let tax of dependantTaxList">
+                        <tr *ngFor="let tax of dependantTaxList;let i=index">
                             <td style="text-align: start;padding: 8px;">{{tax.TaxDesc}}</td>
                             <td style="text-align: center;padding: 8px;">
                                 <ng-container *ngIf="tax.TaxCalcType!='A'">
-                                    {{tax.TaxRate}}&nbsp;%
+                                    <span [id]="'taxRate'+i">{{tax.TaxRate}}</span>&nbsp;%
                                 </ng-container>
                             </td>
                             <td style="text-align: end;padding: 8px;">
-                                {{tax.TaxAmount}}
+                                <span [id]="'TaxAmount'+i">{{tax.TaxAmount}}</span>
                             </td>
                         </tr>
                     </ng-container>
@@ -1830,7 +1830,7 @@
                             <td style="text-align: start;padding: 8px;">{{'PREMIUM.PremiumBeforeTax' | translate}}</td>
                             <td></td>
                             <td style="text-align: end;padding: 8px;">
-                                {{premiumBeforeTax}}
+                                <span [id]="'premiumBeforeTax'+i">{{premiumBeforeTax}}</span>
                             </td>
                         </tr>
                         <tr>
@@ -1840,11 +1840,11 @@
                             <td style="text-align: start;padding: 8px;">{{tax.TaxDesc}}</td>
                             <td style="text-align: center;padding: 8px;">
                                 <ng-container *ngIf="tax.TaxCalcType!='A'">
-                                    {{tax.TaxRate}}&nbsp;%
+                                    <span [id]="'TaxRate'+i">{{tax.TaxRate}}</span>&nbsp;%
                                 </ng-container>
                             </td>
                             <td style="text-align: end;padding: 8px;">
-                                {{tax.TaxAmount}}
+                                <span [id]="'TaxAmount'+i">{{tax.TaxAmount}}</span>
                             </td>
                         </tr>
                     </ng-container>
@@ -1853,7 +1853,7 @@
                     <tr>
                         <td style="padding: 8px;"><b>{{'PREMIUM.TotalPremium' | translate}}</b></td>
                         <td></td>
-                        <td style="text-align: end;padding: 8px;"><span class="spancommon span_font_size">
+                        <td style="text-align: end;padding: 8px;"><span class="spancommon span_font_size" id="premiumIncluedTax">
                             <b>{{premiumIncluedTax | commaseparator}}</b></span></td>
                     </tr>
                 </tfoot>
@@ -1861,7 +1861,7 @@
         </div>
     </div>
     <div class="flex justify-content-end">
-        <p-button class=" text-l pi-button mr-0"  (click)="discountDetailModal=!discountDetailModal">{{'PREMIUM.close' | translate}}</p-button>
+        <p-button class=" text-l pi-button mr-0"  (click)="discountDetailModal=!discountDetailModal" id="discountClose">{{'PREMIUM.close' | translate}}</p-button>
     </div>
 </p-dialog>
 <p-dialog class="p-su-header" [header]="'PREMIUM.FactorDetails' | translate" [(visible)]="factorDetailModal" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">

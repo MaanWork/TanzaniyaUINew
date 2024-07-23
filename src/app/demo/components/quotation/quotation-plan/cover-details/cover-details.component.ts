@@ -58,7 +58,7 @@ export class CoverDetailsComponent {
   minDate: Date;
   maxDate: Date;
   quoteNo: string;
-  statusValue: string;
+  statusValue: any=null;
   adminSection: boolean;
   vehicleDetailsList: any[]=[];
   isMannualReferal: any='N';
@@ -3174,7 +3174,8 @@ export class CoverDetailsComponent {
   onUpdateFleetFactorRate(modal){
     this.fleetCoverDetails.CoverList[0].Discount = this.discountList;
     this.fleetCoverDetails.CoverList[0].Loading = this.loadingList;
-    if(this.remarks==null || this.remarks==undefined) this.remarks = 'None'
+    if(this.remarks==null || this.remarks==undefined) this.remarks = 'None';
+    if(this.statusValue==null || this.statusValue == undefined) this.statusValue = 'RP';
     if(this.statusValue){
       let ReqObj = {
         "VehicleId": "99999",
