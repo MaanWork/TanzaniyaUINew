@@ -86,6 +86,29 @@ export class ElectronicEquipments{
                   },
               },
               {
+                type: 'ngselect',
+                key: 'FirstLossPayee',
+                defaultValue: '',
+                className: 'col-12 ',
+                templateOptions: {
+                  label: `First Loss Payee`,
+                  placeholder: 'Select First Loss Payee',
+                 // disabled: true,
+                  required: true,
+                  options: [
+  
+                  ],
+  
+                },
+                validators: {
+                  validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                },
+                hooks: {
+                },
+                expressions: {
+                },
+              },
+              {
                 type: 'textarea',
                 key: 'Description',
                 defaultValue: '',

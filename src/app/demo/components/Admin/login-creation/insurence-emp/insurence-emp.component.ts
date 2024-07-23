@@ -1071,14 +1071,15 @@ onProceedIssuer(type){
         let sumInsured; let startsuminsured;
         console.log('HHHHHHHHHHHHHHHH',s.SumInsuredEnd);
         if(s.SumInsuredEnd == undefined || s.SumInsuredEnd == null)sumInsured = null;
-       if(s?.SumInsuredEnd.includes(',')){ 
-          sumInsured = s.SumInsuredEnd.replace(/,/g, '');
-          console.log('MMMMMMMMMMMM',sumInsured);
-         }
+        if(String(s?.SumInsuredEnd).split(',').length>1){ 
+            sumInsured = s.SumInsuredEnd.replace(/,/g, '');
+            console.log('MMMMMMMMMMMM',sumInsured);
+        }
+        else sumInsured=s?.SumInsuredEnd
         //else {sumInsured = s.SuminsuredEnd;}
 
         if(s.SumInsuredStart==undefined || s.SumInsuredStart==null) {startsuminsured = null;}
-        else if(s.SumInsuredStart.includes(',')){  startsuminsured= s.SumInsuredStart.replace(/,/g, '') }
+        else if(String(s.SumInsuredStart).split(',').length>1){  startsuminsured= s.SumInsuredStart.replace(/,/g, '') }
         else {startsuminsured= s.SumInsuredStart;}
            if(s.Checked==true){
             console.log('FFFFFFFFFFFFFFFF',s.Checked);

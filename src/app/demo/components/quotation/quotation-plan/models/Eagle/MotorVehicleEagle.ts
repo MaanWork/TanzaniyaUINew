@@ -29,6 +29,7 @@ export class MotorVehicleEagle{
                   {
                     type: 'ngselect',
                     key: 'InsuranceType',
+                    id: 'InsuranceType',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     props: {
@@ -96,6 +97,7 @@ export class MotorVehicleEagle{
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     type: 'commaSeparator',
                     key: 'VehicleSI',
+                    id: 'VehicleSI',
                     hide: true,
                     hideExpression:true,
                     props: {
@@ -119,10 +121,11 @@ export class MotorVehicleEagle{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     key: 'RenewalYn',
+                    id: 'RenewalYn',
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
-                     
+                      
                       required: true,
                       disabled: this.checkDisable('RenewalYn'),
                       name: 'RenewalYn',

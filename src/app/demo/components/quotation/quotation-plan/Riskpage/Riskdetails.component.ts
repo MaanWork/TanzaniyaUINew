@@ -116,8 +116,7 @@ export class RiskDetailsComponent {
   TableRowPA: any[]=[];countryId:any=null;currentPARowIndex: any=0;ElecEquipment: boolean=false;
   fields6: any[]=[];electronicEquipDialog: boolean=false;currentEERiskRowIndex:any=null;
   TableRowEE: any[]=[];DomesticServant: boolean=false;currentDSRowIndex: any=null;TableRowDS: any[]=[];
-  fields7: any[]=[];locationIndex:any=0;
-  domesticServantDialog: boolean;
+  fields7: any[]=[];locationIndex:any=0;domesticServantDialog: boolean;bankList: any[]=[];
         constructor(private router: Router,private datePipe:DatePipe,
           private sharedService: SharedService,public http: HttpClient) {
          let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails') || '{}');
@@ -180,12 +179,13 @@ export class RiskDetailsComponent {
           }]
           this.columnHeaderPersonalLiability =['Location *','Occupation *','Name *','Date Of Birth *','Salary *','Edit' ,'Delete'];
           this.columnHeaderPersonalAccident =['Location *','Occupation *','Name *','Date Of Birth *','Salary *','Edit' ,'Delete'];
-          this.columnHeaderBuilding =['Construction (Wall)','Construction (Roof)','Sum Insured',"Location",'Edit' ,'Delete']
+          this.columnHeaderBuilding =['Construction (Wall)','Construction (Roof)','First Loss Payee','Sum Insured',"Location",'Edit' ,'Delete']
           this.TableRowBuilding =[{
             id:1,
             BuildingUsageId: '',
             BuildingBuildYear : '',
             BuildingAddress : '',
+            FirstLossPayee: '',
             WallType: '',
             RoofType: '',
             BuildingSumInsured: 0,
@@ -529,7 +529,7 @@ export class RiskDetailsComponent {
                 this.visible = true;
                 this.getContentDetail();}
           }
-          else if(this.TableRowBuilding.length!=0 && !this.checkBuildingDetails()){
+          else if(!this.checkBuildingDetails()){
             this.visible = true;
             this.getContentDetail();
           }
@@ -681,6 +681,8 @@ export class RiskDetailsComponent {
     }
     onChangeContentLocation(entry){
       if(entry.RiskId) entry['LocationName'] = this.locationList.find(ele=>ele.RiskId==entry.RiskId)?.LocationName;
+    }
+    onChangeFirstLoss(entry){
     }
     getOccupationName(entry){
       if(entry?.OccupationId){return this.occupationList.find(ele=>ele.Code==entry.OccupationId)?.CodeDesc}
@@ -1047,7 +1049,7 @@ export class RiskDetailsComponent {
       else{this.productItem.SumInsured =0;return 0;} 
     }
     addRowBuilding(){
-    const newItem = { id: this.TableRowBuilding.length + 1, BuildingUsageId: '', BuildingBuildYear : '',SavedYN:'N',
+    const newItem = { id: this.TableRowBuilding.length + 1, BuildingUsageId: '', BuildingBuildYear : '',FirstLossPayee: '',SavedYN:'N',
     WallType: '',RoofType: '', BuildingSumInsured: 0,LocationName:'',RiskId:this.TableRowBuilding.length + 1};
     this.TableRowBuilding.push(newItem);
     this.currentBuildingRowIndex = this.TableRowBuilding.length-1;
@@ -1081,6 +1083,9 @@ export class RiskDetailsComponent {
       // }
       // else this.TableRowBuilding.splice(index,1);
       this.TableRowBuilding.splice(index,1);
+      if(this.TableRowBuilding.length==0){
+        this.onSaveBuildingList();
+      }
     }
     getTotal(){
       this.Total = 0;let i=0;
@@ -3509,6 +3514,7 @@ export class RiskDetailsComponent {
                 this.getWallMaterialList();
                 this.getRoofMaterialList();
                 this.getbuildingpurposeList();
+                this.getFirstLossPayeeList();
                 if(this.insuranceId =='100004'){
                   this.getTypeOfProperty();
                 }
@@ -3580,7 +3586,27 @@ export class RiskDetailsComponent {
               },
               (err) => { },
             );
-          }   
+          } 
+          getFirstLossPayeeList(){
+            let branchCode = '';
+            if((this.userType!='Broker' && this.userType!='User')){
+              branchCode = this.branchCode
+            }
+            else{
+              branchCode = this.brokerbranchCode
+            }
+            let ReqObj = {
+              "InsuranceId": this.insuranceId,
+              "BranchCode": branchCode
+            }
+            let urlLink = `${this.CommonApiUrl}master/dropdown/bankmaster`;
+            this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+              (data: any) => {
+                let obj=[{"Code":"None",CodeDesc:"None"}]
+                  this.bankList = obj.concat(data.Result);
+              })
+            
+          }  
           getRoofMaterialList() {
             let ReqObj = {
               "InsuranceId": this.insuranceId,
@@ -3741,7 +3767,6 @@ export class RiskDetailsComponent {
                     this.getTotal();
                   }
                 }
-        
               })
           }
 
@@ -3882,6 +3907,7 @@ export class RiskDetailsComponent {
                 "WallType": entry.WallType,
                 "BuildingBuildYear": '2024',
                 "BuildingOwnerYn": "N",
+                "FirstLossPayee": entry.FirstLossPayee,
                 "BuildingSumInsured": entry.BuildingSumInsured,
                 "BuildingUsageId": entry.BuildingUsageId,
                 "WaterTankSi": this.productItem?.WaterTankSi,
@@ -4036,10 +4062,11 @@ export class RiskDetailsComponent {
                 }
                 else if(ReqObj['BuildingDetails']!=null){
                   //if(ReqObj.BuildingDetails[i]?.BuildingSumInsured==0 || ReqObj.BuildingDetails[i]?.BuildingSumInsured=='0' || ReqObj.BuildingDetails[i]?.BuildingSumInsured==null){
-                  if(ReqObj.BuildingDetails.length==0){
+                  if(ReqObj.BuildingDetails.length==0  && type!='delete'){
                     this.errorproceed(2);
                   }
                   else{
+                    if(type=='delete') ReqObj['BuildingDetails'] = null;
                     this.finalSave(ReqObj,type);
                   }
                 }
@@ -4081,6 +4108,20 @@ export class RiskDetailsComponent {
                             this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
                             if(RequestType=='Save')  this.visibleBuilding = false;
                             else{
+                              if(this.TableRowBuilding.length==0){
+                                  this.TableRowBuilding =[{
+                                  id:1,
+                                  BuildingUsageId: '',
+                                  BuildingBuildYear : '',
+                                  FirstLossPayee: '',
+                                  BuildingAddress : '',
+                                  WallType: '',
+                                  RoofType: '',
+                                  BuildingSumInsured: 0,
+                                  LocationName: '',
+                                }]
+                                this.currentBuildingRowIndex = this.TableRowBuilding.length-1;
+                              }
                               sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
                               this.onCalculate(data.Result);
                             }
@@ -4547,6 +4588,14 @@ export class RiskDetailsComponent {
                   else{ j+=1; entry['SumInsuredError']=true;}
                   if(entry.LocationName!=null && entry.LocationName!='' && entry.LocationName!=undefined && entry.LocationName!=0) entry['LocationError']=false;
                   else{ j+=1; entry['LocationError']=true;}
+                  if(entry.FirstLossPayee!=null && entry.FirstLossPayee!='' && entry.FirstLossPayee!=undefined && entry.FirstLossPayee!=0) entry['FirstLossPayeeError']=false;
+                  else{ j+=1; entry['FirstLossPayeeError']=true;}
+                  let entryList = this.TableRowBuilding.filter(ele=>(ele.RiskId==entry.RiskId) && ele.RiskId!=null && ele.RiskId!='');
+                  if(entryList.length>1){
+                    j+=1;
+                    for(let obj of entryList) obj['DuplicateError'] = true;
+                  }
+                  else{entry['DuplicateError']=false}
                     let data = {
                         "ItemId":entry.ItemId,
                         "RiskId":entry.RiskId,
@@ -4575,6 +4624,8 @@ export class RiskDetailsComponent {
                         this.onfinalsave('Save');
                     }
               }
+            }
+            else{this.onfinalsave('delete');
             }
           }
           SaveBuildingList(datas){

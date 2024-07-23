@@ -48,7 +48,7 @@ export class PublicLiability{
                 },
                 {
                   type: 'ngselect',
-                  key: 'Region',
+                  key: 'RegionCode',
                   defaultValue: '',
                   className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                   templateOptions: {
@@ -71,7 +71,7 @@ export class PublicLiability{
                 },
                 {
                   type: 'ngselect',
-                  key: 'District',
+                  key: 'DistrictCode',
                   defaultValue: '',
                   className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                   templateOptions: {
@@ -91,12 +91,34 @@ export class PublicLiability{
                   },
                   expressions: {
                   },
+
+                },
+                {
+                  type: 'ngselect',
+                  key: 'FirstLossPayee',
+                  defaultValue: '',
+                  className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                  templateOptions: {
+                    label: `First Loss Payee`,
+                    placeholder: 'Select First Loss Payee',
+                   // disabled: true,
+                    required: true,
+                    options: [
+    
+                    ],
+    
+                  },
+                  validators: {
+                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                  },
+                  hooks: {
+                  },
+                  expressions: {
+                  },
                 },
               ]
               },
               {
-                
-                
                 type: 'table',
                 fieldGroup: [
                   {
