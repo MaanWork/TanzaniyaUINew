@@ -95,13 +95,13 @@
                                                         
                                                         <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}
                                                             &nbsp;&nbsp;<a
-                                                                class="mt-0 viewDetailsText"
+                                                                class="mt-0 viewDetailsText" id="ViewDetails1"
                                                                 (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
                                                             </a>
                                                         </p><br>
                                                         <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>{{'PREMIUM.PremiumAfterDiscount' | translate}} 
                                                             &nbsp;&nbsp;<a
-                                                            class="mt-0 viewDetailsText"
+                                                            class="mt-0 viewDetailsText" id="ViewDetails2"
                                                             (click)="ongetTaxDetails(cover)">{{'PREMIUM.ViewDetails' | translate}}</a>
                                                         </p>
                                                         
@@ -184,12 +184,12 @@
                                                                 <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
                                                                     <div class="mb-3">
                                                                         <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}  &nbsp;&nbsp;<a
-                                                                            class="mt-0 viewDetailsText2"
+                                                                            class="mt-0 viewDetailsText2" id="ViewDetails3"
                                                                             (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
                                                                         </a></p><br>
                                                                         <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>{{'PREMIUM.PremiumAfterDiscount' | translate}} 
                                                                             &nbsp;&nbsp;<a
-                                                                            class="mt-0 viewDetailsText2"
+                                                                            class="mt-0 viewDetailsText2" id="ViewDetails4"
                                                                             (click)="ongetTaxDetails(cover)"
                                                                             >{{'PREMIUM.ViewDetails' | translate}}</a>
                                                                         </p>
@@ -299,12 +299,12 @@
                                                                     <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
                                                                         <div class="mb-3">
                                                                             <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}  &nbsp;&nbsp;<a
-                                                                                class="mt-0 viewDetailsText2"
+                                                                                class="mt-0 viewDetailsText2" id="ViewDetails5"
                                                                                 (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
                                                                             </a></p><br>
                                                                             <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>{{'PREMIUM.PremiumAfterDiscount' | translate}} 
                                                                                 &nbsp;&nbsp;<a
-                                                                                class="mt-0 viewDetailsText2"
+                                                                                class="mt-0 viewDetailsText2" id="ViewDetails6"
                                                                                 (click)="ongetTaxDetails(cover)"
                                                                                 >{{'PREMIUM.ViewDetails' | translate}}</a>
                                                                             </p>
@@ -356,14 +356,14 @@
                                                             
                                                             
                                                             <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}
-                                                                &nbsp;&nbsp;<a
-                                                                    class="mt-0 viewDetailsText"
+                                                                &nbsp;&nbsp;<a 
+                                                                    class="mt-0 viewDetailsText" id="ViewDetails7 "
                                                                     (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
                                                                 </a>
                                                             </p><br>
                                                             <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>{{'PREMIUM.PremiumAfterDiscount' | translate}} 
                                                                 &nbsp;&nbsp;<a
-                                                                class="mt-0 viewDetailsText"
+                                                                class="mt-0 viewDetailsText" id="ViewDetails8"
                                                                 (click)="ongetTaxDetails(cover)">{{'PREMIUM.ViewDetails' | translate}}</a>
                                                             </p>
                                                             
@@ -483,7 +483,7 @@
                                 </ng-container>
                                 <div class="felx flex-warp t-a-r viewDetailsText2" >
 
-                                    <h6 (click)="onChooseCompareSection(menu,target)"><a >{{'PREMIUM.ViewMoreCovers' | translate}} >></a></h6>
+                                    <h6 (click)="onChooseCompareSection(menu,target)" id="ViewDetails9"><a >{{'PREMIUM.ViewMoreCovers' | translate}} >></a></h6>
                                 </div>
                                 <hr class="hr new4">
                                 <div class="grid mt-2 justify-content-end" style="padding: 12px;">
@@ -540,13 +540,13 @@
                                                 
                                                 <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}
                                                     &nbsp;&nbsp;<a
-                                                        class="mt-0 viewDetailsText"
+                                                        class="mt-0 viewDetailsText" id="ViewDetails10"
                                                         (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
                                                     </a>
                                                 </p><br>
                                                 <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>{{'PREMIUM.PremiumAfterDiscount' | translate}} 
                                                     &nbsp;&nbsp;<a
-                                                    class="mt-0 viewDetailsText"
+                                                    class="mt-0 viewDetailsText" id="ViewDetails11"
                                                     (click)="ongetTaxDetails(cover)">{{'PREMIUM.ViewDetails' | translate}}</a>
                                                 </p>
                                                 
@@ -590,12 +590,12 @@
                                                         <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
                                                             <div class="mb-3">
                                                                 <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}  &nbsp;&nbsp;<a
-                                                                    class="mt-0 viewDetailsText2"
+                                                                    class="mt-0 viewDetailsText2" id="ViewDetails12"
                                                                     (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
                                                                 </a></p><br>
                                                                 <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>{{'PREMIUM.PremiumAfterDiscount' | translate}} 
                                                                     &nbsp;&nbsp;<a
-                                                                    class="mt-0 viewDetailsText2"
+                                                                    class="mt-0 viewDetailsText2" id="ViewDetails13"
                                                                     (click)="ongetTaxDetails(cover)"
                                                                     >{{'PREMIUM.ViewDetails' | translate}}</a>
                                                                 </p>
