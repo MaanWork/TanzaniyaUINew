@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
 import { Subscription } from 'rxjs';
@@ -27,7 +27,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     userType:any=null;subuserType:any=null;countryId:any=null;brokerbranchCode:any=null;
     notificationList: any;rangeNotifyValue:any=1;columns:any[]=[];
     constructor(private productService: ProductService,private datePipe: DatePipe,private appComp:AppComponent,
-        private translate: TranslateService,private sharedService:SharedService, public layoutService: LayoutService) {
+        private translate: TranslateService,private sharedService:SharedService, public layoutService: LayoutService,
+        private messageService: MessageService) {
             this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
             console.log("UserDetails",this.userDetails);
             this.loginId = this.userDetails.Result.LoginId;
@@ -53,6 +54,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.showSuccessToast();
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
@@ -77,6 +79,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.getQuoteOverview();
         this.getEndorsementRecordList();
         this.getNotificationList();
+       
         this.chartOptions = {
             plugins: {
                 legend: {
@@ -299,4 +302,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.subscription.unsubscribe();
         }
     }
+    showSuccessToast() {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success Message',
+          detail: 'Operation completed successfully'
+        });
+      }
 }
