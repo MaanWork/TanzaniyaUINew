@@ -51,29 +51,29 @@ export class MachineryBreakDown{
                     expressions: {
                     },
                   },
-                  {
-                    type: 'ngselect',
-                    key: 'FirstLossPayee',
-                    defaultValue: '',
-                    className: 'col-12 md:col-4 lg:col-4',
-                    templateOptions: {
-                      label: `First Loss Payee`,
-                      placeholder: 'Select First Loss Payee',
-                     // disabled: true,
-                      required: true,
-                      options: [
+                  // {
+                  //   type: 'ngselect',
+                  //   key: 'FirstLossPayee',
+                  //   defaultValue: '',
+                  //   className: 'col-12 md:col-4 lg:col-4',
+                  //   templateOptions: {
+                  //     label: `First Loss Payee`,
+                  //     placeholder: 'Select First Loss Payee',
+                  //    // disabled: true,
+                  //     required: true,
+                  //     options: [
       
-                      ],
+                  //     ],
       
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                  //   },
+                  //   validators: {
+                  //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                  //   },
+                  //   hooks: {
+                  //   },
+                  //   expressions: {
+                  //   },
+                  // },
                 ]
             }
           ]

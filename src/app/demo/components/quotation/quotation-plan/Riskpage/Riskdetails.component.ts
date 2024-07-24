@@ -2912,7 +2912,13 @@ export class RiskDetailsComponent {
           }
           else return '';
         }
-  
+        getFirstLossDesc(rowData){
+          let entry = this.bankList.find(ele=>ele.Code==rowData.FirstLossPayee);
+          if(entry){
+            return entry.CodeDesc;
+          }
+          else return '';
+        }
         getAssName(Id){
           let entry = this.ChassisList.find(ele=>ele.Code==Id);
           if(entry){
