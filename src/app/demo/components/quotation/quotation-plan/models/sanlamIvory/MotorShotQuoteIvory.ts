@@ -3,7 +3,7 @@
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { ForceLengthValidators } from "../../personal-quote-details/personal-quote-details.component";
 
-export class ShortQuoteSanlam{
+export class MotorShortQuoteIvory{
     customerDetails: any;
     commonDetails: any[]=[];
     endorsementSection: boolean=false;subuserType:any=null;
@@ -203,28 +203,28 @@ export class ShortQuoteSanlam{
                     expressions: {
                     },
                   },
-                  // {
-                  //   type: 'ngselect',
-                  //   key: 'InsuranceClass',
-                  //   defaultValue: '',
-                  //   className: 'col-12 md:col-6 lg:col-6 xl:col-6',
-                  //   props: {
-                  //     label: `Insurance Class`,
-                  //     disabled: this.checkDisable('InsuranceClass'),
-                  //     required: true,
-                  //     options: [
+                  {
+                    type: 'ngselect',
+                    key: 'InsuranceClass',
+                    defaultValue: '',
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
+                    props: {
+                      label: `Insurance Class`,
+                      disabled: this.checkDisable('InsuranceClass'),
+                      required: true,
+                      options: [
       
-                  //     ],
+                      ],
       
-                  //   },
-                  //   validators: {
-                  //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                  //   },
-                  //   hooks: {
-                  //   },
-                  //   expressions: {
-                  //   },
-                  // },
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'commaSeparator',
@@ -248,52 +248,7 @@ export class ShortQuoteSanlam{
                     expressions: {
                     },
                   },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'commaSeparator',
-                    key: 'AccessoriesSI',
-                    hide: true,
-                    hideExpression:true,
-                    props: {
-                      label: `Accessories SumInured`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('AccessoriesSI'),
-                      required: false,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'commaSeparator',
-                    key: 'WindShieldSI',
-                    hide: true,
-                    hideExpression:true,
-                    props: {
-                      label: `WindShield SumInured`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('WindShieldSI'),
-                      required: false,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                 
                   {
                     type: 'ngselect',
                     key: 'Deductibles',
@@ -316,24 +271,7 @@ export class ShortQuoteSanlam{
                     expressions: {
                     },
                   },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                      key: 'PurchaseDate',
-                      type: 'datepicker',
-                      defaultValue: '',
-                      templateOptions: {
-                        defaultValue: '',
-                      },
-                      props: {
-                        label: 'Purchase Date',
-                        
-                        required: true,
-                        type: 'date',
-                        datepickerOptions: {
-                          defaultValue: '',
-                        },
-                      }
-                  },
+                  
                   {
                     type: 'ngselect',
                     key: 'DefenceCost',
@@ -356,37 +294,16 @@ export class ShortQuoteSanlam{
                     expressions: {
                     },
                   },
-                  {
-                    type: 'ngselect',
-                    key: 'VehicleValue',
-                    defaultValue: '',
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    props: {
-                      label: `Vehicle Value`,
-                      disabled: this.checkDisable('VehicleValue'),
-                      required: true,
-                      options: [
-      
-                      ],
-      
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                  
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'input',
-                    key: 'Inflation',
+                    key: 'HorsePower',
   
                     props: {
-                      label: `Inflation`,
+                      label: `Horse Power`,
                       maxLength: 15,
-                      disabled: this.checkDisable('Inflation'),
+                      disabled: this.checkDisable('HorsePower'),
                       required: true,
                       options: [
   
@@ -413,42 +330,8 @@ export class ShortQuoteSanlam{
                       options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
                     }
                   },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    key: 'GpsYN',
-                    type: 'radioList',
-                    templateOptions: {
-                      type: 'radioList',
-                      label: 'Gps Tracking Enabled',
-                      required: true,
-                      disabled: this.checkDisable('ClaimsYN'),
-                      name: 'GpsYN',
-                      options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
-                    }
-                  },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'input',
-                    key: 'Tonnage',
-                    hide: true,
-                    hideExpression:true,
-                    props: {
-                      label: `Tonnage`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('VehicleSI'),
-                      required: true,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                  
+                  
                   // {
                   //   className: 'col-12 col-md-4 col-lg-4 col-xl-4',
                   //   type: 'input',
@@ -488,5 +371,5 @@ export class ShortQuoteSanlam{
         else if(this.subuserType=='low') return this.finalizeYN=='Y'; 
         else return false;
       
-      }
+    }
 }
