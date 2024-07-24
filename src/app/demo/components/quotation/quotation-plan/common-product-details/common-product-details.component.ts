@@ -2680,6 +2680,7 @@ export class CommonProductDetailsComponent {
       // this.EmployeeListNew.push(entry);
     // this.productItem.employeeList.push(entry);
     this.isEmployeeForm = true;
+    this.currentBuildingIndex = null;
   //  this.open(modal)
   
 }
@@ -3043,7 +3044,7 @@ backPlan()
     this.showsectionnew=false;
     this.listSection = false;
     this.listn=true;
-   
+   this.currentBuildingIndex = null;
     this.productItem = new ProductData();
     this.productItem.LiabilityOccupationId='';
   this.productItem.FidEmpCount='';
@@ -3086,7 +3087,7 @@ backPlan()
     console.log(this.EmployeeListNew,"this.EmployeeListNewthis.EmployeeListNewthis.EmployeeListNew");
     
    //let edit = this.EmployeeListNew.findIndex(ele=>ele.LiabilityOccupationId == rowData.LiabilityOccupationId && ele.TotalNoOfEmployees == rowData.TotalNoOfEmployees && ele.EmpLiabilitySi == rowData.EmpLiabilitySi);
-    this.currentBuildingIndex = i+1;
+    this.currentBuildingIndex = i;
     this.productItem.LiabilityOccupationId = rowData.LiabilityOccupationId;
     this.productItem.TotalNoOfEmployees = rowData.TotalNoOfEmployees;
     this.productItem.EmpLiabilitySi = rowData.EmpLiabilitySi;
@@ -5447,6 +5448,8 @@ backPlan()
         }
        this.IndustryId='99999'
     };
+    if(this.userType!='Issuer'){ this.customerCode = this.userDetails.Result.CustomerCode;
+      this.customerName = this.userDetails.Result.CustomerName;}
     let startDate=null,endDate=null;
     let dateList = String(this.policyStartDate).split('/');
     if(dateList.length==1) startDate = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");
@@ -7441,9 +7444,14 @@ finalSaveMoney(finalList,type,formType) {
   }
   getContenDesc(rowData){
     let entry = this.dropList.find(ele=>ele.Code==rowData);
-    console.log(entry,"entry",rowData);
-    
     return entry.CodeDesc;
+  }
+  getPersonalAccOccDesc(value){
+    if(value!='' && value!=null && value!=undefined){
+      let entry = this.occupationList.find(ele=>ele.Code==value);
+      return entry.CodeDesc;
+    }
+    else return '';
   }
   onSaveElectronicEquipment(type,formType){
     if(this.TableRowEE.length!=0){
@@ -9214,7 +9222,6 @@ let requestNO=null;
             for (let i = 0; i < this.occupationList.length; i++) {
               this.occupationList[i].label = this.occupationList[i]['CodeDesc'];
               this.occupationList[i].value = this.occupationList[i]['Code'];
-              delete this.occupationList[i].CodeDesc;
               if (i == this.occupationList.length - 1) {
                 console.log("Fields",this.fields)
                 if(this.productId=='13'){
@@ -11282,7 +11289,7 @@ this.BuildingOwnerYn = type;
   }
   cancelnew(){
     this.listn=true;
-    this.EmployeeListNew.splice(this.currentBuildingIndex, 1);
+    if(this.currentBuildingIndex) this.EmployeeListNew.splice(this.currentBuildingIndex, 1);
     this.listSection=true;
     this.listn=false;
     this.isEmployeeForm = false;
@@ -11459,7 +11466,7 @@ this.BuildingOwnerYn = type;
       else{
         entry['OtherOccupation'] = this.productItem.OtherOccupation;
       }
-      if(this.currentBuildingIndex==0){
+      if(this.currentBuildingIndex==null || this.currentBuildingIndex==undefined){
         this.EmployeeListNew.push(entry);
       }
       else{

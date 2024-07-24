@@ -59,14 +59,8 @@ export class ProductData {
 	FrontDoors:any='';BackDoors:any='';TrapDoors:any='';
 	Address:any='';CategoryDesc:any='';InsuranceClass:any='';
 	BuildingOccupied: any = '';Category:any=null;
-	FirstLossPercentId:any='';
-	IndemityPeriod:any='';
-	MakutiYn:any='';
-	PlasteGlassType:any='';PowerPlantSi:any='0';
-	BoilerPlantsSi:any='0';ElecMachinesSi:any='0';
-	ManuUnitsSi: any='0';
-	MachineEquipSi: any='0';
-	GeneralMachineSi: any='0';
+	FirstLossPercentId:any='';IndemityPeriod:any='';MakutiYn:any='';PlasteGlassType:any='';PowerPlantSi:any='0';
+	BoilerPlantsSi:any='0';ElecMachinesSi:any='0';ManuUnitsSi: any='0';MachineEquipSi: any='0';GeneralMachineSi: any='0';
 	EquipmentSi: any='0';IssuingAuthority:any=null;
 	category_1:any[]=[];employeeList:any[]=[];
 	fidelityList: any[]=[];StockLossPercent:any='';

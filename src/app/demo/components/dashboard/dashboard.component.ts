@@ -27,8 +27,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     userType:any=null;subuserType:any=null;countryId:any=null;brokerbranchCode:any=null;
     notificationList: any;rangeNotifyValue:any=1;columns:any[]=[];
     constructor(private productService: ProductService,private datePipe: DatePipe,private appComp:AppComponent,
-        private translate: TranslateService,private sharedService:SharedService, public layoutService: LayoutService,
-        private messageService: MessageService) {
+        private translate: TranslateService,private sharedService:SharedService, public layoutService: LayoutService) {
             this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
             console.log("UserDetails",this.userDetails);
             this.loginId = this.userDetails.Result.LoginId;
@@ -54,7 +53,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.showSuccessToast();
+        //this.showSuccessToast();
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
@@ -303,10 +302,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
     }
     showSuccessToast() {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success Message',
-          detail: 'Operation completed successfully'
-        });
+        // this.messageService.add({
+        //   severity: 'success',
+        //   summary: 'Success Message',
+        //   detail: 'Operation completed successfully'
+        // });
       }
 }

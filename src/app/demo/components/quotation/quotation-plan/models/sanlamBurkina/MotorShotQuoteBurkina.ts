@@ -203,105 +203,14 @@ export class ShortQuoteSanlamBurkina{
                     expressions: {
                     },
                   },
-                  // {
-                  //   type: 'ngselect',
-                  //   key: 'InsuranceClass',
-                  //   defaultValue: '',
-                  //   className: 'col-12 md:col-6 lg:col-6 xl:col-6',
-                  //   props: {
-                  //     label: `Insurance Class`,
-                  //     disabled: this.checkDisable('InsuranceClass'),
-                  //     required: true,
-                  //     options: [
-      
-                  //     ],
-      
-                  //   },
-                  //   validators: {
-                  //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                  //   },
-                  //   hooks: {
-                  //   },
-                  //   expressions: {
-                  //   },
-                  // },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'commaSeparator',
-                    key: 'VehicleSI',
-                    hide: true,
-                    hideExpression:true,
-                    props: {
-                      label: `VehicleSI`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('VehicleSI'),
-                      required: true,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'commaSeparator',
-                    key: 'AccessoriesSI',
-                    hide: true,
-                    hideExpression:true,
-                    props: {
-                      label: `Accessories SumInured`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('AccessoriesSI'),
-                      required: false,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'commaSeparator',
-                    key: 'WindShieldSI',
-                    hide: true,
-                    hideExpression:true,
-                    props: {
-                      label: `WindShield SumInured`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('WindShieldSI'),
-                      required: false,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
                   {
                     type: 'ngselect',
-                    key: 'Deductibles',
+                    key: 'InsuranceClass',
                     defaultValue: '',
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     props: {
-                      label: `Deductibles`,
-                      disabled: this.checkDisable('Deductibles'),
+                      label: `Insurance Class`,
+                      disabled: this.checkDisable('InsuranceClass'),
                       required: true,
                       options: [
       
@@ -310,90 +219,6 @@ export class ShortQuoteSanlamBurkina{
                     },
                     validators: {
                       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                      key: 'PurchaseDate',
-                      type: 'datepicker',
-                      defaultValue: '',
-                      templateOptions: {
-                        defaultValue: '',
-                      },
-                      props: {
-                        label: 'Purchase Date',
-                        
-                        required: true,
-                        type: 'date',
-                        datepickerOptions: {
-                          defaultValue: '',
-                        },
-                      }
-                  },
-                  {
-                    type: 'ngselect',
-                    key: 'DefenceCost',
-                    defaultValue: '',
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    props: {
-                      label: `Defence Cost`,
-                      disabled: this.checkDisable('DefenceCost'),
-                      required: true,
-                      options: [
-      
-                      ],
-      
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    type: 'ngselect',
-                    key: 'VehicleValue',
-                    defaultValue: '',
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    props: {
-                      label: `Vehicle Value`,
-                      disabled: this.checkDisable('VehicleValue'),
-                      required: true,
-                      options: [
-      
-                      ],
-      
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'input',
-                    key: 'Inflation',
-  
-                    props: {
-                      label: `Inflation`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('Inflation'),
-                      required: true,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
                     },
                     hooks: {
                     },
@@ -412,43 +237,7 @@ export class ShortQuoteSanlamBurkina{
                       name: 'ClaimsYN',
                       options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
                     }
-                  },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    key: 'GpsYN',
-                    type: 'radioList',
-                    templateOptions: {
-                      type: 'radioList',
-                      label: 'Gps Tracking Enabled',
-                      required: true,
-                      disabled: this.checkDisable('ClaimsYN'),
-                      name: 'GpsYN',
-                      options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
-                    }
-                  },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'input',
-                    key: 'Tonnage',
-                    hide: true,
-                    hideExpression:true,
-                    props: {
-                      label: `Tonnage`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('VehicleSI'),
-                      required: true,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                  }
                   // {
                   //   className: 'col-12 col-md-4 col-lg-4 col-xl-4',
                   //   type: 'input',
