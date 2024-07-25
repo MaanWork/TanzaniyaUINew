@@ -1557,12 +1557,12 @@
                         <td style="padding:12px 14px">
                                 <ng-container *ngIf="calcType=='A'">
                                     <ng-container *ngIf="((!adminSection && userType!='Issuer') || endorsementSection ) || finalizeYN=='Y'">
-                                        <span class="spancommon span_font_size" id="ratePercent">{{ratePercent}}</span>
+                                        <span class="spancommon span_font_size" [id]="'ratePercent'+getCoverNameAlt(cover.CoverName)">{{ratePercent}}</span>
                                     </ng-container>
                                     <ng-container *ngIf="adminSection || (userType=='Issuer' && finalizeYN!='Y' && !endorsementSection)">
                                         <div class="input-group">
                                             <input type="text" class="input-form-control without-icon" style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important; border: 1px solid;
-                                            padding: 4px 12px;" id="ratePercent"
+                                            padding: 4px 12px;" [id]="'ratePercent'+getCoverNameAlt(cover.CoverName)"
                                             [(ngModel)]="ratePercent">
                                               <span class="input-group-text" style="padding: 0.05rem 0.5rem;" id="basic-addon2">{{currencyCode}}</span>
                                             
@@ -1572,14 +1572,14 @@
                                 <ng-container *ngIf="calcType=='P'">
                                         <div class="input-group">
                                             <input type="text" class="input-form-control without-icon" disabled  style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important; border: 1px solid;padding: 4px 12px;"
-                                            [(ngModel)]="ratePercent" id="ratePercent">
+                                            [(ngModel)]="ratePercent"  [id]="'ratePercent'+getCoverNameAlt(cover.CoverName)">
                                               <span class="input-group-text" style="padding: 0.05rem 0.5rem;" id="basic-addon2">%</span>
                                           
                                         </div>
                                 </ng-container>
                         </td>
                         <td style="text-align: end;padding:12px 14px">
-                            <span class="spancommon span_font_size" id="beforeDiscount">{{beforeDiscount | commaseparator}}</span>
+                            <span class="spancommon span_font_size"  [id]="'beforeDiscount'+getCoverNameAlt(cover.CoverName)" id="beforeDiscount">{{beforeDiscount | commaseparator}}</span>
                         </td>
                     </tr>
                     <ng-container *ngIf="discountList.length!=0">
@@ -1596,7 +1596,7 @@
                                     0
                                 </ng-container>
                                 <ng-container *ngIf="discount.DiscountAmount!=0 && discount.DiscountAmount!=null || discount.DiscountAmount!='0.0'">
-                                        <span id="DiscountAmount">{{discount.DiscountAmount | commaseparator}}</span>
+                                        <span [id]="'DiscountAmount'+i+getCoverNameAlt(cover.CoverName)">{{discount.DiscountAmount | commaseparator}}</span>
                                 </ng-container>
                             </td>
                         </tr>
@@ -1629,11 +1629,11 @@
                                         </ng-container>
                                         <ng-container
                                             *ngIf="loading.LoadingAmount!=0 && loading.LoadingAmount!=null">
-                                            <span class="spancommon span_font_size" [id]="'LoadingAmount'+i">{{loading.LoadingAmount}}</span>
+                                            <span class="spancommon span_font_size" [id]="'LoadingAmount'+i+getCoverNameAlt(cover.CoverName)">{{loading.LoadingAmount}}</span>
                                         </ng-container>
                                     </ng-container>
                                     <ng-container *ngIf="loading.LoadingCalcType=='A'">
-                                        <input type="text" [id]="'Amount'+i" disabled class="input-form-control without-icon"
+                                        <input type="text" [id]="'Amount'+i+getCoverNameAlt(cover.CoverName)" disabled class="input-form-control without-icon"
                                             (keyup)="premiumComma(i,loading.LoadingAmount)"
                                             style="width: auto !important;max-width:300px;text-align:right !important"
                                             [(ngModel)]="loading['LoadingAmount']">
