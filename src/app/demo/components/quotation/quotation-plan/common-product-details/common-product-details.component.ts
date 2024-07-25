@@ -803,7 +803,7 @@ export class CommonProductDetailsComponent {
           entry['Business_Interruption'] = this.BusinessName;
           entry['Business_InterruptionSI'] = String(this.BusinessSumInsured).replaceAll(',','');
           entry['BusinessNameDesc'] = this.getBusinessNameDesc(this.BusinessName);
-          entry['BuildingSumInsured'] = String(this.FireSumInsured).replaceAll(',','');
+          entry['BuildingSumInsured'] = Number(String(this.FireSumInsured).replaceAll(',',''));
           this.onSaveFireRiskDetails(type);
         }
       } 
@@ -826,7 +826,7 @@ export class CommonProductDetailsComponent {
             'BusinessNameDesc' :this.getBusinessNameDesc(this.BusinessName),
             "RegionCode": this.region,
             "DistrictCode": this.stateName,
-            "BuildingSumInsured":  String(this.FireSumInsured).replaceAll(',','')
+            "BuildingSumInsured":  Number(String(this.FireSumInsured).replaceAll(',',''))
           }
         )
         this.currentFireIndex = this.TableRowFire.length-1;
