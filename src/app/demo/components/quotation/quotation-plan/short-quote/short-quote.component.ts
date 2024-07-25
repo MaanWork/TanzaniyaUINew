@@ -15,6 +15,11 @@ import { MotorShotQuoteCustomerMadison } from '../models/Madison/MotorShotQuoteC
 import { MotorShotQuoteMadison } from '../models/Madison/MotorShotQuoteMadison';
 import { MotorShotQuoteCustomerEagle } from '../models/Eagle/MotorShotQuoteCustomerEagle';
 import { MotorShotQuoteEagle } from '../models/Eagle/MotorShotQuoteEagle';
+import { ShortQuoteCustomerBurkina } from '../models/sanlamBurkina/MotorShotQuoteCustomerBurkina';
+import { ShortQuoteSanlamBurkina } from '../models/sanlamBurkina/MotorShotQuoteBurkina';
+import { MotorShortQuoteCustomerIvory } from '../models/sanlamIvory/MotorShotQuoteCustomerIvory';
+import { MotorShortQuoteIvory } from '../models/sanlamIvory/MotorShotQuoteIvory';
+
 
 @Component({
   templateUrl: './short-quote.component.html',
@@ -81,6 +86,7 @@ export class ShortQuoteComponent implements OnInit {
   sourceCodeDesc: any=null;brokerList: any[]=[];customerList: any[]=[];
   brokerBranchList: any[]=[];mainBodyTypeList: any[]=[];vehicleTypeList: any[]=[];
   defencecostList: any[]=[];deductiblesList: any[]=[];
+  typeListAlt: any[]=[];
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
       this.loginId = this.userDetails.Result.LoginId;
@@ -135,7 +141,7 @@ export class ShortQuoteComponent implements OnInit {
       fireData2 = new MotorShotQuoteCustomerMadison();
       fireData = new MotorShotQuoteMadison();
     }
-    else if(this.insuranceId=='100027' || this.insuranceId=='100040'){
+    else if(this.insuranceId=='100027'){
       fireData2 = new ShortQuoteCustomerSanlam();
       fireData = new ShortQuoteSanlam();
     }
@@ -143,8 +149,17 @@ export class ShortQuoteComponent implements OnInit {
       fireData2 = new MotorShotQuoteCustomerEagle();
       fireData = new MotorShotQuoteEagle();
     }
+    else if(this.insuranceId=='100040'){
+      fireData2 = new MotorShortQuoteCustomerIvory();
+      fireData = new MotorShortQuoteIvory();
+    }
+    else if(this.insuranceId=='100042'){
+      fireData2 = new ShortQuoteCustomerBurkina();
+      fireData = new ShortQuoteSanlamBurkina();
+    }
     this.fields2[0] = fireData2?.fields;
     this.fields[0] = fireData?.fields;
+    
       let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
         field.form.controls['InsuranceType'].valueChanges.subscribe(() => {
          
@@ -190,19 +205,24 @@ export class ShortQuoteComponent implements OnInit {
             if(field.key=='BodyType'){ field.hooks = regionHooks3;}
             if(field.key=='Make'){ field.hooks = regionHooks4;}
             if(field.key=='Model'){ field.hooks = regionHooks6;}
-            if(field.key=='InsuranceType' && this.insuranceId=='100028'){field.hooks = regionHooks2;}
-            else if(field.key=='InsuranceClass'  && this.insuranceId!='100028') field.hooks = regionHooks2;
+            if(field.key=='InsuranceClass' && this.insuranceId=='100028'){field.hooks = regionHooks2;}
+            else if(field.key=='InsuranceType'  && this.insuranceId!='100028') field.hooks = regionHooks2;
           }
         // }
         // else this.fields[0].fieldGroup[0].fieldGroup[0].hooks = regionHooks2;
       }
-      this.getInsuranceTypeList();
-      this.getInsuranceClassList();
+      
+
+if( this.insuranceId=='100040' || this.insuranceId=='100042') this.getInsuranceTypeAltList()
+  else{this.getInsuranceTypeList();this.getInsuranceClassList();}
+
+
        
        this.getMotorUsageList(null,'change');
       this.getMobileCodeList();
       let customerReferenceNo =  sessionStorage.getItem('customerReferenceNo');
       if(customerReferenceNo){
+
         this.customerReferenceNo = customerReferenceNo;
         this.getCustomerDetails();
       }
@@ -988,6 +1008,7 @@ export class ShortQuoteComponent implements OnInit {
   }
   onChangeInsuranceClass(type){
     if(this.insuranceId=='100004'){ this.productItem.InsuranceType = this.productItem.InsuranceClass; this.classValue=this.productItem.InsuranceClass;}
+    if(this.insuranceId=='100028')this.productItem.InsuranceType = this.productItem.InsuranceClass;
     let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
     for(let field of fieldList){
       if(field.key=='GpsYN' || field.key=='CarAlarmYN'){
@@ -1005,22 +1026,28 @@ export class ShortQuoteComponent implements OnInit {
           }
         }
       }
-      if(field.key=='InsuranceType' && (this.insuranceId=='100028' || this.insuranceId=='100027' || this.insuranceId=='100040') && this.vehicleDetailsList.length==1){
+      if(field.key=='InsuranceType'  && (this.insuranceId=='100028' || this.insuranceId=='100027' || this.insuranceId=='100040') && this.vehicleDetailsList.length==1){
         field.hideExpression = true;field.hide=true;
       }
       if(field.key=='VehicleSI' || field.key=='AccessoriesSI' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI'){
         if(this.insuranceId=='100028' && this.vehicleDetailsList.length==1){
           field.hideExpression = false;field.hide=false;
         }
-        else if(this.productItem.InsuranceClass!='' && this.productItem.InsuranceClass!=null && this.productItem.InsuranceClass!=undefined){
-            if(this.productItem.InsuranceClass=='1' || this.productItem.InsuranceClass=='2'){
-              field.hideExpression = false;field.hide=false;
+        else{
+          field.hideExpression = true;field.hide=true;
+        }
+      if(this.productItem.InsuranceClass!='' && this.productItem.InsuranceClass!=null && this.productItem.InsuranceClass!=undefined){
+            if(this.productItem.InsuranceClass=='104' || this.productItem.InsuranceClass=='103'){
+                field.hideExpression = false;field.hide=false;
             }
             else{ 
               this.productItem.VehicleSI = null;
               this.productItem.WindShieldSI = null;
               this.productItem.Accessories 
               field.hideExpression = true;field.hide=true;}
+        }
+        else{
+          field.hideExpression = true;field.hide=true;
         }
       }
     }
@@ -1420,6 +1447,41 @@ export class ShortQuoteComponent implements OnInit {
                   }
             });
   }
+  
+
+getInsuranceTypeAltList(){
+  let ReqObj=null,urlLink=null;
+    ReqObj = {
+      "InsuranceId": this.insuranceId,
+      "ItemType": "Insurance_type"
+    }
+    urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        if(data.Result){
+            this.typeListAlt = data.Result;
+            if(this.typeListAlt.length!=0){
+              let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+              for (let i = 0; i < this.typeListAlt.length; i++) {
+                this.typeListAlt[i].label = this.typeListAlt[i]['CodeDesc'];
+                this.typeListAlt[i].value = this.typeListAlt[i]['Code'];
+                if (i == this.typeListAlt.length - 1) {
+                    if(this.fields.length!=0){
+                      let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                      for(let field of fieldList){
+                        if(field.key=='InsuranceType'){
+                          field.props.options = defaultObj.concat(this.typeListAlt);
+                        }
+                      }
+                    }
+                }
+              }
+            }
+        }
+    });            
+}
+
+
   onViewCalc(){
     let ReqObj = {
       "ProductId":this.productId,

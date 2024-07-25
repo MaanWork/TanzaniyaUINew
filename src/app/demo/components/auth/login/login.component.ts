@@ -43,9 +43,14 @@ export class LoginComponent {
   OtpBtnTime: any;
   otpSection: boolean;
   otpGenerated: any;
-  submitted: boolean;
+  submitted: boolean;langList:any[]=[]
     constructor(public layoutService: LayoutService, private router: Router,private loginService:LoginService,
         private authService: AuthService,private translate: TranslateService,private appComp:AppComponent,private shared:SharedService) { 
+          this.langList = [
+            {"Code":"en","CodeDesc":"English","CodeDescPor":"Inglês","CodeDescFr":"Anglais"},
+            {"Code":"po","CodeDesc":"Portuguese","CodeDescPor":"Português","CodeDescFr":"Portugais"},
+            {"Code":"fr","CodeDesc":"French","CodeDescPor":"Francês","CodeDescFr":"Français"},
+          ]
           this.appComp.getLanguage().subscribe((res:any)=>{  
             if(res) this.lang=res;
             else this.lang='en';
@@ -167,6 +172,11 @@ export class LoginComponent {
         } else {
             this.messages = [{ severity: 'error', summary: 'Error', detail: 'Incorrect Credentials' }];
         }
+    }
+    getLangCodeDesc(entry){
+      if(this.lang=='en') return entry.CodeDesc
+      else if(this.lang=='po') return entry.CodeDescPor
+      else if(this.lang=='fr') return entry.CodeDescFr
     }
     async onB2CNavigate(type){
       let urlLink = `${this.CommonApiUrl}authentication/doauth`
