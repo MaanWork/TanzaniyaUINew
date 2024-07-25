@@ -6,12 +6,11 @@
                 <div class="flex flex-warp justify-content-end">
                     <p-button icon="pi pi-language" [label]="lang" mat-icon-button [matMenuTriggerFor]="menu" shape="circle" severity="danger" />&nbsp;&nbsp;
                     <mat-menu #menu="matMenu">
-                        <button mat-menu-item (click)="setLanguage('en')">
-                            <span>English</span>
-                        </button>
-                        <button mat-menu-item (click)="setLanguage('po')">
-                            <span>Portugese</span>
-                        </button>
+                        <ng-container *ngFor="let obj of langList">
+                            <button mat-menu-item (click)="setLanguage(obj.Code)">
+                                <span>{{getLangCodeDesc(obj)}}</span>
+                            </button>
+                        </ng-container>
                     </mat-menu>
                 </div>
                 <div class="text-center mb-5">
