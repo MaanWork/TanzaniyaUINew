@@ -2967,6 +2967,9 @@ export class CoverDetailsComponent {
 
     }
   }
+  getCoverNameAlt(value){
+      return String(value.replaceAll(' ',''));
+  }
   onProceed(coverList:any){
     if(this.statusValue == 'RA' && !this.adminSection){
       if(this.productId!='4'){
