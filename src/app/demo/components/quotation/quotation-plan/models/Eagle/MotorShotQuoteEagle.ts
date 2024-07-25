@@ -207,6 +207,8 @@ export class MotorShotQuoteEagle{
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     type: 'commaSeparator',
                     key: 'VehicleSI',
+                    hide: true,
+                    hideExpression:true,
                     props: {
                       label: `VehicleSI`,
                       maxLength: 15,
@@ -224,79 +226,25 @@ export class MotorShotQuoteEagle{
                     expressions: {
                     },
                   },
-                  // {
-                  //   className: 'col-12 md:col-6 lg:col-6 xl:col-6',
-                  //   type: 'commaSeparator',
-                  //   key: 'AccessoriesSI',
-                  //   hide: true,
-                  //   hideExpression:true,
-                  //   props: {
-                  //     label: `Accessories SumInured`,
-                  //     maxLength: 15,
-                  //     disabled: this.checkDisable('AccessoriesSI'),
-                  //     required: false,
-                  //     options: [
-  
-                  //     ],
-  
-                  //   },
-                  //   validators: {
-                  //   },
-                  //   hooks: {
-                  //   },
-                  //   expressions: {
-                  //   },
-                  // },
-                  // {
-                  //   className: 'col-12 md:col-6 lg:col-6 xl:col-6',
-                  //   key: 'ClaimsYN',
-                  //   type: 'radioList',
-                  //   templateOptions: {
-                  //     type: 'radioList',
-                  //     label: 'Claims',
-                  //     required: true,
-                  //     disabled: this.checkDisable('ClaimsYN'),
-                  //     name: 'ClaimsYN',
-                  //     options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
-                  //   }
-                  // },
-                  // {
-                  //   className: 'col-12 md:col-6 lg:col-6 xl:col-6',
-                  //   key: 'GpsYN',
-                  //   type: 'radioList',
-                  //   templateOptions: {
-                  //     type: 'radioList',
-                  //     label: 'Gps Tracking Enabled',
-                  //     required: true,
-                  //     disabled: this.checkDisable('ClaimsYN'),
-                  //     name: 'GpsYN',
-                  //     options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
-                  //   }
-                  // },
-                 
-                  // {
-                  //   className: 'col-12 col-md-4 col-lg-4 col-xl-4',
-                  //   type: 'input',
-                  //   key: 'CubicCapacity',
-                  //   hide: true,
-                  //   hideExpression:true,
-                  //   props: {
-                  //     label: `Cubic Capacity`,
-                  //     maxLength: 15,
-                  //     disabled: this.checkDisable('VehicleSI'),
-                  //     required: true,
-                  //     options: [
-  
-                  //     ],
-  
-                  //   },
-                  //   validators: {
-                  //   },
-                  //   hooks: {
-                  //   },
-                  //   expressions: {
-                  //   },
-                  // },
+                  
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4',
+                    key: 'RenewalYn',
+                    id: 'RenewalYn',
+                    type: 'radioList',
+                    templateOptions: {
+                      type: 'radioList',
+                      
+                      required: true,
+                      disabled: this.checkDisable('RenewalYn'),
+                      name: 'RenewalYn',
+                     
+                    },
+                    props:{
+                      label: 'Renewal',
+                      options: [{ value: 'Y', label: 'Yes',CodeDesc:'Yes','CodeDescLocal':'Sim' }, { value: 'N', label: 'No',CodeDesc:'No','CodeDescLocal':'Não' }],
+                    }
+                  },
                 ]
               }
             ]
