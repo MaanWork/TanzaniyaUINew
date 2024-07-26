@@ -595,6 +595,7 @@
           "SubCoverName": "SubCover Name",
           "Rate": "Rate",
           "Minimum": "Minimum",
+          "OverAllPremium":"OverAll Premium",
           "DoYouLiketoChooseEMIOption?": "Do You Like to Choose EMI Option?",
           "DoYouLiketoMovethisQuotetoReferralManually?": "Do You Like to Move this Quote to Referral Manually?",
           "InstallmentAmount": "Installment Amount",
