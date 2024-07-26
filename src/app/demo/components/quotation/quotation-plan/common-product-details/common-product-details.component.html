@@ -991,7 +991,7 @@
                             <td>{{i+1}}</td>
                             <td>{{PA.CustomerName}}</td>
                             <!-- <td>{{PA.LocationName}}</td> -->
-                            <td>{{PA.OccupationId}}</td>
+                            <td>{{getPersonalAccOccDesc(PA.OccupationId)}}</td>
                             <td>{{PA.Dob}}</td>
                             <td>{{PA.SumInsured}}</td>
                             <td>
@@ -1161,7 +1161,7 @@
                     </div>
                 </div>
                 <ng-container *ngIf="TableRowFire.length!=0">
-                    <p-table [value]="TableRowFire" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+                    <p-table [value]="getTableRowFireList()" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
                         <!-- <ng-template pTemplate="caption">
                             <div class="flex flex wrap justify-content-end">
                                 <div class="table-header">
@@ -1245,7 +1245,12 @@
                 </div>
                 <div class="grid">
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                    
+                    <div class="md:col-6 lg:col-6 col-12">
+                        <h4 class="m-0 p-0" >Fire Cover</h4>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3 ">
                         <div class="input-control-container">
                             <label for="ProductName">Industry Cover</label>&nbsp;<span class="text-danger">*</span>
@@ -1259,6 +1264,27 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                        <div class="input-control-container">
+                            <label class="input-form-label">SumInsured &nbsp;<span class="text-danger">*</span></label>
+                            <input pInputText class="w-full mt-1" type="text" name="SampleType"
+                            (keydown)="onVehicleValueChange($event)" (keyup)="CommaFormatted()" placeholder="Enter SumInsured" [(ngModel)]="FireSumInsured">
+                            <div class="input-form-error" *ngIf="fireSIError">
+                                <div class="error-text text-danger">
+                                    Please Enter Valid SumInsured 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                    <div class="md:col-6 lg:col-6 col-12">
+                        <h4 class="m-0 p-0" >Business Interruption Cover</h4>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3 ">
                         <div class="input-control-container">
                             <label for="ProductName">Business Interruption</label>&nbsp;<span class="text-danger">*</span>
@@ -1271,15 +1297,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="grid">
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                    <div class="col-12 lg:col-3 md:col-3 lx:col-3">
+                    <div class="col-12 lg:col-3 md:col-3 lx:col-3" *ngIf="BusinessName!='' && BusinessName!='0' && BusinessName!=undefined">
                         <div class="input-control-container">
                             <label class="input-form-label">SumInsured &nbsp;<span class="text-danger">*</span></label>
                             <input pInputText class="w-full mt-1" type="text" name="SampleType"
-                            (keydown)="onVehicleValueChange($event)" (keyup)="CommaFormatted()" placeholder="Enter SumInsured" [(ngModel)]="FireSumInsured">
-                            <div class="input-form-error" *ngIf="fireSIError">
+                             (keyup)="CommaFormattedBusinessSI()" placeholder="Enter SumInsured" [(ngModel)]="BusinessSumInsured">
+                            <div class="input-form-error" *ngIf="businessSIError">
                                 <div class="error-text text-danger">
                                     Please Enter Valid SumInsured 
                                 </div>

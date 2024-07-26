@@ -239,7 +239,7 @@ export class AppMenuComponent implements OnInit {
               "icon": 'pi pi-car',
               "routerLink": [menu.link]
             }
-            if (menu.children && menu.CodeDesc!='Quote Register' && menu.CodeDesc!='Login Creation' && menu.CodeDesc!='Referral' && menu.CodeDesc!='Portfolio' && menu.CodeDesc!='Referal Management' && menu.CodeDesc!='Masters') {
+            if (menu.children && menu.CodeDesc!='Quote Register' && menu.CodeDesc!='Login Creation' && menu.CodeDesc!='Referral' && menu.CodeDesc!='Portfolio' && menu.CodeDesc!='Referal Management' && menu.CodeDesc!='Masters' && menu.CodeDesc!='Tira Status') {
              entry['items'] = [];
               let j = 0;
               for (let child of menu.children) {
@@ -290,6 +290,7 @@ export class AppMenuComponent implements OnInit {
               else if(menu.CodeDesc=='Search') entry["routerLink"] =  ['/Search']
               else if(menu.CodeDesc=='Masters') entry["routerLink"] =  ['/Admin/bankMaster']
               else if(menu.CodeDesc=='Tira Vehicle Search'){entry["routerLink"] =  ['/tira-search']}
+              else if(menu.CodeDesc=='Tira Status'){entry["routerLink"] =  ['/tirastatus']}
               else entry["routerLink"] =  [menu.link]
               entry['link'] = menu.link;
               if(this.lang=='en') menu.title=menu.CodeDesc

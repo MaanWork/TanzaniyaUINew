@@ -36,7 +36,7 @@ export class AppTopBarComponent implements OnInit {
     public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
     branchValue:any=null;branchList:any[]=[];typeName:any=null;
     loginType:any=null;customerCode:any=null;customerName:any=null;
-    insuranceid: any;b2cType:any=null;
+    insuranceid: any;b2cType:any=null;langList:any[]=[];
   lang: string;
     constructor(public layoutService: LayoutService, private router: Router,private loginService: LoginService,private appComp:AppComponent,
         private authService: AuthService,private cookieService: CookieService,private SharedService: SharedService) { 
@@ -72,7 +72,11 @@ export class AppTopBarComponent implements OnInit {
 
     ngOnInit() {
       this.getBranchList();
-      
+        this.langList = [
+          {"Code":"en","CodeDesc":"English","CodeDescPor":"Inglês","CodeDescFr":"Anglais"},
+          {"Code":"po","CodeDesc":"Portuguese","CodeDescPor":"Português","CodeDescFr":"Portugais"},
+          {"Code":"fr","CodeDesc":"French","CodeDescPor":"Francês","CodeDescFr":"Français"},
+        ]
         this.branches = [{label: 'Branch 1'}, {label: 'Branch 2'}];
         this.userOptions = [
             {label: 'Logout', value: 'logout', icon: 'pi pi-power-off', command: () => {this.setLogout();}},
@@ -82,6 +86,11 @@ export class AppTopBarComponent implements OnInit {
     onProductRedirect(){
       if(this.typeValue=='B2C Broker') this.router.navigate(['/customerProducts']);
       else this.router.navigate(['/auth/login/product']);
+    }
+    getLangCodeDesc(entry){
+      if(this.lang=='en') return entry.CodeDesc
+      else if(this.lang=='po') return entry.CodeDescPor
+      else if(this.lang=='fr') return entry.CodeDescFr
     }
     getBranchList() {
       let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));

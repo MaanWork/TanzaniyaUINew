@@ -371,7 +371,7 @@
                                  
                             </ng-container>
                             <ng-container *ngIf="currentBuildingRowIndex!=ri">
-                               {{Building.FirstLossPayee}}
+                               {{getFirstLossDesc(Building)}}
                             </ng-container>
                             <div class="input-form-error" *ngIf="Building.FirstLossPayeeError">
                                 <div class="error-text text-danger">

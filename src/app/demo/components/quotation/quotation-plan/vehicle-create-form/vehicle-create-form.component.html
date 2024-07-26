@@ -18,7 +18,7 @@
             <div class="flex flex-column m-3" *ngIf="insuranceId!='100004'">
                 <label for="motor-usage">{{'MOTORQUOTE.MotorUsage' | translate}} *</label>
                 <p-dropdown inputId="motor-usage" 
-                    class="w-full" 
+                    class="w-full" id="MotorUsage"
                     styleClass="w-full" 
                     [options]="usageList" 
                     (onChange)="onChangeMotorUsage('change')"
@@ -31,7 +31,7 @@
             <div class="flex flex-column m-3">
                 <label for="body-type">{{'MOTORQUOTE.BodyType' | translate}} *</label>
                 <p-dropdown inputId="body-type" *ngIf="insuranceId!='100004'"
-                    class="w-full" 
+                    class="w-full" id="BodyType"
                     styleClass="w-full" 
                     [options]="mainBodyTypeList" 
                     (onChange)="onBodyTypeChange('change')"
@@ -42,7 +42,7 @@
                     [placeholder]="'MOTORDETAILS.SelectBodyType' | translate">
                 </p-dropdown>
                 <p-dropdown inputId="body-type" *ngIf="insuranceId=='100004'"
-                    class="w-full" 
+                    class="w-full" id="Bodytype"
                     styleClass="w-full" 
                     [options]="bodyTypeList" 
                     (onChange)="onBodyTypeChange('change')"
@@ -56,7 +56,7 @@
             <div class="flex flex-column m-3">
                 <label for="make">{{'MOTORDETAILS.Make' | translate}} </label>
                 <p-dropdown inputId="make" 
-                    class="w-full" 
+                    class="w-full" id="Make"
                     styleClass="w-full" 
                     [options]="makeList" 
                     [disabled]="editSection"
@@ -70,7 +70,7 @@
             <div class="flex flex-column m-3" *ngIf="bodyTypeId=='1' || bodyTypeId=='2' || bodyTypeId=='3' || bodyTypeId=='4' || bodyTypeId=='5' || bodyTypeId=='' || bodyTypeId==null">
                 <label for="model">{{'MOTORDETAILS.Model' | translate}} *</label>
                 <p-dropdown inputId="model" 
-                    class="w-full" 
+                    class="w-full" id="Make"
                     styleClass="w-full" 
                     [options]="modelList" 
                     [(ngModel)]="modelValue" 
@@ -87,7 +87,7 @@
             <div class="flex flex-column m-3" *ngIf="insuranceId!='100028' && insuranceId!='100004'">
                 <label for="motor-category">{{'MOTORDETAILS.MotorCategory' | translate}}*</label>
                 <p-dropdown inputId="motor-category" 
-                    class="w-full" 
+                    class="w-full" id="MotorCategory"
                     styleClass="w-full" 
                     [options]="motorCategoryList" 
                     [(ngModel)]="motorCategory" 
@@ -137,7 +137,7 @@
             <div class="flex flex-column m-3">
                 <label for="manufacture-year">{{'MOTORDETAILS.ManufactureYear' | translate}} *</label>
                 <p-dropdown  
-                    class="w-full"
+                    class="w-full" id="ManufactureYear"
                     styleClass="w-full"
                     [(ngModel)]="manufactureYear"
                     [options]="years" 
@@ -150,7 +150,7 @@
             </div>
             <div class="flex flex-column m-3">
                 <label for="color">{{'MOTORDETAILS.Color' | translate}}</label>
-                <p-dropdown inputId="color" 
+                <p-dropdown inputId="color" id="Color"
                     class="w-full" 
                     styleClass="w-full" 
                     [options]="colorList" 
@@ -163,7 +163,7 @@
             </div>
             <div class="flex flex-column m-3" *ngIf="insuranceId!='100004'">
                 <label for="fuel-type">{{'MOTORDETAILS.FuelType'  | translate}} *</label>
-                <p-dropdown inputId="fuel-type" 
+                <p-dropdown inputId="fuel-type" id="FuelType"
                     class="w-full" 
                     styleClass="w-full" 
                     [options]="fuelTypeList" [disabled]="editSection"
@@ -175,7 +175,7 @@
             </div>
             <div class="flex flex-column m-3" *ngIf="insuranceId!='100004'">
                 <label for="tare-weight">{{'MOTORDETAILS.TareWeight' | translate}}</label>
-                <input pInputText id class="w-full" styleClass="w-full" [(ngModel)]="tareWeight" maxlength="10" [disabled]="editSection" inputId="tare-weight" [placeholder]="'MOTORDETAILS.EnterTareWeight' | translate" />
+                <input pInputText id="TareWeight" class="w-full" styleClass="w-full" [(ngModel)]="tareWeight" maxlength="10" [disabled]="editSection" inputId="tare-weight" [placeholder]="'MOTORDETAILS.EnterTareWeight' | translate" />
             </div>
             <div class="flex flex-column m-3" *ngIf="insuranceId!='100004'">
                 <label for="gross-weight">{{'MOTORDETAILS.GrossWeight' | translate}}*</label>
@@ -191,7 +191,7 @@
             </div>
             <div class="flex flex-column m-3" *ngIf="insuranceId=='100040' || this.insuranceId=='100042'">
                 <label for="axis-distance">{{'MOTORQUOTE.HorsePower' | translate }}*</label>
-                <input pInputText id="axis-distance" digitOnly [(ngModel)]="horsePower" maxlength="50" [disabled]="editSection" [placeholder]="'MOTORQUOTE.EnterHorsePower' | translate"/>
+                <input pInputText id="axis-distance" digitOnly [(ngModel)]="horsePower" id="HorsePower" maxlength="50" [disabled]="editSection" [placeholder]="'MOTORQUOTE.EnterHorsePower' | translate"/>
                 <div class="input-form-error" *ngIf="horsePowerError">
                     <div class="text-danger" style="font-size: 12px;">
                         {{'MOTORDETAILS.ValidHorsePower' | translate}}
@@ -209,7 +209,7 @@
             <div class="flex flex-column m-3" *ngIf="insuranceId!='100028'">
                 <label for="motor-category">Motor Category*</label>
                 <p-dropdown inputId="motor-category" 
-                    class="w-full" 
+                    class="w-full" id="MotorCategory"
                     styleClass="w-full" 
                     [options]="motorCategoryList" 
                     [(ngModel)]="motorCategory" 
@@ -222,7 +222,7 @@
             <div class="flex flex-column m-3">
                 <label for="motor-usage">Motor Usage*</label>
                 <p-dropdown inputId="motor-usage" 
-                    class="w-full" 
+                    class="w-full" id="MotorUsage"
                     styleClass="w-full" 
                     [options]="usageList" 
                     (onChange)="onChangeMotorUsage('change')"
@@ -235,7 +235,7 @@
             <div class="flex flex-column m-3">
                 <label for="make">Make</label>
                 <p-dropdown inputId="make" 
-                    class="w-full" 
+                    class="w-full" id="Make"
                     styleClass="w-full" 
                     [options]="makeList" 
                     [disabled]="editSection"
@@ -273,7 +273,7 @@
             <div class="flex flex-column m-3">
                 <label for="body-type">Body Type*</label>
                 <p-dropdown inputId="body-type" 
-                    class="w-full" 
+                    class="w-full" id="BodyType"
                     styleClass="w-full" 
                     [options]="mainBodyTypeList" 
                     (onChange)="onBodyTypeChange('change')"
@@ -325,7 +325,7 @@
                 <label for="manufacture-year">Manufacture Year*</label>
                 <p-dropdown  
                     class="w-full"
-                    styleClass="w-full"
+                    styleClass="w-full" id="ManufactureYear"
                     [(ngModel)]="manufactureYear"
                     [options]="years" 
                     [disabled]="editSection"
@@ -338,7 +338,7 @@
             <div class="flex flex-column m-3">
                 <label for="color">Color</label>
                 <p-dropdown inputId="color" 
-                    class="w-full" 
+                    class="w-full" id="Color"
                     styleClass="w-full" 
                     [options]="colorList" 
                     [disabled]="editSection"
@@ -351,8 +351,9 @@
             <div class="flex flex-column m-3">
                 <label for="fuel-type">Fuel Type*</label>
                 <p-dropdown inputId="fuel-type" 
-                    class="w-full" 
+                    class="w-full" id="FuelType"
                     styleClass="w-full" 
+                    id="FuelType"
                     [options]="fuelTypeList" [disabled]="editSection"
                     [(ngModel)]="fuelType" 
                     [optionLabel]="getDisplayName()" 
@@ -362,7 +363,7 @@
             </div>
             <div class="flex flex-column m-3">
                 <label for="tare-weight">Tare Weight (Kg)</label>
-                <input pInputText id class="w-full" styleClass="w-full" [(ngModel)]="tareWeight" maxlength="10" [disabled]="editSection" inputId="tare-weight" placeholder="Enter Tare Weight" />
+                <input pInputText id="TareWeight" class="w-full" styleClass="w-full" [(ngModel)]="tareWeight" maxlength="10" [disabled]="editSection" inputId="tare-weight" placeholder="Enter Tare Weight" />
             </div>
             <div class="flex flex-column m-3">
                 <label for="gross-weight">Gross Weight*</label>
@@ -378,8 +379,8 @@
             </div>
         </div>
         <div class="flex justify-content-center mt-2">
-            <p-button styleClass="p-button-outlined"  label="Back" class="p-3 text-l mr-0" icon="pi pi-chevron-left"  (click)="getBack()"></p-button>&nbsp;
-            <p-button label="Submit" class="p-3 text-l mr-0" (click)="onFormSubmit()"></p-button>
+            <p-button styleClass="p-button-outlined"  id="Back" label="Back" class="p-3 text-l mr-0" icon="pi pi-chevron-left"  (click)="getBack()"></p-button>&nbsp;
+            <p-button label="Submit" id="Submit" class="p-3 text-l mr-0" (click)="onFormSubmit()"></p-button>
         </div>
     </ng-container>
 </div>  
@@ -414,7 +415,7 @@
                 <div class="flex flex-column m-3">
                     <label for="body-type">Body Type*</label>
                     <p-dropdown inputId="body-type" 
-                        class="w-full" 
+                        class="w-full" id="BodyType"
                         styleClass="w-full" 
                         [options]="bodyTypeList" 
                         (onChange)="onBodyTypeChange('change')"
@@ -428,12 +429,12 @@
                 <div class="flex flex-column m-3">
                     <label for="manufacture-year">Manufacture Year*</label>
                     <p-dropdown  
-                        class="w-full"
+                        class="w-full" id="ManufactureYear"
                         styleClass="w-full"
                         [(ngModel)]="manufactureYear"
                         [options]="years" 
                         [disabled]="editSection"
-                        inputId="manufacture-year" 
+                        inputId="manufacture-year" id="ManufactureYear"
                         optionLabel="CodeDesc" 
                         optionValue="Code" 
                         placeholder="Enter Manufacture Year">
@@ -442,7 +443,7 @@
                 <div class="flex flex-column m-3">
                     <label for="make">Make</label>
                     <p-dropdown inputId="make" 
-                        class="w-full" 
+                        class="w-full" id="Make"
                         styleClass="w-full" 
                         [options]="makeList" 
                         [disabled]="editSection"
@@ -455,7 +456,7 @@
                 </div>
                 <div class="flex flex-column m-3" *ngIf="bodyTypeId=='1' || bodyTypeId=='2' || bodyTypeId=='3' || bodyTypeId=='4' || bodyTypeId=='5' || bodyTypeId=='' || bodyTypeId==null">
                     <label for="model">Model*</label>
-                    <p-dropdown inputId="model" 
+                    <p-dropdown inputId="model" id="Model"
                         class="w-full" 
                         styleClass="w-full" 
                         [options]="modelList" 
@@ -496,7 +497,7 @@
                 <div class="flex flex-column m-3">
                     <label for="fuel-type">Fuel Type*</label>
                     <p-dropdown inputId="fuel-type" 
-                        class="w-full" 
+                        class="w-full" id="FuelType"
                         styleClass="w-full" 
                         [options]="fuelTypeList" [disabled]="editSection"
                         [(ngModel)]="fuelType" 
@@ -508,7 +509,7 @@
                 <div class="flex flex-column m-3">
                     <label for="color">Color</label>
                     <p-dropdown inputId="color" 
-                        class="w-full" 
+                        class="w-full" id="Color"
                         styleClass="w-full" 
                         [options]="colorList" 
                         [disabled]="editSection"
@@ -521,7 +522,7 @@
                 <div class="flex flex-column m-3">
                     <label for="motor-category">Motor Category*</label>
                     <p-dropdown inputId="motor-category" 
-                        class="w-full" 
+                        class="w-full" id="MotorCategory"
                         styleClass="w-full" 
                         [options]="motorCategoryList" 
                         [(ngModel)]="motorCategory" 
@@ -534,7 +535,7 @@
                 <div class="flex flex-column m-3">
                     <label for="motor-usage">Motor Usage*</label>
                     <p-dropdown inputId="motor-usage" 
-                        class="w-full" 
+                        class="w-full" id="MotorUsage"
                         styleClass="w-full" 
                         [options]="usageList" 
                         [(ngModel)]="usageValue" 
@@ -554,7 +555,7 @@
                 
                 <div class="flex flex-column m-3">
                     <label for="tare-weight">Tare Weight (Kg)</label>
-                    <input pInputText id class="w-full" styleClass="w-full" [(ngModel)]="tareWeight" maxlength="10" [disabled]="editSection" inputId="tare-weight" placeholder="Enter Tare Weight" />
+                    <input pInputText id="TareWeight" class="w-full" styleClass="w-full" [(ngModel)]="tareWeight" maxlength="10" [disabled]="editSection" inputId="tare-weight" placeholder="Enter Tare Weight" />
                 </div>
                 <div class="flex flex-column m-3">
                     <label for="gross-weight">Gross Weight*</label>
