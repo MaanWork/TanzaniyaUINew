@@ -4880,7 +4880,7 @@ emiyn="N";
                                             
                                             // this.getcall();
                                             //sessionStorage.removeItem('vehicleDetailsList');
-                                            window.location.reload();
+                                            //window.location.reload();
                                           }
                                           else if(type=='altSave'){ console.log("Finally Updated");}
                                           else if(type=='fleetSave') this.getViewPremiumCalc(modal);
@@ -4902,7 +4902,7 @@ emiyn="N";
                       if(type=='calculate'){
                         //this.getcall();
                         //sessionStorage.removeItem('vehicleDetailsList');
-                          window.location.reload();
+                         // window.location.reload();
                       }
                       else this.updateReferralStatus();
                     }
@@ -4914,7 +4914,7 @@ emiyn="N";
                       if(type=='calculate'){
                         //this.getcall();
                         //sessionStorage.removeItem('vehicleDetailsList');
-                          window.location.reload();
+                          //window.location.reload();
                       }
                       else this.updateReferralStatus();
                     }

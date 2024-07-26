@@ -811,7 +811,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   var year = d.getFullYear();
                   var month = d.getMonth();
                   var day = d.getDate();
-                  if(this.productId=='5' || this.productId=='29'){ this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
+                  if(this.productId=='5' || this.productId=='29'){ this.policyStartDate = new Date(year,month, day ); alert(3);this.onStartDateChange('direct')}
                   else if(this.productId=='46'){this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
                 //this.searchSection = true;
                 this.commonSection = true;
@@ -852,7 +852,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   var year = d.getFullYear();
                   var month = d.getMonth();
                   var day = d.getDate();
-                  if(this.productId=='5' || this.productId=='29'){ this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
+                  if(this.productId=='5' || this.productId=='29'){ this.policyStartDate = new Date(year,month, day );alert(4); this.onStartDateChange('direct')}
                   else if(this.productId=='46'){this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
                 //this.searchSection = true;
                 this.commonSection = true;
@@ -2271,6 +2271,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       else {
         this.endMinDate = new Date(this.policyStartDate);
         this.policyEndDate = new Date(year + 1, month, day-1);
+       
         this.endMaxDate = new Date(year + 2, month, day-1);
         this.onChangeEndDate();
       }
@@ -2683,9 +2684,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
               this.exchangeRate = this.vehicleDetailsList[0].ExchangeRate;
               let entry = this.vehicleDetailsList.find(ele=>ele.Status!='D');
               if(entry){
-                this.policyStartDate =entry.PolicyStartDate;
-                this.policyEndDate = entry.PolicyEndDate;
-                this.onStartDateChange('direct')
+                if(entry.PolicyStartDate){
+                  this.policyStartDate =entry.PolicyStartDate;
+                  this.policyEndDate = entry.PolicyEndDate;
+                  this.onStartDateChange('direct')
+                }
               }
               
               this.havePromoCodeYN = this.vehicleDetailsList[0].HavePromoCode;
@@ -2764,7 +2767,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   var year = d.getFullYear();
                   var month = d.getMonth();
                   var day = d.getDate();
-                  if(this.productId=='5' || this.productId=='29'){ this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
+                  if(this.productId=='5' || this.productId=='29'){ this.policyStartDate = new Date(year,month, day );alert(2); this.onStartDateChange('direct')}
                   else if(this.productId=='46'){this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
             }
         }
@@ -5358,9 +5361,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
         }
       }
-      // if(field.key=='InsuranceType' && (this.insuranceId=='100028' || this.insuranceId=='100027' || this.insuranceId=='100040') && this.vehicleDetailsList.length==1){
-      //   field.hideExpression = true;field.hide=true;
-      // }
+      if(field.key=='InsuranceType' && (this.insuranceId=='100028' || this.insuranceId=='100027' || this.insuranceId=='100040') && this.vehicleDetailsList.length==1){
+        field.hideExpression = true;field.hide=true;
+      }
       if(this.insuranceId=='100040' || this.insuranceId=='100042'){
         if(field.key=='VehicleSI' || field.key=='AccessoriesSI' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI' || field.key=='Deductibles' || field.key=='Inflation' || field.key=='VehicleValue' || (field.key=='NoOfPassengers' && this.insuranceId=='100042') || (field.key=='PurchaseDate' && this.insuranceId=='100042') ){
           if((this.insuranceId=='100040' && this.productItem.InsuranceClass!='121' && this.productItem.InsuranceClass!='122' && !(field.key=='Deductibles' && this.productItem.InsuranceClass=='126')) || (this.insuranceId=='100042' && this.productItem.InsuranceClass!='135' && this.productItem.InsuranceClass!='136' && this.productItem.InsuranceClass!='137')){
