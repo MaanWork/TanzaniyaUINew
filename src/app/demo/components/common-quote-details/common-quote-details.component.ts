@@ -811,7 +811,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   var year = d.getFullYear();
                   var month = d.getMonth();
                   var day = d.getDate();
-                  if(this.productId=='5' || this.productId=='29'){ this.policyStartDate = new Date(year,month, day ); alert(3);this.onStartDateChange('direct')}
+                  if(this.productId=='5' || this.productId=='29'){ this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
                   else if(this.productId=='46'){this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
                 //this.searchSection = true;
                 this.commonSection = true;
@@ -852,7 +852,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   var year = d.getFullYear();
                   var month = d.getMonth();
                   var day = d.getDate();
-                  if(this.productId=='5' || this.productId=='29'){ this.policyStartDate = new Date(year,month, day );alert(4); this.onStartDateChange('direct')}
+                  if(this.productId=='5' || this.productId=='29'){ this.policyStartDate = new Date(year,month, day );this.onStartDateChange('direct')}
                   else if(this.productId=='46'){this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
                 //this.searchSection = true;
                 this.commonSection = true;
@@ -2466,7 +2466,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       if(this.vehicleDetails?.SavedFrom=='SQ') this.vehicleDetails.SavedFrom = 'WEB';
       if(this.endorsementSection && this.enableAddVehicle){this.vehicleDetails['EndorsementYn']='Y';}
       let Insurancetype=null,sectionId=null
-      if(this.insuranceId=='100040' || this.insuranceId=='100040'){
+      if(this.insuranceId=='100040'){
         if(this.productItem.InsuranceClass!='')sectionId=this.productItem.InsuranceClass;
       } 
       else {
@@ -2767,7 +2767,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   var year = d.getFullYear();
                   var month = d.getMonth();
                   var day = d.getDate();
-                  if(this.productId=='5' || this.productId=='29'){ this.policyStartDate = new Date(year,month, day );alert(2); this.onStartDateChange('direct')}
+                  if(this.productId=='5' || this.productId=='29'){ this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
                   else if(this.productId=='46'){this.policyStartDate = new Date(year,month, day ); this.onStartDateChange('direct')}
             }
         }
@@ -2987,7 +2987,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           else this.productItem.PreviousLossRatio=null;
           let Insurancetype,sectionId ;
-          if(this.insuranceId=='100040' || this.insuranceId=='100042') {sectionId=this.productItem.InsuranceClass;}
+          if( this.insuranceId=='100042') {sectionId=this.productItem.InsuranceClass;}
           else {
               
               if(insuranceType){
@@ -4229,7 +4229,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           let Insurancetype,sectionId;
          // alert(this.productItem.InsuranceClass+"this.vehicleDetails.InsuranceClass")
-          if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+          if(this.insuranceId=='100042'){
             sectionId=this.productItem.InsuranceClass;
           } 
           else {
