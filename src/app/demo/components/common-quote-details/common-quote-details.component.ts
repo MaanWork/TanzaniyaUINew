@@ -4229,7 +4229,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           let Insurancetype,sectionId;
          // alert(this.productItem.InsuranceClass+"this.vehicleDetails.InsuranceClass")
-          if(this.insuranceId=='100042'){
+          if(this.insuranceId=='100042' || this.insuranceId=='100040'){
             sectionId=this.productItem.InsuranceClass;
           } 
           else {

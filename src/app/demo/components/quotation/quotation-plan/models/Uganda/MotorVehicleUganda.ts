@@ -121,7 +121,7 @@ export class MotorVehicleUganda{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     key: 'ClaimsYN',
-                    id: 'ClaimsYN',
+                    id: 'Claims',
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
