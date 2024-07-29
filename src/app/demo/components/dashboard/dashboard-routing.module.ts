@@ -27,6 +27,7 @@ import { CustomerInfoComponent } from '../auth/login/customer-info/customer-info
 import { CustomerProductsComponent } from '../auth/login/customer-products/customer-products.component';
 import { ReInsuranceComponent } from '../Admin/re-insurance/re-insurance.component';
 import { TiraStatusComponent } from '../tira-status/tira-status.component';
+import { YakeenSearchComponent } from '../yakeen-search/yakeen-search.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { TiraStatusComponent } from '../tira-status/tira-status.component';
         { path: 'reinsurance', component:ReInsuranceComponent},
         { path: 'customerview', component: CustomerComponent },
         { path: 'customer-info', component: CustomerInfoComponent },
+        { path: 'yakeenSearch', loadChildren: () => import('../../components/yakeen-search/yakeen-search.module').then(m => m.YakeenSearchModule)},
         { path: 'tirastatus',loadChildren: () => import('../../components/tira-status/tira-status.module').then(m => m.TiraStatusModule)},
         { path: 'Admin', loadChildren: () => import('../Admin/admin.module').then(m => m.AdminModule) },
         { path: 'Home/others/premiaintegration', loadChildren: () => import('../../components/othersmenu/premia.module').then(m => m.PremiaIntegrationViewModule) },

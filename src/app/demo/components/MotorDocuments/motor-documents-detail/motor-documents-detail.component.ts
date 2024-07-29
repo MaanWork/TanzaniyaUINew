@@ -53,6 +53,8 @@ export class MotorDocumentsDetailComponent {
   AllRiskSumInsured: any;
   ContentSumInsured: void;
   PersonalLiability: any[]=[];
+  riskDetails: any[]=[];
+  riskHeader: any;
   constructor(private router:Router,private sharedService: SharedService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -451,6 +453,7 @@ export class MotorDocumentsDetailComponent {
     }
 
     domesticRisk(){
+      
       let Reqobj={
         "QuoteNo": this.quoteNo,
         "ProductId": this.productId,
@@ -461,10 +464,16 @@ export class MotorDocumentsDetailComponent {
       this.sharedService.onPostMethodSync(urlLink, Reqobj).subscribe(
         (data: any) => {
           console.log(data);
+          
           if(data?.Result){
+            if(data?.Result.BurglaryRisk)this.riskDetails=data?.Result.BurglaryRisk;
+            console.log(this.riskDetails,"this.riskDetails");
+            if(data?.Result.EmpLiability)this.riskDetails=data?.Result.EmpLiability;
+            if(data?.Result.AllRisk){
               this.AllRiskSumInsured=data?.Result.AllRisk.AllRiskSumInsured;
               this.ContentSumInsured=data?.Result.ContentRisk.ContentSumInsured;
               this.PersonalLiability=data?.Result.PersonalLiability;
+            }
              
           }
         },

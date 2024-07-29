@@ -95,24 +95,7 @@ export class MotorVehicleSanlam{
                     expressions: {
                     },
                   },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                      id:'PurchaseDate',
-                      key: 'PurchaseDate',
-                      type: 'datepicker',
-                      defaultValue: '',
-                      templateOptions: {
-                        defaultValue: '',
-                      },
-                      props: {
-                        label: 'Purchase Date',
-                        required: true,
-                        type: 'date',
-                        datepickerOptions: {
-                          defaultValue: '',
-                        },
-                      }
-                  },
+                  
                   {
                     type: 'ngselect',
                     id:'DefenceCost',
@@ -135,6 +118,25 @@ export class MotorVehicleSanlam{
                     },
                     expressions: {
                     },
+                  },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                      id:'PurchaseDate',
+                      key: 'PurchaseDate',
+                      type: 'datepicker',
+                      defaultValue: '',
+                      templateOptions: {
+                        defaultValue: '',
+                      },
+                      props: {
+                        label: 'Purchase Date',
+                        required: true,
+                        type: 'date',
+                        disabled: this.checkDisable('PurchaseDate'),
+                        datepickerOptions: {
+                          defaultValue: '',
+                        },
+                      }
                   },
                   {
                     type: 'ngselect',
@@ -387,11 +389,11 @@ export class MotorVehicleSanlam{
                       templateOptions: {
                         type: 'radioList',
                         required: true,
-                        disabled: this.checkDisable('ClaimsYN'),
                         name: 'Claims',
                       },
                       props: {
                         label: 'Claims',
+                        disabled: this.checkDisable('ClaimsYN'),
                         options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
                       }
                     },

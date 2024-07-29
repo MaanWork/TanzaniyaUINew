@@ -1,54 +1,5 @@
 <div class="grid justify-content-end p-3">
     <div class="mb-2 ">&nbsp;<p-button label="Add Location" icon="pi pi-plus" (click)="visible=true" />&nbsp;</div>
-    <!-- <div class="col-12 lg:col-6 xl:col-6" >
-        <div class="card">
-            <div class="grid justify-content-between">
-                <div class="mb-1 "> 
-                    <b>Location Details</b>
-                </div>
-               
-            </div>
-            <ng-container >
-                <div class="grid ">
-                    <div class="col-12 md:col-12 lg:col-12 xl:col-12">
-                        <p-table dataKey="id"  editMode="row" [rows]="3" [paginator]="true" >
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th [pSortableColumn]="column" *ngFor="let column of buildingColumnHeader">
-                                        {{column}}
-                                    </th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" >
-                                <tr>
-                                    
-                                    <td>
-                                        
-                                    </td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
-                        <div class="grid ">
-                            <div class="col-12 lg:col-6 md:col-6">
-                                <label for="Address">Address</label>
-                                <input class="w-full p-button-outlined" placeholder="Enter Address" styleClass="w-full"  pInputText type="text" 
-                                />
-                            </div>
-                            <div class="col-12 lg:col-6 md:col-6">
-                                <label for="Location">Location</label>
-                                <input class="w-full p-button-outlined" placeholder="Location" styleClass="w-full"  pInputText type="text" 
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="flex flex-warp justify-content-center mt-2" >
-                    <p-button label="Save Locations"  />
-                </div>
-            </ng-container>
-        </div>
-    </div> -->
 </div>
 <p-dialog header="Edit Profile" [modal]="true" [(visible)]="visible" [style]="{ width: 'w-6' }" [draggable]="false">
     <div class="grid ">

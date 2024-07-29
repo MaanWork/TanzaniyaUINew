@@ -38,6 +38,7 @@ const routes: Routes = [
   { path: 'motor-details', component: VehicleCreateFormComponent },
   { path: 'premium-info', component: ExcessDiscountComponent },
   { path: 'quote-details', component:  CommonProductDetailsComponent},
+  { path: 'quote-details#', component:  CommonProductDetailsComponent},
   { path: 'risk-page', component: RiskDetailsComponent },
   { path: 'personal-quote-details', component: PersonalQuoteDetailsComponent },
   { path: 'copy-quote', component: CopyQuoteComponent },

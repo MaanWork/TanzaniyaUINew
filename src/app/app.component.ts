@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { PrimeNGConfig } from 'primeng/api';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
 import {  Observable, Subject } from 'rxjs';
 import { CustomLoadingService } from './demo/shared/custom-loading.service';
 import { SharedService } from './demo/service/shared.service';
@@ -15,7 +15,8 @@ export class AppComponent implements OnInit {
     constructor(private primengConfig: PrimeNGConfig,public customLoder: CustomLoadingService,
         private cdr: ChangeDetectorRef,
         public _sharedService: SharedService,
-        public router:Router) { }
+        public router:Router,
+        private messageService: MessageService) { }
 
     ngOnInit() {
         this.primengConfig.ripple = true;
@@ -44,4 +45,5 @@ export class AppComponent implements OnInit {
     setLanguage(value){
       this.defaultLanguage.next(value);
     }
+    
 }
