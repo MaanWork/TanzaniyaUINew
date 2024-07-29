@@ -571,6 +571,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "WindScreenSumInsured": this.vehicleDetails?.WindScreenSumInsured,
         "Windscreencoverrequired": this.vehicleDetails?.Windscreencoverrequired,
         "accident": null,
+        "ClaimType": this.vehicleDetails?.ClaimType,
         "periodOfInsurance": this.vehicleDetails?.periodOfInsurance,
         "PolicyStartDate": this.vehicleDetails.PolicyStartDate,
         "PolicyEndDate": this.vehicleDetails.PolicyEndDate,

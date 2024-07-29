@@ -1318,6 +1318,7 @@ if( this.insuranceId=='100040' || this.insuranceId=='100042') this.getInsuranceT
       "VehicleValueType": this.productItem.VehicleValue,
       "DefenceValue":this.productItem.DefenceCost,
       "PurchaseDate":PurchaseDate,
+      "ClaimType": '11',
       "Deductibles": deductibles,
       "Inflation": this.productItem.Inflation,
       "ManufactureYear": this.productItem.ManufactureYear,
