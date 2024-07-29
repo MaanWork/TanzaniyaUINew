@@ -31,6 +31,8 @@ export class AppMenuComponent implements OnInit {
     branchValue: any;
     branchList: any[]=[];
     branchName: any;
+  RequestReferenceNo: string;
+  location: any;
     constructor(public layoutService: LayoutService,private router:Router,private translate:TranslateService,private appComp:AppComponent) { 
         this.productName = sessionStorage.getItem('productName');
         this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -211,6 +213,7 @@ export class AppMenuComponent implements OnInit {
                 userDetails.Result['MenuMasterList'] = data.Result[2].children;
                 sessionStorage.setItem('Userdetails', JSON.stringify(userDetails));
                 this.setMenuSection(data.Result);
+                
                // this.setMaster(data.Result[2].children)
               }
             }
@@ -222,6 +225,7 @@ export class AppMenuComponent implements OnInit {
     
       setMenuSection(menuList) {
         this.b2cType =sessionStorage.getItem('b2cType')
+        let Pagefrom=  sessionStorage.getItem('Pagefrom');
         if(this.b2cType=='guest'){
         
         }

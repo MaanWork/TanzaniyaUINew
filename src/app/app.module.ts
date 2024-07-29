@@ -31,13 +31,15 @@ import { TabViewModule } from 'primeng/tabview';
 import { TableModule } from 'primeng/table';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { CardModule } from 'primeng/card';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
 
 @NgModule({
     declarations: [
-        AppComponent, NotfoundComponent, MotorDocumentsDetailComponent,
+        AppComponent, NotfoundComponent, MotorDocumentsDetailComponent
     ],
     imports: [
         CommonModule,
@@ -55,6 +57,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         TabViewModule,
         TableModule,
         CardModule,
+        ToastModule,
         AccordionModule,
         TranslateModule.forRoot({
             loader: {
@@ -67,7 +70,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     providers: [
         AuthService,
         CustomLoadingService,
-        AuthGuard,DatePipe,
+        AuthGuard,DatePipe,MessageService,
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
         CountryService, CustomerService, EventService, IconService, NodeService,

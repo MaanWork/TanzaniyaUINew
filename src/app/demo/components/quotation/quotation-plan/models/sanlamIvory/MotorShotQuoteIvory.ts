@@ -226,7 +226,7 @@ export class MotorShortQuoteIvory{
                     },
                   },
                   {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 ',
                     type: 'commaSeparator',
                     key: 'VehicleSI',
                     hide: true,
@@ -253,7 +253,7 @@ export class MotorShortQuoteIvory{
                     type: 'ngselect',
                     key: 'Deductibles',
                     defaultValue: '',
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 ',
                     props: {
                       label: `Deductibles`,
                       disabled: this.checkDisable('Deductibles'),
@@ -276,7 +276,7 @@ export class MotorShortQuoteIvory{
                     type: 'ngselect',
                     key: 'DefenceCost',
                     defaultValue: '',
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     props: {
                       label: `Defence Cost`,
                       disabled: this.checkDisable('DefenceCost'),
@@ -296,7 +296,7 @@ export class MotorShortQuoteIvory{
                   },
                   
                   {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 ',
                     type: 'input',
                     key: 'HorsePower',
   
@@ -318,7 +318,7 @@ export class MotorShortQuoteIvory{
                     },
                   },
                   {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     key: 'ClaimsYN',
                     type: 'radioList',
                     templateOptions: {
