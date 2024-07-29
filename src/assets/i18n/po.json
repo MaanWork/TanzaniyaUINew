@@ -611,6 +611,7 @@
         "SubCoverName": "Nome da subcapa",
         "Rate": "Avaliar",
         "Minimum": "Mínimo",
+        "OverAllPremium":"Prêmio geral",
         "DoYouLiketoChooseEMIOption?": "Você gosta de escolher a opção EMI?",
         "DoYouLiketoMovethisQuotetoReferralManually?": "Você gosta de mover esta cotação para referência manualmente?",
         "InstallmentAmount": "Valor da Prestação",

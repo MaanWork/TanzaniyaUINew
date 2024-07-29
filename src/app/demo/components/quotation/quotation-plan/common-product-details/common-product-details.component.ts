@@ -659,6 +659,11 @@ export class CommonProductDetailsComponent {
       (err) => { },
     );
   }
+  getFireIndustryDesc(emp){
+    let entry = this.fireIndustypeList.find(ele=>ele.Code==emp);
+    if(entry!=undefined) return entry.CodeDesc;
+    else return ''
+  }
   getFireSectionList(){
     let ReqObj = {
        "InsuranceId": this.insuranceId,
@@ -793,7 +798,7 @@ export class CommonProductDetailsComponent {
           entry['LocationName'] = this.LocationName;
           entry['BuildingAddress'] =  this.LocationName;
           entry['IndustryType'] = this.IndustryTypes;
-          entry['IndustryTypeDesc'] = this.IndustryTypeValue;
+          entry['IndustryTypeDesc'] = this.getFireIndustryDesc(this.IndustryTypes);
           entry['OccupationId'] = this.industryValue;
           entry['OccupationDesc'] = this.industryDesc;
           entry['CoveringDetails'] = this.CoveringDetails;
@@ -803,7 +808,7 @@ export class CommonProductDetailsComponent {
           entry['Business_Interruption'] = this.BusinessName;
           entry['Business_InterruptionSI'] = String(this.BusinessSumInsured).replaceAll(',','');
           entry['BusinessNameDesc'] = this.getBusinessNameDesc(this.BusinessName);
-          entry['BuildingSumInsured'] = String(this.FireSumInsured).replaceAll(',','');
+          entry['BuildingSumInsured'] = Number(String(this.FireSumInsured).replaceAll(',',''));
           this.onSaveFireRiskDetails(type);
         }
       } 
@@ -816,7 +821,7 @@ export class CommonProductDetailsComponent {
             "LocationName": this.LocationName,
             "BuildingAddress":  this.LocationName,
             "IndustryType": this.IndustryTypes,
-            "IndustryTypeDesc": this.IndustryTypeValue,
+            "IndustryTypeDesc": this.getFireIndustryDesc(this.IndustryTypes),
             "OccupationId": this.industryValue,
             "OccupationDesc": this.industryDesc,
             "CoveringDetails": this.CoveringDetails,
@@ -826,7 +831,7 @@ export class CommonProductDetailsComponent {
             'BusinessNameDesc' :this.getBusinessNameDesc(this.BusinessName),
             "RegionCode": this.region,
             "DistrictCode": this.stateName,
-            "BuildingSumInsured":  String(this.FireSumInsured).replaceAll(',','')
+            "BuildingSumInsured":  Number(String(this.FireSumInsured).replaceAll(',',''))
           }
         )
         this.currentFireIndex = this.TableRowFire.length-1;
@@ -1104,10 +1109,12 @@ export class CommonProductDetailsComponent {
       else endDate=this.policyEndDate;
       let i=0,finalList:any[]=[];
       for(let entry of list){
+        let SI = entry.BuildingSumInsured;
+        if(typeof SI === 'string' || SI instanceof String) SI = Number(SI)
         let obj = {
          "RiskId": entry.RiskId,
         "SectionDesc": entry.SectionDesc,
-         "BuildingSumInsured": entry.BuildingSumInsured,
+         "BuildingSumInsured": SI,
          "LocationName": entry.LocationName,
          "IndustryType": entry.IndustryType,
          "IndustryTypeDesc": entry.IndustryTypeDesc,
@@ -5900,10 +5907,10 @@ console.log('Eventsss',event);
           appId = "1"; loginId=this.loginId;
           brokerbranchCode = this.brokerbranchCode;
         }
-        else{
+        else {
           appId = this.loginId;
-          loginId = this.commonDetails[0].LoginId;
-          brokerbranchCode = this.commonDetails[0].BrokerBranchCode;
+          loginId = this.brokerLoginId
+          brokerbranchCode = this.brokerBranchCode;
         }
       }
       if(this.userType!='Broker' && this.userType!='User'){

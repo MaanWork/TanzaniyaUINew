@@ -2968,7 +2968,10 @@ export class CoverDetailsComponent {
     }
   }
   getCoverNameAlt(value){
+    if(value!=null && value !=undefined){
       return String(value.replaceAll(' ',''));
+    }
+    else{return ''}
   }
   onProceed(coverList:any){
     if(this.statusValue == 'RA' && !this.adminSection){
