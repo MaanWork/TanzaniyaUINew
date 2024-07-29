@@ -1219,7 +1219,7 @@
                                             </td>
                                             <td mat-footer-cell *matFooterCellDef="let event">
                                                 <ng-container *ngIf="col.key=='CoverName'">
-                                                    <b>{{'Modify.Total' | translate}}</b>
+                                                    <b>{{'PREMIUM.Total' | translate}}</b>
                                                 </ng-container>
                                                 <ng-container *ngIf="col.key=='PremiumIncludedTax'">
                                                     <div class="flex flex-wrap  justify-content-between">
@@ -2000,7 +2000,7 @@
                                                                                                 <div
                                                                                                     class="card-body p-0">
                                                                                                     <ul
-                                                                                                        class="list-group">
+                                                                                                        class="list-group" style="padding-inline-start: 0px !important;">
                                                                                                         <li
                                                                                                             class="list-group-item list-seperate">
                                                                                                             <div>
@@ -3026,7 +3026,7 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">
-                                            <ng-container *ngIf="productId=='5'"><b>{{ 'Modify.RegistrationNo' | translate}}</b></ng-container>
+                                            <ng-container *ngIf="productId=='5'"><b>{{ 'PolicyGrid.RegistrationNo' | translate}}</b></ng-container>
                                             <ng-container *ngIf="productId=='4'"><b>{{ 'Modify.Passengers' | translate}}</b></ng-container>
                                             <ng-container
                                                 *ngIf="productId!='59' && productId!='4' && productId!='5' && productId!='19' && productId!='14' && productId!='32'"><b>{{'Modify.Product' | translate}}</b></ng-container>
@@ -3144,7 +3144,7 @@
                         </div>
                     </div>
                     <div class="flex flex-wrap  justify-content-between botomdisplay">
-                        <div><span class="spancommon" style="color:rgb(22, 22, 37);font-size: 16px;"><b>{{'Modify.Total' | translate}}</b></span>
+                        <div><span class="spancommon" style="color:rgb(22, 22, 37);font-size: 16px;"><b>{{'PREMIUM.Total' | translate}}</b></span>
                         </div>
                         <div style="text-align: end;"><span class="spancommon"
                                 style="color:rgb(75, 75, 161);font-size: 16px;"><b>
