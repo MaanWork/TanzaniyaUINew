@@ -275,7 +275,59 @@
         </p-tabPanel>
     </p-tabView>
     </p-accordionTab>
-    
+    <p-accordionTab  header="Risk Details">
+        <div class="grid">
+            <div class="col-12 lg:col-4 md:col-4" *ngIf="productId=='14'">
+                    <p-card header="Employee Liability">
+                        <div class="grid justify-content-between ">
+                            <div class="col-12 lg:col-2 md:col-2"></div>
+                            <div class="col-12 lg:col-4 md:col-4">
+                                <p>
+                                <b>Occupation</b>
+                                </p>
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4">
+                                <p>
+                                    {{riskDetails.OccupationTypeDesc}}
+                                </p>
+                            </div>
+                            </div>
+                            <div class="grid justify-content-between ">
+                            <div class="col-12 lg:col-2 md:col-2"></div>
+                            <div class="col-12 lg:col-4 md:col-4">
+                                <p>
+                                <b>Sum Insured</b>
+                                </p>
+                            </div>
+                            <div class="col-12 lg:col-4 md:col-4">
+                                <p>
+                                    {{riskDetails.EmpLiabilitySi}}
+                                </p>
+                            </div>
+                            </div>
+                        
+                    </p-card>
+            </div>
+            <div class="col-12 lg:col-4 md:col-4" *ngIf="productId=='1'">
+                <p-card header="Burglary">
+                    <div class="grid justify-content-between ">
+                        <div class="col-12 lg:col-2 md:col-2"></div>
+                        <div class="col-12 lg:col-4 md:col-4">
+                            <p>
+                            <b>SumInsured</b>
+                            </p>
+                        </div>
+                        <div class="col-12 lg:col-4 md:col-4">
+                            <p>
+                                {{riskDetails.BurglarySi}}
+                            </p>
+                        </div>
+                        </div>
+                    </p-card>
+                </div> 
+            </div>
+       
+    </p-accordionTab>
     <p-accordionTab *ngIf="productId=='5'" header="Vehicle Info">
         <p-tabView>
             <p-tabPanel header="Vehicle Information">
