@@ -176,6 +176,11 @@
         </div>
     </div>
 </ng-container>
+<ng-container *ngIf="uploadedIndividualList.length==0 && uploadListDoc.length==0">
+    <div class="text-center">
+        <b>No Document Available</b>
+    </div>
+</ng-container>
 <div class="flex flex-wrap justify-content-center">
     <div>
         <p-button [label]="'MOTORQUOTE.Back' | translate" (click)="getBacks()" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>

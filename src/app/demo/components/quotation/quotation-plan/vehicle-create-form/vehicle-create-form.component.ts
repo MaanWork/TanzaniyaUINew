@@ -475,6 +475,7 @@ export class VehicleCreateFormComponent implements OnInit {
             }
             else if(this.modelValue!='' && this.modelValue!=null){
               modelDesc = this.modelList.find(ele=>ele.Code==this.modelValue)?.CodeDesc
+              
               this.vehicleDetails['VehcilemodelId'] = this.modelValue
               this.vehicleDetails['Vehcilemodel'] = modelDesc;
               
@@ -562,8 +563,8 @@ export class VehicleCreateFormComponent implements OnInit {
         "TppdFreeLimit": this.vehicleDetails?.TppdFreeLimit,
         "TppdIncreaeLimit": this.vehicleDetails?.TppdIncreaeLimit,
         "TrailerDetails": null,
-        "Vehcilemodel":  this.vehicleDetails?.VehicleModelDesc,
-        "VehcilemodelId": this.vehicleDetails?.Vehcilemodel,
+        "Vehcilemodel":  this.vehicleDetails?.Vehcilemodel,
+        "VehcilemodelId": this.vehicleDetails?.VehcilemodelId,
         "VehicleType": this.bodyTypeId,
         "VehicleTypeId": this.vehicleDetails?.VehicleTypeId,
         "Vehiclemake": this.vehicleDetails?.Vehiclemake,

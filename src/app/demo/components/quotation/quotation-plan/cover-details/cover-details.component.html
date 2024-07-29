@@ -560,7 +560,7 @@
                                             <ng-container *ngIf="(cover.isSelected!='D' && cover.CoverageType!='A') && ! checkCoverSelection(menu,cover)">
                                                 <div class="card p-3 w-25rem customOptCoverCard ml-2" [ngClass]="canbeChecked(cover) ? 'customOptCoverBg' : ''" >
                                                     <div class="grid">
-                                                        <div class="col-12 md:col-11 lg:col-11 xl:col-11">
+                                                        <div class="col-12 md:col-10 lg:col-10 xl:col-10">
                                                             <div class="flex align-items-center justify-content-start">
                                                                 <div>
                                                                     <input type="checkbox" [checked]="canbeChecked(cover)" (change)="onSelectCover(cover,$event.target.checked,menu.Vehicleid,menu,'coverList','change')" id="vehicle1" name="vehicle1">&nbsp;
