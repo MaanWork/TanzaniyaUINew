@@ -218,7 +218,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   }
   ngOnInit() {
     this.getCurrencyList();
-    
+    if(this.insuranceId=='100004') this.getNoOfDaysList();
     
     
     if(this.productId=='5'){
@@ -2524,7 +2524,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         "NcdYn": null,
         "PreviousInsuranceYN":'N',
         "PreviousLossRatio": null,
-        "PolicyRenewalYn": 'N',
+        "PolicyRenewalYn": this.vehicleDetails?.RenewalYn,
         "NoOfClaims": null,
         "NumberOfAxels": this.vehicleDetails?.NumberOfAxels,
         "BranchCode": this.branchCode,
@@ -4229,7 +4229,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           let Insurancetype,sectionId;
          // alert(this.productItem.InsuranceClass+"this.vehicleDetails.InsuranceClass")
-          if(this.insuranceId=='100042'){
+          if(this.insuranceId=='100042' || this.insuranceId=='100040'){
             sectionId=this.productItem.InsuranceClass;
           } 
           else {
@@ -5361,7 +5361,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
         }
       }
-      if(field.key=='InsuranceType' && (this.insuranceId=='100028' || this.insuranceId=='100027' || this.insuranceId=='100040') && this.vehicleDetailsList.length==1){
+      if(field.key=='InsuranceType' && (this.insuranceId=='100028' || this.insuranceId=='100027') && this.vehicleDetailsList.length==1){
         field.hideExpression = true;field.hide=true;
       }
       if(this.insuranceId=='100040' || this.insuranceId=='100042'){
@@ -5531,12 +5531,20 @@ export class CommonQuoteDetailsComponent implements OnInit {
       }
       if(i==0){
         let startDate=null,endDate=null;
-        let startDateList = String(this.policyStartDate).split('/');
-        if(startDateList.length>1) startDate = this.policyStartDate
-        else startDate = this.datePipe.transform(this.policyStartDate,'dd/MM/yyyy');
-        let endDateList = String(this.policyEndDate).split('/');
-        if(endDateList.length>1) endDate = this.policyEndDate;
-        else endDate = this.datePipe.transform(this.policyEndDate,'dd/MM/yyyy');
+        // let startDateList = String(this.policyStartDate).split('/');
+        // if(startDateList.length>1) startDate = this.policyStartDate
+        // else startDate = this.datePipe.transform(this.policyStartDate,'dd/MM/yyyy');
+        // let endDateList = String(this.policyEndDate).split('/');
+        // if(endDateList.length>1) endDate = this.policyEndDate;
+        // else endDate = this.datePipe.transform(this.policyEndDate,'dd/MM/yyyy');
+        if(this.policyStartDate) {
+          if(String(this.policyStartDate).includes('/')) startDate = this.policyStartDate;
+          else startDate = this.datePipe.transform(this.policyStartDate,'dd/MM/yyyy');
+        }
+        if(this.policyEndDate !="Invalid Date"){
+          if(String(this.policyEndDate).includes('/')) endDate = this.policyEndDate;
+          else endDate = this.datePipe.transform(this.policyEndDate,'dd/MM/yyyy');
+        }
         let entry = {
           "policyStartDate": startDate,
           "policyEndDate": endDate,

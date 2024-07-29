@@ -5907,10 +5907,10 @@ console.log('Eventsss',event);
           appId = "1"; loginId=this.loginId;
           brokerbranchCode = this.brokerbranchCode;
         }
-        else{
+        else {
           appId = this.loginId;
-          loginId = this.commonDetails[0].LoginId;
-          brokerbranchCode = this.commonDetails[0].BrokerBranchCode;
+          loginId = this.brokerLoginId
+          brokerbranchCode = this.brokerBranchCode;
         }
       }
       if(this.userType!='Broker' && this.userType!='User'){
