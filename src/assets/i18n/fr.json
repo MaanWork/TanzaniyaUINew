@@ -1,8 +1,8 @@
 {
   "HOME": {
-    "Activities":"Activité(e)s",
-    "CompanyName":"Nom de l'entreprise",
-    "SocioProfessionalcategory":"Catégorie socioprofessionnel",
+  "Activities":"Activité(e)s",
+  "CompanyName":"Nom de l'entreprise",
+  "SocioProfessionalcategory":"Catégorie socioprofessionnel",
    "Nationality":"Nationnalité",
    "PersonalInformation": "Informations personnelles",
    "AdditionalInformation": "Informations Complémentaires",

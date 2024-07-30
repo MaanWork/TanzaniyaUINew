@@ -1,5 +1,7 @@
 {
     "HOME": {
+      "SocioProfessionalcategory":"Categoria SocioProfissional",
+      "Nationality":"Nacionalidade",
       "PersonalInformation": "Informações pessoais",
       "AdditionalInformation": "Informações adicionais",
       "AddressDetails": "Detalhes do Endereço",
