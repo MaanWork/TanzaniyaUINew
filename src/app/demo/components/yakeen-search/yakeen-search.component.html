@@ -20,19 +20,19 @@
         </div>
         <div class="col-12 lg:col-3 md:col-3">
             <label for="source-code">National Id</label>
-            <input pInputText id="username" class="w-full" maxlength="50"  
-            placeholder="Search here"/>
+            <input pInputText id="username" class="w-full" maxlength="50" [(ngModel)]="nationalityId"
+            placeholder="Enter Nationality Id"/>
         </div>
         <div class="col-12 lg:col-3 md:col-3">
-            <label for="username">Start Date</label>
-            <p-calendar class="w-full" styleClass="w-full" 
-                dateFormat="dd/mm/yy" placeholder="Select Start Date">
+            <label for="username">Date Of Birth</label>
+            <p-calendar class="w-full" styleClass="w-full" [(ngModel)]="dob"
+                dateFormat="dd/mm/yy" placeholder="Select Date Of Birth">
             </p-calendar>
         </div>
         <div class="col-12 lg:col-3 md:col-3">
             <label for="source-code">Mobile Number</label>
-            <input pInputText id="username" class="w-full" maxlength="50"  
-            placeholder="Search here"/>
+            <input pInputText id="username" class="w-full" maxlength="10"  [(ngModel)]="mobileNo"
+            placeholder="Enter Mobile Number"/>
         </div>
       </div>
       <div class="grid">
@@ -57,7 +57,7 @@
         </div>
         <div class="col-12 lg:col-3 md:col-3" *ngIf="SequenceNumber">
             <label for="Sequence">Sequence Number</label>
-            <input pInputText id="Sequence" class="w-full" maxlength="50"   
+            <input pInputText id="Sequence" class="w-full" maxlength="50" [(ngModel)]="sequenceNo"   
             placeholder="Enter Sequence"/>
         </div>
         <div class="col-12 lg:col-3 md:col-3" *ngIf="CustomID">
@@ -72,17 +72,17 @@
       <div class="input-control-container mt-3">
         <div class="input-form-radio-box mt-2">
             <div class="radio-toolbar1 radio-toolbar">
-                <input id="Product" type="radio" name="rentOwnHome"   value="Y" >
-                <label for="Product" > Yes</label>
-                <input id="PaymentTypes" type="radio" name="rentOwnHome"   value="N" >
-                <label for="PaymentTypes" >No</label>
+                <input id="ProductNo" type="radio" name="TransferOwnerShipYN" [(ngModel)]="ownerShipYN"  value="N" >
+                <label for="ProductNo" >No</label>
+                <input id="ProductYes" type="radio" name="TransferOwnerShipYN" [(ngModel)]="ownerShipYN"  value="Y" >
+                <label for="ProductYes" > Yes</label>
             </div>
         </div>
         </div>
     </div>
     <div class="grid justify-content-center mt-3">
        
-            <p-button  label="Submit"  size="small"></p-button>
+            <p-button  label="Submit" (click)="ongetSearchVehicle()" size="small"></p-button>
      
     </div>
 </div>

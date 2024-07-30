@@ -1,5 +1,7 @@
 {
     "HOME": {
+      "SocioProfessionalcategory":"Categoria SocioProfissional",
+      "Nationality":"Nacionalidade",
       "PersonalInformation": "Informações pessoais",
       "AdditionalInformation": "Informações adicionais",
       "AddressDetails": "Detalhes do Endereço",
@@ -118,7 +120,11 @@
     },
     "PRODUCT":{
       "SelecttheBranch":"Selecione a filial",
-      "ProductYouWishtobuy":"Produto que você deseja comprar"
+      "ProductYouWishtobuy":"Produto que você deseja comprar",
+      "LookingFor": "O que você está procurando!",
+       "Transaction": "Cotação e informações sobre política",
+      "LoginCreation": "Criação de login e mestres",
+      "ApproverReferralManagement": "Gerenciamento de referências e muito mais"
     },
     "DASHBOARD":{
         "Policies":"Políticas",
@@ -432,7 +438,8 @@
        "SelectPlateType":"Selecione o tipo de placa",
        "SelectColor":"Selecione a cor",
        "SelectDoors":"Selecione portas",
-       "AddNewDriver":"Adicionar novo driver"
+       "AddNewDriver":"Adicionar novo driver",
+       "EnterLicenceNumber": "Insira o número da licença"
     },
     "DOCUMENT":{
       "DocumentInfoforVerification": "Informações do documento para verificação",

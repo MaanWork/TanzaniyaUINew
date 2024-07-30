@@ -34,7 +34,7 @@ export class CustomerIvory{
                     hideExpression:false,
                     templateOptions: {
                       label: `Customer Title`,
-                      placeholder: '-Select-',
+                      // placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('Title'),
                       maxLength: 15,
@@ -56,7 +56,7 @@ export class CustomerIvory{
                     hideExpression:false,
                     templateOptions: {
                       label: `Client Name`,
-                      placeholder: 'Enter Client Name',
+                      // placeholder: 'Enter Client Name',
                       required: true,
                       disabled: this.checkDisable('ClientName'),
                       maxLength: 50
@@ -78,7 +78,7 @@ export class CustomerIvory{
                     hideExpression:true,
                     templateOptions: {
                       label: `Company Name`,
-                      placeholder: 'Enter Company Name',
+                      // placeholder: 'Enter Company Name',
                       required: true,
                       disabled: this.checkDisable('CompanyName'),
                       maxLength: 50
@@ -100,7 +100,7 @@ export class CustomerIvory{
                     hideExpression:false,
                     props: {
                       label: `Gender`,
-                      placeholder: '-Select-',
+                      // placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('Gender'),
                       maxLength: 15,
@@ -124,7 +124,7 @@ export class CustomerIvory{
                     templateOptions: {
                       type:'date',
                       label: `Date Of Birth`,
-                      placeholder: 'Select Date Of Birth',
+                      // placeholder: 'Select Date Of Birth',
                       required: true,
                       disabled: this.checkDisable('dobOrRegDate'),
                       maxLength: 15
@@ -167,7 +167,7 @@ export class CustomerIvory{
                     hideExpression:true,
                     props: {
                       label: `Activities`,
-                      placeholder: '-Select Activities-',
+                      // placeholder: '-Select Activities-',
                       required: true,
                       disabled: this.checkDisable('BusinessType'),
                       maxLength: 50,
@@ -190,7 +190,7 @@ export class CustomerIvory{
                     hideExpression:false,
                     props: {
                       label: `Occupation`,
-                      placeholder: '-Select Occupation-',
+                      // placeholder: '-Select Occupation-',
                       required: true,
                       disabled: this.checkDisable('Occupation'),
                       maxLength: 50,
@@ -212,7 +212,7 @@ export class CustomerIvory{
                     hideExpression:false,
                     templateOptions: {
                       label: `Socio Professional category`,
-                      placeholder: 'Enter Socio Professional category',
+                      // placeholder: 'Enter Socio Professional category',
                       required: false,
                       disabled: this.checkDisable('SocioProfessionalcategory'),
                       maxLength: 50
@@ -232,7 +232,7 @@ export class CustomerIvory{
                     key: 'EmailId',
                     templateOptions: {
                       label: `Email Id`,
-                      placeholder: 'Enter EmailId',
+                      // placeholder: 'Enter EmailId',
                       required: false,
                       disabled: this.checkDisable('EmailId'),
                       maxLength: 50
@@ -252,7 +252,7 @@ export class CustomerIvory{
                     key: 'MobileCode',
                     props: {
                       label: `Country Code`,
-                      placeholder: '-Select-',
+                      // placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('CountryCode'),
                       maxLength: 15,
@@ -272,7 +272,7 @@ export class CustomerIvory{
                     key: 'MobileNo',
                     templateOptions: {
                       label: `Mobile Number`,
-                      placeholder: 'Enter MobileNo',
+                      // placeholder: 'Enter MobileNo',
                       required: false,
                       disabled: this.checkDisable('MobileNo'),
                       maxLength: 10
@@ -297,7 +297,7 @@ export class CustomerIvory{
                     key: 'PolicyHolderTypeid',
                     props: {
                       label: `Identity Type`,
-                      placeholder: '-Select-',
+                      // placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('PolicyHolderTypeid'),
                       maxLength: 15,
@@ -318,7 +318,7 @@ export class CustomerIvory{
                     key: 'IdNumber',
                     templateOptions: {
                       label: `ID Number`,
-                      placeholder: 'Enter ID Number',
+                      // placeholder: 'Enter ID Number',
                       required: true,
                       disabled: this.checkDisable('IdNumber'),
                       maxLength: 16
@@ -341,7 +341,7 @@ export class CustomerIvory{
                     templateOptions: {
                       type:'date',
                       label: `Registration Date`,
-                      placeholder: 'Select Registration Date',
+                      // placeholder: 'Select Registration Date',
                       required: true,
                       disabled: this.checkDisable('RegistrationDate'),
                       maxLength: 15
@@ -379,7 +379,7 @@ export class CustomerIvory{
                     hideExpression:true,
                     templateOptions: {
                       label: `Tax Excempted No`,
-                      placeholder: 'Enter Tax Excempted Number',
+                      // placeholder: 'Enter Tax Excempted Number',
                       required: true,
                       disabled: this.checkDisable('TaxExcemptedNo'),
                       maxLength: 50
@@ -399,7 +399,7 @@ export class CustomerIvory{
                     key: 'PreferredNotification',
                     templateOptions: {
                       label: `Preferred Notification`,
-                      placeholder: '-Select-',
+                      // placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('PreferredNotification'),
                       maxLength: 15,
@@ -446,7 +446,7 @@ export class CustomerIvory{
                     key: 'Address1',
                     templateOptions: {
                       label: `Street`,
-                      placeholder: 'Enter Street',
+                      // placeholder: 'Enter Street',
                       required: true,
                       disabled: this.checkDisable('Address1'),
                       maxLength: 150
@@ -466,7 +466,7 @@ export class CustomerIvory{
                     key: 'Country',
                     props: {
                       label: `Country`,
-                      placeholder: '-Select-',
+                      // placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('Country'),
                       maxLength: 15,
@@ -502,12 +502,12 @@ export class CustomerIvory{
                   {
                     className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'ngselect',
-                    id: 'District',
+                    id: 'City',
                     key: 'CityName',
                     props: {
-                      label: `District`,
+                      label: `City Name`,
                       required: true,
-                      disabled: this.checkDisable('District'),
+                      disabled: this.checkDisable('CityName'),
                       maxLength: 15,
                       options:[]
                     },
@@ -525,7 +525,7 @@ export class CustomerIvory{
                     key: 'PinCode',
                     templateOptions: {
                       label: `PoBox`,
-                      placeholder: 'Enter PoBox',
+                      // placeholder: 'Enter PoBox',
                       required: true,
                       disabled: this.checkDisable('PinCode'),
                       maxLength: 150

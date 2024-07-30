@@ -57,7 +57,7 @@
                     <div class="lg:col-6 md:col-6 col-12">
                         <div class="flex flex-wrap justify-content-between">
                                 <div><h3>{{'MOTORQUOTE.AddressDetails' | translate}}</h3></div>
-                                <div><p-button [label]="'MOTORQUOTE.ChangeCustomer' | translate" icon="pi pi-user" (click)="showSearchForm('change')"></p-button></div>
+                                <div><p-button [label]="'MOTORQUOTE.ChangeCustomer' | translate" icon="pi pi-user" (click)="showSearchForm('change')" *ngIf="!endorsementSection"></p-button></div>
                         </div>
                         
                         <div class="flex flex-wrap">
@@ -253,7 +253,7 @@
                                     </div>
                                 </div>
                                 <div class="lg:col-2 md:col-2 col-3" *ngIf="insuranceId=='100004'">
-                                    <label for="username">{{'QUOTEGRID.NoOfDays' | translate}}</label>{{noOfDays}}
+                                    <label for="username">{{'QUOTEGRID.NoOfDays' | translate}}</label>
                                     <p-selectButton [options]="noOfDaysList" [(ngModel)]="noOfDays" id="gender2"
                                     (click)="onNoOfDaysChange('change')"    optionLabel="Code" optionValue="CodeDesc"></p-selectButton>
                                 </div>
@@ -359,7 +359,8 @@
                             </div>
                         </div>
                         <div class="lg:col-6 md:col-6 col-12">
-                            <h3>{{'MOTORQUOTE.InsuredDetails' | translate}}</h3>
+                            <h3 *ngIf="insuranceId=='100040' || this.insuranceId=='100042'">{{'MOTORQUOTE.QuoteDetails' | translate}}</h3>
+                            <h3 *ngIf="insuranceId!='100040' && this.insuranceId!='100042'">{{'MOTORQUOTE.InsuredDetails' | translate}}</h3>
                             <ng-container *ngIf="insuranceId=='100027' || insuranceId=='100040' || this.insuranceId=='100042' || insuranceId=='100002' || insuranceId=='100028' || insuranceId=='100018' || insuranceId=='100019' || insuranceId=='100020' || insuranceId=='100004'">
                                 <ng-container *ngIf="!hideSection">
                                     <ng-container *ngFor="let step of fields">
@@ -584,10 +585,10 @@
                                             <label for="licenseNo1">{{'MOTORQUOTE.Civility' | translate}}&nbsp;</label><br>
                                             <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" maxlength="14" [(ngModel)]="licenseNo"  />
                                         </div>
-                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
+                                        <!-- <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="licenseNo1">{{'MOTORQUOTE.FirstName' | translate}}&nbsp;</label><br>
                                             <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" maxlength="14" [(ngModel)]="licenseNo"  />
-                                        </div>
+                                        </div> -->
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="licenseNo1">{{'MOTORQUOTE.Name' | translate}}&nbsp;</label><br>
                                             <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" maxlength="14" [(ngModel)]="licenseNo"  />
@@ -609,6 +610,10 @@
                                             </p-calendar>
                                         </div>
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
+                                            <label for="SubUrban1">{{'HOME.EmailId' | translate}}</label>
+                                            <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" maxlength="14"   />
+                                        </div>
+                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="SubUrban1">{{'MOTORQUOTE.Placeofissue' | translate}}</label>
                                             <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" maxlength="14"   />
                                         </div>
@@ -617,7 +622,7 @@
                                             <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" maxlength="14"   />
                                         </div>
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                                            <label for="SubUrban1">{{'MOTORQUOTE.Categoryexpirationdate' | translate}}</label>
+                                            <label for="SubUrban1">{{'MOTORQUOTE.CategoryDateobtained' | translate}}</label>
                                             <p-calendar class="w-full" id="Dob2" styleClass="w-full" [maxDate]="minDobDate"
                                             [(ngModel)]="driverDob" dateFormat="dd/mm/yy">
                                         </p-calendar>
@@ -631,7 +636,7 @@
                                             <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" maxlength="14"   />
                                         </div>
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                                            <label for="SubUrban1">{{'HOME.CountryCode' | translate}}</label>
+                                            <label for="SubUrban1">{{'HOME.MobileNumber' | translate}}</label>
                                             <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" maxlength="14"   />
                                         </div>
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">

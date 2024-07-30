@@ -367,6 +367,7 @@ export class PaymentInfoComponent {
                   this.checkStatus();
                 },(3 * 1000));
               }
+              else if(this.mobilePaymentPending){this.checkStatusSection=true;}
              
           }
           else{
