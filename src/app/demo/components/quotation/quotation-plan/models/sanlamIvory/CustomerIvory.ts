@@ -1,6 +1,6 @@
 import { FormlyFieldConfig } from "@ngx-formly/core";
 
-export class CustomerTanzaniya{
+export class CustomerIvory{
     customerDetails: any;
     commonDetails: any[]=[];
     endorsementSection: boolean=false;subuserType:any=null;
@@ -26,7 +26,7 @@ export class CustomerTanzaniya{
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
                   {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-2 lg:col-2 xl:col-2 pl-2 pr-2 pt-1',
                     type: 'ngselect',
                     id: 'CustomerTitle',
                     key: 'Title',
@@ -37,9 +37,9 @@ export class CustomerTanzaniya{
                       placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('Title'),
-                      maxLength: 15
+                      maxLength: 15,
+                      options:[]
                     },
-                    
                     validators: {
                     },
                     hooks: {
@@ -48,7 +48,7 @@ export class CustomerTanzaniya{
                     },
                   },
                   {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     type: 'input',
                     id: 'FirstName',
                     key: 'ClientName',
@@ -80,7 +80,7 @@ export class CustomerTanzaniya{
                       label: `Company Name`,
                       placeholder: 'Enter Company Name',
                       required: true,
-                      disabled: this.checkDisable('ClientName'),
+                      disabled: this.checkDisable('CompanyName'),
                       maxLength: 50
                     },
                     
@@ -98,11 +98,35 @@ export class CustomerTanzaniya{
                     key: 'Gender',
                     hide: false,
                     hideExpression:false,
-                    templateOptions: {
+                    props: {
                       label: `Gender`,
                       placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('Gender'),
+                      maxLength: 15,
+                      options:[]
+                    },
+                   
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    type: 'datepicker',
+                    id: 'DateOfBirth',
+                    key: 'dobOrRegDate',
+                    hide: false,
+                    hideExpression:false,
+                    templateOptions: {
+                      type:'date',
+                      label: `Date Of Birth`,
+                      placeholder: 'Select Date Of Birth',
+                      required: true,
+                      disabled: this.checkDisable('dobOrRegDate'),
                       maxLength: 15
                     },
                     
@@ -116,18 +140,17 @@ export class CustomerTanzaniya{
                   {
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
                     type: 'ngselect',
-                    id: 'BusinessType',
-                    key: 'BusinessType',
-                    hide: true,
-                    hideExpression:true,
-                    templateOptions: {
-                      label: `BusinessType`,
-                      placeholder: '-Select-',
+                    id: 'Nationality',
+                    key: 'Nationality',
+                    hide: false,
+                    hideExpression:false,
+                    props: {
+                      label: `Nationality`,
                       required: true,
-                      disabled: this.checkDisable('BusinessType'),
-                      maxLength: 15
+                      disabled: this.checkDisable('Nationality'),
+                      maxLength: 50,
+                      options:[]
                     },
-                    
                     validators: {
                     },
                     hooks: {
@@ -135,16 +158,63 @@ export class CustomerTanzaniya{
                     expressions: {
                     },
                   },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    type: 'ngselect',
+                    id: 'Activities',
+                    key: 'BusinessType',
+                    hide: true,
+                    hideExpression:true,
+                    props: {
+                      label: `Activities`,
+                      placeholder: '-Select Activities-',
+                      required: true,
+                      disabled: this.checkDisable('BusinessType'),
+                      maxLength: 50,
+                      options:[]
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  
                   {
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
                     type: 'ngselect',
                     id: 'Occupation',
                     key: 'Occupation',
-                    templateOptions: {
+                    hide: false,
+                    hideExpression:false,
+                    props: {
                       label: `Occupation`,
                       placeholder: '-Select Occupation-',
                       required: true,
                       disabled: this.checkDisable('Occupation'),
+                      maxLength: 50,
+                      options:[]
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    type: 'input',
+                    id: 'SocioProfessionalcategory',
+                    key: 'SocioProfessionalcategory',
+                    hide: false,
+                    hideExpression:false,
+                    templateOptions: {
+                      label: `Socio Professional category`,
+                      placeholder: 'Enter Socio Professional category',
+                      required: false,
+                      disabled: this.checkDisable('SocioProfessionalcategory'),
                       maxLength: 50
                     },
                     
@@ -176,18 +246,18 @@ export class CustomerTanzaniya{
                     },
                   },
                   {
-                    className: 'col-12 md:col-2 lg:col-2 xl:col-2 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-2 lg:col-2 xl:col-2 pl-23pr-2 pt-1',
                     type: 'ngselect',
                     id: 'CountryCode',
                     key: 'MobileCode',
-                    templateOptions: {
+                    props: {
                       label: `Country Code`,
                       placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('CountryCode'),
-                      maxLength: 15
+                      maxLength: 15,
+                      options:[]
                     },
-                    
                     validators: {
                     },
                     hooks: {
@@ -225,12 +295,13 @@ export class CustomerTanzaniya{
                     type: 'ngselect',
                     id: 'IdentityType',
                     key: 'PolicyHolderTypeid',
-                    templateOptions: {
+                    props: {
                       label: `Identity Type`,
                       placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('PolicyHolderTypeid'),
-                      maxLength: 15
+                      maxLength: 15,
+                      options:[]
                     },
                     
                     validators: {
@@ -250,7 +321,7 @@ export class CustomerTanzaniya{
                       placeholder: 'Enter ID Number',
                       required: true,
                       disabled: this.checkDisable('IdNumber'),
-                      maxLength: 50
+                      maxLength: 16
                     },
                     
                     validators: {
@@ -268,38 +339,12 @@ export class CustomerTanzaniya{
                     hide: true,
                     hideExpression:true,
                     templateOptions: {
-                      type: 'date',
+                      type:'date',
                       label: `Registration Date`,
-                      placeholder: 'Registration Date',
+                      placeholder: 'Select Registration Date',
                       required: true,
                       disabled: this.checkDisable('RegistrationDate'),
-                      maxLength: 50
-                    },
-                    
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
-                    type: 'ngselect',
-                    id: 'PreferedNotification',
-                    key: 'PreferredNotification',
-                    templateOptions: {
-                      label: `Preferred Notification`,
-                      placeholder: '-Select-',
-                      required: true,
-                      disabled: this.checkDisable('PreferredNotification'),
-                      maxLength: 15,
-                      options:[
-                        { label: 'Select', value: '','CodeDescLocal':'Selecione' },
-                        { label: 'SMS', value: 'Sms','CodeDescLocal':'Sms -P' },
-                        { label: 'Mail', value: 'Mail','CodeDescLocal':'E-mail -P' },
-                        { label: 'Whatsapp', value: 'Whatsapp','CodeDescLocal':'Whatsapp -P' }
-                      ]
+                      maxLength: 15
                     },
                     
                     validators: {
@@ -349,17 +394,21 @@ export class CustomerTanzaniya{
                   },
                   {
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
-                    type: 'input',
-                    id: 'GstNumber',
-                    key: 'GstNumber',
-                    hide: true,
-                    hideExpression:true,
+                    type: 'ngselect',
+                    id: 'PreferedNotification',
+                    key: 'PreferredNotification',
                     templateOptions: {
-                      label: `VRN/ GST Number`,
-                      placeholder: 'VRN/ GST Number',
+                      label: `Preferred Notification`,
+                      placeholder: '-Select-',
                       required: true,
-                      disabled: this.checkDisable('GstNumber'),
-                      maxLength: 50
+                      disabled: this.checkDisable('PreferredNotification'),
+                      maxLength: 15,
+                      options:[
+                        { label: 'Select', value: '','CodeDescLocal':'Selecione' },
+                        { label: 'SMS', value: 'Sms','CodeDescLocal':'Sms -P' },
+                        { label: 'Mail', value: 'Mail','CodeDescLocal':'E-mail -P' },
+                        { label: 'Whatsapp', value: 'Whatsapp','CodeDescLocal':'Whatsapp -P' }
+                      ]
                     },
                     
                     validators: {
@@ -374,8 +423,6 @@ export class CustomerTanzaniya{
                     key: 'Clientstatus',
                     id: 'Status',
                     type: 'radioList',
-                    hide: false,
-                    hideExpression:false,
                     templateOptions: {
                       type: 'radioList',
                       required: true,
@@ -393,7 +440,7 @@ export class CustomerTanzaniya{
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
                   {
-                    className: 'col-12 md:col-2 lg:col-2 xl:col-2 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'input',
                     id: 'Street',
                     key: 'Address1',
@@ -413,18 +460,19 @@ export class CustomerTanzaniya{
                     },
                   },
                   {
-                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-3  lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'ngselect',
                     id: 'Country',
                     key: 'Country',
-                    templateOptions: {
+                    props: {
                       label: `Country`,
                       placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('Country'),
-                      maxLength: 15
+                      maxLength: 15,
+                      options:[]
                     },
-                    
+                  
                     validators: {
                     },
                     hooks: {
@@ -432,37 +480,37 @@ export class CustomerTanzaniya{
                     expressions: {
                     },
                   },
-                  {
-                    className: 'col-12 md:col-2 lg:col-2 xl:col-2 pl-2 pr-2 pt-1',
-                    type: 'ngselect',
-                    id: 'Region',
-                    key: 'Region',
-                    templateOptions: {
-                      label: `Region`,
-                      required: true,
-                      disabled: this.checkDisable('Region'),
-                      maxLength: 15
-                    },
+                  // {
+                  //   className: 'col-12 md:col-2 lg:col-2 xl:col-2 pl-2 pr-2 pt-1',
+                  //   type: 'ngselect',
+                  //   id: 'Region',
+                  //   key: 'Region',
+                  //   templateOptions: {
+                  //     label: `Region`,
+                  //     required: true,
+                  //     disabled: this.checkDisable('Region'),
+                  //     maxLength: 15
+                  //   },
                     
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                  //   validators: {
+                  //   },
+                  //   hooks: {
+                  //   },
+                  //   expressions: {
+                  //   },
+                  // },
                   {
-                    className: 'col-12 md:col-2 lg:col-2 xl:col-2 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'ngselect',
                     id: 'District',
                     key: 'CityName',
-                    templateOptions: {
+                    props: {
                       label: `District`,
                       required: true,
                       disabled: this.checkDisable('District'),
-                      maxLength: 15
+                      maxLength: 15,
+                      options:[]
                     },
-                    
                     validators: {
                     },
                     hooks: {
@@ -471,7 +519,7 @@ export class CustomerTanzaniya{
                     },
                   },
                   {
-                    className: 'col-12 md:col-2 lg:col-2 xl:col-2 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'input',
                     id: 'PoBox',
                     key: 'PinCode',
@@ -493,6 +541,46 @@ export class CustomerTanzaniya{
                 ]
               }
             ]
+            // fieldGroup: [
+            //   {
+            //     fieldGroupClassName: 'newclassname',
+            //     fieldGroup: [
+            //       {
+            //         className: 'w-full md:mt-0 mt-3 md:w-1/3',
+            //         type: 'displays',
+            
+            //         templateOptions: {
+            //           label: `Sum Insured`,
+            //           required: true,
+  
+            //         },
+            //       },
+            //       {
+            //         className: 'w-full md:mt-0 mt-5 mdw-5',
+            //         type: 'commaSeparator',
+            //         key: 'AllriskSumInsured',
+  
+            //         props: {
+            //           //label: `Sum Insured`,
+            //           //(${this.commonDetails[0].Currency})`,
+            //           maxLength: 15,
+            //           disabled: this.checkDisable('AllriskSumInsured'),
+            //           //required: true,
+            //           options: [
+  
+            //           ],
+  
+            //         },
+            //         validators: {
+            //         },
+            //         hooks: {
+            //         },
+            //         expressions: {
+            //         },
+            //       },
+            //     ]
+            //   }
+            // ]
           }
     }
   fields:FormlyFieldConfig;

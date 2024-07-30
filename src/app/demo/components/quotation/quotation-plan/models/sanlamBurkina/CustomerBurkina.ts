@@ -1,6 +1,6 @@
 import { FormlyFieldConfig } from "@ngx-formly/core";
 
-export class CustomerTanzaniya{
+export class CustomerBurkina{
     customerDetails: any;
     commonDetails: any[]=[];
     endorsementSection: boolean=false;subuserType:any=null;
@@ -26,12 +26,10 @@ export class CustomerTanzaniya{
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
                   {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'ngselect',
                     id: 'CustomerTitle',
                     key: 'Title',
-                    hide: false,
-                    hideExpression:false,
                     templateOptions: {
                       label: `Customer Title`,
                       placeholder: '-Select-',
@@ -48,12 +46,10 @@ export class CustomerTanzaniya{
                     },
                   },
                   {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-9 lg:col-9 xl:col-9 pl-2 pr-2 pt-1',
                     type: 'input',
                     id: 'FirstName',
                     key: 'ClientName',
-                    hide: false,
-                    hideExpression:false,
                     templateOptions: {
                       label: `Client Name`,
                       placeholder: 'Enter Client Name',
@@ -70,34 +66,10 @@ export class CustomerTanzaniya{
                     },
                   },
                   {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
-                    type: 'input',
-                    id: 'CompanyName',
-                    key: 'CompanyName',
-                    hide: true,
-                    hideExpression:true,
-                    templateOptions: {
-                      label: `Company Name`,
-                      placeholder: 'Enter Company Name',
-                      required: true,
-                      disabled: this.checkDisable('ClientName'),
-                      maxLength: 50
-                    },
-                    
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'ngselect',
                     id: 'Gender',
                     key: 'Gender',
-                    hide: false,
-                    hideExpression:false,
                     templateOptions: {
                       label: `Gender`,
                       placeholder: '-Select-',
@@ -114,29 +86,7 @@ export class CustomerTanzaniya{
                     },
                   },
                   {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
-                    type: 'ngselect',
-                    id: 'BusinessType',
-                    key: 'BusinessType',
-                    hide: true,
-                    hideExpression:true,
-                    templateOptions: {
-                      label: `BusinessType`,
-                      placeholder: '-Select-',
-                      required: true,
-                      disabled: this.checkDisable('BusinessType'),
-                      maxLength: 15
-                    },
-                    
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     type: 'ngselect',
                     id: 'Occupation',
                     key: 'Occupation',
@@ -156,7 +106,7 @@ export class CustomerTanzaniya{
                     },
                   },
                   {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     type: 'input',
                     id: 'EmailId',
                     key: 'EmailId',
@@ -176,7 +126,7 @@ export class CustomerTanzaniya{
                     },
                   },
                   {
-                    className: 'col-12 md:col-2 lg:col-2 xl:col-2 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'ngselect',
                     id: 'CountryCode',
                     key: 'MobileCode',
@@ -262,17 +212,30 @@ export class CustomerTanzaniya{
                   },
                   {
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
-                    type: 'datepicker',
-                    id: 'RegistrationDate',
-                    key: 'RegistrationDate',
-                    hide: true,
-                    hideExpression:true,
+                    key: 'isTaxExempted',
+                    id: 'TaxExcempted',
+                    type: 'radioList',
                     templateOptions: {
-                      type: 'date',
-                      label: `Registration Date`,
-                      placeholder: 'Registration Date',
+                      type: 'radioList',
                       required: true,
-                      disabled: this.checkDisable('RegistrationDate'),
+                      disabled: this.checkDisable('isTaxExempted'),
+                      name: 'isTaxExempted',
+                    },
+                    props: {
+                      label: 'Tax Excempted',
+                      options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
+                    }
+                  },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    type: 'input',
+                    id: 'TaxExcemptedNo',
+                    key: 'TaxExemptedId',
+                    templateOptions: {
+                      label: `Tax Excempted No`,
+                      placeholder: 'Enter Tax Excempted Number',
+                      required: true,
+                      disabled: this.checkDisable('TaxExcemptedNo'),
                       maxLength: 50
                     },
                     
@@ -311,71 +274,9 @@ export class CustomerTanzaniya{
                   },
                   {
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
-                    key: 'isTaxExempted',
-                    id: 'TaxExcempted',
-                    type: 'radioList',
-                    templateOptions: {
-                      type: 'radioList',
-                      required: true,
-                      disabled: this.checkDisable('isTaxExempted'),
-                      name: 'isTaxExempted',
-                    },
-                    props: {
-                      label: 'Tax Excempted',
-                      options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
-                    }
-                  },
-                  {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
-                    type: 'input',
-                    id: 'TaxExcemptedNo',
-                    key: 'TaxExemptedId',
-                    hide: true,
-                    hideExpression:true,
-                    templateOptions: {
-                      label: `Tax Excempted No`,
-                      placeholder: 'Enter Tax Excempted Number',
-                      required: true,
-                      disabled: this.checkDisable('TaxExcemptedNo'),
-                      maxLength: 50
-                    },
-                    
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
-                    type: 'input',
-                    id: 'GstNumber',
-                    key: 'GstNumber',
-                    hide: true,
-                    hideExpression:true,
-                    templateOptions: {
-                      label: `VRN/ GST Number`,
-                      placeholder: 'VRN/ GST Number',
-                      required: true,
-                      disabled: this.checkDisable('GstNumber'),
-                      maxLength: 50
-                    },
-                    
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
                     key: 'Clientstatus',
                     id: 'Status',
                     type: 'radioList',
-                    hide: false,
-                    hideExpression:false,
                     templateOptions: {
                       type: 'radioList',
                       required: true,
@@ -493,6 +394,46 @@ export class CustomerTanzaniya{
                 ]
               }
             ]
+            // fieldGroup: [
+            //   {
+            //     fieldGroupClassName: 'newclassname',
+            //     fieldGroup: [
+            //       {
+            //         className: 'w-full md:mt-0 mt-3 md:w-1/3',
+            //         type: 'displays',
+            
+            //         templateOptions: {
+            //           label: `Sum Insured`,
+            //           required: true,
+  
+            //         },
+            //       },
+            //       {
+            //         className: 'w-full md:mt-0 mt-5 mdw-5',
+            //         type: 'commaSeparator',
+            //         key: 'AllriskSumInsured',
+  
+            //         props: {
+            //           //label: `Sum Insured`,
+            //           //(${this.commonDetails[0].Currency})`,
+            //           maxLength: 15,
+            //           disabled: this.checkDisable('AllriskSumInsured'),
+            //           //required: true,
+            //           options: [
+  
+            //           ],
+  
+            //         },
+            //         validators: {
+            //         },
+            //         hooks: {
+            //         },
+            //         expressions: {
+            //         },
+            //       },
+            //     ]
+            //   }
+            // ]
           }
     }
   fields:FormlyFieldConfig;
