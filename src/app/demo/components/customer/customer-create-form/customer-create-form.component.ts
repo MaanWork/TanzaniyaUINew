@@ -63,6 +63,7 @@ export class CustomerCreateFormComponent implements OnInit {
 	Idnumber1: any;endorsementSection:boolean=false;additionalInfoFields:any[]=[];addressInfoFields:any[]=[];
 	Idnumber2: any;lang:any=null;
 	public form = new FormGroup({});
+	fields: any[]=[];
   constructor(private confirmationService: ConfirmationService, private sharedService: SharedService,private datePipe: DatePipe,
     private messageService: MessageService, private router: Router, private translate: TranslateService,private appComp:AppComponent,
     private primeNGConfig: PrimeNGConfig) {
@@ -134,7 +135,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			this.productItem.IdType='1';
 		}
 
-	if(this.insuranceId=="100040"){
+	if(this.insuranceId=="100040" || this.insuranceId=="100042"){
 		this.getStateList('direct');
 		this.getRegionList('direct');
 	}
@@ -149,6 +150,7 @@ export class CustomerCreateFormComponent implements OnInit {
 	onLanguageChange(item: any) {
 		this.translate.use(item.value);
 	}
+	
 	getTitleList(){
 		let ReqObj = {
 				"InsuranceId": this.insuranceId,
@@ -235,7 +237,7 @@ export class CustomerCreateFormComponent implements OnInit {
 		this.additionalInfoFields[0] = fireData?.fields?.fieldGroup[1];
 		this.addressInfoFields[0] = fireData?.fields?.fieldGroup[2];
 		
-	
+		
 		this.getCountryList();
 		
 		this.getGenderList();
@@ -273,11 +275,153 @@ export class CustomerCreateFormComponent implements OnInit {
 		else {
 			this.getTitleList();
 		}
+
+		this.appComp.getLanguage().subscribe((res:any)=>{  
+			if(res) this.lang=res;
+			else this.lang='en';
+			this.translate.setDefaultLang(this.lang);this.checkFieldNames();
+		  });
+		if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+		else this.lang='en';
+		sessionStorage.setItem('language',this.lang);this.checkFieldNames();
+		this.translate.setDefaultLang(sessionStorage.getItem('language'));}
 	}
+
 	getDisplayName(){
 		if(this.lang=='en') return 'CodeDesc';
 		else return 'CodeDescLocal'
 	}
+
+
+	checkFieldNames(){
+		if(this.personalInfoFields.length!=0){
+		  let fieldList = this.personalInfoFields[0].fieldGroup;
+		  console.log(fieldList+"fieldList");
+		  
+		  let i=0;
+		  for(let field of fieldList){
+			let key =null;
+			if(field.id) key=field.id
+			else key = field.key
+			this.translate.get('HOME.'+key).subscribe((translation: string) => {
+			  if(field.props){
+				field.props.label = translation;
+				if(field.props.options){
+				  for(let entry of field.props.options){
+					if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+					  entry['CodeDescLocal'] = 'Other';
+					}
+					if(this.lang=='en') entry['label'] = entry.CodeDesc
+					else entry['label'] = entry.CodeDescLocal
+				  }
+				}
+			  }
+			  else if(field.templateOptions){
+				field.templateOptions.label = translation;
+				// if(field.templateOptions.options){
+				//   for(let entry of field.templateOptions.options){
+				//     if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+				//       entry['CodeDescLocal'] = 'Other';
+				//     }
+				//     if(this.lang=='en') entry['label'] = entry.CodeDesc
+				//     else entry['label'] = entry.CodeDescLocal
+				//   }
+				// }
+			  }
+			});
+			i+=1;
+			if(i==fieldList.length)  console.log('Final Field Lang',fieldList);
+		  }
+		}
+		if(this.additionalInfoFields.length!=0){
+			let fieldList = this.additionalInfoFields[0].fieldGroup;
+			console.log(fieldList+"fieldList");
+			
+			let i=0;
+			for(let field of fieldList){
+			  let key =null;
+			  if(field.id) key=field.id
+			  else key = field.key
+			  this.translate.get('HOME.'+key).subscribe((translation: string) => {
+				if(field.props){
+				  field.props.label = translation;
+				  if(field.props.options){
+					for(let entry of field.props.options){
+					  if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+						entry['CodeDescLocal'] = 'Other';
+					  }
+					  if(this.lang=='en') entry['label'] = entry.CodeDesc
+					  else entry['label'] = entry.CodeDescLocal
+					}
+				  }
+				}
+				else if(field.templateOptions){
+				  field.templateOptions.label = translation;
+				  // if(field.templateOptions.options){
+				  //   for(let entry of field.templateOptions.options){
+				  //     if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+				  //       entry['CodeDescLocal'] = 'Other';
+				  //     }
+				  //     if(this.lang=='en') entry['label'] = entry.CodeDesc
+				  //     else entry['label'] = entry.CodeDescLocal
+				  //   }
+				  // }
+				}
+			  });
+			  i+=1;
+			  if(i==fieldList.length)  console.log('Final Field Lang',fieldList);
+			}
+		  }
+		  if(this.addressInfoFields.length!=0){
+			let fieldList = this.addressInfoFields[0].fieldGroup;
+			console.log(fieldList+"fieldList");
+			
+			let i=0;
+			for(let field of fieldList){
+			  let key =null;
+			  if(field.id) key=field.id
+			  else key = field.key
+			  this.translate.get('HOME.'+key).subscribe((translation: string) => {
+				if(field.props){
+				  field.props.label = translation;
+				  if(field.props.options){
+					for(let entry of field.props.options){
+					  if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+						entry['CodeDescLocal'] = 'Other';
+					  }
+					  if(this.lang=='en') entry['label'] = entry.CodeDesc
+					  else entry['label'] = entry.CodeDescLocal
+					}
+				  }
+				}
+				else if(field.templateOptions){
+				  field.templateOptions.label = translation;
+				  // if(field.templateOptions.options){
+				  //   for(let entry of field.templateOptions.options){
+				  //     if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+				  //       entry['CodeDescLocal'] = 'Other';
+				  //     }
+				  //     if(this.lang=='en') entry['label'] = entry.CodeDesc
+				  //     else entry['label'] = entry.CodeDescLocal
+				  //   }
+				  // }
+				}
+			  });
+			  i+=1;
+			  if(i==fieldList.length)  console.log('Final Field Lang',fieldList);
+			}
+		  }
+	  }
+	  
+	 ongetBack(){
+		let entry = sessionStorage.getItem('PageFrom');
+		if(entry=='yakeen'){
+		this.router.navigate(['/yakeenSearch'])
+		}
+		else{this.router.navigate(['/customer'])}
+	}
+	
+	
   	public async onSubmit(data) {
 		console.log("Total Data", data);
 		this.messages=[];
