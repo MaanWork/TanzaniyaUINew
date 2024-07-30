@@ -837,6 +837,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               else if(this.userType!='Broker' && this.userType!='User'){ this.issuerSection = true;this.adminSection=false; }
               else this.issuerSection = false
               let motorDetails = JSON.parse(sessionStorage.getItem('VechileDetails'));
+              this.branchCode = this.userDetails.Result.BranchCode;
               this.setTiraVehicleValues(motorDetails);
               //this.setCommonValues(motorDetails);
             }
@@ -1025,6 +1026,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       }
     }
     else{
+      
       var d = new Date();
       var year = d.getFullYear();
       var month = d.getMonth();
@@ -1035,9 +1037,13 @@ export class CommonQuoteDetailsComponent implements OnInit {
         var dateParts2:any = EndDate1.split('/');
         var endDate = dateParts2[2]+'-'+dateParts2[1]+'-'+dateParts2[0];
         var startDate = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
-        this.policyStartDate = startDate;
-        this.policyEndDate = endDate;
+        this.policyStartDate = startDate1;
+        this.policyEndDate = EndDate1;
         this.onChangeEndDate();
+        if(entry.Registrationnumber!=null){
+          this.regNo = entry.Registrationnumber;
+          this.onSearchVehicle();
+        }
     }
     // if(entry?.PolicyEndDate != null ){
     //   var dateParts = entry?.PolicyEndDate.split("/");
@@ -2233,17 +2239,21 @@ export class CommonQuoteDetailsComponent implements OnInit {
       if(this.insuranceId=='100004'){
         if(this.policyEndDate!=null && this.policyEndDate!=undefined){
           const oneday = 24 * 60 * 60 * 1000;
-          const formattedDatecurrent:any = new Date(this.policyStartDate);
+          let dateList  = String(this.policyStartDate).split('/')
+            let startDate = dateList[2]+'-'+dateList[1]+'-'+dateList[0]; 
+            const formattedDatecurrent:any = new Date(String(startDate));
           if(String(this.policyEndDate).split('/').length>1){
             let dateList  = String(this.policyEndDate).split('/')
             let endDate = dateList[2]+'-'+dateList[1]+'-'+dateList[0]; 
             const momentDate:any = new Date(String(endDate));
+            var diffDays = Math.abs((momentDate.getTime() - formattedDatecurrent.getTime()) / (oneday))+1;
             this.noOfDays = String(Math.round(Math.abs((Number(momentDate)  - Number(formattedDatecurrent) )/oneday)+1));
+            this.endMinDate = new Date(this.policyStartDate);
+            this.policyEndDate = new Date(year, month, day+Number(this.noOfDays));
+            this.endMaxDate = new Date(year, month, day+Number(this.noOfDays)+1);
           }
           
-          this.endMinDate = new Date(this.policyStartDate);
-          this.policyEndDate = new Date(year, month, day+Number(this.noOfDays));
-          this.endMaxDate = new Date(year, month, day+Number(this.noOfDays)+1);
+          
           this.onChangeEndDate();
         }
         else{
@@ -2477,6 +2487,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         }
         else sectionId = null;
       }
+      if(this.branchCode==null) this.branchCode= this.userDetails.Result.BranchCode
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": null,
@@ -5453,6 +5464,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           if(this.enableCustomerDetails) this.router.navigate(['/customer/create']);
           else  this.router.navigate(['/portfolio/endorsementtype']);
         }
+        else if(sessionStorage.getItem('PageFrom')) this.router.navigate(['/customer/create'])
         else this.router.navigate(['/quotation']);
       }
       else if(this.tabIndex!=0){

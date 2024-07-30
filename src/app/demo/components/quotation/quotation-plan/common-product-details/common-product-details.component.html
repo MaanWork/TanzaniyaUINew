@@ -1006,60 +1006,79 @@
                 </ng-container>
             <ng-container  >
                 <!-- <p-dialog header="{{ step.props.label }}" [(visible)]="isEEForm" [modal]="true" styleClass="w-10 md:w-5 lg:w-5" [draggable]="false" [resizable]="false"> -->
-                <div class=" col-12  splitCard">
-                    <div class="col-md-12 col-lg-12 col-xl-12 splitCardHeader d-flex justify-content-between m-0 p-0" (click)="selectedIndex=index">
-                        <div (click)="selectedIndex=index" class=""><h4 class="headings2 m-0 p-0">{{ step.props.label }}</h4></div>
-                        <div class="pr-3 pt-1">
-                            
+                    <div class=" col-12  splitCard">
+                        <div class="grid justify-content-end p-3">
+                        <div class=" col-12 md:col-3 lg:col-3">
+                            <input pInputText class="w-full" id="username" maxlength="50" [(ngModel)]="LocationName" placeholder="Enter LoctionName" />
                         </div>
-                    </div>
-                    <div class="grid">
-                        <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
-                        <div class="col-12 lg:col-6 md:col-6 lx:col-6">
-                            <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)" [appendTo]="body">
-                                <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem" ></formly-form>
-                            </form>
-                            <div class="input-form-error bottomSpacing" *ngIf="contentTypeDuplicateError || contentTypeError || salaryError || DescriptionError || SerialError">
-                                <div class="error-text text-danger" *ngIf="contentTypeDuplicateError">
-                                    <span class="spancommon span_font_size"> Duplicate Entry</span>
-                                </div>
-                                <div class="error-text text-danger" *ngIf="contentTypeError">
-                                    <span class="spancommon span_font_size">Please Select Content Type</span>
-                                </div>
-                                <div class="error-text text-danger" *ngIf="salaryError">
-                                    <span class="spancommon span_font_size">Please Enter Valid Sum Insured</span>
-                                </div>
-                                <div class="error-text text-danger" *ngIf="DescriptionError">
-                                    <span class="spancommon span_font_size">Please Enter Description</span>
-                                </div>
-                                <div class="error-text text-danger" *ngIf="SerialError">
-                                    <span class="spancommon span_font_size">Please Enter Serial NO</span>
-                                </div>
-                            </div>
-                            <div class="input-form-error bottomSpacing" *ngIf=" OccupationError 
-                            || PersonNameError || DobError|| sumInsuredError">
+                        <div class=" col-12  md:col-2 lg:col-2">
+                            <div class="mb-2 ">&nbsp;<p-button label="Add Location" (click)="addLocation()"  />&nbsp;</div>
+                        </div>
+                        </div>
+                        <div class="col-md-12 col-lg-12 col-xl-12 splitCardHeader d-flex justify-content-between m-0 p-0" (click)="selectedIndex=index">
+                            <div (click)="selectedIndex=index" class=""><h4 class="headings2 m-0 p-0">{{ step.props.label }}</h4></div>
+                            <div class="pr-3 pt-1">
                                 
-                                <div class="error-text text-danger" *ngIf="OccupationError">
-                                    <span class="spancommon span_font_size">Please Select Occupation </span>
-                                </div>
-                                <div class="error-text text-danger" *ngIf="PersonNameError">
-                                    <span class="spancommon span_font_size">Please Enter Person Name </span>
-                                </div>
-                                <div class="error-text text-danger" *ngIf="DobError">
-                                    <span class="spancommon span_font_size">Please Select DOB </span>
-                                </div>
-                                <div class="error-text text-danger" *ngIf="sumInsuredError">
-                                    <span class="spancommon span_font_size">Please Enter sum Insured </span>
-                                </div>
                             </div>
                         </div>
+                        <p-tabView>
+                            <ng-container *ngFor="let item of LocationList;let i = index">
+                            <p-tabPanel [header]="item.CodeDesc"  >
+                                <ng-template pTemplate="header" >
+                                    {{ item.CodeDesc }} &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i class="pi pi-times" [rounded]="true" (click)="openconfrim(i)" [hidden]="local"></i>
+                                   
+                                  </ng-template>
+                                <div class="grid">
+                                    <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
+                                    <div class="col-12 lg:col-6 md:col-6 lx:col-6">
+                                        <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)" [appendTo]="body">
+                                            <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem" ></formly-form>
+                                        </form>
+                                        <div class="input-form-error bottomSpacing" *ngIf="contentTypeDuplicateError || contentTypeError || salaryError || DescriptionError || SerialError">
+                                            <div class="error-text text-danger" *ngIf="contentTypeDuplicateError">
+                                                <span class="spancommon span_font_size"> Duplicate Entry</span>
+                                            </div>
+                                            <div class="error-text text-danger" *ngIf="contentTypeError">
+                                                <span class="spancommon span_font_size">Please Select Content Type</span>
+                                            </div>
+                                            <div class="error-text text-danger" *ngIf="salaryError">
+                                                <span class="spancommon span_font_size">Please Enter Valid Sum Insured</span>
+                                            </div>
+                                            <div class="error-text text-danger" *ngIf="DescriptionError">
+                                                <span class="spancommon span_font_size">Please Enter Description</span>
+                                            </div>
+                                            <div class="error-text text-danger" *ngIf="SerialError">
+                                                <span class="spancommon span_font_size">Please Enter Serial NO</span>
+                                            </div>
+                                        </div>
+                                        <div class="input-form-error bottomSpacing" *ngIf=" OccupationError 
+                                        || PersonNameError || DobError|| sumInsuredError">
+                                            
+                                            <div class="error-text text-danger" *ngIf="OccupationError">
+                                                <span class="spancommon span_font_size">Please Select Occupation </span>
+                                            </div>
+                                            <div class="error-text text-danger" *ngIf="PersonNameError">
+                                                <span class="spancommon span_font_size">Please Enter Person Name </span>
+                                            </div>
+                                            <div class="error-text text-danger" *ngIf="DobError">
+                                                <span class="spancommon span_font_size">Please Select DOB </span>
+                                            </div>
+                                            <div class="error-text text-danger" *ngIf="sumInsuredError">
+                                                <span class="spancommon span_font_size">Please Enter sum Insured </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-warp justify-content-center">
+                                    <!-- <p-button  label="Cancel" size="small" (click)="isEEForm=false"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                                    <p-button  label="Save & Add New" *ngIf="step.props.label=='Electronic Equipment'" size="small" (click)="saveElectronicEquip(productItem)"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <p-button  label="Save & Add New" *ngIf="step.props.label=='Personal Accident'" size="small" (click)="addPA(productItem)"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                            </p-tabPanel>
+                            </ng-container>
+                        </p-tabView>
                     </div>
-                    <div class="flex flex-warp justify-content-center">
-                        <!-- <p-button  label="Cancel" size="small" (click)="isEEForm=false"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
-                        <p-button  label="Save & Add New" *ngIf="step.props.label=='Electronic Equipment'" size="small" (click)="saveElectronicEquip(productItem)"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <p-button  label="Save & Add New" *ngIf="step.props.label=='Personal Accident'" size="small" (click)="addPA(productItem)"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    </div>
-                </div>
             <!-- </p-dialog> -->
             </ng-container>
 
@@ -1160,7 +1179,7 @@
                         <h4 class="m-0 p-0" >Fire</h4>
                     </div>
                 </div>
-                <ng-container *ngIf="TableRowFire.length!=0">
+                <ng-container *ngIf="getTableRowFireList().length!=0">
                     <p-table [value]="getTableRowFireList()" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
                         <!-- <ng-template pTemplate="caption">
                             <div class="flex flex wrap justify-content-end">
@@ -1206,7 +1225,7 @@
                             </td>
                             </tr>
                         </ng-template>
-                        </p-table>
+                    </p-table>
                 </ng-container>
                 <div class="grid">
                     <div class="col-12 lg:col-3 md:col-3 lx:col-3"></div>
