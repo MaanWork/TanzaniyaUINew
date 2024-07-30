@@ -2789,16 +2789,16 @@
                         </div>
                     </div>  
                 </div> -->
-                <div class="lg:col-3 md:col-3 col-12" *ngIf="isMannualReferal != 'Y' && (coverSection && (((!statusValue || checkManualReferral()) && !adminSection) || (statusValue && adminSection ))) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
+                <div class="lg:col-3 md:col-3 col-12" *ngIf="isMannualReferal != 'Y' && (coverSection && (((!statusValue || checkManualReferral()) && !adminSection) || (statusValue && adminSection ))) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial')) && gridshow" >
                     <label class="input-form-label">{{ 'Modify.DoYouLiketoChooseEMIOption?' | translate}}</label>
                     <div class="flex justify-content-start gap-3 mt-1">
                         <div class="flex align-items-center">
-                            <p-radioButton name="emiYN" value="Y" (change)="onEmiYNChange()" [(ngModel)]="emiYN"
+                            <p-radioButton name="emiYN" value="Y" (click)="onEmiYNChange()" [(ngModel)]="emiYN"
                                 inputId="emi_Yes"></p-radioButton>
                             <span for="emi_Yes" class="ml-2">{{ 'Modify.Yes' | translate}}</span>
                         </div>
                         <div class="flex align-items-center">
-                            <p-radioButton name="emiYN" value="N" (change)="onEmiYNChange()" [(ngModel)]="emiYN"
+                            <p-radioButton name="emiYN" value="N" (click)="onEmiYNChange()" [(ngModel)]="emiYN"
                                 inputId="emi_No"></p-radioButton>
                             <span for="emi_No" class="ml-2">{{ 'Modify.No' | translate}}</span>
                         </div>

@@ -131,8 +131,8 @@ export class ReferralCasesComponent implements OnInit {
       // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
       // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
         if(this.userType=='Issuer'){
-        loginId='';
-        bdmCode=this.brokerCode;
+          bdmCode=null;
+          loginId=this.brokerCode;
       }
       else{
         bdmCode=null;

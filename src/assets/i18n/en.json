@@ -101,7 +101,11 @@
     },
     "PRODUCT":{
       "SelecttheBranch":"Select the Branch",
-      "ProductYouWishtobuy":"Product You Wish to buy"
+      "ProductYouWishtobuy":"Product You Wish to buy",
+      "LookingFor": "What Are You Looking For!",
+      "Transaction": "Quotation & Policy Information",
+      "LoginCreation": "Login Creation & Masters",
+      "ApproverReferralManagement": "Referral Management & More"
     },
     "DASHBOARD":{
         "Policies":"Policies",
@@ -140,7 +144,7 @@
         "CurrencyCode": "Currency Code",
         "Endorsement":"Endorsement",
         "Action": "Action",
-        "VehicleID": "VehicleID",
+        "VehicleID": "Vehicle ID",
         "RegistrationNo":"RegistrationNo",
         "ChassisNo":"Chassis No",
         "PolicyType": "Policy Type",
@@ -437,6 +441,7 @@
        "PleaseSelectValidDriverType":"Please Select Valid Driver Type",
        "EnterSeriesNumber":"Enter Series Number",
        "EnterNoOfCylinders":"Enter No Of Cylinders",
+       "EnterLicenceNumber": "Enter License Number",
        "SelectPlateType":"Select Plate Type",
        "SelectColor":"Select Color",
        "SelectDoors":"Select Doors",

@@ -247,6 +247,9 @@ export class AppMenuComponent implements OnInit {
              entry['items'] = [];
               let j = 0;
               for (let child of menu.children) {
+                if(child.title=='Tira Vehicle Search' && this.insuranceid=='100044'){
+                  child.link='/yakeenSearch';
+                }
                 let subEntry = {
                   "label": child.title,
                   "faIcon": child.icon,
@@ -293,7 +296,8 @@ export class AppMenuComponent implements OnInit {
               else if(menu.CodeDesc=='Report') entry["routerLink"] =  ['/report']
               else if(menu.CodeDesc=='Search') entry["routerLink"] =  ['/Search']
               else if(menu.CodeDesc=='Masters') entry["routerLink"] =  ['/Admin/bankMaster']
-              else if(menu.CodeDesc=='Tira Vehicle Search'){entry["routerLink"] =  ['/tira-search']}
+              else if(menu.CodeDesc=='Tira Vehicle Search' && this.insuranceid=='100002'){entry["routerLink"] =  ['/tira-search']}
+              else  if(menu.CodeDesc=='Tira Vehicle Search' && this.insuranceid=='100044'){entry['routerLink']=['/yakeenSearch'];}
               else if(menu.CodeDesc=='Tira Status'){entry["routerLink"] =  ['/tirastatus']}
               else entry["routerLink"] =  [menu.link]
               entry['link'] = menu.link;
