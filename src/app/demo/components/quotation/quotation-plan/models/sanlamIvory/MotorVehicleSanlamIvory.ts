@@ -337,15 +337,15 @@ export class MotorVehicleSanlamIvory{
                   // },
                   {
                     type: 'ngselect',
-                    id:'Newvalue',
+                    id:'Deductibles',
                     key: 'Deductibles',
                     defaultValue: '',
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     hide: true,
                     hideExpression:true,
                     props: {
-                      label: `New  Value`,
-                      disabled: this.checkDisable('Newvalue'),
+                      label: `Deductibles`,
+                      disabled: this.checkDisable('Deductibles'),
                       required: true,
                       options: [
       
@@ -386,8 +386,58 @@ export class MotorVehicleSanlamIvory{
                   // },
                   {
                     type: 'ngselect',
-                    id:'Marketvalue',
+                    id:'VehicleValue',
                     key: 'VehicleValue',
+                    defaultValue: '',
+                    hide: true,
+                    hideExpression:true,
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    props: {
+                      label: `VehicleValue`,
+                      disabled: this.checkDisable('VehicleValue'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    type: 'ngselect',
+                    id:'Newvalue',
+                    key: 'Newvalue',
+                    defaultValue: '',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    hide: true,
+                    hideExpression:true,
+                    props: {
+                      label: `New  Value`,
+                      disabled: this.checkDisable('Newvalue'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    type: 'ngselect',
+                    id:'Marketvalue',
+                    key: 'Marketvalue',
                     defaultValue: '',
                     hide: true,
                     hideExpression:true,
@@ -409,30 +459,7 @@ export class MotorVehicleSanlamIvory{
                     expressions: {
                     },
                   },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'input',
-                    key: 'Inflation',
-                    id:'Aggregatedvalue',
-                    hide: true,
-                    hideExpression:true,
-                    props: {
-                      label: `Aggregated Value`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('Aggregatedvalue'),
-                      required: true,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                 
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'commaSeparator',
@@ -457,31 +484,53 @@ export class MotorVehicleSanlamIvory{
                     expressions: {
                     },
                   },
-                  // {
-                  //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                  //   type: 'commaSeparator',
-                  //   key: 'InflationSumInsured',
-                  //   hide: false,
-                  //   hideExpression:false,
-                  //   props: {
-                  //     label: `Inflation SumInsured`,
-                  //     maxLength: 15,
-                  //     disabled: this.checkDisable('InflationSumInsured'),
-                  //     required: true,
-                  //     options: [
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'commaSeparator',
+                    key: 'InflationSumInsured',
+                    id:'InflationSumInsured',
+                    hide: false,
+                    hideExpression:false,
+                    props: {
+                      label: `Inflation SumInsured`,
+                      maxLength: 15,
+                      disabled: this.checkDisable('InflationSumInsured'),
+                      required: true,
+                      options: [
   
-                  //     ],
+                      ],
   
-                  //   },
-                  //   validators: {
-                  //   },
-                  //   hooks: {
-                  //   },
-                  //   expressions: {
-                  //   },
-                  // },
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
                   
-                 
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'input',
+                    key: 'Aggregatedvalue',
+                    id:'Aggregatedvalue',
+                    props: {
+                      label: `Aggregated Value`,
+                      maxLength: 15,
+                      disabled: this.checkDisable('Aggregatedvalue'),
+                      required: true,
+                      options: [
+  
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'commaSeparator',
