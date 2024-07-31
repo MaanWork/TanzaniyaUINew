@@ -162,7 +162,7 @@ export class CustomerCreateFormComponent implements OnInit {
 				(data: any) => {
 					if (data.Result) {
 						this.titleList = data.Result;
-						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
+						if(this.insuranceId!='100042'){
 							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
 							for (let i = 0; i < this.titleList.length; i++) {
 								this.titleList[i].label = this.titleList[i]['CodeDesc'];
@@ -210,9 +210,9 @@ export class CustomerCreateFormComponent implements OnInit {
 		if(this.insuranceId=='100002'){
 			fireData = new CustomerTanzaniya();
 		}
-		// if(this.insuranceId=='100040'){
-		// 	fireData = new CustomerIvory();
-		// }
+		if(this.insuranceId=='100040'){
+			fireData = new CustomerIvory();
+		}
 		// if(this.insuranceId=='100042'){
 		// 	fireData = new CustomerBurkina();
 		// }
@@ -523,10 +523,10 @@ export class CustomerCreateFormComponent implements OnInit {
 			policyid = data?.IdNumber;
 		}
 		if(this.insuranceId=="100002")data.state=this.productItem.Region;data.RegionCode=this.productItem.Country
-		// if(this.insuranceId=="100040" ){
-		// 	data.state="10001";
-		// }
-		if(this.insuranceId=="100042" ){
+		if(this.insuranceId=="100040" ){
+			data.state="10001";
+		}
+		else if(this.insuranceId=="100042" ){
 			data.state="99999";
 		}
 		else{
@@ -703,7 +703,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					if (data.Result) {
 						//this.holderTypeValue = null;
 						this.policyHolderTypeList = data.Result;
-						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
+						if(this.insuranceId!='100042'){
 							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
 							for (let i = 0; i < this.policyHolderTypeList.length; i++) {
 								this.policyHolderTypeList[i].label = this.policyHolderTypeList[i]['CodeDesc'];
@@ -745,7 +745,7 @@ export class CustomerCreateFormComponent implements OnInit {
 						else {
 							this.getOccupationList();
 						}
-						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
+						if(this.insuranceId!='100042'){
 							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
 							for (let i = 0; i < this.genderList.length; i++) {
 								this.genderList[i].label = this.genderList[i]['CodeDesc'];
@@ -782,7 +782,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.countryList = data.Result;
-						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
+						if(this.insuranceId!='100042'){
 							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
 							//this.countryList = defaultRow.concat(this.countryList);
 							for (let i = 0; i < this.countryList.length; i++) {
@@ -855,7 +855,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.businessTypeList = data.Result;
-						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
+						if(this.insuranceId!='100042'){
 							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
 							for (let i = 0; i < this.businessTypeList.length; i++) {
 								this.businessTypeList[i].label = this.businessTypeList[i]['CodeDesc'];
@@ -887,7 +887,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.mobileCodeList = data.Result;
-						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
+						if(this.insuranceId!='100042'){
 							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
 							for (let i = 0; i < this.mobileCodeList.length; i++) {
 								this.mobileCodeList[i].label = this.mobileCodeList[i]['CodeDesc'];
@@ -961,7 +961,7 @@ export class CustomerCreateFormComponent implements OnInit {
 						//this.stateList = defaultRow.concat(this.stateList)
 						if(type=='change'){ this.productItem.CityName = '';}
 						if(type=='change'){this.productItem.state = '';this.productItem.CityName=''};
-						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
+						if(this.insuranceId!='100042'){
 							let defaultRow1 = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
 							for (let i = 0; i < this.stateList.length; i++) {
 								this.stateList[i].label = this.stateList[i]['CodeDesc'];
@@ -1025,7 +1025,7 @@ export class CustomerCreateFormComponent implements OnInit {
 							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
 							//this.regionList = defaultRow.concat(this.regionList);
 							
-							if(this.insuranceId!='100042' && this.insuranceId!='100040'){
+							if(this.insuranceId!='100042'){
 								if(type=='change'){
 									this.productItem.state = '';
 									this.productItem.CityName=''
