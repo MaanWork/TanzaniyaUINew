@@ -29,7 +29,7 @@
         (change)="onLanguageChange($event)"></p-selectButton><br>
     </div>
 </div> -->
-<div class="grid" *ngIf="insuranceId!='100042'">
+<div class="grid" *ngIf="insuranceId!='100042' && insuranceId!='100040'">
     <div class="col-12 lg:col-6 md:col-6 py-0">
         <div class="card p-1">
             <h4 class="ml-3">{{ 'HOME.PersonalInformation' | translate }}</h4>
@@ -64,7 +64,7 @@
 </div>
 
 
-<div class="grid" *ngIf="insuranceId=='100042'">
+<div class="grid" *ngIf="insuranceId=='100042' || insuranceId=='100040'">
     <div class="col-12 lg:col-6 py-0" *ngIf="productItem.IdType == '1'; else coporatePersonalForm">
         <div class="card">
             <h4 class="ml-3">{{ 'HOME.PersonalInformation' | translate }}</h4>

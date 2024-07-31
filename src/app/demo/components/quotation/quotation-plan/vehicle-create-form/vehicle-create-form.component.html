@@ -123,7 +123,8 @@
                 <label for="engine-no">{{'MOTORDETAILS.EngineNumber' | translate}}*</label>
                 <input pInputText id="engine-no" [(ngModel)]="engineNo" [disabled]="editSection" maxlength="20" [placeholder]="'MOTORDETAILS.EnterEngineNumber' | translate"/>
             </div>
-            <div class="flex flex-column m-3" *ngIf="insuranceId!='100040' && insuranceId!='100042'">
+            <!-- *ngIf="insuranceId!='100040' && insuranceId!='100042'" -->
+            <div class="flex flex-column m-3" >
                 <label for="engine-capacity">{{'MOTORDETAILS.EngineCapacity' | translate}}*</label>
                 <input pInputText id="engine-capacity" [(ngModel)]="engineCapacity" maxlength="5" [disabled]="editSection" [placeholder]="'MOTORDETAILS.EnterEngineCapacity' | translate"/>
             </div>
@@ -198,14 +199,14 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-column m-3" *ngIf="insuranceId=='100040' || insuranceId=='100042'">
+            <!-- <div class="flex flex-column m-3" *ngIf="insuranceId=='100040' || insuranceId=='100042'">
                 <label for="engine-capacity">Displacement in CM3*</label>
                 <input pInputText id="engine-capacity" [(ngModel)]="displacement"  [disabled]="editSection" placeholder="Enter Displacement in CM3"/>
             </div>
             <div class="flex flex-column m-3" *ngIf="insuranceId=='100040' || insuranceId=='100042'">
                 <label for="engine-capacity"> Number Of Cylinder(s)*</label>
                 <input pInputText id="engine-capacity" [(ngModel)]="numberOfCylinders" maxlength="5" [disabled]="editSection" placeholder="Enter Number Of Cylinders"/>
-            </div>
+            </div> -->
         </div>
         <div class="flex justify-content-center mt-2">
             <p-button styleClass="p-button-outlined"  [label]="'MOTORDETAILS.Back' | translate" class="p-3 text-l mr-0" icon="pi pi-chevron-left" (click)="getBack()"></p-button>&nbsp;
