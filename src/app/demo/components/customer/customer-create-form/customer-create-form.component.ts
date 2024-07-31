@@ -20,6 +20,7 @@ import { CustomerUganda } from '../../quotation/quotation-plan/models/Uganda/Cus
 import { CustomerEagle } from '../../quotation/quotation-plan/models/Eagle/CustomerEagle';
 import { CustomerMadison } from '../../quotation/quotation-plan/models/Madison/CustomerMadison';
 import { CustomerKenya } from '../../quotation/quotation-plan/models/Kenya/CustomerKenya';
+import { CustomerSaudiarabia } from '../../quotation/quotation-plan/models/Saudiarabia/CustomerSaudiarabia';
 @Component({
   selector: 'app-customer-create-form',
   templateUrl: './customer-create-form.component.html',
@@ -233,6 +234,10 @@ export class CustomerCreateFormComponent implements OnInit {
 		if(this.insuranceId=='100020'){
 			fireData = new CustomerKenya();
 		}
+		if(this.insuranceId=='100044'){
+			fireData = new CustomerSaudiarabia();
+		}
+		
 		this.personalInfoFields[0] = fireData?.fields?.fieldGroup[0];
 		this.additionalInfoFields[0] = fireData?.fields?.fieldGroup[1];
 		this.addressInfoFields[0] = fireData?.fields?.fieldGroup[2];
@@ -245,7 +250,7 @@ export class CustomerCreateFormComponent implements OnInit {
 		this.getBusinessTypeList();
 		this.getMobileCodeList();
 		this.getPolicyHolderList('change');
-		if(this.insuranceId=='100002'){
+		if(this.insuranceId=='100002' || this.insuranceId=='100044'){
 			let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
 				field.form.controls['Country'].valueChanges.subscribe(() => {
 				  this.getRegionList('change')
@@ -520,6 +525,9 @@ export class CustomerCreateFormComponent implements OnInit {
 		if(this.insuranceId=="100002")data.state=this.productItem.Region;data.RegionCode=this.productItem.Country
 		if(this.insuranceId=="100040" || this.insuranceId=="100042"){
 			data.state="10001";
+		}
+		else{
+			data.state=this.productItem.CityName;
 		}
 		if(this.productItem.IdType=='2' || this.productItem.IdType==2){
 			data.Title='1';
@@ -929,8 +937,11 @@ export class CustomerCreateFormComponent implements OnInit {
 			);
 	}
 	getStateList(type) {
-		if(this.insuranceId=="100040")this.productItem.state="10001";this.productItem.Country='AGO'
-		if(this.insuranceId=='100002')this.productItem.state=this.productItem.Region;
+		if(this.insuranceId=="100040" || this.insuranceId=="100042"){this.productItem.state="10001";this.productItem.Country='AGO'}
+		else{
+			this.productItem.Country=this.productItem.Country;
+		}
+		if(this.insuranceId=='100002' || this.insuranceId=='100044')this.productItem.state=this.productItem.Region;
 			let ReqObj = {
 				"CountryId": this.productItem.Country,
 				"RegionCode": this.productItem.state
