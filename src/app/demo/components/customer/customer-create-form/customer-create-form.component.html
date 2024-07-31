@@ -65,7 +65,6 @@
 
 
 <div class="grid" *ngIf="insuranceId=='100042'">
-   
     <div class="col-12 lg:col-6 py-0" *ngIf="productItem.IdType == '1'; else coporatePersonalForm">
         <div class="card">
             <h4 class="ml-3">{{ 'HOME.PersonalInformation' | translate }}</h4>
@@ -92,7 +91,7 @@
                         <input pInputText id="FirstName"  maxlength="150" [(ngModel)]="productItem.ClientName" 
                         [placeholder]="'HOME.EnterFirstName' | translate"/>
                     </div>
-                    <div *ngIf="insuranceId!='100040' && insuranceId!='100042' " class="flex flex-column m-3">
+                    <div class="flex flex-column m-3">
                         <label for="username">{{ 'HOME.MiddleName' | translate }}*</label>
                         <!-- <label for="username">Middle Name</label> -->
                         <input pInputText id="middlename" maxlength="150" [(ngModel)]="productItem.MiddleName"
@@ -103,19 +102,6 @@
                         <!-- <label for="username">Last Name</label> -->
                         <input pInputText id="lastname" maxlength="150" [(ngModel)]="productItem.LastName"
                         [placeholder]="'HOME.EnterLastName' | translate"/>
-                    </div>
-                    <div *ngIf="insuranceId=='100040' || this.insuranceId=='100042'" class="flex flex-column m-3">
-                        <label for="username">{{ 'HOME.Gender' | translate }}</label>
-                        <!-- <label for="username">Gender</label> -->
-                        <p-dropdown inputId="gender" 
-                            class="w-full" 
-                            styleClass="w-full" 
-                            [options]="genderList" (onChange)="onGenderChange()"
-                            [(ngModel)]="productItem.Gender"
-                            [optionLabel]="getDisplayName()" 
-                            optionValue="Code" 
-                            [placeholder]="'HOME.SelectCode' | translate">
-                        </p-dropdown>
                     </div>
                 </div>
             </ng-container>
@@ -149,8 +135,8 @@
                         optionValue="Code"  [placeholder]="'HOME.SelectOccupation' | translate">
                     </p-dropdown>
                 </div>
-                <div *ngIf="insuranceId!='100040' && this.insuranceId!='100042'" class="flex flex-column m-3">
-                    <label for="username">{{ 'HOME.Gender' | translate }}</label>
+                <div class="flex flex-column m-3">
+                    <label for="username">{{ 'HOME.Gender' | translate }}*</label>
                     <!-- <label for="username">Gender</label> -->
                     <p-dropdown inputId="gender" 
                         class="w-full" 
@@ -161,26 +147,6 @@
                         optionValue="Code" 
                         [placeholder]="'HOME.SelectCode' | translate">
                     </p-dropdown>
-                </div>
-                <div class="flex flex-column m-3">
-                    <label for="username">{{ 'HOME.DateOfBirth' | translate }}</label>
-                    <p-calendar class="w-full" styleClass="w-full"   [(ngModel)]="productItem.dobOrRegDate"
-                        dateFormat="dd/mm/yy" placeholder="Select Start Date">
-                    </p-calendar>
-                </div>
-                <div class="flex flex-column m-3">
-                    <label for="username">{{ 'HOME.Nationality' | translate }}</label>
-                    <!-- <label for="username">Country Code *</label> -->
-                    <p-dropdown inputId="CountryCode" 
-                        class="w-full"  styleClass="w-full"  [(ngModel)]="productItem.Country"
-                        [placeholder]="'HOME.SelectCode' | translate">
-                    </p-dropdown>
-                </div>
-                <div class="flex flex-column m-3" >
-                    <label for="username">{{ 'HOME.SocioProfessionalcategory' | translate }} </label>
-                    <!-- <label for="username">Customer Name *</label> -->
-                    <input pInputText id="CustomerName" maxlength="150" [(ngModel)]="productItem.SocioProfessional" 
-                    (change)="onsavedatas('Customer',null)" />
                 </div>
                 <div class="flex flex-column m-3">
                     <label for="username">{{ 'HOME.CountryCode' | translate }}*</label>
@@ -225,7 +191,7 @@
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3">
-                    <label for="username">{{ 'HOME.IDNumber' | translate}}</label>
+                    <label for="username">{{ 'HOME.IDNumber' | translate}}*</label>
                     <!-- <label for="username">ID No *</label> -->
                     <ng-container *ngIf="!shows">
                         <input pInputText id="IdNumber" [(ngModel)]="productItem.IdNumber" (change)="onsavedatas('IdValue',null)" [maxLength]="maxTextLen" [placeholder]="'HOME.EnterIDNumber' | translate"/>
@@ -248,7 +214,7 @@
                     </p-calendar>
                 </div> -->
                 <div class="flex flex-column m-3">
-                    <label for="username">{{ 'HOME.PreferedNotification' | translate}}</label>
+                    <label for="username">{{ 'HOME.PreferedNotification' | translate}}*</label>
                     <!-- <label for="username">Preferred Notification *</label> -->
                     <p-dropdown inputId="PreferedNotification2"  id="PreferedNotification"
                         class="w-full"  styleClass="w-full"   [options]="notificationList" 
@@ -257,7 +223,7 @@
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3">
-                    <label for="username">{{'HOME.TaxExcempted' | translate}}</label>
+                    <label for="username">{{'HOME.TaxExcempted' | translate}}*</label>
                     <!-- <label for="username">Tax Exempted *</label> -->
                     <div class="flex justify-content-start gap-3">
                         <div class="flex align-items-center">
@@ -275,7 +241,7 @@
                     <!-- <label for="TaxExcemptedNo">Tax Exempted No *</label> -->
                     <input pInputText id="TaxExcemptedNo" [(ngModel)]="productItem.TaxExemptedId" [placeholder]="'HOME.EnterTaxExemptedNo' | translate"/>
                 </div>
-                <div *ngIf="insuranceId!='100040' && insuranceId!='100042'" class="flex flex-column m-3">
+                <div class="flex flex-column m-3">
                     <label for="username">{{'HOME.Status' | translate}}*</label>
                     <!-- <label for="username">Status</label> -->
                     <div class="flex justify-content-start gap-3">
@@ -311,15 +277,15 @@
                     <input pInputText id="Street"  maxlength="100" (change)="onsavedatas('Address',null)" [(ngModel)]="productItem.Address1" [placeholder]="'HOME.EnterStreet' | translate"/>
                 </div>
                 <div class="flex flex-column m-3">
-                    <label for="username">{{ 'HOME.Country' | translate}}</label>
+                    <label for="username">{{ 'HOME.Country' | translate}}*</label>
                     <!-- <label for="username">Country *</label> -->
                     <p-dropdown inputId="Country" 
                         class="w-full"  styleClass="w-full" [options]="countryList"  (onChange)="getRegionList('change')" [(ngModel)]="productItem.Country" 
                         [optionLabel]="getDisplayName()" optionValue="Code" [placeholder]="'HOME.SelectCountry' | translate">
                     </p-dropdown>
                 </div>
-                <div *ngIf="insuranceId!='100040' && insuranceId!='100042'"  class="flex flex-column m-3">
-                    <label for="username">{{ 'HOME.Region' | translate}}</label>
+                <div class="flex flex-column m-3">
+                    <label for="username">{{ 'HOME.Region' | translate}}*</label>
                     <!-- <label for="username">Region *</label> -->
                     <p-dropdown inputId="Region" 
                         class="w-full" 
@@ -333,9 +299,8 @@
                     </p-dropdown>
                 </div>
                 <div class="flex flex-column m-3">
-                    <label *ngIf="insuranceId=='100027' " for="username">{{ 'HOME.Municipal' | translate}} *</label>
+                    <label *ngIf="insuranceId=='100027' || insuranceId=='100040' || this.insuranceId=='100042'" for="username">{{ 'HOME.Municipal' | translate}} *</label>
                     <label *ngIf="insuranceId!='100027' && insuranceId!='100040' && this.insuranceId!='100042'" for="username">{{ 'HOME.District' | translate}}   *</label>
-                    <label *ngIf="insuranceId=='100040' || this.insuranceId=='100042'" for="username">{{ 'MOTORQUOTE.City' | translate}} </label>
                     <p-dropdown inputId="Distrivt" 
                         class="w-full" 
                         styleClass="w-full" 
@@ -399,7 +364,7 @@
                         </p-calendar>
                     </div>
                     <div class="flex flex-column m-3">
-                        <label for="username">{{ 'HOME.PreferedNotification' | translate}}</label>
+                        <label for="username">{{ 'HOME.PreferedNotification' | translate}}*</label>
                         <p-dropdown inputId="PreferedNotification3" 
                             class="w-full" 
                             styleClass="w-full" 
@@ -410,7 +375,7 @@
                             [placeholder]="'HOME.SelectPerferredNotification' | translate">
                         </p-dropdown>
                     </div>
-                    <div *ngIf="insuranceId!='100040' && insuranceId!='100042' "  class="flex flex-column m-3">
+                    <div class="flex flex-column m-3">
                         <label for="username">{{ 'HOME.Status' | translate}} *</label>
                         <div class="flex justify-content-start gap-3">
                             <div class="flex align-items-center">
@@ -430,7 +395,7 @@
                             </div>
                         </div>
                     </div>
-                    <div *ngIf="insuranceId!='100040' && insuranceId!='100042' " class="flex flex-column m-3">
+                    <div class="flex flex-column m-3">
                         <label for="vrnGstNo">{{'HOME.VRN/GSTNumber' | translate}} *</label>
                         <input pInputText id="vrnGstNo" [(ngModel)]="productItem.vrngst" maxlength="20" [placeholder]="'HOME.EnterVRN/GSTNumber' | translate"/>
                     </div>
@@ -462,7 +427,7 @@
             <div class="card">
                 <h4 class="ml-3">{{'HOME.PersonalInformation' | translate}}</h4>
                 <div class="flex justify-content-start flex-wrap w-full form-container">
-                    <div *ngIf="insuranceId!='100040' && insuranceId!='100042'" class="flex flex-column m-3">
+                    <div class="flex flex-column m-3">
                         <label for="CustomerTitle3">{{'HOME.CustomerTitle' | translate}} *</label>
                         <p-dropdown inputId="CustomerTitle3" 
                             class="w-full" 
@@ -475,19 +440,11 @@
                             [placeholder]="'HOME.SelectCustomerTitle' | translate">
                         </p-dropdown>
                     </div>
-                    <div *ngIf="insuranceId!='100040' && insuranceId!='100042'" class="flex flex-column m-3">
+                    <div class="flex flex-column m-3">
                         <label for="CustomerName5">{{'HOME.CustomerName' | translate}}*</label>
                     <input pInputText id="CustomerName5" maxlength="150" [(ngModel)]="productItem.ClientName" (change)="onsavedatas('Customer',null)" [placeholder]="'HOME.EnterCustomerName' | translate"/>
                     </div>
                     <div class="flex flex-column m-3">
-                        <label for="CustomerName5">{{'HOME.CompanyName' | translate}}*</label>
-                    <input pInputText id="CustomerName5" maxlength="150"  [(ngModel)]="productItem.CompanyName" />
-                    </div>
-                    <div *ngIf="insuranceId=='100040' || insuranceId=='100042'" class="flex flex-column m-3">
-                        <label for="CustomerName5">{{'HOME.Activities' | translate}}</label>
-                    <input pInputText id="CustomerName5" maxlength="150" [(ngModel)]="productItem.Activities" />
-                    </div>
-                    <div *ngIf="insuranceId!='100040' && insuranceId!='100042'" class="flex flex-column m-3">
                         <label for="Occupation2">{{'HOME.Occupation' | translate}} *</label>
                         <p-dropdown inputId="Occupation2" 
                             class="w-full" 
@@ -499,7 +456,7 @@
                             [placeholder]="'HOME.SelectOccupation' | translate" (change)="onsavedatas('Occupation',null)">
                         </p-dropdown>
                     </div>
-                    <div *ngIf="insuranceId!='100040' && insuranceId!='100042'" class="flex flex-column m-3">
+                    <div class="flex flex-column m-3">
                         <label for="BusinessType2">{{'HOME.BusinessType' | translate}} *</label>
                         <p-dropdown inputId="BusinessType2" 
                             class="w-full" 
