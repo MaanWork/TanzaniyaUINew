@@ -1479,15 +1479,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
                     this.classList[i].label = this.classList[i]['CodeDesc'];
                     this.classList[i].value = this.classList[i]['Code'];
                     if (i == this.classList.length-1) {
-                     
-                        console.log("Dropdown List",this.fields)
                         if(this.insuranceId=='100002'|| this.insuranceId=='100044' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020' || this.insuranceId=='100004'){
                           if(this.fields.length!=0){
                             let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
                             for(let field of fieldList){
-                              console.log('Field ',field)
                               if(field.key=='InsuranceClass'){
-                                  field.props.options= defaultObj.concat(this.classList);
+                                field.props.options= defaultObj.concat(this.classList);
                                   this.checkFieldNames();
                               }
                             }
@@ -1497,7 +1494,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   }
                 }
               }
-              
           }
         },
         (err) => { },
@@ -2670,9 +2666,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     let urlLink = `${this.motorApiUrl}api/getallmotordetails`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
-        console.log(data);
         if(data.Result){
-          
             this.vehicleDetailsList = data.Result;
             if(this.vehicleDetailsList.length!=0){
               if(this.vehicleDetailsList[0]?.FinalizeYn!=null){
@@ -2700,7 +2694,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
               for(let veh of this.vehicleDetailsList){
                 veh['Active'] = true;
               }
-              this.getInsuranceClassList();
               if(type=='direct'){
                 if(this.tabIndex==undefined || this.tabIndex==null){
                   let entry = sessionStorage.getItem('BackType');
@@ -5069,7 +5062,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       else if( this.insuranceId=='100042'){fireData = new MotorVehicleSanlamBurkina();}
       else if(this.insuranceId=='100002') { fireData = new MotorVehicleTanzaniya(); this.getInsuranceClassList()}
       else if(this.insuranceId=='100028'){ fireData = new MotorVehicleEagle(); }
-      else if(this.insuranceId=='100044'){ fireData = new MotorVehicleSaudiarabia(); }
+      else if(this.insuranceId=='100044'){ fireData = new MotorVehicleSaudiarabia(); this.getInsuranceClassList()}
       else if(this.insuranceId=='100018'){ fireData = new MotorVehicleOromia();this.getInsuranceClassList()}
       else if(this.insuranceId=='100019'){ fireData = new MotorVehicleUganda();this.getInsuranceClassList()}
       else if(this.insuranceId=='100004'){ fireData = new MotorVehicleMadison();this.getInsuranceClassList()}
