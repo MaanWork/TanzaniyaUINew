@@ -136,7 +136,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			this.productItem.IdType='1';
 		}
 
-	if(this.insuranceId=="100040" || this.insuranceId=="100042"){
+	if(this.insuranceId=="100040"){
 		this.getStateList('direct');
 		this.getRegionList('direct');
 	}
@@ -523,8 +523,11 @@ export class CustomerCreateFormComponent implements OnInit {
 			policyid = data?.IdNumber;
 		}
 		if(this.insuranceId=="100002")data.state=this.productItem.Region;data.RegionCode=this.productItem.Country
-		if(this.insuranceId=="100040" || this.insuranceId=="100042"){
+		if(this.insuranceId=="100040" ){
 			data.state="10001";
+		}
+		else if(this.insuranceId=="100042" ){
+			data.state="99999";
 		}
 		else{
 			data.state=this.productItem.CityName;
@@ -736,6 +739,12 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.genderList = data.Result;
+						if(this.insuranceId=='100004'){
+							this.getOccupationLists('direct');
+						}
+						else {
+							this.getOccupationList();
+						}
 						if(this.insuranceId!='100042'){
 							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
 							for (let i = 0; i < this.genderList.length; i++) {
@@ -746,12 +755,7 @@ export class CustomerCreateFormComponent implements OnInit {
 									for(let field of fieldList){
 										if(field.key=='Gender'){
 											field.props.options = defaultRow.concat(this.genderList);
-											if(this.insuranceId=='100004'){
-												this.getOccupationLists('direct');
-											}
-											else {
-												this.getOccupationList();
-											}
+											
 										}
 									}
 	
@@ -937,7 +941,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			);
 	}
 	getStateList(type) {
-		if(this.insuranceId=="100040" || this.insuranceId=="100042"){this.productItem.state="10001";this.productItem.Country='AGO'}
+		if(this.insuranceId=="100040"){this.productItem.state="10001";this.productItem.Country='AGO'}
 		else{
 			this.productItem.Country=this.productItem.Country;
 		}
@@ -1020,8 +1024,12 @@ export class CustomerCreateFormComponent implements OnInit {
 					this.regionList = data.Result;
 							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
 							//this.regionList = defaultRow.concat(this.regionList);
-							if(type=='change'){this.productItem.state = '';this.productItem.CityName=''};
+							
 							if(this.insuranceId!='100042'){
+								if(type=='change'){
+									this.productItem.state = '';
+									this.productItem.CityName=''
+								};
 								let defaultRow1 = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
 								for (let i = 0; i < this.regionList.length; i++) {
 									this.regionList[i].label = this.regionList[i]['CodeDesc'];
