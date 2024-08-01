@@ -838,6 +838,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               else if(this.userType!='Broker' && this.userType!='User'){ this.issuerSection = true;this.adminSection=false; }
               else this.issuerSection = false
               let motorDetails = JSON.parse(sessionStorage.getItem('VechileDetails'));
+              if(motorDetails) this.vehicleDetails = motorDetails
               this.setTiraVehicleValues(motorDetails);
               //this.setCommonValues(motorDetails);
             }
@@ -1060,19 +1061,22 @@ export class CommonQuoteDetailsComponent implements OnInit {
       // }
       this.onSourceTypeChange('direct');
     }
-    if(entry.CURRENCY_CODE!=null)  this.currencyCode = entry?.CURRENCY_CODE;
+    if(entry.CURRENCY_CODE!=null && entry.CURRENCY_CODE!=undefined)  this.currencyCode = entry?.CURRENCY_CODE;
     else this.currencyCode = this.userDetails.Result.CurrencyId;
     this.onCurrencyChange('direct');
       this.promocode = entry?.PromoCode;
       if(entry.SourceType!=null) this.Code = entry?.SourceType;
       this.customerCode = entry?.CustomerCode;
       this.branchCode = entry.BranchCode;
+      if(this.branchCode==null || this.branchCode==undefined) this.branchCode = '01';
       this.brokerCode = entry.BrokerCode;
       this.brokerBranchCode = entry.BrokerBranchCode;
+      if(this.brokerBranchCode==null || this.brokerBranchCode==undefined) this.branchCode = '1';
       this.executiveValue = entry?.AcExecutiveId;
       this.promocode = null;
       console.log("Final Values",this.brokerList,this.brokerCode)
       this.onSourceTypeChange('direct');
+      if(this.vehicleDetails) this.onSaveSearchVehicles();
       
   }
   getExistingTravelDetails(){
@@ -1912,6 +1916,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         for(let customer of this.vehicleDetailsList) customer['modifiedYN'] = 'Y';
       }
     }
+    if(this.exchangeRate==null) this.exchangeRate='1.0'
   }
   getBorrowerList(){
     if(this.borrowerList.length==0 && this.tabIndex!=0){

@@ -349,6 +349,7 @@ export class TiraSearchComponent implements OnInit {
         this.motorDetails['BrokerCode'] = this.brokerCode;
         this.motorDetails['BranchCode'] = this.branchValue;
         this.motorDetails['BrokerLoginId'] = this.brokerLoginId;
+        if(this.motorDetails.CURRENCY_CODE==null || this.motorDetails.CURRENCY_CODE==undefined) this.motorDetails['CURRENCY_CODE'] = this.userDetails?.Result.CurrencyId
         sessionStorage.setItem('VechileDetails', JSON.stringify(this.motorDetails));
         sessionStorage.setItem('customerReferenceNo',this.motorDetails.PolicyHolderInfo.CustomerReferenceNo);
         sessionStorage.setItem('firstLoad','yes');
