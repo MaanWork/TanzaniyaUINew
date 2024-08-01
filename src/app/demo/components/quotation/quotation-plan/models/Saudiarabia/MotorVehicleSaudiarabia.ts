@@ -26,38 +26,15 @@ export class MotorVehicleSaudiarabia{
               {
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
-                  {
-                    type: 'ngselect',
-                    key: 'InsuranceType',
-                    id: 'InsuranceType',
-                    defaultValue: '',
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
-                    props: {
-                      label: `InsuranceType`,
-                      disabled: this.checkDisable('InsuranceType'),
-                      required: true,
-                      options: [
-      
-                      ],
-      
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
                   // {
                   //   type: 'ngselect',
-                  //   key: 'InsuranceClass',
-                  //   id:'InsuranceClass',
+                  //   key: 'InsuranceType',
+                  //   id: 'InsuranceType',
                   //   defaultValue: '',
                   //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                   //   props: {
-                  //     label: `Insurance Class`,
-                  //     disabled: this.checkDisable('InsuranceClass'),
+                  //     label: `InsuranceType`,
+                  //     disabled: this.checkDisable('InsuranceType'),
                   //     required: true,
                   //     options: [
       
@@ -72,6 +49,29 @@ export class MotorVehicleSaudiarabia{
                   //   expressions: {
                   //   },
                   // },
+                  {
+                    type: 'ngselect',
+                    key: 'InsuranceClass',
+                    id:'InsuranceClass',
+                    defaultValue: '',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
+                    props: {
+                      label: `Insurance Class`,
+                      disabled: this.checkDisable('InsuranceClass'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
                   {
                     type: 'ngselect',
                     key: 'BodyType',
@@ -123,8 +123,8 @@ export class MotorVehicleSaudiarabia{
                     type: 'commaSeparator',
                     key: 'VehicleSI',
                     id: 'VehicleSI',
-                    hide: false,
-                    hideExpression:false,
+                    hide: true,
+                    hideExpression:true,
                     props: {
                       label: `VehicleSI`,
                       maxLength: 15,
@@ -147,8 +147,8 @@ export class MotorVehicleSaudiarabia{
                     type: 'commaSeparator',
                     key: 'AccessoriesSI',
                     id: 'AccessoriesSI',
-                    hide: false,
-                    hideExpression:false,
+                    hide: true,
+                    hideExpression:true,
                     props: {
                       label: `Accessories SumInured`,
                       maxLength: 15,
@@ -171,8 +171,8 @@ export class MotorVehicleSaudiarabia{
                     type: 'commaSeparator',
                     key: 'WindShieldSI',
                     id: 'WindShieldSI',
-                    hide: false,
-                    hideExpression:false,
+                    hide: true,
+                    hideExpression:true,
                     props: {
                       label: `WindShield SumInured`,
                       maxLength: 15,
