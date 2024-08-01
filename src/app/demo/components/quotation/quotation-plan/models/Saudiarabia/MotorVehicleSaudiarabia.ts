@@ -27,27 +27,27 @@ export class MotorVehicleSaudiarabia{
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
                   {
-                  //   type: 'ngselect',
-                  //   key: 'InsuranceType',
-                  //   id: 'InsuranceType',
-                  //   defaultValue: '',
-                  //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
-                  //   props: {
-                  //     label: `InsuranceType`,
-                  //     disabled: this.checkDisable('InsuranceType'),
-                  //     required: true,
-                  //     options: [
+                    type: 'ngselect',
+                    key: 'InsuranceType',
+                    id: 'InsuranceType',
+                    defaultValue: '',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
+                    props: {
+                      label: `InsuranceType`,
+                      disabled: this.checkDisable('InsuranceType'),
+                      required: true,
+                      options: [
       
-                  //     ],
+                      ],
       
-                  //   },
-                  //   validators: {
-                  //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                  //   },
-                  //   hooks: {
-                  //   },
-                  //   expressions: {
-                  //   },
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
                   },
                   {
                     type: 'ngselect',
