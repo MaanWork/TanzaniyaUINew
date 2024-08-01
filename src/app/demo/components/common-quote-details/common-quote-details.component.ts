@@ -2915,7 +2915,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           let deductibles = null;
         if(this.productItem.Deductibles!='' && this.productItem.Deductibles!=undefined) deductibles = this.productItem.Deductibles;
         let insuranceType = [];
-        if(this.insuranceId=='100044'){ this.productItem.InsuranceType = '106';}
+        //if(this.insuranceId=='100044'){ this.productItem.InsuranceType = '106';}
         if((this.insuranceId=='100028' || this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100040') && this.vehicleDetailsList.length==1){
             //if(this.typeValue==null || this.typeValue==undefined){
               for(let entry of this.typeList){
@@ -4166,7 +4166,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           let deductibles = null;
           if(this.productItem.Deductibles!='' && this.productItem.Deductibles!=undefined) deductibles = this.productItem.Deductibles;
           let insuranceType = [];
-          if(this.insuranceId=='100044') this.productItem.InsuranceType = '106';
+          //if(this.insuranceId=='100044') this.productItem.InsuranceType = '106';
           if((this.insuranceId=='100028' || this.insuranceId=='100027') && this.vehicleDetailsList.length==1){
               //if(this.typeValue==null || this.typeValue==undefined){
                 for(let entry of this.typeList){
