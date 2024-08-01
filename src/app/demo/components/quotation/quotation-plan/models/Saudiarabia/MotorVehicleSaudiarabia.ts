@@ -26,7 +26,7 @@ export class MotorVehicleSaudiarabia{
               {
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
-                  // {
+                  {
                   //   type: 'ngselect',
                   //   key: 'InsuranceType',
                   //   id: 'InsuranceType',
@@ -48,7 +48,7 @@ export class MotorVehicleSaudiarabia{
                   //   },
                   //   expressions: {
                   //   },
-                  // },
+                  },
                   {
                     type: 'ngselect',
                     key: 'InsuranceClass',
