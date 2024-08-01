@@ -1363,9 +1363,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 if (i == this.deductiblesList.length - 1) {
                     console.log("Dropdown List",this.fields)
                     let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
-                      for(let field of fieldList){
-                          if(field.key=='Deductibles'){ field.props.options = defaultObj.concat(this.deductiblesList);this.checkFieldNames();}
-                      }
+                    for(let field of fieldList){
+                        if(field.key=='Deductibles'){ field.props.options = defaultObj.concat(this.deductiblesList);this.checkFieldNames();}
+                    }
                 }
               }
             }
@@ -2474,6 +2474,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         }
         else sectionId = null;
       }
+      if(brokerbranchCode==null) brokerbranchCode='1';
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": null,
@@ -2991,6 +2992,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               else sectionId = null;
           }
           if(this.insuranceId=='100040' || this.insuranceId=='100042' || this.insuranceId=='100027') this.typeValue = this.vehicleDetails.InsuranceClass;
+          if(this.insuranceId=='100044') this.productItem.InsuranceClass = '2';
           // if(this.vehicleDetails?.HorsePower==undefined) this.vehicleDetails.HorsePower="10"
           let ReqObj = {
             "HorsePower": this.vehicleDetails.HorsePower,
@@ -4236,6 +4238,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           Insurancetype =insuranceType;
           if(this.motorDetails?.SavedFrom=='SQ') this.motorDetails.SavedFrom = 'WEB';
+          if(this.insuranceId=='100044') this.productItem.InsuranceClass = '2';
           let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,

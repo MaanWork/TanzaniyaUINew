@@ -49,29 +49,29 @@ export class MotorVehicleSaudiarabia{
                     expressions: {
                     },
                   },
-                  {
-                    type: 'ngselect',
-                    key: 'InsuranceClass',
-                    id:'InsuranceClass',
-                    defaultValue: '',
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
-                    props: {
-                      label: `Insurance Class`,
-                      disabled: this.checkDisable('InsuranceClass'),
-                      required: true,
-                      options: [
+                  // {
+                  //   type: 'ngselect',
+                  //   key: 'InsuranceClass',
+                  //   id:'InsuranceClass',
+                  //   defaultValue: '',
+                  //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
+                  //   props: {
+                  //     label: `Insurance Class`,
+                  //     disabled: this.checkDisable('InsuranceClass'),
+                  //     required: true,
+                  //     options: [
       
-                      ],
+                  //     ],
       
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                  //   },
+                  //   validators: {
+                  //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                  //   },
+                  //   hooks: {
+                  //   },
+                  //   expressions: {
+                  //   },
+                  // },
                   {
                     type: 'ngselect',
                     key: 'BodyType',
@@ -120,44 +120,11 @@ export class MotorVehicleSaudiarabia{
                   },
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
-                    key: 'ClaimsYN',
-                    id: 'Claims',
-                    type: 'radioList',
-                    templateOptions: {
-                      type: 'radioList',
-                      required: true,
-                      disabled: this.checkDisable('ClaimsYN'),
-                      name: 'ClaimsYN',
-                    },
-                    props: {
-                      label: 'Claims',
-                      options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
-                    }
-                  },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
-                    key: 'GpsYN',
-                    id: 'GPS',
-                    type: 'radioList',
-                    templateOptions: {
-                      type: 'radioList',
-                      required: true,
-                      disabled: this.checkDisable('ClaimsYN'),
-                      name: 'GpsYN',
-                      
-                    },
-                    props: {
-                      label: 'GPS',
-                      options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
-                    }
-                  },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
                     type: 'commaSeparator',
                     key: 'VehicleSI',
                     id: 'VehicleSI',
-                    hide: true,
-                    hideExpression:true,
+                    hide: false,
+                    hideExpression:false,
                     props: {
                       label: `VehicleSI`,
                       maxLength: 15,
@@ -180,8 +147,8 @@ export class MotorVehicleSaudiarabia{
                     type: 'commaSeparator',
                     key: 'AccessoriesSI',
                     id: 'AccessoriesSI',
-                    hide: true,
-                    hideExpression:true,
+                    hide: false,
+                    hideExpression:false,
                     props: {
                       label: `Accessories SumInured`,
                       maxLength: 15,
@@ -204,8 +171,8 @@ export class MotorVehicleSaudiarabia{
                     type: 'commaSeparator',
                     key: 'WindShieldSI',
                     id: 'WindShieldSI',
-                    hide: true,
-                    hideExpression:true,
+                    hide: false,
+                    hideExpression:false,
                     props: {
                       label: `WindShield SumInured`,
                       maxLength: 15,
@@ -247,7 +214,40 @@ export class MotorVehicleSaudiarabia{
                     },
                     expressions: {
                     },
+                  },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
+                    key: 'ClaimsYN',
+                    id: 'Claims',
+                    type: 'radioList',
+                    templateOptions: {
+                      type: 'radioList',
+                      required: true,
+                      disabled: this.checkDisable('ClaimsYN'),
+                      name: 'ClaimsYN',
+                    },
+                    props: {
+                      label: 'Claims',
+                      options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
+                    }
                   }
+                  // {
+                  //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
+                  //   key: 'GpsYN',
+                  //   id: 'GPS',
+                  //   type: 'radioList',
+                  //   templateOptions: {
+                  //     type: 'radioList',
+                  //     required: true,
+                  //     disabled: this.checkDisable('ClaimsYN'),
+                  //     name: 'GpsYN',
+                      
+                  //   },
+                  //   props: {
+                  //     label: 'GPS',
+                  //     options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
+                  //   }
+                  // },
                 ]
               }
             ]
