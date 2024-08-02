@@ -180,7 +180,11 @@ export class AppTopBarComponent implements OnInit {
         this.getBranchList();
       }
       else {
-        this.router.navigate(['/auth/login/product']);
+        if(this.typeValue=='high'){
+          window.location.reload();
+        }
+        else this.router.navigate(['/auth/login/product']);
+        //this.router.navigate(['/auth/login/product']);
       }
     }
     onRedirect(){
