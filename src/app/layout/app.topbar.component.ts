@@ -181,7 +181,9 @@ export class AppTopBarComponent implements OnInit {
       }
       else {
         if(this.typeValue=='high'){
-          window.location.reload();
+          let url = String(window.location.href).split('#');
+          if(url[1]!='/'){sessionStorage.setItem('reloadOnce','true'); this.router.navigate(['/']);}
+          else window.location.reload();
         }
         else this.router.navigate(['/auth/login/product']);
         //this.router.navigate(['/auth/login/product']);

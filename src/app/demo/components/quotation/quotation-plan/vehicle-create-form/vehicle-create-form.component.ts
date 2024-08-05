@@ -361,7 +361,7 @@ export class VehicleCreateFormComponent implements OnInit {
           this.brokerCode = this.commonDetails?.BrokerCode;
           brokerbranchCode =  this.commonDetails?.BrokerBranchCode;
           this.customerName = this.commonDetails?.CustomerName;
-          loginId = this.commonDetails?.LoginId;
+         if(loginId==null) loginId = this.commonDetails?.LoginId;
       }
       else {
         this.sourceType = this.subuserType;
@@ -496,6 +496,8 @@ export class VehicleCreateFormComponent implements OnInit {
           }
         }
         if(this.vehicleDetails?.SavedFrom=='SQ') this.vehicleDetails.SavedFrom = 'WEB';
+        if(this.branchCode==null || this.branchCode==undefined) this.branchCode = '01';
+        if(brokerbranchCode==null || brokerbranchCode==undefined) brokerbranchCode = '1';
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": this.vehicleDetails?.AcExecutiveId,
