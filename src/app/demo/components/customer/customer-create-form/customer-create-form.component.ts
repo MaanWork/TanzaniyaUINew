@@ -1608,7 +1608,6 @@ getType3(type){
 			  if (i == this.titleList.length - 1) {
 				  let fieldList=this.personalInfoFields[0].fieldGroup;
 				  for(let field of fieldList){
-					alert(field.key)
 					  if(field.key=='Title'){
 						  field.props.options = defaultRow.concat(this.titleList);
 					  }
