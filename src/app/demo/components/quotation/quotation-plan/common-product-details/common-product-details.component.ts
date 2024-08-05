@@ -1351,7 +1351,10 @@ export class CommonProductDetailsComponent {
         
         if(this.productId=='46') build['RiskId'] = '1';
         let sectionId = '';
+        let locationId = '1';
+        if(build.LocationId!=null && build.LocationId!=undefined) locationId=build.LocationId;
         let ReqObj = {
+          "LocationId" : locationId,
           "InsuranceId": this.insuranceId,
           "BranchCode": this.branchCode,
           "AgencyCode": this.agencyCode,
@@ -2561,7 +2564,11 @@ export class CommonProductDetailsComponent {
                   this.policyStartDate = vehicleDetails[0].PolicyStartDate;
                   this.policyEndDate = vehicleDetails[0].PolicyEndDate;
                   this.sourceType = vehicleDetails[0]?.SourceTypeId;
-
+                  this.sourceCodeDesc=vehicleDetails[0]?.SourceType
+                  this.Code= vehicleDetails[0]?.SourceTypeId;
+                  if(this.Code)this.onSourceTypeChange('direct')
+                  this.customerCode=vehicleDetails[0]?.CustomerCode;
+                  this.customerName = vehicleDetails[0]?.CustomerName;
                   this.vehicleId = vehicleDetails[0].Vehicleid;
                 }
                 this.totalIndex = this.vehicleDetailsList.length;
@@ -3061,7 +3068,10 @@ getCoverList(coverListObj) {
   if (groupList.length != 0) {
     let i = 0;
     for (let group of groupList) {
+      let locationId = '1';
+        if(group.LocationId!=null && group.LocationId!=undefined) locationId=group.LocationId;
       let ReqObj = {
+        "LocationId" : locationId,
         "InsuranceId": this.insuranceId,
         "BranchCode": this.branchCode,
         "AgencyCode": this.agencyCode,
@@ -4133,10 +4143,10 @@ backPlan()
         || this.productId=='32' || this.productId=='1' || this.productId=='26' || this.productId=='21' || this.productId == '25'
          || this.productId=='42' || this.productId=='59' || this.productId=='24' || this.productId=='43') 
          urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
+      else if(this.productId=='63')  urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
       else urlLink =  `${this.motorApiUrl}api/geteservicebyriskid`;
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
-          console.log(data);
           if(data.Result){
             if(data.Result){
                 let entry:any;
@@ -5436,6 +5446,7 @@ backPlan()
       this.currencyCodeError = true;
       i+=1;
     }
+   
     if(this.exchangeRate==null || this.exchangeRate==undefined || this.exchangeRate==''){
       this.exchangeRateError = true;
       i+=1;
@@ -5827,7 +5838,7 @@ console.log('Eventsss',event);
     else if(this.productId=='26'){this.onSaveBussinessrisk('proceed','individual');}
     else if(this.productId=='25'){this.onSaveElectronicEquipment('proceed','individual')}
     else if(this.productId=='32'){ this.onsubmitnewfed();}
-    else if(this.productId == '59' || this.productId == '56' || this.productId=='60' || this.productId=='24'){
+    else if(this.productId == '59' || this.productId == '56' || this.productId=='60' || this.productId=='24' || this.productId=='63'){
       this.onFinalProceed();
       // let i=0;
       // if(this.colorSections.length!=0){
@@ -5932,7 +5943,7 @@ console.log('Eventsss',event);
         }
       }
       if(this.userType!='Broker' && this.userType!='User'){
-
+          this.sourceType = this.Code
       }
       else {
         this.sourceType = this.subuserType;
@@ -7012,7 +7023,10 @@ finalSaveMoney(finalList,type,formType) {
           let dateList = String(date).split('/');
           if(dateList.length==1) endDate = this.datePipe.transform(String(date),'dd/MM/yyyy');
           else endDate = date; 
+        let locationId = '1';
+        if(build.LocationId!=null && build.LocationId!=undefined) locationId=build.LocationId;
         let ReqObj = {
+          "LocationId" : locationId,
           "InsuranceId": this.insuranceId,
           "BranchCode": this.branchCode,
           "AgencyCode": this.agencyCode,
@@ -7075,6 +7089,32 @@ finalSaveMoney(finalList,type,formType) {
     if(this.productId=='59' || this.productId=='56' || this.productId=='60' || this.productId=='24'){
       sessionStorage.setItem('Buildings',this.BuildingOwnerYn);
       sessionStorage.setItem('coversRequired',this.coversRequired)
+      this.router.navigate(['/quotation/plan/risk-page']);
+    }
+    else if(this.productId=='63'){
+      this.commonDetails = [
+        {
+            "PolicyStartDate": this.policyStartDate,
+            "PolicyEndDate": this.policyEndDate,
+            "Currency": this.currencyCode,
+            "SectionId": null,
+            "AcexecutiveId": "",
+            "ExchangeRate": this.exchangeRate,
+            "StateExtent": "",
+            "NoOfDays": null,
+            "HavePromoCode": this.promocode,
+            "PromoCode": this.promocode,
+            "SourceType": this.Code,
+            "BrokerCode": this.brokerCode,
+            "BranchCode": this.branchCode,
+            "BrokerBranchCode": this.brokerBranchCode,
+            "CustomerCode": this.customerCode,
+            "CustomerName": this.customerName,
+            "LoginId": null,
+            "IndustryName": null
+        }
+      ]
+      sessionStorage.setItem('homeCommonDetails', JSON.stringify(this.commonDetails))
       this.router.navigate(['/quotation/plan/risk-page']);
     }
     else {
@@ -7322,7 +7362,6 @@ finalSaveMoney(finalList,type,formType) {
     this.LocationList.push(location);
   }
   openconfrim(i){
-    alert(i)
     if(this.LocationList.length==1){
         this.local=false;
     }
