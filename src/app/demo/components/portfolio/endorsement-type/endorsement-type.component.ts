@@ -110,7 +110,7 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
       if(date2<date1 || date2==date1){
         this.minDate = new Date();
       }
-      else if((this.endorsementId=42 || this.endorsementId==842) && date2>date1){
+      else if((this.endorsementId==42 || this.endorsementId==842) && date2>date1){
         this.minDate = new Date(); 
       }
       else{this.minDate = new Date(date2);}
@@ -1520,6 +1520,7 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
                 "WindScreenSumInsured": vehicleDetails?.WindScreenSumInsured,
                 "Windscreencoverrequired": null,
                 "accident": null,
+                "SearchFromApi": false,
                 "periodOfInsurance": this.noOfDays,
                 "PolicyStartDate": startDate,
                 "PolicyEndDate": endDate,

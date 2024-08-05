@@ -8,6 +8,19 @@ import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 import { AppComponent } from 'src/app/app.component';
+import { CustomerTanzaniya } from '../../quotation/quotation-plan/models/Tanzaniya/CustomerTanzaniya';
+import { FormGroup } from '@angular/forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { Region } from '../../Admin/Masters/region/new-regiondetails/regionModal';
+import { CustomerIvory } from '../../quotation/quotation-plan/models/sanlamIvory/CustomerIvory';
+import { CustomerBurkina } from '../../quotation/quotation-plan/models/sanlamBurkina/CustomerBurkina';
+import { CustomerSanlam } from '../../quotation/quotation-plan/models/sanlam/CustomerSanlam';
+import { CustomerOromia } from '../../quotation/quotation-plan/models/Oromia/CustomerOromia';
+import { CustomerUganda } from '../../quotation/quotation-plan/models/Uganda/CustomerUganda';
+import { CustomerEagle } from '../../quotation/quotation-plan/models/Eagle/CustomerEagle';
+import { CustomerMadison } from '../../quotation/quotation-plan/models/Madison/CustomerMadison';
+import { CustomerKenya } from '../../quotation/quotation-plan/models/Kenya/CustomerKenya';
+import { CustomerSaudiarabia } from '../../quotation/quotation-plan/models/Saudiarabia/CustomerSaudiarabia';
 @Component({
   selector: 'app-customer-create-form',
   templateUrl: './customer-create-form.component.html',
@@ -41,15 +54,17 @@ export class CustomerCreateFormComponent implements OnInit {
   customerReferenceNo:any=null;titleList:any[]=[];
   regionList:any[]=[];stateList:any[]=[];enableFieldsList:any[]=[];
   countryList:any[]=[];genderList:any[]=[];
-  occupationList:any[]=[];mobileCodeList:any[]=[];
+  occupationList:any[]=[];mobileCodeList:any[]=[];personalInfoFields:any[]=[]
   businessTypeList:any[]=[];productItem:any=null;endorsementName:any=null;
   policyHolderTypeList:any[]=[];dob:any=null;stateOptions: any[]=[];
   value1: string = 'en';final1: boolean=false;final2: any=false;final3: any=false;final4: any=false;final5: any=false;
   final6: any=false;final7: any=false;endorseCategory:any=null;
   shows: boolean=false;final:boolean=false;endorsementId:any=null;
 	Idnumber: any;shortQuoteYN:boolean=false;enableCustomerDetails:boolean=false;
-	Idnumber1: any;endorsementSection:boolean=false;
+	Idnumber1: any;endorsementSection:boolean=false;additionalInfoFields:any[]=[];addressInfoFields:any[]=[];
 	Idnumber2: any;lang:any=null;
+	public form = new FormGroup({});
+	fields: any[]=[];
   constructor(private confirmationService: ConfirmationService, private sharedService: SharedService,private datePipe: DatePipe,
     private messageService: MessageService, private router: Router, private translate: TranslateService,private appComp:AppComponent,
     private primeNGConfig: PrimeNGConfig) {
@@ -103,6 +118,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			{ CodeDesc: 'Mail', Code: 'Mail','CodeDescLocal':'E-mail -P' },
 			{ CodeDesc: 'Whatsapp', Code: 'Whatsapp','CodeDescLocal':'Whatsapp -P' }
 		];
+		
 		this.taxExcemptedList = [
 			{ CodeDesc: '-Select-', Code: '','CodeDescLocal':'Selecione' },
 			{ CodeDesc: 'Yes', Code: 'Y','CodeDescLocal':'Sim' },
@@ -119,20 +135,11 @@ export class CustomerCreateFormComponent implements OnInit {
 			this.productItem = new ProductData()
 			this.productItem.IdType='1';
 		}
-      //this.getTitleList();
-      this.getCountryList();
-      this.getGenderList();
-      //this.getOccupationList();
-      this.getBusinessTypeList();
-      this.getMobileCodeList();
-      this.getPolicyHolderList('change');
-	  if(this.insuranceId=='100004'){
-		this.getType3('direct');
-	
+
+	if(this.insuranceId=="100040"){
+		this.getStateList('direct');
+		this.getRegionList('direct');
 	}
-		else {
-			this.getTitleList();
-		}
     }
 	getHeaders(codeDesc){
 		return 'HOME.'+codeDesc
@@ -144,6 +151,7 @@ export class CustomerCreateFormComponent implements OnInit {
 	onLanguageChange(item: any) {
 		this.translate.use(item.value);
 	}
+	
 	getTitleList(){
 		let ReqObj = {
 				"InsuranceId": this.insuranceId,
@@ -153,9 +161,22 @@ export class CustomerCreateFormComponent implements OnInit {
 			this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
 				(data: any) => {
 					if (data.Result) {
-						let obj = [{ "Code": '', "CodeDesc": "-Select-", 'CodeDescLocal':'-Selecione-' }]
-						this.titleList = obj.concat(data.Result);
-						
+						this.titleList = data.Result;
+						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
+							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+							for (let i = 0; i < this.titleList.length; i++) {
+								this.titleList[i].label = this.titleList[i]['CodeDesc'];
+								this.titleList[i].value = this.titleList[i]['Code'];
+								if (i == this.titleList.length - 1) {
+									let fieldList=this.personalInfoFields[0].fieldGroup;
+									for(let field of fieldList){
+										if(field.key=='Title'){
+											field.props.options = defaultRow.concat(this.titleList);
+										}
+									}
+								}
+							}
+						}
 					}
 				},
 				(err) => { },
@@ -165,6 +186,7 @@ export class CustomerCreateFormComponent implements OnInit {
 		
 	}
 	ngOnInit(): void {
+		
 		let endorseObj = JSON.parse(sessionStorage.getItem('endorseTypeId'))
 		if(endorseObj){
 			this.endorsementSection = true;
@@ -183,12 +205,228 @@ export class CustomerCreateFormComponent implements OnInit {
 		this.primeNGConfig.ripple = true;
 		this.ownerCategoryOptions = [{name: 'Category', code: 'category'}];
 		this.customerTypes = [{label: 'Personal', value: 'personal'}, {label: 'Corporate', value: 'corporate'}];
+		this.personalInfoFields = [];
+    	let fireData:any=null,fireData2:any=null;
+		if(this.insuranceId=='100002'){
+			fireData = new CustomerTanzaniya();
+		}
+		// if(this.insuranceId=='100040'){
+		// 	fireData = new CustomerIvory();
+		// }
+		// if(this.insuranceId=='100042'){
+		// 	fireData = new CustomerBurkina();
+		// }
+		if(this.insuranceId=='100027'){
+			fireData = new CustomerSanlam();
+		}
+		if(this.insuranceId=='100028'){
+			fireData = new CustomerEagle();
+		}
+		if(this.insuranceId=='100018'){
+			fireData = new CustomerOromia();
+		}
+		if(this.insuranceId=='100019'){
+			fireData = new CustomerUganda();
+		}
+		if(this.insuranceId=='100004'){
+			fireData = new CustomerMadison();
+		}
+		if(this.insuranceId=='100020'){
+			fireData = new CustomerKenya();
+		}
+		if(this.insuranceId=='100044'){
+			fireData = new CustomerSaudiarabia();
+		}
 		
+		this.personalInfoFields[0] = fireData?.fields?.fieldGroup[0];
+		this.additionalInfoFields[0] = fireData?.fields?.fieldGroup[1];
+		this.addressInfoFields[0] = fireData?.fields?.fieldGroup[2];
+		
+		
+		this.getCountryList();
+		
+		this.getGenderList();
+		//this.getOccupationList();
+		this.getBusinessTypeList();
+		this.getMobileCodeList();
+		this.getPolicyHolderList('change');
+		if(this.insuranceId=='100002' || this.insuranceId=='100044'){
+			let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
+				field.form.controls['Country'].valueChanges.subscribe(() => {
+				  this.getRegionList('change')
+				 });
+			  }
+			}
+			let regionHooks1 ={ onInit: (field: FormlyFieldConfig) => {
+				field.form.controls['Region'].valueChanges.subscribe(() => {
+				  this.getStateList('change')
+				 });
+			  }
+			}
+			let fieldList=this.addressInfoFields[0].fieldGroup;
+				for(let field of fieldList){
+					if(field.key=='Country'){
+						field.hooks = regionHooks;
+					}
+					if(field.key=='Region'){
+						field.hooks = regionHooks1;
+					}
+				}
+			}
+		if(this.insuranceId=='100004'){
+		  this.getType3('direct');
+	  
+		}
+		else {
+			this.getTitleList();
+		}
+
+		this.appComp.getLanguage().subscribe((res:any)=>{  
+			if(res) this.lang=res;
+			else this.lang='en';
+			this.translate.setDefaultLang(this.lang);this.checkFieldNames();
+		  });
+		if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
+		else this.lang='en';
+		sessionStorage.setItem('language',this.lang);this.checkFieldNames();
+		this.translate.setDefaultLang(sessionStorage.getItem('language'));}
 	}
+
 	getDisplayName(){
 		if(this.lang=='en') return 'CodeDesc';
 		else return 'CodeDescLocal'
 	}
+
+
+	checkFieldNames(){
+		if(this.personalInfoFields.length!=0){
+		  let fieldList = this.personalInfoFields[0].fieldGroup;
+		  console.log(fieldList+"fieldList");
+		  
+		  let i=0;
+		  for(let field of fieldList){
+			let key =null;
+			if(field.id) key=field.id
+			else key = field.key
+			this.translate.get('HOME.'+key).subscribe((translation: string) => {
+			  if(field.props){
+				field.props.label = translation;
+				if(field.props.options){
+				  for(let entry of field.props.options){
+					if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+					  entry['CodeDescLocal'] = 'Other';
+					}
+					if(this.lang=='en') entry['label'] = entry.CodeDesc
+					else entry['label'] = entry.CodeDescLocal
+				  }
+				}
+			  }
+			  else if(field.templateOptions){
+				field.templateOptions.label = translation;
+				// if(field.templateOptions.options){
+				//   for(let entry of field.templateOptions.options){
+				//     if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+				//       entry['CodeDescLocal'] = 'Other';
+				//     }
+				//     if(this.lang=='en') entry['label'] = entry.CodeDesc
+				//     else entry['label'] = entry.CodeDescLocal
+				//   }
+				// }
+			  }
+			});
+			i+=1;
+			if(i==fieldList.length)  console.log('Final Field Lang',fieldList);
+		  }
+		}
+		if(this.additionalInfoFields.length!=0){
+			let fieldList = this.additionalInfoFields[0].fieldGroup;
+			console.log(fieldList+"fieldList");
+			
+			let i=0;
+			for(let field of fieldList){
+			  let key =null;
+			  if(field.id) key=field.id
+			  else key = field.key
+			  this.translate.get('HOME.'+key).subscribe((translation: string) => {
+				if(field.props){
+				  field.props.label = translation;
+				  if(field.props.options){
+					for(let entry of field.props.options){
+					  if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+						entry['CodeDescLocal'] = 'Other';
+					  }
+					  if(this.lang=='en') entry['label'] = entry.CodeDesc
+					  else entry['label'] = entry.CodeDescLocal
+					}
+				  }
+				}
+				else if(field.templateOptions){
+				  field.templateOptions.label = translation;
+				  // if(field.templateOptions.options){
+				  //   for(let entry of field.templateOptions.options){
+				  //     if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+				  //       entry['CodeDescLocal'] = 'Other';
+				  //     }
+				  //     if(this.lang=='en') entry['label'] = entry.CodeDesc
+				  //     else entry['label'] = entry.CodeDescLocal
+				  //   }
+				  // }
+				}
+			  });
+			  i+=1;
+			  if(i==fieldList.length)  console.log('Final Field Lang',fieldList);
+			}
+		  }
+		  if(this.addressInfoFields.length!=0){
+			let fieldList = this.addressInfoFields[0].fieldGroup;
+			console.log(fieldList+"fieldList");
+			
+			let i=0;
+			for(let field of fieldList){
+			  let key =null;
+			  if(field.id) key=field.id
+			  else key = field.key
+			  this.translate.get('HOME.'+key).subscribe((translation: string) => {
+				if(field.props){
+				  field.props.label = translation;
+				  if(field.props.options){
+					for(let entry of field.props.options){
+					  if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+						entry['CodeDescLocal'] = 'Other';
+					  }
+					  if(this.lang=='en') entry['label'] = entry.CodeDesc
+					  else entry['label'] = entry.CodeDescLocal
+					}
+				  }
+				}
+				else if(field.templateOptions){
+				  field.templateOptions.label = translation;
+				  // if(field.templateOptions.options){
+				  //   for(let entry of field.templateOptions.options){
+				  //     if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+				  //       entry['CodeDescLocal'] = 'Other';
+				  //     }
+				  //     if(this.lang=='en') entry['label'] = entry.CodeDesc
+				  //     else entry['label'] = entry.CodeDescLocal
+				  //   }
+				  // }
+				}
+			  });
+			  i+=1;
+			  if(i==fieldList.length)  console.log('Final Field Lang',fieldList);
+			}
+		  }
+	  }
+	  
+	 ongetBack(){
+		let entry = sessionStorage.getItem('PageFrom');
+		if(entry=='yakeen'){
+		this.router.navigate(['/yakeenSearch'])
+		}
+		else{this.router.navigate(['/customer'])}
+	}
+	
+	
   	public async onSubmit(data) {
 		console.log("Total Data", data);
 		this.messages=[];
@@ -266,7 +504,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			}
 		}
 		if(data.IdType=='1'){
-			if(this.productItem?.PolicyHolderTypeid=='1'){
+			if(this.productItem?.PolicyHolderTypeid=='1' && this.insuranceId=='100004'){
 			  if(this.productItem.IdNumber!=null && this.productItem.IdNumber!=''){
 				let year = this.productItem.IdNumber.substr(0, 4);
 				let month = this.productItem.IdNumber.substr(4,2);
@@ -278,13 +516,26 @@ export class CustomerCreateFormComponent implements OnInit {
 			}
 		  }
 		let policyid:any;
-		if(data?.PolicyHolderTypeid == '1'){
+		if(data?.PolicyHolderTypeid == '1' && this.insuranceId=='100004'){
          policyid = this.Idnumber.concat(this.Idnumber1).concat(this.Idnumber2);
 		}
 		else{
 			policyid = data?.IdNumber;
 		}
-		
+		if(this.insuranceId=="100002")data.state=this.productItem.Region;data.RegionCode=this.productItem.Country
+		// if(this.insuranceId=="100040" ){
+		// 	data.state="10001";
+		// }
+		if(this.insuranceId=="100042" ){
+			data.state="99999";
+		}
+		else{
+			data.state=this.productItem.CityName;
+		}
+		if(this.productItem.IdType=='2' || this.productItem.IdType==2){
+			data.Title='1';
+			data.ClientName=data?.CompanyName;
+		}
 		let ReqObj = {
 			"BrokerBranchCode": this.brokerbranchCode,
 			"CustomerReferenceNo": this.customerReferenceNo,
@@ -320,7 +571,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			"PolicyHolderType": data.IdType,
 			"PolicyHolderTypeid": data?.PolicyHolderTypeid,
 			"PreferredNotification": data?.PreferredNotification,
-			"RegionCode": "01",
+			"RegionCode": data?.RegionCode,
 			"MobileCode1": data?.MobileCode,
 			"WhatsappCode": data?.MobileCode,
 			"MobileCodeDesc1": "1",
@@ -342,6 +593,9 @@ export class CustomerCreateFormComponent implements OnInit {
 			"MiddleName":data?.MiddleName,
 			"LastName":data?.LastName,
 			"Zone":"1",
+			"SocioProfessionalCategory":data?.SocioProfessional,
+			// "CompanyName":data?.CompanyName, 
+			"Activities":data?.Activities
 		}
 		let quoteNo = sessionStorage.getItem('quoteNo'),refNo = null;
 		if(this.loginType=='B2CFlow' || (this.loginType=='B2CFlow2')){
@@ -449,8 +703,22 @@ export class CustomerCreateFormComponent implements OnInit {
 					if (data.Result) {
 						//this.holderTypeValue = null;
 						this.policyHolderTypeList = data.Result;
-						let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
-						this.policyHolderTypeList = defaultRow.concat(this.policyHolderTypeList)
+						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
+							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+							for (let i = 0; i < this.policyHolderTypeList.length; i++) {
+								this.policyHolderTypeList[i].label = this.policyHolderTypeList[i]['CodeDesc'];
+								this.policyHolderTypeList[i].value = this.policyHolderTypeList[i]['Code'];
+								if (i == this.policyHolderTypeList.length - 1) {
+									let fieldList=this.additionalInfoFields[0].fieldGroup;
+									for(let field of fieldList){
+										if(field.key=='PolicyHolderTypeid'){
+											field.props.options = defaultRow.concat(this.policyHolderTypeList);
+										}
+									}
+								}
+							}
+						}
+						
 						//this.fields[0].fieldGroup[0].fieldGroup[1].fieldGroup[0].props.options = defaultRow.concat(this.policyHolderTypeList);
 						if (type == 'change'){this.dob = "";this.productItem.PolicyHolderTypeid='';
 						//this.productItem.IdNumber=null
@@ -471,14 +739,30 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.genderList = data.Result;
-						let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
-						this.genderList = defaultRow.concat(this.genderList);
 						if(this.insuranceId=='100004'){
 							this.getOccupationLists('direct');
 						}
 						else {
 							this.getOccupationList();
 						}
+						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
+							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+							for (let i = 0; i < this.genderList.length; i++) {
+								this.genderList[i].label = this.genderList[i]['CodeDesc'];
+								this.genderList[i].value = this.genderList[i]['Code'];
+								if (i == this.genderList.length - 1) {
+									let fieldList=this.personalInfoFields[0].fieldGroup;
+									for(let field of fieldList){
+										if(field.key=='Gender'){
+											field.props.options = defaultRow.concat(this.genderList);
+											
+										}
+									}
+	
+								}
+							}
+						}
+						
 						
 						//this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[2].props.options = defaultRow.concat(this.genderList);
 						
@@ -498,11 +782,31 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.countryList = data.Result;
-								let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
-								this.countryList = defaultRow.concat(this.countryList);
-								//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[6].props.options = defaultRow.concat(this.countryList);
-								
-						//this.getGenderList();
+						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
+							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+							//this.countryList = defaultRow.concat(this.countryList);
+							for (let i = 0; i < this.countryList.length; i++) {
+								this.countryList[i].label = this.countryList[i]['CodeDesc'];
+								this.countryList[i].value = this.countryList[i]['Code'];
+								if (i == this.countryList.length - 1) {
+									let fieldList=this.addressInfoFields[0].fieldGroup;
+									let fieldList1=this.personalInfoFields[0].fieldGroup;
+									for(let field of fieldList){
+										if(field.key=='Country'){
+											field.props.options = this.countryList;
+										}
+										
+									}
+									for(let field of fieldList1){
+										
+										if(field.key=='Nationality'){
+											field.props.options = this.countryList;
+										}
+									}
+	
+								}
+							}
+						}
 					}
 				},
 				(err) => { },
@@ -519,8 +823,19 @@ export class CustomerCreateFormComponent implements OnInit {
 				console.log(data);
 				if (data.Result) {
 					this.occupationList = data.Result;
-							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
-							this.occupationList = defaultRow.concat(this.occupationList)
+					let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+					for (let i = 0; i < this.occupationList.length; i++) {
+						this.occupationList[i].label = this.occupationList[i]['CodeDesc'];
+						this.occupationList[i].value = this.occupationList[i]['Code'];
+						if (i == this.occupationList.length - 1) {
+							let fieldList=this.personalInfoFields[0].fieldGroup;
+							for(let field of fieldList){
+								if(field.key=='Occupation'){
+									field.props.options = defaultRow.concat(this.occupationList);
+								}
+							}
+						}
+					}
 							//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[0].props.options = defaultRow.concat(this.occupationList);
 							
 							//this.getBusinessTypeList();
@@ -540,8 +855,22 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.businessTypeList = data.Result;
-						let defaulObj = [{ 'CodeDesc': '-Select-', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
-						this.businessTypeList = defaulObj.concat(this.businessTypeList);
+						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
+							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+							for (let i = 0; i < this.businessTypeList.length; i++) {
+								this.businessTypeList[i].label = this.businessTypeList[i]['CodeDesc'];
+								this.businessTypeList[i].value = this.businessTypeList[i]['Code'];
+								if (i == this.businessTypeList.length - 1) {
+									let fieldList=this.personalInfoFields[0].fieldGroup;
+									for(let field of fieldList){
+										if(field.key=='BusinessType'){
+											field.props.options = defaultRow.concat(this.businessTypeList);
+										}
+									}
+								}
+							}
+						}
+						
 						//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[10].props.options = defaulObj.concat(this.businessTypeList);
 						
 						
@@ -557,9 +886,23 @@ export class CustomerCreateFormComponent implements OnInit {
 				(data: any) => {
 					console.log(data);
 					if (data.Result) {
-
-						let obj = [{ "Code": '', "CodeDesc": "-Select-", 'CodeDescLocal':'-Selecione-' }]
-						this.mobileCodeList = obj.concat(data.Result);
+						this.mobileCodeList = data.Result;
+						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
+							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+							for (let i = 0; i < this.mobileCodeList.length; i++) {
+								this.mobileCodeList[i].label = this.mobileCodeList[i]['CodeDesc'];
+								this.mobileCodeList[i].value = this.mobileCodeList[i]['Code'];
+								if (i == this.mobileCodeList.length - 1) {
+									let fieldList=this.personalInfoFields[0].fieldGroup;
+									for(let field of fieldList){
+										if(field.key=='MobileCode'){
+											field.props.options = defaultRow.concat(this.mobileCodeList);
+										}
+									}
+								}
+							}
+						}
+						
 								if (this.customerReferenceNo) {
 									this.setValues();
 								}
@@ -598,6 +941,11 @@ export class CustomerCreateFormComponent implements OnInit {
 			);
 	}
 	getStateList(type) {
+		if(this.insuranceId=="100040"){this.productItem.state="10001";this.productItem.Country='AGO'}
+		else{
+			this.productItem.Country=this.productItem.Country;
+		}
+		if(this.insuranceId=='100002' || this.insuranceId=='100044')this.productItem.state=this.productItem.Region;
 			let ReqObj = {
 				"CountryId": this.productItem.Country,
 				"RegionCode": this.productItem.state
@@ -608,12 +956,28 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.stateList = data.Result;
-								let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
-								//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[8].props.options = defaultRow.concat(this.stateList);
-								this.stateList = defaultRow.concat(this.stateList)
-								if(type=='change'){ this.productItem.CityName = '';}
-								// this.getGenderList();
-						//this.getCityList();
+						let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
+						//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[8].props.options = defaultRow.concat(this.stateList);
+						//this.stateList = defaultRow.concat(this.stateList)
+						if(type=='change'){ this.productItem.CityName = '';}
+						if(type=='change'){this.productItem.state = '';this.productItem.CityName=''};
+						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
+							let defaultRow1 = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+							for (let i = 0; i < this.stateList.length; i++) {
+								this.stateList[i].label = this.stateList[i]['CodeDesc'];
+								this.stateList[i].value = this.stateList[i]['Code'];
+								if (i == this.stateList.length - 1) {
+									let fieldList=this.addressInfoFields[0].fieldGroup;
+									for(let field of fieldList){
+										if(field.key=='CityName'){
+											field.props.options = defaultRow1.concat(this.stateList);
+										}
+									}
+
+								}
+							}
+						}
+								
 					}
 				},
 				(err) => { },
@@ -659,11 +1023,29 @@ export class CustomerCreateFormComponent implements OnInit {
 				if (data.Result) {
 					this.regionList = data.Result;
 							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
-							this.regionList = defaultRow.concat(this.regionList);
-							if(type=='change'){this.productItem.state = '';this.productItem.CityName=''};
-							//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[7].props.options = defaultRow.concat(this.regionList);
-
-					//this.getCityList();
+							//this.regionList = defaultRow.concat(this.regionList);
+							
+							if(this.insuranceId!='100042' && this.insuranceId!='100040'){
+								if(type=='change'){
+									this.productItem.state = '';
+									this.productItem.CityName=''
+								};
+								let defaultRow1 = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+								for (let i = 0; i < this.regionList.length; i++) {
+									this.regionList[i].label = this.regionList[i]['CodeDesc'];
+									this.regionList[i].value = this.regionList[i]['Code'];
+									if (i == this.regionList.length - 1) {
+										let fieldList=this.addressInfoFields[0].fieldGroup;
+										for(let field of fieldList){
+											if(field.key=='Region'){
+												field.props.options = defaultRow1.concat(this.regionList);
+											}
+										}
+	
+									}
+								}
+							}
+							
 				}
 			},
 			(err) => { },
@@ -683,6 +1065,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					this.productItem.ClientName = customerDetails.ClientName;
 					this.productItem.MiddleName = customerDetails.MiddleName;
 					this.productItem.LastName = customerDetails.LastName;
+					
 					// if(customerDetails.AppointmentDate!=null && customerDetails.AppointmentDate!=undefined){
 					// 	var dateParts = customerDetails.AppointmentDate.split("/");
 					// 	 this.productItem.AppointmentDate = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
@@ -741,16 +1124,17 @@ export class CustomerCreateFormComponent implements OnInit {
 					}
 					this.getStateList(null);
 					this.getRegionList(null);
-					if (customerDetails.DobOrRegDate != null && customerDetails.DobOrRegDate != undefined) {
-						if(new Date(this.maxDobDate).setHours(0,0,0,0) >= (new Date(customerDetails.DobOrRegDate)).setHours(0,0,0,0) ){
-							var dateParts = customerDetails.DobOrRegDate.split("/");
-							this.productItem.dobOrRegDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
-						}
-						else{
-							var dateParts = customerDetails.DobOrRegDate.split("/");
-							this.productItem.dobOrRegDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
-						}
-					}
+					// if (customerDetails.DobOrRegDate != null && customerDetails.DobOrRegDate != undefined) {
+					// 	if(new Date(this.maxDobDate).setHours(0,0,0,0) >= (new Date(customerDetails.DobOrRegDate)).setHours(0,0,0,0) ){
+					// 		var dateParts = customerDetails.DobOrRegDate.split("/");
+					// 		this.productItem.dobOrRegDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
+					// 	}
+					// 	else{
+					// 		var dateParts = customerDetails.DobOrRegDate.split("/");
+					// 		this.productItem.dobOrRegDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
+					// 	}
+					// }
+					this.productItem.DobOrRegDate=customerDetails.DobOrRegDate;
 					this.productItem.Street = customerDetails.Street;
 					this.productItem.TelephoneNo = customerDetails.TelephoneNo1;
 					if(this.shortQuoteYN && customerDetails.Occupation=='99999') this.productItem.Occupation = '';
@@ -1099,8 +1483,50 @@ export class CustomerCreateFormComponent implements OnInit {
 	  this.getOccupationLists('change');
 	if(this.insuranceId=='100004'){
 		this.getType3('change');
+	} 
+	let fieldList=this.additionalInfoFields[0].fieldGroup;
+	let fieldList1=this.personalInfoFields[0].fieldGroup;
+	for(let field of fieldList1){
+		if(this.productItem.IdType=='2' || this.productItem.IdType==2){
+		if(field.key=='BusinessType' || field.key=='CompanyName'  ){
+			field.hide=false;field.hideExpression=false;
+		}
 		
+		if(field.key=='ClientName' || field.key=='Title' || field.key=='Gender' || field.key=='dobOrRegDate' || field.key=='Nationality'
+			|| field.key=='SocioProfessionalcategory' 
+		)
+			{
+				field.hide=true;field.hideExpression=true;
+			}
+			
+		}
+			else if(this.productItem.IdType=='1' || this.productItem.IdType==1){
+				if(field.key=='BusinessType' || field.key=='CompanyName'){
+					field.hide=true;field.hideExpression=true;
+				}
+				
+				if(field.key=='ClientName' || field.key=='Title' || field.key=='Gender')
+					{
+						field.hide=false;field.hideExpression=false;
+					}
+			}
 	}
+		for(let field of fieldList){
+			if(this.productItem.IdType=='1' || this.productItem.IdType==1){
+				if(  field.key=='RegistrationDate' || field.key=='GstNumber' ){
+					field.hide=true;field.hideExpression=true;
+				}
+				
+			} 
+			else if(this.productItem.IdType=='2' || this.productItem.IdType==2){
+				if(  field.key=='RegistrationDate' || field.key=='GstNumber'){
+					field.hide=false;field.hideExpression=false;
+				}
+				
+			}
+		}
+	// this.productItem.IdType =value;
+	// this.typeChange()
     }
   navigateToCustomer() {
     this.confirmationService.confirm({
@@ -1174,8 +1600,21 @@ getType3(type){
 	  (data: any) => {
 		console.log(data);
 		if(data.Result){
-		  let obj = [{ "Code": '', "CodeDesc": "-Select-", 'CodeDescLocal':'-Selecione-' }]
-		  this.titleList = obj.concat(data.Result);
+			this.titleList = data.Result;
+			let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+			for (let i = 0; i < this.titleList.length; i++) {
+			  this.titleList[i].label = this.titleList[i]['CodeDesc'];
+			  this.titleList[i].value = this.titleList[i]['Code'];
+			  if (i == this.titleList.length - 1) {
+				  let fieldList=this.personalInfoFields[0].fieldGroup;
+				  for(let field of fieldList){
+					alert(field.key)
+					  if(field.key=='Title'){
+						  field.props.options = defaultRow.concat(this.titleList);
+					  }
+				  }
+			  }
+			}
 		}
 	  },
 	  (err) => { },

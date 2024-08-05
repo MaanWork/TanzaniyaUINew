@@ -53,6 +53,8 @@ export class VehicleCreateFormComponent implements OnInit {
   commonDetails: any;editSectionAlt:boolean=false;modelSearchVisible:boolean = false;
   modelColumns:any[]=[];selectedRowData:any=null;lang:any=null;horsePower:any=null;
   horsePowerError: boolean=false;
+  displacement: any;
+  numberOfCylinders: any;
   constructor(private messageService: MessageService,private sharedService: SharedService,private appComp:AppComponent,
     private translate:TranslateService,private datePipe:DatePipe,private router:Router) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -426,6 +428,7 @@ export class VehicleCreateFormComponent implements OnInit {
        if(commonDetails.BrokerBranchCode) brokerbranchCode = commonDetails.BrokerBranchCode;
         
       }
+      if(brokerbranchCode==null) brokerbranchCode='1'
       this.vehicleDetails['VehicleTypeId'] = null;
       this.vehicleDetails['MotorusageId'] = null;
       this.vehicleDetails['VehiclemakeId'] = null;
@@ -1013,7 +1016,9 @@ export class VehicleCreateFormComponent implements OnInit {
       "Tareweight": tareweight,
       "Vehcilemodel": modelDesc,
       "VehicleType": this.bodyTypeValue,
-      "Vehiclemake": make
+      "Vehiclemake": make,
+      "DisplacementInCM3": this.displacement,
+       "NumberOfCylinders": this.numberOfCylinders,
     }
     let urlLink = `${this.motorApiUrl}regulatory/savevehicleinfo`;
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(

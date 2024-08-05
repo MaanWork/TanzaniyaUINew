@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AppComponent } from 'src/app/app.component';
-
+import * as Mydatas from '../../../../../app-config.json';
+import { LoginService } from '../login.service';
 class Product {
   name:string = '';
   imageUrl:string = '';
@@ -16,6 +17,10 @@ class Product {
     .product-container .card{ width: 120px; };
     .product-container .card:hover { border: 4px solid orange; };
     .product-container .card img { width: 100%;height: 60px; object-fit: cover; };
+    .product-container-alt { max-width: 900px;cursor:pointer !important; };
+    .product-container-alt .card{ width: 275px; };
+    .product-container-alt .card:hover { border: 4px solid orange; };
+    .product-container-alt .card img { width: 100%;height: 200px; object-fit: cover; };
   `],
 })
 export class ProductComponent implements OnInit {
@@ -24,11 +29,24 @@ export class ProductComponent implements OnInit {
   selectedBranch:any=null;lang:any=null;
   cities:any[] = [];userType:any=null;
   selectedProduct:string = '';userDetails:any;
-    constructor(private router:Router,private translate: TranslateService,private appComp:AppComponent){
+  subUserType: string;typeList:any[]=[];quoteSection:boolean=false;
+  approverSection:boolean=false;UserTypeList:any[]=[];
+    public AppConfig: any = (Mydatas as any).default;
+    public ApiUrl1: any = this.AppConfig.ApiUrl1;
+    public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
+    constructor(private router:Router,private translate: TranslateService,private appComp:AppComponent,
+      private loginService:LoginService
+    ){
       this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails')); 
       this.branches = this.userDetails?.Result?.LoginBranchDetails;
       this.userType = this.userDetails.Result.UserType;
       this.products =  this.userDetails.Result.BrokerCompanyProducts;
+      this.subUserType = sessionStorage.getItem('typeValue');
+      this.UserTypeList = [
+        {"Code":"1","CodeDesc":"Transaction"},
+        {"Code":"2","CodeDesc":"LoginCreation"},
+        {"Code":"3","CodeDesc":"ApproverReferralManagement"},
+      ]
       if(this.branches.length==1){
        this.selectBranch(this.branches[0]); 
       }
@@ -44,7 +62,7 @@ export class ProductComponent implements OnInit {
           this.selectedBranch = this.userDetails.Result.BrokerBranchCode;
           let branch = this.branches.find(ele=>ele.BrokerBranchCode==this.selectedBranch);
           if(branch) this.selectBranch(branch)}
-        }
+      }
         this.appComp.getLanguage().subscribe((res:any)=>{  
           if(res) this.lang=res;
           else this.lang='en';
@@ -57,6 +75,10 @@ export class ProductComponent implements OnInit {
       
     }
   ngOnInit(): void {
+    if(this.userType=='Issuer'){
+        this.getTypeList();
+    }
+    else{this.quoteSection=true;this.approverSection=false;}
     // this.products = [
     //   {name:'Burglary', imageUrl:''},
     //   {name:'Corporte Plus', imageUrl:''},
@@ -74,15 +96,52 @@ export class ProductComponent implements OnInit {
 
    // this.branches = [{label: 'Arusha', value: 'arusha'}, {label: 'Yens', value: 'yens'}, {label: 'Yens', value: 'yens1'}];
   }
-
+  getTypeList() {
+        let urlLink = `${this.ApiUrl1}dropdown/subusertype`;
+        let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
+        if (userDetails) {
+          let ReqObj = {
+            "InsuranceId": userDetails?.Result?.InsuranceId,
+            "LoginId": userDetails?.Result?.LoginId,
+            "BranchCode": userDetails?.Result?.BranchCode,
+            "UserType": userDetails?.Result?.UserType
+          }
+          this.loginService.onPostMethodBearerSync(urlLink, ReqObj).subscribe(
+            (data: any) => {
+              console.log(data);
+              if (data.Result) {
+                this.typeList = data?.Result;
+                if(this.typeList.length!=0){
+                  let entry = this.typeList.some(ele=>ele.Code=='high');
+                  if(entry){this.quoteSection=false;this.approverSection=true;}
+                  else{this.quoteSection=true;this.approverSection=false;}
+                }
+              }
+            });
+        }
+  }
+  onSelectUserType(rowData){
+      let userDetails = JSON.parse(sessionStorage.getItem('Userdetails') as any);
+      if(rowData.Code=='1'){sessionStorage.setItem('typeValue','low');this.quoteSection=true;this.approverSection=false;}
+      else if(rowData.Code=='2'){
+        if(this.branches.length!=0){
+          this.selectedBranch = this.branches[0].BrokerBranchCode;
+          let branchData: any = this.branches.find(ele => ele.BrokerBranchCode == this.selectedBranch);
+          console.log("Branch Value", this.selectedBranch, branchData)
+          userDetails.Result['BrokerBranchCode'] = branchData.BrokerBranchCode;
+          userDetails.Result['BranchCode'] = branchData.BranchCode;
+          userDetails.Result['CurrencyId'] = branchData?.CurrencyId;
+          userDetails.Result['InsuranceId'] = branchData?.InsuranceId;
+          sessionStorage.setItem('Userdetails', JSON.stringify(userDetails));
+        }
+        sessionStorage.setItem('typeValue','high');this.router.navigate(['/logincreation'])}
+      else if(rowData.Code=='3'){sessionStorage.setItem('typeValue','high');this.quoteSection=true;this.approverSection=false;}
+  }
   selectProduct(product) {
     this.selectedProduct = product.ProductId;
     let userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     userDetails.Result['ProductId'] = product.ProductId;
-    console.log('ppppppp',product.ProductId)
     userDetails.Result['ProductName'] = product.ProductName;
-    console.log('PPPPPNNNNNNN',product.ProductName)
-
     userDetails.Result['PackageYn'] = product.PackageYn;
       sessionStorage.setItem('Userdetails', JSON.stringify(userDetails));
     console.log("Products",product,userDetails.Result)
@@ -117,6 +176,11 @@ export class ProductComponent implements OnInit {
       else if(product.ProductId=='11') return './assets/layout/images/marineOpenCover.png';
       else if(product.ProductId=='60') return './assets/layout/images/ProIndeminity.png';
       else return './assets/layout/images/motor.png';
+  }
+  getUserTypeImage(rowData){
+    if(rowData.Code=='1') return './assets/images/allQuotations.webp';
+    else if(rowData.Code=='2') return './assets/images/UserCreation.jpg';
+    else if(rowData.Code=='3') return './assets/images/Approval.jpg';
   }
   selectBranch(branch) {
     if(this.userType=='Issuer')  this.selectedBranch = branch.BranchCode;

@@ -1,5 +1,8 @@
 {
     "HOME": {
+      "CityName":"Nome da Cidade",
+      "SocioProfessionalcategory":"Categoria SocioProfissional",
+      "Nationality":"Nacionalidade",
       "PersonalInformation": "Informações pessoais",
       "AdditionalInformation": "Informações adicionais",
       "AddressDetails": "Detalhes do Endereço",
@@ -118,7 +121,11 @@
     },
     "PRODUCT":{
       "SelecttheBranch":"Selecione a filial",
-      "ProductYouWishtobuy":"Produto que você deseja comprar"
+      "ProductYouWishtobuy":"Produto que você deseja comprar",
+      "LookingFor": "O que você está procurando!",
+      "Transaction": "Cotação e informações sobre política",
+      "LoginCreation": "Criação de login e mestres",
+      "ApproverReferralManagement": "Gerenciamento de referências e muito mais"
     },
     "DASHBOARD":{
         "Policies":"Políticas",
@@ -176,6 +183,26 @@
         "Search": "Procurar"
     },
     "MOTORQUOTE":{
+      "CategoryDateobtained":"Categoria Data obtida",
+    "Categoryexpirationdate":"Data de expiração da categoria",
+    "Category":"Categoria",
+    "Placeofissue":"Local de emissão",
+    "Dateofissue":"Dateofissue",
+    "Drivinglicensenumber":"Número da carta de condução",
+    "Name":"Nome",
+    "Civility":"Civilidade",
+    "SameasSubscriber":"O mesmo que Assinante?",
+    "Drivinglicenseage":"Idade da carta de condução",
+    "Newvalue":"Novo valor",
+    "Marketvalue":"Valor de mercado",
+    "Aggregatedvalue":"Valor agregado",
+    "DisplacementinCM3":"Deslocamento em CM3",
+    "Nombredecartes":"Número de cartas",
+    "NumberofCylinder":"Número de cilindro",
+    "MunicipalityofTraffic":"Município de Trânsito",
+    "DateOfcirculation": "Data de circulação",
+    "Transportationofhydrocarbons":"Transporte de hidrocarbonetos",
+    "DoyouhaveGPS":"Você tem GPS",
       "QuoteDetails": "Detalhes da cotação",
       "SearchAddVehicleByRegNo": "Pesquise e adicione veículo por número de registro",
       "SearchVehicle": "Pesquisar veículo",
@@ -432,7 +459,8 @@
        "SelectPlateType":"Selecione o tipo de placa",
        "SelectColor":"Selecione a cor",
        "SelectDoors":"Selecione portas",
-       "AddNewDriver":"Adicionar novo driver"
+       "AddNewDriver":"Adicionar novo driver",
+       "EnterLicenceNumber": "Insira o número da licença"
     },
     "DOCUMENT":{
       "DocumentInfoforVerification": "Informações do documento para verificação",

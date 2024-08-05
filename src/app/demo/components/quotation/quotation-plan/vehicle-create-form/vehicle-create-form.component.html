@@ -13,7 +13,7 @@
           </div>
         </div>
     </div>
-    <ng-container *ngIf="insuranceId=='100028' || insuranceId == '100027' || insuranceId == '100040' || this.insuranceId=='100042' || insuranceId=='100002' || insuranceId=='100004' || insuranceId=='100019'">
+    <ng-container *ngIf="insuranceId=='100028' || insuranceId == '100027' || insuranceId == '100040' || this.insuranceId=='100042' || insuranceId=='100002' || insuranceId=='100004' || insuranceId=='100019' || insuranceId=='100044'">
         <div class="flex justify-content-start flex-wrap w-full form-container">
             <div class="flex flex-column m-3" *ngIf="insuranceId!='100004'">
                 <label for="motor-usage">{{'MOTORQUOTE.MotorUsage' | translate}} *</label>
@@ -123,7 +123,8 @@
                 <label for="engine-no">{{'MOTORDETAILS.EngineNumber' | translate}}*</label>
                 <input pInputText id="engine-no" [(ngModel)]="engineNo" [disabled]="editSection" maxlength="20" [placeholder]="'MOTORDETAILS.EnterEngineNumber' | translate"/>
             </div>
-            <div class="flex flex-column m-3">
+            <!-- *ngIf="insuranceId!='100040' && insuranceId!='100042'" -->
+            <div class="flex flex-column m-3" >
                 <label for="engine-capacity">{{'MOTORDETAILS.EngineCapacity' | translate}}*</label>
                 <input pInputText id="engine-capacity" [(ngModel)]="engineCapacity" maxlength="5" [disabled]="editSection" [placeholder]="'MOTORDETAILS.EnterEngineCapacity' | translate"/>
             </div>
@@ -131,8 +132,8 @@
                 <label for="seating-capacity">{{'MOTORDETAILS.SeatingCapacity' | translate}} *</label>
                 <input pInputText id="seating-capacity" [(ngModel)]="seatingCapacity" maxlength="3" [disabled]="editSection" [placeholder]="'MOTORDETAILS.EnterSeatingCapacity' | translate"/>
             </div>
-        </div>
-        <div class="flex justify-content-start flex-wrap w-full form-container">
+        <!-- </div>
+        <div class="flex justify-content-start flex-wrap w-full form-container"> -->
             
             <div class="flex flex-column m-3">
                 <label for="manufacture-year">{{'MOTORDETAILS.ManufactureYear' | translate}} *</label>
@@ -198,6 +199,14 @@
                     </div>
                 </div>
             </div>
+            <!-- <div class="flex flex-column m-3" *ngIf="insuranceId=='100040' || insuranceId=='100042'">
+                <label for="engine-capacity">Displacement in CM3*</label>
+                <input pInputText id="engine-capacity" [(ngModel)]="displacement"  [disabled]="editSection" placeholder="Enter Displacement in CM3"/>
+            </div>
+            <div class="flex flex-column m-3" *ngIf="insuranceId=='100040' || insuranceId=='100042'">
+                <label for="engine-capacity"> Number Of Cylinder(s)*</label>
+                <input pInputText id="engine-capacity" [(ngModel)]="numberOfCylinders" maxlength="5" [disabled]="editSection" placeholder="Enter Number Of Cylinders"/>
+            </div> -->
         </div>
         <div class="flex justify-content-center mt-2">
             <p-button styleClass="p-button-outlined"  [label]="'MOTORDETAILS.Back' | translate" class="p-3 text-l mr-0" icon="pi pi-chevron-left" (click)="getBack()"></p-button>&nbsp;
@@ -384,7 +393,7 @@
         </div>
     </ng-container>
 </div>  
-<ng-container *ngIf="insuranceId!='100028' && insuranceId!='100027' && insuranceId!='100040' && insuranceId!='100042' && insuranceId!='100002' && insuranceId!='100004' && insuranceId!='100020' && insuranceId!='100019'">
+<ng-container *ngIf="insuranceId!='100028' && insuranceId!='100027' && insuranceId!='100040' && insuranceId!='100042' && insuranceId!='100002' && insuranceId!='100004' && insuranceId!='100020' && insuranceId!='100019' && insuranceId!='100044'">
     <p-accordion [multiple]="true" [activeIndex]="[0,1,2]">
         <p-accordionTab header="Vehicle Details">
             <div class="flex justify-content-start flex-wrap w-full form-container">
