@@ -612,9 +612,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
             // this.updateComponent.brokerLoginId = null;
             this.customerCode = null;
             this.customerName=null;
-            this.brokerCode = null;
-            this.brokerBranchCode = null;
-            this.brokerLoginId = null;
           }
           else{
             //if(this.Code=='Broker' || this.Code=='Agent'){
@@ -1071,7 +1068,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       if(this.branchCode==null || this.branchCode==undefined) this.branchCode = '01';
       this.brokerCode = entry.BrokerCode;
       this.brokerBranchCode = entry.BrokerBranchCode;
-      if(this.brokerBranchCode==null || this.brokerBranchCode==undefined) this.branchCode = '1';
+      if(this.brokerBranchCode==null || this.brokerBranchCode==undefined) this.brokerBranchCode = '1';
       this.executiveValue = entry?.AcExecutiveId;
       this.promocode = null;
       console.log("Final Values",this.brokerList,this.brokerCode)
@@ -1800,9 +1797,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   this.customerCodeError = true;
                   i+=1;
               }
-              this.brokerCode = null;
-              this.brokerBranchCode = null;
-              this.brokerLoginId = null;
             // }
             // else{
             //   if(this.brokerCode=='' || this.brokerCode==undefined || this.brokerCode==null){
@@ -2089,9 +2083,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               this.customerCodeError = true;
               i+=1;
           }
-          this.brokerCode = null;
-          this.brokerBranchCode = null;
-          this.brokerLoginId = null;
+          
         // }
         // else{
         //   if(this.brokerCode=='' || this.brokerCode==undefined || this.brokerCode==null){
@@ -3854,9 +3846,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
             //if(this.sourceCodeDesc=='Premia Agent' || this.sourceCodeDesc=='Premia Broker' || this.sourceCodeDesc=='Premia Direct'){
               if(this.customerName=='' || this.customerName==undefined || this.customerName==null){
                   this.customerCodeError = true;
-                  this.brokerCode = null;
-                  this.brokerBranchCode = null;
-                  this.brokerLoginId = null;
+                  // this.brokerCode = null;
+                  // this.brokerBranchCode = null;
+                  // this.brokerLoginId = null;
                   i+=1;
               }
               
@@ -5517,9 +5509,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   this.customerCodeError = true;
                   i+=1;
               }
-              this.brokerCode = null;
-              this.brokerBranchCode = null;
-              this.brokerLoginId = null;
             // }
             // else{
             //   if(this.brokerCode=='' || this.brokerCode==undefined || this.brokerCode==null){

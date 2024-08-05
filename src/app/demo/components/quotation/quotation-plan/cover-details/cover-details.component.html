@@ -87,7 +87,7 @@
                                                             <div class="col-2 md:col-2 lg:col-2 xl:col-2">
                                                                 <div class="flex align-items-center justify-content-between">
                                                                     <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>
+                                                                    <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal == 'Y'"></i>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -154,7 +154,7 @@
                                                     <ng-container *ngIf="(cover.isSelected!='D' && cover.CoverageType!='A') && ! checkCoverSelection(menu,cover)">
                                                         <div class="card p-3 w-25rem customOptCoverCard" [ngClass]="canbeChecked(cover) ? 'customOptCoverBg' : ''" >
                                                             <div class="grid">
-                                                                <div class="col-11 md:col-11 lg:col-11 xl:col-11">
+                                                                <div class="col-10 md:col-10 lg:col-10 xl:col-10">
                                                                     <div class="flex align-items-center justify-content-start">
                                                                         <div>
                                                                             <input type="checkbox" [checked]="canbeChecked(cover)" (change)="onSelectCover(cover,$event.target.checked,menu.Vehicleid,menu,'coverList','change')" id="vehicle1" name="vehicle1">&nbsp;
@@ -166,7 +166,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-1 md:col-1 lg:col-1 xl:col-1">
+                                                                <div class="col-2 md:col-2 lg:col-2 xl:col-2">
                                                                     <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                     <i class="pi pi-spin pi-" style="font-size: 2rem" *ngIf="cover.isReferal === 'Y'"></i>
                                                                 </div>
@@ -269,7 +269,7 @@
                                                         <ng-container *ngIf="(cover.isSelected!='D' && cover.CoverageType!='A') && !checkCoverSelection(menu,cover)">
                                                              <div class="card p-3 ml-3 w-25rem customOptCoverCard" [ngClass]="canbeChecked(cover) ? 'customOptCoverBg' : ''" >
                                                                 <div class="grid">
-                                                                    <div class="col-10 md:col-10 lg:col-10 xl:col-10">
+                                                                    <div class="col-9 md:col-9 lg:col-9 xl:col-9">
                                                                         <div class="flex align-items-center justify-content-start">
                                                                             <div>
                                                                                 <input type="checkbox" [checked]="canbeChecked(cover)" (change)="onSelectCover(cover,$event.target.checked,menu.Vehicleid,menu,'coverList','change')" id="vehicle1" name="vehicle1">&nbsp;
@@ -283,8 +283,10 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-2 md:col-2 lg:col-2 xl:col-2">
-                                                                        <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                        <i class="pi pi-spin pi-" style="font-size: 2rem" *ngIf="cover.isReferal === 'Y'"></i>
+                                                                        <div class="flex justify-content-start">
+                                                                            <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                            <i class="pi pi-bookmark-fill customReferralBorder" style="font-size: 2rem" *ngIf="cover.isReferal == 'Y'"></i>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="grid">
@@ -342,13 +344,13 @@
                                                     <ng-container *ngFor="let cover of menu.CoverList">
                                                         <div class="card bg-blue-800 customCard3 p-3 ml-3 w-11rem text-0" *ngIf="((cover.isSelected=='D' && cover.CoverageType!='A') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
                                                             <div class="grid">
-                                                                <div class="col-10 md:col-10 lg:col-10 xl:col-10">
+                                                                <div class="col-9 md:col-9 lg:col-9 xl:col-9">
                                                                     <div class="flex align-items-center justify-content-between">
                                                                         <h3 class="text-0 mb-0">{{cover.CoverName}}</h3>
                                                                         <!-- <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container> -->
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-2 md:col-2 lg:col-2 xl:col-2">
+                                                                <div class="col-3 md:col-3 lg:col-3 xl:col-3">
                                                                     <div class="flex align-items-center justify-content-between">
                                                                         <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                         <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>

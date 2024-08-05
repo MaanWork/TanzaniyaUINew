@@ -43,6 +43,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
             // this.subscription = this.layoutService.configUpdate$.subscribe(() => {
             //     this.initChart();
             // });
+            let entry = sessionStorage.getItem('reloadOnce');
+            if(entry){
+                sessionStorage.removeItem('reloadOnce');
+                window.location.reload();
+            }
             this.rangeList = [
                 {"Code":1,"CodeDesc":"Last 30 Days","CodeDescLocal":"Últimos 30 dias"},
                 {"Code":2,"CodeDesc":"Last 60 Days","CodeDescLocal":"Últimos 60 dias"},
@@ -78,7 +83,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.getQuoteOverview();
         this.getEndorsementRecordList();
         this.getNotificationList();
-       
         this.chartOptions = {
             plugins: {
                 legend: {
