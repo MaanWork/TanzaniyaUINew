@@ -268,10 +268,20 @@
                     [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')" [disabled]="endorsementSection"
                         optionLabel="CodeDesc" optionValue="Code" >
                     </p-dropdown>
+                    <div class="input-form-error bottomSpacing" *ngIf="currencyCodeError">
+                        <div class="error-text text-danger">
+                            <span class="spancommon span_font_size"> Please Select Currency</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="lg:col-2 md:col-2 col-12">
                     <label for="username">Exchange Rate</label>
                     <input pInputText class="w-full" id="username" maxlength="50" [disabled]="endorsementSection" [(ngModel)]="exchangeRate" />
+                    <div class="input-form-error bottomSpacing" *ngIf="exchangeRateError">
+                        <div class="error-text text-danger">
+                            <span class="spancommon span_font_size"> Please Enter Valid Exchange Rate</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="lg:col-2 md:col-2 col-12">
                     <label for="username">PromoCode&nbsp;(Optional)</label>
@@ -1482,7 +1492,7 @@
     <div class="flex justify-content-center mt-3" *ngIf="productId=='1' || productId=='6' || productId=='39' || productId=='43' || productId=='46' || productId=='16' 
     || productId=='42' || productId=='21' || productId=='14' || productId=='15' || productId=='59' || productId=='60' 
     || productId=='57' || productId=='56' || productId=='26' || productId=='25' || productId=='13' || this.productId=='27' 
-    || this.productId=='24' || this.productId=='19' || this.productId=='32'|| this.productId=='61'">
+    || productId=='24' || productId=='19' || productId=='32'|| productId=='61' || productId=='63'" >
         <p-button  styleClass="p-button-outlined" label="Back"
             size="small" [routerLink]="['/quotation']" routerLinkActive="router-link-active" ></p-button>&nbsp;
             
