@@ -428,6 +428,7 @@ export class VehicleCreateFormComponent implements OnInit {
        if(commonDetails.BrokerBranchCode) brokerbranchCode = commonDetails.BrokerBranchCode;
         
       }
+      if(brokerbranchCode==null) brokerbranchCode='1'
       this.vehicleDetails['VehicleTypeId'] = null;
       this.vehicleDetails['MotorusageId'] = null;
       this.vehicleDetails['VehiclemakeId'] = null;
