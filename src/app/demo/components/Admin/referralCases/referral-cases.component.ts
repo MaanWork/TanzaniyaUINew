@@ -115,7 +115,7 @@ export class ReferralCasesComponent implements OnInit {
   getExistingQuotes(element,entryType){
     if(element==null) this.quoteData=[];
     if(element==null){ this.quoteData=[];}
-    let appId = "1",loginId="",brokerbranchCode="",bdmCode=null;
+    let appId = "1",loginId="",brokerbranchCode="",bdmCode=null,SourceType=null;
     if(this.userType!='Issuer'){
       appId = "1"; loginId = this.brokerCode;
       bdmCode=this.agencyCode;
@@ -137,6 +137,7 @@ export class ReferralCasesComponent implements OnInit {
       else{
         bdmCode=null;
       }
+      SourceType = entry.Type
       let type=null;
       if(this.section=='quote'){type='Q'}
       else type='E';
@@ -147,7 +148,7 @@ export class ReferralCasesComponent implements OnInit {
             "ApplicationId":appId,
             "UserType":this.userType,
             "SubUserType":sessionStorage.getItem('typeValue'),
-            "SourceType":"",
+            "SourceType":SourceType,
             "BdmCode": bdmCode,
             "ProductId":this.productId,
             "Type":type,
@@ -364,12 +365,12 @@ export class ReferralCasesComponent implements OnInit {
     if(element==null) this.RejectedquoteData=[];
     let appId = "1",loginId="",brokerbranchCode="",bdmCode=null;
     if(this.userType!='Issuer'){
-      appId = "1"; loginId = this.ApproverbrokerCode;
+      appId = "1"; loginId = this.Rejecedbrokercode;
       bdmCode=this.agencyCode;
     }
     else{
       appId = this.loginId;
-      loginId=this.ApproverbrokerCode;
+      loginId=this.Rejecedbrokercode;
       brokerbranchCode = '';
     }
     let entry = this.RejectedList.find(ele=>ele.Code==this.Rejecedbrokercode);
