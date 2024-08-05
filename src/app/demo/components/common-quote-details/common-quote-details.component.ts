@@ -2821,9 +2821,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
               const momentDate = new Date(this.policyEndDate); // Replace event.value with your date value
               const formattedDate = moment(momentDate).format("YYYY-MM-DD");
               const formattedDatecurrent = new Date(startDate);
-              console.log(formattedDate);
-    
-            console.log(formattedDatecurrent);
     
             this.noOfDays = Math.round(Math.abs((Number(momentDate)  - Number(formattedDatecurrent) )/oneday)+1);
           }
@@ -2935,7 +2932,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
         }
        
-        if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042' || this.insuranceId=='100028' ){
+        if(this.insuranceId=='100027'  || this.insuranceId=='100042' || this.insuranceId=='100028' ){
           if(Array.isArray(insuranceType)){
             if(insuranceType.length!=0) this.productItem.InsuranceClass = insuranceType[0];
           }
@@ -2993,7 +2990,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           else this.productItem.PreviousLossRatio=null;
           let Insurancetype,sectionId ;
-          if( this.insuranceId=='100042') {sectionId=this.productItem.InsuranceClass;}
+          if( this.insuranceId=='100040' || this.insuranceId=='100042' ) {sectionId=this.productItem.InsuranceClass;}
           else {
               
               if(insuranceType){
@@ -3344,7 +3341,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
             }
           }
           
-          
+          let locationId = '1';
+          if(vehicleDetails.LocationId) locationId = vehicleDetails.LocationId
           let ReqObj = {
               "InsuranceId": this.insuranceId,
               "BranchCode": this.branchCode,
@@ -3356,6 +3354,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               "CdRefNo": vehicleDetails?.CdRefNo,
               "DdRefNo": vehicleDetails?.DdRefNo,
               "VdRefNo": vehicleDetails?.VdRefNo,
+              "LocationId": locationId,
               "CreatedBy": createdBy,
               "productId": this.productId,
               "sectionId": this.typeValue,
@@ -4886,6 +4885,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
               else effectiveDate = this.datePipe.transform(this.policyStartDate, "dd/MM/yyyy");
             }
           }
+          let locationId = '1';
+          if(vehicleDetails.LocationId) locationId = vehicleDetails.LocationId
           let ReqObj = {
               "InsuranceId": this.insuranceId,
               "BranchCode": this.branchCode,
@@ -4899,6 +4900,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               "VdRefNo": vehicleDetails?.VdRefNo,
               "CreatedBy": createdBy,
               "productId": this.productId,
+              "LocationId": locationId,
               //"sectionId": vehicleDetails?.SectionId,
               "RequestReferenceNo": this.quoteRefNo,
               "EffectiveDate": effectiveDate,
