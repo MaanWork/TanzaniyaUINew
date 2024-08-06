@@ -167,7 +167,7 @@ export class InsurenceEmpComponent {
     );
    }
    getMobileCodeList(){
-    let ReqObj = { "InsuranceId": this.companyId}
+    let ReqObj = { "InsuranceId": this.insuranceId}
     let urlLink = `${this.CommonApiUrl}dropdown/mobilecodes`;
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       (data: any) => {

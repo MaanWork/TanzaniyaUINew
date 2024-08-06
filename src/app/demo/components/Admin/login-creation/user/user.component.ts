@@ -171,6 +171,9 @@ export class UserComponent {
       (err) => { },
     );
    }
+   onChangeCompany(){
+    this.getMobileCodeList();
+   }
    getChannelList(type){
       let ReqObj = {
         "UserType": "Broker"
