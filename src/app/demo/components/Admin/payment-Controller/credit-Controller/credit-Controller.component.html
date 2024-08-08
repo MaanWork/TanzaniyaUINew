@@ -1,0 +1,107 @@
+<div class="card">
+    <p-tabView>
+        <p-tabPanel header="Pending">
+            <p-table  #dtEmployee
+                        [globalFilterFields]="['QuoteNo','CustomerName','PaymentType','PolicyStartDate','PolicyEndDate','Premium','Action']"
+                        [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5" [value]="pendingList">
+                        <ng-template pTemplate="caption">
+                            <div class="flex flex wrap justify-content-end">
+                                <div class="table-header">
+                                    <span class="p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input pInputText type="text" (input)="dtEmployee.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                                    </span>
+                                </div>
+                            </div>
+                        </ng-template>
+                <ng-template pTemplate="header">
+                <tr>
+                    <th [pSortableColumn]="column" *ngFor="let column of columnHeader">
+                        {{column}}
+                        <p-sortIcon [field]="column"></p-sortIcon> 
+                      </th>
+                </tr>
+                </ng-template>
+                <ng-template  pTemplate="body" let-customer>
+                    <tr>
+                        <td>{{ customer.QuoteNo }}</td>
+                        <td>{{ customer.CustomerName }}</td>
+                        <td>{{ customer.PaymentType }}</td>
+                        <td>{{ customer.InceptionDate }}</td>
+                        <td>{{ customer.ExpiryDate }}</td>
+                        <td>{{ customer.MobileNo }}</td>
+                        <td>{{ customer.Premium }}</td>
+                        <td> <button pButton pRipple icon="pi pi-pencil"  class="p-button-outlined" (click)="onEditCCPending(customer)"></button></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-tabPanel>
+        <p-tabPanel header="Approved">    
+            <p-table  #dtEmployee
+                        [globalFilterFields]="['BankFullName','BankShortName',
+                                            'EffectiveDateStart','Status']"
+                        [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5" >
+                        <ng-template pTemplate="caption">
+                            <div class="flex flex wrap justify-content-end">
+                                <div class="table-header">
+                                    <span class="p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input pInputText type="text" (input)="dtEmployee.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                                    </span>
+                                </div>
+                            </div>
+                        </ng-template>
+                <ng-template pTemplate="header">
+                <tr>
+                    <th [pSortableColumn]="column" *ngFor="let column of columnHeader">
+                        {{column}}
+                        <p-sortIcon [field]="column"></p-sortIcon> 
+                      </th>
+                </tr>
+                </ng-template>
+                    <ng-template pTemplate="body" >
+                    <tr>
+                        <!-- <td>{{ value.treatyCode }}</td>
+                        <td>{{ value.year }}</td>
+                        <td>{{ value.product }}</td>
+                        <td>{{ value.section }}</td>
+                        <td>{{ value.cover }}</td>
+                        <td>{{ value.treatyPercentage }}</td>
+                        <td>{{ value.retentionPercentage }}</td> -->
+                    <td> <button pButton pRipple icon="pi pi-pencil"  class="p-button-outlined" ></button></td>
+                    </tr>
+                    </ng-template>
+            </p-table>
+        </p-tabPanel>
+        <p-tabPanel header="Rejected">
+            <p-table  #dtEmployee
+            [globalFilterFields]="['BankFullName','BankShortName',
+                                'EffectiveDateStart','Status']"
+            [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5" >
+            <ng-template pTemplate="caption">
+                <div class="flex flex wrap justify-content-end">
+                    <div class="table-header">
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dtEmployee.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                        </span>
+                    </div>
+                </div>
+            </ng-template>
+    <ng-template pTemplate="header">
+    <tr>
+        <th [pSortableColumn]="column" *ngFor="let column of columnHeader">
+            {{column}}
+            <p-sortIcon [field]="column"></p-sortIcon> 
+          </th>
+    </tr>
+    </ng-template>
+        <ng-template pTemplate="body" >
+        <tr>
+        <td> <button pButton pRipple icon="pi pi-pencil"  class="p-button-outlined" (click)="onEditCCPending()"></button></td>
+        </tr>
+        </ng-template>
+</p-table>
+        </p-tabPanel>
+    </p-tabView>
+</div>

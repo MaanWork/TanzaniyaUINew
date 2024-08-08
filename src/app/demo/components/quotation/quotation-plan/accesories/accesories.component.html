@@ -101,7 +101,7 @@
         </div>
     </div>
 </ng-container>
-<ng-container *ngIf="productId!='5'">
+<ng-container *ngIf="productId!='5' && productId!='63'">
     <!--tabIndex-->
     <p-tabView #tabView [activeIndex]="selectedTab" (onChange)="onTabClicked($event,tabView)">
         <!-- <p-tabPanel header="Location" *ngIf="buildingDetailsSection">
@@ -852,7 +852,182 @@
 
     </p-tabView>
 </ng-container>
-
+<ng-container *ngIf="productId=='63'">
+    <p-tabView *ngIf="LocationList.length!=0" [(activeIndex)]="tabIndex" (onChange)='tabIndex = $event.index'>
+        <ng-container *ngFor="let item of LocationList">
+            <p-tabPanel [header]="item.LocationName">
+                <div class="grid ">
+                    <!-- <div class="col-12 lg:col-1 md:col-1"></div> -->
+                    <div class="col-12 lg:col-6 md:col-6">
+                        <div class="card" style="padding: 10px;">
+                            <div class="grid">
+                                <div class="col-12 lg:col-10 xl:col-10"> 
+                                    <b>Building Details</b>
+                                </div>
+                                <div class="col-12 lg:col-2 xl:col-2 "> 
+                                    <p-button icon="pi pi-credit-card" styleClass="p-button-outlined" (click)="onShowCommonDialog()" />
+                                </div>
+                            </div>
+                            <div class="grid ">
+                                <div class="col-12 lg:col-6 md:col-6">
+                                    <label for="BuildingType">Construction Type</label>
+                                    <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Construction Type" [options]="constructionTypes"
+                                       [(ngModel)]="item.BuildingType" appendTo="body" optionLabel="CodeDesc" optionValue="Code"  />
+                                </div>
+                                <div class="col-12 lg:col-6 md:col-6">
+                                    <label for="SumInsured">SumInsured</label>
+                                    <input class="w-full p-button-outlined" placeholder="Enter SumInsured" styleClass="w-full"
+                                    (keydown)="onSIValueChange($event)" (keyup)="CommaFormattedAlt(item,'Building')" [(ngModel)]="item.BuildingSI" pInputText type="text" 
+                                    />
+                                </div>
+                               
+                                <!-- <div class="col-12 lg:col-6 md:col-6">
+                                    <label for="BuildingType">Construction (Roof)</label>
+                                    <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Roof Type"
+                                        appendTo="body" optionLabel="LocationName" optionValue="RiskId"  />
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 lg:col-3 md:col-3">
+                        <div class="card" style="padding: 10px;">
+                            <div class="grid">
+                                <div class="col-12 lg:col-9 xl:col-9"> 
+                                    <b>Content</b>
+                                </div>
+                                <div class="col-12 lg:col-3 xl:col-3 "> 
+                                    <p-button icon="pi pi-credit-card" styleClass="p-button-outlined" />
+                                </div>
+                            </div>
+                            <div class="grid justify-content-center">
+                                <div class="col-12 lg:col-10 md:col-10">
+                                    <label for="SumInsured">SumInsured</label>
+                                    <input class="w-full p-button-outlined" placeholder="Enter SumInsured"
+                                    (keydown)="onSIValueChange($event)" (keyup)="CommaFormattedAlt(item,'Content')" [(ngModel)]="item.ContentSI" styleClass="w-full"  pInputText type="text"  />
+                                </div>
+                                <!-- <div class="col-12 lg:col-6 md:col-6">
+                                    <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Building Type"
+                                        appendTo="body" optionLabel="LocationName" optionValue="RiskId"  />
+                                </div> -->
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <div class="col-12 lg:col-3 md:col-3">
+                        <div class="card" style="padding: 10px;">
+                            <div class="grid">
+                                <div class="col-12 lg:col-9 xl:col-9"> 
+                                    <b>All Risk</b>
+                                </div>
+                                <div class="col-12 lg:col-3 xl:col-3 "> 
+                                    <p-button icon="pi pi-credit-card" styleClass="p-button-outlined" />
+                                </div>
+                            </div>
+                            <div class="grid justify-content-center">
+                                <div class="col-12 lg:col-10 md:col-10">
+                                    <label for="SumInsured">SumInsured</label>
+                                    <input class="w-full p-button-outlined" placeholder="Enter SumInsured"
+                                    (keydown)="onSIValueChange($event)" (keyup)="CommaFormattedAlt(item,'AllRisk')" [(ngModel)]="item.AllRiskSI" styleClass="w-full"  pInputText type="text" 
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid">
+                    <!-- <div class="col-12 lg:col-1 md:col-1"></div> -->
+                    <div class="col-12 lg:col-9 md:col-9">
+                        <div class="card" style="padding: 10px;">
+                            <div class="grid">
+                                <div class="col-12 lg:col-10 xl:col-10"> 
+                                    <b>Domestic Servant</b>
+                                </div>
+                                <div class="col-12 lg:col-2 xl:col-2 "> 
+                                    <p-button icon="pi pi-credit-card" styleClass="p-button-outlined" />
+                                </div>
+                            </div>
+                            <div class="grid justify-content-between">
+                                <div class="col-12 lg:col-4 md:col-4">
+                                    <label for="Servant">Servant</label>
+                                    <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Servant" [options]="servantTypeList"
+                                    [(ngModel)]="item.ServantType" appendTo="body" optionLabel="CodeDesc" optionValue="Code"  />
+                                </div>
+                                <div class="col-12 lg:col-3 md:col-3">
+                                    <label for="SumInsured">Employee Count</label>
+                                    <input class="w-full p-button-outlined" placeholder="Enter Count" [(ngModel)]="item.ServantCount" styleClass="w-full"  pInputText type="text" />
+                                </div>
+                                <div class="col-12 lg:col-4 md:col-4">
+                                    <label for="SumInsured">SumInsured</label>
+                                    <input class="w-full p-button-outlined" placeholder="Enter SumInsured" 
+                                    (keydown)="onSIValueChange($event)" (keyup)="CommaFormattedAlt(item,'Domestic')"
+                                     [(ngModel)]="item.ServantSI" styleClass="w-full"  pInputText type="text" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 lg:col-3 md:col-3">
+                        <div class="card"  style="padding: 10px;">
+                            <div class="grid">
+                                <div class="col-12 lg:col-9 xl:col-9"> 
+                                    <b>Personal Liability</b>
+                                </div>
+                                <div class="col-12 lg:col-3 xl:col-3 "> 
+                                    <p-button icon="pi pi-credit-card" styleClass="p-button-outlined" />
+                                </div>
+                            </div>
+                            <div class="grid justify-content-center">
+                                <div class="col-12 lg:col-8 md:col-8">
+                                    <label for="SumInsured">SumInsured</label>
+                                    <input class="w-full p-button-outlined" placeholder="Enter SumInsured"
+                                    (keydown)="onSIValueChange($event)" (keyup)="CommaFormattedAlt(item,'PL')" [(ngModel)]="item.PersonalLiabilitySI" styleClass="w-full"  pInputText type="text" 
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid">
+                    <!-- <div class="col-12 lg:col-1 md:col-1"></div> -->
+                    
+                    <div class="col-12 lg:col-9 md:col-9">
+                        <div class="card"  style="padding: 10px;">
+                            <div class="grid">
+                                <div class="col-12 lg:col-10 xl:col-10"> 
+                                    <b>Personal Accident</b>
+                                </div>
+                                <div class="col-12 lg:col-2 xl:col-2 "> 
+                                    <p-button icon="pi pi-credit-card" styleClass="p-button-outlined" />
+                                </div>
+                            </div>
+                            <div class="grid ">
+                                <div class="col-12 lg:col-6 md:col-6">
+                                    <label for="BuildingType">Relationship</label>
+                                    <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Relationship" [(ngModel)]="item.RelationType" [options]="relationList"
+                                        appendTo="body" optionLabel="CodeDesc" optionValue="Code"  />
+                                </div>
+                                <div class="col-12 lg:col-6 md:col-6">
+                                    <label for="SumInsured">Death SI</label>
+                                    <input class="w-full p-button-outlined" placeholder="Enter SumInsured" styleClass="w-full"
+                                    (keydown)="onSIValueChange($event)" (keyup)="CommaFormattedAlt(item,'PA')" [(ngModel)]="item.DeathSI"  pInputText type="text" 
+                                    />
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </p-tabPanel>
+        </ng-container>
+    </p-tabView>
+    <div class="flex flex-wrap justify-content-center mt-4">
+        <div class="mb-4">
+            <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+            <ng-container>
+                <p-button label="Proceed" class="text-l pi-button mr-0"></p-button>
+            </ng-container>
+        </div>
+    </div>
+</ng-container>
 
 <p-sidebar [(visible)]="sidebarVisible" position="right" styleClass="sm:20rem md:w-30rem">
     <ng-template pTemplate="header">

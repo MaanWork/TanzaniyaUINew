@@ -1555,6 +1555,7 @@ export class CommonProductDetailsComponent {
 
   
   getCommonDetails(){
+    alert('Entered')
     let urlLink:any;
     let ReqObj = {
       "RequestReferenceNo": this.requestReferenceNo,
@@ -4143,7 +4144,7 @@ backPlan()
         || this.productId=='32' || this.productId=='1' || this.productId=='26' || this.productId=='21' || this.productId == '25'
          || this.productId=='42' || this.productId=='59' || this.productId=='24' || this.productId=='43') 
          urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
-      else if(this.productId=='63')  urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
+      else if(this.productId=='63') { urlLink = `${this.motorApiUrl}api/slide/GetNonMotor`;}
       else urlLink =  `${this.motorApiUrl}api/geteservicebyriskid`;
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
@@ -9657,7 +9658,7 @@ let requestNO=null;
                 this.requestReferenceNo = referenceNo;
                 if(this.productId=='59' ) this.checkDomesticForm('direct');
                 else if (this.productId == '6' || this.productId == '16' || this.productId == '39' || this.productId == '1') this.setCommonFormValues();
-                else if(this.productId!='24' && this.productId!='46' && this.productId!='4' && this.productId!='61') this.setFormValues();
+                else if(this.productId!='24' && this.productId!='46' && this.productId!='4' && this.productId!='61' && this.productId!='63') this.setFormValues();
               }
               else if (this.productId != '19' && this.productId != '59' && this.productId!='24' && this.productId != '59') {
                 this.productItem = new ProductData();

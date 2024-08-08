@@ -80,7 +80,7 @@ export class AccesoriesComponent {
   BuildingUsageYn: any = 'N';
   BuildingUsageList: any[] = [];
   building: any[] = [];
-  Section = false;
+  Section = false;tabIndex:any=0;
   buildingSection: boolean = false;
   personalIntermeditySection: boolean = false;
   personalAccidentSection: boolean = false;
@@ -203,8 +203,8 @@ export class AccesoriesComponent {
   locationIdError: boolean;
   contentIdError: boolean;
   serialNoError: boolean;
-  contentDescError: boolean;
-  contentSIError: boolean;
+  contentDescError: boolean;servantTypeList:any[]=[];
+  contentSIError: boolean;constructionTypes:any[]=[];
   seven: boolean=false;eight:boolean = false;
   employeeList:any[]=[];
   currentEmployeeIndex: number;
@@ -399,7 +399,7 @@ export class AccesoriesComponent {
   ngOnInit(): void {
     //this.changeComponent()
     if(this.productId!='14' && this.productId!='32') this.getOccupationList(null);
-    this.getEditQuoteDetails();
+    if(this.productId!='63') this.getEditQuoteDetails();
       var d = new Date();
       var year = d.getFullYear();
       var month = d.getMonth();
@@ -433,7 +433,28 @@ export class AccesoriesComponent {
         // }
       }
     }
-    this.getSumInsuredDetails();
+    if(this.productId!='63')this.getSumInsuredDetails();
+    else{
+      this.getConstructionTypeList();
+      this.getDomesticServantList();
+      this.getRelationShipList();
+      this.LocationList = [
+            {
+                "LocationId": 1,
+                "LocationName": "Chennai",
+                "DeathSI": "500,000",
+                "RelationType": "1",
+                "BuildingSI": "3,500,000",
+                "BuildingType": "7",
+                "ContentSI": "400,000",
+                "AllRiskSI": "200,000",
+                "ServantSI": "1,500,000",
+                "ServantCount": 2,
+                "ServantType": "1",
+                "PersonalLiabilitySI": "100,000"
+            }
+        ]
+    }
     this.queryHeader1 = [ 'First Name','Last Name','Relation Type','Date Of Birth','Nationality Id'];
 
     /*this.jsonList = [
@@ -470,6 +491,66 @@ export class AccesoriesComponent {
   /*changed(value) {
     this.row.LocationName = value;
   }*/
+    getConstructionTypeList(){
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "ItemType": "wall_type"
+      }
+      let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          this.constructionTypes = data.Result;
+        })
+    }
+    getDomesticServantList(){
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "ItemType": "Servant TYPE"
+      }
+      let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          this.servantTypeList = data.Result;
+        })
+    }
+    getRelationShipList(){
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "ItemType": "RELATION_TYPE_HOME"
+      }
+      let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          this.relationList = data.Result;
+        })
+    }
+    CommaFormatted(rowData,type) {
+      // format number
+      if (type=='Building') {
+        if(rowData.BuildingSI) rowData.BuildingSI = String(rowData.BuildingSI).replace(/[^0-9.]|(?<=\..*)\./g, "")
+         .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+      else if(type=='Content'){
+        if(rowData.ContentSI) rowData.ContentSI = String(rowData.ContentSI).replace(/[^0-9.]|(?<=\..*)\./g, "")
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+      else if(type=='AllRisk'){
+        if(rowData.AllRiskSI) rowData.AllRiskSI = String(rowData.AllRiskSI).replace(/[^0-9.]|(?<=\..*)\./g, "")
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+      else if(type=='PL'){
+        if(rowData.PersonalLiabilitySI) rowData.PersonalLiabilitySI = String(rowData.PersonalLiabilitySI).replace(/[^0-9.]|(?<=\..*)\./g, "")
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+      else if(type=='Domestic'){
+        if(rowData.ServantSI) rowData.ServantSI = String(rowData.ServantSI).replace(/[^0-9.]|(?<=\..*)\./g, "")
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+      else if(type=='PA'){
+        if(rowData.DeathSI) rowData.DeathSI = String(rowData.DeathSI).replace(/[^0-9.]|(?<=\..*)\./g, "")
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+    }
   checkEndorseDisable(type){
       if(this.endorsementSection){
         console.log('Enbales Endorsement Sections',type,this.buildingSection,this.enableAllSection);
@@ -4288,7 +4369,10 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     if(entry) return entry.CodeDesc;
     else return '';
   }
-  CommaFormatted(index,type) {
+  onShowCommonDialog(){
+    
+  }
+  CommaFormattedAlt(index,type) {
     if(type=='building'){
           let entry = this.building[index];
           console.log("Entry Came")

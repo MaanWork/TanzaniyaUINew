@@ -56,6 +56,8 @@ import { YakeenSearchComponent } from '../yakeen-search/yakeen-search.component'
         { path: 'reinsurance', component:ReInsuranceComponent},
         { path: 'customerview', component: CustomerComponent },
         { path: 'customer-info', component: CustomerInfoComponent },
+        { path: 'Home/credit-controller', loadChildren: () => import('../../components/Admin/payment-Controller/credit-Controller/credit-Controller.module').then(m => m.CreditControllerModule)},
+        { path: 'Home/surveyor', loadChildren: () => import('../../components/Admin/payment-Controller/surveyor/surveyor.module').then(m => m.SurveyorModule)},
         { path: 'yakeenSearch', loadChildren: () => import('../../components/yakeen-search/yakeen-search.module').then(m => m.YakeenSearchModule)},
         { path: 'tirastatus',loadChildren: () => import('../../components/tira-status/tira-status.module').then(m => m.TiraStatusModule)},
         { path: 'Admin', loadChildren: () => import('../Admin/admin.module').then(m => m.AdminModule) },

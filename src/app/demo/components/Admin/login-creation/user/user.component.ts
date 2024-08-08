@@ -623,7 +623,6 @@ export class UserComponent {
    // this.getEditBrokerDetails(login);
   }
   getPolicyIdTypeList(type) {
-    alert(type)
 		let ReqObj = {
 			"InsuranceId": this.insuranceId,
 			"BranchCode": '99999',
@@ -1074,7 +1073,6 @@ onStateChange(type) {
     this.paymentTypesDetailPopup=true;
     if (this.EffectiveDateStart != null) {
       this.EffectiveDateStart = this.onDateFormatInEdit(value.EffectiveDateStart)
-      // alert(this.EffectiveDateStart)
       if (this.EffectiveDateStart != '' && this.EffectiveDateStart != null && this.EffectiveDateStart != undefined) {
         this.EffectiveDateStart =  this.datePipe.transform(this.EffectiveDateStart, "dd/MM/yyyy")
       }
