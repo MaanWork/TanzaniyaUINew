@@ -26,7 +26,7 @@ export class CustomerIvory{
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
                   {
-                    className: 'col-12 md:col-2 lg:col-2 xl:col-2 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'ngselect',
                     id: 'CustomerTitle',
                     key: 'Title',
@@ -48,7 +48,7 @@ export class CustomerIvory{
                     },
                   },
                   {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'input',
                     id: 'FirstName',
                     key: 'ClientName',
@@ -125,6 +125,7 @@ export class CustomerIvory{
                       type:'date',
                       label: `Date Of Birth`,
                       // placeholder: 'Select Date Of Birth',
+                      
                       required: true,
                       disabled: this.checkDisable('dobOrRegDate'),
                       maxLength: 15
@@ -205,17 +206,18 @@ export class CustomerIvory{
                   },
                   {
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
-                    type: 'input',
+                    type: 'ngselect',
                     id: 'SocioProfessionalcategory',
                     key: 'SocioProfessionalcategory',
                     hide: false,
                     hideExpression:false,
-                    templateOptions: {
+                    props: {
                       label: `Socio Professional category`,
                       // placeholder: 'Enter Socio Professional category',
                       required: false,
                       disabled: this.checkDisable('SocioProfessionalcategory'),
-                      maxLength: 50
+                      maxLength: 50,
+                      options:[]
                     },
                     
                     validators: {
@@ -246,7 +248,7 @@ export class CustomerIvory{
                     },
                   },
                   {
-                    className: 'col-12 md:col-2 lg:col-2 xl:col-2 pl-23pr-2 pt-1',
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-23pr-2 pt-1',
                     type: 'ngselect',
                     id: 'CountryCode',
                     key: 'MobileCode',
@@ -266,7 +268,7 @@ export class CustomerIvory{
                     },
                   },
                   {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'input',
                     id: 'MobileNumber',
                     key: 'MobileNo',
@@ -335,7 +337,7 @@ export class CustomerIvory{
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
                     type: 'datepicker',
                     id: 'RegistrationDate',
-                    key: 'RegistrationDate',
+                    key: 'dobOrRegDate',
                     hide: true,
                     hideExpression:true,
                     templateOptions: {
@@ -343,7 +345,7 @@ export class CustomerIvory{
                       label: `Registration Date`,
                       // placeholder: 'Select Registration Date',
                       required: true,
-                      disabled: this.checkDisable('RegistrationDate'),
+                      disabled: this.checkDisable('dobOrRegDate'),
                       maxLength: 15
                     },
                     
@@ -526,7 +528,7 @@ export class CustomerIvory{
                     templateOptions: {
                       label: `PoBox`,
                       // placeholder: 'Enter PoBox',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('PinCode'),
                       maxLength: 150
                     },
