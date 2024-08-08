@@ -133,7 +133,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
   MESumInsured: any=null;EmployeeCounts:any;PreviousLossRatio:any=null;
   FESumInsured: any=null;ProfessionalOccupation:any;ProfessionalType:any;GISI:any;
   ProfessionalSI:any;IndemnityTypes:any;maxDate: "2022-09-25";DomesticServantSi:any='0';
-  MiddleName:any='';LastName:any='';MobileCode:any=null;MobileNo:any=null;
+  MiddleName:any='';LastName:any='';MobileCode:any=null;MobileNo:any=null;VehicleSI:any=null
 	PassengerFirstName: any='';
 	PassengerLastName: any=''
 	GenderId: any=''
@@ -144,6 +144,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 	constructor(data?) {
 		this.id = data?.id ?? ''
 		this.CustomerName = data?.CustomerName ?? '';
+		this.VehicleSI = data?.VehicleSI ?? '';
 		this.MobileCode = data?.MobileCode ?? '';
 		this.MobileNo = data?.MobileNo ?? '';
 		this.Dob = data?.Dob ?? '';
@@ -336,8 +337,8 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.otheroption=data?.OtherOccupation ?? '';
 		this.otherFioption = data?.OtherOccupation ?? '';
 		this.otheroptionPer = data?.OtherOccupation ?? '';
-		this.InsuranceType = data?.InsuranceType ?? '';
-		this.InsuranceClass = data?.InsuranceClass ?? '';
+		this.InsuranceType = data?.InsuranceType ?? null;
+		this.InsuranceClass = data?.InsuranceClass ?? null;
 		this.PassengerFirstName = data?.PassengerFirstName ?? '';
 		this.PassengerLastName = data?.PassengerLastName ?? '';
 		this.GenderId = data?.GenderId ?? '';

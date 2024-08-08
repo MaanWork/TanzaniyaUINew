@@ -65,6 +65,7 @@ export class CustomerCreateFormComponent implements OnInit {
 	Idnumber2: any;lang:any=null;
 	public form = new FormGroup({});
 	fields: any[]=[];
+	socioProfessionalList: any[]=[];
   constructor(private confirmationService: ConfirmationService, private sharedService: SharedService,private datePipe: DatePipe,
     private messageService: MessageService, private router: Router, private translate: TranslateService,private appComp:AppComponent,
     private primeNGConfig: PrimeNGConfig) {
@@ -136,10 +137,16 @@ export class CustomerCreateFormComponent implements OnInit {
 			this.productItem.IdType='1';
 		}
 
-	if(this.insuranceId=="100040"){
+	// if(this.insuranceId=="100040"){
+		
+
+	// }
+	if(this.insuranceId=="100040" || this.insuranceId=="100042" ){
+		this.getSocioProfessional();
 		this.getStateList('direct');
 		this.getRegionList('direct');
 	}
+	
     }
 	getHeaders(codeDesc){
 		return 'HOME.'+codeDesc
@@ -162,7 +169,6 @@ export class CustomerCreateFormComponent implements OnInit {
 				(data: any) => {
 					if (data.Result) {
 						this.titleList = data.Result;
-						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
 							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
 							for (let i = 0; i < this.titleList.length; i++) {
 								this.titleList[i].label = this.titleList[i]['CodeDesc'];
@@ -175,7 +181,6 @@ export class CustomerCreateFormComponent implements OnInit {
 										}
 									}
 								}
-							}
 						}
 					}
 				},
@@ -210,12 +215,12 @@ export class CustomerCreateFormComponent implements OnInit {
 		if(this.insuranceId=='100002'){
 			fireData = new CustomerTanzaniya();
 		}
-		// if(this.insuranceId=='100040'){
-		// 	fireData = new CustomerIvory();
-		// }
-		// if(this.insuranceId=='100042'){
-		// 	fireData = new CustomerBurkina();
-		// }
+		if(this.insuranceId=='100040'){
+			fireData = new CustomerIvory();
+		}
+		if(this.insuranceId=='100042'){
+			fireData = new CustomerBurkina();
+		}
 		if(this.insuranceId=='100027'){
 			fireData = new CustomerSanlam();
 		}
@@ -273,6 +278,20 @@ export class CustomerCreateFormComponent implements OnInit {
 					}
 				}
 			}
+		if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+			let exceptedHooks ={ onInit: (field: FormlyFieldConfig) => {
+				field.form.controls['isTaxExempted'].valueChanges.subscribe(() => {
+				  this.taxExcepted();
+				 });
+			  }
+			}
+			let fieldList=this.additionalInfoFields[0].fieldGroup;
+				for(let field of fieldList){
+					if(field.key=='isTaxExempted'){
+						field.hooks = exceptedHooks;
+					}
+				}
+		}
 		if(this.insuranceId=='100004'){
 		  this.getType3('direct');
 	  
@@ -425,7 +444,35 @@ export class CustomerCreateFormComponent implements OnInit {
 		}
 		else{this.router.navigate(['/customer'])}
 	}
-	
+	getSocioProfessional(){
+		let ReqObj=null,urlLink=null;
+		  ReqObj = {
+			"InsuranceId": this.insuranceId,
+		   "BranchCode": this.branchCode,
+		  }
+		  urlLink = `${this.CommonApiUrl}dropdown/socioProfessional`;
+		  this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+			(data: any) => {
+			  if(data.Result){
+				  this.socioProfessionalList = data.Result;
+				  if(this.socioProfessionalList.length!=0){
+					let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+					for (let i = 0; i < this.socioProfessionalList.length; i++) {
+					  this.socioProfessionalList[i].label = this.socioProfessionalList[i]['CodeDesc'];
+					  this.socioProfessionalList[i].value = this.socioProfessionalList[i]['Code'];
+					  if (i == this.socioProfessionalList.length - 1) {
+						let fieldList=this.personalInfoFields[0].fieldGroup;
+						for(let field of fieldList){
+							if(field.key=='SocioProfessionalcategory'){
+								field.props.options = defaultObj.concat(this.socioProfessionalList);
+							}
+						}
+					  }
+					}
+				  }
+			  }
+		  });            
+	  }
 	
   	public async onSubmit(data) {
 		console.log("Total Data", data);
@@ -456,7 +503,7 @@ export class CustomerCreateFormComponent implements OnInit {
 		var year = d.getFullYear();
 		var month = d.getMonth();
 		var day = d.getDate();
-		if(this.productItem.IdType != 2 && this.productItem.IdType != '2'){
+		if((this.productItem.IdType != 2 && this.productItem.IdType != '2') && this.insuranceId!='100040' && this.insuranceId!='100042' ){
 			
 			data.dobOrRegDate = new Date(year - 18,month, day-2 );
 		}
@@ -493,7 +540,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			this.productItem.IdNumber = Math.floor(Math 
 				.random() * (maxm - minm + 1)) + minm; 
 		}
-		if(this.productItem.IdType=='2' || this.productItem.IdType==2){
+		if((this.productItem.IdType=='2' || this.productItem.IdType==2) && this.insuranceId!='100040' &&  this.insuranceId!='100042'){
       		if(dobOrRegDate=='' || dobOrRegDate==null || dobOrRegDate==undefined || (new Date(dobOrRegDate)).setHours(0,0,0,0)<=new Date().setHours(0,0,0,0) || dobOrRegDate==null || dobOrRegDate==''){
 			  var d= new Date();
 			  var year = d.getFullYear();
@@ -523,18 +570,33 @@ export class CustomerCreateFormComponent implements OnInit {
 			policyid = data?.IdNumber;
 		}
 		if(this.insuranceId=="100002")data.state=this.productItem.Region;data.RegionCode=this.productItem.Country
-		// if(this.insuranceId=="100040" ){
-		// 	data.state="10001";
-		// }
-		if(this.insuranceId=="100042" ){
+		if(this.insuranceId=="100040" ){
+			data.state="10001";
+		}
+		else if(this.insuranceId=="100042" ){
 			data.state="99999";
 		}
 		else{
 			data.state=this.productItem.CityName;
 		}
-		if(this.productItem.IdType=='2' || this.productItem.IdType==2){
+		if((this.productItem.IdType=='2' || this.productItem.IdType==2) ){
 			data.Title='1';
 			data.ClientName=data?.CompanyName;
+			data.Occupation = '99999';
+			data.occupationdesc = 'Others';
+		}
+		if(data.SocioProfessionalcategory==undefined || data.SocioProfessionalcategory=='') data.SocioProfessionalcategory = null;
+		if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+			if(data?.PolicyHolderTypeid==null || data?.PolicyHolderTypeid==''){
+				data.PolicyHolderTypeid=this.productItem.PolicyHolderTypeid;
+				alert(data.PolicyHolderTypeid)
+			}
+			if (this.productItem.dobOrRegDate != undefined && this.productItem.dobOrRegDate != null && this.productItem.dobOrRegDate != '') {
+				if(String(this.productItem.dobOrRegDate).includes('/')){
+					dobOrRegDate = this.productItem.dobOrRegDate;
+				}
+				else dobOrRegDate = this.datePipe.transform(this.productItem.dobOrRegDate,'dd/MM/yyyy')
+			}
 		}
 		let ReqObj = {
 			"BrokerBranchCode": this.brokerbranchCode,
@@ -593,9 +655,9 @@ export class CustomerCreateFormComponent implements OnInit {
 			"MiddleName":data?.MiddleName,
 			"LastName":data?.LastName,
 			"Zone":"1",
-			"SocioProfessionalCategory":data?.SocioProfessional,
+			"SocioProfessionalCategory":data?.SocioProfessionalcategory,
 			// "CompanyName":data?.CompanyName, 
-			"Activities":data?.Activities
+			"Activities":data?.BusinessType
 		}
 		let quoteNo = sessionStorage.getItem('quoteNo'),refNo = null;
 		if(this.loginType=='B2CFlow' || (this.loginType=='B2CFlow2')){
@@ -703,7 +765,6 @@ export class CustomerCreateFormComponent implements OnInit {
 					if (data.Result) {
 						//this.holderTypeValue = null;
 						this.policyHolderTypeList = data.Result;
-						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
 							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
 							for (let i = 0; i < this.policyHolderTypeList.length; i++) {
 								this.policyHolderTypeList[i].label = this.policyHolderTypeList[i]['CodeDesc'];
@@ -717,12 +778,11 @@ export class CustomerCreateFormComponent implements OnInit {
 									}
 								}
 							}
-						}
 						
 						//this.fields[0].fieldGroup[0].fieldGroup[1].fieldGroup[0].props.options = defaultRow.concat(this.policyHolderTypeList);
-						if (type == 'change'){this.dob = "";this.productItem.PolicyHolderTypeid='';
+						// if (type == 'change'){this.dob = "";this.productItem.PolicyHolderTypeid='';
 						//this.productItem.IdNumber=null
-					}
+					//}
 					}
 				},
 				(err) => { },
@@ -739,13 +799,9 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.genderList = data.Result;
-						if(this.insuranceId=='100004'){
-							this.getOccupationLists('direct');
-						}
-						else {
-							this.getOccupationList();
-						}
-						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
+						
+							// this.getOccupationLists('direct');
+						
 							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
 							for (let i = 0; i < this.genderList.length; i++) {
 								this.genderList[i].label = this.genderList[i]['CodeDesc'];
@@ -760,7 +816,7 @@ export class CustomerCreateFormComponent implements OnInit {
 									}
 	
 								}
-							}
+							
 						}
 						
 						
@@ -782,7 +838,6 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.countryList = data.Result;
-						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
 							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
 							//this.countryList = defaultRow.concat(this.countryList);
 							for (let i = 0; i < this.countryList.length; i++) {
@@ -805,45 +860,48 @@ export class CustomerCreateFormComponent implements OnInit {
 									}
 	
 								}
-							}
+							
 						}
 					}
 				},
 				(err) => { },
 			);
 	}
-	getOccupationList(){
-		let ReqObj = {
-				"InsuranceId": this.insuranceId,
-				"BranchCode": this.branchCode,
-		}
-		let urlLink = `${this.CommonApiUrl}master/dropdown/occupation`;
-		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-			(data: any) => {
-				console.log(data);
-				if (data.Result) {
-					this.occupationList = data.Result;
-					let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
-					for (let i = 0; i < this.occupationList.length; i++) {
-						this.occupationList[i].label = this.occupationList[i]['CodeDesc'];
-						this.occupationList[i].value = this.occupationList[i]['Code'];
-						if (i == this.occupationList.length - 1) {
-							let fieldList=this.personalInfoFields[0].fieldGroup;
-							for(let field of fieldList){
-								if(field.key=='Occupation'){
-									field.props.options = defaultRow.concat(this.occupationList);
-								}
-							}
-						}
-					}
-							//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[0].props.options = defaultRow.concat(this.occupationList);
+	// getOccupationList(){
+	// 	alert("getOccupationList")
+	// 	let ReqObj = {
+	// 			"InsuranceId": this.insuranceId,
+	// 			"BranchCode": this.branchCode,
+	// 	}
+	// 	let urlLink = `${this.CommonApiUrl}master/dropdown/occupation`;
+	// 	this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+	// 		(data: any) => {
+	// 			console.log(data);
+	// 			if (data.Result) {
+	// 				this.occupationList = data.Result;
+	// 				let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+	// 				for (let i = 0; i < this.occupationList.length; i++) {
+	// 					this.occupationList[i].label = this.occupationList[i]['CodeDesc'];
+	// 					this.occupationList[i].value = this.occupationList[i]['Code'];
+	// 					if (i == this.occupationList.length - 1) {
+	// 						let fieldList=this.personalInfoFields[0].fieldGroup;
+	// 						for(let field of fieldList){
+	// 							alert(field.key);
+	// 							if(field.key=='Occupation'){
+									
+	// 								field.props.options = defaultRow.concat(this.occupationList);
+	// 							}
+	// 						}
+	// 					}
+	// 				}
+	// 						//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[0].props.options = defaultRow.concat(this.occupationList);
 							
-							//this.getBusinessTypeList();
-				}
-			},
-			(err) => { },
-		);
-	}
+	// 						//this.getBusinessTypeList();
+	// 			}
+	// 		},
+	// 		(err) => { },
+	// 	);
+	// }
 	getBusinessTypeList(){
 		let ReqObj = {
 				"InsuranceId": this.insuranceId,
@@ -855,7 +913,6 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.businessTypeList = data.Result;
-						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
 							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
 							for (let i = 0; i < this.businessTypeList.length; i++) {
 								this.businessTypeList[i].label = this.businessTypeList[i]['CodeDesc'];
@@ -868,7 +925,7 @@ export class CustomerCreateFormComponent implements OnInit {
 										}
 									}
 								}
-							}
+							
 						}
 						
 						//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[10].props.options = defaulObj.concat(this.businessTypeList);
@@ -887,7 +944,6 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.mobileCodeList = data.Result;
-						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
 							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
 							for (let i = 0; i < this.mobileCodeList.length; i++) {
 								this.mobileCodeList[i].label = this.mobileCodeList[i]['CodeDesc'];
@@ -900,7 +956,7 @@ export class CustomerCreateFormComponent implements OnInit {
 										}
 									}
 								}
-							}
+							
 						}
 						
 								if (this.customerReferenceNo) {
@@ -914,6 +970,7 @@ export class CustomerCreateFormComponent implements OnInit {
 									this.productItem.Gender = '';
 									this.productItem.PolicyHolderTypeid = '';
 									this.productItem.IdType = '1';
+									this.setPolicyType();
 									if(this.mobileCodeList.length!=0 && this.mobileCodeList.length>1){
 										this.productItem.MobileCode = this.mobileCodeList[1].Code;
 									}
@@ -941,7 +998,14 @@ export class CustomerCreateFormComponent implements OnInit {
 			);
 	}
 	getStateList(type) {
-		if(this.insuranceId=="100040"){this.productItem.state="10001";this.productItem.Country='AGO'}
+		if(this.insuranceId=="100040"){
+			this.productItem.state="10001";
+			this.productItem.Country='AGO'
+		}
+		else if(this.insuranceId=="100042"){
+			this.productItem.state="99999";
+			this.productItem.Country='BFA'
+		}
 		else{
 			this.productItem.Country=this.productItem.Country;
 		}
@@ -961,7 +1025,6 @@ export class CustomerCreateFormComponent implements OnInit {
 						//this.stateList = defaultRow.concat(this.stateList)
 						if(type=='change'){ this.productItem.CityName = '';}
 						if(type=='change'){this.productItem.state = '';this.productItem.CityName=''};
-						if(this.insuranceId!='100042' && this.insuranceId!='100040'){
 							let defaultRow1 = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
 							for (let i = 0; i < this.stateList.length; i++) {
 								this.stateList[i].label = this.stateList[i]['CodeDesc'];
@@ -974,7 +1037,7 @@ export class CustomerCreateFormComponent implements OnInit {
 										}
 									}
 
-								}
+								
 							}
 						}
 								
@@ -1025,7 +1088,6 @@ export class CustomerCreateFormComponent implements OnInit {
 							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
 							//this.regionList = defaultRow.concat(this.regionList);
 							
-							if(this.insuranceId!='100042' && this.insuranceId!='100040'){
 								if(type=='change'){
 									this.productItem.state = '';
 									this.productItem.CityName=''
@@ -1043,7 +1105,7 @@ export class CustomerCreateFormComponent implements OnInit {
 										}
 	
 									}
-								}
+								
 							}
 							
 				}
@@ -1063,9 +1125,10 @@ export class CustomerCreateFormComponent implements OnInit {
 					let customerDetails = data.Result;
 					this.productItem = new ProductData();
 					this.productItem.ClientName = customerDetails.ClientName;
+					this.productItem.CompanyName = customerDetails.ClientName;
 					this.productItem.MiddleName = customerDetails.MiddleName;
 					this.productItem.LastName = customerDetails.LastName;
-					
+					this.productItem.IdType = customerDetails.PolicyHolderType;
 					// if(customerDetails.AppointmentDate!=null && customerDetails.AppointmentDate!=undefined){
 					// 	var dateParts = customerDetails.AppointmentDate.split("/");
 					// 	 this.productItem.AppointmentDate = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
@@ -1074,6 +1137,11 @@ export class CustomerCreateFormComponent implements OnInit {
 					this.productItem.Address2 = customerDetails.Address2;
 					this.productItem.BusinessType = customerDetails.BusinessType;
 					this.productItem.CityName = customerDetails.CityCode;
+					this.productItem.SocioProfessionalcategory = customerDetails.SocioProfessionalCategory;
+					if(this.productItem.SocioProfessionalcategory){
+						this.getSocioProfessional();
+					}
+					this.productItem.Activities = customerDetails.Activities;
 					if(this.productItem.CityName==null) this.productItem.CityName = '';
 					this.productItem.districtcode = customerDetails.CityName;
 					if(customerDetails.Clientstatus) this.productItem.Clientstatus = customerDetails.Clientstatus;
@@ -1093,15 +1161,23 @@ export class CustomerCreateFormComponent implements OnInit {
 					//this.productItem.IdNumber = customerDetails.IdNumber;
 					if(customerDetails.PolicyHolderType!=null && customerDetails.PolicyHolderType!=''){
 						this.productItem.IdType = customerDetails.PolicyHolderType;
+						
+						this.setPolicyType();
+						if((this.productItem.IdType=='2' || this.productItem.IdType==2) && this.insuranceId=='100044'){
+							this.productItem.CompanyName = customerDetails?.ClientName;
+						}
 					}
-					this.getPolicyIdTypeList(null);
+					else{
+						this.getPolicyIdTypeList("direct");
+					}
+					
 					this.productItem.isTaxExempted = customerDetails.IsTaxExempted;
 					if (this.productItem.isTaxExempted == 'Y') this.productItem.TaxExemptedId = customerDetails.TaxExemptedId;
 					this.productItem.MobileNo = customerDetails.MobileNo1;
 					this.productItem.MobileCode = customerDetails.MobileCode1;
 					this.productItem.MobileCodeDesc = customerDetails.MobileCodeDesc1;
-
 					this.productItem.PolicyHolderTypeid = customerDetails.PolicyHolderTypeid;
+					alert(this.productItem.PolicyHolderTypeid+"customerDetails")
 					if(this.productItem.PolicyHolderTypeid =='1' && this.insuranceId=='100004'){
 						this.shows=true;
 						if(customerDetails.IdNumber!='NA'){
@@ -1109,7 +1185,6 @@ export class CustomerCreateFormComponent implements OnInit {
 							this.Idnumber1= customerDetails.IdNumber.substr(5, 3);
 							this.Idnumber2= customerDetails.IdNumber.substr(8, 1);
 						}
-						
 					}
 					else{
 						this.shows=false;
@@ -1134,7 +1209,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					// 		this.productItem.dobOrRegDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
 					// 	}
 					// }
-					this.productItem.DobOrRegDate=customerDetails.DobOrRegDate;
+					this.productItem.dobOrRegDate=customerDetails.DobOrRegDate;
 					this.productItem.Street = customerDetails.Street;
 					this.productItem.TelephoneNo = customerDetails.TelephoneNo1;
 					if(this.shortQuoteYN && customerDetails.Occupation=='99999') this.productItem.Occupation = '';
@@ -1375,7 +1450,7 @@ export class CustomerCreateFormComponent implements OnInit {
 		else{
 			policyid = datas?.IdNumber;
 		}
-            
+            // alert(datas?.PolicyHolderTypeid+"dgsghghr")
 		let ReqObj = {
 			"BrokerBranchCode": this.brokerbranchCode,
 			"CustomerReferenceNo": this.customerReferenceNo,
@@ -1407,7 +1482,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			"Nationality": datas.Country,
 			"Occupation": datas?.Occupation,
 			"OtherOccupation":datas?.occupationdesc,
-			"Placeofbirth": "Chennai",
+			"Placeofbirth": "",
 			"PolicyHolderType": datas.IdType,
 			"PolicyHolderTypeid": datas?.PolicyHolderTypeid,
 			"PreferredNotification": datas?.PreferredNotification,
@@ -1471,10 +1546,17 @@ export class CustomerCreateFormComponent implements OnInit {
 				
 			},
 
+
+
+
+
+			
 			(err: any) => { console.log(err); },
 		);
 	}
   setPolicyType(){
+	// alert("setPolicyType")
+	
        let value = this.productItem.IdType;
       if(value==2 || value=='2'){
         this.productItem.Gender = '';
@@ -1486,6 +1568,7 @@ export class CustomerCreateFormComponent implements OnInit {
 	} 
 	let fieldList=this.additionalInfoFields[0].fieldGroup;
 	let fieldList1=this.personalInfoFields[0].fieldGroup;
+	
 	for(let field of fieldList1){
 		if(this.productItem.IdType=='2' || this.productItem.IdType==2){
 		if(field.key=='BusinessType' || field.key=='CompanyName'  ){
@@ -1493,33 +1576,36 @@ export class CustomerCreateFormComponent implements OnInit {
 		}
 		
 		if(field.key=='ClientName' || field.key=='Title' || field.key=='Gender' || field.key=='dobOrRegDate' || field.key=='Nationality'
-			|| field.key=='SocioProfessionalcategory' 
+			|| field.key=='SocioProfessionalcategory' || field.key=='Occupation' 
 		)
 			{
 				field.hide=true;field.hideExpression=true;
+				if(field.key=='dobOrRegDate'){field.label="Registration Date"}
 			}
 			
 		}
-			else if(this.productItem.IdType=='1' || this.productItem.IdType==1){
-				if(field.key=='BusinessType' || field.key=='CompanyName'){
-					field.hide=true;field.hideExpression=true;
-				}
-				
-				if(field.key=='ClientName' || field.key=='Title' || field.key=='Gender')
-					{
-						field.hide=false;field.hideExpression=false;
-					}
+		else if(this.productItem.IdType=='1' || this.productItem.IdType==1){
+			if(field.key=='BusinessType' || field.key=='CompanyName'){
+				field.hide=true;field.hideExpression=true;
 			}
+			if(field.key=='ClientName' || field.key=='Title' || field.key=='Gender' || field.key=='dobOrRegDate' || field.key=='Nationality'
+				|| field.key=='SocioProfessionalcategory' || field.key=='Occupation' 
+			){
+					field.hide=false;field.hideExpression=false;
+				}
+			if(field.key=='ClientName' || field.key=='Title' || field.key=='Gender'){
+					field.hide=false;field.hideExpression=false;
+				}
+		}
 	}
 		for(let field of fieldList){
 			if(this.productItem.IdType=='1' || this.productItem.IdType==1){
-				if(  field.key=='RegistrationDate' || field.key=='GstNumber' ){
+				if(  (field.key=='dobOrRegDate' && this.insuranceId!='100044') || field.key=='GstNumber' ){
 					field.hide=true;field.hideExpression=true;
 				}
-				
 			} 
 			else if(this.productItem.IdType=='2' || this.productItem.IdType==2){
-				if(  field.key=='RegistrationDate' || field.key=='GstNumber'){
+				if(  field.key=='dobOrRegDate' || field.key=='GstNumber'){
 					field.hide=false;field.hideExpression=false;
 				}
 				
@@ -1540,8 +1626,6 @@ export class CustomerCreateFormComponent implements OnInit {
     });
   }
   onsavedatas(type,data){
-
-	console.log('GGGGGGG',type)
 	if(type=='Address'){
 		this.Adressvalidate();
 	}
@@ -1608,7 +1692,6 @@ getType3(type){
 			  if (i == this.titleList.length - 1) {
 				  let fieldList=this.personalInfoFields[0].fieldGroup;
 				  for(let field of fieldList){
-					alert(field.key)
 					  if(field.key=='Title'){
 						  field.props.options = defaultRow.concat(this.titleList);
 					  }
@@ -1648,14 +1731,45 @@ getType3(type){
 				console.log(data);
 				if (data.Result) {
 					this.occupationList = data.Result;
-							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
-							this.occupationList = defaultRow.concat(this.occupationList)
-							if(type!='change'){
-								this.getBusinessTypeList();
+					let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+					if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+						for (let i = 0; i < this.occupationList.length; i++) {
+							this.occupationList[i].label = this.occupationList[i]['CodeDesc'];
+							this.occupationList[i].value = this.occupationList[i]['Code'];
+							if (i == this.occupationList.length - 1) {
+								let fieldList=this.personalInfoFields[0].fieldGroup;
+								for(let field of fieldList){
+									if(field.key=='Occupation'){
+										field.props.options = defaultRow.concat(this.occupationList);
+									}
+								}
 							}
+						}
+					}
+					else{
+						this.occupationList = defaultRow.concat(this.occupationList)
+					}
+					if(type!='change'){
+						this.getBusinessTypeList();
+					}
 				}
 			},
 			(err) => { },
 		);
+	}
+	taxExcepted(){
+			let fieldList=this.additionalInfoFields[0].fieldGroup;
+			for(let field of fieldList){
+			if(this.productItem.isTaxExempted=='Y'){
+				if(field.key=='TaxExemptedId'){
+					field.hide=false;field.hideExpression=false;
+				}
+			} 
+			if(this.productItem.isTaxExempted=='N'){
+				if(field.key=='TaxExemptedId'){
+					field.hide=true;field.hideExpression=true;
+				}
+			}
+		}
 	}
 }

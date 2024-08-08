@@ -880,7 +880,265 @@
         label="Proceed" size="small" (click)="onfinalsave('Submit')"></p-button>
         <!-- <button pButton pRipple label="Submit" class="p-button-success" (click)="onfinalsave()"></button> -->
     </div>
-</div>
+    </div>
+    <div *ngIf="productId=='63'">
+        
+        <p-dialog header="Edit Profile" [modal]="true" [(visible)]="visible" [style]="{ width: 'w-6' }" [draggable]="false">
+            <div class="grid ">
+                <div class="col-12 lg:col-6 xl:col-6">
+                    <label for="Address">Address</label>
+                    <input class="w-full p-button-outlined" placeholder="Enter Address" styleClass="w-full"  pInputText type="text" 
+                    />
+                </div>
+                <div class="col-12 lg:col-6 xl:col-6">
+                    <label for="Location">Location</label>
+                    <input class="w-full p-button-outlined" placeholder="Location" styleClass="w-full"  pInputText type="text" 
+                    />
+                </div>
+            </div>
+            <div class="flex justify-content-center gap-2">
+                <p-button label="Cancel" styleClass="p-button-outlined"  (onClick)="visible = false" />
+                <p-button label="Save" (onClick)="visible = false" />
+            </div>
+        </p-dialog>
+        <ng-container >
+            <div class="card">
+                <div class="grid ">
+                    <div class="col-12 lg:col-4 md:col-4">
+                        <div class="mb-2"><b>Location Details</b></div>
+                    </div>
+                    <div class="col-12 lg:col-2 md:col-2">
+                        <div class="mb-2 ">&nbsp;<p-button label="Add Location" icon="pi pi-plus" (click)="addLocation()" />&nbsp;</div>
+                    </div>
+                </div>
+                <div class="grid ">
+                    
+                    <div class="col-12 lg:col-6 md:col-6">
+                        
+                        <p-table [value]="LocationName" dataKey="LocationName" editMode="row" [rows]="10" [paginator]="false" [tableStyle]="{'min-width': '40rem'}" >
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th [pSortableColumn]="column" *ngFor="let column of LocationHeader">
+                                        {{column}}
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-Building let-ri="rowIndex">
+                                <tr>
+                                    <!-- <td>
+                                        <ng-container *ngIf="currentBuildingRowIndex==ri">
+                                            <p-dropdown class="w-full"  placeholder="Select Usage"  [options]="BuildingUsageList" 
+                                                    appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="Building.BuildingUsageId" />
+                                                
+                                        </ng-container>
+                                        <ng-container *ngIf="currentBuildingRowIndex!=ri">{{getBuildingUsageId(Building.BuildingUsageId)}}</ng-container>
+                                        <div class="input-form-error" *ngIf="Building.BuildingUsageIdError">
+                                            <div class="error-text text-danger">
+                                                Select Valid Usage
+                                            </div>
+                                        </div>
+                                    </td> -->
+                                    <!-- <td>
+                                        <ng-container *ngIf="currentBuildingRowIndex==ri">
+                                            <input class="w-full p-button-outlined"   placeholder="Enter Build Year "  pInputText type="text" 
+                                                [(ngModel)]="Building.BuildingBuildYear" />
+                                        </ng-container>
+                                        <ng-container *ngIf="currentBuildingRowIndex!=ri">
+                                            {{Building.BuildingBuildYear}}
+                                        </ng-container>   
+                                    </td> -->
+                                    <td>
+                                        <input class="w-full p-button-outlined" placeholder="Enter Location Name" [(ngModel)]="Building.LocationName" styleClass="w-full"  pInputText type="text" />
+                                    </td>
+                                    <td>
+                                        <ng-container  *ngIf="ri!=0">
+                                            <!-- *ngIf="currentBuildingRowIndex==ri" -->
+                                            <div class="flex align-items-center justify-content-center gap-2" >
+                                                <button  pButton type="button"  icon="pi pi-trash"  (click)="onDeleteLocation(ri)" 
+                                                    styleClass="p-button-outlined" >
+                                                </button>
+                                            </div>
+                                        </ng-container>
+                                    </td>
+                                </tr>
+                            
+                            </ng-template>
+                        
+                        </p-table>
+                    </div>
+                </div>
+                <div class="grid ">
+                    <div class="col-12 lg:col-6 md:col-6">
+                        
+                    </div>
+                </div>
+                <p-tabView *ngIf="LocationName.length!=0 && checkLocationDetail()" [(activeIndex)]="tabIndex" (onChange)='tabIndex = $event.index'>
+                    <ng-container *ngFor="let item of LocationName">
+                        <p-tabPanel [header]="item.LocationName">
+                            <div class="grid ">
+                                <div class="col-12 lg:col-1 md:col-1"></div>
+                                <div class="col-12 lg:col-6 md:col-6">
+                                    <div class="card ">
+                                        <div class="grid justify-content-start">
+                                            <div class="mb-1 "> 
+                                                <b>Building Details</b>
+                                            </div>
+                                        
+                                        </div>
+                                        <div class="grid ">
+                                            <div class="col-12 lg:col-6 md:col-6">
+                                                <label for="BuildingType">Construction Type</label>
+                                                <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Construction Type" [options]="constructionTypes"
+                                                   [(ngModel)]="item.BuildingType" appendTo="body" optionLabel="CodeDesc" optionValue="Code"  />
+                                            </div>
+                                            <div class="col-12 lg:col-6 md:col-6">
+                                                <label for="SumInsured">SumInsured</label>
+                                                <input class="w-full p-button-outlined" placeholder="Enter SumInsured" styleClass="w-full"
+                                                (keydown)="onSIValueChange($event)" (keyup)="CommaFormatted(item,'Building')" [(ngModel)]="item.BuildingSI" pInputText type="text" 
+                                                />
+                                            </div>
+                                           
+                                            <!-- <div class="col-12 lg:col-6 md:col-6">
+                                                <label for="BuildingType">Construction (Roof)</label>
+                                                <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Roof Type"
+                                                    appendTo="body" optionLabel="LocationName" optionValue="RiskId"  />
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="grid">
+                                <div class="col-12 lg:col-1 md:col-1"></div>
+                                <div class="col-12 lg:col-3 md:col-3">
+                                    <div class="card ">
+                                        <div class="grid justify-content-start">
+                                            <div class="mb-1 "> 
+                                                <b>Content SumInsured</b>
+                                            </div>
+                                        
+                                        </div>
+                                        <div class="grid justify-content-center">
+                                            <div class="col-12 lg:col-8 md:col-8">
+                                                <label for="SumInsured">SumInsured</label>
+                                                <input class="w-full p-button-outlined" placeholder="Enter SumInsured"
+                                                (keydown)="onSIValueChange($event)" (keyup)="CommaFormatted(item,'Content')" [(ngModel)]="item.ContentSI" styleClass="w-full"  pInputText type="text" 
+                                                />
+                                            </div>
+                                            <!-- <div class="col-12 lg:col-6 md:col-6">
+                                                <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Building Type"
+                                                    appendTo="body" optionLabel="LocationName" optionValue="RiskId"  />
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                                <div class="col-12 lg:col-3 md:col-3">
+                                    <div class="card ">
+                                        <div class="grid justify-content-start">
+                                            <div class="mb-1 "> 
+                                                <b>All Risk</b>
+                                            </div>
+                                        
+                                        </div>
+                                        <div class="grid justify-content-center">
+                                            <div class="col-12 lg:col-8 md:col-8">
+                                                <label for="SumInsured">SumInsured</label>
+                                                <input class="w-full p-button-outlined" placeholder="Enter SumInsured"
+                                                (keydown)="onSIValueChange($event)" (keyup)="CommaFormatted(item,'AllRisk')" [(ngModel)]="item.AllRiskSI" styleClass="w-full"  pInputText type="text" 
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 lg:col-3 md:col-3">
+                                    <div class="card ">
+                                        <div class="grid justify-content-start">
+                                            <div class="mb-1 "> 
+                                                <b>Personal Liability</b>
+                                            </div>
+                                        
+                                        </div>
+                                        <div class="grid justify-content-center">
+                                            <div class="col-12 lg:col-8 md:col-8">
+                                                <label for="SumInsured">SumInsured</label>
+                                                <input class="w-full p-button-outlined" placeholder="Enter SumInsured"
+                                                (keydown)="onSIValueChange($event)" (keyup)="CommaFormatted(item,'PL')" [(ngModel)]="item.PersonalLiabilitySI" styleClass="w-full"  pInputText type="text" 
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col-12 lg:col-1 md:col-1"></div>
+                                <div class="col-12 lg:col-6 md:col-6">
+                                    <div class="card ">
+                                        <div class="grid justify-content-start">
+                                            <div class="mb-1 "> 
+                                                <b>Domestic Servant</b>
+                                            </div>
+                                        
+                                        </div>
+                                        <div class="grid justify-content-between">
+                                            <div class="col-12 lg:col-4 md:col-4">
+                                                <label for="Servant">Servant</label>
+                                                <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Servant" [options]="servantTypeList"
+                                                [(ngModel)]="item.ServantType" appendTo="body" optionLabel="CodeDesc" optionValue="Code"  />
+                                            </div>
+                                            <div class="col-12 lg:col-3 md:col-3">
+                                                <label for="SumInsured">Employee Count</label>
+                                                <input class="w-full p-button-outlined" placeholder="Enter Count" [(ngModel)]="item.ServantCount" styleClass="w-full"  pInputText type="text" />
+                                            </div>
+                                            <div class="col-12 lg:col-4 md:col-4">
+                                                <label for="SumInsured">SumInsured</label>
+                                                <input class="w-full p-button-outlined" placeholder="Enter SumInsured" 
+                                                (keydown)="onSIValueChange($event)" (keyup)="CommaFormatted(item,'Domestic')"
+                                                 [(ngModel)]="item.ServantSI" styleClass="w-full"  pInputText type="text" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 lg:col-4 md:col-4">
+                                    <div class="card ">
+                                        <div class="grid justify-content-start">
+                                            <div class="mb-1 "> 
+                                                <b>Personal Accident</b>
+                                            </div>
+                                        
+                                        </div>
+                                        <div class="grid ">
+                                            <div class="col-12 lg:col-6 md:col-6">
+                                                <label for="BuildingType">Relationship</label>
+                                                <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Relationship" [(ngModel)]="item.RelationType" [options]="relationList"
+                                                    appendTo="body" optionLabel="CodeDesc" optionValue="Code"  />
+                                            </div>
+                                            <div class="col-12 lg:col-6 md:col-6">
+                                                <label for="SumInsured">Death SI</label>
+                                                <input class="w-full p-button-outlined" placeholder="Enter SumInsured" styleClass="w-full"
+                                                (keydown)="onSIValueChange($event)" (keyup)="CommaFormatted(item,'PA')" [(ngModel)]="item.DeathSI"  pInputText type="text" 
+                                                />
+                                            </div>
+                                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p-tabPanel>
+                    </ng-container>
+                </p-tabView>
+            </div>
+            
+        </ng-container>
+        <div class="text-center mt-2">
+            <p-button  styleClass="p-button-outlined" label="Back"
+            size="small" [routerLink]="['/quotation/plan/quote-details']" routerLinkActive="router-link-active"></p-button>&nbsp;
+            <p-button  styleClass="p-button-outlined" label="Save & Proceed" (click)="onSubmit('Save')"
+            size="small"  routerLinkActive="router-link-active"></p-button>&nbsp;
+            <p-button label="Submit" *ngIf="LocationName.length!=0 && checkLocationDetail()" (click)="onSubmit('Submit')" size="small" ></p-button>
+            <!-- <button pButton pRipple label="Submit" class="p-button-success" (click)="onfinalsave()"></button> -->
+        </div>
+    </div>
 <ng-container *ngIf="productId=='57'">
     <div class="mt-4">
         <div class="grid mb-3">
@@ -927,7 +1185,7 @@
                             <div>
                                 <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
                                     <formly-form [form]="form" [fields]="stepss.fieldGroup" [model]="productItem"></formly-form>
-                            </form>
+                                </form>
                             </div>     
                         </div>
                     </div>

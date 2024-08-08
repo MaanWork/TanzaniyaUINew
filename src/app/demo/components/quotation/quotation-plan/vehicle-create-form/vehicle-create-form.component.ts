@@ -55,6 +55,7 @@ export class VehicleCreateFormComponent implements OnInit {
   horsePowerError: boolean=false;
   displacement: any;
   numberOfCylinders: any;
+  RegistrationDate:any;
   constructor(private messageService: MessageService,private sharedService: SharedService,private appComp:AppComponent,
     private translate:TranslateService,private datePipe:DatePipe,private router:Router) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -62,6 +63,7 @@ export class VehicleCreateFormComponent implements OnInit {
       this.userType = this.userDetails?.Result?.UserType;
       this.subuserType = this.userDetails?.Result?.SubUserType;
       this.brokerbranchCode = this.userDetails.Result.BrokerBranchCode;
+     
       this.branchList = this.userDetails.Result.LoginBranchDetails;
     this.insuranceId = this.userDetails.Result.InsuranceId;
       this.loginId = this.userDetails.Result.LoginId;
@@ -336,6 +338,7 @@ export class VehicleCreateFormComponent implements OnInit {
     this.duplicateSection = false;
     this.subuserType = sessionStorage.getItem('typeValue');
     let appId = "1",loginId="",brokerbranchCode="",createdBy="";
+   
     let quoteStatus = sessionStorage.getItem('QuoteStatus');
       if(quoteStatus=='AdminRP' || quoteStatus=='AdminRA' || quoteStatus=='AdminRR'){
         brokerbranchCode = this.vehicleDetails.BrokerBranchCode;
@@ -495,6 +498,13 @@ export class VehicleCreateFormComponent implements OnInit {
           }
         }
         if(this.vehicleDetails?.SavedFrom=='SQ') this.vehicleDetails.SavedFrom = 'WEB';
+        let registrationDate;
+        if (this.RegistrationDate != undefined && this.RegistrationDate != null && this.RegistrationDate != '') {
+          if(String(registrationDate).includes('/')){
+            registrationDate = this.RegistrationDate;
+          }
+          else registrationDate = this.datePipe.transform(this.RegistrationDate,'dd/MM/yyyy')
+        }
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": this.vehicleDetails?.AcExecutiveId,
@@ -607,6 +617,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "IsFinanceEndt": this.isFinanceEndt,
         "OrginalPolicyNo": this.orginalPolicyNo,
         "HorsePower": this.horsePower,
+        "RegistrationDate": registrationDate,
         "Scenarios": {
             "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": null,
@@ -631,6 +642,9 @@ export class VehicleCreateFormComponent implements OnInit {
       }
       else{
         ReqObj['Status'] = 'Y';
+      }
+      if(this.brokerbranchCode==null ||this.brokerbranchCode==''){
+        ReqObj['BrokerBranchCode']="1";
       }
       if(this.insuranceId=='100019'){
         if(this.vehicleDetails?.CarAlarmYn!= null && this.vehicleDetails?.CarAlarmYn!='' && this.vehicleDetails?.CarAlarmYn!=undefined)  ReqObj['CarAlarmYn'] = this.vehicleDetails?.CarAlarmYn;
@@ -922,6 +936,10 @@ export class VehicleCreateFormComponent implements OnInit {
     this.currencyCode = vehDetails?.Currency;
     this.exchangeRate = vehDetails?.ExchangeRate;
     this.horsePower = vehDetails?.HorsePower;
+    this.modelDesc = vehDetails?.VehicleModelDesc;
+    this.displacement = vehDetails?.DisplacementInCM3;
+    this.numberOfCylinders = vehDetails?.NumberOfCylinders;
+    this.RegistrationDate = vehDetails?.RegistrationDate;
      if(this.insuranceId!='100020') this.onBodyTypeChange('direct');
      else{
       if(vehDetails?.Vehiclemake!=null && vehDetails?.Vehiclemake!='' && this.makeList.length!=0){
@@ -990,6 +1008,16 @@ export class VehicleCreateFormComponent implements OnInit {
         
       }
     }
+    let registrationDate;
+    if (this.RegistrationDate != undefined && this.RegistrationDate != null && this.RegistrationDate != '') {
+      if(String(registrationDate).includes('/')){
+        registrationDate = this.RegistrationDate;
+      }
+      else registrationDate = this.datePipe.transform(this.RegistrationDate,'dd/MM/yyyy')
+    }
+    if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+      this.engineCapacity='1'
+    }
     let ReqObj = {
       "Insuranceid": this.insuranceId,
       "BranchCode": this.branchCode,
@@ -1018,6 +1046,7 @@ export class VehicleCreateFormComponent implements OnInit {
       "Vehiclemake": make,
       "DisplacementInCM3": this.displacement,
        "NumberOfCylinders": this.numberOfCylinders,
+       "RegistrationDate": registrationDate,
     }
     let urlLink = `${this.motorApiUrl}regulatory/savevehicleinfo`;
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(

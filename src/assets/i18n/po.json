@@ -241,6 +241,7 @@
       "PromoCode":"Código promocional",
       "Optional":"Opcional",
       "EnterPromoCode": "Insira o código promocional",
+      "InflationSumInsured": "Soma de inflação segurada",
       "PleaseSelectCurrency":"Selecione a moeda",
       "Vehicle":"Veículo",
       "MotorDetails":"Detalhes do motor",

@@ -35,7 +35,7 @@
                                                 <p class="mr-5"><i class="pi pi-tag mr-2"></i>{{ menu.RiskDetails.Registrationnumber }}</p>
                                             </div>
                                             <div class="flex flex-wrap">
-                                                <ng-container *ngIf="(insuranceId=='100020' || insuranceId=='100028') && productId!='56' ">
+                                                <ng-container *ngIf="(insuranceId=='100020' || insuranceId=='100028'  || insuranceId=='100044') && productId!='56' ">
                                                     <p-button icon="pi pi-rate" [label]="'PREMIUM.ViewFactorDetails' | translate" (click)="onViewFactorDetails()"  class="mr-3" styleClass='p-button-outlined' severity="success "></p-button>
                                                 </ng-container>
                                                 <div class="bg-blue-800 customSizeDiv"></div> &nbsp; {{'PREMIUM.DefaultOptedCovers' | translate}} &nbsp;
@@ -81,18 +81,18 @@
                                                             <div class="col-10 md:col-10 lg:col-10 xl:col-10">
                                                                 <div class="flex align-items-center justify-content-between">
                                                                     <h3 class="text-0 mb-0">{{cover.CoverName}}</h3>
-                                                                    <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container>
+                                                                   
                                                                 </div>
                                                             </div>
                                                             <div class="col-2 md:col-2 lg:col-2 xl:col-2">
                                                                 <div class="flex align-items-center justify-content-between">
                                                                     <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>
+                                                                    <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal == 'Y'"></i>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         
-                                                        
+                                                        <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container>
                                                         <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}
                                                             &nbsp;&nbsp;<a
                                                                 class="mt-0 viewDetailsText" [id]="'ViewDetails1'+getCoverNameAlt(cover.CoverName)"
@@ -154,7 +154,7 @@
                                                     <ng-container *ngIf="(cover.isSelected!='D' && cover.CoverageType!='A') && ! checkCoverSelection(menu,cover)">
                                                         <div class="card p-3 w-25rem customOptCoverCard" [ngClass]="canbeChecked(cover) ? 'customOptCoverBg' : ''" >
                                                             <div class="grid">
-                                                                <div class="col-11 md:col-11 lg:col-11 xl:col-11">
+                                                                <div class="col-10 md:col-10 lg:col-10 xl:col-10">
                                                                     <div class="flex align-items-center justify-content-start">
                                                                         <div>
                                                                             <input type="checkbox" [checked]="canbeChecked(cover)" (change)="onSelectCover(cover,$event.target.checked,menu.Vehicleid,menu,'coverList','change')" id="vehicle1" name="vehicle1">&nbsp;
@@ -162,11 +162,11 @@
                                                                         </div>
                                                                         <div class="customWidth">
                                                                             <h5 class="my-0 mr-4">{{cover.CoverName}}</h5>
-                                                                            <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container>
+                                                                            <!-- <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container> -->
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-1 md:col-1 lg:col-1 xl:col-1">
+                                                                <div class="col-2 md:col-2 lg:col-2 xl:col-2">
                                                                     <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                     <i class="pi pi-spin pi-" style="font-size: 2rem" *ngIf="cover.isReferal === 'Y'"></i>
                                                                 </div>
@@ -183,6 +183,7 @@
                                                            <div class="flex flex-wrap mt-3 justify-content-between">
                                                                 <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
                                                                     <div class="mb-3">
+                                                                        <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container>
                                                                         <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}  &nbsp;&nbsp;<a
                                                                             class="mt-0 viewDetailsText2" [id]="'ViewDetails3'+getCoverNameAlt(cover.CoverName)"
                                                                             (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
@@ -268,7 +269,7 @@
                                                         <ng-container *ngIf="(cover.isSelected!='D' && cover.CoverageType!='A') && !checkCoverSelection(menu,cover)">
                                                              <div class="card p-3 ml-3 w-25rem customOptCoverCard" [ngClass]="canbeChecked(cover) ? 'customOptCoverBg' : ''" >
                                                                 <div class="grid">
-                                                                    <div class="col-10 md:col-10 lg:col-10 xl:col-10">
+                                                                    <div class="col-9 md:col-9 lg:col-9 xl:col-9">
                                                                         <div class="flex align-items-center justify-content-start">
                                                                             <div>
                                                                                 <input type="checkbox" [checked]="canbeChecked(cover)" (change)="onSelectCover(cover,$event.target.checked,menu.Vehicleid,menu,'coverList','change')" id="vehicle1" name="vehicle1">&nbsp;
@@ -277,13 +278,15 @@
                                                                             <div class="customWidth">
                                                                                 <h5 class="my-0 mr-4">{{cover.CoverName}}</h5>
                                                                                
-                                                                                <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container>
+                                                                                <!-- <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container> -->
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-2 md:col-2 lg:col-2 xl:col-2">
-                                                                        <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                        <i class="pi pi-spin pi-" style="font-size: 2rem" *ngIf="cover.isReferal === 'Y'"></i>
+                                                                        <div class="flex justify-content-start">
+                                                                            <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                            <i class="pi pi-bookmark-fill customReferralBorder" style="font-size: 2rem" *ngIf="cover.isReferal == 'Y'"></i>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="grid">
@@ -298,6 +301,7 @@
                                                                <div class="flex flex-wrap mt-3 justify-content-between">
                                                                     <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
                                                                         <div class="mb-3">
+                                                                            <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container>
                                                                             <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}  &nbsp;&nbsp;<a
                                                                                 class="mt-0 viewDetailsText2" [id]="'ViewDetails5'+getCoverNameAlt(cover.CoverName)"
                                                                                 (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
@@ -340,13 +344,13 @@
                                                     <ng-container *ngFor="let cover of menu.CoverList">
                                                         <div class="card bg-blue-800 customCard3 p-3 ml-3 w-11rem text-0" *ngIf="((cover.isSelected=='D' && cover.CoverageType!='A') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
                                                             <div class="grid">
-                                                                <div class="col-10 md:col-10 lg:col-10 xl:col-10">
+                                                                <div class="col-9 md:col-9 lg:col-9 xl:col-9">
                                                                     <div class="flex align-items-center justify-content-between">
                                                                         <h3 class="text-0 mb-0">{{cover.CoverName}}</h3>
-                                                                        <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container>
+                                                                        <!-- <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container> -->
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-2 md:col-2 lg:col-2 xl:col-2">
+                                                                <div class="col-3 md:col-3 lg:col-3 xl:col-3">
                                                                     <div class="flex align-items-center justify-content-between">
                                                                         <i class="pi pi-info-circle" style="font-size: 2rem" (click)="benefitPopup(cover,menu)" ></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                         <i class="pi pi-bookmark-fill customReferralBorder" *ngIf="cover.isReferal === 'Y'"></i>
@@ -354,7 +358,7 @@
                                                                 </div>
                                                             </div>
                                                             
-                                                            
+                                                            <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container>
                                                             <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}
                                                                 &nbsp;&nbsp;<a 
                                                                     class="mt-0 viewDetailsText" [id]="'ViewDetails7'+getCoverNameAlt(cover.CoverName)"
@@ -511,7 +515,7 @@
                                 <ng-container *ngIf="menu.SectionId==selectedSectionId">
                                     <div class="flex flex-wrap justify-content-between">
                                             <div><h3>{{'PREMIUM.DefaultCovers' | translate}}</h3></div>
-                                            <ng-container *ngIf="(insuranceId=='100020' || insuranceId=='100028') && productId!='56' ">
+                                            <ng-container *ngIf="(insuranceId=='100020' || insuranceId=='100028' || insuranceId=='100044') && productId!='56' ">
                                                 <div *ngIf="menu.SectionName=='Comprehensive'">
                                                     <p-button icon="pi pi-rate" [label]="'PREMIUM.ViewFactorDetails' | translate" (click)="onViewFactorDetails()"  class="mr-3" styleClass='p-button-outlined' severity="success "></p-button>
                                                 </div>
@@ -1873,10 +1877,10 @@
                         <tr>
                             <th scope="col" style="padding: 8px;"><b>{{'PREMIUM.FactorName' | translate}}</b></th>
                             <th scope="col" style="text-align: center;padding: 8px;"><b>{{'PREMIUM.OwnDamage' | translate}}</b></th>
-                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>{{'PREMIUM.WindScreen' | translate}}</b></th>
-                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>{{'PREMIUM.Theft' | translate}}</b></th>
-                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>{{'PREMIUM.Fire' | translate}}</b></th>
-                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028'"><b>{{'PREMIUM.Thirdparty' | translate}}</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028' && insuranceId!='100044'"><b>{{'PREMIUM.WindScreen' | translate}}</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028' && insuranceId!='100044'"><b>{{'PREMIUM.Theft' | translate}}</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028' && insuranceId!='100044'"><b>{{'PREMIUM.Fire' | translate}}</b></th>
+                            <th scope="col" style="text-align: center;padding: 8px;" *ngIf="insuranceId!='100028' && insuranceId!='100044'"><b>{{'PREMIUM.Thirdparty' | translate}}</b></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1897,7 +1901,7 @@
                                    {{factor.OwnDamage}}
                                 </ng-container>
                             </td>
-                            <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028'">
+                            <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028' && insuranceId!='100044'">
                                 <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
                                     <b>{{factor.Windscreen}}</b>
                                 </ng-container>
@@ -1905,7 +1909,7 @@
                                     {{factor.Windscreen}}
                                 </ng-container>
                             </td>
-                            <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028'">
+                            <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028' && insuranceId!='100044'">
                                 <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
                                    <b>{{factor.Theft}}</b>
                                 </ng-container>
@@ -1913,7 +1917,7 @@
                                     {{factor.Theft}}
                                 </ng-container>
                             </td>
-                            <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028'">
+                            <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028' && insuranceId!='100044'">
                                 <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
                                    <b>{{factor.Fire}}</b>
                                 </ng-container>
@@ -1921,7 +1925,7 @@
                                     {{factor.Fire}}
                                 </ng-container>
                             </td>
-                            <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028'">
+                            <td style="text-align: end;padding: 8px;" *ngIf="insuranceId!='100028' && insuranceId!='100044'">
                                 <ng-container *ngIf="factor.FactorName=='Annual Peril Risk Premium Amount' || factor.FactorName=='Annual Peril Risk Premium Rate'">
                                     <b>{{factor.ThirdParty}}</b>
                                 </ng-container>
@@ -1940,7 +1944,7 @@
             </ng-container>
         </div>
     </div>
-    <div class="row" *ngIf="factorPremiumDetails && insuranceId!='100028'">
+    <div class="row" *ngIf="factorPremiumDetails && insuranceId!='100028' && insuranceId!='100044'">
         <div class="flex flex-wrap justify-content-center">
             <b><u>{{'PREMIUM.ANNUALPREMIUMDETAILS' | translate}}</u></b>
         </div>

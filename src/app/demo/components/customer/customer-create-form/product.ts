@@ -33,7 +33,7 @@ export class ProductData {
   WhatsappNo:any=''
   MobileCodeDesc:any=''
 	Occupation:any=''
-	PolicyHolderTypeid:any=''
+	PolicyHolderTypeid:any=null
 	PreferredNotification:any=''
 	state:any=''
 	dobOrRegDate:any
@@ -51,6 +51,7 @@ export class ProductData {
 	image?: string = ''
 	occupationdesc:any = '';
 	districtcode:any='';
+	SocioProfessionalCategory:'';
 	id: string = '';PinCode:any=null;
   maxDate: "2022-09-25"
   /*const currentYear = new Date().getFullYear();

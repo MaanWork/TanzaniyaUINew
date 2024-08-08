@@ -41,7 +41,7 @@ export class YakeenSearchComponent {
   }
   ongetSearchVehicle(){
     this.policyPeriodExceed = false;
-    let regNo = 'TN49A1222',chassisNo = '';
+    let regNo = 'TRN65656',chassisNo = '';
      let ReqObj = {
       "ReqChassisNumber":chassisNo,
       "ReqRegNumber":regNo,

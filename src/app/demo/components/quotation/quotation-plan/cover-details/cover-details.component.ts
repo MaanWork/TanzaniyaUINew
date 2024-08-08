@@ -944,8 +944,8 @@ export class CoverDetailsComponent {
             }
             sessionStorage.setItem('endorseTypeId',JSON.stringify(obj));
           }
-          if(((cover.isSelected=='D' || cover.isSelected=='O' || cover.isSelected=='Y' || cover?.UserOpt=='Y') && !this.endorsementSection) || 
-          (this.endorsementSection && (cover.UserOpt=='Y' || cover.isSelected=='D' || cover.isSelected=='O')) ){
+          if((((cover.isSelected=='D' || cover.isSelected=='O' || cover.isSelected=='Y' || cover?.UserOpt=='Y') && !this.endorsementSection) || 
+          (this.endorsementSection && (cover.UserOpt=='Y' || cover.isSelected=='D' || cover.isSelected=='O'))) && cover.SubCovers==null ){
             // if(this.endorsementId == 846 && veh.Status=='D'){
             //   cover['selected']= false;
             //   this.onSelectCover(cover,false,veh.Vehicleid,veh,'coverList','change');
@@ -2460,7 +2460,6 @@ export class CoverDetailsComponent {
                   console.log("Selected Coverlistss",this.selectedCoverList);
                   
                 }
-                
                 if(directType=='change' && this.endorsementSection){
                   console.log('If cover changes1');
                   if(rowData.Endorsements!=null && rowData.Endorsements!=undefined){
@@ -2543,7 +2542,6 @@ export class CoverDetailsComponent {
             }
           }
           else{
-            
             if(rowData.SubCovers==null){
               let element = {
                 "Covers": [
@@ -2561,17 +2559,22 @@ export class CoverDetailsComponent {
               this.selectedCoverList.push(element);
               console.log("Selected Cover",this.selectedCoverList)
             }
-          
-          if(directType=='change' && this.endorsementSection){
-            console.log('Endorsement section1')
-            if((this.endorseAddOnCovers || this.endorseCovers) && (rowData.Modifiable==undefined || rowData.Modifiable!='N')){
-              rowData['ModifiedYN'] = 'Y';
-            }
-            if(rowData.Endorsements!=null && rowData.Endorsements!=undefined){
-              if(this.coverModificationYN=='Y'){
-                if(rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax<0){
-                  vehicle['totalLcPremium'] = vehicle['totalLcPremium'] - rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax;
-                  vehicle['totalPremium'] =  vehicle['totalPremium']-rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax;
+            if(directType=='change' && this.endorsementSection){
+              console.log('Endorsement section1')
+              if((this.endorseAddOnCovers || this.endorseCovers) && (rowData.Modifiable==undefined || rowData.Modifiable!='N')){
+                rowData['ModifiedYN'] = 'Y';
+              }
+              if(rowData.Endorsements!=null && rowData.Endorsements!=undefined){
+                if(this.coverModificationYN=='Y'){
+                  if(rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax<0){
+                    vehicle['totalLcPremium'] = vehicle['totalLcPremium'] - rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax;
+                    vehicle['totalPremium'] =  vehicle['totalPremium']-rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax;
+                  }
+                  else{
+                    vehicle['totalLcPremium'] = vehicle['totalLcPremium'] + rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax;
+                    vehicle['totalPremium'] =  vehicle['totalPremium']+rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax;
+                  }
+                  
                 }
                 else{
                   vehicle['totalLcPremium'] = vehicle['totalLcPremium'] + rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax;
@@ -2580,51 +2583,45 @@ export class CoverDetailsComponent {
                 
               }
               else{
-                vehicle['totalLcPremium'] = vehicle['totalLcPremium'] + rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax;
-                vehicle['totalPremium'] =  vehicle['totalPremium']+rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax;
-              }
-              
-            }
-            else{
-              vehicle['totalLcPremium'] = vehicle['totalLcPremium'] + rowData.PremiumIncludedTax;
-              vehicle['totalPremium'] =  vehicle['totalPremium']+rowData.PremiumIncludedTax;
-            }
-            
-          }
-          else if(vehicle?.totalPremium){
-            console.log('Endorsement section2')
-            if(rowData.Endorsements!=null && rowData.Endorsements!=undefined){
-              
-              if(this.coverModificationYN!='Y' || this.endorseSIModification){
-                vehicle['totalLcPremium'] = vehicle['totalLcPremium'] + rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax;
-                vehicle['totalPremium'] =  vehicle['totalPremium']+rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax;
-              }
-            }
-            else{
-              
                 vehicle['totalLcPremium'] = vehicle['totalLcPremium'] + rowData.PremiumIncludedTax;
                 vehicle['totalPremium'] =  vehicle['totalPremium']+rowData.PremiumIncludedTax;
-            }
-          
-          }
-          else{
-            console.log('Endorsement section3')
-            if(rowData.Endorsements!=null && rowData.Endorsements!=undefined){
+              }
               
-              if(this.coverModificationYN!='Y' || this.endorseSIModification){
-                vehicle['totalLcPremium'] = rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax;
-                vehicle['totalPremium'] = rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax;
+            }
+            else if(vehicle?.totalPremium){
+              console.log('Endorsement section2')
+              if(rowData.Endorsements!=null && rowData.Endorsements!=undefined){
+                
+                if(this.coverModificationYN!='Y' || this.endorseSIModification){
+                  vehicle['totalLcPremium'] = vehicle['totalLcPremium'] + rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax;
+                  vehicle['totalPremium'] =  vehicle['totalPremium']+rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax;
+                }
               }
               else{
                 
+                  vehicle['totalLcPremium'] = vehicle['totalLcPremium'] + rowData.PremiumIncludedTax;
+                  vehicle['totalPremium'] =  vehicle['totalPremium']+rowData.PremiumIncludedTax;
               }
+            
             }
             else{
-              vehicle['totalLcPremium'] =  rowData.PremiumIncludedTax;
-              vehicle['totalPremium'] =  rowData.PremiumIncludedTax;
+              console.log('Endorsement section3')
+              if(rowData.Endorsements!=null && rowData.Endorsements!=undefined){
+                
+                if(this.coverModificationYN!='Y' || this.endorseSIModification){
+                  vehicle['totalLcPremium'] = rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax;
+                  vehicle['totalPremium'] = rowData.Endorsements[rowData.Endorsements.length-1].PremiumIncludedTax;
+                }
+                else{
+                  
+                }
+              }
+              else{
+                vehicle['totalLcPremium'] =  rowData.PremiumIncludedTax;
+                vehicle['totalPremium'] =  rowData.PremiumIncludedTax;
+              }
+              
             }
-            
-          }
           // vehicle['totalLcPremium'] = rowData.PremiumIncludedTax;
           // vehicle['totalPremium'] = rowData.PremiumIncludedTax;
           console.log("Premium Total ",vehicle,this.selectedCoverList)
@@ -3545,6 +3542,7 @@ export class CoverDetailsComponent {
           this.router.navigate(['/quotation/plan/risk-page']);
         }
       } 
+      else if(this.productId=='63') this.router.navigate(['/quotation/plan/risk-page']);
       else this.router.navigate(['/quotation/plan/quote-details']);
     }
   }
@@ -3582,106 +3580,110 @@ export class CoverDetailsComponent {
     this.tabIndex = index;
   }
   onProceedBuyPolicy(ReqObj){
-    let urlLink = `${this.CommonApiUrl}quote/buypolicy`;
-    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-    (data: any) => {
-        if(data.Result){
-          if(data?.Result.QuoteNo){
-            this.quoteNo = data.Result?.QuoteNo;
-            sessionStorage.setItem('quoteNo',data.Result?.QuoteNo);
-            sessionStorage.setItem('quoteReferenceNo',data.Result?.RequestReferenceNo);
-          //console.log("Cccccccc", this.CoversList);
-          //console.log("VVVVVVVV", this.vehicleDetailsList);
-          let vechileId: any;
-          let sectionId: any;
-          let i = 0;
-
-          if(this.userType=='Broker'|| this.userType=='User'){
-            this.onFinalProceed();
-          }
-          else{
-            for (let v of this.vehicleDetailsList) {
-
-              console.log('AAAAAAAAA',this.vehicleDetailsList)
-              vechileId = v.VehicleId;
-                sectionId = v.SectionId;
-                 i++;
-                if (v.Common) {
-                   this.CommonMethod(v,i);
+    if(this.productId=='63'){this.router.navigate(['quotation/plan/main/accessories']);}
+    else{
+      let urlLink = `${this.CommonApiUrl}quote/buypolicy`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+          if(data.Result){
+            if(data?.Result.QuoteNo){
+              this.quoteNo = data.Result?.QuoteNo;
+              sessionStorage.setItem('quoteNo',data.Result?.QuoteNo);
+              sessionStorage.setItem('quoteReferenceNo',data.Result?.RequestReferenceNo);
+            //console.log("Cccccccc", this.CoversList);
+            //console.log("VVVVVVVV", this.vehicleDetailsList);
+            let vechileId: any;
+            let sectionId: any;
+            let i = 0;
+  
+            if(this.userType=='Broker'|| this.userType=='User'){
+              this.onFinalProceed();
+            }
+            else{
+              for (let v of this.vehicleDetailsList) {
+  
+                console.log('AAAAAAAAA',this.vehicleDetailsList)
+                vechileId = v.VehicleId;
+                  sectionId = v.SectionId;
+                   i++;
+                  if (v.Common) {
+                     this.CommonMethod(v,i);
+                  }
+                  else{
+                    if(i==this.vehicleDetailsList.length){
+                      this.onFinalProceed();
+                    }
+                  }
+  
+              }
+            }
+  
+            // for (let v of this.vehicleDetailsList) {
+            //   vechileId = v.VehicleId;
+            //   sectionId = v.SectionId;
+            //   i++;
+            //   if (v.Common) {
+            //     this.CommonMethod(v,i);
+            //   }
+  
+            //   else{
+            //     if(i==this.vehicleDetailsList.length) {
+  
+            //     }
+            //   }
+  
+            // }
+  
+              /*if(this.productId=='59'){
+                let homeSession = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
+                if(homeSession){
+                  this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
                 }
                 else{
-                  if(i==this.vehicleDetailsList.length){
-                    this.onFinalProceed();
-                  }
+                  this.getExistingBuildingList();
                 }
-
+  
+              }
+              else if(this.productId !='3' && this.productId!='4'){
+                if(this.emiYN=='Y'){
+                  this.insertEMIDetails();
+                }
+                else{
+                  this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/premium-details']);
+                }
+  
+              }
+              else if(this.productId == '4'){
+                this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/travel-quote-details']);
+              }*/
+            }
+            else if(data?.Result?.Status=='RP'){
+                // let type: NbComponentStatus = 'danger';
+                // const config = {
+                //   status: type,
+                //   destroyByClick: true,
+                //   duration: 4000,
+                //   hasIcon: true,
+                //   position: NbGlobalPhysicalPosition.TOP_RIGHT,
+                //   preventDuplicates: false,
+                // };
+                // this.toastrService.show(
+                //   'Referral Quote',
+                //   'Quote Moved to Referral Pending',
+                //   config);
+                sessionStorage.setItem('referralRefNo',this.quoteRefNo);
+                this.messageService.add({ severity: 'error', summary: 'Referral Quote', detail: 'Quote Moved to Referral Pending' });
+                //this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Your Quote Move To Referral' });
+                this.router.navigate(['/referral']);
             }
           }
-
-          // for (let v of this.vehicleDetailsList) {
-          //   vechileId = v.VehicleId;
-          //   sectionId = v.SectionId;
-          //   i++;
-          //   if (v.Common) {
-          //     this.CommonMethod(v,i);
-          //   }
-
-          //   else{
-          //     if(i==this.vehicleDetailsList.length) {
-
-          //     }
-          //   }
-
-          // }
-
-            /*if(this.productId=='59'){
-              let homeSession = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
-              if(homeSession){
-                this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/domestic-risk-details'])
-              }
-              else{
-                this.getExistingBuildingList();
-              }
-
-            }
-            else if(this.productId !='3' && this.productId!='4'){
-              if(this.emiYN=='Y'){
-                this.insertEMIDetails();
-              }
-              else{
-                this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/premium-details']);
-              }
-
-            }
-            else if(this.productId == '4'){
-              this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/travel-quote-details']);
-            }*/
-          }
-          else if(data?.Result?.Status=='RP'){
-              // let type: NbComponentStatus = 'danger';
-              // const config = {
-              //   status: type,
-              //   destroyByClick: true,
-              //   duration: 4000,
-              //   hasIcon: true,
-              //   position: NbGlobalPhysicalPosition.TOP_RIGHT,
-              //   preventDuplicates: false,
-              // };
-              // this.toastrService.show(
-              //   'Referral Quote',
-              //   'Quote Moved to Referral Pending',
-              //   config);
-              sessionStorage.setItem('referralRefNo',this.quoteRefNo);
-              this.messageService.add({ severity: 'error', summary: 'Referral Quote', detail: 'Quote Moved to Referral Pending' });
-              //this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Your Quote Move To Referral' });
-              this.router.navigate(['/referral']);
-          }
-        }
-      },
-      (err) => {
-        this.sharedService.fnToastMoveHover("Quote Moved to Referral Pending");
-       },
-    );
+        },
+        (err) => {
+          this.sharedService.fnToastMoveHover("Quote Moved to Referral Pending");
+         },
+      );
+    }
+    
   }
   CommonMethod(rowdata,i) {
     console.log('GHJK',rowdata,i);
