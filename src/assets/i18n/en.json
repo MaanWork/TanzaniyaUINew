@@ -240,6 +240,7 @@
     "DefenceCost":"Defence Cost",
     "VehicleValue":"Vehicle Value",
     "Inflation":"Inflation",
+    "InflationSumInsured": "Inflation SumInsured",
     "NoOfClaimYears":"No Of Claim Years",
     "NoOfPassengers":"No Of Passengers",
     "PurchaseDate":"Purchase Date",
