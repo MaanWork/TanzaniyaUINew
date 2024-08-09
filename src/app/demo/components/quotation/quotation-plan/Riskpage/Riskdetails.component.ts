@@ -3317,7 +3317,7 @@ export class RiskDetailsComponent {
           }
         }
         onFinalSubmit(ReqObj,type){
-          let urlLink = `http://192.168.1.19:8085/api/slide/nonmotorsave`
+          let urlLink = `${this.motorApiUrl}api/slide/nonmotorsave`
           this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             (data: any) => {
               if(data.Result){
