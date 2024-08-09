@@ -266,7 +266,8 @@ export class MotorVehicleSanlamBurkina{
     
                   },
                   validators: {
-                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)],
+                   
                   },
                   hooks: {
                   },
@@ -403,7 +404,8 @@ export class MotorVehicleSanlamBurkina{
     
                   },
                   validators: {
-                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)],
+                   
                   },
                   hooks: {
                   },
@@ -599,6 +601,9 @@ export class MotorVehicleSanlamBurkina{
 
                   },
                   validators: {
+                    messages: {
+                      required: 'Mileage is required'
+                    },
                   },
                   hooks: {
                   },
