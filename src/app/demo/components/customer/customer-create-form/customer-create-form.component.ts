@@ -294,7 +294,8 @@ export class CustomerCreateFormComponent implements OnInit {
 								dobOrRegDate = this.maxDobDate;
 							}
 							else dobOrRegDate = this.datePipe.transform(this.maxDobDate,'dd/MM/yyyy')
-							field.templateOptions.minDate = dobOrRegDate;
+							field.templateOptions.maxDate = dobOrRegDate;
+							// field.templateOptions.de
 							console.log(field,"this.productItem");
 						}
 						else{
@@ -597,7 +598,7 @@ export class CustomerCreateFormComponent implements OnInit {
 		}
 		if(this.insuranceId=="100002")data.state=this.productItem.Region;data.RegionCode=this.productItem.Country
 		if(this.insuranceId=="100040" ){
-			data.state="10001";
+			data.state="99999";
 		}
 		else if(this.insuranceId=="100042" ){
 			data.state="99999";
@@ -1002,12 +1003,12 @@ export class CustomerCreateFormComponent implements OnInit {
 									let fieldList=this.personalInfoFields[0].fieldGroup;
 									for(let field of fieldList){
 										if(field.key=='MobileCode'){
-											if(this.mobileCodeList.length>1){
+											// if(this.mobileCodeList.length>1){
 												field.props.options = defaultRow.concat(this.mobileCodeList);
-											}
-											else{
-												field.props.options = this.mobileCodeList;
-											}
+											// }
+											// else{
+											// 	field.props.options = this.mobileCodeList;
+											// }
 										}
 									}
 								}
@@ -1088,12 +1089,12 @@ export class CustomerCreateFormComponent implements OnInit {
 									let fieldList=this.addressInfoFields[0].fieldGroup;
 									for(let field of fieldList){
 										if(field.key=='CityName'){
-											if(this.stateList.length>1){
+											// if(this.stateList.length>1){
 												field.props.options = defaultRow1.concat(this.stateList);
-											}
-											else{
-												field.props.options = this.stateList;
-											}
+											// }
+											// else{
+											// 	field.props.options = this.stateList;
+											// }
 										}
 									}
 
