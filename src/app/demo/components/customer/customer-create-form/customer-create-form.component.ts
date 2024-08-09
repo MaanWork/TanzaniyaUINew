@@ -66,13 +66,15 @@ export class CustomerCreateFormComponent implements OnInit {
 	public form = new FormGroup({});
 	fields: any[]=[];
 	socioProfessionalList: any[]=[];
+	dobMin: Date;
+	nationalityList: any[]=[];
   constructor(private confirmationService: ConfirmationService, private sharedService: SharedService,private datePipe: DatePipe,
     private messageService: MessageService, private router: Router, private translate: TranslateService,private appComp:AppComponent,
     private primeNGConfig: PrimeNGConfig) {
       this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
 	  let type = sessionStorage.getItem('QuoteType')
 	  if(type) this.shortQuoteYN = true;
-    	this.maxDate = new Date();
+    	//this.maxDate = new Date();
 		var d= new Date();
 		var year = d.getFullYear();
 		var month = d.getMonth();
@@ -88,6 +90,9 @@ export class CustomerCreateFormComponent implements OnInit {
 		this.translate.setDefaultLang(sessionStorage.getItem('language'));
 		this.setHeaders();}
      	this.maxDobDate = new Date(year - 18,month, day );
+		// if(this.productItem.IdType=='1' || this.productItem.IdType==1){
+		// 	this.productItem.dobOrRegDate=this.maxDobDate;
+		// }
 		this.loginId = this.userDetails.Result.LoginId;
 		this.agencyCode = this.userDetails.Result.OaCode;
 		this.branchCode = this.userDetails.Result.BranchCode;
@@ -145,6 +150,7 @@ export class CustomerCreateFormComponent implements OnInit {
 		this.getSocioProfessional();
 		this.getStateList('direct');
 		this.getRegionList('direct');
+		this.getNationalityList();
 	}
 	
     }
@@ -279,6 +285,25 @@ export class CustomerCreateFormComponent implements OnInit {
 				}
 			}
 		if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+			alert("on")
+			let fieldList1=this.personalInfoFields[0].fieldGroup;
+				for(let field of fieldList1){
+					if(field.key=='dobOrRegDate'){
+						let dobOrRegDate;
+						if(this.productItem.IdType=='1' || this.productItem.IdType==1){
+							if(String(this.maxDobDate).includes('/')){
+								dobOrRegDate = this.maxDobDate;
+							}
+							else dobOrRegDate = this.datePipe.transform(this.maxDobDate,'dd/MM/yyyy')
+							field.templateOptions.minDate = dobOrRegDate;
+							console.log(field,"this.productItem");
+						}
+						else{
+							field.templateOptions.minDate = new Date();
+						}
+						
+					}
+				}
 			let exceptedHooks ={ onInit: (field: FormlyFieldConfig) => {
 				field.form.controls['isTaxExempted'].valueChanges.subscribe(() => {
 				  this.taxExcepted();
@@ -291,6 +316,7 @@ export class CustomerCreateFormComponent implements OnInit {
 						field.hooks = exceptedHooks;
 					}
 				}
+				
 		}
 		if(this.insuranceId=='100004'){
 		  this.getType3('direct');
@@ -503,6 +529,7 @@ export class CustomerCreateFormComponent implements OnInit {
 		var year = d.getFullYear();
 		var month = d.getMonth();
 		var day = d.getDate();
+		
 		if((this.productItem.IdType != 2 && this.productItem.IdType != '2') && this.insuranceId!='100040' && this.insuranceId!='100042' ){
 			
 			data.dobOrRegDate = new Date(year - 18,month, day-2 );
@@ -589,7 +616,6 @@ export class CustomerCreateFormComponent implements OnInit {
 		if(this.insuranceId=='100040' || this.insuranceId=='100042'){
 			if(data?.PolicyHolderTypeid==null || data?.PolicyHolderTypeid==''){
 				data.PolicyHolderTypeid=this.productItem.PolicyHolderTypeid;
-				alert(data.PolicyHolderTypeid)
 			}
 			if (this.productItem.dobOrRegDate != undefined && this.productItem.dobOrRegDate != null && this.productItem.dobOrRegDate != '') {
 				if(String(this.productItem.dobOrRegDate).includes('/')){
@@ -845,16 +871,8 @@ export class CustomerCreateFormComponent implements OnInit {
 								this.countryList[i].value = this.countryList[i]['Code'];
 								if (i == this.countryList.length - 1) {
 									let fieldList=this.addressInfoFields[0].fieldGroup;
-									let fieldList1=this.personalInfoFields[0].fieldGroup;
 									for(let field of fieldList){
 										if(field.key=='Country'){
-											field.props.options = this.countryList;
-										}
-										
-									}
-									for(let field of fieldList1){
-										
-										if(field.key=='Nationality'){
 											field.props.options = this.countryList;
 										}
 									}
@@ -867,8 +885,42 @@ export class CustomerCreateFormComponent implements OnInit {
 				(err) => { },
 			);
 	}
+
+	getNationalityList() {
+		let ReqObj = {
+			"InsuranceId": this.insuranceId,
+			"BranchCode": this.branchCode,
+			"ProductId": this.productId,
+		}
+		let urlLink = `${this.CommonApiUrl}master/dropdown/nationality`;
+		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+			(data: any) => {
+				console.log(data);
+				if (data.Result) {
+					this.nationalityList = data.Result;
+						let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+						//this.countryList = defaultRow.concat(this.countryList);
+						for (let i = 0; i < this.nationalityList.length; i++) {
+							this.nationalityList[i].label = this.nationalityList[i]['CodeDesc'];
+							this.nationalityList[i].value = this.nationalityList[i]['Code'];
+							if (i == this.nationalityList.length - 1) {
+								let fieldList1=this.personalInfoFields[0].fieldGroup;
+								for(let field of fieldList1){
+									if(field.key=='Nationality'){
+										field.props.options = defaultRow.concat(this.nationalityList);
+									}
+								}
+
+							}
+						
+					}
+				}
+			},
+			(err) => { },
+		);
+}
+
 	// getOccupationList(){
-	// 	alert("getOccupationList")
 	// 	let ReqObj = {
 	// 			"InsuranceId": this.insuranceId,
 	// 			"BranchCode": this.branchCode,
@@ -886,7 +938,6 @@ export class CustomerCreateFormComponent implements OnInit {
 	// 					if (i == this.occupationList.length - 1) {
 	// 						let fieldList=this.personalInfoFields[0].fieldGroup;
 	// 						for(let field of fieldList){
-	// 							alert(field.key);
 	// 							if(field.key=='Occupation'){
 									
 	// 								field.props.options = defaultRow.concat(this.occupationList);
@@ -952,7 +1003,12 @@ export class CustomerCreateFormComponent implements OnInit {
 									let fieldList=this.personalInfoFields[0].fieldGroup;
 									for(let field of fieldList){
 										if(field.key=='MobileCode'){
-											field.props.options = defaultRow.concat(this.mobileCodeList);
+											if(this.mobileCodeList.length>1){
+												field.props.options = defaultRow.concat(this.mobileCodeList);
+											}
+											else{
+												field.props.options = this.mobileCodeList;
+											}
 										}
 									}
 								}
@@ -999,8 +1055,8 @@ export class CustomerCreateFormComponent implements OnInit {
 	}
 	getStateList(type) {
 		if(this.insuranceId=="100040"){
-			this.productItem.state="10001";
-			this.productItem.Country='AGO'
+			this.productItem.state="99999";
+			this.productItem.Country='IVY'
 		}
 		else if(this.insuranceId=="100042"){
 			this.productItem.state="99999";
@@ -1033,7 +1089,12 @@ export class CustomerCreateFormComponent implements OnInit {
 									let fieldList=this.addressInfoFields[0].fieldGroup;
 									for(let field of fieldList){
 										if(field.key=='CityName'){
-											field.props.options = defaultRow1.concat(this.stateList);
+											if(this.stateList.length>1){
+												field.props.options = defaultRow1.concat(this.stateList);
+											}
+											else{
+												field.props.options = this.stateList;
+											}
 										}
 									}
 
@@ -1177,7 +1238,6 @@ export class CustomerCreateFormComponent implements OnInit {
 					this.productItem.MobileCode = customerDetails.MobileCode1;
 					this.productItem.MobileCodeDesc = customerDetails.MobileCodeDesc1;
 					this.productItem.PolicyHolderTypeid = customerDetails.PolicyHolderTypeid;
-					alert(this.productItem.PolicyHolderTypeid+"customerDetails")
 					if(this.productItem.PolicyHolderTypeid =='1' && this.insuranceId=='100004'){
 						this.shows=true;
 						if(customerDetails.IdNumber!='NA'){
@@ -1450,7 +1510,6 @@ export class CustomerCreateFormComponent implements OnInit {
 		else{
 			policyid = datas?.IdNumber;
 		}
-            // alert(datas?.PolicyHolderTypeid+"dgsghghr")
 		let ReqObj = {
 			"BrokerBranchCode": this.brokerbranchCode,
 			"CustomerReferenceNo": this.customerReferenceNo,
@@ -1555,7 +1614,6 @@ export class CustomerCreateFormComponent implements OnInit {
 		);
 	}
   setPolicyType(){
-	// alert("setPolicyType")
 	
        let value = this.productItem.IdType;
       if(value==2 || value=='2'){

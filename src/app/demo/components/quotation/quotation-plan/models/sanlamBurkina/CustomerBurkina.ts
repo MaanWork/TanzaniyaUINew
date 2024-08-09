@@ -48,7 +48,7 @@ export class CustomerBurkina{
                   },
                 },
                 {
-                  className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
+                  className: 'col-12 md:col-9 lg:col-9 xl:col-9 pl-2 pr-2 pt-1',
                   type: 'input',
                   id: 'FirstName',
                   key: 'ClientName',
@@ -92,7 +92,7 @@ export class CustomerBurkina{
                   },
                 },
                 {
-                  className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                  className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 ',
                   type: 'ngselect',
                   id: 'Gender',
                   key: 'Gender',
@@ -115,7 +115,7 @@ export class CustomerBurkina{
                   },
                 },
                 {
-                  className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                  className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2',
                   type: 'datepicker',
                   id: 'DateOfBirth',
                   key: 'dobOrRegDate',
@@ -124,11 +124,10 @@ export class CustomerBurkina{
                   templateOptions: {
                     type:'date',
                     label: `Date Of Birth`,
-                    // placeholder: 'Select Date Of Birth',
-                    
                     required: true,
                     disabled: this.checkDisable('dobOrRegDate'),
-                    maxLength: 15
+                    maxLength: 15,
+                    
                   },
                   
                   validators: {
@@ -147,7 +146,7 @@ export class CustomerBurkina{
                   hideExpression:false,
                   props: {
                     label: `Nationality`,
-                    required: true,
+                    required: false,
                     disabled: this.checkDisable('Nationality'),
                     maxLength: 50,
                     options:[]
@@ -211,12 +210,13 @@ export class CustomerBurkina{
                   key: 'SocioProfessionalcategory',
                   hide: false,
                   hideExpression:false,
-                  templateOptions: {
+                  props: {
                     label: `Socio Professional category`,
                     // placeholder: 'Enter Socio Professional category',
                     required: false,
                     disabled: this.checkDisable('SocioProfessionalcategory'),
-                    maxLength: 50
+                    maxLength: 50,
+                    options:[]
                   },
                   
                   validators: {
@@ -274,7 +274,7 @@ export class CustomerBurkina{
                   templateOptions: {
                     label: `Mobile Number`,
                     // placeholder: 'Enter MobileNo',
-                    required: false,
+                    required: true,
                     disabled: this.checkDisable('MobileNo'),
                     maxLength: 10
                   },
@@ -507,7 +507,7 @@ export class CustomerBurkina{
                   key: 'CityName',
                   props: {
                     label: `City Name`,
-                    required: true,
+                    required: false,
                     disabled: this.checkDisable('CityName'),
                     maxLength: 15,
                     options:[]
