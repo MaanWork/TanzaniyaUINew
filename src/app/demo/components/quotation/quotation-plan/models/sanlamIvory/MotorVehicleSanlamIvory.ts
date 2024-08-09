@@ -266,7 +266,8 @@ export class MotorVehicleSanlamIvory{
       
                     },
                     validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)],
+                        //  message: ( field: FormlyFieldConfig) =>"This Field is Required",
                     },
                     hooks: {
                     },
@@ -569,7 +570,7 @@ export class MotorVehicleSanlamIvory{
                       label: `Number Of Passengers's `,
                       maxLength: 15,
                       disabled: this.checkDisable('NumberOfPassengers'),
-                    //  required: true,
+                      required: true,
                       options: [
   
                       ],
@@ -592,7 +593,7 @@ export class MotorVehicleSanlamIvory{
                       label: `Mileage (Km/lit)`,
                       maxLength: 15,
                       disabled: this.checkDisable('Mileage'),
-                    //  required: true,
+                      required: true,
                       options: [
   
                       ],
@@ -643,28 +644,28 @@ export class MotorVehicleSanlamIvory{
                     expressions: {
                     },
                   },
-                  // {
-                  //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                  //   type: 'datepicker',
-                  //   key: 'DateOfcirculation',
-                  //   id:'DateOfcirculation',
-                  //   props: {
-                  //     type:'datepicker',
-                  //     label: `Date Of circulation`,
-                  //     disabled: this.checkDisable('DateOfcirculation'),
-                     
-                  //     options: [
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'datepicker',
+                    key: 'DateOfcirculation',
+                    id:'DateOfcirculation',
+                    props: {
+                      type:'datepicker',
+                      label: `Date Of circulation`,
+                      disabled: this.checkDisable('DateOfcirculation'),
+                      required: true,
+                      options: [
   
-                  //     ],
+                      ],
   
-                  //   },
-                  //   validators: {
-                  //   },
-                  //   hooks: {
-                  //   },
-                  //   expressions: {
-                  //   },
-                  // },
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
                 
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
@@ -674,6 +675,7 @@ export class MotorVehicleSanlamIvory{
                     props: {
                       label: `Number of cards (WW Garage)`,
                       disabled: this.checkDisable('Nombredecartes'),
+                      required: true,
                       options: [
   
                       ],
