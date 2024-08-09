@@ -5355,7 +5355,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
         let changevehicleHooks ={ onInit: (field: FormlyFieldConfig) => {
           field.form.controls['VehicleValue'].valueChanges.subscribe(() => {
-             this.onchangevehicleValue();
+             this.onchangevehicleValue(null);
           });
         } }
         let changeAggregatedHooks ={ onInit: (field: FormlyFieldConfig) => {
@@ -5443,6 +5443,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.productItem.PurchaseDate = this.onDateFormatInEdit(this.vehicleDetails?.PurchaseDate);
       this.productItem.Deductibles = this.vehicleDetails?.Deductibles;
       this.productItem.VehicleValue = this.vehicleDetails?.VehicleValueType;
+      this.onchangevehicleValue(this.vehicleDetails);
+      this.productItem.AggregatedValue = this.vehicleDetails?.AggregatedValue;
+      this.productItem.Marketvalue = this.vehicleDetails?.MarketValue;
       this.productItem.Inflation = this.vehicleDetails?.Inflation;
       this.productItem.Mileage =this.vehicleDetails?.Mileage;
       this.productItem.NoOfClaimYears =this.vehicleDetails?.NoOfClaimYears;
@@ -5651,31 +5654,31 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.productItem.VehicleClass = this.vehicleDetails?.VehicleClass;
       if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042')  this.onChangeInsuranceClass('direct');
   }
-  onchangevehicleValue(){
+  onchangevehicleValue(data){
     let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+   
     for(let field of fieldList){
-        if(this.productItem.VehicleValue==1){
+        if(this.productItem.VehicleValue==1 || this.productItem.VehicleValue=='1'){
           if(field.key =='Marketvalue' ){
-            
+          if(data && field.formControl) field.formControl.setValue(data.MarketValue)
           field.hideExpression = false;field.hide=false;  
         }
-        else if(field.key =='Aggregatedvalue'){
+        else if(field.key =='Aggregatedvalue' || field.key =='VehicleSI'){
+          
           field.hideExpression = true;field.hide=true; 
         }
       }
-      else if(this.productItem.VehicleValue==2){
+      else if(this.productItem.VehicleValue==2 || this.productItem.VehicleValue=='2'){
           if(field.key =='Aggregatedvalue' ){
+            if(data && field.formControl && field.key =='Aggregatedvalue') field.formControl.setValue(data.AggregatedValue)
             field.hideExpression = false;field.hide=false;
             this.getAggregatedList(); 
           }
-          else if(field.key =='Marketvalue' ){
+          else if(field.key =='Marketvalue' || field.key =='VehicleSI'){
             field.hideExpression = true;field.hide=true;  
           }
       }
-      else if(field.key =='Marketvalue' || field.key =='Aggregatedvalue' ){
-        field.hideExpression = true;field.hide=true; 
-      }
-      else if(field.key =='VehicleSI'){
+      else if(field.key =='Marketvalue' || field.key =='Aggregatedvalue' || field.key =='VehicleSI'){
         field.hideExpression = true;field.hide=true; 
       }
   }
