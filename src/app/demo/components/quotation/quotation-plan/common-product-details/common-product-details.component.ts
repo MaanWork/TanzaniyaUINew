@@ -4152,7 +4152,11 @@ backPlan()
             if(data.Result){
                 let entry:any;
                 //if(this.productId=='59') entry = this.customerData[0];
-                 entry = data.Result;this.colorSections=[];let j=0;
+                if(this.productId!='63') entry = data.Result;
+                else { 
+                  //entry = {...data.Result.PolicyInformation, ...data.Result.}
+                }
+                 this.colorSections=[];let j=0;
                  if(this.productId=='61'){
                   this.IndustryId = entry?.IndustryId;
                   this.SectionId = entry?.SectionIds[0];
