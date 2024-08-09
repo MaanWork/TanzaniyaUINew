@@ -36,7 +36,7 @@ export class ProductData {
 	PolicyHolderTypeid:any=null
 	PreferredNotification:any=''
 	state:any=''
-	dobOrRegDate:any
+	dobOrRegDate:any=''
 	Street:any
 	TelephoneNo:any=''
 	Title:any = ''

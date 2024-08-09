@@ -177,15 +177,15 @@
                 <label for="tare-weight">{{'MOTORDETAILS.TareWeight' | translate}}</label>
                 <input pInputText id="TareWeight" class="w-full" styleClass="w-full" [(ngModel)]="tareWeight" maxlength="10" [disabled]="editSection" inputId="tare-weight" [placeholder]="'MOTORDETAILS.EnterTareWeight' | translate" />
             </div>
-            <div class="flex flex-column m-3" *ngIf="insuranceId!='100004'">
+            <div class="flex flex-column m-3" *ngIf="(insuranceId!='100004') && insuranceId!='100042' && insuranceId!='100040'">
                 <label for="gross-weight">{{'MOTORDETAILS.GrossWeight' | translate}}*</label>
                 <input pInputText id="gross-weight" [(ngModel)]="grossWeight" maxlength="10" [disabled]="editSection" [placeholder]="'MOTORDETAILS.EnterGrossWeight' | translate"/>
             </div>
-            <div class="flex flex-column m-3" *ngIf="insuranceId!='100028' && insuranceId!='100004'">
+            <div class="flex flex-column m-3" *ngIf="(insuranceId!='100028' && insuranceId!='100004') && insuranceId!='100042' && insuranceId!='100040'">
                 <label for="no-of-axis">{{'MOTORDETAILS.NoofAxles' | translate }}*</label>
                 <input pInputText id="no-of-axis" digitOnly [(ngModel)]="noOfAxels" maxlength="10" [disabled]="editSection" [placeholder]="'MOTORDETAILS.EnterNoofAxles' | translate"/>
             </div>
-            <div class="flex flex-column m-3" *ngIf="insuranceId!='100028' && insuranceId!='100004'">
+            <div class="flex flex-column m-3" *ngIf="(insuranceId!='100028' && insuranceId!='100004') && insuranceId!='100042' && insuranceId!='100040'">
                 <label for="axis-distance">{{'MOTORDETAILS.AxleDistance' | translate }}*</label>
                 <input pInputText id="axis-distance" digitOnly [(ngModel)]="axelDistance" maxlength="50" [disabled]="editSection" [placeholder]="'MOTORDETAILS.EnterAxleDistance' | translate"/>
             </div>

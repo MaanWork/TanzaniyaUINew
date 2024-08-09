@@ -12,6 +12,7 @@ import { MatInput } from '@angular/material/input';
         [minDate]="to.datepickerOptions?.min"
         dateFormat="dd/mm/yy">
     </p-calendar>
+    <div class="text-danger"  *ngIf="to.errors==true && to.required==true">This field is Required</div>
   `,
 })
 export class DatepickerTypeComponent extends FieldType {
