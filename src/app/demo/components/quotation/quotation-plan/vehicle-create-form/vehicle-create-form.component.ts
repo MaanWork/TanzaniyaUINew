@@ -1016,7 +1016,10 @@ export class VehicleCreateFormComponent implements OnInit {
       else registrationDate = this.datePipe.transform(this.RegistrationDate,'dd/MM/yyyy')
     }
     if(this.insuranceId=='100040' || this.insuranceId=='100042'){
-      this.engineCapacity='1'
+      this.engineCapacity='1';
+      grossweight=tareweight;
+      this.axelDistance='1';
+      this.noOfAxels='1';
     }
     let ReqObj = {
       "Insuranceid": this.insuranceId,

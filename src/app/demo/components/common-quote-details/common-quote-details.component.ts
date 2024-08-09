@@ -1421,7 +1421,19 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 i+=1;
                 if (i == this.typeListIvory.length) {
                   console.log("final list",this.typeListIvory)
-                  if(this.fields.length!=0)  this.fields[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.typeListIvory);
+                  if(this.fields.length!=0) 
+                  {
+                    
+                    let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                    for(let field of fieldList){
+                      if(field.key=='InsuranceClass' ){
+                        field.props.options = defaultObj.concat(this.typeListIvory);
+                        console.log("Changes Forms",field)
+                      }
+                    }
+                  }
+                    
+                   // this.fields[0].fieldGroup[0].fieldGroup[1].props.options = defaultObj.concat(this.typeListIvory);
                   this.checkFieldNames();
                 }
               }
@@ -3377,7 +3389,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
     if(this.insuranceId=='100040' || this.insuranceId=='100042'){
       let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
       let i=0,j=0;
-      console.log(this.fields)
           for(let field of fieldList){
               if(field.key=='InsuranceType'){
                 if(this.productItem.InsuranceType==null || this.productItem.InsuranceType=='' || this.productItem.InsuranceType==undefined){ i+=1;field.formControl.setErrors({'incorrect': true})}
@@ -4132,26 +4143,41 @@ export class CommonQuoteDetailsComponent implements OnInit {
         }
       }
       else{
-        console.log(this.form,"requiredrequired");
-        this.form.controls['InsuranceType'].errors=true;
-        this.form.controls['InsuranceClass'].errors=true;
-        this.form.controls['Deductibles'].errors=true;
-        this.form.controls['Newvalue'].errors=true;
-        this.form.controls['Deductibles'].errors=true;
-        this.form.controls['Newvalue'].errors=true;
-        this.form.controls['VehicleValue'].errors=true;
-        this.form.controls['Marketvalue'].errors=true;
-        this.form.controls['Aggregatedvalue'].errors=true;
-        this.form.controls['VehicleSI'].errors=true;
-        this.form.controls['AccessoriesSI'].errors=true;
-        this.form.controls['NoOfPassengers'].errors=true;
-        this.form.controls['Mileage'].errors=true;
-        this.form.controls['DateOfcirculation'].errors=true;
-        this.form.controls['Nombredecartes'].errors=true;
-        this.form.controls['MunicipalityofTraffic'].errors=true;
-        this.form.controls['GpsYN'].errors=true;
-        console.log(this.form.controls['InsuranceType'].errors,"requiredrequired");
-        console.log(this.form,"requiredrequired");
+        
+        let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+        let i=0,j=0;
+        for(let field of fieldList){
+            if((field.templateOptions.required==true || field.props.required==true) && field.hide==false){
+                if(this.productItem[field.key]==null || this.productItem[field.key]==undefined || this.productItem[field.key]==''){
+                  this.form.controls[field.key].errors=true;
+                  this.form.controls[field.key].touched=true;
+                  field.templateOptions['errors'] = true;
+                  field.props['errors'] = true;
+                  console.log(this.form.controls[field.key]);
+                }
+                else{
+                  field.templateOptions['errors'] = false;
+                  field.props['errors'] = false;
+                }
+            }
+        }
+        // this.form.controls['InsuranceType'].errors=true;
+        // this.form.controls['InsuranceClass'].errors=true;
+        // this.form.controls['Deductibles'].errors=true;
+        // this.form.controls['Newvalue'].errors=true;
+        // this.form.controls['Deductibles'].errors=true;
+        // this.form.controls['Newvalue'].errors=true;
+        // this.form.controls['VehicleValue'].errors=true;
+        // this.form.controls['Marketvalue'].errors=true;
+        // this.form.controls['Aggregatedvalue'].errors=true;
+        // this.form.controls['VehicleSI'].errors=true;
+        // this.form.controls['AccessoriesSI'].errors=true;
+        // this.form.controls['NoOfPassengers'].errors=true;
+        // this.form.controls['Mileage'].errors=true;
+        // this.form.controls['DateOfcirculation'].errors=true;
+        // this.form.controls['Nombredecartes'].errors=true;
+        // this.form.controls['MunicipalityofTraffic'].errors=true;
+        // this.form.controls['GpsYN'].errors=true;
       }
     }
     else{
@@ -5356,10 +5382,29 @@ export class CommonQuoteDetailsComponent implements OnInit {
             };
           },
         };
-        this.fields[0].fieldGroup[0].fieldGroup[0].hooks = InsuranceHooks;
-        this.fields[0].fieldGroup[0].fieldGroup[4].hooks = changevehicleHooks;
-        this.fields[0].fieldGroup[0].fieldGroup[6].hooks = changeMarketValueHooks;
-         this.fields[0].fieldGroup[0].fieldGroup[7].hooks = changeAggregatedHooks;
+        // this.fields[0].fieldGroup[0].fieldGroup[0].hooks = InsuranceHooks;
+        // this.fields[0].fieldGroup[0].fieldGroup[4].hooks = changevehicleHooks;
+        // this.fields[0].fieldGroup[0].fieldGroup[6].hooks = changeMarketValueHooks;
+        //  this.fields[0].fieldGroup[0].fieldGroup[7].hooks = changeAggregatedHooks;
+
+
+         let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+          for(let field of fieldList){
+            if(field.key=='InsuranceType' ){
+              field.hooks = InsuranceHooks;
+            }
+            else if(field.key=='VehicleValue' ) {
+              field.hooks = changevehicleHooks;
+            }
+            else if(field.key=='Marketvalue' ) {
+              field.hooks = changeMarketValueHooks;
+              field.hideExpression = true;field.hide=true; 
+            }
+            else if(field.key=='Aggregatedvalue' ) {
+              field.hooks = changeAggregatedHooks;
+              field.hideExpression = true;field.hide=true; 
+            }
+          }
       }
         if(this.insuranceId!='100004') {
           let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
@@ -5381,7 +5426,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         // }
       }
       //this.productItem.InsuranceType = this.vehicleDetails?.Insurancetype;
-      this.getInsuranceTypeListIvory();
+     // this.getInsuranceTypeListIvory();
       if(this.vehicleDetails?.InsuranceClass!=null && this.vehicleDetails?.InsuranceClass!='' && (this.insuranceId=='100040' || this.insuranceId=='100042')) this.productItem.InsuranceClass = Number(this.vehicleDetails?.InsuranceClass);
       else this.productItem.InsuranceClass = this.vehicleDetails?.InsuranceClass;
       if(this.insuranceId=='100002' || this.insuranceId=='100044' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100020' || this.insuranceId=='100004' || this.insuranceId=='100028'){this.onChangeInsuranceClass('direct');}
@@ -5607,11 +5652,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
       if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042')  this.onChangeInsuranceClass('direct');
   }
   onchangevehicleValue(){
-    // alert()
     let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
     for(let field of fieldList){
         if(this.productItem.VehicleValue==1){
           if(field.key =='Marketvalue' ){
+            
           field.hideExpression = false;field.hide=false;  
         }
         else if(field.key =='Aggregatedvalue'){
@@ -5628,6 +5673,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
       }
       else if(field.key =='Marketvalue' || field.key =='Aggregatedvalue' ){
+        field.hideExpression = true;field.hide=true; 
+      }
+      else if(field.key =='VehicleSI'){
         field.hideExpression = true;field.hide=true; 
       }
   }
