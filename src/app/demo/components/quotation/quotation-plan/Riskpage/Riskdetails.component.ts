@@ -426,18 +426,20 @@ export class RiskDetailsComponent {
                       this.LocationName = [];
                       let i =0;
                       for(let entry of locationList){
-                      let obj = {
-                          "LocationId":entry.LocationId,"LocationName":entry.LocationName
-                      }
-                          let subDetails = [];
-                          if(entry.AssesListDetails) subDetails = subDetails.concat(entry.AssesListDetails);
-                          if(entry.HumanListDetails) subDetails = subDetails.concat(entry.HumanListDetails);
+                          let obj = {
+                              "LocationId":entry.LocationId,"LocationName":entry.LocationName
+                          }
+                          let subDetails = entry.SectionList;
+                          // if(entry.AssesListDetails) subDetails = subDetails.concat(entry.AssesListDetails);
+                          // if(entry.HumanListDetails) subDetails = subDetails.concat(entry.HumanListDetails);
                           console.log("Final SectionDetails",subDetails)
-                          let persAcc = subDetails.filter(ele=>ele['SectionId ']=='138')
+                          let persAcc = subDetails.filter(ele=>ele['SectionId']=='138')
                           if(persAcc.length!=0){obj['DeathSI']=String(persAcc[0]['SumInsured ']);this.CommaFormatted(obj,'PA');obj['RelationType']=persAcc[0].RelationType;obj['OriginalRiskId']=persAcc[0].RiskId  }
                           else{obj['DeathSI']=null;obj['RelationType']=null;}
                           let build = subDetails.filter(ele=>ele['SectionId']=='1')
-                          if(build.length!=0){obj['BuildingSI']=String(build[0]['BuildingSuminsured']);this.CommaFormatted(obj,'Building');obj['BuildingType']=build[0]['BuildingType'];obj['OriginalRiskId']=build[0].RiskId  }
+                          if(build.length!=0){
+                            if(build[0]['BuildingSumInsured']){obj['BuildingSI']=String(build[0]['BuildingSumInsured']);this.CommaFormatted(obj,'Building');} 
+                            obj['BuildingType']=build[0]['OutbuildConstructType'];obj['OriginalRiskId']=build[0].RiskId  }
                           else{obj['BuildingSI']=null;obj['BuildingType']=null;}
                           let content = subDetails.filter(ele=>ele['SectionId']=='47')
                           if(content.length!=0){obj['ContentSI']=String(content[0]['ContentSuminsured']);this.CommaFormatted(obj,'Content');obj['OriginalRiskId']=content[0].RiskId  }
@@ -445,10 +447,10 @@ export class RiskDetailsComponent {
                           let allRisk = subDetails.filter(ele=>ele['SectionId']=='3')
                           if(allRisk.length!=0){obj['AllRiskSI']=String(allRisk[0]['AllriskSuminsured']);this.CommaFormatted(obj,'AllRisk');obj['OriginalRiskId']=allRisk[0].RiskId  }
                           else{obj['AllRiskSI']=null;}
-                          let domestic = subDetails.filter(ele=>ele['SectionId ']=='106')
+                          let domestic = subDetails.filter(ele=>ele['SectionId']=='106')
                           if(domestic.length!=0){obj['ServantSI']=String(domestic[0]['DomesticServentSi']);this.CommaFormatted(obj,'Domestic');obj['ServantCount']=domestic[0].TotalNoOfEmployees;obj['ServantType']=domestic[0]['ServantType'];obj['OriginalRiskId']=domestic[0].RiskId  }
                           else{obj['ServantSI']=null;obj['ServantCount']=null;obj['ServantType']=null}
-                          let persLiab = subDetails.filter(ele=>ele['SectionId ']=='139')
+                          let persLiab = subDetails.filter(ele=>ele['SectionId']=='139')
                           if(persLiab.length!=0){obj['PersonalLiabilitySI']=String(persLiab[0]['PersonalLiabilitySi']);this.CommaFormatted(obj,'PL');obj['OriginalRiskId']=persLiab[0].RiskId  }
                           else{obj['PersonalLiabilitySI']=null;}
                           console.log("Final Obj",obj)
@@ -2948,7 +2950,6 @@ export class RiskDetailsComponent {
           if(this.Riskdetails.length==1){
             this.productItem.AccessoriesChassisNo = 1;
           }
-          console.log('yyyyyyyyyyyy',this.productItem.AccessoriesChassisNo);
           let i =0;
           if(this.productItem.AccessoriesChassisNo==null || this.productItem.AccessoriesChassisNo==''){
             i+=1;
@@ -3028,7 +3029,6 @@ export class RiskDetailsComponent {
           else return '';
         }
         getwallTypeDescription(WallType) {
-          
           let entry = this.wallMaterialList.find(ele=>ele.Code==WallType);
           if(entry){
             return entry.CodeDesc;
@@ -3142,50 +3142,99 @@ export class RiskDetailsComponent {
           else endDate = this.datePipe.transform(commonDetals[0].PolicyEndDate,'dd/MM/yyyy');
           this.policyStartDate = startDate;this.policyEndDate=endDate;
           let ReqObj = {
-            "SaveOrSubmit": type,
-            "AcexecutiveId": "",
-            "PolicyNo": null,
-            "ProductType": null,
-            "TiraCoverNoteNo": null,
-            "CustomerCode": commonDetals[0]?.CustomerCode,
-            "CustomerName": commonDetals[0]?.CustomerName,
-            "BdmCode": commonDetals[0]?.CustomerCode,
-            "BrokerCode": commonDetals[0]?.BrokerCode,
-            "LoginId": loginId,
-            "SubUserType": this.subuserType,
-            "ApplicationId": appId,
-            "CustomerReferenceNo": sessionStorage.getItem('customerReferenceNo'),
-            "RequestReferenceNo": this.quoteRefNo,
-            "AgencyCode": this.agencyCode,
-            "BranchCode": this.branchCode,
-            "BrokerBranchCode": this.brokerbranchCode,
-            "BuildingOwnerYn": "N",
-            "Createdby": this.loginId,
-            "SourceTypeId": commonDetals[0].SourceType,
-            "Currency": commonDetals[0].Currency,
-            "ExchangeRate": commonDetals[0].ExchangeRate,
-            "Havepromocode": havePromoYN,
-            "Promocode": commonDetals[0].Promocode,
-            "UserType": this.userType,
-            "PolicyEndDate": endDate,
-            "PolicyStartDate": startDate,
-            "IndustryId": "99999",
-            "InsuranceId": this.insuranceId,
-            "ProductId": this.productId,
-            "EndorsementDate": null,
-            "EndorsementEffectiveDate": null,
-            "EndorsementRemarks": null,
-            "EndorsementType": null,
-            "EndorsementTypeDesc": null,
-            "EndtCategoryDesc": null,
-            "EndtCount": null,
-            "EndtPrevPolicyNo": null,
-            "EndtPrevQuoteNo": null,
-            "EndtStatus": null,
-            "IsFinanceEndt": null,
-            "OrginalPolicyNo": null,
+            "PolicyDetails": {
+                "SaveOrSubmit": type,
+                "AcexecutiveId": "",
+                "ProductType": null,
+                "TiraCoverNoteNo": null,
+                "CustomerReferenceNo": sessionStorage.getItem('customerReferenceNo'),
+                "RequestReferenceNo": this.quoteRefNo,
+                "BuildingOwnerYn": "N",
+                "Createdby": this.loginId,
+                "Currency": commonDetals[0].Currency,
+                "ExchangeRate": commonDetals[0].ExchangeRate,
+                "Havepromocode": havePromoYN,
+                "PolicyEndDate": endDate,
+               "PolicyStartDate": startDate,
+                "IndustryId": "99999",
+                "InsuranceId": this.insuranceId,
+                "ProductId": this.productId,
+                 "BranchCode": this.branchCode,
+            },
+            "BrokerDetails": {
+                "CustomerCode": commonDetals[0]?.CustomerCode,
+                "CustomerName": commonDetals[0]?.CustomerName,
+                "BdmCode": commonDetals[0]?.CustomerCode,
+                "BrokerCode": commonDetals[0]?.BrokerCode,
+               "LoginId": loginId,
+               "ApplicationId": appId,
+                "AgencyCode": this.agencyCode,
+                "BrokerBranchCode": this.brokerbranchCode,
+                "SourceTypeId": commonDetals[0].SourceType,
+                "UserType": "Broker"
+            },
+            "EndorsementDetails": {
+                "EndorsementDate": null,
+                "EndorsementEffectiveDate": null,
+                "EndorsementRemarks": null,
+                "EndorsementType": null,
+                "EndorsementTypeDesc": null,
+                "EndtCategoryDesc": null,
+                "EndtCount": null,
+                "EndtPrevPolicyNo": null,
+                "EndtPrevQuoteNo": null,
+                "EndtStatus": null,
+                "IsFinanceEndt": null,
+                "OrginalPolicyNo": null, 
+                "PolicyNo": null,
+            },
             "LocationList": []
-          }
+        }
+          // {
+          //   "SaveOrSubmit": type,
+          //   "AcexecutiveId": "",
+          //   "PolicyNo": null,
+          //   "ProductType": null,
+          //   "TiraCoverNoteNo": null,
+          //   "CustomerCode": commonDetals[0]?.CustomerCode,
+          //   "CustomerName": commonDetals[0]?.CustomerName,
+          //   "BdmCode": commonDetals[0]?.CustomerCode,
+          //   "BrokerCode": commonDetals[0]?.BrokerCode,
+          //   "LoginId": loginId,
+          //   "SubUserType": this.subuserType,
+          //   "ApplicationId": appId,
+          //   "CustomerReferenceNo": sessionStorage.getItem('customerReferenceNo'),
+          //   "RequestReferenceNo": this.quoteRefNo,
+          //   "AgencyCode": this.agencyCode,
+          //   "BranchCode": this.branchCode,
+          //   "BrokerBranchCode": this.brokerbranchCode,
+          //   "BuildingOwnerYn": "N",
+          //   "Createdby": this.loginId,
+          //   "SourceTypeId": commonDetals[0].SourceType,
+          //   "Currency": commonDetals[0].Currency,
+          //   "ExchangeRate": commonDetals[0].ExchangeRate,
+          //   "Havepromocode": havePromoYN,
+          //   "Promocode": commonDetals[0].Promocode,
+          //   "UserType": this.userType,
+          //   "PolicyEndDate": endDate,
+          //   "PolicyStartDate": startDate,
+          //   "IndustryId": "99999",
+          //   "InsuranceId": this.insuranceId,
+          //   "ProductId": this.productId,
+          //   "EndorsementDate": null,
+          //   "EndorsementEffectiveDate": null,
+          //   "EndorsementRemarks": null,
+          //   "EndorsementType": null,
+          //   "EndorsementTypeDesc": null,
+          //   "EndtCategoryDesc": null,
+          //   "EndtCount": null,
+          //   "EndtPrevPolicyNo": null,
+          //   "EndtPrevQuoteNo": null,
+          //   "EndtStatus": null,
+          //   "IsFinanceEndt": null,
+          //   "OrginalPolicyNo": null,
+          //   "LocationList": []
+          // }
           let locationList = [],i=0;
           for(let entry of this.LocationName){
             let obj = {
@@ -3196,30 +3245,8 @@ export class RiskDetailsComponent {
             if(entry.BuildingType!=null && entry.BuildingType!='' && entry.BuildingSI!=null && entry.BuildingSI!='' && entry.BuildingSI!='0'){
               let subEntry = {
                 "SectionId": "1",
-                "OccupationId": null,
                 "RiskId": null,
-                "RoofType": null,
-                "WallType": null,
-                "BuildingBuildYear": null,
                 "BuildingSumInsured": String(entry.BuildingSI).replaceAll(',',''),
-                "BuildingUsageId": null,
-                "WaterTankSi": null,
-                "ArchitectsSi": null,
-                "LossOfRentSi": null,
-                "TypeOfProperty": null,
-                "BuildingAddress": null,
-                "AllriskSumInsured": null,
-                "ContentSuminsured": null,
-                "JewellerySi": null,
-                "PaitingsSi": null,
-                "CarpetsSi": null,
-                "EquipmentSi": null,
-                "DomesticServantType":null,
-                "Count":null,
-                "DomesticServentSi": null,
-                "RelationType": null,
-                "PersonalAccidentSi":null,
-                "PersonalLiabilitySi": null,
                 "OutbuildConstructType": entry.BuildingType
               }
               if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
@@ -3228,31 +3255,8 @@ export class RiskDetailsComponent {
             if(entry.ContentSI!=null && entry.ContentSI!='' && entry.ContentSI!='0'){
               let subEntry = {
                 "SectionId": "47",
-                "OccupationId": null,
                 "RiskId": null,
-                "RoofType": null,
-                "WallType": null,
-                "BuildingBuildYear": null,
-                "BuildingSumInsured": null,
-                "BuildingUsageId": null,
-                "WaterTankSi": null,
-                "ArchitectsSi": null,
-                "LossOfRentSi": null,
-                "TypeOfProperty": null,
-                "BuildingAddress": null,
-                "AllriskSumInsured": null,
                 "ContentSuminsured": String(entry.ContentSI).replaceAll(',',''),
-                "JewellerySi": null,
-                "PaitingsSi": null,
-                "CarpetsSi": null,
-                "EquipmentSi": null,
-                "DomesticServantType":null,
-                "Count":null,
-                "DomesticServentSi": null,
-                "RelationType": null,
-                "PersonalAccidentSi":null,
-                "PersonalLiabilitySi": null,
-                "OutbuildConstructType": null
               }
               if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
               obj.SectionList.push(subEntry);
@@ -3260,31 +3264,9 @@ export class RiskDetailsComponent {
             if(entry.AllRiskSI!=null && entry.AllRiskSI!='' && entry.AllRiskSI!='0'){
               let subEntry = {
                 "SectionId": "3",
-                "OccupationId": null,
                 "RiskId": null,
-                "RoofType": null,
-                "WallType": null,
-                "BuildingBuildYear": null,
-                "BuildingSumInsured": null,
-                "BuildingUsageId": null,
-                "WaterTankSi": null,
-                "ArchitectsSi": null,
-                "LossOfRentSi": null,
-                "TypeOfProperty": null,
-                "BuildingAddress": null,
-                "AllriskSumInsured": String(entry.AllRiskSI).replaceAll(',',''),
-                "ContentSuminsured": null,
-                "JewellerySi": null,
-                "PaitingsSi": null,
-                "CarpetsSi": null,
-                "EquipmentSi": null,
-                "DomesticServantType":null,
-                "Count":null,
-                "DomesticServentSi": null,
-                "RelationType": null,
-                "PersonalAccidentSi":null,
-                "PersonalLiabilitySi": null,
-                "OutbuildConstructType": null
+                "AllriskSumInsured": String(entry.AllRiskSI).replaceAll(',','')
+                
               }
               if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
               obj.SectionList.push(subEntry);
@@ -3292,31 +3274,7 @@ export class RiskDetailsComponent {
             if(entry.PersonalLiabilitySI!=null && entry.PersonalLiabilitySI!='' && entry.PersonalLiabilitySI!='0'){
               let subEntry = {
                 "SectionId": "139",
-                "OccupationId": null,
-               "RiskId": null,
-                "RoofType": null,
-                "WallType": null,
-                "BuildingBuildYear": null,
-                "BuildingSumInsured": null,
-                "BuildingUsageId": null,
-                "WaterTankSi": null,
-                "ArchitectsSi": null,
-                "LossOfRentSi": null,
-                "TypeOfProperty": null,
-                "BuildingAddress": null,
-                "AllriskSumInsured": null,
-                "ContentSuminsured": null,
-                "JewellerySi": null,
-                "PaitingsSi": null,
-                "CarpetsSi": null,
-                "EquipmentSi": null,
-                "DomesticServantType":null,
-                "Count":null,
-                "DomesticServentSi": null,
-                "RelationType": null,
-                "PersonalAccidentSi":null,
-                "PersonalLiabilitySi": String(entry.PersonalLiabilitySI).replaceAll(',',''),
-                "OutbuildConstructType": null
+                "PersonalLiabilitySi": String(entry.PersonalLiabilitySI).replaceAll(',','')
               }
               if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
               obj.SectionList.push(subEntry);
@@ -3324,31 +3282,10 @@ export class RiskDetailsComponent {
             if(entry.ServantType!=null && entry.ServantType!='' && entry.ServantCount!=null && entry.ServantCount!='' && entry.ServantSI!=null && entry.ServantSI!=''){
               let subEntry = {
                 "SectionId": "106",
-                "OccupationId": null,
                 "RiskId": null,
-                "RoofType": null,
-                "WallType": null,
-                "BuildingBuildYear": null,
-                "BuildingSumInsured": null,
-                "BuildingUsageId": null,
-                "WaterTankSi": null,
-                "ArchitectsSi": null,
-                "LossOfRentSi": null,
-                "TypeOfProperty": null,
-                "BuildingAddress": null,
-                "AllriskSumInsured": null,
-                "ContentSuminsured": null,
-                "JewellerySi": null,
-                "PaitingsSi": null,
-                "CarpetsSi": null,
-                "EquipmentSi": null,
                 "DomesticServantType":entry.ServantType,
                 "Count":entry.ServantCount,
                 "DomesticServentSi": String(entry.ServantSI).replaceAll(',',''),
-                "RelationType": null,
-                "PersonalAccidentSi":null,
-                "PersonalLiabilitySi": null,
-                "OutbuildConstructType": null
               }
               if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
               obj.SectionList.push(subEntry);
@@ -3356,31 +3293,9 @@ export class RiskDetailsComponent {
             if(entry.RelationType!=null && entry.RelationType!='' && entry.DeathSI!=null && entry.DeathSI!=''){
               let subEntry = {
                 "SectionId": "138",
-                "OccupationId": null,
                 "RiskId": null,
-                "RoofType": null,
-                "WallType": null,
-                "BuildingBuildYear": null,
-                "BuildingSumInsured": null,
-                "BuildingUsageId": null,
-                "WaterTankSi": null,
-                "ArchitectsSi": null,
-                "LossOfRentSi": null,
-                "TypeOfProperty": null,
-                "BuildingAddress": null,
-                "AllriskSumInsured": null,
-                "ContentSuminsured": null,
-                "JewellerySi": null,
-                "PaitingsSi": null,
-                "CarpetsSi": null,
-                "EquipmentSi": null,
-                "DomesticServantType":null,
-                "Count":null,
-                "DomesticServentSi": null,
                 "RelationType": entry.RelationType,
-                "PersonalAccidentSi":String(entry.DeathSI).replaceAll(',',''),
-                "PersonalLiabilitySi": null,
-                "OutbuildConstructType": null
+                "PersonalAccidentSi":String(entry.DeathSI).replaceAll(',','')
               }
               if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
               obj.SectionList.push(subEntry);
@@ -3402,7 +3317,7 @@ export class RiskDetailsComponent {
           }
         }
         onFinalSubmit(ReqObj,type){
-          let urlLink = `http://192.168.1.19:8085/api/slide/nonmotorsave`
+          let urlLink = `${this.motorApiUrl}api/slide/nonmotorsave`
           this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             (data: any) => {
               if(data.Result){
@@ -3651,16 +3566,16 @@ export class RiskDetailsComponent {
             "QuoteNo": this.quoteNo
           }
           let urlLink = `${this.motorApiUrl}api/additionalinfovali`;
-              this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-                (data: any) => {
-                  if (data?.Message=='Success') {
-                    this.saveFleetDetails();
-                    //this.router.navigate(['/quotation/plan/premium-details']);
-                    //this.router.navigate(['/quotation/plan/main/document-info'])
-                  }
-                },
-                (err) => { },
-              ); 
+          this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+            (data: any) => {
+              if (data?.Message=='Success') {
+                this.saveFleetDetails();
+                //this.router.navigate(['/quotation/plan/premium-details']);
+                //this.router.navigate(['/quotation/plan/main/document-info'])
+              }
+            },
+            (err) => { },
+          ); 
         }
         showSidebar() {
           this.sidebarVisible = true;
