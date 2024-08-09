@@ -285,7 +285,6 @@ export class CustomerCreateFormComponent implements OnInit {
 				}
 			}
 		if(this.insuranceId=='100040' || this.insuranceId=='100042'){
-			alert("on")
 			let fieldList1=this.personalInfoFields[0].fieldGroup;
 				for(let field of fieldList1){
 					if(field.key=='dobOrRegDate'){
