@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 import { ProductData } from '../quotation/quotation-plan/models/product';
 import { MotorVehicleSanlam } from '../quotation/quotation-plan/models/sanlam/MotorVehicleSanlam';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { MotorVehicleEagle } from '../quotation/quotation-plan/models/Eagle/MotorVehicleEagle';
 import { MotorVehicleKenya } from '../quotation/quotation-plan/models/Kenya/MotorVehicleKenya';
 import { MotorVehicleTanzaniya } from '../quotation/quotation-plan/models/Tanzaniya/MotorVehicleTanzaniya';
@@ -83,6 +83,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     { title: 'Electronic Accessories', excess: 4, totalSum: 50.5, year: 1, discount: 500 },
     { title: 'Other Accessories', excess: 4, totalSum: 50.5, year: 1, discount: 500 },
   ];
+  form = new FormGroup({});
   tabIndex:any;claimsYN:any='N';gpsYn:any='N';
   policyStartDate:any=null;policyEndDate:any=null;
   promocode:any=null;currencyList:any[]=[];noOfDaysList:any[]=[];
@@ -2574,6 +2575,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
         else sectionId = null;
       }
       if(brokerbranchCode==null) brokerbranchCode='1';
+      let DateOfcirculation;
+          if(String(this.productItem.DateOfcirculation).includes('/')){
+            DateOfcirculation = this.productItem.DateOfcirculation;
+          }
+          else DateOfcirculation = this.datePipe.transform(this.productItem.DateOfcirculation,'dd/MM/yyyy');
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": null,
@@ -2690,6 +2696,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         "Zone":"1",
         "NoOfClaimYears":null,
         "NoOfPassengers":null,
+        "DateOfCirculation":DateOfcirculation,
         "Scenarios": {
           "ExchangeRateScenario": {
               "OldAcccessoriesSumInsured": null,
@@ -3100,6 +3107,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           if(this.insuranceId=='100040' || this.insuranceId=='100042' || this.insuranceId=='100027') this.typeValue = this.vehicleDetails.InsuranceClass;
           // if(this.vehicleDetails?.HorsePower==undefined) this.vehicleDetails.HorsePower="10"
+          let DateOfcirculation;
+          if(String(this.productItem.DateOfcirculation).includes('/')){
+            DateOfcirculation = this.productItem.DateOfcirculation;
+          }
+          else DateOfcirculation = this.datePipe.transform(this.productItem.DateOfcirculation,'dd/MM/yyyy');
           let ReqObj = {
             "HorsePower": this.vehicleDetails.HorsePower,
             "Zone":'1',
@@ -3226,6 +3238,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "NumberOfCards":this.productItem.Nombredecartes,
             "MunicipalityTraffic":this.productItem.MunicipalityofTraffic,
             "TransportHydro":this.productItem.Transportationofhydrocarbons,
+            "DateOfCirculation":DateOfcirculation,
             "Scenarios": {
               "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": this.vehicleDetails.OldAcccessoriesSumInsured,
@@ -3724,6 +3737,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
               if(vehicleDetails?.SavedFrom=='SQ') vehicleDetails.SavedFrom = 'WEB';
               let Insurancetype;
               Insurancetype=vehicleDetails?.Insurancetype;
+              let DateOfcirculation;
+                if(String(this.productItem.DateOfcirculation).includes('/')){
+                  DateOfcirculation = this.productItem.DateOfcirculation;
+                }
+                else DateOfcirculation = this.datePipe.transform(this.productItem.DateOfcirculation,'dd/MM/yyyy');
               let ReqObj = {
                 "BrokerBranchCode": brokerbranchCode,
                 "AcExecutiveId": this.acExecutiveId,
@@ -3837,6 +3855,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               "NoOfClaimYears": vehicleDetails?.NoOfClaimYears,
               "NoOfPassengers": vehicleDetails?.NoOfPassengers,
               "HorsePower":vehicleDetails?.HorsePower,
+              "DateOfCirculation":DateOfcirculation,
               "Zone":"1",
               "Scenarios": {
                   "ExchangeRateScenario": {
@@ -4095,22 +4114,64 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
   }
   onProceed(type){
-    
-    if(this.checkDisableField()){
-      
-      if(this.endorsementSection) this.router.navigate(['/quotation/plan/premium-info']);
-      else this.router.navigate(['/quotation/plan/premium-details']);
-    }
-    else if(this.vehicleDetailsList.length!=0){
-      if(this.vehicleDetailsList.length==1 && this.finalizeYN!='Y'){
-        this.onFormSubmit('proceedSave');
+    // alert(this.form.valid)
+    if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+      if(this.form.valid){
+        if(this.checkDisableField()){
+          if(this.endorsementSection) this.router.navigate(['/quotation/plan/premium-info']);
+          else this.router.navigate(['/quotation/plan/premium-details']);
+        }
+        else if(this.vehicleDetailsList.length!=0){
+          if(this.vehicleDetailsList.length==1 && this.finalizeYN!='Y'){
+            this.onFormSubmit('proceedSave');
+          }
+          else{
+            if(type=='save'){ this.onFormSubmit('proceedSave');}
+            else this.onFinalProceed();
+          }
+        }
       }
       else{
-        if(type=='save'){ this.onFormSubmit('proceedSave');}
-        else this.onFinalProceed();
+        console.log(this.form,"requiredrequired");
+        this.form.controls['InsuranceType'].errors=true;
+        this.form.controls['InsuranceClass'].errors=true;
+        this.form.controls['Deductibles'].errors=true;
+        this.form.controls['Newvalue'].errors=true;
+        this.form.controls['Deductibles'].errors=true;
+        this.form.controls['Newvalue'].errors=true;
+        this.form.controls['VehicleValue'].errors=true;
+        this.form.controls['Marketvalue'].errors=true;
+        this.form.controls['Aggregatedvalue'].errors=true;
+        this.form.controls['VehicleSI'].errors=true;
+        this.form.controls['AccessoriesSI'].errors=true;
+        this.form.controls['NoOfPassengers'].errors=true;
+        this.form.controls['Mileage'].errors=true;
+        this.form.controls['DateOfcirculation'].errors=true;
+        this.form.controls['Nombredecartes'].errors=true;
+        this.form.controls['MunicipalityofTraffic'].errors=true;
+        this.form.controls['GpsYN'].errors=true;
+        console.log(this.form.controls['InsuranceType'].errors,"requiredrequired");
+        console.log(this.form,"requiredrequired");
       }
     }
-  }
+    else{
+      if(this.checkDisableField()){
+        if(this.endorsementSection) this.router.navigate(['/quotation/plan/premium-info']);
+        else this.router.navigate(['/quotation/plan/premium-details']);
+      }
+      else if(this.vehicleDetailsList.length!=0){
+        if(this.vehicleDetailsList.length==1 && this.finalizeYN!='Y'){
+          this.onFormSubmit('proceedSave');
+        }
+        else{
+          if(type=='save'){ this.onFormSubmit('proceedSave');}
+          else this.onFinalProceed();
+        }
+      }
+    }
+   
+  
+}
   onFormSubmit(type){
     // alert("onFormSubmit")
     sessionStorage.removeItem('loadingType');
@@ -4356,6 +4417,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           Insurancetype =insuranceType;
           if(this.motorDetails?.SavedFrom=='SQ') this.motorDetails.SavedFrom = 'WEB';
+          let DateOfcirculation;
+          if(String(this.productItem.DateOfcirculation).includes('/')){
+            DateOfcirculation = this.productItem.DateOfcirculation;
+          }
+          else DateOfcirculation = this.datePipe.transform(this.productItem.DateOfcirculation,'dd/MM/yyyy');
           let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,
@@ -4479,7 +4545,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "PreviousLossRatio": this.productItem.PreviousLossRatio,
             "HorsePower": this.vehicleDetails.HorsePower,
             "Zone":"1",
-            "DateOfCirculation":this.productItem.DateOfcirculation,
+            "DateOfCirculation":DateOfcirculation,
             "NewValue":this.productItem.Newvalue,
             "MarketValue":this.productItem.NoOfPassengers,
             "AggregatedValue":this.productItem.Aggregatedvalue,
@@ -5541,6 +5607,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042')  this.onChangeInsuranceClass('direct');
   }
   onchangevehicleValue(){
+    // alert()
     let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
     for(let field of fieldList){
         if(this.productItem.VehicleValue==1){

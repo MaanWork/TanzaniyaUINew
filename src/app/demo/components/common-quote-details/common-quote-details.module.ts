@@ -157,7 +157,15 @@ export function maxlengthValidationMessage(err, field) {
           useFactory: HttpLoaderFactory,
           deps: [HttpClient]
       }
-  })
+  }),
+  FormlyModule.forRoot({
+    validators: [
+     
+    ],
+    validationMessages: [
+      { name: 'required', message: 'This field is required' },
+    ],
+  }),
   ]
 })
 export class CommonQuoteDetailsModule { }
