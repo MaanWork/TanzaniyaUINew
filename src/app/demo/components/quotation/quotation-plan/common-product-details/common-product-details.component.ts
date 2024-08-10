@@ -4154,7 +4154,9 @@ backPlan()
                 //if(this.productId=='59') entry = this.customerData[0];
                 if(this.productId!='63') entry = data.Result;
                 else { 
-                  //entry = {...data.Result.PolicyInformation, ...data.Result.}
+                  entry = {...data.Result.PolicyInformation, ...data.Result.EndorsementDetails, ...data.Result.BrokerDetails}
+                  if(data.Result.LocationList) entry['LocationList'] = data.Result.LocationList;
+                  else entry['LocationList'] = [];
                 }
                  this.colorSections=[];let j=0;
                  if(this.productId=='61'){
@@ -4242,8 +4244,8 @@ backPlan()
                 this.currencyCode = entry?.Currency;
                 this.onCurrencyChange('direct');
                 this.exchangeRate = entry?.ExchangeRate;
+                if(this.exchangeRate==null) this.exchangeRate = "1.0";
                 this.IndustryId = entry?.IndustryId;
-                
                 if(entry.BuildingOwnerYn!=null && entry?.BuildingOwnerYn!='') this.buildingOwnerYN = entry?.BuildingOwnerYn;
                 this.promocode=entry?.Promocode;
                 if(entry.SourceTypeId!=null) this.Code = entry?.SourceTypeId;
