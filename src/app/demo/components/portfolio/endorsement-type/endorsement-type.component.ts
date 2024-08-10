@@ -361,9 +361,10 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
                       //this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
                     }
                     else{
-                      if(this.productId=='5' || this.productId=='46'){
+                      if(this.productId=='5'){
                         this.router.navigate(['/policyDetails']);
                       }
+
                     }
                     
                   //}
@@ -376,7 +377,7 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
                     this.router.navigate(['/customer/create']);
                   }
                   else{
-                    if(this.productId == '59'){
+                    if(this.productId == '59' || this.productId=='46'){
                       this.router.navigate(['/quotation/plan/quote-details']);
                     }
                     else if((this.productId=='6' || this.productId=='16' || this.productId=='39' || this.productId=='14'  || this.productId=='19' || this.productId=='32' || this.productId=='1' || this.productId=='26' || this.productId=='21' || this.productId == '25')){
@@ -422,6 +423,12 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
         },
         (err) => { },
       );
+    }
+    getBack(){
+      if(this.endorsementSection){
+         this.router.navigate(['/portfolio/endorsementtype']);
+      }
+      else this.router.navigate(['/quotation']);
     }
     getCommonDetails(refNo,type){
       let ReqObj = {

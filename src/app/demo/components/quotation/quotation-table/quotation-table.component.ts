@@ -334,7 +334,7 @@ onInnerDataLapsed(rowData){
           "BdmCode": bdmCode,
            "ProductId":this.productId,
           "Limit":this.limit,
-          "Offset":60
+          "Offset":10
     }
     let urlLink = `${this.CommonApiUrl}api/existingquotedetails`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -387,7 +387,10 @@ onInnerDataLapsed(rowData){
     }
   }
   onNextPage(){
-    if((this.endCount==10 && this.quoteData.length<=60) || (this.endCount==70 && this.quoteData.length<=120) || (this.endCount==130 && this.quoteData.length<=180) || (this.endCount==190 && this.quoteData.length<=240) || (this.endCount==250 && this.quoteData.length<=300) || (this.endCount==310 && this.quoteData.length<=360)  || (this.endCount==370 && this.quoteData.length<=420)){
+    if((this.endCount==5 && this.quoteData.length<=10) || (this.endCount==15 && this.quoteData.length<=20) || (this.endCount==25 && this.quoteData.length<=30) || (this.endCount==35 && this.quoteData.length<=40) || (this.endCount==45 && this.quoteData.length<=50) || (this.endCount==55 && this.quoteData.length<=60)  || (this.endCount==65 && this.quoteData.length<=70) ||
+     (this.endCount==75 && this.quoteData.length<=80) || (this.endCount==85 && this.quoteData.length<=90) || (this.endCount==95 && this.quoteData.length<=100) || (this.endCount==105 && this.quoteData.length<=110) || (this.endCount==115 && this.quoteData.length<=120) || (this.endCount==125 && this.quoteData.length<=130) || (this.endCount==135 && this.quoteData.length<=140) || (this.endCount==145 && this.quoteData.length<=150) || (this.endCount==155 && this.quoteData.length<=160)
+     || (this.endCount==155 && this.quoteData.length<=160) || (this.endCount==165 && this.quoteData.length<=170) || (this.endCount==175 && this.quoteData.length<=180) || (this.endCount==185 && this.quoteData.length<=190) || (this.endCount==195 && this.quoteData.length<=200)
+     || (this.endCount==205 && this.quoteData.length<=210) || (this.endCount==215 && this.quoteData.length<=220) || (this.endCount==225 && this.quoteData.length<=230) || (this.endCount==235 && this.quoteData.length<=240) || (this.endCount==245 && this.quoteData.length<=250)){
       
       if(this.quoteData.length!=this.totalQuoteRecords){
         sessionStorage.setItem('loadingType','disable');
