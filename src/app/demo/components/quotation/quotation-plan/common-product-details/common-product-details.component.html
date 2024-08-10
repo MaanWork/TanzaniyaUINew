@@ -82,7 +82,7 @@
                 <div class="lg:col-4 md:col-4 col-12">
                     <label for="username">Currency*</label>
                     <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="make" class="w-full" styleClass="w-full"  [options]="currencyList"
-                    [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')" [disabled]="(endorsementSection && !enableCurrency) || checkDisableField() "
+                    [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')" [disabled]="(endorsementSection && !enableCurrency)"
                         optionLabel="CodeDesc" optionValue="Code" >
                     </p-dropdown>
                     <div class="input-form-error bottomSpacing" *ngIf="currencyCodeError">
@@ -93,7 +93,7 @@
                 </div>
                 <div class="lg:col-4 md:col-4 col-12">
                     <label for="username">Exchange Rate</label>
-                    <input pInputText class="w-full" id="username" [disabled]="(endorsementSection && !enableCurrency) || checkDisableField() " maxlength="50" [(ngModel)]="exchangeRate" (onChange)="onExchangeRateChange('change')" />
+                    <input pInputText class="w-full" id="username" [disabled]="(endorsementSection && !enableCurrency) " maxlength="50" [(ngModel)]="exchangeRate" (onChange)="onExchangeRateChange('change')" />
                     <div class="input-form-error bottomSpacing" *ngIf="exchangeRateError">
                         <div class="error-text text-danger">
                             <span class="spancommon span_font_size"> Please Enter Valid Exchange Rate</span>
@@ -265,7 +265,7 @@
                 <div class="lg:col-3 md:col-3 col-12">
                     <label for="username">Currency*</label>
                     <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="make" class="w-full" styleClass="w-full"  [options]="currencyList"
-                    [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')" [disabled]="(endorsementSection && !enableCurrency) || checkDisableField() "
+                    [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')" [disabled]="(endorsementSection && !enableCurrency)"
                         optionLabel="CodeDesc" optionValue="Code" >
                     </p-dropdown>
                     <div class="input-form-error bottomSpacing" *ngIf="currencyCodeError">
@@ -276,7 +276,7 @@
                 </div>
                 <div class="lg:col-2 md:col-2 col-12">
                     <label for="username">Exchange Rate</label>
-                    <input pInputText class="w-full" id="username" maxlength="50" [disabled]="(endorsementSection && !enableCurrency) || checkDisableField() " [(ngModel)]="exchangeRate" />
+                    <input pInputText class="w-full" id="username" maxlength="50" [disabled]="(endorsementSection && !enableCurrency)" [(ngModel)]="exchangeRate" />
                     <div class="input-form-error bottomSpacing" *ngIf="exchangeRateError">
                         <div class="error-text text-danger">
                             <span class="spancommon span_font_size"> Please Enter Valid Exchange Rate</span>
