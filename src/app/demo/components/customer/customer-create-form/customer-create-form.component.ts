@@ -160,6 +160,7 @@ export class CustomerCreateFormComponent implements OnInit {
 	setHeaders(){
 		if(this.lang=='en'){this.items = [{ label: 'Home', routerLink:'/' }, {label:'Customer', routerLink: '/customer'}, { label: 'Create Customer' }];}
 		else if(this.lang=='po'){this.items = [{ label: 'Lar', routerLink:'/' }, {label:'Cliente', routerLink: '/customer'}, { label: 'Criar cliente' }];}
+		else if(this.lang=='fr'){this.items = [{ label: 'Maison', routerLink:'/' }, {label:'Client', routerLink: '/customer'}, { label: 'Créer un client' }];}
 	}
 	onLanguageChange(item: any) {
 		this.translate.use(item.value);
