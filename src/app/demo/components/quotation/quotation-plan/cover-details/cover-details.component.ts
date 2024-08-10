@@ -3170,7 +3170,7 @@ export class CoverDetailsComponent {
   }
   onViewOverAllPremium(){
     this.discountList = [];this.loadingList=[];
-    if(this.userType!='Broker' && this.userType!='User' && this.b2cType!='guest' && this.insuranceId=='100002') this.onUpdateFactor('fleetSave',null);
+    if((this.productId=='5' || this.productId=='59') && (this.userType!='Broker' && this.userType!='User' && this.b2cType!='guest')) this.onUpdateFactor('fleetSave',null);
     else this.onFormSubmit(null);
    
   }
