@@ -107,7 +107,7 @@ export class CustomerIvory{
                       id: 'Gender',
                       name:'Gender',
                       // placeholder: '-Select-',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('Gender'),
                       maxLength: 15,
                       options:[]
@@ -203,7 +203,7 @@ export class CustomerIvory{
                       id: 'Occupation',
                       name:'Occupation',
                       // placeholder: '-Select Occupation-',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('Occupation'),
                       maxLength: 50,
                       options:[]
@@ -317,7 +317,7 @@ export class CustomerIvory{
                       id: 'IdentityType',
                       name:'IdentityType',
                       // placeholder: '-Select-',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('PolicyHolderTypeid'),
                       maxLength: 15,
                       options:[]
@@ -421,7 +421,7 @@ export class CustomerIvory{
                       id: 'PreferedNotification',
                       name:'PreferedNotification',
                       // placeholder: '-Select-',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('PreferredNotification'),
                       maxLength: 15,
                       options:[
@@ -490,7 +490,7 @@ export class CustomerIvory{
                       id: 'Country',
                       name:'Country',
                       // placeholder: '-Select-',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('Country'),
                       maxLength: 15,
                       options:[]
