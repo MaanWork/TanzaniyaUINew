@@ -5408,6 +5408,13 @@ backPlan()
       else{this.onFormSubmit(type);}
     }
   }
+  getBackRoute(){
+    if(this.endorsementSection){
+      if(this.enableCustomerDetails) this.router.navigate(['/customer/create']);
+      else  this.router.navigate(['/portfolio/endorsementtype']);
+    }
+    else this.router.navigate(['/quotation']);
+  }
   getBack(){
     this.productItem = null;
     this.productItem = new ProductData();
