@@ -364,7 +364,9 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
                       if(this.productId=='5'){
                         this.router.navigate(['/policyDetails']);
                       }
-
+                      if(this.productId=='46'){
+                        this.router.navigate(['/quotation/plan/quote-details']);
+                      }
                     }
                     
                   //}
@@ -1186,7 +1188,10 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
         if (groupList.length != 0) {
           let i = 0;
           for (let group of groupList) {
+            let locationId = '1';
+            if(group.LocationId!=null && group.LocationId!=undefined) locationId=group.LocationId;
             let ReqObj = {
+              "LocationId": locationId,
               "InsuranceId": this.insuranceId,
               "BranchCode": customerData.BranchCode,
               "AgencyCode": customerData.AgencyCode,
@@ -1263,7 +1268,10 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
               if(build.LocationId!=undefined) Id=build.LocationId;
               else if(build.RiskId!=undefined) Id=build.RiskId;
               else Id="1";
+              let locationId = '1';
+              if(build.LocationId!=null && build.LocationId!=undefined) locationId=build.LocationId;
               let ReqObj = {
+                "LocationId": build.LocationId,
                 "InsuranceId": this.insuranceId,
                 "BranchCode": customerData.BranchCode,
                 "AgencyCode": customerData.AgencyCode,
@@ -1676,8 +1684,10 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
             //     effectiveDate = this.datePipe.transform(vehicleDetails.PolicyStartDate, "dd/MM/yyyy");
             //   }
             // }
-            
+            let locationId = '1';
+            if(veh.LocationId!=null && veh.LocationId!=undefined) locationId=veh.LocationId;    
       let ReqObj = {
+          "LocationId": locationId,
           "InsuranceId": this.insuranceId,
           "BranchCode": this.branchCode,
           "AgencyCode": this.agencyCode,
