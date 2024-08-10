@@ -36,6 +36,8 @@ export class CustomerIvory{
                     hideExpression:false,
                     templateOptions: {
                       label: `Customer Title`,
+                      id: 'CustomerTitle',
+                      name:'CustomerTitle',
                       // placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('Title'),
@@ -102,6 +104,8 @@ export class CustomerIvory{
                     hideExpression:false,
                     props: {
                       label: `Gender`,
+                      id: 'Gender',
+                      name:'Gender',
                       // placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('Gender'),
@@ -148,6 +152,8 @@ export class CustomerIvory{
                     hideExpression:false,
                     props: {
                       label: `Nationality`,
+                      id: 'Nationality',
+                      name:'Nationality',
                       required: false,
                       disabled: this.checkDisable('Nationality'),
                       maxLength: 50,
@@ -169,6 +175,8 @@ export class CustomerIvory{
                     hideExpression:true,
                     props: {
                       label: `Activities`,
+                      id: 'Activities',
+                      name:'Activities',
                       // placeholder: '-Select Activities-',
                       required: true,
                       disabled: this.checkDisable('BusinessType'),
@@ -192,6 +200,8 @@ export class CustomerIvory{
                     hideExpression:false,
                     props: {
                       label: `Occupation`,
+                      id: 'Occupation',
+                      name:'Occupation',
                       // placeholder: '-Select Occupation-',
                       required: true,
                       disabled: this.checkDisable('Occupation'),
@@ -214,6 +224,8 @@ export class CustomerIvory{
                     hideExpression:false,
                     props: {
                       label: `Socio Professional category`,
+                      id: 'SocioProfessionalcategory',
+                      name:'SocioProfessionalcategory',
                       // placeholder: 'Enter Socio Professional category',
                       required: false,
                       disabled: this.checkDisable('SocioProfessionalcategory'),
@@ -255,6 +267,8 @@ export class CustomerIvory{
                     key: 'MobileCode',
                     props: {
                       label: `Country Code`,
+                      id: 'CountryCode',
+                      name:'CountryCode',
                       // placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('CountryCode'),
@@ -300,6 +314,8 @@ export class CustomerIvory{
                     key: 'PolicyHolderTypeid',
                     props: {
                       label: `Identity Type`,
+                      id: 'IdentityType',
+                      name:'IdentityType',
                       // placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('PolicyHolderTypeid'),
@@ -402,6 +418,8 @@ export class CustomerIvory{
                     key: 'PreferredNotification',
                     templateOptions: {
                       label: `Preferred Notification`,
+                      id: 'PreferedNotification',
+                      name:'PreferedNotification',
                       // placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('PreferredNotification'),
@@ -469,6 +487,8 @@ export class CustomerIvory{
                     key: 'Country',
                     props: {
                       label: `Country`,
+                      id: 'Country',
+                      name:'Country',
                       // placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('Country'),
@@ -508,7 +528,9 @@ export class CustomerIvory{
                     id: 'City',
                     key: 'CityName',
                     props: {
-                      label: `City Name`,
+                      label: `City`,
+                      id: 'City',
+                      name:'City',
                       required: false,
                       disabled: this.checkDisable('CityName'),
                       maxLength: 15,
