@@ -7173,7 +7173,8 @@ finalSaveMoney(finalList,type,formType) {
             }
           })
     }
-    else this.router.navigate(['/quotation/plan/premium-details']);
+    else if(this.endorsementSection){this.router.navigate(['/quotation/plan/premium-info']);} 
+    else { this.router.navigate(['/quotation/plan/premium-details']);}
   }
   getFleetCalc(res){
     let startDate = "",endDate = ""

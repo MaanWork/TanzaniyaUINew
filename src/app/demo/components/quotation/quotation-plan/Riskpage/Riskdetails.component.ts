@@ -487,7 +487,8 @@ export class RiskDetailsComponent {
           let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
           this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             (data: any) => {
-              this.constructionTypes = data.Result;
+              let defaultObj = [{ 'CodeDesc': '-Select-', 'Code': null }]
+              this.constructionTypes = defaultObj.concat(data.Result);
             })
         }
         getDomesticServantList(){
@@ -498,7 +499,8 @@ export class RiskDetailsComponent {
           let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
           this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             (data: any) => {
-              this.servantTypeList = data.Result;
+              let defaultObj = [{ 'CodeDesc': '-Select-', 'Code': null }]
+              this.servantTypeList = defaultObj.concat(data.Result);
             })
         }
         getRelationShipList(){
@@ -509,7 +511,8 @@ export class RiskDetailsComponent {
           let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
           this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             (data: any) => {
-              this.relationList = data.Result;
+              let defaultObj = [{ 'CodeDesc': '-Select-', 'Code': null }]
+              this.relationList = defaultObj.concat(data.Result);
             })
         }
         getPLTotal(){
