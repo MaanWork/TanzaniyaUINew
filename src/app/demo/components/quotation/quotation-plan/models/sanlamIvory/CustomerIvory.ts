@@ -103,7 +103,7 @@ export class CustomerIvory{
                     props: {
                       label: `Gender`,
                       // placeholder: '-Select-',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('Gender'),
                       maxLength: 15,
                       options:[]
@@ -193,7 +193,7 @@ export class CustomerIvory{
                     props: {
                       label: `Occupation`,
                       // placeholder: '-Select Occupation-',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('Occupation'),
                       maxLength: 50,
                       options:[]
@@ -301,7 +301,7 @@ export class CustomerIvory{
                     props: {
                       label: `Identity Type`,
                       // placeholder: '-Select-',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('PolicyHolderTypeid'),
                       maxLength: 15,
                       options:[]
@@ -403,7 +403,7 @@ export class CustomerIvory{
                     templateOptions: {
                       label: `Preferred Notification`,
                       // placeholder: '-Select-',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('PreferredNotification'),
                       maxLength: 15,
                       options:[
@@ -470,7 +470,7 @@ export class CustomerIvory{
                     props: {
                       label: `Country`,
                       // placeholder: '-Select-',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('Country'),
                       maxLength: 15,
                       options:[]
@@ -508,7 +508,7 @@ export class CustomerIvory{
                     id: 'City',
                     key: 'CityName',
                     props: {
-                      label: `City Name`,
+                      label: `City`,
                       required: false,
                       disabled: this.checkDisable('CityName'),
                       maxLength: 15,
