@@ -1325,15 +1325,16 @@ export class CommonQuoteDetailsComponent implements OnInit {
    return entry;
  }
  onChangeAggregated(){
-  this.fields[0]?.fieldGroup[0]?.fieldGroup[7]?.formControl.setValue(this.commaSeparatedToNumber(this.getAggregatedDesc(this.productItem.Aggregatedvalue)));
-
+  // this.fields[0]?.fieldGroup[0]?.fieldGroup[7]?.formControl.setValue(this.commaSeparatedToNumber(this.getAggregatedDesc(this.productItem.Aggregatedvalue)));
+  this.productItem.VehicleSI=this.commaSeparatedToNumber(this.getAggregatedDesc(this.productItem.Aggregatedvalue));
  }
  commaSeparatedToNumber(commaSeparatedString) {
   // Remove commas and convert to number
   return Number(commaSeparatedString.replace(/,/g, ''));
 }
  changeMarketValue(){
-  this.fields[0]?.fieldGroup[0]?.fieldGroup[7]?.formControl.setValue(this.productItem.Marketvalue);
+  // this.fields[0]?.fieldGroup[0]?.fieldGroup[7]?.formControl.setValue();
+  this.productItem.VehicleSI=this.productItem.Marketvalue;
  }
   getMunicipalityTrafficList(){
     let ReqObj=null,urlLink=null;
@@ -4571,7 +4572,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "Zone":"1",
             "DateOfCirculation":DateOfcirculation,
             "NewValue":this.productItem.Newvalue,
-            "MarketValue":this.productItem.NoOfPassengers,
+            "MarketValue":this.productItem.Marketvalue,
             "AggregatedValue":this.productItem.Aggregatedvalue,
             "NumberOfCards":this.productItem.Nombredecartes,
             "MunicipalityTraffic":this.productItem.MunicipalityofTraffic,
@@ -4668,7 +4669,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             else ReqObj['DriverDetails'] = null;
             if(this.insuranceId=='100019') ReqObj['CarAlarmYn'] = this.productItem.CarAlarmYN;
             if(this.insuranceId=='100020') ReqObj['VehicleClass'] = this.productItem.VehicleClass
-             if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+            //  if(this.insuranceId=='100040' || this.insuranceId=='100042'){
             //   let dob,dob1,dob2,dob3 = null,licenseDate=null,quoteNo = null;
             //   if(this.licenseIssuedDate!=null && this.licenseIssuedDate!='' && this.licenseIssuedDate!=undefined){
             //     licenseDate = this.datePipe.transform(this.licenseIssuedDate, "dd/MM/yyyy");
@@ -4683,11 +4684,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
             //     else dob2 = this.datePipe.transform(this.CategoryDate,'dd/MM/yyyy');
             //     if((String(this.LicenseIssueDt)).includes('/')) dob3 = this.LicenseIssueDt;
             //     else dob3 = this.datePipe.transform(this.LicenseIssueDt,'dd/MM/yyyy');
-              ReqObj['DriverDetails'] ={
-                'DriverName':this.driverName,
-                "DrivingLicensingAge":this.DrivingLicensingAge,
-              }
-            }
+            //   ReqObj['DriverDetails'] ={
+            //     'DriverName':this.driverName,
+            //     "DrivingLicensingAge":this.DrivingLicensingAge,
+            //   }
+            // }
         let urlLink = `${this.motorApiUrl}api/savemotordetails`;
         this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
           (data: any) => {
