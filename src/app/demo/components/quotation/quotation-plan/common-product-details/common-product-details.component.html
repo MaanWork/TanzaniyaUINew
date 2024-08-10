@@ -1495,7 +1495,7 @@
     || productId=='24' || productId=='19' || productId=='32'|| productId=='61' || productId=='63'" >
         
         <p-button  styleClass="p-button-outlined" label="Back"
-            size="small" (click)="getBack()" routerLinkActive="router-link-active" ></p-button>&nbsp;
+            size="small" (click)="getBackRoute()" routerLinkActive="router-link-active" ></p-button>&nbsp;
             
             <p-button *ngIf="productId=='46' && !endorsementSection" label="Save & Add New" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;
         <p-button label="Proceed" size="small" (click)="onSubmit(null)"></p-button>
