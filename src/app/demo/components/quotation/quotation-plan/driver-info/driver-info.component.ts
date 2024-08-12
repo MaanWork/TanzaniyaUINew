@@ -633,6 +633,7 @@ addNewDriver(vehId){
         entry['Email'] = driver.Email;
         entry['ContactCode'] = driver.ContactCode;
         entry['Contact'] = driver.Contact;
+        entry['DrivingLicensingAge']=driver.DrivingLicensingAge;
       }
       if(this.endorsementSection){
         entry['EndtStatus'] = this.quoteDetails?.EndtStatus;
