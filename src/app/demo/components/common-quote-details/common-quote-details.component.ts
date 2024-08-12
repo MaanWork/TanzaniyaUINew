@@ -3163,7 +3163,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             }
           }
           if( this.insuranceId=='100042' || this.insuranceId=='100040') {
-            sectionId=this.productItem.InsuranceClass;
+            sectionId=[String(this.productItem.InsuranceClass)];
             insuranceType=this.productItem.InsuranceType;
             motorUsage =this.productItem.InsuranceType;
             motorUsageId=this.productItem.InsuranceClassDesc;
@@ -4535,7 +4535,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 }
                 else insuranceType = null;
             }
-          //alert(this.productItem.InsuranceClassDesc);
             let ReqObj = {
             "ExcessLimit": null,
             "Deductibles": deductibles,
@@ -5466,6 +5465,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         // } }
         let changevehicleHooks = {
           onInit: (field: FormlyFieldConfig) => {
+            console.log(field.form,"field.formfield.form");
             if (field.form && field.form.controls['VehicleValue']) {
               field.form.controls['VehicleValue'].valueChanges.subscribe(() => {
                 this.onchangevehicleValue(null);
@@ -5800,13 +5800,14 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.productItem.ExtendedTPPDSI = this.vehicleDetails?.TppdIncreaeLimit;
       this.productItem.AccessoriesSI = this.vehicleDetails?.AcccessoriesSumInsured;
       this.productItem.VehicleClass = this.vehicleDetails?.VehicleClass;
-      if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042')  this.onChangeInsuranceClass('direct');
-      this.onchangevehicleValue(this.vehicleDetails);
-      this.onChangeAggregated();
+      if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042') {
+        this.onChangeInsuranceClass('direct');
+        this.onchangevehicleValue(this.vehicleDetails);
+      } 
+     //this.onChangeAggregated();
     }
   onchangevehicleValue(data){
     let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
-   
     for(let field of fieldList){
       if(field.form && field.form.controls['VehicleValue']){
         if(this.productItem.VehicleValue==1 || this.productItem.VehicleValue=='1'){
@@ -5831,7 +5832,27 @@ export class CommonQuoteDetailsComponent implements OnInit {
             field.hideExpression = true;field.hide=true;  
           }
       }
-    } else {
+    } 
+    // else if(!(field.form && field.form.controls['VehicleValue'])){
+    //   let changevehicleHooks = {
+    //     onChanges: (field: FormlyFieldConfig) => {
+    //       console.log(field.form,"field.formfield.form");
+    //       if (field.form && field.form.controls['VehicleValue']) {
+    //         field.form.controls['VehicleValue'].valueChanges.subscribe(() => {
+    //           this.onchangevehicleValue(null);
+    //         });
+    //       } else {
+    //       console.warn('VehicleValue control is not available.');
+    //       }
+    //     }
+       
+    //   };
+    //   if(field.key =='VehicleValue'){
+    //     field.hooks== changevehicleHooks;
+    //   }
+    // }
+    
+    else {
        if(this.productItem.VehicleValue){
         if(this.productItem.VehicleValue=='1'){
          if(field.key =='Marketvalue'){
@@ -5839,7 +5860,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
          }
         }
         else{
-          if ( field.key =='Aggregatedvalue'){
+          if (field.key =='Aggregatedvalue'){
             this.getAggregatedList(); 
             field.hideExpression = false;field.hide=false;
            }
@@ -5889,15 +5910,34 @@ export class CommonQuoteDetailsComponent implements OnInit {
         field.hideExpression = true;field.hide=true;
       }
       if(this.insuranceId=='100040' || this.insuranceId=='100042'){
-        if(field.key=='VehicleSI'  || field.key=='GpsYN' || field.key=='Newvalue' || field.key=='AccessoriesSI' || field.key=='Newvalue' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI'  || field.key=='Deductibles' || field.key=='Inflation' || field.key=='VehicleValue' || (field.key=='NoOfPassengers' && this.insuranceId=='100042') || (field.key=='PurchaseDate' && this.insuranceId=='100042') ){
+        if(field.key=='VehicleSI'  || field.key=='GpsYN' || field.key=='Newvalue' || field.key=='AccessoriesSI' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI'  || field.key=='Deductibles' || field.key=='Inflation' || field.key=='VehicleValue' || (field.key=='NoOfPassengers' && this.insuranceId=='100042') ){
           if((this.insuranceId=='100040' && this.productItem.InsuranceClass!='121' && this.productItem.InsuranceClass!='122' && !(field.key=='Deductibles' && this.productItem.InsuranceClass=='126')) 
             || (this.insuranceId=='100042' && this.productItem.InsuranceClass!='135' && this.productItem.InsuranceClass!='136' && this.productItem.InsuranceClass!='137')){
-            field.hideExpression = false;
+             
+              field.hideExpression = false;
             field.hide=false; 
+           
+           
           }
-          // else if( ){
-          //   field.hideExpression = false;
-          //   field.hide=false;
+          // else if(field.key=='VehicleValue'){
+          //   alert(field.key)
+          //   let changevehicleHooks = {
+          //     onChanges: (field: FormlyFieldConfig) => {
+          //       // console.log(field.form,"field.formfield.form");
+          //       // if (field.form && field.form.controls['VehicleValue']) {
+          //         field.form.controls['VehicleValue'].valueChanges.subscribe(() => {
+          //           this.onchangevehicleValue(null);
+          //         });
+          //       // } else {
+          //       // console.warn('VehicleValue control is not available.');
+          //       // }
+          //     }
+             
+          //   };
+          //   if(field.key =='VehicleValue'){
+          //     alert(field.key)
+          //     field.hooks== changevehicleHooks;
+          //   }
           // }
           
           else{

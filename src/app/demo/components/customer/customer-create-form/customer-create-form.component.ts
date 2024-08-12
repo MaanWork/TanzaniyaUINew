@@ -304,6 +304,7 @@ export class CustomerCreateFormComponent implements OnInit {
 						}
 						
 					}
+					
 				}
 			let exceptedHooks ={ onInit: (field: FormlyFieldConfig) => {
 				field.form.controls['isTaxExempted'].valueChanges.subscribe(() => {
@@ -317,7 +318,6 @@ export class CustomerCreateFormComponent implements OnInit {
 						field.hooks = exceptedHooks;
 					}
 				}
-				
 		}
 		if(this.insuranceId=='100004'){
 		  this.getType3('direct');
@@ -1627,6 +1627,7 @@ export class CustomerCreateFormComponent implements OnInit {
 	} 
 	let fieldList=this.additionalInfoFields[0].fieldGroup;
 	let fieldList1=this.personalInfoFields[0].fieldGroup;
+	let fieldList2=this.additionalInfoFields[0].fieldGroup;
 	
 	for(let field of fieldList1){
 		if(this.productItem.IdType=='2' || this.productItem.IdType==2){
@@ -1641,7 +1642,12 @@ export class CustomerCreateFormComponent implements OnInit {
 				field.hide=true;field.hideExpression=true;
 				if(field.key=='dobOrRegDate'){field.label="Registration Date"}
 			}
-			
+			if(field.key=='BusinessType' || field.key=='EmailId'){
+				field.templateOptions.required=false;
+			}
+			else if(field.key=='EmailId' || field.key=='BusinessType'){
+				field.templateOptions.required=true;
+			}
 		}
 		else if(this.productItem.IdType=='1' || this.productItem.IdType==1){
 			if(field.key=='BusinessType' || field.key=='CompanyName'){
@@ -1662,12 +1668,29 @@ export class CustomerCreateFormComponent implements OnInit {
 				if(  (field.key=='dobOrRegDate' && this.insuranceId!='100044') || field.key=='GstNumber' ){
 					field.hide=true;field.hideExpression=true;
 				}
+				else if(field.key=='IdNumber' || field.key=='PolicyHolderTypeid'){
+					field.templateOptions.required=false;
+				}
 			} 
 			else if(this.productItem.IdType=='2' || this.productItem.IdType==2){
 				if(  field.key=='dobOrRegDate' || field.key=='GstNumber'){
 					field.hide=false;field.hideExpression=false;
 				}
-				
+				else if(field.key=='PolicyHolderTypeid' || field.key=='IdNumber'){
+					field.templateOptions.required=true;
+				}
+			}
+		}
+		for(let field of fieldList2){
+			if(this.productItem.IdType=='1' || this.productItem.IdType==1){
+				if(field.key=='Country' || field.key=='CityName' || field.key=='Address1'){
+					field.templateOptions.required=false;
+				}
+			} 
+			else if(this.productItem.IdType=='2' || this.productItem.IdType==2){
+				if(field.key=='Country' || field.key=='CityName' || field.key=='Address1'){
+					field.templateOptions.required=true;
+				}
 			}
 		}
 	// this.productItem.IdType =value;
