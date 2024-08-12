@@ -15,7 +15,7 @@
     </div>
     <ng-container *ngIf="insuranceId=='100028' || insuranceId == '100027' || insuranceId == '100040' || this.insuranceId=='100042' || insuranceId=='100002' || insuranceId=='100004' || insuranceId=='100019' || insuranceId=='100044'">
         <div class="flex justify-content-start flex-wrap w-full form-container">
-            <div class="flex flex-column m-3" *ngIf="insuranceId!='100004'">
+            <div class="flex flex-column m-3" *ngIf="insuranceId!='100004' && insuranceId!='100040' && insuranceId!='100042'">
                 <label for="motor-usage">{{'MOTORQUOTE.MotorUsage' | translate}} *</label>
                 <p-dropdown inputId="motor-usage" 
                     class="w-full" id="MotorUsage"
@@ -30,7 +30,7 @@
             </div>
             <div class="flex flex-column m-3">
                 <label for="body-type">{{'MOTORQUOTE.BodyType' | translate}} *</label>
-                <p-dropdown inputId="body-type" *ngIf="insuranceId!='100004'"
+                <p-dropdown inputId="body-type" *ngIf="insuranceId!='100004' && insuranceId!='100040' && insuranceId!='100042'"
                     class="w-full" id="BodyType"
                     styleClass="w-full" 
                     [options]="mainBodyTypeList" 
@@ -41,7 +41,7 @@
                     optionValue="CodeDesc" 
                     [placeholder]="'MOTORDETAILS.SelectBodyType' | translate">
                 </p-dropdown>
-                <p-dropdown inputId="body-type" *ngIf="insuranceId=='100004'"
+                <p-dropdown inputId="body-type" *ngIf="insuranceId=='100004' || insuranceId=='100040' || insuranceId=='100042' "
                     class="w-full" id="Bodytype"
                     styleClass="w-full" 
                     [options]="bodyTypeList" 
@@ -84,7 +84,7 @@
                 <label for="model">{{'MOTORDETAILS.ModelDescription' | translate}} *</label>
                 <input pInputText id="model-desc" [placeholder]="'MOTORDETAILS.EnterModelDescription' | translate" maxlength="50"  [(ngModel)]="modelDesc"  />
             </div>
-            <div class="flex flex-column m-3" *ngIf="insuranceId!='100028' && insuranceId!='100004'">
+            <div class="flex flex-column m-3" *ngIf="insuranceId!='100028' && insuranceId!='100004' && insuranceId!='100040' && insuranceId!='100042'">
                 <label for="motor-category">{{'MOTORDETAILS.MotorCategory' | translate}}*</label>
                 <p-dropdown inputId="motor-category" 
                     class="w-full" id="MotorCategory"
@@ -102,7 +102,9 @@
             <div class="flex flex-column m-3">
                 <label for="registration-no">{{'MOTORDETAILS.RegistrationNo' | translate}}* <span
                     class="text-success" *ngIf="validSection">&nbsp;<i class="pi pi-check-circle"></i></span></label>
-                <input pInputText id="registration-no" class="searchText" [(ngModel)]="regNo" (keypress)="omit_special_char($event)" maxlength="25"
+                <input *ngIf="insuranceId!='100040' && insuranceId!='100042'" pInputText id="registration-no" class="searchText" [(ngModel)]="regNo" (keypress)="omit_special_char($event)" maxlength="25"
+                (change)="onRegistrationSearch()" [placeholder]="'MOTORDETAILS.EnterRegistrationNo' | translate"/>
+                <input *ngIf="insuranceId=='100040' || insuranceId=='100042'" pInputText id="registration-no" class="searchText" [(ngModel)]="regNo"  maxlength="25"
                 (change)="onRegistrationSearch()" [placeholder]="'MOTORDETAILS.EnterRegistrationNo' | translate"/>
                 <div class="input-form-error" *ngIf="editSection && !duplicateSection">
                     <div class="text-primary" style="font-size: 12px;">
@@ -134,7 +136,7 @@
         <!-- </div>
         <div class="flex justify-content-start flex-wrap w-full form-container"> -->
             
-            <div class="flex flex-column m-3">
+            <div class="flex flex-column m-3" *ngIf="insuranceId!='100040' && insuranceId!='100042'">
                 <label for="manufacture-year">{{'MOTORDETAILS.ManufactureYear' | translate}} *</label>
                 <p-dropdown  
                     class="w-full" id="ManufactureYear"
@@ -198,7 +200,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-column m-3" *ngIf="insuranceId=='100040' || insuranceId=='100042'">
+            <div class="flex flex-column m-3" *ngIf="(insuranceId=='100040' || insuranceId=='100042') && (bodyTypeId=='50' || bodyTypeId=='51' || bodyTypeId=='5' || bodyTypeId=='58' || bodyTypeId=='18' || bodyTypeId=='25')">
                 <label for="engine-capacity">Displacement in CM3*</label>
                 <input pInputText id="engine-capacity" [(ngModel)]="displacement"  [disabled]="editSection" placeholder="Enter Displacement in CM3"/>
             </div>
