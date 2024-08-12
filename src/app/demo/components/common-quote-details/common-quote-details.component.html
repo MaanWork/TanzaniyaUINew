@@ -320,7 +320,7 @@
                                     <b>{{'MOTORQUOTE.BodyType' | translate}}</b>
                                     <p>{{vehicleDetails?.TiraBodyType}}</p>
                                 </div>
-                                <div class="lg:col-4 md:col-6 col-12">
+                                <div class="lg:col-4 md:col-6 col-12" *ngIf="insuranceId!='100040' && insuranceId!='100042'">
                                     <b>{{'MOTORQUOTE.VehicleUsage' | translate}}</b>
                                     <p>{{vehicleDetails?.TiraMotorUsage}}</p>
                                 </div>
