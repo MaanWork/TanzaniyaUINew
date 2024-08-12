@@ -141,6 +141,8 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 	Nationality: any=''
 	PassportNo: any=''
 	HorsePower: any=''
+	InsurancetypeDesc: any
+	InsuranceClassDesc: any
 	constructor(data?) {
 		this.id = data?.id ?? ''
 		this.CustomerName = data?.CustomerName ?? '';
@@ -339,6 +341,8 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.otheroptionPer = data?.OtherOccupation ?? '';
 		this.InsuranceType = data?.InsuranceType ?? null;
 		this.InsuranceClass = data?.InsuranceClass ?? null;
+		this.InsurancetypeDesc = data?.InsurancetypeDesc ?? null;
+		this.InsuranceClassDesc = data?.InsuranceClassDesc ?? null;
 		this.PassengerFirstName = data?.PassengerFirstName ?? '';
 		this.PassengerLastName = data?.PassengerLastName ?? '';
 		this.GenderId = data?.GenderId ?? '';
