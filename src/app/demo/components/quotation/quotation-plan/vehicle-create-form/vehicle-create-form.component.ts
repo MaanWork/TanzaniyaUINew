@@ -505,6 +505,14 @@ export class VehicleCreateFormComponent implements OnInit {
           }
           else registrationDate = this.datePipe.transform(this.RegistrationDate,'dd/MM/yyyy')
         }
+        if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+          this.vehicleDetails.MotorCategory  ="1";
+          this.vehicleDetails.Motorusage ="Ambulance"
+          this.vehicleDetails.MotorusageId='1'
+          // alert(this.vehicleDetails?.MotorCategory)
+          // alert(this.vehicleDetails?.Motorusage)
+        }
+       
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": this.vehicleDetails?.AcExecutiveId,
@@ -537,6 +545,8 @@ export class VehicleCreateFormComponent implements OnInit {
         "CreatedBy": createdBy,
         "DrivenByDesc": 'D',
         "MobileCode": this.vehicleDetails?.MobileCode,
+        "InsurancetypeDesc": this.vehicleDetails?.InsurancetypeDesc,
+        "InsuranceClassDesc": this.vehicleDetails?.InsuranceClassDesc,
         "MobileNumber": this.vehicleDetails?.MobileNumber,
         "EngineNumber": this.vehicleDetails?.EngineNumber?.toUpperCase(),
         "FuelType": this.vehicleDetails?.FuelType,
@@ -1013,13 +1023,17 @@ export class VehicleCreateFormComponent implements OnInit {
       if(String(registrationDate).includes('/')){
         registrationDate = this.RegistrationDate;
       }
-      else registrationDate = this.datePipe.transform(this.RegistrationDate,'dd/MM/yyyy')
+      else registrationDate = this.datePipe.transform(this.RegistrationDate,'dd/MM/yyyy');
+      this.manufactureYear = this.RegistrationDate.getFullYear();
     }
     if(this.insuranceId=='100040' || this.insuranceId=='100042'){
       this.engineCapacity='1';
       grossweight=tareweight;
       this.axelDistance='1';
       this.noOfAxels='1';
+      this.usageValue='Ambulance';
+      this.motorCategory='1';
+
     }
     let ReqObj = {
       "Insuranceid": this.insuranceId,
@@ -1242,7 +1256,9 @@ export class VehicleCreateFormComponent implements OnInit {
                   this.vehicleDetails['TiraMotorUsage'] = motorUsage;
                   this.vehicleDetails['TiraBodyType'] = modelDesc;
                   this.vehicleDetails['EngineCapacity'] = engCapacity;
-                  this.vehicleDetails['Motorusage'] = motorUsage;
+                  
+                    this.vehicleDetails['Motorusage'] = motorUsage;
+                  
               }
               let commonDetails = JSON.parse(sessionStorage.getItem('commonDetails'));
               if(commonDetails){
@@ -1263,6 +1279,7 @@ export class VehicleCreateFormComponent implements OnInit {
               // this.vehicleDetails['CustomerName'] = this.updateComponent.CustomerName;
               this.vehicleDetails['VehicleMake'] = make;
               this.vehicleDetails['VehicleModel'] = model;
+              
               this.onSaveSearchVehicles();
              
   
