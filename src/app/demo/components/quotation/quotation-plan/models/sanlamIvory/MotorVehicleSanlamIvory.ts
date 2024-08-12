@@ -513,30 +513,30 @@ export class MotorVehicleSanlamIvory{
                     expressions: {
                     },
                   },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'input',
-                    id:'VehicleSI',
-                    key: 'VehicleSI',
-                    hide: true,
-                    hideExpression:true,
-                    props: {
-                      label: `SumInsured`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('VehicleSI'),
-                      required: true,
-                      options: [
+                  // {
+                  //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                  //   type: 'input',
+                  //   id:'VehicleSI',
+                  //   key: 'VehicleSI',
+                  //   hide: true,
+                  //   hideExpression:true,
+                  //   props: {
+                  //     label: `SumInsured`,
+                  //     maxLength: 15,
+                  //     disabled: this.checkDisable('VehicleSI'),
+                  //     required: true,
+                  //     options: [
   
-                      ],
+                  //     ],
   
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                  //   },
+                  //   validators: {
+                  //   },
+                  //   hooks: {
+                  //   },
+                  //   expressions: {
+                  //   },
+                  // },
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'commaSeparator',
@@ -735,6 +735,8 @@ export class MotorVehicleSanlamIvory{
                     key: 'GpsYN',
                     id:'DoyouhaveGPS',
                     type: 'radioList',
+                    hide: false,
+                    hideExpression:false,
                     templateOptions: {
                       type: 'radioList',
                       label: 'Do you have GPS?',

@@ -101,7 +101,7 @@ export class CustomerBurkina{
                   props: {
                     label: `Gender`,
                     // placeholder: '-Select-',
-                    required: true,
+                    required: false,
                     disabled: this.checkDisable('Gender'),
                     maxLength: 15,
                     options:[]
@@ -191,7 +191,7 @@ export class CustomerBurkina{
                   props: {
                     label: `Occupation`,
                     // placeholder: '-Select Occupation-',
-                    required: true,
+                    required: false,
                     disabled: this.checkDisable('Occupation'),
                     maxLength: 50,
                     options:[]
@@ -299,7 +299,7 @@ export class CustomerBurkina{
                   props: {
                     label: `Identity Type`,
                     // placeholder: '-Select-',
-                    required: true,
+                    required: false,
                     disabled: this.checkDisable('PolicyHolderTypeid'),
                     maxLength: 15,
                     options:[]
@@ -468,7 +468,7 @@ export class CustomerBurkina{
                   props: {
                     label: `Country`,
                     // placeholder: '-Select-',
-                    required: true,
+                    required: false,
                     disabled: this.checkDisable('Country'),
                     maxLength: 15,
                     options:[]
@@ -506,7 +506,7 @@ export class CustomerBurkina{
                   id: 'City',
                   key: 'CityName',
                   props: {
-                    label: `City Name`,
+                    label: `City`,
                     required: false,
                     disabled: this.checkDisable('CityName'),
                     maxLength: 15,
