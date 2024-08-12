@@ -241,6 +241,12 @@ export class CommonProductDetailsComponent {
   EEError: boolean=false;BusinessName:any=null;BondError: boolean=false;endorseShortCode:any=null;
   endorseCategory: any=null;endorsementName: any=null;endorsementId: any=null;  
   businessNameError: boolean;bankList:any[]=[];BusinessSumInsured: any='0';businessSIError: boolean=false;
+  enablePolicyStart: boolean;
+  enablePolicyEnd: boolean;
+  enableCurrency: boolean;
+  enableAddVehicle: boolean;
+  enableRemoveVehicle: boolean;
+  enableCustomerDetails: boolean;
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -269,7 +275,19 @@ export class CommonProductDetailsComponent {
       this.endtCount = endorseObj?.EndtCount;
       this.endorsementTypeDesc = endorseObj?.EndtName;
       this.endtPrevPolicyNo = endorseObj?.EndtPrevPolicyNo;
-      this.endtPrevQuoteNo = endorseObj?.EndtPrevQuoteNo
+      this.endtPrevQuoteNo = endorseObj?.EndtPrevQuoteNo;
+      if(this.endorseShortCode!=42){
+        this.enablePolicyStart = this.enableFieldsList.some(ele=>ele=='policyStartDate' || ele=='PolicyStartDate');
+        this.enablePolicyEnd = this.enableFieldsList.some(ele=>ele=='policyEndDate' || ele=='PolicyEndDate');
+        this.enableCurrency = this.enableFieldsList.some(ele=>ele=='Currency');
+        this.enableAddVehicle = this.enableFieldsList.some(ele=>ele=='addVehicle');
+        this.enableRemoveVehicle = this.enableFieldsList.some(ele=>ele=='removeVehicle');
+        this.enableCustomerDetails = this.enableFieldsList.some(ele=>ele=='customerName' || ele=='Title');
+    }
+    else{
+      this.enablePolicyStart = false;this.enablePolicyEnd = false;this.enableCurrency = false;this.enableCustomerDetails=false;
+      this.enableAddVehicle = false;this.enableRemoveVehicle=false;
+    } 
     }
     else{this.endorsementSection=false}
     let finalize = sessionStorage.getItem('FinalizeYN');
@@ -426,6 +444,9 @@ export class CommonProductDetailsComponent {
   onChangeSection(){
     let entry = this.productNameList.find(ele=>ele.Code==this.productName)?.CodeDesc;
     if(entry) this.sectionDesc = entry;
+  }
+  checkDatesDisabled(){
+    return (new Date(this.policyStartDate)).setHours(0,0,0,0) < (new Date()).setHours(0,0,0,0)
   }
   openEE(){
     this.isEEForm=true;
@@ -5387,6 +5408,13 @@ backPlan()
       else{this.onFormSubmit(type);}
     }
   }
+  getBackRoute(){
+    if(this.endorsementSection){
+      if(this.enableCustomerDetails) this.router.navigate(['/customer/create']);
+      else  this.router.navigate(['/portfolio/endorsementtype']);
+    }
+    else this.router.navigate(['/quotation']);
+  }
   getBack(){
     this.productItem = null;
     this.productItem = new ProductData();
@@ -5867,7 +5895,7 @@ console.log('Eventsss',event);
   }
   saveMotorRiskDetails(type){
     let make = "",color='',fuel='',usageDesc='',bodyType='',motorCategoryDesc='';
-    let insuranceType = ['73'];
+    let insuranceType = '73';
     if(this.productItem.Make!='' && this.productItem.Make!=undefined && this.productItem.Make!=null){
       let entry = this.makeList.find(ele=>ele.Code==this.productItem.Make);
       make = entry.label;
@@ -6020,7 +6048,7 @@ console.log('Eventsss',event);
       "BranchCode": this.branchCode,
       "AgencyCode": this.agencyCode,
       "ProductId": this.productId,
-      "SectionId": '73',
+      "SectionId": ['73'],
       "PolicyType": IdType,
       "RadioOrCasseteplayer": null,
       "RegistrationYear": regYear,
@@ -8792,12 +8820,10 @@ finalSaveMoney(finalList,type,formType) {
   }
   }
   onSaveBond(type,formType){
-    
- 
     this.subuserType = sessionStorage.getItem('typeValue');
     let quoteStatus = sessionStorage.getItem('QuoteStatus');
     this.requestReferenceNo = sessionStorage.getItem('quoteReferenceNo');
-let requestNO=null;
+    let requestNO=null;
     if(this.requestReferenceNo !=undefined && this.requestReferenceNo!=null){
       requestNO = this.requestReferenceNo;
     }
