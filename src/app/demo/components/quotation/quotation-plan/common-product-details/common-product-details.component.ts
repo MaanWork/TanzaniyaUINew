@@ -5895,7 +5895,7 @@ console.log('Eventsss',event);
   }
   saveMotorRiskDetails(type){
     let make = "",color='',fuel='',usageDesc='',bodyType='',motorCategoryDesc='';
-    let insuranceType = ['73'];
+    let insuranceType = '73';
     if(this.productItem.Make!='' && this.productItem.Make!=undefined && this.productItem.Make!=null){
       let entry = this.makeList.find(ele=>ele.Code==this.productItem.Make);
       make = entry.label;
@@ -6048,7 +6048,7 @@ console.log('Eventsss',event);
       "BranchCode": this.branchCode,
       "AgencyCode": this.agencyCode,
       "ProductId": this.productId,
-      "SectionId": '73',
+      "SectionId": ['73'],
       "PolicyType": IdType,
       "RadioOrCasseteplayer": null,
       "RegistrationYear": regYear,
@@ -8820,12 +8820,10 @@ finalSaveMoney(finalList,type,formType) {
   }
   }
   onSaveBond(type,formType){
-    
- 
     this.subuserType = sessionStorage.getItem('typeValue');
     let quoteStatus = sessionStorage.getItem('QuoteStatus');
     this.requestReferenceNo = sessionStorage.getItem('quoteReferenceNo');
-let requestNO=null;
+    let requestNO=null;
     if(this.requestReferenceNo !=undefined && this.requestReferenceNo!=null){
       requestNO = this.requestReferenceNo;
     }
