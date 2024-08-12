@@ -115,7 +115,7 @@ export class ReferralCasesComponent implements OnInit {
   getExistingQuotes(element,entryType){
     if(element==null) this.quoteData=[];
     if(element==null){ this.quoteData=[];}
-    let appId = "1",loginId="",brokerbranchCode="",bdmCode=null;
+    let appId = "1",loginId="",brokerbranchCode="",bdmCode=null,SourceType=null;
     if(this.userType!='Issuer'){
       appId = "1"; loginId = this.brokerCode;
       bdmCode=this.agencyCode;
@@ -131,12 +131,13 @@ export class ReferralCasesComponent implements OnInit {
       // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
       // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
         if(this.userType=='Issuer'){
-          bdmCode=null;
-          loginId=this.brokerCode;
+          // bdmCode=this.brokerCode;
+          // loginId=this.brokerCode;
       }
       else{
         bdmCode=null;
       }
+      SourceType = entry.Type
       let type=null;
       if(this.section=='quote'){type='Q'}
       else type='E';
@@ -147,7 +148,7 @@ export class ReferralCasesComponent implements OnInit {
             "ApplicationId":appId,
             "UserType":this.userType,
             "SubUserType":sessionStorage.getItem('typeValue'),
-            "SourceType":"",
+            "SourceType":SourceType,
             "BdmCode": bdmCode,
             "ProductId":this.productId,
             "Type":type,
@@ -257,7 +258,6 @@ export class ReferralCasesComponent implements OnInit {
     let appId = "1",loginId="",brokerbranchCode="",bdmCode=null;
     if(this.userType!='Issuer'){
       appId = "1"; loginId = this.ApproverbrokerCode;
-      brokerbranchCode = this.brokerbranchCode;
       bdmCode=this.agencyCode;
     }
     else{
@@ -271,8 +271,8 @@ export class ReferralCasesComponent implements OnInit {
       // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
       // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
       if(this.userType=='Issuer'){
-          loginId='';
-          bdmCode=this.ApproverbrokerCode;
+          // loginId='';
+          // bdmCode=this.ApproverbrokerCode;
       }
       else{
         bdmCode=null;
@@ -366,12 +366,11 @@ export class ReferralCasesComponent implements OnInit {
     let appId = "1",loginId="",brokerbranchCode="",bdmCode=null;
     if(this.userType!='Issuer'){
       appId = "1"; loginId = this.Rejecedbrokercode;
-      brokerbranchCode = this.brokerbranchCode;
       bdmCode=this.agencyCode;
     }
     else{
       appId = this.loginId;
-      loginId=this.Rejecedbrokercode
+      loginId=this.Rejecedbrokercode;
       brokerbranchCode = '';
     }
     let entry = this.RejectedList.find(ele=>ele.Code==this.Rejecedbrokercode);
@@ -380,8 +379,8 @@ export class ReferralCasesComponent implements OnInit {
       // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
       // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
         if(this.userType=='Issuer'){
-          loginId='';
-          bdmCode=this.Rejecedbrokercode;
+          // loginId='';
+          // bdmCode=this.Rejecedbrokercode;
       }
       else{
         bdmCode=null;

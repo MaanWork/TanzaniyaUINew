@@ -39,6 +39,7 @@ export class DriverInfoComponent {
   plateTypeList: any[]=[];
   CylinderTypeList: any;lang:any=null;
   NoOfDoorsList: any;
+  mobileCodeList: any[]=[];
   constructor(private sharedService: SharedService,private quoteComponent:QuotationPlanComponent,
     private router:Router,private appComp:AppComponent,private translate:TranslateService,
     private datePipe:DatePipe) {
@@ -110,6 +111,7 @@ export class DriverInfoComponent {
 		else this.lang='en';
 		sessionStorage.setItem('language',this.lang)
 		this.translate.setDefaultLang(sessionStorage.getItem('language'));}
+    this.getMobileCodeList();
   }
  
   getEditQuoteDetails(){
@@ -561,14 +563,43 @@ addNewDriver(vehId){
     
     let i=0
    for(let driver of this.driverDetailsList){
-    let date=null;
+    let date,CategoryExDate,CategoryDate,LicenseIssueDt=null;
     if(driver.DriverDob!='' && driver.DriverDob!=null){
       console.log("Dob",driver)
       if(String(driver.DriverDob).includes('/')){
         date = driver.DriverDob;
       }
        else{
-        date= this.datePipe.transform(driver.DriverDob, "dd/MM/yyyy");
+        date = this.datePipe.transform(driver.DriverDob, "dd/MM/yyyy");
+       }
+    }
+    if(driver.CategoryExDate!='' && driver.CategoryExDate!=null){
+      console.log("Dob",driver)
+      if(String(driver.CategoryExDate).includes('/')){
+        CategoryExDate = driver.CategoryExDate;
+      }
+       else{
+        CategoryExDate = this.datePipe.transform(driver.CategoryExDate, "dd/MM/yyyy");
+       }
+    }
+
+    if(driver.CategoryDate!='' && driver.CategoryDate!=null){
+      console.log("Dob",driver)
+      if(String(driver.CategoryDate).includes('/')){
+        CategoryDate = driver.CategoryDate;
+      }
+       else{
+        CategoryDate = this.datePipe.transform(driver.CategoryDate, "dd/MM/yyyy");
+       }
+    }
+
+    if(driver.LicenseIssueDt!='' && driver.LicenseIssueDt!=null){
+      console.log("Dob",driver)
+      if(String(driver.LicenseIssueDt).includes('/')){
+        LicenseIssueDt = driver.LicenseIssueDt;
+      }
+       else{
+        LicenseIssueDt = this.datePipe.transform(driver.LicenseIssueDt, "dd/MM/yyyy");
        }
     }
     
@@ -582,7 +613,7 @@ addNewDriver(vehId){
         "LicenseNo": driver.LicenseNo,
         "QuoteNo": this.quoteNo,
         "RiskId": driver.RiskId,
-        "RequestReferenceNo": this.quoteRefNo
+        "RequestReferenceNo": this.quoteRefNo,
       }
       entry['MaritalStatus'] = driver.MaritalStatus;
       entry['CountryId']=driver.CountryId;
@@ -590,8 +621,20 @@ addNewDriver(vehId){
       entry['CityId']=driver.CityId;
       entry['AreaGroup']=driver.AreaGroup;
       entry['DriverExperience'] = driver.DriverExperience;
-      entry['LicenseIssueDt'] = driver.LicenseIssueDt;
+      entry['LicenseIssueDt'] = LicenseIssueDt;
       entry['Gender'] = driver.Gender;
+      if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+        entry['Subscriber'] = driver.Subscriber;
+        entry['Civility']= driver.Civility;
+        entry['PlaceIssue']= driver.PlaceIssue;
+        entry['CategoryCode']= driver.CategoryCode;
+        entry['CategoryExDate']=CategoryExDate;
+        entry['CategoryDate'] = CategoryDate;
+        entry['Email'] = driver.Email;
+        entry['ContactCode'] = driver.ContactCode;
+        entry['Contact'] = driver.Contact;
+        entry['DrivingLicensingAge']=driver.DrivingLicensingAge;
+      }
       if(this.endorsementSection){
         entry['EndtStatus'] = this.quoteDetails?.EndtStatus;
         entry['EndorsementTypeDesc'] = this.quoteDetails?.EndtTypeDesc;
@@ -755,6 +798,19 @@ getDoorTypeList(){
   );
 }
  
-
+getMobileCodeList() {
+  let ReqObj = { "InsuranceId": this.insuranceId }
+  let urlLink = `${this.CommonApiUrl}dropdown/mobilecodes`;
+  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    (data: any) => {
+      console.log(data);
+      if (data.Result) {
+        this.mobileCodeList = data.Result;
+         
+      }
+    },
+    (err) => { },
+  );
+}
 
 }

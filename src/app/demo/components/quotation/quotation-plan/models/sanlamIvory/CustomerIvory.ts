@@ -1,10 +1,12 @@
 import { FormlyFieldConfig } from "@ngx-formly/core";
+import { CustomerCreateFormComponent } from "src/app/demo/components/customer/customer-create-form/customer-create-form.component";
 
 export class CustomerIvory{
     customerDetails: any;
     commonDetails: any[]=[];
     endorsementSection: boolean=false;subuserType:any=null;
     enableFieldsList: any[]=[];finalizeYN:any='N';
+   
     constructor() {
         let finalize = sessionStorage.getItem('FinalizeYN');
         if(finalize) this.finalizeYN = finalize;
@@ -26,7 +28,7 @@ export class CustomerIvory{
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
                   {
-                    className: 'col-12 md:col-2 lg:col-2 xl:col-2 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'ngselect',
                     id: 'CustomerTitle',
                     key: 'Title',
@@ -34,6 +36,8 @@ export class CustomerIvory{
                     hideExpression:false,
                     templateOptions: {
                       label: `Customer Title`,
+                      id: 'CustomerTitle',
+                      name:'CustomerTitle',
                       // placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('Title'),
@@ -48,7 +52,7 @@ export class CustomerIvory{
                     },
                   },
                   {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-9 lg:col-9 xl:col-9 pl-2 pr-2 pt-1',
                     type: 'input',
                     id: 'FirstName',
                     key: 'ClientName',
@@ -92,7 +96,7 @@ export class CustomerIvory{
                     },
                   },
                   {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 ',
                     type: 'ngselect',
                     id: 'Gender',
                     key: 'Gender',
@@ -100,8 +104,10 @@ export class CustomerIvory{
                     hideExpression:false,
                     props: {
                       label: `Gender`,
+                      id: 'Gender',
+                      name:'Gender',
                       // placeholder: '-Select-',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('Gender'),
                       maxLength: 15,
                       options:[]
@@ -115,7 +121,7 @@ export class CustomerIvory{
                     },
                   },
                   {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2',
                     type: 'datepicker',
                     id: 'DateOfBirth',
                     key: 'dobOrRegDate',
@@ -124,10 +130,10 @@ export class CustomerIvory{
                     templateOptions: {
                       type:'date',
                       label: `Date Of Birth`,
-                      // placeholder: 'Select Date Of Birth',
                       required: true,
                       disabled: this.checkDisable('dobOrRegDate'),
-                      maxLength: 15
+                      maxLength: 15,
+                      
                     },
                     
                     validators: {
@@ -146,7 +152,9 @@ export class CustomerIvory{
                     hideExpression:false,
                     props: {
                       label: `Nationality`,
-                      required: true,
+                      id: 'Nationality',
+                      name:'Nationality',
+                      required: false,
                       disabled: this.checkDisable('Nationality'),
                       maxLength: 50,
                       options:[]
@@ -167,6 +175,8 @@ export class CustomerIvory{
                     hideExpression:true,
                     props: {
                       label: `Activities`,
+                      id: 'Activities',
+                      name:'Activities',
                       // placeholder: '-Select Activities-',
                       required: true,
                       disabled: this.checkDisable('BusinessType'),
@@ -190,8 +200,10 @@ export class CustomerIvory{
                     hideExpression:false,
                     props: {
                       label: `Occupation`,
+                      id: 'Occupation',
+                      name:'Occupation',
                       // placeholder: '-Select Occupation-',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('Occupation'),
                       maxLength: 50,
                       options:[]
@@ -205,17 +217,20 @@ export class CustomerIvory{
                   },
                   {
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
-                    type: 'input',
+                    type: 'ngselect',
                     id: 'SocioProfessionalcategory',
                     key: 'SocioProfessionalcategory',
                     hide: false,
                     hideExpression:false,
-                    templateOptions: {
+                    props: {
                       label: `Socio Professional category`,
+                      id: 'SocioProfessionalcategory',
+                      name:'SocioProfessionalcategory',
                       // placeholder: 'Enter Socio Professional category',
                       required: false,
                       disabled: this.checkDisable('SocioProfessionalcategory'),
-                      maxLength: 50
+                      maxLength: 50,
+                      options:[]
                     },
                     
                     validators: {
@@ -246,12 +261,14 @@ export class CustomerIvory{
                     },
                   },
                   {
-                    className: 'col-12 md:col-2 lg:col-2 xl:col-2 pl-23pr-2 pt-1',
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-23pr-2 pt-1',
                     type: 'ngselect',
                     id: 'CountryCode',
                     key: 'MobileCode',
                     props: {
                       label: `Country Code`,
+                      id: 'CountryCode',
+                      name:'CountryCode',
                       // placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('CountryCode'),
@@ -266,14 +283,14 @@ export class CustomerIvory{
                     },
                   },
                   {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'input',
                     id: 'MobileNumber',
                     key: 'MobileNo',
                     templateOptions: {
                       label: `Mobile Number`,
                       // placeholder: 'Enter MobileNo',
-                      required: false,
+                      required: true,
                       disabled: this.checkDisable('MobileNo'),
                       maxLength: 10
                     },
@@ -297,8 +314,10 @@ export class CustomerIvory{
                     key: 'PolicyHolderTypeid',
                     props: {
                       label: `Identity Type`,
+                      id: 'IdentityType',
+                      name:'IdentityType',
                       // placeholder: '-Select-',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('PolicyHolderTypeid'),
                       maxLength: 15,
                       options:[]
@@ -335,7 +354,7 @@ export class CustomerIvory{
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
                     type: 'datepicker',
                     id: 'RegistrationDate',
-                    key: 'RegistrationDate',
+                    key: 'dobOrRegDate',
                     hide: true,
                     hideExpression:true,
                     templateOptions: {
@@ -343,7 +362,7 @@ export class CustomerIvory{
                       label: `Registration Date`,
                       // placeholder: 'Select Registration Date',
                       required: true,
-                      disabled: this.checkDisable('RegistrationDate'),
+                      disabled: this.checkDisable('dobOrRegDate'),
                       maxLength: 15
                     },
                     
@@ -399,8 +418,10 @@ export class CustomerIvory{
                     key: 'PreferredNotification',
                     templateOptions: {
                       label: `Preferred Notification`,
+                      id: 'PreferedNotification',
+                      name:'PreferedNotification',
                       // placeholder: '-Select-',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('PreferredNotification'),
                       maxLength: 15,
                       options:[
@@ -466,8 +487,10 @@ export class CustomerIvory{
                     key: 'Country',
                     props: {
                       label: `Country`,
+                      id: 'Country',
+                      name:'Country',
                       // placeholder: '-Select-',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('Country'),
                       maxLength: 15,
                       options:[]
@@ -505,8 +528,10 @@ export class CustomerIvory{
                     id: 'City',
                     key: 'CityName',
                     props: {
-                      label: `City Name`,
-                      required: true,
+                      label: `City`,
+                      id: 'City',
+                      name:'City',
+                      required: false,
                       disabled: this.checkDisable('CityName'),
                       maxLength: 15,
                       options:[]
@@ -526,7 +551,7 @@ export class CustomerIvory{
                     templateOptions: {
                       label: `PoBox`,
                       // placeholder: 'Enter PoBox',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('PinCode'),
                       maxLength: 150
                     },

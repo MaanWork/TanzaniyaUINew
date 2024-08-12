@@ -146,10 +146,11 @@ export class UserComponent {
       this.getCompanyList();
       this.getChannelList('direct');
       this.getCountryList();
-      this.getPolicyIdTypeList('direct');
+     
    }
  
    ngOnInit(){
+    
     //  this.getMobileCodeList();
    }
    getCompanyList(){
@@ -170,6 +171,9 @@ export class UserComponent {
       },
       (err) => { },
     );
+   }
+   onChangeCompany(){
+    this.getMobileCodeList();
    }
    getChannelList(type){
       let ReqObj = {
@@ -320,6 +324,7 @@ export class UserComponent {
       this.AddUserPopup=true;
       this.editSection=false;
       this.formRest();
+      this.getPolicyIdTypeList('direct');
     }
     else if (type=='editBranchDetail' || type=='branchDetail'){
       this.getMainBranchList();
@@ -629,9 +634,9 @@ export class UserComponent {
 				console.log(data);
 				if (data.Result) {
 					//this.holderTypeValue = null;
-					this.policyHolderTypeList = data.Result;
+					//this.policyHolderTypeList = data.Result;
 					let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '' }]
-					this.policyHolderTypeList = defaultRow.concat(this.policyHolderTypeList)
+					this.policyHolderTypeList = defaultRow.concat(data.Result)
 					//this.fields[0].fieldGroup[0].fieldGroup[1].fieldGroup[0].props.options = defaultRow.concat(this.policyHolderTypeList);
 					if (type == 'change'){this.policyHolderTypeid='';
 					//this.productItem.IdNumber=null
@@ -1068,7 +1073,6 @@ onStateChange(type) {
     this.paymentTypesDetailPopup=true;
     if (this.EffectiveDateStart != null) {
       this.EffectiveDateStart = this.onDateFormatInEdit(value.EffectiveDateStart)
-      // alert(this.EffectiveDateStart)
       if (this.EffectiveDateStart != '' && this.EffectiveDateStart != null && this.EffectiveDateStart != undefined) {
         this.EffectiveDateStart =  this.datePipe.transform(this.EffectiveDateStart, "dd/MM/yyyy")
       }

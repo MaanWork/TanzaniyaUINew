@@ -9,7 +9,7 @@
 
             </div>
             <div class="flex justify-content-start sm:justify-content-end  flex-wrap" *ngIf="productId=='5' && (!endorsementSection || (endorsementSection && enableAddVehicle))">
-                <div>
+                <div *ngIf="customerDetails">
                     <input pInputText id="username" style="min-width: 200px;" maxlength="50" [(ngModel)]="regNo"
                     [placeholder]="'MOTORQUOTE.SearchAddVehicleByRegNo' | translate"  />
                     <div class="input-form-error" *ngIf="regNoError">
@@ -24,8 +24,9 @@
                     </div>
                 </div>
                 
-                &nbsp;<p-button [label]="'MOTORQUOTE.SearchVehicle' | translate" icon="pi pi-search" (onClick)="onSearchVehicle()"></p-button>&nbsp;
-                <p-button [label]="'MOTORQUOTE.AddVehicle' | translate" icon="pi pi-plus" (click)="onCreateVehicle()"></p-button>
+                &nbsp;<p-button [label]="'MOTORQUOTE.SearchVehicle' | translate" *ngIf="customerDetails" icon="pi pi-search" (onClick)="onSearchVehicle()"></p-button>&nbsp;
+                <p-button [label]="'MOTORQUOTE.AddVehicle' | translate" icon="pi pi-plus" *ngIf="customerDetails" (click)="onCreateVehicle()"></p-button>&nbsp;&nbsp;
+                <p-button [label]="'HOME.Customer' | translate" *ngIf="!customerDetails" icon="pi pi-plus" (click)="showSearchForm('change')"></p-button>
             </div>
         </div>
     </div>
@@ -319,7 +320,7 @@
                                     <b>{{'MOTORQUOTE.BodyType' | translate}}</b>
                                     <p>{{vehicleDetails?.TiraBodyType}}</p>
                                 </div>
-                                <div class="lg:col-4 md:col-6 col-12">
+                                <div class="lg:col-4 md:col-6 col-12" *ngIf="insuranceId!='100040' && insuranceId!='100042'">
                                     <b>{{'MOTORQUOTE.VehicleUsage' | translate}}</b>
                                     <p>{{vehicleDetails?.TiraMotorUsage}}</p>
                                 </div>
@@ -331,11 +332,23 @@
                                     <b>{{'MOTORQUOTE.EngineNo' | translate}}</b>
                                     <p>{{vehicleDetails?.EngineNumber}}</p>
                                 </div>
-                                <div class="lg:col-4 md:col-6 col-12">
+                                <div class="lg:col-4 md:col-6 col-12" *ngIf="insuranceId!='100040' && insuranceId!='100042'">
                                     <b>{{'MOTORQUOTE.EngineCapacity' | translate}}</b>
                                     <p>{{vehicleDetails?.EngineCapacity}}</p>
                                 </div>
-                                <div class="lg:col-4 md:col-6 col-12">
+                                <div class="lg:col-4 md:col-6 col-12" *ngIf="insuranceId=='100040' || insuranceId=='100042'">
+                                    <b>{{'HOME.RegistrationDate' | translate}}</b>
+                                    <p>{{vehicleDetails?.RegistrationDate}}</p>
+                                </div>
+                                <div class="lg:col-4 md:col-6 col-12" *ngIf="insuranceId=='100040' || insuranceId=='100042'">
+                                    <b>{{'MOTORQUOTE.HorsePower' | translate}}</b>
+                                    <p>{{vehicleDetails?.HorsePower}}</p>
+                                </div>
+                                <!-- <div class="lg:col-4 md:col-6 col-12" *ngIf="insuranceId=='100040' || insuranceId=='100042'">
+                                    <b>{{'MOTORQUOTE.RegistrationDate' | translate}}</b>
+                                    <p>{{vehicleDetails?.RegistrationDate}}</p>
+                                </div> -->
+                                <div class="lg:col-4 md:col-6 col-12" *ngIf="insuranceId!='100040' && insuranceId!='100042'">
                                     <b>{{'MOTORQUOTE.ManufactureYear' | translate}}</b>
                                     <p>{{vehicleDetails?.ManufactureYear}}</p>
                                 </div>
@@ -565,86 +578,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="grid" *ngIf="customerDetails && (insuranceId=='100040')">
-                                <div class="lg:col-12 md:col-12 xl:col-12 col-12">
-                                    <h3>{{'MOTORQUOTE.DriverDetails' | translate}}</h3>
-                                    <div class="grid">
-                                        
-                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                                            <label for="driverName1">{{'MOTORQUOTE.Drivinglicenseage' | translate}}&nbsp;</label><span class="text-danger">*</span><br>
-                                            <input pInputText id="driverName1" class="w-full" styleClass="w-full" maxlength="50" />
-                                        </div>
-                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                                            <label for="username">{{'MOTORQUOTE.SameasSubscriber' | translate}}</label>
-                                            <div class="flex justify-content-start gap-3">
-                                                <p-selectButton [options]="driverOptions"  id="DriverType1"
-                                                optionLabel="label" optionValue="value"></p-selectButton>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                                            <label for="licenseNo1">{{'MOTORQUOTE.Civility' | translate}}&nbsp;</label><br>
-                                            <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" maxlength="14" [(ngModel)]="licenseNo"  />
-                                        </div>
-                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                                            <label for="licenseNo1">{{'MOTORQUOTE.Name' | translate}}&nbsp;</label><br>
-                                            <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" maxlength="14" [(ngModel)]="licenseNo"  />
-                                        </div>
-                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                                            <label for="Dob2">{{'MOTORQUOTE.DateOfBirth' | translate}}</label>
-                                            <p-calendar class="w-full" id="Dob2" styleClass="w-full" [maxDate]="minDobDate"
-                                                [(ngModel)]="driverDob" dateFormat="dd/mm/yy">
-                                            </p-calendar>
-                                        </div>
-                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                                            <label for="licenseNo1">{{'MOTORQUOTE.Drivinglicensenumber' | translate}}&nbsp;</label><br>
-                                            <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" maxlength="14" [(ngModel)]="licenseNo"  />
-                                        </div>
-                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                                            <label for="DrivingExperience1">{{'MOTORQUOTE.Dateofissue' | translate}}&nbsp;</label><br>
-                                            <p-calendar class="w-full" id="Dob2" styleClass="w-full" [maxDate]="minDobDate"
-                                                [(ngModel)]="driverDob" dateFormat="dd/mm/yy">
-                                            </p-calendar>
-                                        </div>
-                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                                            <label for="SubUrban1">{{'HOME.EmailId' | translate}}</label>
-                                            <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" maxlength="14"   />
-                                        </div>
-                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                                            <label for="SubUrban1">{{'MOTORQUOTE.Placeofissue' | translate}}</label>
-                                            <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" maxlength="14"   />
-                                        </div>
-                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                                            <label for="SubUrban1">{{'MOTORQUOTE.Category' | translate}}</label>
-                                            <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" maxlength="14"   />
-                                        </div>
-                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                                            <label for="SubUrban1">{{'MOTORQUOTE.CategoryDateobtained' | translate}}</label>
-                                            <p-calendar class="w-full" id="Dob2" styleClass="w-full" [maxDate]="minDobDate"
-                                            [(ngModel)]="driverDob" dateFormat="dd/mm/yy">
-                                        </p-calendar>
-                                        </div>
-                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                                            <label for="SubUrban1">{{'HOME.EmailId' | translate}}</label>
-                                            <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" maxlength="14"   />
-                                        </div>
-                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                                            <label for="SubUrban1">{{'HOME.CountryCode' | translate}}</label>
-                                            <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" maxlength="14"   />
-                                        </div>
-                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                                            <label for="SubUrban1">{{'HOME.MobileNumber' | translate}}</label>
-                                            <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" maxlength="14"   />
-                                        </div>
-                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                                            <label for="SubUrban1">{{'MOTORQUOTE.CategoryDateobtained' | translate}}</label>
-                                            <p-calendar class="w-full" id="Dob2" styleClass="w-full" [maxDate]="minDobDate"
-                                            [(ngModel)]="driverDob" dateFormat="dd/mm/yy">
-                                        </p-calendar>
-                                        </div>
-                                       
-                                    </div>
-                                </div>
-                            </div> -->
+                           
                         </div>
                     </div>
                     

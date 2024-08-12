@@ -920,3 +920,17 @@ cursor:  pointer !important;
     box-shadow: 0 0 0 0.2rem #ff7e29;
     border-color: #042181;
 }
+
+.driverInput{
+    min-width: 18rem !important;
+}
+.pagination-controls {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .pagination-controls button {
+    margin: 0 0.5rem;
+  }

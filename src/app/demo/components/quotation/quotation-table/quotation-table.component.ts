@@ -9,6 +9,46 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-quotation-table',
+  styles:[ `.pagination{
+	margin-top: 5px !important;
+	padding: 3px;
+	background-color: transparent !important;
+	border-radius: 10px;
+	box-shadow: 0 5px 25px 0 rgba(0,0,0,.5);
+  }
+
+
+	li{
+		display: inline-block;
+		list-style: none;
+    }
+
+	li	a{
+        display: block;
+        cursor: pointer;
+        min-width: 80px;
+        height: 40px;
+        line-height: 40px;
+        background-color: transparent !important;
+        text-align: center;
+        text-decoration: none;
+        color: #252525;
+        border-radius: 4px;
+        margin: 5px;
+        box-shadow: inset 0 5px 10px rgba(0,0,0,.1), 0 2px 5px rgba(0,0,0,.5);
+        transition: all .3s ease;
+				
+    }
+	li a:hover{
+        color: #fff;
+        background-color: #ff4242 !important
+    }
+	li:first-child a{
+        border-radius: 40px 0 0 40px	
+    }		
+	li:last-child a{
+        border-radius: 0 40px 40px 0
+    }	`],
   templateUrl: './quotation-table.component.html',
 })
 export class QuotationTableComponent implements OnInit {
@@ -47,14 +87,18 @@ export class QuotationTableComponent implements OnInit {
   endRejectedIndex: any=null;selectedCustomer:any=null;
   cols:any[]=[];clearSearchSection:boolean = false;searchValue:any=[];
   quote: any=null;rejectedColumns:any[]=[]
-  quotes: boolean=false;
-  Remarks: any=null;
+  quotes: boolean=false;pageSize:any=5;
+  Remarks: any=null;totalRecords:any=null;
   Reference: any=null;isRejectVisible:boolean=false;
-  RejectdList: any;tabIndex:any=0;
-  remarksError: boolean=false;
+  RejectdList: any;tabIndex:any=0;nextSection:boolean=true;
+  remarksError: boolean=false;activePage:any=1;
   MotorList: any[]=[];
   LapsedList: any;
   sqBrokerList: any[]=[];lang:any=null;
+  endCount: number;finalQuoteData:any[]=[];
+  startCount: number;
+  start: number;
+  end: number;
   constructor(private router: Router,private sharedService: SharedService,private appComp:AppComponent,
     private translate: TranslateService,) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -290,7 +334,7 @@ onInnerDataLapsed(rowData){
           "BdmCode": bdmCode,
            "ProductId":this.productId,
           "Limit":this.limit,
-          "Offset":1000
+          "Offset":10
     }
     let urlLink = `${this.CommonApiUrl}api/existingquotedetails`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -301,13 +345,14 @@ onInnerDataLapsed(rowData){
           if (data.Result?.CustomerDetails) {
             if (data.Result?.CustomerDetails.length != 0) {
               this.totalQuoteRecords = data.Result?.TotalCount;
-              this.pageCount = 10;
+              this.pageCount = 5;
               if (entryType == 'change') {
                 this.quotePageNo = 1;
                 let startCount = 1, endCount = this.pageCount;
                 startCount = endCount + 1;
                   let quoteData = data.Result?.CustomerDetails;
-                  this.quoteData = data.Result?.CustomerDetails.filter(ele=>ele.SavedFrom!='SQ');
+                 // this.quoteData = data.Result?.CustomerDetails.filter(ele=>ele.SavedFrom!='SQ');
+                 this.quoteData = data.Result?.CustomerDetails;
                   this.quoteDataList = data.Result?.CustomerDetails;
                   if (quoteData.length <= this.pageCount) {
                     endCount = quoteData.length
@@ -315,6 +360,7 @@ onInnerDataLapsed(rowData){
                   else endCount = this.pageCount;
                 
                 this.startIndex = startCount; this.endIndex = endCount;
+                this.splitToNChunks(this.quoteData,this.pageCount,'first','direct')
               }
               else {
 
@@ -339,6 +385,118 @@ onInnerDataLapsed(rowData){
       (err) => { },
     );
     }
+  }
+  onNextPage(){
+    if((this.endCount==5 && this.quoteData.length<=10) || (this.endCount==15 && this.quoteData.length<=20) || (this.endCount==25 && this.quoteData.length<=30) || (this.endCount==35 && this.quoteData.length<=40) || (this.endCount==45 && this.quoteData.length<=50) || (this.endCount==55 && this.quoteData.length<=60)  || (this.endCount==65 && this.quoteData.length<=70) ||
+     (this.endCount==75 && this.quoteData.length<=80) || (this.endCount==85 && this.quoteData.length<=90) || (this.endCount==95 && this.quoteData.length<=100) || (this.endCount==105 && this.quoteData.length<=110) || (this.endCount==115 && this.quoteData.length<=120) || (this.endCount==125 && this.quoteData.length<=130) || (this.endCount==135 && this.quoteData.length<=140) || (this.endCount==145 && this.quoteData.length<=150) || (this.endCount==155 && this.quoteData.length<=160)
+     || (this.endCount==155 && this.quoteData.length<=160) || (this.endCount==165 && this.quoteData.length<=170) || (this.endCount==175 && this.quoteData.length<=180) || (this.endCount==185 && this.quoteData.length<=190) || (this.endCount==195 && this.quoteData.length<=200)
+     || (this.endCount==205 && this.quoteData.length<=210) || (this.endCount==215 && this.quoteData.length<=220) || (this.endCount==225 && this.quoteData.length<=230) || (this.endCount==235 && this.quoteData.length<=240) || (this.endCount==245 && this.quoteData.length<=250)){
+      
+      if(this.quoteData.length!=this.totalQuoteRecords){
+        sessionStorage.setItem('loadingType','disable');
+        this.activePage+=1;
+        let obj = {
+          'activePage':this.activePage,
+          'startCount': this.startCount,
+          'endCount': this.endCount,
+          'n':this.pageCount
+        }
+        this.onNextData(obj);
+        this.splitToNChunks(this.quoteData,this.pageCount,'direct','next') 
+        this.nextSection = true;
+      }
+      else{
+        this.nextSection = true;
+        this.splitToNChunks(this.quoteData,this.pageCount,'direct','next') 
+      }
+    }
+    else{
+        this.nextSection = true;
+       this.splitToNChunks(this.quoteData,this.pageCount,'direct','next') 
+    }
+  }
+  splitToNChunks(array, n,type,btnType) {
+    var PageOfItems:any[]=[];
+      if(this.activePage==1 && btnType=='direct'){
+        PageOfItems = array.slice(0,n);
+        this.nextSection = true;
+        this.startCount = 1;
+        if(this.totalQuoteRecords<=n){
+          this.endCount = this.totalQuoteRecords;
+        }
+        else this.endCount = n;
+      }
+      else{
+        if(btnType=='next' || btnType=='direct'){
+          this.nextSection = true;
+          if(type=='direct'){
+            this.startCount = this.endCount+1;
+            if(Number(this.totalQuoteRecords)<=Number(this.endCount)+(Number(n))){
+              console.log("Final Entered 1",this.endCount,this.totalQuoteRecords,n)
+                  this.endCount = Number(this.totalQuoteRecords)
+                  
+            }
+            else{this.endCount = Number(this.endCount)+(Number(n)); console.log("Final Entered 2",this.endCount)}
+          }
+          else{
+            this.startCount = this.start;this.endCount = this.end;
+          }
+        }
+        else{
+          this.nextSection = true;
+          if(this.endCount == Number(this.totalQuoteRecords)){
+            this.endCount = this.startCount-1;
+            this.startCount = this.startCount-n;
+          }
+          else{
+            this.startCount = this.startCount-n;
+            this.endCount = this.endCount-(n);
+          }
+        }
+        
+        let startCount = 0,endCount=0;
+        PageOfItems = array.slice(this.startCount-1,this.endCount);
+        console.log("Final Page List",this.activePage,this.startCount,this.endCount,this.startCount-1,this.endCount-1,startCount,endCount)
+      }
+      this.finalQuoteData = PageOfItems;
+  }
+  onPreviousPage(){
+    // if(this.startCount==61 || this.startCount == 121 || this.startCount==181 || this.startCount == 241 || this.startCount==301 || this.startCount==361  || this.startCount==421){
+      
+    //   let obj = {
+    //     'activePage':this.activePage,
+    //     'startCount': this.startCount-this.pageCount-this.pageCount,
+    //     'endCount': this.endCount-this.pageCount-this.pageCount,
+    //     'n':this.pageCount
+    //   }
+    //   this.onLoadPreviousData.emit(obj);
+    // }
+    // else{
+      this.nextSection = true;
+        if(this.startCount==61 || this.startCount == 121 || this.startCount==181 || this.startCount == 241 || this.startCount==301 || this.startCount==361  || this.startCount==421){
+          this.activePage-=1;
+          this.splitToNChunks(this.quoteData,this.pageCount,'direct','previous');
+        }
+        else{
+          this.splitToNChunks(this.quoteData,this.pageCount,'direct','previous');
+        }
+    //}
+    
+  }
+  checkDataIndex(){
+    return ((this.endCount<this.totalQuoteRecords && this.endCount<this.quoteData.length) && this.nextSection)
+  }
+  onNextData(element){
+    this.limit = String(Number(this.limit)+1);
+    this.quotePageNo = this.quotePageNo+1;
+    this.startIndex = element.startCount;
+    this.endIndex = element.endCount
+    this.getExistingQuotes(element,'direct');
+  }
+  onPreviousData(element){
+    this.limit = String(Number(this.limit)-1);
+      this.quotePageNo = this.quotePageNo-1;
+    this.getExistingQuotes(element,'direct');
   }
   getShortQuoteList(element,entryType){
     if(element==null) this.quoteData=[];

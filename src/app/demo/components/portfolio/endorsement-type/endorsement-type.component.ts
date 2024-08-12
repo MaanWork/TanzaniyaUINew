@@ -361,8 +361,11 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
                       //this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
                     }
                     else{
-                      if(this.productId=='5' || this.productId=='46'){
+                      if(this.productId=='5'){
                         this.router.navigate(['/policyDetails']);
+                      }
+                      if(this.productId=='46'){
+                        this.router.navigate(['/quotation/plan/quote-details']);
                       }
                     }
                     
@@ -376,7 +379,7 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
                     this.router.navigate(['/customer/create']);
                   }
                   else{
-                    if(this.productId == '59'){
+                    if(this.productId == '59' || this.productId=='46'){
                       this.router.navigate(['/quotation/plan/quote-details']);
                     }
                     else if((this.productId=='6' || this.productId=='16' || this.productId=='39' || this.productId=='14'  || this.productId=='19' || this.productId=='32' || this.productId=='1' || this.productId=='26' || this.productId=='21' || this.productId == '25')){
@@ -422,6 +425,12 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
         },
         (err) => { },
       );
+    }
+    getBack(){
+      if(this.endorsementSection){
+         this.router.navigate(['/portfolio/endorsementtype']);
+      }
+      else this.router.navigate(['/quotation']);
     }
     getCommonDetails(refNo,type){
       let ReqObj = {
@@ -1179,7 +1188,10 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
         if (groupList.length != 0) {
           let i = 0;
           for (let group of groupList) {
+            let locationId = '1';
+            if(group.LocationId!=null && group.LocationId!=undefined) locationId=group.LocationId;
             let ReqObj = {
+              "LocationId": locationId,
               "InsuranceId": this.insuranceId,
               "BranchCode": customerData.BranchCode,
               "AgencyCode": customerData.AgencyCode,
@@ -1256,7 +1268,10 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
               if(build.LocationId!=undefined) Id=build.LocationId;
               else if(build.RiskId!=undefined) Id=build.RiskId;
               else Id="1";
+              let locationId = '1';
+              if(build.LocationId!=null && build.LocationId!=undefined) locationId=build.LocationId;
               let ReqObj = {
+                "LocationId": build.LocationId,
                 "InsuranceId": this.insuranceId,
                 "BranchCode": customerData.BranchCode,
                 "AgencyCode": customerData.AgencyCode,
@@ -1669,8 +1684,10 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
             //     effectiveDate = this.datePipe.transform(vehicleDetails.PolicyStartDate, "dd/MM/yyyy");
             //   }
             // }
-            
+            let locationId = '1';
+            if(veh.LocationId!=null && veh.LocationId!=undefined) locationId=veh.LocationId;    
       let ReqObj = {
+          "LocationId": locationId,
           "InsuranceId": this.insuranceId,
           "BranchCode": this.branchCode,
           "AgencyCode": this.agencyCode,
