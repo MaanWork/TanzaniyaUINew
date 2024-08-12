@@ -738,6 +738,8 @@ export class MotorVehicleSanlamBurkina{
                   key: 'GpsYN',
                   id:'DoyouhaveGPS',
                   type: 'radioList',
+                  hide: false,
+                  hideExpression:false,
                   templateOptions: {
                     type: 'radioList',
                     label: 'Do you have GPS?',
