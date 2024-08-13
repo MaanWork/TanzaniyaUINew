@@ -72,11 +72,18 @@ export class AppTopBarComponent implements OnInit {
 
     ngOnInit() {
       this.getBranchList();
+      if(this.insuranceid=='100027'){
         this.langList = [
           {"Code":"en","CodeDesc":"English","CodeDescPor":"Inglês","CodeDescFr":"Anglais"},
           {"Code":"po","CodeDesc":"Portuguese","CodeDescPor":"Português","CodeDescFr":"Portugais"},
+        ]
+      }
+      else{
+        this.langList = [
+          {"Code":"en","CodeDesc":"English","CodeDescPor":"Inglês","CodeDescFr":"Anglais"},
           {"Code":"fr","CodeDesc":"French","CodeDescPor":"Francês","CodeDescFr":"Français"},
         ]
+      }
         this.branches = [{label: 'Branch 1'}, {label: 'Branch 2'}];
         this.userOptions = [
             {label: 'Logout', value: 'logout', icon: 'pi pi-power-off', command: () => {this.setLogout();}},

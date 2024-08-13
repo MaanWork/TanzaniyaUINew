@@ -628,13 +628,6 @@ export class CoverDetailsComponent {
                 if(finalizeyn!=null){this.finalizeYN = finalizeyn;sessionStorage.setItem('FinalizeYN',finalizeyn);}
                 else{this.finalizeYN='N';sessionStorage.removeItem('FinalizeYN')};
               }
-              // this.emipolicytype=this.vehicleData[0]?.RiskDetails?.InsuranceClass;
-              //     console.log('KKKKKKKKKKKK',this.emipolicytype);
-             
-              // let refRemarks = this.vehicleData[0].ReferalRemarks;
-              // if(refRemarks){
-              //   this.referralRemarks = refRemarks.split('~');
-              // }
               if(this.productId=='5' || this.productId=='29'){
                 let j=0;let datass:any=[]
                 if(this.vehicleData.length>1){
@@ -747,6 +740,7 @@ export class CoverDetailsComponent {
                   // if(veh.ReferalRemarks){
                   //   veh['ReferralList']= veh.ReferalRemarks.split('~');
                   // }
+                  if(this.productId=='63') veh.VehicleId = veh.LocationId;
                   if(veh.VehicleId) veh['Vehicleid'] = veh.VehicleId;
                     veh['Active'] = true;
                     let coverList = veh.CoverList;
@@ -832,8 +826,7 @@ export class CoverDetailsComponent {
   checkActiveIndex(coverData){
     console.log(coverData.ActiveIndex)
       if(coverData.ActiveIndex){
-         
-          return coverData.ActiveIndex;
+        return coverData.ActiveIndex;
       }
       else return null;
       
@@ -849,8 +842,9 @@ export class CoverDetailsComponent {
     let list:any[] = covers.CoverList.filter(ele=>ele.CoverageType=='A' && ele.isSelected!='D');
     return (list.length!=0);
   }
-  checkBenefitSection4(){
-      return true;
+  checkBenefitSection4(covers){
+    let list:any[] =covers.CoverList.filter(ele=>ele.isSelected!='D' && ele.CoverageType!='A')
+    return (list.length!=0);
   }
   checkBenefitSection5(){
     let i=0,j=0;
@@ -863,46 +857,41 @@ export class CoverDetailsComponent {
   }
   filterVehicleList(){
     let vehicleList = this.vehicleData.filter(ele=>ele.SectionId=='1');
-      console.log("Filtered Sections",vehicleList)
       if(this.vehicleData.length!=0){
           let i=0;
           this.vehicleDetailsList = [];
           let k=0;
           for(let vehicle of this.vehicleData){
-            
-              let entry = vehicleList.find(ele=>ele.VehicleId==vehicle.VehicleId || ele.RiskDetails.RiskId==vehicle.RiskDetails.RiskId);
-              if(entry && vehicle.SectionId!='1'){
-                //if(entry.SectionId==vehicle.SectionId){
-                let j=0;
-                for(let cover of vehicle.CoverList){
-                  cover['SectionId'] = vehicle.SectionId;
-                  cover['SectionName'] = vehicle.SectionName;
-                  j+=1;
-                  if(j==vehicle.CoverList.length) entry.CoverList = entry.CoverList.concat(vehicle.CoverList);
-                }
-                  
-                // }
-                // else{
-                //   vehicleList.push(vehicle);
-                // }
+            let entry =null;
+            if(this.productId=='63') entry = vehicleList.find(ele=>ele.LocationId==vehicle.LocationId);
+            else  entry = vehicleList.find(ele=>ele.VehicleId==vehicle.VehicleId || ele.RiskDetails.RiskId==vehicle.RiskDetails.RiskId);
+            if(entry && vehicle.SectionId!='1'){
+              //if(entry.SectionId==vehicle.SectionId){
+              let j=0;
+              for(let cover of vehicle.CoverList){
+                cover['SectionId'] = vehicle.SectionId;
+                cover['SectionName'] = vehicle.SectionName;
+                j+=1;
+                if(j==vehicle.CoverList.length) entry.CoverList = entry.CoverList.concat(vehicle.CoverList);
               }
-              else if(vehicle.SectionId!='1'){
-                vehicleList.push(vehicle);
-              }
-            
-
+                
+              // }
+              // else{
+              //   vehicleList.push(vehicle);
+              // }
+            }
+            else if(vehicle.SectionId!='1'){
+              vehicleList.push(vehicle);
+            }
             i+=1;
             if(i==this.vehicleData.length){
-              console.log("Vehiclessss on Filter",this.vehicleDetailsList,this.vehicleData)
               this.vehicleDetailsList = vehicleList;
-              console.log('Final List',this.vehicleData,this.vehicleDetailsList);
               this.checkSelectedCovers();
             }
           }
       }
   }
   checkSelectedCovers(){
-    console.log('VVVVVVVVV',this.vehicleDetailsList);
     if(this.vehicleDetailsList.length!=0){
       if(this.vehicleDetailsList[0].CoverList.length!=0){
         this.currencyCode== this.vehicleDetailsList[0].CoverList[0].Currency;
