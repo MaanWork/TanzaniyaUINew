@@ -2838,14 +2838,14 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   let entry = sessionStorage.getItem('BackType');
                   let existVeh = sessionStorage.getItem('vehicleExist')
                   if(entry){
-                    if(entry == 'Back'){
+                    if(entry == 'Back' && this.insuranceId!='100040' && this.insuranceId!='100042'){
                       this.tabIndex = this.vehicleDetailsList.length;
                       this.vehicleId = this.vehicleDetailsList[this.vehicleDetailsList.length-1].Vehicleid;
                       if(this.vehicleId==null || this.vehicleId==undefined || this.vehicleId=='') this.vehicleId = this.vehicleDetailsList[0].Vehicleid;
                       this.getEditVehicleDetails(this.vehicleId,'direct')
                       this.currentIndex = 1;
                       sessionStorage.removeItem('BackType');
-                    }
+                    }else{sessionStorage.removeItem('BackType');}
                   }
                   else if(existVeh){
                     let id =  sessionStorage.getItem('editVehicleId');
@@ -5440,7 +5440,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           onInit: (field: FormlyFieldConfig) => {
             console.log("Field Details",field,this.productItem)
             field.form.controls['VehicleValue'].valueChanges.subscribe(() => {
-                if(this.tabIndex!=0)this.productItem.VehicleValue=field.form.controls['VehicleValue'].value
+                if(this.tabIndex!=0 && field.form)this.productItem.VehicleValue=field.form.controls['VehicleValue'].value
                  this.onchangevehicleValue(null);
               });
           }
@@ -5508,7 +5508,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
               field.hooks = InsuranceHooks;
             }
             else if(field.key=='VehicleValue' ) {
-              
               field.hooks = changevehicleHooks;
             }
             else if(field.key=='Marketvalue' ) {
@@ -5860,7 +5859,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
     for(let field of fieldList){
       if(this.insuranceId=='100004'){ 
         this.productItem.InsuranceType = this.productItem.InsuranceClass; this.classValue=this.productItem.InsuranceClass
-        
       }
       if(field.key=='InsuranceClass' && this.insuranceId=='100004'){
          let list = field.props.options;
@@ -5889,21 +5887,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if(field.key=='VehicleSI'  || field.key=='GpsYN' || field.key=='Newvalue' || field.key=='AccessoriesSI' || field.key=='Newvalue' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI'  || field.key=='Deductibles' || field.key=='Inflation' || field.key=='VehicleValue' || (field.key=='NoOfPassengers' && this.insuranceId=='100042') || (field.key=='PurchaseDate' && this.insuranceId=='100042') ){
           if((this.insuranceId=='100040' && this.productItem.InsuranceClass!='121' && this.productItem.InsuranceClass!='122' && !(field.key=='Deductibles' && this.productItem.InsuranceClass=='126')) 
             || (this.insuranceId=='100042' && this.productItem.InsuranceClass!='135' && this.productItem.InsuranceClass!='136' && this.productItem.InsuranceClass!='137')){
-              if(field.key=='VehicleValue'){
-                let changevehicleHooks = {
-                  onInit: (field: FormlyFieldConfig) => {
-                    if (field.formControl) {
-                      field.formControl.valueChanges.subscribe(() => {
-                        this.onchangevehicleValue(null);
-                      });
-                    } else {
-                      console.warn('VehicleValue control is not available.');
-                    }
-                  }
-                };
-                field.hooks=changevehicleHooks;
-                console.log("Final Fields",field)
-              }
+              
               field.hideExpression = false;
             field.hide=false; 
           }
@@ -5923,14 +5907,13 @@ export class CommonQuoteDetailsComponent implements OnInit {
               if(field.key=='VehicleValue'){
                 let changevehicleHooks = {
                   onInit: (field: FormlyFieldConfig) => {
-                    if (field.form && field.form.controls['VehicleValue']) {
-                      field.form.controls['VehicleValue'].valueChanges.subscribe(() => {
-                        this.onchangevehicleValue(null);
+                    console.log("Field Details",field,this.productItem)
+                    field.form.controls['VehicleValue'].valueChanges.subscribe(() => {
+                        if(this.tabIndex!=0 && field.form)this.productItem.VehicleValue=field.form.controls['VehicleValue'].value
+                         this.onchangevehicleValue(null);
                       });
-                    } else {
-                      console.warn('VehicleValue control is not available.');
-                    }
                   }
+                  
                 };
                 field.hooks=changevehicleHooks;
                 console.log("Final Fields",field)
