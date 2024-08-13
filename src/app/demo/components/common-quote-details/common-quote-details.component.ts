@@ -5886,10 +5886,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
         field.hideExpression = true;field.hide=true;
       }
       if(this.insuranceId=='100040' || this.insuranceId=='100042'){
-        if(field.key=='VehicleSI'  || field.key=='GpsYN' || field.key=='Newvalue' || field.key=='AccessoriesSI' || field.key=='Newvalue' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI'  || field.key=='Deductibles' || field.key=='Inflation' || field.key=='VehicleValue' || (field.key=='NoOfPassengers' && this.insuranceId=='100042') || (field.key=='PurchaseDate' && this.insuranceId=='100042') ){
+        if(field.key=='VehicleSI'  || field.key=='GpsYN' || field.key=='Newvalue' || field.key=='AccessoriesSI' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI'  || field.key=='Deductibles' || field.key=='Inflation' || field.key=='VehicleValue' || (field.key=='NoOfPassengers' && this.insuranceId=='100042') ){
           if((this.insuranceId=='100040' && this.productItem.InsuranceClass!='121' && this.productItem.InsuranceClass!='122' && !(field.key=='Deductibles' && this.productItem.InsuranceClass=='126')) 
             || (this.insuranceId=='100042' && this.productItem.InsuranceClass!='135' && this.productItem.InsuranceClass!='136' && this.productItem.InsuranceClass!='137')){
-              if(field.key=='VehicleValue'){
+          if(field.key=='VehicleValue'){
                 let changevehicleHooks = {
                   onInit: (field: FormlyFieldConfig) => {
                     if (field.formControl) {
@@ -5906,10 +5906,28 @@ export class CommonQuoteDetailsComponent implements OnInit {
               }
               field.hideExpression = false;
             field.hide=false; 
+           
+           
           }
-          // else if( ){
-          //   field.hideExpression = false;
-          //   field.hide=false;
+          // else if(field.key=='VehicleValue'){
+          //   alert(field.key)
+          //   let changevehicleHooks = {
+          //     onChanges: (field: FormlyFieldConfig) => {
+          //       // console.log(field.form,"field.formfield.form");
+          //       // if (field.form && field.form.controls['VehicleValue']) {
+          //         field.form.controls['VehicleValue'].valueChanges.subscribe(() => {
+          //           this.onchangevehicleValue(null);
+          //         });
+          //       // } else {
+          //       // console.warn('VehicleValue control is not available.');
+          //       // }
+          //     }
+             
+          //   };
+          //   if(field.key =='VehicleValue'){
+          //     alert(field.key)
+          //     field.hooks== changevehicleHooks;
+          //   }
           // }
           
           else{
