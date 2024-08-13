@@ -654,7 +654,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			"MobileNo1": data.MobileNo,
 			"MobileNo2": null,
 			"MobileNo3": null,
-			"Nationality": data.Country,
+			"Nationality": data.Nationality,
 			"Occupation": data?.Occupation,
 			"OtherOccupation":data?.occupationdesc,
 			"Placeofbirth": "Chennai",
@@ -1218,6 +1218,7 @@ export class CustomerCreateFormComponent implements OnInit {
 						this.productItem.Country = this.countryList[1].Code;
 							
 					}
+					this.productItem.Nationality = customerDetails.Nationality;
 					if(this.productItem.Country==null) this.productItem.Country='';
 					this.productItem.PinCode = customerDetails.PinCode;
 					this.productItem.Gender = customerDetails.Gender;

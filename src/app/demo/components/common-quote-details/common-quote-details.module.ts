@@ -163,7 +163,7 @@ export function maxlengthValidationMessage(err, field) {
      
     ],
     validationMessages: [
-      { name: 'required', message: 'This field is required' },
+      { name: 'required', message: ''},
     ],
   }),
   ]

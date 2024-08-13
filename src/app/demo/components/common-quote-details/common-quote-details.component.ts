@@ -6114,8 +6114,44 @@ export class CommonQuoteDetailsComponent implements OnInit {
           if(this.productId=='5'){
             sessionStorage.setItem('commonDetails',JSON.stringify(entry));
             if(this.tabIndex==0){this.tabIndex+=1;this.getMotorDetails(this.tabIndex-1)}
-            else if(this.vehicleDetailsList.length==this.tabIndex){this.saveMotorDetails(this.tabIndex)}
-            else{this.saveMotorDetails(this.tabIndex);}
+            else if(this.vehicleDetailsList.length==this.tabIndex){
+              this.saveMotorDetails(this.tabIndex)}
+            else{
+              alert("else")
+              if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+                let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                let i=0,j=0;
+                for(let field of fieldList){
+                  if((field.templateOptions.required==true || field.props.required==true) && (field.hide!=true)){
+                    if(this.productItem[field.key]==null || this.productItem[field.key]==undefined || this.productItem[field.key]==''){
+                      j+=1;
+                      this.form.controls[field.key].errors=true;
+                      this.form.controls[field.key].touched=true;
+                      field.templateOptions['errors'] = true;
+                      field.props['errors'] = true;
+                      console.log(this.form.controls[field.key]);
+                    }
+                    else{
+                      field.templateOptions['errors'] = false;
+                      field.props['errors'] = false;
+                    }
+                    i+=1;
+                    if(i==fieldList.length && j==0){
+                      this.saveMotorDetails(this.tabIndex);
+                    }
+                  }
+                  else{ i+=1;
+                    if(i==fieldList.length && j==0){
+                      this.saveMotorDetails(this.tabIndex);
+                    }
+                  }
+                }
+              }
+              else{
+                this.saveMotorDetails(this.tabIndex);
+              }
+              
+            }
           }
           else if(this.productId=='59' || this.productId=='19'){
             this.showSectionSeltion = true;

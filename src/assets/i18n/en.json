@@ -29,6 +29,7 @@
     "MobileNumber": "Mobile Number",
     "EmailId":"Email Id",
     "Status":"Status",
+    "City":"City",
     "Active":"Active",
     "DeActive": "DeActive",
     "Pending": "Pending",
