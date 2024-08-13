@@ -3303,6 +3303,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "MunicipalityTraffic":this.productItem.MunicipalityofTraffic,
             "TransportHydro":this.productItem.Transportationofhydrocarbons,
             "DateOfCirculation":DateOfcirculation,
+            "NewValue":this.productItem.Newvalue,
+            "MarketValue":this.productItem.Marketvalue,
+            "AggregatedValue":this.productItem.Aggregatedvalue,
+            // "NumberOfCards":this.productItem.Nombredecartes,
+            // "MunicipalityTraffic":this.productItem.MunicipalityofTraffic,
+            // "TransportHydro":this.productItem.Transportationofhydrocarbons,
             "Scenarios": {
               "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": this.vehicleDetails.OldAcccessoriesSumInsured,
