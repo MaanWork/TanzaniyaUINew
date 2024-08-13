@@ -304,6 +304,7 @@ export class CustomerCreateFormComponent implements OnInit {
 						}
 						
 					}
+					
 				}
 			let exceptedHooks ={ onInit: (field: FormlyFieldConfig) => {
 				field.form.controls['isTaxExempted'].valueChanges.subscribe(() => {
@@ -317,7 +318,6 @@ export class CustomerCreateFormComponent implements OnInit {
 						field.hooks = exceptedHooks;
 					}
 				}
-				
 		}
 		if(this.insuranceId=='100004'){
 		  this.getType3('direct');
@@ -536,12 +536,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			data.dobOrRegDate = new Date(year - 18,month, day-2 );
 		}
 		if(data.state!=null && data.state!='') stateName = this.regionList.find(ele=>ele.Code==data.state)?.CodeDesc;
-		if (data.dobOrRegDate != undefined && data.dobOrRegDate != null && data.dobOrRegDate != '') {
-			if(String(dobOrRegDate).includes('/')){
-				dobOrRegDate = data.dobOrRegDate;
-			}
-			else dobOrRegDate = this.datePipe.transform(data.dobOrRegDate,'dd/MM/yyyy')
-		}
+		
 		if (this.productItem.isTaxExempted == 'Y') taxExemptedId = this.productItem?.TaxExemptedId;
 		//this.productItem.TaxExemptedId;
 		if (this.productItem.IdType == '2') businessType = this.productItem.BusinessType;
@@ -612,6 +607,12 @@ export class CustomerCreateFormComponent implements OnInit {
 			data.ClientName=data?.CompanyName;
 			data.Occupation = '99999';
 			data.occupationdesc = 'Others';
+		}
+		if (data.dobOrRegDate != undefined && data.dobOrRegDate != null && data.dobOrRegDate != '') {
+			if(String(dobOrRegDate).includes('/')){
+				dobOrRegDate = data.dobOrRegDate;
+			}
+			else dobOrRegDate = this.datePipe.transform(data.dobOrRegDate,'dd/MM/yyyy')
 		}
 		if(data.SocioProfessionalcategory==undefined || data.SocioProfessionalcategory=='') data.SocioProfessionalcategory = null;
 		if(this.insuranceId=='100040' || this.insuranceId=='100042'){
@@ -1627,6 +1628,7 @@ export class CustomerCreateFormComponent implements OnInit {
 	} 
 	let fieldList=this.additionalInfoFields[0].fieldGroup;
 	let fieldList1=this.personalInfoFields[0].fieldGroup;
+	let fieldList2=this.addressInfoFields[0].fieldGroup;
 	
 	for(let field of fieldList1){
 		if(this.productItem.IdType=='2' || this.productItem.IdType==2){
@@ -1641,7 +1643,12 @@ export class CustomerCreateFormComponent implements OnInit {
 				field.hide=true;field.hideExpression=true;
 				if(field.key=='dobOrRegDate'){field.label="Registration Date"}
 			}
-			
+			if(field.key=='BusinessType' ){
+				field.templateOptions.required=false;
+			}
+			else if(field.key=='EmailId' ){
+				field.templateOptions.required=true;
+			}
 		}
 		else if(this.productItem.IdType=='1' || this.productItem.IdType==1){
 			if(field.key=='BusinessType' || field.key=='CompanyName'){
@@ -1655,6 +1662,9 @@ export class CustomerCreateFormComponent implements OnInit {
 			if(field.key=='ClientName' || field.key=='Title' || field.key=='Gender'){
 					field.hide=false;field.hideExpression=false;
 				}
+				if(field.key=='EmailId' ){
+						field.templateOptions.required=false;
+				}
 		}
 	}
 		for(let field of fieldList){
@@ -1662,12 +1672,29 @@ export class CustomerCreateFormComponent implements OnInit {
 				if(  (field.key=='dobOrRegDate' && this.insuranceId!='100044') || field.key=='GstNumber' ){
 					field.hide=true;field.hideExpression=true;
 				}
+				else if(field.key=='IdNumber' || field.key=='PolicyHolderTypeid'){
+					field.templateOptions.required=false;
+				}
 			} 
 			else if(this.productItem.IdType=='2' || this.productItem.IdType==2){
 				if(  field.key=='dobOrRegDate' || field.key=='GstNumber'){
 					field.hide=false;field.hideExpression=false;
 				}
-				
+				else if(field.key=='PolicyHolderTypeid' || field.key=='IdNumber'){
+					field.templateOptions.required=true;
+				}
+			}
+		}
+		for(let field of fieldList2){
+			if(this.productItem.IdType=='1' || this.productItem.IdType==1){
+				if(field.key=='Country' || field.key=='CityName' || field.key=='Address1'){
+					field.templateOptions.required=false;
+				}
+			} 
+			else if(this.productItem.IdType=='2' || this.productItem.IdType==2){
+				if(field.key=='Country' || field.key=='CityName' || field.key=='Address1'){
+					field.templateOptions.required=true;
+				}
 			}
 		}
 	// this.productItem.IdType =value;
@@ -1708,7 +1735,39 @@ export class CustomerCreateFormComponent implements OnInit {
 	}
 	else if(type=='direct' && !this.final){
 		//this.blankvalidationcheck(data);
-		this.onSubmit(data);
+		if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+			let fieldList = this.personalInfoFields[0].fieldGroup
+			let i=0,j=0;
+			for(let field of fieldList){
+			  if((field.templateOptions.required==true || field.props.required==true) && (field.hide!=true)){
+				if(this.productItem[field.key]==null || this.productItem[field.key]==undefined || this.productItem[field.key]==''){
+				  j+=1;
+				  this.form.controls[field.key].errors=true;
+				  this.form.controls[field.key].touched=true;
+				  field.templateOptions['errors'] = true;
+				  field.props['errors'] = true;
+				  console.log(this.form.controls[field.key]);
+				}
+				else{
+				  field.templateOptions['errors'] = false;
+				  field.props['errors'] = false;
+				}
+				i+=1;
+				if(i==fieldList.length && j==0){
+					this.errorFunctionadditioal(data);
+					// this.onSubmit(data);
+				}
+			  }
+			  else{ i+=1;
+				if(i==fieldList.length && j==0){
+					this.errorFunctionaddress(data)
+				}
+			  }
+			}
+		  }
+		  else{
+			  this.onSubmit(data);
+		  }
 	}
 	else if(type=='direct' && this.final){
    if(this.final1)this.idfieldvalidate();
@@ -1719,6 +1778,66 @@ export class CustomerCreateFormComponent implements OnInit {
    if(this.final6) this.Emailvalidate();
    if(this.final7) this.Mobilevalidate();
 	}
+}
+
+
+errorFunctionadditioal(data){
+	let fieldList = this.additionalInfoFields[0].fieldGroup
+			let i=0,j=0;
+			for(let field of fieldList){
+			  if((field.templateOptions.required==true || field.props.required==true) && (field.hide!=true)){
+				if(this.productItem[field.key]==null || this.productItem[field.key]==undefined || this.productItem[field.key]==''){
+				  j+=1;
+				  this.form.controls[field.key].errors=true;
+				  this.form.controls[field.key].touched=true;
+				  field.templateOptions['errors'] = true;
+				  field.props['errors'] = true;
+				  console.log(this.form.controls[field.key]);
+				}
+				else{
+				  field.templateOptions['errors'] = false;
+				  field.props['errors'] = false;
+				}
+				i+=1;
+				if(i==fieldList.length && j==0){
+				}
+			  }
+			  else{ i+=1;
+				if(i==fieldList.length && j==0){
+					this.errorFunctionaddress(data);
+				}
+			  }
+			}
+}
+errorFunctionaddress(data){
+	let fieldList = this.addressInfoFields[0].fieldGroup
+			let i=0,j=0;
+			for(let field of fieldList){
+			  if((field.templateOptions.required==true || field.props.required==true) && (field.hide!=true)){
+				if(this.productItem[field.key]==null || this.productItem[field.key]==undefined || this.productItem[field.key]==''){
+				  j+=1;
+				  this.form.controls[field.key].errors=true;
+				  this.form.controls[field.key].touched=true;
+				  field.templateOptions['errors'] = true;
+				  field.props['errors'] = true;
+				  console.log(this.form.controls[field.key]);
+				}
+				else{
+				  field.templateOptions['errors'] = false;
+				  field.props['errors'] = false;
+				}
+				i+=1;
+				if(i==fieldList.length && j==0){
+					// this.onSubmit(data);
+				}
+			  }
+			  else{ i+=1;
+				if(i==fieldList.length && j==0){
+					this.onSubmit(data);
+				}
+			  }
+			}
+			//return true;
 }
 getType3(type){
 	let product:any;this.titleList =[];
