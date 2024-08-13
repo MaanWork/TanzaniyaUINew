@@ -2837,8 +2837,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 if(this.tabIndex==undefined || this.tabIndex==null){
                   let entry = sessionStorage.getItem('BackType');
                   let existVeh = sessionStorage.getItem('vehicleExist')
-                  if(entry){
-                    if(entry == 'Back' && this.insuranceId!='100040' && this.insuranceId!='100042'){
+                  if(entry && this.insuranceId!='100040' && this.insuranceId!='100042'){
+                    if(entry == 'Back' ){
                       this.tabIndex = this.vehicleDetailsList.length;
                       this.vehicleId = this.vehicleDetailsList[this.vehicleDetailsList.length-1].Vehicleid;
                       if(this.vehicleId==null || this.vehicleId==undefined || this.vehicleId=='') this.vehicleId = this.vehicleDetailsList[0].Vehicleid;
@@ -2848,6 +2848,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                     }else{sessionStorage.removeItem('BackType');}
                   }
                   else if(existVeh){
+                    sessionStorage.removeItem('BackType');
                     let id =  sessionStorage.getItem('editVehicleId');
                     if(id){
                       let index = this.vehicleDetailsList.findIndex(ele=>String(ele.Vehicleid)===String(id));
@@ -3302,6 +3303,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
             "MunicipalityTraffic":this.productItem.MunicipalityofTraffic,
             "TransportHydro":this.productItem.Transportationofhydrocarbons,
             "DateOfCirculation":DateOfcirculation,
+            "NewValue":this.productItem.Newvalue,
+            "MarketValue":this.productItem.Marketvalue,
+            "AggregatedValue":this.productItem.Aggregatedvalue,
+            // "NumberOfCards":this.productItem.Nombredecartes,
+            // "MunicipalityTraffic":this.productItem.MunicipalityofTraffic,
+            // "TransportHydro":this.productItem.Transportationofhydrocarbons,
             "Scenarios": {
               "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": this.vehicleDetails.OldAcccessoriesSumInsured,
@@ -5835,7 +5842,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
          }
          else{
-           if ( field.key =='Aggregatedvalue'){
+           if ( field.key =='Aggregatedvalue' && (this.productItem.VehicleValue=='2' || this.productItem.VehicleValue==2)){
              this.getAggregatedList(); 
              field.hideExpression = false;field.hide=false;
             }
@@ -5884,7 +5891,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         field.hideExpression = true;field.hide=true;
       }
       if(this.insuranceId=='100040' || this.insuranceId=='100042'){
-        if(field.key=='VehicleSI'  || field.key=='GpsYN' || field.key=='Newvalue' || field.key=='AccessoriesSI' || field.key=='Newvalue' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI'  || field.key=='Deductibles' || field.key=='Inflation' || field.key=='VehicleValue' || (field.key=='NoOfPassengers' && this.insuranceId=='100042') || (field.key=='PurchaseDate' && this.insuranceId=='100042') ){
+        if(field.key=='VehicleSI'  || field.key=='GpsYN' || field.key =='Aggregatedvalue' || field.key=='Newvalue' || field.key=='AccessoriesSI' || field.key=='Newvalue' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI'  || field.key=='Deductibles' || field.key=='Inflation' || field.key=='VehicleValue' || (field.key=='NoOfPassengers' && this.insuranceId=='100042') || (field.key=='PurchaseDate' && this.insuranceId=='100042') ){
           if((this.insuranceId=='100040' && this.productItem.InsuranceClass!='121' && this.productItem.InsuranceClass!='122' && !(field.key=='Deductibles' && this.productItem.InsuranceClass=='126')) 
             || (this.insuranceId=='100042' && this.productItem.InsuranceClass!='135' && this.productItem.InsuranceClass!='136' && this.productItem.InsuranceClass!='137')){
               
