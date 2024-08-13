@@ -516,7 +516,6 @@ export class VehicleCreateFormComponent implements OnInit {
           this.vehicleDetails.MotorusageId='1'
         }
         if(this.engineNo!=null && this.engineNo!='') this.vehicleDetails['EngineNumber'] = this.engineNo;
-        alert(this.vehicleDetails.Newvalue)
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": this.vehicleDetails?.AcExecutiveId,

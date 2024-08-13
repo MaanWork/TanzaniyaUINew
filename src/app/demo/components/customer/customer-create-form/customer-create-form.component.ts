@@ -625,6 +625,9 @@ export class CustomerCreateFormComponent implements OnInit {
 				}
 				else dobOrRegDate = this.datePipe.transform(this.productItem.dobOrRegDate,'dd/MM/yyyy')
 			}
+			if(this.productItem.Nationality){
+				data.Country=this.productItem.Nationality;
+			}
 		}
 		let ReqObj = {
 			"BrokerBranchCode": this.brokerbranchCode,
@@ -654,7 +657,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			"MobileNo1": data.MobileNo,
 			"MobileNo2": null,
 			"MobileNo3": null,
-			"Nationality": data.Nationality,
+			"Nationality": data.Country,
 			"Occupation": data?.Occupation,
 			"OtherOccupation":data?.occupationdesc,
 			"Placeofbirth": "Chennai",

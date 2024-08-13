@@ -3166,6 +3166,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             insuranceType=this.productItem.InsuranceType;
             motorUsage =this.productItem.InsuranceType;
             motorUsageId=this.productItem.InsuranceClassDesc;
+            this.productItem.Mileage="1"
           }
           else {
               if(sectionId){
@@ -4528,6 +4529,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             insuranceType=this.productItem.InsuranceType;
             motorUsage =this.productItem.InsuranceType;
               motorUsageId=this.productItem.InsuranceClassDesc;
+              this.productItem.Mileage="1"
             }
             else {
                 if(sectionId){
