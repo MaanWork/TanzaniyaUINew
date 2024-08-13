@@ -218,7 +218,7 @@
                                                 </ng-container>
                                             </div>
                                             <ng-container *ngIf="checkBenefitSection2(menu)">
-                                                <h3>Benefit Covers</h3><br>
+                                                <h3>{{'PREMIUM.BenefitCovers' | translate}}</h3><br>
                                             </ng-container>
                                             <div class="flex flex-wrap justify-content-start">
                                                 <ng-container *ngFor="let cover of menu.CoverList">
@@ -377,7 +377,7 @@
                                                     </ng-container>
                                                 </div>
                                                 <ng-container *ngIf="checkBenefitSection(menu) || checkBenefitSection2(menu)">
-                                                    <h3>Benefit Covers</h3><br>
+                                                    <h3>{{'PREMIUM.BenefitCovers' | translate}}</h3><br>
                                                 </ng-container>
                                                 <div class="flex flex-wrap justify-content-start" *ngIf="checkBenefitSection(menu) || checkBenefitSection2(menu)">
                                                     <ng-container *ngFor="let cover of menu.CoverList">
