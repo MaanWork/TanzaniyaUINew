@@ -1629,13 +1629,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
           if(data.Result){
             if(type=='change'){
               this.cityValue = null;
-              if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042' || this.insuranceId=='100028'){
+              if(this.insuranceId=='100027' || this.insuranceId=='100028'){
                 this.productItem.InsuranceClass = this.productItem?.InsuranceType
                 this.classValue = this.typeValue;
               } 
             } 
               this.motorTypeList = data.Result;
-              
               if(type=='direct'){ this.bodyTypeValue = motorValue; this.productItem.BodyType = motorValue}
               else if(this.insuranceId!='100027' && this.insuranceId!='100040' && this.insuranceId!='100042') this.bodyTypeValue = motorValue;
               if(this.vehicleDetails && this.motorTypeList.length!=0 && this.bodyTypeValue==null){
@@ -2492,7 +2491,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
    
   }
   onSaveSearchVehicles(){
-    // alert("onSaveSearchVehicles")
     this.subuserType = sessionStorage.getItem('typeValue');
     let appId = "1",loginId="",brokerbranchCode="",createdBy="";
     if(this.promocode=='' || this.promocode==null || this.promocode==undefined){
@@ -2924,7 +2922,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     return years;
   }
   saveMotorDetails(index){
-    // alert("saveMotorDetails")
+   
     sessionStorage.removeItem('loadingType');
     let entry = false;
     if(this.finalizeYN!='Y' && !entry){
@@ -3169,7 +3167,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
             motorUsageId=this.productItem.InsuranceClassDesc;
           }
           else {
-              
               if(sectionId){
                 if(sectionId.length!=0) insuranceType=sectionId[0];
                 else insuranceType = null;
@@ -3651,7 +3648,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
     this.customerFilterSuggestions = [{'name':'Customer 1'}, {'name':'Customer 2'}];
   }
   saveExistData(){
-    // alert("saveExistData")
     let i = 0,calcIndex=0;
     for(let veh of this.vehicleDetailsList){
       let refNo = veh?.MSRefNo;
@@ -4182,7 +4178,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
   }
   onProceed(type){
-    //  alert(this.form.valid)
       if(this.insuranceId=='100040' || this.insuranceId=='100042'){
         let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
         let i=0,j=0;
@@ -4255,7 +4250,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
     
   }
   onFormSubmit(type){
-    // alert("onFormSubmit")
     sessionStorage.removeItem('loadingType');
     this.currentIndex = 1;
     let entry = false;
@@ -5430,30 +5424,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
       else if(this.insuranceId=='100020'){ fireData = new MotorVehicleKenya();this.getInsuranceClassList();this.getVehicleClassList()}
       this.fields[0] = fireData?.fields;
       console.log(this.fields[0].fieldGroup[0].fieldGroup,"this.fields[0].fieldGroup[0].fieldGroup")
-      if( this.insuranceId=='100040' || this.insuranceId=='100042'){ 
-        this.getInsuranceTypeAltList(); 
-        this.getMunicipalityTrafficList();}
-      this.checkFieldNames();
-      let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
-        field.form.controls['InsuranceType'].valueChanges.subscribe(() => {
-            this.getMotorTypeList('change',null,null);
-            this.getMotorUsageList(null,'change');
-        });
-      } }
-      this.fields[0].fieldGroup[0].fieldGroup[0].hooks = regionHooks;
-      if(this.insuranceId=='100002' || this.insuranceId=='100044' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100040' || this.insuranceId=='100042' || this.insuranceId=='100020' || this.insuranceId=='100004' || this.insuranceId=='100028'){
-        let regionHooks2 ={ onInit: (field: FormlyFieldConfig) => {
-          field.form.controls['InsuranceClass'].valueChanges.subscribe(() => {
-            this.onChangeInsuranceClass('change')
-           });
-        } 
-       }
-       if(this.insuranceId=='100040' || this.insuranceId=='100042'){
-        this.fields[0].fieldGroup[0].fieldGroup[1].hooks = regionHooks2;
-        
-      } 
       if(this.insuranceId=='100040' || this.insuranceId=='100042'){
         let InsuranceHooks ={ onInit: (field: FormlyFieldConfig) => {
+          console.log('Field')
           field.form.controls['InsuranceType'].valueChanges.subscribe(() => {
              this.getInsuranceTypeListIvory();
           });
@@ -5465,14 +5438,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
         // } }
         let changevehicleHooks = {
           onInit: (field: FormlyFieldConfig) => {
-            console.log(field.form,"field.formfield.form");
-            if (field.form && field.form.controls['VehicleValue']) {
-              field.form.controls['VehicleValue'].valueChanges.subscribe(() => {
-                this.onchangevehicleValue(null);
+            console.log("Field Details",field,this.productItem)
+            field.form.controls['VehicleValue'].valueChanges.subscribe(() => {
+                if(this.tabIndex!=0)this.productItem.VehicleValue=field.form.controls['VehicleValue'].value
+                 this.onchangevehicleValue(null);
               });
-            } else {
-              console.warn('VehicleValue control is not available.');
-            }
           }
         };
         
@@ -5532,11 +5502,13 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
 
          let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+         let m=0;
           for(let field of fieldList){
             if(field.key=='InsuranceType' ){
               field.hooks = InsuranceHooks;
             }
             else if(field.key=='VehicleValue' ) {
+              
               field.hooks = changevehicleHooks;
             }
             else if(field.key=='Marketvalue' ) {
@@ -5549,6 +5521,31 @@ export class CommonQuoteDetailsComponent implements OnInit {
             }
           }
       }
+      if( this.insuranceId=='100040' || this.insuranceId=='100042'){ 
+        this.getInsuranceTypeAltList(); 
+        this.getMunicipalityTrafficList();}
+      this.checkFieldNames();
+      let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
+        field.form.controls['InsuranceType'].valueChanges.subscribe(() => {
+            this.getMotorTypeList('change',null,null);
+            this.getMotorUsageList(null,'change');
+            this.getInsuranceTypeListIvory();
+        });
+      } }
+      this.fields[0].fieldGroup[0].fieldGroup[0].hooks = regionHooks;
+      if(this.insuranceId=='100002' || this.insuranceId=='100044' || this.insuranceId=='100018' || this.insuranceId=='100019' || this.insuranceId=='100040' || this.insuranceId=='100042' || this.insuranceId=='100020' || this.insuranceId=='100004' || this.insuranceId=='100028'){
+        let regionHooks2 ={ onInit: (field: FormlyFieldConfig) => {
+          field.form.controls['InsuranceClass'].valueChanges.subscribe(() => {
+            
+            this.onChangeInsuranceClass('change')
+           });
+        } 
+       }
+       if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+        this.fields[0].fieldGroup[0].fieldGroup[1].hooks = regionHooks2;
+        
+      } 
+      
         if(this.insuranceId!='100004') {
           let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
           for(let field of fieldList){
@@ -5685,7 +5682,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             if(field.props) field.props.disabled=true; 
             else if(field.templateOptions) field.templateOptions.disabled = true;
             i+=1;
-            if(i==fieldList.length) this.onChangeInsuranceClass('direct')
+            if(i==fieldList.length){this.onChangeInsuranceClass('direct')}
           } 
         }
       }
@@ -5800,21 +5797,20 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.productItem.ExtendedTPPDSI = this.vehicleDetails?.TppdIncreaeLimit;
       this.productItem.AccessoriesSI = this.vehicleDetails?.AcccessoriesSumInsured;
       this.productItem.VehicleClass = this.vehicleDetails?.VehicleClass;
-      if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042') {
-        this.onChangeInsuranceClass('direct');
-        this.onchangevehicleValue(this.vehicleDetails);
-      } 
-     //this.onChangeAggregated();
+      if(this.tabIndex!=0) this.onchangevehicleValue(this.vehicleDetails);
+      if((this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042') && this.tabIndex!=0){this.onChangeInsuranceClass('direct');}
+     
+      this.onChangeAggregated();
     }
   onchangevehicleValue(data){
     let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
     for(let field of fieldList){
-      if(field.form && field.form.controls['VehicleValue']){
         if(this.productItem.VehicleValue==1 || this.productItem.VehicleValue=='1'){
           if(field.key =='Marketvalue' ||field.key =='Aggregatedvalue' || field.key =='VehicleSI' ){
+          
           if(data && field.formControl) field.formControl.setValue(data.MarketValue)
             if(field.key =='Marketvalue'){field.hideExpression = false;field.hide=false; } 
-            else if(field.key =='Aggregatedvalue' || field.key =='VehicleSI' ){
+            if(field.key =='Aggregatedvalue' || field.key =='VehicleSI' ){
               field.hideExpression = true;field.hide=true;
             }
           }
@@ -5832,45 +5828,25 @@ export class CommonQuoteDetailsComponent implements OnInit {
             field.hideExpression = true;field.hide=true;  
           }
       }
-    } 
-    // else if(!(field.form && field.form.controls['VehicleValue'])){
-    //   let changevehicleHooks = {
-    //     onChanges: (field: FormlyFieldConfig) => {
-    //       console.log(field.form,"field.formfield.form");
-    //       if (field.form && field.form.controls['VehicleValue']) {
-    //         field.form.controls['VehicleValue'].valueChanges.subscribe(() => {
-    //           this.onchangevehicleValue(null);
-    //         });
-    //       } else {
-    //       console.warn('VehicleValue control is not available.');
-    //       }
-    //     }
-       
-    //   };
-    //   if(field.key =='VehicleValue'){
-    //     field.hooks== changevehicleHooks;
-    //   }
-    // }
-    
-    else {
-       if(this.productItem.VehicleValue){
-        if(this.productItem.VehicleValue=='1'){
-         if(field.key =='Marketvalue'){
-          field.hideExpression = false;field.hide=false;
+      else {
+        if(this.productItem.VehicleValue){
+         if(this.productItem.VehicleValue=='1'){
+          if(field.key =='Marketvalue'){
+           field.hideExpression = false;field.hide=false;
+          }
          }
+         else{
+           if ( field.key =='Aggregatedvalue'){
+             this.getAggregatedList(); 
+             field.hideExpression = false;field.hide=false;
+            }
+         }
+         
         }
-        else{
-          if (field.key =='Aggregatedvalue'){
-            this.getAggregatedList(); 
-            field.hideExpression = false;field.hide=false;
-           }
-        }
-        
-       }
-       else if(field.key =='Marketvalue' || field.key =='Aggregatedvalue' || field.key =='VehicleSI'){
-          field.hideExpression = true;field.hide=true; 
-        }
-    }
+        else if(field.key =='Marketvalue' || field.key =='Aggregatedvalue' || field.key =='VehicleSI'){
+           field.hideExpression = true;field.hide=true; 
+         }
+     }
       // if (field.form && field.form.controls['Marketvalue']) {
 
       // }
@@ -5913,7 +5889,21 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if(field.key=='VehicleSI'  || field.key=='GpsYN' || field.key=='Newvalue' || field.key=='AccessoriesSI' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI'  || field.key=='Deductibles' || field.key=='Inflation' || field.key=='VehicleValue' || (field.key=='NoOfPassengers' && this.insuranceId=='100042') ){
           if((this.insuranceId=='100040' && this.productItem.InsuranceClass!='121' && this.productItem.InsuranceClass!='122' && !(field.key=='Deductibles' && this.productItem.InsuranceClass=='126')) 
             || (this.insuranceId=='100042' && this.productItem.InsuranceClass!='135' && this.productItem.InsuranceClass!='136' && this.productItem.InsuranceClass!='137')){
-             
+          if(field.key=='VehicleValue'){
+                let changevehicleHooks = {
+                  onInit: (field: FormlyFieldConfig) => {
+                    if (field.formControl) {
+                      field.formControl.valueChanges.subscribe(() => {
+                        this.onchangevehicleValue(null);
+                      });
+                    } else {
+                      console.warn('VehicleValue control is not available.');
+                    }
+                  }
+                };
+                field.hooks=changevehicleHooks;
+                console.log("Final Fields",field)
+              }
               field.hideExpression = false;
             field.hide=false; 
            
@@ -5948,6 +5938,22 @@ export class CommonQuoteDetailsComponent implements OnInit {
               if(this.insuranceId=='100042'){ this.productItem.PurchaseDate = null;this.productItem.NoOfPassengers = null;}
               this.productItem.Inflation = null;this.productItem.Deductibles=null;this.productItem.VehicleValue = null;
               this.productItem.VehicleSI = 0;this.productItem.AccessoriesSI = 0;
+              if(field.key=='VehicleValue'){
+                let changevehicleHooks = {
+                  onInit: (field: FormlyFieldConfig) => {
+                    if (field.form && field.form.controls['VehicleValue']) {
+                      field.form.controls['VehicleValue'].valueChanges.subscribe(() => {
+                        this.onchangevehicleValue(null);
+                      });
+                    } else {
+                      console.warn('VehicleValue control is not available.');
+                    }
+                  }
+                };
+                field.hooks=changevehicleHooks;
+                console.log("Final Fields",field)
+              }
+
               field.hideExpression = true;
               field.hide=true; 
             }
