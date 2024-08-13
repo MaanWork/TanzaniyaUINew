@@ -514,10 +514,8 @@ export class VehicleCreateFormComponent implements OnInit {
           this.vehicleDetails.MotorCategory  ="1";
           this.vehicleDetails.Motorusage ="Ambulance"
           this.vehicleDetails.MotorusageId='1'
-          // alert(this.vehicleDetails?.MotorCategory)
-          // alert(this.vehicleDetails?.Motorusage)
         }
-       
+        if(this.engineNo!=null && this.engineNo!='') this.vehicleDetails['EngineNumber'] = this.engineNo;
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": this.vehicleDetails?.AcExecutiveId,
@@ -633,6 +631,18 @@ export class VehicleCreateFormComponent implements OnInit {
         "OrginalPolicyNo": this.orginalPolicyNo,
         "HorsePower": this.horsePower,
         "RegistrationDate": registrationDate,
+        "Mileage":this.vehicleDetails.Mileage,
+            "NoOfClaimYears":this.vehicleDetails.NoOfClaimYears,
+            "NoOfPassengers":this.vehicleDetails.NoOfPassengers,
+            "PreviousInsuranceYN":this.vehicleDetails.PreviousInsuranceYN,
+            "PreviousLossRatio": this.vehicleDetails.PreviousLossRatio,
+            "NumberOfCards":this.vehicleDetails.NumberOfCards,
+            "MunicipalityTraffic":this.vehicleDetails.MunicipalityTraffic,
+            "TransportHydro":this.vehicleDetails.TransportHydro,
+            "DateOfCirculation":this.vehicleDetails.DateOfCirculation,
+            "NewValue":this.vehicleDetails.Newvalue,
+            "MarketValue":this.vehicleDetails.MarketValue,
+            "AggregatedValue":this.vehicleDetails.AggregatedValue,
         "Scenarios": {
             "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": null,
@@ -1029,7 +1039,7 @@ export class VehicleCreateFormComponent implements OnInit {
         registrationDate = this.RegistrationDate;
       }
       else registrationDate = this.datePipe.transform(this.RegistrationDate,'dd/MM/yyyy');
-      this.manufactureYear = this.RegistrationDate.getFullYear();
+     // this.manufactureYear = this.RegistrationDate.getFullYear();
     }
     if(this.insuranceId=='100040' || this.insuranceId=='100042'){
       this.engineCapacity='1';
@@ -1038,7 +1048,10 @@ export class VehicleCreateFormComponent implements OnInit {
       this.noOfAxels='1';
       this.usageValue='Ambulance';
       this.motorCategory='1';
+      let parts: string[] = registrationDate.split('/');
 
+      // The year is the last part of the array
+      this.manufactureYear = parts[2];
     }
     let ReqObj = {
       "Insuranceid": this.insuranceId,
