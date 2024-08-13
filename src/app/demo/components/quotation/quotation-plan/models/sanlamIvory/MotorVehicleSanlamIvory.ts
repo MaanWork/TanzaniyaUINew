@@ -584,28 +584,28 @@ export class MotorVehicleSanlamIvory{
                     },
                   },
 
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'input',
-                    key: 'Mileage',
-                    id:'Mileage',
-                    props: {
-                      label: `Mileage (Km/lit)`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('Mileage'),
-                      required: true,
-                      options: [
+                  // {
+                  //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                  //   type: 'input',
+                  //   key: 'Mileage',
+                  //   id:'Mileage',
+                  //   props: {
+                  //     label: `Mileage (Km/lit)`,
+                  //     maxLength: 15,
+                  //     disabled: this.checkDisable('Mileage'),
+                  //     required: false,
+                  //     options: [
   
-                      ],
+                  //     ],
   
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                  //   },
+                  //   validators: {
+                  //   },
+                  //   hooks: {
+                  //   },
+                  //   expressions: {
+                  //   },
+                  // },
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     key: 'ClaimsYN',
