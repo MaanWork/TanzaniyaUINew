@@ -504,6 +504,11 @@ export class VehicleCreateFormComponent implements OnInit {
             registrationDate = this.RegistrationDate;
           }
           else registrationDate = this.datePipe.transform(this.RegistrationDate,'dd/MM/yyyy')
+
+          let parts: string[] = registrationDate.split('/');
+
+            // The year is the last part of the array
+            this.vehicleDetails.ManufactureYear = parts[2];
         }
         if(this.insuranceId=='100040' || this.insuranceId=='100042'){
           this.vehicleDetails.MotorCategory  ="1";
