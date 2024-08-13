@@ -417,8 +417,8 @@ export class MotorVehicleSanlamIvory{
                     id:'VehicleValue',
                     key: 'VehicleValue',
                     defaultValue: '',
-                    hide: true,
-                    hideExpression:true,
+                    hide: false,
+                    hideExpression:false,
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     props: {
                       label: `VehicleValue`,
