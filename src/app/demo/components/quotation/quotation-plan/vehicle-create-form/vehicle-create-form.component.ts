@@ -516,6 +516,7 @@ export class VehicleCreateFormComponent implements OnInit {
           this.vehicleDetails.MotorusageId='1'
         }
         if(this.engineNo!=null && this.engineNo!='') this.vehicleDetails['EngineNumber'] = this.engineNo;
+        alert(this.vehicleDetails.Newvalue)
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": this.vehicleDetails?.AcExecutiveId,
@@ -632,17 +633,17 @@ export class VehicleCreateFormComponent implements OnInit {
         "HorsePower": this.horsePower,
         "RegistrationDate": registrationDate,
         "Mileage":this.vehicleDetails.Mileage,
-            "NoOfClaimYears":this.vehicleDetails.NoOfClaimYears,
-            "NoOfPassengers":this.vehicleDetails.NoOfPassengers,
-            "PreviousInsuranceYN":this.vehicleDetails.PreviousInsuranceYN,
-            "PreviousLossRatio": this.vehicleDetails.PreviousLossRatio,
-            "NumberOfCards":this.vehicleDetails.NumberOfCards,
-            "MunicipalityTraffic":this.vehicleDetails.MunicipalityTraffic,
-            "TransportHydro":this.vehicleDetails.TransportHydro,
-            "DateOfCirculation":this.vehicleDetails.DateOfCirculation,
-            "NewValue":this.vehicleDetails.Newvalue,
-            "MarketValue":this.vehicleDetails.MarketValue,
-            "AggregatedValue":this.vehicleDetails.AggregatedValue,
+        "NoOfClaimYears":this.vehicleDetails.NoOfClaimYears,
+        "NoOfPassengers":this.vehicleDetails.NoOfPassengers,
+        "PreviousInsuranceYN":this.vehicleDetails.PreviousInsuranceYN,
+        "PreviousLossRatio": this.vehicleDetails.PreviousLossRatio,
+        "NumberOfCards":this.vehicleDetails.NumberOfCards,
+        "MunicipalityTraffic":this.vehicleDetails.MunicipalityTraffic,
+        "TransportHydro":this.vehicleDetails.TransportHydro,
+        "DateOfCirculation":this.vehicleDetails.DateOfCirculation,
+        "NewValue":this.vehicleDetails.Newvalue,
+        "MarketValue":this.vehicleDetails.MarketValue,
+        "AggregatedValue":this.vehicleDetails.AggregatedValue,
         "Scenarios": {
             "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": null,
