@@ -40,6 +40,7 @@ export class DriverInfoComponent {
   CylinderTypeList: any;lang:any=null;
   NoOfDoorsList: any;
   mobileCodeList: any[]=[];
+  nationalityList: any[]=[];
   constructor(private sharedService: SharedService,private quoteComponent:QuotationPlanComponent,
     private router:Router,private appComp:AppComponent,private translate:TranslateService,
     private datePipe:DatePipe) {
@@ -102,6 +103,7 @@ export class DriverInfoComponent {
     this.getPlateTypeList();
     this.getCylinderTypeList();
     this.getDoorTypeList();
+    this.getNationalityList();
     this.appComp.getLanguage().subscribe((res:any)=>{  
 			if(res) this.lang=res;
 			else this.lang='en';
@@ -807,6 +809,23 @@ getMobileCodeList() {
       if (data.Result) {
         this.mobileCodeList = data.Result;
          
+      }
+    },
+    (err) => { },
+  );
+}
+getNationalityList() {
+  let ReqObj = {
+    "InsuranceId": this.insuranceId,
+    "BranchCode": this.branchCode,
+    "ProductId": this.productId,
+  }
+  let urlLink = `${this.CommonApiUrl}master/dropdown/nationality`;
+  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    (data: any) => {
+      console.log(data);
+      if (data.Result) {
+        this.nationalityList = data.Result;
       }
     },
     (err) => { },
