@@ -256,7 +256,7 @@
       <div class="grid mb-2 mt-2" *ngIf="!show">
         <div class="col-12 md:col-4 lg:col-4">
           <label for="username">{{'PolicyGrid.Broker' | translate}}</label><span class="text-danger">*</span>
-          <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="brokerCode"  [options]="brokerList" (onChange)="getExistingQuotes(null,'change')"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
+          <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="pendingBrokerCode"  [options]="pendingBrokerList" (onChange)="getPendingPolicyList(null,'change')"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
           </p-dropdown>
         </div>
       </div>
