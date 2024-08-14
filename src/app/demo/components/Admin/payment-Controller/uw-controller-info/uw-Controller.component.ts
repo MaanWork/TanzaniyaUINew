@@ -6,25 +6,25 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { SharedService } from 'src/app/shared/shared.service';
 import * as Mydatas from '../../../../../app-config.json';
 @Component({
-  selector: 'app-credit-controller',
-  templateUrl: './credit-controller.component.html',
-  styleUrls: ['./credit-controller.component.scss']
+  selector: 'app-uw-controller',
+  templateUrl: './uw-Controller.component.html',
+  styleUrls: ['./uw-Controller.component.scss']
 })
-export class CreditControllerInfoComponent implements OnInit{
+export class UWInfoComponent implements OnInit{
   
   Sno: any;  public AppConfig: any = (Mydatas as any).default;
   public ReInsurance: any = this.AppConfig.ReInsurance;
   insuranceName: string;quoteDetails:any=null;
   insuranceId: string;quoteNo:any=null;
   userDetails: any;remarks:any=null;
-  UserType: any;statusValue:any='CCP';
+  UserType: any;statusValue:any='SP';
   ProductId: any;statusList:any[]=[];
   loginId: any;paymentId:any=null;remarksError:boolean=false;
   columnHeader: any[]=[];pendingList:any[]=[];productId:any=null;
   public ApiUrl1: any = this.AppConfig.ApiUrl1;brokerbranchCode:any=null;
   public CommonApiUrl1: any = this.AppConfig.CommonApiUrl;PackageYn:any=null;
   riskDetails: any=null;userType:any=null;agencyCode:any=null;branchList:any[]=[];
-  customerDetails: any;branchCode:any=null;countryId:any=null;mainStatus=null
+  customerDetails: any;branchCode:any=null;countryId:any=null;mainStatus:any=null;
   constructor(private router:Router,private sharedService: SharedService,private layoutService:LayoutService,
     private datePipe:DatePipe,/*private toastrService:NbToastrService,*/) {
       this.insuranceName = sessionStorage.getItem('insuranceConfigureName');
@@ -43,10 +43,10 @@ export class CreditControllerInfoComponent implements OnInit{
       this.branchList = this.userDetails.Result.LoginBranchDetails;
       this.paymentId = sessionStorage.getItem('PaymentId');
       let status =sessionStorage.getItem('controllerType');
-      this.mainStatus = status;
       if(status=='CCP') this.statusValue='P';
       else if(status=='CCA') this.statusValue='Y';
       else if(status=='CCR') this.statusValue = 'R'; 
+      this.mainStatus = status;
         this.statusList = [
           {"Code":"P","CodeDesc":"Pending"},
           {"Code":"Y","CodeDesc":"Accepted"},
@@ -89,7 +89,7 @@ export class CreditControllerInfoComponent implements OnInit{
         "Status" : this.statusValue,	
          "QuoteNo" : this.quoteNo,
          "Remarks" : this.remarks,
-          "Type": 'creditcontroller',
+          "Type": 'surveyor',
           "InsuranceId" : this.insuranceId,
           "PaymentId": this.paymentId,
           "BranchCode": this.branchCode,
@@ -101,7 +101,7 @@ export class CreditControllerInfoComponent implements OnInit{
           if(data?.Result){
             sessionStorage.removeItem('PaymentId');
             sessionStorage.removeItem('quoteNo');
-            this.router.navigate(['Home/credit-controller']);
+            this.router.navigate(['Home/surveyor']);
           }
         })
     }
@@ -109,6 +109,6 @@ export class CreditControllerInfoComponent implements OnInit{
   getBack(){
     sessionStorage.removeItem('PaymentId');
     sessionStorage.removeItem('quoteNo');
-    this.router.navigate(['Home/credit-controller']);
+    this.router.navigate(['Home/surveyor']);
   }
 }
