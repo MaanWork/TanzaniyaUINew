@@ -21,7 +21,6 @@ export class ElectronicEquipments{
             }
         }
         this.fields={
-            props: { label: 'Electronic Equipment' },
             fieldGroup: [
               {
                 fieldGroupClassName: 'grid',
