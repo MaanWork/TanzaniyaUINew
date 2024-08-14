@@ -448,6 +448,7 @@
       "PlateColor":"Cor da placa",
       "NumberOfDoors":"Número de portas",
       "EnterDriverName":"Digite o nome do motorista",
+      "EnterLicenseAge":"Insira a idade da licença",
        "EnterLicenseNumber":"Insira o número da licença",
        "PleaseEnterValidDriverName":"Insira um nome de driver válido",
        "PleaseEnterValidLicenseNumber":"Insira um número de licença válido",
