@@ -498,24 +498,26 @@ export class VehicleCreateFormComponent implements OnInit {
           }
         }
         if(this.vehicleDetails?.SavedFrom=='SQ') this.vehicleDetails.SavedFrom = 'WEB';
-        let registrationDate;
+        let registrationDate,parts;
         if (this.RegistrationDate != undefined && this.RegistrationDate != null && this.RegistrationDate != '') {
-          if(String(registrationDate).includes('/')){
+          if(String(this.RegistrationDate).includes('/')){
             registrationDate = this.RegistrationDate;
           }
           else registrationDate = this.datePipe.transform(this.RegistrationDate,'dd/MM/yyyy')
 
-          let parts: string[] = registrationDate.split('/');
+           parts = registrationDate.split('/');
 
             // The year is the last part of the array
-            this.vehicleDetails.ManufactureYear = parts[2];
+            
         }
         if(this.insuranceId=='100040' || this.insuranceId=='100042'){
           this.vehicleDetails.MotorCategory  ="1";
           this.vehicleDetails.Motorusage ="Ambulance"
-          this.vehicleDetails.MotorusageId='1'
+          this.vehicleDetails.MotorusageId='1';
+          this.vehicleDetails.ManufactureYear = parts[2];
         }
         if(this.engineNo!=null && this.engineNo!='') this.vehicleDetails['EngineNumber'] = this.engineNo;
+        console.log(this.vehicleDetails,"this.vehicleDetails.Newvalue")
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": this.vehicleDetails?.AcExecutiveId,
@@ -640,7 +642,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "MunicipalityTraffic":this.vehicleDetails.MunicipalityTraffic,
         "TransportHydro":this.vehicleDetails.TransportHydro,
         "DateOfCirculation":this.vehicleDetails.DateOfCirculation,
-        "NewValue":this.vehicleDetails.Newvalue,
+        "NewValue":this.vehicleDetails.NewValue,
         "MarketValue":this.vehicleDetails.MarketValue,
         "AggregatedValue":this.vehicleDetails.AggregatedValue,
         "Scenarios": {
@@ -1035,7 +1037,7 @@ export class VehicleCreateFormComponent implements OnInit {
     }
     let registrationDate;
     if (this.RegistrationDate != undefined && this.RegistrationDate != null && this.RegistrationDate != '') {
-      if(String(registrationDate).includes('/')){
+      if(String(this.RegistrationDate).includes('/')){
         registrationDate = this.RegistrationDate;
       }
       else registrationDate = this.datePipe.transform(this.RegistrationDate,'dd/MM/yyyy');

@@ -600,7 +600,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			data.state="99999";
 		}
 		else{
-			data.state=this.productItem.CityName;
+			data.state=this.productItem.Region;
 		}
 		if((this.productItem.IdType=='2' || this.productItem.IdType==2) ){
 			data.Title='1';
@@ -1258,7 +1258,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					}
 					this.productItem.PreferredNotification = customerDetails.PreferredNotification;
 					if(this.productItem.PreferredNotification==null) this.productItem.PreferredNotification='Sms';
-					this.productItem.state = customerDetails.StateCode;
+					this.productItem.Region = customerDetails.StateCode;
 					if(this.productItem.state==null){
 						this.productItem.state = '';
 						
@@ -1914,7 +1914,7 @@ getType3(type){
 				if (data.Result) {
 					this.occupationList = data.Result;
 					let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
-					if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+					// if(this.insuranceId=='100040' || this.insuranceId=='100042'){
 						for (let i = 0; i < this.occupationList.length; i++) {
 							this.occupationList[i].label = this.occupationList[i]['CodeDesc'];
 							this.occupationList[i].value = this.occupationList[i]['Code'];
@@ -1927,10 +1927,10 @@ getType3(type){
 								}
 							}
 						}
-					}
-					else{
-						this.occupationList = defaultRow.concat(this.occupationList)
-					}
+					// }
+					// else{
+					// 	this.occupationList = defaultRow.concat(this.occupationList)
+					// }
 					if(type!='change'){
 						this.getBusinessTypeList();
 					}
