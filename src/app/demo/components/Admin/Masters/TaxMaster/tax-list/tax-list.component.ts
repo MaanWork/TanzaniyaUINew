@@ -120,7 +120,6 @@ export class TaxListComponent implements OnInit {
         console.log(data);
         if(data.Result){
             this.TaxData = data?.Result;
-            console.log('KKKKKKKKKKKK',this.TaxData);
             if(this.TypeValue!=undefined && this.TypeValue!=null){
               let docObj = {"ItemType":this.TypeValue,"insuranceid":this.insuranceId};
               sessionStorage.setItem('addDocDetaisObj',JSON.stringify(docObj));

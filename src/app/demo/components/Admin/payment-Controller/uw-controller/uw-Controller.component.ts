@@ -6,13 +6,12 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { SharedService } from 'src/app/shared/shared.service';
 import * as Mydatas from '../../../../../app-config.json';
 @Component({
-  selector: 'app-surveyor',
-  templateUrl: './surveyor.component.html',
-  styleUrls: ['./surveyor.component.scss']
+  selector: 'app-uw-controller',
+  templateUrl: './uw-controller.component.html',
+  styleUrls: ['./uw-controller.component.scss']
 })
-export class SurveyorComponent implements OnInit{
+export class UWControllerComponent implements OnInit{
   
- 
   Sno: any;  public AppConfig: any = (Mydatas as any).default;
   public ReInsurance: any = this.AppConfig.ReInsurance;
   insuranceName: string;tabIndex:any=0;
@@ -34,9 +33,9 @@ export class SurveyorComponent implements OnInit{
       this.UserType = this.userDetails?.Result?.UserType;
       this.ProductId = this.userDetails?.Result?.ProductId;
       let mainStatus = sessionStorage.getItem('controllerType');
-      if(mainStatus=='SP'){ this.tabIndex=0}
-      else if(mainStatus=='SA'){ this.tabIndex=1}
-      else if(mainStatus=='SR'){ this.tabIndex=2}
+      if(mainStatus=='UWP'){ this.tabIndex=0}
+      else if(mainStatus=='UWA'){ this.tabIndex=1}
+      else if(mainStatus=='UWR'){ this.tabIndex=2}
       else { this.tabIndex=0} 
       this.onClickTab(this.tabIndex)
      }
@@ -46,9 +45,9 @@ export class SurveyorComponent implements OnInit{
     ]
   }
   onClickTab(index){
-    if(index==0){this.getProductList('SP')}
-    else if(index==1){this.getProductList('SA')}
-    else if(index==2){this.getProductList('SR')}
+    if(index==0){this.getProductList('UWP')}
+    else if(index==1){this.getProductList('UWA')}
+    else if(index==2){this.getProductList('UWR')}
   }
   getProductList(type){
     let urlLink = `${this.CommonApiUrl1}paymentprocess/get/surveyor/${type}`;
@@ -58,9 +57,9 @@ export class SurveyorComponent implements OnInit{
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if(data.Result){
-            if(type=='SP') this.pendingList = data.Result;
-            else if(type=='SA') this.approvedList = data.Result;
-            else if(type=='SR') this.rejectedList = data.Result;
+            if(type=='UWP') this.pendingList = data.Result;
+            else if(type=='UWA') this.approvedList = data.Result;
+            else if(type=='UWR') this.rejectedList = data.Result;
         }
       });
   }
@@ -76,7 +75,7 @@ export class SurveyorComponent implements OnInit{
     })
   }
   creditPending(){}
-  onEditSPending(rowData,type){
+  onEditUWPending(rowData,type){
     sessionStorage.setItem('controllerType',type)
     sessionStorage.setItem('quoteNo',rowData.QuoteNo);
     sessionStorage.setItem('PaymentId',rowData.PaymentId);
