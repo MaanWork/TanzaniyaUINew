@@ -33,13 +33,13 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { MaterialModule } from 'src/app/material/material.module';
 import { PickListModule } from 'primeng/picklist';
-import { SurveyorComponent } from './surveyor.component';
-import { SurveyorRoutingModule } from './surveyor-routing.module';
-import { SurveyorInfoComponent } from '../surveyor-controller-info/surveyor-Controller.component';
+import { UWControllerComponent } from './uw-Controller.component';
+import { UWControllerRoutingModule } from './uw-Controller-routing.module';
+import { UWInfoComponent } from '../uw-controller-info/uw-Controller.component';
 @NgModule({
   declarations: [
-    SurveyorComponent,
-    SurveyorInfoComponent
+    UWControllerComponent,
+    UWInfoComponent
     ],
   imports: [
     CommonModule,
@@ -77,11 +77,11 @@ import { SurveyorInfoComponent } from '../surveyor-controller-info/surveyor-Cont
     MultiSelectModule,
     MaterialModule,
     PickListModule,
-    SurveyorRoutingModule
+    UWControllerRoutingModule
   ],
   bootstrap: [],
   providers: [
     CurrencyPipe
   ],
 })
-export class SurveyorModule { }
+export class UWControllerModule { }

@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {  SurveyorComponent } from './surveyor.component';
-import { SurveyorInfoComponent } from '../surveyor-controller-info/surveyor-Controller.component';
+import { CreditControllerInfoComponent } from '../credit-controller-info/credit-Controller.component';
+import { UWControllerComponent } from './uw-Controller.component';
+import { UWInfoComponent } from '../uw-controller-info/uw-Controller.component';
 
 const routes: Routes = [
   { 
     path: '', 
-    component: SurveyorComponent, 
+    component: UWControllerComponent, 
     // children: [
     //   { path: 'vehicle', component: VehiclePlanComponent },
     //   { path: 'accessories', component: AccesoriesComponent },
@@ -20,7 +21,7 @@ const routes: Routes = [
   },
   { 
     path: 'Info', 
-    component: SurveyorInfoComponent, 
+    component: UWInfoComponent, 
   }
 ];
 
@@ -28,4 +29,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SurveyorRoutingModule { }
+export class UWControllerRoutingModule { }
