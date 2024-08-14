@@ -1,3 +1,4 @@
+import { DatePipe } from "@angular/common";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { CustomerCreateFormComponent } from "src/app/demo/components/customer/customer-create-form/customer-create-form.component";
 
@@ -6,8 +7,18 @@ export class CustomerIvory{
     commonDetails: any[]=[];
     endorsementSection: boolean=false;subuserType:any=null;
     enableFieldsList: any[]=[];finalizeYN:any='N';
-   
+  currentDate: any;
+  minDate: any;
+    
     constructor() {
+      var d= new Date();
+      var year = d.getFullYear();
+      var month = d.getMonth();
+      var day = d.getDate();
+       this.currentDate = new Date();
+      // this.minDobDate =
+       
+      this.minDate = new Date(year - 18,month, day );
         let finalize = sessionStorage.getItem('FinalizeYN');
         if(finalize) this.finalizeYN = finalize;
         this.subuserType = sessionStorage.getItem('typeValue');
@@ -127,15 +138,20 @@ export class CustomerIvory{
                     key: 'dobOrRegDate',
                     hide: false,
                     hideExpression:false,
+                    defaultValue: this.minDate,
                     templateOptions: {
                       type:'date',
                       label: `Date Of Birth`,
                       required: true,
                       disabled: this.checkDisable('dobOrRegDate'),
                       maxLength: 15,
+                      datepickerOptions: {
+                        // Additional options for the datepicker if necessary
+                        max:this.minDate,
+                      },
                       
                     },
-                    
+                   
                     validators: {
                     },
                     hooks: {

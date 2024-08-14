@@ -211,8 +211,8 @@
             <div class="flex flex-column m-3" *ngIf="insuranceId=='100040' || insuranceId=='100042'">
             <label >RegistrationDate *</label>
             <p-calendar  
-                [showIcon]="true" 
-                class="w-full" styleClass="w-full" [(ngModel)]="RegistrationDate" />
+                [showIcon]="true" dateFormat="dd/mm/yy" id="RegDate"
+                class="w-full" styleClass="w-full"  [(ngModel)]="RegistrationDate" />
             </div>
         </div>
         <div class="flex justify-content-center mt-2">

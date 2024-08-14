@@ -625,6 +625,9 @@ export class CustomerCreateFormComponent implements OnInit {
 				}
 				else dobOrRegDate = this.datePipe.transform(this.productItem.dobOrRegDate,'dd/MM/yyyy')
 			}
+			if(this.productItem.Nationality){
+				data.Country=this.productItem.Nationality;
+			}
 		}
 		let ReqObj = {
 			"BrokerBranchCode": this.brokerbranchCode,
@@ -1218,6 +1221,7 @@ export class CustomerCreateFormComponent implements OnInit {
 						this.productItem.Country = this.countryList[1].Code;
 							
 					}
+					this.productItem.Nationality = customerDetails.Nationality;
 					if(this.productItem.Country==null) this.productItem.Country='';
 					this.productItem.PinCode = customerDetails.PinCode;
 					this.productItem.Gender = customerDetails.Gender;

@@ -41,6 +41,7 @@ export class DriverInfoComponent {
   NoOfDoorsList: any;
   mobileCodeList: any[]=[];
   nationalityList: any[]=[];
+  minDobDate: any;
   constructor(private sharedService: SharedService,private quoteComponent:QuotationPlanComponent,
     private router:Router,private appComp:AppComponent,private translate:TranslateService,
     private datePipe:DatePipe) {
@@ -67,6 +68,7 @@ export class DriverInfoComponent {
      var month = d.getMonth();
      var day = d.getDate();
       this.currentDate = new Date();
+     // this.minDobDate =
       this.driverOptions = [
         {"label":'Driver',"value":'2','CodeDesc':'Driver','CodeDescLocal':'Driver -P'},
         {"label":'Owner',"value":'1','CodeDesc':'Owner','CodeDescLocal':'Owner -P'},
