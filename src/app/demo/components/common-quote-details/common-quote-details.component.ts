@@ -1326,7 +1326,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
  }
  onChangeAggregated(){
   // this.fields[0]?.fieldGroup[0]?.fieldGroup[7]?.formControl.setValue(this.commaSeparatedToNumber(this.getAggregatedDesc(this.productItem.Aggregatedvalue)));
-  this.productItem.VehicleSI=this.commaSeparatedToNumber(this.getAggregatedDesc(this.productItem.Aggregatedvalue));
+  if(this.productItem.Aggregatedvalue) this.productItem.VehicleSI=this.commaSeparatedToNumber(this.getAggregatedDesc(this.productItem.Aggregatedvalue));
  }
  commaSeparatedToNumber(commaSeparatedString) {
   // Remove commas and convert to number

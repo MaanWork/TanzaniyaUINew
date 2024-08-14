@@ -441,6 +441,7 @@
   "PlateColor":"Couleur de la plaque",
   "NumberOfDoors":"Nombre de portes",
   "EnterDriverName":"Entrez le nom du pilote",
+  "EnterLicenseAge":"Entrez l'âge de la licence",
   "EnterLicenseNumber":"Entrez le numéro de licence",
   "PleaseEnterValidDriverName":"Veuillez entrer un nom de pilote valide",
   "PleaseEnterValidLicenseNumber":"Veuillez entrer un numéro de licence valide",

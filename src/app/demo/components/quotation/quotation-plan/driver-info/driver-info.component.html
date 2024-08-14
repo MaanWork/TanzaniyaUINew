@@ -89,7 +89,13 @@
                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                             <label for="driverName1">{{'MOTORQUOTE.Drivinglicenseage' | translate}}&nbsp;</label><span class="text-danger">*</span><br>
                             <input pInputText id="driverName1" class="w-full driverInput" styleClass="w-full driverInput" [(ngModel)]="row.DrivingLicensingAge" maxlength="50" />
+                            <div class="input-form-error" *ngIf="row.drivinglicenseageError">
+                                <div class="error-text text-danger">
+                                    {{'DRIVERINFO.EnterLicenseAge' | translate}}
+                                </div>
+                            </div>
                         </div>
+                        
 
                         <div class="col-12 lg:col-4 md:col-4 xl:col-4 ">
                             <label for="username">{{'MOTORQUOTE.SameasSubscriber' | translate}}</label>
@@ -113,8 +119,13 @@
                             </p-calendar>
                         </div>
                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                            <label for="licenseNo1">{{'MOTORQUOTE.Drivinglicensenumber' | translate}}&nbsp;</label><br>
+                            <label for="licenseNo1">{{'MOTORQUOTE.Drivinglicensenumber' | translate}}&nbsp;</label><span class="text-danger">*</span><br>
                             <input pInputText id="licenseNo1" class="w-full driverInput" styleClass="w-full driverInput" maxlength="14" [(ngModel)]="row.LicenseNo"  />
+                            <div class="input-form-error" *ngIf="row.licenseNoError">
+                                <div class="error-text text-danger">
+                                    {{'DRIVERINFO.PleaseEnterValidLicenseNumber' | translate}}
+                                </div>
+                            </div>
                         </div>
                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                             <label for="DrivingExperience1">{{'MOTORQUOTE.Dateofissue' | translate}}&nbsp;</label><br>
