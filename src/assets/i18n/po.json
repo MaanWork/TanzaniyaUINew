@@ -183,6 +183,7 @@
         "Search": "Procurar"
     },
     "MOTORQUOTE":{
+      "FileUpload":"Upload de arquivo",
       "CategoryDateobtained":"Categoria Data obtida",
     "Categoryexpirationdate":"Data de expiração da categoria",
     "Category":"Categoria",
@@ -333,7 +334,10 @@
       "AxleDistance":"Distância do eixo",
       "EnterAxleDistance":"Insira a distância do eixo",
       "Back":"Voltar",
-      "Submit":"Enviar"
+      "Submit":"Enviar",
+      "selectRegistrationDate":"selecione a data de registro",
+       "EnterNumberOfCylinders":"Insira o número de cilindros",
+       "EnterDisplacement ":"Insira o deslocamento"
     },
     "PREMIUM":{
         "ReferenceNo":"Número de referência",
@@ -440,6 +444,7 @@
          "12Months":"12 Meses"
     },
     "DRIVERINFO":{
+      
       "DriverInformation":"Informações do motorista",
       "OtherInformationAboutVehicle": "Outras informações sobre o veículo",
       "SeriesNumber":"Número de série",

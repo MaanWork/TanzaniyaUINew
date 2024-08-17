@@ -295,12 +295,17 @@ export class DriverInfoComponent {
   onNextProceed(){
     let veh = this.vehicleDetailsList[this.tabIndex];
     console.log("Filtered Vehicle",veh,this.driverDetailsList)
-    let currentIndex;
+    let currentIndex,driverList,vehId;
     // for(let entry of this.driverDetailsList){
       currentIndex = this.driverDetailsList.length-1
     // }
-    let driverList = this.driverDetailsList.filter(ele=>ele.VehicleId==veh.RiskId || ele.RiskId==veh.RiskId || ele.DriverId==currentIndex);
-    // let driverList1 = this.driverDetailsList.filter(ele=>ele.DriverId==veh.RiskId);
+    if(this.insuranceId!='100040' && this.insuranceId!='100042'){
+     driverList = this.driverDetailsList.filter(ele=>ele.VehicleId==veh.RiskId || ele.RiskId==veh.RiskId );
+     }else{
+
+      driverList = this.driverDetailsList.filter(ele=> ele.VehicleId==veh.RiskId || ele.DriverId==currentIndex);
+      vehId= veh.VehicleId;
+     }
     if(driverList.length!=0){
       let i=0,j=0;
       for(let entry of driverList){
@@ -321,7 +326,12 @@ export class DriverInfoComponent {
           else entry['drivinglicenseageError']=false;
           if(entry.LicenseNo==null || entry.LicenseNo=='' || entry.LicenseNo==undefined){i+=1;entry['licenseNoError']=true;}
           else entry['licenseNoError']=false;
-
+          //j=1;
+          j+=1;
+          if(j==vehId && i==0) this.tabIndex+=1;
+          if(i==0 && this.vehicleDetailsList.length==this.tabIndex){
+            this.saveVehicleInfo();
+          }
         }
 
       }
@@ -690,6 +700,7 @@ addNewDriver(vehId){
         entry['EndtPrevQuoteNo'] = this.quoteDetails?.Endtprevquoteno;
       }
       let valid= this.onNextProceed();
+      alert(valid)
       if(valid){
       this.entryList.push(entry);
      
