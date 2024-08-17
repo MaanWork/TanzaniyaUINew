@@ -700,7 +700,6 @@ addNewDriver(vehId){
         entry['EndtPrevQuoteNo'] = this.quoteDetails?.Endtprevquoteno;
       }
       let valid= this.onNextProceed();
-      alert(valid)
       if(valid){
       this.entryList.push(entry);
      
