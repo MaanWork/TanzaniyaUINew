@@ -52,10 +52,20 @@ export class VehicleCreateFormComponent implements OnInit {
   referenceNo: string;mainBodyTypeList:any[]=[];makeError:boolean = false;
   commonDetails: any;editSectionAlt:boolean=false;modelSearchVisible:boolean = false;
   modelColumns:any[]=[];selectedRowData:any=null;lang:any=null;horsePower:any=null;
-  horsePowerError: boolean=false;
+  horsePowerError=false;
   displacement: any;
   numberOfCylinders: any;
   RegistrationDate:any;
+  bodyTypeError=false;
+  modelError=false;
+  RegError:boolean=false;
+  seatingError=false;
+  fuelTypeError=false;
+  tareWeightError=false;
+  displacementError=false;
+  numberOfCylindersError=false;
+  RegDateError=false;
+  modelError1: boolean=false;
   constructor(private messageService: MessageService,private sharedService: SharedService,private appComp:AppComponent,
     private translate:TranslateService,private datePipe:DatePipe,private router:Router) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -983,11 +993,73 @@ export class VehicleCreateFormComponent implements OnInit {
   }
   onFormSubmit(){
     let i=0;
-    if((this.insuranceId=='100040' || this.insuranceId=='100042') && (this.horsePower==null || this.horsePower=='' || this.horsePower==undefined)){
-      this.horsePowerError = true;
+    if(this.insuranceId=='100040' || this.insuranceId=='100042') {
+      if(this.horsePower || this.bodyTypeValue || this.makeValue  || this.regNo || this.seatingCapacity || 
+         this.fuelType || this.tareWeight || this.numberOfCylinders || this.RegistrationDate ){
+          this.horsePowerError = false;
+          this.bodyTypeError=false;
+          this.makeError=false;
+          this.modelError=false;
+          this.RegError=false;
+          this.seatingError=false;
+          this.fuelTypeError=false;
+          this.tareWeightError=false;
+          this.numberOfCylindersError=false;
+          this.RegDateError=false;
+      }
+      if((this.horsePower==null || this.horsePower=='' || this.horsePower==undefined)){
+        this.horsePowerError = true;
+      } 
+      else if((this.bodyTypeValue==null || this.bodyTypeValue=='' || this.bodyTypeValue==undefined)){
+        this.bodyTypeError = true;
+      } 
+      else if((this.makeValue==null || this.makeValue=='' || this.makeValue==undefined)){
+        this.makeError = true;
+      } 
+      // else if((this.modelValue==null || this.modelValue=='' || this.modelValue==undefined) && (this.bodyTypeId=='1' || this.bodyTypeId=='2' || this.bodyTypeId=='3' || this.bodyTypeId=='4' || this.bodyTypeId=='5' || this.bodyTypeId=='' || this.bodyTypeId==null)){
+      //     this.modelError1 = true;
+      // } 
+      // else if((this.modelDesc==null || this.modelDesc=='' || this.modelDesc==undefined) && (this.bodyTypeId!='1' || this.bodyTypeId!='2' || this.bodyTypeId!='3' || this.bodyTypeId!='4' || this.bodyTypeId!='5')){
+      //     this.modelError = true;
+      // } 
+      else if((this.regNo==null || this.regNo=='' || this.regNo==undefined)){
+        this.RegError = true;
+      } 
+      else if((this.seatingCapacity==null || this.seatingCapacity=='' || this.seatingCapacity==undefined)){
+        this.seatingError = true;
+      } 
+      else if((this.fuelType==null || this.fuelType=='' || this.fuelType==undefined)){
+        this.fuelTypeError = true;
+      } 
+      else if((this.tareWeight==null || this.tareWeight=='' || this.tareWeight==undefined)){
+        this.tareWeightError = true;
+      } 
+      else if((this.displacement==null || this.displacement=='' || this.displacement==undefined)&& (this.bodyTypeId=='50' || this.bodyTypeId=='51' || this.bodyTypeId=='5' || this.bodyTypeId=='58' || this.bodyTypeId=='18' || this.bodyTypeId=='25')){
+        this.displacementError = true;
+      } 
+      else if((this.numberOfCylinders==null || this.numberOfCylinders=='' || this.numberOfCylinders==undefined)){
+        this.numberOfCylindersError = true;
+      } 
+      else if((this.RegistrationDate==null || this.RegistrationDate=='' || this.RegistrationDate==undefined)){
+        this.RegDateError = true;
+      } 
+      else{
+        this.horsePowerError = false;
+        this.bodyTypeError=false;
+        this.makeError=false;
+        this.modelError=false;
+        this.modelError1=false;
+        this.RegError=false;
+        this.seatingError=false;
+        this.fuelTypeError=false;
+        this.tareWeightError=false;
+        this.displacementError=false;
+        this.numberOfCylindersError=false;
+        this.RegDateError=false;
+        this.onProceed()
+      }
     }
     else{
-      this.horsePowerError = false;
       this.onProceed()
     }
      

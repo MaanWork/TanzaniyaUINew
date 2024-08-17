@@ -165,6 +165,10 @@
       
   },
   "MOTORQUOTE":{
+    "FileUpload":"File Upload",
+    "RawTableInsert":"Raw Table Insert",
+    "DataValidation":"Data Validation",
+    "MovingRecords":"Moving Records",
     "CategoryDateobtained":"Category - Date obtained",
     "Categoryexpirationdate":"Category - Category expiration date",
     "Category":"Category -Code",
@@ -318,7 +322,10 @@
     "AxleDistance":"Axle Distance",
     "EnterAxleDistance":"Enter Axle Distance",
     "Back":"Back",
-    "Submit":"Submit"
+    "Submit":"Submit",
+    "selectRegistrationDate":"select Registration Date",
+    "EnterNumberOfCylinders":"Enter Number Of Cylinders ",
+    "EnterDisplacement ":"Enter Displacement "
   },
   "PREMIUM":{
       "ReferenceNo":"Reference No",
