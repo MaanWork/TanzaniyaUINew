@@ -1110,7 +1110,6 @@ export class CoverDetailsComponent {
           if(this.selectedCoverList.length!=0){
             let entry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.VehicleId && ele.LocationId==vehicle.LocationId );
             if(entry.length==0){
-              alert(vehicle.LocationId)
               let element = {
                   "Covers": [
                     {
@@ -1479,7 +1478,6 @@ export class CoverDetailsComponent {
           if(this.selectedCoverList.length!=0){
             let entry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.VehicleId && ele.LocationId==vehicle.LocationId);
             console.log("Entry List",entry);
-            alert(vehicle.LocationId)
             let sectionEntry = entry.find(ele=>ele.SectionId==cover.SectionId);
             sectionEntry.Covers = sectionEntry.Covers.filter(ele=>ele.SubCoverId!=subCover.SubCoverId )
             let covers:any[] = sectionEntry.Covers;
@@ -1508,7 +1506,6 @@ export class CoverDetailsComponent {
       
       if(this.selectedCoverList.length!=0){
         let entry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.VehicleId && ele.LocationId==vehicle.LocationId);
-        alert(vehicle.LocationId)
         if(entry.length==0){
           let element = {
               "Covers": [
