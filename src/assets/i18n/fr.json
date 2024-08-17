@@ -170,7 +170,8 @@
   "Search":"Recherche"
   
   },
-    "MOTORQUOTE":{
+  "MOTORQUOTE":{
+  "FileUpload":"Téléchargement de fichiers",
   "CategoryDateobtained":"Catégorie - Date d'obtention",
   "Categoryexpirationdate":"Catégorie - Date d'expiration de la catégorie",
   "Category":"Catégorie -Code",
@@ -324,7 +325,10 @@
   "AxleDistance":"Distance entre les essieux",
   "EnterAxleDistance":"Entrez la distance entre les essieux",
   "Back":"Dos",
-  "Submit":"Soumettre"
+  "Submit":"Soumettre",
+  "selectRegistrationDate":"sélectionnez la date d'inscription",
+   "EnterNumberOfCylinders":"Entrez le nombre de cylindres",
+   "EnterDisplacement ":"Entrez le déplacement "
   },
    "PREMIUM":{
   "ReferenceNo":"Numéro de référence",
