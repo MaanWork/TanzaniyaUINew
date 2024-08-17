@@ -3173,8 +3173,8 @@ export class CoverDetailsComponent {
   }
   onViewOverAllPremium(){
     this.discountList = [];this.loadingList=[];
-    if((this.productId=='5' || this.productId=='59') && (this.userType!='Broker' && this.userType!='User' && this.b2cType!='guest')) this.onUpdateFactor('fleetSave',null);
-    else this.onFormSubmit(null);
+    //if((this.productId=='5' || this.productId=='59') && (this.userType!='Broker' && this.userType!='User' && this.b2cType!='guest')) this.onUpdateFactor('fleetSave',null);
+    this.onFormSubmit(null);
    
   }
   onUpdateFleetFactorRate(modal){
@@ -3268,9 +3268,6 @@ export class CoverDetailsComponent {
                                 i+=1;
                                 if(i==this.vehicleDetailsList.length){
                                   if(type=='calculate'){
-                                    
-                                    // this.getcall();
-                                    //sessionStorage.removeItem('vehicleDetailsList');
                                     window.location.reload();
                                   }
                                   else if(type=='altSave'){ console.log("Finally Updated");}
