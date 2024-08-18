@@ -128,14 +128,14 @@ export class ReferralCasesComponent implements OnInit {
     let entry = this.brokerList.find(ele=>ele.Code==this.brokerCode);
     if(entry){
       console.log("Entry Received",entry) 
-      // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
-      // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
-        if(this.userType=='Issuer'){
-          // bdmCode=this.brokerCode;
-          // loginId=this.brokerCode;
+       if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
+       && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+          bdmCode=this.brokerCode;
+          loginId=null;
       }
       else{
         bdmCode=null;
+        loginId=this.brokerCode;
       }
       SourceType = entry.Type
       let type=null;
@@ -268,15 +268,15 @@ export class ReferralCasesComponent implements OnInit {
     let entry = this.ApproveredList.find(ele=>ele.Code==this.ApproverbrokerCode);
     if(entry){
       console.log("Entry Received",entry) 
-      // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
-      // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
-      if(this.userType=='Issuer'){
-          // loginId='';
-          // bdmCode=this.ApproverbrokerCode;
-      }
-      else{
-        bdmCode=null;
-      }
+      if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
+        && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+           bdmCode=this.ApproverbrokerCode;
+           loginId=null;
+       }
+       else{
+         bdmCode=null;
+         loginId=this.ApproverbrokerCode;
+       }
       let ReqObj = {
           "BrokerBranchCode": brokerbranchCode,
           "BranchCode":this.branchCode,
@@ -376,15 +376,15 @@ export class ReferralCasesComponent implements OnInit {
     let entry = this.RejectedList.find(ele=>ele.Code==this.Rejecedbrokercode);
     if(entry){
       console.log("Entry Received",entry) 
-      // if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
-      // && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
-        if(this.userType=='Issuer'){
-          // loginId='';
-          // bdmCode=this.Rejecedbrokercode;
-      }
-      else{
-        bdmCode=null;
-      }
+      if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
+        && entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
+           bdmCode=this.Rejecedbrokercode;
+           loginId=null;
+       }
+       else{
+         bdmCode=null;
+         loginId=this.Rejecedbrokercode;
+       }
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "BranchCode":this.branchCode,
