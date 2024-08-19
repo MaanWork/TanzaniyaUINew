@@ -294,11 +294,11 @@ export class CustomerTanzaniya{
                       required: true,
                       disabled: this.checkDisable('PreferredNotification'),
                       maxLength: 15,
-                      options:[
-                        { label: 'Select', value: '','CodeDescLocal':'Selecione' },
-                        { label: 'SMS', value: 'Sms','CodeDescLocal':'Sms -P' },
-                        { label: 'Mail', value: 'Mail','CodeDescLocal':'E-mail -P' },
-                        { label: 'Whatsapp', value: 'Whatsapp','CodeDescLocal':'Whatsapp -P' }
+                     options:[
+                        { label: 'Select', value: '','CodeDesc': 'Select','CodeDescLocal':'Selecione' },
+                        { label: 'SMS', value: 'Sms',CodeDesc: 'SMS','CodeDescLocal':'Sms' },
+                        { label: 'Mail', value: 'Mail', CodeDesc: 'Mail','CodeDescLocal':'E-mail' },
+                        { label: 'Whatsapp', value: 'Whatsapp',CodeDesc: 'Whatsapp','CodeDescLocal':'Whatsapp' }
                       ]
                     },
                     
@@ -384,7 +384,7 @@ export class CustomerTanzaniya{
                     },
                     props: {
                       label: 'Status',
-                      options: [{ value: 'Y', label: 'Active', 'CodeDesc':'Active', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'DeActive','CodeDesc':'DeActive', 'CodeDescLocal':'Não' },{ value: 'P', label: 'Pending','CodeDesc':'Pending', 'CodeDescLocal':'Não' }],
+                      options: [{ value: 'Y', label: 'Active', 'CodeDesc':'Active', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'DeActive','CodeDesc':'DeActive', 'CodeDescLocal':'DésActivé' },{ value: 'P', label: 'Pending','CodeDesc':'Pending', 'CodeDescLocal':'En attente' }],
                     }
                   },
                 ]
