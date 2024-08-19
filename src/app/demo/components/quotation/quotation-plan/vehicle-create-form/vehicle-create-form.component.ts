@@ -66,6 +66,7 @@ export class VehicleCreateFormComponent implements OnInit {
   numberOfCylindersError=false;
   RegDateError=false;
   modelError1: boolean=false;
+  bodyType: any;
   constructor(private messageService: MessageService,private sharedService: SharedService,private appComp:AppComponent,
     private translate:TranslateService,private datePipe:DatePipe,private router:Router) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -808,6 +809,7 @@ export class VehicleCreateFormComponent implements OnInit {
   onBodyTypeChange(type){
     if(this.bodyTypeValue!=null && this.bodyTypeValue!=''){
       this.bodyTypeId = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeValue)?.Code;
+      this.bodyType = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeValue)?.BodyType;
       if(type=='change' && this.insuranceId!='100020'){this.makeValue=null;this.modelValue=null;}
       if(this.bodyTypeId && this.insuranceId!='100020'){ this.getMakeList(); } 
     }
