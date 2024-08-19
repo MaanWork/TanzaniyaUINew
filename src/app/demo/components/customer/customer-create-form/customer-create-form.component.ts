@@ -574,7 +574,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			}
 		}
 		if(data.IdType=='1'){
-			if(this.productItem?.PolicyHolderTypeid=='1' && this.insuranceId=='100004'){
+			if(this.productItem?.PolicyHolderTypeid=='1' && this.insuranceId=='100004' && this.insuranceId!='100040' &&  this.insuranceId!='100042'){
 			  if(this.productItem.IdNumber!=null && this.productItem.IdNumber!=''){
 				let year = this.productItem.IdNumber.substr(0, 4);
 				let month = this.productItem.IdNumber.substr(4,2);
@@ -608,7 +608,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			data.Occupation = '99999';
 			data.occupationdesc = 'Others';
 		}
-		if (data.dobOrRegDate != undefined && data.dobOrRegDate != null && data.dobOrRegDate != '') {
+		if (data.dobOrRegDate != undefined && data.dobOrRegDate != null && data.dobOrRegDate != '' && this.insuranceId!='100040' &&  this.insuranceId!='100042') {
 			if(String(dobOrRegDate).includes('/')){
 				dobOrRegDate = data.dobOrRegDate;
 			}
@@ -629,6 +629,7 @@ export class CustomerCreateFormComponent implements OnInit {
 				data.Country=this.productItem.Nationality;
 			}
 		}
+		
 		let ReqObj = {
 			"BrokerBranchCode": this.brokerbranchCode,
 			"CustomerReferenceNo": this.customerReferenceNo,
