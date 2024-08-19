@@ -1312,7 +1312,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   this.aggregatedList[i].label = this.aggregatedList[i]['CodeDesc'];
                   this.aggregatedList[i].value = this.aggregatedList[i]['Code'];
                   if (i == this.aggregatedList.length - 1) {
-                      if(this.fields.length!=0)  this.fields[0].fieldGroup[0].fieldGroup[6].props.options = defaultObj.concat(this.aggregatedList);
+                      if(this.fields.length!=0){
+                        let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                        for(let field of fieldList){
+                          if(field.key=='Aggregatedvalue')  field.props.options = defaultObj.concat(this.aggregatedList);
+                        }
+                      }
                   }
                 }
               }

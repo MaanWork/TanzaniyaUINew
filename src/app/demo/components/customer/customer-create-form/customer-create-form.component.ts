@@ -88,7 +88,8 @@ export class CustomerCreateFormComponent implements OnInit {
 		else this.lang='en';
 		sessionStorage.setItem('language',this.lang)
 		this.translate.setDefaultLang(sessionStorage.getItem('language'));
-		this.setHeaders();}
+		this.setHeaders();
+		this.checkFieldNames()}
      	this.maxDobDate = new Date(year - 18,month, day );
 		// if(this.productItem.IdType=='1' || this.productItem.IdType==1){
 		// 	this.productItem.dobOrRegDate=this.maxDobDate;
@@ -185,6 +186,7 @@ export class CustomerCreateFormComponent implements OnInit {
 									for(let field of fieldList){
 										if(field.key=='Title'){
 											field.props.options = defaultRow.concat(this.titleList);
+											this.checkFieldNames()
 										}
 									}
 								}
@@ -330,25 +332,27 @@ export class CustomerCreateFormComponent implements OnInit {
 		this.appComp.getLanguage().subscribe((res:any)=>{  
 			if(res) this.lang=res;
 			else this.lang='en';
-			this.translate.setDefaultLang(this.lang);this.checkFieldNames();
+			this.translate.setDefaultLang(this.lang);
+			if(this.lang){this.checkFieldNames();this.setHeaders();}
 		  });
 		if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
-		else this.lang='en';
-		sessionStorage.setItem('language',this.lang);this.checkFieldNames();
-		this.translate.setDefaultLang(sessionStorage.getItem('language'));}
+			else this.lang='en';
+			sessionStorage.setItem('language',this.lang)
+			this.translate.setDefaultLang(sessionStorage.getItem('language'));
+			this.setHeaders();
+			this.lang = sessionStorage.getItem('language');
+			this.checkFieldNames();
+		}
+		this.lang = sessionStorage.getItem('language');
+			this.checkFieldNames();
 	}
-
 	getDisplayName(){
 		if(this.lang=='en') return 'CodeDesc';
 		else return 'CodeDescLocal'
 	}
-
-
 	checkFieldNames(){
 		if(this.personalInfoFields.length!=0){
 		  let fieldList = this.personalInfoFields[0].fieldGroup;
-		  console.log(fieldList+"fieldList");
-		  
 		  let i=0;
 		  for(let field of fieldList){
 			let key =null;
@@ -362,22 +366,23 @@ export class CustomerCreateFormComponent implements OnInit {
 					if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
 					  entry['CodeDescLocal'] = 'Other';
 					}
-					if(this.lang=='en') entry['label'] = entry.CodeDesc
+					
+					if(this.lang=='en'){ entry['label'] = entry.CodeDesc;}
 					else entry['label'] = entry.CodeDescLocal
 				  }
 				}
 			  }
 			  else if(field.templateOptions){
 				field.templateOptions.label = translation;
-				// if(field.templateOptions.options){
-				//   for(let entry of field.templateOptions.options){
-				//     if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
-				//       entry['CodeDescLocal'] = 'Other';
-				//     }
-				//     if(this.lang=='en') entry['label'] = entry.CodeDesc
-				//     else entry['label'] = entry.CodeDescLocal
-				//   }
-				// }
+				if(field.templateOptions.options){
+				  for(let entry of field.templateOptions.options){
+				    if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+				      entry['CodeDescLocal'] = 'Other';
+				    }
+				    if(this.lang=='en') entry['label'] = entry.CodeDesc
+				    else entry['label'] = entry.CodeDescLocal
+				  }
+				}
 			  }
 			});
 			i+=1;
@@ -408,15 +413,15 @@ export class CustomerCreateFormComponent implements OnInit {
 				}
 				else if(field.templateOptions){
 				  field.templateOptions.label = translation;
-				  // if(field.templateOptions.options){
-				  //   for(let entry of field.templateOptions.options){
-				  //     if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
-				  //       entry['CodeDescLocal'] = 'Other';
-				  //     }
-				  //     if(this.lang=='en') entry['label'] = entry.CodeDesc
-				  //     else entry['label'] = entry.CodeDescLocal
-				  //   }
-				  // }
+				  if(field.templateOptions.options){
+				    for(let entry of field.templateOptions.options){
+				      if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+				        entry['CodeDescLocal'] = 'Other';
+				      }
+				      if(this.lang=='en') entry['label'] = entry.CodeDesc
+				      else entry['label'] = entry.CodeDescLocal
+				    }
+				  }
 				}
 			  });
 			  i+=1;
@@ -447,15 +452,15 @@ export class CustomerCreateFormComponent implements OnInit {
 				}
 				else if(field.templateOptions){
 				  field.templateOptions.label = translation;
-				  // if(field.templateOptions.options){
-				  //   for(let entry of field.templateOptions.options){
-				  //     if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
-				  //       entry['CodeDescLocal'] = 'Other';
-				  //     }
-				  //     if(this.lang=='en') entry['label'] = entry.CodeDesc
-				  //     else entry['label'] = entry.CodeDescLocal
-				  //   }
-				  // }
+				  if(field.templateOptions.options){
+				    for(let entry of field.templateOptions.options){
+				      if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+				        entry['CodeDescLocal'] = 'Other';
+				      }
+				      if(this.lang=='en') entry['label'] = entry.CodeDesc
+				      else entry['label'] = entry.CodeDescLocal
+				    }
+				  }
 				}
 			  });
 			  i+=1;
@@ -492,6 +497,7 @@ export class CustomerCreateFormComponent implements OnInit {
 						for(let field of fieldList){
 							if(field.key=='SocioProfessionalcategory'){
 								field.props.options = defaultObj.concat(this.socioProfessionalList);
+								this.checkFieldNames()
 							}
 						}
 					  }
@@ -806,6 +812,7 @@ export class CustomerCreateFormComponent implements OnInit {
 									for(let field of fieldList){
 										if(field.key=='PolicyHolderTypeid'){
 											field.props.options = defaultRow.concat(this.policyHolderTypeList);
+											this.checkFieldNames()
 										}
 									}
 								}
@@ -843,6 +850,7 @@ export class CustomerCreateFormComponent implements OnInit {
 									for(let field of fieldList){
 										if(field.key=='Gender'){
 											field.props.options = defaultRow.concat(this.genderList);
+											this.checkFieldNames()
 											
 										}
 									}
@@ -880,6 +888,7 @@ export class CustomerCreateFormComponent implements OnInit {
 									for(let field of fieldList){
 										if(field.key=='Country'){
 											field.props.options = this.countryList;
+											this.checkFieldNames()
 										}
 									}
 	
@@ -979,6 +988,7 @@ export class CustomerCreateFormComponent implements OnInit {
 									for(let field of fieldList){
 										if(field.key=='BusinessType'){
 											field.props.options = defaultRow.concat(this.businessTypeList);
+											this.checkFieldNames()
 										}
 									}
 								}
@@ -1011,6 +1021,7 @@ export class CustomerCreateFormComponent implements OnInit {
 										if(field.key=='MobileCode'){
 											// if(this.mobileCodeList.length>1){
 												field.props.options = defaultRow.concat(this.mobileCodeList);
+												this.checkFieldNames()
 											// }
 											// else{
 											// 	field.props.options = this.mobileCodeList;
@@ -1097,6 +1108,7 @@ export class CustomerCreateFormComponent implements OnInit {
 										if(field.key=='CityName'){
 											// if(this.stateList.length>1){
 												field.props.options = defaultRow1.concat(this.stateList);
+												this.checkFieldNames()
 											// }
 											// else{
 											// 	field.props.options = this.stateList;
@@ -1168,6 +1180,7 @@ export class CustomerCreateFormComponent implements OnInit {
 										for(let field of fieldList){
 											if(field.key=='Region'){
 												field.props.options = defaultRow1.concat(this.regionList);
+												this.checkFieldNames()
 											}
 										}
 	
@@ -1877,6 +1890,7 @@ getType3(type){
 				  for(let field of fieldList){
 					  if(field.key=='Title'){
 						  field.props.options = defaultRow.concat(this.titleList);
+						  this.checkFieldNames()
 					  }
 				  }
 			  }
@@ -1924,6 +1938,7 @@ getType3(type){
 								for(let field of fieldList){
 									if(field.key=='Occupation'){
 										field.props.options = defaultRow.concat(this.occupationList);
+										this.checkFieldNames()
 									}
 								}
 							}
