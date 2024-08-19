@@ -77,7 +77,8 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-column m-3" *ngIf="bodyTypeId=='1' || bodyTypeId=='2' || bodyTypeId=='3' || bodyTypeId=='4' || bodyTypeId=='5' || bodyTypeId=='' || bodyTypeId==null">
+            <!-- <div class="flex flex-column m-3" *ngIf="bodyTypeId=='1' || bodyTypeId=='2' || bodyTypeId=='3' || bodyTypeId=='4' || bodyTypeId=='5' || bodyTypeId=='' || bodyTypeId==null"> -->
+            <div class="flex flex-column m-3" *ngIf="bodyType=='P'">
                 <label for="model">{{'MOTORDETAILS.Model' | translate}} *</label>
                 <p-dropdown inputId="model" 
                     class="w-full" id="Make"
@@ -92,7 +93,8 @@
                 
                 
             </div>
-            <div class="flex flex-column m-3" *ngIf="(bodyTypeId!='1' && bodyTypeId!='2' && bodyTypeId!='3' && bodyTypeId!='4' && bodyTypeId!='5' && bodyTypeId!='' && bodyTypeId!=null) || modelValue=='99999'">
+            <div class="flex flex-column m-3" *ngIf="bodyType!='P' && bodyType!='' && bodyType!=null || modelValue=='99999'">
+            <!-- <div class="flex flex-column m-3" *ngIf="(bodyTypeId!='1' && bodyTypeId!='2' && bodyTypeId!='3' && bodyTypeId!='4' && bodyTypeId!='5' && bodyTypeId!='' && bodyTypeId!=null) || modelValue=='99999'"> -->
                 <label for="model">{{'MOTORDETAILS.ModelDescription' | translate}} *</label>
                 <input pInputText id="model-desc" [placeholder]="'MOTORDETAILS.EnterModelDescription' | translate" maxlength="50"  [(ngModel)]="modelDesc"  />
                 <div class="input-form-error" *ngIf="modelError">
@@ -216,7 +218,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-column m-3" *ngIf="(insuranceId!='100004') && insuranceId!='100042' && insuranceId!='100040'">
+            <div class="flex flex-column m-3" *ngIf="(insuranceId=='100040' || this.insuranceId=='100042') && bodyType=='C'">
                 <label for="gross-weight">{{'MOTORDETAILS.GrossWeight' | translate}}*</label>
                 <input pInputText id="gross-weight" [(ngModel)]="grossWeight" maxlength="10" [disabled]="editSection" [placeholder]="'MOTORDETAILS.EnterGrossWeight' | translate"/>
             </div>
@@ -228,7 +230,7 @@
                 <label for="axis-distance">{{'MOTORDETAILS.AxleDistance' | translate }}*</label>
                 <input pInputText id="axis-distance" digitOnly [(ngModel)]="axelDistance" maxlength="50" [disabled]="editSection" [placeholder]="'MOTORDETAILS.EnterAxleDistance' | translate"/>
             </div>
-            <div class="flex flex-column m-3" *ngIf="insuranceId=='100040' || this.insuranceId=='100042'">
+            <div class="flex flex-column m-3" *ngIf="(insuranceId=='100040' || this.insuranceId=='100042') && bodyType=='P'">
                 <label for="axis-distance">{{'MOTORQUOTE.HorsePower' | translate }}*</label>
                 <input pInputText id="axis-distance" digitOnly [(ngModel)]="horsePower" id="HorsePower" maxlength="50" [disabled]="editSection" [placeholder]="'MOTORQUOTE.EnterHorsePower' | translate"/>
                 <div class="input-form-error" *ngIf="horsePowerError">
@@ -237,6 +239,11 @@
                     </div>
                 </div>
             </div>
+            <!-- <div class="flex flex-column m-3" >
+                <label for="axis-distance">{{'MOTORQUOTE.Tonnage' | translate }}*</label>
+                <input pInputText id="axis-distance" digitOnly [(ngModel)]="Tonnage" id="Tonnage" maxlength="50" [disabled]="editSection" [placeholder]="'MOTORQUOTE.Tonnage' | translate"/>
+                
+            </div> -->
             <div class="flex flex-column m-3" *ngIf="(insuranceId=='100040' || insuranceId=='100042') && (bodyTypeId=='50' || bodyTypeId=='51' || bodyTypeId=='5' || bodyTypeId=='58' || bodyTypeId=='18' || bodyTypeId=='25')">
                 <label for="engine-capacity">Displacement in CM3 *</label>
                 <input pInputText id="engine-capacity" [(ngModel)]="displacement"  [disabled]="editSection" placeholder="Enter Displacement in CM3"/>
