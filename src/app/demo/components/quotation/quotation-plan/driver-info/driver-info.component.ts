@@ -518,8 +518,6 @@ export class DriverInfoComponent {
 }
 addNewDriver(vehId){
   console.log(this.driverDetailsList,"this.driverDetailsList");
-  let valid= this.onNextProceed();
-  if(valid){
   this.driverDetailsList.push( {
     "QuoteNo": this.quoteNo,
     "RiskId":vehId,
@@ -563,7 +561,6 @@ addNewDriver(vehId){
     "Contact": null,
     "DrivingLicensingAge": null
   })
-}
 }
   // onAddNewDriver(){
   //   this.driverDetailsList.push( {
@@ -619,7 +616,7 @@ addNewDriver(vehId){
   }
   onsave(){
     
-    let i=0
+    let i=0;this.entryList=[];
    for(let driver of this.driverDetailsList){
     let date,CategoryExDate,CategoryDate,LicenseIssueDt=null;
     if(driver.DriverDob!='' && driver.DriverDob!=null){
@@ -702,18 +699,35 @@ addNewDriver(vehId){
         entry['EndtPrevPolicyNo'] = this.quoteDetails?.Endtprevpolicyno;
         entry['EndtPrevQuoteNo'] = this.quoteDetails?.Endtprevquoteno;
       }
-      let valid= this.onNextProceed();
-      if(valid){
-      this.entryList.push(entry);
+      let j=0;
+      if(this.insuranceId!='100040' && this.insuranceId!='100042'){
+        if(entry.DriverName==null || entry.DriverName=='' || entry.DriverName==undefined){j+=1;driver['driverNameError']=true;}
+        else driver['driverNameError']=false;
+        if(entry.LicenseNo==null || entry.LicenseNo=='' || entry.LicenseNo==undefined){j+=1;driver['licenseNoError']=true;}
+        else driver['licenseNoError']=false;
+        if(entry.DriverDob==null || entry.DriverDob=='' || entry.DriverDob==undefined){j+=1;driver['driverDobError']=true;}
+        else driver['driverDobError']=false;
+        if(entry.DriverType==null || entry.DriverType=='' || entry.DriverType==undefined){j+=1;driver['driverTypeError']=true;}
+        else driver['driverTypeError']=false;
+       }
+        if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+          if(entry['DrivingLicensingAge']==null || entry['DrivingLicensingAge']=='' || entry['DrivingLicensingAge']==undefined){j+=1;driver['drivinglicenseageError']=true;}
+          else driver['drivinglicenseageError']=false;
+          if(entry.LicenseNo==null || entry.LicenseNo=='' || entry.LicenseNo==undefined){j+=1;driver['licenseNoError']=true;}
+          else driver['licenseNoError']=false;
+          //j=1;
+        }
+        if(j==0) this.entryList.push(entry);
      
       i++;
       if(i==this.driverDetailsList.length){
         console.log("Final List Driver",this.entryList)
        // this.saveDriverDetails(entryList);
-       if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042') this.saveVehicleInfo();
-       else this.saveDriverDetails(this.entryList);
+       if(this.driverDetailsList.length==this.entryList.length){
+          if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042') this.saveVehicleInfo();
+          else this.saveDriverDetails(this.entryList);
+       }
       }
-    }
    }
 
  }
