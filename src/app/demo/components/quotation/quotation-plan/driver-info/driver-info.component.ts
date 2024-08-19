@@ -328,10 +328,13 @@ export class DriverInfoComponent {
           else entry['licenseNoError']=false;
           //j=1;
           j+=1;
-          if(j==vehId && i==0) this.tabIndex+=1;
-          if(i==0 && this.vehicleDetailsList.length==this.tabIndex){
-            this.saveVehicleInfo();
+          if(this.vehicleDetailsList.length>1){
+            if(j==vehId && i==0) this.tabIndex+=1;
+            if(i==0 && this.vehicleDetailsList.length==this.tabIndex){
+              this.saveVehicleInfo();
+            }
           }
+         
         }
 
       }
