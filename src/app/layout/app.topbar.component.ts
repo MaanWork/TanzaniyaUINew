@@ -166,7 +166,6 @@ export class AppTopBarComponent implements OnInit {
       if(types==null) types = this.typeList.find(ele=>ele.CodeDesc  = this.typeValue)  
       else if(types.CodeDesc!='B2C Broker') this.typeValue = types.CodeDesc;
       this.typeName = types.DisplayName;
-      console.log("Setted Type Value", this.typeValue);
       //$("#subUserTypes").hide();
       this.onTypeChange(changeType);
     }
@@ -211,6 +210,7 @@ export class AppTopBarComponent implements OnInit {
         this.lang=value;
         sessionStorage.setItem('language',value);
         this.appComp.setLanguage(value);
+        window.location.reload();
     }
     showUserDetails(){
       if(this.router.url=='/auth/login/product') return false;

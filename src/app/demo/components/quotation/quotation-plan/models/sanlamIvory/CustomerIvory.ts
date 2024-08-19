@@ -442,9 +442,9 @@ export class CustomerIvory{
                       maxLength: 15,
                       options:[
                         { label: 'Select', value: '','CodeDesc': 'Select','CodeDescLocal':'Selecione' },
-                        { label: 'SMS', value: 'Sms',CodeDesc: 'SMS','CodeDescLocal':'Sms -P' },
-                        { label: 'Mail', value: 'Mail', CodeDesc: 'Mail','CodeDescLocal':'E-mail -P' },
-                        { label: 'Whatsapp', value: 'Whatsapp',CodeDesc: 'Whatsapp','CodeDescLocal':'Whatsapp -P' }
+                        { label: 'SMS', value: 'Sms',CodeDesc: 'SMS','CodeDescLocal':'Sms' },
+                        { label: 'Mail', value: 'Mail', CodeDesc: 'Mail','CodeDescLocal':'E-mail' },
+                        { label: 'Whatsapp', value: 'Whatsapp',CodeDesc: 'Whatsapp','CodeDescLocal':'Whatsapp' }
                       ]
                     },
                     
@@ -468,7 +468,7 @@ export class CustomerIvory{
                     },
                     props: {
                       label: 'Status',
-                      options: [{ value: 'Y', label: 'Active', 'CodeDesc':'Active', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'DeActive','CodeDesc':'DeActive', 'CodeDescLocal':'Não' },{ value: 'P', label: 'Pending','CodeDesc':'Pending', 'CodeDescLocal':'En attente' }],
+                      options: [{ value: 'Y', label: 'Active', 'CodeDesc':'Active', 'CodeDescLocal':'Active' }, { value: 'N', label: 'DeActive','CodeDesc':'DeActive', 'CodeDescLocal':'DésActivé' },{ value: 'P', label: 'Pending','CodeDesc':'Pending', 'CodeDescLocal':'En attente' }],
                     }
                   },
                 ]
