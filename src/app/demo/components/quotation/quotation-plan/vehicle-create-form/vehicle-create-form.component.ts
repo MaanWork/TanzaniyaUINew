@@ -1119,7 +1119,10 @@ export class VehicleCreateFormComponent implements OnInit {
     }
     if(this.insuranceId=='100040' || this.insuranceId=='100042'){
       this.engineCapacity='1';
-      grossweight=tareweight;
+      if(this.grossWeight=='' || this.grossWeight==null || this.grossWeight==undefined){grossweight=tareweight}
+      else{
+        grossweight =this.grossWeight;
+      }
       this.axelDistance='1';
       this.noOfAxels='1';
       this.usageValue='Ambulance';
