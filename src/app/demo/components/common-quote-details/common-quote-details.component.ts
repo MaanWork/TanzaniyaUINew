@@ -2680,6 +2680,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         "PolicyType": null,
         "RadioOrCasseteplayer": null,
         "RegistrationYear": regYear,
+        "RegistrationDate" : this.vehicleDetails?.RegistrationDate,
         "Registrationnumber": this.vehicleDetails?.Registrationnumber,
         "RoofRack": null,
         "SeatingCapacity": this.vehicleDetails?.SeatingCapacity,
