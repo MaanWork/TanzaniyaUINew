@@ -23,7 +23,7 @@
     
     <ng-container *ngIf="vehicleDetailsList.length!=0">
         <ng-container *ngIf="!checkCurrentSection()">
-            <p-tabView [activeIndex]="tabIndex" (onChange)="onTabClicked($event)">
+            <p-tabView [activeIndex]="tabIndex" (onChange)="onTabClicked($event)" [scrollable]="true">
                 <ng-container *ngFor="let menu of vehicleDetailsList;let i = index">
                     <p-tabPanel [header]="getHeaderName(menu)">
                         <div class="card">

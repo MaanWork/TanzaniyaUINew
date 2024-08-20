@@ -2633,7 +2633,8 @@ emiyn="N";
     onSetBackPage(){
       if((this.productId=='5' || this.productId=='29') && !this.endorsementSection) this.router.navigate(['/quotation/plan/premium-details']);
        else if(this.productId=='4'  && !this.endorsementSection) this.router.navigate(['quotation/plan/premium-details']);
-      else if(this.endorsementSection) this.router.navigate(['/policyDetails']);
+      else if(this.endorsementSection && this.productId!='46') this.router.navigate(['/policyDetails']);
+      else if(this.productId=='46') this.router.navigate(['quotation/plan/quote-details']);
       else this.router.navigate(['/quotation/plan/premium-details']);
     }
     updateFinalizeYN(type){
@@ -4808,6 +4809,10 @@ emiyn="N";
                     if(k==veh.Covers.length){
                       j+=1;
                       if(j==entry.length){
+                          let Location = '1';
+                          if(veh.LocationId){
+                            Location = veh.LocationId;
+                          }
                           let ReqObj = {
                             "RequestReferenceNo": this.quoteRefNo,
                             "VehicleId": veh.Id,
@@ -4815,7 +4820,8 @@ emiyn="N";
                             "ProductId": this.productId,
                             "AdminLoginId": this.loginId,
                             "InsuranceId": this.insuranceId,
-                            "Covers":covers
+                            "Covers":covers,
+                            "LocationId": Location,
                           }
                           console.log("Final Req",vehicle,veh,ReqObj)
                           let urlLink = `${this.CommonApiUrl}api/updatefactorrate`;
@@ -4864,12 +4870,17 @@ emiyn="N";
                           if(k==veh.Covers.length){
                             j+=1;
                             if(j==entry.length){
+                                let Location = '1';
+                                if(veh.LocationId){
+                                  Location = veh.LocationId;
+                                }
                                 let ReqObj = {
                                   "RequestReferenceNo": this.quoteRefNo,
                                   "VehicleId": veh.Id,
                                   "SectionId": vehicle.SectionId,
                                   "ProductId": this.productId,
                                   "AdminLoginId": this.loginId,
+                                  "LocationId": Location,
                                   "InsuranceId": this.insuranceId,
                                   "Covers":covers
                                 }
