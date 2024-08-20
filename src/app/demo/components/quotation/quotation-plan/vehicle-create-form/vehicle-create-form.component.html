@@ -91,7 +91,11 @@
                     [placeholder]="'MOTORDETAILS.SelectModel' | translate">
                 </p-dropdown>
                 
-                
+                <div class="input-form-error" *ngIf="modelError1">
+                    <div class="text-danger" style="font-size: 12px;">
+                        {{'MOTORDETAILS.SelectModel' | translate}}
+                    </div>
+                </div>
             </div>
             <div class="flex flex-column m-3" *ngIf="bodyType!='P' && bodyType!='' && bodyType!=null || modelValue=='99999'">
             <!-- <div class="flex flex-column m-3" *ngIf="(bodyTypeId!='1' && bodyTypeId!='2' && bodyTypeId!='3' && bodyTypeId!='4' && bodyTypeId!='5' && bodyTypeId!='' && bodyTypeId!=null) || modelValue=='99999'"> -->
@@ -218,11 +222,16 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-column m-3" *ngIf="(insuranceId=='100040' || this.insuranceId=='100042') && bodyType=='C'">
+            <div class="flex flex-column m-3" *ngIf="(insuranceId=='100040' || insuranceId=='100042') && bodyType=='C'">
                 <label for="gross-weight">{{'MOTORQUOTE.Tonnage' | translate}}*</label>
-                <input pInputText id="gross-weight" [(ngModel)]="grossWeight" maxlength="10" [disabled]="editSection" [placeholder]="'MOTORDETAILS.Tonnage' | translate"/>
+                <input pInputText id="gross-weight" [(ngModel)]="grossWeight" maxlength="10" [disabled]="editSection" [placeholder]="'MOTORQUOTE.Tonnage' | translate"/>
+                <div class="input-form-error" *ngIf="grossWeightError">
+                    <div class="text-danger" style="font-size: 12px;">
+                        {{'MOTORDETAILS.EnterTonnage' | translate}}
+                    </div>
+                </div>
             </div>
-            <div class="flex flex-column m-3" *ngIf="(insuranceId!='100040' || this.insuranceId!='100042') && bodyType=='C'">
+            <div class="flex flex-column m-3" *ngIf="(insuranceId!='100040' && insuranceId!='100042') && bodyType=='C'">
                 <label for="gross-weight">{{'MOTORDETAILS.GrossWeight' | translate}}*</label>
                 <input pInputText id="gross-weight" [(ngModel)]="grossWeight" maxlength="10" [disabled]="editSection" [placeholder]="'MOTORDETAILS.EnterGrossWeight' | translate"/>
             </div>

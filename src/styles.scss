@@ -661,6 +661,15 @@ cursor:  pointer !important;
     color:#fff !important;
     background-color: #042181 !important;
 }
+.mat-button {
+    color: #fff5f5;
+    background: #042181;
+    border: 1px solid #042181;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    border-radius: 8px;
+}
 .radio-button {
     position: relative;
     margin: 20px 0;
@@ -934,3 +943,4 @@ cursor:  pointer !important;
   .pagination-controls button {
     margin: 0 0.5rem;
   }
+
