@@ -81,7 +81,19 @@ export class SharedService {
       .get<any>(UrlLink, { headers: headers })
       .pipe(catchError(this.handleError));
   }
-
+   onGetMethod(UrlLink: any):Observable<any[]>{
+    this.cookieService.set("XSRF-TOKEN", this.getToken(), 1, '/','localhost', false, "Strict");
+    let headers = new HttpHeaders();
+    headers = headers.append('Cache-Control', 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+    headers = headers.append('Pragma','no-cache');
+    headers = headers.append('Expires','0');
+    headers = headers.append('Content-Type','application/json');
+    headers = headers.append('Authorization', 'Bearer ' + this.getToken());
+    headers = headers.append("X-XSRF-TOKEN", this.getToken());
+    return this.http
+      .get<any>(UrlLink, { headers: headers })
+      .pipe(catchError(this.handleError));
+  }
   onPostMethodSync(UrlLink: string, ReqObj: any): Observable<any[]> {
     this.cookieService.set("XSRF-TOKEN", this.getToken(), 1, '/','localhost', false, "Strict");
     let headers = new HttpHeaders();
@@ -125,6 +137,20 @@ export class SharedService {
     const formData: FormData = new FormData();
     formData.append('File', file);
     formData.append('Req ', JSON.stringify(ReqObj));
+    this.cookieService.set("XSRF-TOKEN", this.getToken(), 1, '/','localhost', false, "Strict");
+    let headers = new HttpHeaders();
+    headers = headers.append('Cache-Control', 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+    headers = headers.append('Pragma','no-cache');
+    headers = headers.append('Expires','0');
+    headers = headers.append('Authorization', 'Bearer ' + this.getToken());
+    headers = headers.append("X-XSRF-TOKEN", this.getToken());
+    return this.http
+      .post<any>(UrlLink, formData, { headers: headers })
+      .pipe(catchError(this.handleError));
+  }
+  onPostDocumentMethodSyncNoReqObj(UrlLink: string,file:File): Observable<any[]> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
     this.cookieService.set("XSRF-TOKEN", this.getToken(), 1, '/','localhost', false, "Strict");
     let headers = new HttpHeaders();
     headers = headers.append('Cache-Control', 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
