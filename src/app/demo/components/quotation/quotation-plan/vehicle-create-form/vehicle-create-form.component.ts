@@ -67,6 +67,7 @@ export class VehicleCreateFormComponent implements OnInit {
   RegDateError=false;
   modelError1: boolean=false;
   bodyType: any;
+  grossWeightError: boolean=false;
   constructor(private messageService: MessageService,private sharedService: SharedService,private appComp:AppComponent,
     private translate:TranslateService,private datePipe:DatePipe,private router:Router) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -996,34 +997,35 @@ export class VehicleCreateFormComponent implements OnInit {
   onFormSubmit(){
     let i=0;
     if(this.insuranceId=='100040' || this.insuranceId=='100042') {
-      if(this.horsePower || this.bodyTypeValue || this.makeValue  || this.regNo || this.seatingCapacity || 
-         this.fuelType || this.tareWeight || this.numberOfCylinders || this.RegistrationDate ){
+      if( this.bodyTypeValue || this.makeValue  || this.regNo || this.seatingCapacity || this.displacement || this.modelValue || this.modelDesc||
+         this.fuelType || this.tareWeight || this.numberOfCylinders || this.RegistrationDate || this.grossWeight || this.horsePower){
           this.horsePowerError = false;
           this.bodyTypeError=false;
           this.makeError=false;
           this.modelError=false;
+          this.modelError1=false;
           this.RegError=false;
           this.seatingError=false;
           this.fuelTypeError=false;
           this.tareWeightError=false;
+          this.grossWeightError=false;
           this.numberOfCylindersError=false;
           this.RegDateError=false;
+          this.displacementError=false;
       }
-      if((this.horsePower==null || this.horsePower=='' || this.horsePower==undefined)){
-        this.horsePowerError = true;
-      } 
-      else if((this.bodyTypeValue==null || this.bodyTypeValue=='' || this.bodyTypeValue==undefined)){
+     
+       if((this.bodyTypeValue==null || this.bodyTypeValue=='' || this.bodyTypeValue==undefined)){
         this.bodyTypeError = true;
       } 
-      else if((this.makeValue==null || this.makeValue=='' || this.makeValue==undefined)){
+      else if(this.makeValue==null || this.makeValue=='' || this.makeValue==undefined){
         this.makeError = true;
       } 
-      // else if((this.modelValue==null || this.modelValue=='' || this.modelValue==undefined) && (this.bodyTypeId=='1' || this.bodyTypeId=='2' || this.bodyTypeId=='3' || this.bodyTypeId=='4' || this.bodyTypeId=='5' || this.bodyTypeId=='' || this.bodyTypeId==null)){
-      //     this.modelError1 = true;
-      // } 
-      // else if((this.modelDesc==null || this.modelDesc=='' || this.modelDesc==undefined) && (this.bodyTypeId!='1' || this.bodyTypeId!='2' || this.bodyTypeId!='3' || this.bodyTypeId!='4' || this.bodyTypeId!='5')){
-      //     this.modelError = true;
-      // } 
+      else if((this.modelValue==null || this.modelValue=='' || this.modelValue==undefined) && this.bodyType=='P'){
+          this.modelError1 = true;
+      } 
+      else if((this.modelDesc==null || this.modelDesc=='' || this.modelDesc==undefined) && this.bodyType=='C'){
+          this.modelError = true;
+      } 
       else if((this.regNo==null || this.regNo=='' || this.regNo==undefined)){
         this.RegError = true;
       } 
@@ -1036,9 +1038,23 @@ export class VehicleCreateFormComponent implements OnInit {
       else if((this.tareWeight==null || this.tareWeight=='' || this.tareWeight==undefined)){
         this.tareWeightError = true;
       } 
+     
+      // else if(this.horsePower){
+      //   alert()
+      else if((this.horsePower==null || this.horsePower=='' || this.horsePower==undefined)&& this.bodyType=='P'){
+        this.horsePowerError = true;
+      }
       else if((this.displacement==null || this.displacement=='' || this.displacement==undefined)&& (this.bodyTypeId=='50' || this.bodyTypeId=='51' || this.bodyTypeId=='5' || this.bodyTypeId=='58' || this.bodyTypeId=='18' || this.bodyTypeId=='25')){
         this.displacementError = true;
       } 
+      else if((this.grossWeight==null || this.grossWeight=='' || this.grossWeight==undefined) && this.bodyType=='C'){
+        this.grossWeightError = true;
+      }
+      // else if((this.grossWeight==null || this.grossWeight=='' || this.grossWeight==undefined) && this.bodyType=='P'){
+      //   alert("3");
+      //    this.grossWeightError = true;
+      //  }
+      // }
       else if((this.numberOfCylinders==null || this.numberOfCylinders=='' || this.numberOfCylinders==undefined)){
         this.numberOfCylindersError = true;
       } 
@@ -1058,6 +1074,7 @@ export class VehicleCreateFormComponent implements OnInit {
         this.displacementError=false;
         this.numberOfCylindersError=false;
         this.RegDateError=false;
+        this.grossWeightError = false;
         this.onProceed()
       }
     }

@@ -165,6 +165,7 @@
       
   },
   "MOTORQUOTE":{
+    "Tonnage":"Tonnage",
     "FileUpload":"File Upload",
     "RawTableInsert":"Raw Table Insert",
     "DataValidation":"Data Validation",
@@ -282,6 +283,7 @@
      "Delete":"Delete"
   },
   "MOTORDETAILS":{
+    "EnterTonnage":"Enter Tonnage",
     "VehicleDetails":"Vehicle Details",
     "SelectMotorUsage":"Select Motor Usage",
     "SelectBodyType":"Select Body Type",

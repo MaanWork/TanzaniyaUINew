@@ -171,6 +171,7 @@
   
   },
   "MOTORQUOTE":{
+    "Tonnage":"Tonnage",
   "FileUpload":"Téléchargement de fichiers",
   "CategoryDateobtained":"Catégorie - Date d'obtention",
   "Categoryexpirationdate":"Catégorie - Date d'expiration de la catégorie",
@@ -285,6 +286,7 @@
   
   },
    "MOTORDETAILS":{
+    "EnterTonnage":"Entrez le tonnage",
   "VehicleDetails":"Les détails du véhicule",
   "SelectMotorUsage":"Sélectionnez l'utilisation du moteur",
   "SelectBodyType":"Sélectionnez le type de corps",
