@@ -3230,9 +3230,14 @@ export class CoverDetailsComponent {
                         if(k==veh.Covers.length){
                           j+=1;
                           if(j==entry.length){
+                              let Location = '1';
+                              if(veh.LocationId){
+                                Location = veh.LocationId;
+                              }
                               let ReqObj = {
                                 "RequestReferenceNo": this.quoteRefNo,
                                 "VehicleId": veh.Id,
+                                "LocationId": Location,
                                 "SectionId": vehicle.SectionId,
                                 "ProductId": this.productId,
                                 "AdminLoginId": this.loginId,
