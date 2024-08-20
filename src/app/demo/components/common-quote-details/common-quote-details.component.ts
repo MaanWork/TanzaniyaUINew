@@ -174,6 +174,18 @@ export class CommonQuoteDetailsComponent implements OnInit {
   socioProfessionalList: any[]=[];
   aggregatedList: any[]=[];
   municipalityTrafficList: any[]=[];
+  uploadTab: boolean=false;
+  imageUrl: any;
+  individualDocumentList: any[]=[];
+  uploadListDoc: any[]=[];
+  uploadedIndividualList:any[]=[];
+  uploadedDocList: any[]=[];
+  quoteNo: any;
+  uploadDocList: any[]=[];
+  uploadSubDocList: any[]=[];
+  checkStatusSP: any ='P';
+  tranId: any;
+  dataValidationList: any[]=[];
   constructor(private router:Router,private sharedService:SharedService,private datePipe:DatePipe,
     private appComp:AppComponent,
     private translate: TranslateService,private messageService: MessageService){
@@ -234,6 +246,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   }
   ngOnInit() {
     this.getCurrencyList();
+    // this.getUploadedDocList();
     if(this.insuranceId=='100004') this.getNoOfDaysList();
     
     
@@ -1312,12 +1325,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   this.aggregatedList[i].label = this.aggregatedList[i]['CodeDesc'];
                   this.aggregatedList[i].value = this.aggregatedList[i]['Code'];
                   if (i == this.aggregatedList.length - 1) {
-                      if(this.fields.length!=0){
-                        let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
-                        for(let field of fieldList){
-                          if(field.key=='Aggregatedvalue')  field.props.options = defaultObj.concat(this.aggregatedList);
-                        }
+                    if(this.fields.length!=0){
+                      let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                      for(let field of fieldList){
+                        if(field.key=='Aggregatedvalue')  field.props.options = defaultObj.concat(this.aggregatedList);
                       }
+                    }
                   }
                 }
               }
@@ -5905,8 +5918,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
         field.hideExpression = true;field.hide=true;
       }
       if(this.insuranceId=='100040' || this.insuranceId=='100042'){
-        if(field.key=='VehicleSI'  || field.key=='GpsYN' || field.key =='Aggregatedvalue' || field.key=='Newvalue' || field.key=='AccessoriesSI' || field.key=='Newvalue' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI'  || field.key=='Deductibles' || field.key=='Inflation' || field.key=='VehicleValue' || (field.key=='NoOfPassengers' && this.insuranceId=='100042') || (field.key=='PurchaseDate' && this.insuranceId=='100042') ){
-          if((this.insuranceId=='100040' && this.productItem.InsuranceClass!='121' && this.productItem.InsuranceClass!='122' && !(field.key=='Deductibles' && this.productItem.InsuranceClass=='126')) 
+        if(field.key=='VehicleSI'  || field.key=='GpsYN' || field.key =='Aggregatedvalue' || field.key=='Newvalue' || field.key=='AccessoriesSI' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI'  || field.key=='Deductibles' || field.key=='Inflation' || field.key=='VehicleValue' || (field.key=='NoOfPassengers' && this.insuranceId=='100042') || (field.key=='PurchaseDate' && this.insuranceId=='100042') ){
+          if((this.insuranceId=='100040' && this.productItem.InsuranceClass!='121' && this.productItem.InsuranceClass!='122' && !(field.key=='Deductibles' && this.productItem.InsuranceClass=='126')) && (this.insuranceId=='100040' && this.productItem.InsuranceClass!='129' && this.productItem.InsuranceClass!='130' && !(field.key=='Deductibles' && this.productItem.InsuranceClass=='126'))
             || (this.insuranceId=='100042' && this.productItem.InsuranceClass!='135' && this.productItem.InsuranceClass!='136' && this.productItem.InsuranceClass!='137')){
               
               field.hideExpression = false;
@@ -6529,6 +6542,372 @@ export class CommonQuoteDetailsComponent implements OnInit {
       (err) => { },
     );
   }
-  
+  onMoveToUpload(){
+    let entry = this.checMandatories()
+    if(entry){
+      this.uploadTab=true;
+    }
+  }
+  onUploadDocuments(target:any,fileType:any,type:any){
+    console.log("Event ",target);
+   // this.uploadStatus = null; 
+   this.uploadDocList = [];
+    let event:any = target.target.files;
+    let fileList = event;
+    for (let index = 0; index < fileList.length; index++) {
+      const element = fileList[index];
+
+      var reader:any = new FileReader();
+      reader.readAsDataURL(element);
+        var filename = element.name;
+        console.log("File Name",element,filename)
+        let imageUrl: any;
+        reader.onload = (res: { target: { result: any; }; }) => {
+          imageUrl = res.target.result;
+          this.imageUrl = imageUrl;
+          if(type=='cover') this.uploadDocList.push({ 'url': element,'DocTypeId':'','filename':filename, 'JsonString': {} });
+          else this.uploadSubDocList.push({ 'url': element,'DocTypeId':'','filename':filename, 'JsonString': {} });
+          console.log("FInal Doc",this.uploadDocList)
+        }
+    }
+    
+  }
+  // onChangeSectionType(rowData,index){
+  //   let entry = this.individualDocumentList.find(ele=>ele.LocationId==rowData.locationId);
+  //    if(entry){
+  //      let section = entry.SectionList.find(ele=>ele.SectionId==rowData.sectionId);
+  //      if(section){
+  //        rowData.Id = "";
+  //        rowData['typeList'] = section.IdList;
+  //        if(rowData.typeList.length==1){rowData.Id= rowData.typeList[0].Id;}
+  //        if(section.docTypeList==undefined){
+  //          let ReqObj = {
+  //            "InsuranceId":this.insuranceId,
+  //            "ProductId": this.productId,
+  //            "SectionId": rowData.sectionId
+  //          }
+  //          let urlLink = `${this.CommonApiUrl}document/dropdown/doctypes`;
+  //          this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+  //            (data: any) => {
+  //              console.log(data);
+  //              if(data.Result){
+  //                  this.uploadListDoc[index].docTypeList = data.Result;
+  //                  section['docTypeList'] = data.Result;
+  //              }
+  //            },
+  //            (err) => { },
+  //          );
+  //        }
+  //        else rowData['docTypeList'] = section.docTypeList;
+  //      }
+  //    }
+  //  }
+   getUploadedDocList(){
+    let ReqObj = {
+      "QuoteNo":  this.quoteRefNo
+    }
+    let urlLink = `${this.CommonApiUrl}document/getdoclist`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+          if(data?.Result){
+            this.uploadDocList = data?.Result;
+          //   this.uploadDocList = this.uploadedDocList.filter(ele=>ele.DocumentId!='23');
+          //   this.uploadedIndividualList = data?.Result?.InduvidualDocument;
+          //   if(this.uploadedDocList.length!=0){
+          //     this.uploadedIndividualList = this.uploadedDocList.concat(this.uploadedIndividualList)
+          //   }
+          //     let entry = this.uploadedIndividualList.find(ele=>ele.DocumentId=='17' && ele.VerifiedYn!='Y');
+          //     // if(entry){
+          //     //   this.checkMandatoryDocument(entry);
+          //     // }
+          }
+        },
+        (err) => { },
+      );
+  }
+  onFileUploadCommonList(){
+        // let ReqObj={
+        //   "InsuranceId":"100002",
+        //   "ProductId":"5",
+        //   "CoverId":"21"
+        // }
+        console.log(this.uploadDocList[0].url,"URL")
+        // if(this.endorsementSection && this.enableDocumentDetails){
+        //   ReqObj['EndtStatus'] = this.quoteDetails?.EndtStatus;
+        //   ReqObj['EndorsementTypeDesc'] = this.quoteDetails?.EndtTypeDesc;
+        //   ReqObj['EndorsementType'] = this.quoteDetails?.EndtTypeId;
+        //   ReqObj['EndtCategoryDesc'] = this.quoteDetails?.Endtcategdesc;
+        //   ReqObj['EndtCount'] = this.quoteDetails?.Endtcount;
+        //   ReqObj['EndtPrevPolicyNo'] = this.quoteDetails?.Endtprevpolicyno;
+        //   ReqObj['EndtPrevQuoteNo'] = this.quoteDetails?.Endtprevquoteno;
+        // }
+        let urlLink = `http://192.168.1.10:8084/eway/rating/convertExcelToCSV/${this.productId}/${this.insuranceId}`;
+        this.sharedService.onPostDocumentMethodSyncNoReqObj(urlLink ,this.uploadDocList[0].url).subscribe(
+          (data: any) => {
+            // if(data.ErrorMessage){
+            //   for(let entry of data.ErrorMessage){
+                
+            //   }
+            // }
+          //  else{
+          //   this.checkStatus()
+          //  }
+          if(data.Result){
+            this.checkStatusSP=data?.Result?.status;
+            this.tranId=data?.Result?.tran_id;
+            if(this.checkStatusSP=='P'){
+              setTimeout(() => 
+                {
+                  this.checkStatus(this.tranId,null)
+              }, (2500)); 
+            }
+          }
+            },
+            (err) => { },
+          );
+          
+      
+    }
+     checkStatus(tranId,type){
+      let urlLink = `http://192.168.1.10:8084/batch/getTranactionByTranId?tranId=${tranId}`;
+       this.sharedService.onGetMethod(urlLink).subscribe(
+        (data: any) => {
+            if(data?.Result){
+              this.checkStatusSP=data?.Result?.Status;
+              if(this.checkStatusSP=='S'){
+                this.uploadedDocList = Array(data.Result);
+                if(type=='movingRecords'){
+                  this.movingRecords2();
+                  sessionStorage.setItem('quoteReferenceNo',this.tranId)
+                  this.router.navigate(['/quotation/plan/premium-details']);
+                }
+                
+              }
+              else {
+                this.tranId=data?.Result?.TranId;
+                setTimeout(() => 
+                  {
+                    if(type=='movingRecords'){
+                      this.checkStatus(this.tranId,'movingRecords')
+                    }
+                    else{
+                      this.checkStatus(this.tranId,null)
+                    }
+                    
+                }, (2500)); 
+              }
+              console.log(this.uploadedDocList,"this.uploadedDocList")
+            }
+          },
+          (err) => { },
+        );
+    }
+    onDeleteListDocument(index,doc){
+      this.uploadDocList.splice(index,1)
+    }
+    rawTableInsert(){
+      let sourcecode:any;
+    let endorsementDate=null,EndorsementEffectiveDate=null,EndorsementRemarks=null,
+    EndorsementType=null,EndorsementTypeDesc=null,EndtCategoryDesc=null,EndtCount=null,
+    EndtPrevPolicyNo=null,EndtPrevQuoteNo=null,EndtStatus=null,IsFinanceEndt=null,OrginalPolicyNo=null;
+    if(this.endorsementDetails){
+      endorsementDate = this.endorsementDetails['EndorsementDate'];
+      EndorsementEffectiveDate = this.endorsementDetails['EndorsementEffectiveDate'];
+      EndorsementRemarks = this.endorsementDetails['EndorsementRemarks'];
+      EndorsementType = this.endorsementDetails['EndorsementType'];
+      EndorsementTypeDesc = this.endorsementDetails['EndorsementTypeDesc'];
+      EndtCategoryDesc = this.endorsementDetails['EndtCategoryDesc'];
+      EndtCount = this.endorsementDetails['EndtCount'];
+      EndtPrevPolicyNo = this.endorsementDetails['EndtPrevPolicyNo'];
+      EndtPrevQuoteNo = this.endorsementDetails['EndtPrevQuoteNo'];
+      EndtStatus = this.endorsementDetails['EndtStatus'];
+      IsFinanceEndt = this.endorsementDetails['IsFinanceEndt'];
+      OrginalPolicyNo = this.endorsementDetails['OrginalPolicyNo'];
+    }
+    let promocode = null;
+    let appId = "1", loginId = "", brokerbranchCode = "";let createdBy = "";
+    let quoteStatus = sessionStorage.getItem('QuoteStatus');
+    let referenceNo =  sessionStorage.getItem('quoteReferenceNo');
+      if(referenceNo){
+        this.quoteRefNo = referenceNo;
+      }
+      else this.quoteRefNo = null;
+    if (quoteStatus == 'AdminRP' || quoteStatus == 'AdminRA' || quoteStatus == 'AdminRR') {
+      //createdBy = this.vehicleDetailsList[0].CreatedBy;
+    }
+    else {
+      createdBy = this.loginId;
+      if (this.userType != 'Issuer') {
+        this.brokerCode = this.agencyCode;
+        appId = "1"; loginId = this.loginId;
+      }
+      else {
+        appId = this.loginId;
+        loginId = this.brokerLoginId
+        brokerbranchCode = null;
+      }
+    }
+    this.applicationId = appId;
+    if (quoteStatus == 'AdminRP' || quoteStatus == 'AdminRA' || quoteStatus == 'AdminRR') {
+      if (this.applicationId != '01' && this.applicationId != '1') { this.issuerSection = true; }
+      else { this.issuerSection = false; }
+    }
+    else if (this.userType != 'Broker' && this.userType != 'User') { 
+     // brokerbranchCode =  commonDetails[0]['BrokerBranchCode']
+      this.issuerSection = true;
+     }
+    else{ this.issuerSection = false; brokerbranchCode = this.userDetails.Result.BrokerBranchCode; }
+    if (quoteStatus == 'AdminRP' || quoteStatus == 'AdminRA' || quoteStatus == 'AdminRR') {
+    }
+    if(this.userType!= 'Broker' && this.userType != 'User'){
+      sourcecode=this.Code
+    }
+    else{
+      sourcecode=sessionStorage.getItem('typeValue')
+    }
+    if(this.promocode!=null && this.promocode!='' && this.promocode!=undefined) this.havePromoCodeYN = 'Y';
+    else this.havePromoCodeYN = 'N';
+    let section = [];
+    if(this.productId=='6'){section.push('40');};
+    if(this.productId=='39'){section.push('41'); };
+    if(this.productId=='16'){section.push('42');};
+    if(this.productId=='14'){section.push('45');};
+    if(this.productId=='32'){section.push('43');};
+    if(this.productId=='1'){section.push('52');};
+    if(this.productId=='21'){section.push('3');};
+    if(this.productId=='26'){section.push('3');};
+    if(this.productId=='25'){section.push('39');};
+    if(this.productId=='13'){section.push('35');};
+    // if(this.productId=='56'){section.push('82');this.IndustryId='99999'};
+    if( this.productId=='57'){section.push('50')};
+    if(this.productId=='43'){section.push('70');this.IndustryId='44'};
+    if( this.productId=='27'){section.push('54');this.IndustryId='44'};
+    let startDate,endDate;
+    if(this.policyStartDate) {
+      if(String(this.policyStartDate).includes('/')) startDate = this.policyStartDate;
+      else startDate = this.datePipe.transform(this.policyStartDate,'dd/MM/yyyy');
+    }
+    if(this.policyEndDate !="Invalid Date"){
+      if(String(this.policyEndDate).includes('/')) endDate = this.policyEndDate;
+      else endDate = this.datePipe.transform(this.policyEndDate,'dd/MM/yyyy');
+    }
+    let customerDetails = JSON.parse(sessionStorage.getItem('customerDetails'));
+    let ReqObj = { 
+    "CompanyId": this.insuranceId,
+    "ProductId": this.productId,
+    "TypeId": "101",
+    "BrokerBranchCode": brokerbranchCode,
+    "BdmCode": this.customerCode,
+    "CustomerCode": this.customerCode,
+    "SourceTypeId": sourcecode,
+    "CustomerRefNo": sessionStorage.getItem('customerReferenceNo'),
+    "AcExecutiveId": null,
+    "BrokerCode": this.brokerCode,
+    "LoginId": this.loginId,
+    "RequestReferenceNo":this.tranId,
+    "SubUserType": sessionStorage.getItem('typeValue'),
+    "ApplicationId":appId,
+    "EndorsementYn": "N",
+    "EndorsementDate": "",
+    "EndorsementEffectiveDate": "",
+    "EndorsementRemarks": "",
+    "EndorsementType": "",
+    "EndorsementTypeDesc": "",
+    "EndtCategoryDesc": "",
+    "EndtCount": "",
+    "EndtPrevPolicyNo": "",
+    "EndtPrevQuoteNo": "",
+    "EndtStatus": "",
+    "IsFinanceEndt": "",
+    "OrginalPolicyNo": "",
+    "PolicyEndDate": endDate,
+    "PolicyStartDate": startDate,
+    "Currency": this.currencyCode,
+    "ExchangeRate": this.exchangeRate,
+    "HavePromoCode": this.havePromoCodeYN,
+    "NoOfVehicles": "",
+    "BranchCode": this.branchCode,
+    "AgencyCode": this.agencyCode,
+    "Idnumber": this.customerDetails?.IdNumber,
+    "UserType": this.userType,
+    "UploadType": "Add",
+    "NcdYn": this.claimsYN,
+    "OwnerCategory": "1",
+    "ResOwnerName": customerDetails.ClientName
+        
+    }
+    
+    let urlLink = `http://192.168.1.10:8084/eway/vehicle/batch/upload`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if (data.Result) {
+          if(data.Result.status=='P'){
+            this.checkStatus(data.Result.request_reference_no,null)
+          }
+        }
+      },
+      (err) => { },
+    );
+    }
+
+    dataValidation(){
+      let urlLink = `http://192.168.1.10:8084/eway/vehicle/vehicle/validation/${this.tranId}`;
+        this.sharedService.onGetMethod(urlLink).subscribe(
+          (data: any) => {
+            console.log(data);
+            if (data.Result) {
+              //this.checkStatusSP=
+              if(data.Result.status=='P'){
+                
+                this.checkStatus(data.Result.request_reference_no,null)
+              }
+              // else{
+              //   this.dataValidationList == Array(data.Result);
+              //   console.log(this.dataValidationList,"this.dataValidationList");
+                
+              // }
+            }
+          },
+          (err) => { },
+        );
+    }
+    movingRecords(){
+      let urlLink = `http://192.168.1.10:8084/eway/vehicle/batch/createquote/${this.tranId}`;
+        this.sharedService.onGetMethod(urlLink).subscribe(
+          (data: any) => {
+            console.log(data);
+            if (data.Result) {
+              //this.checkStatusSP=
+              if(data.Result.status=='P'){
+                this.checkStatus(data.Result.request_reference_no,'movingRecords')
+              }
+              else{
+                this.movingRecords2()
+                
+              }
+            }
+          },
+          (err) => { },
+        );
+    }
+    movingRecords2(){
+      let urlLink = `http://192.168.1.10:8084/eway/vehicle/delete/rawdata/${this.tranId}`;
+        this.sharedService.onGetMethod(urlLink).subscribe(
+          (data: any) => {
+            console.log(data);
+            if (data.Result) {
+              //this.checkStatusSP=
+              if(data.Result.status=='P'){
+                
+                this.checkStatus(data.Result.request_reference_no,'movingRecords2')
+              }
+              else{
+              }
+            }
+          },
+          (err) => { },
+        );
+    }
 }
 

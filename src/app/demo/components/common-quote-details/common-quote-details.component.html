@@ -26,6 +26,7 @@
                 
                 &nbsp;<p-button [label]="'MOTORQUOTE.SearchVehicle' | translate" *ngIf="customerDetails" icon="pi pi-search" (onClick)="onSearchVehicle()"></p-button>&nbsp;
                 <p-button [label]="'MOTORQUOTE.AddVehicle' | translate" icon="pi pi-plus" *ngIf="customerDetails" (click)="onCreateVehicle()"></p-button>&nbsp;&nbsp;
+                <!-- <p-button [label]="'MOTORQUOTE.FileUpload' | translate" icon="pi pi-cloud-upload" *ngIf="customerDetails" (click)="onMoveToUpload()"></p-button>&nbsp;&nbsp; -->
                 <p-button [label]="'HOME.Customer' | translate" *ngIf="!customerDetails" icon="pi pi-plus" (click)="showSearchForm('change')"></p-button>
             </div>
         </div>
@@ -291,7 +292,7 @@
                     </div>
             </p-tabPanel>
             <ng-container *ngFor="let veh of vehicleDetailsList;let j=index;">
-                <p-tabPanel [header]="veh?.Registrationnumber" disabled="true">
+                <p-tabPanel [header]="veh?.Registrationnumber" disabled="true" [scrollable]="true">
                     <div class="grid" *ngIf="customerDetails">
                         <div class="lg:col-6 md:col-6 col-12">
                             <div class="flex flex-wrap">
@@ -312,7 +313,7 @@
                                     <b>{{'QUOTEGRID.Make' | translate}}</b>
                                     <p>{{vehicleDetails?.VehiclemakeDesc}}</p>
                                 </div>
-                                <div class="lg:col-4 md:col-6 col-12">
+                                <div class="lg:col-4 md:col-6 col-12" *ngIf="insuranceId!='100040' && insuranceId!='100042'">
                                     <b>{{'QUOTEGRID.Model' | translate}}</b>
                                     <p>{{vehicleDetails?.VehicleModelDesc}}</p>
                                 </div>
@@ -340,10 +341,10 @@
                                     <b>{{'HOME.RegistrationDate' | translate}}</b>
                                     <p>{{vehicleDetails?.RegistrationDate}}</p>
                                 </div>
-                                <div class="lg:col-4 md:col-6 col-12" *ngIf="insuranceId=='100040' || insuranceId=='100042'">
+                                <!-- <div class="lg:col-4 md:col-6 col-12" *ngIf="(insuranceId=='100040' || insuranceId=='100042') && (vehicleDetails.HorsePower!=null || vehicleDetails.HorsePower!='')">
                                     <b>{{'MOTORQUOTE.HorsePower' | translate}}</b>
                                     <p>{{vehicleDetails?.HorsePower}}</p>
-                                </div>
+                                </div> -->
                                 <!-- <div class="lg:col-4 md:col-6 col-12" *ngIf="insuranceId=='100040' || insuranceId=='100042'">
                                     <b>{{'MOTORQUOTE.RegistrationDate' | translate}}</b>
                                     <p>{{vehicleDetails?.RegistrationDate}}</p>
@@ -595,6 +596,194 @@
                     </div>
                 </p-tabPanel>
             </ng-container>
+
+            <p-tabPanel [header]="'MOTORQUOTE.FileUpload' | translate" *ngIf="uploadTab" >
+                <div class="grid">
+                    <div class="col-12 sm:col-2 md:col-2"></div>
+                    <div class="col-12 sm:col-8 md:col-8">
+                        <mat-stepper #stepper>
+                            <mat-step >  
+                                <ng-template matStepLabel>{{'MOTORQUOTE.FileUpload' | translate}}</ng-template>
+                                <div class="grid" >
+                                    <div class="col-12">
+                                        <input style="display: none;" type="file" (change)="onUploadDocuments($event,null,'cover')" #doc>
+                                        <div class="imag-card my-3" style="width:250px !important;height:80px !important;width:100% !important;border:1px dashed;background-color: whitesmoke;" appDragDropFileUpload (fileDropped)="onUploadDocuments($event,null,'cover')" (click)="doc.click()">
+                                            <div>
+                                                <div class="center">
+                                                    <b class="text-dark" style="font-size:1rem;position: relative;top:25px">
+                                                        <i class="far fa-images"></i> {{'DOCUMENT.DragorClick' | translate}}</b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <!-- <button pButton pRipple icon="pi pi-eye" class="p-button-outlined" title="View" (click)="onFileUploadCommonList()"></button> -->
+                                <!-- <button pButton pRipple icon="pi pi-download" class="p-button-outlined" title="Download" (click)="onListDocumentDownload(i,doc)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" title="Delete" (click)="onDeleteListDocument(i,doc)"></button> -->
+                                <ng-container *ngIf="uploadDocList!=0 && checkStatusSP=='P'">
+                                    <h5>{{'DOCUMENT.UploadedDocuments' | translate}}</h5><br>
+                                    <div class="grid">
+                                        <div class="col-12 sm:col-12 md:col-12">
+                                            <p-table  [value]="uploadDocList" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                    <th>S.No</th>
+                                                    <th>DocumentDesc</th>
+                                                   
+                                                    <th>Action</th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-doc let-i="rowIndex">
+                                                  <tr>
+                                                        <td>{{ i+1 }}</td>
+                                                        <td >{{doc.filename}}</td>
+                                                        <!-- <td>{{doc.DocumentDesc}}</td> -->
+                                                        <td>
+                                                            <span class="p-buttonset">
+                                                                <button pButton pRipple icon="pi pi-cloud-upload" class="p-button-outlined" title="View" (click)="onFileUploadCommonList()"></button>
+                                                                <!-- <button pButton pRipple icon="pi pi-download" class="p-button-outlined" title="Download" (click)="onListDocumentDownload(i,doc)"></button>-->
+                                                                <button pButton pRipple icon="pi pi-trash" class="p-button-outlined" title="Delete" (click)="onDeleteListDocument(i,doc)"></button> 
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="uploadDocList.length==0">
+                                    <div class="text-center">
+                                        <b>No Document Available</b>
+                                    </div>
+                                </ng-container> 
+                                 <ng-container *ngIf="uploadedDocList!=0 && checkStatusSP=='S'">
+                                    <h5>{{'DOCUMENT.UploadedDocuments' | translate}}</h5><br>
+                                    <div class="grid">
+                                        <div class="col-12 sm:col-12 md:col-12">
+                                            <p-table  [value]="uploadedDocList" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                    <th>Transaction Id</th>
+                                                    <th>File Name</th>
+                                                    <th>Status</th>
+                                                    <th>Totel Records</th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-docs>
+                                                  <tr>
+                                                        <td>{{ docs.TranId }}</td>
+                                                        <td >{{docs.ExcelFileName}}</td>
+                                                        <td >Completed</td>
+                                                        <td>{{docs.TotalRecord}}</td>
+                                                       
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="uploadedDocList.length==0 && checkStatusSP=='S'">
+                                    <div class="text-center">
+                                        <b>No Document Available</b>
+                                    </div>
+                                </ng-container> 
+                                <div class="flex flex-wrap justify-content-end" *ngIf="uploadedDocList.length!=0">
+                                    
+                                        <button matStepperNext class="mat-button" (click)="rawTableInsert()">Next</button>
+                                   
+                                </div>
+                            </mat-step>
+                            
+                            <mat-step>
+                                <ng-template matStepLabel>{{'MOTORQUOTE.RawTableInsert' | translate}}</ng-template>
+                                <ng-container *ngIf="uploadedDocList!=0 && checkStatusSP=='S'">
+                                    <h5>{{'DOCUMENT.UploadedDocuments' | translate}}</h5><br>
+                                    <div class="grid">
+                                        <div class="col-12 sm:col-12 md:col-12">
+                                            <p-table  [value]="uploadedDocList" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                    <th>Transaction Id</th>
+                                                    <th>File Name</th>
+                                                    <th>Status</th>
+                                                    <th>Totel Records</th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-docs>
+                                                  <tr>
+                                                        <td>{{ docs.TranId }}</td>
+                                                        <td >{{docs.ExcelFileName}}</td>
+                                                        <td >Completed</td>
+                                                        <td>{{docs.TotalRecord}}</td>
+                                                       
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <!-- <ng-container *ngIf="uploadedDocList.length==0 && checkStatusSP=='P'">
+                                    <div class="text-center">
+                                        <b>No Document Available</b>
+                                    </div>
+                                </ng-container>  -->
+                                <div class="flex flex-wrap justify-content-end" *ngIf="uploadedDocList.length!=0 && checkStatusSP=='S'">
+                                    <button matStepperPrevious class="mat-button" (click)="rawTableInsert()">Back</button>
+                                    <button matStepperNext class="mat-button" (click)="dataValidation()">Next</button>
+                                </div>
+                            </mat-step>
+        
+                            <mat-step>
+                                <ng-template matStepLabel>{{'MOTORQUOTE.DataValidation' | translate}}</ng-template>
+                                <ng-container *ngIf="uploadedDocList!=0 && checkStatusSP=='S'">
+                                    <h5>{{'DOCUMENT.UploadedDocuments' | translate}}</h5><br>
+                                    <div class="grid">
+                                        <div class="col-12 sm:col-12 md:col-12">
+                                            <p-table  [value]="uploadedDocList" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                    <th>Transaction Id</th>
+                                                    <th>File Name</th>
+                                                    <th>Status</th>
+                                                    <th>Totel Records</th>
+                                                    <th>Valid Records</th>
+                                                    <th>Error Records</th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-docs>
+                                                  <tr>
+                                                        <td>{{ docs.TranId }}</td>
+                                                        <td >{{docs.ExcelFileName}}</td>
+                                                        <td >Completed</td>
+                                                        <td>{{docs.TotalRecord}}</td>
+                                                        <td>{{docs.ValidRecord}}</td>
+                                                        <td>{{docs.ErrorRecord}}</td>
+                                                       
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <!-- <ng-container *ngIf="uploadedDocList.length==0 && checkStatusSP=='P'">
+                                    <div class="text-center">
+                                        <b>No Document Available</b>
+                                    </div>
+                                </ng-container>  -->
+                                <div class="flex flex-wrap justify-content-end" *ngIf="uploadedDocList.length!=0 && checkStatusSP=='S'">
+                                    <button matStepperPrevious class="mat-button" (click)="dataValidation()">Back</button>
+                                    <button matStepperNext class="mat-button" (click)="movingRecords()" >Next</button>
+                                </div>
+                            </mat-step>
+        
+                            <mat-step>
+                                <ng-template matStepLabel>{{'MOTORQUOTE.MovingRecords' | translate}}</ng-template>
+                            </mat-step>
+                          </mat-stepper>
+                    </div>
+                </div>
+            </p-tabPanel>
         </p-tabView>
     </ng-container>
   
