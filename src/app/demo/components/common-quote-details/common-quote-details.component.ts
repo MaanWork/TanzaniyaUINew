@@ -2065,6 +2065,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         branchCode = this.branchCode
       }
       else{
+       // alert(this.brokerbranchCode)
         branchCode = this.brokerbranchCode
       }
       let ReqObj = {
@@ -5920,7 +5921,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       }
       if(this.insuranceId=='100040' || this.insuranceId=='100042'){
         if(field.key=='VehicleSI'  || field.key=='GpsYN' || field.key =='Aggregatedvalue' || field.key=='Newvalue' || field.key=='AccessoriesSI' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI'  || field.key=='Deductibles' || field.key=='Inflation' || field.key=='VehicleValue' || (field.key=='NoOfPassengers' && this.insuranceId=='100042') || (field.key=='PurchaseDate' && this.insuranceId=='100042') ){
-          if((this.insuranceId=='100040' && this.productItem.InsuranceClass!='121' && this.productItem.InsuranceClass!='122' && !(field.key=='Deductibles' && this.productItem.InsuranceClass=='126')) && (this.insuranceId=='100040' && this.productItem.InsuranceClass!='129' && this.productItem.InsuranceClass!='130' && !(field.key=='Deductibles' && this.productItem.InsuranceClass=='126'))
+          if((this.insuranceId=='100040' && this.productItem.InsuranceClass!='121' && this.productItem.InsuranceClass!='122' && !(field.key=='Deductibles' && this.productItem.InsuranceClass=='126')) && (this.insuranceId=='100040' && this.productItem.InsuranceClass!='129' && this.productItem.InsuranceClass!='130' && !(field.key=='Deductibles' && this.productItem.InsuranceClass=='126')) && (this.insuranceId=='100040' && this.productItem.InsuranceClass!='143' && this.productItem.InsuranceClass!='145' )
             || (this.insuranceId=='100042' && this.productItem.InsuranceClass!='135' && this.productItem.InsuranceClass!='136' && this.productItem.InsuranceClass!='137')){
               
               field.hideExpression = false;
