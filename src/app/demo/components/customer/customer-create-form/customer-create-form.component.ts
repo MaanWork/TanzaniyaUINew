@@ -147,13 +147,13 @@ export class CustomerCreateFormComponent implements OnInit {
 		
 
 	// }
-	if(this.insuranceId=="100040" || this.insuranceId=="100042" ){
 		this.getSocioProfessional();
 		this.getStateList('direct');
 		this.getRegionList('direct');
 		this.getNationalityList();
 		this.getOccupationLists('direct');
-	}
+		this.getPolicyIdTypeList();
+	
 	if((this.insuranceId=='100002' || this.insuranceId=='100044')  && this.customerReferenceNo ){
 		this.getOccupationLists('direct');
 		if(this.customerReferenceNo){
