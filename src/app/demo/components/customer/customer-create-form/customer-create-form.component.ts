@@ -152,6 +152,13 @@ export class CustomerCreateFormComponent implements OnInit {
 		this.getStateList('direct');
 		this.getRegionList('direct');
 		this.getNationalityList();
+		this.getOccupationLists('direct');
+	}
+	if((this.insuranceId=='100002' || this.insuranceId=='100044')  && this.customerReferenceNo ){
+		this.getOccupationLists('direct');
+		if(this.customerReferenceNo){
+			this.setValues()
+		}
 	}
 	
     }
@@ -256,14 +263,15 @@ export class CustomerCreateFormComponent implements OnInit {
 		this.additionalInfoFields[0] = fireData?.fields?.fieldGroup[1];
 		this.addressInfoFields[0] = fireData?.fields?.fieldGroup[2];
 		
+		// if(this.customerReferenceNo=='' || this.customerReferenceNo==null || this.customerReferenceNo==undefined){
+			this.getCountryList();
+			this.getGenderList();
+			this.getBusinessTypeList();
+			this.getMobileCodeList();
+			this.getPolicyHolderList('change');
+			//this.getPolicyIdTypeList()
+		// }
 		
-		this.getCountryList();
-		
-		this.getGenderList();
-		//this.getOccupationList();
-		this.getBusinessTypeList();
-		this.getMobileCodeList();
-		this.getPolicyHolderList('change');
 		if(this.insuranceId=='100002' || this.insuranceId=='100044'){
 			let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
 				field.form.controls['Country'].valueChanges.subscribe(() => {
@@ -786,11 +794,13 @@ export class CustomerCreateFormComponent implements OnInit {
 					if (data.Result) {
 						this.policyHolderList = data.Result;
 								let defaultRow = []
+							
 								this.policyHolderList = defaultRow.concat(this.policyHolderList);
+								// this.getPolicyIdTypeList()
 			}
 		});  
 	}
-	getPolicyIdTypeList(type) {
+	getPolicyIdTypeList() {
 			let ReqObj = {
 				"InsuranceId": this.insuranceId,
 				"BranchCode": this.branchCode,
@@ -817,12 +827,16 @@ export class CustomerCreateFormComponent implements OnInit {
 									}
 								}
 							}
-						
+							// if (this.customerReferenceNo) {
+							// 	this.setValuescall()
+							// }
 						//this.fields[0].fieldGroup[0].fieldGroup[1].fieldGroup[0].props.options = defaultRow.concat(this.policyHolderTypeList);
 						// if (type == 'change'){this.dob = "";this.productItem.PolicyHolderTypeid='';
 						//this.productItem.IdNumber=null
 					//}
 					}
+
+					
 				},
 				(err) => { },
 			);
@@ -1032,38 +1046,38 @@ export class CustomerCreateFormComponent implements OnInit {
 							
 						}
 						
-								if (this.customerReferenceNo) {
-									this.setValues();
-								}
-								else {
-									this.productItem = new ProductData();
-									this.productItem.Clientstatus = 'Y';
-									this.productItem.isTaxExempted = 'N'; 
-									this.productItem.PreferredNotification = 'Sms';
-									this.productItem.Gender = '';
-									this.productItem.PolicyHolderTypeid = '';
-									this.productItem.IdType = '1';
-									this.setPolicyType();
-									if(this.mobileCodeList.length!=0 && this.mobileCodeList.length>1){
-										this.productItem.MobileCode = this.mobileCodeList[1].Code;
-									}
-									if(this.countryList.length!=0 && this.countryList.length>1){
-										this.productItem.Country = this.countryList[1].Code;
-											this.getRegionList('change');
-									}
-									this.productItem.state = '';
-									this.productItem.CityName = '';
-									this.productItem.Occupation = '';
-									this.productItem.BusinessType='';
-									this.productItem.Title='';
-									this.getPolicyIdTypeList('change');
-									if(sessionStorage.getItem('VechileDetails')){
-										let motorDetails = JSON.parse(sessionStorage.getItem('VechileDetails'));
-										this.productItem.ClientName = motorDetails.ResOwnerName;
-										this.productItem.Title = '1';
-										this.onTitleChange('direct');
-									}
-								}
+						if (this.customerReferenceNo) {
+							this.setValues();
+							//this.getPolicyIdTypeList()
+						}
+						else {
+							this.productItem = new ProductData();
+							this.productItem.Clientstatus = 'Y';
+							this.productItem.isTaxExempted = 'N'; 
+							this.productItem.PreferredNotification = 'Sms';
+							this.productItem.Gender = '';
+							this.productItem.PolicyHolderTypeid = '';
+							this.productItem.IdType = '1';
+							this.setPolicyType();
+							if(this.mobileCodeList.length!=0 && this.mobileCodeList.length>1){
+								this.productItem.MobileCode = this.mobileCodeList[1].Code;
+							}
+							if(this.countryList.length!=0 && this.countryList.length>1){
+								this.productItem.Country = this.countryList[1].Code;
+									this.getRegionList('change');
+							}
+							this.productItem.state = '';
+							this.productItem.CityName = '';
+							this.productItem.Occupation = '';
+							this.productItem.BusinessType='';
+							this.productItem.Title='';
+							if(sessionStorage.getItem('VechileDetails')){
+								let motorDetails = JSON.parse(sessionStorage.getItem('VechileDetails'));
+								this.productItem.ClientName = motorDetails.ResOwnerName;
+								this.productItem.Title = '1';
+								this.onTitleChange('direct');
+							}
+						}
 
 					}
 				},
@@ -1137,7 +1151,7 @@ export class CustomerCreateFormComponent implements OnInit {
 				else this.productItem.IdType = '1';
 				if(title=='1') this.productItem.Gender = 'M';
 				else this.productItem.Gender = 'F';
-				if(type!='direct') this.getPolicyIdTypeList(null);
+				if(type!='direct') this.getPolicyIdTypeList();
 		}
 		else{
 			this.productItem.IdType = '';
@@ -1213,6 +1227,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					// 	var dateParts = customerDetails.AppointmentDate.split("/");
 					// 	 this.productItem.AppointmentDate = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
 					// }
+					
 					this.productItem.Address1 = customerDetails.Address1;
 					this.productItem.Address2 = customerDetails.Address2;
 					this.productItem.BusinessType = customerDetails.BusinessType;
@@ -1242,22 +1257,17 @@ export class CustomerCreateFormComponent implements OnInit {
 					//this.productItem.IdNumber = customerDetails.IdNumber;
 					if(customerDetails.PolicyHolderType!=null && customerDetails.PolicyHolderType!=''){
 						this.productItem.IdType = customerDetails.PolicyHolderType;
-						
 						this.setPolicyType();
 						if((this.productItem.IdType=='2' || this.productItem.IdType==2) && this.insuranceId=='100044'){
 							this.productItem.CompanyName = customerDetails?.ClientName;
 						}
 					}
-					else{
-						this.getPolicyIdTypeList("direct");
-					}
-					
+					this.getPolicyIdTypeList()
 					this.productItem.isTaxExempted = customerDetails.IsTaxExempted;
 					if (this.productItem.isTaxExempted == 'Y') this.productItem.TaxExemptedId = customerDetails.TaxExemptedId;
 					this.productItem.MobileNo = customerDetails.MobileNo1;
 					this.productItem.MobileCode = customerDetails.MobileCode1;
 					this.productItem.MobileCodeDesc = customerDetails.MobileCodeDesc1;
-					this.productItem.PolicyHolderTypeid = customerDetails.PolicyHolderTypeid;
 					if(this.productItem.PolicyHolderTypeid =='1' && this.insuranceId=='100004'){
 						this.shows=true;
 						if(customerDetails.IdNumber!='NA'){
@@ -1277,25 +1287,15 @@ export class CustomerCreateFormComponent implements OnInit {
 						this.productItem.state = '';
 						
 					}
-					this.getStateList(null);
-					this.getRegionList(null);
-					// if (customerDetails.DobOrRegDate != null && customerDetails.DobOrRegDate != undefined) {
-					// 	if(new Date(this.maxDobDate).setHours(0,0,0,0) >= (new Date(customerDetails.DobOrRegDate)).setHours(0,0,0,0) ){
-					// 		var dateParts = customerDetails.DobOrRegDate.split("/");
-					// 		this.productItem.dobOrRegDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
-					// 	}
-					// 	else{
-					// 		var dateParts = customerDetails.DobOrRegDate.split("/");
-					// 		this.productItem.dobOrRegDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
-					// 	}
-					// }
 					this.productItem.dobOrRegDate=customerDetails.DobOrRegDate;
 					this.productItem.Street = customerDetails.Street;
 					this.productItem.TelephoneNo = customerDetails.TelephoneNo1;
 					if(this.shortQuoteYN && customerDetails.Occupation=='99999') this.productItem.Occupation = '';
 					else this.productItem.Occupation = customerDetails.Occupation;
 					this.productItem.Title = customerDetails.Title;
+					this.productItem.Occupation = customerDetails.Occupation;
 					this.productItem.vrngst = customerDetails.VrTinNo;
+					this.productItem.PolicyHolderTypeid = customerDetails.PolicyHolderTypeid;
 					if(this.loginType=='B2CFlow' || (this.loginType=='B2CFlow2')){
 						if(this.productItem.Address1==null || this.productItem.Address1==''){
 							this.productItem.Occupation = '';
@@ -1304,6 +1304,7 @@ export class CustomerCreateFormComponent implements OnInit {
 						}
 					}
 					console.log("Final Edit Data", this.productItem)
+					console.log("Final Edit Data", this.personalInfoFields)
 				}
 			},
 			(err) => { },
@@ -1639,8 +1640,6 @@ export class CustomerCreateFormComponent implements OnInit {
       if(value==2 || value=='2'){
         this.productItem.Gender = '';
       }
-      this.getPolicyIdTypeList('change');
-	  this.getOccupationLists('change');
 	if(this.insuranceId=='100004'){
 		this.getType3('change');
 	} 
