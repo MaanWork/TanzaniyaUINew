@@ -6642,7 +6642,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         //   ReqObj['EndtPrevPolicyNo'] = this.quoteDetails?.Endtprevpolicyno;
         //   ReqObj['EndtPrevQuoteNo'] = this.quoteDetails?.Endtprevquoteno;
         // }
-        let urlLink = `http://192.168.1.10:8084/eway/rating/convertExcelToCSV/${this.productId}/${this.insuranceId}`;
+        let urlLink = `${this.ApiUrl1}eway/rating/convertExcelToCSV/${this.productId}/${this.insuranceId}`;
         this.sharedService.onPostDocumentMethodSyncNoReqObj(urlLink ,this.uploadDocList[0].url).subscribe(
           (data: any) => {
             // if(data.ErrorMessage){
@@ -6670,7 +6670,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       
     }
      checkStatus(tranId,type){
-      let urlLink = `http://192.168.1.10:8084/batch/getTranactionByTranId?tranId=${tranId}`;
+      let urlLink = `${this.ApiUrl1}batch/getTranactionByTranId?tranId=${tranId}`;
        this.sharedService.onGetMethod(urlLink).subscribe(
         (data: any) => {
             if(data?.Result){
@@ -6838,7 +6838,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         
     }
     
-    let urlLink = `http://192.168.1.10:8084/eway/vehicle/batch/upload`;
+    let urlLink = `${this.ApiUrl1}eway/vehicle/batch/upload`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         console.log(data);
@@ -6853,7 +6853,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
 
     dataValidation(){
-      let urlLink = `http://192.168.1.10:8084/eway/vehicle/vehicle/validation/${this.tranId}`;
+      let urlLink = `${this.ApiUrl1}eway/vehicle/vehicle/validation/${this.tranId}`;
         this.sharedService.onGetMethod(urlLink).subscribe(
           (data: any) => {
             console.log(data);
@@ -6874,7 +6874,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         );
     }
     movingRecords(){
-      let urlLink = `http://192.168.1.10:8084/eway/vehicle/batch/createquote/${this.tranId}`;
+      let urlLink = `${this.ApiUrl1}eway/vehicle/batch/createquote/${this.tranId}`;
         this.sharedService.onGetMethod(urlLink).subscribe(
           (data: any) => {
             console.log(data);
@@ -6893,7 +6893,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         );
     }
     movingRecords2(){
-      let urlLink = `http://192.168.1.10:8084/eway/vehicle/delete/rawdata/${this.tranId}`;
+      let urlLink = `${this.ApiUrl1}eway/vehicle/delete/rawdata/${this.tranId}`;
         this.sharedService.onGetMethod(urlLink).subscribe(
           (data: any) => {
             console.log(data);

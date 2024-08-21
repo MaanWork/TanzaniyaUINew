@@ -26,7 +26,7 @@
                 
                 &nbsp;<p-button [label]="'MOTORQUOTE.SearchVehicle' | translate" *ngIf="customerDetails" icon="pi pi-search" (onClick)="onSearchVehicle()"></p-button>&nbsp;
                 <p-button [label]="'MOTORQUOTE.AddVehicle' | translate" icon="pi pi-plus" *ngIf="customerDetails" (click)="onCreateVehicle()"></p-button>&nbsp;&nbsp;
-                <!-- <p-button [label]="'MOTORQUOTE.FileUpload' | translate" icon="pi pi-cloud-upload" *ngIf="customerDetails" (click)="onMoveToUpload()"></p-button>&nbsp;&nbsp; -->
+                <p-button [label]="'MOTORQUOTE.FileUpload' | translate" icon="pi pi-cloud-upload" *ngIf="customerDetails" (click)="onMoveToUpload()"></p-button>&nbsp;&nbsp;
                 <p-button [label]="'HOME.Customer' | translate" *ngIf="!customerDetails" icon="pi pi-plus" (click)="showSearchForm('change')"></p-button>
             </div>
         </div>
