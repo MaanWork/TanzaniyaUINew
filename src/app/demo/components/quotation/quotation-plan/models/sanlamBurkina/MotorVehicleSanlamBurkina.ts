@@ -26,227 +26,7 @@ export class MotorVehicleSanlamBurkina{
           fieldGroup: [
             {
               fieldGroupClassName: 'grid',
-              // fieldGroup:[
-              //   {
-              //     type: 'ngselect',
-              //     key: 'InsuranceType',
-              //     id: 'InsuranceType',
-              //     defaultValue: '',
-              //     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
-              //     props: {
-              //       label: `Insurance Type`,
-              //       disabled: this.checkDisable('InsuranceType'),
-              //       required: true,
-              //       options: [
-    
-              //       ],
-    
-              //     },
-              //     validators: {
-              //       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-              //     },
-              //     hooks: {
-              //     },
-              //     expressions: {
-              //     },
-              //   },
-              //   {
-              //     type: 'ngselect',
-              //     key: 'InsuranceClass',
-              //     id:'InsuranceClass',
-              //     defaultValue: '',
-              //     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
-              //     props: {
-              //       label: `Insurance Class`,
-              //       disabled: this.checkDisable('InsuranceClass'),
-              //       required: true,
-              //       options: [
-    
-              //       ],
-    
-              //     },
-              //     validators: {
-              //       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-              //     },
-              //     hooks: {
-              //     },
-              //     expressions: {
-              //     },
-              //   },
-              //   {
-              //     type: 'ngselect',
-              //     id:'Deductibles',
-              //     key: 'Deductibles',
-              //     defaultValue: '',
-              //     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-              //     props: {
-              //       label: `Deductibles`,
-              //       disabled: this.checkDisable('Deductibles'),
-              //       required: true,
-              //       options: [
-    
-              //       ],
-    
-              //     },
-              //     validators: {
-              //       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-              //     },
-              //     hooks: {
-              //     },
-              //     expressions: {
-              //     },
-              //   },
-               
-              //   {
-              //     type: 'ngselect',
-              //     key: 'MotorUsage',
-              //     id: 'MotorUsage',
-              //     defaultValue: '',
-              //     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
-              //     props: {
-              //       label: `Motor Usage`,
-              //       disabled: this.checkDisable('MotorUsage'),
-              //       required: true,
-              //       options: [
-    
-              //       ],
-    
-              //     },
-              //     validators: {
-              //       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-              //     },
-              //     hooks: {
-              //     },
-              //     expressions: {
-              //     },
-              //   },
-              //   {
-              //     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
-              //     key: 'ClaimsYN',
-              //     id: 'Claims',
-              //     type: 'radioList',
-              //     templateOptions: {
-              //       type: 'radioList',
-              //       label: 'Claims',
-              //       required: true,
-              //       disabled: this.checkDisable('ClaimsYN'),
-              //       name: 'ClaimsYN',
-              //       options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
-              //     }
-              //   },
-              //   {
-              //     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
-              //     key: 'GpsYN',
-              //     id: 'GPS',
-              //     type: 'radioList',
-              //     templateOptions: {
-              //       type: 'radioList',
-              //       label: 'GPS',
-              //       required: true,
-              //       disabled: this.checkDisable('ClaimsYN'),
-              //       name: 'GpsYN',
-              //       options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
-              //     }
-              //   },
-              //   {
-              //     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
-              //     type: 'commaSeparator',
-              //     key: 'VehicleSI',
-              //     id: 'VehicleSI',
-              //     hide: true,
-              //     hideExpression:true,
-              //     props: {
-              //       label: `VehicleSI`,
-              //       maxLength: 15,
-              //       disabled: this.checkDisable('VehicleSI'),
-              //       required: true,
-              //       options: [
-
-              //       ],
-
-              //     },
-              //     validators: {
-              //     },
-              //     hooks: {
-              //     },
-              //     expressions: {
-              //     },
-              //   },
-              //   {
-              //     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
-              //     type: 'commaSeparator',
-              //     key: 'AccessoriesSI',
-              //     id: 'AccessoriesSI',
-              //     hide: true,
-              //     hideExpression:true,
-              //     props: {
-              //       label: `Accessories SumInured`,
-              //       maxLength: 15,
-              //       disabled: this.checkDisable('AccessoriesSI'),
-              //       required: true,
-              //       options: [
-
-              //       ],
-
-              //     },
-              //     validators: {
-              //     },
-              //     hooks: {
-              //     },
-              //     expressions: {
-              //     },
-              //   },
-              //   {
-              //     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
-              //     type: 'commaSeparator',
-              //     key: 'WindShieldSI',
-              //     id: 'WindShieldSI',
-              //     hide: true,
-              //     hideExpression:true,
-              //     props: {
-              //       label: `WindShield SumInured`,
-              //       maxLength: 15,
-              //       disabled: this.checkDisable('WindShieldSI'),
-              //       required: true,
-              //       options: [
-
-              //       ],
-
-              //     },
-              //     validators: {
-              //     },
-              //     hooks: {
-              //     },
-              //     expressions: {
-              //     },
-              //   },
-              //   {
-              //     type: 'commaSeparator',
-              //     key: 'ExtendedTPPDSI',
-              //     id: 'ExtendedTPPDSI',
-              //     defaultValue: '',
-              //     className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
-              //     hide: true,
-              //     hideExpression:true,
-              //     props: {
-              //       label: `Extended TPPD SumInsured`,
-              //       disabled: this.checkDisable('ExtendedTPPDSI'),
-              //       required: true,
-              //       options: [
-    
-              //       ],
-    
-              //     },
-              //     validators: {
-              //       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-              //     },
-              //     hooks: {
-              //     },
-              //     expressions: {
-              //     },
-              //   }
-              // ]
-
+             
 
               fieldGroup: [
                 
@@ -266,8 +46,8 @@ export class MotorVehicleSanlamBurkina{
     
                   },
                   validators: {
-                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)],
-                   
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)],
+                      //  message: ( field: FormlyFieldConfig) =>"This Field is Required",
                   },
                   hooks: {
                   },
@@ -386,40 +166,39 @@ export class MotorVehicleSanlamBurkina{
                 //   expressions: {
                 //   },
                 // },
-                {
-                  type: 'commaSeparator',
-                  id:'Newvalue',
-                  key: 'Newvalue',
-                  defaultValue: '',
-                  className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                  hide: true,
-                  hideExpression:true,
-                  props: {
-                    label: `New  Value`,
-                    disabled: this.checkDisable('Newvalue'),
-                    required: true,
-                    options: [
+                // {
+                //   type: 'commaSeparator',
+                //   id:'Newvalue',
+                //   key: 'Newvalue',
+                //   defaultValue: '',
+                //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                //   hide: true,
+                //   hideExpression:true,
+                //   props: {
+                //     label: `New  Value`,
+                //     disabled: this.checkDisable('Newvalue'),
+                //     required: true,
+                //     options: [
     
-                    ],
+                //     ],
     
-                  },
-                  validators: {
-                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)],
-                   
-                  },
-                  hooks: {
-                  },
-                  expressions: {
-                  },
-                },
+                //   },
+                //   validators: {
+                //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                //   },
+                //   hooks: {
+                //   },
+                //   expressions: {
+                //   },
+                // },
                
                 {
                   type: 'ngselect',
                   id:'VehicleValue',
                   key: 'VehicleValue',
                   defaultValue: '',
-                  hide: true,
-                  hideExpression:true,
+                  hide: false,
+                  hideExpression:false,
                   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                   props: {
                     label: `VehicleValue`,
@@ -514,30 +293,30 @@ export class MotorVehicleSanlamBurkina{
                   expressions: {
                   },
                 },
-                {
-                  className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                  type: 'input',
-                  id:'VehicleSI',
-                  key: 'VehicleSI',
-                  hide: true,
-                  hideExpression:true,
-                  props: {
-                    label: `SumInsured`,
-                    maxLength: 15,
-                    disabled: this.checkDisable('VehicleSI'),
-                    required: true,
-                    options: [
+                // {
+                //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                //   type: 'input',
+                //   id:'VehicleSI',
+                //   key: 'VehicleSI',
+                //   hide: true,
+                //   hideExpression:true,
+                //   props: {
+                //     label: `SumInsured`,
+                //     maxLength: 15,
+                //     disabled: this.checkDisable('VehicleSI'),
+                //     required: true,
+                //     options: [
 
-                    ],
+                //     ],
 
-                  },
-                  validators: {
-                  },
-                  hooks: {
-                  },
-                  expressions: {
-                  },
-                },
+                //   },
+                //   validators: {
+                //   },
+                //   hooks: {
+                //   },
+                //   expressions: {
+                //   },
+                // },
                 {
                   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                   type: 'commaSeparator',
@@ -571,7 +350,7 @@ export class MotorVehicleSanlamBurkina{
                     label: `Number Of Passengers's `,
                     maxLength: 15,
                     disabled: this.checkDisable('NumberOfPassengers'),
-                  //  required: true,
+                    required: true,
                     options: [
 
                     ],
@@ -585,31 +364,28 @@ export class MotorVehicleSanlamBurkina{
                   },
                 },
 
-                {
-                  className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                  type: 'input',
-                  key: 'Mileage',
-                  id:'Mileage',
-                  props: {
-                    label: `Mileage (Km/lit)`,
-                    maxLength: 15,
-                    disabled: this.checkDisable('Mileage'),
-                  //  required: true,
-                    options: [
+                // {
+                //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                //   type: 'input',
+                //   key: 'Mileage',
+                //   id:'Mileage',
+                //   props: {
+                //     label: `Mileage (Km/lit)`,
+                //     maxLength: 15,
+                //     disabled: this.checkDisable('Mileage'),
+                //     required: false,
+                //     options: [
 
-                    ],
+                //     ],
 
-                  },
-                  validators: {
-                    messages: {
-                      required: 'Mileage is required'
-                    },
-                  },
-                  hooks: {
-                  },
-                  expressions: {
-                  },
-                },
+                //   },
+                //   validators: {
+                //   },
+                //   hooks: {
+                //   },
+                //   expressions: {
+                //   },
+                // },
                 {
                   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                   key: 'ClaimsYN',
@@ -657,7 +433,7 @@ export class MotorVehicleSanlamBurkina{
                 //     type:'datepicker',
                 //     label: `Date Of circulation`,
                 //     disabled: this.checkDisable('DateOfcirculation'),
-                   
+                //     required: true,
                 //     options: [
 
                 //     ],
@@ -679,6 +455,7 @@ export class MotorVehicleSanlamBurkina{
                   props: {
                     label: `Number of cards (WW Garage)`,
                     disabled: this.checkDisable('Nombredecartes'),
+                    required: true,
                     options: [
 
                     ],
