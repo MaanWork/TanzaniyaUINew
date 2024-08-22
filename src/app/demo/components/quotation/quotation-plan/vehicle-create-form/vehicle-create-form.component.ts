@@ -591,7 +591,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "PolicyType": this.vehicleDetails?.PolicyType,
         "RadioOrCasseteplayer": null,
         "RegistrationYear": regYear,
-        "Registrationnumber": this.regNo,
+        "Registrationnumber": this.regNo.toUpperCase(),
         "RoofRack": null,
         "SeatingCapacity": this.seatingCapacity,
         "SourceTypeId": this.sourceType,
