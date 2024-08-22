@@ -26,7 +26,7 @@
                 
                 &nbsp;<p-button [label]="'MOTORQUOTE.SearchVehicle' | translate" *ngIf="customerDetails" icon="pi pi-search" (onClick)="onSearchVehicle()"></p-button>&nbsp;
                 <p-button [label]="'MOTORQUOTE.AddVehicle' | translate" icon="pi pi-plus" *ngIf="customerDetails" (click)="onCreateVehicle()"></p-button>&nbsp;&nbsp;
-                <p-button [label]="'MOTORQUOTE.FileUpload' | translate" icon="pi pi-cloud-upload" *ngIf="customerDetails" (click)="onMoveToUpload()"></p-button>&nbsp;&nbsp;
+                <!-- <p-button [label]="'MOTORQUOTE.FileUpload' | translate" icon="pi pi-cloud-upload" *ngIf="customerDetails" (click)="onMoveToUpload()"></p-button>&nbsp;&nbsp; -->
                 <p-button [label]="'HOME.Customer' | translate" *ngIf="!customerDetails" icon="pi pi-plus" (click)="showSearchForm('change')"></p-button>
             </div>
         </div>
@@ -396,7 +396,7 @@
                             <div class="grid" *ngIf="collateralYN=='Y'">
                                 <div class="lg:col-4 md:col-4 col-4" >
                                     <label for="borrowerType">{{'MOTORQUOTE.BorrowerType' | translate}}</label><span class="text-danger">*</span>
-                                    <p-dropdown inputId="borrowerType" class="w-full" styleClass="w-full" [options]="borrowerList"
+                                    <p-dropdown inputId="borrowerType" class="w-full" styleClass="w-full" [options]="borrowerList" (onChange)="borrowerValueChange()"
                                         [(ngModel)]="borrowerValue" [disabled]="((endorsementSection && !enableCollateralDetails)) || checkDisableField()" optionLabel="CodeDesc" optionValue="Code"
                                         [placeholder]="'MOTORQUOTE.Selectt' | translate">
                                     </p-dropdown>
@@ -771,9 +771,43 @@
                                         <b>No Document Available</b>
                                     </div>
                                 </ng-container>  -->
+                                <ng-container *ngIf="uploadedDocList!=0 && checkStatusSP=='S' && uploadedDocList.ErrorRecord!=0" class="mt-5">
+                                    <div class="flex flex-wrap justify-content-between">
+                                        <h5>{{'DOCUMENT.ErrorDocuments' | translate}}</h5><br>
+                                        <button matStepperNext class="mat-button" (click)="dataValidation()">Download</button>
+                                    </div>
+                                    <div class="grid">
+                                        <div class="col-12 sm:col-12 md:col-12">
+                                            <p-table  [value]="uploadedDocList" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                    <th>Transaction Id</th>
+                                                    <th>File Name</th>
+                                                    <th>Status</th>
+                                                    <th>Totel Records</th>
+                                                    <th>Valid Records</th>
+                                                    <th>Error Records</th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-docs>
+                                                  <tr>
+                                                        <td>{{ docs.TranId }}</td>
+                                                        <td >{{docs.ExcelFileName}}</td>
+                                                        <td >Completed</td>
+                                                        <td>{{docs.TotalRecord}}</td>
+                                                        <td>{{docs.ValidRecord}}</td>
+                                                        <td>{{docs.ErrorRecord}}</td>
+                                                       
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </div>
+                                    </div>
+                                </ng-container>
                                 <div class="flex flex-wrap justify-content-end" *ngIf="uploadedDocList.length!=0 && checkStatusSP=='S'">
-                                    <button matStepperPrevious class="mat-button" (click)="dataValidation()">Back</button>
-                                    <button matStepperNext class="mat-button" (click)="movingRecords()" >Next</button>
+                                    <button matStepperPrevious class="mat-button" (click)="dataValidation()" *ngIf="uploadedDocList.ErrorRecord==0">Back</button>
+                                    <button  class="mat-button" (click)="restart()">Cancel</button>
+                                    <button matStepperNext class="mat-button" (click)="movingRecords()" >Proceed</button>
                                 </div>
                             </mat-step>
         
