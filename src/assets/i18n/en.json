@@ -80,7 +80,7 @@
     "DETAILLAST": "My main language was music, and my teacher was nature."
   },
   "LOGIN":{
-      "WelcometoXYZInsurance":"Welcome to XYZ Insurance",
+      "WelcometoXYZInsurance":"Welcome to Sanlam Allianz Insurance",
       "Signintocontinue": "Sign in to continue",
       "RetrieveQuoteUsingMobileNumber?": "Retrieve Quote Using MobileNumber?",
       "B2CQuote": "B2C Quote",
@@ -239,6 +239,10 @@
     "MotorUsage":"Motor Usage",
     "Claims": "Claims",
     "GPS":"GPS",
+    "Make":"Make",
+    "Model":"Model",
+    "ModelDesc":"Model Description",
+    "ModelDescription":"Model Description",
     "Selectt": "---Select---",
     "VehicleSI":"Vehicle SumInsured",
     "AccessoriesSI":"Accessories SumInsured",

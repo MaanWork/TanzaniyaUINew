@@ -81,7 +81,7 @@
   
   },
    "LOGIN":{
-            "WelcometoXYZInsurance":"Bienvenue chez XYZ Assurance",
+          "WelcometoXYZInsurance":"Bienvenue chez Sanlam Allianz Assurance",
         "Signintocontinue":"Connectez-vous pour continuer",
         "RetrieveQuoteUsingMobileNumber?":"Récupérer un devis à l'aide de MobileNumber?",
         "B2CQuote":"Devis B2C",
@@ -241,6 +241,9 @@
   "MotorUsage":"Utilisation du moteur",
   "Claims":"Réclamations",
   "GPS":"GPS",
+  "Make":"Faire",
+  "Model":"Modèle",
+  "ModelDesc":"Description du modèle",
   "Selectt":"---Sélectionner---",
   "VehicleSI":"Somme du véhicule assuré",
   "AccessoriesSI":"Accessoires SommeAssurée",
