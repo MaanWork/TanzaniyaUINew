@@ -99,7 +99,7 @@
       "EnterVRN/GSTNumber":"Insira o número VRN/GST"
     },
     "LOGIN":{
-        "WelcometoXYZInsurance":"Bem-vindo à XYZ Seguros",
+        "WelcometoXYZInsurance":"Bem-vindo à Sanlam Allianz Seguros",
         "Signintocontinue": "Faça login para continuar",
         "RetrieveQuoteUsingMobileNumber?": "Recuperar cotação usando Mobile Number?",
         "B2CQuote": "Cotação B2C",
@@ -252,6 +252,9 @@
       "MotorUsage":"Uso do motor",
       "Claims": "Reivindicações",
       "GPS":"GPS",
+      "Make":"Fazer",
+      "Model":"Modelo",
+      "ModelDesc": "Descrição do modelo",
       "Selectt": "---Selecione---",
       "EngineNo":"Número do motor",
       "EngineCapacity":"Capacidade do motor",

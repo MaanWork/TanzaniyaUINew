@@ -119,12 +119,12 @@ export class CustomerCreateFormComponent implements OnInit {
 			{ CodeDesc: 'DeActive', Code: 'N' },
 			{ CodeDesc: 'Pending', Code: 'P' }
 		];
-		this.notificationList = [
-			{ CodeDesc: 'Select', Code: '','CodeDescLocal':'Selecione' },
-			{ CodeDesc: 'SMS', Code: 'Sms','CodeDescLocal':'Sms -P' },
-			{ CodeDesc: 'Mail', Code: 'Mail','CodeDescLocal':'E-mail -P' },
-			{ CodeDesc: 'Whatsapp', Code: 'Whatsapp','CodeDescLocal':'Whatsapp -P' }
-		];
+		// this.notificationList = [
+		// 	{ CodeDesc: 'Select', Code: '',CodeDescLocal:'Sélectionner' },
+		// 	{ CodeDesc: 'SMS', Code: 'Sms',CodeDescLocal:'SMS -P' },
+		// 	{ CodeDesc: 'Mail', Code: 'Mail',CodeDescLocal:'E-mail -P' },
+		// 	{ CodeDesc: 'Whatsapp', Code: 'Whatsapp',CodeDescLocal:'Whatsapp -P' }
+		// ];
 		
 		this.taxExcemptedList = [
 			{ CodeDesc: '-Select-', Code: '','CodeDescLocal':'Selecione' },
@@ -1033,13 +1033,15 @@ export class CustomerCreateFormComponent implements OnInit {
 									let fieldList=this.personalInfoFields[0].fieldGroup;
 									for(let field of fieldList){
 										if(field.key=='MobileCode'){
-											// if(this.mobileCodeList.length>1){
+											 if(this.mobileCodeList.length>1){
 												field.props.options = defaultRow.concat(this.mobileCodeList);
 												this.checkFieldNames()
-											// }
-											// else{
-											// 	field.props.options = this.mobileCodeList;
-											// }
+											}
+											else{
+												field.props.options = this.mobileCodeList;
+												field.form.controls['MobileCode'].setValue(this.mobileCodeList[0].Code);
+												this.checkFieldNames()
+											}
 										}
 									}
 								}
@@ -1640,6 +1642,7 @@ export class CustomerCreateFormComponent implements OnInit {
       if(value==2 || value=='2'){
         this.productItem.Gender = '';
       }
+	  this.getPolicyIdTypeList();
 	if(this.insuranceId=='100004'){
 		this.getType3('change');
 	} 
