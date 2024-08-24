@@ -203,6 +203,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
     this.insuranceId = this.userDetails.Result.InsuranceId;
     this.branchList = this.userDetails.Result.LoginBranchDetails;
     this.loginType = this.userDetails.Result.LoginType;
+    this.quoteRefNo = sessionStorage.getItem('quoteReferenceNo');
+     this.quoteNo = sessionStorage.getItem('quoteNo');
     let loginType = this.userDetails.Result.LoginType;
     if(this.userType=='Issuer' )this.getSourceList();
     if(this.insuranceId=='100004') this.getNoOfDaysList();
