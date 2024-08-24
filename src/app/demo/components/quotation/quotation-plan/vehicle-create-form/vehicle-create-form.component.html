@@ -235,6 +235,10 @@
                 <label for="gross-weight">{{'MOTORDETAILS.GrossWeight' | translate}}*</label>
                 <input pInputText id="gross-weight" [(ngModel)]="grossWeight" maxlength="10" [disabled]="editSection" [placeholder]="'MOTORDETAILS.EnterGrossWeight' | translate"/>
             </div>
+            <div class="flex flex-column m-3" *ngIf="insuranceId=='100002'" >
+                <label for="gross-weight">{{'MOTORDETAILS.GrossWeight' | translate}}*</label>
+                <input pInputText id="gross-weight" [(ngModel)]="grossWeight" maxlength="10" [disabled]="editSection" [placeholder]="'MOTORDETAILS.EnterGrossWeight' | translate"/>
+            </div>
             <div class="flex flex-column m-3" *ngIf="(insuranceId!='100028' && insuranceId!='100004') && insuranceId!='100042' && insuranceId!='100040'">
                 <label for="no-of-axis">{{'MOTORDETAILS.NoofAxles' | translate }}*</label>
                 <input pInputText id="no-of-axis" digitOnly [(ngModel)]="noOfAxels" maxlength="10" [disabled]="editSection" [placeholder]="'MOTORDETAILS.EnterNoofAxles' | translate"/>
