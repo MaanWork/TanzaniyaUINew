@@ -459,7 +459,8 @@
      "SelectPlateType":"Select Plate Type",
      "SelectColor":"Select Color",
      "SelectDoors":"Select Doors",
-     "AddNewDriver":"Add New Driver"
+     "AddNewDriver":"Add New Driver",
+     "CountryCode":"Country Code"
   },
   "DOCUMENT":{
     "DocumentInfoforVerification": "Document Info for Verification",

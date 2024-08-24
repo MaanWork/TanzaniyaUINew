@@ -101,7 +101,7 @@
                             <label for="username">{{'MOTORQUOTE.SameasSubscriber' | translate}}</label>
                             <div class="flex justify-content-start gap-3">
                                 <p-selectButton [options]="driverOptions"  [(ngModel)]="row.Subscriber" id="SameasSubscriber"
-                                optionLabel="CodeDesc" optionValue="value"></p-selectButton>
+                                [optionLabel]="getDisplayName()" optionValue="value"></p-selectButton>
                             </div>
                         </div>
                         <div class="col-12 lg:col-4 md:col-4 xl:col-4 ">

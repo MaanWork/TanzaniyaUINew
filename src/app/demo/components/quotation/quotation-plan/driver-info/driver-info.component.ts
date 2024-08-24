@@ -69,6 +69,7 @@ export class DriverInfoComponent {
      var day = d.getDate();
       this.currentDate = new Date();
      // this.minDobDate =
+    
       this.driverOptions = [
         {"label":'Driver',"value":'2','CodeDesc':'Driver','CodeDescLocal':'Conducteur'},
         {"label":'Owner',"value":'1','CodeDesc':'Owner','CodeDescLocal':'Propriétaire'},
@@ -552,7 +553,7 @@ addNewDriver(vehId){
     "EndorsementType": null,
     "EndorsementTypeDesc": null,
     "RequestReferenceNo":null,
-    "Subscriber": null,
+    "Subscriber": '1',
     "Civility": null,
     "PlaceIssue": null,
     "CategoryCode": null,
