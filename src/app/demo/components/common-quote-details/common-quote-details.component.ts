@@ -5832,10 +5832,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.productItem.ExtendedTPPDSI = this.vehicleDetails?.TppdIncreaeLimit;
       this.productItem.AccessoriesSI = this.vehicleDetails?.AcccessoriesSumInsured;
       this.productItem.VehicleClass = this.vehicleDetails?.VehicleClass;
-      if(this.tabIndex!=0) this.onchangevehicleValue(this.vehicleDetails);
-      if((this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042') && this.tabIndex!=0){this.onChangeInsuranceClass('direct');}
-     
+      if((this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042') && this.tabIndex!=0){this.onChangeInsuranceClass('direct');this.onchangevehicleValue(this.vehicleDetails);}
+      
       this.onChangeAggregated();
+      
     }
   onchangevehicleValue(data){
     let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
@@ -5876,12 +5876,13 @@ export class CommonQuoteDetailsComponent implements OnInit {
              field.hideExpression = false;field.hide=false;
             }
          }
-         
         }
         else if(field.key =='Marketvalue' || field.key =='Aggregatedvalue' || field.key =='VehicleSI'){
            field.hideExpression = true;field.hide=true; 
          }
      }
+    
+     
       // if (field.form && field.form.controls['Marketvalue']) {
 
       // }
@@ -5889,6 +5890,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       //   field.hideExpression = true;field.hide=true; 
       // }
   }
+  console.log(fieldList,"fieldListfieldList");
 }
   onChangeInsuranceClass(type){
     let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
@@ -5920,8 +5922,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
         field.hideExpression = true;field.hide=true;
       }
       if(this.insuranceId=='100040' || this.insuranceId=='100042'){
-        if(field.key=='VehicleSI'  || field.key=='GpsYN' || field.key =='Aggregatedvalue' || field.key=='Newvalue' || field.key=='AccessoriesSI' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI'  || field.key=='Deductibles' || field.key=='Inflation' || field.key=='VehicleValue' || (field.key=='NoOfPassengers' && this.insuranceId=='100042') || (field.key=='PurchaseDate' && this.insuranceId=='100042') ){
-          if((this.insuranceId=='100040' && this.productItem.InsuranceClass!='121' && this.productItem.InsuranceClass!='122' && !(field.key=='Deductibles' && this.productItem.InsuranceClass=='126')) && (this.insuranceId=='100040' && this.productItem.InsuranceClass!='129' && this.productItem.InsuranceClass!='131' && !(field.key=='Deductibles' && this.productItem.InsuranceClass=='126')) && (this.insuranceId=='100040' && this.productItem.InsuranceClass!='143' && this.productItem.InsuranceClass!='145' )
+        if(field.key=='VehicleSI'  || field.key=='GpsYN' || field.key =='Aggregatedvalue'  || field.key=='Newvalue' || field.key=='AccessoriesSI' || field.key=='WindShieldSI' || field.key=='ExtendedTPPDSI'  || field.key=='Deductibles' || field.key=='Inflation' || field.key=='VehicleValue' || (field.key=='NoOfPassengers' && this.insuranceId=='100042') || (field.key=='PurchaseDate' && this.insuranceId=='100042') ){
+          if((this.insuranceId=='100040' && this.productItem.InsuranceClass!='121' && this.productItem.InsuranceClass!='122' ) && (this.insuranceId=='100040' && this.productItem.InsuranceClass!='129' && this.productItem.InsuranceClass!='131' ) && (this.insuranceId=='100040' && this.productItem.InsuranceClass!='143' && this.productItem.InsuranceClass!='144' )
             || (this.insuranceId=='100042' && this.productItem.InsuranceClass!='135' && this.productItem.InsuranceClass!='136' )){
               
               field.hideExpression = false;
@@ -5941,17 +5943,18 @@ export class CommonQuoteDetailsComponent implements OnInit {
               this.productItem.Inflation = null;this.productItem.Deductibles=null;this.productItem.VehicleValue = null;
               this.productItem.VehicleSI = 0;this.productItem.AccessoriesSI = 0;
               if(field.key=='VehicleValue'){
-                let changevehicleHooks = {
-                  onInit: (field: FormlyFieldConfig) => {
-                    console.log("Field Details",field,this.productItem)
-                    field.form.controls['VehicleValue'].valueChanges.subscribe(() => {
-                        if(this.tabIndex!=0 && field.form)this.productItem.VehicleValue=field.form.controls['VehicleValue'].value
+                // let changevehicleHooks = {
+                  // onInit: (field: FormlyFieldConfig) => {
+                  //   console.log("Field Details",field,this.productItem)
+                  //   field.form.controls['VehicleValue'].valueChanges.subscribe(() => {
+                        //if(this.tabIndex!=0 && field.form)this.productItem.VehicleValue=field.form.controls['VehicleValue'].value
+                       
                          this.onchangevehicleValue(null);
-                      });
-                  }
+                      // });
+                  // }
                   
-                };
-                field.hooks=changevehicleHooks;
+                // };
+                // field.hooks=changevehicleHooks;
                 console.log("Final Fields",field)
               }
 
