@@ -165,6 +165,7 @@
       
   },
   "MOTORQUOTE":{
+    "NumberOfCylinder":"Number of Cylinder(s)",
     "RegistrationDate":"RegistrationDate",
     "Tonnage":"Tonnage",
     "FileUpload":"File Upload",
@@ -186,7 +187,7 @@
     "Aggregatedvalue":"Aggregated value",
     "DisplacementinCM3":"DisplacementinCM3",
     "Nombredecartes":"Number of cards (WW Garage)",
-    "NumberofCylinder":"Number of Cylinder(s)",
+    
     "MunicipalityofTraffic":"Municipality of Traffic",
     "DateOfcirculation": "Date of circulation",
     "Transportationofhydrocarbons":"Transportation of hydrocarbons",
@@ -458,7 +459,8 @@
      "SelectPlateType":"Select Plate Type",
      "SelectColor":"Select Color",
      "SelectDoors":"Select Doors",
-     "AddNewDriver":"Add New Driver"
+     "AddNewDriver":"Add New Driver",
+     "CountryCode":"Country Code"
   },
   "DOCUMENT":{
     "DocumentInfoforVerification": "Document Info for Verification",
