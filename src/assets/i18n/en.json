@@ -165,6 +165,7 @@
       
   },
   "MOTORQUOTE":{
+    "RegistrationDate":"RegistrationDate",
     "Tonnage":"Tonnage",
     "FileUpload":"File Upload",
     "RawTableInsert":"Raw Table Insert",

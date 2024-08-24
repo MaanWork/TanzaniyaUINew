@@ -71,8 +71,8 @@ export class CustomerTableComponent implements OnInit{
       this.items = [{ label: 'Lar', routerLink:'/' }, {label:'Cliente'}];
     }
     else if(this.lang=='fr'){ 
-      this.columns = [ 'Numéro de référence','Nom du client',  'Type de client','Numéro d identification', 'Numéro de portable', 'Exonéré d impôt', 'Créé par', 'Statut', 'Action'];
-      this.items = [{ label: 'Maison', routerLink:'/' }, {label:'Client'}];
+      this.columns = [ 'Numéro de référence','Nom du client',  'Type de client',"Numéro d'identification", 'Numéro de portable', "Exonéré d'impôt", 'Créé par', 'Statut', 'Action'];
+      this.items = [{ label: 'Accueil', routerLink:'/' }, {label:'Client'}];
     }
   }
   onAddCustomer(rowData){

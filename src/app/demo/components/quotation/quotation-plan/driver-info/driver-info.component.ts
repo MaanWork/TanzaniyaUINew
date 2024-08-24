@@ -70,8 +70,8 @@ export class DriverInfoComponent {
       this.currentDate = new Date();
      // this.minDobDate =
       this.driverOptions = [
-        {"label":'Driver',"value":'2','CodeDesc':'Driver','CodeDescLocal':'Driver -P'},
-        {"label":'Owner',"value":'1','CodeDesc':'Owner','CodeDescLocal':'Owner -P'},
+        {"label":'Driver',"value":'2','CodeDesc':'Driver','CodeDescLocal':'Conducteur'},
+        {"label":'Owner',"value":'1','CodeDesc':'Owner','CodeDescLocal':'Propriétaire'},
       ];
      this.minDate = new Date(year - 18,month, day );
      let referenceNo =  sessionStorage.getItem('customerReferenceNo');
@@ -114,9 +114,11 @@ export class DriverInfoComponent {
 		if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
 		else this.lang='en';
 		sessionStorage.setItem('language',this.lang)
-		this.translate.setDefaultLang(sessionStorage.getItem('language'));}
+		this.translate.setDefaultLang(sessionStorage.getItem('language'));
+   }
     this.getMobileCodeList();
   }
+ 
  
   getEditQuoteDetails(){
     let ReqObj = {
