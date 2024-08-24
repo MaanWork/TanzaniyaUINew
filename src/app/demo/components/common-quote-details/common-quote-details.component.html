@@ -259,10 +259,10 @@
                                     <p-selectButton [options]="noOfDaysList" [(ngModel)]="noOfDays" id="gender2"
                                     (click)="onNoOfDaysChange('change')"    optionLabel="Code" optionValue="CodeDesc"></p-selectButton>
                                 </div>
-                                <div class="lg:col-2 md:col-2 col-3">
-                                    <label for="username">{{'MOTORQUOTE.Currency' | translate}} *</label>
+                                <div class="lg:col-2 md:col-2 col-3" [hidden]="insuranceId=='100040' || insuranceId=='100042'">
+                                    <label for="username" >{{'MOTORQUOTE.Currency' | translate}} *</label>
                                     <p-dropdown inputId="make" class="w-full" styleClass="w-full" [options]="currencyList"
-                                        [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')" [disabled]="(endorsementSection && !enableCurrency) || checkDisableField() "
+                                        [(ngModel)]="currencyCode" (onChange)="onCurrencyChange('change')" [disabled]="(endorsementSection && !enableCurrency) || checkDisableField() " 
                                         [optionLabel]="getDisplayName()" optionValue="Code" [placeholder]="'MOTORQUOTE.SelectCurrency' | translate">
                                     </p-dropdown>
                                     <div class="input-form-error" *ngIf="currencyCodeError">
@@ -271,7 +271,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="lg:col-2 md:col-2 col-3">
+                                <div class="lg:col-2 md:col-2 col-3" [hidden]="insuranceId=='100040' || insuranceId=='100042'">
                                     <label for="username">{{'MOTORQUOTE.ExchangeRate' | translate}}</label>
                                     <input pInputText id="username" maxlength="50" [disabled]="(endorsementSection && !enableCurrency) || checkDisableField()" [(ngModel)]="exchangeRate"
                                         (change)="onCommonDetailsChange()" />
