@@ -84,8 +84,8 @@
             <hr>
             <h3 class="mr-3">Payment Tracking Details</h3>
             <hr>
-            <h3 class="mr-3" *ngIf="mainStatus!='SA' && mainStatus!='SR'">Confirmation Details</h3>
-            <div class="grid" *ngIf="mainStatus!='SA' && mainStatus!='SR'"> 
+            <h3 class="mr-3" *ngIf="mainStatus=='SP'">Confirmation Details</h3>
+            <div class="grid" *ngIf="mainStatus=='SP'"> 
                 <div class="col-12 sm:col-4 md:col-4">
                     <div class="input-control-container">
                         <label class="input-form-label">Status</label><span

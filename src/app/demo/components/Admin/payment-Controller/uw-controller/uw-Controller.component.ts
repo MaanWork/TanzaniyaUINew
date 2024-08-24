@@ -50,7 +50,7 @@ export class UWControllerComponent implements OnInit{
     else if(index==2){this.getProductList('UWR')}
   }
   getProductList(type){
-    let urlLink = `${this.CommonApiUrl1}paymentprocess/get/surveyor/${type}`;
+    let urlLink = `${this.CommonApiUrl1}paymentprocess/get/underwritter/${type}`;
     let ReqObj = {
       "ProductId": this.ProductId
     }
