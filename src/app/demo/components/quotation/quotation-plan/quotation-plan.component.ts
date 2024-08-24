@@ -48,6 +48,10 @@ export class QuotationPlanComponent {
   onTabClicked(rowData){
     
   }
+  getCoverNameDesc(rowData){
+    if(this.lang=='en') return rowData.CoverName;
+    else return rowData.CoverNameLocal;
+  }
   checkCovers(sections,type){
     let coverList = sections.Covers;
       let i=0,j=0;
