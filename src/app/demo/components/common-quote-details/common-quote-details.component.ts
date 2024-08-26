@@ -1351,8 +1351,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
  
 }
  commaSeparatedToNumber() {
-  
-  if(this.productItem.Aggregatedvalue!="" && this.productItem.Aggregatedvalue!=null && this.productItem.Aggregatedvalue!=undefined){
+  if(this.productItem.Aggregatedvalue!="null" && this.productItem.Aggregatedvalue!="" && this.productItem.Aggregatedvalue!=null && this.productItem.Aggregatedvalue!=undefined){
     this.productItem.VehicleSI = Number(this.getAggregatedDesc(this.productItem.Aggregatedvalue).replace(/,/g, ''))
   }
   else{
@@ -6023,6 +6022,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                         for(let field of fieldList){
                           if(field.key=='MotorUsage'){
                                 field.props.options= this.motorUsageList;
+                                if(this.insuranceId=='100042' )this.getInsuranceTypeListIvory()
                           }
                         }
                 }
