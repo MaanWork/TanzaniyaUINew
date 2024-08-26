@@ -125,7 +125,8 @@
       "LookingFor": "O que você está procurando!",
       "Transaction": "Cotação e informações sobre política",
       "LoginCreation": "Criação de login e mestres",
-      "ApproverReferralManagement": "Gerenciamento de referências e muito mais"
+      "ApproverReferralManagement": "Gerenciamento de referências e muito mais",
+      "FormValidations": "Validação de formulário"
     },
     "DASHBOARD":{
         "Policies":"Políticas",
