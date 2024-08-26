@@ -69,7 +69,8 @@
                             <label for="username"> {{'MOTORQUOTE.DriverType' | translate}}</label>
                             <div class="flex justify-content-start gap-3">
                                 <p-selectButton [options]="driverOptions" [disabled]="endorsementSection && !enableDriverDetails" [(ngModel)]="row.DriverType"
-                                [optionLabel]="getDisplayName()" optionValue="value"></p-selectButton>
+                                [optionLabel]="getDisplayName()" optionValue="value">
+                            </p-selectButton>
                             </div>
                             <div class="input-form-error" *ngIf="row.driverTypeError">
                                 <div class="error-text text-danger">
@@ -190,6 +191,7 @@
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
                             <label for="username">{{'DRIVERINFO.SeriesNumber' | translate}} &nbsp;(Eg: TRN-123)</label>
                             <input pInputText maxlength="20" id="SeriesNumber" class="w-full" styleClass="w-full" [(ngModel)]="list.SeriesNo" [placeholder]="'DRIVERINFO.EnterSeriesNumber' | translate"/>
+
                             
                         </div>
                     
@@ -197,19 +199,19 @@
                             <label for="username">{{'DRIVERINFO.NumberOfCylinders' | translate}}</label>
                             <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [(ngModel)]="list.NoCylinder" [options] ="CylinderTypeList"
                             [optionLabel]="getDisplayName()"  optionValue="Code" [placeholder]="'DRIVERINFO.EnterNoOfCylinders' | translate">
-                        </p-dropdown>
+                             </p-dropdown>
                         </div>
                     
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
                             <label for="username">{{'DRIVERINFO.PlateType' | translate}}</label>
-                            <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [options] ="plateTypeList" [(ngModel)]="list.PlateType"
-                            [optionLabel]="getDisplayName()" optionValue="Code" [placeholder]="'DRIVERINFO.SelectPlateType' | translate">
+                            <p-dropdown inputId="PlateType" class="w-full" styleClass="w-full" [options] ="plateTypeList" [(ngModel)]="list.PlateType"
+                            [optionLabel]="getDisplayName()" optionValue="Code" id="PlateType" [placeholder]="'DRIVERINFO.SelectPlateType' | translate">
                             </p-dropdown>
                         </div>
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
                             <label for="username">{{'DRIVERINFO.PlateColor' | translate}}</label>
-                            <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" 
-                            [options]="colorList"
+                            <p-dropdown inputId="PlateColor" class="w-full" styleClass="w-full" 
+                            [options]="colorList" id="PlateColor"
                             [(ngModel)]="list.PlateColorId"
                             [optionLabel]="getDisplayName()"
                                 optionValue="Code" 
@@ -219,7 +221,7 @@
                     
                         <div class="col-12 md:col-4 lg:col-4 xl:col-4 mt-2">
                             <label for="username">{{'DRIVERINFO.NumberOfDoors' | translate}}</label>
-                            <p-dropdown inputId="engineType" class="w-full" styleClass="w-full" [options] ="NoOfDoorsList"  [(ngModel)]="list.NoDoors"
+                            <p-dropdown inputId="NumberOfDoors" id="NumberOfDoors" class="w-full" styleClass="w-full" [options] ="NoOfDoorsList"  [(ngModel)]="list.NoDoors"
                             [optionLabel]="getDisplayName()" optionValue="Code" [placeholder]="'DRIVERINFO.SelectDoors' | translate">
                             </p-dropdown>
                         </div>

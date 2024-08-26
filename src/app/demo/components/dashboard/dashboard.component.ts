@@ -208,7 +208,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                                     labels:labels,
                                     datasets: [
                                         {
-                                            label: 'Quotes',
+                                            label:  this.getLabelname('Quotes'),
                                             data: quoteCount,
                                             fill: false,
                                             backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
@@ -221,7 +221,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                                     labels:labels2,
                                     datasets: [
                                         {
-                                            label: 'Quotes',
+                                            label: this.getLabelname('Quotes'),
                                             data: quote2Count,
                                             fill: false,
                                             backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
@@ -229,7 +229,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                                             tension: .4
                                         },
                                         {
-                                            label: 'Policies',
+                                            label: this.getLabelname('Policies'),
                                             data: policyCount,
                                             fill: false,
                                             backgroundColor: documentStyle.getPropertyValue('--green-600'),
@@ -272,6 +272,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     this.endorsementList = data.Result;
             }
         });
+    }
+    getLabelname(type){
+        if(type=='Quotes'){
+            if(this.lang=='en') return 'Quotes'
+            else if(this.lang=='fr') return 'Citations';
+            else if(this.lang=='po') return 'Citações'
+        }
+        else if(type=='Policies'){
+            if(this.lang=='en') return 'Policies'
+            else if(this.lang=='fr') return 'Politiques';
+            else if(this.lang=='po') return 'Políticas'
+        }
     }
     getNotificationList(){
         let startDate = null,endDate=null;
