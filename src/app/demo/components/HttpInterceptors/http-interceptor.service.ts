@@ -19,6 +19,8 @@ import Swal from 'sweetalert2';
 import { LoggingService } from './logging.service';
 import { SharedService } from '../../service/shared.service';
 import { AuthService } from '../auth/Auth/auth.service';
+import { TranslateService } from '@ngx-translate/core';
+import { AppComponent } from 'src/app/app.component';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +34,7 @@ export class HttpInterceptorService implements HttpInterceptor {
   submitted = false;
   public ApiUrl1: any = this.AppConfig.ApiUrl1;
   public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
-  userType:any;
+  userType:any;lang:any=null;
   loginSection:boolean = false;
   branchList:any[]=[];
   invalidIssuer = false;branchValue:any;
@@ -43,10 +45,12 @@ export class HttpInterceptorService implements HttpInterceptor {
     public router: Router,
     private _injector: Injector,
     private loader: CustomLoadingService,
-    private sharedService:SharedService
+    private sharedService:SharedService,private translate: TranslateService
     // private logincomponent:LoginComponent
-
   ) {
+    this.lang =sessionStorage.getItem('language');
+    if(this.lang==undefined || this.lang==null) this.lang='fr';
+		this.translate.setDefaultLang(sessionStorage.getItem('language'));
     setTimeout(() => {
       this.auth = this._injector.get(AuthService);
     })
@@ -162,13 +166,8 @@ export class HttpInterceptorService implements HttpInterceptor {
               `<ul class="list-group errorlist">
                ${ulList}
               </ul>`,
-                //showCloseButton: true,
-                //focusConfirm: false,
                 showCancelButton:false,
-
-              //confirmButtonColor: '#3085d6',
               cancelButtonColor: '#d33',
-              //confirmButtonText: 'Proceed Login!',
               cancelButtonText: 'Okay!',
             })
         }
@@ -269,7 +268,6 @@ onBranchProceed(){
     else{
 
       let branchData:any = this.branchList.find(ele=>ele.BrokerBranchCode == this.branchValue);
-      console.log("Branch Value",this.branchValue,branchData)
       userDetails.Result['BrokerBranchCode'] = branchData.BrokerBranchCode;
       userDetails.Result['BranchCode'] = branchData.BranchCode;
       userDetails.Result['CurrencyId'] = branchData?.CurrencyId;
@@ -337,21 +335,31 @@ onBranchProceed(){
     let loadingType = sessionStorage.getItem('loadingType');
     if (res?.ErrorMessage && res?.ErrorMessage.length > 0 && loadingType!='motorSearch') {
       const errorList: any[] = res.ErrorMessage || res?.Result?.ErrorMessage;
-      console.log("ERRRRRRRR",errorList);
       let ulList:any='';
 
       for (let index = 0; index < errorList.length; index++) {
         const element = errorList[index];
-         ulList +=`<li class="list-group-login-field">
-         <div style="color: darkgreen;">Field<span class="mx-2">:</span>${element?.Field}</div>
-         <div style="color: red;">Message<span class="mx-2">:</span>${element?.Message}</div>
-       </li>`
-       console.log('ERRRRRRRRRRR',element);
+        let field = null,message=null,fieldDesc=null,messageDesc=null;
+        if(this.lang=='en'){field='Field',message="Message",fieldDesc = element?.Field,messageDesc=element?.Message}
+        else if(this.lang=='fr'){field='Champ',message="Message",fieldDesc = element?.FieldLocal,messageDesc=element?.MessageLocal}
+        else if(this.lang=='po'){field='Campo',message="Mensagem",fieldDesc = element?.FieldLocal,messageDesc=element?.MessageLocal}
+        ulList +=`<li class="list-group-login-field">
+        <div style="color: darkgreen;">
+           ${field}
+        <span class="mx-2">:</span> ${fieldDesc}</div>
+        <div style="color: red;">
+        ${message}
+        <span class="mx-2">:</span>${messageDesc}</div>
+      </li>`
 
       }
+      let formValidation = null;
+      if(this.lang=='en'){formValidation='Form Validations'}
+        else if(this.lang=='fr'){formValidation='Validation du formulaire'}
+        else if(this.lang=='po'){formValidation='Validação de formulário'}
       //sssss
       Swal.fire({
-        title: '<strong>Form Validations</strong>',
+        title: `<strong>${formValidation}</strong>`,
         icon: 'info',
         html:
           `<ul class="list-group errorlist">
@@ -374,15 +382,26 @@ onBranchProceed(){
       let ulList:any='';
       for (let index = 0; index < errorList.length; index++) {
         const element = errorList[index];
-        console.log('EEEEs',element)
          ulList +=`<li class="list-group-login-field">
-         <div style="color: darkgreen;">Field<span class="mx-2">:</span>${element?.Field}</div>
-         <div style="color: red;">Message<span class="mx-2">:</span>${element?.Message}</div>
+         <div style="color: darkgreen;">
+         <ng-container *ngIf="this.lang=='en'">Field</ng-container> <ng-container *ngIf="this.lang=='fr'">Champ</ng-container><ng-container *ngIf="this.lang=='po'">Campo</ng-container>
+         <span class="mx-2">:</span>
+         <ng-container *ngIf="this.lang=='en'"> ${element?.Field}</ng-container>
+         <ng-container *ngIf="this.lang!='en'"> ${element?.FieldLocal}</ng-container>
+         </div>
+         <div style="color: red;">
+         <ng-container *ngIf="this.lang=='en'">Message</ng-container> <ng-container *ngIf="this.lang=='fr'">Message</ng-container><ng-container *ngIf="this.lang=='po'">Mensagem</ng-container>
+         <span class="mx-2">:</span>
+         <ng-container *ngIf="this.lang=='en'">${element?.Message}</ng-container>
+         <ng-container *ngIf="this.lang!='en'"> ${element?.MessageLocal}</ng-container>
+         </div>
        </li>`
 
       }
       Swal.fire({
-        title: '<strong>Error</strong>',
+        title: `<strong>
+          <ng-container *ngIf="this.lang=='en'">Errors!</ng-container> <ng-container *ngIf="this.lang=='fr'">Erreurs!</ng-container><ng-container *ngIf="this.lang=='po'">Erros!</ng-container>
+          </strong>`,
         icon: 'info',
         html:
           `<ul class="list-group errorlist">
@@ -391,7 +410,7 @@ onBranchProceed(){
         showCloseButton: true,
         focusConfirm: false,
         confirmButtonText:
-          '<i class="fa fa-thumbs-down"></i> Errors!',
+          `<i class="fa fa-thumbs-down"></i> <ng-container *ngIf="this.lang=='en'">Errors!</ng-container> <ng-container *ngIf="this.lang=='fr'">Erreurs!</ng-container><ng-container *ngIf="this.lang=='po'">Erros!</ng-container>`,
         confirmButtonAriaLabel: 'Thumbs down, Errors!',
       })
 

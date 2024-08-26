@@ -109,7 +109,8 @@
   "LookingFor":"Qu'est-ce que tu cherches!",
   "Transaction":"Informations sur les devis et les politiques",
   "LoginCreation":"Connexion Création & Masters",
-  "ApproverReferralManagement":"Gestion des références et plus"
+  "ApproverReferralManagement":"Gestion des références et plus",
+  "FormValidations": "Validation du formulaire"
   
   },
   "DASHBOARD":{
