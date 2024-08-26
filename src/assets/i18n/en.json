@@ -106,7 +106,8 @@
     "LookingFor": "What Are You Looking For!",
     "Transaction": "Quotation & Policy Information",
     "LoginCreation": "Login Creation & Masters",
-    "ApproverReferralManagement": "Referral Management & More"
+    "ApproverReferralManagement": "Referral Management & More",
+    "FormValidations": "Form Validations"
   },
   "DASHBOARD":{
       "Policies":"Policies",
