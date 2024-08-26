@@ -111,10 +111,14 @@ export class AppTopBarComponent implements OnInit {
       if(branchList.length!=0){
         let i=0;
         for(let branch of branchList){
-          branch['label']=branch['BranchName'];
+           if(this.lang=='en') branch['label']=branch['BranchName'];
+            else branch['label']=branch['BrokerBranchNameLocal']
+          //branch['label']=branch['BranchName'];
           i+=1;
           if(i==branchList.length) this.branchList = branchList;
         }
+        console.log(this.branchList,"this.branchList");
+        
       }
       if (this.userType == 'Issuer') {
         let branch = this.branchList.filter(ele => ele.BranchCode == this.branchValue);
