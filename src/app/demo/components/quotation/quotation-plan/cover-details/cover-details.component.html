@@ -110,9 +110,9 @@
                                                     </div>
                                                 </ng-container>
                                             </div>
-                                            <ng-container *ngIf="checkBenefitSection(menu)">
+                                            <!-- <ng-container *ngIf="checkBenefitSection(menu)">
                                                 <h3>{{'PREMIUM.BenefitCovers' | translate}}</h3><br>
-                                            </ng-container>
+                                            </ng-container> -->
                                             <div class="flex flex-wrap justify-content-between">
                                                 <div class="grid">
                                                     <ng-container *ngFor="let cover of menu.CoverList">
@@ -217,9 +217,9 @@
                                                     </ng-container>
                                                 </ng-container>
                                             </div>
-                                            <ng-container *ngIf="checkBenefitSection2(menu)">
+                                            <!-- <ng-container *ngIf="checkBenefitSection2(menu)">
                                                 <h3>{{'PREMIUM.BenefitCovers' | translate}}</h3><br>
-                                            </ng-container>
+                                            </ng-container> -->
                                             <div class="flex flex-wrap justify-content-start">
                                                 <ng-container *ngFor="let cover of menu.CoverList">
                                                     <div class="card p-3 w-22rem" *ngIf="(cover.isSelected!='D' && cover.CoverageType=='A') && ! checkCoverSelection(menu,cover)">
@@ -266,7 +266,7 @@
                                                 </ng-container>
                                                 <div class="flex flex-wrap justify-content-start">
                                                     <ng-container *ngFor="let cover of menu.CoverList">
-                                                        <ng-container *ngIf="(cover.isSelected!='D' && cover.CoverageType!='A') && !checkCoverSelection(menu,cover)">
+                                                        <ng-container  *ngIf="((cover.isSelected!='D' && cover.CoverageType!='A') || cover.CoverageType=='O') && ! checkCoverSelection(menu,cover)">
                                                              <div class="card p-3 ml-3 w-25rem customOptCoverCard" [ngClass]="canbeChecked(cover) ? 'customOptCoverBg' : ''" >
                                                                 <div class="grid">
                                                                     <div class="col-9 md:col-9 lg:col-9 xl:col-9">
@@ -342,7 +342,7 @@
                                                 </ng-container>
                                                 <div class="flex flex-wrap justify-content-start">
                                                     <ng-container *ngFor="let cover of menu.CoverList">
-                                                        <div class="card bg-blue-800 customCard3 p-3 ml-3 w-11rem text-0" *ngIf="((cover.isSelected=='D' && cover.CoverageType!='A') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
+                                                        <div class="card bg-blue-800 customCard3 p-3 ml-3 w-11rem text-0" *ngIf="((cover.isSelected=='D' && cover.CoverageType!='A' && cover.CoverageType!='O') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
                                                             <div class="grid">
                                                                 <div class="col-9 md:col-9 lg:col-9 xl:col-9">
                                                                     <div class="flex align-items-center justify-content-between">
@@ -376,9 +376,9 @@
                                                         </div>
                                                     </ng-container>
                                                 </div>
-                                                <ng-container *ngIf="checkBenefitSection(menu) || checkBenefitSection2(menu)">
+                                                <!-- <ng-container *ngIf="checkBenefitSection(menu) || checkBenefitSection2(menu)">
                                                     <h3>{{'PREMIUM.BenefitCovers' | translate}}</h3><br>
-                                                </ng-container>
+                                                </ng-container> -->
                                                 <div class="flex flex-wrap justify-content-start" *ngIf="checkBenefitSection(menu) || checkBenefitSection2(menu)">
                                                     <ng-container *ngFor="let cover of menu.CoverList">
                                                         <div class="card p-3 w-22rem" *ngIf="(cover.isSelected!='D' && cover.CoverageType=='A') && !checkCoverSelection(menu,cover)">
@@ -408,7 +408,7 @@
                                                                 <div class="grid">
                                                                     <div class="col-10 md:col-10 lg:col-10 xl:col-10">
                                                                         <div class="flex align-items-center justify-content-between">
-                                                                            <p class="mb-0"><b>{{getCoverNameDesc(cover)}}</b></p>
+                                                                            <p class="mb-0"><b>{{getCoverNameDesc(cover)}} 4 {{cover.isSelected}}</b></p>
                                                                             <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container>
                                                                         </div>
                                                                     </div>
@@ -469,7 +469,7 @@
                                 <ng-container *ngIf="((cover.isSelected=='D' &&  cover.CoverageType=='B') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
                                 <div class="flex flex-warp" [ngClass]="cover.isReferal=='Y' ? 'customBg' : 'planeBg'">
                                 <div class="col-12 md:col-9 lg:col-9 xl:col-9 t-a-l">     
-                                    <h5>{{getCoverNameDesc(cover)}}</h5>
+                                    <h5>{{getCoverNameDesc(cover)}} 5 {{cover.isSelected}}</h5>
                                     <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container>
                                 </div>
                                 <div class="col-12 md:col-3 lg:col-3 xl:col-3 t-a-r">
@@ -561,7 +561,7 @@
                                     <h3>{{'PREMIUM.AddOnCovers' | translate}}</h3>
                                     <div class="flex flex-wrap justify-content-start">
                                         <ng-container *ngFor="let cover of menu.CoverList">
-                                            <ng-container *ngIf="(cover.isSelected!='D' && cover.CoverageType!='A') && ! checkCoverSelection(menu,cover)">
+                                            <ng-container *ngIf="((cover.isSelected!='D' && cover.CoverageType!='A') || cover.CoverageType=='O') && ! checkCoverSelection(menu,cover)">
                                                 <div class="card p-3 w-25rem customOptCoverCard ml-2" [ngClass]="canbeChecked(cover) ? 'customOptCoverBg' : ''" >
                                                     <div class="grid">
                                                         <div class="col-12 md:col-10 lg:col-10 xl:col-10">
@@ -571,7 +571,7 @@
                                                                     
                                                                 </div>
                                                                 <div class="customWidth">
-                                                                    <h5 class="my-0 mr-4">{{getCoverNameDesc(cover)}}</h5>
+                                                                    <h5 class="my-0 mr-4">{{getCoverNameDesc(cover)}} 2</h5>
                                                                     <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container>
                                                                 </div>
                                                             </div>
