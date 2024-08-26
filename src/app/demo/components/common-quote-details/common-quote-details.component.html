@@ -409,7 +409,7 @@
                                 <div class="lg:col-4 md:col-4 col-4" >
                                     <label for="borrowerType">{{'MOTORQUOTE.BorrowerType' | translate}}</label><span class="text-danger">*</span>
                                     <p-dropdown inputId="borrowerType" class="w-full" styleClass="w-full" [options]="borrowerList" (onChange)="borrowerValueChange()"
-                                        [(ngModel)]="borrowerValue" [disabled]="((endorsementSection && !enableCollateralDetails)) || checkDisableField()" optionLabel="CodeDesc" optionValue="Code"
+                                        [(ngModel)]="borrowerValue" [disabled]="((endorsementSection && !enableCollateralDetails)) || checkDisableField()" optionLabel="label" optionValue="Code"
                                         [placeholder]="'MOTORQUOTE.Selectt' | translate">
                                     </p-dropdown>
                                 </div>
@@ -420,7 +420,7 @@
                                 <div class="col-12 lg:col-4 md:col-4 xl:col-4" *ngIf="borrowerValue=='1'">
                                     <label for="bankName">{{'MOTORQUOTE.CollateralBankName' | translate}}</label><span class="text-danger">*</span>
                                     <p-dropdown inputId="bankName" class="w-full" styleClass="w-full" [options]="bankList"
-                                        [(ngModel)]="collateralName" [disabled]="((endorsementSection && !enableCollateralDetails)) || checkDisableField()" optionLabel="CodeDesc" optionValue="Code"
+                                        [(ngModel)]="collateralName" [disabled]="((endorsementSection && !enableCollateralDetails)) || checkDisableField()" optionLabel="label" optionValue="Code"
                                         [placeholder]="'MOTORQUOTE.Selectt' | translate">
                                     </p-dropdown>
                                 </div>
