@@ -203,6 +203,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
     this.insuranceId = this.userDetails.Result.InsuranceId;
     this.branchList = this.userDetails.Result.LoginBranchDetails;
     this.loginType = this.userDetails.Result.LoginType;
+    this.quoteRefNo = sessionStorage.getItem('quoteReferenceNo');
+     this.quoteNo = sessionStorage.getItem('quoteNo');
     let loginType = this.userDetails.Result.LoginType;
     if(this.userType=='Issuer' )this.getSourceList();
     if(this.insuranceId=='100004') this.getNoOfDaysList();
@@ -395,6 +397,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       }
     }
   }
+ 
   checkDatesDisabled(){
     return (new Date(this.policyStartDate)).setHours(0,0,0,0) < (new Date()).setHours(0,0,0,0)
   }
@@ -1344,11 +1347,17 @@ export class CommonQuoteDetailsComponent implements OnInit {
  }
  onChangeAggregated(){
   // this.fields[0]?.fieldGroup[0]?.fieldGroup[7]?.formControl.setValue(this.commaSeparatedToNumber(this.getAggregatedDesc(this.productItem.Aggregatedvalue)));
-  if(this.productItem.Aggregatedvalue) this.productItem.VehicleSI=this.commaSeparatedToNumber(this.getAggregatedDesc(this.productItem.Aggregatedvalue));
- }
- commaSeparatedToNumber(commaSeparatedString) {
-  // Remove commas and convert to number
-  return Number(commaSeparatedString.replace(/,/g, ''));
+  if(this.productItem.Aggregatedvalue) this.commaSeparatedToNumber();
+ 
+}
+ commaSeparatedToNumber() {
+  
+  if(this.productItem.Aggregatedvalue!="" && this.productItem.Aggregatedvalue!=null && this.productItem.Aggregatedvalue!=undefined){
+    this.productItem.VehicleSI = Number(this.getAggregatedDesc(this.productItem.Aggregatedvalue).replace(/,/g, ''))
+  }
+  else{
+    this.productItem.VehicleSI=0;
+  }
 }
  changeMarketValue(){
   // this.fields[0]?.fieldGroup[0]?.fieldGroup[7]?.formControl.setValue();
@@ -2050,7 +2059,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
           console.log(data);
           if(data.Result){
               this.borrowerList = data.Result;
-             
+                for(let entry of this.borrowerList){
+                  if(this.lang=='en') entry['label'] = entry.CodeDesc
+                  else entry['label'] = entry.CodeDescLocal
+              }
           }
   
         },
@@ -2065,7 +2077,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
         branchCode = this.branchCode
       }
       else{
-       // alert(this.brokerbranchCode)
         branchCode = this.brokerbranchCode
       }
       let ReqObj = {
@@ -2078,7 +2089,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
           console.log(data);
           if(data.Result){
               this.bankList = data.Result;
-             
+              for(let entry of this.bankList){
+                if(this.lang=='en') entry['label'] = entry.CodeDesc
+                else entry['label'] = entry.CodeDescLocal
+            }
           }
   
         },
@@ -4550,6 +4564,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
             motorUsage =this.productItem.InsuranceType;
               motorUsageId=this.productItem.InsuranceClassDesc;
               this.productItem.Mileage="1"
+              if(this.productItem.Aggregatedvalue!=null || this.productItem.Aggregatedvalue!=undefined || this.productItem.Aggregatedvalue!='')this.commaSeparatedToNumber();
+              if(this.productItem.Marketvalue)this.productItem.VehicleSI=this.productItem.Marketvalue;
             }
             else {
                 if(sectionId){
@@ -5834,7 +5850,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.productItem.VehicleClass = this.vehicleDetails?.VehicleClass;
       if((this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042') && this.tabIndex!=0){this.onChangeInsuranceClass('direct');this.onchangevehicleValue(this.vehicleDetails);}
       
-      this.onChangeAggregated();
+      if(this.vehicleDetails.AggregatedValue)this.onChangeAggregated();
+      if(this.vehicleDetails.MarketValue)this.changeMarketValue();
       
     }
   onchangevehicleValue(data){
