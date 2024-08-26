@@ -597,13 +597,13 @@
                     
                     
                     <div class="flex justify-content-center">
-                        <p-button (click)="navigateTo('back')" styleClass="p-button-outlined" [label]="'MOTORQUOTE.Back' | translate"
+                        <p-button (click)="navigateTo('back')" id="Back" styleClass="p-button-outlined" [label]="'MOTORQUOTE.Back' | translate"
                             size="small"></p-button>&nbsp;
-                        <p-button (click)="navigateTo('quote-plan')" *ngIf="vehicleDetailsList.length!=tabIndex" [label]="'MOTORQUOTE.Next' | translate"
+                        <p-button (click)="navigateTo('quote-plan')" id="Next" *ngIf="vehicleDetailsList.length!=tabIndex" [label]="'MOTORQUOTE.Next' | translate"
                             size="small"></p-button>&nbsp;
-                        <p-button (click)="onProceed('save')" *ngIf="vehicleDetailsList.length==tabIndex" [label]="'MOTORQUOTE.ViewPremium' | translate"
+                        <p-button (click)="onProceed('save')" id="ViewPremium2" *ngIf="vehicleDetailsList.length==tabIndex" [label]="'MOTORQUOTE.ViewPremium' | translate"
                             size="small"></p-button>&nbsp;
-                        <p-button (click)="onProceed('default')" *ngIf="checkActiveVehicles() && vehicleDetailsList.length!=tabIndex" [label]="'MOTORQUOTE.ViewPremium' | translate"
+                        <p-button (click)="onProceed('default')" id="ViewPremium" *ngIf="checkActiveVehicles() && vehicleDetailsList.length!=tabIndex" [label]="'MOTORQUOTE.ViewPremium' | translate"
                             size="small"></p-button>
                     </div>
                 </p-tabPanel>

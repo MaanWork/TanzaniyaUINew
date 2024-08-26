@@ -229,7 +229,7 @@ export class PaymentInfoComponent {
             this.emiPeriod = this.quoteDetails.InstallmentPeriod;
             this.emiMonth = this.quoteDetails.InstallmentMonth;
             console.log("Total",this.totalPremium)
-            if(this.loadingSection && this.quoteDetails?.policyNo!=null && this.quoteDetails?.policyNo!=''){
+            if(this.quoteDetails?.policyNo!=null && this.quoteDetails?.policyNo!=''){
               this.paymentDetails = {
                 "QuoteNo": this.quoteNo,
                 "PolicyNo": this.quoteDetails?.policyNo,
@@ -237,7 +237,7 @@ export class PaymentInfoComponent {
                 "DebitNoteNo": this.quoteDetails?.DebitNoteNo,
                 "CreditNoteNo": this.quoteDetails?.CreditNoteNo,
               };
-              this.policyNo = data?.Result?.PolicyNo;
+              this.policyNo = this.quoteDetails?.policyNo;
               this.policySection = true;
               this.successSection = false;
               this.loadingSection = false;

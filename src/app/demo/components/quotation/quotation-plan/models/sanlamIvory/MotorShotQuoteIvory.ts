@@ -29,6 +29,7 @@ export class MotorShortQuoteIvory{
                   {
                     type: 'ngselect',
                     key: 'MotorUsage',
+                    id: 'MotorUsage', 
                     defaultValue: '',
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     props: {
@@ -51,6 +52,7 @@ export class MotorShortQuoteIvory{
                   {
                     type: 'ngselect',
                     key: 'BodyType',
+                    id: 'BodyType', 
                     defaultValue: '',
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     props: {
@@ -73,6 +75,7 @@ export class MotorShortQuoteIvory{
                   {
                     type: 'ngselect',
                     key: 'Make',
+                    id: 'Make', 
                     defaultValue: '',
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     props: {
@@ -95,6 +98,7 @@ export class MotorShortQuoteIvory{
                   {
                     type: 'ngselect',
                     key: 'Model',
+                    id: 'Model', 
                     defaultValue: '',
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     props: {
@@ -117,6 +121,7 @@ export class MotorShortQuoteIvory{
                   {
                     type: 'input',
                     key: 'ModelDesc',
+                    id: 'ModelDesc', 
                     defaultValue: '',
                     hide: true,
                     hideExpression:true,
@@ -141,6 +146,7 @@ export class MotorShortQuoteIvory{
                   {
                     type: 'ngselect',
                     key: 'ManufactureYear',
+                    id: 'ManufactureYear', 
                     defaultValue: '',
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     props: {
@@ -181,77 +187,11 @@ export class MotorShortQuoteIvory{
                   //   expressions: {
                   //   },
                   // },
-                  {
-                    type: 'ngselect',
-                    key: 'InsuranceType',
-                    defaultValue: '',
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
-                    props: {
-                      label: `Insurance Type`,
-                      disabled: this.checkDisable('InsuranceType'),
-                      required: true,
-                      options: [
-      
-                      ],
-      
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    type: 'ngselect',
-                    key: 'InsuranceClass',
-                    defaultValue: '',
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
-                    props: {
-                      label: `Insurance Class`,
-                      disabled: this.checkDisable('InsuranceClass'),
-                      required: true,
-                      options: [
-      
-                      ],
-      
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 ',
-                    type: 'commaSeparator',
-                    key: 'VehicleSI',
-                    hide: true,
-                    hideExpression:true,
-                    props: {
-                      label: `VehicleSI`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('VehicleSI'),
-                      required: true,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                 
+                  
                   {
                     type: 'ngselect',
                     key: 'Deductibles',
+                    id: 'Deductibles', 
                     defaultValue: '',
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6 ',
                     props: {
@@ -271,15 +211,17 @@ export class MotorShortQuoteIvory{
                     expressions: {
                     },
                   },
-                  
                   {
                     type: 'ngselect',
-                    key: 'DefenceCost',
+                    id:'VehicleValue',
+                    key: 'VehicleValue',
                     defaultValue: '',
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
+                    hide: false,
+                    hideExpression:false,
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     props: {
-                      label: `Defence Cost`,
-                      disabled: this.checkDisable('DefenceCost'),
+                      label: `VehicleValue`,
+                      disabled: this.checkDisable('VehicleValue'),
                       required: true,
                       options: [
       
@@ -294,16 +236,107 @@ export class MotorShortQuoteIvory{
                     expressions: {
                     },
                   },
-                  
+                  {
+                    type: 'commaSeparator',
+                    id:'Marketvalue',
+                    key: 'Marketvalue',
+                    defaultValue: '',
+                    hide: true,
+                    hideExpression:true,
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    props: {
+                      label: `Market Value`,
+                      disabled: this.checkDisable('Marketvalue'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'ngselect',
+                    key: 'Aggregatedvalue',
+                    id:'Aggregatedvalue',
+                    hide: true,
+                    hideExpression:true,
+                    props: {
+                      label: `Aggregated Value`,
+                      maxLength: 15,
+                      disabled: this.checkDisable('Aggregatedvalue'),
+                      required: true,
+                      options: [
+  
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    type: 'ngselect',
+                    key: 'DefenceCost',
+                    id: 'DefenceCost',
+                    defaultValue: '',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    props: {
+                      label: `Defence Cost`,
+                      disabled: this.checkDisable('DefenceCost'),
+                      required: true,
+                      options: [
+      
+                      ],
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
                   {
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6 ',
                     type: 'input',
+                    id: 'HorsePower',
                     key: 'HorsePower',
-  
                     props: {
                       label: `Horse Power`,
                       maxLength: 15,
                       disabled: this.checkDisable('HorsePower'),
+                      required: true,
+                      options: [
+  
+                      ],
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'input',
+                    key: 'NoOfPassengers',
+                    id:'NoOfPassengers',
+                    props: {
+                      label: `Number Of Passengers's `,
+                      maxLength: 15,
+                      disabled: this.checkDisable('NumberOfPassengers'),
                       required: true,
                       options: [
   
@@ -320,6 +353,7 @@ export class MotorShortQuoteIvory{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     key: 'ClaimsYN',
+                    id: 'Claims',
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
@@ -327,11 +361,9 @@ export class MotorShortQuoteIvory{
                       required: true,
                       disabled: this.checkDisable('ClaimsYN'),
                       name: 'ClaimsYN',
-                      options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
+                      options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
                     }
                   },
-                  
-                  
                   // {
                   //   className: 'col-12 col-md-4 col-lg-4 col-xl-4',
                   //   type: 'input',
