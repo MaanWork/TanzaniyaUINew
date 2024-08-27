@@ -1149,7 +1149,6 @@ export class VehicleCreateFormComponent implements OnInit {
       // The year is the last part of the array
       this.manufactureYear = parts[2];
     }
-    alert(modelDesc)
     let ReqObj = {
       "Insuranceid": this.insuranceId,
       "BranchCode": this.branchCode,
