@@ -1,3 +1,4 @@
+import { DatePipe } from "@angular/common";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { CustomerCreateFormComponent } from "src/app/demo/components/customer/customer-create-form/customer-create-form.component";
 
@@ -6,8 +7,18 @@ export class CustomerIvory{
     commonDetails: any[]=[];
     endorsementSection: boolean=false;subuserType:any=null;
     enableFieldsList: any[]=[];finalizeYN:any='N';
-   
+  currentDate: any;
+  minDate: any;
+    
     constructor() {
+      var d= new Date();
+      var year = d.getFullYear();
+      var month = d.getMonth();
+      var day = d.getDate();
+       this.currentDate = new Date();
+      // this.minDobDate =
+       
+      this.minDate = new Date(year - 18,month, day );
         let finalize = sessionStorage.getItem('FinalizeYN');
         if(finalize) this.finalizeYN = finalize;
         this.subuserType = sessionStorage.getItem('typeValue');
@@ -54,7 +65,7 @@ export class CustomerIvory{
                   {
                     className: 'col-12 md:col-9 lg:col-9 xl:col-9 pl-2 pr-2 pt-1',
                     type: 'input',
-                    id: 'FirstName',
+                    id: 'CustomerName',
                     key: 'ClientName',
                     hide: false,
                     hideExpression:false,
@@ -127,15 +138,20 @@ export class CustomerIvory{
                     key: 'dobOrRegDate',
                     hide: false,
                     hideExpression:false,
+                    defaultValue: this.minDate,
                     templateOptions: {
                       type:'date',
                       label: `Date Of Birth`,
                       required: true,
                       disabled: this.checkDisable('dobOrRegDate'),
                       maxLength: 15,
+                      datepickerOptions: {
+                        // Additional options for the datepicker if necessary
+                        max:this.minDate,
+                      },
                       
                     },
-                    
+                   
                     validators: {
                     },
                     hooks: {
@@ -386,7 +402,7 @@ export class CustomerIvory{
                     },
                     props: {
                       label: 'Tax Excempted',
-                      options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
+                      options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Oui' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Non' }],
                     }
                   },
                   {
@@ -425,10 +441,10 @@ export class CustomerIvory{
                       disabled: this.checkDisable('PreferredNotification'),
                       maxLength: 15,
                       options:[
-                        { label: 'Select', value: '','CodeDescLocal':'Selecione' },
-                        { label: 'SMS', value: 'Sms','CodeDescLocal':'Sms -P' },
-                        { label: 'Mail', value: 'Mail','CodeDescLocal':'E-mail -P' },
-                        { label: 'Whatsapp', value: 'Whatsapp','CodeDescLocal':'Whatsapp -P' }
+                        { label: 'Select', value: '','CodeDesc': 'Select','CodeDescLocal':'Sélectionner' },
+                        { label: 'SMS', value: 'Sms',CodeDesc: 'SMS','CodeDescLocal':'SMS' },
+                        { label: 'Mail', value: 'Mail', CodeDesc: 'Mail','CodeDescLocal':'Mail' },
+                        { label: 'Whatsapp', value: 'Whatsapp',CodeDesc: 'Whatsapp','CodeDescLocal':'Whatsapp' }
                       ]
                     },
                     
@@ -452,7 +468,7 @@ export class CustomerIvory{
                     },
                     props: {
                       label: 'Status',
-                      options: [{ value: 'Y', label: 'Active', 'CodeDesc':'Active', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'DeActive','CodeDesc':'DeActive', 'CodeDescLocal':'Não' },{ value: 'P', label: 'Pending','CodeDesc':'Pending', 'CodeDescLocal':'Não' }],
+                      options: [{ value: 'Y', label: 'Active', 'CodeDesc':'Active', 'CodeDescLocal':'Active' }, { value: 'N', label: 'DeActive','CodeDesc':'DeActive', 'CodeDescLocal':'Désactivé' },{ value: 'P', label: 'Pending','CodeDesc':'Pending', 'CodeDescLocal':'En attente' }],
                     }
                   },
                 ]
@@ -460,26 +476,7 @@ export class CustomerIvory{
               {
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
-                  {
-                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
-                    type: 'input',
-                    id: 'Street',
-                    key: 'Address1',
-                    templateOptions: {
-                      label: `Street`,
-                      // placeholder: 'Enter Street',
-                      required: true,
-                      disabled: this.checkDisable('Address1'),
-                      maxLength: 150
-                    },
-                    
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                 
                   {
                     className: 'col-12 md:col-3  lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'ngselect',
@@ -536,6 +533,26 @@ export class CustomerIvory{
                       maxLength: 15,
                       options:[]
                     },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
+                    type: 'input',
+                    id: 'Street',
+                    key: 'Address1',
+                    templateOptions: {
+                      label: `Street`,
+                      // placeholder: 'Enter Street',
+                      required: true,
+                      disabled: this.checkDisable('Address1'),
+                      maxLength: 150
+                    },
+                    
                     validators: {
                     },
                     hooks: {

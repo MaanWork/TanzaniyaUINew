@@ -52,10 +52,22 @@ export class VehicleCreateFormComponent implements OnInit {
   referenceNo: string;mainBodyTypeList:any[]=[];makeError:boolean = false;
   commonDetails: any;editSectionAlt:boolean=false;modelSearchVisible:boolean = false;
   modelColumns:any[]=[];selectedRowData:any=null;lang:any=null;horsePower:any=null;
-  horsePowerError: boolean=false;
+  horsePowerError=false;
   displacement: any;
   numberOfCylinders: any;
   RegistrationDate:any;
+  bodyTypeError=false;
+  modelError=false;
+  RegError:boolean=false;
+  seatingError=false;
+  fuelTypeError=false;
+  tareWeightError=false;
+  displacementError=false;
+  numberOfCylindersError=false;
+  RegDateError=false;
+  modelError1: boolean=false;
+  bodyType: any;
+  grossWeightError: boolean=false;
   constructor(private messageService: MessageService,private sharedService: SharedService,private appComp:AppComponent,
     private translate:TranslateService,private datePipe:DatePipe,private router:Router) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -498,21 +510,26 @@ export class VehicleCreateFormComponent implements OnInit {
           }
         }
         if(this.vehicleDetails?.SavedFrom=='SQ') this.vehicleDetails.SavedFrom = 'WEB';
-        let registrationDate;
+        let registrationDate,parts;
         if (this.RegistrationDate != undefined && this.RegistrationDate != null && this.RegistrationDate != '') {
-          if(String(registrationDate).includes('/')){
+          if(String(this.RegistrationDate).includes('/')){
             registrationDate = this.RegistrationDate;
           }
           else registrationDate = this.datePipe.transform(this.RegistrationDate,'dd/MM/yyyy')
+
+           parts = registrationDate.split('/');
+
+            // The year is the last part of the array
+            
         }
         if(this.insuranceId=='100040' || this.insuranceId=='100042'){
           this.vehicleDetails.MotorCategory  ="1";
           this.vehicleDetails.Motorusage ="Ambulance"
-          this.vehicleDetails.MotorusageId='1'
-          // alert(this.vehicleDetails?.MotorCategory)
-          // alert(this.vehicleDetails?.Motorusage)
+          this.vehicleDetails.MotorusageId='1';
+          this.vehicleDetails.ManufactureYear = parts[2];
         }
-       
+        if(this.engineNo!=null && this.engineNo!='') this.vehicleDetails['EngineNumber'] = this.engineNo;
+        console.log(this.vehicleDetails,"this.vehicleDetails.Newvalue")
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": this.vehicleDetails?.AcExecutiveId,
@@ -574,7 +591,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "PolicyType": this.vehicleDetails?.PolicyType,
         "RadioOrCasseteplayer": null,
         "RegistrationYear": regYear,
-        "Registrationnumber": this.regNo,
+        "Registrationnumber": this.regNo.toUpperCase(),
         "RoofRack": null,
         "SeatingCapacity": this.seatingCapacity,
         "SourceTypeId": this.sourceType,
@@ -628,6 +645,18 @@ export class VehicleCreateFormComponent implements OnInit {
         "OrginalPolicyNo": this.orginalPolicyNo,
         "HorsePower": this.horsePower,
         "RegistrationDate": registrationDate,
+        "Mileage":this.vehicleDetails.Mileage,
+        "NoOfClaimYears":this.vehicleDetails.NoOfClaimYears,
+        "NoOfPassengers":this.vehicleDetails.NoOfPassengers,
+        "PreviousInsuranceYN":this.vehicleDetails.PreviousInsuranceYN,
+        "PreviousLossRatio": this.vehicleDetails.PreviousLossRatio,
+        "NumberOfCards":this.vehicleDetails.NumberOfCards,
+        "MunicipalityTraffic":this.vehicleDetails.MunicipalityTraffic,
+        "TransportHydro":this.vehicleDetails.TransportHydro,
+        "DateOfCirculation":this.vehicleDetails.DateOfCirculation,
+        "NewValue":this.vehicleDetails.NewValue,
+        "MarketValue":this.vehicleDetails.MarketValue,
+        "AggregatedValue":this.vehicleDetails.AggregatedValue,
         "Scenarios": {
             "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": null,
@@ -781,6 +810,7 @@ export class VehicleCreateFormComponent implements OnInit {
   onBodyTypeChange(type){
     if(this.bodyTypeValue!=null && this.bodyTypeValue!=''){
       this.bodyTypeId = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeValue)?.Code;
+      this.bodyType = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeValue)?.BodyType;
       if(type=='change' && this.insuranceId!='100020'){this.makeValue=null;this.modelValue=null;}
       if(this.bodyTypeId && this.insuranceId!='100020'){ this.getMakeList(); } 
     }
@@ -966,11 +996,89 @@ export class VehicleCreateFormComponent implements OnInit {
   }
   onFormSubmit(){
     let i=0;
-    if((this.insuranceId=='100040' || this.insuranceId=='100042') && (this.horsePower==null || this.horsePower=='' || this.horsePower==undefined)){
-      this.horsePowerError = true;
+    if(this.insuranceId=='100040' || this.insuranceId=='100042') {
+      if( this.bodyTypeValue || this.makeValue  || this.regNo || this.seatingCapacity || this.displacement || this.modelValue || this.modelDesc||
+         this.fuelType || this.tareWeight || this.numberOfCylinders || this.RegistrationDate || this.grossWeight || this.horsePower){
+          this.horsePowerError = false;
+          this.bodyTypeError=false;
+          this.makeError=false;
+          this.modelError=false;
+          this.modelError1=false;
+          this.RegError=false;
+          this.seatingError=false;
+          this.fuelTypeError=false;
+          this.tareWeightError=false;
+          this.grossWeightError=false;
+          this.numberOfCylindersError=false;
+          this.RegDateError=false;
+          this.displacementError=false;
+      }
+     
+       if((this.bodyTypeValue==null || this.bodyTypeValue=='' || this.bodyTypeValue==undefined)){
+        this.bodyTypeError = true;
+      } 
+      else if(this.makeValue==null || this.makeValue=='' || this.makeValue==undefined){
+        this.makeError = true;
+      } 
+      else if((this.modelValue==null || this.modelValue=='' || this.modelValue==undefined) && this.bodyType=='P'){
+          this.modelError1 = true;
+      } 
+      else if((this.modelDesc==null || this.modelDesc=='' || this.modelDesc==undefined) && this.bodyType=='C'){
+          this.modelError = true;
+      } 
+      else if((this.regNo==null || this.regNo=='' || this.regNo==undefined)){
+        this.RegError = true;
+      } 
+      else if((this.seatingCapacity==null || this.seatingCapacity=='' || this.seatingCapacity==undefined)){
+        this.seatingError = true;
+      } 
+      else if((this.fuelType==null || this.fuelType=='' || this.fuelType==undefined)){
+        this.fuelTypeError = true;
+      } 
+      else if((this.tareWeight==null || this.tareWeight=='' || this.tareWeight==undefined)){
+        this.tareWeightError = true;
+      } 
+     
+      // else if(this.horsePower){
+      //   alert()
+      else if((this.horsePower==null || this.horsePower=='' || this.horsePower==undefined)&& this.bodyType=='P'){
+        this.horsePowerError = true;
+      }
+      else if((this.displacement==null || this.displacement=='' || this.displacement==undefined)&& (this.bodyTypeId=='50' || this.bodyTypeId=='51' || this.bodyTypeId=='5' || this.bodyTypeId=='58' || this.bodyTypeId=='18' || this.bodyTypeId=='25')){
+        this.displacementError = true;
+      } 
+      else if((this.grossWeight==null || this.grossWeight=='' || this.grossWeight==undefined) && this.bodyType=='C'){
+        this.grossWeightError = true;
+      }
+      // else if((this.grossWeight==null || this.grossWeight=='' || this.grossWeight==undefined) && this.bodyType=='P'){
+      //   alert("3");
+      //    this.grossWeightError = true;
+      //  }
+      // }
+      else if((this.numberOfCylinders==null || this.numberOfCylinders=='' || this.numberOfCylinders==undefined)){
+        this.numberOfCylindersError = true;
+      } 
+      else if((this.RegistrationDate==null || this.RegistrationDate=='' || this.RegistrationDate==undefined)){
+        this.RegDateError = true;
+      } 
+      else{
+        this.horsePowerError = false;
+        this.bodyTypeError=false;
+        this.makeError=false;
+        this.modelError=false;
+        this.modelError1=false;
+        this.RegError=false;
+        this.seatingError=false;
+        this.fuelTypeError=false;
+        this.tareWeightError=false;
+        this.displacementError=false;
+        this.numberOfCylindersError=false;
+        this.RegDateError=false;
+        this.grossWeightError = false;
+        this.onProceed()
+      }
     }
     else{
-      this.horsePowerError = false;
       this.onProceed()
     }
      
@@ -990,7 +1098,7 @@ export class VehicleCreateFormComponent implements OnInit {
         else modelDesc = null;
     }
     else{
-      if(this.bodyTypeId=='1' || this.bodyTypeId=='2' || this.bodyTypeId=='3' || this.bodyTypeId=='4' || this.bodyTypeId=='5'){
+      if(this.bodyType=='P'){
         if(this.modelValue=='99999'){
             modelDesc = this.modelDesc;
         }
@@ -1020,21 +1128,28 @@ export class VehicleCreateFormComponent implements OnInit {
     }
     let registrationDate;
     if (this.RegistrationDate != undefined && this.RegistrationDate != null && this.RegistrationDate != '') {
-      if(String(registrationDate).includes('/')){
+      if(String(this.RegistrationDate).includes('/')){
         registrationDate = this.RegistrationDate;
       }
       else registrationDate = this.datePipe.transform(this.RegistrationDate,'dd/MM/yyyy');
-      this.manufactureYear = this.RegistrationDate.getFullYear();
+     // this.manufactureYear = this.RegistrationDate.getFullYear();
     }
     if(this.insuranceId=='100040' || this.insuranceId=='100042'){
       this.engineCapacity='1';
-      grossweight=tareweight;
+      if(this.grossWeight=='' || this.grossWeight==null || this.grossWeight==undefined){grossweight=tareweight}
+      else{
+        grossweight =this.grossWeight;
+      }
       this.axelDistance='1';
       this.noOfAxels='1';
       this.usageValue='Ambulance';
       this.motorCategory='1';
+      let parts: string[] = registrationDate.split('/');
 
+      // The year is the last part of the array
+      this.manufactureYear = parts[2];
     }
+    alert(modelDesc)
     let ReqObj = {
       "Insuranceid": this.insuranceId,
       "BranchCode": this.branchCode,

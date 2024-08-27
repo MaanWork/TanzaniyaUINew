@@ -40,6 +40,8 @@ export class DriverInfoComponent {
   CylinderTypeList: any;lang:any=null;
   NoOfDoorsList: any;
   mobileCodeList: any[]=[];
+  nationalityList: any[]=[];
+  minDobDate: any;
   constructor(private sharedService: SharedService,private quoteComponent:QuotationPlanComponent,
     private router:Router,private appComp:AppComponent,private translate:TranslateService,
     private datePipe:DatePipe) {
@@ -66,9 +68,11 @@ export class DriverInfoComponent {
      var month = d.getMonth();
      var day = d.getDate();
       this.currentDate = new Date();
+     // this.minDobDate =
+    
       this.driverOptions = [
-        {"label":'Driver',"value":'2','CodeDesc':'Driver','CodeDescLocal':'Driver -P'},
-        {"label":'Owner',"value":'1','CodeDesc':'Owner','CodeDescLocal':'Owner -P'},
+        {"label":'Driver',"value":'2','CodeDesc':'Driver','CodeDescLocal':'Conducteur'},
+        {"label":'Owner',"value":'1','CodeDesc':'Owner','CodeDescLocal':'Propriétaire'},
       ];
      this.minDate = new Date(year - 18,month, day );
      let referenceNo =  sessionStorage.getItem('customerReferenceNo');
@@ -102,6 +106,7 @@ export class DriverInfoComponent {
     this.getPlateTypeList();
     this.getCylinderTypeList();
     this.getDoorTypeList();
+    this.getNationalityList();
     this.appComp.getLanguage().subscribe((res:any)=>{  
 			if(res) this.lang=res;
 			else this.lang='en';
@@ -110,9 +115,11 @@ export class DriverInfoComponent {
 		if(!this.lang){if(sessionStorage.getItem('language'))this.lang=sessionStorage.getItem('language');
 		else this.lang='en';
 		sessionStorage.setItem('language',this.lang)
-		this.translate.setDefaultLang(sessionStorage.getItem('language'));}
+		this.translate.setDefaultLang(sessionStorage.getItem('language'));
+   }
     this.getMobileCodeList();
   }
+ 
  
   getEditQuoteDetails(){
     let ReqObj = {
@@ -291,10 +298,21 @@ export class DriverInfoComponent {
   onNextProceed(){
     let veh = this.vehicleDetailsList[this.tabIndex];
     console.log("Filtered Vehicle",veh,this.driverDetailsList)
-    let driverList = this.driverDetailsList.filter(ele=>ele.VehicleId==veh.RiskId || ele.RiskId==veh.RiskId);
+    let currentIndex,driverList,vehId;
+    // for(let entry of this.driverDetailsList){
+      currentIndex = this.driverDetailsList.length-1
+    // }
+    if(this.insuranceId!='100040' && this.insuranceId!='100042'){
+     driverList = this.driverDetailsList.filter(ele=>ele.VehicleId==veh.RiskId || ele.RiskId==veh.RiskId );
+     }else{
+
+      driverList = this.driverDetailsList.filter(ele=> ele.VehicleId==veh.RiskId || ele.DriverId==currentIndex);
+      vehId= veh.VehicleId;
+     }
     if(driverList.length!=0){
       let i=0,j=0;
       for(let entry of driverList){
+        if(this.insuranceId!='100040' && this.insuranceId!='100042'){
         if(entry.DriverName==null || entry.DriverName=='' || entry.DriverName==undefined){i+=1;entry['driverNameError']=true;}
         else entry['driverNameError']=false;
         if(entry.LicenseNo==null || entry.LicenseNo=='' || entry.LicenseNo==undefined){i+=1;entry['licenseNoError']=true;}
@@ -304,8 +322,26 @@ export class DriverInfoComponent {
         if(entry.DriverType==null || entry.DriverType=='' || entry.DriverType==undefined){i+=1;entry['driverTypeError']=true;}
         else entry['driverTypeError']=false;
         j+=1;
-        if(j==driverList.length && i==0) this.tabIndex+=1; 
+        if(j==driverList.length && i==0) this.tabIndex+=1;
+        }
+        if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+          if(entry.DrivingLicensingAge==null || entry.DrivingLicensingAge=='' || entry.DrivingLicensingAge==undefined){i+=1;entry['drivinglicenseageError']=true;}
+          else entry['drivinglicenseageError']=false;
+          if(entry.LicenseNo==null || entry.LicenseNo=='' || entry.LicenseNo==undefined){i+=1;entry['licenseNoError']=true;}
+          else entry['licenseNoError']=false;
+          //j=1;
+          j+=1;
+          if(this.vehicleDetailsList.length>1){
+            if(j==vehId && i==0) this.tabIndex+=1;
+            if(i==0 && this.vehicleDetailsList.length==this.tabIndex){
+              this.saveVehicleInfo();
+            }
+          }
+         
+        }
+
       }
+      return i==0;
     }
   }
   ongetBack(){
@@ -484,10 +520,11 @@ export class DriverInfoComponent {
 );
 }
 addNewDriver(vehId){
+  console.log(this.driverDetailsList,"this.driverDetailsList");
   this.driverDetailsList.push( {
     "QuoteNo": this.quoteNo,
-    "RiskId": vehId,
-    "DriverId": null,
+    "RiskId":vehId,
+    "DriverId": this.driverDetailsList.length+1,
     "DriverName": null,
     "DriverDob": null,
     "DriverType": "1",
@@ -514,44 +551,65 @@ addNewDriver(vehId){
     "IsFinanceEndt": null,
     "EndtCategoryDesc": null,
     "EndorsementType": null,
-    "EndorsementTypeDesc": null
+    "EndorsementTypeDesc": null,
+    "RequestReferenceNo":null,
+    "Subscriber": '1',
+    "Civility": null,
+    "PlaceIssue": null,
+    "CategoryCode": null,
+    "CategoryExDate": null,
+    "CategoryDate": null,
+    "Email": null,
+    "ContactCode": null,
+    "Contact": null,
+    "DrivingLicensingAge": null
   })
 }
-  
-  onAddNewDriver(){
-    this.driverDetailsList.push( {
-      "QuoteNo": this.quoteNo,
-      "RiskId": null,
-      "DriverId": null,
-      "DriverName": null,
-      "DriverDob": null,
-      "DriverType": "1",
-      "LicenseNo": null,
-      "EntryDate": null,
-      "CreatedBy": this.loginId,
-      "StateId": null,
-      "CityId": null,
-      "CountryId": null,
-      "SuburbId": null,
-      "AreaGroup": null,
-      "MaritalStatus": null,
-      "LicenseIssueDt": null,
-      "Gender": null,
-      "DriverExperience": null,
-      "EndorsementDate": null,
-      "EndorsementRemarks": null,
-      "EndorsementEffectiveDate": null,
-      "OrginalPolicyNo": null,
-      "EndtPrevPolicyNo": null,
-      "EndtPrevQuoteNo": null,
-      "EndtCount": null,
-      "EndtStatus": null,
-      "IsFinanceEndt": null,
-      "EndtCategoryDesc": null,
-      "EndorsementType": null,
-      "EndorsementTypeDesc": null
-    })
-  }
+  // onAddNewDriver(){
+  //   this.driverDetailsList.push( {
+  //     "QuoteNo": this.quoteNo,
+  //     "RiskId": null,
+  //     "DriverId": null,
+  //     "DriverName": null,
+  //     "DriverDob": null,
+  //     "DriverType": "1",
+  //     "LicenseNo": null,
+  //     "EntryDate": null,
+  //     "CreatedBy": this.loginId,
+  //     "StateId": null,
+  //     "CityId": null,
+  //     "CountryId": null,
+  //     "SuburbId": null,
+  //     "AreaGroup": null,
+  //     "MaritalStatus": null,
+  //     "LicenseIssueDt": null,
+  //     "Gender": null,
+  //     "DriverExperience": null,
+  //     "EndorsementDate": null,
+  //     "EndorsementRemarks": null,
+  //     "EndorsementEffectiveDate": null,
+  //     "OrginalPolicyNo": null,
+  //     "EndtPrevPolicyNo": null,
+  //     "EndtPrevQuoteNo": null,
+  //     "EndtCount": null,
+  //     "EndtStatus": null,
+  //     "IsFinanceEndt": null,
+  //     "EndtCategoryDesc": null,
+  //     "EndorsementType": null,
+  //     "EndorsementTypeDesc": null,
+  //     "RequestReferenceNo":null,
+  //     "Subscriber": null,
+  //     "Civility": null,
+  //     "PlaceIssue": null,
+  //     "CategoryCode": null,
+  //     "CategoryExDate": null,
+  //     "CategoryDate": null,
+  //     "Email": null,
+  //     "ContactCode": null,
+  //     "Contact": null,
+  //     "DrivingLicensingAge": null
+  //   })
+  // }
   checkDriverDelete(riskId){
     let entry = this.driverDetailsList.filter(ele=>ele.RiskId==riskId);
     return entry.length>1;
@@ -561,7 +619,7 @@ addNewDriver(vehId){
   }
   onsave(){
     
-    let i=0
+    let i=0;this.entryList=[];
    for(let driver of this.driverDetailsList){
     let date,CategoryExDate,CategoryDate,LicenseIssueDt=null;
     if(driver.DriverDob!='' && driver.DriverDob!=null){
@@ -644,19 +702,42 @@ addNewDriver(vehId){
         entry['EndtPrevPolicyNo'] = this.quoteDetails?.Endtprevpolicyno;
         entry['EndtPrevQuoteNo'] = this.quoteDetails?.Endtprevquoteno;
       }
-      this.entryList.push(entry);
+      let j=0;
+      if(this.insuranceId!='100040' && this.insuranceId!='100042'){
+        if(entry.DriverName==null || entry.DriverName=='' || entry.DriverName==undefined){j+=1;driver['driverNameError']=true;}
+        else driver['driverNameError']=false;
+        if(entry.LicenseNo==null || entry.LicenseNo=='' || entry.LicenseNo==undefined){j+=1;driver['licenseNoError']=true;}
+        else driver['licenseNoError']=false;
+        if(entry.DriverDob==null || entry.DriverDob=='' || entry.DriverDob==undefined){j+=1;driver['driverDobError']=true;}
+        else driver['driverDobError']=false;
+        if(entry.DriverType==null || entry.DriverType=='' || entry.DriverType==undefined){j+=1;driver['driverTypeError']=true;}
+        else driver['driverTypeError']=false;
+       }
+        if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+          if(entry['DrivingLicensingAge']==null || entry['DrivingLicensingAge']=='' || entry['DrivingLicensingAge']==undefined){j+=1;driver['drivinglicenseageError']=true;}
+          else driver['drivinglicenseageError']=false;
+          if(entry.LicenseNo==null || entry.LicenseNo=='' || entry.LicenseNo==undefined){j+=1;driver['licenseNoError']=true;}
+          else driver['licenseNoError']=false;
+          //j=1;
+        }
+        if(j==0) this.entryList.push(entry);
+     
       i++;
       if(i==this.driverDetailsList.length){
         console.log("Final List Driver",this.entryList)
        // this.saveDriverDetails(entryList);
-       if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042') this.saveVehicleInfo();
-       else this.saveDriverDetails(this.entryList);
+       if(this.driverDetailsList.length==this.entryList.length){
+          if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042') this.saveVehicleInfo();
+          else this.saveDriverDetails(this.entryList);
+       }
       }
    }
 
  }
  saveDriverDetails(entryList){
   console.log("DriverDetails",entryList)
+  
+   
   let urlLink = `${this.motorApiUrl}api/savemotordrivers`;
   this.sharedService.onPostMethodSync(urlLink,entryList).subscribe(
     (data: any) => {
@@ -679,12 +760,13 @@ addNewDriver(vehId){
             }
             
           }
-        //}
         
       }
       
     }
   )
+   
+
  }
 saveVehicleInfo() {
   let entry = this.vehicleDetailsList.find(ele=>ele.VehicleId==this.vehicleId);
@@ -807,6 +889,23 @@ getMobileCodeList() {
       if (data.Result) {
         this.mobileCodeList = data.Result;
          
+      }
+    },
+    (err) => { },
+  );
+}
+getNationalityList() {
+  let ReqObj = {
+    "InsuranceId": this.insuranceId,
+    "BranchCode": this.branchCode,
+    "ProductId": this.productId,
+  }
+  let urlLink = `${this.CommonApiUrl}master/dropdown/nationality`;
+  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    (data: any) => {
+      console.log(data);
+      if (data.Result) {
+        this.nationalityList = data.Result;
       }
     },
     (err) => { },

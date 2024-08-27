@@ -6,7 +6,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { DividerModule } from 'primeng/divider';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
 import { ChipModule } from 'primeng/chip';
@@ -50,6 +50,10 @@ import { CommonQuoteDetailsComponent } from './common-quote-details.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../customer/customer.module';
 import { HttpClient } from '@angular/common/http';
+import { MatButtonModule } from '@angular/material/button';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 export function maxlengthValidationMessage(err, field) {
   return `This value should be less than ${field.templateOptions.maxLength} characters`;
 }
@@ -82,6 +86,11 @@ export function maxlengthValidationMessage(err, field) {
     SelectButtonModule,
     RadioButtonModule,
     AutoCompleteModule,
+    MatButtonModule,
+    MatStepperModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
     FormlyModule.forRoot({
       validationMessages: [{ name: 'required', message: 'This field is required' },
       { name: 'maxlength', message: maxlengthValidationMessage },],
@@ -163,7 +172,7 @@ export function maxlengthValidationMessage(err, field) {
      
     ],
     validationMessages: [
-      { name: 'required', message: 'This field is required' },
+      { name: 'required', message: ''},
     ],
   }),
   ]

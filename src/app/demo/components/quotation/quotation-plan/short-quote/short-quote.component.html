@@ -62,23 +62,23 @@
         </div>
         <div class="card grid p-0" *ngIf="issuerSection">
             <div class="lg:col-12 md:col-12 col-12">
-                <h3>Policy Details</h3>
+                <h3>{{'MOTORQUOTE.PolicyDetails' | translate}}</h3>
                 <div class="flex flex-wrap">
                     <div class="lg:col-6 md:col-6 col-12">
-                        <label for="username">Source Type *</label>
+                        <label for="username">{{'MOTORQUOTE.SourceType' | translate}} *</label>
                         <p-dropdown inputId="sourceType" class="w-full" styleClass="w-full"
                             [options]="sourceTypeList" [(ngModel)]="Code" [ngModelOptions]="{standalone: true}" (onChange)="onSourceTypeChange('change')"
-                            optionLabel="CodeDesc" optionValue="Code" placeholder="Select SourceType">
+                            [optionLabel]="getDisplayName()" optionValue="Code" [placeholder]="'MOTORQUOTE.SelectSourceType' | translate">
                         </p-dropdown>
                         <div class="input-form-error" *ngIf="sourceCodeError">
                             <div class="error-text">
-                                Please Select Source Type
+                                {{'MOTORQUOTE.PleaseSelectSourceType' | translate}}
                             </div>
                         </div>
                     </div>
                     <div class="lg:col-6 md:col-6 col-12"
                         *ngIf="issuerSection && (sourceCodeDesc=='Premia Agent' || sourceCodeDesc=='Premia Broker' || sourceCodeDesc=='Premia Direct')">
-                        <label for="username">Source Code *</label>
+                        <label for="username">{{'MOTORQUOTE.SourceCode' | translate}} *</label>
                         <!-- <p-autoComplete [(ngModel)]="customerCode" [suggestions]="customerList" field="CustomerName" (completeMethod)="onGetCustomerList('change',$event.query)"></p-autoComplete> 
                         <p-autoComplete  class="w-full" styleClass="w-full" [suggestions]="customerList"  (onSelect)="onCommonDetailsChange();onChangeCustomer($event)"
                             (completeMethod)="onGetCustomerList('change',$event.query)" [field]="CustomerCode+'-'+CustomerName">
@@ -97,7 +97,7 @@
                         <input pInputText id="username" class="w-full" maxlength="50" (change)="onCommonDetailsChange();"
                             [(ngModel)]="customerCode" [ngModelOptions]="{standalone: true}"
                             type="text" (keyup)="onGetCustomerList('change',$event.target.value)" autocomplete="off"
-                            placeholder="Search here" data-toggle="dropdown" />
+                            [placeholder]="'MOTORQUOTE.Search' | translate" data-toggle="dropdown" />
                             <ul class="dropdown-menu dropdown-list-style CustomerInput" appendTo="body"
                                 [ngClass]="{dropdownDisplay: showCustomerList, dropdownNotDisplay: !showCustomerList}">
                                 <li *ngFor="let item of customerList"
@@ -105,24 +105,24 @@
                                     {{item.Code}} - {{ item.Name }}
                                 </li>
                                 <div class="text-center" *ngIf="customerList.length == 0">
-                                    <p>Enter any code to Search...</p>
+                                    <p>{{'MOTORQUOTE.EnteranycodetoSearch' | translate}} ...</p>
                                 </div>
                             </ul> 
                         <div class="input-form-error" *ngIf="customerCodeError">
                             <div class="error-text text-danger">
-                                Please Enter Valid Source Code
+                                {{'MOTORQUOTE.PleaseEnterValidSourceCode' | translate}}
                             </div>
                         </div>
                     </div>
                     <div class="lg:col-6 md:col-6 col-12"
                         *ngIf="issuerSection && (sourceCodeDesc=='Premia Agent' || sourceCodeDesc=='Premia Broker' || sourceCodeDesc=='Premia Direct')">
-                        <label for="username">Source Name *</label>
+                        <label for="username">{{'MOTORQUOTE.SourceName' | translate}} *</label>
                         <input pInputText id="username" class="w-full" [(ngModel)]="customerName" [ngModelOptions]="{standalone: true}" disabled type="text"
                             placeholder="Source Name" />
                     </div>
                     <div class="lg:col-6 md:col-6 col-12"
                         *ngIf="issuerSection && (sourceCodeDesc=='agent' || sourceCodeDesc=='Agent' || sourceCodeDesc=='broker' || sourceCodeDesc=='direct' || sourceCodeDesc=='Direct' || sourceCodeDesc=='bank' || sourceCodeDesc=='Bank' || sourceCodeDesc=='Broker' || sourceCodeDesc=='whatsapp' || sourceCodeDesc=='Whatsapp')">
-                        <label for="username">Source Code *</label>
+                        <label for="username">{{'MOTORQUOTE.SourceCode' | translate}} *</label>
                         <ng-container *ngIf="sourceCodeDesc!='broker' && sourceCodeDesc!='Broker'">
                             <p-dropdown inputId="sourceCode" class="w-full" styleClass="w-full"
                                 [options]="brokerList" [(ngModel)]="brokerCode" [ngModelOptions]="{standalone: true}" (onChange)="onBrokerChange()"
@@ -192,7 +192,7 @@
             </div> -->
         </div>
         <div class="card ">
-            <h4>Vehicle Information</h4>
+            <h4>{{ 'MOTORQUOTE.VehicleInformation' | translate}}</h4>
             <div class="grid">
                 <div class="col-12 lg:col-12 md:col-12 xl:col-12">
                     <form [formGroup]="form">

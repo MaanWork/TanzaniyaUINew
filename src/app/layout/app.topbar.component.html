@@ -10,9 +10,14 @@
                 <img src="./assets/images/mgen-logo.png" width="170" style="cursor: pointer !important;"  />
             </a>
         </ng-container>
-        <ng-container *ngIf="insuranceid=='100027' || insuranceid=='100040' || insuranceid=='100042'">
+        <ng-container *ngIf="insuranceid=='100027' || insuranceid=='100042'">
             <a class="layout-topbar-logo" (click)="onRedirect()">
                 <img src="./assets/images/sanlam-logo.png" width="170" style="cursor: pointer !important;"  />
+            </a>
+        </ng-container>
+        <ng-container *ngIf="insuranceid=='100040'">
+            <a class="layout-topbar-logo" (click)="onRedirect()">
+                <img src="./assets/images/sanlam_logo_alt.png" width="195" style="cursor: pointer !important;"  />
             </a>
         </ng-container>
         <ng-container *ngIf="insuranceid=='100028'">
@@ -52,7 +57,7 @@
                     class="w-full min300" 
                     styleClass="w-full" 
                     (onChange)="finaliseBranchValue(null,'change')"
-                    optionLabel="BranchName" 
+                    optionLabel="label" 
                     optionValue="BranchName" 
                     [options]="branchList" 
                     [(ngModel)]="branchName"  >

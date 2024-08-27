@@ -84,8 +84,8 @@
             <hr>
             <h3 class="mr-3">Payment Tracking Details</h3>
             <hr>
-            <h3 class="mr-3" *ngIf="mainStatus!='CCA' && mainStatus!='CCR'">Confirmation Details</h3>
-            <div class="grid">
+            <h3 class="mr-3" *ngIf="mainStatus=='SP'">Confirmation Details</h3>
+            <div class="grid" *ngIf="mainStatus=='SP'"> 
                 <div class="col-12 sm:col-4 md:col-4">
                     <div class="input-control-container">
                         <label class="input-form-label">Status</label><span
@@ -111,7 +111,7 @@
         <div class="flex justify-content-center">
             <p-button  styleClass="p-button-outlined" label="Back" (click)="getBack()"
                 size="small"></p-button>&nbsp;
-            <p-button label="Proceed" size="small" *ngIf="mainStatus!='CCA' && mainStatus!='CCR'" (click)="onUpdateStatus()"></p-button>&nbsp;
+            <p-button label="Proceed" size="small" *ngIf="mainStatus!='SA' && mainStatus!='SR'" (click)="onUpdateStatus()"></p-button>&nbsp;
         </div>
     </div>
     

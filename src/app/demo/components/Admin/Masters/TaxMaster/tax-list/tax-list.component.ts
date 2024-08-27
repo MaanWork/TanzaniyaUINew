@@ -83,7 +83,7 @@ export class TaxListComponent implements OnInit {
     );
   }
   getList(type){
-
+    this.TaxData =[];
     let ReqObj = {
       "InsuranceId": this.insuranceId,
     }
@@ -93,15 +93,13 @@ export class TaxListComponent implements OnInit {
         if(data.Result){
           //let obj = [{Code:"",CodeDesc:""}];
           this.TypeList = data?.Result;
-          let docObj = JSON.parse(sessionStorage.getItem('addDocDetaisObj'));
-          console.log('IIIIIIIIIIII',docObj)
-          if(docObj){
-            console.log('iiiiiiiii',this.TypeValue)
-            this.TypeValue= docObj?.ItemType;
-           this.getExistingDropdown();
-         }
+          if(this.TypeList.length!=0){
+            this.TypeValue=this.TypeList[0].Code;
+            this.getExistingDropdown();
+          }
          else{
           this.TypeValue=null;
+          
          }
       
         }
@@ -122,7 +120,6 @@ export class TaxListComponent implements OnInit {
         console.log(data);
         if(data.Result){
             this.TaxData = data?.Result;
-            console.log('KKKKKKKKKKKK',this.TaxData);
             if(this.TypeValue!=undefined && this.TypeValue!=null){
               let docObj = {"ItemType":this.TypeValue,"insuranceid":this.insuranceId};
               sessionStorage.setItem('addDocDetaisObj',JSON.stringify(docObj));

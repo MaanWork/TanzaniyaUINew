@@ -29,6 +29,7 @@
     "MobileNumber": "Mobile Number",
     "EmailId":"Email Id",
     "Status":"Status",
+    "City":"City",
     "Active":"Active",
     "DeActive": "DeActive",
     "Pending": "Pending",
@@ -79,7 +80,7 @@
     "DETAILLAST": "My main language was music, and my teacher was nature."
   },
   "LOGIN":{
-      "WelcometoXYZInsurance":"Welcome to XYZ Insurance",
+      "WelcometoXYZInsurance":"Welcome to Sanlam Allianz Insurance",
       "Signintocontinue": "Sign in to continue",
       "RetrieveQuoteUsingMobileNumber?": "Retrieve Quote Using MobileNumber?",
       "B2CQuote": "B2C Quote",
@@ -105,7 +106,8 @@
     "LookingFor": "What Are You Looking For!",
     "Transaction": "Quotation & Policy Information",
     "LoginCreation": "Login Creation & Masters",
-    "ApproverReferralManagement": "Referral Management & More"
+    "ApproverReferralManagement": "Referral Management & More",
+    "FormValidations": "Form Validations"
   },
   "DASHBOARD":{
       "Policies":"Policies",
@@ -164,6 +166,13 @@
       
   },
   "MOTORQUOTE":{
+    "NumberOfCylinder":"Number of Cylinder(s)",
+    "RegistrationDate":"RegistrationDate",
+    "Tonnage":"Tonnage",
+    "FileUpload":"File Upload",
+    "RawTableInsert":"Raw Table Insert",
+    "DataValidation":"Data Validation",
+    "MovingRecords":"Moving Records",
     "CategoryDateobtained":"Category - Date obtained",
     "Categoryexpirationdate":"Category - Category expiration date",
     "Category":"Category -Code",
@@ -179,7 +188,7 @@
     "Aggregatedvalue":"Aggregated value",
     "DisplacementinCM3":"DisplacementinCM3",
     "Nombredecartes":"Number of cards (WW Garage)",
-    "NumberofCylinder":"Number of Cylinder(s)",
+    
     "MunicipalityofTraffic":"Municipality of Traffic",
     "DateOfcirculation": "Date of circulation",
     "Transportationofhydrocarbons":"Transportation of hydrocarbons",
@@ -231,6 +240,10 @@
     "MotorUsage":"Motor Usage",
     "Claims": "Claims",
     "GPS":"GPS",
+    "Make":"Make",
+    "Model":"Model",
+    "ModelDesc":"Model Description",
+    "ModelDescription":"Model Description",
     "Selectt": "---Select---",
     "VehicleSI":"Vehicle SumInsured",
     "AccessoriesSI":"Accessories SumInsured",
@@ -277,6 +290,7 @@
      "Delete":"Delete"
   },
   "MOTORDETAILS":{
+    "EnterTonnage":"Enter Tonnage",
     "VehicleDetails":"Vehicle Details",
     "SelectMotorUsage":"Select Motor Usage",
     "SelectBodyType":"Select Body Type",
@@ -317,7 +331,10 @@
     "AxleDistance":"Axle Distance",
     "EnterAxleDistance":"Enter Axle Distance",
     "Back":"Back",
-    "Submit":"Submit"
+    "Submit":"Submit",
+    "selectRegistrationDate":"select Registration Date",
+    "EnterNumberOfCylinders":"Enter Number Of Cylinders ",
+    "EnterDisplacement ":"Enter Displacement "
   },
   "PREMIUM":{
       "ReferenceNo":"Reference No",
@@ -434,6 +451,7 @@
      "NumberOfDoors":"Number Of Door's",
      "EnterDriverName":"Enter Driver Name",
      "EnterLicenseNumber":"Enter Licence Number",
+     "EnterLicenseAge":"Please Enter Licence Age",
      "PleaseEnterValidDriverName":"Please Enter Valid Driver Name",
      "PleaseEnterValidLicenseNumber":"Please Enter Valid License Number",
      "SelectDOB":"Select DOB",
@@ -446,7 +464,8 @@
      "SelectPlateType":"Select Plate Type",
      "SelectColor":"Select Color",
      "SelectDoors":"Select Doors",
-     "AddNewDriver":"Add New Driver"
+     "AddNewDriver":"Add New Driver",
+     "CountryCode":"Country Code"
   },
   "DOCUMENT":{
     "DocumentInfoforVerification": "Document Info for Verification",

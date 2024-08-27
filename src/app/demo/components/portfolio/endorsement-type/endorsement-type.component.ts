@@ -1456,12 +1456,7 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
                 }
                 let motorUsageId = vehicleDetails.Motorusage
                 let motorUsage = vehicleDetails.MotorUsageDesc;
-                let sectionId = null;
-                if(vehicleDetails?.Insurancetype){
-                  if(vehicleDetails?.Insurancetype.length!=0){
-                    sectionId = vehicleDetails?.Insurancetype[0]
-                  }
-                }
+                
                 console.log("AcExecutive",this.acExecutiveId,veh,vehicleDetails);
                 let ReqObj = {
                   "BrokerBranchCode": vehicleDetails?.BrokerBranchCode,
@@ -1512,7 +1507,7 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
                 "BranchCode": this.branchCode,
                 "AgencyCode": this.agencyCode,
                 "ProductId": this.productId,
-                "SectionId": sectionId,
+                "SectionId": vehicleDetails?.SectionId,
                 "PolicyType": vehicleDetails?.PolicyType,
                 "RadioOrCasseteplayer": null,
                 "RegistrationYear": vehicleDetails?.RegistrationYear,

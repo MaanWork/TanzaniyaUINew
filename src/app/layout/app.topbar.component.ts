@@ -72,11 +72,18 @@ export class AppTopBarComponent implements OnInit {
 
     ngOnInit() {
       this.getBranchList();
+      if(this.insuranceid=='100027'){
         this.langList = [
           {"Code":"en","CodeDesc":"English","CodeDescPor":"Inglês","CodeDescFr":"Anglais"},
           {"Code":"po","CodeDesc":"Portuguese","CodeDescPor":"Português","CodeDescFr":"Portugais"},
+        ]
+      }
+      else{
+        this.langList = [
+          {"Code":"en","CodeDesc":"English","CodeDescPor":"Inglês","CodeDescFr":"Anglais"},
           {"Code":"fr","CodeDesc":"French","CodeDescPor":"Francês","CodeDescFr":"Français"},
         ]
+      }
         this.branches = [{label: 'Branch 1'}, {label: 'Branch 2'}];
         this.userOptions = [
             {label: 'Logout', value: 'logout', icon: 'pi pi-power-off', command: () => {this.setLogout();}},
@@ -104,10 +111,14 @@ export class AppTopBarComponent implements OnInit {
       if(branchList.length!=0){
         let i=0;
         for(let branch of branchList){
-          branch['label']=branch['BranchName'];
+           if(this.lang=='en') branch['label']=branch['BranchName'];
+            else branch['label']=branch['BrokerBranchNameLocal']
+          //branch['label']=branch['BranchName'];
           i+=1;
           if(i==branchList.length) this.branchList = branchList;
         }
+        console.log(this.branchList,"this.branchList");
+        
       }
       if (this.userType == 'Issuer') {
         let branch = this.branchList.filter(ele => ele.BranchCode == this.branchValue);
@@ -159,7 +170,6 @@ export class AppTopBarComponent implements OnInit {
       if(types==null) types = this.typeList.find(ele=>ele.CodeDesc  = this.typeValue)  
       else if(types.CodeDesc!='B2C Broker') this.typeValue = types.CodeDesc;
       this.typeName = types.DisplayName;
-      console.log("Setted Type Value", this.typeValue);
       //$("#subUserTypes").hide();
       this.onTypeChange(changeType);
     }
@@ -204,6 +214,7 @@ export class AppTopBarComponent implements OnInit {
         this.lang=value;
         sessionStorage.setItem('language',value);
         this.appComp.setLanguage(value);
+        window.location.reload();
     }
     showUserDetails(){
       if(this.router.url=='/auth/login/product') return false;

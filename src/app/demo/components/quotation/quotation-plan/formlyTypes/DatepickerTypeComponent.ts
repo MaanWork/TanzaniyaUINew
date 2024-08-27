@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
 import { MatInput } from '@angular/material/input';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-form-datepicker-type',
@@ -18,8 +19,11 @@ import { MatInput } from '@angular/material/input';
 export class DatepickerTypeComponent extends FieldType {
   // Optional: only if you want to rely on `MatInput` implementation
   @ViewChild(MatInput) formFieldControl: MatInput;
+  currentDate: any;
+  minDate: any;
 
     constructor() {
     super();
-  }
+    }
+  
 }

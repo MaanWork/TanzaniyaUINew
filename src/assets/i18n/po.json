@@ -99,7 +99,7 @@
       "EnterVRN/GSTNumber":"Insira o número VRN/GST"
     },
     "LOGIN":{
-        "WelcometoXYZInsurance":"Bem-vindo à XYZ Seguros",
+        "WelcometoXYZInsurance":"Bem-vindo à Sanlam Allianz Seguros",
         "Signintocontinue": "Faça login para continuar",
         "RetrieveQuoteUsingMobileNumber?": "Recuperar cotação usando Mobile Number?",
         "B2CQuote": "Cotação B2C",
@@ -125,7 +125,8 @@
       "LookingFor": "O que você está procurando!",
       "Transaction": "Cotação e informações sobre política",
       "LoginCreation": "Criação de login e mestres",
-      "ApproverReferralManagement": "Gerenciamento de referências e muito mais"
+      "ApproverReferralManagement": "Gerenciamento de referências e muito mais",
+      "FormValidations": "Validação de formulário"
     },
     "DASHBOARD":{
         "Policies":"Políticas",
@@ -183,6 +184,8 @@
         "Search": "Procurar"
     },
     "MOTORQUOTE":{
+      "Tonnage":"Tonelagem",
+      "FileUpload":"Upload de arquivo",
       "CategoryDateobtained":"Categoria Data obtida",
     "Categoryexpirationdate":"Data de expiração da categoria",
     "Category":"Categoria",
@@ -250,6 +253,9 @@
       "MotorUsage":"Uso do motor",
       "Claims": "Reivindicações",
       "GPS":"GPS",
+      "Make":"Fazer",
+      "Model":"Modelo",
+      "ModelDesc": "Descrição do modelo",
       "Selectt": "---Selecione---",
       "EngineNo":"Número do motor",
       "EngineCapacity":"Capacidade do motor",
@@ -293,6 +299,7 @@
        "Delete":"Excluir"
     },
     "MOTORDETAILS":{
+      "EnterTonnage":"Insira a tonelagem",
       "VehicleDetails":"Detalhes do veículo",
        "SelectMotorUsage":"Selecione o uso do motor",
        "SelectBodyType":"Selecione o tipo de corpo",
@@ -333,7 +340,10 @@
       "AxleDistance":"Distância do eixo",
       "EnterAxleDistance":"Insira a distância do eixo",
       "Back":"Voltar",
-      "Submit":"Enviar"
+      "Submit":"Enviar",
+      "selectRegistrationDate":"selecione a data de registro",
+       "EnterNumberOfCylinders":"Insira o número de cilindros",
+       "EnterDisplacement ":"Insira o deslocamento"
     },
     "PREMIUM":{
         "ReferenceNo":"Número de referência",
@@ -440,6 +450,7 @@
          "12Months":"12 Meses"
     },
     "DRIVERINFO":{
+      
       "DriverInformation":"Informações do motorista",
       "OtherInformationAboutVehicle": "Outras informações sobre o veículo",
       "SeriesNumber":"Número de série",
@@ -448,6 +459,7 @@
       "PlateColor":"Cor da placa",
       "NumberOfDoors":"Número de portas",
       "EnterDriverName":"Digite o nome do motorista",
+      "EnterLicenseAge":"Insira a idade da licença",
        "EnterLicenseNumber":"Insira o número da licença",
        "PleaseEnterValidDriverName":"Insira um nome de driver válido",
        "PleaseEnterValidLicenseNumber":"Insira um número de licença válido",

@@ -386,39 +386,39 @@ export class MotorVehicleSanlamIvory{
                   //   expressions: {
                   //   },
                   // },
-                  {
-                    type: 'commaSeparator',
-                    id:'Newvalue',
-                    key: 'Newvalue',
-                    defaultValue: '',
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    hide: true,
-                    hideExpression:true,
-                    props: {
-                      label: `New  Value`,
-                      disabled: this.checkDisable('Newvalue'),
-                      required: true,
-                      options: [
+                  // {
+                  //   type: 'commaSeparator',
+                  //   id:'Newvalue',
+                  //   key: 'Newvalue',
+                  //   defaultValue: '',
+                  //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                  //   hide: true,
+                  //   hideExpression:true,
+                  //   props: {
+                  //     label: `New  Value`,
+                  //     disabled: this.checkDisable('Newvalue'),
+                  //     required: true,
+                  //     options: [
       
-                      ],
+                  //     ],
       
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                  //   },
+                  //   validators: {
+                  //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                  //   },
+                  //   hooks: {
+                  //   },
+                  //   expressions: {
+                  //   },
+                  // },
                  
                   {
                     type: 'ngselect',
                     id:'VehicleValue',
                     key: 'VehicleValue',
                     defaultValue: '',
-                    hide: true,
-                    hideExpression:true,
+                    hide: false,
+                    hideExpression:false,
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     props: {
                       label: `VehicleValue`,
@@ -584,28 +584,28 @@ export class MotorVehicleSanlamIvory{
                     },
                   },
 
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'input',
-                    key: 'Mileage',
-                    id:'Mileage',
-                    props: {
-                      label: `Mileage (Km/lit)`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('Mileage'),
-                      required: true,
-                      options: [
+                  // {
+                  //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                  //   type: 'input',
+                  //   key: 'Mileage',
+                  //   id:'Mileage',
+                  //   props: {
+                  //     label: `Mileage (Km/lit)`,
+                  //     maxLength: 15,
+                  //     disabled: this.checkDisable('Mileage'),
+                  //     required: false,
+                  //     options: [
   
-                      ],
+                  //     ],
   
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                  //   },
+                  //   validators: {
+                  //   },
+                  //   hooks: {
+                  //   },
+                  //   expressions: {
+                  //   },
+                  // },
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     key: 'ClaimsYN',
