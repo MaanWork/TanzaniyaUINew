@@ -1098,7 +1098,7 @@ export class VehicleCreateFormComponent implements OnInit {
         else modelDesc = null;
     }
     else{
-      if(this.bodyTypeId=='1' || this.bodyTypeId=='2' || this.bodyTypeId=='3' || this.bodyTypeId=='4' || this.bodyTypeId=='5'){
+      if(this.bodyType=='P'){
         if(this.modelValue=='99999'){
             modelDesc = this.modelDesc;
         }
