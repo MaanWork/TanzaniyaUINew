@@ -281,7 +281,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
         else if(type=='Policies'){
             if(this.lang=='en') return 'Policies'
-            else if(this.lang=='fr') return 'Politiques';
+            else if(this.lang=='fr') return 'Police';
             else if(this.lang=='po') return 'Políticas'
         }
     }
