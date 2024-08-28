@@ -191,10 +191,19 @@ export class CustomerCreateFormComponent implements OnInit {
 								if (i == this.titleList.length - 1) {
 									let fieldList=this.personalInfoFields[0].fieldGroup;
 									for(let field of fieldList){
-										if(field.key=='Title'){
-											field.props.options = defaultRow.concat(this.titleList);
+										if (field.key == 'Title') {
+											let entry
+											if(this.productItem.IdType==1){
+											entry="I"
+											}else{
+											entry="C"
+											}
+											field.props.options = defaultRow.concat(this.titleList.filter(ele=>ele.TitleType==entry));
 											this.checkFieldNames()
-										}
+											
+											console.log(field.props.options,"field.props.optionsfield.props.options");
+											
+											}
 									}
 								}
 						}
@@ -1642,7 +1651,7 @@ export class CustomerCreateFormComponent implements OnInit {
       if(value==2 || value=='2'){
         this.productItem.Gender = '';
       }
-	  this.getPolicyIdTypeList();
+	  this.getPolicyIdTypeList();this.getTitleList();
 	if(this.insuranceId=='100004'){
 		this.getType3('change');
 	} 
@@ -1656,7 +1665,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			field.hide=false;field.hideExpression=false;
 		}
 		
-		if(field.key=='ClientName' || field.key=='Title' || field.key=='Gender' || field.key=='dobOrRegDate' || field.key=='Nationality'
+		if(field.key=='ClientName' || field.key=='Gender' || field.key=='dobOrRegDate' || field.key=='Nationality'
 			|| field.key=='SocioProfessionalcategory' || field.key=='Occupation' 
 		)
 			{
@@ -1674,12 +1683,12 @@ export class CustomerCreateFormComponent implements OnInit {
 			if(field.key=='BusinessType' || field.key=='CompanyName'){
 				field.hide=true;field.hideExpression=true;
 			}
-			if(field.key=='ClientName' || field.key=='Title' || field.key=='Gender' || field.key=='dobOrRegDate' || field.key=='Nationality'
+			if(field.key=='ClientName'  || field.key=='Gender' || field.key=='dobOrRegDate' || field.key=='Nationality'
 				|| field.key=='SocioProfessionalcategory' || field.key=='Occupation' 
 			){
 					field.hide=false;field.hideExpression=false;
 				}
-			if(field.key=='ClientName' || field.key=='Title' || field.key=='Gender'){
+			if(field.key=='ClientName'  || field.key=='Gender'){
 					field.hide=false;field.hideExpression=false;
 				}
 				if(field.key=='EmailId' ){
@@ -1890,10 +1899,23 @@ getType3(type){
 			  if (i == this.titleList.length - 1) {
 				  let fieldList=this.personalInfoFields[0].fieldGroup;
 				  for(let field of fieldList){
-					  if(field.key=='Title'){
-						  field.props.options = defaultRow.concat(this.titleList);
-						  this.checkFieldNames()
-					  }
+					//   if(field.key=='Title'){
+					// 	  field.props.options = defaultRow.concat(this.titleList);
+					// 	  this.checkFieldNames()
+					//   }
+					if (field.key == 'Title') {
+						let entry
+						if(this.productItem.IdType==1){
+						entry="I"
+						}else{
+						entry="C"
+						}
+						field.props.options = defaultRow.concat(this.titleList.filter(ele=>ele.TitleType==entry));
+						this.checkFieldNames()
+						
+						console.log(field.props.options,"field.props.optionsfield.props.options");
+						
+						}
 				  }
 			  }
 			}
