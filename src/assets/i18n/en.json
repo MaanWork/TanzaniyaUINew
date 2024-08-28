@@ -1,5 +1,7 @@
 {
   "HOME": {
+    "Plot":"Plot",
+    "Department":"Department",
     "Activities":"Activities",
     "CompanyName":"Company Name",
     "SocioProfessionalcategory":"Socio-professional category",
@@ -166,6 +168,9 @@
       
   },
   "MOTORQUOTE":{
+    "PACoverId":"PACoverId",
+    "ZoneCirculation":"Zone Circulation",
+    "VehicleType":"Vehicle Type",
     "NumberOfCylinder":"Number of Cylinder(s)",
     "RegistrationDate":"RegistrationDate",
     "Tonnage":"Tonnage",
@@ -180,7 +185,7 @@
     "Dateofissue":"Dateofissue",
     "Drivinglicensenumber":"Driving license number",
     "Name":"Name",
-    "Civility":"Civility",
+    "Civility":"Nationality",
     "SameasSubscriber":"Same as Subscriber?",
     "Drivinglicenseage":"Driving license age",
     "Newvalue":"New value",
@@ -677,6 +682,23 @@
         "Refferal":"Refferal",
         "ReferralRemarks": "Referral Remarks"
 
+  },
+  "CRM": {
+    "Lead":"Lead",
+    "AddNewLead":"Add New Lead",
+    "Branch":"Branch",
+    "Enquiry":"Enquiry",
+    "PendingForQuote":"Pending For Quote",
+    "AdditionalInformationRequired":"Additional Information Required",
+    "AdditionalInformationProvided":"Additional Information Provided",
+    "AcceptedEnquiries":"Accepted Enquiries",
+    "RejectedEnquiries":"Rejected Enquiries",
+    "Select":"Select",
+    "Qoute":"Quote",
+    "FreshQuotes":"FreshQuotes",
+    "Quotesent":"Quote sent",
+    "BusinessConverted":"Business Converted",
+    "BusinessLost":"Business Lost",
+    "PolicyGenratedQuote":"Policy Genrated Quote"
   }
-  
 }

@@ -821,7 +821,7 @@ export class VehicleCreateFormComponent implements OnInit {
   }
   getMakeList(){
     let bodyType = null;
-    if(this.insuranceId!='100042') bodyType = this.bodyTypeId
+    if(this.insuranceId!='100042' && this.insuranceId!='100040') bodyType = this.bodyTypeId
     else bodyType = '99999'
     let ReqObj = {
       "InsuranceId": this.insuranceId,
@@ -1441,4 +1441,5 @@ export class VehicleCreateFormComponent implements OnInit {
       //   (err) => { },
       // );
     }
+    
 }
