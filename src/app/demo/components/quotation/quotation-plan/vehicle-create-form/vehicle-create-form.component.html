@@ -146,8 +146,8 @@
                 </div>
             </div>
             <div class="flex flex-column m-3">
-                <label for="chasis-no">{{'MOTORDETAILS.ChassisNo' | translate}}</label>
-                <input pInputText id="chasis-no" [(ngModel)]="chassisNo" [disabled]="editSection" maxlength="25" [placeholder]="'MOTORDETAILS.EnterChasisNo' | translate"/>
+                <label for="chasis-no">{{'MOTORDETAILS.ChassisNo' | translate }}</label>
+                <input pInputText id="chasis-no" class="searchText" [(ngModel)]="chassisNo" [disabled]="editSection" maxlength="25" [placeholder]="'MOTORDETAILS.EnterChasisNo' | translate"/>
             </div>
             <div class="flex flex-column m-3">
                 <label for="engine-no">{{'MOTORDETAILS.EngineNumber' | translate}}</label>

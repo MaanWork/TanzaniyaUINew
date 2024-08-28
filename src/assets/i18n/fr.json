@@ -1,5 +1,7 @@
 {
   "HOME":{
+    "Plot":"Parcelle",
+    "Department":"Département",
    "Activities":"Activités",
       "CompanyName":"Nom de l'entreprise",
       "SocioProfessionalcategory":"Catégorie socioprofessionnelle",
@@ -9,8 +11,8 @@
       "AddressDetails":"Détails de l'adresse",
       "CreateCustomer":"Créer un client",
       "Customer":"Client",
-      "IdentityType":"Type de pièce",
-      "IDNumber":"Numéro de pièce",
+      "IdentityType":"Type d'identification",
+      "IDNumber":"Numéro d'identification",
       "DateOfBirth":"Date de naissance",
       "PreferedNotification":"Notification préférée",
       "TaxExcempted":"Exonéré d'impôt",
@@ -172,6 +174,9 @@
   
   },
   "MOTORQUOTE":{
+    "PACoverId":"ID de couverture PA",
+    "ZoneCirculation":"Circulation zonale",
+    "VehicleType":"Type de véhicule",
     "NumberOfCylinder":"Nombre de cylindre",
     "RegistrationDate":"Date d'inscription",
     "Tonnage":"Charge Utile(Kg)",
@@ -183,7 +188,7 @@
   "Dateofissue":"Date d'émission",
   "Drivinglicensenumber":"Numéro de permis de conduire",
   "Name":"Nom",
-  "Civility":"Civilité",
+  "Civility":"Nationalité",
   "SameasSubscriber":"Identique à l’assuré ?",
   "Drivinglicenseage":"Âge du permis de conduire",
   "Newvalue":"Nouvelle valeur",
