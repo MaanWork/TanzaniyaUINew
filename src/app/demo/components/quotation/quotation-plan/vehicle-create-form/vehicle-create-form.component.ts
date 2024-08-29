@@ -657,6 +657,16 @@ export class VehicleCreateFormComponent implements OnInit {
         "NewValue":this.vehicleDetails.NewValue,
         "MarketValue":this.vehicleDetails.MarketValue,
         "AggregatedValue":this.vehicleDetails.AggregatedValue,
+        "BankingDelegation":this.vehicleDetails.BankingDelegation,
+        "LoanStartDate": this.vehicleDetails.LoanStartDate,
+        "LoanEndDate": this.vehicleDetails.LoanEndDate,
+        "CollateralCompanyAddress": this.vehicleDetails.CollateralCompanyAddress,
+        "CollateralCompanyName": this.vehicleDetails.CollateralCompanyName,
+        "LoanAmount": this.vehicleDetails.LoanAmount,
+        "PaCoverId":this.vehicleDetails.PACoverId,
+        "UsageId":this.vehicleDetails.VehicleUsage,
+        "VehicleTypeIvr": this.vehicleDetails.VehicleType,
+        "ZoneCirculation": this.vehicleDetails.ZoneCirculation,
         "Scenarios": {
             "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": null,
