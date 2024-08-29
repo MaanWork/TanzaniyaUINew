@@ -2448,8 +2448,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       }
       else {
         this.endMinDate = new Date(this.policyStartDate);
-        this.policyEndDate = new Date(year + 1, month, day-1);
-       
+        if(this.policyEndDate==null || this.policyEndDate==undefined || this.policyEndDate=='') this.policyEndDate = new Date(year + 1, month, day-1);
         this.endMaxDate = new Date(year + 2, month, day-1);
         this.onChangeEndDate();
       }
@@ -2481,28 +2480,39 @@ export class CommonQuoteDetailsComponent implements OnInit {
   }
   onChangeEndDate(){
     if(this.productId!='4'){
-      var d = null;
-      if(String(this.policyStartDate).split('/').length>1){let dateList = String(this.policyStartDate).split('/');d=new Date(dateList[2]+'-'+dateList[1]+'-'+dateList[0])}
-      else d=new Date(this.policyStartDate)
-      var year = d.getFullYear();
-      var month = d.getMonth();
-      var day = d.getDate();
-      const oneday = 24 * 60 * 60 * 1000;
-      let formattedDatecurrent:any =null;
-      if(String(this.policyStartDate).split('/').length>1){ 
-        let dateList  = String(this.policyStartDate).split('/')
-        let startDate:any = dateList[2]+'-'+dateList[1]+'-'+dateList[0]; 
-        formattedDatecurrent = new Date(startDate);}
-      else formattedDatecurrent = this.policyStartDate
-      if(String(this.policyEndDate).split('/').length>1){
-        let dateList  = String(this.policyEndDate).split('/')
-        let endDate:any = dateList[2]+'-'+dateList[1]+'-'+dateList[0]; 
-        const momentDate:any = new Date(String(endDate));
-        this.noOfDays = String(Math.round((momentDate - formattedDatecurrent) / (1000 * 60 * 60 * 24))+1);
+      if(this.insuranceId=='100004' || this.insuranceId=='100040'){
+        var d = null;
+        if(String(this.policyStartDate).split('/').length>1){let dateList = String(this.policyStartDate).split('/');d=new Date(dateList[2]+'-'+dateList[1]+'-'+dateList[0])}
+        else d=new Date(this.policyStartDate)
+        var year = d.getFullYear();
+        var month = d.getMonth();
+        var day = d.getDate();
+        const oneday = 24 * 60 * 60 * 1000;
+        let formattedDatecurrent:any =null;
+        if(String(this.policyStartDate).split('/').length>1){ 
+          let dateList  = String(this.policyStartDate).split('/')
+          let startDate:any = dateList[2]+'-'+dateList[1]+'-'+dateList[0]; 
+          formattedDatecurrent = new Date(startDate);}
+        else formattedDatecurrent = this.policyStartDate
+        if(String(this.policyEndDate).split('/').length>1){
+          let dateList  = String(this.policyEndDate).split('/')
+          let endDate:any = dateList[2]+'-'+dateList[1]+'-'+dateList[0]; 
+          const momentDate:any = new Date(String(endDate));
+          this.noOfDays = String(Math.round((momentDate - formattedDatecurrent) / (1000 * 60 * 60 * 24))+1);
+        }
+        this.endMinDate = new Date(this.policyStartDate);
+        this.policyEndDate = new Date(year, month, day+Number(this.noOfDays)-1);
+        this.endMaxDate = new Date(year, month, day+Number(this.noOfDays));
       }
-      this.endMinDate = new Date(this.policyStartDate);
-      this.policyEndDate = new Date(year, month, day+Number(this.noOfDays)-1);
-      this.endMaxDate = new Date(year, month, day+Number(this.noOfDays));
+      else{
+        const oneday = 24 * 60 * 60 * 1000;
+        const momentDate = new Date(this.policyEndDate); // Replace event.value with your date value
+        const formattedDate = moment(momentDate).format("YYYY-MM-DD");
+        const formattedDatecurrent = new Date(this.policyStartDate);
+        console.log(formattedDate);
+        //this.noOfDays = Math.round(Math.abs((Number(momentDate)  - Number(formattedDatecurrent) )/oneday)+1);
+      }
+      
     
     }
     else{
