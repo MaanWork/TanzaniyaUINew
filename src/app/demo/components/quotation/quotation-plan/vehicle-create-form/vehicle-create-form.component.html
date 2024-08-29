@@ -131,7 +131,7 @@
                 (change)="onRegistrationSearch()" [placeholder]="'MOTORDETAILS.EnterRegistrationNo' | translate"/>
                 <div class="input-form-error" *ngIf="editSection && !duplicateSection">
                     <div class="text-primary" style="font-size: 12px;">
-                        {{'MOTORDETAILS.RegistrationNumberAlreadyExistinthisQuote' | translate}}
+                        {{'MOTORDETAILS.ValidatingRegistrationNumber' | translate}}
                     </div>
                 </div>
                 <div class="input-form-error" *ngIf="duplicateSection">
@@ -231,10 +231,10 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-column m-3" *ngIf="(insuranceId!='100040' && insuranceId!='100042') && bodyType=='C'">
+            <!-- <div class="flex flex-column m-3" *ngIf="(insuranceId!='100040' && insuranceId!='100042' ) && bodyType=='C' && insuranceId!='100002'">
                 <label for="gross-weight">{{'MOTORDETAILS.GrossWeight' | translate}}*</label>
                 <input pInputText id="gross-weight" [(ngModel)]="grossWeight" maxlength="10" [disabled]="editSection" [placeholder]="'MOTORDETAILS.EnterGrossWeight' | translate"/>
-            </div>
+            </div> -->
             <div class="flex flex-column m-3" *ngIf="insuranceId=='100002'" >
                 <label for="gross-weight">{{'MOTORDETAILS.GrossWeight' | translate}}*</label>
                 <input pInputText id="gross-weight" [(ngModel)]="grossWeight" maxlength="10" [disabled]="editSection" [placeholder]="'MOTORDETAILS.EnterGrossWeight' | translate"/>
