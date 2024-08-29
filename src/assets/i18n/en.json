@@ -128,7 +128,7 @@
       "Content":"Content"
   },
   "QUOTEGRID":{
-      "NoOfDays":"No Of Days",
+      "NoOfDays":"Policy Term",
       "Quotation": "Quotation",
       "Existing": "Existing",
       "Lapsed": "Lapsed",
@@ -170,7 +170,13 @@
       
   },
   "MOTORQUOTE":{
-    "PACoverId":"PACoverId",
+    "BankingDelegation":"Banking Delegation",
+    "LoanStartDate": "Loan Start Date",
+    "LoanEndDate":"Loan End Date",
+    "CollateralCompanyAddress":"Company Address",
+    "CollateralCompanyName":"Company Name",
+    "LoanAmount":"Loan Amount",
+    "PACoverId":"Personal Accident Cover",
     "ZoneCirculation":"Zone Circulation",
     "VehicleType":"Vehicle Type",
     "NumberOfCylinder":"Number of Cylinder(s)",

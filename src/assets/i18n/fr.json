@@ -134,7 +134,7 @@
   
   },
    "QUOTEGRID":{
-  "NoOfDays":"Nombre de jours",
+    "NoOfDays":"Durée de la police",
   "Quotation":"Citation",
   "Existing":"Existant",
   "Lapsed":"Péchu",
@@ -176,7 +176,13 @@
   
   },
   "MOTORQUOTE":{
-    "PACoverId":"ID de couverture PA",
+    "BankingDelegation":"Délégation bancaire",
+    "LoanStartDate": "Date de début du prêt",
+    "LoanEndDate":"Date de fin du prêt",
+    "CollateralCompanyAddress":"Adresse de la société de garantie",
+    "CollateralCompanyName":"Nom de la société de garantie",
+    "LoanAmount":"Montant du prêt",
+    "PACoverId":"Couverture personnelle contre les accidents",
     "ZoneCirculation":"Circulation zonale",
     "VehicleType":"Type de véhicule",
     "NumberOfCylinder":"Nombre de cylindre",
