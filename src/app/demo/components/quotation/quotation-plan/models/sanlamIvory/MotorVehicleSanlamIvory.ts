@@ -347,13 +347,14 @@ export class MotorVehicleSanlamIvory{
                     key: 'NoOfPassengers',
                     id:'NoOfPassengers',
                     props: {
-                      label: `Number Of Passengers's `,
+                      label: ``,
                       maxLength: 15,
-                      disabled: this.checkDisable('NumberOfPassengers'),
+                      disabled: this.checkDisable('NoOfPassengers'),
                       required: true,
-                      options: [
+                      //className: "text-danger",
+                      // options: [
   
-                      ],
+                      // ],
   
                     },
                     validators: {
@@ -510,59 +511,86 @@ export class MotorVehicleSanlamIvory{
                     expressions: {
                     },
                   },
-                  // {
-                  //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                  //   type: 'ngselect',
-                  //   key: 'ZoneCirculation',
-                  //   id:'ZoneCirculation',
-                  //   props: {
-                  //     label: `Zone Circulation`,
-                  //     disabled: this.checkDisable('ZoneCirculation'),
-                  //     options: [
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'ngselect',
+                    key: 'ZoneCirculation',
+                    id:'ZoneCirculation',
+                    props: {
+                      label: `Zone Circulation`,
+                      disabled: this.checkDisable('ZoneCirculation'),
+                      options: [
   
-                  //     ],
+                      ],
   
-                  //   },
-                  //   validators: {
-                  //   },
-                  //   hooks: {
-                  //   },
-                  //   expressions: {
-                  //   },
-                  // },
-                  // {
-                  //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                  //   type: 'ngselect',
-                  //   key: 'VehicleType',
-                  //   id:'VehicleType',
-                  //   props: {
-                  //     label: `Vehicle Type`,
-                  //     disabled: this.checkDisable('VehicleType'),
-                  //     options: [
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'ngselect',
+                    key: 'VehicleType',
+                    id:'VehicleType',
+                    props: {
+                      label: `Vehicle Type`,
+                      disabled: this.checkDisable('VehicleType'),
+                      options: [
   
-                  //     ],
+                      ],
   
-                  //   },
-                  //   validators: {
-                  //   },
-                  //   hooks: {
-                  //   },
-                  //   expressions: {
-                  //   },
-                  // },
-                  // {
-                  //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                  //   type: 'ngselect',
-                  //   key: 'VehicleUsage',
-                  //   id:'VehicleUsage',
-                  //   props: {
-                  //     label: `Vehicle Usage`,
-                  //     disabled: this.checkDisable('VehicleUsage'),
-                  //     options: [
-                  //     ],
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'ngselect',
+                    key: 'VehicleUsage',
+                    id:'VehicleUsage',
+                    props: {
+                      label: `Vehicle Usage`,
+                      disabled: this.checkDisable('VehicleUsage'),
+                      options: [
   
-                  //   validators: {
-                  //   },
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'ngselect',
+                    key: 'PACoverId',
+                    id:'PACoverId',
+                    props: {
+                      label: `PA CoverId`,
+                      disabled: this.checkDisable('PACoverId'),
+                      options: [
+  
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     key: 'GpsYN',

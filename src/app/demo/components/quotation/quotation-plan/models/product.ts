@@ -116,33 +116,43 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 	MotorUsage: any=null;
 	EngineNo: any
 	EngineCapacity: any
-	SeatingCapacity: any
+	SeatingCapacity: any;OccupationId:any=null;
   	ModelDesc: any=null;RenewalYn:any='N';
   OtherModelDesc: any=null;WaterTankSi:any='0';ArchitectsSi:any='0';LossOfRentSi:any='0';TypeOfProperty:any='';
   JewellerySi:any='0';GroupMemberSi:any='0';
   PaitingsSi:any ='0';TotalNoOfGroupMemeber:any=0;
   CarpetsSi:any='0';GroupOccupationId:any=null;
-  EquipmentSis:any='0';MotorCategory:any='';
+  EquipmentSis:any='0';MotorCategory:any='';Section:any=null;
   LegalLiabilityAnnualAggreagte:any='0';ProductTurnover:any='0';
   GrossProfitSi: any='0';IndemnityPeriodSi:any='0';
   TransportedBy: any='';ModeOfTransport:any='';
   GeographicalCoverage: any='';otherGroupoption:any=null;
   EstAnnualCarriesSiLc: any='0';SingleRoadSiLc:any='0';
-  otheroptionPer: any = '';patientList:any[]=[];
+  otheroptionPer: any = '';patientList:any[]=[];FireSumInsured:any='0';
   TTDSumInsured: any=null;InsuranceType:any=null;PreviousInsuranceYN:any='N';
   MESumInsured: any=null;EmployeeCounts:any;PreviousLossRatio:any=null;
   FESumInsured: any=null;ProfessionalOccupation:any;ProfessionalType:any;GISI:any;
   ProfessionalSI:any;IndemnityTypes:any;maxDate: "2022-09-25";DomesticServantSi:any='0';
   MiddleName:any='';LastName:any='';MobileCode:any=null;MobileNo:any=null;VehicleSI:any=null
-	PassengerFirstName: any='';
-	PassengerLastName: any=''
-	GenderId: any=''
+	PassengerFirstName: any='';BusinessName:any=null;BusinessSI:any='0';
+	PassengerLastName: any='';CoveringDetails:any=null;DescriptionOfRisk:any=null;
+	GenderId: any='';OccupationDesc=null;
 	RelationId: any=''
 	Nationality: any=''
 	PassportNo: any=''
 	HorsePower: any=''
 	InsurancetypeDesc: any
 	InsuranceClassDesc: any
+	PaCoverId: any
+	BankingDelegation: any
+	LoanStartDate: any
+	LoanEndDate: any
+	CollateralCompanyAddress: any
+	CollateralCompanyName:any
+	LoanAmount:any
+	UsageId: any
+	vehicleTypeIvr: any
+	ZoneCirculation: any
 	constructor(data?) {
 		this.id = data?.id ?? ''
 		this.CustomerName = data?.CustomerName ?? '';
@@ -154,6 +164,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.SalaryPerAnnum = data?.SalaryPerAnnum ?? '';
 		this.BenefitCoverMonth = data?.BenefitCoverMonth ?? '';
 		this.SumInsured = data?.SumInsured ?? '';
+		this.Section = data?.Section ?? '';
 		this.SectionId = data?.SectionId ?? '';
 		this.IndustryName = data?.IndustryName ?? '';
 		this.NatureOfBusinessId = data?.NatureOfBusinessId ?? '';
@@ -187,6 +198,12 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.BuildingUsageId = data?.BuildingUsageId ?? '';
 		this.PersonalIntermediarySuminsured = data?.PersonalIntermediarySuminsured ?? '';
 		this.PersonalAccidentSuminsured = data?.PersonalAccidentSuminsured ?? '';
+		this.FireSumInsured = data?.FireSumInsured ?? '0';
+		this.BusinessName = data?.BusinessName ?? null;
+		this.BusinessSI = data?.BusinessSI ?? '0';
+		this.CoveringDetails = data?.CoveringDetails ?? null;
+		this.DescriptionOfRisk = data?.DescriptionOfRisk ?? null;
+		this.OccupationDesc = data?.OccupationDesc ?? null;
 		this.AllriskSumInsured = data?.AllriskSumInsured ?? '';
 		this.ElecEquipSuminsured = data?.ElecEquipSuminsured ?? '';
 		this.DomesticServantSi = data?.DomesticServantSi ?? '';
@@ -321,6 +338,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.ModelDesc = data?.ModelDesc ?? '';
 		this.OtherModelDesc = data?.OtherModelDesc ?? '';
 		this.LiabilityOccupationId = data?.LiabilityOccupationId ?? '';
+		this.OccupationId = data?.OccupationId ?? '';
 		this.ProductTurnover = data?.ProductTurnover ?? '0';
 		this.LegalLiabilityAnnualAggreagte = data?.LegalLiabilityAnnualAggreagte ?? '0';
 		this.GrossProfitSi = data?.GrossProfitSi ?? '0';
@@ -350,6 +368,16 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.Nationality = data?.Nationality ?? '';
 		this.PassportNo = data?.PassportNo ?? '';
 		this.HorsePower = data?.HorsePower ?? '';
+		this.PaCoverId = data?.PaCoverId ?? '';
+		this.BankingDelegation = data?.BankingDelegation ?? '';
+		this.LoanStartDate = data?.LoanStartDate ?? '';
+		this.LoanEndDate = data?.LoanEndDate ?? '';
+		this.CollateralCompanyAddress = data?.CollateralCompanyAddress ?? '';
+		this.CollateralCompanyName = data?.CollateralCompanyName ?? '';
+		this.LoanAmount = data?.LoanAmount ?? '';
+		this.UsageId = data?.UsageId ?? '';
+		this.vehicleTypeIvr = data?.vehicleTypeIvr ?? '';
+		this.ZoneCirculation = data?.ZoneCirculation ?? '';
 		// this.EquipmentSi = data?.EquipmentSi ?? '0';
 		// this.ElectronicEquipSuminsured = data.ElectronicEquipSuminsured ?? '0';
 	}
