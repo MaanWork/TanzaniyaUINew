@@ -143,7 +143,7 @@
         "PhoneNo":"Telefone não","Date":"Data","Content":"Contente"
     },
     "QUOTEGRID":{
-        "NoOfDays":"Número de dias",
+        "NoOfDays":"Duração da política",
         "Quotation": "cotação",
         "Existing": "Existir",
         "Lapsed": "Caducada",
