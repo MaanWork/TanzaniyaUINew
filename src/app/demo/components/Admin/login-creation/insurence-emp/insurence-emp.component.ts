@@ -103,7 +103,7 @@ export class InsurenceEmpComponent {
   productSection: boolean;
   referralSection: boolean;
   endorseSection: boolean;
-  categoryId: string;
+  categoryId: string;dmlValue:any='N';
   categoryList: { Code: string; CodeDesc: string; }[];
   endorseData: any[]=[];
   ViewProducts: any[]=[];
@@ -112,7 +112,7 @@ export class InsurenceEmpComponent {
   LastQuoteDate: any=null;
   CollectedPremium: any=null;
   PolicyCommission: any=null;
-  companyId: any=null;
+  companyId: any=null;DmlList:any[]=[];
   viewIssuerDetails: any=null;
   selectedProductId: any;
   constructor(private router:Router,
@@ -136,6 +136,9 @@ export class InsurenceEmpComponent {
       { "Code":"high","CodeDesc":"Approver" },
       { "Code":"both","CodeDesc":"Quotation & Approver" },
 
+    ];
+    this.DmlList = [
+      { "Code":"Y","CodeDesc":"Yes" },{ "Code":"N","CodeDesc":"No" }
     ];
       this.getCompanyList();
       this.getCountryList();
@@ -462,7 +465,8 @@ export class InsurenceEmpComponent {
           this.userName = personalInfo?.UserName;
           this.userMobile = personalInfo?.UserMobile;
           this.userMail = personalInfo?.UserMail;
-         
+          if(loginInformation?.DmlYN!=null && loginInformation?.DmlYN!=undefined && loginInformation?.DmlYN!='') this.dmlValue=loginInformation?.DmlYN
+          else this.dmlValue = 'N';
           this.agencyCode = loginInformation?.AgencyCode;
           this.issuerLoginId = loginInformation?.LoginId;
           this.statusValue = loginInformation?.Status;
@@ -555,6 +559,9 @@ onDateFormatInEdit(date) {
       this.insuranceIds.push(this.insuranceId);
     }
     else this.insuranceId = null;
+    let dmlYN=null;
+    if(this.dmlValue==null || this.dmlValue=='')  dmlYN = 'N';
+    else dmlYN = this.dmlValue;
     let ReqObj = {
       
       "LoginInformation": {
@@ -571,8 +578,8 @@ onDateFormatInEdit(date) {
         "ProductIds": this.productIds,
         "InsuranceId": this.insuranceId,
         "EffectiveDateStart": this.effectiveDate,
-        "ReferralIds": ["null"]
-
+        "ReferralIds": ["null"],
+        "DmlYN": dmlYN
       },
       "PersonalInformation": {
         "Address1": this.address1,
