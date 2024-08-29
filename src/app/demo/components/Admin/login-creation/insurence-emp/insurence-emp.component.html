@@ -231,6 +231,10 @@
             </div>
         </div>
         </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList" *ngIf="issuerType == 'SuperAdmin'">
+            <label for="ExcemptedYN" class="font-semibold w-6rem">HelpLink&nbsp;<span class="text-danger">*</span></label>
+            <p-selectButton [options]="DmlList" [(ngModel)]="dmlValue" id="dmlYN"   optionLabel="CodeDesc" optionValue="Code"></p-selectButton>
+        </div>
     </div>
     <div class="flex justify-content-center gap-2">
         <p-button label="Cancel" styleClass="p-button-outlined" (click)="AddIssuerPopup=!AddIssuerPopup" />
