@@ -76,6 +76,69 @@ export class MotorVehicleSanlamIvory{
                     expressions: {
                     },
                   },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'ngselect',
+                    key: 'VehicleType',
+                    id:'VehicleType',
+                    props: {
+                      label: `Vehicle Type`,
+                      disabled: this.checkDisable('VehicleType'),
+                      required:true,
+                      options: [
+  
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'ngselect',
+                    key: 'VehicleUsage',
+                    id:'VehicleUsage',
+                    props: {
+                      label: `Vehicle Usage`,
+                      disabled: this.checkDisable('VehicleUsage'),
+                      required:true,
+                      options: [
+  
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'ngselect',
+                    key: 'PACoverId',
+                    id:'PACoverId',
+                    props: {
+                      label: `PA CoverId`,
+                      disabled: this.checkDisable('PACoverId'),
+                      required:true,
+                      options: [
+  
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
                   // {
                   //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                   //     id:'PurchaseDate',
@@ -519,6 +582,7 @@ export class MotorVehicleSanlamIvory{
                     props: {
                       label: `Zone Circulation`,
                       disabled: this.checkDisable('ZoneCirculation'),
+                      required:true,
                       options: [
   
                       ],
@@ -531,66 +595,7 @@ export class MotorVehicleSanlamIvory{
                     expressions: {
                     },
                   },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'ngselect',
-                    key: 'VehicleType',
-                    id:'VehicleType',
-                    props: {
-                      label: `Vehicle Type`,
-                      disabled: this.checkDisable('VehicleType'),
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'ngselect',
-                    key: 'VehicleUsage',
-                    id:'VehicleUsage',
-                    props: {
-                      label: `Vehicle Usage`,
-                      disabled: this.checkDisable('VehicleUsage'),
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'ngselect',
-                    key: 'PACoverId',
-                    id:'PACoverId',
-                    props: {
-                      label: `PA CoverId`,
-                      disabled: this.checkDisable('PACoverId'),
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                 
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     key: 'GpsYN',
