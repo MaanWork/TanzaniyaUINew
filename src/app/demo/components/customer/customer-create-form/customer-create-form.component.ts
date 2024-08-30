@@ -1091,7 +1091,7 @@ export class CustomerCreateFormComponent implements OnInit {
 							this.productItem = new ProductData();
 							this.productItem.Clientstatus = 'Y';
 							this.productItem.isTaxExempted = 'N'; 
-							this.productItem.PreferredNotification = 'Sms';
+							this.productItem.PreferredNotification = '';
 							this.productItem.Gender = '';
 							this.productItem.PolicyHolderTypeid = '';
 							this.productItem.IdType = '1';
@@ -1362,7 +1362,7 @@ export class CustomerCreateFormComponent implements OnInit {
 						if(customerDetails.IdNumber!='NA') this.productItem.IdNumber = customerDetails.IdNumber;
 					}
 					this.productItem.PreferredNotification = customerDetails.PreferredNotification;
-					if(this.productItem.PreferredNotification==null) this.productItem.PreferredNotification='Sms';
+					if(this.productItem.PreferredNotification==null) this.productItem.PreferredNotification='';
 					this.productItem.Region = customerDetails.StateCode;
 					if(this.productItem.state==null){
 						this.productItem.state = '';
