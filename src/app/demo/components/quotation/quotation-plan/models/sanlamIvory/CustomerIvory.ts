@@ -441,7 +441,7 @@ export class CustomerIvory{
                       disabled: this.checkDisable('PreferredNotification'),
                       maxLength: 15,
                       options:[
-                        { label: 'Select', value: '','CodeDesc': 'Select','CodeDescLocal':'Sélectionner' },
+                        { label: '--Select--', value: '','CodeDesc': '--Select--','CodeDescLocal':'---Sélectionner---' },
                         { label: 'SMS', value: 'Sms',CodeDesc: 'SMS','CodeDescLocal':'SMS' },
                         { label: 'Mail', value: 'Mail', CodeDesc: 'Mail','CodeDescLocal':'Mail' },
                         { label: 'Whatsapp', value: 'Whatsapp',CodeDesc: 'Whatsapp','CodeDescLocal':'Whatsapp' }
