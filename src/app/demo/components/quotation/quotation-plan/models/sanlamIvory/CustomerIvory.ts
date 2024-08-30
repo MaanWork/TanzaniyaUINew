@@ -85,7 +85,7 @@ export class CustomerIvory{
                     },
                   },
                   {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-9 lg:col-9 xl:col-9 pl-2 pr-2 pt-1',
                     type: 'input',
                     id: 'CompanyName',
                     key: 'CompanyName',
@@ -500,25 +500,46 @@ export class CustomerIvory{
                     expressions: {
                     },
                   },
-                  // {
-                  //   className: 'col-12 md:col-2 lg:col-2 xl:col-2 pl-2 pr-2 pt-1',
-                  //   type: 'ngselect',
-                  //   id: 'Region',
-                  //   key: 'Region',
-                  //   templateOptions: {
-                  //     label: `Region`,
-                  //     required: true,
-                  //     disabled: this.checkDisable('Region'),
-                  //     maxLength: 15
-                  //   },
+                  {
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
+                    type: 'ngselect',
+                    id: 'Region',
+                    key: 'Region',
+                    templateOptions: {
+                      label: `Region`,
+                      required: true,
+                      disabled: this.checkDisable('Region'),
+                      maxLength: 15,
+                      options:[]
+                    },
                     
-                  //   validators: {
-                  //   },
-                  //   hooks: {
-                  //   },
-                  //   expressions: {
-                  //   },
-                  // },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
+                    type: 'ngselect',
+                    id: 'Department',
+                    key: 'Department',
+                    templateOptions: {
+                      label: `Department`,
+                      required: true,
+                      disabled: this.checkDisable('Department'),
+                      maxLength: 15,
+                      options:[]
+                    },
+                    
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
                   {
                     className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'ngselect',
@@ -563,9 +584,31 @@ export class CustomerIvory{
                   {
                     className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'input',
+                    id: 'Plot',
+                    key: 'Address2',
+                    templateOptions: {
+                      label: `Plot No`,
+                      //placeholder: 'Enter Street',
+                      required: true,
+                      disabled: this.checkDisable('Address2'),
+                      maxLength: 150
+                    },
+                    
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
+                    type: 'input',
                     id: 'PoBox',
                     key: 'PinCode',
+                    name:'number',
                     templateOptions: {
+                      type: 'number',
                       label: `PoBox`,
                       // placeholder: 'Enter PoBox',
                       required: false,

@@ -188,12 +188,12 @@
             <div class="grid" *ngIf="insuranceId=='100027' || insuranceId=='100040' || this.insuranceId=='100042'">
                 <ng-container *ngFor="let list of vehicleDetailsList">
                     <ng-container *ngIf="list.VehicleId==veh.RiskId">
-                        <div class="col-12 lg:col-6 md:col-6 xl:col-4 mt-2">
+                        <!-- <div class="col-12 lg:col-6 md:col-6 xl:col-4 mt-2">
                             <label for="username">{{'DRIVERINFO.SeriesNumber' | translate}} &nbsp;(Eg: TRN-123)</label>
                             <input pInputText maxlength="20" id="SeriesNumber" class="w-full" styleClass="w-full" [(ngModel)]="list.SeriesNo" [placeholder]="'DRIVERINFO.EnterSeriesNumber' | translate"/>
 
                             
-                        </div>
+                        </div> -->
                     
                         <div class="col-12 lg:col-6 md:col-6 xl:col-4 mt-2">
                             <label for="username">{{'DRIVERINFO.NumberOfCylinders' | translate}}</label>
@@ -202,13 +202,13 @@
                              </p-dropdown>
                         </div>
                     
-                        <div class="col-12 lg:col-6 md:col-6 xl:col-4 mt-2">
+                        <!-- <div class="col-12 lg:col-6 md:col-6 xl:col-4 mt-2">
                             <label for="username">{{'DRIVERINFO.PlateType' | translate}}</label>
                             <p-dropdown inputId="PlateType" class="w-full" styleClass="w-full" [options] ="plateTypeList" [(ngModel)]="list.PlateType"
                             [optionLabel]="getDisplayName()" optionValue="Code" id="PlateType" [placeholder]="'DRIVERINFO.SelectPlateType' | translate">
                             </p-dropdown>
-                        </div>
-                        <div class="col-12 lg:col-6 md:col-6 xl:col-4 mt-2">
+                        </div> -->
+                        <!-- <div class="col-12 lg:col-6 md:col-6 xl:col-4 mt-2">
                             <label for="username">{{'DRIVERINFO.PlateColor' | translate}}</label>
                             <p-dropdown inputId="PlateColor" class="w-full" styleClass="w-full" 
                             [options]="colorList" id="PlateColor"
@@ -217,7 +217,7 @@
                                 optionValue="Code" 
                                 [placeholder]="'DRIVERINFO.SelectColor' | translate">
                             </p-dropdown>
-                        </div>
+                        </div> -->
                     
                         <div class="col-12 lg:col-6 md:col-6 xl:col-4 mt-2">
                             <label for="username">{{'DRIVERINFO.NumberOfDoors' | translate}}</label>
