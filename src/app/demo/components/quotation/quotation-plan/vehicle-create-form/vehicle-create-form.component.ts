@@ -90,7 +90,7 @@ export class VehicleCreateFormComponent implements OnInit {
       if(this.insuranceId=='100020') this.getNewMakeList();
       this.getBodyTypeList();
       this.getOwnerCategoryList();
-      if(this.insuranceId='100040'){
+      if(this.insuranceId=='100040'){
         this.getMakeList()
       }
       this.appComp.getLanguage().subscribe((res:any)=>{  
