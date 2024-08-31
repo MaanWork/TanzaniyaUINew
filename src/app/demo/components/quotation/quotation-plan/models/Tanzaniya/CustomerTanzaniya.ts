@@ -441,7 +441,8 @@ export class CustomerTanzaniya{
                       label: `Region`,
                       required: true,
                       disabled: this.checkDisable('Region'),
-                      maxLength: 15
+                      maxLength: 15,
+                      options:[]
                     },
                     
                     validators: {
