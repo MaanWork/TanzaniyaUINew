@@ -296,7 +296,8 @@
        "Next": "Próxima",
        "Back":"Voltar",
        "Edit":"Editar",
-       "Delete":"Excluir"
+       "Delete":"Excluir",
+      "UWQuestion":"Perguntas do subescritor"
     },
     "MOTORDETAILS":{
       "EnterTonnage":"Insira a tonelagem",

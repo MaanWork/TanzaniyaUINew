@@ -101,7 +101,7 @@
         </div>
     </div>
 </ng-container>
-<ng-container *ngIf="productId!='5' && productId!='63'">
+<ng-container *ngIf="productId!='5' && productId!='63' && productId!='14' && productId!='32' && productId!='25'">
     <!--tabIndex-->
     <p-tabView #tabView [activeIndex]="selectedTab" (onChange)="onTabClicked($event,tabView)">
         <!-- <p-tabPanel header="Location" *ngIf="buildingDetailsSection">
@@ -850,6 +850,121 @@
             </div> -->
         </p-tabPanel>
 
+    </p-tabView>
+</ng-container>
+<ng-container *ngIf="productId=='14' || productId=='32' || productId=='25'">
+    <p-tabView #tabView [activeIndex]="selectedTab" (onChange)="onTabClicked($event,tabView)">
+        <ng-container *ngFor="let location of locationlist">
+            <p-tabPanel [header]="location.LocationName"  *ngIf="seven || six">
+                <div class="grid">
+                    <div class="lg:col-1 md:col-1 col-12">
+    
+                    </div>
+                    <div class="lg:col-10 md:col-10 col-12">
+                        <ng-container *ngIf="location.EmployeeList">
+                            {{location.EmployeeList}}
+                            <ng-container *ngIf="location.EmployeeList.length!=0">
+                                <p-table [value]="location.EmployeeList" [tableStyle]="{ 'min-width': '50rem' }">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <ng-container *ngIf="productId=='14' || productId=='32'">
+                                                <th>Employee Name</th>
+                                                <th>Occupation</th>
+                                            </ng-container>
+                                            <ng-container *ngIf="productId=='25'">
+                                                <th>Equipment Name</th>
+                                                <th>Make & Model</th>
+                                            </ng-container>
+                                            <th>SumInsured</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-employee let-i="rowIndex">
+                                        <ng-container>
+                                            <tr>
+                                                <ng-container *ngIf="productId=='14' || productId=='32'">
+                                                    <td>{{employee.EmployeeName}}</td>
+                                                    <td>{{employee.OccupationDesc}}</td>
+                                                    <td>{{employee.Salary}}</td>
+                                                </ng-container>
+                                                <ng-container *ngIf="productId=='25'">
+                                                    <td>{{employee.ItemValue}}</td>
+                                                    <td>{{employee.MakeAndModel}}</td>
+                                                    <td>{{employee.SumInsured}}</td>
+                                                </ng-container>
+                                                <td>
+                                                    <p-button icon="pi pi-pencil" severity="danger" (click)="onEditEmployee(i,employee)" styleClass="p-button-outlined"></p-button>&nbsp;
+                                                    <p-button icon="pi pi-trash" severity="danger" (click)="EmployeeDelete(employee,i)"  styleClass="p-button-outlined"></p-button>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </ng-template>
+                                </p-table>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="grid mt-2">
+                    <ng-container *ngIf="productId=='14' || productId=='32'"><b>Employee Details</b></ng-container>
+                    <ng-container *ngIf="productId=='14'"><b>Electronic Equipment Details</b></ng-container>
+                    <div class="lg:col-1 md:col-1 col-12">
+        
+                    </div>
+                    <div class="lg:col-10 md:col-10 col-12">
+                        <form [formGroup]="form" *ngIf="productId=='25'">
+                            <formly-form [form]="form" [fields]="fieldsElectronic" [model]="productItem"></formly-form>
+                        </form>
+                        <form [formGroup]="form" *ngIf="productId=='14' || productId=='32'">
+                            <formly-form [form]="form" [fields]="fieldsEmpFields" [model]="productItem"></formly-form>
+                        </form>
+                        <div class="input-form-error" *ngIf="employeeNameError || employeeOccupationError || employeeSalaryError || sumInsuredExceedError || electonicItemError 
+                        || electronicJoinError || electronicYearError || electronicMakeModelError" style="position: relative;">
+                            <div class="error-text text-danger">
+                                <span class="spancommon span_font_size" *ngIf="employeeNameError">Please Enter Valid Employee Name<br></span>
+                                <span class="spancommon span_font_size" *ngIf="employeeOccupationError">Please Select Valid Occupation<br></span>
+                                <span class="spancommon span_font_size" *ngIf="employeeSalaryError">Please Enter Valid Salary<br></span>
+                                <span class="spancommon span_font_size" *ngIf="sumInsuredExceedError">Amount Entered Exceeding Actual Limit<br></span>
+                                <span class="spancommon span_font_size" *ngIf="electonicItemError">Please Select Valid Electronic Item<br></span>
+                                <span class="spancommon span_font_size" *ngIf="electronicJoinError">Please Select Valid purchase Month <br></span>
+                                <span class="spancommon span_font_size" *ngIf="electronicYearError">Please Enter Valid Purchase Year <br></span>
+                                <span class="spancommon span_font_size" *ngIf="electronicMakeModelError">Please Enter Valid Make & Model <br></span>
+                                <span class="spancommon span_font_size" *ngIf="electronicSalaryError">Please Enter Valid SumInsured <br></span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap justify-content-center mt-2">
+                            <p-button label="Save" (click)="onemployeeCommon()" class="text-l pi-button mr-0"></p-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap justify-content-end">
+                    <div class="text-white surface-900 px-6 py-3 border-round-lg" (click)="showSidebar()">
+                        <div class="flex flex-wrap justify-content-between" >
+                            <div>
+                                <h5 class="text-white mb-1 mr-3">Total SumInsured</h5>
+                            </div>
+                            <div>
+                                <h6 class="text-white my-0">
+                                    <ng-container *ngIf="getTotalSI(location)==0">0</ng-container>
+                                    <ng-container *ngIf="getTotalSI(location)!=0">{{getTotalSI(location) | commaseparator }}</ng-container>
+                                    
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap justify-content-between" >
+                            <div><h5 class="text-white mb-1 mr-3">Actual SumInsured</h5></div>
+                            <div><h6 class="text-white my-0">
+                                <ng-container *ngIf="getActualSI(location)==0">0</ng-container>
+                                <ng-container *ngIf="getActualSI(location)!=0">{{getActualSI(location) | commaseparator }}</ng-container>
+                                </h6></div>
+                        </div>
+                    </div>
+                </div>
+            </p-tabPanel>
+            <div class="text-center mt-2">
+                <p-button label="Back" class="mr-4 text-l mr-0" [routerLink]="['/quotation/plan/premium-details']" styleClass="p-button-outlined"></p-button>
+                <ng-container *ngIf="location.EmployeeList"><p-button label="Proceed" *ngIf="location.EmployeeList.length!=0" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('proceed')" routerLinkActive="router-link-active" routerLinkActive="router-link-active"></p-button></ng-container> 
+            </div>
+        </ng-container>
     </p-tabView>
 </ng-container>
 <ng-container *ngIf="productId=='63'">

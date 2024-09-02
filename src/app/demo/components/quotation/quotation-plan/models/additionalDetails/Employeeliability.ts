@@ -143,27 +143,6 @@ export class EmployeeLiablityss{
                       
                       // }, 
                       {
-                        type: 'input',
-                        key: 'EmpsLocation',
-                        defaultValue: '',
-                        className: 'lg:col-3 md:col-3 col-12 mb-1',
-                        props: {
-                          label: `Location`,
-                          required: true,
-                          options: [
-          
-                          ],
-          
-                        },
-                        validators: {
-                          validation: [ForceLengthValidators.maxLength(100), ForceLengthValidators.min(1)]
-                        },
-                        hooks: {
-                        },
-                        expressions: {
-                        },
-                      },
-                      {
                         className: 'lg:col-2 md:col-2 col-12 mb-2',
                         type: 'commaSeparator',
                         key: 'EmpsSI',

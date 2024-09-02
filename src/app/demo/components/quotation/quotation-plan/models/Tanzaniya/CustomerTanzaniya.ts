@@ -384,7 +384,7 @@ export class CustomerTanzaniya{
                     },
                     props: {
                       label: 'Status',
-                      options: [{ value: 'Y', label: 'Active', 'CodeDesc':'Active', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'DeActive','CodeDesc':'DeActive', 'CodeDescLocal':'DésActivé' },{ value: 'P', label: 'Pending','CodeDesc':'Pending', 'CodeDescLocal':'En attente' }],
+                      options: [{ value: 'Y', label: 'Active', 'CodeDesc':'Active', 'CodeDescLocal':'Active' }, { value: 'N', label: 'DeActive','CodeDesc':'DeActive', 'CodeDescLocal':'DésActivé' },{ value: 'P', label: 'Pending','CodeDesc':'Pending', 'CodeDescLocal':'En attente' }],
                     }
                   },
                 ]

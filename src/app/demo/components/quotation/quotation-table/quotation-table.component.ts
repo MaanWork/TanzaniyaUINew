@@ -99,6 +99,9 @@ export class QuotationTableComponent implements OnInit {
   startCount: number;
   start: number;
   end: number;
+  activeLapsedPage: any=1;
+  startLapsedCount: number;
+  endLapsedCount: any;
   constructor(private router: Router,private sharedService: SharedService,private appComp:AppComponent,
     private translate: TranslateService,) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -391,7 +394,6 @@ onInnerDataLapsed(rowData){
      (this.endCount==75 && this.quoteData.length<=80) || (this.endCount==85 && this.quoteData.length<=90) || (this.endCount==95 && this.quoteData.length<=100) || (this.endCount==105 && this.quoteData.length<=110) || (this.endCount==115 && this.quoteData.length<=120) || (this.endCount==125 && this.quoteData.length<=130) || (this.endCount==135 && this.quoteData.length<=140) || (this.endCount==145 && this.quoteData.length<=150) || (this.endCount==155 && this.quoteData.length<=160)
      || (this.endCount==155 && this.quoteData.length<=160) || (this.endCount==165 && this.quoteData.length<=170) || (this.endCount==175 && this.quoteData.length<=180) || (this.endCount==185 && this.quoteData.length<=190) || (this.endCount==195 && this.quoteData.length<=200)
      || (this.endCount==205 && this.quoteData.length<=210) || (this.endCount==215 && this.quoteData.length<=220) || (this.endCount==225 && this.quoteData.length<=230) || (this.endCount==235 && this.quoteData.length<=240) || (this.endCount==245 && this.quoteData.length<=250)){
-      
       if(this.quoteData.length!=this.totalQuoteRecords){
         sessionStorage.setItem('loadingType','disable');
         this.activePage+=1;
@@ -414,6 +416,51 @@ onInnerDataLapsed(rowData){
         this.nextSection = true;
        this.splitToNChunks(this.quoteData,this.pageCount,'direct','next') 
     }
+  }
+  splitLapsedToNChunks(array, n,type,btnType) {
+    var PageOfItems:any[]=[];
+      if(this.activeLapsedPage==1 && btnType=='direct'){
+        PageOfItems = array.slice(0,n);
+        this.nextSection = true;
+        this.startLapsedCount = 1;
+        if(this.totalQuoteRecords<=n){
+          this.endLapsedCount = this.totalQuoteRecords;
+        }
+        else this.endLapsedCount = n;
+      }
+      else{
+        if(btnType=='next' || btnType=='direct'){
+          this.nextSection = true;
+          if(type=='direct'){
+            this.startCount = this.endCount+1;
+            if(Number(this.totalQuoteRecords)<=Number(this.endCount)+(Number(n))){
+              console.log("Final Entered 1",this.endCount,this.totalQuoteRecords,n)
+                  this.endCount = Number(this.totalQuoteRecords)
+                  
+            }
+            else{this.endCount = Number(this.endCount)+(Number(n)); console.log("Final Entered 2",this.endCount)}
+          }
+          else{
+            this.startCount = this.start;this.endCount = this.end;
+          }
+        }
+        else{
+          this.nextSection = true;
+          if(this.endCount == Number(this.totalQuoteRecords)){
+            this.endCount = this.startCount-1;
+            this.startCount = this.startCount-n;
+          }
+          else{
+            this.startCount = this.startCount-n;
+            this.endCount = this.endCount-(n);
+          }
+        }
+        
+        let startCount = 0,endCount=0;
+        PageOfItems = array.slice(this.startCount-1,this.endCount);
+        console.log("Final Page List",this.activePage,this.startCount,this.endCount,this.startCount-1,this.endCount-1,startCount,endCount)
+      }
+      this.finalQuoteData = PageOfItems;
   }
   splitToNChunks(array, n,type,btnType) {
     var PageOfItems:any[]=[];
@@ -713,6 +760,7 @@ onInnerDataLapsed(rowData){
                   }
                   else endCount = this.pageLapsedCount;
                   this.startLapsedIndex = startCount; this.endLapsedIndex = endCount;
+                  this.splitToNChunks(this.quoteData,this.pageCount,'first','direct')
                 }
                 else {
                   let startCount = element.startCount, endCount = element.endCount;

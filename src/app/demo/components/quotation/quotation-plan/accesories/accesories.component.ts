@@ -339,6 +339,13 @@ export class AccesoriesComponent {
   Addtional: any;
   saveSection: boolean =false;
   savedSection: boolean;
+  locationlist: any[]=[];
+  sumInsuredExceedError: boolean;
+  electonicItemError: boolean;
+  electronicJoinError: boolean;
+  electronicYearError: boolean;
+  electronicMakeModelError: boolean;
+  electronicSalaryError: boolean;
 
 
   constructor(private router: Router,private datePipe:DatePipe,private quoteComponent:QuotationPlanComponent,
@@ -602,7 +609,7 @@ export class AccesoriesComponent {
         // this.filteredList = [{'FirstName':'','LastName':'','RelationType':'','NationalityId':'','EmployeeId':'','DateOfBirth':'','RiskId':''}];
         //this.ngOnChanges();
       }
-      if(this.sectionDetails.length!=0){
+      //if(this.sectionDetails.length!=0){
         let items = this.sectionDetails.find((ele) => ele.SectionId == 1 || (this.productId=='19' && ele.SectionId==40));
         if(items){
           if(items?.AddDetailYn=='Y'){
@@ -828,7 +835,8 @@ export class AccesoriesComponent {
             this.changeComponent();
         }
         else this.fifth = false;
-        const six = this.sectionDetails.find((ele) => ele.SectionId== 39); 
+       // const six = this.sectionDetails.find((ele) => ele.SectionId== 39); 
+       const six ={AddDetailYn:'Y'};
         if(six){
           if(six?.AddDetailYn=='Y'){
             this.six = true;
@@ -854,7 +862,8 @@ export class AccesoriesComponent {
               }
                 j+=1;
               }
-        }
+            }
+            
             //this.fieldsElectronic[0].fieldGroup[0].fieldGroup[0].fieldGroup[5].hooks = regionHooks;
             this.monthList = [
               {"Code":"01","CodeDesc":"January"},
@@ -891,7 +900,9 @@ export class AccesoriesComponent {
                   //this.fieldsElectronic[0].fieldGroup[0].fieldGroup[0].fieldGroup[2].props.options= this.monthList;
                 }
               }
-              this.Electronic();
+              this.setElectronicDropdowns('direct');
+              this.getElectronicEquipment('direct');
+              //this.Electronic();
           }
           else this.six = false;
         }
@@ -1080,15 +1091,15 @@ export class AccesoriesComponent {
           else this.nine = false;
         }
         else this.nine = false;
-      }
-      else{
-            this.sumInsured =false;
-            let fireData = new LocationDetails();
-            this.fieldss = fireData?.fields;  
-            this.productItem = new ProductData();
-            this.productItem.AccOccupation = this.accidentOccupation;
-            this.formSection = true; this.viewSection = false;
-      }
+      // }
+      // else{
+      //       this.sumInsured =false;
+      //       let fireData = new LocationDetails();
+      //       this.fieldss = fireData?.fields;  
+      //       this.productItem = new ProductData();
+      //       this.productItem.AccOccupation = this.accidentOccupation;
+      //       this.formSection = true; this.viewSection = false;
+      // }
     // }
     // else if(this.item){
     //     let items = this.item.find((Code) => Code == '1' || Code=='40');
@@ -1637,6 +1648,7 @@ export class AccesoriesComponent {
           console.log("Data**",data?.Result);
           this.quoteDetails = data?.Result?.QuoteDetails;
           this.Riskdetails = data?.Result?.RiskDetails;
+          this.locationlist = data?.Result?.LocationDetails;
           this.customerDetails=data?.Result?.CustomerDetails;
           if(this.Riskdetails[0].AcccessoriesSumInsured!=null)
           this.actualAccessoriesSI = String(this.Riskdetails[0].AcccessoriesSumInsured);
@@ -1647,9 +1659,6 @@ export class AccesoriesComponent {
             let fireData = new Accessorieswh();
             let entry = [];
             this.Accfieldss = fireData?.fields;
-      
-            console.log('TTTTTTTTTTTT',this.fieldsContent);
-      
             let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
               field.formControl.valueChanges.subscribe(() => {
                 this.individualCommaFormatted('accessories')
@@ -1660,16 +1669,12 @@ export class AccesoriesComponent {
             this.productItem = new ProductData();
             this.productItem.AccOccupation = this.accidentOccupation;
             this.formSection = true; this.viewSection = false;
-            console.log('KKKKKKKKKKK',this.productItem.AccessoriesChassisNo);
           }
           else{
             let fireData = new Accessories();
             this.newacc=false;
             let entry = [];
             this.Accfieldss = fireData?.fields;
-      
-            console.log('TTTTTTTTTTTT',this.fieldsContent);
-      
             let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
               field.formControl.valueChanges.subscribe(() => {
                 this.individualCommaFormatted('accessories')
@@ -1731,14 +1736,22 @@ export class AccesoriesComponent {
           if(this.productId!=='32'){
             if(data?.Result){
               let employee:any=[];
-              if(data?.Result){
+              if(data?.Result.length!=0){
                 this.employeeList= data?.Result;
-                console.log('EMPLOYEEEEEEEEE',this.employeeList)
+                if(this.locationlist.length!=0){
+                  for(let entry of this.locationlist){
+                    entry['EmployeeList'] = this.employeeList.filter(ele=>ele.LocationId==entry.LocationId);
+                  }
+                }
               }
               else {
                 this.EmployeeAdd();
+                if(this.locationlist.length!=0){
+                  for(let entry of this.locationlist){
+                    entry['EmployeeList'] = [];
+                  }
+                }
               }
-              console.log('SSSSSSSSSS',this.employeeList);
             }
           }
           // if(this.productId=='57'){
@@ -1771,6 +1784,30 @@ export class AccesoriesComponent {
            }
       });
   }
+  getTotalSI(rowData){
+      if((this.productId=='14' || this.productId=='32') && rowData.EmployeeList){
+          if(rowData.EmployeeList.length!=0){
+              let si = 0,i=0;
+              for(let entry of rowData.EmployeeList){
+                if(entry.Salary) si=si+entry.Salary; 
+                i+=1;
+                if(i==rowData.EmployeeList.length){if(si!=null || si !=undefined) return si; else return 0}
+              }
+          } else return 0;
+      }
+      else return 0;
+  }
+  getActualSI(rowData){
+    if(rowData.SectionDetails){
+        if(rowData.SectionDetails.length!=0){
+            let si = 0,i=0;
+            for(let entry of rowData.SectionDetails){if(entry.SumInsured) si=si+Number(entry.SumInsured); i+=1;
+              if(i==rowData.SectionDetails.length){if(si!=null || si !=undefined) return si; else return 0}
+            }
+        } else return 0;
+    }
+    else return 0;
+}
   newAllrisk(){
     this.enableAllRiskEditSection=true;
     this.errorRecordsRisk=[];
@@ -2491,8 +2528,14 @@ onFidelitySave(){
     }
     else{alert("No Fidelity Details Found")}
   }
+  onSaveCommonEmp(type){
+    if(this.selectedTab!=this.locationlist.length-1) this.selectedTab+=1;
+    else{
+        if(this.productId=='14' || this.productId=='32') this.onSaveEmployeeDetails(type);
+        else if(this.productId=='25') this.onSaveEmployeeDetails(type);
+    } 
+  }
   onSaveEmployeeDetails(type){
-    
     let urlLink = null;let section:any;
     if(this.productId=='14'){
       section='45';
@@ -2502,9 +2545,11 @@ onFidelitySave(){
     }
     if(type=='save') urlLink = `${this.motorApiUrl}api/saveemployees`;
     else urlLink = `${this.motorApiUrl}api/proceedemployees`;
-    if(this.employeeList.length!=0){
+    for(let location of this.locationlist){
+      let k=0,locationList = [];
+      if(location.EmployeeList.length!=0){
         let empList = [],i=0;
-        for(let emp of this.employeeList){
+        for(let emp of location.EmployeeList){
           let entry = emp;
            if(entry.DateOfBirth!=null){
               if(!entry.DateOfBirth.includes('/')) entry['DateOfBirth']= this.datePipe.transform(entry.DateOfBirth, "dd/MM/yyyy");
@@ -2513,62 +2558,69 @@ onFidelitySave(){
           if(entry['EmployeeId']==null || entry['EmployeeId']==undefined || entry['EmployeeId']=='') entry['EmployeeId'] = null;
           else entry['EmployeeId'] = String(entry.EmployeeId);
           entry['RiskId']=this.employeeOccupationList.find(ele=>ele.Code==entry.OccupationId)?.RiskId;
-          entry['LocationId']=entry['RiskId']
+          entry['LocationId']=location.LocationId
           empList.push(entry);
           i+=1;
-          if(i==this.employeeList.length){
-            let SectionId = null;
-            if(this.productId=='14' || this.productId=='19') SectionId = '45';
-            let validYN='N';
-            if(type=='alter') validYN = 'Y';
-            let ReqObj = {
-              "Createdby": this.loginId,
-              "SectionId": section,
-              "ProductId": this.productId,
-              "InsuranceId": this.insuranceId,
-              "ProductEmployeeSaveReq": empList,
-              "QuoteNo": this.quoteNo,
-               // "EmpcountSIvalidYN": validYN,
-              // "ExcelUploadYN": "N",
-              // "RequestReferenceNo": this.quoteRefNo
-            }
-            //let urlLink = `${this.motorApiUrl}api/saveproductemployees`;
-            this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-              (data: any) => {
-                console.log(data);
-                let res: any = data;
-                if (data.ErrorMessage.length != 0) {
-                  if (res.ErrorMessage) {
-                    let entry = res.ErrorMessage.some(ele=>ele.Code=='333' || ele.Code=='111' || ele.Code=='222');
-                    if(entry){
-                      let ulList = '';
-                      for (let index = 0; index < res.ErrorMessage.length; index++) {
-                        const element = res.ErrorMessage[index];
-                
-                         ulList +=`<li class="list-group-login-field">
-                          <div style="color: darkgreen;">Field<span class="mx-2">:</span>${element?.Field}</div>
-                          <div style="color: red;">Message<span class="mx-2">:</span>${element?.Message}</div>
-                        </li>`
+          if(i==location.EmployeeList.length){
+            locationList=locationList.concat(empList);
+            k+=1;
+            if(k==this.locationlist.length){
+              let SectionId = null;
+              if(this.productId=='14' || this.productId=='19') SectionId = '45';
+              let validYN='N';
+              if(type=='alter') validYN = 'Y';
+              let ReqObj = {
+                "Createdby": this.loginId,
+                "SectionId": section,
+                "ProductId": this.productId,
+                "InsuranceId": this.insuranceId,
+                "ProductEmployeeSaveReq": locationList,
+                "QuoteNo": this.quoteNo,
+                 // "EmpcountSIvalidYN": validYN,
+                // "ExcelUploadYN": "N",
+                // "RequestReferenceNo": this.quoteRefNo
+              }
+              //let urlLink = `${this.motorApiUrl}api/saveproductemployees`;
+              this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+                (data: any) => {
+                  console.log(data);
+                  let res: any = data;
+                  if (data.ErrorMessage.length != 0) {
+                    if (res.ErrorMessage) {
+                      let entry = res.ErrorMessage.some(ele=>ele.Code=='333' || ele.Code=='111' || ele.Code=='222');
+                      if(entry){
+                        let ulList = '';
+                        for (let index = 0; index < res.ErrorMessage.length; index++) {
+                          const element = res.ErrorMessage[index];
+                  
+                           ulList +=`<li class="list-group-login-field">
+                            <div style="color: darkgreen;">Field<span class="mx-2">:</span>${element?.Field}</div>
+                            <div style="color: red;">Message<span class="mx-2">:</span>${element?.Message}</div>
+                          </li>`
+                          
+                        }
                         
                       }
                       
-                    }
-                    
+                  }
                 }
-              }
-              else{
-                if(this.productId=='19' && this.eight)  this.selectedTab +=1; 
-                else if(this.productId=='19' && this.nine)this.selectedTab +=1; 
-                else this.checkValidation();
-              }
-        
-            },
-            (err) => { },
-            );
+                else{
+                  if(this.productId=='19' && this.eight)  this.selectedTab +=1; 
+                  else if(this.productId=='19' && this.nine)this.selectedTab +=1; 
+                  else this.checkValidation();
+                }
+          
+              },
+              (err) => { },
+              );
+            }
+            
           }
         }
+      }
+      else{}
     }
-    else{alert("No Employees Found")}
+    
   }
   onAccessoriesSubmit(){
     // this.chassisNoError = false;this.accessoriesTypeError = false;this.serialNoError = false;this.sumInsuredError = false;
@@ -3357,14 +3409,10 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             if(this.seven){
              
               for(let x of this.fieldsEmpFields){
-                console.log('NNNNNNNNNNNNNNNN',x.fieldGroup[0].fieldGroup[0]);
                 let vars = x.fieldGroup[0].fieldGroup[0];
-                console.log('vars',vars);
                 let j=0;
-                for( let n of vars.fieldGroup){   
-                  console.log('templates',n.type);              
+                for( let n of vars.fieldGroup){               
                   if(n.type=='ngselect'){
-                    console.log('templates111',n.props.label);
                   if(n.props.label=='Location'){
                      this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options = defaultobj.concat(this.LocationList);
                   }
@@ -3376,22 +3424,17 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             }
             if(this.eight){
               for(let x of this.fieldFEFields){
-                console.log('NNNNNNNNNNNNNNNN',x.fieldGroup[0].fieldGroup[0]);
                 let vars = x.fieldGroup[0].fieldGroup[0];
-                console.log('vars',vars);
                 let j=0;
-                for( let n of vars.fieldGroup){   
-                  console.log('templates',n.type);              
+                for( let n of vars.fieldGroup){               
                   if(n.type=='ngselect'){
-                    console.log('templates111',n.props.label);
                   if(n.props.label=='Location'){
                      this.fieldFEFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options = defaultobj.concat(this.LocationList);
                   }
                 }
                   j+=1;
                 }
-          }
-              //this.fieldFEFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[7].props.options = this.LocationList;
+              }
             }
             }
           }
@@ -5573,6 +5616,24 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     }
       })
   }
+  setElectronicDropdowns(type){
+    let fieldList = this.fieldsElectronic[0].fieldGroup[0].fieldGroup[0].fieldGroup;
+    for(let field of fieldList){
+      if(field.key=='ElqList'){
+          let entry = this.locationlist[this.selectedTab];
+          let list = [{"label":'--Select--',"value":null}],i=0;
+          for(let obj of entry.SectionDetails){
+              let subObj = {
+                "label":obj.ContentDesc,
+                "value": obj.ContentType
+              }
+              list.push(subObj);
+              i+=1;
+              if(i==entry.SectionDetails.length) field.props.options = list;
+          }
+      }
+    }
+  }
   getElectronicEquipment(type){
     let urlLink = `${this.motorApiUrl}api/getallcontentrisk`;
     let sectionid:any;
@@ -5615,7 +5676,10 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
            }
            else {
             if(type=='direct'){
-              this.AllAdds();
+              for(let entry of this.locationlist){
+                entry['EmployeeList'] = [];
+              }
+              //this.AllAdds();
             }
            }
           //  else {
@@ -5737,7 +5801,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       })
   }
   changeComponent(){
-    if((this.second==false && this.fifth==false || this.second==undefined && this.fifth==undefined) && this.productId!='14'){
+    if((this.second==false && this.fifth==false || this.second==undefined && this.fifth==undefined) && this.productId!='14' && this.productId!='32'  && this.productId!='25'){
       sessionStorage.setItem('back','skipBack');
       this.router.navigate(['/quotation/plan/main/document-info'])
     }
@@ -5928,33 +5992,34 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     this.employeeSalary = null;this.nationality = null;this.empDob = null;this.empJoiningDate=null;
 }
   EmployeeAdd(){
-   this.productItem.EmpsLocation=null;this.productItem.EmpsName=null;
-  this.productItem.EmpsOccupation=null;this.productItem.EmpsDob=null;
+    this.productItem.EmpsLocation=null;this.productItem.EmpsName=null;
+    this.productItem.EmpsOccupation=null;this.productItem.EmpsDob=null;
     this.productItem.EmpsPeriod =null; this.productItem.EmpsJoin =null;this.productItem.EmpsSI=null;
- this.productItem.EmpsNationality=null; this.productItem.EmpsAddress =null;
-      let entry = 
-        {
-          "Address": null,
-          "Createdby": this.loginId,
-          "EmployeeName": null,
-          "EmployeeId":null,
-          "InsuranceId": this.insuranceId,
-          "OccupationDesc": null,
-          "OccupationId": null,
-          "DateOfBirth": null,
-          "DateOfJoiningYear": null,
-          "DateOfJoiningMonth": null,
-          "ProductId": this.productId,
-          "QuoteNo": this.quoteNo,
-          "RequestReferenceNo": this.quoteRefNo,
-          "RiskId": null,
-          "Salary": null,
-          "NationalityId":null,
-          "LocationId":null
-        }
-      this.currentEmployeeIndex = this.employeeList.length;
-    this.employeeList.push(entry);
-    console.log('Employeeelist',this.employeeList)
+    this.productItem.EmpsNationality=null; this.productItem.EmpsAddress =null;
+    this.currentRiskIndex=null;
+    //   let entry = 
+    //     {
+    //       "Address": null,
+    //       "Createdby": this.loginId,
+    //       "EmployeeName": null,
+    //       "EmployeeId":null,
+    //       "InsuranceId": this.insuranceId,
+    //       "OccupationDesc": null,
+    //       "OccupationId": null,
+    //       "DateOfBirth": null,
+    //       "DateOfJoiningYear": null,
+    //       "DateOfJoiningMonth": null,
+    //       "ProductId": this.productId,
+    //       "QuoteNo": this.quoteNo,
+    //       "RequestReferenceNo": this.quoteRefNo,
+    //       "RiskId": null,
+    //       "Salary": null,
+    //       "NationalityId":null,
+    //       "LocationId":null
+    //     }
+    //   this.currentEmployeeIndex = this.employeeList.length;
+    // this.employeeList.push(entry);
+    // console.log('Employeeelist',this.employeeList)
     this.productItem = new ProductData();
     //this.productItem = new ProductData();
     // this.editEmployeeSection = false;this.enableEmployeeEditSection = true;
@@ -7356,19 +7421,106 @@ return true;
       let entry = {
         "ItemId":this.productItem.ElqList,
       "ItemValue": "10000",
-    "MakeAndModel":this.productItem.Elqmake,
-    "ContentRiskDesc":this.ElectronicList.find(ele=>ele.Code==this.productItem.ElqList).label,
-    "SerialNoDesc": null,
-    "PurchaseMonth":this.productItem.ElqJoin,
-    "PurchaseYear":this.productItem.ElqPeriod,
-    "RiskId":this.productItem.ElqLocation,
-    "SerialNo": "1",
-    "SumInsured":this.productItem.ElqSI
+      "MakeAndModel":this.productItem.Elqmake,
+      "ContentRiskDesc":this.ElectronicList.find(ele=>ele.Code==this.productItem.ElqList).label,
+      "SerialNoDesc": null,
+      "PurchaseMonth":this.productItem.ElqJoin,
+      "PurchaseYear":this.productItem.ElqPeriod,
+      "RiskId":this.productItem.ElqLocation,
+      "SerialNo": "1",
+      "SumInsured":this.productItem.ElqSI
       }
       this.ElectronicItem.push(entry);
       console.log('JKHGFFFFFGH',this.ElectronicItem)
       this.productItem = new ProductData();
     }
+  }
+  onemployeeCommon(){
+    let j=0;
+    if(this.productId=='14' || this.productId=='32'){
+      if(this.productItem.EmpsName!=null && this.productItem.EmpsName!='' && this.productItem.EmpsName!=undefined){this.employeeNameError=false;}
+      else{j+=1;this.employeeNameError=true;}
+      if(this.productItem.EmpsSI!=null && this.productItem.EmpsSI!='' && this.productItem.EmpsSI!=undefined){
+        this.employeeSalaryError=false;
+        let si = this.getTotalSI(this.locationlist[this.selectedTab]);
+        let totalSI = this.getActualSI(this.locationlist[this.selectedTab]);
+        let totalCost = Number(this.productItem.EmpsSI) + si;
+        if(totalSI<totalCost){j+=1;this.sumInsuredExceedError = true;}
+        else{this.sumInsuredExceedError = false;}
+      }
+      else{j+=1;this.employeeSalaryError=true;}
+    }
+    if(this.productId=='14'){
+      if(this.productItem.EmpsOccupation!=null && this.productItem.EmpsOccupation!='' && this.productItem.EmpsOccupation!=undefined){this.employeeOccupationError=false;}
+      else{j+=1;this.employeeOccupationError=true;}
+    }
+    if(this.productId=='25'){
+      if(this.productItem.ElqList!=null && this.productItem.ElqList!='' && this.productItem.ElqList!=undefined){this.electonicItemError=false;}
+      else{j+=1;this.electonicItemError=true;}
+      if(this.productItem.ElqJoin!=null && this.productItem.ElqJoin!='' && this.productItem.ElqJoin!=undefined){this.electronicJoinError=false;}
+      else{j+=1;this.electronicJoinError=true;}
+      if(this.productItem.ElqPeriod!=null && this.productItem.ElqPeriod!='' && this.productItem.ElqPeriod!=undefined){this.electronicYearError=false;}
+      else{j+=1;this.electronicYearError=true;}
+      if(this.productItem.Elqmake!=null && this.productItem.Elqmake!='' && this.productItem.Elqmake!=undefined){this.electronicMakeModelError=false;}
+      else{j+=1;this.electronicMakeModelError=true;}
+      if(this.productItem.ElqSI!=null && this.productItem.ElqSI!='' && this.productItem.ElqSI!='0' && this.productItem.ElqSI!=0 && this.productItem.ElqSI!=undefined){
+        this.electronicSalaryError=false;
+        let si = this.getTotalSI(this.locationlist[this.selectedTab]);
+        let totalSI = this.getActualSI(this.locationlist[this.selectedTab]);
+        let totalCost = Number(this.productItem.ElqSI) + si;
+        if(totalSI<totalCost){j+=1;this.sumInsuredExceedError = true;}
+        else{this.sumInsuredExceedError = false;}
+      }
+      else{j+=1;this.electronicSalaryError=true;}
+    }
+ 
+    if(j==0){
+      let obj = null;
+        if(this.productId=='14' || this.productId=='32'){
+          obj = {
+            "Address": null,
+            "Createdby": this.loginId,
+            "EmployeeName": this.productItem.EmpsName,
+            "EmployeeId":null,
+            "InsuranceId": this.insuranceId,
+            "OccupationDesc": this.employeeOccupationList.find(ele=>ele.Code==this.productItem.EmpsOccupation).label,
+            "OccupationId": this.productItem.EmpsOccupation,
+            "DateOfBirth": null,
+            "DateOfJoiningYear": null,
+            "DateOfJoiningMonth": null,
+            "ProductId": this.productId,
+            "QuoteNo": this.quoteNo,
+            "RequestReferenceNo": this.quoteRefNo,
+            "RiskId": null,
+            "Salary": this.productItem.EmpsSI,
+            "NationalityId":null,
+            "LocationId":this.selectedTab+1
+          }
+        }
+        else if(this.productId=='25'){
+          obj = {
+              "ItemId": this.productItem.ElqList,
+              "ItemValue": null,
+              "MakeAndModel": this.productItem.Elqmake,
+              "PurchaseMonth": this.productItem.ElqJoin,
+              "PurchaseYear": this.productItem.ElqPeriod,
+              "RiskId": null,
+              "ContentRiskDesc":null,
+              "SerialNoDesc": null,
+              "SerialNo":"856757",
+              "SumInsured":this.productItem.ElqSI
+          }
+        }
+      let index = this.selectedTab;
+      if(this.currentRiskIndex==null || this.currentRiskIndex==undefined){
+        console.log(this.locationlist[index]);if(this.locationlist[index].EmployeeList) this.locationlist[index].EmployeeList.push(obj);
+        else this.locationlist[index]['EmployeeList']=[obj];
+      }
+      else{console.log(this.locationlist[index]);this.locationlist[index].EmployeeList[this.currentRiskIndex] = obj;}
+      this.productItem = new ProductData();
+      this.currentRiskIndex = null;
+    }
+    
   }
   onemployeesavelast(){
     if(this.currentEmployeeIndex!=null){

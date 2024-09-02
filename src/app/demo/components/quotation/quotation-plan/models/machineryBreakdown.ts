@@ -32,7 +32,7 @@ export class MachineryBreakDown{
                     type: 'commaSeparator',
                     key: 'PowerPlantSi',
                     defaultValue: '',
-                    className: 'col-12 md:col-4 lg:col-4',
+                    className: 'col-12 md:col-6 lg:col-6',
                     templateOptions: {
                       label: `Sum Insured`,
                       placeholder: 'Enter Sum Insured',
