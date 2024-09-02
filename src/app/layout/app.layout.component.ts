@@ -32,6 +32,7 @@ export class AppLayoutComponent implements OnDestroy {
     userType:any=null;branchName:any=null;productName:any=null;
     loginId:any=null;productId:any=null;productname:any=null;
     loginType:any=null;customerCode:any=null;customerName:any=null;
+  lang: any;
     constructor(public layoutService: LayoutService, public renderer: Renderer2, public router: Router, private menuService: MenuService,
         private loginService: LoginService) {
         this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
@@ -72,6 +73,7 @@ export class AppLayoutComponent implements OnDestroy {
           this.productName = sessionStorage.getItem('productName');
           this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
           this.typeValue = sessionStorage.getItem('typeValue');
+          this.lang = sessionStorage.getItem('language');
           this.loginService.typeValue = this.typeValue;
           this.loginId = this.userDetails.Result.LoginId;
           this.productId = this.userDetails.Result.ProductId;
@@ -103,7 +105,8 @@ export class AppLayoutComponent implements OnDestroy {
                 this.typeList = data?.Result;
                 if(this.typeList.length!=0){
                   for(let type of this.typeList){
-                    type['label']=type.CodeDesc;
+                    if(this.lang=='en') type['label']=type.DisplayName;
+                    else type['label']=type.CodeDescLocal;
                   }
                 }
                 if (this.typeValue == undefined || this.typeValue == 'undefined') {
@@ -137,9 +140,8 @@ export class AppLayoutComponent implements OnDestroy {
            
         }
         else if(types.CodeDesc!='B2C Broker'){ this.typeValue = types.CodeDesc; this.loginService.typeValue = this.typeValue}
-        
-        this.typeName = types.DisplayName;
-        
+        if(this.lang=='en')  this.typeName=types.DisplayName;
+            else this.typeName=types.CodeDescLocal;
         if(changeType!='change') this.onTypeChange('direct');
         // $("#subUserTypes").hide();
        
