@@ -531,6 +531,9 @@ export class VehicleCreateFormComponent implements OnInit {
           this.vehicleDetails.MotorusageId='1';
           this.vehicleDetails.ManufactureYear = parts[2];
         }
+        let usageId = this.vehicleDetails?.MotorusageId;
+        let entry = this.usageList.find(ele=>ele.CodeDesc==this.vehicleDetails?.Motorusage || ele.Code==this.vehicleDetails?.Motorusage);
+        if(entry) usageId = entry.Code;
         if(this.engineNo!=null && this.engineNo!='') this.vehicleDetails['EngineNumber'] = this.engineNo;
         console.log(this.vehicleDetails,"this.vehicleDetails.Newvalue")
       let ReqObj = {
@@ -582,7 +585,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "ModelNumber": null,
         "MotorCategory": this.vehicleDetails?.MotorCategory,
         "Motorusage": this.vehicleDetails?.Motorusage,
-        "MotorusageId": this.vehicleDetails?.MotorusageId,
+        "MotorusageId": usageId,
         "NcdYn": this.vehicleDetails?.NcdYn,
         "PolicyRenewalYn": this.vehicleDetails.PolicyRenewalYn,
         "NoOfClaims": this.vehicleDetails?.NoOfClaims,
