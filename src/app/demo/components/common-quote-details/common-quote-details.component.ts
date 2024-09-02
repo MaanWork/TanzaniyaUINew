@@ -6095,9 +6095,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
         field.hideExpression = true; field.hide = true;
       }
       if (this.insuranceId == '100040' || this.insuranceId == '100042') {
-        if (field.key == 'VehicleSI' || field.key == 'GpsYN' || field.key == 'Aggregatedvalue' || field.key == 'Newvalue' || field.key == 'AccessoriesSI' || field.key == 'WindShieldSI' || field.key == 'ExtendedTPPDSI' || field.key == 'Inflation' || field.key == 'VehicleValue' || (field.key == 'NoOfPassengers' && this.insuranceId == '100042') || (field.key == 'PurchaseDate' && this.insuranceId == '100042')) {
+        if (field.key == 'VehicleSI' || field.key == 'GpsYN' || field.key == 'Aggregatedvalue' || field.key == 'Newvalue' || field.key == 'AccessoriesSI' || field.key == 'WindShieldSI' || field.key == 'ExtendedTPPDSI' || field.key == 'Inflation' || field.key == 'VehicleValue' ||  (field.key == 'PurchaseDate' && this.insuranceId == '100042')) {
           if ((this.insuranceId == '100040' && this.productItem.InsuranceClass != '121' && this.productItem.InsuranceClass != '122') && (this.insuranceId == '100040' && this.productItem.InsuranceClass != '129' && this.productItem.InsuranceClass != '131') && (this.insuranceId == '100040' && this.productItem.InsuranceClass != '143' && this.productItem.InsuranceClass != '144')
-            || (this.insuranceId == '100042' && this.productItem.InsuranceClass != '135' && this.productItem.InsuranceClass != '136')) {
+            || (this.insuranceId == '100042' && this.productItem.InsuranceClass != '135' && this.productItem.InsuranceClass != '136' )) {
 
             field.hideExpression = false;
             field.hide = false;
@@ -6134,14 +6134,28 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
         }
         else if (field.key == 'Deductibles') {
-          if (this.productItem.InsuranceClass == '124' || this.productItem.InsuranceClass == '125') {
-            field.hideExpression = false;
-            field.hide = false;
+          if(this.insuranceId=='100040'){
+            if (this.productItem.InsuranceClass == '124' || this.productItem.InsuranceClass == '125') {
+              field.hideExpression = false;
+              field.hide = false;
+            }
+            else {
+              field.hideExpression = true;
+              field.hide = true;
+            }
           }
-          else {
-            field.hideExpression = true;
-            field.hide = true;
+          else if(this.insuranceId=='100042'){
+            if (this.productItem.InsuranceClass == '135' || this.productItem.InsuranceClass == '136' ) {
+             
+              field.hideExpression = true;
+              field.hide = true;
+            }
+            else {
+              field.hideExpression = false;
+              field.hide = false;
+            }
           }
+          
         }
       }
       else if (this.insuranceId != '100027') {
