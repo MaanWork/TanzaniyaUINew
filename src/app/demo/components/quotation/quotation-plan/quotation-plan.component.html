@@ -30,7 +30,7 @@
                                     <p><b>{{'PREMIUM.DefaultCovers' | translate}}</b></p>
                                     <div class="grid p-0">
                                         <ng-container *ngFor="let cover of sec.Covers">
-                                            <ng-container *ngIf="cover.isSelected=='D' && cover.CoverageType!='A'">
+                                            <ng-container *ngIf="cover.isSelected=='D' && cover.CoverageType!='A' && cover.CoverageType!='O'">
                                                 <div class="col-12 md:col-12 lg:col-12 xl:col-12 p-1">
                                                     <div class="card bg-blue-800 text-0 p-1 m-0">
                                                         <p class="mb-0"><b>{{getCoverNameDesc(cover)}}</b></p><br>

@@ -201,7 +201,6 @@
     "Aggregatedvalue":"Aggregated value",
     "DisplacementinCM3":"DisplacementinCM3",
     "Nombredecartes":"Number of cards (WW Garage)",
-    
     "MunicipalityofTraffic":"Municipality of Traffic",
     "DateOfcirculation": "Date of circulation",
     "Transportationofhydrocarbons":"Transportation of hydrocarbons",
@@ -300,7 +299,8 @@
     "ViewPremium":"View Premium",
     "Back":"Back",
      "Edit":"Edit",
-     "Delete":"Delete"
+     "Delete":"Delete",
+     "UWQuestion":"UnderWriter Questions"
   },
   "MOTORDETAILS":{
     "EnterTonnage":"Enter Tonnage",

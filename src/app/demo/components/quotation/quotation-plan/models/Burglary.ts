@@ -29,27 +29,6 @@ export class Burglary{
                   {
                     className: 'col-12 md:col-6 lg:col-6',
                     type: 'ngselect',
-                      key: 'IndustryType',
-                      templateOptions: {
-                        //disabled: this.checkDisable('BuildingSuminsured')
-                        maxLength: 15,
-                        label: `Industry`,
-                        required: true,
-                        options: []
-                      },
-                      validators: {
-                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                      },
-                      hooks: {
-                      },
-      
-                      expressions: {
-                      
-                      },
-                  },
-                  {
-                    className: 'col-12 md:col-6 lg:col-6',
-                    type: 'ngselect',
                       key: 'FireSumInsured',
                       templateOptions: {
                         //disabled: this.checkDisable('BuildingSuminsured')
@@ -93,34 +72,13 @@ export class Burglary{
                   },
                   {
                     className: 'col-12 md:col-6 lg:col-6',
-                    type: 'input',
-                    key: 'LocationName',
-                    props: { 
-                      maxLength: 15,
-                      label: `Location Name`,
-                    },
-                    templateOptions: {
-                        //disabled: this.checkDisable('BuildingSuminsured')
-                        required: true,
-                    },
-                    validators: {
-                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-      
-                    expressions: {
-                      
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-6 lg:col-6',
                     type: 'textarea',
                       key: 'CoveringDetails',
                       
                       props: { 
-                        maxLength: 1000,
                         label: `Covering Details`,
+                        maxLength: 1000,
+                        
                       },
                       templateOptions: {
                         //disabled: this.checkDisable('BuildingSuminsured')

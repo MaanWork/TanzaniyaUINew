@@ -146,7 +146,7 @@
   "NoQuoteAvailable":"Aucun devis disponible",
   "VehicleDetails":"Détails du véhicule",
   "QuoteNo":"Numéro de devis",
-  "ReferenceNo":"Numéro de référence",
+  "ReferenceNo":"N° de référence",
   "CustomerName":"Nom du client",
   "PolicyStartDate":"Date d’effet de la police",
   "PolicyEndDate":"Date de fin de la police",
@@ -176,12 +176,12 @@
   
   },
   "MOTORQUOTE":{
-    "BankingDelegation":"Délégation bancaire",
+    "BankingDelegation":"Délégation Bancaire",
     "LoanStartDate": "Date de début du prêt",
     "LoanEndDate":"Date de fin du prêt",
-    "CollateralCompanyAddress":"Adresse de la société de garantie",
-    "CollateralCompanyName":"Nom de la société de garantie",
-    "LoanAmount":"Montant du prêt",
+    "CollateralCompanyAddress":"Adresse de l'Entreprise",
+    "CollateralCompanyName":"Nom de l'entreprise",
+    "LoanAmount":"Montant du Prêt",
     "PACoverId":"Couverture personnelle contre les accidents",
     "ZoneCirculation":"Circulation zonale",
     "VehicleType":"Type de véhicule",
@@ -300,8 +300,8 @@
   "ViewPremium":"Voir la prime",
   "Back":"Dos",
   "Edit":"Modifier",
-  "Delete":"Supprimer"
-  
+  "Delete":"Supprimer",
+  "UWQuestion":"Questions des souscripteurs"
   },
    "MOTORDETAILS":{
     "EnterTonnage":"Entrez le Charge Utile(Kg)",
@@ -351,7 +351,7 @@
    "EnterDisplacement ":"Entrez le déplacement "
   },
    "PREMIUM":{
-  "ReferenceNo":"Numéro de référence",
+  "ReferenceNo":"N° de référence",
   "QuoteNo":"Numéro de devis",
   "SumInsured":"Somme assurée",
   "ActualSumInsured":"Somme réelle assurée",
@@ -393,7 +393,7 @@
   "Yes":"Oui",
   "No":"Non",
   "Remarks":"Remarques",
-  "RefNo":"Numéro de référence",
+  "RefNo":"N° de référence",
   "EMIMonth":"Mois EMI",
   "InstallmentAmount":"Montant de versement",
   "InstallmentType":"Type de versement",
@@ -543,7 +543,7 @@
   "QuoteNumber":"Cite un nombre",
   "PolicyNumber":"Numéro de police",
   "DebitNoteNo":"Note de débit Non",
-  "MerchantReferenceNo":"Numéro de référence du commerçant",
+  "MerchantReferenceNo":"N° de référence du commerçant",
   "DebitNotePDF":"Note de débit PDF",
   "SchedulePDF":"Calendrier PDF",
   "Proceed":"Procéder"
@@ -586,7 +586,7 @@
   "Approved":"Approuvé",
   "Cancelled":"Annulé",
   "QuoteNo":"Numéro de devis",
-  "ReferenceNo":"Numéro de référence",
+  "ReferenceNo":"N° de référence",
   "CustomerName":"Nom du client",
   "StartDate":"Date de début",
   "EndDate":"Date de fin",
@@ -599,7 +599,7 @@
   "Search":"Recherche",
   "Select":"Sélectionner",
   "QuoteNo":"Numéro de devis",
-  "ReferenceNo":"Numéro de référence",
+  "ReferenceNo":"N° de référence",
   "CustomerName":"Nom du client",
   "CurrencyCode":"Code de devise",
   "CopyQuotes":"Copier les devis",
@@ -607,11 +607,11 @@
   "GlobalSearch":"Recherche globale",
   "ChassisNumber":"Numéro de châssis",
   "ClientName":"Nom du client",
-  "CustomerReferenceNo":"Numéro de référence client",
+  "CustomerReferenceNo":"N° de référence client",
   "EntryDate":"Date d'entrée",
   "QuoteNumber":"Cite un nombre",
   "RegistrationNumber":"Numéro d'enregistrement",
-  "RequestReferenceNo":"Numéro de référence de la demande"
+  "RequestReferenceNo":"N° de référence de la demande"
   },
     "Report":{
   "Report":"Rapport",
@@ -641,7 +641,7 @@
   "QuoteDate":"Date du devis",
   "View":"Voir",
   "QuoteNo":"Numéro de devis",
-  "ReferenceNo":"Numéro de référence",
+  "ReferenceNo":"N° de référence",
   "PolicyNo":"Numéro de politique",
   "CustomerName":"Nom du client",
   "BranchName":"Nom de la filiale",
