@@ -157,7 +157,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   regNoError: boolean; driverOptions: any[] = []; genderOptions: any[] = []; searchValue: any = []; clearSearchSection: boolean = false;
   duplicateRegister: boolean = false; enableCollateralDetails: boolean = false; enableCustomerDetails: boolean = false;
   motorUsageType: any = null; VehicleSI: any = null; WindShieldSI: any = null; orgPolicyNo: any = null; endorseCategory: any = null; endorsementName: any = null; endorseShortCode: any = null; enableFieldsList: any[] = []; enablePolicyStart: boolean = false; enablePolicyEnd: boolean = false; enableCurrency: boolean = false;
-  hideSection: boolean = false;
+  hideSection: boolean = false;questionSection:boolean=false;
   typeListAlt: any[] = [];
   typeListIvory: any[] = [];
   DrivingLicensingAge: any;
@@ -254,6 +254,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     //   console.log("this.fields[0]",this.fields[0]);
 
     // }
+    //if(this.quoteRefNo) this.getUWDetails();
   }
   ngOnInit() {
     this.getCurrencyList();
@@ -4989,89 +4990,97 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 for (let veh of data.Result) {
                   if (type == 'proceedSave') {
 
-                    // if(this.uwQuestionList.length!=0 && this.changeUwSection){
-                    //   let j = 0;
-                    //   let uwList:any[]=new Array();
-                    //   for(let ques of this.uwQuestionList){
-                    //     ques['BranchCode'] = this.branchCode;
-                    //     let createdBy="";
-                    //       let quoteStatus = sessionStorage.getItem('QuoteStatus');
-                    //       if(quoteStatus=='AdminRP'){
-                    //           createdBy = this.vehicleDetailsList[0].CreatedBy;
-                    //       }
-                    //       else{
-                    //         createdBy = this.loginId;
-                    //       }
-                    //       let status = null,loading = null;
-                    //       if(ques.QuestionType == '01' && ques.Value!=null && ques.Value!='' && ques.Options!=null){
-                    //         let obj = ques.Options.find(ele=>ele.UwQuesOptionDesc==ques.Value);
-                    //         console.log("Found Obj",ques,obj)
-                    //         if(obj){
-                    //           loading = obj.LoadingPercent
-                    //           if(obj.ReferralYn=='Y') status = 'R';
-                    //           else status = 'Y';
-                    //         }
-                    //         else status = 'Y';
-                    //       }
-                    //       else status = ques.Status;
-                    //       let entry = {
-                    //         "InsuranceId": this.insuranceId,
-                    //         "ProductId": this.productId,
-                    //         "UwQuestionId": ques.UwQuestionId,
-                    //         "UwQuestionDesc": ques.UwQuestionDesc,
-                    //         "QuestionType": ques.QuestionType,
-                    //         "EffectiveDateStart": ques.EffectiveDateStart,
-                    //         "Status": status,
-                    //         "LoadingPercent": loading,
-                    //         "MandatoryYn": ques.MandatoryYn,
-                    //         "DataType": ques.DataType,
-                    //         "CreatedBy": createdBy,
-                    //         "UpdatedBy":  this.loginId,
-                    //         "Value": ques.Value,
-                    //         "BranchCode": this.branchCode,
-                    //         "RequestReferenceNo": this.requestReferenceNo,
-                    //         "VehicleId": this.vehicleId
-                    //       }
-                    //       uwList.push(entry);
-                    //     j+=1;
-                    //     if(j==this.uwQuestionList.length) this.onSaveUWQues(uwList,entry,type,this.currentIndex-1);
-                    //   }
-                    // }
-                    // else 
-                    if (this.finalizeYN != 'Y') {
-                      entry['MSRefNo'] = data?.Result[0].MSRefNo;
-                      entry['VdRefNo'] = data?.Result[0].VdRefNo;
-                      entry['CdRefNo'] = data?.Result[0].CdRefNo;
-                      entry['Active'] = true;
-                      entry['VehicleId'] = data.Result[0].VehicleId;
-                      if (this.insuranceId == "100040" || this.insuranceId == '100042') veh['SectionId'] = sectionId[0];
-                      this.onCalculateVehDetails(veh, type, i, data.Result.length, sectionId.length);
-                      i += 1;
-                      //this.getCalculationDetails(veh,type,this.currentIndex-1,'proceedSave');
+                    if(this.uwQuestionList.length!=0){
+                      let j = 0;
+                      let uwList:any[]=new Array();
+                      for(let ques of this.uwQuestionList){
+                        ques['BranchCode'] = this.branchCode;
+                        let createdBy="";
+                          let quoteStatus = sessionStorage.getItem('QuoteStatus');
+                          if(quoteStatus=='AdminRP'){
+                              createdBy = this.vehicleDetailsList[0].CreatedBy;
+                          }
+                          else{
+                            createdBy = this.loginId;
+                          }
+                          let status = null,loading = null;
+                          if(ques.QuestionType == '01' && ques.Value!=null && ques.Value!='' && ques.Options!=null){
+                            let obj = ques.Options.find(ele=>ele.UwQuesOptionDesc==ques.Value);
+                            console.log("Found Obj",ques,obj)
+                            if(obj){
+                              loading = obj.LoadingPercent
+                              if(obj.ReferralYn=='Y') status = 'R';
+                              else status = 'Y';
+                            }
+                            else status = 'Y';
+                          }
+                          else status = ques.Status;
+                          let entry = {
+                            "InsuranceId": this.insuranceId,
+                            "ProductId": this.productId,
+                            "UwQuestionId": ques.UwQuestionId,
+                            "UwQuestionDesc": ques.UwQuestionDesc,
+                            "QuestionType": ques.QuestionType,
+                            "EffectiveDateStart": ques.EffectiveDateStart,
+                            "Status": status,
+                            "LoadingPercent": loading,
+                            "MandatoryYn": ques.MandatoryYn,
+                            "DataType": ques.DataType,
+                            "CreatedBy": createdBy,
+                            "UpdatedBy":  this.loginId,
+                            "Value": ques.Value,
+                            "BranchCode": this.branchCode,
+                            "RequestReferenceNo": this.quoteRefNo,
+                            "VehicleId": this.vehicleId
+                          }
+                          entry['MSRefNo'] = data?.Result[0].MSRefNo;
+                          entry['VdRefNo'] = data?.Result[0].VdRefNo;
+                          entry['CdRefNo'] = data?.Result[0].CdRefNo;
+                          entry['Active'] = true;
+                          entry['VehicleId'] = data.Result[0].VehicleId;
+                        if (this.insuranceId == "100040" || this.insuranceId == '100042') veh['SectionId'] = sectionId[0];
+                          uwList.push(entry);
+                        j+=1;
+                        if(j==this.uwQuestionList.length) this.onSaveUWQues(uwList,entry,type,this.currentIndex-1);
+                      }
                     }
                     else {
-                      if (type == 'save') {
-
-                      }
-                      else if (type == 'proceedSave') {
-
-                        this.onFinalProceed();
-                      }
-                      else if (type == 'finalProceed') {
-                        if (this.currentIndex - 1 == this.vehicleDetailsList.length) {
-                          if (this.insuranceId == '100002' && this.vehicleDetailsList.length > 1) this.saveFleetDetails();
-                          else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
-                        }
+                      if (this.finalizeYN != 'Y') {
+                        entry['MSRefNo'] = data?.Result[0].MSRefNo;
+                        entry['VdRefNo'] = data?.Result[0].VdRefNo;
+                        entry['CdRefNo'] = data?.Result[0].CdRefNo;
+                        entry['Active'] = true;
+                        entry['VehicleId'] = data.Result[0].VehicleId;
+                        if (this.insuranceId == "100040" || this.insuranceId == '100042') veh['SectionId'] = sectionId[0];
+                        this.onCalculateVehDetails(veh, type, i, data.Result.length, sectionId.length);
+                        i += 1;
+                        //this.getCalculationDetails(veh,type,this.currentIndex-1,'proceedSave');
                       }
                       else {
-                        if (type == null) {
-
-                          if (this.currentIndex - 1 == this.vehicleDetailsList.length) this.onFinalProceed();
+                        if (type == 'save') {
+  
                         }
-
-
+                        else if (type == 'proceedSave') {
+  
+                          this.onFinalProceed();
+                        }
+                        else if (type == 'finalProceed') {
+                          if (this.currentIndex - 1 == this.vehicleDetailsList.length) {
+                            if (this.insuranceId == '100002' && this.vehicleDetailsList.length > 1) this.saveFleetDetails();
+                            else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
+                          }
+                        }
+                        else {
+                          if (type == null) {
+  
+                            if (this.currentIndex - 1 == this.vehicleDetailsList.length) this.onFinalProceed();
+                          }
+  
+  
+                        }
                       }
                     }
+                   
                   }
                   else {
                     entry['MSRefNo'] = data?.Result[0].MSRefNo;
@@ -6213,7 +6222,17 @@ export class CommonQuoteDetailsComponent implements OnInit {
     );
   }
   onSaveUWQues(uwList, entry, type, index) {
-
+    if(uwList.length!=0){ 
+      let urlLink = `${this.CommonApiUrl}api/saveuwquestions`;
+      this.sharedService.onPostMethodSync(urlLink, uwList).subscribe(
+        (data: any) => {
+          if(data.Result){
+            this.getCalculationDetails(entry,type,index,'uwQues');
+          }
+        },
+        (err) => { },
+      );
+    }
   }
   checkDisableField() {
     let status = sessionStorage.getItem('QuoteStatus');
@@ -7245,5 +7264,120 @@ export class CommonQuoteDetailsComponent implements OnInit {
       (err) => { },
     );
   }
+    //UW Section
+    getUWDetails() {
+      // let branchCode = '';
+      // if(this.userType!='Broker' && this.userType!='User'){
+      //   branchCode = this.branchCode
+      // }
+      // else{
+      //   branchCode = this.brokerbranchCode
+      // }
+      let ReqObj = {
+        "Limit": "0",
+        "Offset": "100",
+        "ProductId": this.productId,
+        "LoginId": this.loginId,
+        "InsuranceId": this.insuranceId,
+        "BranchCode": this.branchCode
+      }
+      let urlLink = `${this.CommonApiUrl}master/getactiveuwquestions`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          let res: any = data.Result;
+          if (res.length != 0) {
+            this.uwQuestionList = res;
+            if(this.uwQuestionList.length!=0){
+              let i=0;
+              for(let ques of this.uwQuestionList){
+                  if(ques['HiddenYN']==undefined) ques['HiddenYN'] = 'N';
+                  if(ques.Options!=null && ques.Options.length!=0){
+                    let j=0;
+                    for(let option of ques.Options){
+                      if(option.DependentYn=='Y'){
+                        let uwQues = this.uwQuestionList.find(ele=>ele.UwQuestionId==option.DependentUnderwriterId);
+                        if(uwQues) uwQues['HiddenYN'] = 'Y';
+                      }
+                      j+=1;
+                      if(j==ques.Options.length){i+=1; if(i==this.uwQuestionList.length) this.getEditUwQuestions();}
+                    
+                    }
+                  }
+                  else{i+=1;if(i==this.uwQuestionList.length) this.getEditUwQuestions();}
+              }
+            }
+          }
+          else {
+          }
+        },
+        (err) => { },
+      );
+    }
+    getEditUwQuestions() {
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "ProductId": this.productId,
+        "LoginId": this.loginId,
+        "RequestReferenceNo": this.quoteRefNo,
+        "VehicleId": "1"
+      }
+      let urlLink = `${this.CommonApiUrl}api/getuwquestionsdetails`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          let uwList = data?.Result;
+          if (uwList.length != 0) {
+            let i = 0;
+            for (let ques of uwList) {
+              let entry = this.uwQuestionList.find(ele => ele.UwQuestionId == ques.UwQuestionId);
+              if (entry) { entry.Value = ques.Value };
+              i += 1;
+              if (i == uwList.length) {
+  
+                this.uwQuestionList.forEach(x => {
+                  if (x.QuestionType == '01') {
+                   
+                    console.log('gggggg', x.Value)
+                    x.Value = x.Value ?  x.Value : x.Value
+                    if(x.Options!=null) this.showUWQUestion(x.Options.find(ele=>ele.UwQuesOptionDesc==x.Value),x.Options,'direct');
+                  }
+                  
+                });
+                
+                this.questionSection = true; console.log("Final UW List", this.uwQuestionList);
+              }
+            }
+          }
+          else {
+            let i = 0
+            for (let ques of this.uwQuestionList) {
+                ques.Value = null;
+              i += 1;
+              if (i == this.uwQuestionList.length) { this.questionSection = true; console.log("Final UW List", this.uwQuestionList); }
+            }
+          }
+        },
+        (err) => { },
+      );
+    }
+    showUWQUestion(rowData,optionList,type){
+      if(optionList.length!=0 && rowData!=undefined){
+        for(let option of optionList){
+          if(option.DependentYn!=null && option.DependentYn=='Y'){
+              if(option.DependentUnderwriterId==rowData.DependentUnderwriterId){
+                let ques = this.uwQuestionList.find(ele=>ele.UwQuestionId==option.DependentUnderwriterId)
+                ques['HiddenYN'] = 'N';
+                if(type=='change') ques['Value']=null;
+              }
+              else{
+                let ques = this.uwQuestionList.find(ele=>ele.UwQuestionId==option.DependentUnderwriterId)
+                ques['HiddenYN'] = 'Y';
+              }
+          }
+        }
+      }
+    }
+    checkHideQUestion(rowData){
+      return rowData['HiddenYN']=='Y';
+    }
 }
 
