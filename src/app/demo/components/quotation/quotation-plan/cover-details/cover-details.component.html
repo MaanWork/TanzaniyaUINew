@@ -76,7 +76,7 @@
                                             </ng-container>
                                             <div class="flex flex-wrap justify-content-between">
                                                 <ng-container *ngFor="let cover of menu.CoverList">
-                                                    <div class="card bg-blue-800 customCard text-0 p-3" *ngIf="((cover.isSelected=='D' && cover.CoverageType!='A' && cover.CoverageType!='O') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
+                                                    <div class="card bg-blue-800 customCard text-0 p-3" *ngIf="((cover.isSelected=='D' && cover.CoverageType!='A') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
                                                         <div class="grid">
                                                             <div class="col-10 md:col-10 lg:col-10 xl:col-10">
                                                                 <div class="flex align-items-center justify-content-between">
@@ -151,7 +151,7 @@
                                             </ng-container>
                                             <div class="flex flex-wrap justify-content-between">
                                                 <ng-container *ngFor="let cover of menu.CoverList">
-                                                    <ng-container *ngIf="((cover.isSelected!='D' && cover.CoverageType!='A') || cover.CoverageType=='O') && ! checkCoverSelection(menu,cover)">
+                                                    <ng-container *ngIf="((cover.isSelected!='D' && cover.CoverageType!='A')) && ! checkCoverSelection(menu,cover)">
                                                         <div class="card p-3 w-25rem customOptCoverCard" [ngClass]="canbeChecked(cover) ? 'customOptCoverBg' : ''" >
                                                             <div class="grid">
                                                                 <div class="col-10 md:col-10 lg:col-10 xl:col-10">
@@ -266,7 +266,7 @@
                                                 </ng-container>
                                                 <div class="flex flex-wrap justify-content-start">
                                                     <ng-container *ngFor="let cover of menu.CoverList">
-                                                        <ng-container  *ngIf="((cover.isSelected!='D' && cover.CoverageType!='A') || cover.CoverageType=='O') && ! checkCoverSelection(menu,cover)">
+                                                        <ng-container  *ngIf="((cover.isSelected!='D' && cover.CoverageType!='A')) && ! checkCoverSelection(menu,cover)">
                                                              <div class="card p-3 ml-3 w-25rem customOptCoverCard" [ngClass]="canbeChecked(cover) ? 'customOptCoverBg' : ''" >
                                                                 <div class="grid">
                                                                     <div class="col-9 md:col-9 lg:col-9 xl:col-9">
@@ -342,7 +342,7 @@
                                                 </ng-container>
                                                 <div class="flex flex-wrap justify-content-start">
                                                     <ng-container *ngFor="let cover of menu.CoverList">
-                                                        <div class="card bg-blue-800 customCard3 p-3 ml-3 w-11rem text-0" *ngIf="((cover.isSelected=='D' && cover.CoverageType!='A' && cover.CoverageType!='O') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
+                                                        <div class="card bg-blue-800 customCard3 p-3 ml-3 w-11rem text-0" *ngIf="((cover.isSelected=='D' && cover.CoverageType!='A') && !endorseCovers) ||  checkCoverSelection(menu,cover)">
                                                             <div class="grid">
                                                                 <div class="col-9 md:col-9 lg:col-9 xl:col-9">
                                                                     <div class="flex align-items-center justify-content-between">
@@ -561,7 +561,7 @@
                                     <h3>{{'PREMIUM.AddOnCovers' | translate}}</h3>
                                     <div class="flex flex-wrap justify-content-start">
                                         <ng-container *ngFor="let cover of menu.CoverList">
-                                            <ng-container *ngIf="((cover.isSelected!='D' && cover.CoverageType!='A') || cover.CoverageType=='O') && ! checkCoverSelection(menu,cover)">
+                                            <ng-container *ngIf="((cover.isSelected!='D' && cover.CoverageType!='A')) && ! checkCoverSelection(menu,cover)">
                                                 <div class="card p-3 w-25rem customOptCoverCard ml-2" [ngClass]="canbeChecked(cover) ? 'customOptCoverBg' : ''" >
                                                     <div class="grid">
                                                         <div class="col-12 md:col-10 lg:col-10 xl:col-10">
