@@ -243,8 +243,8 @@ export class AppMenuComponent implements OnInit {
               "icon": 'pi pi-car',
               "routerLink": [menu.link]
             }
-            if (menu.children && menu.CodeDesc!='Quote Register' && menu.Code!='Surveyor' && menu.CodeDesc!='Credit Controller' && menu.CodeDesc!='Login Creation' && menu.CodeDesc!='Referral' && menu.CodeDesc!='Portfolio' && menu.CodeDesc!='Referal Management' && menu.CodeDesc!='Masters' && menu.CodeDesc!='Tira Status') {
-             entry['items'] = [];
+            if (menu.children && menu.CodeDesc!='Quote Register' && menu.CodeDesc!='CRM' && menu.CodeDesc!='Surveyor' && menu.CodeDesc!='Credit Controller' && menu.CodeDesc!='Login Creation' && menu.CodeDesc!='Referral' && menu.CodeDesc!='Portfolio' && menu.CodeDesc!='Referal Management' && menu.CodeDesc!='Masters' && menu.CodeDesc!='Tira Status') {
+              entry['items'] = [];
               let j = 0;
               for (let child of menu.children) {
                 if(child.title=='Tira Vehicle Search' && this.insuranceid=='100044'){
@@ -294,6 +294,7 @@ export class AppMenuComponent implements OnInit {
               else if(menu.CodeDesc=='Copy Quote') entry["routerLink"] =  ['/quotation/plan/copy-quote']
               else if(menu.CodeDesc=='Short Quote') entry["routerLink"] =  ['/quotation/plan/shortQuote']
               else if(menu.CodeDesc=='Report') entry["routerLink"] =  ['/report']
+              else if(menu.CodeDesc=='CRM') entry["routerLink"] =  ['/crmHome']
               else if(menu.CodeDesc=='Search') entry["routerLink"] =  ['/Search']
               else if(menu.CodeDesc=='Masters') entry["routerLink"] =  ['/Admin/bankMaster']
               else if(menu.CodeDesc=='Credit Controller' && this.insuranceid=='100004') entry["routerLink"] =  ['/Home/credit-controller']
@@ -302,6 +303,9 @@ export class AppMenuComponent implements OnInit {
               else  if(menu.CodeDesc=='Tira Vehicle Search' && this.insuranceid=='100044'){entry['routerLink']=['/yakeenSearch'];}
               else if(menu.CodeDesc=='Tira Status'){entry["routerLink"] =  ['/tirastatus']}
               else entry["routerLink"] =  [menu.link]
+              if (this.userType == 'Issuer' && this.typeValue=='high') {
+                if(menu.CodeDesc=='Portfolio') entry["routerLink"] =  ['/Home/ApproverPortfolio']
+              }
               entry['link'] = menu.link;
               if(this.lang=='en') menu.title=menu.CodeDesc
               else menu.title = menu.CodeDescLocal
