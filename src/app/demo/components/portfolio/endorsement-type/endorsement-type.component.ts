@@ -290,6 +290,9 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
                 if(this.selectedEndorsement.EndorsementCategory==2) category = 'Financial';
                 let shortCode = this.selectedEndorsement?.EndtShortCode
               if(EndtType==42 || EndtType == 842){
+                let isFinanceEndt = null;
+                if(this.selectedEndorsement.EndorsementCategory==2) isFinanceEndt = 'Y';
+                else isFinanceEndt = 'N';
                 let obj = {
                   "EndtTypeId":EndtType,
                   "EndtShortCode": shortCode,
@@ -297,6 +300,7 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
                   "EffectiveDate":effDate,
                   "Remarks":this.remarks,
                   "Category": category,
+                  "IsFinanceEndt": isFinanceEndt,
                   "EndtName": this.selectedEndorsement.EndorsementDesc,
                   "CoverModificationYn": this.selectedEndorsement.isCoverEndt,
                   "PolicyNo": res?.policyNo
@@ -322,6 +326,9 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
                 //this.router.navigate([''])
               }
               else{
+                let isFinanceEndt = null;
+                if(this.selectedEndorsement.EndorsementCategory==2) isFinanceEndt = 'Y';
+                else isFinanceEndt = 'N';
                 let obj = {
                   "EndtTypeId":this.selectedEndorsement.EndtType,
                   "FieldsAllowed":this.selectedEndorsement.FieldsAllowed,
@@ -334,6 +341,7 @@ policyNo:any=null;productItem:any=null;quoteNo:any=null;effectiveDate:any=null;
                   "PolicyNo": res?.policyNo,
                   "EndtStatus": res?.endtStatus,
                   "EndtCount": res?.endtCount,
+                  "IsFinanceEndt": isFinanceEndt,
                   "EndtPrevPolicyNo": res?.endtPrevPolicyNo,
                   "EndtPrevQuoteNo": res?.endtPrevQuoteNo
                 }
