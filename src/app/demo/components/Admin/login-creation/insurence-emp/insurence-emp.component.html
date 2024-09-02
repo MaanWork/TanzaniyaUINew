@@ -54,8 +54,10 @@
             <div class="input-control-container">
                 <div class="input-form-radio-box mt-2">
                     <div class="radio-toolbar1 radio-toolbar">
-                        <input id="Product" type="radio" name="rentOwnHome"   value="Product" *ngIf="data.SubUserType=='high' || data.SubUserType == 'both'" (click)="issuerProduct(data)">
-                        <label for="Product" *ngIf="data.SubUserType=='high' || data.SubUserType == 'both'"><img style="max-width: 30px;max-height: 10px;" >Product</label>
+                        <input id="Branch" type="radio" name="rentOwnHome" (click)="branchDataList(data.LoginId)" *ngIf="data.SubUserType!='SuperAdmin'"  value="Branch">
+                        <label for="Branch" style="background-color: primary;" *ngIf="data.SubUserType!='SuperAdmin'" ><img style="max-width: 30px;max-height: 10px;" >Branch</label>
+                        <input id="Product" type="radio" name="rentOwnHome"   value="Product" *ngIf="data.SubUserType!='SuperAdmin'" (click)="issuerProduct(data)">
+                        <label for="Product" *ngIf="data.SubUserType!='SuperAdmin'"><img style="max-width: 30px;max-height: 10px;" >Product</label>
                         <input id="PaymentTypes" type="radio" name="rentOwnHome"   value="PaymentTypes" (click)="quotationMenuList(data)">
                         <label for="PaymentTypes" ><img style="max-width: 30px;max-height: 10px;" >Menu List</label>
                     </div>
@@ -100,7 +102,7 @@
             </div>
         </div> -->
         
-        <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="issuerType != 'SuperAdmin'">
+        <!-- <div class="col-12 lg:col-4 md:col-4 lg:col-4" *ngIf="issuerType != 'SuperAdmin'">
             <label for="Channel" class="font-semibold w-6rem">Products &nbsp;<span class="text-danger">*</span></label>
             <p-multiSelect  class="w-full" styleClass="w-full" [options]="productList" [(ngModel)]="productIds" defaultLabel="Select a Product" optionLabel="CodeDesc" optionValue="Code"
 	            display="chip"></p-multiSelect>
@@ -109,7 +111,7 @@
             <label for="Channel" class="font-semibold w-6rem">Branches &nbsp;<span class="text-danger">*</span></label>
             <p-multiSelect  class="w-full" styleClass="w-full" [options]="branchList" [(ngModel)]="branchIds" defaultLabel="Select a Branch" optionLabel="CodeDesc" optionValue="Code"
             display="chip"></p-multiSelect>
-        </div>
+        </div> -->
     </div>
     <p-divider class="mt-3 mb-3" />
     <span class="p-text-dark block mb-5"><b>Address Information</b></span>
@@ -208,6 +210,7 @@
             styleClass="w-full"
             dateFormat="dd/mm/yy"
             [(ngModel)]="effectiveDate"
+            
             class="w-full"/>
         </div>
         <div class="col-12 lg:col-4 md:col-4 lg:col-4">
@@ -535,7 +538,7 @@
                 </p-dropdown></td>
                 <td><input pInputText id="sumInsured" class="w-full" [(ngModel)]="data.SumInsuredStart" maxlength="16" /></td>
                 <td><input pInputText id="sumInsuredEnd" class="w-full" [(ngModel)]="data.SumInsuredEnd" maxlength="16" /></td>
-                <td><p-button icon="pi pi-book"  styleClass="p-button-outlined" (click)="showEndorsement(data,'endrose')"/></td>
+                <td ><p-button *ngIf="data.IsOptedYn=='Y'" icon="pi pi-book"  styleClass="p-button-outlined"  (click)="showEndorsement(data,'endrose')"/></td>
             </tr>
            
         </ng-template>
@@ -598,3 +601,156 @@
                 <p-button label="Submit" (click)="onsubmitsEndorse()" />
             </div>
 </p-dialog>
+
+
+<p-dialog  header="Branch " [modal]="true"  [(visible)]="branchPopup"  [style]="{ width: '75rem' }" >
+    <p-table  [tableStyle]="{'min-width': '60rem'}" [value]="branchData" [rows]="5" [paginator]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                Branch 
+                <p-button icon="pi pi-plus"  label="Add Branch" (click)="showDialogBrokerDetails('branchDetail')" />
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Branch Name</th>
+                <th>Effective Date</th>
+                <th>Mobile No</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-branch>
+            <tr>
+                <td>{{branch.BranchName}}</td>
+                <td>{{branch.EffectiveDateStart}}</td>
+                <td>{{branch.Mobile}}</td>
+                <td *ngIf="branch.Status=='Y'">Active</td>
+                <td *ngIf="branch.Status=='N'">DeActive</td>
+                <td><p-button icon="pi pi-pencil"  styleClass="p-button-outlined"  (click)="editBranch(branch)" /></td>
+            </tr>
+        </ng-template>
+    </p-table> 
+</p-dialog>
+<p-dialog  header="Branch Details" [modal]="true"  [(visible)]="branchDetailsPopup"  [style]="{ width: '80rem' }" >
+    <div class="grid">
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="BranchName" class="font-semibold w-6rem">Branch Name&nbsp;<span class="text-danger">*</span></label>
+            <div class="p-inputgroup">
+                <input type="text" id="BranchName" pInputText placeholder="Branch Name" [(ngModel)]="brokerBranchName" />
+                <button type="button" pButton icon="pi pi-search"  class="p-button-outlined" (click)="showDialogBrokerDetails('branchSPDetail')"></button>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Insurance" class="font-semibold w-6rem">Insurance Company Branch&nbsp;<span class="text-danger">*</span></label>
+            <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="branchName" [options]="branchList"    
+                        optionLabel="CodeDesc" optionValue="Code" >
+            </p-dropdown> 
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
+            <label for="ExcemptedYN" class="font-semibold w-6rem">Branch Type&nbsp;<span class="text-danger">*</span></label>
+            <div class="flex flex-warp">
+                <div class="flex align-items-center mr-1">
+                    <p-radioButton name="Main" value="Main"  inputId="Main" [(ngModel)]="branchType"></p-radioButton>
+                    <span for="Main" class="ml-1">Main</span>
+                </div>
+                <div class="flex align-items-center mr-1">
+                    <p-radioButton name="Sub" value="Sub"  inputId="Sub" [(ngModel)]="branchType"></p-radioButton>
+                    <span for="Sub" class="ml-1">Sub</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="SalePointCode" class="font-semibold w-6rem">Sale PointCode&nbsp;<span class="text-danger">*</span></label>
+            <input pInputText id="SalePointCode" class="w-full" [(ngModel)]="salePointCode" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Address1" class="font-semibold w-6rem">Address 1 </label>
+            <input pInputText id="Address1" class="w-full" [(ngModel)]="address1" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Address2" class="font-semibold w-6rem">Address 2</label>
+            <input pInputText id="Address2" class="w-full" [(ngModel)]="address2" />
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Email" class="font-semibold w-6rem">Email</label>
+            <input pInputText id="Email" class="w-full"   [(ngModel)]="email"/>
+        </div>
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="MobileNo" class="font-semibold w-6rem">Mobile No</label>
+            <input pInputText id="MobileNo" class="w-full" [(ngModel)]="mobile"/>
+        </div>
+        
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="EffectiveDate" class="font-semibold w-6rem">Effective Date&nbsp;<span class="text-danger">*</span></label>
+            <p-calendar  dateFormat="dd/mm/yy" inputId="EffectiveDate" class="w-full" styleClass="w-full" appendTo="body"   [(ngModel)]="effectiveDate" /> 
+        </div>
+
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="Remarks" class="font-semibold w-6rem">Remarks</label>
+            <textarea pInputTextarea id="Remarks" class="w-full" [(ngModel)]="remarks"></textarea>
+        </div>
+
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4 radioList">
+            <label for="ExcemptedYN" class="font-semibold w-6rem">Status&nbsp;<span class="text-danger">*</span></label>
+            <div class="flex flex-warp">
+                <div class="flex align-items-center mr-1">
+                    <p-radioButton name="Yes" value="Y"  inputId="Active" [(ngModel)]="statusValue"></p-radioButton>
+                    <span for="Active" class="ml-1">Active</span>
+                </div>
+                <div class="flex align-items-center mr-1">
+                    <p-radioButton name="No" value="N"  inputId="DeActive" [(ngModel)]="statusValue"></p-radioButton>
+                    <span for="DeActive" class="ml-1">DeActive</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-content-center gap-2">
+        <p-button label="Cancel" styleClass="p-button-outlined" (click)="branchDetailsPopup=false" />
+        <p-button label="Submit" (click)="onFormSubmit()" />
+    </div>
+</p-dialog>
+<p-dialog  header="Branch Search" [modal]="true"  [(visible)]="branchSPDetailsPopup"  [style]="{ width: '80rem' }" >
+    <div class="grid">
+        <div class="col-12 lg:col-4 md:col-4 lg:col-4">
+            <label for="RegulatoryCode" class="font-semibold w-6rem">Regulatory Code</label>
+            <div class="p-inputgroup">
+                <input type="text" id="RegulatoryCode" pInputText placeholder="Enter Your Regulatory Code" (keyup)="searchBranchName('change',$event.target.value,null)" [(ngModel)]="searchBranchValue" />
+            </div>
+        </div>
+    </div>
+    <ng-container *ngIf="SalePointCodeList.length==0 && searchBranchValue">
+        <div class="flex flex-warp justify-content-center">
+            <b>No Branch Available</b>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="SalePointCodeList.length!=0">
+        <p-table [value]="SalePointCodeList"  [tableStyle]="{'min-width': '60rem'}" *ngIf="existingProduct"  [paginator]="true" [rows]="5">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Select</th>
+                    <th>Branch Name</th>
+                    <th>Salepoint Code</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+                <tr>
+                    <td>
+                        <mat-radio-button [id]="'type'+i"
+                            [name]="'customBranchRadio'+i" (change)="se(customer)">
+                        </mat-radio-button>
+                    </td>
+                    <td>{{product.CodeDesc}}</td>
+                    <td>{{product.Code}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-container>
+    <ng-template pTemplate="summary" >
+        <div class="flex justify-content-center gap-2">
+            <p-button label="Cancel" styleClass="p-button-outlined" (click)="branchSPDetailsPopup=!branchSPDetailsPopup" />
+            <p-button label="Submit" *ngIf="selectedSPCode" (click)="onSaveBranchName()" />
+        </div>
+    </ng-template>
+</p-dialog>
+

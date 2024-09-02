@@ -19,6 +19,7 @@ export class InsurenceEmpComponent {
   public AppConfig: any = (Mydatas as any).default;
   public ApiUrl1: any = this.AppConfig.ApiUrl1;
   public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
+  public motorApiUrl:any = this.AppConfig.MotorApiUrl;
   AddIssuerVisible:boolean=false;
   AddIssuerPopup: boolean=false;
   editsSection: boolean=false;
@@ -59,7 +60,7 @@ export class InsurenceEmpComponent {
   stateName: any;
   stateCode: any;
   creditLimit: any;
-  Status: any;
+  Status: any='Y';
   mobileCodeList: any[]=[];
   countryList:any[]=[];
   editSection: boolean=false;
@@ -86,7 +87,7 @@ export class InsurenceEmpComponent {
   branchPopup: boolean=false;
   ProductsPopupTable: boolean=false;
   branchDetailsPopup: boolean=false;branchList:any[]=[]
-  productPopup: boolean=false;branchIds:any[]=[];
+  productPopup: boolean=false;branchIds:any[]=[];branchValue: string;
   addProduct:boolean=false;productList:any[]=[];
   ProductsPopup:boolean=false;insuranceIds:any[]=[];
   existingProduct:boolean=true;userDetails:any=null;
@@ -115,6 +116,26 @@ export class InsurenceEmpComponent {
   companyId: any=null;DmlList:any[]=[];
   viewIssuerDetails: any=null;
   selectedProductId: any;
+  brokerBranchName:any;
+  branchName: any;
+  branchType: any;
+  salePointCode: any;
+  email: any;
+  mobile: any;
+  subInsuranceId: any=null;
+  subSourceId: any;
+  DepartmentCode: any;
+  AttachedBranchCode: any;
+  BranchCode: any=null;
+  BrokerBranchCode: any;branchSPDetailsPopup:boolean=false;
+  brokerValue: any;subBranchId:any=null;
+  OaCode: any;subBranchList:any[]=[];CoverType:any='1';
+  sourceList: any[]=[];SalePointCodeList: any[]=[];
+  selectedBranchName: any=null;selectedSPCode: any=null;SalePointCode: any=null;
+  viewBrokerDetails: any;productEndorsement: boolean=false;
+  existProduct: any;
+  searchBranchValue:any=null;
+  searchLengthSection: boolean=false;
   constructor(private router:Router,
     private sharedService:SharedService,public datePipe:DatePipe) {
      this.productId =  sessionStorage.getItem('companyProductId');
@@ -150,6 +171,12 @@ export class InsurenceEmpComponent {
    ngOnInit(){
     //  this.getMobileCodeList();
     //  this.getCountryList();
+    let date = new Date();
+    if(String(date).split('/').length==1) this.effectiveDate =  this.datePipe.transform(date, "dd/MM/yyyy")
+    else{
+      this.effectiveDate = this.effectiveDate;
+    }
+   // alert(this.effectiveDate)
    }
    getCountryList(){
     let ReqObj = { "InsuranceId": this.insuranceId}
@@ -251,32 +278,32 @@ export class InsurenceEmpComponent {
               if(type=='direct'){
                 this.productIds = products;
               }
-              this.getBranchList(type,branches);
+              this.getBranchList();
           }
         },
         (err) => { },
       );
     }
   }
-  getBranchList(type,branchValue){
+  getBranchList(){
+    let ReqObj = {
+      "InsuranceId": this.insuranceId
+    }
     let urlLink = `${this.CommonApiUrl}master/dropdown/branchmaster`;
-      let ReqObj ={
-        "InsuranceId": this.insuranceId
+  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    (data: any) => {
+      if(data.Result){
+        let obj = [{Code:"",CodeDesc:"--Select--"}];
+        this.branchList = obj.concat(data?.Result);
+        let docObj = JSON.parse(sessionStorage.getItem('paymentMasterId'))
+          this.branchValue="99999";
+          //this.getIndustryList()
+        //if(!this.branchValue){ this.branchValue = "99999"; this.getExistingPayment() }
       }
-      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-        (data: any) => {
-          console.log(data);
-          if(data.Result){
-              this.branchList = data.Result;
-              console.log(this.branchList,"this.branchList");
-              
-              if(type=='direct'){
-                this.branchIds = branchValue;
-              }
-          }
-        },
-        (err) => { },
-      );
+    },
+    (err) => { },
+
+  );
   }
   showDialogBrokerDetails(type){
   if(type=='AddIssuer'){
@@ -288,7 +315,15 @@ export class InsurenceEmpComponent {
     else if (type=='editBranchDetail'){
       this.branchDetailsPopup=true;
     }
-    
+    else if (type=='branchDetail'){
+      this.branchDetailsPopup=true;
+      this.getBranchList();
+      this.branchFormReset();
+
+    }
+    else if(type=='branchSPDetail'){
+      this.branchSPDetailsPopup=true;
+    }
     else if(type=='AddProduct'){
       this.addProduct=true;
       this.existingProduct=false;
@@ -361,8 +396,28 @@ export class InsurenceEmpComponent {
   passwordField(){
     this.ChangePass=true;
   }
-  branchDataList(){
+  branchDataList(value){
     this.branchPopup=true;
+    this.getBrokerBranchList(value);
+  }
+  getBrokerBranchList(LoginId){
+    //this.getEditBrokerDetails(LoginId);
+    //let brokerLoginId =sessionStorage.getItem('brokerLoginId')
+    let ReqObj = {
+      "LoginId": LoginId
+    }
+    let urlLink = `${this.CommonApiUrl}admin/getallbrokercompanybranch`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+          this.branchData = data?.Result;
+          this.brokerLoginId = LoginId
+        }
+      },
+      (err) => { },
+    );
+
   }
   onProceed(type) {
 
@@ -1280,5 +1335,111 @@ onProceedEndorse(type){
         (err) => { },
       );
 
+}
+onFormSubmit(){
+  console.log('kkkkkkkkkk',this.customerCode);
+  let ReqObj = {
+    "Address1": this.address1,
+    "Address2": this.address2,
+    "BranchCode": this.branchName,
+    "AttachedCompany": this.subInsuranceId,
+    "BrokerBranchCode": this.BranchCode,
+    "BranchType":this.branchType,
+    "BrokerBranchName": this.brokerBranchName,
+    "CreatedBy": this.loginId,
+    "Email": this.email,
+    "EffectiveDateStart": this.effectiveDate,
+    "InsuranceId": this.insuranceId,
+    "LoginId": this.brokerLoginId,
+    "Mobile": this.mobile,
+    "Remarks": this.remarks,
+    "Status": this.statusValue,
+    "SourceType":this.subSourceId,
+    "DepartmentCode":this.DepartmentCode,
+    "SalePointCode":this.salePointCode,
+    "AttachedBranchCode":this.AttachedBranchCode
+  }
+  if (ReqObj.EffectiveDateStart != '' && ReqObj.EffectiveDateStart != null && ReqObj.EffectiveDateStart != undefined) {
+    if(String(ReqObj.EffectiveDateStart).split('/').length==1) ReqObj['EffectiveDateStart'] =  this.datePipe.transform(ReqObj.EffectiveDateStart, "dd/MM/yyyy")
+  }
+  else{
+    ReqObj['EffectiveDateStart'] = "";
+  }
+  let urlLink = `${this.CommonApiUrl}admin/attachbranches`;
+  this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+    (data: any) => {
+      console.log(data);
+      if(data.Result){
+        this.getBrokerBranchList(this.brokerLoginId)
+        this.branchDetailsPopup=false;
+      }
+      else if(data.ErrorMessage){
+       }
+    },
+    (err) => { },
+  );
+}
+searchBranchName(type,value,modal){
+  this.searchLengthSection = false;
+  this.selectedBranchName = this.branchName;
+  this.selectedSPCode = this.salePointCode;
+  this.SalePointCodeList = [];
+  if(type=='change') this.searchBranchValue = value;
+  if(this.searchBranchValue==null){
+    this.searchBranchValue=this.regulatoryCode;
+  }
+  let ReqObj = {
+    "InsuranceId": this.insuranceId,
+    "SpCode": this.searchBranchValue
+  }
+  let urlLink = `${this.motorApiUrl}api/getbrokerspcode`;
+  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+  (data: any) => {
+      if(data.Result){
+        this.SalePointCodeList = data.Result;
+      }
+    },
+    (err) => { },
+  );
+}
+editBranch(value){
+  this.branchDetailsPopup=true;
+  this.brokerBranchName=value.BrokerBranchName;
+  this.branchName=value.BranchCode;
+  this.branchType=value.BranchType;
+  this.salePointCode=value.SalePointCode;
+  this.address1=value.Address1;
+  this.address2=value.Address2;
+  this.email=value.Email;
+  this.mobile=value.Mobile;
+  this.effectiveDate=value.EffectiveDateStart;
+  this.remarks=value.Remarks;
+  this.Status=value.Status;
+  this.subSourceId = value.SourceType;
+  this.DepartmentCode="11";
+  this.AttachedBranchCode=value.AttachedBranchCode;
+  this.BranchCode=value.BrokerBranchCode;
+  this.BrokerBranchCode=value.BrokerBranchCode;
+  this.getMainBranchList();
+}
+branchFormReset(){
+  this.branchName=null,this.brokerBranchName=null;this.branchType='Main';this.salePointCode=null;
+  this.address1=null;this.address2=null;this.email=null;this.mobile=null;this.effectiveDate=this.effectiveDate;
+  this.remarks=null;this.Status='Y';this.BranchCode=null;
+  this.getMainBranchList();
+}
+getMainBranchList(){
+  let ReqObj = {"InsuranceId": this.insuranceId}
+  let urlLink = `${this.CommonApiUrl}master/dropdown/branchmaster`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+          let obj=[{"Code":null,"CodeDesc":"---Select---"}]
+            this.branchList = obj.concat(data.Result);
+        }
+      },
+      (err) => { },
+    );
 }
 }
