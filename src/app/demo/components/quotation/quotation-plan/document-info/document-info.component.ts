@@ -475,7 +475,7 @@ export class DocumentInfoComponent {
     }
     else if(this.productId=='5' || this.productId=='32' || this.productId=='39' || this.productId=='14' || this.productId=='15' || this.productId=='19' || this.productId=='1' || this.productId=='6' || this.productId=='16' || this.productId =='21' || this.productId =='26' || this.productId =='25' || this.productId =='24' || this.productId=='42' || this.productId=='43' || this.productId=='13' || this.productId=='27'){
       //this.router.navigate(['/quotation/plan/premium-details']);
-      if(this.productId=='6' || this.productId=='13' || this.productId=='16') this.router.navigate(['/quotation/plan/premium-details']);
+      if(this.productId=='6' || this.productId=='13' || this.productId=='16' || this.productId=='1') this.router.navigate(['/quotation/plan/premium-details']);
       else this.router.navigate(['/quotation/plan/main/accessories']);
     }
     else{

@@ -31,24 +31,17 @@ export class EmployersLiabilitytwo{
                 {
                   fieldGroupClassName: 'grid mt-2',
                     fieldGroup: [
+                     
                       {
-                        className: 'col-12 md:col-6 lg:col-6 p-2',
-                        type: 'displays',
-                
-                        templateOptions: {
-                          label: `Occupation`,
-                          required: true,
-      
-                        },
-                      },
-                      {
-                        className: 'col-12 md:col-4 lg:col-4',
+                        className: 'col-12 md:col-6 lg:col-6',
                         type: 'ngselect',
+                        
                         key: 'LiabilityOccupationId',
                         defaultValue: '',
                         props: {
-                          label: ``,
+                          label: `Occupation`,
                           disabled: this.checkDisable('OccupationType'),
+                          required : true,
                           options: [
           
                           ],
@@ -61,29 +54,17 @@ export class EmployersLiabilitytwo{
                         },
                         expressions: {
                         },
-                      }
-                    ]
-                },
-                {
-                  fieldGroupClassName: 'grid mt-2',
-                    fieldGroup: [
-                      {
-                        className: 'col-12 md:col-6 lg:col-6 p-2',
-                        type: 'displays',
-                
-                        templateOptions: {
-                          label: `Others Description`,
-                          required: false,
-      
-                        },
                       },
                       {
-                        className: 'col-12 md:col-4 lg:col-4',
+                        className: 'col-12 md:col-3 lg:col-3',
                         type: 'input',
                         key: 'otheroption',
                         defaultValue: '',
+                        hide:true,
+                        hideExpression: true,
                         props: {
-                          label: ``,
+                          label: `Others Description`,
+                          required: false,
                           disabled: this.checkDisable('LiabilityOccupationId'),
                         },
                         validators: {
@@ -92,58 +73,30 @@ export class EmployersLiabilitytwo{
                         hooks: {
                         },
                         expressions: {
-                        },
-                      }
-                    ]
-                },
-                {
-                  fieldGroupClassName: 'grid mt-2',
-                    fieldGroup: [
-                      {
-                        className: 'col-12 md:col-6 lg:col-6 p-2',
-                        type: 'displays',
-                
-                        templateOptions: {
-                          label: `Employee Count`,
-                          required: false,
-      
+                          
                         },
                       },
                       {
-                        className: 'col-12 md:col-4 lg:col-4',
+                        className: 'col-12 md:col-3 lg:col-3',
                         type: 'input',
                         key: 'TotalNoOfEmployees',
                         templateOptions: {
-                          label: '',
+                          label: `Employee Count`,
                           disabled: this.checkDisable('SumInsured'),
                           required: true,
                         },
                         validators: {
                           validation: [ForceLengthValidators.maxLength(3), ForceLengthValidators.min(1)]
                         },
-                      }
-                    ]
-                },
-                {
-                  fieldGroupClassName: 'grid mt-2',
-                    fieldGroup: [
-                      {
-                        className: 'col-12 md:col-6 lg:col-6 p-2',
-                        type: 'displays',
-                
-                        templateOptions: {
-                          label: `Sum Insured`,
-                          required: true,
-      
-                        },
                       },
                       {
-                        className: 'col-12 md:col-4 lg:col-4',
+                        className: 'col-12 md:col-3 lg:col-3',
                         type: 'commaSeparator',
                         key: 'EmpLiabilitySi',
                         defaultValue: '0',
                         props: {
-                          label: ``,
+                          label: `Sum Insured`,
+                          required: true,
                           disabled: this.checkDisable('SumInsured'),
                           maxLength: 15,
                           options: [
@@ -162,98 +115,7 @@ export class EmployersLiabilitytwo{
                     ]
                 }
               ]
-            },
-            //   fieldGroup: [
-            //     {
-            //       fieldGroupClassName: 'grid',
-            //       fieldGroup: [
-            //         {
-            //           fieldGroupClassName: 'grid',
-            //           fieldGroup: [
-            //             {
-            //                 type: 'ngselect',
-            //                 key: 'LiabilityOccupationId',
-            //                 defaultValue: '',
-            //                 className: 'col-12',
-            //                 props: {
-            //                   label: `Occupation`,
-            //                   disabled: this.checkDisable('OccupationType'),
-            //                   required: true,
-            //                   options: [
-              
-            //                   ],
-              
-            //                 },
-            //                 validators: {
-            //                   validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-            //                 },
-            //                 hooks: {
-            //                 },
-            //                 expressions: {
-            //                 },
-            //               },
-            //               {
-            //                 type: 'input',
-            //                 key: 'otheroption',
-            //                 defaultValue: '',
-            //                 className: 'col-12',
-            //                 props: {
-            //                   label: `Others Description`,
-            //                   disabled: this.checkDisable('LiabilityOccupationId'),
-            //                 },
-            //                 validators: {
-            //                   validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
-            //                 },
-            //                 hooks: {
-            //                 },
-            //                 expressions: {
-            //                 },
-      
-            //               },
-            //               {
-            //                 className: 'col-12',
-            //                 type: 'number',
-            //                 key: 'TotalNoOfEmployees',
-            //                 templateOptions: {
-            //                   label: 'Employee Count',
-            //                   disabled: this.checkDisable('SumInsured'),
-            //                   required: true,
-            //                 },
-            //                 validators: {
-            //                   validation: [ForceLengthValidators.maxLength(3), ForceLengthValidators.min(1)]
-            //                 },
-            //               },
-                          
-            //               {
-            //                 type: 'commaSeparator',
-            //                 className: 'col-12',
-            //                 key: 'EmpLiabilitySi',
-            //                 defaultValue: '0',
-            //                 props: {
-            //                   label: `SumInsured`,
-            //                   disabled: this.checkDisable('SumInsured'),
-            //                   maxLength: 15,
-            //                   required: true,
-            //                   options: [
-              
-            //                   ],
-              
-            //                 },
-            //                 validators: {
-            //                   validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-            //                 },
-            //                 hooks: {
-            //                 },
-            //                 expressions: {
-            //                 },
-            //               },
-                        
-            //           ]
-            //         }
-            //       ]
-            //     }
-            //   ]
-            // }
+            }
           ];
     }
     fields:FormlyFieldConfig[]=[];

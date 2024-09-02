@@ -41,8 +41,14 @@ export class QuotationPlanComponent {
   }
   setRiskDetails(riskDetails){
     if(riskDetails.length!=0){
-       this.riskDetails = riskDetails;
-      
+      this.riskDetails=[];let list=[],i=0;
+      for(let entry of riskDetails){
+        let obj = list.find(ele=>ele.LocationId==entry.LocationId);
+        if(obj){obj.SectionDetails[0].Covers = obj.SectionDetails[0].Covers.concat(entry.SectionDetails[0].Covers)}
+        else{list.push(entry)}
+        i+=1;
+        if(i==riskDetails.length){ this.riskDetails = list; console.log("FInal Merfe list",list)}
+      }      
     }
   }
   onTabClicked(rowData){
@@ -109,12 +115,12 @@ export class QuotationPlanComponent {
       // if(menu.TravelId=='5') return `Grand Seniors (${menu.TotalPassengers})`;
     }
     else if(this.productId!='59' && this.productId!='4' && this.productId!='5' && this.productId!='19' && this.productId!='14' && this.productId!='32') return this.productName;
-    else if(this.productId=='19' || this.productId=='14' || this.productId=='32') return menu.SectionDetails[0].SectionName;
+    else if(this.productId=='19' || this.productId=='14' || this.productId=='32') return menu.LocationName;
     else if(this.productId=='59') return menu.LocationName
     else return '';
   }
   checkCoverSelected(cover){
-    if(cover.isSelected=='Y' && cover.CoverageType!='A') return true;
+    if((cover.isSelected=='Y' && cover.CoverageType!='A') || cover.CoverageType=='O') return true;
     else if(cover.SubCovers){
       if(cover.SubCovers.some(ele=>ele.isSelected=='Y')) return true;
       else return false;
