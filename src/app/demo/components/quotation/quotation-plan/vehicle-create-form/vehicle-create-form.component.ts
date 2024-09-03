@@ -535,7 +535,6 @@ export class VehicleCreateFormComponent implements OnInit {
         let entry = this.usageList.find(ele=>ele.CodeDesc==this.vehicleDetails?.Motorusage || ele.Code==this.vehicleDetails?.Motorusage);
         if(entry) usageId = entry.Code;
         if(this.engineNo!=null && this.engineNo!='') this.vehicleDetails['EngineNumber'] = this.engineNo;
-        console.log(this.vehicleDetails,"this.vehicleDetails.Newvalue")
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": this.vehicleDetails?.AcExecutiveId,
@@ -669,8 +668,8 @@ export class VehicleCreateFormComponent implements OnInit {
         "CollateralCompanyAddress": this.vehicleDetails.CollateralCompanyAddress,
         "CollateralCompanyName": this.vehicleDetails.CollateralCompanyName,
         "LoanAmount": this.vehicleDetails.LoanAmount,
-        "PaCoverId":this.vehicleDetails.PACoverId,
-        "UsageId":this.vehicleDetails.VehicleUsage,
+        "PaCoverId":this.vehicleDetails.PaCoverId,
+        "UsageId":this.vehicleDetails.UsageId,
         "VehicleTypeIvr": this.vehicleDetails.VehicleType,
         "ZoneCirculation": this.vehicleDetails.ZoneCirculation,
         "Scenarios": {
