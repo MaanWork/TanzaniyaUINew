@@ -4488,6 +4488,12 @@ backPlan()
       this.productItem.FidEmpCount = section.FidEmpCount;
       if(section.FidEmpSi) this.productItem.FidEmpSi = String(section.FidEmpSi);
     }
+    else if(this.productId=='61'){
+      this.productItem.BondSI = section.BondSuminsured;
+      this.productItem.TypeOfBond = section.BondType;
+      if(section.IndustryType) this.productItem.IndustryId = String(section.IndustryType);
+      this.productItem.NoOfYears = section.BondYear;
+    }
   }
   addMoneyCommon(location){
     let valid = this.checkMoneyValidation();
@@ -4695,7 +4701,7 @@ backPlan()
     if(this.productId=='61'){
       this.productItem.BondSI = entry.SectionList[0].BondSuminsured;
       this.productItem.TypeOfBond = entry.SectionList[0].BondType;
-      this.productItem.IndustryId = entry.SectionList[0].IndustryId;
+      if(entry.SectionList[0].IndustryType) this.productItem.IndustryId = String(entry.SectionList[0].IndustryType);
       this.productItem.NoOfYears = entry.SectionList[0].BondYear;
     }
     else if(this.productId=='25'){
@@ -5971,6 +5977,7 @@ backPlan()
     }
   }
   onSaveCommonNonMotor(type){
+    
     let sourcecode:any;
     let endorsementDate=null,EndorsementEffectiveDate=null,EndorsementRemarks=null,
     EndorsementType=null,EndorsementTypeDesc=null,EndtCategoryDesc=null,EndtCount=null,
@@ -6117,7 +6124,9 @@ backPlan()
                         if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
                       }
                     }
-                    else{k+=1;if(k==entry.SectionList.length && obj.SectionList.length!=0){i+=1;ReqObj.LocationList.push(obj)}
+                    else{k+=1;
+                      if(k==entry.SectionList.length && obj.SectionList.length!=0){i+=1;ReqObj.LocationList.push(obj)}
+                      else if(type=='Next'){i+=1;}
                     if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
                   }
                 }
