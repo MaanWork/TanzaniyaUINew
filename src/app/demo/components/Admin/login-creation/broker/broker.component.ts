@@ -830,7 +830,8 @@ this.password='';
            this.statusValue= this.loginInformation.Status;
            this.creditLimit= this.PersonalInformation?.CreditLimit;
            this.effectiveDate= this.loginInformation?.EffectiveDateStart;
-          
+           this.taxExcemptedYN = this.PersonalInformation?.TaxExemptedYn;
+           this.taxExcemptedCode = this.PersonalInformation?.TaxExemptedCode;
         if(this.stateCode && this.cityCode)
            this.onCountryChange('direct',this.stateCode,this.cityCode);
         }
