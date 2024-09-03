@@ -508,13 +508,15 @@
     </div>
 </p-dialog>
 
-<p-dialog  header="Products " [modal]="true"  [(visible)]="ProductsPopupTable"  [style]="{ width: '75rem' }" >
-    <p-table [value]="productList" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5">
+<p-dialog  header="Products "  [modal]="true"  [(visible)]="ProductsPopupTable"  [style]="{ width: '75rem' }" >
+    <p-table [value]="productList" #dtEmployeeProductAdd
+    [globalFilterFields]="['ProductName','SumInsuredEnd','CommissionPercent','BackDays','EffectiveDateStart']" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5">
         <ng-template pTemplate="caption">
-            <div class="flex align-items-center justify-content-between">
-                <!-- Products  -->
-                <!-- <p-button icon="pi pi-pencil"   (click)="showDialogBrokerDetails('editBranchDetail')" /> -->
-                <!-- <p-button icon="pi pi-plus"  label="Add Branch" (click)="showDialogBrokerDetails('branchDetail')" /> -->
+            <div class="table-header flex flex-warp justify-content-end">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dtEmployeeProductAdd.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                </span>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -538,7 +540,7 @@
                 </p-dropdown></td>
                 <td><input pInputText id="sumInsured" class="w-full" [(ngModel)]="data.SumInsuredStart" maxlength="16" /></td>
                 <td><input pInputText id="sumInsuredEnd" class="w-full" [(ngModel)]="data.SumInsuredEnd" maxlength="16" /></td>
-                <td ><p-button *ngIf="data.IsOptedYn=='Y'" icon="pi pi-book"  styleClass="p-button-outlined"  (click)="showEndorsement(data,'endrose')"/></td>
+                <td ><p-button  icon="pi pi-book" *ngIf="data.IsOptedYn=='Y'" styleClass="p-button-outlined"  (click)="showEndorsement(data,'endrose')"/></td>
             </tr>
            
         </ng-template>

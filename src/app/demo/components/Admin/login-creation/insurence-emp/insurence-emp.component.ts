@@ -1275,7 +1275,7 @@ onProceedEndorse(type){
  //  }
  }
  onsubmitsEndorse(){
-
+  this.onProceedIssuer('direct')
   let i=0; let req:any=[];
   let selectedList = this.endorseData.filter(ele=>ele.SelectedYn=='Y');
   for(let s of selectedList){
@@ -1313,6 +1313,7 @@ onProceedEndorse(type){
      "IdType":types,
      "Ids":req
     }
+    
   let urlLink = `${this.CommonApiUrl}admin/attachloginendtids`;
   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
