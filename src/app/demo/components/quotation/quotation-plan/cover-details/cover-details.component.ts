@@ -2136,7 +2136,6 @@ export class CoverDetailsComponent {
     return entry;
   }
   onSelectCover(rowData,event,vehicleId,vehicleData,type,directType){
-    console.log("Cover Selected received",vehicleId,vehicleData)
     if(event==null){
       event = !this.canbeChecked(rowData);
     }
@@ -2147,7 +2146,7 @@ export class CoverDetailsComponent {
           if(vehicle==undefined) vehicle = vehicleData
         }
         else{
-          vehicle = this.vehicleDetailsList.find(ele=>ele.Vehicleid==vehicleId && ele.SectionId==rowData.SectionId);
+          vehicle = this.vehicleDetailsList.find(ele=>ele.Vehicleid==vehicleId && ele.SectionId==rowData.SectionId && ele.LocationId==rowData.LocationId);
         }
         
         let coverList = vehicle?.CoverList;
@@ -2176,7 +2175,7 @@ export class CoverDetailsComponent {
                       //"isReferal": rowData.isReferal
                     }
                   ],
-                  "LocationId": vehicle.LocationId,
+                  "LocationId": rowData.LocationId,
                   "Id": id,
                   "SectionId": rowData.SectionId,
 
@@ -2276,7 +2275,7 @@ export class CoverDetailsComponent {
                       //"isReferal": rowData.isReferal
                     }
                   ],
-                  "LocationId": vehicle.LocationId,
+                  "LocationId": rowData.LocationId,
                   "Id": id,
                   "SectionId": rowData.SectionId,
 
@@ -2478,7 +2477,7 @@ export class CoverDetailsComponent {
                     "SubCoverYn": "N"
                   }
                 ],
-                "LocationId": vehicle.LocationId,
+                "LocationId": rowData.LocationId,
                 "Id": id,
                 "SectionId": rowData.SectionId,
 

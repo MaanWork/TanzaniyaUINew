@@ -1371,7 +1371,7 @@
             
             <p-button *ngIf="productId=='46' && (!endorsementSection || (endorsementSection && enableAddVehicle))" label="Save & Add New" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;
         <p-button label="Next" *ngIf="(productId!='46' && productId!='63' && LocationListAlt.length>1) && (tabIndex!=LocationListAlt.length-1)" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;
-        <p-button label="Proceed" *ngIf="(productId!='46' && LocationListAlt.length!=0 && checkLocationDetail()) || productId=='46' || productId=='63'" size="small" (click)="onSubmit(null)"></p-button>
+        <p-button label="Proceed" *ngIf="(productId!='46' && LocationListAlt.length!=0 && checkLocationDetail()) || productId=='46' || productId=='63' || productId=='59'" size="small" (click)="onSubmit(null)"></p-button>
     </div>
 </div>
     
