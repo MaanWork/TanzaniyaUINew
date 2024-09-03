@@ -1307,6 +1307,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
       "InsuranceId": this.insuranceId,
       "BranchCode": this.branchCode
     }
+    if(this.insuranceId=='100040'){
+      ReqObj['BodyId']=this.bodyTypeValue
+    }
     urlLink = `${this.CommonApiUrl}api/dropdown/induvidual/vehicleusage`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
@@ -1750,8 +1753,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
     let ReqObj = {
       "InsuranceId": this.insuranceId,
       "SectionId": sectionId,
-      "BranchCode": this.branchCode
+      "BranchCode": this.branchCode,
+      
     }
+    
     let urlLink = `${this.CommonApiUrl}api/dropdown/vehicleusage`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
@@ -2266,6 +2271,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
   }
   getMotorDetails(index) {
+    //alert("1")
     let vehicleDetails = this.vehicleDetailsList[index];
     this.vehicleId = vehicleDetails?.Vehicleid;
 
@@ -2280,7 +2286,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if (data.Result) {
           this.vehicleDetails = data.Result;
           this.tabIndex = index + 1;
-          if (this.insuranceId == '100040' || this.insuranceId == '100042') this.getInsuranceTypeListIvory();
+         // if (this.insuranceId == '100040' || this.insuranceId == '100042') this.getInsuranceTypeListIvory();
           this.productItem.InsuranceClass = data?.Result.InsuranceClass;
           this.vehicleDetails['InsuranceClass'] = this.productItem.InsuranceClass;
           this.vehicleDetails['NoOfClaimYears'] = data?.Result.NoOfClaimYears;
@@ -2311,6 +2317,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           this.vehicleDetails['LoanAmount'] = data?.Result.LoanAmount;
           this.vehicleDetails['UsageId'] = data?.Result.UsageId;
           this.vehicleDetails['VehicleTypeIvr'] = data?.Result.VehicleTypeIvr;
+         // this.vehicleDetails['VehicleType'] = data?.Result.VehicleType;
           this.vehicleDetails['ZoneCirculation'] = data?.Result.ZoneCirculation;
           this.typeValue = this.vehicleDetails?.Insurancetype;
           this.classValue = this.vehicleDetails?.InsuranceClass;
@@ -3761,6 +3768,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     this.customerFilterSuggestions = [{ 'name': 'Customer 1' }, { 'name': 'Customer 2' }];
   }
   saveExistData() {
+    //alert("3")
     let i = 0, calcIndex = 0;
     for (let veh of this.vehicleDetailsList) {
       let refNo = veh?.MSRefNo;
@@ -5476,6 +5484,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       });
   }
   getEditVehicleDetails(vehicleId, type) {
+    //alert("2")
     let ReqObj = {
       "RequestReferenceNo": this.quoteRefNo,
       "Idnumber": this.customerDetails?.IdNumber,
@@ -6007,6 +6016,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.vehicleClassValue = this.vehicleDetails?.VehicleClass;
       this.productItem.VehicleClass = this.vehicleDetails?.VehicleClass;
     }
+    console.log(this.vehicleDetails,"this.vehicleDetailsthis.vehicleDetails");
+   // alert(this.vehicleDetails?.SumInsured)
     this.productItem.VehicleSI = this.vehicleDetails?.SumInsured;
     this.productItem.WindShieldSI = this.vehicleDetails?.WindScreenSumInsured;
     this.productItem.ExtendedTPPDSI = this.vehicleDetails?.TppdIncreaeLimit;
@@ -6194,6 +6205,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       "InsuranceId": this.insuranceId,
       "BranchCode": this.branchCode
     }
+    
     let urlLink = `${this.CommonApiUrl}api/dropdown/induvidual/vehicleusage`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {

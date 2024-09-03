@@ -1076,7 +1076,7 @@
                     </div>  
                 </td>
                 <td style="min-width: 100px">
-                    <p-calendar  [showIcon]="true" [inputId]="'icondisplay'+i" dateFormat="dd/mm/yy" (onSelect)="changeEffectiveDate(product)" appendTo="body" styleClass="w-full" [(ngModel)]="product.EffectiveDateStart" class="w-full"/>
+                    <p-calendar  [showIcon]="true" [inputId]="'icondisplay'+i" dateFormat="dd/mm/yy" (onSelect)="changeEffectiveDate(product)" appendTo="body" styleClass="w-full" [showButtonBar]="true" [(ngModel)]="product.EffectiveDateStart" class="w-full"/>
                 </td>
             </tr>
         </ng-template>
