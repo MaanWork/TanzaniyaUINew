@@ -205,10 +205,11 @@ remarksError: boolean=false;
   }
 
   ngOnInit(){
+    this.minDate = new Date();
+    this.newslist['EffectiveDateStart']=this.minDate
     this.getBrokerList();
     this.getMobileCodeList();
     this.getCountryList();
-    this.minDate = new Date();
     this.PaymentList = [{"Code":"1","CodeDesc":"Cash"},{"Code":"2","CodeDesc":"Cheque"}];
     let com = sessionStorage.getItem('editBroker');
     if (com) {
@@ -337,7 +338,7 @@ remarksError: boolean=false;
   }
   branchFormReset(){
     this.branchName=null,this.brokerBranchName=null;this.branchType='Main';this.salePointCode=null;
-    this.address1=null;this.address2=null;this.email=null;this.mobile=null;this.effectiveDate=null;
+    this.address1=null;this.address2=null;this.email=null;this.mobile=null;
     this.remarks=null;this.Status='Y';this.BranchCode=null;
     this.getMainBranchList();
   }
