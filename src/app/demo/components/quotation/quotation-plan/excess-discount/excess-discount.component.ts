@@ -247,6 +247,9 @@ emiyn="N";
   termsSectionList: { SectionId: string; SectionName: string; }[];
   termsSectionId: string;
   showCoverList: boolean=false;newAddClauses: boolean=false;newAddExclusion: boolean=false;newAddWarranty: boolean=false;
+  actualRatePercent: any;
+  minRatePercent: any;
+  coverRateError: boolean;
   constructor(public sharedService: SharedService,private authService: AuthService,private router:Router,private modalService: NgbModal,
     private appComp:AppComponent,private translate:TranslateService,
     private datePipe:DatePipe,public dialog: MatDialog) {
@@ -3386,7 +3389,7 @@ emiyn="N";
     }
     setDiscountDetails(vehData,rowData,modal){
       this.discountList = [];this.loadingList=[];
-      this.selectedVehId = vehData.VehicleId;
+      this.selectedVehId = vehData.VehicleId;this.coverRateError=false;
       this.selectedCoverId = rowData.CoverId;
       this.ratePercent = rowData.Rate;
       this.CoverName = rowData.CoverName;
@@ -3412,6 +3415,10 @@ emiyn="N";
         this.calcType = rowData.CalcType;
         this.selectedSectionId = vehData.SectionId;
         this.ratePercent = rowData.Rate;
+        if(rowData.ActualRate) this.actualRatePercent = rowData.ActualRate;
+        else this.actualRatePercent = 0;
+        if(rowData.MinRate) this.minRatePercent = rowData.MinRate;
+        else this.minRatePercent = 0;
         this.excessPercent = rowData.ExcessPercent;
         this.excessAmount = rowData.ExcessAmount;
         this.beforeDiscount = rowData.PremiumBeforeDiscount;
@@ -3433,6 +3440,59 @@ emiyn="N";
         }
       }
       else this.finalSaveLoading(modal)
+    }
+    checkRangeCoverRate(){
+      if(this.minRatePercent!=null && this.actualRatePercent!=null){
+          if(this.ratePercent!='' && this.ratePercent!=null){
+            if(Number(this.ratePercent)<this.minRatePercent || Number(this.ratePercent)>this.actualRatePercent){
+              this.coverRateError = true;
+            }
+            else this.coverRateError = false;
+          }
+      }
+    }
+    checkDiscountRate(rowData,type){
+      if((rowData.DiscountRate!=null && rowData.DiscountRate!='' && type=='P') || (rowData.DiscountAmount!=null && rowData.DiscountAmount!='' && type=='A')){
+        let actualRate = 0,minRate=0,rate=null;
+        if(type=='A') rate=Number(rowData.DiscountAmount.replaceAll(',',''));
+        else rate = Number(rowData.DiscountRate)
+        if(rowData.ActualRate!=null && rowData.ActualRate!=undefined){actualRate=rowData.ActualRate}
+        if(rowData.MinRate!=null && rowData.MinRate!=undefined){minRate=rowData.MinRate}
+        if(actualRate!=0 && minRate!=0){
+          if(rate<minRate || rate>actualRate) rowData['RateError']=true;
+          else rowData['RateError']=true;
+        }
+        else rowData['RateError']=false;
+      }
+      else rowData['RateError'] = false; 
+    }
+    checkLoadingRate(rowData,type){
+      if((rowData.LoadingRate!=null && rowData.LoadingRate!='' && type=='P') || (rowData.LoadingAmount!=null && rowData.LoadingAmount!='' && type=='A')){
+        let actualRate = 0,minRate=0,rate=null;
+        if(type=='A') rate=Number(rowData.LoadingAmount.replaceAll(',',''));
+        else rate = Number(rowData.LoadingRate)
+        if(rowData.ActualRate!=null && rowData.ActualRate!=undefined){actualRate=rowData.ActualRate}
+        if(rowData.MinRate!=null && rowData.MinRate!=undefined){minRate=rowData.MinRate}
+        if(actualRate!=0 && minRate!=0){
+          if(rate<minRate || rate>actualRate) rowData['RateError']=true;
+          else rowData['RateError']=true;
+        }
+        else rowData['RateError']=false;
+      }
+      else rowData['RateError'] = false; 
+    }
+    checkSubmitValue(){
+      return (!this.coverRateError && !this.loadingList.some(ele=>ele.RateError==true) && !this.discountList.some(ele=>ele.RateError==true))
+    }
+    getLoadingHeader(row){
+      if(this.lang=='en') return `Rate Must be between ${row.MinRate} - ${row.ActualRate}`;
+      else if(this.lang=='fr') return `La valeur du taux doit être comprise entre ${row.MinRate} - ${row.ActualRate}`;
+      else if(this.lang=='po') return `O valor da taxa deve estar entre ${row.MinRate} - ${row.ActualRate}`;
+    }
+    getValidationHeader(){
+      if(this.lang=='en') return `Rate Must be between ${this.minRatePercent} - ${this.actualRatePercent}`;
+      else if(this.lang=='fr') return `La valeur du taux doit être comprise entre ${this.minRatePercent} - ${this.actualRatePercent}`;
+      else if(this.lang=='po') return `O valor da taxa deve estar entre ${this.minRatePercent} - ${this.actualRatePercent}`;
     }
     finalSaveLoading(modal){
       let vehData = this.vehicleDetailsList.filter(ele=>ele.VehicleId==this.selectedVehId);

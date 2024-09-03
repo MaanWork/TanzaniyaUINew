@@ -3814,8 +3814,9 @@
                                     <ng-container
                                         *ngIf="adminSection || (userType=='Issuer' && finalizeYN!='Y' && !endorsementSection)">
                                         <div class="input-group">
+                                            Entered
                                             <input pInputText id="ratePercent" class="searchText"
-                                                [(ngModel)]="ratePercent"
+                                                [(ngModel)]="ratePercent" (keyup)="checkRangeCoverRate()"
                                                 style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important"
                                                 maxlength="25">
                                             <div class="input-group-append">
@@ -3823,6 +3824,7 @@
                                                     id="basic-addon2">{{currencyCode}}</span>
                                             </div>
                                         </div>
+                                        <b class="text-danger referal_data" *ngIf="coverRateError">{{getValidationHeader()}}</b><br>
                                     </ng-container>
                                 </ng-container>
                                 <ng-container *ngIf="calcType=='P'">
@@ -3834,7 +3836,7 @@
                                         *ngIf="adminSection || (userType=='Issuer' && finalizeYN!='Y' && !endorsementSection)">
                                         <div class="flex flex-wrap">
                                             <input pInputText id="ratePercent" class="searchText"
-                                                [(ngModel)]="ratePercent"
+                                                [(ngModel)]="ratePercent" (keyup)="checkRangeCoverRate()"
                                                 style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important"
                                                 maxlength="25">
                                             <div>
@@ -3842,6 +3844,7 @@
                                                     id="basic-addon2">%</span>
                                             </div>
                                         </div>
+                                        <b class="text-danger referal_data" *ngIf="coverRateError">{{getValidationHeader()}}</b><br>
 
                                     </ng-container>
                                 </ng-container>
@@ -3873,17 +3876,80 @@
 
                             </tr>
                             <tr *ngFor="let discount of discountList">
-                                <td style="border:0.5px solid grey !important;padding: 8px; ">{{discount.DiscountDesc}}
-                                </td>
-                                <td style="border:0.5px solid grey !important;padding: 8px;"></td>
-                                <td style="text-align: end;border:0.5px solid grey !important;padding: 8px;">
+                                <td style="border:0.5px solid grey !important;padding: 8px;text-align: start;">{{discount.DiscountDesc}}</td>
+                                <td style="border:0.5px solid grey !important;padding: 8px;text-align: end;">
                                     <ng-container
-                                        *ngIf="discount.DiscountAmount==null || discount.DiscountAmount=='0.0'">
-                                        0
+                                        *ngIf="(adminSection || ((userType=='Issuer' && finalizeYN!='Y' && !endorsementSection))) && discount.LoadingCalcType!='A'">
+                                        <ng-container *ngIf="discount.LoadingCalcType!='P'">
+                                            <ng-container *ngIf="discount.LoadingRate!=null">
+                                                <span class="spancommon span_font_size">0</span>
+                                            </ng-container>
+                                        </ng-container>
+                                        <ng-container *ngIf="discount.DiscountCalcType=='P'">
+                                            <div class="flex flex-wrap">
+                                                <input pInputText [id]="'Rate'+i" class="searchText"
+                                                    [(ngModel)]="discount['DiscountRate']" (keyup)="checkDiscountRate(discount,'P')"
+                                                    style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important"
+                                                    maxlength="5">
+                                                    <br *ngIf="discount.RateError"><b class="text-danger referal_data" *ngIf="discount.RateError">{{getLoadingHeader(discount)}}</b>
+                                                <!-- <div >
+                                                  &nbsp;<span class="input-group-text" style="padding: 0.05rem 0.5rem;" id="basic-addon2">%</span>
+                                                </div> -->
+                                            </div>
+                                            <!-- <input type="text" [id]="'Rate'+i" class="input-form-control without-icon"
+                                                style="width: auto !important;max-width:80px;text-align:right !important"
+                                                [(ngModel)]="loading['LoadingRate']" maxlength="5"> -->
+                                        </ng-container>
                                     </ng-container>
                                     <ng-container
-                                        *ngIf="discount.DiscountAmount!=0 && discount.DiscountAmount!=null || discount.DiscountAmount!='0.0'">
-                                        {{discount.DiscountAmount | commaseparator}}
+                                        *ngIf="(((!adminSection && userType!='Issuer') || endorsementSection) || finalizeYN=='Y' ) && discount.DiscountCalcType!='A'">
+                                        <ng-container *ngIf="discount.DiscountRate==null">
+                                            0
+                                        </ng-container>
+                                        <ng-container *ngIf="discount.DiscountRate!=0 && discount.DiscountRate!=null">
+                                            <span class="spancommon span_font_size">{{discount.DiscountRate}}</span>
+                                        </ng-container>
+
+                                    </ng-container>
+                                </td>
+                                <td style="border:0.5px solid grey !important;padding: 8px;text-align: end;">
+                                    <ng-container
+                                        *ngIf="(adminSection || ((userType=='Issuer' && finalizeYN!='Y' && !endorsementSection)))">
+                                        <ng-container *ngIf="discount.DiscountCalcType!='A'">
+                                            <ng-container *ngIf="discount.DiscountAmount!=null && discount.DiscountAmount!=0">
+                                                {{discount.DiscountAmount | commaseparator}}
+                                                
+                                            </ng-container>
+                                            <ng-container *ngIf="discount.DiscountAmount==null || discount.DiscountAmount==0">
+                                                <span class="spancommon span_font_size">0</span>
+                                            </ng-container>
+                                        </ng-container>
+                                        
+                                        <ng-container *ngIf="discount.DiscountCalcType=='A'">
+                                            <div class="flex flex-wrap">
+                                                <input pInputText [id]="'Rate'+i" class="searchText"
+                                                    [(ngModel)]="discount['DiscountAmount']" (keyup)="checkDiscountRate(discount,'A')"
+                                                    style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important"
+                                                    maxlength="5">
+                                                    <br *ngIf="discount.RateError"><b class="text-danger referal_data" *ngIf="discount.RateError">{{getLoadingHeader(discount)}}</b>
+                                                <!-- <div >
+                                                  &nbsp;<span class="input-group-text" style="padding: 0.05rem 0.5rem;" id="basic-addon2">%</span>
+                                                </div> -->
+                                            </div>
+                                            <!-- <input type="text" [id]="'Rate'+i" class="input-form-control without-icon"
+                                                style="width: auto !important;max-width:80px;text-align:right !important"
+                                                [(ngModel)]="loading['LoadingRate']" maxlength="5"> -->
+                                        </ng-container>
+                                    </ng-container>
+                                    <ng-container
+                                        *ngIf="(((!adminSection && userType!='Issuer') || endorsementSection) || finalizeYN=='Y' )">
+                                        <ng-container *ngIf="discount.DiscountAmount==null">
+                                            0
+                                        </ng-container>
+                                        <ng-container *ngIf="loading.DiscountAmount!=0 && loading.DiscountAmount!=null">
+                                            <span class="spancommon span_font_size">{{discount.DiscountAmount | commaseparator}}</span>
+                                        </ng-container>
+
                                     </ng-container>
                                 </td>
                             </tr>
@@ -3909,9 +3975,10 @@
                                         <ng-container *ngIf="loading.LoadingCalcType=='P'">
                                             <div class="flex flex-wrap">
                                                 <input pInputText [id]="'Rate'+i" class="searchText"
-                                                    [(ngModel)]="loading['LoadingRate']"
+                                                    [(ngModel)]="loading['LoadingRate']" (keyup)="checkLoadingRate(loading,'P')"
                                                     style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important"
                                                     maxlength="5">
+                                                    <br *ngIf="loading.RateError"><b class="text-danger referal_data" *ngIf="loading.RateError">{{getLoadingHeader(loading)}}</b>
                                                 <!-- <div >
                                                   &nbsp;<span class="input-group-text" style="padding: 0.05rem 0.5rem;" id="basic-addon2">%</span>
                                                 </div> -->
@@ -3947,9 +4014,10 @@
                                         </ng-container>
                                         <ng-container *ngIf="loading.LoadingCalcType=='A'">
                                             <input pInputText [id]="'Amount'+i" class="searchText"
-                                                (keyup)="premiumComma(i,loading.LoadingAmount)"
+                                                (keyup)="premiumComma(i,loading.LoadingAmount);checkLoadingRate(loading,'A')"
                                                 [(ngModel)]="loading['LoadingAmount']"
                                                 style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important">
+                                                <br *ngIf="loading.RateError"><b class="text-danger referal_data" *ngIf="loading.RateError">{{getLoadingHeader(loading)}}</b>
                                             <!-- <input type="text" [id]="'Amount'+i" class="input-form-control without-icon"
                                                 (keyup)="premiumComma(i,loading.LoadingAmount)"
                                                 style="width: auto !important;max-width:300px;text-align:right !important"
@@ -4036,15 +4104,74 @@
                             </tr>
                             <tr *ngFor="let discount of discountList">
                                 <td>{{discount.DiscountDesc}}</td>
-                                <td></td>
-                                <td style="text-align: end;">
+                                <td>
                                     <ng-container
-                                        *ngIf="discount.DiscountAmount==null || discount.DiscountAmount=='0.0'">
-                                        0
+                                        *ngIf="(adminSection || ((userType=='Issuer' && finalizeYN!='Y' && !endorsementSection))) && discount.LoadingCalcType!='A'">
+                                        <ng-container *ngIf="discount.LoadingCalcType!='P'">
+                                            <ng-container *ngIf="discount.LoadingRate!=null">
+                                                <span class="spancommon span_font_size">0</span>
+                                            </ng-container>
+                                        </ng-container>
+                                        <ng-container *ngIf="discount.DiscountCalcType=='P'">
+                                            <div class="flex flex-wrap">
+                                                <input pInputText [id]="'Rate'+i" class="searchText"
+                                                    [(ngModel)]="discount['DiscountRate']" (keyup)="checkDiscountRate(discount,'P')"
+                                                    style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important"
+                                                    maxlength="5">
+                                                    <br *ngIf="discount.RateError"><b class="text-danger referal_data" *ngIf="discount.RateError">{{getLoadingHeader(discount)}}</b>
+                                                <!-- <div >
+                                                  &nbsp;<span class="input-group-text" style="padding: 0.05rem 0.5rem;" id="basic-addon2">%</span>
+                                                </div> -->
+                                            </div>
+                                            <!-- <input type="text" [id]="'Rate'+i" class="input-form-control without-icon"
+                                                style="width: auto !important;max-width:80px;text-align:right !important"
+                                                [(ngModel)]="loading['LoadingRate']" maxlength="5"> -->
+                                        </ng-container>
                                     </ng-container>
                                     <ng-container
-                                        *ngIf="discount.DiscountAmount!=0 && discount.DiscountAmount!=null || discount.DiscountAmount!='0.0'">
-                                        {{discount.DiscountAmount | commaseparator}}
+                                        *ngIf="(((!adminSection && userType!='Issuer') || endorsementSection) || finalizeYN=='Y' ) && discount.DiscountCalcType!='A'">
+                                        <ng-container *ngIf="discount.DiscountRate==null">
+                                            0
+                                        </ng-container>
+                                        <ng-container *ngIf="discount.DiscountRate!=0 && discount.DiscountRate!=null">
+                                            <span class="spancommon span_font_size">{{discount.DiscountRate}}</span>
+                                        </ng-container>
+
+                                    </ng-container>
+                                </td>
+                                <td style="text-align: end;">
+                                    <ng-container
+                                        *ngIf="(adminSection || ((userType=='Issuer' && finalizeYN!='Y' && !endorsementSection)))">
+                                        <ng-container *ngIf="discount.DiscountCalcType!='P'">
+                                            <ng-container *ngIf="discount.DiscountRate!=null">
+                                                <span class="spancommon span_font_size">0</span>
+                                            </ng-container>
+                                        </ng-container>
+                                        <ng-container *ngIf="discount.DiscountCalcType=='A'">
+                                            <div class="flex flex-wrap">
+                                                <input pInputText [id]="'Rate'+i" class="searchText"
+                                                    [(ngModel)]="discount['DiscountRate']" (keyup)="checkDiscountRate(discount,'A')"
+                                                    style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important"
+                                                    maxlength="5">
+                                                    <br *ngIf="discount.RateError"><b class="text-danger referal_data" *ngIf="discount.RateError">{{getLoadingHeader(discount)}}</b>
+                                                <!-- <div >
+                                                  &nbsp;<span class="input-group-text" style="padding: 0.05rem 0.5rem;" id="basic-addon2">%</span>
+                                                </div> -->
+                                            </div>
+                                            <!-- <input type="text" [id]="'Rate'+i" class="input-form-control without-icon"
+                                                style="width: auto !important;max-width:80px;text-align:right !important"
+                                                [(ngModel)]="loading['LoadingRate']" maxlength="5"> -->
+                                        </ng-container>
+                                    </ng-container>
+                                    <ng-container
+                                        *ngIf="(((!adminSection && userType!='Issuer') || endorsementSection) || finalizeYN=='Y' )">
+                                        <ng-container *ngIf="discount.DiscountAmount==null">
+                                            0
+                                        </ng-container>
+                                        <ng-container *ngIf="loading.DiscountAmount!=0 && loading.DiscountAmount!=null">
+                                            <span class="spancommon span_font_size">{{discount.DiscountAmount | commaseparator}}</span>
+                                        </ng-container>
+
                                     </ng-container>
                                 </td>
                             </tr>
@@ -4134,7 +4261,7 @@
         <p-button label="Close" styleClass="mr-3 mb-3 p-button-outlined"
             *ngIf="((!adminSection && userType!='Issuer') || endorsementSection) || finalizeYN=='Y'"
             (click)="showDiscountSection=!showDiscountSection"></p-button>&nbsp;
-        <p-button label="Submit" *ngIf="adminSection || (userType=='Issuer' && finalizeYN!='Y' && !endorsementSection)"
+        <p-button label="Submit" *ngIf="(adminSection || (userType=='Issuer' && finalizeYN!='Y' && !endorsementSection)) && checkSubmitValue()"
             (click)="SaveLoadingDetails()" class="p-3 text-l mr-0"></p-button>
 
     </div>
