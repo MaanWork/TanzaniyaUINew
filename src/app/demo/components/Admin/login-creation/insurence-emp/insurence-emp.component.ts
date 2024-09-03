@@ -1275,7 +1275,7 @@ onProceedEndorse(type){
  //  }
  }
  onsubmitsEndorse(){
-  this.onProceedIssuer('direct')
+  this.onProceedIssuer('direct');
   let i=0; let req:any=[];
   let selectedList = this.endorseData.filter(ele=>ele.SelectedYn=='Y');
   for(let s of selectedList){
@@ -1315,7 +1315,8 @@ onProceedEndorse(type){
     }
     
   let urlLink = `${this.CommonApiUrl}admin/attachloginendtids`;
-  this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+  setTimeout(() => {
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
           console.log(data);
           let res:any=data;
@@ -1335,6 +1336,8 @@ onProceedEndorse(type){
         },
         (err) => { },
       );
+  }, (2000));
+  
 
 }
 onFormSubmit(){
