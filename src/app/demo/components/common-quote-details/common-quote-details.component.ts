@@ -1308,7 +1308,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       "BranchCode": this.branchCode
     }
     if(this.insuranceId=='100040'){
-      ReqObj['BodyId']=this.bodyTypeValue
+      ReqObj['BodyId']=this.vehicleDetails.VehicleType
     }
     urlLink = `${this.CommonApiUrl}api/dropdown/induvidual/vehicleusage`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -1683,6 +1683,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             let value = this.motorTypeList.find(ele => ele.Code == this.vehicleDetails?.VehicleType || ele.CodeDesc == this.vehicleDetails?.VehicleType);
             if (value) { this.bodyTypeValue = value.Code; }
           }
+          
           //this.getMotorUsageList(vehicleUsage,'direct');
           if (this.motorTypeList.length != 0) {
             let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
@@ -5925,9 +5926,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
 
       this.bodyTypeValue = this.vehicleDetails?.VehicleType;
-      if (this.vehicleDetails?.VehicleType == null || this.vehicleDetails?.VehicleType == '') {
-        this.bodyTypeValue = this.vehicleDetails?.TiraBodyType;
-      }
+      // if (this.vehicleDetails?.VehicleType == null || this.vehicleDetails?.VehicleType == '') {
+      //   this.bodyTypeValue = this.vehicleDetails?.TiraBodyType;
+      // }
       this.motorUsageValue = this.vehicleDetails?.Motorusage;
       this.productItem.MotorUsage = this.vehicleDetails?.Motorusage;
       this.tiraCoverNoteNo = this.vehicleDetails?.TiraCoverNoteNo;
