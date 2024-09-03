@@ -1308,7 +1308,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       "BranchCode": this.branchCode
     }
     if(this.insuranceId=='100040'){
-      ReqObj['BodyId']=this.bodyTypeValue
+      ReqObj['BodyId']=this.vehicleDetails.VehicleType
     }
     urlLink = `${this.CommonApiUrl}api/dropdown/induvidual/vehicleusage`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -1683,6 +1683,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             let value = this.motorTypeList.find(ele => ele.Code == this.vehicleDetails?.VehicleType || ele.CodeDesc == this.vehicleDetails?.VehicleType);
             if (value) { this.bodyTypeValue = value.Code; }
           }
+          
           //this.getMotorUsageList(vehicleUsage,'direct');
           if (this.motorTypeList.length != 0) {
             let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
@@ -2271,7 +2272,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
   }
   getMotorDetails(index) {
-    //alert("1")
     let vehicleDetails = this.vehicleDetailsList[index];
     this.vehicleId = vehicleDetails?.Vehicleid;
 
@@ -2779,7 +2779,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       "ExchangeRate": this.exchangeRate,
       "HavePromoCode": this.havePromoCodeYN,
       "PromoCode": this.promocode,
-      "CollateralYn": null,
+      "CollateralYn": 'N',
       "CollateralName": null,
       "FirstLossPayee": null,
       "FleetOwnerYn": this.vehicleDetails?.FleetOwnerYn,
@@ -3768,7 +3768,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
     this.customerFilterSuggestions = [{ 'name': 'Customer 1' }, { 'name': 'Customer 2' }];
   }
   saveExistData() {
-    //alert("3")
     let i = 0, calcIndex = 0;
     for (let veh of this.vehicleDetailsList) {
       let refNo = veh?.MSRefNo;
@@ -5484,7 +5483,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
       });
   }
   getEditVehicleDetails(vehicleId, type) {
-    //alert("2")
     let ReqObj = {
       "RequestReferenceNo": this.quoteRefNo,
       "Idnumber": this.customerDetails?.IdNumber,
@@ -5820,7 +5818,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.productItem.PACoverId = this.vehicleDetails?.PaCoverId;
       this.BankingDelegation = this.vehicleDetails?.BankingDelegation;
       this.LoanStartDate = this.vehicleDetails?.LoanStartDate;
-      //alert(this.LoanStartDate)
       this.LoanEndDate = this.vehicleDetails?.LoanEndDate;
       this.CollateralCompanyAddress = this.vehicleDetails?.CollateralCompanyAddress;
       this.CollateralCompanyName = this.vehicleDetails?.CollateralCompanyName;
@@ -5929,9 +5926,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
 
       this.bodyTypeValue = this.vehicleDetails?.VehicleType;
-      if (this.vehicleDetails?.VehicleType == null || this.vehicleDetails?.VehicleType == '') {
-        this.bodyTypeValue = this.vehicleDetails?.TiraBodyType;
-      }
+      // if (this.vehicleDetails?.VehicleType == null || this.vehicleDetails?.VehicleType == '') {
+      //   this.bodyTypeValue = this.vehicleDetails?.TiraBodyType;
+      // }
       this.motorUsageValue = this.vehicleDetails?.Motorusage;
       this.productItem.MotorUsage = this.vehicleDetails?.Motorusage;
       this.tiraCoverNoteNo = this.vehicleDetails?.TiraCoverNoteNo;
@@ -6017,17 +6014,16 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.productItem.VehicleClass = this.vehicleDetails?.VehicleClass;
     }
     console.log(this.vehicleDetails,"this.vehicleDetailsthis.vehicleDetails");
-   // alert(this.vehicleDetails?.SumInsured)
     this.productItem.VehicleSI = this.vehicleDetails?.SumInsured;
     this.productItem.WindShieldSI = this.vehicleDetails?.WindScreenSumInsured;
     this.productItem.ExtendedTPPDSI = this.vehicleDetails?.TppdIncreaeLimit;
     this.productItem.AccessoriesSI = this.vehicleDetails?.AcccessoriesSumInsured;
     this.productItem.VehicleClass = this.vehicleDetails?.VehicleClass;
     if ((this.insuranceId == '100027' || this.insuranceId == '100040' || this.insuranceId == '100042') && this.tabIndex != 0) { this.onChangeInsuranceClass('direct'); this.onchangevehicleValue(this.vehicleDetails); }
-
-    if (this.vehicleDetails.AggregatedValue) this.onChangeAggregated();
-    if (this.vehicleDetails.MarketValue) this.changeMarketValue();
-
+    if(this.insuranceId == '100040'){
+      if (this.vehicleDetails.AggregatedValue) this.onChangeAggregated();
+      if (this.vehicleDetails.MarketValue) this.changeMarketValue();
+    }
   }
   onchangevehicleValue(data) {
     let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
@@ -6130,7 +6126,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             else {
               if (this.insuranceId == '100042') { this.productItem.PurchaseDate = null; this.productItem.NoOfPassengers = null; }
               this.productItem.Inflation = null; this.productItem.Deductibles = null; this.productItem.VehicleValue = null;
-              this.productItem.VehicleSI = 0; this.productItem.AccessoriesSI = 0;
+              if (this.insuranceId == '100040')this.productItem.VehicleSI = 0; this.productItem.AccessoriesSI = 0;
               if (field.key == 'VehicleValue') {
                 // let changevehicleHooks = {
                 // onInit: (field: FormlyFieldConfig) => {
