@@ -5721,7 +5721,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
         }
       }
-      if (this.insuranceId == '100040' || this.insuranceId == '100042') {
+      if (this.insuranceId == '100040') {
         this.getInsuranceTypeAltList();
         this.getMunicipalityTrafficList();
         this.getZoneCirculation();
