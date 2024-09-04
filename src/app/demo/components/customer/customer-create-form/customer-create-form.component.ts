@@ -128,7 +128,7 @@ export class CustomerCreateFormComponent implements OnInit {
 		// ];
 		
 		this.taxExcemptedList = [
-			{ CodeDesc: '-Select-', Code: '','CodeDescLocal':'Selecione' },
+			{ CodeDesc: '-Select-', Code: '','CodeDescLocal':'Sélectionner' },
 			{ CodeDesc: 'Yes', Code: 'Y','CodeDescLocal':'Sim' },
 			{ CodeDesc: 'No', Code: 'N','CodeDescLocal':'Não'  }
 		];
@@ -187,7 +187,7 @@ export class CustomerCreateFormComponent implements OnInit {
 				(data: any) => {
 					if (data.Result) {
 						this.titleList = data.Result;
-							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Sélectionner--'}];
 							for (let i = 0; i < this.titleList.length; i++) {
 								this.titleList[i].label = this.titleList[i]['CodeDesc'];
 								this.titleList[i].value = this.titleList[i]['Code'];
@@ -308,7 +308,7 @@ export class CustomerCreateFormComponent implements OnInit {
 				}
 			}
 		if(this.insuranceId=='100040' || this.insuranceId=='100042'){
-			this.getDepartmentList('direct');
+			
 			let fieldList1 = this.personalInfoFields[0].fieldGroup;
 			let fieldList2 = this.addressInfoFields[0].fieldGroup;
 				for(let field of fieldList1){
@@ -346,7 +346,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					onInit: (field: FormlyFieldConfig) => {
 						field.form.controls['Region'].valueChanges.subscribe(() => {
 							//this.productItem.Department=''
-							
+							this.getDepartmentList('direct');
 						});
 					}
 				}
@@ -528,7 +528,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			  if(data.Result){
 				  this.socioProfessionalList = data.Result;
 				  if(this.socioProfessionalList.length!=0){
-					let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+					let defaultObj = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Sélectionner--'}];
 					for (let i = 0; i < this.socioProfessionalList.length; i++) {
 					  this.socioProfessionalList[i].label = this.socioProfessionalList[i]['CodeDesc'];
 					  this.socioProfessionalList[i].value = this.socioProfessionalList[i]['Code'];
@@ -848,7 +848,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					if (data.Result) {
 						//this.holderTypeValue = null;
 						this.policyHolderTypeList = data.Result;
-							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Sélectionner--'}];
 							for (let i = 0; i < this.policyHolderTypeList.length; i++) {
 								this.policyHolderTypeList[i].label = this.policyHolderTypeList[i]['CodeDesc'];
 								this.policyHolderTypeList[i].value = this.policyHolderTypeList[i]['Code'];
@@ -890,7 +890,7 @@ export class CustomerCreateFormComponent implements OnInit {
 						
 							// this.getOccupationLists('direct');
 						
-							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Sélectionner--'}];
 							for (let i = 0; i < this.genderList.length; i++) {
 								this.genderList[i].label = this.genderList[i]['CodeDesc'];
 								this.genderList[i].value = this.genderList[i]['Code'];
@@ -927,7 +927,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.countryList = data.Result;
-							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Sélectionner--'}];
 							//this.countryList = defaultRow.concat(this.countryList);
 							for (let i = 0; i < this.countryList.length; i++) {
 								this.countryList[i].label = this.countryList[i]['CodeDesc'];
@@ -966,7 +966,7 @@ export class CustomerCreateFormComponent implements OnInit {
 				console.log(data);
 				if (data.Result) {
 					this.nationalityList = data.Result;
-						let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+						let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Sélectionner--'}];
 						//this.countryList = defaultRow.concat(this.countryList);
 						for (let i = 0; i < this.nationalityList.length; i++) {
 							this.nationalityList[i].label = this.nationalityList[i]['CodeDesc'];
@@ -999,7 +999,7 @@ export class CustomerCreateFormComponent implements OnInit {
 	// 			console.log(data);
 	// 			if (data.Result) {
 	// 				this.occupationList = data.Result;
-	// 				let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+	// 				let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Sélectionner--'}];
 	// 				for (let i = 0; i < this.occupationList.length; i++) {
 	// 					this.occupationList[i].label = this.occupationList[i]['CodeDesc'];
 	// 					this.occupationList[i].value = this.occupationList[i]['Code'];
@@ -1032,7 +1032,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.businessTypeList = data.Result;
-							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Sélectionner--'}];
 							for (let i = 0; i < this.businessTypeList.length; i++) {
 								this.businessTypeList[i].label = this.businessTypeList[i]['CodeDesc'];
 								this.businessTypeList[i].value = this.businessTypeList[i]['Code'];
@@ -1064,7 +1064,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					console.log(data);
 					if (data.Result) {
 						this.mobileCodeList = data.Result;
-							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+							let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Sélectionner--'}];
 							for (let i = 0; i < this.mobileCodeList.length; i++) {
 								this.mobileCodeList[i].label = this.mobileCodeList[i]['CodeDesc'];
 								this.mobileCodeList[i].value = this.mobileCodeList[i]['Code'];
@@ -1163,12 +1163,12 @@ export class CustomerCreateFormComponent implements OnInit {
 				console.log(data);
 				if (data.Result) {
 					this.stateList = data.Result;
-					let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal': '-Selecione-' }]
+					let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal': '-Sélectionner-' }]
 					//this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[8].props.options = defaultRow.concat(this.stateList);
 					//this.stateList = defaultRow.concat(this.stateList)
 					// if (type == 'change') { this.productItem.CityName = ''; }
 					// if (type == 'change') { this.productItem.state = ''; this.productItem.CityName = '' };
-					let defaultRow1 = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+					let defaultRow1 = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
 					for (let i = 0; i < this.stateList.length; i++) {
 						this.stateList[i].label = this.stateList[i]['CodeDesc'];
 						this.stateList[i].value = this.stateList[i]['Code'];
@@ -1234,14 +1234,14 @@ export class CustomerCreateFormComponent implements OnInit {
 				console.log(data);
 				if (data.Result) {
 					this.regionList = data.Result;
-							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Selecione-' }]
+							let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal':'-Sélectionner-' }]
 							//this.regionList = defaultRow.concat(this.regionList);
 							
 								if(type=='change'){
 									this.productItem.state = '';
 								//	this.productItem.CityName=''
 								};
-								let defaultRow1 = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+								let defaultRow1 = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Sélectionner--'}];
 								for (let i = 0; i < this.regionList.length; i++) {
 									this.regionList[i].label = this.regionList[i]['CodeDesc'];
 									this.regionList[i].value = this.regionList[i]['Code'];
@@ -1266,7 +1266,7 @@ export class CustomerCreateFormComponent implements OnInit {
 	getDepartmentList(type) {
 		let ReqObj = {
 			"CountryId": this.productItem.Country,
-			//"RegionCode": "99999"
+			"RegionCode": this.productItem.Region
 		}
 		let urlLink = `${this.CommonApiUrl}master/dropdown/regionstate`;
 		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -1274,10 +1274,7 @@ export class CustomerCreateFormComponent implements OnInit {
 				console.log(data);
 				if (data.Result) {
 					this.departmentList = data.Result;
-					//if(type=='change')this.productItem.Department = ''
-					let defaultRow = [{ 'CodeDesc': '- Select - ', 'Code': '', 'CodeDescLocal': '-Selecione-' }]
-					//this.regionList = defaultRow.concat(this.regionList);
-					let defaultRow1 = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+					let defaultRow1 = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
 					for (let i = 0; i < this.departmentList.length; i++) {
 						this.departmentList[i].label = this.departmentList[i]['CodeDesc'];
 						this.departmentList[i].value = this.departmentList[i]['Code'];
@@ -1980,7 +1977,7 @@ getType3(type){
 		console.log(data);
 		if(data.Result){
 			this.titleList = data.Result;
-			let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+			let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Sélectionner--'}];
 			for (let i = 0; i < this.titleList.length; i++) {
 			  this.titleList[i].label = this.titleList[i]['CodeDesc'];
 			  this.titleList[i].value = this.titleList[i]['Code'];
@@ -2040,7 +2037,7 @@ getType3(type){
 				console.log(data);
 				if (data.Result) {
 					this.occupationList = data.Result;
-					let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Selecione--'}];
+					let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Sélectionner--'}];
 					// if(this.insuranceId=='100040' || this.insuranceId=='100042'){
 						for (let i = 0; i < this.occupationList.length; i++) {
 							this.occupationList[i].label = this.occupationList[i]['CodeDesc'];
