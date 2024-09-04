@@ -1307,7 +1307,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       "InsuranceId": this.insuranceId,
       "BranchCode": this.branchCode
     }
-    if(this.insuranceId=='100040'){
+    if(this.insuranceId=='100040' || this.insuranceId=='100042'){
       ReqObj['BodyId']=this.vehicleDetails.VehicleType
     }
     urlLink = `${this.CommonApiUrl}api/dropdown/induvidual/vehicleusage`;
@@ -5721,13 +5721,17 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
         }
       }
-      if (this.insuranceId == '100040') {
+      if (this.insuranceId == '100040' ) {
         this.getInsuranceTypeAltList();
         this.getMunicipalityTrafficList();
         this.getZoneCirculation();
         this.getVehicleType();
         this.getVehicleUsage();
         this.getPACoverId();
+      }
+      if(this.insuranceId =='100042'){
+        this.getInsuranceTypeAltList();
+        this.getMunicipalityTrafficList();
       }
       this.checkFieldNames();
       let regionHooks = {
@@ -7134,7 +7138,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if (data.Result) {
           //this.checkStatusSP=
           if (data.Result.status == 'P') {
-
             this.checkStatus(data.Result.request_reference_no, 'movingRecords2')
           }
           else {
