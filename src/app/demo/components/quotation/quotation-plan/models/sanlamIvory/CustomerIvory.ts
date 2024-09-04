@@ -476,6 +476,46 @@ export class CustomerIvory{
               {
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
+                  {
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
+                    type: 'input',
+                    id: 'Plot',
+                    key: 'Address2',
+                    templateOptions: {
+                      label: `Plot No`,
+                      //placeholder: 'Enter Street',
+                     // required: true,
+                      disabled: this.checkDisable('Address2'),
+                      maxLength: 150
+                    },
+                    
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
+                    type: 'input',
+                    id: 'Street',
+                    key: 'Address1',
+                    templateOptions: {
+                      label: `Street`,
+                      // placeholder: 'Enter Street',
+                      required: true,
+                      disabled: this.checkDisable('Address1'),
+                      maxLength: 150
+                    },
+                    
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
                  
                   {
                     className: 'col-12 md:col-3  lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
@@ -561,46 +601,7 @@ export class CustomerIvory{
                     expressions: {
                     },
                   },
-                  {
-                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
-                    type: 'input',
-                    id: 'Street',
-                    key: 'Address1',
-                    templateOptions: {
-                      label: `Street`,
-                      // placeholder: 'Enter Street',
-                      required: true,
-                      disabled: this.checkDisable('Address1'),
-                      maxLength: 150
-                    },
-                    
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  {
-                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
-                    type: 'input',
-                    id: 'Plot',
-                    key: 'Address2',
-                    templateOptions: {
-                      label: `Plot No`,
-                      //placeholder: 'Enter Street',
-                      required: true,
-                      disabled: this.checkDisable('Address2'),
-                      maxLength: 150
-                    },
-                    
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                  
                   {
                     className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'input',

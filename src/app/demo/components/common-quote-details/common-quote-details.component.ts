@@ -6115,7 +6115,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         field.hideExpression = true; field.hide = true;
       }
       if (this.insuranceId == '100040' || this.insuranceId == '100042') {
-        if (field.key == 'VehicleSI' || field.key == 'GpsYN' || field.key == 'Aggregatedvalue' || field.key == 'Newvalue' || field.key == 'AccessoriesSI' || field.key == 'WindShieldSI' || field.key == 'ExtendedTPPDSI' || field.key == 'Inflation' || field.key == 'VehicleValue' ||  (field.key == 'PurchaseDate' && this.insuranceId == '100042')) {
+        if (field.key == 'VehicleSI' || field.key == 'GpsYN' || field.key == 'Aggregatedvalue' || field.key == 'Newvalue' || field.key == 'AccessoriesSI' || field.key == 'ExtendedTPPDSI' || field.key == 'Inflation' || field.key == 'VehicleValue' ||  (field.key == 'PurchaseDate' && this.insuranceId == '100042')) {
           if ((this.insuranceId == '100040' && this.productItem.InsuranceClass != '121' && this.productItem.InsuranceClass != '122') && (this.insuranceId == '100040' && this.productItem.InsuranceClass != '129' && this.productItem.InsuranceClass != '131') && (this.insuranceId == '100040' && this.productItem.InsuranceClass != '143' && this.productItem.InsuranceClass != '144')
             || (this.insuranceId == '100042' && this.productItem.InsuranceClass != '135' && this.productItem.InsuranceClass != '136' )) {
 
@@ -6176,6 +6176,18 @@ export class CommonQuoteDetailsComponent implements OnInit {
             }
           }
           
+        }
+        else if(field.key == 'WindShieldSI'){
+          if (this.productItem.InsuranceClass == '123' || this.productItem.InsuranceClass == '124' || this.productItem.InsuranceClass == '125' || this.productItem.InsuranceClass == '126' || this.productItem.InsuranceClass == '128'
+            || this.productItem.InsuranceClass == '130' || this.productItem.InsuranceClass == '132' || this.productItem.InsuranceClass == '133'
+          ) {
+            field.hideExpression = false;
+            field.hide = false;
+          }
+          else {
+            field.hideExpression = true;
+            field.hide = true;
+          }
         }
       }
       else if (this.insuranceId != '100027') {

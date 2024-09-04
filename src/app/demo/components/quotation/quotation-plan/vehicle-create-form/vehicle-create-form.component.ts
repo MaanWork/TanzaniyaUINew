@@ -41,7 +41,7 @@ export class VehicleCreateFormComponent implements OnInit {
   colorValue: any;tareWeight:any=null;currencyCode:any=null;
   engineNo: any;seatingCapacity:any=null;customerName:any=null;
   fuelType: any;ownerName:any=null;endtStatus:any=null;
-  grossWeight: any;engineCapacity:any=null;vehicleDetailsList:any[]=[];
+  grossWeight: any=0;engineCapacity:any=null;vehicleDetailsList:any[]=[];
   motorCategory: any;ownerCategory:any=null;validSection:boolean=false;
   usageValue: any;noOfAxels:any=null;duplicateSection:boolean=false;
   customerCode: any;endorsementEffectiveDate:any=null;isFinanceEndt:any=null;
@@ -51,10 +51,10 @@ export class VehicleCreateFormComponent implements OnInit {
   endorsePolicyNo: any=null;years:any[]=[];modelHeader:any[]=[];
   referenceNo: string;mainBodyTypeList:any[]=[];makeError:boolean = false;
   commonDetails: any;editSectionAlt:boolean=false;modelSearchVisible:boolean = false;
-  modelColumns:any[]=[];selectedRowData:any=null;lang:any=null;horsePower:any=null;
+  modelColumns:any[]=[];selectedRowData:any=null;lang:any=null;horsePower:any=0;
   horsePowerError=false;
   displacement: any;
-  numberOfCylinders: any;
+  numberOfCylinders: any=0;
   RegistrationDate:any;
   bodyTypeError=false;
   modelError=false;
@@ -1245,9 +1245,9 @@ export class VehicleCreateFormComponent implements OnInit {
     //   (data: any) => {
     //       if(data.Result){
     //         this.vehicleDetails = data?.Result;
-            if(this.vehicleDetails==undefined || this.vehicleDetails==null){
-              this.vehicleDetails = {
-                "AcccessoriesSumInsured": null,
+        if(this.vehicleDetails==undefined || this.vehicleDetails==null){
+          this.vehicleDetails = {
+          "AcccessoriesSumInsured": null,
         "AccessoriesInformation": null,
         "AdditionalCircumstances": null,
         "CityLimit": null,
@@ -1278,7 +1278,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "Windscreencoverrequired": null,
         "accident": null,
         "periodOfInsurance": null,
-        "CollateralYn": null,
+        "CollateralYn": 'N',
         "CollateralName": null,
         "FirstLossPayee": null,
         "FleetOwnerYn": null,
