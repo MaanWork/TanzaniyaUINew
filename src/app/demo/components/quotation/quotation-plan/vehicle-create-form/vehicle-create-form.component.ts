@@ -1059,7 +1059,7 @@ export class VehicleCreateFormComponent implements OnInit {
       else if((this.horsePower==null || this.horsePower=='' || this.horsePower==undefined)&& this.bodyType=='P'){
         this.horsePowerError = true;
       }
-      else if((this.displacement==null || this.displacement=='' || this.displacement==undefined)&& (this.bodyTypeId=='50' || this.bodyTypeId=='51' || this.bodyTypeId=='5' || this.bodyTypeId=='58' || this.bodyTypeId=='18' || this.bodyTypeId=='25')){
+      else if((this.displacement==null || this.displacement=='' || this.displacement==undefined)&& (this.bodyTypeId=='50' || this.bodyTypeId=='51' || this.bodyTypeId=='5' || this.bodyTypeId=='58' || this.bodyTypeId=='28' )){
         this.displacementError = true;
       } 
       else if((this.grossWeight==null || this.grossWeight=='' || this.grossWeight==undefined) && this.bodyType=='C'){
@@ -1070,7 +1070,7 @@ export class VehicleCreateFormComponent implements OnInit {
       //    this.grossWeightError = true;
       //  }
       // }
-      else if((this.numberOfCylinders==null || this.numberOfCylinders=='' || this.numberOfCylinders==undefined)){
+      else if((this.numberOfCylinders==null || this.numberOfCylinders=='' || this.numberOfCylinders==undefined) && (this.bodyTypeId=='50' || this.bodyTypeId=='51' || this.bodyTypeId=='5' || this.bodyTypeId=='58' || this.bodyTypeId=='28')){
         this.numberOfCylindersError = true;
       } 
       else if((this.RegistrationDate==null || this.RegistrationDate=='' || this.RegistrationDate==undefined)){
