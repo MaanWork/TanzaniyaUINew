@@ -1795,6 +1795,16 @@ export class AccesoriesComponent {
               }
           } else return 0;
       }
+      else if(this.productId=='25' && rowData.EmployeeList){
+        if(rowData.EmployeeList.length!=0){
+          let si = 0,i=0;
+          for(let entry of rowData.EmployeeList){
+            if(entry.SumInsured) si=si+entry.SumInsured; 
+            i+=1;
+            if(i==rowData.EmployeeList.length){if(si!=null || si !=undefined) return si; else return 0}
+          }
+      } else return 0;
+      }
       else return 0;
   }
   getActualSI(rowData){
@@ -4668,8 +4678,8 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         if(entry){
             // let value = this.contentSI.replace(/\D/g, "")
             // .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            this.ElectronicItem[this.currentElectronicIndex]['SumInsured'] = entry;
-            this.productItem.ElqSI = entry;
+            // this.ElectronicItem[this.currentElectronicIndex]['SumInsured'] = entry;
+            // this.productItem.ElqSI = entry;
             this.getTotalSICost('ElectricalEquipment');
           
         }
@@ -7436,7 +7446,7 @@ return true;
     }
   }
   onemployeeCommon(){
-    let j=0;
+    let j=0,itemValue = null;
     if(this.productId=='14' || this.productId=='32'){
       if(this.productItem.EmpsName!=null && this.productItem.EmpsName!='' && this.productItem.EmpsName!=undefined){this.employeeNameError=false;}
       else{j+=1;this.employeeNameError=true;}
@@ -7455,7 +7465,12 @@ return true;
       else{j+=1;this.employeeOccupationError=true;}
     }
     if(this.productId=='25'){
-      if(this.productItem.ElqList!=null && this.productItem.ElqList!='' && this.productItem.ElqList!=undefined){this.electonicItemError=false;}
+      
+      if(this.productItem.ElqList!=null && this.productItem.ElqList!='' && this.productItem.ElqList!=undefined){
+        let entry = this.locationlist[this.selectedTab];
+        let obj = entry.SectionDetails.find(ele=>ele.ContentType==this.productItem.ElqList)
+        if(obj) itemValue = obj.ContentDesc;
+        this.electonicItemError=false;}
       else{j+=1;this.electonicItemError=true;}
       if(this.productItem.ElqJoin!=null && this.productItem.ElqJoin!='' && this.productItem.ElqJoin!=undefined){this.electronicJoinError=false;}
       else{j+=1;this.electronicJoinError=true;}
@@ -7500,7 +7515,7 @@ return true;
         else if(this.productId=='25'){
           obj = {
               "ItemId": this.productItem.ElqList,
-              "ItemValue": null,
+              "ItemValue": itemValue,
               "MakeAndModel": this.productItem.Elqmake,
               "PurchaseMonth": this.productItem.ElqJoin,
               "PurchaseYear": this.productItem.ElqPeriod,
