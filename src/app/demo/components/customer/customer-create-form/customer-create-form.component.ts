@@ -177,7 +177,6 @@ export class CustomerCreateFormComponent implements OnInit {
 	}
 	
 	getTitleList(){
-		
 		let ReqObj = {
 				"InsuranceId": this.insuranceId,
 				"BranchCode": this.branchCode
@@ -652,7 +651,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			data.state=this.productItem.Region;
 		}
 		if((this.productItem.IdType=='2' || this.productItem.IdType==2) ){
-			data.Title='1';
+			//data.Title='1';
 			data.ClientName=data?.CompanyName;
 			data.Occupation = '99999';
 			data.occupationdesc = 'Others';
@@ -1383,7 +1382,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					if(this.shortQuoteYN && customerDetails.Occupation=='99999') this.productItem.Occupation = '';
 					else this.productItem.Occupation = customerDetails.Occupation;
 					this.productItem.Title = customerDetails.Title;
-					//this.getTitleList()
+					this.getTitleList()
 					this.productItem.Occupation = customerDetails.Occupation;
 					this.productItem.vrngst = customerDetails.VrTinNo;
 					this.productItem.PolicyHolderTypeid = customerDetails.PolicyHolderTypeid;
@@ -1729,7 +1728,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			(err: any) => { console.log(err); },
 		);
 	}
-  setPolicyType(){
+  setPolicyType() {
        let value = this.productItem.IdType;
       if(value==2 || value=='2'){
         this.productItem.Gender = '';
