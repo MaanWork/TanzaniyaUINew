@@ -3879,9 +3879,12 @@
                                 <td style="border:0.5px solid grey !important;padding: 8px;text-align: start;">{{discount.DiscountDesc}}</td>
                                 <td style="border:0.5px solid grey !important;padding: 8px;text-align: end;">
                                     <ng-container
-                                        *ngIf="(adminSection || ((userType=='Issuer' && finalizeYN!='Y' && !endorsementSection))) && discount.LoadingCalcType!='A'">
-                                        <ng-container *ngIf="discount.LoadingCalcType!='P'">
-                                            <ng-container *ngIf="discount.LoadingRate!=null">
+                                        *ngIf="(adminSection || ((userType=='Issuer' && finalizeYN!='Y' && !endorsementSection))) && discount.DiscountCalcType!='A'">
+                                        <ng-container *ngIf="discount.DiscountCalcType!='P'">
+                                            <ng-container *ngIf="discount.DiscountRate!=null && discount.DiscountRate!=0">
+                                                {{discount.DiscountRate}}
+                                            </ng-container>
+                                            <ng-container *ngIf="discount.DiscountRate==null || discount.DiscountRate==0">
                                                 <span class="spancommon span_font_size">0</span>
                                             </ng-container>
                                         </ng-container>
@@ -4103,12 +4106,15 @@
                                 <td></td>
                             </tr>
                             <tr *ngFor="let discount of discountList">
-                                <td>{{discount.DiscountDesc}}</td>
-                                <td>
+                                <td style="border:0.5px solid grey !important;padding: 8px;text-align: start;">{{discount.DiscountDesc}}</td>
+                                <td style="border:0.5px solid grey !important;padding: 8px;text-align: end;">
                                     <ng-container
-                                        *ngIf="(adminSection || ((userType=='Issuer' && finalizeYN!='Y' && !endorsementSection))) && discount.LoadingCalcType!='A'">
-                                        <ng-container *ngIf="discount.LoadingCalcType!='P'">
-                                            <ng-container *ngIf="discount.LoadingRate!=null">
+                                        *ngIf="(adminSection || ((userType=='Issuer' && finalizeYN!='Y' && !endorsementSection))) && discount.DiscountCalcType!='A'">
+                                        <ng-container *ngIf="discount.DiscountCalcType!='P'">
+                                            <ng-container *ngIf="discount.DiscountRate!=null && discount.DiscountRate!=0">
+                                                {{discount.DiscountRate}}
+                                            </ng-container>
+                                            <ng-container *ngIf="discount.DiscountRate==null || discount.DiscountRate==0">
                                                 <span class="spancommon span_font_size">0</span>
                                             </ng-container>
                                         </ng-container>
@@ -4139,18 +4145,23 @@
 
                                     </ng-container>
                                 </td>
-                                <td style="text-align: end;">
+                                <td style="border:0.5px solid grey !important;padding: 8px;text-align: end;">
                                     <ng-container
                                         *ngIf="(adminSection || ((userType=='Issuer' && finalizeYN!='Y' && !endorsementSection)))">
-                                        <ng-container *ngIf="discount.DiscountCalcType!='P'">
-                                            <ng-container *ngIf="discount.DiscountRate!=null">
+                                        <ng-container *ngIf="discount.DiscountCalcType!='A'">
+                                            <ng-container *ngIf="discount.DiscountAmount!=null && discount.DiscountAmount!=0">
+                                                {{discount.DiscountAmount | commaseparator}}
+                                                
+                                            </ng-container>
+                                            <ng-container *ngIf="discount.DiscountAmount==null || discount.DiscountAmount==0">
                                                 <span class="spancommon span_font_size">0</span>
                                             </ng-container>
                                         </ng-container>
+                                        
                                         <ng-container *ngIf="discount.DiscountCalcType=='A'">
                                             <div class="flex flex-wrap">
                                                 <input pInputText [id]="'Rate'+i" class="searchText"
-                                                    [(ngModel)]="discount['DiscountRate']" (keyup)="checkDiscountRate(discount,'A')"
+                                                    [(ngModel)]="discount['DiscountAmount']" (keyup)="checkDiscountRate(discount,'A')"
                                                     style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important"
                                                     maxlength="5">
                                                     <br *ngIf="discount.RateError"><b class="text-danger referal_data" *ngIf="discount.RateError">{{getLoadingHeader(discount)}}</b>

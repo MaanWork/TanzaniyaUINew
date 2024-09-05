@@ -4306,12 +4306,11 @@ backPlan()
       "InsuranceId": this.insuranceId
     }
     //if(this.productId=='59') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
-    if(this.productId!='6'){
       if(this.productId=='57' || this.productId=='60'||this.productId=='59' || this.productId=='39' 
           || this.productId=='13'  || this.productId=='19'   || this.productId=='26' || this.productId=='21'
          || this.productId=='42' || this.productId=='59' || this.productId=='24' || this.productId=='43') 
          urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
-      else if(this.productId=='63' || this.productId=='61' || this.productId=='25' ||
+      else if(this.productId=='63' || this.productId=='61' || this.productId=='25' || this.productId=='6' ||
          this.productId=='16' || this.productId=='1' || this.productId=='14' || this.productId=='15' || this.productId=='32') { delete ReqObj['RiskId']; urlLink = `${this.motorApiUrl}api/slide/GetNonMotor`;}
       else urlLink =  `${this.motorApiUrl}api/geteservicebyriskid`;
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -4320,7 +4319,7 @@ backPlan()
             if(data.Result){
                 let entry:any;
                 //if(this.productId=='59') entry = this.customerData[0];
-                if(this.productId!='63' && this.productId!='61' && this.productId!='25' && this.productId!='16' && this.productId!='1' && this.productId!='14' && this.productId!='15' && this.productId!='32') entry = data.Result;
+                if(this.productId!='63' && this.productId!='61' && this.productId!='25' && this.productId!='16' && this.productId!='1' && this.productId!='14' && this.productId!='15' && this.productId!='32' && this.productId!='6') entry = data.Result;
                 else { 
                   entry = {...data.Result.PolicyInformation, ...data.Result.EndorsementDetails, ...data.Result.BrokerDetails}
                   if(data.Result.LocationList){entry['LocationList'] = data.Result.LocationList;this.currentSectionIndex=0}
@@ -4328,7 +4327,7 @@ backPlan()
                 }
                  this.colorSections=[];let j=0;
                  if(this.productId=='61' || this.productId=='25' || this.productId=='16' || this.productId=='1' || this.productId=='14' 
-                  || this.productId=='32'){
+                  || this.productId=='32' || this.productId=='6'){
                     this.productItem = new ProductData();
                     this.LocationListAlt = data.Result.LocationList;
                     if(this.LocationListAlt.length!=0){
@@ -4438,7 +4437,6 @@ backPlan()
               }
           }
       });
-    }
    
   }
   checkRowExist(location){
@@ -4703,6 +4701,27 @@ backPlan()
       this.productItem.TypeOfBond = entry.SectionList[0].BondType;
       if(entry.SectionList[0].IndustryType) this.productItem.IndustryId = String(entry.SectionList[0].IndustryType);
       this.productItem.NoOfYears = entry.SectionList[0].BondYear;
+    }
+    else if(this.productId=='6'){
+      let section = entry.SectionList.filter(ele=>ele.SectionId!=ele.BusinessInterruption);
+      if(section.length!=0){
+         this.productItem.Section = section[0].SectionId;
+         if(section[0].SectionDesc) this.productItem.SectionDesc =  section[0].SectionDesc;
+         if(section[0].IndustryType) this.productItem.InsuranceType = String(section[0].IndustryType);
+         this.getFireIndustryList('direct');this.filterSectionList('direct');this.onChangeBusinessSection()
+         this.productItem.OccupationId = section[0].OccupationId;
+         this.productItem.OccupationDesc = section[0].OccupationDesc;
+         this.productItem.CoveringDetails = section[0].CoveringDetails;
+         this.productItem.DescriptionOfRisk = section[0].DescriptionOfRisk;
+         this.productItem.RegionCode = section[0].RegionCode;
+         this.productItem.DistrictCode = section[0].DistrictCode;
+         if(section[0].Business_Interruption) this.productItem.BusinessName = Number(section[0].Business_Interruption);
+         else if(section[0].BusinessInterruption) this.productItem.BusinessName = Number(section[0].BusinessInterruption);
+         this.productItem.BusinessSI = section[0].Business_InterruptionSI;
+         this.onChangeBusiness();
+         this.productItem.FireSumInsured = section[0].BuildingSumInsured;
+         if(this.productItem.RegionCode) this.ongetDistrictList('direct');
+      }
     }
     else if(this.productId=='25'){
       this.currentSectionIndex=0;
@@ -5914,6 +5933,7 @@ backPlan()
           }
         }
         else if(entry && this.productId=='6'){
+          let entry = this.LocationListAlt[this.tabIndex];
           if(this.productItem.Section!=null && this.productItem.Section!=''){
             let sectionList =[];
             let obj:any = {};
@@ -6238,7 +6258,7 @@ backPlan()
                 }
               }
               else if(this.productId=='6'){
-                console.log("Received Final Obj",entry.SectionList)
+               
                 let sectionData = entry.SectionList.filter(ele=>ele.SectionId!=ele.Business_Interruption);
                  let list = [];
                 if(sectionData.length!=0){
@@ -6266,9 +6286,11 @@ backPlan()
                       }
                       list.push(subData);
                     }
-                    entry.SectionList = list;
+                    obj.SectionList = list;
+                    console.log("Received Final Obj",entry.SectionList)
                     ReqObj.LocationList.push(obj);i+=1; if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
                 }
+
               }
               else if(this.productId=='39'){obj.SectionList=entry.SectionList;i+=1;ReqObj.LocationList.push(obj)
                 if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
@@ -8137,7 +8159,7 @@ finalSaveMoney(finalList,type,formType) {
     }
   }
   saveFleetDetails(){
-    if(this.productId!='46' && this.productId!='25' && this.productId!='16' && this.productId!='1' && this.productId!='14' && this.productId!='32'){
+    if(this.productId!='46' && this.productId!='25' && this.productId!='16' && this.productId!='1' && this.productId!='14' && this.productId!='32' && this.productId!='6'){
       let Reqobj={
         "RequestReferenceNo": this.requestReferenceNo,
         "InsuranceId": this.insuranceId,

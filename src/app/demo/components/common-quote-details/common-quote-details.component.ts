@@ -366,7 +366,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     let urlLink = `${this.CommonApiUrl}master/dropdown/industry`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
-        let defaultObj = [{ 'CodeDesc': '-Select-', 'Code': '', 'CodeDescLocal': '--Selecione--' }]
+        let defaultObj = [{ 'CodeDesc': '-Select-', 'Code': '', 'CodeDescLocal': '--Sélectionner--' }]
         this.industryList = defaultObj.concat(data.Result);
       },
       (err) => { },
@@ -444,7 +444,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           if (data.Result) {
             this.vehicleClassList = data.Result;
             if (this.vehicleClassList.length != 0) {
-              let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+              let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
               for (let i = 0; i < this.vehicleClassList.length; i++) {
                 this.vehicleClassList[i].label = this.vehicleClassList[i]['CodeDesc'];
                 this.vehicleClassList[i].value = this.vehicleClassList[i]['Code'];
@@ -1316,7 +1316,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if (data.Result) {
           this.typeListAlt = data.Result;
           if (this.typeListAlt.length != 0) {
-            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
             for (let i = 0; i < this.typeListAlt.length; i++) {
               this.typeListAlt[i].label = this.typeListAlt[i]['CodeDesc'];
               this.typeListAlt[i].value = this.typeListAlt[i]['Code'];
@@ -1340,7 +1340,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if (data.Result) {
           this.aggregatedList = data.Result;
           if (this.aggregatedList.length != 0) {
-            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
             for (let i = 0; i < this.aggregatedList.length; i++) {
               this.aggregatedList[i].label = this.aggregatedList[i]['CodeDesc'];
               this.aggregatedList[i].value = this.aggregatedList[i]['Code'];
@@ -1391,7 +1391,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if (data.Result) {
           this.municipalityTrafficList = data.Result;
           if (this.municipalityTrafficList.length != 0) {
-            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
             for (let i = 0; i < this.municipalityTrafficList.length; i++) {
               this.municipalityTrafficList[i].label = this.municipalityTrafficList[i]['CodeDesc'];
               this.municipalityTrafficList[i].value = this.municipalityTrafficList[i]['Code'];
@@ -1422,7 +1422,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if (data.Result) {
           this.typeList = data.Result;
           if (this.typeList.length != 0) {
-            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
             for (let i = 0; i < this.typeList.length; i++) {
               this.typeList[i].label = this.typeList[i]['CodeDesc'];
               this.typeList[i].value = this.typeList[i]['Code'];
@@ -1458,7 +1458,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
           if (this.typeListIvory.length != 0) {
             let i = 0;
-            let defaultObj = [{ 'label': '---Select--', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+            let defaultObj = [{ 'label': '---Select--', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
             for (let entry of this.typeListIvory) {
               entry['label'] = entry.CodeDesc
               entry['value'] = entry.Code;
@@ -1504,7 +1504,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if (data.Result) {
           this.deductiblesList = data.Result;
           if (this.deductiblesList.length != 0) {
-            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
             for (let i = 0; i < this.deductiblesList.length; i++) {
               this.deductiblesList[i].label = this.deductiblesList[i]['CodeDesc'];
               this.deductiblesList[i].value = this.deductiblesList[i]['Code'];
@@ -1534,7 +1534,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if (data.Result) {
           this.defencecostList = data.Result;
           if (this.defencecostList.length != 0) {
-            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
             for (let i = 0; i < this.defencecostList.length; i++) {
               this.defencecostList[i].label = this.defencecostList[i]['CodeDesc'];
               this.defencecostList[i].value = this.defencecostList[i]['Code'];
@@ -1577,7 +1577,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if (data.Result) {
           this.vehicleTypeList = data.Result;
           if (this.vehicleTypeList.length != 0) {
-            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
             for (let i = 0; i < this.vehicleTypeList.length; i++) {
               this.vehicleTypeList[i].label = this.vehicleTypeList[i]['CodeDesc'];
               this.vehicleTypeList[i].value = this.vehicleTypeList[i]['Code'];
@@ -1623,7 +1623,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           this.classList = data.Result;
           if (this.insuranceId != '100027' && this.insuranceId != '100040' && this.insuranceId != '100042') {
             if (this.classList.length != 0) {
-              let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+              let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
               for (let i = 0; i < this.classList.length; i++) {
                 this.classList[i].label = this.classList[i]['CodeDesc'];
                 this.classList[i].value = this.classList[i]['Code'];
@@ -1686,7 +1686,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           
           //this.getMotorUsageList(vehicleUsage,'direct');
           if (this.motorTypeList.length != 0) {
-            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
             for (let i = 0; i < this.motorTypeList.length; i++) {
               this.motorTypeList[i].label = this.motorTypeList[i]['CodeDesc'];
               this.motorTypeList[i].value = this.motorTypeList[i]['Code'];
@@ -1765,7 +1765,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if (data.Result) {
           this.motorUsageList = data.Result;
           if (this.motorUsageList.length != 0) {
-            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': null, 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': null, 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
             for (let i = 0; i < this.motorUsageList.length; i++) {
               this.motorUsageList[i].label = this.motorUsageList[i]['CodeDesc'];
               this.motorUsageList[i].value = this.motorUsageList[i]['Code'];
@@ -2384,7 +2384,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           if (data.Result) {
             this.motorTypeList = data.Result;
             if (this.motorTypeList.length != 0) {
-              let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+              let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
               for (let i = 0; i < this.motorTypeList.length; i++) {
                 this.motorTypeList[i].label = this.motorTypeList[i]['CodeDesc'];
                 this.motorTypeList[i].value = this.motorTypeList[i]['Code'];
@@ -6225,7 +6225,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if (data.Result) {
           this.motorUsageList = data.Result;
           if (this.motorUsageList.length != 0) {
-            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
             for (let i = 0; i < this.motorUsageList.length; i++) {
               this.motorUsageList[i].label = this.motorUsageList[i]['CodeDesc'];
               this.motorUsageList[i].value = this.motorUsageList[i]['Code'];
@@ -7179,7 +7179,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if (data.Result) {
           this.zoneCirculationList = data.Result;
           if (this.zoneCirculationList.length != 0) {
-            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
             for (let i = 0; i < this.zoneCirculationList.length; i++) {
               this.zoneCirculationList[i].label = this.zoneCirculationList[i]['CodeDesc'];
               this.zoneCirculationList[i].value = this.zoneCirculationList[i]['Code'];
@@ -7209,7 +7209,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if (data.Result) {
           this.vehicleTypeListIVY = data.Result;
           if (this.vehicleTypeListIVY.length != 0) {
-            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
             for (let i = 0; i < this.vehicleTypeListIVY.length; i++) {
               this.vehicleTypeListIVY[i].label = this.vehicleTypeListIVY[i]['CodeDesc'];
               this.vehicleTypeListIVY[i].value = this.vehicleTypeListIVY[i]['Code'];
@@ -7239,7 +7239,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if (data.Result) {
           this.vehicleUsageListIVY = data.Result;
           if (this.vehicleUsageListIVY.length != 0) {
-            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
             for (let i = 0; i < this.vehicleUsageListIVY.length; i++) {
               this.vehicleUsageListIVY[i].label = this.vehicleUsageListIVY[i]['CodeDesc'];
               this.vehicleUsageListIVY[i].value = this.vehicleUsageListIVY[i]['Code'];
@@ -7269,7 +7269,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if (data.Result) {
           this.pACoverIdListIVY = data.Result;
           if (this.pACoverIdListIVY.length != 0) {
-            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Selecione--' }];
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
             for (let i = 0; i < this.pACoverIdListIVY.length; i++) {
               this.pACoverIdListIVY[i].label = this.pACoverIdListIVY[i]['CodeDesc'];
               this.pACoverIdListIVY[i].value = this.pACoverIdListIVY[i]['Code'];
