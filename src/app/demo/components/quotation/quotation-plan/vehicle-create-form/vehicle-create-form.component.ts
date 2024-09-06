@@ -823,10 +823,11 @@ export class VehicleCreateFormComponent implements OnInit {
     );
   }
   onBodyTypeChange(type){
+    
     if(this.bodyTypeValue!=null && this.bodyTypeValue!=''){
       this.bodyTypeId = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeValue)?.Code;
       this.bodyType = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeValue)?.BodyType;
-      if(type=='change' && this.insuranceId!='100020'){this.makeValue=null;this.modelValue=null;}
+      if(type=='change' && this.insuranceId!='100020'){this.makeValue=null;this.modelValue=null;this.horsePower=0,this.grossWeight=0,this.numberOfCylinders=0}
       if(this.bodyTypeId && this.insuranceId!='100020'){ this.getMakeList(); } 
     }
   }

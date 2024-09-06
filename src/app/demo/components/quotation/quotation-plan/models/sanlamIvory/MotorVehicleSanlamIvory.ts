@@ -229,30 +229,7 @@ export class MotorVehicleSanlamIvory{
                   //   expressions: {
                   //   },
                   // },
-                  {
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                    type: 'commaSeparator',
-                    key: 'WindShieldSI',
-                    id:'Newvalue',
-                    hide: true,
-                    hideExpression:true,
-                    props: {
-                      label: `Vehicle New Value`,
-                      maxLength: 15,
-                      disabled: this.checkDisable('WindShieldSI'),
-                      required: false,
-                      options: [
-  
-                      ],
-  
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                 
                   // {
                   //   type: 'commaSeparator',
                   //   id:'Newvalue',
@@ -404,7 +381,30 @@ export class MotorVehicleSanlamIvory{
                   //   expressions: {
                   //   },
                   // },
-                  
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'commaSeparator',
+                    key: 'WindShieldSI',
+                    id:'Newvalue',
+                    hide: true,
+                    hideExpression:true,
+                    props: {
+                      label: `Vehicle New Value`,
+                      maxLength: 15,
+                      disabled: this.checkDisable('WindShieldSI'),
+                      required: false,
+                      options: [
+  
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'input',
