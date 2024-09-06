@@ -339,14 +339,17 @@ onBranchProceed(){
 
       for (let index = 0; index < errorList.length; index++) {
         const element = errorList[index];
-        let field = null,message=null,fieldDesc=null,messageDesc=null;
-        if(this.lang=='en'){field='Field',message="Message",fieldDesc = element?.Field,messageDesc=element?.Message}
-        else if(this.lang=='fr'){field='Champ',message="Message",fieldDesc = element?.FieldLocal,messageDesc=element?.MessageLocal}
+        let field = null,message=null,fieldDesc=null,messageDesc=null,errorCode=null,errorCodeDesc=null;
+        if(this.lang=='en'){field='Field',message="Message",errorCode="Error Code",fieldDesc = element?.Field,messageDesc=element?.Message,errorCodeDesc=element?.Code}
+        else if(this.lang=='fr'){field='Champ',message="Message",errorCode="Code d'erreur",fieldDesc = element?.FieldLocal,messageDesc=element?.MessageLocal,errorCodeDesc=element?.Code}
         else if(this.lang=='po'){field='Campo',message="Mensagem",fieldDesc = element?.FieldLocal,messageDesc=element?.MessageLocal}
         ulList +=`<li class="list-group-login-field">
         <div style="color: darkgreen;">
            ${field}
         <span class="mx-2">:</span> ${fieldDesc}</div>
+         <div style="color: red;">
+        ${errorCode}
+        <span class="mx-2">:</span>${errorCodeDesc}</div>
         <div style="color: red;">
         ${message}
         <span class="mx-2">:</span>${messageDesc}</div>
