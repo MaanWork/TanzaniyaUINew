@@ -30,7 +30,7 @@
       "BusinessType":"Type d'entreprise",
       "MobileNumber":"Numéro de portable",
       "EmailId":"Email",
-      "Status":"Statut",
+      "Status":"Status",
       "Active":"Actif",
       "DeActive":"Désactivé(e)",
       "Pending":"En attente",
@@ -83,7 +83,7 @@
   
   },
    "LOGIN":{
-          "WelcometoXYZInsurance":"Bienvenue chez SanlamAllianz Assurance",
+          "WelcometoXYZInsurance":"Bienvenue chez Allianz Assurance",
         "Signintocontinue":"Connectez-vous pour continuer",
         "RetrieveQuoteUsingMobileNumber?":"Récupérer un devis à l'aide de MobileNumber?",
         "B2CQuote":"Devis B2C",
@@ -101,7 +101,8 @@
         "Cancel":"Annuler",
         "Submit":"Soumettre",
         "ProceedLogin":"Continuez la connexion!",
-        "Email":"E-mail"
+        "Email":"E-mail",
+      "SessionError": "Erreur de session!"
   
     },
   "PRODUCT":{
@@ -646,7 +647,7 @@
   "CustomerName":"Nom du client",
   "BranchName":"Nom de la filiale",
   "LoginId":"Identifiant de connexion",
-  "Status":"Statut",
+  "Status":"Status",
   "MobileNumber":"Numéro de portable"
   
   },

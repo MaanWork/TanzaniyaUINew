@@ -253,12 +253,11 @@ export class CustomerSanlam{
                     key: 'PreferredNotification',
                     templateOptions: {
                       label: `Preferred Notification`,
-                      placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('PreferredNotification'),
                       maxLength: 15,
                       options:[
-                        { label: 'Select', value: '','CodeDescLocal':'Selecione' },
+                        { label: 'Select', value: '','CodeDescLocal':'--Sélectionner--' },
                         { label: 'SMS', value: 'Sms','CodeDescLocal':'Sms -P' },
                         { label: 'Mail', value: 'Mail','CodeDescLocal':'E-mail -P' },
                         { label: 'Whatsapp', value: 'Whatsapp','CodeDescLocal':'Whatsapp -P' }

@@ -44,6 +44,7 @@ export class LoginComponent {
   otpSection: boolean;
   otpGenerated: any;
   submitted: boolean;langList:any[]=[]
+  messageTextLocal: any=null;
     constructor(public layoutService: LayoutService, private router: Router,private loginService:LoginService,
         private authService: AuthService,private translate: TranslateService,private appComp:AppComponent,private shared:SharedService) { 
           this.langList = [
@@ -137,7 +138,6 @@ export class LoginComponent {
                     const errorList: any[] = res.ErrorMessage || res?.Result?.ErrorMessage;
                     let ulList:any='';
                     let entry:any[] =  errorList.filter(ele=>ele.Field=='SessionError')
-                    console.log("checked entry",errorList);
                         if(res.ChangePasswordYn=='Y'){
                           this.passExpiredError = true;
                           this.username1 = this.username;
@@ -155,7 +155,8 @@ export class LoginComponent {
                           }
                           else{
                             this.errorSection = true;
-                              this.messageText = errorList[0].Message;
+                             this.messageText = errorList[0].Message;
+                             this.messageTextLocal = errorList[0].MessageLocal;
                           }
                         }
                   }
@@ -172,6 +173,11 @@ export class LoginComponent {
         } else {
             this.messages = [{ severity: 'error', summary: 'Error', detail: 'Incorrect Credentials' }];
         }
+    }
+    getMessageText(){
+      let lang =sessionStorage.getItem('language');
+      if(lang=='en') return this.messageText;
+      else return this.messageTextLocal;
     }
     getLangCodeDesc(entry){
       if(this.lang=='en') return entry.CodeDesc
@@ -314,14 +320,15 @@ export class LoginComponent {
           }
           if (res?.ErrorMessage && res?.ErrorMessage.length > 0 || res?.Result?.ErrorMessage && res?.Result?.ErrorMessage.length > 0) {
             const errorList: any[] = res.ErrorMessage || res?.Result?.ErrorMessage;
-            let ulList:any='';
+            let ulList:any='',fieldLocalName:any=null;
             let entry:any[] =  errorList.filter(ele=>ele.Field=='SessionError')
             for (let index = 0; index < errorList.length; index++) {
-  
+              
               const element = errorList[index];
+              if(element.Field=='SessionError' && element.FieldLocal!=null && element.FieldLocal!='') fieldLocalName = element.FieldLocal;
                ulList +=`<li class="list-group-login-field">
-                 <div style="color: darkgreen;">Field<span class="mx-2">:</span>${element?.Field}</div>
-                 <div style="color: red;">Message<span class="mx-2">:</span>${element?.Message}</div>
+                 <div style="color: darkgreen;">Field<span class="mx-2">:</span>${this.getFieldLang(element?.Field,element?.FieldLocal)}</div>
+                 <div style="color: red;">Message<span class="mx-2">:</span>${this.getFieldLang(element?.Message,element?.MessageLocal)}</div>
                </li>`
             }
             if(entry.length==0){
@@ -342,7 +349,7 @@ export class LoginComponent {
             else {
               console.log("entered multiiiiiiiiiiiiiiiiiiii");
               Swal.fire({
-                  title: '<strong>Session Error</strong>',
+                  title: `<strong>${this.getSessionErrorName(fieldLocalName)}</strong>`,
                   icon: 'info',
                   html:
                     `<ul class="list-group errorlist">
@@ -354,7 +361,7 @@ export class LoginComponent {
   
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Proceed Login!',
+                confirmButtonText: `Proceed Login!`,
                 cancelButtonText: 'Cancel',
               })
               .then((result) => {
@@ -377,7 +384,14 @@ export class LoginComponent {
       );
   
     }
-
+    getSessionErrorName(value){
+      if(this.lang=='en') return `Session Error`;
+      else return value;
+    }
+    getFieldLang(val1,val2){
+      if(this.lang=='en') return val1;
+      else return val2;
+    }
     onsubmit() {
       let p=this.pa
       if(this.password2!=this.password1){
@@ -415,16 +429,17 @@ export class LoginComponent {
             }
             else  if (res?.ErrorMessage && res?.ErrorMessage.length > 0 || res?.Result?.ErrorMessage && res?.Result?.ErrorMessage.length > 0) {
               const errorList: any[] = res.ErrorMessage || res?.Result?.ErrorMessage;
-              let ulList:any='';
+              let ulList:any='',fieldLocalName:any=null;
                let entry:any[] =  errorList.filter(ele=>ele.Field=='SessionError')
                console.log("checked entry",entry);
                   for (let index = 0; index < errorList.length; index++) {
-    
+                  
                     const element = errorList[index];
-                     ulList +=`<li class="list-group-login-field">
-                       <div style="color: darkgreen;">Field<span class="mx-2">:</span>${element?.Field}</div>
-                       <div style="color: red;">Message<span class="mx-2">:</span>${element?.Message}</div>
-                     </li>`
+                    if(element.Field=='SessionError' && element.FieldLocal!=null && element.FieldLocal!='') fieldLocalName = element.FieldLocal;
+                    ulList +=`<li class="list-group-login-field">
+                      <div style="color: darkgreen;">Field<span class="mx-2">:</span>${this.getFieldLang(element?.Field,element?.FieldLocal)}</div>
+                      <div style="color: red;">Message<span class="mx-2">:</span>${this.getFieldLang(element?.Message,element?.MessageLocal)}</div>
+                    </li>`
                   }
                  if(entry.length==0){
                     Swal.fire({

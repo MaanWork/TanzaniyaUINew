@@ -203,12 +203,12 @@
                 <div class="col-12 col-md-4 col-lg-4 col-xl-4 mt-3" *ngIf="selectedVehicleList.length!=0">
                     <span class="spancommon text-end"
                         style="color:navy;padding:10px !important;border-radius:10px;font-size: 1rem;background-color: #fd7e14!important;"
-                        *ngIf="selectedVehicleList[0].Status=='D' && productId=='5'">{{'Modify.RemovedVehicle' | translalte}}</span>
+                        *ngIf="selectedVehicleList[0].Status=='D' && productId=='5'">{{'Modify.RemovedVehicle' | translate}}</span>
                     <span class="spancommon text-end"
                         style="color:navy;padding:10px !important;border-radius:10px;font-size: 1rem;background-color: #fd7e14!important;"
-                        *ngIf="endorsementSection && endorsementId==846 && selectedVehicleList[0].Status=='D'">{{'Modify.RemovedOccupation' | translalte}}</span>
+                        *ngIf="endorsementSection && endorsementId==846 && selectedVehicleList[0].Status=='D'">{{'Modify.RemovedOccupation' | translate}}</span>
                     <span class="spancommon text-end" *ngIf="selectedVehicleList[0].ReferralList.length!=0"
-                        style="color:navy;padding:7px !important;border-radius:10px;font-size: 1rem;background-color: #fd7e14!important;">{{'Modify.Refferal' | translalte}}</span>
+                        style="color:navy;padding:7px !important;border-radius:10px;font-size: 1rem;background-color: #fd7e14!important;">{{'Modify.Refferal' | translate}}</span>
                 </div>
                 <!-- <div class="col-12 col-md-3 col-lg-3 col-xl-3 mt-5 mr-2" *ngIf="commissionValue">
                     <label class="custom-control-label" style="float: right !important;font-size: 17px !important;"
@@ -1253,7 +1253,7 @@
                                                                             [attr.colspan]="3"
                                                                             [style.text-align]="center"
                                                                             class="innerHead mat-header-cell">
-                                                                            {{'Modify.Premium' | translalte}} </th>
+                                                                            {{'Modify.Premium' | translate}} </th>
                                                                     </ng-container>
                                                                     <ng-container
                                                                         *ngFor="let col of innerColumnHeader; let i = index;"
@@ -1264,19 +1264,19 @@
                                                                             class="innerHead table-header mat-header-cell"
                                                                             style="white-space: pre-line !important;">
                                                                             <ng-container
-                                                                                *ngIf="innerColumnHeader[i]['display']=='Sum Insured' || innerColumnHeader[i]['display']=='Minimum' || innerColumnHeader[i]['display']=='After Discount' || innerColumnHeader[i]['display']=='Included Tax'">
-                                                                                {{ 'Modify.'+innerColumnHeader[i]["display"] | translalte}}&nbsp;({{currencyCode}})
+                                                                                *ngIf="innerColumnHeader[i]['display']=='SumInsured' || innerColumnHeader[i]['display']=='Minimum' || innerColumnHeader[i]['display']=='AfterDiscount' || innerColumnHeader[i]['display']=='IncludedTax'">
+                                                                                {{ 'Modify.'+innerColumnHeader[i]["display"] | translate}}&nbsp;({{currencyCode}})
                                                                             </ng-container>
                                                                             <ng-container
                                                                                 *ngIf="innerColumnHeader[i]['display']=='Rate'">
-                                                                                {{ 'Modify.'+innerColumnHeader[i]["display"] | translalte}}&nbsp;(%)
+                                                                                {{ 'Modify.'+innerColumnHeader[i]["display"] | translate}}&nbsp;(%)
                                                                             </ng-container>
                                                                             <ng-container
                                                                                 *ngIf="innerColumnHeader[i]['display']=='ExcessPercent'">
                                                                                 {{ 'Modify.Excess' | translate}}
                                                                             </ng-container>
                                                                             <ng-container
-                                                                                *ngIf="innerColumnHeader[i]['display']!='Sum Insured' && innerColumnHeader[i]['display']!='ExcessPercent' && innerColumnHeader[i]['display']!='Rate' && innerColumnHeader[i]['display']!='Minimum' && innerColumnHeader[i]['display']!='After Discount' && innerColumnHeader[i]['display']!='Included Tax'">
+                                                                                *ngIf="innerColumnHeader[i]['display']!='SumInsured' && innerColumnHeader[i]['display']!='ExcessPercent' && innerColumnHeader[i]['display']!='Rate' && innerColumnHeader[i]['display']!='Minimum' && innerColumnHeader[i]['display']!='AfterDiscount' && innerColumnHeader[i]['display']!='IncludedTax' && innerColumnHeader[i]['display']!=''">
                                                                                 {{ 'Modify.'+innerColumnHeader[i]["display"] | translate}}
                                                                             </ng-container>
 
