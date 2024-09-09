@@ -6155,7 +6155,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         }
         else if (field.key == 'Deductibles') {
           if(this.insuranceId=='100040'){
-            if (this.productItem.InsuranceClass == '124' || this.productItem.InsuranceClass == '125') {
+            if (this.productItem.InsuranceClass == '124' || this.productItem.InsuranceClass == '125' || this.productItem.InsuranceClass == '162') {
               field.hideExpression = false;
               field.hide = false;
             }
@@ -6180,7 +6180,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         else if(field.key == 'WindShieldSI'){
           if (this.productItem.InsuranceClass == '123' || this.productItem.InsuranceClass == '124' || this.productItem.InsuranceClass == '125' || this.productItem.InsuranceClass == '126' || this.productItem.InsuranceClass == '128'
             || this.productItem.InsuranceClass == '130' || this.productItem.InsuranceClass == '132' || this.productItem.InsuranceClass == '133'
-          ) {
+            || this.productItem.InsuranceClass == '145' || this.productItem.InsuranceClass == '146' || this.productItem.InsuranceClass == '161') {
             field.hideExpression = false;
             field.hide = false;
           }
