@@ -54,6 +54,10 @@ export class QuotationPlanComponent {
   onTabClicked(rowData){
     
   }
+  getOccupationDesc(rowData){
+    console.log("Finally",rowData)
+    return rowData?.OccupationTypeDesc
+  }
   getCoverNameDesc(rowData){
     if(this.lang=='en') return rowData.CoverName;
     else return rowData.CoverNameLocal;
@@ -114,9 +118,8 @@ export class QuotationPlanComponent {
       // if(menu.TravelId=='4') return `Super Seniors (${menu.TotalPassengers})`;
       // if(menu.TravelId=='5') return `Grand Seniors (${menu.TotalPassengers})`;
     }
-    else if(this.productId=='59' || this.productId=='19' || this.productId=='14' || this.productId=='32' || this.productId=='25' || this.productId=='61') return menu.LocationName;
-    else if(this.productId!='59' && this.productId!='4' && this.productId!='5' && this.productId!='19' && this.productId!='14' && this.productId!='32') return this.productName;
-    else return '';
+    else if(this.productId=='59' || this.productId=='1' || this.productId=='19' || this.productId=='14' || this.productId=='32' || this.productId=='25' || this.productId=='61') return menu.LocationName;
+    else return this.productName;
   }
   checkCoverSelected(cover){
     if((cover.isSelected=='Y' && cover.CoverageType!='A') || cover.CoverageType=='O') return true;

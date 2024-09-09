@@ -330,11 +330,11 @@ emiyn="N";
           select:true
         },
       },
-      { key: 'SubCoverName', display: 'SubCover Name' },
+      { key: 'SubCoverName', display: 'SubCoverName' },
       { key: 'Rate', display: 'Rate' },
       { key: 'MinimumPremium', display: 'Minimum' },
-      { key: 'PremiumAfterDiscount', display: 'After Discount' },
-      { key: 'PremiumIncludedTax', display: 'Included Tax' },
+      { key: 'PremiumAfterDiscount', display: 'AfterDiscount' },
+      { key: 'PremiumIncludedTax', display: 'IncludedTax' },
       // {
       //   key: 'actions',
       //   display: 'Action',

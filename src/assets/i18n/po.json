@@ -99,7 +99,7 @@
       "EnterVRN/GSTNumber":"Insira o número VRN/GST"
     },
     "LOGIN":{
-        "WelcometoXYZInsurance":"Bem-vindo à Sanlam Allianz Seguros",
+        "WelcometoXYZInsurance":"Bem-vindo à Allianz Seguros",
         "Signintocontinue": "Faça login para continuar",
         "RetrieveQuoteUsingMobileNumber?": "Recuperar cotação usando Mobile Number?",
         "B2CQuote": "Cotação B2C",
@@ -117,7 +117,8 @@
         "Submit": "Enviar",
         "Login":"Conecte-se",
         "ProceedLogin": "Prosseguir Login!",
-        "Email": "E-mail"
+        "Email": "E-mail",
+        "SessionError": "Erro de sessão!"
     },
     "PRODUCT":{
       "SelecttheBranch":"Selecione a filial",
