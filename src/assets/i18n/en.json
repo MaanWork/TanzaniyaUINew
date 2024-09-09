@@ -82,7 +82,7 @@
     "DETAILLAST": "My main language was music, and my teacher was nature."
   },
   "LOGIN":{
-      "WelcometoXYZInsurance":"Welcome to SanlamAllianz Insurance",
+      "WelcometoXYZInsurance":"Welcome to Allianz Insurance",
       "Signintocontinue": "Sign in to continue",
       "RetrieveQuoteUsingMobileNumber?": "Retrieve Quote Using MobileNumber?",
       "B2CQuote": "B2C Quote",
@@ -100,7 +100,8 @@
       "Cancel": "Cancel",
       "Submit": "Submit",
       "ProceedLogin": "Proceed Login!",
-      "Email": "Email"
+      "Email": "Email",
+      "SessionError": "Session Error!"
   },
   "PRODUCT":{
     "SelecttheBranch":"Select the Branch",
