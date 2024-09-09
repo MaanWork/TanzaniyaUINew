@@ -43,24 +43,15 @@
             <ng-container *ngIf="typeList.length!=0 && typeValue!='B2C Broker'">
                 <p-dropdown inputId="make" 
                     class="w-full min300" 
-                    styleClass="w-full" 
-                    (onChange)="finaliseTypeValue(null,'change')"
-                    [options]="typeList" 
-                    optionLabel="label" 
-                    optionValue="CodeDesc" 
-                    [(ngModel)]="typeValue"  >
+                    styleClass="w-full" (onChange)="finaliseTypeValue(null,'change')"  [options]="typeList" 
+                    optionLabel="label" optionValue="CodeDesc" [(ngModel)]="typeValue"  >
                 </p-dropdown>&nbsp;&nbsp;
             </ng-container>
             <ng-container *ngIf="branchList.length!=0 && typeValue!='B2C Broker'">
                 
                 <p-dropdown inputId="make" 
-                    class="w-full min300" 
-                    styleClass="w-full" 
-                    (onChange)="finaliseBranchValue(null,'change')"
-                    optionLabel="label" 
-                    optionValue="BranchName" 
-                    [options]="branchList" 
-                    [(ngModel)]="branchName"  >
+                    class="w-full min300" styleClass="w-full" (onChange)="finaliseBranchValue(null,'change')"
+                    optionLabel="label" optionValue="BranchName" [options]="branchList" [(ngModel)]="branchName"  >
                 </p-dropdown>&nbsp;&nbsp;
             </ng-container>
         </ng-container>
