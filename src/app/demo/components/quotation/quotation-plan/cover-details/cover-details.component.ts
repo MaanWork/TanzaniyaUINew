@@ -876,6 +876,7 @@ export class CoverDetailsComponent {
                 cover['SectionId'] = vehicle.SectionId;
                 cover['SectionName'] = vehicle.SectionName;
                 cover['VehicleId'] = vehicle.VehicleId;
+                cover['RiskDetails'] = vehicle.RiskDetails;
                 j+=1;
                 if(j==vehicle.CoverList.length) entry.CoverList = entry.CoverList.concat(vehicle.CoverList);
               }
@@ -886,12 +887,20 @@ export class CoverDetailsComponent {
               // }
             }
             else if(vehicle.SectionId!='1'){
-              vehicleList.push(vehicle);
+              let j=0;
+              for(let cover of vehicle.CoverList){
+                cover['SectionId'] = vehicle.SectionId;
+                cover['SectionName'] = vehicle.SectionName;
+                cover['VehicleId'] = vehicle.VehicleId;
+                cover['RiskDetails'] = vehicle.RiskDetails;
+                j+=1;
+                if(j==vehicle.CoverList.length) vehicleList.push(vehicle)
+              }
             }
             i+=1;
             if(i==this.vehicleData.length){
               this.vehicleDetailsList = vehicleList;
-              console.log("Final List")
+              console.log("Final List",this.vehicleDetailsList)
               this.checkSelectedCovers();
             }
           }

@@ -94,7 +94,7 @@
                                                         
                                                         <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container>
                                                         <ng-container *ngIf="productId=='14' || productId=='32'">
-                                                            <p><span class="font-bold text-2xl">Risk - {{getOccupationDesc(menu)}}</span>
+                                                            <p><span class="font-bold text-2xl">Risk - {{getOccupationDesc(cover)}}</span>
                                                         </ng-container>
                                                         <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}
                                                             &nbsp;&nbsp;<a
@@ -188,7 +188,7 @@
                                                                     <div class="mb-3">
                                                                         <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container>
                                                                         <ng-container *ngIf="productId=='14' || productId=='32'">
-                                                                            <p><span class="font-bold text-2xl">Risk - {{getOccupationDesc(menu)}}</span>
+                                                                            <p><span class="font-bold text-2xl">Risk - {{getOccupationDesc(cover)}}</span>
                                                                         </ng-container>
                                                                         <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}  &nbsp;&nbsp;<a
                                                                             class="mt-0 viewDetailsText2" [id]="'ViewDetails3'+getCoverNameAlt(cover.CoverName)"
@@ -310,7 +310,7 @@
                                                                         <div class="mb-3">
                                                                             <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container>
                                                                             <ng-container *ngIf="productId=='14' || productId=='32'">
-                                                                                <p><span class="font-bold text-2xl">Risk - {{getOccupationDesc(menu)}}</span>
+                                                                                <p><span class="font-bold text-2xl">Risk - {{getOccupationDesc(cover)}}</span>
                                                                             </ng-container>
                                                                             <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}  &nbsp;&nbsp;<a
                                                                                 class="mt-0 viewDetailsText2" [id]="'ViewDetails5'+getCoverNameAlt(cover.CoverName)"
@@ -370,7 +370,7 @@
                                                             
                                                             <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container>
                                                             <ng-container *ngIf="productId=='14' || productId=='32'">
-                                                                <p><span class="font-bold text-2xl">Risk - {{getOccupationDesc(menu)}}</span>
+                                                                <p><span class="font-bold text-2xl">Risk - {{getOccupationDesc(cover)}}</span>
                                                             </ng-container>
                                                             <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}
                                                                 &nbsp;&nbsp;<a 
@@ -486,7 +486,7 @@
                                     <ng-container *ngIf="cover.isReferal=='Y'"><span class="redtxt">* {{cover.ReferalDescription}}</span></ng-container>
                                 </div>
                                 <ng-container *ngIf="productId=='14' || productId=='32'">
-                                    <p><span class="font-bold text-2xl">Risk - {{getOccupationDesc(menu)}}</span>
+                                    <p><span class="font-bold text-2xl">Risk - {{getOccupationDesc(cover)}}</span>
                                 </ng-container>
                                 <div class="col-12 md:col-3 lg:col-3 xl:col-3 t-a-r">
                                     <h5 class="optiontxt1">
@@ -557,7 +557,7 @@
                                                     </div>
                                                 </div>
                                                 <ng-container *ngIf="productId=='14' || productId=='32'">
-                                                    <p><span class="font-bold text-2xl">Risk - {{getOccupationDesc(menu)}}</span>
+                                                    <p><span class="font-bold text-2xl">Risk - {{getOccupationDesc(cover)}}</span>
                                                 </ng-container>
                                                 
                                                 <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}
@@ -600,7 +600,7 @@
                                                         </div>
                                                     </div>
                                                     <ng-container *ngIf="productId=='14' || productId=='32'">
-                                                        <p><span class="font-bold text-2xl">Risk - {{getOccupationDesc(menu)}}</span>
+                                                        <p><span class="font-bold text-2xl">Risk - {{getOccupationDesc(cover)}}</span>
                                                     </ng-container>
                                                     <div class="grid">
                                                         <div class="col-12 md:col-12 lg:col-12 xl:col-12" *ngIf="cover.SubCovers">
