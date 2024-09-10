@@ -2135,6 +2135,9 @@ export class CoverDetailsComponent {
     console.log('Entry',entry)
     return entry;
   }
+  getOccupationDesc(rowData){
+    return rowData.RiskDetails.OccupationTypeDesc
+  }
   onSelectCover(rowData,event,vehicleId,vehicleData,type,directType){
     if(event==null){
       event = !this.canbeChecked(rowData);
