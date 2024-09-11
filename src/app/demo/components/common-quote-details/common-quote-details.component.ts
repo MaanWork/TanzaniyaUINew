@@ -6155,7 +6155,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         }
         else if (field.key == 'Deductibles') {
           if(this.insuranceId=='100040'){
-            if (this.productItem.InsuranceClass == '124' || this.productItem.InsuranceClass == '125' || this.productItem.InsuranceClass == '162') {
+            if (this.productItem.InsuranceClass == '124' || this.productItem.InsuranceClass == '125' || this.productItem.InsuranceClass == '127' || this.productItem.InsuranceClass == '162') {
               field.hideExpression = false;
               field.hide = false;
             }
