@@ -22,7 +22,7 @@
             </div>
             <div class="flex justify-content-start sm:justify-content-end  flex-wrap" *ngIf="productId=='5' && (!endorsementSection || (endorsementSection && enableAddVehicle))">
                 <div *ngIf="customerDetails">
-                    <input pInputText id="username" style="min-width: 200px;" maxlength="50" [(ngModel)]="regNo"
+                    <input pInputText id="username" style="min-width: 200px;text-transform: uppercase;" maxlength="50" [(ngModel)]="regNo"
                     [placeholder]="'MOTORQUOTE.SearchAddVehicleByRegNo' | translate"  />
                     <div class="input-form-error" *ngIf="regNoError">
                         <div class="error-text text-danger">

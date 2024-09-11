@@ -666,7 +666,7 @@
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th>Employee Name</th>
-                                    <th>Occupation</th>
+                                    <th *ngIf="productId!='32'">Occupation</th>
                                     <th>Location Name</th>
                                     <th>SumInsured</th>
                                     <th>Action</th>
@@ -676,7 +676,7 @@
                                 <ng-container>
                                     <tr>
                                         <td>{{employee.EmployeeName}}</td>
-                                        <td>{{employee.OccupationDesc}}</td>
+                                        <td *ngIf="productId!='32'">{{employee.OccupationDesc}}</td>
                                         <td>{{employee.LocationName}}</td>
                                         <td>{{employee.Salary}}</td>
                                         <td>
@@ -854,7 +854,7 @@
 </ng-container>
 <ng-container *ngIf="productId=='14' || productId=='32' || productId=='25'">
     <p-tabView #tabView [activeIndex]="selectedTab" (onChange)="onTabClicked($event,tabView)">
-        <ng-container *ngFor="let location of locationlist">
+        <ng-container *ngFor="let location of locationlist;let j=index">
             <p-tabPanel [header]="location.LocationName"  *ngIf="seven || six">
                 <div class="grid">
                     <div class="lg:col-1 md:col-1 col-12">
@@ -862,14 +862,13 @@
                     </div>
                     <div class="lg:col-10 md:col-10 col-12">
                         <ng-container *ngIf="location.EmployeeList">
-                            {{location.EmployeeList}}
                             <ng-container *ngIf="location.EmployeeList.length!=0">
                                 <p-table [value]="location.EmployeeList" [tableStyle]="{ 'min-width': '50rem' }">
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <ng-container *ngIf="productId=='14' || productId=='32'">
                                                 <th>Employee Name</th>
-                                                <th>Occupation</th>
+                                                <th *ngIf="productId!='32'">Occupation</th>
                                             </ng-container>
                                             <ng-container *ngIf="productId=='25'">
                                                 <th>Equipment Name</th>
@@ -884,7 +883,7 @@
                                             <tr>
                                                 <ng-container *ngIf="productId=='14' || productId=='32'">
                                                     <td>{{employee.EmployeeName}}</td>
-                                                    <td>{{employee.OccupationDesc}}</td>
+                                                    <td *ngIf="productId!='32'">{{employee.OccupationDesc}}</td>
                                                     <td>{{employee.Salary}}</td>
                                                 </ng-container>
                                                 <ng-container *ngIf="productId=='25'">
@@ -906,7 +905,7 @@
                 </div>
                 <div class="grid mt-2">
                     <ng-container *ngIf="productId=='14' || productId=='32'"><b>Employee Details</b></ng-container>
-                    <ng-container *ngIf="productId=='14'"><b>Electronic Equipment Details</b></ng-container>
+                    <ng-container *ngIf="productId=='25'"><b>Electronic Equipment Details</b></ng-container>
                     <div class="lg:col-1 md:col-1 col-12">
         
                     </div>
@@ -937,7 +936,7 @@
                     </div>
                 </div>
                 <div class="flex flex-wrap justify-content-end">
-                    <div class="text-white surface-900 px-6 py-3 border-round-lg" (click)="showSidebar()">
+                    <div class="text-white surface-900 px-6 py-3 border-round-lg">
                         <div class="flex flex-wrap justify-content-between" >
                             <div>
                                 <h5 class="text-white mb-1 mr-3">Total SumInsured</h5>
