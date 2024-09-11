@@ -43,7 +43,7 @@ export class QuotationPlanComponent {
     if(riskDetails.length!=0){
       this.riskDetails=[];let list=[],i=0;
       for(let entry of riskDetails){
-        let obj = list.find(ele=>ele.LocationId==entry.LocationId);
+        let obj = list.find(ele=>(ele.LocationId==entry.LocationId && this.productId!='5')  || (ele.LocationId==entry.LocationId && ele.SectionId==entry.SectionId && this.productId=='5'));
         if(obj){obj.SectionDetails[0].Covers = obj.SectionDetails[0].Covers.concat(entry.SectionDetails[0].Covers)}
         else{list.push(entry)}
         i+=1;
@@ -122,7 +122,7 @@ export class QuotationPlanComponent {
     else return this.productName;
   }
   checkCoverSelected(cover){
-    if((cover.isSelected=='Y' && cover.CoverageType!='A') || cover.CoverageType=='O') return true;
+    if((cover.isSelected=='Y' && cover.CoverageType!='A')) return true;
     else if(cover.SubCovers){
       if(cover.SubCovers.some(ele=>ele.isSelected=='Y')) return true;
       else return false;

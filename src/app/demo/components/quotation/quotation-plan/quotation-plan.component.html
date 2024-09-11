@@ -13,7 +13,7 @@
                                             <ng-container *ngIf="checkCoverSelected(cover)">
                                                 <div class="col-12 md:col-12 lg:col-12 xl:col-12 p-1">
                                                     <div class="card p-1 m-0 customOptCoverCard customOptCoverBg">
-                                                        <p class="mb-0"><span class="font-bold text-2xl"><b>{{getCoverNameDesc(cover)}}</b></span></p>
+                                                        <p class="mb-0"><b>{{getCoverNameDesc(cover)}}</b></p>
                                                         <ng-container *ngIf="productId=='14' || productId=='32'">
                                                             <p>Risk - {{getOccupationDesc(veh)}}</p>
                                                         </ng-container>
@@ -33,10 +33,10 @@
                                     <p><b>{{'PREMIUM.DefaultCovers' | translate}}</b></p>
                                     <div class="grid p-0">
                                         <ng-container *ngFor="let cover of sec.Covers">
-                                            <ng-container *ngIf="cover.isSelected=='D' && cover.CoverageType!='A' && cover.CoverageType!='O'">
+                                            <ng-container *ngIf="cover.isSelected=='D' && cover.CoverageType!='A'">
                                                 <div class="col-12 md:col-12 lg:col-12 xl:col-12 p-1">
                                                     <div class="card bg-blue-800 text-0 p-1 m-0">
-                                                        <p class="mb-0"><span class="font-bold text-2xl"><b>{{getCoverNameDesc(cover)}}</b></span></p>
+                                                        <p class="mb-0"><b>{{getCoverNameDesc(cover)}}</b></p>
                                                         <ng-container *ngIf="productId=='14' || productId=='32'">
                                                             <p>Risk - {{getOccupationDesc(veh)}}</p>
                                                         </ng-container>

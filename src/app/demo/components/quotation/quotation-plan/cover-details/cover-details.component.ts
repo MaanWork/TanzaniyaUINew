@@ -876,6 +876,7 @@ export class CoverDetailsComponent {
                 cover['SectionId'] = vehicle.SectionId;
                 cover['SectionName'] = vehicle.SectionName;
                 cover['VehicleId'] = vehicle.VehicleId;
+                cover['RiskDetails'] = vehicle.RiskDetails;
                 j+=1;
                 if(j==vehicle.CoverList.length) entry.CoverList = entry.CoverList.concat(vehicle.CoverList);
               }
@@ -886,12 +887,20 @@ export class CoverDetailsComponent {
               // }
             }
             else if(vehicle.SectionId!='1'){
-              vehicleList.push(vehicle);
+              let j=0;
+              for(let cover of vehicle.CoverList){
+                cover['SectionId'] = vehicle.SectionId;
+                cover['SectionName'] = vehicle.SectionName;
+                cover['VehicleId'] = vehicle.VehicleId;
+                cover['RiskDetails'] = vehicle.RiskDetails;
+                j+=1;
+                if(j==vehicle.CoverList.length) vehicleList.push(vehicle)
+              }
             }
             i+=1;
             if(i==this.vehicleData.length){
               this.vehicleDetailsList = vehicleList;
-              console.log("Final List")
+              console.log("Final List",this.vehicleDetailsList)
               this.checkSelectedCovers();
             }
           }
@@ -2145,28 +2154,26 @@ export class CoverDetailsComponent {
     //if(type=='coverList' && (rowData.SubCovers==null || (rowData.SubCovers!=null && rowData.SubCoverId!=null))){
       let vehicle:any;
         if(this.productId!='4' && this.productId!='5' && this.productId!='46' && this.productId!='29'){
-          vehicle = this.vehicleDetailsList.find(ele=>(ele.Vehicleid==vehicleId || ele.VehicleId==vehicleId));
+          vehicle = this.vehicleDetailsList.find(ele=>(ele.LocationId==rowData.LocationId && ele.SectionId==rowData.SectionId));
           if(vehicle==undefined) vehicle = vehicleData
+         
         }
         else{
           vehicle = this.vehicleDetailsList.find(ele=>ele.Vehicleid==vehicleId && ele.SectionId==rowData.SectionId && ele.LocationId==rowData.LocationId);
         }
-        
         let coverList = vehicle?.CoverList;
         if(event){
-         
           rowData.selected= true;
-          console.log("Final Row",rowData)
           if(rowData.DifferenceYN==undefined && this.coverModificationYN=='Y'){
             if(vehicle.Status=='D') rowData.DifferenceYN = 'N';
             else rowData.DifferenceYN = 'Y'
           }
           if(this.selectedCoverList.length!=0){
            
-            let entry = this.selectedCoverList.filter(ele=>ele.Id==vehicleId);
+            let entry = this.selectedCoverList.filter(ele=>(ele.Id==vehicleId && (this.productId=='5' || this.productId=='46')) || (ele.LocationId==rowData.LocationId && (this.productId!='5' && this.productId!='46')) );
             if(entry.length==0){
               let id=null;
-              if(rowData.VehicleId) id= rowData.VehicleId; else id=vehicleId
+              if(rowData.RiskDetails?.RiskId) id= rowData.RiskDetails?.RiskId; else id=vehicleId
               if(rowData.SubCovers==null){
                 console.log("Error Vehicle",vehicle)
                 let element = {
@@ -2268,7 +2275,7 @@ export class CoverDetailsComponent {
              if(sectionEntry == undefined){
               if(rowData.SubCovers==null){
                 let id=null;
-                if(rowData.VehicleId) id= rowData.VehicleId; else id=vehicleId
+                if(rowData.RiskDetails?.RiskId) id= rowData.RiskDetails?.RiskId; else id=vehicleId
                 let element = {
                   "Covers": [
                     {
@@ -2787,7 +2794,7 @@ export class CoverDetailsComponent {
         let j=0;
         for(let cover of covers){
           
-            let entry = this.vehicleDetailsList.find(ele=>String(ele.Vehicleid)==String(veh.VehicleId))
+            let entry = this.vehicleDetailsList.find(ele=>(String(ele.Vehicleid)==String(veh.VehicleId) && (this.productId=='5' || this.productId=='46') || ((this.productId!='5' && this.productId!='46' && String(ele.LocationId)==String(veh.LocationId)))))
             if(entry){
               let coverList = entry.CoverList;
               if(cover.UserOpt=='Y' ){
