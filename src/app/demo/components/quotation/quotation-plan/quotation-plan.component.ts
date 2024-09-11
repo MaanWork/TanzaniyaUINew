@@ -122,7 +122,7 @@ export class QuotationPlanComponent {
     else return this.productName;
   }
   checkCoverSelected(cover){
-    if((cover.isSelected=='Y' && cover.CoverageType!='A') || cover.CoverageType=='O') return true;
+    if((cover.isSelected=='Y' && cover.CoverageType!='A')) return true;
     else if(cover.SubCovers){
       if(cover.SubCovers.some(ele=>ele.isSelected=='Y')) return true;
       else return false;
