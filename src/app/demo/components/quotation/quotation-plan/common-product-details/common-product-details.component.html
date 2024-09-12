@@ -728,6 +728,32 @@
                                         </ng-container>
                                     </div>
                                 </div>
+                                <div class="grid" *ngIf="uwQuestionList.length!=0">
+                                    <div class="grid justify-content-start">
+                                        <div class="mb-1 "> 
+                                            <h3>UnderWriter Questions</h3> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid" *ngIf="uwQuestionList.length!=0">
+                                    <ng-container  *ngFor="let ques of uwQuestionList;let i=index">
+                                        <div class="lg:col-4 md:col-4 col-12" [hidden]="checkHideQUestion(ques)">
+                                            <label for="uwQuesDesc">{{ques.UwQuestionDesc}}</label><ng-container *ngIf="ques.MandatoryYn=='Y'"> &nbsp;<span class="text-danger">*</span></ng-container>
+                                            <ng-container *ngIf="ques?.QuestionType=='01'">
+                                                <p-selectButton [options]="ques.Options" [(ngModel)]="ques.Value" id="driverType2"
+                                                    optionLabel="UwQuesOptionDesc" optionValue="UwQuesOptionDesc"></p-selectButton>
+                                            </ng-container>
+                                            <ng-container *ngIf="ques?.QuestionType=='02' && ques?.DataType!='02'">
+                                                <input pInputText [id]="ques.UwQuestionId" maxlength="50" [disabled]="(endorsementSection) || checkDisableField()"
+                                                [(ngModel)]="ques.Value" />
+                                            </ng-container>
+                                            <ng-container *ngIf="ques?.QuestionType=='02' && ques?.DataType=='02'">
+                                                <input pInputText [id]="ques.UwQuestionId" maxlength="50" [disabled]="(endorsementSection) || checkDisableField()"
+                                                [(ngModel)]="ques.Value" />
+                                            </ng-container>
+                                        </div>
+                                    </ng-container>
+                                </div>
                             </p-tabPanel>
                         </ng-container>
                     </p-tabView>
@@ -744,7 +770,6 @@
                 </div>
                 <div class="grid mt-1">
                     <div class="lg:col-2 md:col-2 col-2"></div>
-                
                     <div class="lg:col-10 md:col-10 col-12">
                         <div class="grid" *ngIf="productId=='19' || productId=='59'">
                             <div class="lg:col-6 md:col-6 col-12">
