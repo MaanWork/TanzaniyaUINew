@@ -42,6 +42,8 @@ import { ProfessionalIndemnity } from '../models/ProfessionalIntermnity';
 import { ContentProfessionalIndermity } from '../models/ContentProfessional';
 import { ElectronicEquipmentNew } from '../models/ElectronicEquipmentNew';
 import { DomesticServant } from '../models/DomesticServant';
+import { TranslateService } from '@ngx-translate/core';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-Riskdetails',
@@ -79,7 +81,7 @@ export class RiskDetailsComponent {
         six:boolean=false;ElectronicList:any[]=[];allriskList:any[]=[];fieldsMachinery:any[]=[];CyperList:any[]=[];
         formSection: boolean=false;viewSection: boolean=false; form = new FormGroup({});field:any[]=[];
         cyberSectionId: any=null;ten: boolean=false;sumInsured:boolean=false; editContentSection: boolean;
-        fieldss:any[]=[];first:boolean=false;fieldsContent:any[]=[];eight:boolean=false;
+        fieldss:any[]=[];first:boolean=false;fieldsContent:any[]=[];eight:boolean=false;questionSection:boolean=false;
         fieldsPersonalAccident: any;second:boolean=false;third:boolean=false;fieldFEFields:any[]=[];
         contentRiskDesc: any=''; dropList:any[]=[];endorsementDetails: any=null;countryList:any[]=[];
         fifth: boolean=false;seven:boolean=false;fieldsEmpFields:any[]=[];selectedTab: any = 0;
@@ -118,9 +120,9 @@ export class RiskDetailsComponent {
   fields6: any[]=[];electronicEquipDialog: boolean=false;currentEERiskRowIndex:any=null;
   TableRowEE: any[]=[];DomesticServant: boolean=false;currentDSRowIndex: any=null;TableRowDS: any[]=[];
   fields7: any[]=[];locationIndex:any=0;domesticServantDialog: boolean;bankList: any[]=[];
-  servantTypeList: any[]=[];
-        constructor(private router: Router,private datePipe:DatePipe,
-          private sharedService: SharedService,public http: HttpClient) {
+  servantTypeList: any[]=[];lang:any=null;
+        constructor(private router: Router,private datePipe:DatePipe,private translate: TranslateService,
+          private appComp: AppComponent,private sharedService: SharedService,public http: HttpClient) {
          let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails') || '{}');
          this.coversreuired=sessionStorage.getItem('coversRequired');
          this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -408,7 +410,58 @@ export class RiskDetailsComponent {
               // }
             }
           }
+          this.appComp.getLanguage().subscribe((res: any) => {
+            if (res) this.lang = res;
+            else this.lang = 'en';
+            this.translate.setDefaultLang(this.lang); this.checkFieldNames();
+          });
+          if (!this.lang) {
+            if (sessionStorage.getItem('language')) this.lang = sessionStorage.getItem('language');
+            else this.lang = 'en';
+            sessionStorage.setItem('language', this.lang); this.checkFieldNames();
+            this.translate.setDefaultLang(sessionStorage.getItem('language'));
+          }
+          this.getUWDetails();
           //this.getSumInsuredDetails();
+        }
+        checkFieldNames() {
+          if (this.fields.length != 0) {
+            let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+            let i = 0;
+            for (let field of fieldList) {
+              let key = null;
+              if (field.id) key = field.id
+              else key = field.key
+              this.translate.get('MOTORQUOTE.' + key).subscribe((translation: string) => {
+                if (field.props) {
+                  field.props.label = translation;
+                  if (field.props.options) {
+                    for (let entry of field.props.options) {
+                      if (entry.CodeDescLocal == null || entry.CodeDescLocal == undefined) {
+                        entry['CodeDescLocal'] = 'Other';
+                      }
+                      if (this.lang == 'en') entry['label'] = entry.CodeDesc
+                      else entry['label'] = entry.CodeDescLocal
+                    }
+                  }
+                }
+                else if (field.templateOptions) {
+                 field.templateOptions.label = translation;
+                  // if(field.templateOptions.options){
+                  //   for(let entry of field.templateOptions.options){
+                  //     if(entry.CodeDescLocal==null || entry.CodeDescLocal==undefined){
+                  //       entry['CodeDescLocal'] = 'Other';
+                  //     }
+                  //     if(this.lang=='en') entry['label'] = entry.CodeDesc
+                  //     else entry['label'] = entry.CodeDescLocal
+                  //   }
+                  // }
+                }
+              });
+              i += 1;
+              if (i == fieldList.length) console.log('Final Field Lang', fieldList);
+            }
+          }
         }
         getLocationDetails(){
           let ReqObj={
@@ -3114,10 +3167,10 @@ export class RiskDetailsComponent {
           let appId = "1", loginId = "", brokerbranchCode = "";let createdBy = "";
             let quoteStatus = sessionStorage.getItem('QuoteStatus');
             let referenceNo =  sessionStorage.getItem('quoteReferenceNo');
-              if(referenceNo){
-                this.quoteRefNo = referenceNo;
-              }
-              else this.quoteRefNo = null;
+            if(referenceNo){
+              this.quoteRefNo = referenceNo;
+            }
+            else this.quoteRefNo = null;
             if (quoteStatus == 'AdminRP' || quoteStatus == 'AdminRA' || quoteStatus == 'AdminRR') {
               //createdBy = this.vehicleDetailsList[0].CreatedBy;
             }
@@ -3269,7 +3322,6 @@ export class RiskDetailsComponent {
                 "SectionId": "3",
                 "RiskId": null,
                 "AllriskSumInsured": String(entry.AllRiskSI).replaceAll(',','')
-                
               }
               if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
               obj.SectionList.push(subEntry);
@@ -3314,7 +3366,6 @@ export class RiskDetailsComponent {
             i+=1;
             if(i==this.LocationName.length){
                 ReqObj.LocationList = locationList;
-                console.log("Request",ReqObj);
                 this.onFinalSubmit(ReqObj,type);
             }
           }
@@ -3328,12 +3379,121 @@ export class RiskDetailsComponent {
                   this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
                   sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
                   if((type=='Save' && this.LocationName.length==(this.tabIndex+1)) || type=='Submit' ){
-                    this.onCalculate(data.Result);
+                    if(this.uwQuestionList.length!=0){
+                      let i = 0;
+                      let uwList:any[]=new Array();
+                      for(let ques of this.uwQuestionList){
+                        ques['BranchCode'] = this.branchCode;
+                        let createdBy="";
+                          let quoteStatus = sessionStorage.getItem('QuoteStatus');
+                          if(quoteStatus=='AdminRP'){
+                              createdBy = this.loginId;
+                          }
+                          else{
+                            createdBy = this.loginId;
+                          }
+                          let status = null,loading = null;
+                          if(ques.QuestionType == '01' && ques.Value!=null && ques.Value!='' && ques.Options!=null){
+                            let obj = ques.Options.find(ele=>ele.UwQuesOptionDesc==ques.Value);
+                            if(obj){
+                              loading = obj.LoadingPercent
+                              if(obj.ReferralYn=='Y') status = 'R';
+                              else status = 'Y';
+                            }
+                            else status = 'Y';
+                          }
+                          else status = ques.Status;
+                          let entry = {
+                            "InsuranceId": this.insuranceId,
+                            "ProductId": this.productId,
+                            "UwQuestionId": ques.UwQuestionId,
+                            "UwQuestionDesc": ques.UwQuestionDesc,
+                            "QuestionType": ques.QuestionType,
+                            "QuestionCategory": ques.QuestionCategory,
+                            "QuestionCategoryDesc": ques.questionCategoryDesc,
+                            "questionCategoryDesc": ques.questionCategoryDesc,
+                            "EffectiveDateStart": ques.EffectiveDateStart,
+                            "Status": status,
+                            "LoadingPercent": loading,
+                            "MandatoryYn": ques.MandatoryYn,
+                            "DataType": ques.DataType,
+                            "CreatedBy": createdBy,
+                            "UpdatedBy":  this.loginId,
+                            "Value": ques.Value,
+                            "BranchCode": this.branchCode,
+                            "RequestReferenceNo": this.requestReferenceNo,
+                            "VehicleId": String(this.tabIndex+1)
+                          }
+                          uwList.push(entry);
+                        i+=1;
+                        if(i==this.uwQuestionList.length) this.onSaveUWQues(uwList,data.Result,type);
+                      }
+                    }
+                    else{ this.onCalculate(data.Result,type); }
                   }
-                  else this.tabIndex+=1;
+                  else{
+                    if(this.uwQuestionList.length!=0){
+                      let i = 0;
+                      let uwList:any[]=new Array();
+                      for(let ques of this.uwQuestionList){
+                        ques['BranchCode'] = this.branchCode;
+                        let createdBy="";
+                          let quoteStatus = sessionStorage.getItem('QuoteStatus');
+                          if(quoteStatus=='AdminRP'){
+                              createdBy = this.loginId;
+                          }
+                          else{
+                            createdBy = this.loginId;
+                          }
+                          let status = null,loading = null;
+                          if(ques.QuestionType == '01' && ques.Value!=null && ques.Value!='' && ques.Options!=null){
+                            let obj = ques.Options.find(ele=>ele.UwQuesOptionDesc==ques.Value);
+                            if(obj){
+                              loading = obj.LoadingPercent
+                              if(obj.ReferralYn=='Y') status = 'R';
+                              else status = 'Y';
+                            }
+                            else status = 'Y';
+                          }
+                          else status = ques.Status;
+                          let entry = {
+                            "InsuranceId": this.insuranceId,
+                            "ProductId": this.productId,
+                            "UwQuestionId": ques.UwQuestionId,
+                            "UwQuestionDesc": ques.UwQuestionDesc,
+                            "QuestionType": ques.QuestionType,
+                            "QuestionCategory": ques.QuestionCategory,
+                            "QuestionCategoryDesc": ques.questionCategoryDesc,
+                            "questionCategoryDesc": ques.questionCategoryDesc,
+                            "EffectiveDateStart": ques.EffectiveDateStart,
+                            "Status": status,
+                            "LoadingPercent": loading,
+                            "MandatoryYn": ques.MandatoryYn,
+                            "DataType": ques.DataType,
+                            "CreatedBy": createdBy,
+                            "UpdatedBy":  this.loginId,
+                            "Value": ques.Value,
+                            "BranchCode": this.branchCode,
+                            "RequestReferenceNo": this.requestReferenceNo,
+                            "VehicleId": String(this.tabIndex+1)
+                          }
+                          uwList.push(entry);
+                        i+=1;
+                        if(i==this.uwQuestionList.length) this.onSaveUWQues(uwList,data.Result,type);
+                      }
+                    }
+                    else this.tabIndex+=1;
+                  } 
                 }
               }
             });
+        }
+        onOptionSelect(rowData,value){
+          rowData.Value = value;
+        }
+        getUWDesc(ques){
+          if(ques.ReferralYn=='Y') return `<i class="pi pi-bookmark-fill customReferralBorder"></i>&nbsp; ${ques.UwQuesOptionDesc}`
+          else return ques.UwQuesOptionDesc;
         }
         getOccupationList(sectionId,type){
           let ReqObj = {},urlLink:any='';this.occupationList=[];
@@ -4481,7 +4641,7 @@ export class RiskDetailsComponent {
                                 this.currentBuildingRowIndex = this.TableRowBuilding.length-1;
                               }
                               sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
-                              this.onCalculate(data.Result);
+                              this.onCalculate(data.Result,null);
                             }
                             //this.onCheckUWQuestionProceed(data.Result);
                           }
@@ -4633,7 +4793,7 @@ export class RiskDetailsComponent {
                   if(data.Result.length!=0){
                     this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
                     sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
-                    this.onCalculate(data.Result);
+                    this.onCalculate(data.Result,null);
                    
                     //this.onCheckUWQuestionProceed(data.Result);
                   }
@@ -5587,7 +5747,7 @@ export class RiskDetailsComponent {
           }
 
 
-          onSaveUWQues(uwList, entry) {
+          onSaveUWQues(uwList, entry,type) {
             if (uwList.length != 0) {
               let urlLink = `${this.CommonApiUrl}api/saveuwquestions`;
               this.sharedService.onPostMethodSync(urlLink, uwList).subscribe(
@@ -5596,7 +5756,7 @@ export class RiskDetailsComponent {
                     if (this.productId == '19' || this.productId == '59' || this.productId=='24') {
                       this.onFinalProceed();
                     }
-                    else { this.getCalculationDetails(entry); }
+                    else { this.onCalculate(entry,type); }
                   }
                 },
                 (err) => { },
@@ -5610,7 +5770,7 @@ export class RiskDetailsComponent {
             }
           }
 
-          onCalculate(buildDetails) {
+          onCalculate(buildDetails,type) {
             let createdBy = ""
             let quoteStatus = sessionStorage.getItem('QuoteStatus');
             if (quoteStatus == 'AdminRP') {
@@ -5667,7 +5827,13 @@ export class RiskDetailsComponent {
                       if (i == buildDetails.length) {
                       //  console.log('newsections',this.selectedIndex == this.NewSection,this.nextslide, this.nextslide1,this.nextslide2,this.nextslide3 ,this.nextslide4)
                       //   if(this.selectedIndex == this.NewSection && this.nextslide && this.nextslide1 && this.nextslide2 && this.nextslide3 && this.nextslide4){
-                          this.onFinalProceed();
+                          if(this.productId=='63' || this.productId=='59'){
+                            if((type=='Save' && this.LocationName.length==(this.tabIndex+1)) || type=='Submit' ){
+                                  this.onFinalProceed();
+                            }
+                            else{ this.tabIndex+=1;if(this.uwQuestionList.length!=0)this.getEditUwQuestions()}
+                          }
+                          else this.onFinalProceed();
                         // }
                         // this.onFinalProceed();
                         // if(formType=='Group'){
@@ -6230,7 +6396,7 @@ export class RiskDetailsComponent {
                   if(data.Result.length!=0){
                     this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
                     sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
-                    this.onCalculate(data.Result);
+                    this.onCalculate(data.Result,null);
                    
                     //this.onCheckUWQuestionProceed(data.Result);
                   }
@@ -6580,5 +6746,120 @@ export class RiskDetailsComponent {
               // }
             // }
             
-          } 
+          }
+          
+          getUWDetails() {
+            // let branchCode = '';
+            // if(this.userType!='Broker' && this.userType!='User'){
+            //   branchCode = this.branchCode
+            // }
+            // else{
+            //   branchCode = this.brokerbranchCode
+            // }
+            let ReqObj = {
+              "Limit": "0",
+              "Offset": "100",
+              "ProductId": this.productId,
+              "LoginId": this.loginId,
+              "InsuranceId": this.insuranceId,
+              "BranchCode": this.branchCode
+            }
+            let urlLink = `${this.CommonApiUrl}master/getactiveuwquestions`;
+            this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+              (data: any) => {
+                let res: any = data.Result;
+                if (res.length != 0) {
+                  this.uwQuestionList = res;
+                  if(this.uwQuestionList.length!=0){
+                    let i=0;
+                    for(let ques of this.uwQuestionList){
+                        if(ques['HiddenYN']==undefined) ques['HiddenYN'] = 'N';
+                        if(ques.Options!=null && ques.Options.length!=0){
+                          let j=0;
+                          for(let option of ques.Options){
+                            if(option.DependentYn=='Y'){
+                              let uwQues = this.uwQuestionList.find(ele=>ele.UwQuestionId==option.DependentUnderwriterId);
+                              if(uwQues) uwQues['HiddenYN'] = 'Y';
+                            }
+                            j+=1;
+                            if(j==ques.Options.length){i+=1; if(i==this.uwQuestionList.length) this.getEditUwQuestions();}
+                          
+                          }
+                        }
+                        else{i+=1;if(i==this.uwQuestionList.length) this.getEditUwQuestions();}
+                    }
+                  }
+                }
+                else {
+                }
+              },
+              (err) => { },
+            );
+          }
+          getEditUwQuestions() {
+            let ReqObj = {
+              "InsuranceId": this.insuranceId,
+              "ProductId": this.productId,
+              "LoginId": this.loginId,
+              "RequestReferenceNo": this.quoteRefNo,
+              "VehicleId": String(this.tabIndex+1)
+            }
+            let urlLink = `${this.CommonApiUrl}api/getuwquestionsdetails`;
+            this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+              (data: any) => {
+                let uwList = data?.Result;
+                if (uwList.length != 0) {
+                  let i = 0;
+                  for (let ques of uwList) {
+                    let entry = this.uwQuestionList.find(ele => ele.UwQuestionId == ques.UwQuestionId);
+                    if (entry) { entry.Value = ques.Value };
+                    i += 1;
+                    if (i == uwList.length) {
+        
+                      this.uwQuestionList.forEach(x => {
+                        if (x.QuestionType == '01') {
+                         
+                          console.log('gggggg', x.Value)
+                          x.Value = x.Value ?  x.Value : x.Value
+                          if(x.Options!=null) this.showUWQUestion(x.Options.find(ele=>ele.UwQuesOptionDesc==x.Value),x.Options,'direct');
+                        }
+                        
+                      });
+                      
+                      this.questionSection = true; console.log("Final UW List", this.uwQuestionList);
+                    }
+                  }
+                }
+                else {
+                  let i = 0
+                  for (let ques of this.uwQuestionList) {
+                      ques.Value = null;
+                    i += 1;
+                    if (i == this.uwQuestionList.length) { this.questionSection = true; console.log("Final UW List", this.uwQuestionList); }
+                  }
+                }
+              },
+              (err) => { },
+            );
+          }
+          showUWQUestion(rowData,optionList,type){
+            if(optionList.length!=0 && rowData!=undefined){
+              for(let option of optionList){
+                if(option.DependentYn!=null && option.DependentYn=='Y'){
+                    if(option.DependentUnderwriterId==rowData.DependentUnderwriterId){
+                      let ques = this.uwQuestionList.find(ele=>ele.UwQuestionId==option.DependentUnderwriterId)
+                      ques['HiddenYN'] = 'N';
+                      if(type=='change') ques['Value']=null;
+                    }
+                    else{
+                      let ques = this.uwQuestionList.find(ele=>ele.UwQuestionId==option.DependentUnderwriterId)
+                      ques['HiddenYN'] = 'Y';
+                    }
+                }
+              }
+            }
+          }
+          checkHideQUestion(rowData){
+            return rowData['HiddenYN']=='Y';
+          }
 }

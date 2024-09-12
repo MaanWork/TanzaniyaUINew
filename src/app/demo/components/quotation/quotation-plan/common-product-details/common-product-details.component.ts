@@ -330,12 +330,12 @@ export class CommonProductDetailsComponent {
       {"Code":"1000000","CodeDesc":"10,00,000"},
     ];
     this.getSourceList();
-   // this.getUWDetails();
+    this.getUWDetails();
   }
   ngOnInit(){
     this.productItem = new ProductData();
     if(this.productId=='61' || this.productId=='25' || this.productId=='16'  ||  this.productId=='39'
-      || this.productId=='1' || this.productId=='14' || this.productId=='15' ||  this.productId=='32' ||  this.productId=='6'){this.nonMotorProductItem = new NonMotorProducts(); console.log("Final Products",this.nonMotorProductItem);this.LocationListAlt = this.nonMotorProductItem.LocationList;this.LocationListAlt[0].LocationId = this.LocationListAlt.length;this.currentSectionIndex=0;}
+      || this.productId=='1' || this.productId=='14' || this.productId=='15' ||  this.productId=='32' ||  this.productId=='6'){this.nonMotorProductItem = new NonMotorProducts(); console.log("Final Products",this.nonMotorProductItem);this.LocationListAlt = this.nonMotorProductItem.LocationList;this.LocationListAlt[0].LocationId = this.LocationListAlt.length;if(this.productId!='14' && this.productId!='32')this.currentSectionIndex=0;}
    
     
     this.productItem.BuildingOwnerYn = 'Y';
@@ -4322,7 +4322,7 @@ backPlan()
                 if(this.productId!='63' && this.productId!='61' && this.productId!='25' && this.productId!='16' && this.productId!='1' && this.productId!='14' && this.productId!='15' && this.productId!='32' && this.productId!='6') entry = data.Result;
                 else { 
                   entry = {...data.Result.PolicyInformation, ...data.Result.EndorsementDetails, ...data.Result.BrokerDetails}
-                  if(data.Result.LocationList){entry['LocationList'] = data.Result.LocationList;this.currentSectionIndex=0}
+                  if(data.Result.LocationList){entry['LocationList'] = data.Result.LocationList;if(this.productId!='14' && this.productId!='32')this.currentSectionIndex=0}
                   else entry['LocationList'] = [];
                 }
                  this.colorSections=[];let j=0;
@@ -4440,7 +4440,7 @@ backPlan()
    
   }
   checkRowExist(location){
-    if((this.productId=='16' || this.productId=='25' || this.productId=='14' || this.productId=='15' || this.productId=='32') && (location.SectionList.length!=1 || ( ((this.productId=='16' || this.productId=='1') && location.SectionList[0].RegionCode!=null) || ((this.productId=='14' || this.productId=='15') && location.SectionList[0].OccupationId!=null) || (this.productId=='25' && location.SectionList[0].ContentId!=null) || (this.productId=='32' && location.SectionList[0].FidEmpSi!=null)))) return true
+    if((this.productId=='16' || this.productId=='25' || this.productId=='14' || this.productId=='15' || this.productId=='32') && (location.SectionList.length!=1 || ( ((this.productId=='16' || this.productId=='1') && location.SectionList[0].RegionCode!=null) || ((this.productId=='14' || this.productId=='15') && ((location.SectionList[0].OccupationId!=null && location.SectionList[0].OccupationId!=undefined) || (location.SectionList[0].OccupationType!=undefined && location.SectionList[0].OccupationType!=null))) || (this.productId=='25' && location.SectionList[0].ContentId!=null) || (this.productId=='32' && location.SectionList[0].FidEmpSi!=null)))) return true
     else return false;
   }
   onDeleteCommonDetails(section,location,index){
@@ -4477,7 +4477,8 @@ backPlan()
       this.ongetDistrictList('direct')
     }
     else if(this.productId=='14' || this.productId=='15'){
-      this.productItem.LiabilityOccupationId = section.OccupationId;
+      if(section.OccupationId) this.productItem.LiabilityOccupationId = section.OccupationId;
+      else if(section.OccupationType) this.productItem.LiabilityOccupationId = section.OccupationType;
       this.productItem.TotalNoOfEmployees = section.TotalNoOfEmployees;
       this.productItem.otheroption = section?.OtherOccupation;
       this.productItem.EmpLiabilitySi = section?.EmpLiabilitySi;
@@ -4539,34 +4540,30 @@ backPlan()
         }
       }
       else if(this.productId=='14' || this.productId=='15'){
-        entry = {
-          "RiskId": null,
-          "OccupationId": this.productItem.LiabilityOccupationId,
-          "TotalNoOfEmployees": this.productItem.TotalNoOfEmployees,
-          "EmpLiabilitySi": this.productItem.EmpLiabilitySi,
-          "OtherOccupation": this.productItem.otheroption
-        }
-        if(this.productId=='14'){entry["SectionId"]= "45";entry["SectionName"]= "Employers Liability";}
-        else{entry["SectionId"]= "38";entry["SectionName"]= "Workmen Compensation";}
-      }
-      else if(this.productId=='32'){
-        entry = {
-          "SectionId": "43",
-          "SectionName": "Fidelity",
-          "RiskId": null,
-          "OccupationId": '99999',
-          "FidEmpCount":this.productItem.FidEmpCount,
-          "FidEmpSi":this.productItem.FidEmpSi
+        if(this.productItem.EmpLiabilitySi!=null && this.productItem.EmpLiabilitySi!='0' && this.productItem.EmpLiabilitySi!=0){
+          entry = {
+            "RiskId": null,
+            "OccupationId": this.productItem.LiabilityOccupationId,
+            "TotalNoOfEmployees": this.productItem.TotalNoOfEmployees,
+            "EmpLiabilitySi": this.productItem.EmpLiabilitySi,
+            "OtherOccupation": this.productItem.otheroption
+          }
+          if(this.productId=='14'){entry["SectionId"]= "45";entry["SectionName"]= "Employers Liability";}
+          else{entry["SectionId"]= "38";entry["SectionName"]= "Workmen Compensation";}
+          location.SectionList = location.SectionList.filter(ele=>ele.TotalNoOfEmployees!=null && ele.TotalNoOfEmployees!='' && ele.EmpLiabilitySi!='0' && ele.EmpLiabilitySi!=null)
         }
       }
       else if(this.productId=='32'){
-        entry = {
-          "SectionId": "43",
-          "SectionName": "Fidelity",
-          "RiskId": null,
-          "OccupationId": '99999',
-          "FidEmpCount":this.productItem.FidEmpCount,
-          "FidEmpSi":this.productItem.FidEmpSi
+        if(this.productItem.FidEmpCount!=null && this.productItem.FidEmpSi!=null && this.productItem.FidEmpSi!='' && this.productItem.FidEmpSi!='0'){
+          entry = {
+            "SectionId": "43",
+            "SectionName": "Fidelity",
+            "RiskId": null,
+            "OccupationId": '99999',
+            "FidEmpCount":this.productItem.FidEmpCount,
+            "FidEmpSi":this.productItem.FidEmpSi
+          }
+          location.SectionList = location.SectionList.filter(ele=>ele.FidEmpCount!=null && ele.FidEmpCount!='' && ele.FidEmpSi!='0' && ele.FidEmpSi!=null)
         }
       }
       else if(this.productId=='6'){
@@ -4587,8 +4584,8 @@ backPlan()
         entry['BusinessNameDesc'] = this.getBusinessNameDesc(this.productItem.BusinessName);
         entry['BuildingSumInsured'] = this.productItem.BusinessSI;
       }
-      if(this.currentSectionIndex!=null){ location.SectionList[this.currentSectionIndex] = entry;}
-      else{location.SectionList.push(entry);}
+      if(this.currentSectionIndex!=null){if(entry) location.SectionList[this.currentSectionIndex] = entry;}
+      else if(entry){location.SectionList.push(entry);}
       this.productItem = new ProductData();
       this.currentSectionIndex = null;
     }
@@ -4597,7 +4594,7 @@ backPlan()
     return this.dropList.find(ele=>ele.Code==rowData.ContentId)?.CodeDesc
   }
   getOccupationDesc(rowData){
-    return this.occupationList.find(ele=>ele.Code==rowData.OccupationId)?.CodeDesc
+    return this.occupationList.find(ele=>(ele.Code==rowData.OccupationId || ele.Code==rowData.OccupationType))?.CodeDesc
   }
   getSIDesc(rowData){
     return this.sumInsuredList.find(ele=>ele.Code==rowData.FidEmpSi)?.CodeDesc
@@ -4696,10 +4693,14 @@ backPlan()
   }
   setCommonValues(){
     let entry = this.LocationListAlt.find(ele=>ele.LocationId==this.tabIndex+1);
+    if(this.LocationListAlt.length!=0){
+      
+    }
     if(this.productId=='61'){
       this.productItem.BondSI = entry.SectionList[0].BondSuminsured;
       this.productItem.TypeOfBond = entry.SectionList[0].BondType;
-      if(entry.SectionList[0].IndustryType) this.productItem.IndustryId = String(entry.SectionList[0].IndustryType);
+      if(entry.SectionList[0].IndustryId) this.productItem.IndustryId = String(entry.SectionList[0].IndustryId);
+      else if(entry.SectionList[0].IndustryType) this.productItem.IndustryId = String(entry.SectionList[0].IndustryType);
       this.productItem.NoOfYears = entry.SectionList[0].BondYear;
     }
     else if(this.productId=='6'){
@@ -4708,16 +4709,17 @@ backPlan()
          this.productItem.Section = section[0].SectionId;
          if(section[0].SectionDesc) this.productItem.SectionDesc =  section[0].SectionDesc;
          if(section[0].IndustryType) this.productItem.InsuranceType = String(section[0].IndustryType);
+         else if(section[0].IndustryId) this.productItem.InsuranceType = String(section[0].IndustryId);
          this.getFireIndustryList('direct');this.filterSectionList('direct');this.onChangeBusinessSection()
-         this.productItem.OccupationId = section[0].OccupationId;
-         this.productItem.OccupationDesc = section[0].OccupationDesc;
+         this.productItem.OccupationId = section[0].CategoryId;
+         this.productItem.OccupationDesc = section[0].CategoryDesc;
          this.productItem.CoveringDetails = section[0].CoveringDetails;
          this.productItem.DescriptionOfRisk = section[0].DescriptionOfRisk;
          this.productItem.RegionCode = section[0].RegionCode;
          this.productItem.DistrictCode = section[0].DistrictCode;
-         if(section[0].Business_Interruption) this.productItem.BusinessName = Number(section[0].Business_Interruption);
+         if(section[0].BusinessInterruption) this.productItem.BusinessName = Number(section[0].BusinessInterruption);
          else if(section[0].BusinessInterruption) this.productItem.BusinessName = Number(section[0].BusinessInterruption);
-         this.productItem.BusinessSI = section[0].Business_InterruptionSI;
+         this.productItem.BusinessSI = section[0].FirePlantSi;
          this.onChangeBusiness();
          this.productItem.FireSumInsured = section[0].BuildingSumInsured;
          if(this.productItem.RegionCode) this.ongetDistrictList('direct');
@@ -4754,7 +4756,7 @@ backPlan()
       // let entry = this.LocationListAlt[0].SectionList;
       // if(entry.length!=0){
       //   this.IndustryId = entry[0].IndustryId;
-      //   this.productItem.LiabilityOccupationId = entry[0].OccupationId;
+      //   this.productItem.LiabilityOccupationId = entry[0].OccupationType;
       //   this.productItem.TotalNoOfEmployees = entry[0].TotalNoOfEmployees;
       //   this.productItem.otheroption = entry[0]?.OtherOccupation;
       //   this.productItem.EmpLiabilitySi = entry[0]?.EmpLiabilitySi;
@@ -5890,6 +5892,7 @@ backPlan()
               "SectionId": "45",
               "SectionName": "Employers Liability",
               "OccupationId": this.productItem.LiabilityOccupationId,
+              "OccupationType": this.productItem.LiabilityOccupationId,
               "TotalNoOfEmployees": this.productItem.TotalNoOfEmployees,
               "EmpLiabilitySi": this.productItem.EmpLiabilitySi,
               "OtherOccupation": this.productItem.OtherOccupation,
@@ -5900,7 +5903,7 @@ backPlan()
           }
         }
         else if(entry && this.productId=='32'){
-          if(this.productItem.LiabilityOccupationId!=null && this.productItem.LiabilityOccupationId!='' && this.productItem.EmpLiabilitySi!='0' && this.productItem.EmpLiabilitySi!=0 && this.productItem.EmpLiabilitySi!=null){
+          if(this.productItem.FidEmpCount!=null && this.productItem.FidEmpCount!='' && this.productItem.FidEmpSi!='0' && this.productItem.FidEmpSi!=0 && this.productItem.FidEmpSi!=null){
             let subEntry = {
               "SectionId": "43",
               "SectionName": "Fidelity",
@@ -5944,18 +5947,20 @@ backPlan()
             obj['IndustryTypeDesc'] = this.getFireIndustryDesc(this.productItem.InsuranceType);
             obj['OccupationId'] = this.productItem.OccupationId;
             obj['OccupationDesc'] = this.productItem.OccupationDesc;
+            obj['CategoryId'] = this.productItem.OccupationId;
+            obj['CategoryDesc'] = this.productItem.OccupationDesc;
             obj['CoveringDetails'] = this.productItem.CoveringDetails;
             obj['DescriptionOfRisk'] = this.productItem.DescriptionOfRisk;
             obj['RegionCode'] = this.productItem.RegionCode;
             obj['DistrictCode'] = this.productItem.DistrictCode;
-            obj['Business_Interruption'] = this.productItem.BusinessName;
-            obj['Business_InterruptionSI'] = this.productItem.BusinessSI;
+            obj['BusinessInterruption'] = this.productItem.BusinessName;
+            obj['FirePlantSi'] = this.productItem.BusinessSI;
             obj['BusinessNameDesc'] = this.getBusinessNameDesc(this.productItem.BusinessName);
             obj['BuildingSumInsured'] = this.productItem.FireSumInsured;
             sectionList.push(obj);
-            if(obj.Business_Interruption!=0 && obj.Business_Interruption!='0'){
+            if(obj.BusinessInterruption!=0 && obj.BusinessInterruption!='0'){
               let subData = {
-                "SectionId": obj.Business_Interruption,
+                "SectionId": obj.BusinessInterruption,
                 "SectionDesc": obj.BusinessNameDesc,
                 "Status": obj.SectionDesc,
                 "RiskId": obj.RiskId,
@@ -5965,9 +5970,12 @@ backPlan()
                 "IndustryTypeDesc": obj.IndustryTypeDesc,
                 "OccupationId": obj.OccupationId,
                 "OccupationDesc": obj.OccupationDesc,
+                "CategoryId": obj.CategoryId,
+                "CategoryDesc": obj.CategoryDesc,
                 "CoveringDetails": obj.CoveringDetails,
                 "DescriptionOfRisk": obj.DescriptionOfRisk,
-                'Business_Interruption' : obj.Business_Interruption,
+                'BusinessInterruption' : obj.BusinessInterruption,
+                'FirePlantSi': this.productItem.BusinessSI,
                 'BusinessNameDesc' : obj.BusinessNameDesc,
                 "RegionCode": obj.RegionCode,
                 "DistrictCode": obj.DistrictCode,
@@ -5997,7 +6005,6 @@ backPlan()
     }
   }
   onSaveCommonNonMotor(type){
-    
     let sourcecode:any;
     let endorsementDate=null,EndorsementEffectiveDate=null,EndorsementRemarks=null,
     EndorsementType=null,EndorsementTypeDesc=null,EndtCategoryDesc=null,EndtCount=null,
@@ -6131,8 +6138,14 @@ backPlan()
                     else{subEntry['BondSumSIError']=false;}
                     if(subEntry.BondType=='' || subEntry.BondType==null){j+=1;subEntry['BondTypeError']=true;}
                     else{entry['BondTypeError']=false}
-                    if(subEntry.IndustryType=='' || subEntry.IndustryType==null){j+=1;subEntry['IndustryTypeError']=true;}
+                    if((subEntry.IndustryType=='' || subEntry.IndustryType==null)){
+                      if((subEntry.IndustryId=='' || subEntry.IndustryId==null)){
+                        j+=1;subEntry['IndustryTypeError']=true;
+                      }
+                      else{ subEntry.IndustryType = subEntry.IndustryId;subEntry['IndustryTypeError']=false;}
+                    }
                     else{subEntry['IndustryTypeError']=false;}
+                    if((subEntry.IndustryId=='' || subEntry.IndustryId==null))
                     if(subEntry.BondYear=='' || subEntry.BondYear==null){j+=1;subEntry['BondYearError']=true;}
                     else{subEntry['BondYearError']=false;}
                     if(j==0){
@@ -6222,19 +6235,27 @@ backPlan()
               }
               else if(this.productId=='14'){
                 if(entry.SectionList.length!=0){
+                  console.log("On Received Emp List",entry.SectionList)
                   let k=0;
                   for(let subEntry of entry.SectionList){
-                    let subObj = {
-                      "SectionId": "45",
-                      "SectionName": "Employers Liability",
-                      "RiskId": null,
-                      "IndustryId": this.IndustryId,
-                      "OccupationId": subEntry.OccupationId,
-                      "TotalNoOfEmployees": subEntry.TotalNoOfEmployees,
-                      "EmpLiabilitySi":  subEntry.EmpLiabilitySi,
-                      "OtherOccupation":  subEntry.OtherOccupation,
+                    let occupationId=null;
+                    if(subEntry.EmpLiabilitySi!=null && subEntry.EmpLiabilitySi!='' && subEntry.EmpLiabilitySi!='0' && subEntry.EmpLiabilitySi!=0 && subEntry.TotalNoOfEmployees!=null){
+                      if(subEntry.OccupationId){occupationId=subEntry.OccupationId;}
+                      else if(subEntry.OccupationType){occupationId=subEntry.OccupationType}
+                      let subObj = {
+                        "SectionId": "45",
+                        "SectionName": "Employers Liability",
+                        "RiskId": null,
+                        "IndustryId": this.IndustryId,
+                        "OccupationId": occupationId,
+                        "TotalNoOfEmployees": subEntry.TotalNoOfEmployees,
+                        "EmpLiabilitySi":  subEntry.EmpLiabilitySi,
+                        "OtherOccupation":  subEntry.OtherOccupation,
+                      }
+                      if(subEntry.OccupationId) subObj['OccupationType'] = subEntry.OccupationId;
+                      else if(subEntry.OccupationType) subObj['OccupationType'] = subEntry.OccupationType;
+                      obj.SectionList.push(subObj);
                     }
-                    obj.SectionList.push(subObj);
                     k+=1;if(k==entry.SectionList.length){i+=1;ReqObj.LocationList.push(obj); if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);}
                   }
                 }
@@ -6262,11 +6283,10 @@ backPlan()
                 let sectionData = entry.SectionList.filter(ele=>ele.SectionId!=ele.Business_Interruption);
                  let list = [];
                 if(sectionData.length!=0){
-                  
                     list.push(sectionData[0]);
-                    if(sectionData[0].Business_Interruption!=0 && sectionData[0].Business_Interruption!='0'){
+                    if(sectionData[0].BusinessInterruption!=0 && sectionData[0].BusinessInterruption!='0'){
                       let subData = {
-                        "SectionId": sectionData[0].Business_Interruption,
+                        "SectionId": sectionData[0].BusinessInterruption,
                         "SectionDesc": sectionData[0].BusinessNameDesc,
                         "Status": sectionData[0].SectionDesc,
                         "RiskId": sectionData[0].RiskId,
@@ -6276,9 +6296,12 @@ backPlan()
                         "IndustryTypeDesc": sectionData[0].IndustryTypeDesc,
                         "OccupationId": sectionData[0].OccupationId,
                         "OccupationDesc": sectionData[0].OccupationDesc,
+                        "CategoryId": sectionData[0].CategoryId,
+                        "CategoryDesc": sectionData[0].CategoryDesc,
                         "CoveringDetails": sectionData[0].CoveringDetails,
                         "DescriptionOfRisk": sectionData[0].DescriptionOfRisk,
-                        'Business_Interruption' : sectionData[0].Business_Interruption,
+                        'BusinessInterruption' : sectionData[0].Business_Interruption,
+                        'FirePlantSi': sectionData[0].FirePlantSi,
                         'BusinessNameDesc' : sectionData[0].BusinessNameDesc,
                         "RegionCode": sectionData[0].RegionCode,
                         "DistrictCode": sectionData[0].DistrictCode,
@@ -6287,10 +6310,11 @@ backPlan()
                       list.push(subData);
                     }
                     obj.SectionList = list;
-                    console.log("Received Final Obj",entry.SectionList)
                     ReqObj.LocationList.push(obj);i+=1; if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
                 }
-
+                else{
+                  list.push(sectionData[0]);i+=1; if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
+                }
               }
               else if(this.productId=='39'){obj.SectionList=entry.SectionList;i+=1;ReqObj.LocationList.push(obj)
                 if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
@@ -6308,21 +6332,191 @@ backPlan()
             this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
             sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
             if((type=='Save' && this.LocationListAlt.length==(this.tabIndex+1)) || type=='Submit' ){
-              this.onCalculate(data.Result,type,null,null);
+              if(this.uwQuestionList.length!=0){
+                let i = 0;
+                let uwList:any[]=new Array();
+                for(let ques of this.uwQuestionList){
+                  ques['BranchCode'] = this.branchCode;
+                  let createdBy="";
+                    let quoteStatus = sessionStorage.getItem('QuoteStatus');
+                    if(quoteStatus=='AdminRP'){
+                        createdBy = this.loginId;
+                    }
+                    else{
+                      createdBy = this.loginId;
+                    }
+                    let status = null,loading = null;
+                    if(ques.QuestionType == '01' && ques.Value!=null && ques.Value!='' && ques.Options!=null){
+                      let obj = ques.Options.find(ele=>ele.UwQuesOptionDesc==ques.Value);
+                      if(obj){
+                        loading = obj.LoadingPercent
+                        if(obj.ReferralYn=='Y') status = 'R';
+                        else status = 'Y';
+                      }
+                      else status = 'Y';
+                    }
+                    else status = ques.Status;
+                    let entry = {
+                      "InsuranceId": this.insuranceId,
+                      "ProductId": this.productId,
+                      "UwQuestionId": ques.UwQuestionId,
+                      "UwQuestionDesc": ques.UwQuestionDesc,
+                      "QuestionType": ques.QuestionType,
+                      "QuestionCategory": ques.QuestionCategory,
+                      "QuestionCategoryDesc": ques.questionCategoryDesc,
+                      "questionCategoryDesc": ques.questionCategoryDesc,
+                      "EffectiveDateStart": ques.EffectiveDateStart,
+                      "Status": status,
+                      "LoadingPercent": loading,
+                      "MandatoryYn": ques.MandatoryYn,
+                      "DataType": ques.DataType,
+                      "CreatedBy": createdBy,
+                      "UpdatedBy":  this.loginId,
+                      "Value": ques.Value,
+                      "BranchCode": this.branchCode,
+                      "RequestReferenceNo": this.requestReferenceNo,
+                      "VehicleId": String(this.tabIndex+1)
+                    }
+                    uwList.push(entry);
+                  i+=1;
+                  if(i==this.uwQuestionList.length) this.onSaveUWQues(uwList,data.Result,type,'direct');
+                }
+              }
+              else{ this.onCalculate(data.Result,type,null,null); }
             }
             else{
                 if(this.tabIndex!=this.LocationListAlt.length-1){
-                  this.tabIndex+=1;
-                  this.productItem = new ProductData();
-                  this.onEditCommonDetails(this.LocationListAlt[this.tabIndex].SectionList[0],this.LocationListAlt[this.tabIndex],0);
+                  if(this.uwQuestionList.length!=0){
+                    let i = 0;
+                    let uwList:any[]=new Array();
+                    for(let ques of this.uwQuestionList){
+                      ques['BranchCode'] = this.branchCode;
+                      let createdBy="";
+                        let quoteStatus = sessionStorage.getItem('QuoteStatus');
+                        if(quoteStatus=='AdminRP'){
+                            createdBy = this.loginId;
+                        }
+                        else{
+                          createdBy = this.loginId;
+                        }
+                        let status = null,loading = null;
+                        if(ques.QuestionType == '01' && ques.Value!=null && ques.Value!='' && ques.Options!=null){
+                          let obj = ques.Options.find(ele=>ele.UwQuesOptionDesc==ques.Value);
+                          if(obj){
+                            loading = obj.LoadingPercent
+                            if(obj.ReferralYn=='Y') status = 'R';
+                            else status = 'Y';
+                          }
+                          else status = 'Y';
+                        }
+                        else status = ques.Status;
+                        let entry = {
+                          "InsuranceId": this.insuranceId,
+                          "ProductId": this.productId,
+                          "UwQuestionId": ques.UwQuestionId,
+                          "UwQuestionDesc": ques.UwQuestionDesc,
+                          "QuestionType": ques.QuestionType,
+                          "QuestionCategory": ques.QuestionCategory,
+                          "QuestionCategoryDesc": ques.questionCategoryDesc,
+                          "questionCategoryDesc": ques.questionCategoryDesc,
+                          "EffectiveDateStart": ques.EffectiveDateStart,
+                          "Status": status,
+                          "LoadingPercent": loading,
+                          "MandatoryYn": ques.MandatoryYn,
+                          "DataType": ques.DataType,
+                          "CreatedBy": createdBy,
+                          "UpdatedBy":  this.loginId,
+                          "Value": ques.Value,
+                          "BranchCode": this.branchCode,
+                          "RequestReferenceNo": this.requestReferenceNo,
+                          "VehicleId": String(this.tabIndex+1)
+                        }
+                        uwList.push(entry);
+                      i+=1;
+                      if(i==this.uwQuestionList.length) this.onSaveUWQues(uwList,data.Result,type,'next');
+                    }
+                  }
+                  else{
+                    this.tabIndex+=1;
+                    this.productItem = new ProductData();
+                    this.onEditCommonDetails(this.LocationListAlt[this.tabIndex].SectionList[0],this.LocationListAlt[this.tabIndex],0);
+                  }
                 }
                 else{
+                  if(this.uwQuestionList.length!=0){
+                    let i = 0;
+                    let uwList:any[]=new Array();
+                    for(let ques of this.uwQuestionList){
+                      ques['BranchCode'] = this.branchCode;
+                      let createdBy="";
+                        let quoteStatus = sessionStorage.getItem('QuoteStatus');
+                        if(quoteStatus=='AdminRP'){
+                            createdBy = this.loginId;
+                        }
+                        else{
+                          createdBy = this.loginId;
+                        }
+                        let status = null,loading = null;
+                        if(ques.QuestionType == '01' && ques.Value!=null && ques.Value!='' && ques.Options!=null){
+                          let obj = ques.Options.find(ele=>ele.UwQuesOptionDesc==ques.Value);
+                          if(obj){
+                            loading = obj.LoadingPercent
+                            if(obj.ReferralYn=='Y') status = 'R';
+                            else status = 'Y';
+                          }
+                          else status = 'Y';
+                        }
+                        else status = ques.Status;
+                        let entry = {
+                          "InsuranceId": this.insuranceId,
+                          "ProductId": this.productId,
+                          "UwQuestionId": ques.UwQuestionId,
+                          "UwQuestionDesc": ques.UwQuestionDesc,
+                          "QuestionType": ques.QuestionType,
+                          "QuestionCategory": ques.QuestionCategory,
+                          "QuestionCategoryDesc": ques.questionCategoryDesc,
+                          "questionCategoryDesc": ques.questionCategoryDesc,
+                          "EffectiveDateStart": ques.EffectiveDateStart,
+                          "Status": status,
+                          "LoadingPercent": loading,
+                          "MandatoryYn": ques.MandatoryYn,
+                          "DataType": ques.DataType,
+                          "CreatedBy": createdBy,
+                          "UpdatedBy":  this.loginId,
+                          "Value": ques.Value,
+                          "BranchCode": this.branchCode,
+                          "RequestReferenceNo": this.requestReferenceNo,
+                          "VehicleId": String(this.tabIndex+1)
+                        }
+                        uwList.push(entry);
+                      i+=1;
+                      if(i==this.uwQuestionList.length) this.onSaveUWQues(uwList,data.Result,type,'direct');
+                    }
+                  }
+                  else{
                   this.onCalculate(data.Result,type,null,null);
+                  }
                 }
             } 
           }
         }
       });
+  }
+  onSaveUWQues(uwList, entry,type,subType) {
+    if (uwList.length != 0) {
+      let urlLink = `${this.CommonApiUrl}api/saveuwquestions`;
+      this.sharedService.onPostMethodSync(urlLink, uwList).subscribe(
+        (data: any) => {
+          if (data.Result) {
+            if(subType=='next'){
+              this.tabIndex+=1;
+                    this.productItem = new ProductData();
+                    this.onEditCommonDetails(this.LocationListAlt[this.tabIndex].SectionList[0],this.LocationListAlt[this.tabIndex],0);
+                    this.getEditUwQuestions();
+            }
+            else this.onCalculate(entry,type,null,null); }
+        })
+    }
   }
   getBackRoute(){
     if(this.endorsementSection){
@@ -6420,7 +6614,7 @@ backPlan()
       }
     }
    
-    if(this.productId=='16' || this.productId=='1' || this.productId=='14' || this.productId=='32' || this.productId=='39'){
+    if(this.productId=='16' || this.productId=='14' || this.productId=='32' || this.productId=='39'){
       if(this.IndustryId==null || this.IndustryId=='' || this.IndustryId=='0'){this.industryError = true;i+=1;}
       else{i=0;this.industryError=false;}
        return i==0;
@@ -13037,12 +13231,12 @@ this.BuildingOwnerYn = type;
           this.fieldsBond[0].templateOptions.options = this.industryList;
         }
         if(this.productId=='1'){
-          for (let i = 0; i < this.industryList.length; i++) {
-            this.industryList[i].label = this.industryList[i]['CodeDesc'];
-            this.industryList[i].value = this.industryList[i]['Code'];
+        //   for (let i = 0; i < this.industryList.length; i++) {
+        //     this.industryList[i].label = this.industryList[i]['CodeDesc'];
+        //     this.industryList[i].value = this.industryList[i]['Code'];
            
-        }
-        this.fields[0].fieldGroup[0].fieldGroup[0].templateOptions.options = this.industryList;
+        // }
+        //this.fields[0].fieldGroup[0].fieldGroup[0].templateOptions.options = this.industryList;
       }
           if(this.productId=='26'){
             //this.productItem.IndustryBussinessAllRisk = this.IndustryId;
@@ -13786,8 +13980,8 @@ this.BuildingOwnerYn = type;
       "InsuranceId": this.insuranceId,
       "ProductId": this.productId,
       "LoginId": this.loginId,
-      "RequestReferenceNo": this.requestReferenceNo,
-      "VehicleId": "1"
+      "RequestReferenceNo": sessionStorage.getItem('quoteReferenceNo'),
+      "VehicleId": String(this.tabIndex+1)
     }
     let urlLink = `${this.CommonApiUrl}api/getuwquestionsdetails`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -13843,5 +14037,8 @@ this.BuildingOwnerYn = type;
         }
       }
     }
+  }
+  checkHideQUestion(rowData){
+    return rowData['HiddenYN']=='Y';
   }
 }
