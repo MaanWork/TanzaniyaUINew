@@ -1372,6 +1372,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.productItem.VehicleSI = Number(this.getAggregatedDesc(this.productItem.Aggregatedvalue).replace(/,/g, ''))
     }
     else {
+      this.productItem.Aggregatedvalue=null
       this.productItem.VehicleSI = 0;
     }
   }

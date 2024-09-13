@@ -52,7 +52,7 @@ export class CustomerIvory{
                       // placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('Title'),
-                      maxLength: 15,
+                      maxLength: 6,
                       options:[]
                     },
                     validators: {
@@ -74,7 +74,7 @@ export class CustomerIvory{
                       // placeholder: 'Enter Client Name',
                       required: true,
                       disabled: this.checkDisable('ClientName'),
-                      maxLength: 50
+                      maxLength: 100
                     },
                     
                     validators: {
@@ -96,7 +96,7 @@ export class CustomerIvory{
                       // placeholder: 'Enter Company Name',
                       required: true,
                       disabled: this.checkDisable('CompanyName'),
-                      maxLength: 50
+                      maxLength: 100
                     },
                     
                     validators: {
@@ -120,7 +120,7 @@ export class CustomerIvory{
                       // placeholder: '-Select-',
                       required: false,
                       disabled: this.checkDisable('Gender'),
-                      maxLength: 15,
+                      maxLength: 2,
                       options:[]
                     },
                    
@@ -356,7 +356,7 @@ export class CustomerIvory{
                       // placeholder: 'Enter ID Number',
                       required: true,
                       disabled: this.checkDisable('IdNumber'),
-                      maxLength: 16
+                      maxLength: 15
                     },
                     
                     validators: {
@@ -379,7 +379,11 @@ export class CustomerIvory{
                       // placeholder: 'Select Registration Date',
                       required: true,
                       disabled: this.checkDisable('dobOrRegDate'),
-                      maxLength: 15
+                      maxLength: 15,
+                      datepickerOptions: {
+                        // Additional options for the datepicker if necessary
+                        max:this.currentDate,
+                      },
                     },
                     
                     validators: {
@@ -486,7 +490,7 @@ export class CustomerIvory{
                       //placeholder: 'Enter Street',
                      // required: true,
                       disabled: this.checkDisable('Address2'),
-                      maxLength: 150
+                      maxLength: 50
                     },
                     
                     validators: {
@@ -506,7 +510,7 @@ export class CustomerIvory{
                       // placeholder: 'Enter Street',
                       required: true,
                       disabled: this.checkDisable('Address1'),
-                      maxLength: 150
+                      maxLength: 50
                     },
                     
                     validators: {
@@ -614,7 +618,7 @@ export class CustomerIvory{
                       // placeholder: 'Enter PoBox',
                       required: false,
                       disabled: this.checkDisable('PinCode'),
-                      maxLength: 150
+                      maxLength: 10
                     },
                     
                     validators: {
