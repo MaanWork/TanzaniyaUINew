@@ -50,6 +50,7 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
 import { FormlyMatToggleModule } from '@ngx-formly/material/toggle';
+import { InputNumber } from '../quotation/quotation-plan/formlyTypes/inputNumber';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }

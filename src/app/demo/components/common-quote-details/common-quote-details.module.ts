@@ -54,6 +54,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { InputNumber } from '../quotation/quotation-plan/formlyTypes/inputNumber';
 export function maxlengthValidationMessage(err, field) {
   return `This value should be less than ${field.templateOptions.maxLength} characters`;
 }
@@ -150,6 +151,7 @@ export function maxlengthValidationMessage(err, field) {
           }
         },
         { name: 'input', component: InputFieldType },
+        { name: 'number', component: InputNumber },
         // {
         //   name: 'date',
         //    component: DateFieldType

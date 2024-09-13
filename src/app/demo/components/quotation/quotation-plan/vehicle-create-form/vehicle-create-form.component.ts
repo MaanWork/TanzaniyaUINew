@@ -39,7 +39,7 @@ export class VehicleCreateFormComponent implements OnInit {
   axelDistance: any;endorsementType:any=null;exchangeRate:any=null;
   chassisNo: any;endtPrevPolicyNo:any=null;
   colorValue: any;tareWeight:any=null;currencyCode:any=null;
-  engineNo: any;seatingCapacity:any=null;customerName:any=null;
+  engineNo: any='';seatingCapacity:any=null;customerName:any=null;
   fuelType: any;ownerName:any=null;endtStatus:any=null;
   grossWeight: any=0;engineCapacity:any=null;vehicleDetailsList:any[]=[];
   motorCategory: any;ownerCategory:any=null;validSection:boolean=false;
@@ -1057,10 +1057,10 @@ export class VehicleCreateFormComponent implements OnInit {
      
       // else if(this.horsePower){
       //   alert()
-      else if((this.horsePower==null || this.horsePower=='' || this.horsePower==undefined)&& this.bodyType=='P'){
+      else if((this.horsePower==null || this.horsePower=='' || this.horsePower==undefined) && this.bodyType=='P' && (this.bodyTypeId!='50' && this.bodyTypeId!='51' && this.bodyTypeId!='5' && this.bodyTypeId!='58' && this.bodyTypeId!='28')){
         this.horsePowerError = true;
       }
-      else if((this.displacement==null || this.displacement=='' || this.displacement==undefined)&& (this.bodyTypeId=='50' || this.bodyTypeId=='51' || this.bodyTypeId=='5' || this.bodyTypeId=='58' || this.bodyTypeId=='28' )){
+      else if((this.displacement==null || this.displacement=='' || this.displacement==undefined) && (this.bodyTypeId=='50' || this.bodyTypeId=='51' || this.bodyTypeId=='5' || this.bodyTypeId=='58' || this.bodyTypeId=='28' )){
         this.displacementError = true;
       } 
       else if((this.grossWeight==null || this.grossWeight=='' || this.grossWeight==undefined) && this.bodyType=='C'){

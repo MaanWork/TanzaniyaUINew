@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 import { ProductData } from '../quotation/quotation-plan/models/product';
 import { MotorVehicleSanlam } from '../quotation/quotation-plan/models/sanlam/MotorVehicleSanlam';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { FormControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { MotorVehicleEagle } from '../quotation/quotation-plan/models/Eagle/MotorVehicleEagle';
 import { MotorVehicleKenya } from '../quotation/quotation-plan/models/Kenya/MotorVehicleKenya';
 import { MotorVehicleTanzaniya } from '../quotation/quotation-plan/models/Tanzaniya/MotorVehicleTanzaniya';
@@ -59,6 +59,15 @@ export class ForceLengthValidators {
       return { 'min': true };
     }
   }
+  
+}
+export function numericValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    // Check if the value is a valid number
+    const value = control.value;
+    const isValid = value === null || value === '' || !isNaN(value) && isFinite(value);
+    return isValid ? null : { 'number': { value: control.value } };
+  };
 }
 @Component({
   selector: 'app-common-quote-details',
@@ -1372,6 +1381,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       this.productItem.VehicleSI = Number(this.getAggregatedDesc(this.productItem.Aggregatedvalue).replace(/,/g, ''))
     }
     else {
+      this.productItem.Aggregatedvalue=null
       this.productItem.VehicleSI = 0;
     }
   }
