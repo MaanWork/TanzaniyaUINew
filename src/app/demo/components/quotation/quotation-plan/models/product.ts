@@ -149,15 +149,10 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 	LoanEndDate: any
 	CollateralCompanyAddress: any
 	CollateralCompanyName:any
-	LoanAmount:any=''
-	UsageId: any=''
-	vehicleTypeIvr: any=''
-	ZoneCirculation: any=''
-	DateOfCirculation: any=''
-	NewValue: any=''
-	MarketValue: any=''
-    AggregatedValue: any=''
-
+	LoanAmount:any
+	UsageId: any
+	vehicleTypeIvr: any
+	ZoneCirculation: any
 	constructor(data?) {
 		this.id = data?.id ?? ''
 		this.CustomerName = data?.CustomerName ?? '';
@@ -383,10 +378,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.UsageId = data?.UsageId ?? '';
 		this.vehicleTypeIvr = data?.vehicleTypeIvr ?? '';
 		this.ZoneCirculation = data?.ZoneCirculation ?? '';
-		this.NewValue = data?.NewValue ?? '';
-		this.MarketValue = data?.MarketValue ?? '';
-		this.AggregatedValue = data?.AggregatedValue ?? '';
-			// this.EquipmentSi = data?.EquipmentSi ?? '0';
+		// this.EquipmentSi = data?.EquipmentSi ?? '0';
 		// this.ElectronicEquipSuminsured = data.ElectronicEquipSuminsured ?? '0';
 	}
 }
