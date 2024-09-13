@@ -5,7 +5,7 @@ import { FieldType } from '@ngx-formly/core';
  selector: 'formly-field-radio',
  template: `
     <div class="input-form-box">
-        <input type="date" [formControl]="formControl" 
+        <input type="date" [formControl]="formControl"  appendTo="body"
         [formlyAttributes]="field"  class="input-form-control without-icon">
     </div>
  `,
