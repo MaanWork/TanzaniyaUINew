@@ -1,6 +1,8 @@
 import { DatePipe } from "@angular/common";
 import { FormlyFieldConfig } from "@ngx-formly/core";
-import { CustomerCreateFormComponent } from "src/app/demo/components/customer/customer-create-form/customer-create-form.component";
+import { AbstractControl, FormControl, ValidationErrors, ValidatorFn } from "@angular/forms";
+import { ForceLengthValidators } from "../../common-product-details/common-product-details.component";
+import { numericValidator } from "src/app/demo/components/common-quote-details/common-quote-details.component";
 
 export class CustomerIvory{
     customerDetails: any;
@@ -52,7 +54,7 @@ export class CustomerIvory{
                       // placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('Title'),
-                      maxLength: 15,
+                      maxLength: 6,
                       options:[]
                     },
                     validators: {
@@ -74,7 +76,7 @@ export class CustomerIvory{
                       // placeholder: 'Enter Client Name',
                       required: true,
                       disabled: this.checkDisable('ClientName'),
-                      maxLength: 50
+                      maxLength: 100
                     },
                     
                     validators: {
@@ -120,7 +122,7 @@ export class CustomerIvory{
                       // placeholder: '-Select-',
                       required: false,
                       disabled: this.checkDisable('Gender'),
-                      maxLength: 15,
+                      maxLength: 2,
                       options:[]
                     },
                    
@@ -299,20 +301,32 @@ export class CustomerIvory{
                     },
                   },
                   {
-                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3  pl-23 pr-2 pt-1',
                     type: 'input',
                     id: 'MobileNumber',
                     key: 'MobileNo',
+                    props:{
+                      maxLength: 10,
+                    },
                     templateOptions: {
+                      type: 'number',
                       label: `Mobile Number`,
-                      // placeholder: 'Enter MobileNo',
                       required: true,
                       disabled: this.checkDisable('MobileNo'),
-                      maxLength: 10
+                      allowedKeys: '[0-9]',
                     },
-                    
                     validators: {
+                      validation: [ForceLengthValidators.maxLength(10), ForceLengthValidators.min(1),numericValidator()],
+                      pattern: {
+                        expression: '[0-9]',
+                        message: 'Only numbers are allowed'
+                      }
                     },
+                    // validators:  {
+                     
+                    //   // name: 'number',
+                    //   // validation: this.NumberValidator(contr),
+                    // },
                     hooks: {
                     },
                     expressions: {
@@ -356,7 +370,7 @@ export class CustomerIvory{
                       // placeholder: 'Enter ID Number',
                       required: true,
                       disabled: this.checkDisable('IdNumber'),
-                      maxLength: 16
+                      maxLength: 15
                     },
                     
                     validators: {
@@ -379,7 +393,11 @@ export class CustomerIvory{
                       // placeholder: 'Select Registration Date',
                       required: true,
                       disabled: this.checkDisable('dobOrRegDate'),
-                      maxLength: 15
+                      maxLength: 15,
+                      datepickerOptions: {
+                        // Additional options for the datepicker if necessary
+                        max:this.currentDate,
+                      },
                     },
                     
                     validators: {
@@ -486,7 +504,7 @@ export class CustomerIvory{
                       //placeholder: 'Enter Street',
                      // required: true,
                       disabled: this.checkDisable('Address2'),
-                      maxLength: 150
+                      maxLength: 50
                     },
                     
                     validators: {
@@ -506,7 +524,7 @@ export class CustomerIvory{
                       // placeholder: 'Enter Street',
                       required: true,
                       disabled: this.checkDisable('Address1'),
-                      maxLength: 150
+                      maxLength: 50
                     },
                     
                     validators: {
@@ -614,7 +632,7 @@ export class CustomerIvory{
                       // placeholder: 'Enter PoBox',
                       required: false,
                       disabled: this.checkDisable('PinCode'),
-                      maxLength: 150
+                      maxLength: 10
                     },
                     
                     validators: {
@@ -681,4 +699,10 @@ export class CustomerIvory{
         else return false;
       
       }
+      // NumberValidator(control: FormControl): ValidationErrors {
+      //   console.log("value:", control.value);
+      //   console.log("invalid:", control.valid);
+      //   console.log("touched:", control.touched);
+      //   return /\d{1,3}/.test(control.value) ? null : { number: true };
+      // }
 }
