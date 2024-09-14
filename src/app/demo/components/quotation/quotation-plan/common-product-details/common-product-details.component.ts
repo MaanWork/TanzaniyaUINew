@@ -4312,7 +4312,7 @@ backPlan()
       "InsuranceId": this.insuranceId
     }
     //if(this.productId=='59') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
-      if(this.productId=='57' || this.productId=='60'||this.productId=='59' || this.productId=='39' 
+      if(this.productId=='57' || this.productId=='60' || this.productId=='39' 
           || this.productId=='13'  || this.productId=='19'   || this.productId=='26' || this.productId=='21'
          || this.productId=='42'  || this.productId=='24' || this.productId=='43') 
          urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
@@ -6156,6 +6156,7 @@ backPlan()
                     if(subEntry.BondYear=='' || subEntry.BondYear==null){j+=1;subEntry['BondYearError']=true;}
                     else{subEntry['BondYearError']=false;}
                     if(j==0){
+                      subEntry["SumInsured"]= subEntry.BondSuminsured;
                       subEntry['SectionId'] = subEntry.BondType;
                       subEntry['SectionName']=this.BondTypeList.find(ele=>ele.Code==subEntry.BondType)?.CodeDesc
                       obj.SectionList.push(subEntry);
@@ -6185,6 +6186,7 @@ backPlan()
                   // else{subEntry['BondYearError']=false;}
                   if(j==0){
                     subEntry['SectionId'] = '39';
+                    subEntry["SumInsured"]= subEntry.ElecEquipSuminsured;
                     subEntry['SectionName']= 'Electronic Equipments';
                     subEntry["ContentDesc"] = this.dropList.find(ele=>ele.Code==subEntry.ContentId)?.CodeDesc;
                     obj.SectionList.push(subEntry);
@@ -6229,6 +6231,7 @@ backPlan()
                     "SectionName": "Burglary",
                     "RiskId": null,
                     "BurglarySi": subEntry.BurglarySi,
+                    "SumInsured": subEntry.BurglarySi,
                     "FirstLossPercentId": subEntry.FirstLossPercentId,
                     "IndustryId": this.IndustryId,
                     "RegionCode": subEntry.RegionCode,
@@ -6257,6 +6260,7 @@ backPlan()
                         "OccupationId": occupationId,
                         "TotalNoOfEmployees": subEntry.TotalNoOfEmployees,
                         "EmpLiabilitySi":  subEntry.EmpLiabilitySi,
+                        "SumInsured": subEntry.EmpLiabilitySi,
                         "OtherOccupation":  subEntry.OtherOccupation,
                       }
                       if(subEntry.OccupationId) subObj['OccupationType'] = subEntry.OccupationId;
@@ -6279,6 +6283,7 @@ backPlan()
                     "OccupationId":'99999',
                     "FidEmpCount":subEntry.FidEmpCount,
                     "FidEmpSi":subEntry.FidEmpSi,
+                    "SumInsured": subEntry.FidEmpSi,
                     "OtherOccupation":this.productItem.OtherOccupation,
                   }
                   obj.SectionList.push(subObj);
@@ -6309,6 +6314,7 @@ backPlan()
                         "DescriptionOfRisk": sectionData[0].DescriptionOfRisk,
                         'BusinessInterruption' : sectionData[0].Business_Interruption,
                         'FirePlantSi': sectionData[0].FirePlantSi,
+                        "SumInsured": sectionData[0].FirePlantSi,
                         'BusinessNameDesc' : sectionData[0].BusinessNameDesc,
                         "RegionCode": sectionData[0].RegionCode,
                         "DistrictCode": sectionData[0].DistrictCode,
@@ -8293,7 +8299,7 @@ finalSaveMoney(finalList,type,formType) {
     }
   }
   onFinalProceed() {
-    if(this.productId=='59' || this.productId=='56' || this.productId=='60' || this.productId=='24'){
+    if(this.productId=='59' || this.productId=='63' || this.productId=='56' || this.productId=='60' || this.productId=='24'){
       sessionStorage.setItem('Buildings',this.BuildingOwnerYn);
       sessionStorage.setItem('coversRequired',this.coversRequired)
       this.commonDetails = [
@@ -8357,7 +8363,7 @@ finalSaveMoney(finalList,type,formType) {
     }
   }
   saveFleetDetails(){
-    if(this.productId!='46' && this.productId!='25' && this.productId!='16' && this.productId!='1' && this.productId!='14' && this.productId!='32' && this.productId!='6'){
+    if(this.productId!='46' && this.productId!='25' && this.productId!='16' && this.productId!='1' && this.productId!='14' && this.productId!='32' && this.productId!='6' && this.productId!='63'){
       let Reqobj={
         "RequestReferenceNo": this.requestReferenceNo,
         "InsuranceId": this.insuranceId,
@@ -13986,6 +13992,7 @@ this.BuildingOwnerYn = type;
       "ProductId": this.productId,
       "LoginId": this.loginId,
       "RequestReferenceNo": sessionStorage.getItem('quoteReferenceNo'),
+       "LocationId": String(this.tabIndex+1),
       "VehicleId": String(this.tabIndex+1)
     }
     let urlLink = `${this.CommonApiUrl}api/getuwquestionsdetails`;
