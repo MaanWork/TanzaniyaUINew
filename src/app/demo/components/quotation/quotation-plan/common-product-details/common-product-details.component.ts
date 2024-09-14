@@ -3125,6 +3125,7 @@ savePlan(travelList, totalPassengers){
       "DestinationCountry": this.country,
       "TotalPassengers": "4",
       "TravelId": "1",
+      "LocationId": "1",
       "HavePromoCode": "N",
       "PromoCode": this.promocode,
       "SportsCoverYn": "N",
@@ -3136,27 +3137,32 @@ savePlan(travelList, totalPassengers){
       "GroupDetails": [
         {
             "GroupId": "1",
+            "LocationId": "1",
             "GroupMembers": this.kids,
             "GroupDesc": "Kids(3 Months-18 Years)"
         },
         {
             "GroupId": "2",
+            "LocationId": "1",
             "GroupMembers": this.adult,
             "GroupDesc": "Adult(19-65)"
         },
         {
             "GroupId": "3",
+            "LocationId": "1",
             "GroupMembers": this.senior,
             "GroupDesc": "Senior(66-75)"
         },
         {
             "GroupId": "4",
+            "LocationId": "1",
             "GroupMembers": this.superSenior,
             "GroupDesc": "Super Senior(76-80)"
         },
 
         {
           "GroupId": "5",
+          "LocationId": "1",
           "GroupMembers": this.grandSenior,
           "GroupDesc": "Grand Senior(76-80)"
       }
@@ -4308,11 +4314,12 @@ backPlan()
     //if(this.productId=='59') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
       if(this.productId=='57' || this.productId=='60'||this.productId=='59' || this.productId=='39' 
           || this.productId=='13'  || this.productId=='19'   || this.productId=='26' || this.productId=='21'
-         || this.productId=='42' || this.productId=='59' || this.productId=='24' || this.productId=='43') 
+         || this.productId=='42'  || this.productId=='24' || this.productId=='43') 
          urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
       else if(this.productId=='63' || this.productId=='61' || this.productId=='25' || this.productId=='6' ||
-         this.productId=='16' || this.productId=='1' || this.productId=='14' || this.productId=='15' || this.productId=='32') { delete ReqObj['RiskId']; urlLink = `${this.motorApiUrl}api/slide/GetNonMotor`;}
+         this.productId=='16' || this.productId=='59' || this.productId=='1' || this.productId=='14' || this.productId=='15' || this.productId=='32') { delete ReqObj['RiskId']; urlLink = `${this.motorApiUrl}api/slide/GetNonMotor`;}
       else urlLink =  `${this.motorApiUrl}api/geteservicebyriskid`;
+      
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
           if(data.Result){
@@ -5842,7 +5849,7 @@ backPlan()
     //   this.PAErrorFun();
     // }
     if(valid){
-      if( this.productId=='59' ||  this.productId=='13' 
+      if(  this.productId=='13' 
          || this.productId=='43' || this.productId=='42' || this.productId=='15' 
           || this.productId=='60' || this.productId=='57' || this.productId=='56' || this.productId=='26'
           || this.productId=='21' || this.productId=='27' || this.productId=='24'){ 
@@ -8289,9 +8296,6 @@ finalSaveMoney(finalList,type,formType) {
     if(this.productId=='59' || this.productId=='56' || this.productId=='60' || this.productId=='24'){
       sessionStorage.setItem('Buildings',this.BuildingOwnerYn);
       sessionStorage.setItem('coversRequired',this.coversRequired)
-      this.router.navigate(['/quotation/plan/risk-page']);
-    }
-    else if(this.productId=='63'){
       this.commonDetails = [
         {
             "PolicyStartDate": this.policyStartDate,
@@ -10829,8 +10833,8 @@ let requestNO=null;
                   let referenceNo = sessionStorage.getItem('quoteReferenceNo');
                   if (referenceNo) {
                     this.requestReferenceNo = referenceNo;
-                    if (this.productId != '19' && this.productId!='24' && this.productId!='46' && this.productId!='4') this.setFormValues();
-                    else this.setSMEFormValues('edit')
+                    if (this.productId != '19' && this.productId!='24' && this.productId!='46' && this.productId!='4' && this.productId!='63') this.setFormValues();
+                    else if(this.productId!='63') this.setSMEFormValues('edit')
                   }
                   else {
                     this.productItem.BuildingBuildYear = '';
@@ -12452,6 +12456,7 @@ this.BuildingOwnerYn = type;
   }
 }
   setFormValues() {
+
     let urlLink: any;
     let ReqObj = {
       "RequestReferenceNo": this.requestReferenceNo,
