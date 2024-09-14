@@ -56,14 +56,12 @@ export class PersonalLiability{
                     className: 'w-full md:mt-0 mt-3 md\:w-1\/4',
                     key: 'EmpLiabilitySi',
                     defaultValue: '0',
-                    props: {
+                    templateOptions: {
                       label: `Sum Insured`,
                       maxLength: 15,
-                      disabled: this.checkDisable('PersonalIntermediarySuminsured'),
+                      disabled: this.checkDisable('EmpLiabilitySi'),
                       required: true,
-                      options: [
-      
-                      ],
+                      
       
                     },
                     validators: {
