@@ -307,7 +307,19 @@ export class CustomerCreateFormComponent implements OnInit {
 				}
 			}
 		if(this.insuranceId=='100040' || this.insuranceId=='100042'){
-			
+			let MobileNumberKeypress ={ onInit: (field: FormlyFieldConfig) => {
+				field.form.controls['MobileNo'].valueChanges.subscribe(() => {
+				  //this.taxExcepted();
+				  this.onKeyPress(event)
+				});
+				field.props.onKeydown = (event: KeyboardEvent) => {
+				  console.log('Key pressed:', event.key);
+				  this.onKeyPress(event) // Call your method on key press
+				};
+				
+			  }
+			  
+		}
 			let fieldList1 = this.personalInfoFields[0].fieldGroup;
 			let fieldList2 = this.addressInfoFields[0].fieldGroup;
 				for(let field of fieldList1){
@@ -327,14 +339,18 @@ export class CustomerCreateFormComponent implements OnInit {
 						}
 						
 					}
-					
+				
+				if(field.key=='MobileNo'){
+					field.hooks =MobileNumberKeypress
 				}
-			let exceptedHooks ={ onInit: (field: FormlyFieldConfig) => {
-				field.form.controls['isTaxExempted'].valueChanges.subscribe(() => {
-				  this.taxExcepted();
-				 });
-			  }
-			}
+			
+		}
+		let exceptedHooks ={ onInit: (field: FormlyFieldConfig) => {
+			field.form.controls['isTaxExempted'].valueChanges.subscribe(() => {
+			  this.taxExcepted();
+			 });
+		  }
+		}
 			let fieldList=this.additionalInfoFields[0].fieldGroup;
 				for(let field of fieldList){
 					if(field.key=='isTaxExempted'){
@@ -2078,4 +2094,17 @@ getType3(type){
 			}
 		}
 	}
+		onKeyPress(event: Event): void {
+			const input = event.target as HTMLInputElement;
+			// Remove non-numeric characters and limit length to 5
+			input.value = input.value.replace(/[^0-9]/g, '').slice(0, 10);
+			let fieldList=this.personalInfoFields[0].fieldGroup;
+			for(let field of fieldList){
+				if(field.key=='MobileNo'){
+					field.value = input.value;
+				}
+
+			}
+		  }
+	
 }
