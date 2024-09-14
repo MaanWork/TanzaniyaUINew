@@ -744,11 +744,11 @@
                                                     optionLabel="UwQuesOptionDesc" optionValue="UwQuesOptionDesc"></p-selectButton>
                                             </ng-container>
                                             <ng-container *ngIf="ques?.QuestionType=='02' && ques?.DataType!='02'">
-                                                <input pInputText [id]="ques.UwQuestionId" maxlength="50" [disabled]="(endorsementSection) || checkDisableField()"
+                                                <br><input pInputText [id]="ques.UwQuestionId" maxlength="50" [disabled]="(endorsementSection)"
                                                 [(ngModel)]="ques.Value" />
                                             </ng-container>
                                             <ng-container *ngIf="ques?.QuestionType=='02' && ques?.DataType=='02'">
-                                                <input pInputText [id]="ques.UwQuestionId" maxlength="50" [disabled]="(endorsementSection) || checkDisableField()"
+                                                <br><input pInputText [id]="ques.UwQuestionId" maxlength="50" [disabled]="(endorsementSection)"
                                                 [(ngModel)]="ques.Value" />
                                             </ng-container>
                                         </div>
