@@ -763,7 +763,7 @@
             </div>
         </div>
 
-        <div *ngIf="productId=='59'">
+        <!-- <div *ngIf="productId=='59'">
             <div class="col-12 pl-3 pr-2 pb-0" >
                 <div>
                     <h4 class="m-0 p-0">Section Modification</h4>
@@ -817,82 +817,10 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <!-- <div>
-                        <span style="width: 126px;
-                        height: 24px;
-                        top: 833px;
-                        left: 438px;">
-                            <label style="font-family: Inter;
-                            font-size: 16px;
-                            font-weight: 700;
-                            line-height: 30px;
-                            letter-spacing: 0px;
-                            text-align: left;">Cover Required</label>&nbsp;&nbsp;
-                        </span>
-                        <p-button  styleClass="p-button-outlined" label="Contents"
-                        size="small"></p-button>&nbsp;
-                    <p-button styleClass="p-button-outlined" label="Building"></p-button>&nbsp;
-                    <p-button styleClass="p-button-outlined" label="Building & Contents"></p-button>
-                        </div> -->
-                        <!-- <div class="grid layout1 mt-3">
-                                <div class="layout2 lg:col-3 md:col-3 col-12 mt-3" *ngFor="let Section of productList">
-                                <div class="layout3" (click)="sectionselect(Section?.CodeDesc,Section?.Code)">
-                                    <label class="layout4">{{Section?.CodeDesc}}
-                                        <span><i class="fa fa-check" style="
-                                            top: 5px !important;
-                                            right: 10px !important;"></i></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                                <div>
-                                <div class="grid">
-                                        <div class="col-9">
-                                        <label class="layout4">{{Section?.CodeDesc}} </label>
-                                        </div>
-                                        <div class="col-3" style="margin-top:-10px !important;margin-left: -20px !important;">
-                                        <ng-container *ngIf="checkSections(Section?.Code)">
-                                            <mat-checkbox [checked]="checkSections(Section?.Code)" (change)="Checknew($event.checked)"></mat-checkbox>
-                                        </ng-container>
-
-                                        
-                                        </div>
-
-                                        <div class="checkSection" (click)="sectionselect(Section?.CodeDesc,Section?.Code,value)">
-                                        <ng-container *ngIf="!checkSections(Section?.Code)">
-                                            <i class="fa fa-plus imagechecksection2" aria-hidden="true" value="plus" [(ngModel)]="values"></i>
-                                        </ng-container>
-                                        <ng-container *ngIf="checkSections(Section?.Code)">
-                                            <i class="fa fa-minus imagechecksection" aria-hidden="true" value="minus" [(ngModel)]="values"></i>
-                                            </ng-container>
-                                            <div class="d-flex justify-content-center mt-2">
-                                            <ng-container *ngIf="Section?.Code == '3'">
-                                                SI:{{productItem?.AllriskSumInsured}}
-                                            </ng-container>
-                                            <ng-container *ngIf="Section?.Code == '1'">
-                                                SI:{{productItem?.BuildingSuminsured}}
-                                            </ng-container> 
-                                            <ng-container *ngIf="Section?.Code == '47'">
-                                                SI:{{productItem.ContentSuminsured}}
-                                            </ng-container> 
-                                            <ng-container *ngIf="Section?.Code == '35'">
-                                                SI:{{productItem?.PersonalAccidentSuminsured}}
-                                            </ng-container> 
-                                            <ng-container *ngIf="Section?.Code == '36'">
-                                                SI:{{productItem?.EmpLiabilitySi}}
-                                            </ng-container> 
-                                            </div>
-                                        </div>
-                                </div>  
-                                </div>
-                                </div>
-                            
-                        </div> -->
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="grid mt-2 pl-5 pr-2 pb-0" *ngIf="(productId=='60' || productId=='21' || productId=='26' || productId=='43' || productId=='13' || (productId=='27' && insuranceId!='100004')) && formSection">
             <ng-container *ngFor="let step of fields; let index = index; let last = last">
             <ng-container *ngIf="step.props.label=='Plant All Risk' ||step.props.label=='Fire And Material Damage'  || step.props.label=='Burglary' || step.props.label=='Machinery BreakDown' || step.props.label=='Medical Insurance' || step.props.label=='Public Liability'">
@@ -901,8 +829,6 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>S.No</th>
-                                <!-- <th>Product Name</th> -->
-                                <!-- <th>Industry Types</th> -->
                                 <th>Location Name</th>
                                 <th>Region</th>
                                 <th>District</th>
@@ -1160,6 +1086,7 @@
                             <div (click)="selectedIndex=index" class=""><h4 class="headings2 m-0 p-0">{{ step.props.label }}</h4></div>
                             <div class="pr-3 pt-1">
                                 
+
                             </div>
                         </div>
                         <p-tabView>

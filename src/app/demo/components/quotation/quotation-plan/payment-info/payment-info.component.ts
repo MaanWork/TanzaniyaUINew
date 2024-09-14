@@ -72,7 +72,7 @@ export class PaymentInfoComponent {
     this.productId = this.userDetails.Result.ProductId;
     this.productName = this.userDetails.Result.ProductName
     this.subuserType = sessionStorage.getItem('typeValue');
-    if(this.subuserType=='b2c' || this.subuserType=='B2C Broker'){ this.productId='5';this.productName='Motor';}
+    //if(this.subuserType=='b2c' || this.subuserType=='B2C Broker'){ this.productId='5';this.productName='Motor';}
     this.insuranceId = this.userDetails.Result.InsuranceId;
     this.loginType = this.userDetails.Result.LoginType;
     this.redirectUrl = "aHR0cHM6Ly90ei5zZWxjb20ub25saW5lL3BheW1lbnRndy9jaGVja291dC9XbXRLVmpWbVVGWmtWRTFTY2xGWlVIbEpWR1ZFYTFWbFlqQmFkWHBEWmtJelpFOXdlR1JSTUhZNGQwTjBZa2hZVTFFMVJVNXZTbmwwYWs1cGNHd3dhV3BrYWxZMGFGVkdZbUpWUFE9PS8=";
