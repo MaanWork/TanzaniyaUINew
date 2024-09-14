@@ -68,6 +68,7 @@ export class VehicleCreateFormComponent implements OnInit {
   modelError1: boolean=false;
   bodyType: any;
   grossWeightError: boolean=false;
+  maxDate: any;
   constructor(private messageService: MessageService,private sharedService: SharedService,private appComp:AppComponent,
     private translate:TranslateService,private datePipe:DatePipe,private router:Router) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -105,6 +106,7 @@ export class VehicleCreateFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.maxDate = new Date(); 
     this.ownerCategoryOptions = [{name: 'Category', code: 'category'}];
     this.customerTypes = [{label: 'Personal', value: 'personal'}, {label: 'Corporate', value: 'corporate'}];
     if(this.lang=='en'){this.items = [{ label: 'Home', routerLink:'/' }, {label:'Vehicle', routerLink: '/vehicle'},{label:'Create Vehicle'}];}
@@ -923,6 +925,7 @@ export class VehicleCreateFormComponent implements OnInit {
   }
   getYearList(){
     var d = new Date();
+    
     var year = d.getFullYear();
     var month = d.getMonth();
     var day = d.getDate();
@@ -1457,5 +1460,34 @@ export class VehicleCreateFormComponent implements OnInit {
       //   (err) => { },
       // );
     }
-    
+    onInputChange(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      // Remove non-numeric characters and limit length to 5
+      input.value = input.value.replace(/[^0-9]/g, '').slice(0, 5);
+      this.tareWeight = input.value;
+    }
+    onInputChangeTonnage(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      // Remove non-numeric characters and limit length to 5
+      input.value = input.value.replace(/[^0-9]/g, '').slice(0, 5);
+      this.grossWeight = input.value;
+    }
+    onInputChangeHorsePower(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      // Remove non-numeric characters and limit length to 5
+      input.value = input.value.replace(/[^0-9]/g, '').slice(0, 5);
+      this.horsePower = input.value;
+    }
+    onInputChangeDisplacement(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      // Remove non-numeric characters and limit length to 5
+      input.value = input.value.replace(/[^0-9]/g, '').slice(0, 2);
+      this.displacement = input.value;
+    }
+    onInputChangenumberOfCylinders(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      // Remove non-numeric characters and limit length to 5
+      input.value = input.value.replace(/[^0-9]/g, '').slice(0, 2);
+      this.numberOfCylinders = input.value;
+    }
 }
