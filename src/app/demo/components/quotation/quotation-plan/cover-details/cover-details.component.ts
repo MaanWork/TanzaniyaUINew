@@ -1738,7 +1738,6 @@ export class CoverDetailsComponent {
                 "CoverId": cover.CoverId,
                 "SubCoverId":subCover.SubCoverId,
                 "SubCoverYn": "Y"
-                //"isReferal": rowData.isReferal
               }
               if((cover.PremiumIncludedTax!=null && cover.PremiumIncludedTax!='0' && cover.PremiumIncludedTax!=undefined)){
                 vehicle['totalLcPremium'] = vehicle['totalLcPremium'] - cover.PremiumIncludedTax;
@@ -1776,7 +1775,6 @@ export class CoverDetailsComponent {
                 }
               }
               subCover['selected'] = true;
-              
               let subIndex = sectionEntry.Covers.findIndex(ele=>ele.CoverId==cover.CoverId);
               sectionEntry.Covers[subIndex] = newEntry;
               if(vehicle?.totalPremium){
@@ -1788,7 +1786,6 @@ export class CoverDetailsComponent {
                   vehicle['totalLcPremium'] = vehicle['totalLcPremium'] + subCover.PremiumIncludedTaxLC;
                   vehicle['totalPremium'] =  vehicle['totalPremium']+subCover.PremiumIncludedTax;
                 }
-              
               }
               else{
                 if(cover.Endorsements!=null){
@@ -1799,7 +1796,6 @@ export class CoverDetailsComponent {
                   vehicle['totalLcPremium'] =  cover.PremiumIncludedTax;
                   vehicle['totalPremium'] =  cover.PremiumIncludedTax;
                 }
-                
               }
               console.log("Total Premium",cover,vehicle)
               this.getTotalVehiclesCost();
@@ -1911,7 +1907,7 @@ export class CoverDetailsComponent {
   EmiInstallment(){
     if(this.localCurrency==undefined) this.localCurrency = 'TZS'
     let ReqObj = {
-    "PremiumWithTax":this.totalPremium,
+     "PremiumWithTax":this.totalPremium,
      "InsuranceId":this.insuranceId,
      "ProductId":this.productId,
      "Currency": this.localCurrency,
@@ -2005,18 +2001,18 @@ export class CoverDetailsComponent {
        let i=0;this.Emilist1=[];
        for(let entry of yearlyList){
             let data = entry;
-            if(yearlyList[i]){data['yearlyAmount']=yearlyList[i].InstallmentAmount}
-            else{data['yearlyAmount']=null}
-            if(nineList[i]){data['nineAmount']=nineList[i].InstallmentAmount}
-            else{data['nineAmount']=null}
-            if(sixList[i]){data['sixAmount']=sixList[i].InstallmentAmount}
-            else{data['sixAmount']=null}
-            if(threeList[i]){data['threeAmount']=threeList[i].InstallmentAmount}
-            else{data['threeAmount']=null}
-            if(fiveList[i]){data['fiveAmount']=fiveList[i].InstallmentAmount}
-            else{data['fiveAmount']=null}
-            if(eightList[i]){data['eightAmount']=eightList[i].InstallmentAmount}
-            else{data['eightAmount']=null}
+              if(yearlyList[i]){data['yearlyAmount']=yearlyList[i].InstallmentAmount}
+              else{data['yearlyAmount']=null}
+              if(nineList[i]){data['nineAmount']=nineList[i].InstallmentAmount}
+              else{data['nineAmount']=null}
+              if(sixList[i]){data['sixAmount']=sixList[i].InstallmentAmount}
+              else{data['sixAmount']=null}
+              if(threeList[i]){data['threeAmount']=threeList[i].InstallmentAmount}
+              else{data['threeAmount']=null}
+              if(fiveList[i]){data['fiveAmount']=fiveList[i].InstallmentAmount}
+              else{data['fiveAmount']=null}
+              if(eightList[i]){data['eightAmount']=eightList[i].InstallmentAmount}
+              else{data['eightAmount']=null}
             this.Emilist1.push(entry);
             i+=1;
             if(i==yearlyList.length){this.emiSection=true}
