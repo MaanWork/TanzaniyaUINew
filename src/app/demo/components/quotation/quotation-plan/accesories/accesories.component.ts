@@ -1968,7 +1968,7 @@ export class AccesoriesComponent {
                   }
                   // if(entry.HumanListDetails) subDetails = subDetails.concat(entry.HumanListDetails);
                   let persAcc = subDetails.filter(ele=>ele['SectionId']=='138')
-                  if(persAcc.length!=0){obj['DeathSI']=String(persAcc[0]['SumInsured ']);this.CommaFormatted(obj,'PA');obj['RelationType']=persAcc[0].RelationType;obj['OriginalRiskId']=persAcc[0].RiskId  }
+                  if(persAcc.length!=0){obj['DeathSI']=String(persAcc[0]['SumInsured']);this.CommaFormatted(obj,'PA');obj['RelationType']=persAcc[0].RelationType;obj['OriginalRiskId']=persAcc[0].RiskId  }
                   else{obj['DeathSI']=null;obj['RelationType']=null;}
                   let build = subDetails.filter(ele=>ele['SectionId']=='1')
                   if(build.length!=0){
