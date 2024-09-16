@@ -1307,7 +1307,7 @@
             <!-- </div> -->
             <ng-container *ngFor="let item of LocationList">
                 <div class="col-12 md:col-2 lg:col-2"><b>Location : <span class="primaryTextColor">{{item.LocationName}}</span></b></div>
-                <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{ActualSI}} </span></b></div>
+                <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{item.ContentSI}} </span></b></div>
             </ng-container>
             <div  class="col-12 md:col-3 lg:col-3"><b>Total : <span class="primaryTextColor">{{getTotal() | commaseparator}}</span></b></div>
               <div ><p-button label="Add New" icon="pi pi-plus" (click)="addRow()" /></div>
@@ -1427,7 +1427,7 @@
         <div class="grid justify-content-between">
             <ng-container *ngFor="let item of LocationList">
                 <div class="col-12 md:col-2 lg:col-2"><b>Location : <span class="primaryTextColor">{{item.LocationName}}</span></b></div>
-                <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{ActualSI}} </span></b></div>
+                <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{item.AllRiskSI}} </span></b></div>
             </ng-container>
             <div  class="col-12 md:col-3 lg:col-3"><b>Total : <span class="primaryTextColor">{{getTotalAllRisk() | commaseparator}}</span></b></div>
             <!-- <div class="col-12 md:col-2 lg:col-2" >Total : {{getTotalAllRisk() | commaseparator}}</div> -->
@@ -1555,7 +1555,7 @@
         <div class="grid justify-content-between">
             <ng-container *ngFor="let item of LocationList">
                 <div class="col-12 md:col-2 lg:col-2"><b>Location : <span class="primaryTextColor">{{item.LocationName}}</span></b></div>
-                <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{ActualSI}} </span></b></div>
+                <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{item.PersonalLiabilitySI}} </span></b></div>
             </ng-container>
             <div  class="col-12 md:col-3 lg:col-3"><b>Total : <span class="primaryTextColor">{{getPLTotal() | commaseparator}}</span></b></div>
             <!-- <div class="col-12 md:col-2 lg:col-2" >Total :{{getPLTotal() | commaseparator}}</div> -->
@@ -1687,7 +1687,7 @@
         <div class="grid justify-content-between">
             <ng-container *ngFor="let item of LocationList">
                 <div class="col-12 md:col-2 lg:col-2"><b>Location : <span class="primaryTextColor">{{item.LocationName}}</span></b></div>
-                <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{ActualSI}} </span></b></div>
+                <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{item.DeathSI}} </span></b></div>
             </ng-container>
             <div  class="col-12 md:col-3 lg:col-3"><b>Total : <span class="primaryTextColor">{{getPATotal() | commaseparator}}</span></b></div>
             <!-- <div class="col-12 md:col-2 lg:col-2" >Total :{{getPATotal() | commaseparator}}</div> -->
