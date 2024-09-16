@@ -370,6 +370,10 @@ export class AccesoriesComponent {
   currentPARowIndex: any=0;
   ActualSI: any;
   newselectedIndex: number;
+  ContentTypeError:boolean=false
+  SumInsuredError:boolean=false
+  ContentRiskDescError:boolean=false
+  SerialNoDescError:boolean=false
   constructor(private router: Router,private datePipe:DatePipe,private quoteComponent:QuotationPlanComponent,
      private sharedService: SharedService,public http: HttpClient) {
     let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
@@ -4273,6 +4277,15 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       }
       for(let entry of this.TableRowAllRisk){
         let sumInsured;
+        let j=0;
+        if(entry.ItemId!=null && entry.ItemId!='' && entry.ItemId!=undefined) entry['ContentTypeError']=false;
+        else{j+=1; entry['ContentTypeError']=true;}
+        if(entry.SumInsured!=null && entry.SumInsured!='' && entry.SumInsured!=undefined && entry.SumInsured!=0 && entry.SumInsured!='0'){ entry['SumInsuredError']=false;}
+        else{ j+=1; entry['SumInsuredError']=true;}
+        if(entry.Serial!=null && entry.Serial!='' && entry.Serial!=undefined ){ entry['SerialNoDescError']=false;}
+        else{ j+=1; entry['SerialNoDescError']=true;}
+        if(entry.Description!=null && entry.Description!='' && entry.Description!=undefined){ entry['ContentRiskDescError']=false;}
+        else{ j+=1; entry['ContentRiskDescError']=true;}
         if(entry.SumInsured==undefined || entry.SumInsured==null) sumInsured = null;
         // else if(entry.SumInsured.includes(',')){ sumInsured = entry.SumInsured.replace(/,/g, '') }
         else sumInsured = entry.SumInsured;
@@ -4340,7 +4353,15 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       }
       for(let entry of this.TableRow){
         let sumInsured,RiskId;
-
+        let j=0;
+        if(entry.ItemId!=null && entry.ItemId!='' && entry.ItemId!=undefined) entry['ContentTypeError']=false;
+        else{j+=1; entry['ContentTypeError']=true;}
+        if(entry.SumInsured!=null && entry.SumInsured!='' && entry.SumInsured!=undefined && entry.SumInsured!=0 && entry.SumInsured!='0'){ entry['SumInsuredError']=false;}
+        else{ j+=1; entry['SumInsuredError']=true;}
+        if(entry.SerialNoDesc!=null && entry.SerialNoDesc!='' && entry.SerialNoDesc!=undefined ){ entry['SerialNoDescError']=false;}
+        else{ j+=1; entry['SerialNoDescError']=true;}
+        if(entry.ContentRiskDesc!=null && entry.ContentRiskDesc!='' && entry.ContentRiskDesc!=undefined){ entry['ContentRiskDescError']=false;}
+        else{ j+=1; entry['ContentRiskDescError']=true;}
         if(entry.SumInsured==undefined || entry.SumInsured==null) sumInsured = null;
         // else if(entry.SumInsured.includes(',')){ sumInsured = entry.SumInsured.replace(/,/g, '') }
         else sumInsured = entry.SumInsured;
@@ -8609,5 +8630,7 @@ return true;
         (err) => { },
       );
     }
-
+ checkMandatory(){
+ 
+ }
 }
