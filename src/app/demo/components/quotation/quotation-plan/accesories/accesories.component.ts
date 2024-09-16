@@ -369,6 +369,7 @@ export class AccesoriesComponent {
   TableRowPA: any;
   currentPARowIndex: any=0;
   ActualSI: any;
+  newselectedIndex: number;
   constructor(private router: Router,private datePipe:DatePipe,private quoteComponent:QuotationPlanComponent,
      private sharedService: SharedService,public http: HttpClient) {
     let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
@@ -2067,10 +2068,10 @@ export class AccesoriesComponent {
   onShowCommonDialog(rowData,type){
     this.locationId = rowData.LocationId;this.locationName=rowData.LocationName;
     if(type=='1'){this.visibleBuilding=true;this.getBuildingDetails('direct');}
-    else if(type=='47'){this.visibleContent=true;}
-    else if(type=='3'){this.visibleAllRisk=true;}
-    else if(type=='139'){this.personalLiabilityDialog=true;}
-    else if(type=='138'){this.personalAccidentDialog=true;}
+    else if(type=='47'){this.visibleContent=true;this.getContentDetail()}
+    else if(type=='3'){this.visibleAllRisk=true;this.getallriskDetailsData()}
+    else if(type=='139'){this.personalLiabilityDialog=true;this.getPersonalLiabilityDetails()}
+    else if(type=='138'){this.personalAccidentDialog=true;this.getPersonalAccidentDetailsAlt()}
     else if(type=='76'){this.domesticServantDialog=true;}
   }
   getBuildingDetails(type){
@@ -8196,7 +8197,7 @@ return true;
     }
     onFinalSavePL(reqList,type,section){
       let sectionID = null;
-      if(section=='PL') sectionID='36';
+      if(section=='PL') sectionID='139';
       else sectionID='106';
       let  ReqObj = {
         "CreatedBy": this.loginId,
@@ -8338,7 +8339,7 @@ return true;
         "CreatedBy": this.loginId,
         "QuoteNo": sessionStorage.getItem('quoteNo'),
         "RequestReferenceNo": this.quoteRefNo,
-        "SectionId": "35",
+        "SectionId": "138",
         "Description": "Accident Details",
         "Type":'PI',
         "Companyid": this.insuranceId,
@@ -8404,4 +8405,209 @@ return true;
       }
       else return 0;
     }
+    getContentDetail(){
+      let sectionId=null;
+      if(this.productId=='19') sectionId = '47';
+      else sectionId = '47';
+      let urlLink = `${this.motorApiUrl}api/getallcontentrisk`;
+      let ReqObj = {
+        "RequestReferenceNO": this.quoteRefNo,
+        "QuoteNo": sessionStorage.getItem('quoteNo'),
+        "SectionId": sectionId
+      }
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          let res: any = data;
+          
+          if(res.Result?.ContentRiskDetails){
+            if(res.Result.ContentRiskDetails.length!=0){
+              this.currentContentRowIndex = null;
+             if(this.endorsementSection){
+               this.contentRiskSection = !this.enableFieldsList.some(ele=>ele=='ContentSuminsured');
+             }
+             else this.contentRiskSection = true;
+             let list = res.Result.ContentRiskDetails;
+             let i=0;
+             for(let content of list){
+                if(content.ItemId!=null) content['Content'] = list?.ItemValue;
+                if(content.RiskId!=null && content.RiskId!=undefined && content.RiskId!=''){
+                  content['LocationName'] = this.TableRowBuilding.find(ele=>ele.RiskId==content.RiskId)?.LocationName;
+                }
+                this.TableRow.push(content);
+             }
+              this.TableRow = res.Result.ContentRiskDetails;
+              this.currentContentIndex = this.TableRow.length;
+              if(this.TableRow.length!=0){
+                
+                if(this.TableRow.length>1 || (this.TableRow[0].SumInsured!=null && this.TableRow[0].SumInsured!=0)) this.currentContentRowIndex = null;
+              }
+              this.getTotal();
+            }
+          }
+        })
+    }
+    getallriskDetailsData(){
+      let urlLink = `${this.motorApiUrl}api/getallcontentrisk`;
+      let ReqObj = {
+        "RequestReferenceNO": this.quoteRefNo,
+          "QuoteNo": sessionStorage.getItem('quoteNo'),
+          "SectionId":"3"
+      }
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+            // let res: any = data;
+              if(data.Result.ContentRiskDetails){
+                this.TableRowAllRisk = data?.Result?.ContentRiskDetails;
+                if(this.TableRowAllRisk.length!=0){
+                  if(this.TableRowAllRisk.length>1 || (this.TableRowAllRisk[0].SumInsured!=null && this.TableRowAllRisk[0].SumInsured!=0)) this.currentAllRiskRowIndex = null;
+                }
+                if(this.TableRowAllRisk.length!=0){
+                  for(let entry of this.TableRowAllRisk){
+                    //this.onChangeContentLocation(entry);
+                    entry['Content'] = entry?.ItemValue;
+                    entry['Serial'] = entry?.SerialNoDesc;
+                    entry['Description'] = entry?.ContentRiskDesc;
+                  }
+                }
+              } 
+              else{
+                this.TableRowAllRisk =[{
+                  id:1,
+                  ItemId:'',
+                  Content: '',
+                  Serial : '',
+                  Description: '',
+                  SumInsured: 0,
+                }];
+              } 
+          })
+    }
+    // getDomesticServantDetails(type){
+    //   let ReqObj = {
+    //     "RequestReferenceNo": this.requestReferenceNo,
+    //     "QuoteNo": null,
+    //     "SectionId":  "106"
+    //   }
+    //   let urlLink = `${this.motorApiUrl}api/getallpersonalaccident`;
+    //   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    //     (data: any) => {
+    //       console.log(data);
+    //       if (data.Result) {
+    //         if(data.Result.PersonalDetails){
+    //           this.currentDSRowIndex = null;
+    //           this.TableRowDS = data.Result.PersonalDetails;
+    //           for(let entry of this.TableRowDS){
+    //             entry['Name'] = entry?.PersonName;
+    //             entry['SumInsured'] = entry?.Salary;
+    //             entry['Nationality'] = entry?.NationalityId;
+    //             if(entry.RiskId) this.onChangeContentLocation(entry);
+    //           }
+    //           this.getOccupationList('36','DomesticServant');
+    //           this.editsections('DomesticServant');
+    //         }
+    //         else{this.productItem.LiabilityOccupationId = null;this.productItem.PersonalIntermediarySuminsured='0';this.productItem.EmpLiabilitySi=null; 
+    //         this.getOccupationList('36','DomesticServant');
+    //         this.editsections('DomesticServant');
+    //         }
+    //       }
+    //       this.newselectedIndex+=1;
+    //       this.editsections(type);
+    //     },
+    //     (err) => { },
+    //   );
+    // }
+    getPersonalLiabilityDetails(){
+      let ReqObj = {
+        "RequestReferenceNo": this.quoteRefNo,
+        "QuoteNo": sessionStorage.getItem('quoteNo'),
+        "SectionId":  "139"
+      }
+      let urlLink = `${this.motorApiUrl}api/getallpersonalaccident`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if (data.Result) {
+            if(data.Result.PersonalDetails){
+              this.currentPLRowIndex = null;
+              this.TableRowPL = data.Result.PersonalDetails;
+              if(data.Result.PersonalDetails[0].LiabilityOccupationId!=null && data.Result.PersonalDetails[0].LiabilityOccupationId!='') this.productItem.LiabilityOccupationId = data.Result[0].LiabilityOccupationId;
+              else this.productItem.LiabilityOccupationId = null;
+              for(let entry of this.TableRowPL){
+                entry['Name'] = entry?.PersonName;
+                entry['SumInsured'] = entry?.Salary;
+                entry['Nationality'] = entry?.NationalityId;
+               // if(entry.RiskId) this.onChangeContentLocation(entry);
+              }
+             // this.getOccupationList('36','PersonalLiability');
+              //this.editsections('PersonalLiability');
+            }
+            else{this.productItem.LiabilityOccupationId = null;this.productItem.PersonalIntermediarySuminsured='0';this.productItem.EmpLiabilitySi=null; 
+            // this.getOccupationList('36','PersonalLiability');
+            // this.editsections('PersonalLiability');
+            }
+          }
+          this.newselectedIndex+=1;
+         // this.editsections(type);
+        },
+        (err) => { },
+      );
+    }
+
+    getPersonalAccidentDetailsAlt(){
+      let ReqObj = {
+        "RequestReferenceNo": this.quoteRefNo,
+        "QuoteNo": sessionStorage.getItem('quoteNo'),
+        "SectionId":  "138"
+      }
+      let urlLink = `${this.motorApiUrl}api/getallpersonalaccident`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          if (data.Result) {
+            if(data.Result.PersonalDetails){
+              this.TableRowPA = data.Result.PersonalDetails;
+              
+              this.currentPARowIndex = null;
+              //if(data.Result[0].OccupationType!=null)this.productItem.OccupationType = data.Result[0].OccupationType;
+              //else this.productItem.OccupationType = null;
+              //this.productItem.otheroptionPer=data.Result[0].OtherOccupation;
+              for(let entry of this.TableRowPA){
+                entry['Name'] = entry?.PersonName;
+                entry['SumInsured'] = entry?.Salary;
+                entry['Nationality'] = entry?.NationalityId;
+               // if(entry.RiskId) this.onChangeContentLocation(entry);
+              }
+             // this.getOccupationList('35','PersonalAccident');
+              //this.onoccChangepersonal('Direct');
+              let entry = data?.Result[0];
+                // if(entry.EndorsementDate){
+                //   this.endorsementDate = entry?.EndorsementDate;
+                //   this.endorsementEffectiveDate = entry?.EndorsementEffectiveDate;
+                //   this.endorsementRemarks = entry?.EndorsementRemarks;
+                //   this.endorsementType = entry?.EndorsementType;
+                //   this.endorsementTypeDesc = entry?.EndorsementTypeDesc;
+                //   this.endtCategoryDesc = entry?.EndtCategoryDesc;
+                //   this.endtCount = entry?.EndtCount;
+                //   this.endtPrevPolicyNo = entry?.EndtPrevPolicyNo;
+                //   this.endtPrevQuoteNo = entry?.EndtPrevQuoteNo;
+                //   this.endtStatus = entry?.EndtStatus;
+                //   this.isFinanceEndt = entry?.IsFinanceEndt;
+                //   this.orginalPolicyNo = entry?.OrginalPolicyNo;
+                // }
+            }
+            else{this.productItem.OccupationType = null; this.productItem.PersonalAccidentSuminsured=null;
+           // this.getOccupationList('35','PersonalAccident');
+          }
+          // this.editsections(type);
+          //   //this.onoccChangepersonal('Direct');
+            //  this.newselectedIndex+=1;
+          
+          }
+             
+        },
+        (err) => { },
+      );
+    }
+
 }
