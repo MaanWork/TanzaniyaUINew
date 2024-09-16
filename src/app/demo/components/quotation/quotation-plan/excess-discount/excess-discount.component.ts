@@ -3452,32 +3452,44 @@ emiyn="N";
       }
     }
     checkDiscountRate(rowData,type){
-      if((rowData.DiscountRate!=null && rowData.DiscountRate!='' && type=='P') || (rowData.DiscountAmount!=null && rowData.DiscountAmount!='' && type=='A')){
-        let actualRate = 0,minRate=0,rate=null;
-        if(type=='A') rate=Number(rowData.DiscountAmount.replaceAll(',',''));
-        else rate = Number(rowData.DiscountRate)
-        if(rowData.ActualRate!=null && rowData.ActualRate!=undefined){actualRate=rowData.ActualRate}
-        if(rowData.MinRate!=null && rowData.MinRate!=undefined){minRate=rowData.MinRate}
-        if(actualRate!=0 && minRate!=0){
-          if(rate<minRate || rate>actualRate) rowData['RateError']=true;
-          else rowData['RateError']=true;
+      if(rowData.MinimumRateYn!=undefined){
+        if(rowData.MinimumRateYn=='Y'){
+          if((rowData.DiscountRate!=null && rowData.DiscountRate!='' && type=='P') || (rowData.DiscountAmount!=null && rowData.DiscountAmount!='' && type=='A')){
+            let actualRate = 0,minRate=0,rate=null;
+            if(type=='A') rate=Number(rowData.DiscountAmount.replaceAll(',',''));
+            else rate = Number(rowData.DiscountRate)
+            if(rowData.ActualRate!=null && rowData.ActualRate!=undefined){actualRate=rowData.ActualRate}
+            if(rowData.MinRate!=null && rowData.MinRate!=undefined){minRate=rowData.MinRate}
+            if(actualRate!=0 && minRate!=0){
+              if(rate<minRate || rate>actualRate) rowData['RateError']=true;
+              else rowData['RateError']=true;
+            }
+            else rowData['RateError']=false;
+          }
+          else rowData['RateError'] = false; 
         }
         else rowData['RateError']=false;
       }
-      else rowData['RateError'] = false; 
+      else  rowData['RateError']=false;
     }
     checkLoadingRate(rowData,type){
-      if((rowData.LoadingRate!=null && rowData.LoadingRate!='' && type=='P') || (rowData.LoadingAmount!=null && rowData.LoadingAmount!='' && type=='A')){
-        let actualRate = 0,minRate=0,rate=null;
-        if(type=='A') rate=Number(rowData.LoadingAmount.replaceAll(',',''));
-        else rate = Number(rowData.LoadingRate)
-        if(rowData.ActualRate!=null && rowData.ActualRate!=undefined){actualRate=rowData.ActualRate}
-        if(rowData.MinRate!=null && rowData.MinRate!=undefined){minRate=rowData.MinRate}
-        if(actualRate!=0 && minRate!=0){
-          if(rate<minRate || rate>actualRate) rowData['RateError']=true;
-          else rowData['RateError']=true;
+      if(rowData.MinimumRateYn!=undefined){
+        if(rowData.MinimumRateYn=='Y'){
+          if((rowData.LoadingRate!=null && rowData.LoadingRate!='' && type=='P') || (rowData.LoadingAmount!=null && rowData.LoadingAmount!='' && type=='A')){
+            let actualRate = 0,minRate=0,rate=null;
+            if(type=='A') rate=Number(rowData.LoadingAmount.replaceAll(',',''));
+            else rate = Number(rowData.LoadingRate)
+            if(rowData.ActualRate!=null && rowData.ActualRate!=undefined){actualRate=rowData.ActualRate}
+            if(rowData.MinRate!=null && rowData.MinRate!=undefined){minRate=rowData.MinRate}
+            if(actualRate!=0 && minRate!=0){
+              if(rate<minRate || rate>actualRate) rowData['RateError']=true;
+              else rowData['RateError']=true;
+            }
+            else rowData['RateError']=false;
+          }
+          else rowData['RateError'] = false; 
         }
-        else rowData['RateError']=false;
+        else rowData['RateError'] = false; 
       }
       else rowData['RateError'] = false; 
     }
