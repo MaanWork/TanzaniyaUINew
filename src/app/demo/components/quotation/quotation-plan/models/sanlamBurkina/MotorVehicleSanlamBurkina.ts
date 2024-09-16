@@ -510,49 +510,50 @@ export class MotorVehicleSanlamBurkina{
                   expressions: {
                   },
                 },
-                {
-                  className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                  type: 'ngselect',
-                  key: 'Zone',
-                  id:'Zone',
-                  props: {
-                    label: `Zone`,
-                    maxLength: 15,
-                    disabled: this.checkDisable('Transportationofhydrocarbons'),
-                    required: true,
-                    options: [
+                // {
+                //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                //   type: 'ngselect',
+                //   key: 'Zone',
+                //   id:'Zone',
+                //   props: {
+                //     label: `Zone`,
+                //     maxLength: 15,
+                //     disabled: this.checkDisable('Transportationofhydrocarbons'),
+                //     required: true,
+                //     options: [
 
-                    ],
+                //     ],
 
-                  },
-                  validators: {
-                  },
-                  hooks: {
-                  },
-                  expressions: {
-                  },
-                },
-                {
-                  className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
-                  type: 'ngselect',
-                  key: 'Class',
-                  id:'Class',
-                  props: {
-                    label: `Class`,
-                    maxLength: 15,
-                    disabled: this.checkDisable('Class'),
-                    required: true,
-                    options: [
-                    ],
+                //   },
+                //   validators: {
+                //   },
+                //   hooks: {
+                //   },
+                //   expressions: {
+                //   },
+                // },
+                // {
+                //   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                //   type: 'ngselect',
+                //   key: 'Class',
+                //   id:'Class',
+                //   props: {
+                //     label: `Class`,
+                //     maxLength: 15,
+                //     disabled: this.checkDisable('Class'),
+                //     required: true,
+                //     options: [
 
-                  },
-                  validators: {
-                  },
-                  hooks: {
-                  },
-                  expressions: {
-                  },
-                },
+                //     ],
+
+                //   },
+                //   validators: {
+                //   },
+                //   hooks: {
+                //   },
+                //   expressions: {
+                //   },
+                // },
                 {
                   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                   key: 'GpsYN',
