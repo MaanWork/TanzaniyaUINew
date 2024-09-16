@@ -58,7 +58,14 @@
                                     <p><b>{{'PREMIUM.BenefitCovers' | translate}}</b></p>
                                     <div class="grid">
                                         <ng-container *ngFor="let cover of sec.Covers">
-                                            <ng-container *ngIf="cover.isSelected=='D' && cover.CoverageType=='A'">
+                                            <ng-container *ngIf="(cover.isSelected=='Y') && cover.CoverageType=='A'">
+                                                <div class="col-12 md:col-6 lg:col-6 xl:col-6 p-1 ">
+                                                    <div class="card customOptCoverCard customOptCoverBg p-2 m-0">
+                                                        <p class="mb-0"><b>{{getCoverNameDesc(cover)}}</b></p>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                            <ng-container *ngIf="(cover.isSelected=='D') && cover.CoverageType=='A'">
                                                 <div class="col-12 md:col-6 lg:col-6 xl:col-6 p-1">
                                                     <div class="card bg-blue-800 text-0 p-2 m-0">
                                                         <p class="mb-0"><b>{{getCoverNameDesc(cover)}}</b></p>
