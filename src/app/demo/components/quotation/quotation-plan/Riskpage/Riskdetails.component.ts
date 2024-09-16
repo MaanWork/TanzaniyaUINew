@@ -485,10 +485,20 @@ export class RiskDetailsComponent {
                             // if(entry.HumanListDetails) subDetails = subDetails.concat(entry.HumanListDetails);
                             console.log("Final SectionDetails",subDetails)
                             let persAcc = subDetails.filter(ele=>ele['SectionId']=='138')
-                            let PAList = [{'RelationType':null,'DeathSI':null}];
-                            if(persAcc.length!=0){PAList[0]['DeathSI']=String(persAcc[0]['SumInsured ']);this.CommaFormatted(PAList[0],'PA');PAList[0]['RelationType']=persAcc[0].RelationType;PAList[0]['OriginalRiskId']=persAcc[0].RiskId  }
-                            else{PAList[0]['DeathSI']=null;PAList[0]['RelationType']=null;}
-                            obj['PAList'] = PAList;
+                            let PAList = [];
+                            if(persAcc.length!=0){
+                              let i=0;
+                              for(let sub of persAcc){
+                                  let subEntry = {
+                                    "DeathSI":sub['SumInsured '],
+                                    'RelationType':sub.RelationType
+                                  }
+                                  PAList.push(subEntry);
+                                  i+=1;
+                                  if(i==persAcc.length) obj['PAList'] = PAList;
+                              }
+                            }
+                            else{PAList = [{'RelationType':null,'DeathSI':null}];obj['PAList'] = PAList;}
                             let build = subDetails.filter(ele=>ele['SectionId']=='1')
                             if(build.length!=0){
                               if(build[0]['BuildingSumInsured']){obj['BuildingSI']=String(build[0]['BuildingSumInsured']);this.CommaFormatted(obj,'Building');} 
@@ -501,14 +511,24 @@ export class RiskDetailsComponent {
                             if(allRisk.length!=0){obj['AllRiskSI']=String(allRisk[0]['AllriskSuminsured']);this.CommaFormatted(obj,'AllRisk');obj['OriginalRiskId']=allRisk[0].RiskId  }
                             else{obj['AllRiskSI']=null;}
                             let domestic = subDetails.filter(ele=>ele['SectionId']=='106')
-                            let servantList = [{"ServantType":null,'ServantCount':null,'ServantSI':null}];
-                            if(domestic.length!=0){servantList[0]['ServantSI']=String(domestic[0]['DomesticServentSi']);this.CommaFormatted(obj,'Domestic');servantList[0]['ServantCount']=domestic[0].TotalNoOfEmployees;servantList[0]['ServantType']=domestic[0]['ServantType'];servantList[0]['OriginalRiskId']=domestic[0].RiskId  }
-                            else{servantList[0]['ServantSI']=null;servantList[0]['ServantCount']=null;servantList[0]['ServantType']=null}
-                            obj['ServantList']=servantList;
+                            let servantList = [];
+                            if(persAcc.length!=0){
+                              let i=0;
+                              for(let sub of domestic){
+                                let subEntry={
+                                  "ServantType":sub.DomesticServantType,
+                                  "ServantCount": sub.Count,
+                                  "ServantSI": sub.DomesticServentSi
+                                }
+                                servantList.push(subEntry);
+                                  i+=1;
+                                  if(i==domestic.length) obj['ServantList'] = servantList;
+                              }
+                            }
+                            else{servantList = [{"ServantType":null,'ServantCount':null,'ServantSI':null}];obj['ServantList']=servantList;}
                             let persLiab = subDetails.filter(ele=>ele['SectionId']=='139')
                             if(persLiab.length!=0){obj['PersonalLiabilitySI']=String(persLiab[0]['PersonalLiabilitySi']);this.CommaFormatted(obj,'PL');obj['OriginalRiskId']=persLiab[0].RiskId  }
                             else{obj['PersonalLiabilitySI']=null;}
-                            console.log("Final Obj",obj)
                             this.LocationName.push(obj);
                             i+=1;
                         }
@@ -3231,7 +3251,7 @@ export class RiskDetailsComponent {
         onSubmit(type){
           console.log('Final Locations',this.LocationName)
           let commonDetals:any = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
-          let appId = "1", loginId = "", brokerbranchCode = "";let createdBy = "";
+          let appId = "1", loginId = "", brokerbranchCode = "",createdBy = "";
             let quoteStatus = sessionStorage.getItem('QuoteStatus');
             let referenceNo =  sessionStorage.getItem('quoteReferenceNo');
             if(referenceNo){
@@ -3239,7 +3259,6 @@ export class RiskDetailsComponent {
             }
             else this.quoteRefNo = null;
             if (quoteStatus == 'AdminRP' || quoteStatus == 'AdminRA' || quoteStatus == 'AdminRR') {
-              //createdBy = this.vehicleDetailsList[0].CreatedBy;
             }
             else {
               createdBy = this.loginId;
@@ -3249,11 +3268,10 @@ export class RiskDetailsComponent {
               }
               else {
                 appId = this.loginId;
-                //loginId = this.brokerLoginId
                 brokerbranchCode = null;
               }
             }
-            this.applicationId = appId;
+          this.applicationId = appId;
           let havePromoYN = 'N'
           if(commonDetals[0].PromoCode!=null && commonDetals[0].PromoCode!='' && commonDetals[0].PromoCode!=undefined) havePromoYN='Y' 
           let startDate = null,endDate=null;
@@ -3370,6 +3388,7 @@ export class RiskDetailsComponent {
                 "SectionId": "1",
                 "RiskId": null,
                 "BuildingSumInsured": String(entry.BuildingSI).replaceAll(',',''),
+                "SumInsured": String(entry.BuildingSI).replaceAll(',',''),
                 "OutbuildConstructType": entry.BuildingType
               }
               //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
@@ -3380,6 +3399,7 @@ export class RiskDetailsComponent {
                 "SectionId": "47",
                 "RiskId": null,
                 "ContentSuminsured": String(entry.ContentSI).replaceAll(',',''),
+                "SumInsured": String(entry.ContentSI).replaceAll(',','')
               }
               //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
               obj.SectionList.push(subEntry);
@@ -3388,7 +3408,8 @@ export class RiskDetailsComponent {
               let subEntry = {
                 "SectionId": "3",
                 "RiskId": null,
-                "AllriskSumInsured": String(entry.AllRiskSI).replaceAll(',','')
+                "AllriskSumInsured": String(entry.AllRiskSI).replaceAll(',',''),
+                "SumInsured": String(entry.AllRiskSI).replaceAll(',','')
               }
               //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
               obj.SectionList.push(subEntry);
@@ -3396,32 +3417,61 @@ export class RiskDetailsComponent {
             if(entry.PersonalLiabilitySI!=null && entry.PersonalLiabilitySI!='' && entry.PersonalLiabilitySI!='0'){
               let subEntry = {
                 "SectionId": "139",
-                "PersonalLiabilitySi": String(entry.PersonalLiabilitySI).replaceAll(',','')
+                "PersonalLiabilitySi": String(entry.PersonalLiabilitySI).replaceAll(',',''),
+                "SumInsured": String(entry.PersonalLiabilitySI).replaceAll(',','')
               }
               //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
               obj.SectionList.push(subEntry);
             }
-            if(entry.ServantType!=null && entry.ServantType!='' && entry.ServantCount!=null && entry.ServantCount!='' && entry.ServantSI!=null && entry.ServantSI!=''){
-              let subEntry = {
-                "SectionId": "106",
-                "RiskId": null,
-                "DomesticServantType":entry.ServantType,
-                "Count":entry.ServantCount,
-                "DomesticServentSi": String(entry.ServantSI).replaceAll(',',''),
+            if(entry.ServantList.length!=0){
+              for(let ser of entry.ServantList){
+                let subEntry={
+                      "SectionId": "106",
+                      "RiskId": null,
+                      "DomesticServantType":ser.ServantType,
+                      "Count":ser.ServantCount,
+                      "DomesticServentSi": String(ser.ServantSI).replaceAll(',',''),
+                      "SumInsured": String(ser.ServantSI).replaceAll(',','')
+                }
+                obj.SectionList.push(subEntry);
               }
-              //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
-              obj.SectionList.push(subEntry);
             }
-            if(entry.RelationType!=null && entry.RelationType!='' && entry.DeathSI!=null && entry.DeathSI!=''){
-              let subEntry = {
-                "SectionId": "138",
-                "RiskId": null,
-                "RelationType": entry.RelationType,
-                "PersonalAccidentSi":String(entry.DeathSI).replaceAll(',','')
+            if(entry.PAList.length!=0){
+              for(let ser of entry.PAList){
+                 let subEntry = {
+                  "SectionId": "138",
+                  "RiskId": null,
+                  "RelationType": ser.RelationType,
+                  "PersonalAccidentSi":String(ser.DeathSI).replaceAll(',',''),
+                  "SumInsured": String(ser.DeathSI).replaceAll(',',''),
+                }
+                //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
+                obj.SectionList.push(subEntry);
               }
-              //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
-              obj.SectionList.push(subEntry);
             }
+            // if(entry.ServantType!=null && entry.ServantType!='' && entry.ServantCount!=null && entry.ServantCount!='' && entry.ServantSI!=null && entry.ServantSI!=''){
+            //   let subEntry = {
+            //     "SectionId": "106",
+            //     "RiskId": null,
+            //     "DomesticServantType":entry.ServantType,
+            //     "Count":entry.ServantCount,
+            //     "DomesticServentSi": String(entry.ServantSI).replaceAll(',',''),
+            //     "SumInsured": String(entry.ServantSI).replaceAll(',',''),
+            //   }
+            //   //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
+            //   obj.SectionList.push(subEntry);
+            // }
+            // if(entry.RelationType!=null && entry.RelationType!='' && entry.DeathSI!=null && entry.DeathSI!=''){
+            //   let subEntry = {
+            //     "SectionId": "138",
+            //     "RiskId": null,
+            //     "RelationType": entry.RelationType,
+            //     "PersonalAccidentSi":String(entry.DeathSI).replaceAll(',',''),
+            //     "SumInsured": String(entry.DeathSI).replaceAll(',',''),
+            //   }
+            //   //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
+            //   obj.SectionList.push(subEntry);
+            // }
             
             if(obj.SectionList.length==0){
               obj['CommonError']=true
