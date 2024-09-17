@@ -3814,7 +3814,6 @@
                                     <ng-container
                                         *ngIf="adminSection || (userType=='Issuer' && finalizeYN!='Y' && !endorsementSection)">
                                         <div class="input-group">
-                                            Entered
                                             <input pInputText id="ratePercent" class="searchText"
                                                 [(ngModel)]="ratePercent" (keyup)="checkRangeCoverRate()"
                                                 style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important"
@@ -3934,7 +3933,7 @@
                                                     [(ngModel)]="discount['DiscountAmount']" (keyup)="checkDiscountRate(discount,'A')"
                                                     style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important"
                                                     maxlength="5">
-                                                    <br *ngIf="discount.RateError"><b class="text-danger referal_data" *ngIf="discount.RateError">{{getLoadingHeader(discount)}}</b>
+                                                    <br *ngIf="discount.RateError"><b class="text-danger referal_data" *ngIf="discount.RateError">{{minRateYN}} {{getLoadingHeader(discount)}}</b>
                                                 <!-- <div >
                                                   &nbsp;<span class="input-group-text" style="padding: 0.05rem 0.5rem;" id="basic-addon2">%</span>
                                                 </div> -->
@@ -3981,7 +3980,7 @@
                                                     [(ngModel)]="loading['LoadingRate']" (keyup)="checkLoadingRate(loading,'P')"
                                                     style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important"
                                                     maxlength="5">
-                                                    <br *ngIf="loading.RateError"><b class="text-danger referal_data" *ngIf="loading.RateError">{{getLoadingHeader(loading)}}</b>
+                                                    <br *ngIf="loading.RateError"><b class="text-danger referal_data" *ngIf="loading.RateError">{{minRateYN}}{{getLoadingHeader(loading)}}</b>
                                                 <!-- <div >
                                                   &nbsp;<span class="input-group-text" style="padding: 0.05rem 0.5rem;" id="basic-addon2">%</span>
                                                 </div> -->
@@ -4020,7 +4019,7 @@
                                                 (keyup)="premiumComma(i,loading.LoadingAmount);checkLoadingRate(loading,'A')"
                                                 [(ngModel)]="loading['LoadingAmount']"
                                                 style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important">
-                                                <br *ngIf="loading.RateError"><b class="text-danger referal_data" *ngIf="loading.RateError">{{getLoadingHeader(loading)}}</b>
+                                                <br *ngIf="loading.RateError"><b class="text-danger referal_data" *ngIf="loading.RateError">{{minRateYN}}{{getLoadingHeader(loading)}}</b>
                                             <!-- <input type="text" [id]="'Amount'+i" class="input-form-control without-icon"
                                                 (keyup)="premiumComma(i,loading.LoadingAmount)"
                                                 style="width: auto !important;max-width:300px;text-align:right !important"
@@ -4124,7 +4123,7 @@
                                                     [(ngModel)]="discount['DiscountRate']" (keyup)="checkDiscountRate(discount,'P')"
                                                     style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important"
                                                     maxlength="5">
-                                                    <br *ngIf="discount.RateError"><b class="text-danger referal_data" *ngIf="discount.RateError">{{getLoadingHeader(discount)}}</b>
+                                                    <br *ngIf="discount.RateError"><b class="text-danger referal_data" *ngIf="discount.RateError">{{minRateYN}}{{getLoadingHeader(discount)}}</b>
                                                 <!-- <div >
                                                   &nbsp;<span class="input-group-text" style="padding: 0.05rem 0.5rem;" id="basic-addon2">%</span>
                                                 </div> -->
@@ -4164,7 +4163,7 @@
                                                     [(ngModel)]="discount['DiscountAmount']" (keyup)="checkDiscountRate(discount,'A')"
                                                     style="border-radius:5px;width: auto !important;max-width:80px;text-align:right !important"
                                                     maxlength="5">
-                                                    <br *ngIf="discount.RateError"><b class="text-danger referal_data" *ngIf="discount.RateError">{{getLoadingHeader(discount)}}</b>
+                                                    <br *ngIf="discount.RateError"><b class="text-danger referal_data" *ngIf="discount.RateError">{{minRateYN}}{{getLoadingHeader(discount)}}</b>
                                                 <!-- <div >
                                                   &nbsp;<span class="input-group-text" style="padding: 0.05rem 0.5rem;" id="basic-addon2">%</span>
                                                 </div> -->

@@ -3387,7 +3387,7 @@ export class RiskDetailsComponent {
               let subEntry = {
                 "SectionId": "1",
                 "RiskId": null,
-                "BuildingSumInsured": String(entry.BuildingSI).replaceAll(',',''),
+                //"BuildingSumInsured": String(entry.BuildingSI).replaceAll(',',''),
                 "SumInsured": String(entry.BuildingSI).replaceAll(',',''),
                 "OutbuildConstructType": entry.BuildingType
               }
@@ -3398,7 +3398,7 @@ export class RiskDetailsComponent {
               let subEntry = {
                 "SectionId": "47",
                 "RiskId": null,
-                "ContentSuminsured": String(entry.ContentSI).replaceAll(',',''),
+                //"ContentSuminsured": String(entry.ContentSI).replaceAll(',',''),
                 "SumInsured": String(entry.ContentSI).replaceAll(',','')
               }
               //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
@@ -3408,7 +3408,7 @@ export class RiskDetailsComponent {
               let subEntry = {
                 "SectionId": "3",
                 "RiskId": null,
-                "AllriskSumInsured": String(entry.AllRiskSI).replaceAll(',',''),
+                //"AllriskSumInsured": String(entry.AllRiskSI).replaceAll(',',''),
                 "SumInsured": String(entry.AllRiskSI).replaceAll(',','')
               }
               //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
@@ -3417,7 +3417,7 @@ export class RiskDetailsComponent {
             if(entry.PersonalLiabilitySI!=null && entry.PersonalLiabilitySI!='' && entry.PersonalLiabilitySI!='0'){
               let subEntry = {
                 "SectionId": "139",
-                "PersonalLiabilitySi": String(entry.PersonalLiabilitySI).replaceAll(',',''),
+                //"PersonalLiabilitySi": String(entry.PersonalLiabilitySI).replaceAll(',',''),
                 "SumInsured": String(entry.PersonalLiabilitySI).replaceAll(',','')
               }
               //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
@@ -3430,7 +3430,7 @@ export class RiskDetailsComponent {
                       "RiskId": null,
                       "DomesticServantType":ser.ServantType,
                       "Count":ser.ServantCount,
-                      "DomesticServentSi": String(ser.ServantSI).replaceAll(',',''),
+                      //"DomesticServentSi": String(ser.ServantSI).replaceAll(',',''),
                       "SumInsured": String(ser.ServantSI).replaceAll(',','')
                 }
                 obj.SectionList.push(subEntry);
@@ -3442,7 +3442,7 @@ export class RiskDetailsComponent {
                   "SectionId": "138",
                   "RiskId": null,
                   "RelationType": ser.RelationType,
-                  "PersonalAccidentSi":String(ser.DeathSI).replaceAll(',',''),
+                  //"PersonalAccidentSi":String(ser.DeathSI).replaceAll(',',''),
                   "SumInsured": String(ser.DeathSI).replaceAll(',',''),
                 }
                 //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
