@@ -250,6 +250,7 @@ emiyn="N";
   actualRatePercent: any;
   minRatePercent: any;
   coverRateError: boolean;
+  minRateYN: any;
   constructor(public sharedService: SharedService,private authService: AuthService,private router:Router,private modalService: NgbModal,
     private appComp:AppComponent,private translate:TranslateService,
     private datePipe:DatePipe,public dialog: MatDialog) {
@@ -3394,6 +3395,7 @@ emiyn="N";
       this.ratePercent = rowData.Rate;
       this.CoverName = rowData.CoverName;
       this.minimumPremiumYN = rowData.MinimumPremiumYn;
+      this.minRateYN = rowData.MinimumRateYn;
       if(rowData.Discounts) this.discountList = rowData.Discounts;
       if(rowData.Loadings) this.loadingList = rowData.Loadings;
       if(rowData.Endorsements){
@@ -3442,18 +3444,25 @@ emiyn="N";
       else this.finalSaveLoading(modal)
     }
     checkRangeCoverRate(){
-      if(this.minRatePercent!=null && this.actualRatePercent!=null){
-          if(this.ratePercent!='' && this.ratePercent!=null){
-            if(Number(this.ratePercent)<this.minRatePercent || Number(this.ratePercent)>this.actualRatePercent){
-              this.coverRateError = true;
-            }
-            else this.coverRateError = false;
+      if(this.minRateYN!=undefined){
+        if(this.minRateYN=='Y'){
+          if(this.minRatePercent!=null && this.actualRatePercent!=null){
+              if(this.ratePercent!='' && this.ratePercent!=null){
+                if(Number(this.ratePercent)<this.minRatePercent || Number(this.ratePercent)>this.actualRatePercent){
+                  this.coverRateError = true;
+                }
+                else this.coverRateError = false;
+              }
           }
+          else this.coverRateError = false;
+        }
+        else this.coverRateError = false;
       }
+      else this.coverRateError = false;
     }
     checkDiscountRate(rowData,type){
-      if(rowData.MinimumRateYn!=undefined){
-        if(rowData.MinimumRateYn=='Y'){
+      if(this.minRateYN!=undefined){
+        if(this.minRateYN=='Y'){
           if((rowData.DiscountRate!=null && rowData.DiscountRate!='' && type=='P') || (rowData.DiscountAmount!=null && rowData.DiscountAmount!='' && type=='A')){
             let actualRate = 0,minRate=0,rate=null;
             if(type=='A') rate=Number(rowData.DiscountAmount.replaceAll(',',''));
@@ -3473,8 +3482,8 @@ emiyn="N";
       else  rowData['RateError']=false;
     }
     checkLoadingRate(rowData,type){
-      if(rowData.MinimumRateYn!=undefined){
-        if(rowData.MinimumRateYn=='Y'){
+      if(this.minRateYN!=undefined){
+        if(this.minRateYN=='Y'){
           if((rowData.LoadingRate!=null && rowData.LoadingRate!='' && type=='P') || (rowData.LoadingAmount!=null && rowData.LoadingAmount!='' && type=='A')){
             let actualRate = 0,minRate=0,rate=null;
             if(type=='A') rate=Number(rowData.LoadingAmount.replaceAll(',',''));
