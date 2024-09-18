@@ -502,14 +502,14 @@
             
 
         </div> -->
-        <div *ngIf="productId=='61' || productId=='25' || productId=='16' || productId=='1' || productId=='14' || productId=='15' || productId=='32' || productId=='39' ||  this.productId=='6'">
-            <div class="grid pl-5 pr-5 pb-0">
+        <div *ngIf="productId=='61' || productId=='25' || productId=='16' || productId=='1' || productId=='14' || productId=='13' || productId=='32' || productId=='39' ||  this.productId=='6'">            <div class="grid pl-5 pr-5 pb-0">
                 <div class="md:col-6 lg:col-6 col-12">
                     <h4 class="m-0 p-0" *ngIf="productId=='61'">Bond Details</h4>
                     <h4 class="m-0 p-0" *ngIf="productId=='25'">Electronic Equipment Details</h4>
                     <h4 class="m-0 p-0" *ngIf="productId=='16'">Money</h4>
                     <h4 class="m-0 p-0" *ngIf="productId=='1'">Burglary</h4>
                     <h4 class="m-0 p-0" *ngIf="productId=='14' || productId=='15'">Employer's Detail </h4>
+                    <h4 class="m-0 p-0" *ngIf="productId=='13'">Personal Accident Detail </h4>
                     <h4 class="m-0 p-0" *ngIf="productId=='32'">Fidelity Details </h4>
                     <h4 class="m-0 p-0" *ngIf="productId=='6'">Fire Details </h4>
                     <h4 class="m-0 p-0" *ngIf="productId=='39'">Machinery Details </h4>
@@ -591,6 +591,12 @@
                                                     <th>Count</th> 
                                                     <th>SumInsured</th>
                                                 </ng-container>
+                                                <ng-container *ngIf="productId=='13'">
+                                                    <th>Occupation</th>
+                                                    <th>Name</th> 
+                                                    <th>DOB</th> 
+                                                    <th>SumInsured</th>
+                                                </ng-container>
                                                 <ng-container *ngIf="productId=='32'">
                                                     <th>Count</th> 
                                                     <th>SumInsured</th>
@@ -631,6 +637,12 @@
                                                     <td>{{money.FidEmpCount}}</td>
                                                     <td>{{getSIDesc(money)}}</td>
                                                 </ng-container>
+                                                <ng-container *ngIf="productId=='13'">
+                                                    <td>{{getOccupationDesc(money)}}</td>
+                                                    <td>{{money.NickName}}</td>
+                                                    <td>{{money.Dob}}</td>
+                                                    <td>{{money.SumInsured}}</td>
+                                                </ng-container>
                                             <td>
                                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined" (click)="onEditCommonDetails(money,item,i)" ></button>  
                                             </td>
@@ -645,8 +657,7 @@
                                 <div class="grid p-2 mt-3">
                                     <div class="col-12 lg:col-3 xl:col-3"></div>
                                     <div class="col-12 lg:col-5 xl:col-5">
-                                        <ng-container *ngIf="productId=='25' || productId=='16' || productId=='1' || productId=='14' || this.productId=='32' || this.productId=='6' || this.productId=='39'">
-                                            <form [formGroup]="form" *ngIf="productId=='32'">
+                                        <ng-container *ngIf="productId=='25' || productId=='16' || productId=='1' || productId=='14' || productId=='13' || this.productId=='32' || this.productId=='6' || this.productId=='39'">                                            <form [formGroup]="form" *ngIf="productId=='32'">
                                                 <formly-form [form]="form" [fields]="fieldsFidelity" [model]="productItem"></formly-form>
                                             </form>
                                             <form [formGroup]="form" *ngIf="productId=='14' || productId=='15'">
@@ -995,7 +1006,7 @@
             </ng-container> -->
             </ng-container>
             
-            <ng-container *ngIf="step.props.label=='Business All Risk' || step.props.label=='Electronic Equipment' || step.props.label=='Personal Accident'">
+            <ng-container *ngIf="step.props.label=='Business All Risk' || step.props.label=='Electronic Equipment'">
                 <!-- <div class="grid pl-5 pr-2 pb-0 w-full" *ngIf="step.props.label=='Electronic Equipment' || step.props.label=='Personal Accident'">
                     <div class="lg:col-12 xl:col-12 md:col-12 col-12 m-0 p-0">
                         <div class="flex flex-wrap justify-content-end" >
@@ -1040,7 +1051,7 @@
                         </ng-template>
                         </p-table>
                 </ng-container>
-                <ng-container *ngIf="tableRowPA.length!=0 && step.props.label=='Personal Accident'">
+                <!-- <ng-container *ngIf="tableRowPA.length!=0 && step.props.label=='Personal Accident'">
                     <p-table [value]="tableRowPA"  [tableStyle]="{'min-width':'100rem'}" [paginator]="true" [rows]="5">
                         <ng-template pTemplate="header">
                             <tr>
@@ -1057,7 +1068,6 @@
                             <tr>
                             <td>{{i+1}}</td>
                             <td>{{PA.CustomerName}}</td>
-                            <!-- <td>{{PA.LocationName}}</td> -->
                             <td>{{getPersonalAccOccDesc(PA.OccupationId)}}</td>
                             <td>{{PA.Dob}}</td>
                             <td>{{PA.SumInsured}}</td>
@@ -1070,7 +1080,7 @@
                             </tr>
                         </ng-template>
                         </p-table>
-                </ng-container>
+                </ng-container> -->
             <ng-container  >
                 <!-- <p-dialog header="{{ step.props.label }}" [(visible)]="isEEForm" [modal]="true" styleClass="w-10 md:w-5 lg:w-5" [draggable]="false" [resizable]="false"> -->
                     <div class=" col-12  splitCard">
@@ -1120,7 +1130,7 @@
                                                 <span class="spancommon span_font_size">Please Enter Serial NO</span>
                                             </div>
                                         </div>
-                                        <div class="input-form-error bottomSpacing" *ngIf=" OccupationError 
+                                        <!-- <div class="input-form-error bottomSpacing" *ngIf=" OccupationError 
                                         || PersonNameError || DobError|| sumInsuredError">
                                             
                                             <div class="error-text text-danger" *ngIf="OccupationError">
@@ -1135,13 +1145,13 @@
                                             <div class="error-text text-danger" *ngIf="sumInsuredError">
                                                 <span class="spancommon span_font_size">Please Enter sum Insured </span>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                                 <div class="flex flex-warp justify-content-center">
                                     <!-- <p-button  label="Cancel" size="small" (click)="isEEForm=false"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
                                     <p-button  label="Save & Add New" *ngIf="step.props.label=='Electronic Equipment'" size="small" (click)="saveElectronicEquip(productItem)"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <p-button  label="Save & Add New" *ngIf="step.props.label=='Personal Accident'" size="small" (click)="addPA(productItem)"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <!-- <p-button  label="Save & Add New" *ngIf="step.props.label=='Personal Accident'" size="small" (click)="addPA(productItem)"></p-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
                                 </div>
                             </p-tabPanel>
                             </ng-container>
