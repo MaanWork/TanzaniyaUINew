@@ -362,4 +362,8 @@ export class AppMenuComponent implements OnInit {
         // ];
         console.log("Final Menu",this.model)
     }
+    setItemId(rowData){
+      console.log(rowData)
+      return String(rowData.title).replaceAll(' ','');
+    }
 }

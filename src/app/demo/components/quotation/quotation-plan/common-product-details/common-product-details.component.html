@@ -398,8 +398,8 @@
         <!-- <p-button label="Proceed" size="small" (click)="onSubmit(null)"></p-button> -->
     </div>
     <p-divider class="m-0 p-0" *ngIf="productId=='4' "></p-divider>
-    <div *ngIf="formSection && productId!='45'">
-        <div *ngIf=" productId=='15'">
+    <div *ngIf="productId!='45'">
+        <!-- <div *ngIf=" productId=='15'">
             <div class="grid pl-5 pr-5 pb-0">
                 <div class="md:col-6 lg:col-6 col-12">
                     <h4 class="m-0 p-0">Employers Details</h4>
@@ -452,7 +452,7 @@
             </div>
                     
                         
-        </div> 
+        </div>  -->
         <!-- <div class="row" *ngIf="productId=='14' && employeeError">
             <div class="input-form-error text-center">
                 <div class="error-text  text-danger">
@@ -502,14 +502,14 @@
             
 
         </div> -->
-        <div *ngIf="productId=='61' || productId=='25' || productId=='16' || productId=='1' || productId=='14' || productId=='32' || productId=='39' ||  this.productId=='6'">
+        <div *ngIf="productId=='61' || productId=='25' || productId=='16' || productId=='1' || productId=='14' || productId=='15' || productId=='32' || productId=='39' ||  this.productId=='6'">
             <div class="grid pl-5 pr-5 pb-0">
                 <div class="md:col-6 lg:col-6 col-12">
                     <h4 class="m-0 p-0" *ngIf="productId=='61'">Bond Details</h4>
                     <h4 class="m-0 p-0" *ngIf="productId=='25'">Electronic Equipment Details</h4>
                     <h4 class="m-0 p-0" *ngIf="productId=='16'">Money</h4>
                     <h4 class="m-0 p-0" *ngIf="productId=='1'">Burglary</h4>
-                    <h4 class="m-0 p-0" *ngIf="productId=='14'">Employer's Detail </h4>
+                    <h4 class="m-0 p-0" *ngIf="productId=='14' || productId=='15'">Employer's Detail </h4>
                     <h4 class="m-0 p-0" *ngIf="productId=='32'">Fidelity Details </h4>
                     <h4 class="m-0 p-0" *ngIf="productId=='6'">Fire Details </h4>
                     <h4 class="m-0 p-0" *ngIf="productId=='39'">Machinery Details </h4>
@@ -586,7 +586,7 @@
                                                     <th>Description</th>
                                                     <th>SumInsured</th>
                                                 </ng-container>
-                                                <ng-container *ngIf="productId=='14'">
+                                                <ng-container *ngIf="productId=='14' || productId=='15'">
                                                     <th>Occupation</th>
                                                     <th>Count</th> 
                                                     <th>SumInsured</th>
@@ -622,10 +622,10 @@
                                                     <td>{{money.DescriptionOfRisk}}</td>
                                                     <td>{{money.ElecEquipSuminsured}}</td>
                                                 </ng-container>
-                                                <ng-container *ngIf="productId=='14'">
+                                                <ng-container *ngIf="productId=='14' || productId=='15'">
                                                     <td>{{getOccupationDesc(money)}}</td>
                                                     <td>{{money.TotalNoOfEmployees}}</td>
-                                                    <td>{{money.EmpLiabilitySi}}</td>
+                                                    <td>{{money.SumInsured}}</td>
                                                 </ng-container>
                                                 <ng-container *ngIf="productId=='32'">
                                                     <td>{{money.FidEmpCount}}</td>
@@ -649,7 +649,7 @@
                                             <form [formGroup]="form" *ngIf="productId=='32'">
                                                 <formly-form [form]="form" [fields]="fieldsFidelity" [model]="productItem"></formly-form>
                                             </form>
-                                            <form [formGroup]="form" *ngIf="productId=='14'">
+                                            <form [formGroup]="form" *ngIf="productId=='14' || productId=='15'">
                                                 <formly-form [form]="form" [fields]="fieldsEmployee" [model]="productItem"></formly-form>
                                             </form>
                                             <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)" [appendTo]="body" *ngIf="productId!='14' && productId!='32'">
