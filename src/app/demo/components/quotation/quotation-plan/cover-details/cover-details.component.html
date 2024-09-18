@@ -98,13 +98,13 @@
                                                         </ng-container>
                                                         <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}
                                                             &nbsp;&nbsp;<a
-                                                                class="mt-0 viewDetailsText" [id]="'ViewDetails1'+getCoverNameAlt(cover.CoverName)"
+                                                                class="mt-0 viewDetailsText" [id]="'ViewDetailss'+getCoverNameAlt(cover.CoverName)"
                                                                 (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
                                                             </a>
                                                         </p><br>
                                                         <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>{{'PREMIUM.PremiumAfterDiscount' | translate}} 
                                                             &nbsp;&nbsp;<a
-                                                            class="mt-0 viewDetailsText" [id]="'ViewDetails2'+getCoverNameAlt(cover.CoverName)"
+                                                            class="mt-0 viewDetailsText" [id]="'ViewDetails'+getCoverNameAlt(cover.CoverName)"
                                                             (click)="ongetTaxDetails(cover)">{{'PREMIUM.ViewDetails' | translate}}</a>
                                                         </p>
                                                         
@@ -191,12 +191,12 @@
                                                                             <p><span class="font-bold text-2xl">Risk - {{getOccupationDesc(cover)}}</span>
                                                                         </ng-container>
                                                                         <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}  &nbsp;&nbsp;<a
-                                                                            class="mt-0 viewDetailsText2" [id]="'ViewDetails3'+getCoverNameAlt(cover.CoverName)"
+                                                                            class="mt-0 viewDetailsText2" [id]="'ViewDetailss'+getCoverNameAlt(cover.CoverName)"
                                                                             (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
                                                                         </a></p><br>
                                                                         <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>{{'PREMIUM.PremiumAfterDiscount' | translate}} 
                                                                             &nbsp;&nbsp;<a
-                                                                            class="mt-0 viewDetailsText2" [id]="'ViewDetails4'+getCoverNameAlt(cover.CoverName)"
+                                                                            class="mt-0 viewDetailsText2" [id]="'ViewDetails'+getCoverNameAlt(cover.CoverName)"
                                                                             (click)="ongetTaxDetails(cover)"
                                                                             >{{'PREMIUM.ViewDetails' | translate}}</a>
                                                                         </p>
@@ -313,12 +313,12 @@
                                                                                 <p><span class="font-bold text-2xl">Risk - {{getOccupationDesc(cover)}}</span>
                                                                             </ng-container>
                                                                             <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}  &nbsp;&nbsp;<a
-                                                                                class="mt-0 viewDetailsText2" [id]="'ViewDetails5'+getCoverNameAlt(cover.CoverName)"
+                                                                                class="mt-0 viewDetailsText2" [id]="'ViewDetailss'+getCoverNameAlt(cover.CoverName)"
                                                                                 (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
                                                                             </a></p><br>
                                                                             <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>{{'PREMIUM.PremiumAfterDiscount' | translate}} 
                                                                                 &nbsp;&nbsp;<a
-                                                                                class="mt-0 viewDetailsText2" [id]="'ViewDetails6'+getCoverNameAlt(cover.CoverName)"
+                                                                                class="mt-0 viewDetailsText2" [id]="'ViewDetails'+getCoverNameAlt(cover.CoverName)"
                                                                                 (click)="ongetTaxDetails(cover)"
                                                                                 >{{'PREMIUM.ViewDetails' | translate}}</a>
                                                                             </p>
@@ -374,13 +374,13 @@
                                                             </ng-container>
                                                             <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}
                                                                 &nbsp;&nbsp;<a 
-                                                                    class="mt-0 viewDetailsText" [id]="'ViewDetails7'+getCoverNameAlt(cover.CoverName)"
+                                                                    class="mt-0 viewDetailsText" [id]="'ViewDetailss'+getCoverNameAlt(cover.CoverName)"
                                                                     (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
                                                                 </a>
                                                             </p><br>
                                                             <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>{{'PREMIUM.PremiumAfterDiscount' | translate}} 
                                                                 &nbsp;&nbsp;<a
-                                                                class="mt-0 viewDetailsText" [id]="'ViewDetails8'+getCoverNameAlt(cover.CoverName)"
+                                                                class="mt-0 viewDetailsText" [id]="'ViewDetails'+getCoverNameAlt(cover.CoverName)"
                                                                 (click)="ongetTaxDetails(cover)">{{'PREMIUM.ViewDetails' | translate}}</a>
                                                             </p>
                                                             
@@ -503,7 +503,7 @@
                                 </ng-container>
                                 <div class="felx flex-warp t-a-r viewDetailsText2" >
 
-                                    <h6 (click)="onChooseCompareSection(menu,target)" [id]="'ViewDetails9'+i"><a >{{'PREMIUM.ViewMoreCovers' | translate}} >></a></h6>
+                                    <h6 (click)="onChooseCompareSection(menu,target)" [id]="'ViewDetailss'+i"><a >{{'PREMIUM.ViewMoreCovers' | translate}} >></a></h6>
                                 </div>
                                 <hr class="hr new4">
                                 <div class="grid mt-2 justify-content-end" style="padding: 12px;">
@@ -562,13 +562,13 @@
                                                 
                                                 <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}
                                                     &nbsp;&nbsp;<a
-                                                        class="mt-0 viewDetailsText" [id]="'ViewDetails10'+getCoverNameAlt(cover.CoverName)"
+                                                        class="mt-0 viewDetailsText" [id]="'ViewDetailss'+getCoverNameAlt(cover.CoverName)"
                                                         (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
                                                     </a>
                                                 </p><br>
                                                 <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>{{'PREMIUM.PremiumAfterDiscount' | translate}} 
                                                     &nbsp;&nbsp;<a
-                                                    class="mt-0 viewDetailsText" [id]="'ViewDetails11'+getCoverNameAlt(cover.CoverName)"
+                                                    class="mt-0 viewDetailsText" [id]="'ViewDetails'+getCoverNameAlt(cover.CoverName)"
                                                     (click)="ongetTaxDetails(cover)">{{'PREMIUM.ViewDetails' | translate}}</a>
                                                 </p>
                                                 
@@ -615,12 +615,12 @@
                                                         <ng-container *ngIf="checkPremiumIncludedTax(cover,menu)">
                                                             <div class="mb-3">
                                                                 <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.SumInsured | commaseparator}} </b>{{'PREMIUM.SumInsured' | translate}}  &nbsp;&nbsp;<a
-                                                                    class="mt-0 viewDetailsText2" [id]="'ViewDetails12'+getCoverNameAlt(cover.CoverName)"
+                                                                    class="mt-0 viewDetailsText2" [id]="'ViewDetailss'+getCoverNameAlt(cover.CoverName)"
                                                                     (click)="setDiscountDetails(menu,cover,'excess')">{{'PREMIUM.ViewDetails' | translate}}
                                                                 </a></p><br>
                                                                 <p class="mb-0"><b><i class="pi pi-check-circle mr-3"></i> {{cover.PremiumAfterDiscount | commaseparator}} </b>{{'PREMIUM.PremiumAfterDiscount' | translate}} 
                                                                     &nbsp;&nbsp;<a
-                                                                    class="mt-0 viewDetailsText2" [id]="'ViewDetails13'+getCoverNameAlt(cover.CoverName)"
+                                                                    class="mt-0 viewDetailsText2" [id]="'ViewDetails'+getCoverNameAlt(cover.CoverName)"
                                                                     (click)="ongetTaxDetails(cover)"
                                                                     >{{'PREMIUM.ViewDetails' | translate}}</a>
                                                                 </p>
@@ -1412,25 +1412,25 @@
         <div></div>
         <div></div>
         <div class="mb-4">
-           <p-button [label]="'MOTORDETAILS.Back' | translate"  (click)="ongetBack()" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
-            <p-button [label]="'PREMIUM.ModifyRateDetails' | translate" *ngIf="userType=='issuer' || userType=='Issuer'"   [routerLink]="['/quotation/plan/premium-info']" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+           <p-button [label]="'MOTORDETAILS.Back' | translate" id="Back"  (click)="ongetBack()" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
+            <p-button [label]="'PREMIUM.ModifyRateDetails' | translate" id="ModifyRateDetails" *ngIf="userType=='issuer' || userType=='Issuer'"   [routerLink]="['/quotation/plan/premium-info']" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
             <ng-container *ngIf="!checkCurrentSection()">
-                <p-button [label]="'PREMIUM.Proceed' | translate"  (click)="onViewOverAllPremium()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                <p-button [label]="'PREMIUM.Proceed' | translate" id="Proceed"  (click)="onViewOverAllPremium()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                 <!-- <p-button label="Buy Policy"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
                 (click)="onFormSubmit(null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                <p-button label="Buy Policy" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                <p-button label="Buy Policy"   *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
                (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-4"></p-button> -->
-               <p-button [label]="'PREMIUM.Proceed' | translate"  *ngIf="adminSection"
+               <p-button [label]="'PREMIUM.Proceed' | translate" id="Proceed" *ngIf="adminSection"
                (click)="onUpdateFactor('',null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
             </ng-container>
             <ng-container *ngIf="selectedSectionId && checkCurrentSection()">
-                <p-button [label]="'PREMIUM.Proceed' | translate"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
+                <p-button [label]="'PREMIUM.Proceed' | translate" id="Proceed"  *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
                 (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-                <p-button [label]="'PREMIUM.Proceed' | translate" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-                <p-button [label]="'PREMIUM.Proceed' | translate"   *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
+                <p-button [label]="'PREMIUM.Proceed' | translate" id="Proceed" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                <p-button [label]="'PREMIUM.Proceed' | translate"  id="Proceed" *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
                 (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-                <p-button [label]="'PREMIUM.Proceed' | translate"  *ngIf="adminSection"
+                <p-button [label]="'PREMIUM.Proceed' | translate" id="Proceed"  *ngIf="adminSection"
                 (click)="onUpdateFactor('',null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
             </ng-container>
                 

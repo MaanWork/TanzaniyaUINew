@@ -557,6 +557,8 @@ export class RiskDetailsComponent {
                           if(contentDetails.length!=0){obj['ContentSuminsured']=contentDetails[0].ContentSuminsured;}
                           let AllRiskDetails = subDetails.filter(ele=>ele['SectionId']=='3');
                           if(AllRiskDetails.length!=0){obj['AllriskSuminsured']=AllRiskDetails[0].AllriskSuminsured;}
+                          let OwnersDetails = subDetails.filter(ele=>ele['SectionId']=='36');
+                          if(OwnersDetails.length!=0){obj['']=OwnersDetails[0].SumInsured;}
                           let PADetails = subDetails.filter(ele=>ele['SectionId']=='35');
                           if(PADetails.length!=0){obj['SumInsured']=PADetails[0].SumInsured;obj['OccupationType']=PADetails[0].OccupationType;}
                           this.locationList.push(obj);
@@ -3423,6 +3425,7 @@ export class RiskDetailsComponent {
               //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
               obj.SectionList.push(subEntry);
             }
+            
             if(entry.ServantList.length!=0){
               for(let ser of entry.ServantList){
                 let subEntry={
@@ -4657,7 +4660,7 @@ export class RiskDetailsComponent {
                     entry['ContentSuminsured'] = this.productItem.ContentSuminsured;
                     entry['AllriskSumInsured'] = this.productItem.AllriskSumInsured;
                     entry['TotalNoOfEmployees'] = this.productItem.TotalNoOfEmployees;
-                    entry['EmpLiabilitySi'] = this.productItem.DomesticServantSi;
+                    entry['EmpLiabilitySi'] = this.productItem.EmpLiabilitySi;
                     entry['LiabilityOccupationId'] = this.productItem.LiabilityOccupationId;
                     entry['OccupationType'] = this.productItem.OccupationType;
                     entry['SumInsured']= this.productItem.SumInsured;
@@ -4695,7 +4698,7 @@ export class RiskDetailsComponent {
                       }
                       obj.SectionList.push(subEntry);
                   }
-                  if(entry.EmpLiabilitySi!=null && entry.EmpLiabilitySi!='' && entry.EmpLiabilitySi!='0' && entry.LiabilityOccupationId!=null && entry.LiabilityOccupationId!=''){
+                  if(entry.EmpLiabilitySi!=null && entry.EmpLiabilitySi!='' && entry.EmpLiabilitySi!='0'){
                     let subEntry = {    "SectionId": "36", "TotalNoOfEmployees": "1","LiabilityOccupationId": entry.LiabilityOccupationId,"SumInsured": entry.EmpLiabilitySi,"EmpLiabilitySi": entry.EmpLiabilitySi,"Status": "Y"}
                     obj.SectionList.push(subEntry);
                   }

@@ -4480,7 +4480,7 @@ backPlan()
       this.productItem.CoveringDetails = section.CoveringDetails;
       this.productItem.DescriptionOfRisk = section.DescriptionOfRisk;
       if(section?.FirstLossPercentId) this.productItem.FireSumInsured = String(section?.FirstLossPercentId);
-      this.productItem.BurglarySi = section?.BurglarySi;
+      this.productItem.BurglarySi = section?.SumInsured;
       this.ongetDistrictList('direct')
     }
     else if(this.productId=='14' || this.productId=='15'){
@@ -4488,14 +4488,14 @@ backPlan()
       else if(section.OccupationType) this.productItem.LiabilityOccupationId = section.OccupationType;
       this.productItem.TotalNoOfEmployees = section.TotalNoOfEmployees;
       this.productItem.otheroption = section?.OtherOccupation;
-      this.productItem.EmpLiabilitySi = section?.EmpLiabilitySi;
+      this.productItem.EmpLiabilitySi = section['SumInsured'];
     }
     else if(this.productId=='32'){
       this.productItem.FidEmpCount = section.FidEmpCount;
-      if(section.FidEmpSi) this.productItem.FidEmpSi = String(section.FidEmpSi);
+      if(section.SumInsured) this.productItem.FidEmpSi = String(section.SumInsured);
     }
     else if(this.productId=='61'){
-      this.productItem.BondSI = section.BondSuminsured;
+      this.productItem.BondSI = section.SumInsured;
       this.productItem.TypeOfBond = section.BondType;
       if(section.IndustryType) this.productItem.IndustryId = String(section.IndustryType);
       this.productItem.NoOfYears = section.BondYear;
@@ -4543,6 +4543,7 @@ backPlan()
           "RegionCode" : this.productItem.RegionCode ? this.productItem.RegionCode : null,
           "DistrictCode" : this.productItem.DistrictCode ? this.productItem.DistrictCode : null,
           "FireSumInsured": this.productItem.FireSumInsured ? this.productItem.FireSumInsured : '0',
+          "SumInsured": this.productItem.BurglarySi ? this.productItem.BurglarySi : '0',
           "BurglarySi": this.productItem.BurglarySi ? this.productItem.BurglarySi : '0'
         }
       }
@@ -4552,6 +4553,7 @@ backPlan()
             "RiskId": null,
             "OccupationId": this.productItem.LiabilityOccupationId,
             "TotalNoOfEmployees": this.productItem.TotalNoOfEmployees,
+            "SumInsured":this.productItem.EmpLiabilitySi,
             "EmpLiabilitySi": this.productItem.EmpLiabilitySi,
             "OtherOccupation": this.productItem.otheroption
           }
@@ -4567,6 +4569,7 @@ backPlan()
             "SectionName": "Fidelity",
             "RiskId": null,
             "OccupationId": '99999',
+            "SumInsured": this.productItem.FidEmpCount,
             "FidEmpCount":this.productItem.FidEmpCount,
             "FidEmpSi":this.productItem.FidEmpSi
           }
@@ -4589,6 +4592,7 @@ backPlan()
         entry['Business_Interruption'] = this.productItem.BusinessName;
         entry['Business_InterruptionSI'] = this.productItem.BusinessSI;
         entry['BusinessNameDesc'] = this.getBusinessNameDesc(this.productItem.BusinessName);
+        entry['SumInsured'] = this.productItem.BusinessSI;
         entry['BuildingSumInsured'] = this.productItem.BusinessSI;
       }
       if(this.currentSectionIndex!=null){if(entry) location.SectionList[this.currentSectionIndex] = entry;}
@@ -4704,7 +4708,7 @@ backPlan()
       
     }
     if(this.productId=='61'){
-      this.productItem.BondSI = entry.SectionList[0].BondSuminsured;
+      this.productItem.BondSI = entry.SectionList[0]['SumInsured'];
       this.productItem.TypeOfBond = entry.SectionList[0].BondType;
       if(entry.SectionList[0].IndustryId) this.productItem.IndustryId = String(entry.SectionList[0].IndustryId);
       else if(entry.SectionList[0].IndustryType) this.productItem.IndustryId = String(entry.SectionList[0].IndustryType);
@@ -5964,6 +5968,7 @@ backPlan()
             obj['FirePlantSi'] = this.productItem.BusinessSI;
             obj['BusinessNameDesc'] = this.getBusinessNameDesc(this.productItem.BusinessName);
             obj['BuildingSumInsured'] = this.productItem.FireSumInsured;
+            entry['SumInsured'] = this.productItem.FireSumInsured;
             sectionList.push(obj);
             if(obj.BusinessInterruption!=0 && obj.BusinessInterruption!='0'){
               let subData = {
@@ -5986,7 +5991,8 @@ backPlan()
                 'BusinessNameDesc' : obj.BusinessNameDesc,
                 "RegionCode": obj.RegionCode,
                 "DistrictCode": obj.DistrictCode,
-                "BuildingSumInsured":  this.productItem.BusinessSI
+                "BuildingSumInsured":  this.productItem.BusinessSI,
+                "SumInsured":  this.productItem.BusinessSI
               }
               sectionList.push(subData);
             }
@@ -6230,7 +6236,7 @@ backPlan()
                     "SectionId": "52",
                     "SectionName": "Burglary",
                     "RiskId": null,
-                    "BurglarySi": subEntry.BurglarySi,
+                    //"BurglarySi": subEntry.BurglarySi,
                     "SumInsured": subEntry.BurglarySi,
                     "FirstLossPercentId": subEntry.FirstLossPercentId,
                     "IndustryId": this.IndustryId,
@@ -6249,7 +6255,7 @@ backPlan()
                   let k=0;
                   for(let subEntry of entry.SectionList){
                     let occupationId=null;
-                    if(subEntry.EmpLiabilitySi!=null && subEntry.EmpLiabilitySi!='' && subEntry.EmpLiabilitySi!='0' && subEntry.EmpLiabilitySi!=0 && subEntry.TotalNoOfEmployees!=null){
+                    if(subEntry.SumInsured!=null && subEntry.SumInsured!='' && subEntry.SumInsured!='0' && subEntry.SumInsured!=0 && subEntry.TotalNoOfEmployees!=null){
                       if(subEntry.OccupationId){occupationId=subEntry.OccupationId;}
                       else if(subEntry.OccupationType){occupationId=subEntry.OccupationType}
                       let subObj = {
@@ -6259,8 +6265,8 @@ backPlan()
                         "IndustryId": this.IndustryId,
                         "OccupationId": occupationId,
                         "TotalNoOfEmployees": subEntry.TotalNoOfEmployees,
-                        "EmpLiabilitySi":  subEntry.EmpLiabilitySi,
-                        "SumInsured": subEntry.EmpLiabilitySi,
+                        //"EmpLiabilitySi":  subEntry.EmpLiabilitySi,
+                        "SumInsured": subEntry.SumInsured,
                         "OtherOccupation":  subEntry.OtherOccupation,
                       }
                       if(subEntry.OccupationId) subObj['OccupationType'] = subEntry.OccupationId;
@@ -6282,7 +6288,7 @@ backPlan()
                     "IndustryId": this.IndustryId,
                     "OccupationId":'99999',
                     "FidEmpCount":subEntry.FidEmpCount,
-                    "FidEmpSi":subEntry.FidEmpSi,
+                    //"FidEmpSi":subEntry.FidEmpSi,
                     "SumInsured": subEntry.FidEmpSi,
                     "OtherOccupation":this.productItem.OtherOccupation,
                   }
@@ -6452,7 +6458,7 @@ backPlan()
                   else{
                     this.tabIndex+=1;
                     this.productItem = new ProductData();
-                    this.onEditCommonDetails(this.LocationListAlt[this.tabIndex].SectionList[0],this.LocationListAlt[this.tabIndex],0);
+                    //this.onEditCommonDetails(this.LocationListAlt[this.tabIndex].SectionList[0],this.LocationListAlt[this.tabIndex],0);
                   }
                 }
                 else{
@@ -10839,8 +10845,9 @@ let requestNO=null;
                   let referenceNo = sessionStorage.getItem('quoteReferenceNo');
                   if (referenceNo) {
                     this.requestReferenceNo = referenceNo;
-                    if (this.productId != '19' && this.productId!='24' && this.productId!='46' && this.productId!='4' && this.productId!='63') this.setFormValues();
+                    if (this.productId != '19' && this.productId!='24' && this.productId!='46' && this.productId!='4' && this.productId!='63' && this.productId!='61') this.setFormValues();
                     else if(this.productId!='63') this.setSMEFormValues('edit')
+                      this.formSection = true; this.viewSection = false;
                   }
                   else {
                     this.productItem.BuildingBuildYear = '';
