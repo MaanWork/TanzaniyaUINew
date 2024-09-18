@@ -335,7 +335,7 @@ export class CommonProductDetailsComponent {
   ngOnInit(){
     this.productItem = new ProductData();
     if(this.productId=='61' || this.productId=='25' || this.productId=='16'  ||  this.productId=='39'
-      || this.productId=='1' || this.productId=='14' || this.productId=='15' ||  this.productId=='32' ||  this.productId=='6'){this.nonMotorProductItem = new NonMotorProducts(); console.log("Final Products",this.nonMotorProductItem);this.LocationListAlt = this.nonMotorProductItem.LocationList;this.LocationListAlt[0].LocationId = this.LocationListAlt.length;if(this.productId!='14' && this.productId!='32')this.currentSectionIndex=0;}
+      || this.productId=='1' || this.productId=='14' || this.productId=='13' || this.productId=='15' ||  this.productId=='32' ||  this.productId=='6'){this.nonMotorProductItem = new NonMotorProducts(); console.log("Final Products",this.nonMotorProductItem);this.LocationListAlt = this.nonMotorProductItem.LocationList;this.LocationListAlt[0].LocationId = this.LocationListAlt.length;if(this.productId!='14' && this.productId!='32')this.currentSectionIndex=0;}
    
     
     this.productItem.BuildingOwnerYn = 'Y';
@@ -865,7 +865,7 @@ export class CommonProductDetailsComponent {
      if(rowData.FirstLossPercentId){
        this.fields[0].fieldGroup[0].fieldGroup[1].formControl.setValue(rowData.FirstLossPercentId);
      }
-    this.productItem.DistrictCode = rowData.DistrictCode;
+    //this.productItem.DistrictCode = rowData.DistrictCode;
     this.fields[0].fieldGroup[0].fieldGroup[0].formControl.setValue(rowData.IndustryType);
     
     this.fields[0].fieldGroup[0].fieldGroup[2].formControl.setValue(rowData.BurglarySi);
@@ -917,7 +917,7 @@ export class CommonProductDetailsComponent {
        this.region = rowData.RegionCode;
        this.onChangeBusinessSection();
        this.filterSectionList('direct')
-       this.ongetDistrictList('region');
+       this.ongetDistrictList('region',null);
        this.stateName = rowData.DistrictCode;
        this.FirstLossSumInsured= rowData.FirstLossSumInsured;
        this.FireSumInsured= rowData.BuildingSumInsured;
@@ -2016,7 +2016,7 @@ export class CommonProductDetailsComponent {
       this.getRegionList();this.getFireLossList();
       let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
         field.formControl.valueChanges.subscribe(() => {
-          this.ongetDistrictList('change')
+          this.ongetDistrictList('change',null)
         });
       } }
       let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
@@ -2078,7 +2078,7 @@ export class CommonProductDetailsComponent {
       this.fields[0] = fireData?.fields;
       let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
         field.formControl.valueChanges.subscribe(() => {
-          this.ongetDistrictList('change')
+          this.ongetDistrictList('change',null)
         });
       } }
       this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[1].hooks = regionHooks;
@@ -2125,7 +2125,7 @@ export class CommonProductDetailsComponent {
       } }
       let districtHooks ={ onInit: (field: FormlyFieldConfig) => {
         field.formControl.valueChanges.subscribe(() => {
-          this.ongetDistrictList('change');
+          this.ongetDistrictList('change',null);
         });
       }};
       console.log("Fields",this.fields)
@@ -2196,7 +2196,7 @@ export class CommonProductDetailsComponent {
       this.getRegionList();
       let districtHooks ={ onInit: (field: FormlyFieldConfig) => {
         field.formControl.valueChanges.subscribe(() => {
-          this.ongetDistrictList('change');
+          this.ongetDistrictList('change',null);
         });
       }};
       this.fields[0] = fireData?.fields;
@@ -2475,8 +2475,8 @@ export class CommonProductDetailsComponent {
         });
       } }
      
-      this.fields[0].fieldGroup[0].fieldGroup[1].hooks = DistHooks;
-      this.fields[0].fieldGroup[0].fieldGroup[0].hooks = modelHooks;
+      // this.fields[0].fieldGroup[0].fieldGroup[1].hooks = DistHooks;
+      // this.fields[0].fieldGroup[0].fieldGroup[0].hooks = modelHooks;
 
       let referenceNo = sessionStorage.getItem('quoteReferenceNo');
       if (referenceNo) {
@@ -2512,7 +2512,7 @@ export class CommonProductDetailsComponent {
      
       let DistHooks = { onInit: (field: FormlyFieldConfig) => {
         field.formControl.valueChanges.subscribe(() => {
-          this.ongetDistrictList('direct');
+          this.ongetDistrictList('direct',null);
         });
       } }
      
@@ -4222,7 +4222,7 @@ backPlan()
   onChangeDistrict(){
 
   }
-  ongetDistrictList(type){
+  ongetDistrictList(type,value){
     let ReqObj;
     if(type=='region'){
       ReqObj = {
@@ -4250,7 +4250,13 @@ backPlan()
               if(this.productId=='1' || this.productId=='6'){
                 let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
                 for(let field of fieldList){
-                  if(field.key=='DistrictCode'){field.templateOptions.options = defaultObj.concat(this.stateList);}
+                  if(field.key=='DistrictCode'){
+                    field.templateOptions.options = defaultObj.concat(this.stateList);
+                    if(type!='change'){
+                      if(this.productItem.DistrictCode){;field.formControl.setValue(this.productItem.DistrictCode)}
+                      else if (value!=null && value!=''){field.formControl.setValue(value)}
+                    }
+                  }
                 }
               }
               else{
@@ -4258,7 +4264,7 @@ backPlan()
                 else{
                   if (i == this.stateList.length - 1) {
                     if(this.productId!='19') this.fields[0].fieldGroup[1].fieldGroup[0].fieldGroup[2].props.options = defaultObj.concat(this.stateList);
-                    if (type == 'change') this.productItem.DistrictCode = '';
+                    //if (type == 'change') this.productItem.DistrictCode = '';
                   }
                 }
               }
@@ -4313,11 +4319,11 @@ backPlan()
     }
     //if(this.productId=='59') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
       if(this.productId=='57' || this.productId=='60' || this.productId=='39' 
-          || this.productId=='13'  || this.productId=='19'   || this.productId=='26' || this.productId=='21'
+          || this.productId=='19'   || this.productId=='26' || this.productId=='21'
          || this.productId=='42'  || this.productId=='24' || this.productId=='43') 
          urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
       else if(this.productId=='63' || this.productId=='61' || this.productId=='25' || this.productId=='6' ||
-         this.productId=='16' || this.productId=='59' || this.productId=='1' || this.productId=='14' || this.productId=='15' || this.productId=='32') { delete ReqObj['RiskId']; urlLink = `${this.motorApiUrl}api/slide/GetNonMotor`;}
+         this.productId=='16' || this.productId=='13' || this.productId=='59' || this.productId=='1' || this.productId=='14' || this.productId=='15' || this.productId=='32') { delete ReqObj['RiskId']; urlLink = `${this.motorApiUrl}api/slide/GetNonMotor`;}
       else urlLink =  `${this.motorApiUrl}api/geteservicebyriskid`;
       
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -4334,7 +4340,7 @@ backPlan()
                 }
                  this.colorSections=[];let j=0;
                  if(this.productId=='61' || this.productId=='25' || this.productId=='16' || this.productId=='1' || this.productId=='14' 
-                  || this.productId=='32' || this.productId=='6'){
+                  || this.productId=='32' || this.productId=='13' || this.productId=='6'){
                     this.productItem = new ProductData();
                     this.LocationListAlt = data.Result.LocationList;
                     if(this.LocationListAlt.length!=0){
@@ -4447,7 +4453,7 @@ backPlan()
    
   }
   checkRowExist(location){
-    if((this.productId=='16' || this.productId=='25' || this.productId=='14' || this.productId=='15' || this.productId=='32') && (location.SectionList.length!=1 || ( ((this.productId=='16' || this.productId=='1') && location.SectionList[0].RegionCode!=null) || ((this.productId=='14' || this.productId=='15') && ((location.SectionList[0].OccupationId!=null && location.SectionList[0].OccupationId!=undefined) || (location.SectionList[0].OccupationType!=undefined && location.SectionList[0].OccupationType!=null))) || (this.productId=='25' && location.SectionList[0].ContentId!=null) || (this.productId=='32' && location.SectionList[0].FidEmpSi!=null)))) return true
+    if((this.productId=='16' || this.productId=='25' || this.productId=='14' || this.productId=='13' || this.productId=='15' || this.productId=='32') && (location.SectionList.length!=1 || ( ((this.productId=='16' || this.productId=='1') && location.SectionList[0].RegionCode!=null) || ((this.productId=='14' || this.productId=='15' || this.productId=='13') && ((location.SectionList[0].OccupationId!=null && location.SectionList[0].OccupationId!=undefined) || (location.SectionList[0].OccupationType!=undefined && location.SectionList[0].OccupationType!=null))) || (this.productId=='25' && location.SectionList[0].ContentId!=null) || (this.productId=='32' && location.SectionList[0].FidEmpSi!=null)))) return true
     else return false;
   }
   onDeleteCommonDetails(section,location,index){
@@ -4466,7 +4472,7 @@ backPlan()
       this.productItem.MoneyCollector = section.MoneyCollector;
       this.productItem.MoneyInTransit = section.StrongroomSi;
       this.productItem.MoneyAnnualEstimate = section.MoneyAnnualEstimate;
-      this.ongetDistrictList('direct')
+      this.ongetDistrictList('direct',this.productItem.DistrictCode)
     }
     else if(this.productId=='25'){
       this.productItem.ElecEquipSuminsured = section.ElecEquipSuminsured;
@@ -4475,13 +4481,16 @@ backPlan()
       this.productItem.Serial = section.SerialNo;
     }
     else if(this.productId=='1'){
+      console.log(section)
       this.productItem.RegionCode = section.RegionCode;
       this.productItem.DistrictCode = section.DistrictCode;
       this.productItem.CoveringDetails = section.CoveringDetails;
       this.productItem.DescriptionOfRisk = section.DescriptionOfRisk;
       if(section?.FirstLossPercentId) this.productItem.FireSumInsured = String(section?.FirstLossPercentId);
-      this.productItem.BurglarySi = section?.SumInsured;
-      this.ongetDistrictList('direct')
+      if(section?.SumInsured!='0' && section?.SumInsured!=0 && section?.SumInsured!=null) this.productItem.BurglarySi = section?.SumInsured;
+      else if(section?.BurglarySi!=null && section.BurglarySi!=0 && section.BurglarySi!=undefined) this.productItem.BurglarySi = section?.BurglarySi;
+      this.ongetDistrictList('direct',section.DistrictCode)
+      
     }
     else if(this.productId=='14' || this.productId=='15'){
       if(section.OccupationId) this.productItem.LiabilityOccupationId = section.OccupationId;
@@ -4493,6 +4502,13 @@ backPlan()
     else if(this.productId=='32'){
       this.productItem.FidEmpCount = section.FidEmpCount;
       if(section.SumInsured) this.productItem.FidEmpSi = String(section.SumInsured);
+    }
+    else if(this.productId=='13'){
+      if(section.OccupationId) this.productItem.OccupationType = section.OccupationType;
+      else if(section.OccupationType) this.productItem.OccupationType = section.OccupationType;
+      this.productItem.Name = section.CustomerName;
+      this.productItem.Dob = section.Dob;
+      this.productItem.SumInsured = section.SumInsured
     }
     else if(this.productId=='61'){
       this.productItem.BondSI = section.SumInsured;
@@ -4575,6 +4591,27 @@ backPlan()
           }
           location.SectionList = location.SectionList.filter(ele=>ele.FidEmpCount!=null && ele.FidEmpCount!='' && ele.FidEmpSi!='0' && ele.FidEmpSi!=null)
         }
+      }
+      else if(this.productId=='13'){
+        let dob;
+       // this.addPA(location)
+        if(this.productItem.Dob!=null && this.productItem.Dob!='' && this.productItem.Dob!=undefined){
+          if(String(this.productItem.Dob).split('/').length==1) dob = this.datePipe.transform(this.productItem.Dob,'dd/MM/yyyy');
+          else dob = this.productItem.Dob
+        }
+        let categoryId =this.occupationList.find(ele=>ele.Code==this.productItem.OccupationType).CategoryId
+         entry =
+          {
+                "Dob":dob,
+                "OccupationId": this.productItem.OccupationType,
+                "NickName": this.productItem.Name,
+                "NationalityId": "01",
+                "SumInsured": this.productItem.SumInsured,
+                "RiskId": null,
+                "CategoryId": categoryId,
+               // "LocationName": this.productItem.LocationName,
+                "SectionId": "35"
+          }
       }
       else if(this.productId=='6'){
         let entry = {};
@@ -4733,7 +4770,7 @@ backPlan()
          this.productItem.BusinessSI = section[0].FirePlantSi;
          this.onChangeBusiness();
          this.productItem.FireSumInsured = section[0].BuildingSumInsured;
-         if(this.productItem.RegionCode) this.ongetDistrictList('direct');
+         if(this.productItem.RegionCode) this.ongetDistrictList('direct',this.productItem.DistrictCode);
       }
     }
     else if(this.productId=='25'){
@@ -4758,7 +4795,7 @@ backPlan()
           this.productItem.MoneyCollector = entry[0].MoneyCollector ? entry[0].MoneyCollector : null;
           this.productItem.MoneyInTransit = entry[0].MoneyMajorLoss ? entry[0].MoneyMajorLoss : null;
           this.productItem.MoneyAnnualEstimate = entry[0].MoneyAnnualEstimate ? entry[0].MoneyAnnualEstimate : null;
-          this.ongetDistrictList('direct');
+          this.ongetDistrictList('direct',this.productItem.DistrictCode);
         }
       }
     }
@@ -5053,9 +5090,10 @@ backPlan()
                 this.productItem.BuildingOccupied = details?.BuildingOccupied;
                 this.productItem.CeilingType = details?.CeilingType;
                  if(details?.RegionCode!=null && details?.RegionCode!=''){
-                  this.productItem.RegionCode = details?.RegionCode;
-                  this.ongetDistrictList('direct');
-                  this.productItem.DistrictCode = details?.DistrictCode
+                  // this.productItem.RegionCode = details?.RegionCode;
+                  // this.productItem.DistrictCode = details?.DistrictCode
+                  // this.ongetDistrictList('direct',this.productItem.DistrictCode);
+                  
                 }
                 this.productItem.DoorsMaterialId = details?.DoorsMaterialId;
                 this.productItem.WallType = details?.WallType;
@@ -5513,8 +5551,8 @@ backPlan()
         this.productItem.ApplianceSi = customerDatas?.ApplianceSi;
         this.productItem.CashValueablesSi = customerDatas?.CashValueablesSi;
         this.productItem.Address = customerDatas?.Address;
-        this.productItem.RegionCode = customerDatas?.RegionCode;
-        this.productItem.DistrictCode = customerDatas?.DistrictCode;
+        //this.productItem.RegionCode = customerDatas?.RegionCode;
+        //this.productItem.DistrictCode = customerDatas?.DistrictCode;
         this.productItem.BuildingOwnerYn = customerDatas?.BuildingOwnerYn;
         this.productItem.BuildingBuildYear = customerDatas?.BuildingBuildYear;
         this.productItem.OccupiedYear = customerDatas?.OccupiedYear;
@@ -5529,7 +5567,7 @@ backPlan()
         this.productItem.DoorsMaterialId = customerDatas?.DoorsMaterialId;
         this.productItem.NightLeftDoor = customerDatas?.NightLeftDoor;
         this.productItem.BuildingOccupied = customerDatas?.BuildingOccupied;
-        this.ongetDistrictList('edit')
+        this.ongetDistrictList('edit',this.productItem.DistrictCode)
   
         //if (this.productId=='59') this.setDomesticForm('edit', type);
         if (this.productId == '19' || this.productId=='59' || this.productId=='24') this.setSMEForm('edit', type)
@@ -5752,7 +5790,7 @@ backPlan()
         console.log("Burglary Fields",field)
         let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
           field.formControl.valueChanges.subscribe(() => {
-            this.ongetDistrictList('change')
+            this.ongetDistrictList('change',null)
           });
         } }
         
@@ -5853,13 +5891,12 @@ backPlan()
     //   this.PAErrorFun();
     // }
     if(valid){
-      if(  this.productId=='13' 
-         || this.productId=='43' || this.productId=='42' || this.productId=='15' 
+      if( this.productId=='43' || this.productId=='42' || this.productId=='15' 
           || this.productId=='60' || this.productId=='57' || this.productId=='56' || this.productId=='26'
           || this.productId=='21' || this.productId=='27' || this.productId=='24'){ 
        this.saveCommonDetails('direct',null)
       }
-      else if(this.productId=='1' || this.productId=='14' || this.productId=='32' || this.productId=='61' || this.productId=='39' ||  this.productId=='25' || this.productId=='16' || this.productId=='6'){
+      else if(this.productId=='1' || this.productId=='14' || this.productId=='13' || this.productId=='32' || this.productId=='61' || this.productId=='39' ||  this.productId=='25' || this.productId=='16' || this.productId=='6'){
         let entry = this.LocationListAlt[this.tabIndex];
         if(entry && this.productId=='61'){
           entry.SectionList[0].BondSuminsured = this.productItem.BondSI
@@ -5891,6 +5928,7 @@ backPlan()
               "DescriptionOfRisk": this.productItem.DescriptionOfRisk,
               "FirstLossPercentId": this.productItem.FireSumInsured,
               "BurglarySi": this.productItem.BurglarySi,
+              "SumInsured": this.productItem.BurglarySi,
               RiskId: null
             }
             if(this.currentSectionIndex!=null){entry.SectionList[this.currentSectionIndex] = subEntry;}
@@ -5946,6 +5984,7 @@ backPlan()
             else{entry.SectionList.push(subEntry);}
           }
         }
+       
         else if(entry && this.productId=='6'){
           let entry = this.LocationListAlt[this.tabIndex];
           if(this.productItem.Section!=null && this.productItem.Section!=''){
@@ -6237,7 +6276,7 @@ backPlan()
                     "SectionName": "Burglary",
                     "RiskId": null,
                     //"BurglarySi": subEntry.BurglarySi,
-                    "SumInsured": subEntry.BurglarySi,
+                    "SumInsured": subEntry.SumInsured,
                     "FirstLossPercentId": subEntry.FirstLossPercentId,
                     "IndustryId": this.IndustryId,
                     "RegionCode": subEntry.RegionCode,
@@ -6268,6 +6307,36 @@ backPlan()
                         //"EmpLiabilitySi":  subEntry.EmpLiabilitySi,
                         "SumInsured": subEntry.SumInsured,
                         "OtherOccupation":  subEntry.OtherOccupation,
+                      }
+                      if(subEntry.OccupationId) subObj['OccupationType'] = subEntry.OccupationId;
+                      else if(subEntry.OccupationType) subObj['OccupationType'] = subEntry.OccupationType;
+                      obj.SectionList.push(subObj);
+                    }
+                    k+=1;if(k==entry.SectionList.length){i+=1;ReqObj.LocationList.push(obj); if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);}
+                  }
+                }
+                else{i+=1;if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);}
+              }
+              else if(this.productId=='13'){
+                if(entry.SectionList.length!=0){
+                  console.log("On Received Emp List",entry.SectionList)
+                  let k=0;
+                  for(let subEntry of entry.SectionList){
+                    let occupationId=null;
+                    if(subEntry.SumInsured!=null && subEntry.SumInsured!='' && subEntry.SumInsured!='0' && subEntry.SumInsured!=0){
+                      if(subEntry.OccupationId){occupationId=subEntry.OccupationId;}
+                      else if(subEntry.OccupationType){occupationId=subEntry.OccupationType}
+                      let subObj = {
+                        "SectionId": "35",
+                        "SectionName": "Personal Accident",
+                        "RiskId": null,
+                        "Dob": subEntry.Dob,
+                        "OccupationId": occupationId,
+                        // "TotalNoOfEmployees": subEntry.TotalNoOfEmployees,
+                        // "EmpLiabilitySi":  subEntry.EmpLiabilitySi,
+                        "SumInsured": subEntry.SumInsured,
+                        "NickName":  subEntry.NickName,
+                        "CategoryId": subEntry.CategoryId,
                       }
                       if(subEntry.OccupationId) subObj['OccupationType'] = subEntry.OccupationId;
                       else if(subEntry.OccupationType) subObj['OccupationType'] = subEntry.OccupationType;
@@ -6786,6 +6855,7 @@ backPlan()
         }
        this.IndustryId='99999'
     };
+    if(this.productId=='13')this.branchCode= this.userDetails.Result.BranchCode;
     if(this.userType!='Issuer'){ this.customerCode = this.userDetails.Result.CustomerCode;
       this.customerName = this.userDetails.Result.CustomerName;}
     let startDate=null,endDate=null;
@@ -8369,8 +8439,7 @@ finalSaveMoney(finalList,type,formType) {
     }
   }
   saveFleetDetails(){
-    if(this.productId!='46' && this.productId!='25' && this.productId!='16' && this.productId!='1' && this.productId!='14' && this.productId!='32' && this.productId!='6' && this.productId!='63'){
-      let Reqobj={
+    if(this.productId!='46' && this.productId!='25' && this.productId!='16' && this.productId!='1' && this.productId!='14' && this.productId!='13' && this.productId!='32' && this.productId!='6' && this.productId!='63'){      let Reqobj={
         "RequestReferenceNo": this.requestReferenceNo,
         "InsuranceId": this.insuranceId,
         "ProductId": this.productId
@@ -9416,9 +9485,10 @@ finalSaveMoney(finalList,type,formType) {
                 this.productItem.CeilingType = details?.CeilingType;
                 this.productItem.BurglarySi  = details?.BurglarySi;
                  if(details?.RegionCode!=null && details?.RegionCode!=''){
-                  this.productItem.RegionCode = details?.RegionCode;
-                  this.ongetDistrictList('direct');
-                  this.productItem.DistrictCode = details?.DistrictCode
+                  // this.productItem.RegionCode = details?.RegionCode;
+                  // this.productItem.DistrictCode = details?.DistrictCode
+                  // this.ongetDistrictList('direct',this.productItem.DistrictCode);
+                 
                 }
                 this.productItem.DoorsMaterialId = details?.DoorsMaterialId;
                 this.productItem.WallType = details?.WallType;
@@ -9970,7 +10040,7 @@ finalSaveMoney(finalList,type,formType) {
       else dob = rowData.Dob
     }
     let RiskId;
-    let i= this.tableRowPA.length;
+    let i= this.LocationListAlt.length;
     if(this.currentPAIndex==0){
       RiskId=i+1;
     }
@@ -9989,16 +10059,15 @@ finalSaveMoney(finalList,type,formType) {
             "SectionId": "35"
       }
       if (this.currentPAIndex !=0) {
-        this.tableRowPA[this.currentPAIndex-1] = data;
+        rowData.SectionList[this.currentPAIndex-1] = data;
         this.currentPAIndex=0
       } else {
-        this.tableRowPA.push(data);
+        rowData.SectionList.push(data);
         // If currentBurglaryIndex is out of range, you might want to push the data
     } 
     //this.tableRowPA.push(data);
     this.form.reset();
     this.isEEForm=false;
-    console.log( this.tableRowPA," this.tableRowPA");
   }
   }
   onSaveBond(type,formType){
