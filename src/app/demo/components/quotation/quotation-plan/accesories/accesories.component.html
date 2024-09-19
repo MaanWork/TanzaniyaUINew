@@ -101,7 +101,7 @@
         </div>
     </div>
 </ng-container>
-<ng-container *ngIf="productId!='5' && productId!='63' && productId!='14' && productId!='32' && productId!='25'">
+<ng-container *ngIf="productId!='5' && productId!='63' && productId!='59' && productId!='14' && productId!='32' && productId!='25'">
     <!--tabIndex-->
     <p-tabView #tabView [activeIndex]="selectedTab" (onChange)="onTabClicked($event,tabView)">
         <!-- <p-tabPanel header="Location" *ngIf="buildingDetailsSection">
@@ -960,13 +960,13 @@
                 </div>
             </p-tabPanel>
             <div class="text-center mt-2">
-                <p-button label="Back" class="mr-4 text-l mr-0" [routerLink]="['/quotation/plan/premium-details']" styleClass="p-button-outlined"></p-button>
+                <p-button [label]="'Back'" class="mr-4 text-l mr-0" [routerLink]="['/quotation/plan/premium-details']" styleClass="p-button-outlined"></p-button>
                 <ng-container *ngIf="location.EmployeeList"><p-button label="Proceed" *ngIf="location.EmployeeList.length!=0" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('proceed')" routerLinkActive="router-link-active" routerLinkActive="router-link-active"></p-button></ng-container> 
             </div>
         </ng-container>
     </p-tabView>
 </ng-container>
-<ng-container *ngIf="productId=='63'">
+<ng-container *ngIf="productId=='63' || productId=='59'">
     <p-tabView *ngIf="LocationList.length!=0 && locationlist.length!=0" [(activeIndex)]="tabIndex" (onChange)='tabIndex = $event.index'>
         <ng-container *ngFor="let item of LocationList;let i=index">
             <p-tabPanel [header]="item.LocationName">

@@ -526,8 +526,9 @@ export class AccesoriesComponent {
       this.getWallMaterialList();
       this.getRoofMaterialList();
       this.getFirstLossPayeeList();
-      this.getdropList()
+      this.getdropList();
     }
+    if(this.productId=='59')this.getdropList();
     this.queryHeader1 = [ 'First Name','Last Name','Relation Type','Date Of Birth','Nationality Id'];
 
     /*this.jsonList = [
@@ -2399,7 +2400,7 @@ export class AccesoriesComponent {
               this.actualElectronicIntSI = electr;
             }
             else this.actualElectronicIntSI=0;
-            let empSI = this.sumInsuredDetails.ProductSuminsuredDetails.EmpLiabilitySi;
+            let empSI = this.sumInsuredDetails.ProductSuminsuredDetails.SumInsured;
             if(empSI!='' && empSI!=null && empSI!=undefined){
               this.actualEmployeeSI = empSI;
             }
@@ -6319,7 +6320,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       })
   }
   changeComponent(){
-    if((this.second==false && this.fifth==false || this.second==undefined && this.fifth==undefined) && this.productId!='14' && this.productId!='32'  && this.productId!='25'){
+    if((this.second==false && this.fifth==false || this.second==undefined && this.fifth==undefined) && this.productId!='14' && this.productId!='32'  && this.productId!='25' && this.productId!='59'){
       sessionStorage.setItem('back','skipBack');
       this.router.navigate(['/quotation/plan/main/document-info'])
     }

@@ -2877,7 +2877,7 @@ export class CoverDetailsComponent {
             if(this.loginType=='B2CFlow' && this.loginId=='guest'){
               window.location.reload();
             }
-            else if(this.productId=='59' || this.productId=='6' || this.productId=='13' || this.productId=='16' || this.productId=='1') this.router.navigate(['/quotation/plan/main/document-info']);
+            else if(this.productId=='6' || this.productId=='13' || this.productId=='16' || this.productId=='1') this.router.navigate(['/quotation/plan/main/document-info']);
             else  this.router.navigate(['quotation/plan/main/accessories']);
           }
           else{
@@ -3783,8 +3783,8 @@ export class CoverDetailsComponent {
     if(this.productId=='59'){
       let homeSession = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
       if(homeSession){
-        //this.router.navigate(['quotation/plan/main/accessories']);
-        this.router.navigate(['/quotation/plan/main/document-info']);
+        this.router.navigate(['quotation/plan/main/accessories']);
+        //this.router.navigate(['/quotation/plan/main/document-info']);
       }
       else{
         this.getExistingBuildingList();
