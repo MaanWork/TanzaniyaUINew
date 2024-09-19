@@ -44,6 +44,9 @@ import { ElectronicEquipmentNew } from '../models/ElectronicEquipmentNew';
 import { DomesticServant } from '../models/DomesticServant';
 import { TranslateService } from '@ngx-translate/core';
 import { AppComponent } from 'src/app/app.component';
+import { BurglaryCorporate } from '../models/BurglaryCorporate';
+import { FireAlliedPerilsCorporate } from '../models/FireAlliedPerilsCorporate';
+import { FireAlliedPerilsBICorporate } from '../models/FireAlliedPerilsBICorporate';
 
 @Component({
   selector: 'app-Riskdetails',
@@ -122,6 +125,8 @@ export class RiskDetailsComponent {
   fields7: any[]=[];locationIndex:any=0;domesticServantDialog: boolean;bankList: any[]=[];
   servantTypeList: any[]=[];lang:any=null;
   coversRequired:any='C';BuildingOwnerYn:any ='N'
+  fields10: any[]=[];
+  fields11: any[]=[];
         constructor(private router: Router,private datePipe:DatePipe,private translate: TranslateService,
           private appComp: AppComponent,private sharedService: SharedService,public http: HttpClient) {
          let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails') || '{}');
@@ -260,7 +265,7 @@ export class RiskDetailsComponent {
             this.sumInsured =false;
 
             this.productItem = new ProductData();
-            if(this.requestReferenceNo!=null && this.productId=='59'){
+            if(this.requestReferenceNo!=null && (this.productId=='59' || this.productId=='19')){
               this.getLocationDetails();
             }
             else if(this.productId=='59'){
@@ -286,9 +291,29 @@ export class RiskDetailsComponent {
                   // if(this.DomesticServant) 
               }
             }
-            if(this.productId=='19'){
-              this.getSectionList();
-              this.setSMEForm();
+            else if(this.productId=='19'){
+              let details = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
+              if(details){
+                this.editsections('Content');this.editsections('Building');this.editsections('ElectronicEquipment');
+                this.editsections('AllRisk');this.editsections('PersonalLiability'); this.editsections('PersonalAccident');
+                this.editsections('DomesticServant');this.editsections('MacineryBreakdown');this.editsections('Burglary');
+                this.editsections('Fire');this.editsections('FireBI');
+                // let sectionIDs:any[] = details[0].SectionId;
+                  // this.Content = sectionIDs.some(ele=>ele=='47');
+                  // if(this.Content) 
+                  // this.Building1 = sectionIDs.some(ele=>ele=='1');
+                  // if(this.Building1) 
+                  // this.ElecEquipment = sectionIDs.some(ele=>ele=='76');
+                  // if(this.ElecEquipment) 
+                  // this.AllRisk = sectionIDs.some(ele=>ele=='3');
+                  // if(this.AllRisk) 
+                  // this.personalIndemity = sectionIDs.some(ele=>ele=='35');
+                  // if(this.personalIndemity) 
+                  // this.PersonalAccident = sectionIDs.some(ele=>ele=='36');
+                  // if(this.PersonalAccident) 
+                  // this.DomesticServant = sectionIDs.some(ele=>ele=='106');
+                  // if(this.DomesticServant) 
+              }
             }
             if(this.productId=='63'){
               if(this.requestReferenceNo){
@@ -620,6 +645,7 @@ export class RiskDetailsComponent {
           else return true;
         }
         checkLocationDetailAlt(){
+          console.log()
           if(this.locationList.length!=0){
             return (this.locationList[0].LocationName!=''  && this.locationList[0].BuildingAddress!='' && this.locationList[0].LocationName!=null && this.locationList[0].LocationName!=undefined && this.locationList[0].BuildingAddress!=null);
           }
@@ -847,7 +873,7 @@ export class RiskDetailsComponent {
       else{this.buildingEditSection = true; if(this.locationList.length==0)this.onAddLocationDetails(); }
     }
     deleteLocation(index){this.locationList.splice(index,1);if(this.locationList.length==0)this.onAddLocationDetails()}
-    onAddLocationDetails(){this.locationList.push({"RiskId":String(this.locationList.length+1),"LocationName":null,"BuildingAddress":null,"CoversRequired":'C',"BuildingOwnerYn":'N',"BuildingList":[{"WallType":null,"RoofType":null,"FirstLossPayee":null,"BuildingSumInsured":0}]});this.locationIndex= this.locationList.length-1}
+    onAddLocationDetails(){this.locationList.push({"RiskId":String(this.locationList.length+1),"LocationName":null,"BuildingAddress":null,"CoversRequired":'C',"BuildingOwnerYn":'N',"BuildingList":[{"WallType":null,"RoofType":null,"FirstLossPayee":null,"BuildingSumInsured":0}],"PAList":[{'RelationType':null,'DeathSI':null}],});this.locationIndex= this.locationList.length-1}
     onSaveLocationDetails(){
       if(this.locationList.length!=0){
         let i=0,j=0,reqList=[];
@@ -4207,6 +4233,26 @@ export class RiskDetailsComponent {
                 contentData4 = new DomesticServant();
                 this.fields7[0] = contentData4?.fields;
               }
+              if(types=='MacineryBreakdown'){
+                let contentData4:any;
+                contentData4 = new MachineryBreakDown();
+                this.fields8[0] = contentData4?.fields;
+              }
+              if(types=='Burglary'){
+                let contentData4:any;
+                contentData4 = new BurglaryCorporate();
+                this.fields9[0] = contentData4?.fields;
+              }
+              if(types=='Fire'){
+                let contentData4:any;
+                contentData4 = new FireAlliedPerilsCorporate();
+                this.fields10 = contentData4?.fields;
+              }
+              if(types=='FireBI'){
+                let contentData4:any;
+                contentData4 = new FireAlliedPerilsBICorporate();
+                this.fields11 = contentData4?.fields;
+              }
               //this.productItem = new ProductData();
               
               //this.getOccupationList();
@@ -4625,8 +4671,9 @@ export class RiskDetailsComponent {
                 },
                 "LocationList": []
               }
+              let j=0,locationList = [];
               for(let entry of this.locationList){
-                let locationList = [],i=0,j=0;
+                let i=0;
                   let obj = {
                       "LocationId":i+1,
                       "LocationName":entry.LocationName,
@@ -4670,7 +4717,7 @@ export class RiskDetailsComponent {
                     entry['OccupationType'] = this.productItem.OccupationType;
                     entry['ElectronicEquipmentSI'] = this.productItem.ElectronicEquipmentSI;
                     entry['SumInsured']= this.productItem.SumInsured;
-                    entry['OtherOccupation'] = this.productItem.otheroptionPer
+                    entry['OtherOccupation'] = this.productItem.otheroptionPer;
                   }
                   if(entry.ContentSuminsured!=null && entry.ContentSuminsured!=0 && entry.ContentSuminsured!='0'){
                     let subEntry= {
@@ -4712,7 +4759,7 @@ export class RiskDetailsComponent {
                     let subEntry = {    "SectionId": "76", "TotalNoOfEmployees": "1","LiabilityOccupationId": entry.LiabilityOccupationId,"SumInsured": entry.ElectronicEquipmentSI,"Status": "Y"}
                     obj.SectionList.push(subEntry);
                   }
-                  locationList.push(obj);
+                  if(obj.SectionList.length!=0) locationList.push(obj);
                   j+=1;
                   if(j==this.locationList.length){ReqObj.LocationList=locationList;this.onFinalSubmit(ReqObj,type)}
               }
@@ -4721,25 +4768,26 @@ export class RiskDetailsComponent {
           checkLocationValidation(){
             let i = 0,j=0;
             for(let entry of this.locationList){
-              if(entry.LocationName==null || entry.LocationName==''){ entry['LocationNameError']=true;i+=1;}
-              else{entry['LocationNameError']=false;}
-              if(entry.BuildingAddress==null || entry.BuildingAddress==''){ entry['BuildingAddressError']=true;i+=1;}
-              else{entry['BuildingAddressError']=false;}
-              if(entry.CoversRequired=='B' || entry.CoversRequired=='BC'){
-                if(entry.CoversRequired=='B')
-                for(let build of entry.BuildingList){
-                  if(build.WallType==null || build.WallType==''){build['WallTypeError']=true;i+=1}else{build['WallTypeError']=false;}
-                  if(build.RoofType==null || build.RoofType==''){build['RoofTypeError']=true;i+=1}else{build['RoofTypeError']=false;}
-                  if(build.FirstLossPayee==null || build.FirstLossPayee==''){build['FirstLossPayeeError']=true;i+=1}else{build['FirstLossPayeeError']=false;}
-                  if(build.BuildingSumInsured==null || build.BuildingSumInsured=='' || build.BuildingSumInsured==0){build['SumInsuredError']=true;i+=1}else{build['SumInsuredError']=false;}
+              if(j==this.tabIndex){
+                if(entry.LocationName==null || entry.LocationName==''){ entry['LocationNameError']=true;i+=1;}
+                else{entry['LocationNameError']=false;}
+                if(entry.BuildingAddress==null || entry.BuildingAddress==''){ entry['BuildingAddressError']=true;i+=1;}
+                else{entry['BuildingAddressError']=false;}
+                if(entry.CoversRequired=='B' || entry.CoversRequired=='BC'){
+                  if(entry.CoversRequired=='B')
+                  for(let build of entry.BuildingList){
+                    if(build.WallType==null || build.WallType==''){build['WallTypeError']=true;i+=1}else{build['WallTypeError']=false;}
+                    if(build.RoofType==null || build.RoofType==''){build['RoofTypeError']=true;i+=1}else{build['RoofTypeError']=false;}
+                    if(build.FirstLossPayee==null || build.FirstLossPayee==''){build['FirstLossPayeeError']=true;i+=1}else{build['FirstLossPayeeError']=false;}
+                    if(build.BuildingSumInsured==null || build.BuildingSumInsured=='' || build.BuildingSumInsured==0){build['SumInsuredError']=true;i+=1}else{build['SumInsuredError']=false;}
+                  }
+                }
+                if(entry.CoversRequired=='C' || entry.CoversRequired=='BC'){
+                  if(j==this.tabIndex){entry['ContentSuminsured']=this.productItem.ContentSuminsured}
+                  if(entry.CoversRequired=='C'){if(entry.ContentSuminsured==null || entry.ContentSuminsured=='' || entry.ContentSuminsured==0){entry['ContentSuminsuredError']=true;i+=1}else{entry['ContentSuminsuredError']=false;}}
+                  else{entry['ContentSuminsuredError']=false;}
                 }
               }
-              if(entry.CoversRequired=='C' || entry.CoversRequired=='BC'){
-                if(j==this.tabIndex){entry['ContentSuminsured']=this.productItem.ContentSuminsured}
-                if(entry.CoversRequired=='C'){if(entry.ContentSuminsured==null || entry.ContentSuminsured=='' || entry.ContentSuminsured==0){entry['ContentSuminsuredError']=true;i+=1}else{entry['ContentSuminsuredError']=false;}}
-                else{entry['ContentSuminsuredError']=false;}
-              }
-              
               j+=1;
               if(j==this.locationList.length) return i==0;
             }
