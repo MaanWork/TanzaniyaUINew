@@ -473,7 +473,7 @@ export class DocumentInfoComponent {
                 else this.router.navigate(['/quotation/plan/premium-details']);
               }
     }
-    else if(this.productId=='5' || this.productId=='32' || this.productId=='39' || this.productId=='14' || this.productId=='15' || this.productId=='19' || this.productId=='1' || this.productId=='6' || this.productId=='16' || this.productId =='21' || this.productId =='26' || this.productId =='25' || this.productId =='24' || this.productId=='42' || this.productId=='43' || this.productId=='13' || this.productId=='27'){
+    else if(this.productId=='5' || this.productId=='59' || this.productId=='32' || this.productId=='39' || this.productId=='14' || this.productId=='15' || this.productId=='19' || this.productId=='1' || this.productId=='6' || this.productId=='16' || this.productId =='21' || this.productId =='26' || this.productId =='25' || this.productId =='24' || this.productId=='42' || this.productId=='43' || this.productId=='13' || this.productId=='27'){
       //this.router.navigate(['/quotation/plan/premium-details']);
       if(this.productId=='6' || this.productId=='13' || this.productId=='16' || this.productId=='1') this.router.navigate(['/quotation/plan/premium-details']);
       else this.router.navigate(['/quotation/plan/main/accessories']);
@@ -482,7 +482,7 @@ export class DocumentInfoComponent {
         if(this.productId=='5' && this.insuranceId!='100028' && this.insuranceId!='100020'){
           this.router.navigate(['/quotation/plan/main/driver-info'])
         }
-        else if(this.productId=='14' || this.productId=='24' || this.productId=='13'){
+        else if(this.productId=='14' || this.productId=='24' || this.productId=='59' || this.productId=='13'){
           this.router.navigate(['/quotation/plan/main/accessories']);
         }
         else if(this.productId=='4') this.router.navigate(['/quotation/plan/travel-quote-details']);

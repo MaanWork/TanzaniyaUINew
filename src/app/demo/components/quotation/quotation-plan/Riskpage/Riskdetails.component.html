@@ -338,7 +338,8 @@
                                                         </div>
                                                     </div>
                                             </div>
-                                            <!-- <div class="col-12 lg:col-3 xl:col-3">
+                                            
+                                            <div class="col-12 lg:col-3 xl:col-3">
                                                 <div class="memberDetailCard" style="padding:10px !important;">
                                                     <div class="grid justify-content-end">
                                                         <div class="mb-2 col-12 lg:col-10 xl:col-10">
@@ -370,7 +371,7 @@
                                                         </ng-container>
                                                     </div>
                                                 </div>
-                                            </div> -->
+                                            </div>
                                             <div class="col-12 lg:col-3 xl:col-3">
                                                 <div class="memberDetailCard" style="padding:10px !important;">
                                                     <div class="grid justify-content-end">
@@ -404,6 +405,9 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="col-12 lg:col-1 xl:col-1 md:col-1"></div>
                                             <div class="col-12 lg:col-3 xl:col-3" >
                                                 <div class="memberDetailCard" style="padding:10px !important;">
                                                     <div class="grid justify-content-end">
@@ -436,7 +440,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                           <div class="col-12 lg:col-3 xl:col-3" *ngIf="DomesticServant">
+                                            <div class="col-12 lg:col-3 xl:col-3" *ngIf="DomesticServant">
                                                 <div class="memberDetailCard" style="padding:10px !important;">
                                                     <div class="grid justify-content-end">
                                                         <div class="mb-2 col-12 lg:col-10 xl:col-10">
@@ -468,7 +472,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
                                         </div>
                                         <!-- <div class="grid">
                                             <div class="col-12 lg:col-1 xl:xol-1 md:col-1"></div>
@@ -849,6 +852,95 @@
                 <p-button label="Submit" *ngIf="LocationName.length!=0 && checkLocationDetail()"
                     (click)="onSubmit('Submit')" size="small"></p-button>
                 <!-- <button pButton pRipple label="Submit" class="p-button-success" (click)="onfinalsave()"></button> -->
+            </div>
+        </div>
+        <div *ngIf="productId=='19'">
+            <div class="mt-4">
+                <div class="grid mb-3">
+                    <div class="lg:col-2">
+                    </div>
+                    <div class="col-12 lg:col-8 xl:col-8"
+                        *ngIf="!((coversreuired=='B' || coversreuired=='BC') && Building1) || (coversreuired=='B' || coversreuired=='BC') && Building1">
+                        <div class="memberDetailCard">
+                            <div class="grid">
+                                <div class="mb-2 col-12 lg:col-7 xl:col-7">
+                                    <b>Location Details</b>
+                                </div>
+                                <div class="mb-2 col-12 lg:col-5 xl:col-5">&nbsp;<p-button label="Add Location"
+                                        icon="pi pi-plus" (click)="onAddLocationDetails()" />&nbsp;</div>
+                            </div>
+                            <ng-container>
+                                <div class="grid mt-2">
+                                    <div class="col-12 md:col-12 lg:col-12 xl:col-12">
+                                        <p-table [value]="locationList" dataKey="id" editMode="row" [rows]="5"
+                                            [paginator]="false" [tableStyle]="{'min-width': '50rem' }">
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th [pSortableColumn]="column"
+                                                        *ngFor="let column of buildingColumnHeader">
+                                                        {{column}}
+                                                    </th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-product let-ri="rowIndex">
+                                                <tr>
+                                                    <td>
+                                                        <ng-container *ngIf="locationIndex==ri">
+                                                            <input class="w-full p-button-outlined"
+                                                                placeholder="Enter Location Name" styleClass="w-full"
+                                                                pInputText type="text" [(ngModel)]="product.LocationName" />
+                                                        </ng-container>
+                                                        <ng-container *ngIf="locationIndex!=ri">
+                                                            {{product.LocationName}}
+                                                        </ng-container>
+                                                        <div class="input-form-error" *ngIf="product.LocationNameError">
+                                                            <div class="error-text text-danger">
+                                                                Enter Valid LocationName
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <ng-container *ngIf="locationIndex==ri">
+                                                            <input class="w-full p-button-outlined"
+                                                                placeholder="Enter Address" styleClass="w-full" pInputText
+                                                                type="text" [(ngModel)]="product.BuildingAddress" />
+                                                        </ng-container>
+                                                        <ng-container *ngIf="locationIndex!=ri">
+                                                            {{product.BuildingAddress}}
+                                                        </ng-container>
+                                                        <div class="input-form-error" *ngIf="product.BuildingAddressError">
+                                                            <div class="error-text text-danger">
+                                                                Enter Valid Address
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="flex align-items-center justify-content-center gap-2">
+                                                            <button pButton type="button" *ngIf="locationIndex!=ri"
+                                                                icon="pi pi-pencil" (click)="locationIndex=ri"
+                                                                styleClass="p-button-outlined">
+                                                            </button>
+                                                            <button pButton type="button" icon="pi pi-trash"
+                                                                (click)="deleteLocation(ri)" styleClass="p-button-outlined">
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
+    
+                                </div>
+                                <!-- <div class="flex flex-warp justify-content-center mt-2" *ngIf="locationIndex!=null">
+                                    <p-button label="Save Locations" (click)="onSaveLocationDetails()" />
+                                </div> -->
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <ng-container *ngIf="locationList.length!=0 && checkLocationDetailAlt()">
+                    
+                </ng-container>
             </div>
         </div>
         <ng-container *ngIf="productId=='57'">

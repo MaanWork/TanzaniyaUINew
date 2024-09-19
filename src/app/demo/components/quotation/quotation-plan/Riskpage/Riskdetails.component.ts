@@ -478,13 +478,13 @@ export class RiskDetailsComponent {
                         let i =0;
                         for(let entry of locationList){
                             let obj = {
-                                "LocationId":entry.LocationId,"LocationName":entry.LocationName
+                                "LocationId":entry.LocationId,"LocationName":entry.LocationName,
+                                "BuildingAddress":entry.Address
                             }
                             let subDetails = entry.SectionList;
                             // if(entry.AssesListDetails) subDetails = subDetails.concat(entry.AssesListDetails);
                             // if(entry.HumanListDetails) subDetails = subDetails.concat(entry.HumanListDetails);
-                            console.log("Final SectionDetails",subDetails)
-                            let persAcc = subDetails.filter(ele=>ele['SectionId']=='138')
+                           let persAcc = subDetails.filter(ele=>ele['SectionId']=='138')
                             let PAList = [];
                             if(persAcc.length!=0){
                               let i=0;
@@ -521,8 +521,8 @@ export class RiskDetailsComponent {
                                   "ServantSI": sub['SumInsured '] 
                                 }
                                 servantList.push(subEntry);
-                                  i+=1;
-                                  if(i==domestic.length) obj['ServantList'] = servantList;
+                                i+=1;
+                                if(i==domestic.length) obj['ServantList'] = servantList;
                               }
                             }
                             else{servantList = [{"ServantType":null,'ServantCount':null,'ServantSI':null}];obj['ServantList']=servantList;}
@@ -541,7 +541,7 @@ export class RiskDetailsComponent {
                         for(let entry of locationList){
                           let obj = {
                             "LocationId":entry.LocationId,"LocationName":entry.LocationName,"CoversRequired":entry?.CoversRequired,"BuildingOwnerYn":entry?.BuildingOwnerYn,
-                            "BuildingList":[]
+                            "BuildingList":[],"BuildingAddress":entry.Address
                           }
                           let subDetails = entry.SectionList;
                           let buildDetails = subDetails.filter(ele=>ele['SectionId']=='1');
@@ -558,7 +558,9 @@ export class RiskDetailsComponent {
                           let AllRiskDetails = subDetails.filter(ele=>ele['SectionId']=='3');
                           if(AllRiskDetails.length!=0){obj['AllriskSuminsured']=AllRiskDetails[0].AllriskSuminsured;}
                           let OwnersDetails = subDetails.filter(ele=>ele['SectionId']=='36');
-                          if(OwnersDetails.length!=0){obj['']=OwnersDetails[0].SumInsured;}
+                          if(OwnersDetails.length!=0){obj['EmpLiabilitySi']=OwnersDetails[0].SumInsured;}
+                          let ElecEquipment = subDetails.filter(ele=>ele['SectionId']=='76');
+                          if(ElecEquipment.length!=0){obj['ElectronicEquipmentSI']=ElecEquipment[0].SumInsured;}
                           let PADetails = subDetails.filter(ele=>ele['SectionId']=='35');
                           if(PADetails.length!=0){obj['SumInsured']=PADetails[0].SumInsured;obj['OccupationType']=PADetails[0].OccupationType;}
                           this.locationList.push(obj);
@@ -606,6 +608,8 @@ export class RiskDetailsComponent {
           if(entry.BuildingOwnerYn==null || entry.BuildingOwnerYn==undefined) entry.BuildingOwnerYn = 'Y';
           if(entry.ContentSuminsured) this.productItem.ContentSuminsured = entry.ContentSuminsured;
           if(entry.AllriskSuminsured) this.productItem.AllriskSumInsured = entry.AllriskSuminsured;
+          if(entry.ElectronicEquipmentSI) this.productItem.ElectronicEquipmentSI = entry.ElectronicEquipmentSI;
+          if(entry.EmpLiabilitySi) this.productItem.EmpLiabilitySi = entry.EmpLiabilitySi;
           if(entry.SumInsured){this.productItem.PersonalAccidentSuminsured=entry.SumInsured;this.productItem.OccupationType=entry.OccupationType}
           
         }
@@ -4628,6 +4632,7 @@ export class RiskDetailsComponent {
                       "LocationName":entry.LocationName,
                       "CoversRequired": entry.CoversRequired,
                       "BuildingOwnerYn": entry.BuildingOwnerYn,
+                      "Address": entry.BuildingAddress,
                       "SectionList": []
                   }
                   if(entry.BuildingList.length!=0){
@@ -4663,6 +4668,7 @@ export class RiskDetailsComponent {
                     entry['EmpLiabilitySi'] = this.productItem.EmpLiabilitySi;
                     entry['LiabilityOccupationId'] = this.productItem.LiabilityOccupationId;
                     entry['OccupationType'] = this.productItem.OccupationType;
+                    entry['ElectronicEquipmentSI'] = this.productItem.ElectronicEquipmentSI;
                     entry['SumInsured']= this.productItem.SumInsured;
                     entry['OtherOccupation'] = this.productItem.otheroptionPer
                   }
@@ -4699,7 +4705,11 @@ export class RiskDetailsComponent {
                       obj.SectionList.push(subEntry);
                   }
                   if(entry.EmpLiabilitySi!=null && entry.EmpLiabilitySi!='' && entry.EmpLiabilitySi!='0'){
-                    let subEntry = {    "SectionId": "36", "TotalNoOfEmployees": "1","LiabilityOccupationId": entry.LiabilityOccupationId,"SumInsured": entry.EmpLiabilitySi,"EmpLiabilitySi": entry.EmpLiabilitySi,"Status": "Y"}
+                    let subEntry = {    "SectionId": "36", "TotalNoOfEmployees": "1","LiabilityOccupationId": entry.LiabilityOccupationId,"SumInsured": entry.EmpLiabilitySi,"Status": "Y"}
+                    obj.SectionList.push(subEntry);
+                  }
+                  if(entry.ElectronicEquipmentSI!=null && entry.ElectronicEquipmentSI!='' && entry.ElectronicEquipmentSI!='0'){
+                    let subEntry = {    "SectionId": "76", "TotalNoOfEmployees": "1","LiabilityOccupationId": entry.LiabilityOccupationId,"SumInsured": entry.ElectronicEquipmentSI,"Status": "Y"}
                     obj.SectionList.push(subEntry);
                   }
                   locationList.push(obj);
