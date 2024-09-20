@@ -521,7 +521,7 @@
                 <p-button styleClass="p-button-outlined" label="Back" size="small"
                     [routerLink]="['/quotation/plan/quote-details']"
                     routerLinkActive="router-link-active"></p-button>&nbsp;
-                <p-button label="Next S" size="small" *ngIf="locationList.length>1" (click)="onSubmitDomesticDetails('Save')"></p-button>
+                <p-button label="Next" size="small" *ngIf="locationList.length>1" (click)="onSubmitDomesticDetails('Save')"></p-button>
                 <p-button label="Proceed" size="small" (click)="onSubmitDomesticDetails('Submit')"></p-button>
                 <!-- <button pButton pRipple label="Submit" class="p-button-success" (click)="onfinalsave()"></button> -->
             </div>
