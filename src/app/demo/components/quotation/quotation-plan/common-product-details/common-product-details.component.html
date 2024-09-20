@@ -657,7 +657,8 @@
                                 <div class="grid p-2 mt-3">
                                     <div class="col-12 lg:col-3 xl:col-3"></div>
                                     <div class="col-12 lg:col-5 xl:col-5">
-                                        <ng-container *ngIf="productId=='25' || productId=='16' || productId=='1' || productId=='14' || productId=='13' || this.productId=='32' || this.productId=='6' || this.productId=='39'">                                            <form [formGroup]="form" *ngIf="productId=='32'">
+                                        <ng-container *ngIf="productId=='25' || productId=='16' || productId=='1' || productId=='14' || productId=='13' || this.productId=='32' || this.productId=='6' || this.productId=='39'">                                            
+                                            <form [formGroup]="form" *ngIf="productId=='32'">
                                                 <formly-form [form]="form" [fields]="fieldsFidelity" [model]="productItem"></formly-form>
                                             </form>
                                             <form [formGroup]="form" *ngIf="productId=='14' || productId=='15'">
