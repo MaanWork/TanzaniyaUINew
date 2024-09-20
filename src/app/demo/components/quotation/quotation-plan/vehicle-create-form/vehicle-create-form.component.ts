@@ -53,7 +53,7 @@ export class VehicleCreateFormComponent implements OnInit {
   commonDetails: any;editSectionAlt:boolean=false;modelSearchVisible:boolean = false;
   modelColumns:any[]=[];selectedRowData:any=null;lang:any=null;horsePower:any=0;
   horsePowerError=false;
-  displacement: any;
+  displacement: any=0;
   numberOfCylinders: any=0;
   RegistrationDate:any;
   bodyTypeError=false;
@@ -674,6 +674,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "UsageId":this.vehicleDetails.UsageId,
         "VehicleTypeIvr": this.vehicleDetails.VehicleType,
         "ZoneCirculation": this.vehicleDetails.ZoneCirculation,
+        "Zone": this.vehicleDetails.Zone,
         "Scenarios": {
             "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": null,
@@ -685,6 +686,9 @@ export class VehicleCreateFormComponent implements OnInit {
             }
         },
         "Status": "Y"
+      }
+      if(this.insuranceId=='100042'){
+        ReqObj['Class']=this.vehicleDetails.Class
       }
       ReqObj['FleetOwnerYn'] = "N";
       if(this.endorsementSection){
@@ -1060,8 +1064,9 @@ export class VehicleCreateFormComponent implements OnInit {
      
       // else if(this.horsePower){
       //   alert()
-      else if((this.horsePower==null || this.horsePower=='' || this.horsePower==undefined)&& this.bodyType=='P' && this.bodyType=='P' && (this.bodyTypeId!='50' && this.bodyTypeId!='51' && this.bodyTypeId!='5' && this.bodyTypeId!='58' && this.bodyTypeId!='28')){
-        this.horsePowerError = true;
+      else if((this.horsePower==null || this.horsePower=='' || this.horsePower==undefined ) && this.bodyType=='P' && this.bodyType=='P' && (this.bodyTypeId!='50' && this.bodyTypeId!='51' && this.bodyTypeId!='5' && this.bodyTypeId!='58' && this.bodyTypeId!='28')){
+      //  if(this.insuranceId=='100040')this.horsePowerError = true;
+          this.horsePowerError = true
       }
       else if((this.displacement==null || this.displacement=='' || this.displacement==undefined) && (this.bodyTypeId=='50' || this.bodyTypeId=='51' || this.bodyTypeId=='5' || this.bodyTypeId=='58' || this.bodyTypeId=='28' )){
         this.displacementError = true;
