@@ -1,5 +1,8 @@
 {
   "HOME":{
+    "Corporate":"Personne Morale",
+    "Individual":"Personne Physique",
+    "logout":"Se déconnecter",
     "Plot":"Parcelle",
     "Department":"Département",
    "Activities":"Activités",
@@ -118,10 +121,10 @@
   },
   "DASHBOARD":{
   "Policies":"Stratégies",
-  "Quotes":"Citations",
+  "Quotes":"Devis",
   "RenewalQuotes":"Devis de renouvellement",
   "RenewalPolicies":"Police de renouvellement",
-  "RecentPolicies/Quotes":"Police/Citations récentes",
+  "RecentPolicies/Quotes":"Police/Devis récentes",
   "QuotesOverView":"Aperçu des devis",
   "GlobalSearch":"Recherche globale",
   "Notifications":"Notifications",

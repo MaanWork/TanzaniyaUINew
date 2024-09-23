@@ -276,7 +276,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     getLabelname(type){
         if(type=='Quotes'){
             if(this.lang=='en') return 'Quotes'
-            else if(this.lang=='fr') return 'Citations';
+            else if(this.lang=='fr') return 'Devis';
             else if(this.lang=='po') return 'Citações'
         }
         else if(type=='Policies'){
