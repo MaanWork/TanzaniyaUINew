@@ -4461,7 +4461,7 @@ backPlan()
      location.SectionList.splice(index,1);
   }
   tabBack(){
-    this.tabIndex-=1
+    this.tabIndex-=1;this.productItem=new ProductData();
   }
   onEditCommonDetails(section,location,index){
     this.currentSectionIndex = index;
@@ -6582,6 +6582,7 @@ backPlan()
                           "Value": ques.Value,
                           "BranchCode": this.branchCode,
                           "RequestReferenceNo": this.requestReferenceNo,
+                          "LocationId": String(this.tabIndex+1),
                           "VehicleId": String(this.tabIndex+1)
                         }
                         uwList.push(entry);
@@ -6607,7 +6608,7 @@ backPlan()
             if(subType=='next'){
               this.tabIndex+=1;
                     this.productItem = new ProductData();
-                    this.onEditCommonDetails(this.LocationListAlt[this.tabIndex].SectionList[0],this.LocationListAlt[this.tabIndex],0);
+                    if(this.productId!='14') this.onEditCommonDetails(this.LocationListAlt[this.tabIndex].SectionList[0],this.LocationListAlt[this.tabIndex],0);
                     this.getEditUwQuestions();
             }
             else this.onCalculate(entry,type,null,null); }
@@ -6710,12 +6711,12 @@ backPlan()
       }
     }
    
-    if(this.productId=='16' || this.productId=='14' || this.productId=='32' || this.productId=='39'){
+    if(this.productId=='14' || this.productId=='32' || this.productId=='39'){
       if(this.IndustryId==null || this.IndustryId=='' || this.IndustryId=='0'){this.industryError = true;i+=1;}
       else{i=0;this.industryError=false;}
        return i==0;
     }
-    if((this.productId=='16' || this.productId=='15'  || this.productId=='32' ||  this.productId=='21'
+    if((this.productId=='15'  || this.productId=='32' ||  this.productId=='21'
     || this.productId=='13') && (this.IndustryId==null || this.IndustryId==undefined || this.IndustryId=='')){
       //|| this.productId=='26'
       this.industryError = true;
@@ -6825,7 +6826,7 @@ backPlan()
     else if(types=='Fire') this.IndustryId='99999';
     if(this.productId=='6'){section.push('108');};
     if(this.productId=='39'){section.push('41'); };
-    if(this.productId=='16'){section.push('42');};
+    if(this.productId=='16'){section.push('42');this.IndustryId='99999'};
     if(this.productId=='14'){section.push('45');};
     if(this.productId=='15'){section.push('38');};
     if(this.productId=='32'){section.push('43');};
