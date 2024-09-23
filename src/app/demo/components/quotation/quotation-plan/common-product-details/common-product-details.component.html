@@ -289,7 +289,7 @@
                 </div>
                 </div>
                 <div class="grid">
-                <div class="lg:col-3 md:col-3 col-12" *ngIf="this.productId=='16' || productId=='39' || productId=='14' || productId=='15' || productId=='32'  || productId=='21'
+                <div class="lg:col-3 md:col-3 col-12" *ngIf=" productId=='39' || productId=='14' || productId=='15' || productId=='32'  || productId=='21'
                     || productId=='13' || productId=='24'"><!--|| productId=='57'-->
                         <label for="username">Industry</label>
                         <p-dropdown [filter]="true" filterBy="CodeDesc" inputId="make" class="w-full" styleClass="w-full" [options]="industryList"
@@ -727,7 +727,7 @@
                                                 </div>
                                             </div> -->
                                             <div class="flex flex-warp justify-content-center" *ngIf="productId!='6' && productId!='39' && productId!='1'">
-                                                <p-button  label="< Back" *ngIf="LocationListAlt.length>=1 && this.tabIndex>=1" size="small" styleClass="p-button-outlined" (click)="tabBack()"></p-button>&nbsp;&nbsp;
+                                                
                                                 <p-button  label="Save & Add New" size="small" (click)="addMoneyCommon(item)"></p-button>
                                             </div>
                                         </ng-container>
@@ -1332,7 +1332,7 @@
         
         <p-button  styleClass="p-button-outlined" label="Back"
             size="small" (click)="getBackRoute()" routerLinkActive="router-link-active" ></p-button>&nbsp;
-            
+        <p-button *ngIf="(productId=='61' || productId=='25' || productId=='16' || productId=='1' || productId=='14' || productId=='13' || productId=='32' || productId=='39' ||  this.productId=='6') && tabIndex!=0"  label="Previous" size="small" styleClass="p-button-outlined" (click)="tabBack()"></p-button>&nbsp;&nbsp;
             <p-button *ngIf="productId=='46' && (!endorsementSection || (endorsementSection && enableAddVehicle))" label="Save & Add New" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;
         <p-button label="Next" *ngIf="(productId!='46' && productId!='63' && LocationListAlt.length>1) && (tabIndex!=LocationListAlt.length-1)" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;
         <p-button label="Proceed" *ngIf="(productId!='46' && LocationListAlt.length!=0 && checkLocationDetail()) || productId=='46' || productId=='63' || productId=='59' || productId=='19'" size="small" (click)="onSubmit(null)"></p-button>

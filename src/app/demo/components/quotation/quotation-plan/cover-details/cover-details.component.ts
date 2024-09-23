@@ -867,7 +867,8 @@ export class CoverDetailsComponent {
           let k=0;
           for(let vehicle of this.vehicleData){
             let entry =null;
-            if(this.productId=='1' || this.productId=='14' || this.productId=='32' || this.productId=='61' || this.productId=='39' ||  this.productId=='25' || this.productId=='16' || this.productId=='6') entry = vehicleList.find(ele=>ele.LocationId==vehicle.LocationId);
+            console.log("Filter Details",vehicleList,this.vehicleData)
+            if(this.productId=='1' || this.productId=='14' || this.productId=='32' || this.productId=='61' || this.productId=='39' ||  this.productId=='25' || this.productId=='16' || this.productId=='6' || this.productId=='59') entry = vehicleList.find(ele=>ele.LocationId==vehicle.LocationId);
             else  entry = vehicleList.find(ele=>ele.VehicleId==vehicle.VehicleId || ele.RiskDetails.RiskId==vehicle.RiskDetails.RiskId);
             if(entry && vehicle.SectionId!='1'){
               //if(entry.SectionId==vehicle.SectionId){
