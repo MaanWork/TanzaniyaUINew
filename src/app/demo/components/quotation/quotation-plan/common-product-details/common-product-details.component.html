@@ -1333,7 +1333,7 @@
         <p-button  styleClass="p-button-outlined" label="Back"
             size="small" (click)="getBackRoute()" routerLinkActive="router-link-active" ></p-button>&nbsp;
         <p-button *ngIf="(productId=='61' || productId=='25' || productId=='16' || productId=='1' || productId=='14' || productId=='13' || productId=='32' || productId=='39' ||  this.productId=='6') && tabIndex!=0"  label="Previous" size="small" styleClass="p-button-outlined" (click)="tabBack()"></p-button>&nbsp;&nbsp;
-            <p-button *ngIf="productId=='46' && (!endorsementSection || (endorsementSection && enableAddVehicle))" label="Save & Add New" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;{{tabIndex}} {{LocationListAlt.length-1}}
+            <p-button *ngIf="productId=='46' && (!endorsementSection || (endorsementSection && enableAddVehicle))" label="Save & Add New" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;
         <p-button label="Next" *ngIf="(productId!='46' && productId!='63' && LocationListAlt.length>1) && (tabIndex!=LocationListAlt.length-1)" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;
         <p-button label="Proceed" *ngIf="(productId!='46' && LocationListAlt.length!=0 && checkLocationDetail()) || productId=='46' || productId=='63' || productId=='59' || productId=='19'" size="small" (click)="onSubmit(null)"></p-button>
     </div>

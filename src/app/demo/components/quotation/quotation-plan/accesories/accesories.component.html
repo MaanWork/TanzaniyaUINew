@@ -855,7 +855,7 @@
 <ng-container *ngIf="productId=='14' || productId=='32' || productId=='25'">
     <p-tabView #tabView [activeIndex]="selectedTab" (onChange)="onTabClicked($event,tabView)">
         <ng-container *ngFor="let location of locationlist;let j=index">
-            <p-tabPanel [header]="location.LocationName"  *ngIf="seven || six">
+            <p-tabPanel [header]="location.LocationName" disabled="true" *ngIf="seven || six">
                 <div class="grid">
                     <div class="lg:col-1 md:col-1 col-12">
     
@@ -962,6 +962,8 @@
         </ng-container>
         <div class="text-center mt-2">
             <p-button label="Back" class="mr-4 text-l mr-0" [routerLink]="['/quotation/plan/premium-details']" styleClass="p-button-outlined"></p-button>
+            <p-button label="Previous" *ngIf="locationlist.length>1 &&  selectedTab!=0" (click)="onPreviousTabb()" class="mr-4 text-l mr-0" styleClass="p-button"></p-button>
+            <p-button label="Next" *ngIf="locationlist.length>1 &&  (selectedTab+1)!=locationlist.length" (click)="onNextTab()" class="mr-4 text-l mr-0" styleClass="p-button"></p-button>
             <ng-container ><p-button label="Proceed"  class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('proceed')" routerLinkActive="router-link-active" routerLinkActive="router-link-active"></p-button></ng-container> 
         </div>
     </p-tabView>
@@ -1010,8 +1012,7 @@
                                 <div class="col-12 lg:col-8 md:col-8">
                                     <label for="SumInsured">SumInsured</label>
                                     <input class="w-full p-button-outlined" placeholder="Enter SumInsured"
-                                    disabled [(ngModel)]="item.ContentSI" styleClass="w-full"  pInputText type="text" 
-                                    />
+                                    disabled [(ngModel)]="item.ContentSI" styleClass="w-full"  pInputText type="text" />
                                 </div>
                                 <!-- <div class="col-12 lg:col-6 md:col-6">
                                     <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Building Type"

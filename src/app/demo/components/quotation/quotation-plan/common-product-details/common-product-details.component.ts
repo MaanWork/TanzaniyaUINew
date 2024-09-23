@@ -4555,6 +4555,7 @@ backPlan()
           "DescriptionOfRisk": this.productItem.Description ? this.productItem.Description : null,
           "SerialNo": this.productItem.Serial ? this.productItem.Serial : null
         }
+        location.SectionList = location.SectionList.filter(ele=>ele.SerialNo!='' && ele.SerialNo!=null && entry.Description!=null && ele.Description!='');
       }
       else if(this.productId=='1'){
         entry = {
@@ -4642,6 +4643,7 @@ backPlan()
       }
       if(this.currentSectionIndex!=null){if(entry) location.SectionList[this.currentSectionIndex] = entry;}
       else if(entry){location.SectionList.push(entry);}
+      console.log("Entry",location)
       this.productItem = new ProductData();
       this.currentSectionIndex = null;
     }
@@ -4783,11 +4785,11 @@ backPlan()
       }
     }
     else if(this.productId=='25'){
-      this.currentSectionIndex=0;
-      this.productItem.ElecEquipSuminsured = entry.SectionList[0].ElecEquipSuminsured;
-      this.productItem.ContentId = entry.SectionList[0].ContentId;
-      this.productItem.Description = entry.SectionList[0].Description;
-      this.productItem.Serial = entry.SectionList[0].SerialNo;
+       this.currentSectionIndex=null;
+      // this.productItem.ElecEquipSuminsured = entry.SectionList[0].ElecEquipSuminsured;
+      // this.productItem.ContentId = entry.SectionList[0].ContentId;
+      // this.productItem.Description = entry.SectionList[0].Description;
+      // this.productItem.Serial = entry.SectionList[0].SerialNo;
     }
     else if(this.productId=='16'){
       this.currentSectionIndex=0;
@@ -5925,6 +5927,7 @@ backPlan()
             }
             if(this.currentSectionIndex!=null){entry.SectionList[this.currentSectionIndex] = subEntry;}
             else{entry.SectionList.push(subEntry);}
+            
           }
         }
         else if(entry && this.productId=='1'){
@@ -6228,33 +6231,42 @@ backPlan()
                   }
                 }
               }
-              else if(this.productId=='25'){ let j=0,k=0
-                for(let subEntry of entry.SectionList){
-                  if(subEntry.ElecEquipSuminsured==0 || subEntry.ElecEquipSuminsured=='' || subEntry.ElecEquipSuminsured==null){j+=1;this.ElecEquipSIError=true;}
-                  else{this.ElecEquipSIError=false}
-                  if(subEntry.ContentId=='' || subEntry.ContentId==null){j+=1;this.ContentError=true;}
-                  else{this.ContentError=false;}
-                  if(subEntry.DescriptionOfRisk=='' || subEntry.DescriptionOfRisk==null){j+=1;this.DescriptionError=true;}
-                  else{this.DescriptionError=false;}
-                  if(subEntry.SerialNo=='' || subEntry.SerialNo==null){j+=1;this.SerialNoError=true;}
-                  else{this.SerialNoError=false}
-                  // if(subEntry.BondYear=='' || subEntry.BondYear==null){j+=1;subEntry['BondYearError']=true;}
-                  // else{subEntry['BondYearError']=false;}
-                  if(j==0){
-                    subEntry['SectionId'] = '39';
-                    subEntry["SumInsured"]= subEntry.ElecEquipSuminsured;
-                    subEntry['SectionName']= 'Electronic Equipments';
-                    subEntry["ContentDesc"] = this.dropList.find(ele=>ele.Code==subEntry.ContentId)?.CodeDesc;
-                    obj.SectionList.push(subEntry);
-                    k+=1;
-                    if(k==entry.SectionList.length && obj.SectionList.length!=0){i+=1;ReqObj.LocationList.push(obj)
-                      if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
+              else if(this.productId=='25'){ let j=0,k=0;
+                console.log("Final Sections",entry)
+                
+                  for(let subEntry of entry.SectionList){
+                    if(i==this.tabIndex){
+                      if(subEntry.ElecEquipSuminsured==0 || subEntry.ElecEquipSuminsured=='' || subEntry.ElecEquipSuminsured==null){j+=1;this.ElecEquipSIError=true;}
+                      else{this.ElecEquipSIError=false}
+                      if(subEntry.ContentId=='' || subEntry.ContentId==null){j+=1;this.ContentError=true;}
+                      else{this.ContentError=false;}
+                      if(subEntry.DescriptionOfRisk=='' || subEntry.DescriptionOfRisk==null){j+=1;this.DescriptionError=true;}
+                      else{this.DescriptionError=false;}
+                      if(subEntry.SerialNo=='' || subEntry.SerialNo==null){j+=1;this.SerialNoError=true;}
+                      else{this.SerialNoError=false}
+                    }
+                    // if(subEntry.BondYear=='' || subEntry.BondYear==null){j+=1;subEntry['BondYearError']=true;}
+                    // else{subEntry['BondYearError']=false;}
+                    if(j==0){
+                      subEntry['SectionId'] = '39';
+                      subEntry["SumInsured"]= subEntry.ElecEquipSuminsured;
+                      subEntry['SectionName']= 'Electronic Equipments';
+                      subEntry["ContentDesc"] = this.dropList.find(ele=>ele.Code==subEntry.ContentId)?.CodeDesc;
+                      obj.SectionList.push(subEntry);
+                      k+=1;
+                      if(k==entry.SectionList.length && obj.SectionList.length!=0){i+=1;ReqObj.LocationList.push(obj)
+                        if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
+                      }
+                    }
+                    else{k+=1;if(k==entry.SectionList.length && obj.SectionList.length!=0){i+=1;ReqObj.LocationList.push(obj)}
+                    if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
                     }
                   }
-                  else{k+=1;if(k==entry.SectionList.length && obj.SectionList.length!=0){i+=1;ReqObj.LocationList.push(obj)}
-                  if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
-                  }
-                }
+                // }
+                // else{
+                //     if(entry.SectionList.length!=0) ReqObj.LocationList.push(obj); k+=1;i+=1;
+                //     if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
+                // }
               }
               else if(this.productId=='16'){
                 let k=0;
