@@ -3871,7 +3871,7 @@ export class CoverDetailsComponent {
         if(this.loginType=='B2CFlow' && this.loginId=='guest'){
           window.location.reload();
         }
-        else this.router.navigate(['/quotation/plan/main/document-info']);
+        else this.router.navigate(['quotation/plan/main/accessories']);
       },
       (err) => { },
     );

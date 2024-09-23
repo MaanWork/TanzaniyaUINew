@@ -1417,7 +1417,7 @@
                     </td>
                     <td>
                         <ng-container *ngIf="currentContentRowIndex==ri">
-                            <p-inputNumber [disabled]="ActualSI<=getTotal()"  type="number"  [(ngModel)]="product.SumInsured" inputId="integeronly"/>
+                            <p-inputNumber  type="number"  [(ngModel)]="product.SumInsured" inputId="integeronly"/>
                             
                         </ng-container>
                         <ng-container *ngIf="currentContentRowIndex!=ri">
