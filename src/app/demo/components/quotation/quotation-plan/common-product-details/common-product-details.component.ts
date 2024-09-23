@@ -4542,6 +4542,7 @@ backPlan()
           "StrongroomSi" : this.productItem.MoneyInSafe ? this.productItem.MoneyInSafe : '0',
           "MoneyAnnualEstimate" : this.productItem.MoneyAnnualEstimate ? this.productItem.MoneyAnnualEstimate : '0'
         }
+        location.SectionList = location.SectionList.filter(ele=>ele.RegionCode!='' && ele.RegionCode!=null);
       }
       else if(this.productId=='25'){
         entry = {
@@ -4592,7 +4593,7 @@ backPlan()
             "SectionName": "Fidelity",
             "RiskId": null,
             "OccupationId": '99999',
-            "SumInsured": this.productItem.FidEmpCount,
+            "SumInsured": this.productItem.FidEmpSi,
             "FidEmpCount":this.productItem.FidEmpCount,
             "FidEmpSi":this.productItem.FidEmpSi
           }
@@ -4652,7 +4653,8 @@ backPlan()
     return this.occupationList.find(ele=>(ele.Code==rowData.OccupationId || ele.Code==rowData.OccupationType))?.CodeDesc
   }
   getSIDesc(rowData){
-    return this.sumInsuredList.find(ele=>ele.Code==rowData.FidEmpSi)?.CodeDesc
+    console.log(rowData)
+    return this.sumInsuredList.find(ele=>ele.Code==rowData.SumInsured)?.CodeDesc
   }
   checkMoneyValidation(){
     let fieldList =[]
@@ -5967,6 +5969,7 @@ backPlan()
               "LiabilityOccupationId":'99999',
               "FidEmpCount":this.productItem.FidEmpCount,
               "FidEmpSi":this.productItem.FidEmpSi,
+              "SumInsured":this.productItem.FidEmpSi,
               "OtherOccupation":this.productItem.OtherOccupation,
               RiskId: null
             }
@@ -6358,19 +6361,21 @@ backPlan()
               else if(this.productId=='32'){
                 let k=0;
                 for(let subEntry of entry.SectionList){
-                  let subObj = {
-                    "SectionId": "43",
-                    "SectionName": "Fidelity",
-                    "RiskId": null,
-                    "IndustryId": this.IndustryId,
-                    "OccupationId":'99999',
-                    "FidEmpCount":subEntry.FidEmpCount,
-                    //"FidEmpSi":subEntry.FidEmpSi,
-                    "SumInsured": subEntry.FidEmpSi,
-                    "OtherOccupation":this.productItem.OtherOccupation,
+                  if(subEntry.FidEmpCount!=null && subEntry.FidEmpCount!='' && subEntry.SumInsured!=null && subEntry.SumInsured!=0 && subEntry.SumInsured!='0'){
+                    let subObj = {
+                      "SectionId": "43",
+                      "SectionName": "Fidelity",
+                      "RiskId": null,
+                      "IndustryId": this.IndustryId,
+                      "OccupationId":'99999',
+                      "FidEmpCount":subEntry.FidEmpCount,
+                      //"FidEmpSi":subEntry.FidEmpSi,
+                      "SumInsured": subEntry.SumInsured,
+                      "OtherOccupation":this.productItem.OtherOccupation,
+                    }
+                    obj.SectionList.push(subObj);
                   }
-                  obj.SectionList.push(subObj);
-                  k+=1;if(k==entry.SectionList.length){i+=1;ReqObj.LocationList.push(obj); if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);}
+                  k+=1;if(k==entry.SectionList.length){i+=1;if(obj.SectionList.length!=0){ReqObj.LocationList.push(obj);} if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);}
                 }
               }
               else if(this.productId=='6'){
@@ -6608,6 +6613,7 @@ backPlan()
             if(subType=='next'){
               this.tabIndex+=1;
                     this.productItem = new ProductData();
+                    this.currentSectionIndex = null;
                     if(this.productId!='14') this.onEditCommonDetails(this.LocationListAlt[this.tabIndex].SectionList[0],this.LocationListAlt[this.tabIndex],0);
                     this.getEditUwQuestions();
             }

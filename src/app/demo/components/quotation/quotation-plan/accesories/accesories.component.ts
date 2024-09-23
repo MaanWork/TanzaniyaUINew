@@ -2008,7 +2008,7 @@ export class AccesoriesComponent {
           this.customerDetails=data?.Result?.CustomerDetails;
           if(this.Riskdetails[0].AcccessoriesSumInsured!=null)
           this.actualAccessoriesSI = String(this.Riskdetails[0].AcccessoriesSumInsured);
-          this.quoteComponent.setRiskDetails(this.Riskdetails);
+          this.quoteComponent.setRiskDetails(details.LocationDetails);
             this.quoteComponent.currencyCode = data?.Result?.QuoteDetails?.Currency;
           if(this.Riskdetails.length==1){
             this.newacc=true;
