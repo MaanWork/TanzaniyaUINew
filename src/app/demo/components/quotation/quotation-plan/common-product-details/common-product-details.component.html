@@ -727,6 +727,7 @@
                                                 </div>
                                             </div> -->
                                             <div class="flex flex-warp justify-content-center" *ngIf="productId!='6' && productId!='39' && productId!='1'">
+                                                <p-button  label="< Back" *ngIf="LocationListAlt.length>=1 && this.tabIndex>=1" size="small" styleClass="p-button-outlined" (click)="tabBack()"></p-button>&nbsp;&nbsp;
                                                 <p-button  label="Save & Add New" size="small" (click)="addMoneyCommon(item)"></p-button>
                                             </div>
                                         </ng-container>
