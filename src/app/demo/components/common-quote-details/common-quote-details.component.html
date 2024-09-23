@@ -698,7 +698,6 @@
                                                     <tr>
                                                     <th>S.No</th>
                                                     <th>DocumentDesc</th>
-                                                   
                                                     <th>Action</th>
                                                     </tr>
                                                 </ng-template>
@@ -936,7 +935,10 @@
                     </td>
                     <td>{{customer?.CustomerReferenceNo}}</td>
                     <td>{{customer?.ClientName}}</td>
-                    <td>{{customer?.PolicyHolderTypeDesc }}</td>
+                    <td>
+                        <ng-container *ngIf="customer?.PolicyHolderType==1">{{ 'HOME.Individual' | translate}}</ng-container>
+                        <ng-container *ngIf="customer?.PolicyHolderType==2">{{ 'HOME.Corporate' | translate}}</ng-container>
+                    </td>
                     <td>{{ customer?.IdNumber }}</td>
                 </tr>
             </ng-template>
