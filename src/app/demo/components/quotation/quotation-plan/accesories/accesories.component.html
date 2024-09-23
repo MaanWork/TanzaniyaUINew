@@ -1010,7 +1010,7 @@
                                 <div class="col-12 lg:col-8 md:col-8">
                                     <label for="SumInsured">SumInsured</label>
                                     <input class="w-full p-button-outlined" placeholder="Enter SumInsured"
-                                    (keydown)="onSIValueChange($event)" (keyup)="CommaFormatted(item,'Content')" [(ngModel)]="item.ContentSI" styleClass="w-full"  pInputText type="text" 
+                                    disabled [(ngModel)]="item.ContentSI" styleClass="w-full"  pInputText type="text" 
                                     />
                                 </div>
                                 <!-- <div class="col-12 lg:col-6 md:col-6">
@@ -1035,7 +1035,7 @@
                                 <div class="col-12 lg:col-8 md:col-8">
                                     <label for="SumInsured">SumInsured</label>
                                     <input class="w-full p-button-outlined" placeholder="Enter SumInsured"
-                                    (keydown)="onSIValueChange($event)" (keyup)="CommaFormatted(item,'AllRisk')" [(ngModel)]="item.AllRiskSI" styleClass="w-full"  pInputText type="text" 
+                                    disabled [(ngModel)]="item.AllRiskSI" styleClass="w-full"  pInputText type="text" 
                                     />
                                 </div>
                             </div>
@@ -1077,7 +1077,7 @@
                                 <div class="col-12 lg:col-8 md:col-8">
                                     <label for="SumInsured">SumInsured</label>
                                     <input class="w-full p-button-outlined" placeholder="Enter SumInsured"
-                                    (keydown)="onSIValueChange($event)" (keyup)="CommaFormatted(item,'PL')" [(ngModel)]="item.PersonalLiabilitySI" styleClass="w-full"  pInputText type="text" 
+                                    disabled [(ngModel)]="item.PersonalLiabilitySI" styleClass="w-full"  pInputText type="text" 
                                     />
                                 </div>
                             </div>
@@ -1097,7 +1097,7 @@
                                 <div class="col-12 lg:col-8 md:col-8">
                                     <label for="SumInsured">SumInsured</label>
                                     <input class="w-full p-button-outlined" placeholder="Enter SumInsured"
-                                    (keydown)="onSIValueChange($event)" (keyup)="CommaFormatted(item,'PL')" [(ngModel)]="item.PersonalLiabilitySI" styleClass="w-full"  pInputText type="text" 
+                                    disabled [(ngModel)]="item.PersonalLiabilitySI" styleClass="w-full"  pInputText type="text" 
                                     />
                                 </div>
                             </div>
@@ -1117,7 +1117,7 @@
                                 <div class="col-12 lg:col-8 md:col-8">
                                     <label for="SumInsured">SumInsured</label>
                                     <input class="w-full p-button-outlined" placeholder="Enter SumInsured"
-                                    (keydown)="onSIValueChange($event)" (keyup)="CommaFormatted(item,'PL')" [(ngModel)]="item.ElectricalEquipmentSI" styleClass="w-full"  pInputText type="text" 
+                                    disabled [(ngModel)]="item.ElectricalEquipmentSI" styleClass="w-full"  pInputText type="text" 
                                     />
                                 </div>
                             </div>
@@ -1142,7 +1142,7 @@
                                 <div class="col-12 lg:col-8 md:col-8">
                                     <label for="SumInsured">Death SI</label>
                                     <input class="w-full p-button-outlined" placeholder="Enter SumInsured" styleClass="w-full"
-                                    (keydown)="onSIValueChange($event)" (keyup)="CommaFormatted(item,'PA')" [(ngModel)]="item.DeathSI"  pInputText type="text" 
+                                    disabled [(ngModel)]="item.DeathSI"  pInputText type="text" 
                                     />
                                 </div>
                             
@@ -1174,8 +1174,7 @@
                                 <div class="col-12 lg:col-8 md:col-8">
                                     <label for="SumInsured">SumInsured</label>
                                     <input class="w-full p-button-outlined" placeholder="Enter SumInsured" 
-                                    (keydown)="onSIValueChange($event)" (keyup)="CommaFormatted(item,'Domestic')"
-                                     [(ngModel)]="item.ServantSI" styleClass="w-full"  pInputText type="text" />
+                                    disabled [(ngModel)]="item.ServantSI" styleClass="w-full"  pInputText type="text" />
                                 </div>
                             </div>
                         </div>
@@ -1348,8 +1347,10 @@
                 <!-- <p-button label="Add" (click)="Addnew(TableRow)" /> -->
             <!-- </div> -->
             <ng-container *ngFor="let item of LocationList">
-                <div class="col-12 md:col-2 lg:col-2"><b>Location : <span class="primaryTextColor">{{item.LocationName}}</span></b></div>
-                <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{item.ContentSI}} </span></b></div>
+                <ng-container *ngIf="item.LocationId==locationId">
+                    <div class="col-12 md:col-2 lg:col-2"><b>Location : <span class="primaryTextColor">{{item.LocationName}}</span></b></div>
+                    <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{item.ContentSI}} </span></b></div>
+                </ng-container>
             </ng-container>
             <div  class="col-12 md:col-3 lg:col-3"><b>Total : <span class="primaryTextColor">{{getTotal() | commaseparator}}</span></b></div>
               <div ><p-button label="Add New" icon="pi pi-plus" (click)="addRow()" /></div>
@@ -1468,8 +1469,10 @@
     <ng-container  class="mt-5">
         <div class="grid justify-content-between">
             <ng-container *ngFor="let item of LocationList">
-                <div class="col-12 md:col-2 lg:col-2"><b>Location : <span class="primaryTextColor">{{item.LocationName}}</span></b></div>
-                <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{item.AllRiskSI}} </span></b></div>
+                <ng-container *ngIf="item.LocationId==locationId">
+                    <div class="col-12 md:col-2 lg:col-2"><b>Location : <span class="primaryTextColor">{{item.LocationName}}</span></b></div>
+                    <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{item.AllRiskSI}} </span></b></div>
+                </ng-container>
             </ng-container>
             <div  class="col-12 md:col-3 lg:col-3"><b>Total : <span class="primaryTextColor">{{getTotalAllRisk() | commaseparator}}</span></b></div>
             <!-- <div class="col-12 md:col-2 lg:col-2" >Total : {{getTotalAllRisk() | commaseparator}}</div> -->
@@ -1596,8 +1599,10 @@
     <ng-container  class="mt-5">
         <div class="grid justify-content-between">
             <ng-container *ngFor="let item of LocationList">
-                <div class="col-12 md:col-2 lg:col-2"><b>Location : <span class="primaryTextColor">{{item.LocationName}}</span></b></div>
-                <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{item.PersonalLiabilitySI}} </span></b></div>
+                <ng-container *ngIf="item.LocationId==locationId">
+                    <div class="col-12 md:col-2 lg:col-2"><b>Location : <span class="primaryTextColor">{{item.LocationName}}</span></b></div>
+                    <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{item.PersonalLiabilitySI}} </span></b></div>
+                </ng-container>
             </ng-container>
             <div  class="col-12 md:col-3 lg:col-3"><b>Total : <span class="primaryTextColor">{{getPLTotal() | commaseparator}}</span></b></div>
             <!-- <div class="col-12 md:col-2 lg:col-2" >Total :{{getPLTotal() | commaseparator}}</div> -->
@@ -1728,8 +1733,10 @@
     <ng-container  class="mt-5">
         <div class="grid justify-content-between">
             <ng-container *ngFor="let item of LocationList">
-                <div class="col-12 md:col-2 lg:col-2"><b>Location : <span class="primaryTextColor">{{item.LocationName}}</span></b></div>
-                <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{item.DeathSI}} </span></b></div>
+                <ng-container *ngIf="item.LocationId==locationId">
+                    <div class="col-12 md:col-2 lg:col-2"><b>Location : <span class="primaryTextColor">{{item.LocationName}}</span></b></div>
+                    <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{item.DeathSI}} </span></b></div>
+                </ng-container>
             </ng-container>
             <div  class="col-12 md:col-3 lg:col-3"><b>Total : <span class="primaryTextColor">{{getPATotal() | commaseparator}}</span></b></div>
             <!-- <div class="col-12 md:col-2 lg:col-2" >Total :{{getPATotal() | commaseparator}}</div> -->

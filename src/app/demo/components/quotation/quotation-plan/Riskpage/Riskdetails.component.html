@@ -522,7 +522,7 @@
                     [routerLink]="['/quotation/plan/quote-details']"
                     routerLinkActive="router-link-active"></p-button>&nbsp;
                 <p-button label="Previous" *ngIf="locationList.length>1 && (tabIndex!=0)" (click)="onPreviousTab()" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
-                <p-button label="Next" size="small" *ngIf="locationList.length>1 && (tabIndex+1)!=locationList.length" (click)="onSubmitDomesticDetails('Save')"></p-button>
+                <p-button label="Next" size="small" *ngIf="locationList.length>1 && (tabIndex+1)!=locationList.length" (click)="onSubmitDomesticDetails('Save')"></p-button>&nbsp;
                 <p-button label="Proceed" size="small" (click)="onSubmitDomesticDetails('Submit')"></p-button>
                 <!-- <button pButton pRipple label="Submit" class="p-button-success" (click)="onfinalsave()"></button> -->
             </div>

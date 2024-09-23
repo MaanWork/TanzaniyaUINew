@@ -14,7 +14,7 @@
                                                 <div class="col-12 md:col-12 lg:col-12 xl:col-12 p-1">
                                                     <div class="card p-1 m-0 customOptCoverCard customOptCoverBg">
                                                         <p class="mb-0"><b>{{getCoverNameDesc(cover)}}</b></p>
-                                                        <ng-container *ngIf="productId=='14' || productId=='32'">
+                                                        <ng-container *ngIf="productId=='14'">
                                                             <p>Risk - {{getOccupationDesc(veh)}}</p>
                                                         </ng-container>
                                                         <div class="flex justify-content-end">
@@ -37,7 +37,7 @@
                                                 <div class="col-12 md:col-12 lg:col-12 xl:col-12 p-1 mt-3">
                                                     <div class="card bg-blue-800 text-0 p-1 m-0">
                                                         <p class="mb-0"><b>{{getCoverNameDesc(cover)}}</b></p>
-                                                        <ng-container *ngIf="productId=='14' || productId=='32'">
+                                                        <ng-container *ngIf="productId=='14' ">
                                                             <p>Risk - {{getOccupationDesc(veh)}}</p>
                                                         </ng-container>
                                                         <p class="mb-0" *ngIf="checkSubCoverName(cover)"><b>( {{getSubCoverName(cover)}} )</b></p>
