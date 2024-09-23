@@ -147,11 +147,11 @@
             </div>
             <div class="flex flex-column m-3">
                 <label for="chasis-no">{{'MOTORDETAILS.ChassisNo' | translate }}</label>
-                <input pInputText id="chasis-no" class="searchText" [(ngModel)]="chassisNo" [disabled]="editSection" maxlength="25" [placeholder]="'MOTORDETAILS.EnterChasisNo' | translate"/>
+                <input pInputText id="chasis-no" class="searchText" [(ngModel)]="chassisNo" (input)="onInputChangeEngineNumber($event)" [disabled]="editSection" maxlength="25" [placeholder]="'MOTORDETAILS.EnterChasisNo' | translate"/>
             </div>
             <div class="flex flex-column m-3">
                 <label for="engine-no">{{'MOTORDETAILS.EngineNumber' | translate}}</label>
-                <input pInputText id="engine-no" [(ngModel)]="engineNo" [disabled]="editSection" maxlength="25" [placeholder]="'MOTORDETAILS.EnterEngineNumber' | translate"/>
+                <input pInputText id="engine-no" [(ngModel)]="engineNo" [disabled]="editSection" (input)="onInputChangeEngineNumber($event)" maxlength="25" [placeholder]="'MOTORDETAILS.EnterEngineNumber' | translate"/>
             </div>
             <div class="flex flex-column m-3" *ngIf="insuranceId!='100042' && insuranceId!='100040'">
                 <label for="engine-capacity">{{'MOTORDETAILS.EngineCapacity' | translate}}*</label>
