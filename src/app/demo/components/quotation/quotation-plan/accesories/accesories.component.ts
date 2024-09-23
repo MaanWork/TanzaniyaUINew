@@ -1219,7 +1219,8 @@ export class AccesoriesComponent {
           if(seven?.AddDetailYn=='Y'){
             this.seven = true;
             this.getEmployeeDetails();
-            this.getOccupationList(seven.SectionId);
+            
+            //this.getOccupationList(seven.SectionId);
             let fireData = null;
             if(this.productId=='14'){fireData = new EmployeeLiablityss();}
             else if(this.productId=='32'){fireData = new Fidelitytwo();}
@@ -1245,6 +1246,8 @@ export class AccesoriesComponent {
                 j+=1;
               }
             }
+            this.selectedTab=0;
+            this.checkDropdown();
             //this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[8].hooks = regionHooks;
             this.monthList = [
               {"Code":"01","CodeDesc":"January"},
@@ -1289,7 +1292,8 @@ export class AccesoriesComponent {
           if(eight?.AddDetailYn=='Y'){
             this.eight = true;
           this.getFidelityDetails();
-          this.getOccupationList(eight.SectionId);
+          this.checkDropdown();
+          //this.getOccupationList(eight.SectionId);
           //let fireData = new Fedilitis();
           let entry = [];
           //this.fieldFEFields = fireData?.fields;
@@ -7230,7 +7234,7 @@ return true;
                   }
                     j+=1;
                   }
-            }
+                }
                 //this.fieldsElectronic[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = this.ElectronicList;
               }
             }
@@ -8437,6 +8441,48 @@ return true;
       }
       else return 0;
     }
+    onNextTab(){
+      this.selectedTab +=1;this.checkDropdown()
+    }
+    onPreviousTabb(){this.selectedTab -=1;this.checkDropdown()}
+    checkDropdown(){
+      if(this.productId=='25'){
+        for(let x of this.fieldsElectronic){
+          let vars = x.fieldGroup[0].fieldGroup[0];
+          let j=0;
+          for( let n of vars.fieldGroup){            
+            if(n.type=='ngselect'){
+              if(n.props.label=='Electronic Equipment'){
+                let list=[],i=0;
+                let entry = this.locationlist[this.selectedTab];
+                for(let obj of entry.SectionDetails){
+                  let row = {"Code":obj.ContentType,"value":obj.ContentType,"label":obj.ContentDesc,"CodeDesc":obj.ContentDesc}
+                  list.push(row);
+                  i+=1;
+                  if(i==entry.SectionDetails.length) this.fieldsElectronic[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options= list;
+                }
+              }
+            }
+            j+=1;
+          }
+        }
+      }
+      if(this.productId=='14'){
+        let list=[],i=0;
+        let entry = this.locationlist[this.selectedTab];
+        for(let obj of entry.SectionDetails){
+          let row = {"Code":obj.OccupationId,"value":obj.OccupationId,"label":obj.OccupationDesc,"CodeDesc":obj.OccupationDesc}
+          list.push(row);
+          i+=1;
+          if(i==entry.SectionDetails.length){
+            let defobj = [{'label':'--Select--','value':null}];
+            console.log("Final List",list)
+            if(this.fieldsEmpFields) {this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = defobj.concat(list);this.employeeOccupationList=list;}
+          }
+        }
+        
+      }
+    }
     getContentDetail(){
       let sectionId=null;
       if(this.productId=='19') sectionId = '47';
@@ -8445,7 +8491,8 @@ return true;
       let ReqObj = {
         "RequestReferenceNO": this.quoteRefNo,
         "QuoteNo": sessionStorage.getItem('quoteNo'),
-        "SectionId": sectionId
+        "SectionId": sectionId,
+        "LocationId": this.locationId
       }
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
