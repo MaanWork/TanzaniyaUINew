@@ -258,13 +258,14 @@ export class CommonProductDetailsComponent {
     this.loginId = this.userDetails.Result.LoginId;
     this.userType = this.userDetails?.Result?.UserType;
     this.agencyCode = this.userDetails.Result.OaCode;
+    this.brokerCode = this.userDetails.Result.OaCode;
     this.brokerbranchCode = this.userDetails.Result.BrokerBranchCode;
     this.branchCode = this.userDetails.Result.BranchCode;
     this.branchList = this.userDetails.Result.LoginBranchDetails;
     this.countryId = this.userDetails.Result.CountryId;
     this.productId = this.userDetails.Result.ProductId;
     this.currencyCode = this.userDetails.Result.CurrencyId;
-    console.log('product Idssssss',this.productId);
+    if(this.userType=='Broker' || this.userType=='User') this.Code=this.userDetails.Result.SubUserType;
     this.insuranceId = this.userDetails.Result.InsuranceId;
     let endorseObj = JSON.parse(sessionStorage.getItem('endorseTypeId'))
     if(endorseObj){
@@ -4459,6 +4460,9 @@ backPlan()
   onDeleteCommonDetails(section,location,index){
      location.SectionList.splice(index,1);
   }
+  tabBack(){
+    this.tabIndex-=1
+  }
   onEditCommonDetails(section,location,index){
     this.currentSectionIndex = index;
     this.productItem = new ProductData();
@@ -4466,11 +4470,12 @@ backPlan()
       this.productItem.RegionCode = section.RegionCode;
       this.productItem.DistrictCode = section.DistrictCode;
       this.productItem.MoneyDirectorResidence = section.MoneyDirectorResidence;
-      this.productItem.MoneyInSafe = section.MoneySafeLimit;
+      //this.productItem.MoneyInSafe = section.MoneySafeLimit;
       this.productItem.MoneyOutofSafe = section.MoneyOutofSafe;
       this.productItem.MoneySafeLimit = section.MoneySafeLimit;
       this.productItem.MoneyCollector = section.MoneyCollector;
-      this.productItem.MoneyInTransit = section.StrongroomSi;
+      this.productItem.MoneyInTransit = section.MoneyMajorLoss;
+      this.productItem.MoneyInSafe = section.StrongroomSi;
       this.productItem.MoneyAnnualEstimate = section.MoneyAnnualEstimate;
       this.ongetDistrictList('direct',this.productItem.DistrictCode)
     }
@@ -4522,10 +4527,12 @@ backPlan()
     if(valid){
       let entry =null;
       if(this.productId=='16'){
+        this.ongetDistrictList('direct',this.productItem.DistrictCode);
          entry = {
           "SectionId":'42',
           "SectionName": "Money",
           "RegionCode" : this.productItem.RegionCode ? this.productItem.RegionCode : null,
+          
           "DistrictCode" : this.productItem.DistrictCode ? this.productItem.DistrictCode : null,
           "MoneySafeLimit" : this.productItem.MoneySafeLimit ? this.productItem.MoneySafeLimit : '0',
           "MoneyDirectorResidence" : this.productItem.MoneyDirectorResidence ? this.productItem.MoneyDirectorResidence : '0',
@@ -4786,16 +4793,17 @@ backPlan()
         let entry = this.LocationListAlt[0].SectionList;
         if(entry.length!=0){
           this.IndustryId = entry[0].IndustryType;
-          this.productItem.RegionCode = entry[0].RegionCode ? entry[0].RegionCode : null;
-          this.productItem.DistrictCode = entry[0].DistrictCode ? entry[0].DistrictCode : null;
-          this.productItem.MoneyInSafe = entry[0].MoneySafeLimit ? entry[0].MoneySafeLimit : null;
-          this.productItem.MoneyDirectorResidence = entry[0].MoneyDirectorResidence ? entry[0].MoneyDirectorResidence : null;
-          this.productItem.MoneyOutofSafe = entry[0].MoneyOutofSafe ? entry[0].MoneyOutofSafe : null;
-          this.productItem.MoneySafeLimit = entry[0].MoneySafeLimit ? entry[0].MoneySafeLimit : null;
-          this.productItem.MoneyCollector = entry[0].MoneyCollector ? entry[0].MoneyCollector : null;
-          this.productItem.MoneyInTransit = entry[0].MoneyMajorLoss ? entry[0].MoneyMajorLoss : null;
-          this.productItem.MoneyAnnualEstimate = entry[0].MoneyAnnualEstimate ? entry[0].MoneyAnnualEstimate : null;
           this.ongetDistrictList('direct',this.productItem.DistrictCode);
+          // this.productItem.RegionCode = entry[0].RegionCode ? entry[0].RegionCode : null;
+          // this.productItem.DistrictCode = entry[0].DistrictCode ? entry[0].DistrictCode : null;
+          // this.productItem.MoneyInSafe = entry[0].MoneySafeLimit ? entry[0].MoneySafeLimit : null;
+          // this.productItem.MoneyDirectorResidence = entry[0].MoneyDirectorResidence ? entry[0].MoneyDirectorResidence : null;
+          // this.productItem.MoneyOutofSafe = entry[0].MoneyOutofSafe ? entry[0].MoneyOutofSafe : null;
+          // this.productItem.MoneySafeLimit = entry[0].MoneySafeLimit ? entry[0].MoneySafeLimit : null;
+          // this.productItem.MoneyCollector = entry[0].MoneyCollector ? entry[0].MoneyCollector : null;
+          // this.productItem.MoneyInTransit = entry[0].MoneyMajorLoss ? entry[0].MoneyMajorLoss : null;
+          // this.productItem.MoneyAnnualEstimate = entry[0].MoneyAnnualEstimate ? entry[0].MoneyAnnualEstimate : null;
+         
         }
       }
     }

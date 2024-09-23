@@ -495,6 +495,28 @@ export class RiskDetailsComponent {
                 console.log(data);
                 if(data.Result){
                   let details = data.Result;
+                  this.commonDetails = [
+                    {
+                        "PolicyStartDate": details?.PolicyDetails?.PolicyStartDate,
+                        "PolicyEndDate": details?.PolicyDetails?.PolicyEndDate,
+                        "Currency": details?.PolicyDetails?.Currency,
+                        "SectionId": details?.PolicyDetails?.SectionIds,
+                        "AcexecutiveId": "",
+                        "ExchangeRate": details?.PolicyDetails?.ExchangeRate,
+                        "StateExtent": "",
+                        "NoOfDays": details?.PolicyDetails?.NoOfDays,
+                        "HavePromoCode": details?.PolicyDetails?.Havepromocode,
+                        "PromoCode": details?.PolicyDetails?.Promocode,
+                        "SourceType": details?.BrokerDetails.SourceTypeId,
+                        "BrokerCode": details?.BrokerDetails?.BrokerCode,
+                        "BranchCode": details?.BrokerDetails?.BranchCode,
+                        "BrokerBranchCode": details?.BrokerDetails?.BrokerBranchCode,
+                        "CustomerCode": details?.BrokerDetails?.CustomerCode,
+                        "CustomerName": details?.BrokerDetails?.CustomerName,
+                        "LoginId": null,
+                        "IndustryName": null
+                    }
+                  ]
                   let locationList = [];
                   if(details.LocationList) locationList = details.LocationList;
                   if(locationList.length!=0) {
@@ -515,7 +537,7 @@ export class RiskDetailsComponent {
                               let i=0;
                               for(let sub of persAcc){
                                   let subEntry = {
-                                    "DeathSI":sub['SumInsured '],
+                                    "DeathSI":sub['SumInsured'],
                                     'RelationType':sub.RelationType
                                   }
                                   PAList.push(subEntry);
@@ -526,14 +548,14 @@ export class RiskDetailsComponent {
                             else{PAList = [{'RelationType':null,'DeathSI':null}];obj['PAList'] = PAList;}
                             let build = subDetails.filter(ele=>ele['SectionId']=='1')
                             if(build.length!=0){
-                              if(build[0]['SumInsured ']){obj['BuildingSI']=String(build[0]['SumInsured ']);this.CommaFormatted(obj,'Building');} 
+                              if(build[0]['SumInsured']){obj['BuildingSI']=String(build[0]['SumInsured']);this.CommaFormatted(obj,'Building');} 
                               obj['BuildingType']=build[0]['OutbuildConstructType'];obj['OriginalRiskId']=build[0].RiskId  }
                             else{obj['BuildingSI']=null;obj['BuildingType']=null;}
                             let content = subDetails.filter(ele=>ele['SectionId']=='47')
-                            if(content.length!=0){obj['ContentSI']=String(content[0]['SumInsured ']);this.CommaFormatted(obj,'Content');obj['OriginalRiskId']=content[0].RiskId  }
+                            if(content.length!=0){obj['ContentSI']=String(content[0]['SumInsured']);this.CommaFormatted(obj,'Content');obj['OriginalRiskId']=content[0].RiskId  }
                             else{obj['ContentSI']=null;}
                             let allRisk = subDetails.filter(ele=>ele['SectionId']=='3')
-                            if(allRisk.length!=0){obj['AllRiskSI']=String(allRisk[0]['SumInsured ']);this.CommaFormatted(obj,'AllRisk');obj['OriginalRiskId']=allRisk[0].RiskId  }
+                            if(allRisk.length!=0){obj['AllRiskSI']=String(allRisk[0]['SumInsured']);this.CommaFormatted(obj,'AllRisk');obj['OriginalRiskId']=allRisk[0].RiskId  }
                             else{obj['AllRiskSI']=null;}
                             let domestic = subDetails.filter(ele=>ele['SectionId']=='106')
                             let servantList = [];
@@ -543,7 +565,7 @@ export class RiskDetailsComponent {
                                 let subEntry={
                                   "ServantType":sub.DomesticServantType,
                                   "ServantCount": sub.Count,
-                                  "ServantSI": sub['SumInsured '] 
+                                  "ServantSI": sub['SumInsured'] 
                                 }
                                 servantList.push(subEntry);
                                 i+=1;
@@ -600,7 +622,7 @@ export class RiskDetailsComponent {
                           "ServantList":[{"ServantType":null,'ServantCount':null,'ServantSI':null}],
                           "PAList":[{'RelationType':null,'DeathSI':null}],
                           'PersonalLiabilitySI':null,'ServantType':null,'ServantCount':null,'ServantSI':null,'RelationType':null,'DeathSI':null}
-                      ]
+                    ]
                   }
                 }
                 else{
@@ -3280,6 +3302,7 @@ export class RiskDetailsComponent {
           this.currentAccessoriesIndex = null;
           this.enableAccessoriesEditSection=false;
         }
+        onPreviousTab(){this.tabIndex-=1;}
         onSubmit(type){
           console.log('Final Locations',this.LocationName)
           let commonDetals:any = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
@@ -3512,8 +3535,9 @@ export class RiskDetailsComponent {
             else{
               obj['CommonError']=false;
             }
-            if(obj.SectionList.length!=0) locationList.push(obj);
             i+=1;
+            if(obj.SectionList.length!=0) locationList.push(obj);
+            
             if(i==this.LocationName.length){
                 ReqObj.LocationList = locationList;
                 this.onFinalSubmit(ReqObj,type);
@@ -3528,6 +3552,7 @@ export class RiskDetailsComponent {
                 if (data?.Result.length!=0) {
                   this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
                   sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
+                  
                   if((type=='Save' && this.LocationName.length==(this.tabIndex+1)) || type=='Submit' ){
                     if(this.uwQuestionList.length!=0){
                       let i = 0;
@@ -3632,7 +3657,7 @@ export class RiskDetailsComponent {
                         if(i==this.uwQuestionList.length) this.onSaveUWQues(uwList,data.Result,type);
                       }
                     }
-                    else this.tabIndex+=1;
+                    else{this.tabIndex+=1;alert(this.tabIndex);}
                   } 
                 }
               }
@@ -4589,6 +4614,7 @@ export class RiskDetailsComponent {
             let valid = this.checkLocationValidation()
             if(valid){
               let commonDetals:any = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
+              if(commonDetals==null) commonDetals = this.commonDetails;
               let appId = "1", loginId = "", brokerbranchCode = "";let createdBy = "";
               let quoteStatus = sessionStorage.getItem('QuoteStatus');
               let referenceNo =  sessionStorage.getItem('quoteReferenceNo');
@@ -4674,8 +4700,10 @@ export class RiskDetailsComponent {
               let j=0,locationList = [];
               for(let entry of this.locationList){
                 let i=0;
+                if(entry.BuildingOwnerYn==null) entry.BuildingOwnerYn = 'Y';
+                if(entry.CoversRequired==null) entry.CoversRequired = 'BC';
                   let obj = {
-                      "LocationId":i+1,
+                      "LocationId":j+1,
                       "LocationName":entry.LocationName,
                       "CoversRequired": entry.CoversRequired,
                       "BuildingOwnerYn": entry.BuildingOwnerYn,
@@ -4761,7 +4789,10 @@ export class RiskDetailsComponent {
                   }
                   if(obj.SectionList.length!=0) locationList.push(obj);
                   j+=1;
-                  if(j==this.locationList.length){ReqObj.LocationList=locationList;this.onFinalSubmit(ReqObj,type)}
+                  if(j==this.locationList.length){
+                    ReqObj.LocationList=locationList;this.onFinalSubmit(ReqObj,type);
+
+                  }
               }
             }
           }
@@ -4789,6 +4820,8 @@ export class RiskDetailsComponent {
                 }
               }
               j+=1;
+              console.log(entry,"entryentry");
+              
               if(j==this.locationList.length) return i==0;
             }
           }

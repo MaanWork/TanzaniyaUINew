@@ -77,8 +77,8 @@
     </div>
     <div class="flex flex-wrap justify-content-center mt-4">
         <div class="mb-4">
-            <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" *ngIf="!endorsementSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
-            <p-button label="Back" [routerLink]="['/quotation/plan/premium-info']" *ngIf="endorsementSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+            <p-button label="1Back" [routerLink]="['/quotation/plan/premium-details']" *ngIf="!endorsementSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+            <p-button label="2Back" [routerLink]="['/quotation/plan/premium-info']" *ngIf="endorsementSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
             <ng-container>
                 <p-button label="Proceed" (click)="onSaveAccessories()" class="text-l pi-button mr-0"></p-button>
             </ng-container>
@@ -277,7 +277,7 @@
             </div>
             <div class="flex flex-wrap justify-content-center mt-4">
                 <div class="mb-4">
-                    <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                    <p-button label="3Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
                     <ng-container>
                         <p-button label="Proceed" (click)="onSavePersonalAccident('proceed')" class="text-l pi-button mr-0"></p-button>
                     </ng-container>
@@ -415,7 +415,7 @@
             </div>
             <div class="flex flex-wrap justify-content-center mt-4">
                 <div class="mb-4">
-                    <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                    <p-button label="4Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
                     <ng-container>
                         <p-button label="Proceed" (click)="onSavePersonalIntermedity('proceed')" class="text-l pi-button mr-0"></p-button>
                     </ng-container>
@@ -531,7 +531,7 @@
                 </div>
                 <div class="flex flex-wrap justify-content-center mt-4">
                     <div class="mb-4">
-                        <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                        <p-button label="5Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
                         <ng-container>
                             <p-button label="Proceed" (click)="onSaveHealth()" class="text-l pi-button mr-0"></p-button>
                         </ng-container>
@@ -706,7 +706,7 @@
             </div>
           
             <div class="text-center mt-2">
-                <p-button label="Back" class="mr-4 text-l mr-0" [routerLink]="['/quotation/plan/premium-details']" styleClass="p-button-outlined"></p-button>
+                <p-button label="6Back" class="mr-4 text-l mr-0" [routerLink]="['/quotation/plan/premium-details']" styleClass="p-button-outlined"></p-button>
                 <!-- <p-button label="Save & Proceed" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('save')"></p-button> -->
                 <p-button label="Proceed" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('proceed')" routerLinkActive="router-link-active" routerLinkActive="router-link-active"></p-button>
                 <!-- <button class="custom-btn btn-6 maan-button-data mx-2" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" matRipple (click)="onSaveEmployeeDetails('direct')" routerLinkActive="router-link-active" routerLinkActive="router-link-active">Proceed</button> -->
@@ -787,7 +787,7 @@
             </div>
             <div class="flex flex-wrap justify-content-center mt-4">
                 <div class="mb-4">
-                    <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                    <p-button label="7Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
                     <ng-container>
                         <p-button label="Proceed" (click)="onSaveElectronic()" class="text-l pi-button mr-0"></p-button>
                     </ng-container>
@@ -826,7 +826,7 @@
             </div>
             <div class="flex flex-wrap justify-content-center mt-4">
                 <div class="mb-4">
-                    <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                    <p-button label="8Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
                     <ng-container>
                         <p-button label="Proceed" (click)="onMedicalSave()" class="text-l pi-button mr-0"></p-button>
                     </ng-container>
@@ -959,11 +959,11 @@
                     </div>
                 </div>
             </p-tabPanel>
-            <div class="text-center mt-2">
-                <p-button [label]="'Back'" class="mr-4 text-l mr-0" [routerLink]="['/quotation/plan/premium-details']" styleClass="p-button-outlined"></p-button>
-                <ng-container *ngIf="location.EmployeeList"><p-button label="Proceed" *ngIf="location.EmployeeList.length!=0" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('proceed')" routerLinkActive="router-link-active" routerLinkActive="router-link-active"></p-button></ng-container> 
-            </div>
         </ng-container>
+        <div class="text-center mt-2">
+            <p-button label="Back" class="mr-4 text-l mr-0" [routerLink]="['/quotation/plan/premium-details']" styleClass="p-button-outlined"></p-button>
+            <ng-container ><p-button label="Proceed"  class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('proceed')" routerLinkActive="router-link-active" routerLinkActive="router-link-active"></p-button></ng-container> 
+        </div>
     </p-tabView>
 </ng-container>
 <ng-container *ngIf="productId=='63' || productId=='59'">
@@ -1083,6 +1083,46 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-12 lg:col-6 md:col-6" *ngIf="checkSectionVisible(i,'36')">
+                        <div class="card ">
+                            <div class="grid">
+                                <div class="col-12 lg:col-10 xl:col-10"> 
+                                    <b>Personal Liability</b>
+                                </div>
+                                <div class="col-12 lg:col-2 xl:col-2 "> 
+                                    <p-button icon="pi pi-credit-card" styleClass="p-button-outlined" (click)="onShowCommonDialog(item,'36')" />
+                                </div>
+                            </div>
+                            <div class="grid justify-content-center">
+                                <div class="col-12 lg:col-8 md:col-8">
+                                    <label for="SumInsured">SumInsured</label>
+                                    <input class="w-full p-button-outlined" placeholder="Enter SumInsured"
+                                    (keydown)="onSIValueChange($event)" (keyup)="CommaFormatted(item,'PL')" [(ngModel)]="item.PersonalLiabilitySI" styleClass="w-full"  pInputText type="text" 
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 lg:col-6 md:col-6" *ngIf="checkSectionVisible(i,'76') && productId=='59'">
+                        <div class="card ">
+                            <div class="grid">
+                                <div class="col-12 lg:col-10 xl:col-10"> 
+                                    <b>Electronic Equipment</b>
+                                </div>
+                                <div class="col-12 lg:col-2 xl:col-2 "> 
+                                    <p-button icon="pi pi-credit-card" styleClass="p-button-outlined" (click)="onShowCommonDialog(item,'76')" />
+                                </div>
+                            </div>
+                            <div class="grid justify-content-center">
+                                <div class="col-12 lg:col-8 md:col-8">
+                                    <label for="SumInsured">SumInsured</label>
+                                    <input class="w-full p-button-outlined" placeholder="Enter SumInsured"
+                                    (keydown)="onSIValueChange($event)" (keyup)="CommaFormatted(item,'PL')" [(ngModel)]="item.ElectricalEquipmentSI" styleClass="w-full"  pInputText type="text" 
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-12 lg:col-6 md:col-6" *ngIf="checkSectionVisible(i,'138')">
                         <div class="card ">
                             <div class="grid">
@@ -1110,7 +1150,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid" *ngIf="checkSectionVisible(i,'76')">
+                <div class="grid" *ngIf="checkSectionVisible(i,'76') && productId=='63'">
                     <div class="col-12 lg:col-8 md:col-8">
                         <div class="card ">
                             <div class="grid">
@@ -1146,14 +1186,16 @@
     </p-tabView>
     <div class="flex flex-wrap justify-content-center mt-4">
         <div class="mb-4">
-            <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+            <p-button label="Back" *ngIf="(tabIndex==0)" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+            <p-button label="Previous" *ngIf="LocationList.length>1 && (tabIndex!=0)" (click)="onPreviousTab()" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+            <p-button label="Next" *ngIf="LocationList.length>1 && (tabIndex+1!=LocationList.length)" class="text-l pi-button mr-0 " (click)="checkValidation('Next')"></p-button>&nbsp;
             <ng-container>
-                <p-button label="Proceed" class="text-l pi-button mr-0 " (click)="checkValidation()"></p-button>
+                <p-button label="Proceed" class="text-l pi-button mr-0 " (click)="checkValidation('Proceed')"></p-button>
             </ng-container>
         </div>
     </div>
 </ng-container>
-<p-dialog header="Building Sum Insured" [modal]="true" [(visible)]="visibleBuilding" [style]="{ width: '85rem','z-index': '1000 !important'  }">
+<p-dialog header="Building Details" [modal]="true" [(visible)]="visibleBuilding" [style]="{ width: '85rem','z-index': '1000 !important'  }">
     <ng-container  class="mt-5">
         <div class="grid justify-content-between">
             <!-- <div class="col-12 md:col-6 lg:col-6"> -->

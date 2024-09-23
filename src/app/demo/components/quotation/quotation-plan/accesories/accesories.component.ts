@@ -1992,10 +1992,14 @@ export class AccesoriesComponent {
                   let domestic = subDetails.filter(ele=>ele['SectionId']=='106')
                   if(domestic.length!=0){obj['ServantSI']=String(domestic[0]['SumInsured']);this.CommaFormatted(obj,'Domestic');obj['ServantCount']=domestic[0].TotalNoOfEmployees;obj['ServantType']=domestic[0]['ServantType'];obj['OriginalRiskId']=domestic[0].RiskId  }
                   else{obj['ServantSI']=null;obj['ServantCount']=null;obj['ServantType']=null}
-                  let persLiab = subDetails.filter(ele=>ele['SectionId']=='139')
+                  let persLiab = subDetails.filter(ele=>ele['SectionId']=='139' || ele['SectionId']=='36')
                   if(persLiab.length!=0){obj['PersonalLiabilitySI']=String(persLiab[0]['SumInsured']);this.CommaFormatted(obj,'PL');obj['OriginalRiskId']=persLiab[0].RiskId  }
                   else{obj['PersonalLiabilitySI']=null;}
+                  let EESi = subDetails.filter(ele=>ele['SectionId']=='76')
+                  if(EESi.length!=0){obj['ElectricalEquipmentSI']=String(EESi[0]['SumInsured']);this.CommaFormatted(obj,'PL');obj['OriginalRiskId']=EESi[0].RiskId  }
+                  else{obj['ElectricalEquipmentSI']=null;}
                   console.log("Final Obj",obj)
+                  
                   this.LocationList.push(obj);
                   i+=1;
               }
@@ -2076,8 +2080,10 @@ export class AccesoriesComponent {
     else if(type=='47'){this.visibleContent=true;this.getContentDetail()}
     else if(type=='3'){this.visibleAllRisk=true;this.getallriskDetailsData()}
     else if(type=='139'){this.personalLiabilityDialog=true;this.getPersonalLiabilityDetails()}
+    else if(type=='36'){this.personalLiabilityDialog=true;this.getPersonalLiabilityDetails()}
     else if(type=='138'){this.personalAccidentDialog=true;this.getPersonalAccidentDetailsAlt()}
-    else if(type=='76'){this.domesticServantDialog=true;}
+    else if(type=='76' && this.productId=='63'){this.domesticServantDialog=true;}
+    else if(type=='76' && this.productId=='59'){this.visibleAllRisk=true;}
   }
   getBuildingDetails(type){
             
@@ -2938,7 +2944,7 @@ onFidelitySave(){
                 }
                 else if(this.productId=='19' && this.nine)this.selectedTab +=1; 
                 else{
-                 this.checkValidation();
+                 this.checkValidation(null);
                 }
             },
             (err) => { },
@@ -3084,7 +3090,7 @@ onFidelitySave(){
                 else{
                   if(this.productId=='19' && this.eight)  this.selectedTab +=1; 
                   else if(this.productId=='19' && this.nine)this.selectedTab +=1; 
-                  else this.checkValidation();
+                  else this.checkValidation(null);
                 }
           
               },
@@ -3321,7 +3327,10 @@ onFidelitySave(){
   valuechange(row) {
     this.newname = row.LocationName;
   }
-  checkValidation(){
+  onPreviousTab(){
+    this.tabIndex-=1;
+  }
+  checkValidation(type){
     let ReqObj = {
       "QuoteNo": this.quoteNo
     }
@@ -3329,7 +3338,8 @@ onFidelitySave(){
         this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
           (data: any) => {
             if (data?.Message=='Success') {
-              this.router.navigate(['/quotation/plan/main/document-info']);
+              if(type=='Next'){this.tabIndex+=1;}
+              else{this.router.navigate(['/quotation/plan/main/document-info']);}
               //this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/premium-details']);
             }
           },
@@ -4229,7 +4239,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
           this.fourth = true;
           this.selectedTab = this.selectedTab+1;
         }
-        else this.checkValidation();
+        else this.checkValidation(null);
       }
     }
     else if(type=='PA'){
@@ -4241,7 +4251,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         }
         else{
           this.productItem.AccOccupation = this.accidentOccupation
-          this.checkValidation();
+          this.checkValidation(null);
         }
       }
       else{
@@ -4265,10 +4275,10 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         this.selectedTab = this.selectedTab+1;
       }
       else{
-        this.checkValidation();
+        this.checkValidation(null);
       }
     }
-    else if(type=='MA' || (type=='PI' && requestType=='proceed') || type=='E' || type=='EA') this.checkValidation();
+    else if(type=='MA' || (type=='PI' && requestType=='proceed') || type=='E' || type=='EA') this.checkValidation(null);
   }
   onSaveAllRisk(type){
     if (this.TableRowAllRisk.length != 0) {
@@ -4621,7 +4631,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
               this.quote = data.Result.RequestReferenceNo;
             }
 
-            this.checkValidation();
+            this.checkValidation(null);
             
 
           }
@@ -7850,7 +7860,7 @@ return true;
          else {
            console.log('First Fields');
            //this.router.navigate(['/quotation/plan/main/document-info']);
-          this.checkValidation();
+          this.checkValidation(null);
          }
        },
        (err) => { },
