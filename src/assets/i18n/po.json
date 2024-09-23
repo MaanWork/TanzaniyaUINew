@@ -345,7 +345,7 @@
       "Submit":"Enviar",
       "selectRegistrationDate":"selecione a data de registro",
        "EnterNumberOfCylinders":"Insira o número de cilindros",
-       "EnterDisplacement ":"Insira o deslocamento"
+       "EnterDisplacement":"Insira o deslocamento"
     },
     "PREMIUM":{
         "ReferenceNo":"Número de referência",
@@ -568,7 +568,12 @@
       "Schedule":"Agendar",
       "DebitNote":"Nota de débito",
       "CreditNote":"Nota de crédito",
-      "ViewQuoteDetails":"Ver detalhes da cotação"
+      "ViewQuoteDetails":"Ver detalhes da cotação",
+       "ClaimIntimate": "Reivindicar Íntimo",
+      "ClaimIntimation": "Intimação de reivindicação",
+       "NotifiedClaim": "Reivindicação Notificada",
+       "IntimatedClaim": "Intimated Claim",
+       "AddNewClaim":"Criar nova reivindicação"
     },
     "Referral":{
       "Broker":"Corretor",

@@ -406,6 +406,15 @@ if (rowData.DebitNoteNo==null && rowData.DebitNoteNo=='') {
     sessionStorage.setItem('brokercodeendorsement',this.brokerCode);
     this.router.navigate(['/portfolio/endorsement'])
   }
+  onClaimIntimate(rowData){
+    sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
+    sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
+    sessionStorage.setItem('quoteNo',rowData.QuoteNo);
+    sessionStorage.setItem('endorsePolicyNo',rowData.OriginalPolicyNo);
+    sessionStorage.setItem('Pagefrom','endorsement');
+    sessionStorage.setItem('brokercodeendorsement',this.brokerCode);
+    this.router.navigate(['/portfolio/claimIntimate'])
+  }
   onViews(rowData){
     let ReqObj={
       "Search":"",

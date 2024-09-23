@@ -180,6 +180,8 @@
     "BankingDelegation":"Délégation Bancaire",
     "LoanStartDate": "Date de début du prêt",
     "LoanEndDate":"Date de fin du prêt",
+    "Zone":"Zone",
+    "Class":"Classe",
     "CollateralCompanyAddress":"Adresse de l'Entreprise",
     "CollateralCompanyName":"Nom de l'entreprise",
     "LoanAmount":"Montant du Prêt",
@@ -349,7 +351,7 @@
   "Submit":"Soumettre",
   "selectRegistrationDate":"sélectionnez la date d'inscription",
    "EnterNumberOfCylinders":"Entrez le nombre de cylindres",
-   "EnterDisplacement ":"Entrez le déplacement "
+   "EnterDisplacement":"Entrez le déplacement "
   },
    "PREMIUM":{
   "ReferenceNo":"N° de référence",
@@ -577,7 +579,12 @@
   "Schedule":"Calendrier",
   "DebitNote":"Note de débit",
   "CreditNote":"Note de crédit",
-  "ViewQuoteDetails":"Afficher les détails du devis"
+  "ViewQuoteDetails":"Afficher les détails du devis",
+  "ClaimIntimate": "Réclamation intime",
+  "ClaimIntimation": "Réclamation",
+   "NotifiedClaim": "Réclamation notifiée",
+   "IntimatedClaim": "Réclamation intime",
+   "AddNewClaim":"Créer une nouvelle revendication"
   },
    "Referral":{
   "Broker":"Courtier",
