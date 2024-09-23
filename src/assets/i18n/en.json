@@ -1,5 +1,8 @@
 {
   "HOME": {
+    "Corporate":"Corporate",
+    "Individual":"Individual",
+    "logout":"Logout",
     "Plot":"Plot",
     "Department":"Department",
     "Activities":"Activities",
