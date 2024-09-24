@@ -1495,4 +1495,22 @@ export class VehicleCreateFormComponent implements OnInit {
       input.value = input.value.replace(/[^0-9]/g, '').slice(0, 2);
       this.numberOfCylinders = input.value;
     }
+    onInputChangeEngineNumber(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      // Remove non-numeric characters and limit length to 5
+      input.value = input.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 25);
+      this.engineNo = input.value;
+    }
+    onInputChangechassisNo(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      // Remove non-numeric characters and limit length to 5
+      input.value = input.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 25);
+      this.chassisNo = input.value;
+    }
+    onInputChangeseatingCapacity(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      // Remove non-numeric characters and limit length to 5
+      input.value = input.value.replace(/[^0-9]/g, '').slice(0, 2);
+      this.seatingCapacity = input.value;
+    }
 }
