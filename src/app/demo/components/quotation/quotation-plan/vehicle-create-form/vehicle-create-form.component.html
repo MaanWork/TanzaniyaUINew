@@ -147,7 +147,7 @@
             </div>
             <div class="flex flex-column m-3">
                 <label for="chasis-no">{{'MOTORDETAILS.ChassisNo' | translate }}</label>
-                <input pInputText id="chasis-no" class="searchText" [(ngModel)]="chassisNo" (input)="onInputChangeEngineNumber($event)" [disabled]="editSection" maxlength="25" [placeholder]="'MOTORDETAILS.EnterChasisNo' | translate"/>
+                <input pInputText id="chasis-no" class="searchText" [(ngModel)]="chassisNo" (input)="onInputChangechassisNo($event)" [disabled]="editSection" maxlength="25" [placeholder]="'MOTORDETAILS.EnterChasisNo' | translate"/>
             </div>
             <div class="flex flex-column m-3">
                 <label for="engine-no">{{'MOTORDETAILS.EngineNumber' | translate}}</label>
@@ -159,7 +159,7 @@
             </div>
             <div class="flex flex-column m-3">
                 <label for="seating-capacity">{{'MOTORDETAILS.SeatingCapacity' | translate}} *</label>
-                <input pInputText id="seating-capacity" [(ngModel)]="seatingCapacity"  (input)="onInputChangeDisplacement($event)" maxlength="2" [disabled]="editSection" [placeholder]="'MOTORDETAILS.EnterSeatingCapacity' | translate"/>
+                <input pInputText id="seating-capacity" [(ngModel)]="seatingCapacity"  (input)="onInputChangeseatingCapacity($event)" maxlength="2" [disabled]="editSection" [placeholder]="'MOTORDETAILS.EnterSeatingCapacity' | translate"/>
                 <div class="input-form-error" *ngIf="seatingError">
                     <div class="text-danger" style="font-size: 12px;">
                         {{'MOTORDETAILS.EnterSeatingCapacity' | translate}}
