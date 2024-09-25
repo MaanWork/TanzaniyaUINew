@@ -8656,7 +8656,7 @@ return true;
         "RequestReferenceNo": this.quoteRefNo,
         "QuoteNo": sessionStorage.getItem('quoteNo'),
         "SectionId":  sectionID,
-        "LocationID": this.locationId
+        "LocationId": this.locationId
       }
       let urlLink = `${this.motorApiUrl}api/getallpersonalaccident`;
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
