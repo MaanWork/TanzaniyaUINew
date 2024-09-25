@@ -20,7 +20,7 @@ export class ProductData {
 	OccupationType:any='';
 	SalaryPerAnnum:any='';
 	BenefitCoverMonth:any='';
-	SumInsured:any='';
+	SumInsured:any='';ContentTypeId:any=null;
     SectionId: string='';ProfessionalStaff:any=null;
     IdProofType:string = '';HighestQualificationHeld:any=null;
     IdNo:string = '';IndustryName:any;UsageType:any='S';
@@ -164,6 +164,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.MobileCode = data?.MobileCode ?? '';
 		this.MobileNo = data?.MobileNo ?? '';
 		this.Dob = data?.Dob ?? '';
+		this.ContentTypeId = data?.ContentTypeId ?? '';
 		this.OccupationType = data?.OccupationType ?? '';
 		this.SalaryPerAnnum = data?.SalaryPerAnnum ?? '';
 		this.BenefitCoverMonth = data?.BenefitCoverMonth ?? '';

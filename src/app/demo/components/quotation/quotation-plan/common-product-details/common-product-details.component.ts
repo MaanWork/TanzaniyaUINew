@@ -573,7 +573,8 @@ export class CommonProductDetailsComponent {
     let ReqObj = {
       "CompanyId": this.insuranceId,
       "ProductId": this.productId,
-      "IndustryType":this.productItem.Section
+      "IndustryType":this.productItem.Section,
+      "LoginId": this.loginId
     }
     let urlLink = `${this.CommonApiUrl}api/getByIndsutryType`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -4333,7 +4334,7 @@ backPlan()
             if(data.Result){
                 let entry:any;
                 //if(this.productId=='59') entry = this.customerData[0];
-                if(this.productId!='63' && this.productId!='61' && this.productId!='25' && this.productId!='16' && this.productId!='1' && this.productId!='14' && this.productId!='15' && this.productId!='32' && this.productId!='6') entry = data.Result;
+                if(this.productId!='63' && this.productId!='61' && this.productId!='25' && this.productId!='16' && this.productId!='1' && this.productId!='14' && this.productId!='15' && this.productId!='32' && this.productId!='6' && this.productId!='13') entry = data.Result;
                 else { 
                   entry = {...data.Result.PolicyInformation, ...data.Result.EndorsementDetails, ...data.Result.BrokerDetails}
                   if(data.Result.LocationList){entry['LocationList'] = data.Result.LocationList;if(this.productId!='14' && this.productId!='32')this.currentSectionIndex=0}
@@ -4469,6 +4470,8 @@ backPlan()
     if(this.productId=='16'){
       this.productItem.RegionCode = section.RegionCode;
       this.productItem.DistrictCode = section.DistrictCode;
+      this.productItem.CoveringDetails = section.CoveringDetails;
+      this.productItem.DescriptionOfRisk = section.DescriptionOfRisk;
       this.productItem.MoneyDirectorResidence = section.MoneyDirectorResidence;
       //this.productItem.MoneyInSafe = section.MoneySafeLimit;
       this.productItem.MoneyOutofSafe = section.MoneyOutofSafe;
@@ -4518,6 +4521,8 @@ backPlan()
     else if(this.productId=='61'){
       this.productItem.BondSI = section.SumInsured;
       this.productItem.TypeOfBond = section.BondType;
+      this.productItem.CoveringDetails = section.CoveringDetails;
+      this.productItem.DescriptionOfRisk = section.DescriptionOfRisk;
       if(section.IndustryType) this.productItem.IndustryId = String(section.IndustryType);
       this.productItem.NoOfYears = section.BondYear;
     }
@@ -4532,7 +4537,9 @@ backPlan()
           "SectionId":'42',
           "SectionName": "Money",
           "RegionCode" : this.productItem.RegionCode ? this.productItem.RegionCode : null,
-          
+          "CoveringDetails": this.productItem.CoveringDetails ? this.productItem.CoveringDetails : null,
+          "DescriptionOfRisk": this.productItem.DescriptionOfRisk ? this.productItem.DescriptionOfRisk : null,
+        
           "DistrictCode" : this.productItem.DistrictCode ? this.productItem.DistrictCode : null,
           "MoneySafeLimit" : this.productItem.MoneySafeLimit ? this.productItem.MoneySafeLimit : '0',
           "MoneyDirectorResidence" : this.productItem.MoneyDirectorResidence ? this.productItem.MoneyDirectorResidence : '0',
@@ -4621,6 +4628,7 @@ backPlan()
                // "LocationName": this.productItem.LocationName,
                 "SectionId": "35"
           }
+          location.SectionList = location.SectionList.filter(ele=>ele.OccupationId!=null && ele.OccupationId!='' && ele.SumInsured!='0' && ele.SumInsured!=null)
       }
       else if(this.productId=='6'){
         let entry = {};
@@ -4761,6 +4769,8 @@ backPlan()
       if(entry.SectionList[0].IndustryId) this.productItem.IndustryId = String(entry.SectionList[0].IndustryId);
       else if(entry.SectionList[0].IndustryType) this.productItem.IndustryId = String(entry.SectionList[0].IndustryType);
       this.productItem.NoOfYears = entry.SectionList[0].BondYear;
+      this.productItem.CoveringDetails = entry.SectionList[0].CoveringDetails;
+      this.productItem.DescriptionOfRisk = entry.SectionList[0].DescriptionOfRisk;
     }
     else if(this.productId=='6'){
       let section = entry.SectionList.filter(ele=>ele.SectionId!=ele.BusinessInterruption);
@@ -5915,6 +5925,8 @@ backPlan()
           entry.SectionList[0].BondType = this.productItem.TypeOfBond
           entry.SectionList[0].IndustryType = this.productItem.IndustryId
           entry.SectionList[0].BondYear = this.productItem.NoOfYears
+          entry.SectionList[0].CoveringDetails = this.productItem.CoveringDetails;
+          entry.SectionList[0].DescriptionOfRisk = this.productItem.DescriptionOfRisk;
         }
         else if(entry && this.productId=='25'){
           if(this.productItem.SerialNo!=null && this.productItem.SerialNo!='' && this.productItem.ElecEquipSuminsured!='0' && this.productItem.ElecEquipSuminsured!=0 && this.productItem.ElecEquipSuminsured!=null){
@@ -5985,6 +5997,8 @@ backPlan()
             let subEntry = {
               RegionCode : this.productItem.RegionCode,
               DistrictCode : this.productItem.DistrictCode,
+              CoveringDetails: this.productItem.CoveringDetails,
+              DescriptionOfRisk: this.productItem.DescriptionOfRisk,
               MoneyInSafe : this.productItem.MoneyInSafe,
               MoneyDirectorResidence : this.productItem.MoneyDirectorResidence,
               MoneyOutofSafe : this.productItem.MoneyOutofSafe,
@@ -6062,6 +6076,25 @@ backPlan()
               "RiskId": null
             }
             entry.SectionList = [subEntry]
+          }
+        }
+        else if(entry && this.productId=='13'){
+          if(this.productItem.OccupationType!=null && this.productItem.OccupationType!='' && this.productItem.SumInsured!='0' && this.productItem.SumInsured!=null){
+            let dob = null,categoryId:any=null;
+            categoryId =this.occupationList.find(ele=>ele.Code==this.productItem.OccupationType).CategoryId
+            let subEntry = {
+              "Dob":dob,
+              "OccupationId": this.productItem.OccupationType,
+              "NickName": this.productItem.Name,
+              "NationalityId": "01",
+              "SumInsured": this.productItem.SumInsured,
+              "RiskId": null,
+              "CategoryId": categoryId,
+             // "LocationName": this.productItem.LocationName,
+              "SectionId": "35"
+            }
+            if(this.currentSectionIndex!=null){entry.SectionList[this.currentSectionIndex] = subEntry;}
+            else{entry.SectionList.push(subEntry);}
           }
         }
        if(type=='proceedNext') this.onSaveCommonNonMotor('Next')
@@ -6217,6 +6250,8 @@ backPlan()
                     if(j==0){
                       subEntry["SumInsured"]= subEntry.BondSuminsured;
                       subEntry['SectionId'] = subEntry.BondType;
+                      subEntry['CoveringDetails'] = subEntry.CoveringDetails;
+                      subEntry['DescriptionOfRisk'] = subEntry.DescriptionOfRisk;
                       subEntry['SectionName']=this.BondTypeList.find(ele=>ele.Code==subEntry.BondType)?.CodeDesc
                       obj.SectionList.push(subEntry);
                       k+=1;
@@ -6285,7 +6320,9 @@ backPlan()
                     "MoneyMajorLoss": subEntry.MoneyMajorLoss,
                     "MoneyInSafe": subEntry.MoneyInSafe,
                     "RegionCode": subEntry.RegionCode,
-                    "DistrictCode": subEntry.DistrictCode
+                    "DistrictCode": subEntry.DistrictCode,
+                    "CoveringDetails": subEntry.CoveringDetails,
+                    "DescriptionOfRisk": subEntry.DescriptionOfRisk
                   }
                   obj.SectionList.push(subObj);
                   k+=1;if(k==entry.SectionList.length){i+=1;ReqObj.LocationList.push(obj); if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);}
@@ -6365,7 +6402,7 @@ backPlan()
                       else if(subEntry.OccupationType) subObj['OccupationType'] = subEntry.OccupationType;
                       obj.SectionList.push(subObj);
                     }
-                    k+=1;if(k==entry.SectionList.length){i+=1;ReqObj.LocationList.push(obj); if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);}
+                    k+=1;if(k==entry.SectionList.length){i+=1;if(obj.SectionList.length!=0){ ReqObj.LocationList.push(obj);} if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);}
                   }
                 }
                 else{i+=1;if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);}
@@ -6552,7 +6589,7 @@ backPlan()
                   else{
                     this.tabIndex+=1;
                     this.productItem = new ProductData();
-                    //this.onEditCommonDetails(this.LocationListAlt[this.tabIndex].SectionList[0],this.LocationListAlt[this.tabIndex],0);
+                    if(this.productId=='61') this.onEditCommonDetails(this.LocationListAlt[this.tabIndex].SectionList[0],this.LocationListAlt[this.tabIndex],0);
                   }
                 }
                 else{
@@ -6718,6 +6755,10 @@ backPlan()
       }
       if(this.productItem.NoOfYears==null || this.productItem.NoOfYears==undefined || this.productItem.NoOfYears==''){
         this.noYearsError = true;
+        i+=1;
+      }
+      if(this.productItem.CoveringDetails==null || this.productItem.CoveringDetails==undefined || this.productItem.CoveringDetails==''){
+        this.coveringDetailsError = true;
         i+=1;
       }
       if(this.productItem.BondSI==null || this.productItem.BondSI==undefined || this.productItem.BondSI==''|| this.productItem.BondSI==0){
@@ -8189,13 +8230,11 @@ finalSaveMoney(finalList,type,formType) {
             for (let ques of this.uwQuestionList) {
                 if(ques.Value!='' && ques.Value!=null){
                   ques['BranchCode'] = this.branchCode;
-         
                   let status = null,loading = null,vehicleId=null;
                   if(this.productId=='42' || this.productId=='43' || this.productId=='46') vehicleId = '1';
                   else vehicleId = build.LocationId
                   if(ques.QuestionType == '01' && ques.Value!=null && ques.Value!='' && ques.Options!=null){
                     let obj = ques.Options.find(ele=>ele.UwQuesOptionDesc==ques.Value);
-                    console.log("Found Obj",ques,obj)
                     if(obj){
                       loading = obj.LoadingPercent
                       if(obj.ReferralYn=='Y') status = 'R';
@@ -8337,7 +8376,7 @@ finalSaveMoney(finalList,type,formType) {
                   this.vehicleDetailsList[this.currentIndex-1]['CdRefNo']=build.CdRefNo;
                 }
                 if(this.productId=='61'){
-                  if(type=='save'){}
+                  if(type=='save'){this.onEditCommonDetails(this.LocationListAlt[this.tabIndex].SectionList[0],this.LocationListAlt[this.tabIndex],0);}
                   else{
                     if(this.endorsementSection){this.router.navigate(['/quotation/plan/premium-info']);} 
                     else { this.router.navigate(['/quotation/plan/premium-details']);}
@@ -13882,7 +13921,7 @@ this.BuildingOwnerYn = type;
         this.customerCode = code;
         this.customerName = name;
         if(this.issuerSection){
-          this.brokerCode = null;
+          //this.brokerCode = null;
             this.brokerBranchCode = null;
             this.brokerLoginId = null;
         }
