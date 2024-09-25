@@ -269,14 +269,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
             if(data.Result){
-                    this.endorsementList = data.Result;
+                this.endorsementList = data.Result;
+                for(let entry of this.endorsementList){
+                    if(this.lang=='en'){
+                        entry['Label'] = entry.EndorsementDesc
+                    }
+                    else if (this.lang=='fr'){
+                        entry['Label'] = entry.CodeDescLocal
+                    }
+                }
             }
         });
     }
     getLabelname(type){
         if(type=='Quotes'){
             if(this.lang=='en') return 'Quotes'
-            else if(this.lang=='fr') return 'Citations';
+            else if(this.lang=='fr') return 'Devis';
             else if(this.lang=='po') return 'Citações'
         }
         else if(type=='Policies'){
