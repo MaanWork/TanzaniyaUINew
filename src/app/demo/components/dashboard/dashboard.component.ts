@@ -269,7 +269,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
             if(data.Result){
-                    this.endorsementList = data.Result;
+                this.endorsementList = data.Result;
+                for(let entry of this.endorsementList){
+                    if(this.lang=='en'){
+                        entry['Label'] = entry.EndorsementDesc
+                    }
+                    else if (this.lang=='fr'){
+                        entry['Label'] = entry.CodeDescLocal
+                    }
+                }
             }
         });
     }
