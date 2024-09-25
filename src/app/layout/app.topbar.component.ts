@@ -96,9 +96,16 @@ export class AppTopBarComponent implements OnInit {
         ]
       }
         this.branches = [{label: 'Branch 1'}, {label: 'Branch 2'}];
-        this.userOptions = [
-            {label: 'Logout', value: 'logout', icon: 'pi pi-power-off', command: () => {this.setLogout();}},
+        if(this.lang=='en'){
+          this.userOptions = [
+              {label: 'Logout', value: 'logout', icon: 'pi pi-power-off', command: () => {this.setLogout();}},
+          ]
+        }
+        else if(this.lang=='fr'){
+          this.userOptions = [
+            {label: 'Se déconnecter', value: 'logout', icon: 'pi pi-power-off', command: () => {this.setLogout();}},
         ]
+        }
     }
     
     onProductRedirect(){
