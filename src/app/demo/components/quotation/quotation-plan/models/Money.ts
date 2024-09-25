@@ -197,7 +197,53 @@ export class Money{
                   
                   },
                 },
-
+                {
+                  className: 'col-12 lg:col-6 md:col-6 xl:col-6',
+                  type: 'textarea',
+                    key: 'CoveringDetails',
+                    
+                    props: { 
+                      label: `Covering Details`,
+                      maxLength: 1000,
+                      
+                    },
+                    templateOptions: {
+                      //disabled: this.checkDisable('BuildingSuminsured')
+                      required: true,
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+    
+                    expressions: {
+                    
+                    },
+                },
+                {
+                  className: 'col-12 lg:col-6 md:col-6 xl:col-6',
+                  type: 'textarea',
+                    key: 'DescriptionOfRisk',
+                    
+                    props: { 
+                      maxLength: 1000,
+                      label: `Description Of Risk`,
+                    },
+                    templateOptions: {
+                      //disabled: this.checkDisable('BuildingSuminsured')
+                      required: true,
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+    
+                    expressions: {
+                    
+                    },
+                },
                 {
                   className: 'col-12 lg:col-6 md:col-6 xl:col-6',
                   type: 'commaSeparator',
