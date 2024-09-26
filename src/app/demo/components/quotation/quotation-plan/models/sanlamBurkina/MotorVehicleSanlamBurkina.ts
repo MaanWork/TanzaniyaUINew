@@ -515,6 +515,8 @@ export class MotorVehicleSanlamBurkina{
                   type: 'ngselect',
                   key: 'Zone',
                   id:'Zone',
+                  hide: true,
+                  hideExpression:true,
                   props: {
                     label: `Zone`,
                     maxLength: 15,
@@ -537,6 +539,8 @@ export class MotorVehicleSanlamBurkina{
                   type: 'ngselect',
                   key: 'Class',
                   id:'Class',
+                  hide: true,
+                  hideExpression:true,
                   props: {
                     label: `Class`,
                     maxLength: 15,
