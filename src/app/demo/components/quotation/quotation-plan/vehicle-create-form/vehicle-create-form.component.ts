@@ -6,6 +6,7 @@ import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { TranslateService } from '@ngx-translate/core';
+import { unix } from 'moment';
 
 @Component({
   selector: 'app-vehicle-create-form',
@@ -537,6 +538,12 @@ export class VehicleCreateFormComponent implements OnInit {
         let entry = this.usageList.find(ele=>ele.CodeDesc==this.vehicleDetails?.Motorusage || ele.Code==this.vehicleDetails?.Motorusage);
         if(entry) usageId = entry.Code;
         if(this.engineNo!=null && this.engineNo!='') this.vehicleDetails['EngineNumber'] = this.engineNo;
+        if(this.vehicleDetails.Zone=="" || this.vehicleDetails.Zone==undefined){
+          this.vehicleDetails.Zone =null
+        }
+        if(this.vehicleDetails.Class=="" || this.vehicleDetails.Class==undefined){
+          this.vehicleDetails.Class=null
+        }
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": this.vehicleDetails?.AcExecutiveId,
@@ -560,7 +567,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "AccessoriesInformation": this.vehicleDetails?.AccessoriesInformation,
         "AdditionalCircumstances": this.vehicleDetails?.AdditionalCircumstances,
         "AxelDistance": this.axelDistance,
-        "Chassisnumber": this.chassisNo,
+        "Chassisnumber": this.chassisNo.toUpperCase(),
         "Color": this.vehicleDetails?.Color,
         "CityLimit": this.vehicleDetails?.CityLimit,
         "CoverNoteNo": this.vehicleDetails?.CoverNoteNo,
@@ -675,6 +682,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "VehicleTypeIvr": this.vehicleDetails.VehicleType,
         "ZoneCirculation": this.vehicleDetails.ZoneCirculation,
         "Zone": this.vehicleDetails.Zone,
+        "Class": this.vehicleDetails.Class,
         "Scenarios": {
             "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": null,
@@ -1498,13 +1506,13 @@ export class VehicleCreateFormComponent implements OnInit {
     onInputChangeEngineNumber(event: Event): void {
       const input = event.target as HTMLInputElement;
       // Remove non-numeric characters and limit length to 5
-      input.value = input.value.replace(/[^A-Z0-9]/g, '').slice(0, 25);
+      input.value = input.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 25);
       this.engineNo = input.value;
     }
     onInputChangechassisNo(event: Event): void {
       const input = event.target as HTMLInputElement;
       // Remove non-numeric characters and limit length to 5
-      input.value = input.value.replace(/[^A-Z0-9]/g, '').slice(0, 25);
+      input.value = input.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 25);
       this.chassisNo = input.value;
     }
     onInputChangeseatingCapacity(event: Event): void {
