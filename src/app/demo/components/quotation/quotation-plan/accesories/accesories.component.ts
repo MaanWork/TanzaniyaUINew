@@ -1188,7 +1188,6 @@ export class AccesoriesComponent {
                 let defobj=[{'label':'--Select--','value':null}];
                 this.monthList[i].label = this.monthList[i]['CodeDesc'];
                 this.monthList[i].value = this.monthList[i]['Code'];
-                delete this.monthList[i].CodeDesc;
                 if (i == this.monthList.length - 1) {
                   for(let x of this.fieldsElectronic){
                     let vars = x.fieldGroup[0].fieldGroup[0];
@@ -1205,7 +1204,7 @@ export class AccesoriesComponent {
                   //this.fieldsElectronic[0].fieldGroup[0].fieldGroup[0].fieldGroup[2].props.options= this.monthList;
                 }
               }
-              this.setElectronicDropdowns('direct');
+              if(this.productId!='59')this.setElectronicDropdowns('direct');
               if(this.productId!='14' && this.productId!='32') this.getElectronicEquipment('direct');
               //this.Electronic();
           }
@@ -1690,6 +1689,14 @@ export class AccesoriesComponent {
    
 
     
+  }
+  deleteProductAllRisk(index){
+    this.TableRowAllRisk.splice(index,1);
+    this.onSaveAllRisk('delete')
+  }
+  deleteProductEE(index){
+    this.ElectronicItem.splice(index,1);
+    this.onSaveElectronic('delete')
   }
   newjsonfile(){
     let ReqObj = {
@@ -3982,50 +3989,51 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
 
     }
   }
-  onSaveElectronic(){
-  console.log('SSSSSSSSSSSS');
-  console.log('tttttttt',this.ElectronicItem)
-  if (this.ElectronicItem.length != 0){
-
-      let i=0, reqList =[];
-      for(let entry of this.ElectronicItem){
-          /*let data = {
-            "ItemId": entry.ItemId,
-            "ItemValue": entry.SumInsured,
-          "MakeAndModel": entry.MakeAndModel,
-          "PurchaseMonth": entry.PurchaseMonth,
-          "PurchaseYear": entry.PurchaseYear,
-          "RiskId": entry.RiskId,
-          "SerialNo": entry.SerialNo,
-          "SumInsured":entry.SumInsured
-          }*/
-          let sumInsured;
-          if(entry.SumInsured==undefined || entry.SumInsured==null) sumInsured = null;
-          // else if(entry.SumInsured.includes(',')){ sumInsured = entry.SumInsured.replace(/,/g, '') }
-          else sumInsured = entry.SumInsured;
-          /*obj['SumInsured'] = sumInsured
-          obj['ItemValue'] = sumInsured
-          obj['RiskId'] = "1"
-          obj['SerialNo']="856757"*/
-          let data = {
-            "ItemId": entry.ItemId,
-            "ItemValue": sumInsured,
-          "MakeAndModel": entry.MakeAndModel,
-          "PurchaseMonth": entry.PurchaseMonth,
-          "PurchaseYear": entry.PurchaseYear,
-          "RiskId": entry.RiskId,
-          "ContentRiskDesc":entry.ContentRiskDesc,
-          "SerialNoDesc": entry.SerialNoDesc,
-          "SerialNo":"856757",
-          "SumInsured":sumInsured
-        }
-          reqList.push(data)
-          i+=1;
-          if(i==this.ElectronicItem.length){
-            this.finalSaveRiskDetails(null,reqList,'E');
+  onSaveElectronic(reqType){
+      if (this.ElectronicItem.length != 0){
+          let i=0, reqList =[];
+          for(let entry of this.ElectronicItem){
+              /*let data = {
+                "ItemId": entry.ItemId,
+                "ItemValue": entry.SumInsured,
+              "MakeAndModel": entry.MakeAndModel,
+              "PurchaseMonth": entry.PurchaseMonth,
+              "PurchaseYear": entry.PurchaseYear,
+              "RiskId": entry.RiskId,
+              "SerialNo": entry.SerialNo,
+              "SumInsured":entry.SumInsured
+              }*/
+              let sumInsured;
+              if(entry.SumInsured==undefined || entry.SumInsured==null) sumInsured = null;
+              // else if(entry.SumInsured.includes(',')){ sumInsured = entry.SumInsured.replace(/,/g, '') }
+              else sumInsured = entry.SumInsured;
+              /*obj['SumInsured'] = sumInsured
+              obj['ItemValue'] = sumInsured
+              obj['RiskId'] = "1"
+              obj['SerialNo']="856757"*/
+              let data = {
+                "ItemId": entry.ItemId,
+                "ItemValue": sumInsured,
+              "MakeAndModel": entry.MakeAndModel,
+              "PurchaseMonth": entry.PurchaseMonth,
+              "PurchaseYear": entry.PurchaseYear,
+              "RiskId": String(i+1),
+              "LocationId": this.locationId,
+              "ContentRiskDesc":entry.ContentRiskDesc,
+              "SerialNoDesc": entry.SerialNoDesc,
+              "SerialNo":"856757",
+              "SumInsured":sumInsured
+            }
+              reqList.push(data)
+              i+=1;
+              if(i==this.ElectronicItem.length){
+                this.finalSaveRiskDetails(reqType,reqList,'E');
+              }
           }
       }
-    }
+      else{
+        this.finalSaveRiskDetails(reqType,[],'E');
+      }
   }
 
   onCyberSave(){
@@ -4146,12 +4154,23 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       }
       urlLink = `${this.motorApiUrl}api/savecontentrisk`;
     }
-    if(type=='E' && this.productId!='42' && this.productId!='25'){
+    if(type=='E' && this.productId!='42' && this.productId!='25' && this.productId!='59'){
       ReqObj = {
         "CreatedBy": this.loginId,
       "QuoteNo":sessionStorage.getItem('quoteNo'),
       "RequestReferenceNo":this.quoteRefNo,
       "SectionId": "41",
+       "Type":type,
+       "ContentRiskDetails":reqList
+      }
+      urlLink = `${this.motorApiUrl}api/savecontentrisk`;
+    }
+    if(type=='E' && this.productId=='59'){
+      ReqObj = {
+        "CreatedBy": this.loginId,
+      "QuoteNo":sessionStorage.getItem('quoteNo'),
+      "RequestReferenceNo":this.quoteRefNo,
+      "SectionId": "76",
        "Type":type,
        "ContentRiskDetails":reqList
       }
@@ -4216,9 +4235,12 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             }
           }
           else {
-            this.visibleContent=false;
-            this.visibleAllRisk=false;
-             this.finalFormSubmit(type,requestType); }
+            if(requestType!='delete'){
+              this.visibleContent=false;
+              this.visibleAllRisk=false;
+               this.finalFormSubmit(type,requestType);
+            }
+          }
         },
         (err) => {},
       );
@@ -6167,6 +6189,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     if(this.productId=='25'){
     sectionid ='39'
     }
+    else if(this.productId=='59'){sectionid='76'}
     else{
       sectionid = '41'
     }
@@ -8132,7 +8155,7 @@ return true;
           return this.Total
         }
       }
-      else{this.productItem.SumInsured =0;return 0;} 
+      else if(this.productId!='59'){this.productItem.SumInsured =0;return 0;} 
     }
     addRowAllRisk(){
       const newItem = {  id: this.TableRowAllRisk.length + 1,RiskId:'',ItemId: '', Content: '', Serial: '',Description:'',SumInsured:0,};
@@ -8511,7 +8534,6 @@ return true;
           i+=1;
           if(i==entry.SectionDetails.length){
             let defobj = [{'label':'--Select--','value':null}];
-            console.log("Final List",list)
             if(this.fieldsEmpFields) {this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = defobj.concat(list);this.employeeOccupationList=list;}
           }
         }
@@ -8519,14 +8541,14 @@ return true;
       }
       else if(this.productId=='59'){
         let list=[],i=0;
-        let entry = this.locationlist[this.selectedTab];
+        let entry = this.locationlist[this.tabIndex];
         let defobj = [{'label':'--Select--','Code':null,'CodeDesc':'--Select--',value:null}];
         for(let obj of entry.SectionDetails){
           if(obj.SectionId=='76'){
             let row = {"Code":obj.ContentType,"value":obj.ContentType,"label":obj.ContentDesc,"CodeDesc":obj.ContentDesc}
             list.push(row);
-            i+=1; 
           }
+          i+=1; 
           if(i==entry.SectionDetails.length){console.log("Final List",list); this.employeeOccupationList = defobj.concat(list)}
           }
       }
