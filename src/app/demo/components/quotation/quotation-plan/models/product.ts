@@ -157,6 +157,8 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 	NewValue: any=''
 	MarketValue: any=''
     AggregatedValue: any=''
+	Zone:any=null
+	Class:any=null
 	constructor(data?) {
 		this.id = data?.id ?? ''
 		this.CustomerName = data?.CustomerName ?? '';
@@ -385,6 +387,8 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.NewValue = data?.NewValue ?? '';
 		this.MarketValue = data?.MarketValue ?? '';
 		this.AggregatedValue = data?.AggregatedValue ?? '';
+		this.Zone = data?.Zone ?? '';
+		this.Class = data?.Class ?? '';
 		// this.EquipmentSi = data?.EquipmentSi ?? '0';
 		// this.ElectronicEquipSuminsured = data.ElectronicEquipSuminsured ?? '0';
 	}
