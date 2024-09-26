@@ -1491,11 +1491,14 @@ export class CommonQuoteDetailsComponent implements OnInit {
                       console.log("Changes Forms", field)
                     }
                     if (field.key == 'Zone' || field.key == 'Class') {
+                      this.productItem.Zone =null;
+                      this.productItem.Class =null;
                         if(this.productItem.InsuranceType =='1' || this.productItem.InsuranceType ==1){
                           field.hide =false;
                           field.hideExpression=false;
                         }
                         else{
+
                           field.hide =true;
                           field.hideExpression=true;
                         }
