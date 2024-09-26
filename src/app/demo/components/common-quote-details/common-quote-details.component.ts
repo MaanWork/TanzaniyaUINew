@@ -1490,7 +1490,19 @@ export class CommonQuoteDetailsComponent implements OnInit {
                       field.props.options = defaultObj.concat(this.typeListIvory);
                       console.log("Changes Forms", field)
                     }
-                   
+                    if (field.key == 'Zone' || field.key == 'Class') {
+                      this.productItem.Zone =null;
+                      this.productItem.Class =null;
+                        if(this.productItem.InsuranceType =='1' || this.productItem.InsuranceType ==1){
+                          field.hide =false;
+                          field.hideExpression=false;
+                        }
+                        else{
+
+                          field.hide =true;
+                          field.hideExpression=true;
+                        }
+                    }
                   }
                 }
 
@@ -6225,7 +6237,7 @@ if(this.insuranceId=='100042'){
         }
         else if (field.key == 'Deductibles') {
           if(this.insuranceId=='100040'){
-            if (this.productItem.InsuranceClass == '124' || this.productItem.InsuranceClass == '125' || this.productItem.InsuranceClass == '127' || this.productItem.InsuranceClass == '162') {
+            if (this.productItem.InsuranceClass == '124' || this.productItem.InsuranceClass == '125' || this.productItem.InsuranceClass == '127' || this.productItem.InsuranceClass == '162' || this.productItem.InsuranceClass == '176') {
               field.hideExpression = false;
               field.hide = false;
             }
