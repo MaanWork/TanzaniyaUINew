@@ -13,7 +13,7 @@ export class Product {
 }
 
 export class ProductData {
-	Address2:any
+	Address2:any=''
 	Address1:any
 	AppointmentDate: any
 	BusinessType:any
