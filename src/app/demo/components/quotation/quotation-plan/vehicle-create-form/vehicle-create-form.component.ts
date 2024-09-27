@@ -807,7 +807,9 @@ export class VehicleCreateFormComponent implements OnInit {
       (data: any) => {
         console.log(data);
         if(data.Result){
-            this.bodyTypeList = data.Result;
+          let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Sélectionner--'}];
+
+            this.bodyTypeList = defaultRow.concat(data.Result);
             this.getUsageList();
             this.quoteRefNo = sessionStorage.getItem('quoteReferenceNo')
             if(this.getdetails== 'SavedFroms' && this.quoteRefNo){
@@ -837,7 +839,6 @@ export class VehicleCreateFormComponent implements OnInit {
     );
   }
   onBodyTypeChange(type){
-    
     if(this.bodyTypeValue!=null && this.bodyTypeValue!=''){
       this.bodyTypeId = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeValue)?.Code;
       this.bodyType = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeValue)?.BodyType;
@@ -862,6 +863,7 @@ export class VehicleCreateFormComponent implements OnInit {
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       (data: any) => {
         if(data.Result){
+          //let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Sélectionner--'}];
             this.makeList = data.Result;
             if(this.getdetails== 'SavedFroms'){
               if(this.editdata?.Vehiclemake!=null && this.editdata?.Vehiclemake!='' || this.editdata?.VehiclemakeDesc!=''){
@@ -891,12 +893,14 @@ export class VehicleCreateFormComponent implements OnInit {
         if(data.Result){
             this.modelList = data.Result;
             if(this.getdetails== 'SavedFroms'){
-              let entry = this.modelList.find(ele=>ele.CodeDesc==this.editdata?.Vehcilemodel || ele.Code==this.editdata?.Vehcilemodel);
-              if((entry==null || entry==undefined) && (this.editdata?.Vehcilemodel!=null && this.editdata?.Vehcilemodel!=undefined)){
+              console.log(this.editdata,"this.editdata");
+              
+              let entry = this.modelList.find(ele=>ele.CodeDesc==this.editdata?.VehicleModelDesc || ele.Code==this.editdata?.VehicleModelDesc);
+              if((entry==null || entry==undefined) && (this.editdata?.VehicleModelDesc!=null && this.editdata?.VehicleModelDesc!=undefined)){
                   this.modelValue = '99999';
-                  this.modelDesc = this.editdata?.Vehcilemodel;
+                  this.modelDesc = this.editdata?.VehicleModelDesc;
               }
-              else this.modelValue = this.modelValue = entry.Code;
+              else this.modelDesc = this.modelValue =entry.Code
             }
         }
       },
@@ -999,11 +1003,11 @@ export class VehicleCreateFormComponent implements OnInit {
     this.engineCapacity = vehDetails?.EngineCapacity;
     this.ownerName = vehDetails?.ResOwnerName;
     this.seatingCapacity = vehDetails?.SeatingCapacity;
+    this.modelDesc = vehDetails?.VehicleModelDesc;
     this.tareWeight = vehDetails?.Tareweight;
     if(vehDetails?.VehicleType!=null && vehDetails?.VehicleType!=''){
     this.bodyTypeId = vehDetails?.VehicleType;
     this.bodyTypeValue = vehDetails?.VehicleTypeDesc;
-    this.modelDesc = vehDetails?.VehicleModelDesc;
     this.currencyCode = vehDetails?.Currency;
     this.exchangeRate = vehDetails?.ExchangeRate;
     this.horsePower = vehDetails?.HorsePower;
@@ -1023,6 +1027,7 @@ export class VehicleCreateFormComponent implements OnInit {
       
      }
     }
+   //alert(this.modelDesc)
     this.onChangeMotorUsage('direct')
   }
   onFormSubmit(){
