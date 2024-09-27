@@ -54,7 +54,7 @@ export class VehicleCreateFormComponent implements OnInit {
   commonDetails: any;editSectionAlt:boolean=false;modelSearchVisible:boolean = false;
   modelColumns:any[]=[];selectedRowData:any=null;lang:any=null;horsePower:any=0;
   horsePowerError=false;
-  displacement: any=0;
+  displacement: any="0";
   numberOfCylinders: any=0;
   RegistrationDate:any;
   bodyTypeError=false;
