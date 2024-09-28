@@ -66,7 +66,7 @@ export class ElectronicEquipments{
                   },
                   expressions: {
                   },
-              },
+                },
               // {
               //   type: 'ngselect',
               //   key: 'FirstLossPayee',

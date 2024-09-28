@@ -462,7 +462,8 @@ export class TravelQuoteDetailsComponent {
       let ReqObj = {
         "CreatedBy": this.loginId,
         "PassengerList": this.historyRecordsList,
-        "QuoteNo": this.quoteNo
+        "QuoteNo": this.quoteNo,
+        "LocationId": "1"
       }
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {

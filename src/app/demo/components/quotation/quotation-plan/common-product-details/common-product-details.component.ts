@@ -5753,7 +5753,6 @@ backPlan()
         }
         if(sections.some(ele=>ele=='43')){
           let fidelity = new Fidelitytwo();
-          //let fidelity = new Fidelity();
           let field = {
             props: { label: 'Fidelity' },
             fieldGroup: fidelity.fields

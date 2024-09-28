@@ -2930,7 +2930,7 @@ export class RiskDetailsComponent {
             "InsuranceId":this.insuranceId,
             "BranchCode": this.branchCode
           }
-          let urlLink = `${this.CommonApiUrl}dropdown/content`;
+          let urlLink = `${this.CommonApiUrl}dropdown/electronicitems`;
           this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             (data: any) => {
               console.log(data);
@@ -3595,7 +3595,6 @@ export class RiskDetailsComponent {
                 if (data?.Result.length!=0) {
                   this.requestReferenceNo = data?.Result[0]?.RequestReferenceNo;
                   sessionStorage.setItem('quoteReferenceNo', this.requestReferenceNo);
-                  
                   if((type=='Save' && this.LocationName.length==(this.tabIndex+1)) || type=='Submit' ){
                     if(this.uwQuestionList.length!=0){
                       let i = 0;
@@ -3700,7 +3699,7 @@ export class RiskDetailsComponent {
                         if(i==this.uwQuestionList.length) this.onSaveUWQues(uwList,data.Result,type);
                       }
                     }
-                    else{this.tabIndex+=1;this.productItem=new ProductData()}
+                    else{this.tabIndex+=1;this.productItem=new ProductData();if(this.productId=='59')this.onEditDomestic()}
                   } 
                 }
               }
@@ -6290,7 +6289,7 @@ export class RiskDetailsComponent {
                             if((type=='Save' && this.LocationName.length==(this.tabIndex+1)) || type=='Submit' ){
                                   this.onFinalProceed();
                             }
-                            else{ this.tabIndex+=1;if(this.uwQuestionList.length!=0)this.getEditUwQuestions()}
+                            else{ this.tabIndex+=1;if(this.uwQuestionList.length!=0)this.getEditUwQuestions();if(this.productId=='59')this.onEditDomestic}
                           }
                           else this.onFinalProceed();
                         // }
