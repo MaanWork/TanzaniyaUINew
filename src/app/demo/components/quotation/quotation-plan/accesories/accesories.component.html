@@ -851,7 +851,7 @@
             <p-button label="Back" class="mr-4 text-l mr-0" [routerLink]="['/quotation/plan/premium-details']" styleClass="p-button-outlined"></p-button>
             <p-button label="Previous" *ngIf="locationlist.length>1 &&  selectedTab!=0" (click)="onPreviousTabb()" class="mr-4 text-l mr-0" styleClass="p-button"></p-button>
             <p-button label="Next" *ngIf="locationlist.length>1 &&  (selectedTab+1)!=locationlist.length" (click)="onNextTab()" class="mr-4 text-l mr-0" styleClass="p-button"></p-button>
-            <ng-container ><p-button label="Proceed"  class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('proceed')" routerLinkActive="router-link-active" routerLinkActive="router-link-active"></p-button></ng-container> 
+            <ng-container ><p-button label="Proceed" *ngIf="(selectedTab+1)==locationlist.length"  class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('proceed')" routerLinkActive="router-link-active" routerLinkActive="router-link-active"></p-button></ng-container> 
         </div>
     </p-tabView>
 </ng-container>
@@ -1493,7 +1493,7 @@
             </ng-container>
             <div  class="col-12 md:col-3 lg:col-3"><b>Total : <span class="primaryTextColor">{{getTotalElecSI() | commaseparator}}</span></b></div>
             <!-- <div class="col-12 md:col-2 lg:col-2" >Total : {{getTotalAllRisk() | commaseparator}}</div> -->
-            <div class="col-12 md:col-2 lg:col-2"><p-button label="Add New" icon="pi pi-plus" (click)="addRowAllRisk()" /></div>
+            <div class="col-12 md:col-2 lg:col-2"><p-button label="Add New" icon="pi pi-plus" (click)="addRowEE()" /></div>
         </div>
     </ng-container>
     <ng-container  class="mt-5">
@@ -1534,7 +1534,7 @@
                                         </div>
                                     </div>
                         </ng-container>
-                        <ng-container *ngIf="currentElectronicIndex!=ri"> {{ getContentTypeDescription(product.ItemId) }}</ng-container>
+                        <ng-container *ngIf="currentElectronicIndex!=ri"> {{ getContentTypeDescriptionAlt(product.ItemId) }}</ng-container>
                     </td>
                     <td>
                         <ng-container *ngIf="currentElectronicIndex==ri">
@@ -1546,7 +1546,7 @@
                                         </div>
                                     </div>
                         </ng-container>
-                        <ng-container *ngIf="currentElectronicIndex!=ri"> {{ getContentTypeDescription(product.ItemId) }}</ng-container>
+                        <ng-container *ngIf="currentElectronicIndex!=ri"> {{ getMonthDescription(product.PurchaseMonth)  }}</ng-container>
                     </td>
                     <td>
                         <ng-container *ngIf="currentElectronicIndex==ri">
@@ -1558,7 +1558,7 @@
                                         </div>
                                     </div>
                         </ng-container>
-                        <ng-container *ngIf="currentElectronicIndex!=ri"> {{ getContentTypeDescription(product.ItemId) }}</ng-container>
+                        <ng-container *ngIf="currentElectronicIndex!=ri"> {{product.PurchaseYear }}</ng-container>
                     </td>
                     <td>
                         <ng-container *ngIf="currentElectronicIndex==ri">
@@ -1615,7 +1615,6 @@
             <p-button label="Save" (click)="saveProduct()" />
         </div> -->
         <div class="grid justify-content-center gap-2 mt-5">
-            <!-- <p-button label="Cancel" styleClass="p-button-outlined"  (click)="visible = false" /> -->
             <div >
             <p-button label="Save" (click)="onSaveElectronic('direct')" />
         </div>
