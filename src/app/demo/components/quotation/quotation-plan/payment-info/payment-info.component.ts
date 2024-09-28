@@ -209,12 +209,13 @@ export class PaymentInfoComponent {
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
           if(data?.Result){
+            let details = data.Result;
             this.vehicleList = data?.Result?.ProductDetails;
             let quoteDetails = data?.Result?.QuoteDetails;
             this.quoteDetails = data?.Result?.QuoteDetails;
             this.Riskdetails = data?.Result?.RiskDetails;
             this.quoteComponent.currencyCode =  this.quoteDetails?.Currency;
-            this.quoteComponent.setRiskDetails(this.Riskdetails);
+            this.quoteComponent.setRiskDetails(details.LocationDetails);
             this.orgPolicyNo = quoteDetails?.OriginalPolicyNo;
             this.endorsePolicyNo = quoteDetails?.policyNo;
             this.quoteLoginId = quoteDetails?.LoginId;
