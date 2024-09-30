@@ -4554,7 +4554,7 @@ backPlan()
       }
       else if(this.productId=='25'){
         entry = {
-          "SectionId": "39",
+          "SectionId": "76",
           "SectionName": "Electronic Equipments",
           "RiskId": null,
           "ElecEquipSuminsured": this.productItem.ElecEquipSuminsured ? this.productItem.ElecEquipSuminsured : null,
@@ -4853,7 +4853,7 @@ backPlan()
       else if(this.productId=='1'){ReqObj.SectionId='52';urlLink=`${this.motorApiUrl}api/slide3/getburglaryandhouse`;}
       else if(this.productId=='21'){ReqObj.SectionId='3';urlLink=`${this.motorApiUrl}api/slide2/getallriskdetails`;}
       else if(this.productId=='26'){ReqObj.SectionId='3';urlLink=`${this.motorApiUrl}api/slide2/getallriskdetails`;}
-      else if(this.productId=='25'){ReqObj.SectionId='39';urlLink=`${this.motorApiUrl}api/slide6/getelectronicequip`;}
+      else if(this.productId=='25'){ReqObj.SectionId='76';urlLink=`${this.motorApiUrl}api/slide6/getelectronicequip`;}
       else if(this.productId=='42'){ReqObj.SectionId=this.ProductCode;urlLink=`${this.motorApiUrl}api/slide6/getelectronicequip`;}
       else if(this.productId=='43'){ReqObj.SectionId='70';urlLink=`${this.motorApiUrl}api/slide12/getpublicliability`;}
       else if(this.productId=='27'){ReqObj.SectionId='54';urlLink=`${this.motorApiUrl}api/slide12/getpublicliability`;}
@@ -6291,7 +6291,7 @@ backPlan()
                     // if(subEntry.BondYear=='' || subEntry.BondYear==null){j+=1;subEntry['BondYearError']=true;}
                     // else{subEntry['BondYearError']=false;}
                     if(j==0){
-                      subEntry['SectionId'] = '39';
+                      subEntry['SectionId'] = '76';
                       subEntry["SumInsured"]= subEntry.ElecEquipSuminsured;
                       subEntry['SectionName']= 'Electronic Equipments';
                       subEntry["ContentDesc"] = this.dropList.find(ele=>ele.Code==subEntry.ContentId)?.CodeDesc;
@@ -6544,6 +6544,7 @@ backPlan()
             }
             else{
                 if(this.tabIndex!=this.LocationListAlt.length-1){
+                  alert("Entered Edit")
                   if(this.uwQuestionList.length!=0){
                     let i = 0;
                     let uwList:any[]=new Array();
@@ -6901,7 +6902,7 @@ backPlan()
     if(this.productId=='21'){section.push('3');};
     if(this.productId=='24'){section.push('3','47');};
     if(this.productId=='26'){section.push('3');};
-    if(this.productId=='25'){section.push('39');};
+    if(this.productId=='25'){section.push('76');};
     if(this.productId=='13'){section.push('35');};
     if(this.productId=='60'){section.push('106','107','108');this.IndustryId='99999'};
     if( this.productId=='56'){section.push('96');this.IndustryId='99999'};
@@ -8676,7 +8677,7 @@ finalSaveMoney(finalList,type,formType) {
   }
   getElectronicEquipment(sections){
     let sectionId = null;
-    if(this.productId=='25') sectionId='39';
+    if(this.productId=='25') sectionId='76';
     else sectionId ='76'
     let i= sections.RiskId;
     let RiskId=null;
@@ -9055,7 +9056,7 @@ finalSaveMoney(finalList,type,formType) {
   onSaveElectronicEquipment(type,formType){
     if(this.TableRowEE.length!=0){
     let sectionId=null;
-    if(this.productId=='25') sectionId='39';
+    if(this.productId=='25') sectionId='76';
     else sectionId = '76';
     let ReqObj=[]
     let i = 0;
@@ -9186,9 +9187,9 @@ finalSaveMoney(finalList,type,formType) {
             else if(this.productId=='25'){
               if(this.commonDetails){
                 if(this.commonDetails[0].SectionId !=null && this.commonDetails[0].SectionId.length!=0){
-                  if(!this.commonDetails[0].SectionId.some(ele=>ele=='39')) this.commonDetails[0].SectionId.push('39');
+                  if(!this.commonDetails[0].SectionId.some(ele=>ele=='76')) this.commonDetails[0].SectionId.push('76');
                 }
-                else  this.commonDetails[0]['SectionId']=['39'];
+                else  this.commonDetails[0]['SectionId']=['76'];
               }
             }
           

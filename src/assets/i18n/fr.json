@@ -86,7 +86,7 @@
   
   },
    "LOGIN":{
-          "WelcometoXYZInsurance":"Bienvenue chez Allianz Assurance",
+          "WelcometoXYZInsurance":"Bienvenue chez SanlamAllianz Assurance",
         "Signintocontinue":"Connectez-vous pour continuer",
         "RetrieveQuoteUsingMobileNumber?":"Récupérer un devis à l'aide de MobileNumber?",
         "B2CQuote":"Devis B2C",
@@ -304,7 +304,7 @@
   "InsuredDetails":"Détails assurés",
   "Next":"Suivant",
   "ViewPremium":"Voir la prime",
-  "Back":"Dos",
+  "Back":"Retrour",
   "Edit":"Modifier",
   "Delete":"Supprimer",
   "UWQuestion":"Questions des souscripteurs"
@@ -350,7 +350,7 @@
   "EnterNoofAxles":"Entrez le nombre d'essieux",
   "AxleDistance":"Distance entre les essieux",
   "EnterAxleDistance":"Entrez la distance entre les essieux",
-  "Back":"Dos",
+  "Back":"Retrour",
   "Submit":"Soumettre",
   "selectRegistrationDate":"sélectionnez la date d'inscription",
    "EnterNumberOfCylinders":"Entrez le nombre de cylindres",
@@ -696,7 +696,7 @@
   "8Months":"8 mois",
   "9Months":"9 mois",
   "12Months":"12 mois",
-  "Back":"Dos",
+  "Back":"Retrour",
   "BuyPolicy":"Politique d'achat",
   "Remarks":"Remarques",
   "Yes":"Oui",
