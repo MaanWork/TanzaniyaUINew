@@ -98,6 +98,53 @@ export class Bond{
                             },
                           },
                           {
+                            className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                            type: 'textarea',
+                              key: 'CoveringDetails',
+                              
+                              props: { 
+                                label: `Covering Details`,
+                                maxLength: 1000,
+                                
+                              },
+                              templateOptions: {
+                                //disabled: this.checkDisable('BuildingSuminsured')
+                                required: true,
+                              },
+                              validators: {
+                                validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
+                              },
+                              hooks: {
+                              },
+              
+                              expressions: {
+                              
+                              },
+                          },
+                          {
+                            className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                            type: 'textarea',
+                              key: 'DescriptionOfRisk',
+                              
+                              props: { 
+                                maxLength: 1000,
+                                label: `Description Of Risk`,
+                              },
+                              templateOptions: {
+                                //disabled: this.checkDisable('BuildingSuminsured')
+                                required: true,
+                              },
+                              validators: {
+                                validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
+                              },
+                              hooks: {
+                              },
+              
+                              expressions: {
+                              
+                              },
+                          },
+                          {
                             type: 'commaSeparator',
                             className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                             key: 'BondSI',

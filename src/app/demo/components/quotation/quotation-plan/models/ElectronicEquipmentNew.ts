@@ -1,4 +1,5 @@
 import { FormlyFieldConfig } from "@ngx-formly/core";
+import { ForceLengthValidators } from "../personal-quote-details/personal-quote-details.component";
 
 export class ElectronicEquipmentNew{
     customerDetails: any;
@@ -26,7 +27,30 @@ export class ElectronicEquipmentNew{
                 fieldGroupClassName: 'newclassname',
                 fieldGroup: [
                   {
+                    type: 'ngselect',
+                    key: 'ContentTypeId',
+                    defaultValue: '',
                     className: 'w-full md:mt-0 mt-3 mdw4',
+                    templateOptions: {
+                      label: `Electronic Item`,
+                      placeholder: 'Select Content Type',
+                     // disabled: true,
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'w-full md:mt-0 mt-4 mdw4',
                     type: 'commaSeparator',
                     key: 'ElectronicEquipmentSI',
                     templateOptions: {

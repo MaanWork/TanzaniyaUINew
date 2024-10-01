@@ -28,6 +28,7 @@ import { CustomerProductsComponent } from '../auth/login/customer-products/custo
 import { ReInsuranceComponent } from '../Admin/re-insurance/re-insurance.component';
 import { TiraStatusComponent } from '../tira-status/tira-status.component';
 import { YakeenSearchComponent } from '../yakeen-search/yakeen-search.component';
+import { ClaimIntimateComponent } from '../portfolio/claim-intimate/claim-intimate.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { YakeenSearchComponent } from '../yakeen-search/yakeen-search.component'
         { path: 'logincreation', loadChildren: () => import('../Admin/login-creation/login-creation.module').then(m => m.LoginCreationModule) },
         { path: 'customerProducts', component: CustomerProductsComponent },
         { path: 'portfolio/endorsement', component: EndorsementComponent },
+        { path: 'portfolio/claimIntimate', component: ClaimIntimateComponent },
         { path: 'portfolio/endorsementtype', component: EndorsementTypeComponent},
         { path: 'portfolio/motorDocuments', component: MotorDocumentsDetailComponent},
         { path: 'report', component: ReportComponent },

@@ -1,5 +1,8 @@
 {
   "HOME": {
+    "Corporate":"Corporate",
+    "Individual":"Individual",
+    "logout":"Logout",
     "Plot":"Plot",
     "Department":"Department",
     "Activities":"Activities",
@@ -82,7 +85,7 @@
     "DETAILLAST": "My main language was music, and my teacher was nature."
   },
   "LOGIN":{
-      "WelcometoXYZInsurance":"Welcome to Allianz Insurance",
+      "WelcometoXYZInsurance":"Welcome to SanlamAllianz Insurance",
       "Signintocontinue": "Sign in to continue",
       "RetrieveQuoteUsingMobileNumber?": "Retrieve Quote Using MobileNumber?",
       "B2CQuote": "B2C Quote",
@@ -174,6 +177,8 @@
     "BankingDelegation":"Banking Delegation",
     "LoanStartDate": "Loan Start Date",
     "LoanEndDate":"Loan End Date",
+    "Zone":"Zone",
+    "Class":"Class",
     "CollateralCompanyAddress":"Company Address",
     "CollateralCompanyName":"Company Name",
     "LoanAmount":"Loan Amount",
@@ -348,7 +353,7 @@
     "Submit":"Submit",
     "selectRegistrationDate":"select Registration Date",
     "EnterNumberOfCylinders":"Enter Number Of Cylinders ",
-    "EnterDisplacement ":"Enter Displacement "
+    "EnterDisplacement":"Enter Displacement "
   },
   "PREMIUM":{
       "ReferenceNo":"Reference No",
@@ -572,7 +577,12 @@
     "Schedule":"Schedule",
     "DebitNote":"Debit Note",
     "CreditNote":"Credit Note",
-    "ViewQuoteDetails":"View Quote Details"
+    "ViewQuoteDetails":"View Quote Details",
+    "ClaimIntimate": "Claim Intimate",
+    "ClaimIntimation": "Claim Intimation",
+    "NotifiedClaim": "Notified Claim",
+    "IntimatedClaim": "Intimated Claim",
+    "AddNewClaim":"Create New Claim"
   },
   "Referral":{
     "Broker":"Broker",

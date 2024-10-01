@@ -1499,7 +1499,7 @@ export class VehicleCreateFormComponent implements OnInit {
     onInputChangeDisplacement(event: Event): void {
       const input = event.target as HTMLInputElement;
       // Remove non-numeric characters and limit length to 5
-      input.value = input.value.replace(/[^0-9]/g, '').slice(0, 2);
+      input.value = input.value.replace(/[^0-9]/g, '').slice(0, 3);
       this.displacement = input.value;
     }
     onInputChangenumberOfCylinders(event: Event): void {

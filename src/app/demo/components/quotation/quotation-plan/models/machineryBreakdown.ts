@@ -27,12 +27,63 @@ export class MachineryBreakDown{
           fieldGroup: [
             {
               fieldGroupClassName: 'grid',
-              fieldGroup: [     
+              fieldGroup: [ 
+                {
+                  type: 'ngselect',
+                  key: 'ContentId',
+                  defaultValue: '',
+                  className: 'col-12 ',
+                  templateOptions: {
+                    label: `Electronic Item`,
+                    placeholder: 'Select Content Type',
+                   // disabled: true,
+                    required: true,
+                    options: [
+    
+                    ],
+    
+                  },
+                  validators: {
+                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                  },
+                  hooks: {
+                  },
+                  expressions: {
+                  },
+                },
+                {
+                  type: 'input',
+                  key: 'Serial',
+                  defaultValue: '',
+                  className: 'col-12 ',
+                  templateOptions: {
+                    label: `Serial No`,
+                    required: true,
+                    placeholder: 'Enter Serial No',
+                  },
+                  validators: {
+                    validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
+                  },
+                  hooks: {
+                  },
+                  expressions: {
+                  },
+                }, 
+                {
+                  type: 'textarea',key: 'Description',
+                  defaultValue: '',className: 'col-12',
+                  templateOptions: { label: `Description`,required: true,placeholder: 'Enter Description'},
+                  validators: {  validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)] },
+                  hooks: {
+                  },
+                  expressions: {
+                  },
+                },   
                   {
                     type: 'commaSeparator',
                     key: 'PowerPlantSi',
                     defaultValue: '',
-                    className: 'col-12 md:col-6 lg:col-6',
+                    className: 'col-12 md:col-12 lg:col-12',
                     templateOptions: {
                       label: `Sum Insured`,
                       placeholder: 'Enter Sum Insured',
@@ -41,7 +92,6 @@ export class MachineryBreakDown{
                       options: [
                           
                       ],
-      
                     },
                     validators: {
                       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
@@ -62,9 +112,8 @@ export class MachineryBreakDown{
                   //    // disabled: true,
                   //     required: true,
                   //     options: [
-      
+
                   //     ],
-      
                   //   },
                   //   validators: {
                   //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]

@@ -374,6 +374,9 @@ export class AccesoriesComponent {
   SumInsuredError:boolean=false
   ContentRiskDescError:boolean=false
   SerialNoDescError:boolean=false
+  visibleElectronicEquip: boolean=false;columnHeaderEE:any[]=[]
+  yearList: any[]=[];
+  sectionError: boolean=false;
   constructor(private router: Router,private datePipe:DatePipe,private quoteComponent:QuotationPlanComponent,
      private sharedService: SharedService,public http: HttpClient) {
     let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
@@ -402,6 +405,7 @@ export class AccesoriesComponent {
       //}
     //}
     this.columnHeader =['Content Type *','Serial No','Description','Sum Insured *','Edit' ,'Delete']
+    this.columnHeaderEE = [ 'Equipment Name','PurchaseMonth','Purchased Year','Make & Model','SumInsured','Action']
           this.TableRow =[{
             id:1,
             ItemId: '',
@@ -422,14 +426,9 @@ export class AccesoriesComponent {
           this.columnHeaderPersonalLiability =['Occupation *','Name *','Date Of Birth *','Salary *','Edit' ,'Delete'];
           this.columnHeaderPersonalAccident =['Occupation *','Name *','Date Of Birth *','Salary *','Edit' ,'Delete'];
           this.TableRowPL =[{
-            id:1,
-            OccupationId:'',
-            RiskId:'',
-            Name: '',
-            Nationality: this.countryId,
-            Dob: '',
-            SerialNo : '',
-            SumInsured: 0,
+            id:1, OccupationId:'',  RiskId:'', Name: '',
+            Nationality: this.countryId,  Dob: '',
+            SerialNo : '', SumInsured: 0,
           }]
           this.TableRowDS =[{
             id:1,
@@ -1190,7 +1189,6 @@ export class AccesoriesComponent {
                 let defobj=[{'label':'--Select--','value':null}];
                 this.monthList[i].label = this.monthList[i]['CodeDesc'];
                 this.monthList[i].value = this.monthList[i]['Code'];
-                delete this.monthList[i].CodeDesc;
                 if (i == this.monthList.length - 1) {
                   for(let x of this.fieldsElectronic){
                     let vars = x.fieldGroup[0].fieldGroup[0];
@@ -1207,7 +1205,7 @@ export class AccesoriesComponent {
                   //this.fieldsElectronic[0].fieldGroup[0].fieldGroup[0].fieldGroup[2].props.options= this.monthList;
                 }
               }
-              this.setElectronicDropdowns('direct');
+              if(this.productId!='59')this.setElectronicDropdowns('direct');
               if(this.productId!='14' && this.productId!='32') this.getElectronicEquipment('direct');
               //this.Electronic();
           }
@@ -1219,7 +1217,8 @@ export class AccesoriesComponent {
           if(seven?.AddDetailYn=='Y'){
             this.seven = true;
             this.getEmployeeDetails();
-            this.getOccupationList(seven.SectionId);
+            
+            //this.getOccupationList(seven.SectionId);
             let fireData = null;
             if(this.productId=='14'){fireData = new EmployeeLiablityss();}
             else if(this.productId=='32'){fireData = new Fidelitytwo();}
@@ -1245,6 +1244,8 @@ export class AccesoriesComponent {
                 j+=1;
               }
             }
+            this.selectedTab=0;
+            this.checkDropdown();
             //this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[8].hooks = regionHooks;
             this.monthList = [
               {"Code":"01","CodeDesc":"January"},
@@ -1289,7 +1290,8 @@ export class AccesoriesComponent {
           if(eight?.AddDetailYn=='Y'){
             this.eight = true;
           this.getFidelityDetails();
-          this.getOccupationList(eight.SectionId);
+          this.checkDropdown();
+          //this.getOccupationList(eight.SectionId);
           //let fireData = new Fedilitis();
           let entry = [];
           //this.fieldFEFields = fireData?.fields;
@@ -1689,6 +1691,15 @@ export class AccesoriesComponent {
 
     
   }
+  deleteProductAllRisk(index){
+    this.TableRowAllRisk.splice(index,1);
+    this.onSaveAllRisk('delete')
+  }
+  deleteProductEE(index){
+    this.ElectronicItem.splice(index,1);
+    this.ElectronicItem = this.ElectronicItem.filter(ele=>ele.ItemId!=null && ele.MakeAndModel!=null && ele.PurchaseMonth!=null && ele.PurchaseYear!=null && ele.SumInsured!=0)
+    this.onSaveElectronic('delete')
+  }
   newjsonfile(){
     let ReqObj = {
       "InsuranceId":this.insuranceId,
@@ -1992,10 +2003,14 @@ export class AccesoriesComponent {
                   let domestic = subDetails.filter(ele=>ele['SectionId']=='106')
                   if(domestic.length!=0){obj['ServantSI']=String(domestic[0]['SumInsured']);this.CommaFormatted(obj,'Domestic');obj['ServantCount']=domestic[0].TotalNoOfEmployees;obj['ServantType']=domestic[0]['ServantType'];obj['OriginalRiskId']=domestic[0].RiskId  }
                   else{obj['ServantSI']=null;obj['ServantCount']=null;obj['ServantType']=null}
-                  let persLiab = subDetails.filter(ele=>ele['SectionId']=='139')
+                  let persLiab = subDetails.filter(ele=>ele['SectionId']=='139' || ele['SectionId']=='36')
                   if(persLiab.length!=0){obj['PersonalLiabilitySI']=String(persLiab[0]['SumInsured']);this.CommaFormatted(obj,'PL');obj['OriginalRiskId']=persLiab[0].RiskId  }
                   else{obj['PersonalLiabilitySI']=null;}
+                  let EESi = subDetails.filter(ele=>ele['SectionId']=='76')
+                  if(EESi.length!=0){obj['ElectricalEquipmentSI']=String(EESi[0]['SumInsured']);this.CommaFormatted(obj,'PL');obj['OriginalRiskId']=EESi[0].RiskId  }
+                  else{obj['ElectricalEquipmentSI']=null;}
                   console.log("Final Obj",obj)
+                  
                   this.LocationList.push(obj);
                   i+=1;
               }
@@ -2004,7 +2019,7 @@ export class AccesoriesComponent {
           this.customerDetails=data?.Result?.CustomerDetails;
           if(this.Riskdetails[0].AcccessoriesSumInsured!=null)
           this.actualAccessoriesSI = String(this.Riskdetails[0].AcccessoriesSumInsured);
-          this.quoteComponent.setRiskDetails(this.Riskdetails);
+          this.quoteComponent.setRiskDetails(details.LocationDetails);
             this.quoteComponent.currencyCode = data?.Result?.QuoteDetails?.Currency;
           if(this.Riskdetails.length==1){
             this.newacc=true;
@@ -2074,10 +2089,12 @@ export class AccesoriesComponent {
     this.locationId = rowData.LocationId;this.locationName=rowData.LocationName;
     if(type=='1'){this.visibleBuilding=true;this.getBuildingDetails('direct');}
     else if(type=='47'){this.visibleContent=true;this.getContentDetail()}
-    else if(type=='3'){this.visibleAllRisk=true;this.getallriskDetailsData()}
-    else if(type=='139'){this.personalLiabilityDialog=true;this.getPersonalLiabilityDetails()}
+    else if(type=='3'){this.visibleAllRisk=true; this.getallriskDetailsData()}
+    else if(type=='139' && this.productId!='59'){this.personalLiabilityDialog=true;this.getPersonalLiabilityDetails()}
+    else if(type=='36' && this.productId=='59'){this.personalLiabilityDialog=true;this.getPersonalLiabilityDetails()}
     else if(type=='138'){this.personalAccidentDialog=true;this.getPersonalAccidentDetailsAlt()}
-    else if(type=='76'){this.domesticServantDialog=true;}
+    else if(type=='76' && this.productId=='63'){this.domesticServantDialog=true;}
+    else if(type=='76' && this.productId=='59'){this.visibleElectronicEquip=true;this.yearList=  this.getYearList();this.checkDropdown();this.getElectronicEquipment('direct')}
   }
   getBuildingDetails(type){
             
@@ -2188,7 +2205,8 @@ export class AccesoriesComponent {
           if(rowData.EmployeeList.length!=0){
               let si = 0,i=0;
               for(let entry of rowData.EmployeeList){
-                if(entry.Salary) si=si+Number(entry.Salary); 
+                console.log("Entryyy",entry,rowData)
+                if(entry) if(entry.Salary) si=si+Number(entry.Salary); 
                 i+=1;
                 if(i==rowData.EmployeeList.length){if(si!=null || si !=undefined) return si; else return 0}
               }
@@ -2237,6 +2255,7 @@ export class AccesoriesComponent {
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if(data?.Result){
+          if(data?.Result.length!=0){
             this.fidelityList = data?.Result;
             if(this.locationlist.length!=0){
               let i=0,EmployeeList=[];
@@ -2249,13 +2268,19 @@ export class AccesoriesComponent {
                   }
               }
             }
+          }
+          else{
+            for(let location of this.locationlist){
+              location['EmployeeList']=[]
+            }
+          }
             // this.originalFidelityList = new Array().concat(data?.Result);
             // if(this.fidelityList.length!=0){
             //   this.getTotalSICost('Fidelity');
             // }
         }
         else {
-          this.EmployeeAdd();
+          
            }
       });
   }
@@ -2938,7 +2963,7 @@ onFidelitySave(){
                 }
                 else if(this.productId=='19' && this.nine)this.selectedTab +=1; 
                 else{
-                 this.checkValidation();
+                 this.checkValidation(null);
                 }
             },
             (err) => { },
@@ -2956,6 +2981,7 @@ onFidelitySave(){
     } 
   }
   onSaveEmployeeDetails(type){
+    this.locationId = this.locationlist[this.selectedTab].LocationId;
     let urlLink = null;let section:any;
     if(this.productId=='14'){
       section='45';
@@ -2963,19 +2989,18 @@ onFidelitySave(){
     else if(this.productId=='32'){
       section = '43';
     }
+    if(type=='save') urlLink = `${this.motorApiUrl}api/saveemployees`;
+    else urlLink = `${this.motorApiUrl}api/proceedemployees`;
+    let k=0, empList = [],locationList = [];
     for(let location of this.locationlist){
-      let k=0,locationList = [];
       if(location.EmployeeList.length!=0){
-        let empList = [],i=0;
+        let i=0;
         for(let emp of location.EmployeeList){
           let entry = emp;
             if(this.productId=='14' || this.productId=='32'){
-              if(type=='save') urlLink = `${this.motorApiUrl}api/saveemployees`;
-              else urlLink = `${this.motorApiUrl}api/proceedemployees`;
-              if(entry.DateOfBirth!=null){
+                if(entry.DateOfBirth!=null){
                 if(!entry.DateOfBirth.includes('/')) entry['DateOfBirth']= this.datePipe.transform(entry.DateOfBirth, "dd/MM/yyyy");
                 }
-                // if(emp.LocationName==undefined) emp['LocationName'] = this.LocationList.find(ele=>ele.Code==emp['LocationId']).CodeDesc;
                 if(entry['EmployeeId']==null || entry['EmployeeId']==undefined || entry['EmployeeId']=='') entry['EmployeeId'] = null;
                 else entry['EmployeeId'] = String(entry.EmployeeId);
                 entry['RiskId']=this.employeeOccupationList.find(ele=>ele.Code==entry.OccupationId)?.RiskId;
@@ -2983,7 +3008,7 @@ onFidelitySave(){
                 empList.push(entry);
             }
             else if(this.productId=='25'){
-              if(this.productItem.ElqList!=null && this.productItem.ElqList!='' && this.productItem.ElqList!=undefined && this.tabIndex+1==Number(location.LocationId)){
+              if(this.productItem.ElqList!=null && this.productItem.ElqList!='' && this.productItem.ElqList!=undefined && this.selectedTab+1==Number(location.LocationId)){
                 let sumInsured=null,itemValue=null;
                 let entry = this.locationlist[this.selectedTab];
                 let obj = entry.SectionDetails.find(ele=>ele.ContentType==this.productItem.ElqList)
@@ -3033,71 +3058,86 @@ onFidelitySave(){
             }
           i+=1;
           if(i==location.EmployeeList.length){
-            locationList=locationList.concat(empList);
-            k+=1;
-            if(k==this.locationlist.length){let validYN='N';
-              let SectionId = null,ReqObj = null;
-              if(this.productId=='14' || this.productId=='32'){
-                SectionId = '45';if(type=='alter') validYN = 'Y';
-                ReqObj = {
-                  "Createdby": this.loginId,
-                  "SectionId": section,
-                  "ProductId": this.productId,
-                  "InsuranceId": this.insuranceId,
-                  "ProductEmployeeSaveReq": locationList,
-                  "QuoteNo": this.quoteNo
-                }
-              }
-              else if(this.productId=='25'){ SectionId = '39';
-                ReqObj = {
-                  "CreatedBy": this.loginId,
-                  "QuoteNo":sessionStorage.getItem('quoteNo'),
-                  "RequestReferenceNo":this.quoteRefNo,
-                  "SectionId":'39',
-                  "Type":'C',
-                  "ProductId": this.productId,
-                  "Companyid": this.insuranceId,
-                  "BranchCode": this.branchCode,
-                  "ContentRiskDetails":locationList
-                }
-                urlLink = `${this.motorApiUrl}api/savecontentrisk`;
-              }
-              //let urlLink = `${this.motorApiUrl}api/saveproductemployees`;
-              this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-                (data: any) => {
-                  let res: any = data;
-                  if (data.ErrorMessage.length != 0) {
-                    if (res.ErrorMessage) {
-                      let entry = res.ErrorMessage.some(ele=>ele.Code=='333' || ele.Code=='111' || ele.Code=='222');
-                      if(entry){
-                        let ulList = '';
-                        for (let index = 0; index < res.ErrorMessage.length; index++) {
-                          const element = res.ErrorMessage[index];
-                           ulList +=`<li class="list-group-login-field">
-                            <div style="color: darkgreen;">Field<span class="mx-2">:</span>${element?.Field}</div>
-                            <div style="color: red;">Message<span class="mx-2">:</span>${element?.Message}</div>
-                          </li>`
-                        }
-                      }
-                  }
-                }
-                else{
-                  if(this.productId=='19' && this.eight)  this.selectedTab +=1; 
-                  else if(this.productId=='19' && this.nine)this.selectedTab +=1; 
-                  else this.checkValidation();
-                }
-          
-              },
-              (err) => { },
-              );
-            }
-            
+              k+=1;
+              this.finalEmployeeList(empList,locationList,type,section,urlLink,k)
           }
         }
       }
-      else{}
+      else{
+        k+=1;
+        if(k==this.locationlist.length){
+          this.finalEmployeeList(empList,locationList,type,section,urlLink,k)
+        }
+        
+      }
     }
     
+  }
+  finalEmployeeList(empList,locationList,type,section,urlLink,k){
+    let filteredList =[];
+    console.log("EmpList",empList,locationList)
+    if(empList.length!=0) filteredList = empList.filter(ele=>ele.LocationId==this.locationId)
+    locationList=filteredList;
+    if(k==this.locationlist.length){
+      let validYN='N';
+      let SectionId = null,ReqObj = null;
+      if(this.productId=='14' || this.productId=='32'){
+        SectionId = '45';if(type=='alter') validYN = 'Y';
+        ReqObj = {
+          "Createdby": this.loginId,
+          "SectionId": section,
+          "ProductId": this.productId,
+          "InsuranceId": this.insuranceId,
+          "ProductEmployeeSaveReq": locationList,
+          "QuoteNo": this.quoteNo
+        }
+      }
+      else if(this.productId=='25'){ SectionId = '39';
+        ReqObj = {
+          "CreatedBy": this.loginId,
+          "QuoteNo":sessionStorage.getItem('quoteNo'),
+          "RequestReferenceNo":this.quoteRefNo,
+          "SectionId":'39',
+          "Type":'C',
+          "ProductId": this.productId,
+          "Companyid": this.insuranceId,
+          "BranchCode": this.branchCode,
+          "ContentRiskDetails":locationList
+        }
+        urlLink = `${this.motorApiUrl}api/savecontentrisk`;
+      }
+      //let urlLink = `${this.motorApiUrl}api/saveproductemployees`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          let res: any = data;
+          if (data.ErrorMessage.length != 0) {
+            if (res.ErrorMessage) {
+              let entry = res.ErrorMessage.some(ele=>ele.Code=='333' || ele.Code=='111' || ele.Code=='222');
+              if(entry){
+                let ulList = '';
+                for (let index = 0; index < res.ErrorMessage.length; index++) {
+                  const element = res.ErrorMessage[index];
+                    ulList +=`<li class="list-group-login-field">
+                    <div style="color: darkgreen;">Field<span class="mx-2">:</span>${element?.Field}</div>
+                    <div style="color: red;">Message<span class="mx-2">:</span>${element?.Message}</div>
+                  </li>`
+                }
+              }
+          }
+        }
+        else{
+          if(this.productId=='19' && this.eight)  this.selectedTab +=1; 
+          else if(this.productId=='19' && this.nine)this.selectedTab +=1; 
+          else if(this.productId=='14' || this.productId=='25' || this.productId=='32'){
+            if(type=='proceedNext'){this.selectedTab+=1;}
+            else{this.checkValidation(null);}
+          }
+          else this.checkValidation(null);
+        }
+      },
+      (err) => { },
+      );
+    }
   }
   onAccessoriesSubmit(){
     // this.chassisNoError = false;this.accessoriesTypeError = false;this.serialNoError = false;this.sumInsuredError = false;
@@ -3321,7 +3361,10 @@ onFidelitySave(){
   valuechange(row) {
     this.newname = row.LocationName;
   }
-  checkValidation(){
+  onPreviousTab(){
+    this.tabIndex-=1;
+  }
+  checkValidation(type){
     let ReqObj = {
       "QuoteNo": this.quoteNo
     }
@@ -3329,7 +3372,8 @@ onFidelitySave(){
         this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
           (data: any) => {
             if (data?.Message=='Success') {
-              this.router.navigate(['/quotation/plan/main/document-info']);
+              if(type=='Next'){this.tabIndex+=1;}
+              else{this.router.navigate(['/quotation/plan/main/document-info']);}
               //this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/premium-details']);
             }
           },
@@ -3970,50 +4014,51 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
 
     }
   }
-  onSaveElectronic(){
-  console.log('SSSSSSSSSSSS');
-  console.log('tttttttt',this.ElectronicItem)
-  if (this.ElectronicItem.length != 0){
-
-      let i=0, reqList =[];
-      for(let entry of this.ElectronicItem){
-          /*let data = {
-            "ItemId": entry.ItemId,
-            "ItemValue": entry.SumInsured,
-          "MakeAndModel": entry.MakeAndModel,
-          "PurchaseMonth": entry.PurchaseMonth,
-          "PurchaseYear": entry.PurchaseYear,
-          "RiskId": entry.RiskId,
-          "SerialNo": entry.SerialNo,
-          "SumInsured":entry.SumInsured
-          }*/
-          let sumInsured;
-          if(entry.SumInsured==undefined || entry.SumInsured==null) sumInsured = null;
-          // else if(entry.SumInsured.includes(',')){ sumInsured = entry.SumInsured.replace(/,/g, '') }
-          else sumInsured = entry.SumInsured;
-          /*obj['SumInsured'] = sumInsured
-          obj['ItemValue'] = sumInsured
-          obj['RiskId'] = "1"
-          obj['SerialNo']="856757"*/
-          let data = {
-            "ItemId": entry.ItemId,
-            "ItemValue": sumInsured,
-          "MakeAndModel": entry.MakeAndModel,
-          "PurchaseMonth": entry.PurchaseMonth,
-          "PurchaseYear": entry.PurchaseYear,
-          "RiskId": entry.RiskId,
-          "ContentRiskDesc":entry.ContentRiskDesc,
-          "SerialNoDesc": entry.SerialNoDesc,
-          "SerialNo":"856757",
-          "SumInsured":sumInsured
-        }
-          reqList.push(data)
-          i+=1;
-          if(i==this.ElectronicItem.length){
-            this.finalSaveRiskDetails(null,reqList,'E');
+  onSaveElectronic(reqType){
+      if (this.ElectronicItem.length != 0){
+          let i=0, reqList =[];
+          for(let entry of this.ElectronicItem){
+              /*let data = {
+                "ItemId": entry.ItemId,
+                "ItemValue": entry.SumInsured,
+              "MakeAndModel": entry.MakeAndModel,
+              "PurchaseMonth": entry.PurchaseMonth,
+              "PurchaseYear": entry.PurchaseYear,
+              "RiskId": entry.RiskId,
+              "SerialNo": entry.SerialNo,
+              "SumInsured":entry.SumInsured
+              }*/
+              let sumInsured;
+              if(entry.SumInsured==undefined || entry.SumInsured==null) sumInsured = null;
+              // else if(entry.SumInsured.includes(',')){ sumInsured = entry.SumInsured.replace(/,/g, '') }
+              else sumInsured = entry.SumInsured;
+              /*obj['SumInsured'] = sumInsured
+              obj['ItemValue'] = sumInsured
+              obj['RiskId'] = "1"
+              obj['SerialNo']="856757"*/
+              let data = {
+                "ItemId": entry.ItemId,
+                "ItemValue": sumInsured,
+              "MakeAndModel": entry.MakeAndModel,
+              "PurchaseMonth": entry.PurchaseMonth,
+              "PurchaseYear": entry.PurchaseYear,
+              "RiskId": String(i+1),
+              "LocationId": this.locationId,
+              "ContentRiskDesc":entry.ContentRiskDesc,
+              "SerialNoDesc": entry.SerialNoDesc,
+              "SerialNo":"856757",
+              "SumInsured":sumInsured
+            }
+              reqList.push(data)
+              i+=1;
+              if(i==this.ElectronicItem.length){
+                this.finalSaveRiskDetails(reqType,reqList,'E');
+              }
           }
       }
-    }
+      else{
+        this.finalSaveRiskDetails(reqType,[],'E');
+      }
   }
 
   onCyberSave(){
@@ -4134,12 +4179,23 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       }
       urlLink = `${this.motorApiUrl}api/savecontentrisk`;
     }
-    if(type=='E' && this.productId!='42' && this.productId!='25'){
+    if(type=='E' && this.productId!='42' && this.productId!='25' && this.productId!='59'){
       ReqObj = {
         "CreatedBy": this.loginId,
       "QuoteNo":sessionStorage.getItem('quoteNo'),
       "RequestReferenceNo":this.quoteRefNo,
       "SectionId": "41",
+       "Type":type,
+       "ContentRiskDetails":reqList
+      }
+      urlLink = `${this.motorApiUrl}api/savecontentrisk`;
+    }
+    if(type=='E' && this.productId=='59'){
+      ReqObj = {
+        "CreatedBy": this.loginId,
+      "QuoteNo":sessionStorage.getItem('quoteNo'),
+      "RequestReferenceNo":this.quoteRefNo,
+      "SectionId": "76",
        "Type":type,
        "ContentRiskDetails":reqList
       }
@@ -4204,9 +4260,13 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
             }
           }
           else {
-            this.visibleContent=false;
-            this.visibleAllRisk=false;
-             this.finalFormSubmit(type,requestType); }
+            if(requestType!='delete'){
+              this.visibleContent=false;
+              this.visibleAllRisk=false;
+              this.visibleElectronicEquip = false;
+               //this.finalFormSubmit(type,requestType);
+            }
+          }
         },
         (err) => {},
       );
@@ -4229,7 +4289,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
           this.fourth = true;
           this.selectedTab = this.selectedTab+1;
         }
-        else this.checkValidation();
+        else this.checkValidation(null);
       }
     }
     else if(type=='PA'){
@@ -4241,7 +4301,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         }
         else{
           this.productItem.AccOccupation = this.accidentOccupation
-          this.checkValidation();
+          this.checkValidation(null);
         }
       }
       else{
@@ -4265,17 +4325,15 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         this.selectedTab = this.selectedTab+1;
       }
       else{
-        this.checkValidation();
+        this.checkValidation(null);
       }
     }
-    else if(type=='MA' || (type=='PI' && requestType=='proceed') || type=='E' || type=='EA') this.checkValidation();
+    else if(type=='MA' || (type=='PI' && requestType=='proceed') || type=='E' || type=='EA') this.checkValidation(null);
   }
   onSaveAllRisk(type){
     if (this.TableRowAllRisk.length != 0) {
       let i=0, reqList =[],locationId;
-      for(let location of this.locationlist ){
-        locationId = location.LocationId;
-      }
+      locationId=this.locationId
       for(let entry of this.TableRowAllRisk){
         let sumInsured;
         let j=0;
@@ -4349,9 +4407,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
   onSaveContentRisk(type){
     if (this.TableRow.length != 0) {
       let i=0, reqList =[],locationId;
-      for(let location of this.locationlist ){
-        locationId = location.LocationId;
-      }
+      locationId = this.locationId
       for(let entry of this.TableRow){
         let sumInsured,RiskId;
         let j=0;
@@ -4621,7 +4677,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
               this.quote = data.Result.RequestReferenceNo;
             }
 
-            this.checkValidation();
+            this.checkValidation(null);
             
 
           }
@@ -6159,12 +6215,14 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     if(this.productId=='25'){
     sectionid ='39'
     }
+    else if(this.productId=='59'){sectionid='76'}
     else{
       sectionid = '41'
     }
     let ReqObj = {
       "QuoteNo": sessionStorage.getItem('quoteNo'),
-      "SectionId":sectionid
+      "SectionId":sectionid,
+      "LocationId": this.locationId
     }
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
@@ -6195,8 +6253,28 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
            }
            else {
             if(type=='direct'){
-              for(let entry of this.locationlist){
-                entry['EmployeeList'] = [];
+              if(this.productId=='59'){
+                  this.ElectronicItem = [
+                    {
+                      "ItemId": null,
+                      "ItemValue": null,
+                      "MakeAndModel": null,
+                      "PurchaseMonth": null,
+                      "PurchaseYear": null,
+                      "RiskId": null,
+                      "LocationId": this.locationId,
+                      "ContentRiskDesc": null,
+                      "SerialNoDesc": null,
+                      "SerialNo": "856757",
+                      "SumInsured": 0
+                    }
+                  ]
+                  this.currentElectronicIndex = 0;
+              }
+              else{
+                for(let entry of this.locationlist){
+                  entry['EmployeeList'] = [];
+                }
               }
               //this.AllAdds();
             }
@@ -6697,24 +6775,33 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     this.editEmployeeSection = true;
     this.enableEmployeeEditSection = true;
     this.productItem = new ProductData();
-    this.productItem.EmpsLocation= rowdata.LocationId;
-    this.productItem.EmpsName=rowdata.EmployeeName;// this.employeeName this.employeeList[index].
-    //this.productItem.EmpsAddress = rowdata.Address;//this.empAddress 
-    this.productItem.EmpsOccupation = rowdata.OccupationId;//this.occupationType 
-    this.productItem.EmpsSI= rowdata.Salary;//this.employeeSalary
-    this.productItem.EmpsNationality = rowdata.NationalityId;//this.nationality
-    // var dateParts = rowdata.DateOfBirth.split("/");
-    // this.productItem.EmpsDob  = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
-    console.log('Entered Data', rowdata.DateOfBirth)
-    this.productItem.EmpsDob = this.onDateFormatInEdit(rowdata.DateOfBirth);
-    //rowdata.DateOfBirth;
-    // console.log('NNNNNNNNNNNNN',this.productItem.EmpsDob);
-    // month is 0-based, that's why we need dataParts[1] - 1
-    //this.productItem.EmpsDob  = rowdata.DateOfBirth;
-    //dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
-     this.productItem.EmpsPeriod= rowdata.DateOfJoiningYear;//this.empJoiningDate
-   this.productItem.EmpsJoin= rowdata.DateOfJoiningMonth;// this.empJoiningMonth 
-    this.individualCommaFormatted('employee');
+    if(this.productId!='25'){
+      this.productItem.EmpsLocation= rowdata.LocationId;
+      this.productItem.EmpsName=rowdata.EmployeeName;// this.employeeName this.employeeList[index].
+      //this.productItem.EmpsAddress = rowdata.Address;//this.empAddress 
+      this.productItem.EmpsOccupation = rowdata.OccupationId;//this.occupationType 
+      this.productItem.EmpsSI= rowdata.Salary;//this.employeeSalary
+      this.productItem.EmpsNationality = rowdata.NationalityId;//this.nationality
+      // var dateParts = rowdata.DateOfBirth.split("/");
+      // this.productItem.EmpsDob  = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
+      console.log('Entered Data', rowdata.DateOfBirth)
+      this.productItem.EmpsDob = this.onDateFormatInEdit(rowdata.DateOfBirth);
+      //rowdata.DateOfBirth;
+      // console.log('NNNNNNNNNNNNN',this.productItem.EmpsDob);
+      // month is 0-based, that's why we need dataParts[1] - 1
+      //this.productItem.EmpsDob  = rowdata.DateOfBirth;
+      //dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
+       this.productItem.EmpsPeriod= rowdata.DateOfJoiningYear;//this.empJoiningDate
+     this.productItem.EmpsJoin= rowdata.DateOfJoiningMonth;// this.empJoiningMonth 
+      this.individualCommaFormatted('employee');
+    }
+    else{
+      this.productItem.ElqList=rowdata.ItemId
+      this.productItem.Elqmake = rowdata.MakeAndModel
+      this.productItem.ElqPeriod = rowdata.PurchaseYear
+      this.productItem.ElqJoin = rowdata.PurchaseMonth
+      this.productItem.ElqSI = rowdata.SumInsured
+    }
   }
 
   onDateFormatInEdit(date) {
@@ -7220,7 +7307,7 @@ return true;
                   }
                     j+=1;
                   }
-            }
+                }
                 //this.fieldsElectronic[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = this.ElectronicList;
               }
             }
@@ -7850,7 +7937,7 @@ return true;
          else {
            console.log('First Fields');
            //this.router.navigate(['/quotation/plan/main/document-info']);
-          this.checkValidation();
+          this.checkValidation(null);
          }
        },
        (err) => { },
@@ -7982,6 +8069,8 @@ return true;
     if(j==0){
       let obj = null;
         if(this.productId=='14' || this.productId=='32'){
+          let occupationDesc = null;
+          if(this.productId=='14') occupationDesc = 
           obj = {
             "Address": null,
             "Createdby": this.loginId,
@@ -8021,7 +8110,11 @@ return true;
         console.log(this.locationlist[index]);if(this.locationlist[index].EmployeeList) this.locationlist[index].EmployeeList.push(obj);
         else this.locationlist[index]['EmployeeList']=[obj];
       }
-      else{console.log(this.locationlist[index]);this.locationlist[index].EmployeeList[this.currentRiskIndex] = obj;}
+      else{console.log(this.locationlist[index]);
+        if(this.locationlist[index].EmployeeList[this.currentRiskIndex]!=null)this.locationlist[index].EmployeeList[this.currentRiskIndex] = obj;
+        else this.locationlist[index].EmployeeList = [obj]
+      }
+      console.log("Final Employee List",this.locationlist)
       this.productItem = new ProductData();
       this.currentRiskIndex = null;
     }
@@ -8088,17 +8181,40 @@ return true;
       this.Total = 0;let i=0;
       if(this.TableRowAllRisk.length!=0){
         for(let tot of this.TableRowAllRisk){
-          if(tot.SumInsured!=null && tot.SumInsured!='' && tot.SumInsured!=undefined) tot.SumInsured = Number(tot.SumInsured);
-          this.Total=this.Total+tot.SumInsured;
-          return this.Total
+          if(tot.SumInsured!=null && tot.SumInsured!='' && tot.SumInsured!=undefined) this.Total=this.Total+Number(tot.SumInsured);
+          i+=1;
+          if(i==this.TableRowAllRisk.length){
+            return this.Total;
+          }
         }
       }
-      else{this.productItem.SumInsured =0;return 0;} 
+      else return 0;
+          
+    }
+    getTotalElecSI(){
+      this.Total = 0;let i=0;
+      if(this.ElectronicItem.length!=0 && this.productId=='59'){
+        for(let tot of this.ElectronicItem){
+          if(tot.SumInsured!=null && tot.SumInsured!='' && tot.SumInsured!=undefined) tot.SumInsured = Number(tot.SumInsured);
+          this.Total=this.Total+tot.SumInsured;
+          i+=1;
+          if(i==this.ElectronicItem.length){
+            return this.Total;
+          }
+        }
+      }
+      else if(this.productId!='59' && this.productItem.SumInsured){this.productItem.SumInsured =0;return 0;} 
     }
     addRowAllRisk(){
       const newItem = {  id: this.TableRowAllRisk.length + 1,RiskId:'',ItemId: '', Content: '', Serial: '',Description:'',SumInsured:0,};
       this.TableRowAllRisk.push(newItem);
       this.currentAllRiskRowIndex = this.TableRowAllRisk.length-1;
+    }
+    addRowEE(){
+      const newItem = {  id: this.ElectronicItem.length + 1,"ItemId":null,
+        "ItemValue": null,"MakeAndModel": null,"ContentRiskDesc": null,"SerialNoDesc": null,"PurchaseMonth": null,"PurchaseYear": null,"RiskId": null,"SerialNo": "1","SumInsured":0};
+      this.ElectronicItem.push(newItem);
+      this.currentElectronicIndex = this.ElectronicItem.length-1;
     }
     getAllContentTypeDescription(Content) {
       let entry = this.allriskList.find(ele=>ele.Code==Content);
@@ -8109,6 +8225,20 @@ return true;
     }
     getContentTypeDescription(Content) {
       let entry = this.dropList.find(ele=>ele.Code==Content);
+      if(entry){
+        return entry.CodeDesc;
+      }
+      else return '';
+    }
+    getContentTypeDescriptionAlt(Content) {
+      let entry = this.employeeOccupationList.find(ele=>ele.Code==Content);
+      if(entry){
+        return entry.CodeDesc;
+      }
+      else return '';
+    }
+    getMonthDescription(content){
+      let entry = this.monthList.find(ele=>ele.Code==content);
       if(entry){
         return entry.CodeDesc;
       }
@@ -8125,12 +8255,13 @@ return true;
       if(this.TableRowPL.length!=0){
         for(let tot of this.TableRowPL){
           if(tot.SumInsured!=null && tot.SumInsured!='' && tot.SumInsured!=undefined) this.Total=this.Total+Number(tot.SumInsured);
-          
+          i+=1;
+          if(i==this.TableRowPL.length){
             return this.Total;
-          
+          }
         }
       }
-      else return 0;
+      else return 0; 
     }
     getOccupationName(entry){
       if(entry?.OccupationId){return this.occupationList.find(ele=>ele.Code==entry.OccupationId)?.CodeDesc}
@@ -8199,6 +8330,8 @@ return true;
             let data = {
               "Dob": this.getProductDob(entry),
               "Height":null,
+              "CompanyId": this.insuranceId,
+              "LocationId": this.locationId,
               "OccupationId": entry.OccupationId,
               "PersonName": entry.Name,
               "NationalityId": entry.Nationality,
@@ -8219,7 +8352,8 @@ return true;
     }
     onFinalSavePL(reqList,type,section){
       let sectionID = null;
-      if(section=='PL') sectionID='139';
+      if(section=='PL' && this.productId!='59') sectionID='139';
+      else if(this.productId=='59') sectionID='36'
       else sectionID='106';
       let  ReqObj = {
         "CreatedBy": this.loginId,
@@ -8228,6 +8362,7 @@ return true;
         "SectionId": sectionID,
         "Description": "Accident Details",
         "Type":'PI',
+        "LocationId": this.locationId,
         "Companyid": this.insuranceId,
        "ProductId": this.productId,
        "BranchCode": this.branchCode,
@@ -8427,7 +8562,69 @@ return true;
       }
       else return 0;
     }
+    onNextTab(){
+      let entry = this.locationlist[this.selectedTab].EmployeeList;
+      if(entry.length!=0){
+          this.sectionError=false;
+          this.onSaveEmployeeDetails('proceedNext')
+      }
+      else{
+        this.sectionError = true;
+      }
+    }
+    onPreviousTabb(){this.selectedTab -=1;this.checkDropdown()}
+    checkDropdown(){
+      if(this.productId=='25'){
+        for(let x of this.fieldsElectronic){
+          let vars = x.fieldGroup[0].fieldGroup[0];
+          let j=0;
+          for( let n of vars.fieldGroup){            
+            if(n.type=='ngselect'){
+              if(n.props.label=='Electronic Equipment'){
+                let list=[],i=0;let defobj = [{'label':'--Select--','value':null}];
+                let entry = this.locationlist[this.selectedTab];
+                for(let obj of entry.SectionDetails){
+                  let row = {"Code":obj.ContentType,"value":obj.ContentType,"label":obj.ContentDesc,"CodeDesc":obj.ContentDesc}
+                  list.push(row);
+                  i+=1;
+                  if(i==entry.SectionDetails.length) this.fieldsElectronic[0].fieldGroup[0].fieldGroup[0].fieldGroup[j].props.options= defobj.concat(list);
+                }
+              }
+            }
+            j+=1;
+          }
+        }
+      }
+      if(this.productId=='14'){
+        let list=[],i=0;
+        let entry = this.locationlist[this.selectedTab];
+        for(let obj of entry.SectionDetails){
+          let row = {"Code":obj.OccupationId,"value":obj.OccupationId,"label":obj.OccupationDesc,"CodeDesc":obj.OccupationDesc}
+          list.push(row);
+          i+=1;
+          if(i==entry.SectionDetails.length){
+            let defobj = [{'label':'--Select--','value':null}];
+            if(this.fieldsEmpFields) {this.fieldsEmpFields[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].props.options = defobj.concat(list);this.employeeOccupationList=list;}
+          }
+        }
+        
+      }
+      else if(this.productId=='59'){
+        let list=[],i=0;
+        let entry = this.locationlist[this.tabIndex];
+        let defobj = [{'label':'--Select--','Code':null,'CodeDesc':'--Select--',value:null}];
+        for(let obj of entry.SectionDetails){
+          if(obj.SectionId=='76'){
+            let row = {"Code":obj.ContentType,"value":obj.ContentType,"label":obj.ContentDesc,"CodeDesc":obj.ContentDesc}
+            list.push(row);
+          }
+          i+=1; 
+          if(i==entry.SectionDetails.length){console.log("Final List",list); this.employeeOccupationList = defobj.concat(list)}
+          }
+      }
+    }
     getContentDetail(){
+      this.TableRow=[];
       let sectionId=null;
       if(this.productId=='19') sectionId = '47';
       else sectionId = '47';
@@ -8435,7 +8632,8 @@ return true;
       let ReqObj = {
         "RequestReferenceNO": this.quoteRefNo,
         "QuoteNo": sessionStorage.getItem('quoteNo'),
-        "SectionId": sectionId
+        "SectionId": sectionId,
+        "LocationId": this.locationId
       }
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
@@ -8467,6 +8665,7 @@ return true;
               this.getTotal();
             }
           }
+          else{this.addRow()}
         })
     }
     getallriskDetailsData(){
@@ -8474,7 +8673,8 @@ return true;
       let ReqObj = {
         "RequestReferenceNO": this.quoteRefNo,
           "QuoteNo": sessionStorage.getItem('quoteNo'),
-          "SectionId":"3"
+          "SectionId":"3",
+          "LocationId": this.locationId
       }
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
@@ -8495,6 +8695,7 @@ return true;
                 }
               } 
               else{
+                this.currentAllRiskRowIndex=0;
                 this.TableRowAllRisk =[{
                   id:1,
                   ItemId:'',
@@ -8541,10 +8742,14 @@ return true;
     //   );
     // }
     getPersonalLiabilityDetails(){
+      let sectionID=null;
+      if(this.productId=='59') sectionID = '36';
+      else sectionID = '139'
       let ReqObj = {
         "RequestReferenceNo": this.quoteRefNo,
         "QuoteNo": sessionStorage.getItem('quoteNo'),
-        "SectionId":  "139"
+        "SectionId":  sectionID,
+        "LocationId": this.locationId
       }
       let urlLink = `${this.motorApiUrl}api/getallpersonalaccident`;
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(

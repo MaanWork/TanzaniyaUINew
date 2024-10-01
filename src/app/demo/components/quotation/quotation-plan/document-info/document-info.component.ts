@@ -197,6 +197,7 @@ export class DocumentInfoComponent {
           if(data?.Result){
             this.quoteDetails = data?.Result?.QuoteDetails;
             this.Riskdetails = data?.Result?.RiskDetails;
+            let details = data?.Result;
             if(this.endorsementSection){
               this.totalPremium = this.quoteDetails?.TotalEndtPremium;
             }
@@ -208,7 +209,7 @@ export class DocumentInfoComponent {
                 this.totalPremium = this.quoteDetails?.DueAmount;
               }   
             }
-            this.quoteComponent.setRiskDetails(this.Riskdetails);
+            this.quoteComponent.setRiskDetails(details.LocationDetails);
             this.quoteComponent.currencyCode = data?.Result?.QuoteDetails?.Currency;
           for (let cover of this.Riskdetails) {
             let j = 0;

@@ -1,7 +1,10 @@
 {
   "HOME":{
+    "Corporate":"Personne Morale",
+    "Individual":"Personne Physique",
+    "logout":"Se déconnecter",
     "Plot":"Parcelle",
-    "Department":"Département",
+    "Department":"Departement",
    "Activities":"Activités",
       "CompanyName":"Nom de l'entreprise",
       "SocioProfessionalcategory":"Catégorie socioprofessionnelle",
@@ -36,7 +39,7 @@
       "Pending":"En attente",
       "Street":"Quartier",
       "Country":"Pays",
-      "Region":"Région",
+      "Region":"Region",
       "District":"District",
       "Municipal":"Municipal",
       "City":"Ville",
@@ -70,7 +73,7 @@
       "SelectBusinessType":"Sélectionnez le type d'entreprise",
       "EnterStreet":"Entrez la rue",
       "SelectCountry":"Choisissez le pays",
-      "SelectRegion":"Choisissez une région",
+      "SelectRegion":"Choisissez une region",
       "EnterPoBox":"Entrez dans la boîte postale",
       "SelectDistrict":"Sélectionnez le quartier",
       "EnterVRN/GSTNumber":"Entrez le numéro VRN/TPS",
@@ -83,7 +86,7 @@
   
   },
    "LOGIN":{
-          "WelcometoXYZInsurance":"Bienvenue chez Allianz Assurance",
+          "WelcometoXYZInsurance":"Bienvenue chez SanlamAllianz Assurance",
         "Signintocontinue":"Connectez-vous pour continuer",
         "RetrieveQuoteUsingMobileNumber?":"Récupérer un devis à l'aide de MobileNumber?",
         "B2CQuote":"Devis B2C",
@@ -110,7 +113,7 @@
   "SelecttheBranch":"Sélectionnez la succursale",
   "ProductYouWishtobuy":"Produit que vous souhaitez acheter",
   "LookingFor":"Qu'est-ce que tu cherches!",
-  "Transaction":"Informations sur les devis et les Police",
+  "Transaction":"Informations sur les devis et les police",
   "LoginCreation":"Connexion Création & Masters",
   "ApproverReferralManagement":"Gestion des références et plus",
   "FormValidations": "Validation du formulaire"
@@ -118,10 +121,10 @@
   },
   "DASHBOARD":{
   "Policies":"Stratégies",
-  "Quotes":"Citations",
+  "Quotes":"Devis",
   "RenewalQuotes":"Devis de renouvellement",
-  "RenewalPolicies":"Police de renouvellement",
-  "RecentPolicies/Quotes":"Police/Citations récentes",
+  "RenewalPolicies":"police de renouvellement",
+  "RecentPolicies/Quotes":"police/Devis récentes",
   "QuotesOverView":"Aperçu des devis",
   "GlobalSearch":"Recherche globale",
   "Notifications":"Notifications",
@@ -180,6 +183,8 @@
     "BankingDelegation":"Délégation Bancaire",
     "LoanStartDate": "Date de début du prêt",
     "LoanEndDate":"Date de fin du prêt",
+    "Zone":"Zone",
+    "Class":"Classe",
     "CollateralCompanyAddress":"Adresse de l'Entreprise",
     "CollateralCompanyName":"Nom de l'entreprise",
     "LoanAmount":"Montant du Prêt",
@@ -299,7 +304,7 @@
   "InsuredDetails":"Détails assurés",
   "Next":"Suivant",
   "ViewPremium":"Voir la prime",
-  "Back":"Dos",
+  "Back":"Retrour",
   "Edit":"Modifier",
   "Delete":"Supprimer",
   "UWQuestion":"Questions des souscripteurs"
@@ -345,11 +350,11 @@
   "EnterNoofAxles":"Entrez le nombre d'essieux",
   "AxleDistance":"Distance entre les essieux",
   "EnterAxleDistance":"Entrez la distance entre les essieux",
-  "Back":"Dos",
+  "Back":"Retrour",
   "Submit":"Soumettre",
   "selectRegistrationDate":"sélectionnez la date d'inscription",
    "EnterNumberOfCylinders":"Entrez le nombre de cylindres",
-   "EnterDisplacement ":"Entrez le déplacement "
+   "EnterDisplacement":"Entrez le déplacement "
   },
    "PREMIUM":{
   "ReferenceNo":"N° de référence",
@@ -577,7 +582,12 @@
   "Schedule":"Calendrier",
   "DebitNote":"Note de débit",
   "CreditNote":"Note de crédit",
-  "ViewQuoteDetails":"Afficher les détails du devis"
+  "ViewQuoteDetails":"Afficher les détails du devis",
+  "ClaimIntimate": "Réclamation intime",
+  "ClaimIntimation": "Réclamation",
+   "NotifiedClaim": "Réclamation notifiée",
+   "IntimatedClaim": "Réclamation intime",
+   "AddNewClaim":"Créer une nouvelle revendication"
   },
    "Referral":{
   "Broker":"Courtier",
@@ -686,7 +696,7 @@
   "8Months":"8 mois",
   "9Months":"9 mois",
   "12Months":"12 mois",
-  "Back":"Dos",
+  "Back":"Retrour",
   "BuyPolicy":"Politique d'achat",
   "Remarks":"Remarques",
   "Yes":"Oui",

@@ -84,6 +84,9 @@
                       <button mat-menu-item (click)="onCreditdownload(customer)">
                           <span>{{'PolicyGrid.CreditNote' | translate}}</span>
                       </button>
+                      <button mat-menu-item (click)="onClaimIntimate(customer)">
+                        <span>{{'PolicyGrid.ClaimIntimate' | translate}}</span>
+                    </button>
                       <button mat-menu-item (click)="onEditEndorsement(customer)">
                           <span>{{'PolicyGrid.Endorsement' | translate}}</span>
                       </button>
@@ -173,6 +176,7 @@
             <button pButton pRipple icon="pi pi-file-pdf" (click)="onGetSchedule(quote)" title="Schedule" class="p-button-outlined"></button>
       <button pButton pRipple icon="pi pi-file-pdf" (click)="onDebitdownload(quote)" title="Debit Note" class="p-button-outlined"></button>
       <button pButton pRipple icon="pi pi-file-pdf" title="Credit Note" (click)="onCreditdownload(quote)" class="p-button-outlined"></button>
+      <!-- <button pButton pRipple icon="pi pi-external-link" (click)="onEditEndorsement(quote)" title="Claim Intimate" class="p-button-outlined"></button> -->
       <button pButton pRipple icon="pi pi-external-link" (click)="onEditEndorsement(quote)" title="Endorsement" class="p-button-outlined"></button>
       <button pButton pRipple icon="pi pi-eye" title="View Quote Details" (click)="onViews(quote)" class="p-button-outlined"></button>
     </span></div></div>
@@ -361,6 +365,7 @@
             <button pButton pRipple icon="pi pi-file-pdf" (click)="onGetSchedule(quote)" title="Schedule" class="p-button-outlined"></button>
             <button pButton pRipple icon="pi pi-file-pdf" (click)="onDebitdownload(quote)" title="Debit Note" class="p-button-outlined"></button>
             <button pButton pRipple icon="pi pi-file-pdf" title="Credit Note" (click)="onCreditdownload(quote)" class="p-button-outlined"></button>
+            <!-- <button pButton pRipple icon="pi pi-external-link" (click)="onEditEndorsement(quote)" title="Claim Intimate" class="p-button-outlined"></button> -->
             <button pButton pRipple icon="pi pi-external-link" (click)="onEditEndorsement(quote)" title="Endorsement" class="p-button-outlined"></button>
             <button pButton pRipple icon="pi pi-eye" title="View Quote Details" (click)="onViews(quote)" class="p-button-outlined"></button>
           </span></div></div>

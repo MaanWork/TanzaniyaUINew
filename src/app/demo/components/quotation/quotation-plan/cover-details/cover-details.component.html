@@ -532,7 +532,7 @@
                                     <div class="flex flex-wrap justify-content-between">
                                             <div><h3>{{'PREMIUM.DefaultCovers' | translate}}</h3></div>
                                             <ng-container *ngIf="(insuranceId=='100020' || insuranceId=='100028' || insuranceId=='100044') && productId!='56' ">
-                                                <div *ngIf="menu.SectionName=='Comprehensive'">
+                                                <div>
                                                     <p-button icon="pi pi-rate" [label]="'PREMIUM.ViewFactorDetails' | translate" (click)="onViewFactorDetails()"  class="mr-3" styleClass='p-button-outlined' severity="success "></p-button>
                                                 </div>
                                             </ng-container>
