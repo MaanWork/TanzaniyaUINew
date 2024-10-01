@@ -1,7 +1,7 @@
 import { ForceLengthValidators } from "../personal-quote-details/personal-quote-details.component";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 
-export class PersonalAccident{
+export class PersonalLiabilityCorporate{
     customerDetails: any;
     commonDetails: any[]=[];
     endorsementSection: boolean=false;
@@ -28,19 +28,19 @@ export class PersonalAccident{
             }
         }
         this.fields={
-            props: { label: 'Personal Accident' },
+            props: { label: 'Personal Liability' },
             fieldGroup: [
               {
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
                   {
-                    type: 'ngselect',
-                    key: 'OccupationType',
+                    type: 'commaSeparator',
+                    key: 'AnyOneAccident',
                     defaultValue: '',
-                    className: 'col-12 lg:col-5 md:col-5 xl:col-5',
+                    className: 'col-12 lg:col-6 md:col-6 xl:col-6',
                     templateOptions: {
                       label: `Occupation`,
-                      placeholder: 'Select OccupationType',
+                      placeholder: 'Any one Accident / Event / Occurence',
                      // disabled: true,
                       required: true,
                       options: [
@@ -49,7 +49,7 @@ export class PersonalAccident{
       
                     },
                     validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      validation: [ForceLengthValidators.maxLength(15), ForceLengthValidators.min(1)]
                     },
                     hooks: {
                     },
@@ -59,19 +59,19 @@ export class PersonalAccident{
                   {
                     type: 'commaSeparator',
                     className: ' col-12 lg:col-5 md:col-5 xl:col-5',
-                    key: 'SumInsured',
+                    key: 'PeriodOfInsurance',
                     defaultValue: '0',
                     templateOptions: {
-                      label: `Sum Insured`,
+                      label: `Any One Period Of Insurance`,
                       maxLength: 15,
-                      disabled: this.checkDisable('SumInsured'),
+                      disabled: this.checkDisable('PeriodOfInsurance'),
                       required: true,
                       options: [
                       ],
       
                     },
                     validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      validation: [ForceLengthValidators.maxLength(15), ForceLengthValidators.min(1)]
                     },
                     hooks: {
                     },
