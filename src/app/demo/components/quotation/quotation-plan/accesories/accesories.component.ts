@@ -2205,7 +2205,8 @@ export class AccesoriesComponent {
           if(rowData.EmployeeList.length!=0){
               let si = 0,i=0;
               for(let entry of rowData.EmployeeList){
-                if(entry.Salary) si=si+Number(entry.Salary); 
+                console.log("Entryyy",entry,rowData)
+                if(entry) if(entry.Salary) si=si+Number(entry.Salary); 
                 i+=1;
                 if(i==rowData.EmployeeList.length){if(si!=null || si !=undefined) return si; else return 0}
               }
@@ -2254,6 +2255,7 @@ export class AccesoriesComponent {
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if(data?.Result){
+          if(data?.Result.length!=0){
             this.fidelityList = data?.Result;
             if(this.locationlist.length!=0){
               let i=0,EmployeeList=[];
@@ -2266,13 +2268,19 @@ export class AccesoriesComponent {
                   }
               }
             }
+          }
+          else{
+            for(let location of this.locationlist){
+              location['EmployeeList']=[]
+            }
+          }
             // this.originalFidelityList = new Array().concat(data?.Result);
             // if(this.fidelityList.length!=0){
             //   this.getTotalSICost('Fidelity');
             // }
         }
         else {
-          this.EmployeeAdd();
+          
            }
       });
   }
@@ -8102,7 +8110,11 @@ return true;
         console.log(this.locationlist[index]);if(this.locationlist[index].EmployeeList) this.locationlist[index].EmployeeList.push(obj);
         else this.locationlist[index]['EmployeeList']=[obj];
       }
-      else{console.log(this.locationlist[index]);this.locationlist[index].EmployeeList[this.currentRiskIndex] = obj;}
+      else{console.log(this.locationlist[index]);
+        if(this.locationlist[index].EmployeeList[this.currentRiskIndex]!=null)this.locationlist[index].EmployeeList[this.currentRiskIndex] = obj;
+        else this.locationlist[index].EmployeeList = [obj]
+      }
+      console.log("Final Employee List",this.locationlist)
       this.productItem = new ProductData();
       this.currentRiskIndex = null;
     }
