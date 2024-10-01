@@ -3310,7 +3310,7 @@ getExistingTravelDetails(){
   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
     (data: any) => {
           let customerDatas = data.Result;
-          sessionStorage.setItem('quoteReferenceNo', JSON.stringify(data.Result))
+          //sessionStorage.setItem('quoteReferenceNo', JSON.stringify(data.Result))
           this.applicationId = customerDatas.ApplicationId;
           let quoteStatus = sessionStorage.getItem('QuoteStatus');
           if(quoteStatus=='AdminRP' || quoteStatus=='AdminRA' || quoteStatus=='AdminRR'){
@@ -3353,36 +3353,21 @@ getExistingTravelDetails(){
           // }
           this.country = customerDatas.DestinationCountry;
           this.onCurrencyChange('direct');
-          if(customerDatas?.GroupDetails[0]){
-            this.kids = parseInt(customerDatas?.GroupDetails[0]?.GroupMembers);
-          }
-          else{
-            this.kids = 0;
-          }
-          if(customerDatas?.GroupDetails[1]){
-            this.adult = parseInt(customerDatas?.GroupDetails[1]?.GroupMembers);
-          }
-          else{
-            this.adult =0;
-          }
-          if(customerDatas?.GroupDetails[2]){
-            this.senior = parseInt(customerDatas?.GroupDetails[2]?.GroupMembers);
-          }
-          else{
-            this.senior =0;
-          }
-          if(customerDatas?.GroupDetails[3]){
-            this.superSenior = parseInt(customerDatas?.GroupDetails[3]?.GroupMembers);
-          }
-          else{
-            this.superSenior =0;
-          }
-          if(customerDatas?.GroupDetails[4]){
-            this.grandSenior = parseInt(customerDatas?.GroupDetails[4]?.GroupMembers);
-          }
-          else{
-            this.grandSenior =0;
-          }
+          let entry  = customerDatas.GroupDetails.filter(ele=>ele.GroupId=='1');
+          let entry2 = customerDatas.GroupDetails.filter(ele=>ele.GroupId=='2');
+          let entry3 = customerDatas.GroupDetails.filter(ele=>ele.GroupId=='3');
+          let entry4 = customerDatas.GroupDetails.filter(ele=>ele.GroupId=='4');
+          let entry5 = customerDatas.GroupDetails.filter(ele=>ele.GroupId=='5');
+          if(entry.length!=0) this.kids = parseInt(entry[0].GroupMembers)
+          else{this.kids = 0;}
+          if(entry2.length!=0) this.adult = parseInt(entry2[0].GroupMembers)
+          else{this.adult =0;}
+          if(entry3.length!=0) this.senior = parseInt(entry3[0].GroupMembers)
+          else{this.senior =0;}
+          if(entry4.length!=0) this.superSenior = parseInt(entry4[0].GroupMembers)
+          else{this.superSenior =0;}
+          if(entry5.length!=0) this.grandSenior = parseInt(entry5[0].GroupMembers)
+          else{this.grandSenior =0;}
 
     },
     (err) => { },
@@ -4527,6 +4512,12 @@ backPlan()
       if(section.IndustryType) this.productItem.IndustryId = String(section.IndustryType);
       this.productItem.NoOfYears = section.BondYear;
     }
+    else if(this.productId=='39'){
+      this.productItem.PowerPlantSi = section.SumInsured;
+      this.productItem.ContentId = section.ContentId;
+      this.productItem.Serial = section.SerialNo;
+      this.productItem.Description = section.DescriptionOfRisk
+    }
   }
   addMoneyCommon(location){
     let valid = this.checkMoneyValidation();
@@ -4833,7 +4824,8 @@ backPlan()
       //   this.productItem.EmpLiabilitySi = entry[0]?.EmpLiabilitySi;
       // }
     }
-    else if(this.productId=='1'){let entry = this.LocationListAlt[0].SectionList; this.currentSectionIndex=0; this.onEditCommonDetails(entry[0],this.LocationListAlt[0],0)}
+    else if(this.productId=='1' || this.productId=='39'){let entry = this.LocationListAlt[0].SectionList; this.currentSectionIndex=0; this.onEditCommonDetails(entry[0],this.LocationListAlt[0],0)}
+    
   }
   setCommonFormValues(type){
     if(this.productId!='14'){

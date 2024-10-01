@@ -9,7 +9,7 @@
     </div>
     <div class="grid mt-2 ml-2" *ngIf="customerDetails">
     <div class="lg:col-6 md:col-6 col-12">
-        <h3>Personal Information</h3>
+        <h4 class="m-0 p-0">Personal Information</h4>
         <div class="flex flex-wrap">
             <div class="lg:col-4 md:col-6 col-12">
                 <b>Customer Name</b>
@@ -28,7 +28,7 @@
     </div>
     <div class="lg:col-6 md:col-6 col-12">
         <div class="flex flex-wrap justify-content-between">
-            <div><h3>Address Details</h3></div>
+            <div><h4 class="m-0 p-0">Address Details</h4></div>
             <div><p-button label="Change Customer" icon="pi pi-user" (click)="showSearchForm('change')"></p-button></div>
         </div>
         <div class="flex flex-wrap">
@@ -52,7 +52,7 @@
     <ng-container *ngIf="issuerSection">
         <div class="col-6 pl-3 pr-2 pb-0" >
             <div>
-                <h4 class="m-0 p-0">Policy Details</h4>
+                <h4 class="m-0 p-0">Period Of Insurance</h4>
             </div>
             <div class="grid mt-1">
                 <div class="lg:col-3 md:col-3 col-12">

@@ -32,30 +32,77 @@ export class FireAlliedPerilsCorporate{
                   fieldGroupClassName: 'grid mt-2',
                     fieldGroup: [
                       {
-                        className: 'col-12 md:col-7 lg:col-7 xl:col-7 pl-2 pr-2 pt-1',
-                        key: 'InsuranceType',
-                        id: 'InsuranceType',
-                        type: 'radioList',
-                        templateOptions: {
-                          type: 'radioList',
-                          required: true,
-                          disabled: this.checkDisable('InsuranceType'),
-                          name: 'InsuranceType',
-                        },
+                        className: 'col-12 md:col-6 lg:col-6',
+                        type: 'commaSeparator',
+                        key: 'AssetSumInsured',
+                        defaultValue: '0',
                         props: {
-                          label: 'Insurance Type',
-                          options: [{'label':'Manufacturing','value':'01'},{'label':'Non-Manufacturing','value':'02'}],
-                        }
+                          label: `Asset SumInsured`,
+                          required: true,
+                          disabled: this.checkDisable('AssetSumInsured'),
+                          maxLength: 15,
+                          options: [
+          
+                          ],
+          
+                        },
+                        validators: {
+                          validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                        },
+                        hooks: {
+                        },
+                        expressions: {
+                        },
                       },
                       {
-                        type: 'ngselect',
-                        key: 'OccupationId',
-                        id: 'OccupationId',
-                        defaultValue: '',
-                        className: 'col-12 md:col-5 lg:col-5 xl:col-5 pl-2 pr-2 pt-1',
+                        className: 'col-12 md:col-6 lg:col-6',
+                        type: 'commaSeparator',
+                        key: 'OnstockSumInsured',
+                        defaultValue: '0',
                         props: {
-                          label: `Occupation`,
-                          disabled: this.checkDisable('OccupationId'),
+                          label: `OnStock SumInsured`,
+                          required: true,
+                          disabled: this.checkDisable('OnstockSumInsured'),
+                          maxLength: 15,
+                          options: [
+          
+                          ],
+          
+                        },
+                        validators: {
+                          validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                        },
+                        hooks: {
+                        },
+                        expressions: {
+                        },
+                      },
+                      
+                      {
+                        className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                        key: 'WallType',
+                        id: 'WallType',
+                        type: 'ngselect',
+                        props: {
+                          required: true,
+                          disabled: this.checkDisable('WallType'),
+                          name: 'WallType',
+                          label: 'Wall Type',
+                          options: [
+                            
+                          ],
+                        }
+                      },
+
+                      {
+                        type: 'ngselect',
+                        key: 'RoofType',
+                        id: 'RoofType',
+                        defaultValue: '',
+                        className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                        props: {
+                          label: `Roof Type`,
+                          disabled: this.checkDisable('RoofType'),
                           required: true,
                           options: [
           
@@ -71,13 +118,13 @@ export class FireAlliedPerilsCorporate{
                         },
                       },
                       {
-                        type: 'ngselect',
-                        key: 'Section',
+                        type: 'input',
+                        key: 'firstLossPayee',
                         id: 'Section',
                         defaultValue: '',
                         className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
                         props: {
-                          label: `Industry Cover`,
+                          label: `first Loss Payee`,
                           disabled: this.checkDisable('Section'),
                           required: true,
                           options: [
@@ -96,12 +143,12 @@ export class FireAlliedPerilsCorporate{
                       {
                         className: 'col-12 md:col-6 lg:col-6',
                         type: 'commaSeparator',
-                        key: 'FireSumInsured',
+                        key: 'BuildingSumInsured',
                         defaultValue: '0',
                         props: {
-                          label: `Sum Insured`,
+                          label: `Building SumInsured`,
                           required: true,
-                          disabled: this.checkDisable('FireSumInsured'),
+                          disabled: this.checkDisable('BuildingSumInsured'),
                           maxLength: 15,
                           options: [
           
@@ -116,101 +163,7 @@ export class FireAlliedPerilsCorporate{
                         expressions: {
                         },
                       },
-                      {
-                        className: 'col-12 md:col-6 lg:col-6',
-                        type: 'textarea',
-                          key: 'CoveringDetails',
-                          
-                          props: { 
-                            label: `Covering Details`,
-                            maxLength: 1000,
-                            
-                          },
-                          templateOptions: {
-                            //disabled: this.checkDisable('BuildingSuminsured')
-                            required: true,
-                          },
-                          validators: {
-                            validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
-                          },
-                          hooks: {
-                          },
-          
-                          expressions: {
-                          
-                          },
-                      },
-                      {
-                        className: 'col-12 md:col-6 lg:col-6',
-                        type: 'textarea',
-                          key: 'DescriptionOfRisk',
-                          
-                          props: { 
-                            maxLength: 1000,
-                            label: `Description Of Risk`,
-                          },
-                          templateOptions: {
-                            //disabled: this.checkDisable('BuildingSuminsured')
-                            required: true,
-                          },
-                          validators: {
-                            validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
-                          },
-                          hooks: {
-                          },
-          
-                          expressions: {
-                          
-                          },
-                      },
-                      {
-                        className: 'col-12 md:col-6 lg:col-6',
-                        type: 'ngselect',
-                          key: 'RegionCode',
-                          
-                          props: { 
-                            maxLength: 15,
-                            label: `Region`,
-                          },
-                          templateOptions: {
-                            //disabled: this.checkDisable('BuildingSuminsured')
-                            required: true,
-                            options: []
-                          },
-                          validators: {
-                            validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                          },
-                          hooks: {
-                          },
-          
-                          expressions: {
-                          
-                          },
-                      },
-                      {
-                        className: 'col-12 md:col-6 lg:col-6',
-                        type: 'ngselect',
-                          key: 'DistrictCode',
-                          
-                          props: { 
-                            maxLength: 15,
-                            label: `District`,
-                          },
-                          templateOptions: {
-                            //disabled: this.checkDisable('BuildingSuminsured')
-                            required: true,
-                            options: []
-                          },
-                          validators: {
-                            validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                          },
-                          hooks: {
-                          },
-          
-                          expressions: {
-                          
-                          },
-                      },
+                     
                     ]
                 }
               ]
