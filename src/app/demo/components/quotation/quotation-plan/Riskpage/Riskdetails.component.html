@@ -1170,7 +1170,6 @@
                                                                                 </form>
                                                                             </div>
                                                                         </div>
-            
                                                                     </div>
                                                                 </ng-container>
                                                             </div>
@@ -1180,40 +1179,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                </div>
-                                                
-                                                <div class="col-12 lg:col-3 xl:col-3">
-                                                    <div class="memberDetailCard" style="padding:10px !important;">
-                                                        <div class="grid justify-content-end">
-                                                            <div class="mb-2 col-12 lg:col-10 xl:col-10">
-                                                                <b>Electronic Equipment</b>
-                                                            </div>
-                                                        </div>
-                                                        <div class="flex md:flex-row flex-col items-center md:space-x-3">
-            
-                                                            <ng-container
-                                                                *ngFor="let steps of fields6; let index = index; let last = last">
-                                                                <div>
-                                                                    <div
-                                                                        style="display: flex !important;justify-content: space-between !important;">
-                                                                        <div class="mt-4 ml-3 mr-3">
-                                                                            <img src="./assets/images/electronicequip.jpg"
-                                                                                width="40" height="35">
-                                                                        </div>
-                                                                        <div>
-                                                                            <form [formGroup]="form"
-                                                                                (ngSubmit)="onSubmit(productItem)">
-                                                                                <formly-form [form]="form"
-                                                                                    [fields]="steps.fieldGroup"
-                                                                                    [model]="productItem"></formly-form>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-            
-                                                                </div>
-                                                            </ng-container>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                                 <div class="col-12 lg:col-3 xl:col-3">
                                                     <div class="memberDetailCard" style="padding:10px !important;">
@@ -1243,6 +1208,74 @@
                                                                         </div>
                                                                     </div>
         
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid">
+                                                <div class="col-12 lg:col-1 xl:col-1 md:col-1"></div>
+                                                <div class="col-12 lg:col-5 xl:col-5" >
+                                                    <div class="memberDetailCard" style="padding:10px !important;">
+                                                        <div class="grid justify-content-end">
+                                                            <div class="mb-2 col-12 lg:col-10 xl:col-10">
+                                                                <b>Fire & Allied Perils</b>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex md:flex-row flex-col items-center md:space-x-3">
+        
+                                                            <ng-container
+                                                                *ngFor="let stepss of fields10; let index = index; let last = last">
+                                                                <div>
+                                                                    <div
+                                                                        style="display: flex !important;justify-content: space-between !important;">
+                                                                        <div class="mt-4 mr-3">
+                                                                            <img src="./assets/images/personalliability.png"
+                                                                                width="50" height="40">
+                                                                        </div>
+                                                                        <div>
+                                                                            <form [formGroup]="form"
+                                                                                (ngSubmit)="onSubmit(productItem)">
+                                                                                <formly-form [form]="form"
+                                                                                    [fields]="stepss.fieldGroup"
+                                                                                    [model]="productItem"></formly-form>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 lg:col-5 xl:col-5" >
+                                                    <div class="memberDetailCard" style="padding:10px !important;">
+                                                        <div class="grid justify-content-end">
+                                                            <div class="mb-2 col-12 lg:col-10 xl:col-10">
+                                                                <b>Business Interruption(Fire & Allied Perils)</b><br>
+                                                                <b>(Indemnity period - 6 Months )</b>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex md:flex-row flex-col items-center md:space-x-3">
+        
+                                                            <ng-container
+                                                                *ngFor="let stepss of fields11; let index = index; let last = last">
+                                                                <div>
+                                                                    <div
+                                                                        style="display: flex !important;justify-content: space-between !important;">
+                                                                        <div class="mt-4 mr-3">
+                                                                            <img src="./assets/images/personalliability.png"
+                                                                                width="50" height="40">
+                                                                        </div>
+                                                                        <div>
+                                                                            <form [formGroup]="form"
+                                                                                (ngSubmit)="onSubmit(productItem)">
+                                                                                <formly-form [form]="form"
+                                                                                    [fields]="stepss.fieldGroup"
+                                                                                    [model]="productItem"></formly-form>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </ng-container>
                                                         </div>
@@ -1284,7 +1317,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 lg:col-3 xl:col-3">
+                                                <!-- <div class="col-12 lg:col-3 xl:col-3">
                                                     <div class="memberDetailCard" style="padding:10px !important;">
                                                         <div class="grid justify-content-end">
                                                             <div class="mb-2 col-12 lg:col-10 xl:col-10">
@@ -1316,7 +1349,7 @@
                                                             </ng-container>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <div class="col-12 lg:col-3 xl:col-3" >
                                                     <div class="memberDetailCard" style="padding:10px !important;">
                                                         <div class="grid justify-content-end">
@@ -1416,67 +1449,37 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            
                                             <div class="grid">
                                                 <div class="col-12 lg:col-1 xl:col-1 md:col-1"></div>
-                                                <div class="col-12 lg:col-5 xl:col-5" >
+                                                <div class="col-12 lg:col-3 xl:col-3">
                                                     <div class="memberDetailCard" style="padding:10px !important;">
                                                         <div class="grid justify-content-end">
                                                             <div class="mb-2 col-12 lg:col-10 xl:col-10">
-                                                                <b>Fire & Allied Perils</b>
+                                                                <b>Electronic Equipment</b>
                                                             </div>
                                                         </div>
                                                         <div class="flex md:flex-row flex-col items-center md:space-x-3">
-        
+            
                                                             <ng-container
-                                                                *ngFor="let stepss of fields10; let index = index; let last = last">
+                                                                *ngFor="let steps of fields6; let index = index; let last = last">
                                                                 <div>
                                                                     <div
                                                                         style="display: flex !important;justify-content: space-between !important;">
-                                                                        <div class="mt-4 mr-3">
-                                                                            <img src="./assets/images/personalliability.png"
-                                                                                width="50" height="40">
+                                                                        <div class="mt-4 ml-3 mr-3">
+                                                                            <img src="./assets/images/electronicequip.jpg"
+                                                                                width="40" height="35">
                                                                         </div>
                                                                         <div>
                                                                             <form [formGroup]="form"
                                                                                 (ngSubmit)="onSubmit(productItem)">
                                                                                 <formly-form [form]="form"
-                                                                                    [fields]="stepss.fieldGroup"
+                                                                                    [fields]="steps.fieldGroup"
                                                                                     [model]="productItem"></formly-form>
                                                                             </form>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </ng-container>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 lg:col-5 xl:col-5" >
-                                                    <div class="memberDetailCard" style="padding:10px !important;">
-                                                        <div class="grid justify-content-end">
-                                                            <div class="mb-2 col-12 lg:col-10 xl:col-10">
-                                                                <b>Business Interruption(Fire & Allied Perils)</b>
-                                                            </div>
-                                                        </div>
-                                                        <div class="flex md:flex-row flex-col items-center md:space-x-3">
-        
-                                                            <ng-container
-                                                                *ngFor="let stepss of fields11; let index = index; let last = last">
-                                                                <div>
-                                                                    <div
-                                                                        style="display: flex !important;justify-content: space-between !important;">
-                                                                        <div class="mt-4 mr-3">
-                                                                            <img src="./assets/images/personalliability.png"
-                                                                                width="50" height="40">
-                                                                        </div>
-                                                                        <div>
-                                                                            <form [formGroup]="form"
-                                                                                (ngSubmit)="onSubmit(productItem)">
-                                                                                <formly-form [form]="form"
-                                                                                    [fields]="stepss.fieldGroup"
-                                                                                    [model]="productItem"></formly-form>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
+            
                                                                 </div>
                                                             </ng-container>
                                                         </div>
