@@ -1,7 +1,7 @@
 import { ForceLengthValidators } from "../personal-quote-details/personal-quote-details.component";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 
-export class BurglaryCorporate{
+export class BusinessAllRisk{
     customerDetails: any;
     commonDetails: any[]=[];
     endorsementSection: boolean=false;subuserType:any=null;
@@ -21,43 +21,19 @@ export class BurglaryCorporate{
             }
         }
         this.fields = {
-          props: { label: 'Burglary'},
+          props: { label: 'Business All Risk'},
           fieldGroup: [
             {
               fieldGroupClassName: 'grid mt-2',
                 fieldGroup: [
                   {
-                    className: 'col-12 md:col-6 lg:col-6',
-                    type: 'commaSeparator',
-                      key: 'BurglarySi',
-                      id:'BurglarySi',
-                      props: { 
-                        maxLength: 15,
-                        label: `Sum Insured`,
-                      },
-                      templateOptions: {
-                        //disabled: this.checkDisable('BuildingSuminsured')
-                        required: true,
-                      },
-                      validators: {
-                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                      },
-                      hooks: {
-                      },
-      
-                      expressions: {
-                      
-                      },
-                  },
-                  {
-                    className: 'col-12 md:col-6 lg:col-6',
+                    className: 'col-12 md:col-12 lg:col-12',
                     type: 'ngselect',
-                      key: 'FireSumInsured',
-                      id:'FireSumInsured',
+                      key: 'OnAllPortableElectronicEquipment',
                       templateOptions: {
-                        //disabled: this.checkDisable('BuildingSuminsured')
+                        disabled: this.checkDisable('OnAllPortableElectronicEquipment'),
                         maxLength: 15,
-                        label: `First Loss SI(%)`,
+                        label: `On All Portable Electronic Equipment SumInsured`,
                         required: true,
                         options:[]
                       },
@@ -71,54 +47,6 @@ export class BurglaryCorporate{
                       
                       },
                   },
-                  {
-                    className: 'col-12 md:col-6 lg:col-6',
-                    type: 'textarea',
-                      key: 'CoveringDetails',
-                      id:'CoveringDetails',
-                      props: { 
-                        maxLength: 15,
-                        label: `Covering Details`,
-                      },
-                      templateOptions: {
-                        disabled: this.checkDisable('CoveringDetails'),
-                        required: true,
-                      },
-                      validators: {
-                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                      },
-                      hooks: {
-                      },
-      
-                      expressions: {
-                      
-                      },
-                  },
-                 
-                  {
-                    className: 'col-12 md:col-6 lg:col-6',
-                    type: 'textarea',
-                      key: 'DescriptionOfRisk',
-                      id:'DescriptionOfRisk',
-                      props: { 
-                        maxLength: 15,
-                        label: `Description Of Risk`,
-                      },
-                      templateOptions: {
-                        disabled: this.checkDisable('DescriptionOfRisk'),
-                        required: true,
-                      },
-                      validators: {
-                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                      },
-                      hooks: {
-                      },
-      
-                      expressions: {
-                      
-                      },
-                  },
-                 
               ]
             }
           ]
