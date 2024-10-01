@@ -32,76 +32,14 @@ export class FireAlliedPerilsBICorporate{
                   fieldGroupClassName: 'grid mt-2',
                     fieldGroup: [
                       {
-                        className: 'col-12 md:col-7 lg:col-7 xl:col-7 pl-2 pr-2 pt-1',
-                        key: 'InsuranceType',
-                        id: 'InsuranceType',
-                        type: 'radioList',
-                        templateOptions: {
-                          type: 'radioList',
-                          required: true,
-                          disabled: this.checkDisable('InsuranceType'),
-                          name: 'InsuranceType',
-                        },
-                        props: {
-                          label: 'Insurance Type',
-                          options: [{'label':'Manufacturing','value':'01'},{'label':'Non-Manufacturing','value':'02'}],
-                        }
-                      },
-                      {
-                        type: 'ngselect',
-                        key: 'OccupationId',
-                        id: 'OccupationId',
-                        defaultValue: '',
-                        className: 'col-12 md:col-5 lg:col-5 xl:col-5 pl-2 pr-2 pt-1',
-                        props: {
-                          label: `Occupation`,
-                          disabled: this.checkDisable('OccupationId'),
-                          required: true,
-                          options: [
-          
-                          ],
-          
-                        },
-                        validators: {
-                          validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                        },
-                        hooks: {
-                        },
-                        expressions: {
-                        },
-                      },
-                      {
-                        type: 'ngselect',
-                        key: 'Section',
-                        id: 'Section',
-                        defaultValue: '',
-                        className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
-                        props: {
-                          label: `Industry Cover`,
-                          disabled: this.checkDisable('Section'),
-                          required: true,
-                          options: [
-          
-                          ],
-          
-                        },
-                        validators: {
-                          validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                        },
-                        hooks: {
-                        },
-                        expressions: {
-                        },
-                      },
-                      {
-                        className: 'col-12 md:col-6 lg:col-6',
+                        className: 'col-12 md:col-12 lg:col-12',
                         type: 'commaSeparator',
-                        key: 'FireSumInsured',
+                        key: 'GrossProfitSI',
                         defaultValue: '0',
                         props: {
-                          label: `Sum Insured`,
+                          label: `Gross Profit including standing charges & wages`,
                           required: true,
-                          disabled: this.checkDisable('FireSumInsured'),
+                          disabled: this.checkDisable('GrossProfitSI'),
                           maxLength: 15,
                           options: [
           
@@ -117,37 +55,14 @@ export class FireAlliedPerilsBICorporate{
                         },
                       },
                       {
-                        type: 'ngselect',
-                        key: 'BusinessName',
-                        id: 'BusinessName',
-                        defaultValue: '',
-                        className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
-                        props: {
-                          label: `Business Interruption`,
-                          disabled: this.checkDisable('BusinessName'),
-                          required: true,
-                          options: [
-          
-                          ],
-          
-                        },
-                        validators: {
-                          validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                        },
-                        hooks: {
-                        },
-                        expressions: {
-                        },
-                      },
-                      {
-                        className: 'col-12 md:col-6 lg:col-6',
+                        className: 'col-12',
                         type: 'commaSeparator',
-                        key: 'BusinessSI',
+                        key: 'AdditionalIncreaseSI',
                         defaultValue: '0',
                         props: {
-                          label: `Business SI`,
+                          label: `Additional increase in Cost of Working (AICOW)`,
                           required: true,
-                          disabled: true,
+                          disabled: this.checkDisable('AdditionalIncreaseSI'),
                           maxLength: 15,
                           options: [
           
@@ -162,54 +77,6 @@ export class FireAlliedPerilsBICorporate{
                         expressions: {
                         },
                       },
-                      {
-                        className: 'col-12 md:col-6 lg:col-6',
-                        type: 'textarea',
-                          key: 'CoveringDetails',
-                          
-                          props: { 
-                            label: `Covering Details`,
-                            maxLength: 1000,
-                            
-                          },
-                          templateOptions: {
-                            //disabled: this.checkDisable('BuildingSuminsured')
-                            required: true,
-                          },
-                          validators: {
-                            validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
-                          },
-                          hooks: {
-                          },
-          
-                          expressions: {
-                          
-                          },
-                      },
-                      {
-                        className: 'col-12 md:col-6 lg:col-6',
-                        type: 'textarea',
-                          key: 'DescriptionOfRisk',
-                          
-                          props: { 
-                            maxLength: 1000,
-                            label: `Description Of Risk`,
-                          },
-                          templateOptions: {
-                            //disabled: this.checkDisable('BuildingSuminsured')
-                            required: true,
-                          },
-                          validators: {
-                            validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
-                          },
-                          hooks: {
-                          },
-          
-                          expressions: {
-                          
-                          },
-                      },
-                      
                     ]
                 }
               ]

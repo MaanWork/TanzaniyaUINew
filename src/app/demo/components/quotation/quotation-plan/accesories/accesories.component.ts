@@ -8070,14 +8070,15 @@ return true;
       let obj = null;
         if(this.productId=='14' || this.productId=='32'){
           let occupationDesc = null;
-          if(this.productId=='14') occupationDesc = 
+          if(this.productId=='14') occupationDesc = this.employeeOccupationList.find(ele=>ele.Code==this.productItem.EmpsOccupation).label
+          else occupationDesc = 'Others'
           obj = {
             "Address": null,
             "Createdby": this.loginId,
             "EmployeeName": this.productItem.EmpsName,
             "EmployeeId":null,
             "InsuranceId": this.insuranceId,
-            "OccupationDesc": this.employeeOccupationList.find(ele=>ele.Code==this.productItem.EmpsOccupation).label,
+            "OccupationDesc": occupationDesc,
             "OccupationId": this.productItem.EmpsOccupation,
             "DateOfBirth": null,
             "DateOfJoiningYear": null,
@@ -8107,7 +8108,7 @@ return true;
         }
       let index = this.selectedTab;
       if(this.currentRiskIndex==null || this.currentRiskIndex==undefined){
-        console.log(this.locationlist[index]);if(this.locationlist[index].EmployeeList) this.locationlist[index].EmployeeList.push(obj);
+        console.log("Filter",this.locationlist[index]);if(this.locationlist[index].EmployeeList) this.locationlist[index].EmployeeList.push(obj);
         else this.locationlist[index]['EmployeeList']=[obj];
       }
       else{console.log(this.locationlist[index]);

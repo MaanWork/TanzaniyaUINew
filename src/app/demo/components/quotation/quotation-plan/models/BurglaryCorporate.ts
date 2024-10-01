@@ -28,27 +28,6 @@ export class BurglaryCorporate{
                 fieldGroup: [
                   {
                     className: 'col-12 md:col-6 lg:col-6',
-                    type: 'ngselect',
-                      key: 'FireSumInsured',
-                      templateOptions: {
-                        //disabled: this.checkDisable('BuildingSuminsured')
-                        maxLength: 15,
-                        label: `First Loss SI(%)`,
-                        required: true,
-                        options:[]
-                      },
-                      validators: {
-                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                      },
-                      hooks: {
-                      },
-      
-                      expressions: {
-                      
-                      },
-                  },
-                  {
-                    className: 'col-12 md:col-6 lg:col-6',
                     type: 'commaSeparator',
                       key: 'BurglarySi',
                       
@@ -69,7 +48,30 @@ export class BurglaryCorporate{
                       expressions: {
                       
                       },
-                  }
+                  },
+                  
+                  {
+                    className: 'col-12 md:col-6 lg:col-6',
+                    type: 'ngselect',
+                      key: 'FireSumInsured',
+                      templateOptions: {
+                        //disabled: this.checkDisable('BuildingSuminsured')
+                        maxLength: 15,
+                        label: `First Loss SI(%)`,
+                        required: true,
+                        options:[]
+                      },
+                      validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      },
+                      hooks: {
+                      },
+      
+                      expressions: {
+                      
+                      },
+                  },
+                 
               ]
             }
           ]
