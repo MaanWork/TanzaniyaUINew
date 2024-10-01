@@ -1,7 +1,7 @@
 import { ForceLengthValidators } from "../personal-quote-details/personal-quote-details.component";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 
-export class PersonalAccident{
+export class ElecEquipmentCorporate{
     customerDetails: any;
     commonDetails: any[]=[];
     endorsementSection: boolean=false;
@@ -28,19 +28,20 @@ export class PersonalAccident{
             }
         }
         this.fields={
-            props: { label: 'Personal Accident' },
+            props: { label: 'Electronic Equipment' },
             fieldGroup: [
               {
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
                   {
                     type: 'ngselect',
-                    key: 'OccupationType',
+                    key: 'ElectronicItem',
+                    id: 'ElectronicItem',
                     defaultValue: '',
-                    className: 'col-12 lg:col-5 md:col-5 xl:col-5',
+                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                     templateOptions: {
-                      label: `Occupation`,
-                      placeholder: 'Select OccupationType',
+                      label: `Electronic Item`,
+                      placeholder: 'Select Electronic Item',
                      // disabled: true,
                       required: true,
                       options: [
@@ -57,8 +58,30 @@ export class PersonalAccident{
                     },
                   },
                   {
+                    type: 'input',
+                    className: ' col-12 lg:col-4 md:col-4 xl:col-4',
+                    key: 'SerialNo',
+                    defaultValue: '',
+                    templateOptions: {
+                      label: `Serial No`,
+                      maxLength: 15,
+                      disabled: this.checkDisable('SerialNo'),
+                      required: true,
+                      options: [
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
                     type: 'commaSeparator',
-                    className: ' col-12 lg:col-5 md:col-5 xl:col-5',
+                    className: ' col-12 lg:col-4 md:col-4 xl:col-4',
                     key: 'SumInsured',
                     defaultValue: '0',
                     templateOptions: {
@@ -68,7 +91,6 @@ export class PersonalAccident{
                       required: true,
                       options: [
                       ],
-      
                     },
                     validators: {
                       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
