@@ -4336,13 +4336,13 @@ if(this.insuranceId=='100042'){
       });
   }
   hideSearchForm() {
-    if (this.customerDetails == null || this.customerDetails == undefined) {
-      this.isSearchFormVisible = true;
-    }
-    else {
-      this.isSearchFormVisible = false;
-      this.selectedCustomer = null;
-    }
+    //if (this.customerDetails == null || this.customerDetails == undefined) {
+     // this.isSearchFormVisible = true;
+    // }
+    // else {
+       this.isSearchFormVisible = false;
+    //   this.selectedCustomer = null;
+    // }
   }
   onSelectCustomer(rowData) {
     this.selectedCustomer = rowData.CustomerReferenceNo;

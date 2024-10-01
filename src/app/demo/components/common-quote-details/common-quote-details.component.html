@@ -59,15 +59,14 @@
                             </div>
                             <div class="lg:col-4 md:col-6 col-12">
                                 <b>{{'MOTORQUOTE.CustomerType' | translate}}</b>
-                                <ng-container *ngIf="customer?.PolicyHolderType==1"><p>{{ 'HOME.Individual' | translate}}</p></ng-container>
-                                <ng-container *ngIf="customer?.PolicyHolderType==2"><p>{{ 'HOME.Corporate' | translate}}</p></ng-container>
+                                <ng-container *ngIf="customer?.PolicyHolderType==1 || customer?.PolicyHolderType=='1'">{{customer?.PolicyHolderType}}<p>{{ 'HOME.Individual' | translate}}</p></ng-container>
+                                <ng-container *ngIf="customer?.PolicyHolderType==2 || customer?.PolicyHolderType=='2'">{{customer?.PolicyHolderType}}<p>{{ 'HOME.Corporate' | translate}}</p></ng-container>
                                 <!-- <p>{{customerDetails.PolicyHolderTypeDesc}}</p> -->
                             </div>
                             <div class="lg:col-4 md:col-6 col-12">
                                 <b>{{'MOTORQUOTE.Occupation' | translate}}</b>
                                 <p>{{customerDetails.OccupationDesc}}</p>
                             </div>
-    
                         </div>
                     </div>
                     <div class="lg:col-6 md:col-6 col-12">
