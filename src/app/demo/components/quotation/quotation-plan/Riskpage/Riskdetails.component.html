@@ -990,7 +990,7 @@
                                             </div>
                                             <div class="grid" *ngIf="(item.CoversRequired=='B' || item.CoversRequired=='BC')">
                                                 <div class="col-12 lg:col-1 xl:col-1 md:col-1" ></div>
-                                                <div class="col-12 lg:col-9 xl:xol-9 md:col-9">
+                                                <div class="col-12 lg:col-7 xl:xol-7 md:col-7" >
                                                     <div class="memberDetailCard">
                                                         <div class="grid justify-content-start">
                                                             <div class="mb-2 col-12 lg:col-10 xl:col-10">
@@ -999,10 +999,8 @@
                                                         </div>
                                                         <div class="flex md:flex-row flex-col items-center md:space-x-3">
                                                             <div style="display: flex !important;justify-content: space-between !important;">
-                                                                <p-table [value]="item.BuildingList"
-                                                                    dataKey="LocationName" editMode="row" [rows]="5"
-                                                                    [paginator]="false"
-                                                                    [tableStyle]="{'max-width': '100rem' }">
+                                                                <p-table [value]="item.BuildingList" dataKey="LocationName" editMode="row" [rows]="5"
+                                                                    [paginator]="false" [tableStyle]="{'max-width': '100rem' }">
                                                                     <ng-template pTemplate="header">
                                                                         <tr>
                                                                             <th [pSortableColumn]="column"
@@ -1213,174 +1211,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="grid">
-                                                <div class="col-12 lg:col-4 xl:col-4" >
-                                                    <div class="memberDetailCard" style="padding:10px !important;">
-                                                        <div class="grid justify-content-end">
-                                                            <div class="mb-2 col-12 lg:col-10 xl:col-10">
-                                                                <b>Fire & Allied Perils</b>
-                                                            </div>
-                                                        </div>
-                                                        <div class="flex md:flex-row flex-col items-center md:space-x-3">
-        
-                                                            <ng-container
-                                                                *ngFor="let stepss of fields10; let index = index; let last = last">
-                                                                <div>
-                                                                    <div
-                                                                        style="display: flex !important;justify-content: space-between !important;">
-                                                                        <div class="mt-4 mr-3">
-                                                                            <img src="./assets/images/personalliability.png"
-                                                                                width="50" height="40">
-                                                                        </div>
-                                                                        <div>
-                                                                            <form [formGroup]="form"
-                                                                                (ngSubmit)="onSubmit(productItem)">
-                                                                                <formly-form [form]="form"
-                                                                                    [fields]="stepss.fieldGroup"
-                                                                                    [model]="productItem"></formly-form>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </ng-container>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 lg:col-4 xl:col-4" >
-                                                    <div class="memberDetailCard" style="padding:10px !important;">
-                                                        <div class="grid justify-content-end">
-                                                            <div class="mb-2 col-12 lg:col-10 xl:col-10">
-                                                                <b>Business Interruption(Fire & Allied Perils)</b><br>
-                                                                <b>(Indemnity period - 6 Months )</b>
-                                                            </div>
-                                                        </div>
-                                                        <div class="flex md:flex-row flex-col items-center md:space-x-3">
-        
-                                                            <ng-container
-                                                                *ngFor="let stepss of fields11; let index = index; let last = last">
-                                                                <div>
-                                                                    <div
-                                                                        style="display: flex !important;justify-content: space-between !important;">
-                                                                        <div class="mt-4 mr-3">
-                                                                            <img src="./assets/images/personalliability.png"
-                                                                                width="50" height="40">
-                                                                        </div>
-                                                                        <div>
-                                                                            <form [formGroup]="form"
-                                                                                (ngSubmit)="onSubmit(productItem)">
-                                                                                <formly-form [form]="form"
-                                                                                    [fields]="stepss.fieldGroup"
-                                                                                    [model]="productItem"></formly-form>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </ng-container>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 lg:col-4 md:col-4" >
-                                                    <div class="memberDetailCard" style="padding:10px !important;">
-                                                        <div class="grid justify-content-end">
-                                                            <div class="col-12 lg:col-10 xl:col-10">
-                                                                <b>BURGLARY/THEFT</b>
-                                                            </div>
-                                                        </div>
-                                                        <div class="flex md:flex-row flex-col items-center md:space-x-3">
-        
-                                                            <ng-container
-                                                                *ngFor="let stepss of fields9; let index = index; let last = last">
-                                                                <div>
-                                                                    <div
-                                                                        style="display: flex !important;justify-content: space-between !important;">
-                                                                        <div class="mt-4 mr-3">
-                                                                            <img src="./assets/images/personalliability.png"
-                                                                                width="50" height="40">
-                                                                        </div>
-                                                                        <div>
-                                                                            <form [formGroup]="form"
-                                                                                (ngSubmit)="onSubmit(productItem)">
-                                                                                <formly-form [form]="form"
-                                                                                    [fields]="stepss.fieldGroup"
-                                                                                    [model]="productItem"></formly-form>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </ng-container>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="grid">
-                                                <div class="col-12 lg:col-1 xl:col-1 md:col-1"></div>
-                                                <div class="col-12 lg:col-3 xl:col-3">
-                                                    <div class="memberDetailCard" style="padding:10px !important;">
-                                                        <div class="grid justify-content-end">
-                                                            <div class="mb-2 col-12 lg:col-10 xl:col-10">
-                                                                <b>Machinery BreakDown</b>
-                                                            </div>
-                                                        </div>
-                                                        <div class="flex md:flex-row flex-col items-center md:space-x-3">
-            
-                                                            <ng-container
-                                                                *ngFor="let steps of fields8; let index = index; let last = last">
-                                                                <div>
-                                                                    <div
-                                                                        style="display: flex !important;justify-content: space-between !important;">
-                                                                        <div class="mt-4 ml-3 mr-3">
-                                                                            <img src="./assets/images/electronicequip.jpg"
-                                                                                width="40" height="35">
-                                                                        </div>
-                                                                        <div>
-                                                                            <form [formGroup]="form"
-                                                                                (ngSubmit)="onSubmit(productItem)">
-                                                                                <formly-form [form]="form"
-                                                                                    [fields]="steps.fieldGroup"
-                                                                                    [model]="productItem"></formly-form>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-            
-                                                                </div>
-                                                            </ng-container>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- <div class="col-12 lg:col-3 xl:col-3">
-                                                    <div class="memberDetailCard" style="padding:10px !important;">
-                                                        <div class="grid justify-content-end">
-                                                            <div class="mb-2 col-12 lg:col-10 xl:col-10">
-                                                                <b>Business Interruption(Machinery BreakDown)</b>
-                                                            </div>
-                                                        </div>
-                                                        <div class="flex md:flex-row flex-col items-center md:space-x-3">
-            
-                                                            <ng-container
-                                                                *ngFor="let steps of fields8; let index = index; let last = last">
-                                                                <div>
-                                                                    <div
-                                                                        style="display: flex !important;justify-content: space-between !important;">
-                                                                        <div class="mt-4 ml-3 mr-3">
-                                                                            <img src="./assets/images/electronicequip.jpg"
-                                                                                width="40" height="35">
-                                                                        </div>
-                                                                        <div>
-                                                                            <form [formGroup]="form"
-                                                                                (ngSubmit)="onSubmit(productItem)">
-                                                                                <formly-form [form]="form"
-                                                                                    [fields]="steps.fieldGroup"
-                                                                                    [model]="productItem"></formly-form>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-            
-                                                                </div>
-                                                            </ng-container>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
                                                 <div class="col-12 lg:col-3 xl:col-3" >
                                                     <div class="memberDetailCard" style="padding:10px !important;">
                                                         <div class="grid justify-content-end">
@@ -1416,53 +1246,156 @@
                                             </div>
                                             <div class="grid">
                                                 <div class="col-12 lg:col-1 xl:col-1 md:col-1"></div>
-                                                <div class="col-12 lg:col-4 md:col-4">
-                                                    <div class="memberDetailCard">
-                                                        <div class="grid justify-content-between">
-                                                            <div class="mb-1 ">
-                                                                <b>Personal Accident</b>
-                                                            </div>
-                                                            <div class="mb-2">
-                                                                <p-button styleClass="p-button-outlined" label="Add New" size="small" (click)="onAddRow('PA',item)"></p-button>&nbsp;
-                                                            </div>
-                                                        </div>
-                                                        <ng-container *ngFor="let entry of item.PAList">
-                                                            <div class="grid ">
-                                                                <div class="col-12 lg:col-6 md:col-6">
-                                                                    <label for="BuildingType">Relationship</label>
-                                                                    <p-dropdown class="w-full" styleClass="w-full"
-                                                                        placeholder="Select Relationship"
-                                                                        [(ngModel)]="entry.RelationType" [options]="relationList"
-                                                                        appendTo="body" optionLabel="CodeDesc" optionValue="Code" />
-                                                                </div>
-                                                                <div class="col-12 lg:col-6 md:col-6">
-                                                                    <label for="SumInsured">Death SI</label>
-                                                                    <input class="w-full p-button-outlined"
-                                                                        placeholder="Enter SumInsured" styleClass="w-full"
-                                                                        (keydown)="onSIValueChange($event)"
-                                                                        (keyup)="CommaFormatted(item,'PA')" [(ngModel)]="entry.DeathSI"
-                                                                        pInputText type="text" />
-                                                                </div>
-                                                            </div>
-                                                        </ng-container>
-                                                    </div>
-                                                </div>
-                                               
-                                            </div>
-                                            
-                                            <div class="grid">
-                                                <div class="col-12 lg:col-1 xl:col-1 md:col-1"></div>
-                                                <div class="col-12 lg:col-3 xl:col-3">
+                                                <div class="col-12 lg:col-4 xl:col-4" >
                                                     <div class="memberDetailCard" style="padding:10px !important;">
                                                         <div class="grid justify-content-end">
                                                             <div class="mb-2 col-12 lg:col-10 xl:col-10">
-                                                                <b>Electronic Equipment</b>
+                                                                <b>Fire & Allied Perils</b>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex md:flex-row flex-col items-center md:space-x-3">
+        
+                                                            <ng-container
+                                                                *ngFor="let stepss of fields10; let index = index; let last = last">
+                                                                <div>
+                                                                    <div
+                                                                        style="display: flex !important;justify-content: space-between !important;">
+                                                                        <div class="mt-4 mr-3">
+                                                                            <img src="./assets/images/personalliability.png"
+                                                                                width="50" height="40">
+                                                                        </div>
+                                                                        <div>
+                                                                            <form [formGroup]="form"
+                                                                                (ngSubmit)="onSubmit(productItem)">
+                                                                                <formly-form [form]="form"
+                                                                                    [fields]="stepss.fieldGroup"
+                                                                                    [model]="productItem"></formly-form>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 lg:col-5 md:col-5" >
+                                                    <div class="memberDetailCard" style="padding:10px !important;">
+                                                        <div class="grid justify-content-end">
+                                                            <div class="col-12 lg:col-10 xl:col-10">
+                                                                <b>BURGLARY/THEFT</b>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex md:flex-row flex-col items-center md:space-x-3">
+        
+                                                            <ng-container
+                                                                *ngFor="let stepss of fields9; let index = index; let last = last">
+                                                                <div>
+                                                                    <div
+                                                                        style="display: flex !important;justify-content: space-between !important;">
+                                                                        <div class="mt-4 mr-3">
+                                                                            <img src="./assets/images/personalliability.png"
+                                                                                width="50" height="40">
+                                                                        </div>
+                                                                        <div>
+                                                                            <form [formGroup]="form"
+                                                                                (ngSubmit)="onSubmit(productItem)">
+                                                                                <formly-form [form]="form"
+                                                                                    [fields]="stepss.fieldGroup"
+                                                                                    [model]="productItem"></formly-form>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid">
+                                                <div class="col-12 lg:col-1 xl:col-1 md:col-1"></div>
+                                                <div class="col-12 lg:col-4 xl:col-4" >
+                                                    <div class="memberDetailCard" style="padding:10px !important;">
+                                                        <div class="grid justify-content-start">
+                                                            <div class="mb-2 col-12 lg:col-10 xl:col-10">
+                                                                <b>Business Interruption&nbsp;(Fire & Allied Perils)</b><br>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid justify-content-center">
+                                                            <div>
+                                                                <b>(Indemnity period - 6 Months )</b>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex md:flex-row flex-col items-center md:space-x-3">
+        
+                                                            <ng-container
+                                                                *ngFor="let stepss of fields11; let index = index; let last = last">
+                                                                <div>
+                                                                    <div
+                                                                        style="display: flex !important;justify-content: space-between !important;">
+                                                                        <div class="mt-4 mr-3">
+                                                                            <img src="./assets/images/personalliability.png"
+                                                                                width="50" height="40">
+                                                                        </div>
+                                                                        <div>
+                                                                            <form [formGroup]="form"
+                                                                                (ngSubmit)="onSubmit(productItem)">
+                                                                                <formly-form [form]="form"
+                                                                                    [fields]="stepss.fieldGroup"
+                                                                                    [model]="productItem"></formly-form>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-12 lg:col-5 xl:col-5" >
+                                                    <div class="memberDetailCard" style="padding:10px !important;">
+                                                        <div class="grid justify-content-end">
+                                                            <div class="mb-2 col-12 lg:col-10 xl:col-10">
+                                                                <b>Fidelity</b>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex md:flex-row flex-col items-center md:space-x-3">
+        
+                                                            <ng-container
+                                                                *ngFor="let stepss of fields13; let index = index; let last = last">
+                                                                <div>
+                                                                    <div
+                                                                        style="display: flex !important;justify-content: space-between !important;">
+                                                                        <div class="mt-4 mr-3">
+                                                                            <img src="./assets/images/personalliability.png"
+                                                                                width="50" height="40">
+                                                                        </div>
+                                                                        <div>
+                                                                            <form [formGroup]="form"
+                                                                                (ngSubmit)="onSubmit(productItem)">
+                                                                                <formly-form [form]="form"
+                                                                                    [fields]="stepss.fieldGroup"
+                                                                                    [model]="productItem"></formly-form>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+                                                <!-- <div class="col-12 lg:col-3 xl:col-3">
+                                                    <div class="memberDetailCard" style="padding:10px !important;">
+                                                        <div class="grid justify-content-end">
+                                                            <div class="mb-2 col-12 lg:col-10 xl:col-10">
+                                                                <b>Business Interruption(Machinery BreakDown)</b>
                                                             </div>
                                                         </div>
                                                         <div class="flex md:flex-row flex-col items-center md:space-x-3">
             
                                                             <ng-container
-                                                                *ngFor="let steps of fields6; let index = index; let last = last">
+                                                                *ngFor="let steps of fields8; let index = index; let last = last">
                                                                 <div>
                                                                     <div
                                                                         style="display: flex !important;justify-content: space-between !important;">
@@ -1484,6 +1417,204 @@
                                                             </ng-container>
                                                         </div>
                                                     </div>
+                                                </div> -->
+                                            </div>
+                                           
+                                            
+                                            <div class="grid">
+                                                <div class="col-12 lg:col-1 xl:col-1 md:col-1"></div>
+                                                <div class="col-12 lg:col-9 md:col-9">
+                                                    <div class="memberDetailCard">
+                                                        <div class="grid justify-content-between">
+                                                            <div class="mb-1 ">
+                                                                <b>Electronic Equipment</b>
+                                                            </div>
+                                                            <div class="mb-2">
+                                                                <p-button styleClass="p-button-outlined" label="Add New" size="small" (click)="onAddRow('EE',item)"></p-button>&nbsp;
+                                                            </div>
+                                                        </div>
+                                                        <ng-container *ngIf="item.ElecEquipList">
+                                                            <ng-container *ngFor="let entry of item.ElecEquipList">
+                                                                <div class="grid ">
+                                                                    <div class="col-12 lg:col-4 md:col-4">
+                                                                        <label for="BuildingType">Equipment Name</label>
+                                                                        <p-dropdown class="w-full" styleClass="w-full"
+                                                                            placeholder="Select Equipment"
+                                                                            [(ngModel)]="entry.ItemId" [options]="equipmentList"
+                                                                            appendTo="body" optionLabel="CodeDesc" optionValue="Code" />
+                                                                    </div>
+                                                                    <div class="col-12 lg:col-4 md:col-4">
+                                                                        <label for="SumInsured">SerialNo</label>
+                                                                        <input class="w-full p-button-outlined"
+                                                                            placeholder="Enter SerialNo" styleClass="w-full"  [(ngModel)]="entry.SerialNo"
+                                                                            pInputText type="text" />
+                                                                    </div>
+                                                                    <div class="col-12 lg:col-4 md:col-4">
+                                                                        <label for="SumInsured">Sum Insured</label>
+                                                                        <input class="w-full p-button-outlined"
+                                                                            placeholder="Enter SumInsured" styleClass="w-full"  [(ngModel)]="entry.SumInsured"
+                                                                            pInputText type="text" />
+                                                                    </div>
+                                                                </div>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                        
+                                                    </div>
+                                                </div>
+                                                
+                                                
+                                            </div>
+                                            <div class="grid">
+                                                <div class="col-12 lg:col-1 xl:col-1 md:col-1"></div>
+                                                <div class="col-12 lg:col-9 md:col-9">
+                                                    <div class="memberDetailCard">
+                                                        <div class="grid justify-content-between">
+                                                            <div class="mb-1 ">
+                                                                <b>Machinery Breakdown</b>
+                                                            </div>
+                                                            <div class="mb-2">
+                                                                <p-button styleClass="p-button-outlined" label="Add New" size="small" (click)="onAddRow('MB',item)"></p-button>&nbsp;
+                                                            </div>
+                                                        </div>
+                                                        <ng-container *ngIf="item.MachineryList">
+                                                            <ng-container *ngFor="let entry of item.MachineryList">
+                                                                <div class="grid ">
+                                                                    <div class="col-12 lg:col-4 md:col-4">
+                                                                        <label for="BuildingType">Equipment Name</label>
+                                                                        <p-dropdown class="w-full" styleClass="w-full"
+                                                                            placeholder="Select Equipment"
+                                                                            [(ngModel)]="entry.ItemId" [options]="equipmentList"
+                                                                            appendTo="body" optionLabel="CodeDesc" optionValue="Code" />
+                                                                    </div>
+                                                                    <div class="col-12 lg:col-4 md:col-4">
+                                                                        <label for="SumInsured">SerialNo</label>
+                                                                        <input class="w-full p-button-outlined"
+                                                                            placeholder="Enter SerialNo" styleClass="w-full"  [(ngModel)]="entry.SerialNo"
+                                                                            pInputText type="text" />
+                                                                    </div>
+                                                                    <div class="col-12 lg:col-4 md:col-4">
+                                                                        <label for="SumInsured">Sum Insured</label>
+                                                                        <input class="w-full p-button-outlined"
+                                                                            placeholder="Enter SumInsured" styleClass="w-full"  [(ngModel)]="entry.SumInsured"
+                                                                            pInputText type="text" />
+                                                                    </div>
+                                                                </div>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid">
+                                                <div class="col-12 lg:col-1 xl:col-1 md:col-1"></div>
+                                                <div class="col-12 lg:col-9 md:col-9">
+                                                    <div class="memberDetailCard">
+                                                        <div class="grid justify-content-between">
+                                                            <div class="mb-1 ">
+                                                                <b>Personal Accident</b>
+                                                            </div>
+                                                            <div class="mb-2">
+                                                                <p-button styleClass="p-button-outlined" label="Add New" size="small" (click)="onAddRow('PA',item)"></p-button>&nbsp;
+                                                            </div>
+                                                        </div>
+                                                        <ng-container *ngIf="item.PAList">
+                                                            <ng-container *ngFor="let entry of item.PAList">
+                                                                <div class="grid ">
+                                                                    <div class="col-12 lg:col-6 md:col-6">
+                                                                        <label for="BuildingType">Relationship</label>
+                                                                        <p-dropdown class="w-full" styleClass="w-full"
+                                                                            placeholder="Select Relationship"
+                                                                            [(ngModel)]="entry.RelationType" [options]="relationList"
+                                                                            appendTo="body" optionLabel="CodeDesc" optionValue="Code" />
+                                                                    </div>
+                                                                    <div class="col-12 lg:col-6 md:col-6">
+                                                                        <label for="SumInsured">Death SI</label>
+                                                                        <input class="w-full p-button-outlined"
+                                                                            placeholder="Enter SumInsured" styleClass="w-full"
+                                                                            (keydown)="onSIValueChange($event)"
+                                                                            (keyup)="CommaFormatted(item,'PA')" [(ngModel)]="entry.DeathSI"
+                                                                            pInputText type="text" />
+                                                                    </div>
+                                                                </div>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid">
+                                                <div class="col-12 lg:col-1 xl:col-1 md:col-1"></div>
+                                                
+                                                
+                                            </div>
+                                            <div class="grid">
+                                                <div class="col-12 lg:col-1 xl:col-1 md:col-1"></div>
+                                                <div class="col-12 lg:col-4 xl:col-4">
+                                                    <div class="memberDetailCard" style="padding:10px !important;">
+                                                        <div class="grid justify-content-end">
+                                                            <div class="mb-2 col-12 lg:col-10 xl:col-10">
+                                                                <b>Money</b>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex md:flex-row flex-col items-center md:space-x-3">
+            
+                                                            <ng-container
+                                                                *ngFor="let steps of fields12; let index = index; let last = last">
+                                                                <div>
+                                                                    <div
+                                                                        style="display: flex !important;justify-content: space-between !important;">
+                                                                        <div class="mt-4 ml-3 mr-3">
+                                                                            <img src="./assets/images/electronicequip.jpg"
+                                                                                width="40" height="35">
+                                                                        </div>
+                                                                        <div>
+                                                                            <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
+                                                                                <formly-form [form]="form" [fields]="steps.fieldGroup" [model]="productItem"></formly-form>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+            
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 lg:col-5 xl:col-5" >
+                                                    <div class="memberDetailCard">
+                                                        <div class="grid justify-content-end">
+                                                            <div class="mb-2 col-12 lg:col-10 xl:col-10">
+                                                                <b>Goods in Transit</b>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid justify-content-center">
+                                                            <div><p>On various kind of Containerized good related to insured trade ,transported by own/hired vehicles</p></div>
+                                                        </div>
+                                                        <div class="grid justify-content-center mt-1"><div><p>Geographical covarage : Within United Republic of Tanzania </p></div></div>
+                                                        <div class="grid justify-content-center mt-1"><div><p>Mode of transport -road /rail </p></div></div>
+                                                        <div class="flex md:flex-row flex-col items-center md:space-x-3">
+        
+                                                            <ng-container
+                                                                *ngFor="let stepss of fields14; let index = index; let last = last">
+                                                                <div>
+                                                                    <div
+                                                                        style="display: flex !important;justify-content: space-between !important;">
+                                                                        <div class="mt-4 mr-3">
+                                                                            <img src="./assets/images/personalliability.png"
+                                                                                width="50" height="40">
+                                                                        </div>
+                                                                        <div>
+                                                                            <form [formGroup]="form"
+                                                                                (ngSubmit)="onSubmit(productItem)">
+                                                                                <formly-form [form]="form"
+                                                                                    [fields]="stepss.fieldGroup"
+                                                                                    [model]="productItem"></formly-form>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1493,6 +1624,16 @@
                         </div>
                     </div>
                 </ng-container>
+            </div>
+            <div class="text-center mt-2">
+                <p-button styleClass="p-button-outlined" label="Back" size="small"
+                    [routerLink]="['/quotation/plan/quote-details']"
+                    routerLinkActive="router-link-active"></p-button>&nbsp;
+                <p-button styleClass="p-button-outlined" label="Save & Proceed" (click)="onSubmit('Save')" size="small"
+                    routerLinkActive="router-link-active"></p-button>&nbsp;
+                <p-button label="Submit" *ngIf="locationList.length!=0"
+                    (click)="onSubmit('Submit')" size="small"></p-button>
+                <!-- <button pButton pRipple label="Submit" class="p-button-success" (click)="onfinalsave()"></button> -->
             </div>
         </div>
         <ng-container *ngIf="productId=='57'">
