@@ -1048,6 +1048,7 @@ emiyn="N";
       });
     }
     onChangeSubCover(subCover,cover,vehicle,event){
+      alert(cover.CoverName)
       console.log("SubCover Data",subCover,event);
       if(subCover.MultiSelectYn=='Y'){
           if(event){
@@ -2403,7 +2404,28 @@ emiyn="N";
               }
               sessionStorage.setItem('endorseTypeId',JSON.stringify(obj));
             }
-            if(((cover.isSelected=='D' || cover.isSelected=='O' || cover.isSelected=='Y' || cover?.UserOpt=='Y') && !this.endorsementSection) || 
+            if(cover.SubCovers!=null){
+              let k=0;
+              for(let sub of cover.SubCovers){
+                if(this.statusValue!=null && sub?.UserOpt=='Y'){
+                  this.onChangeSubCover(sub,cover,veh,true); 
+                }
+                if(this.statusValue==null && (sub.isSelected=='D' || sub.isSelected=='O' || sub.isSelected=='Y' || sub?.UserOpt=='Y')){
+                      this.onChangeSubCover(sub,cover,veh,true);
+                }
+                k+=1;
+                if(k==cover.SubCovers){
+                  i+=1;
+                  if(i==coverList.length){
+                    let defaultList = coverList.filter(ele=>ele.isSelected=='D' || ele.UserOpt == 'Y');
+                    let otherList = coverList.filter(ele=>ele.isSelected!='D' && ele.UserOpt != 'Y')
+                    veh.CoverList = defaultList.concat(otherList);
+                    if(this.adminSection) veh.CoverList = coverList.filter(ele=>ele.isSelected=='D' || ele?.UserOpt=='Y')
+                  }
+                }
+              }
+            }
+            else if(((cover.isSelected=='D' || cover.isSelected=='O' || cover.isSelected=='Y' || cover?.UserOpt=='Y') && !this.endorsementSection) || 
             (this.endorsementSection && (cover.UserOpt=='Y' || cover.isSelected=='D' || cover.isSelected=='O')) ){
               // if(this.endorsementId == 846 && veh.Status=='D'){
               //   cover['selected']= false;
@@ -2419,40 +2441,13 @@ emiyn="N";
               //}
               
             }
-            else if(cover.SubCovers!=null){
-                
-              if(cover.SubCovers.length!=0){
-                for(let sub of cover.SubCovers){
-                  if(sub.UserOpt=='Y' || sub.isSelected=='D' || sub.isSelected=='Y'){
-                    this.onChangeSubCover(sub,cover,veh,true)
-                  }
-                }
-                
-              }
-            }
+            
             else{
+              
               console.log("Not Selected 1",cover);
               cover['selected']= false;
             }
-            if(cover.SubCovers!=null){
-              let k=0;
-              for(let sub of cover.SubCovers){
-                if(sub.isSelected=='D' || sub.isSelected=='O' || sub.isSelected=='Y' || sub?.UserOpt=='Y'){
-                      this.onChangeSubCover(sub,cover,veh,true);
-                }
-                k+=1;
-                if(k==cover.SubCovers){
-                  i+=1;
-                  if(i==coverList.length){
-                    let defaultList = coverList.filter(ele=>ele.isSelected=='D' || ele.UserOpt == 'Y');
-                    let otherList = coverList.filter(ele=>ele.isSelected!='D' && ele.UserOpt != 'Y')
-                    veh.CoverList = defaultList.concat(otherList);
-                    if(this.adminSection) veh.CoverList = coverList.filter(ele=>ele.isSelected=='D' || ele?.UserOpt=='Y')
-                  }
-                }
-              }
-            }
-            else{
+            if(cover.SubCovers==null){
               i+=1;
               if(i==coverList.length){
                 let defaultList = coverList.filter(ele=>ele.isSelected=='D' || ele.UserOpt == 'Y');
@@ -2462,7 +2457,6 @@ emiyn="N";
                 
               }
             }
-            
           }
           j+=1;
           if(j==this.vehicleDetailsList.length){
@@ -2479,7 +2473,28 @@ emiyn="N";
                       let coverList:any[]=veh.CoverList;
                       let j = 0;
                       for(let cover of coverList){
-                        if(((cover.isSelected=='D' || cover.isSelected=='O' || cover.isSelected=='Y' || cover?.UserOpt=='Y') && !this.endorsementSection) || 
+                        if(cover.SubCovers!=null){
+                          let k=0;
+                          for(let sub of cover.SubCovers){
+                            if(this.statusValue!=null && sub?.UserOpt=='Y'){
+                              this.onChangeSubCover(sub,cover,veh,true); 
+                            }
+                            if(this.statusValue==null && (sub.isSelected=='D' || sub.isSelected=='O' || sub.isSelected=='Y' || sub?.UserOpt=='Y')){
+                                  this.onChangeSubCover(sub,cover,veh,true);
+                            }
+                            k+=1;
+                            if(k==cover.SubCovers){
+                              i+=1;
+                              if(i==coverList.length){
+                                let defaultList = coverList.filter(ele=>ele.isSelected=='D' || ele.UserOpt == 'Y');
+                                let otherList = coverList.filter(ele=>ele.isSelected!='D' && ele.UserOpt != 'Y')
+                                veh.CoverList = defaultList.concat(otherList);
+                                if(this.adminSection) veh.CoverList = coverList.filter(ele=>ele.isSelected=='D' || ele?.UserOpt=='Y')
+                              }
+                            }
+                          }
+                        }
+                        else if(((cover.isSelected=='D' || cover.isSelected=='O' || cover.isSelected=='Y' || cover?.UserOpt=='Y') && !this.endorsementSection) || 
                           (this.endorsementSection && (cover.UserOpt=='Y' || cover.isSelected=='Y')) ){
                             cover['selected']= false;
                             this.onSelectCover(cover,false,veh.Vehicleid,veh,'coverList','change');

@@ -32,7 +32,7 @@ export class FidelityCorporate{
                   fieldGroupClassName: 'grid',
                   fieldGroup: [
                     {
-                      className: 'col-12 md:col-6 lg:col-6',
+                      className: 'col-12 md:col-12 lg:col-12',
                       type: 'input',
                       key: 'Count',
                       id: 'Count',
@@ -46,8 +46,8 @@ export class FidelityCorporate{
                       },
                     },
                     {
-                      type: 'commaSeparator',
-                      className: 'col-12 md:col-6 lg:col-6',
+                      type: 'ngselect',
+                      className: 'col-12 md:col-12 lg:col-12',
                       key: 'FidEmpSi',
                       id:'FidEmpSi',
                       defaultValue: '0',

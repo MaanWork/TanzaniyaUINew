@@ -24,7 +24,6 @@ export class GoodsInTransitCorporate {
         }
         this.fields = [
           {
-            fieldArray: {
               fieldGroup: [
                 {
                   fieldGroupClassName: 'grid',
@@ -34,7 +33,7 @@ export class GoodsInTransitCorporate {
                       key: 'Singleroadlimit',
                       id: 'Singleroadlimit',
                       defaultValue: '',
-                      className: 'col-12 md:col-6 lg:col-6',
+                      className: 'col-12 md:col-12 lg:col-12',
                       props: {
                         label: `Single Road Limit`,
                         disabled: this.checkDisable('Singleroadlimit'),
@@ -54,7 +53,7 @@ export class GoodsInTransitCorporate {
   
                     {
                       type: 'commaSeparator',
-                      className: 'col-12 md:col-6 lg:col-6',
+                      className: 'col-12 md:col-12 lg:col-12',
                       key: 'EstimatedAnnualCarries',
                       id: 'EstimatedAnnualCarries',
                       props: {
@@ -78,7 +77,6 @@ export class GoodsInTransitCorporate {
                   ]
                 }
               ],
-            },
           },
         ];
     }

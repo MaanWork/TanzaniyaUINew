@@ -47,6 +47,9 @@ import { AppComponent } from 'src/app/app.component';
 import { BurglaryCorporate } from '../models/BurglaryCorporate';
 import { FireAlliedPerilsCorporate } from '../models/FireAlliedPerilsCorporate';
 import { FireAlliedPerilsBICorporate } from '../models/FireAlliedPerilsBICorporate';
+import { MoneyCorprate } from '../models/MoneyCorprate';
+import { FidelityCorporate } from '../models/FidelityCorporate';
+import { GoodsInTransitCorporate } from '../models/GoodsInTransitCorporate';
 
 @Component({
   selector: 'app-Riskdetails',
@@ -125,8 +128,8 @@ export class RiskDetailsComponent {
   fields7: any[]=[];locationIndex:any=0;domesticServantDialog: boolean;bankList: any[]=[];
   servantTypeList: any[]=[];lang:any=null;
   coversRequired:any='C';BuildingOwnerYn:any ='N'
-  fields10: any[]=[];
-  fields11: any[]=[];
+  fields10: any[]=[];equipmentList:any[]=[]
+  fields11: any[]=[];fields12: any[]=[];fields13: any[]=[];fields14: any[]=[];
         constructor(private router: Router,private datePipe:DatePipe,private translate: TranslateService,
           private appComp: AppComponent,private sharedService: SharedService,public http: HttpClient) {
          let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails') || '{}');
@@ -297,7 +300,8 @@ export class RiskDetailsComponent {
                 this.editsections('Content');this.editsections('Building');this.editsections('ElectronicEquipment');
                 this.editsections('AllRisk');this.editsections('PersonalLiability'); this.editsections('PersonalAccident');
                 this.editsections('DomesticServant');this.editsections('MacineryBreakdown');this.editsections('Burglary');
-                this.editsections('Fire');this.editsections('FireBI');
+                this.editsections('Fire');this.editsections('FireBI');this.editsections('Money');this.editsections('Fidelity');
+                this.editsections('GoodsTransit')
                 // let sectionIDs:any[] = details[0].SectionId;
                   // this.Content = sectionIDs.some(ele=>ele=='47');
                   // if(this.Content) 
@@ -323,7 +327,8 @@ export class RiskDetailsComponent {
                 this.LocationName = [
                   {"OriginalRiskId":null,"LocationId":"1","LocationName":"","BuildingType":null,"BuildingSI":null,"ContentSI":null,'AllRiskSI':null,
                     "ServantList":[{"ServantType":null,'ServantCount':null,'ServantSI':null}],
-                    "PAList":[{'RelationType':null,'DeathSI':null}],
+                    "PAList":[{'RelationType':null,'DeathSI':null}],"ElecEquipList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}],
+                    "MachineryList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}],
                     'PersonalLiabilitySI':null,'ServantType':null,'ServantCount':null,'ServantSI':null,'RelationType':null,'DeathSI':null}
                 ]
               }
@@ -526,7 +531,9 @@ export class RiskDetailsComponent {
                         for(let entry of locationList){
                             let obj = {
                                 "LocationId":entry.LocationId,"LocationName":entry.LocationName,
-                                "BuildingAddress":entry.Address
+                                "BuildingAddress":entry.Address,
+                                "PAList":[{'RelationType':null,'DeathSI':null}],"ElecEquipList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}],
+                                "MachineryList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}],
                             }
                             let subDetails = entry.SectionList;
                             // if(entry.AssesListDetails) subDetails = subDetails.concat(entry.AssesListDetails);
@@ -588,7 +595,9 @@ export class RiskDetailsComponent {
                         for(let entry of locationList){
                           let obj = {
                             "LocationId":entry.LocationId,"LocationName":entry.LocationName,"CoversRequired":entry?.CoversRequired,"BuildingOwnerYn":entry?.BuildingOwnerYn,
-                            "BuildingList":[],"BuildingAddress":entry.Address
+                            "BuildingList":[],"BuildingAddress":entry.Address,
+                            "PAList":[{'RelationType':null,'DeathSI':null}],  "ElecEquipList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}],
+                            "MachineryList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}],
                           }
                           let subDetails = entry.SectionList;
                           let buildDetails = subDetails.filter(ele=>ele['SectionId']=='1');
@@ -620,7 +629,8 @@ export class RiskDetailsComponent {
                     if(this.productId=='63') this.LocationName = [
                         {"OriginalRiskId":null,"LocationId":"1","LocationName":"","BuildingType":null,"BuildingSI":null,"ContentSI":null,'AllRiskSI':null,
                           "ServantList":[{"ServantType":null,'ServantCount':null,'ServantSI':null}],
-                          "PAList":[{'RelationType':null,'DeathSI':null}],
+                          "PAList":[{'RelationType':null,'DeathSI':null}],"ElecEquipList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}],
+                    "MachineryList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}],
                           'PersonalLiabilitySI':null,'ServantType':null,'ServantCount':null,'ServantSI':null,'RelationType':null,'DeathSI':null}
                     ]
                   }
@@ -633,7 +643,8 @@ export class RiskDetailsComponent {
                   }
                   else if(this.productId=='63') this.LocationName = [{"OriginalRiskId":null,"LocationId":"1","LocationName":"","BuildingType":null,"BuildingSI":null,"ContentSI":null,'AllRiskSI':null,
                     "ServantList":[{"ServantType":null,'ServantCount':null,'ServantSI':null}],
-                    "PAList":[{'RelationType':null,'DeathSI':null}],  
+                    "PAList":[{'RelationType':null,'DeathSI':null}],  "ElecEquipList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}],
+                    "MachineryList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}],
                     'PersonalLiabilitySI':null,'ServantType':null,'ServantCount':null,'ServantSI':null,'RelationType':null,'DeathSI':null}
                   ];
                 }
@@ -647,6 +658,11 @@ export class RiskDetailsComponent {
           else if(type=='PA'){
             let entry = {'RelationType':null,'DeathSI':null};
             location.PAList.push(entry);
+          }
+          else if(type=='EE' || type=='MB'){
+            let entry = {'ItemId':null,'SumInsured':null,'SerialNo':null};
+            if(type=='EE') location.ElecEquipList.push(entry);
+            else if(type=='MB') location.MachineryList.push(entry);
           }
         }
         deleteRow(location,index,type){
@@ -900,7 +916,8 @@ export class RiskDetailsComponent {
       else{this.buildingEditSection = true; if(this.locationList.length==0)this.onAddLocationDetails(); }
     }
     deleteLocation(index){this.locationList.splice(index,1);if(this.locationList.length==0)this.onAddLocationDetails()}
-    onAddLocationDetails(){this.locationList.push({"RiskId":String(this.locationList.length+1),"LocationName":null,"BuildingAddress":null,"CoversRequired":'C',"BuildingOwnerYn":'N',"BuildingList":[{"WallType":null,"RoofType":null,"FirstLossPayee":null,"BuildingSumInsured":0}],"PAList":[{'RelationType':null,'DeathSI':null}],});this.locationIndex= this.locationList.length-1}
+    onAddLocationDetails(){this.locationList.push({"RiskId":String(this.locationList.length+1),"LocationName":null,"BuildingAddress":null,"CoversRequired":'C',"BuildingOwnerYn":'N',"BuildingList":[{"WallType":null,"RoofType":null,"FirstLossPayee":null,"BuildingSumInsured":0}],"PAList":[{'RelationType':null,'DeathSI':null}],"ElecEquipList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}],
+                            "MachineryList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}]});this.locationIndex= this.locationList.length-1}
     onSaveLocationDetails(){
       if(this.locationList.length!=0){
         let i=0,j=0,reqList=[];
@@ -4320,6 +4337,23 @@ export class RiskDetailsComponent {
                 let contentData4:any;
                 contentData4 = new FireAlliedPerilsBICorporate();
                 this.fields11 = contentData4?.fields;
+              }
+              if(types=='Money'){
+                let contentData4:any;
+                contentData4 = new MoneyCorprate();
+                this.fields12 = contentData4?.fields;
+              }
+              if(types=='Fidelity'){
+                let contentData4:any;
+                contentData4 = new FidelityCorporate();
+                this.fields13 = contentData4?.fields;
+                console.log("Final Fields Fidelity",this.fields13)
+              }
+              if(types=='GoodsTransit'){
+                let contentData4:any;
+                contentData4 = new GoodsInTransitCorporate();
+                this.fields14 = contentData4?.fields;
+                console.log("Final Fields",this.fields14)
               }
               //this.productItem = new ProductData();
               
