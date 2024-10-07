@@ -37,7 +37,7 @@ export class FireAlliedPerilsBICorporate{
                         key: 'GrossProfitSI',
                         defaultValue: '0',
                         props: {
-                          label: `Gross Profit including standing charges & wages`,
+                          label: `Gross Profit [Incl. Standing & Wages] Sum Insured`,
                           required: true,
                           disabled: this.checkDisable('GrossProfitSI'),
                           maxLength: 15,
@@ -60,7 +60,7 @@ export class FireAlliedPerilsBICorporate{
                         key: 'AdditionalIncreaseSI',
                         defaultValue: '0',
                         props: {
-                          label: `Additional increase in Cost of Working (AICOW)`,
+                          label: `Additional Cost of Working ( AICOW) Sum Insured`,
                           required: true,
                           disabled: this.checkDisable('AdditionalIncreaseSI'),
                           maxLength: 15,
@@ -77,6 +77,29 @@ export class FireAlliedPerilsBICorporate{
                         expressions: {
                         },
                       },
+                      {
+                        type: 'ngselect',
+                        key: 'IndemnityPeriod',
+                        id: 'IndemnityPeriod',
+                        defaultValue: '',
+                        className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                        props: {
+                          label: `Indemnity Period`,
+                          disabled: this.checkDisable('IndemnityPeriod'),
+                          required: true,
+                          options: [
+          
+                          ],
+          
+                        },
+                        validators: {
+                          validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                        },
+                        hooks: {
+                        },
+                        expressions: {
+                        },
+                      }
                     ]
                 }
               ]

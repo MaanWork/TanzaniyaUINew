@@ -33,7 +33,7 @@ export class GoodsInTransitCorporate {
                       key: 'Singleroadlimit',
                       id: 'Singleroadlimit',
                       defaultValue: '',
-                      className: 'col-12 md:col-12 lg:col-12',
+                      className: 'col-12 md:col-6 lg:col-6',
                       props: {
                         label: `Single Road Limit`,
                         disabled: this.checkDisable('Singleroadlimit'),
@@ -53,7 +53,7 @@ export class GoodsInTransitCorporate {
   
                     {
                       type: 'commaSeparator',
-                      className: 'col-12 md:col-12 lg:col-12',
+                      className: 'col-12 md:col-6 lg:col-6',
                       key: 'EstimatedAnnualCarries',
                       id: 'EstimatedAnnualCarries',
                       props: {
@@ -74,6 +74,29 @@ export class GoodsInTransitCorporate {
                       expressions: {
                       },
                     },
+                    {
+                      type: 'ngselect',
+                      key: 'ModeOfTransport',
+                      id: 'ModeOfTransport',
+                      defaultValue: '',
+                      className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                      props: {
+                        label: `Mode Of Transport`,
+                        disabled: this.checkDisable('ModeOfTransport'),
+                        required: true,
+                        options: [
+        
+                        ],
+        
+                      },
+                      validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      },
+                      hooks: {
+                      },
+                      expressions: {
+                      },
+                    }
                   ]
                 }
               ],

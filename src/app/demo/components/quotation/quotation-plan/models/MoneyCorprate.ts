@@ -29,7 +29,7 @@ export class MoneyCorprate{
                     fieldGroupClassName: 'grid',
                     fieldGroup: [ 
                   {
-                    className: 'col-12 lg:col-6 md:col-6 xl:col-6',
+                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                     type: 'commaSeparator',
                     key: 'MoneyinTransit',
                     id: 'MoneyinTransit',
@@ -51,7 +51,7 @@ export class MoneyCorprate{
                     },
                   },
                   {
-                      className: 'col-12 lg:col-6 md:col-6 xl:col-6',
+                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                       type: 'commaSeparator',
                       key: 'MoneyinPremises',
                       id: 'MoneyinPremises',
@@ -73,7 +73,7 @@ export class MoneyCorprate{
                       },
                     },
                     {
-                      className: 'col-12 lg:col-6 md:col-6 xl:col-6',
+                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                       type: 'commaSeparator',
                       key: 'MoneyInSafe',
                       id: 'MoneyInSafe',
@@ -95,7 +95,7 @@ export class MoneyCorprate{
                       },
                     },
                     {
-                      className: 'col-12 lg:col-6 md:col-6 xl:col-6',
+                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                       type: 'commaSeparator',
                       key: 'MoneyStrongroom',
                       props: { 
@@ -117,7 +117,7 @@ export class MoneyCorprate{
                     },
                   
                     {
-                      className: 'col-12 lg:col-6 md:col-6 xl:col-6',
+                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                       type: 'commaSeparator',
                       key: 'Estimatedannualcashcarryings',
                       props: { 

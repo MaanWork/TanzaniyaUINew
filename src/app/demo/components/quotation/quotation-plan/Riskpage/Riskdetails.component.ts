@@ -3384,6 +3384,7 @@ export class RiskDetailsComponent {
               else {
                 appId = this.loginId;
                 brokerbranchCode = null;
+                loginId= commonDetals[0].CustomerName;
               }
             }
           this.applicationId = appId;
@@ -4710,7 +4711,7 @@ export class RiskDetailsComponent {
                 }
                 else {
                   appId = this.loginId;
-                  //loginId = this.brokerLoginId
+                  loginId= commonDetals[0].CustomerName;
                   brokerbranchCode = null;
                 }
               }
