@@ -70,54 +70,7 @@ export class BurglaryCorporate{
                       expressions: {
                       
                       },
-                  },
-                  {
-                    className: 'col-12 md:col-6 lg:col-6',
-                    type: 'textarea',
-                      key: 'CoveringDetails',
-                      id:'CoveringDetails',
-                      props: { 
-                        maxLength: 15,
-                        label: `Covering Details`,
-                      },
-                      templateOptions: {
-                        disabled: this.checkDisable('CoveringDetails'),
-                        required: true,
-                      },
-                      validators: {
-                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                      },
-                      hooks: {
-                      },
-      
-                      expressions: {
-                      
-                      },
-                  },
-                 
-                  {
-                    className: 'col-12 md:col-6 lg:col-6',
-                    type: 'textarea',
-                      key: 'DescriptionOfRisk',
-                      id:'DescriptionOfRisk',
-                      props: { 
-                        maxLength: 15,
-                        label: `Description Of Risk`,
-                      },
-                      templateOptions: {
-                        disabled: this.checkDisable('DescriptionOfRisk'),
-                        required: true,
-                      },
-                      validators: {
-                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                      },
-                      hooks: {
-                      },
-      
-                      expressions: {
-                      
-                      },
-                  },
+                  }
                  
               ]
             }

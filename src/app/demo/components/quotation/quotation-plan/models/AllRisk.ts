@@ -26,7 +26,7 @@ export class AllRisk{
                 fieldGroupClassName: 'newclassname',
                 fieldGroup: [
                   {
-                    className: 'w-full md:mt-0 mt-3 mdw4',
+                    className: 'col-12 lg:col-6 xl:col-6 md:col-6',
                     type: 'commaSeparator',
                     key: 'AllriskSumInsured',
                     templateOptions: {

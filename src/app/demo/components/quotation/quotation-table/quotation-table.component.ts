@@ -124,6 +124,11 @@ export class QuotationTableComponent implements OnInit {
     sessionStorage.removeItem('VechileDetails');
     sessionStorage.removeItem('FinalizeYN');
     sessionStorage.removeItem('FireObj');
+    let obj = sessionStorage.getItem('newQuote');
+    if(obj){
+      sessionStorage.removeItem('newQuote');
+      this.showSearchForm('change')
+    }
   }
 
   ngOnInit() {

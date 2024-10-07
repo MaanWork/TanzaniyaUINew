@@ -44,6 +44,7 @@ export class PortfolioComponent implements OnInit {
   endPendingIndex: any;
   pendingQuoteData: any[]=[];
   MotorList: any[]=[];
+  selectedRowData: any;searchSection:boolean=false;
   constructor(private router:Router,private sharedService: SharedService,private appComp:AppComponent,private translate: TranslateService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -139,6 +140,7 @@ export class PortfolioComponent implements OnInit {
     );
   }
   onInnerData(rowData){
+    this.selectedRowData = rowData;
     let ReqObj = {
         "RequestReferenceNo": rowData.RequestReferenceNo
       }
@@ -643,7 +645,42 @@ if (rowData.DebitNoteNo==null && rowData.DebitNoteNo=='') {
         document.body.appendChild(link);
         link.click();
         link.remove();
-    },
+      },
+      (err) => { },
+    );
+  }
+  onGetVehicleSchedule(rowData){
+    let event = {
+        "QuoteData":this.selectedRowData,
+        "VehicleData": rowData
+    }
+    let ReqObj = {
+      "QuoteNo":event?.QuoteData.QuoteNo,
+      "VehicleId": event?.VehicleData.Vehicleid
+    }
+    let urlLink = `${this.CommonApiUrl}pdf/policyform`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data?.Result?.PdfOutFile){
+            this.downloadMyFile(data.Result.PdfOutFile,'Schedule');
+        }
+        else{
+          Swal.fire({
+            title: '<strong>Schedule Pdf</strong>',
+            icon: 'error',
+            html:
+              `No Pdf Generated For this Policy`,
+            //showCloseButton: true,
+            //focusConfirm: false,
+            showCancelButton: false,
+
+            //confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancel',
+          })
+        }
+      },
       (err) => { },
     );
   }
@@ -687,15 +724,77 @@ if (rowData.DebitNoteNo==null && rowData.DebitNoteNo=='') {
     link.remove();
   }
   onSelectCustomer(event){
-    console.log('Eventsss',event);
-    
     if(event){
-    this.show= true;
-    this.customersearch=true;
+      this.show= true;
+      this.customersearch=true;
     }
     else{
       this.show=false;
       this.customersearch=false;
     }
-      }
+  }
+  eventothers(searchvalues,entryType){
+    let searchvalue:any=searchvalues;
+    this.searchValue=searchvalues;
+    sessionStorage.setItem('PolicyNos',searchvalue)
+    let ReqObj = {
+      "PolicyNo":searchvalues,//this.searchValue,
+   "BranchCode":this.branchCode,
+   "InsuraceId":this.insuranceId,
+   "ProductId":this.productId,
+   "Limit":"0",
+   "Offset":"10"
+    }
+    let urlLink = `${this.CommonApiUrl}api/searchbrokerpolicies`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result.PortFolioList){
+          this.searchSection = true;
+           //this.OthersList = data.Result?.PortFolioList;
+           if (data.Result?.PortFolioList.length != 0) {
+            
+            this.totalQuoteRecords = data.Result?.Count;
+            this.pageCount = 10;
+            if (entryType == 'change') {
+              this.quotePageNo = 1;
+              let startCount = 1, endCount = this.pageCount;
+              startCount = endCount + 1;
+                let quoteData = data.Result?.PortFolioList;
+                this.quoteData = data.Result?.PortFolioList;
+                if (quoteData.length <= this.pageCount) {
+                  endCount = quoteData.length
+                }
+                else endCount = this.pageCount;
+              
+              this.startIndex = startCount; this.endIndex = endCount;
+            }
+            else {
+
+              // let startCount = element.startCount, endCount = element.endCount;
+              // this.pageCount = element.n;
+              // startCount = endCount + 1;
+              //   let quoteData = data.Result?.PortfolioList;
+              //   this.pendingQuoteData = this.pendingQuoteData.concat(data.Result?.PortfolioList);
+              // if (this.totalQuoteRecords <= endCount + (element.n)) {
+              //   endCount = this.totalQuoteRecords
+              // }
+              // else endCount = endCount + (element.n);
+              // this.startIndex = startCount; this.endIndex = endCount;
+            }
+          }
+          else {
+            this.quoteData = []; 
+          }
+        }
+      },
+      (err) => { },
+    );
+  }
+  clearSearch(){
+    this.quoteData = [];
+    this.searchValue=[];
+    this.searchSection=false;
+    this.getExistingQuotes(null,'change');
+  }
 }

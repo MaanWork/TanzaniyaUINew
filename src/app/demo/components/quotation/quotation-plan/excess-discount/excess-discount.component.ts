@@ -616,11 +616,11 @@ emiyn="N";
     }
 
 
-    $(function () {
-      $("#exampleModal").click(function () {
-          $("#exampleModal").modal("hide");
-      });
-  });
+  //   $(function () {
+  //     $("#exampleModal").click(function () {
+  //         $("#exampleModal").modal("hide");
+  //     });
+  // });
 
 
   }
@@ -1048,7 +1048,6 @@ emiyn="N";
       });
     }
     onChangeSubCover(subCover,cover,vehicle,event){
-      alert(cover.CoverName)
       console.log("SubCover Data",subCover,event);
       if(subCover.MultiSelectYn=='Y'){
           if(event){
@@ -2410,9 +2409,10 @@ emiyn="N";
                 if(this.statusValue!=null && sub?.UserOpt=='Y'){
                   this.onChangeSubCover(sub,cover,veh,true); 
                 }
-                if(this.statusValue==null && (sub.isSelected=='D' || sub.isSelected=='O' || sub.isSelected=='Y' || sub?.UserOpt=='Y')){
+                else if(this.statusValue==null && (sub.isSelected=='D' || sub.isSelected=='O' || sub.isSelected=='Y' || sub?.UserOpt=='Y')){
                       this.onChangeSubCover(sub,cover,veh,true);
                 }
+                else{sub['selected']=false}
                 k+=1;
                 if(k==cover.SubCovers){
                   i+=1;
@@ -2479,9 +2479,10 @@ emiyn="N";
                             if(this.statusValue!=null && sub?.UserOpt=='Y'){
                               this.onChangeSubCover(sub,cover,veh,true); 
                             }
-                            if(this.statusValue==null && (sub.isSelected=='D' || sub.isSelected=='O' || sub.isSelected=='Y' || sub?.UserOpt=='Y')){
+                            else if(this.statusValue==null && (sub.isSelected=='D' || sub.isSelected=='O' || sub.isSelected=='Y' || sub?.UserOpt=='Y')){
                                   this.onChangeSubCover(sub,cover,veh,true);
                             }
+                            else{sub['selected']=false}
                             k+=1;
                             if(k==cover.SubCovers){
                               i+=1;
@@ -2573,6 +2574,10 @@ emiyn="N";
   
   
       }
+    }
+    checkSubCoverSelection(rowData){
+      if(rowData.selected=='true' || rowData.selected==true) return true;
+      else return false;
     }
     checkSelectedSections(rowData){
         let coverList = rowData.CoverList;
