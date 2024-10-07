@@ -578,6 +578,30 @@ export class MotorVehicleSanlamIvory{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                     type: 'ngselect',
+                    key: 'Zone',
+                    id:'Zone',
+                    hide: true,
+                    hideExpression:true,
+                    props: {
+                      label: `Zone`,
+                      maxLength: 15,
+                      disabled: this.checkDisable('Zone'),
+                      required: true,
+                      options: [
+  
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                    type: 'ngselect',
                     key: 'ZoneCirculation',
                     id:'ZoneCirculation',
                     props: {

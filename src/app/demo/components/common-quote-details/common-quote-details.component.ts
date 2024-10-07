@@ -1490,18 +1490,34 @@ export class CommonQuoteDetailsComponent implements OnInit {
                       field.props.options = defaultObj.concat(this.typeListIvory);
                       console.log("Changes Forms", field)
                     }
-                    if (field.key == 'Zone' || field.key == 'Class') {
-                      this.productItem.Zone =null;
-                      this.productItem.Class =null;
-                        if(this.productItem.InsuranceType =='1' || this.productItem.InsuranceType ==1){
-                          field.hide =false;
-                          field.hideExpression=false;
-                        }
-                        else{
-
-                          field.hide =true;
-                          field.hideExpression=true;
-                        }
+                    if(this.insuranceId=='100042'){
+                      if (field.key == 'Zone' || field.key == 'Class') {
+                        this.productItem.Zone =null;
+                        this.productItem.Class =null;
+                          if(this.productItem.InsuranceType =='1' || this.productItem.InsuranceType ==1){
+                            field.hide =false;
+                            field.hideExpression=false;
+                          }
+                          else{
+  
+                            field.hide =true;
+                            field.hideExpression=true;
+                          }
+                      }
+                    }
+                    else if (this.insuranceId=='100040'){
+                      if (field.key == 'Zone') {
+                        this.productItem.Zone =null;
+                          // if(this.productItem.InsuranceType =='1' || this.productItem.InsuranceType ==1){
+                            field.hide =false;
+                            field.hideExpression=false;
+                          // }
+                          // else{
+  
+                          //   field.hide =true;
+                          //   field.hideExpression=true;
+                          // }
+                      }
                     }
                   }
                 }
@@ -3310,7 +3326,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           else LoanEndDate = this.datePipe.transform(this.LoanEndDate, 'dd/MM/yyyy');
         }
         let zone;
-        if(this.insuranceId=='100042'){
+        if(this.insuranceId=='100042' || this.insuranceId=='100040'){
               zone=this.productItem.Zone
             }
             else{
@@ -3982,7 +3998,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           else LoanEndDate = this.datePipe.transform(this.productItem.LoanEndDate, 'dd/MM/yyyy');
         }
         let zone;
-if(this.insuranceId=='100042'){
+if(this.insuranceId=='100042' || this.insuranceId=='100040'){
       zone=this.productItem.Zone
     }
     else{
@@ -4750,7 +4766,7 @@ if(this.insuranceId=='100042'){
           else LoanEndDate = this.datePipe.transform(this.LoanEndDate, 'dd/MM/yyyy');
         }
         let zone;
-        if(this.insuranceId=='100042'){
+        if(this.insuranceId=='100042' || this.insuranceId=='100040'){
           zone=this.productItem.Zone
         }
         else{
@@ -5802,6 +5818,7 @@ if(this.insuranceId=='100042'){
         this.getVehicleUsage();
         this.getPACoverId();
         this.getAggregatedList();
+        this.getZone()
       }
       if(this.insuranceId =='100042'){
         this.getInsuranceTypeAltList();

@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { ConfirmEventType, ConfirmationService, MenuItem, Message, MessageService, PrimeNGConfig } from 'primeng/api';
 import * as Mydatas from '../../../../app-config.json';
 import { SharedService } from 'src/app/demo/service/shared.service';
-import { ProductData } from './product';
 import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
@@ -21,16 +20,17 @@ import { CustomerEagle } from '../../quotation/quotation-plan/models/Eagle/Custo
 import { CustomerMadison } from '../../quotation/quotation-plan/models/Madison/CustomerMadison';
 import { CustomerKenya } from '../../quotation/quotation-plan/models/Kenya/CustomerKenya';
 import { CustomerSaudiarabia } from '../../quotation/quotation-plan/models/Saudiarabia/CustomerSaudiarabia';
+import { ProductData } from '../customer-create-form/product';
 @Component({
-  selector: 'app-customer-create-form',
-  templateUrl: './customer-create-form.component.html',
+  selector: 'app-customer-as-insurer',
+  templateUrl: './customer-as-insurer.component.html',
   styles : [`
   .card .form-container .flex-column { min-width: 200px; }
   .card .form-container div label { font-weight: bold; }
   `],
   providers: [MessageService, ConfirmationService,TranslateService] 
 })
-export class CustomerCreateFormComponent implements OnInit {
+export class CustomerAsInsurerComponent implements OnInit {
   messages: Message[] = [];
   items:MenuItem[] | undefined;
   customerTypes:any[] | undefined;
@@ -755,8 +755,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			"Zone":"1",
 			"SocioProfessionalCategory":data?.SocioProfessionalcategory,
 			// "CompanyName":data?.CompanyName, 
-			"Activities":data?.BusinessType,
-			"CustomerAsInsurer":data?.Insurer,
+			"Activities":data?.BusinessType
 		}
 		let quoteNo = sessionStorage.getItem('quoteNo'),refNo = null;
 		if(this.loginType=='B2CFlow' || (this.loginType=='B2CFlow2')){
@@ -775,7 +774,7 @@ export class CustomerCreateFormComponent implements OnInit {
 		// 	ReqObj['EndtPrevPolicyNo'] = this.endtPrevPolicyNo;
 		// 	ReqObj['EndtPrevQuoteNo'] = this.endtPrevQuoteNo;
 		//   }
-		let urlLink = `${this.CommonApiUrl}api/savecustomerdetails`;
+		let urlLink = `${this.CommonApiUrl}api/saveinsureddetails`;
 		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
 			(data: any) => {
 				let res: any = data;
@@ -824,13 +823,7 @@ export class CustomerCreateFormComponent implements OnInit {
 						  else this.router.navigate(['/quotation/plan/quote-details']);
 						}
 						else {
-							if(this.productItem.Insurer=='Y' && (this.productItem.IdType=='2' || this.productItem.IdType==2)){
-								this.router.navigate(['/customer/insurer'])
-							}
-							else{
-
 								this.router.navigate(['/customer/'])
-							}
 						}
 					//}
 				}
@@ -1366,9 +1359,6 @@ export class CustomerCreateFormComponent implements OnInit {
 						this.productItem.Country = this.countryList[1].Code;
 							
 					}
-					if(customerDetails.CustomerAsInsurer!=null || customerDetails.CustomerAsInsurer!=''){
-						this.productItem.insurer=customerDetails.CustomerAsInsurer;
-					}
 					this.productItem.Nationality = customerDetails.Nationality;
 					if(this.productItem.Country==null) this.productItem.Country='';
 					this.productItem.PinCode = customerDetails.PinCode;
@@ -1775,7 +1765,7 @@ export class CustomerCreateFormComponent implements OnInit {
 	
 	for(let field of fieldList1){
 		if(this.productItem.IdType=='2' || this.productItem.IdType==2){
-		if(field.key=='BusinessType' || field.key=='CompanyName' ){
+		if(field.key=='BusinessType' || field.key=='CompanyName'  ){
 			field.hide=false;field.hideExpression=false;
 		}
 		
@@ -1794,7 +1784,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			}
 		}
 		else if(this.productItem.IdType=='1' || this.productItem.IdType==1){
-			if(field.key=='BusinessType' || field.key=='CompanyName' ){
+			if(field.key=='BusinessType' || field.key=='CompanyName'){
 				field.hide=true;field.hideExpression=true;
 			}
 			if(field.key=='ClientName'  || field.key=='Gender' || field.key=='dobOrRegDate' || field.key=='Nationality'
@@ -1812,15 +1802,15 @@ export class CustomerCreateFormComponent implements OnInit {
 	}
 		for(let field of fieldList){
 			if(this.productItem.IdType=='1' || this.productItem.IdType==1){
-				if(  (field.key=='dobOrRegDate' && this.insuranceId!='100044') || field.key=='GstNumber' || field.key=='Insurer'){
+				if(  (field.key=='dobOrRegDate' && this.insuranceId!='100044') || field.key=='GstNumber' ){
 					field.hide=true;field.hideExpression=true;
 				}
 				else if(field.key=='IdNumber' || field.key=='PolicyHolderTypeid'){
 					field.templateOptions.required=false;
 				}
 			} 
-			else if(this.productItem.IdType=='2' || this.productItem.IdType==2 ){
-				if(  field.key=='dobOrRegDate' || field.key=='GstNumber' || field.key=='Insurer'){
+			else if(this.productItem.IdType=='2' || this.productItem.IdType==2){
+				if(  field.key=='dobOrRegDate' || field.key=='GstNumber'){
 					field.hide=false;field.hideExpression=false;
 				}
 				else if(field.key=='PolicyHolderTypeid' || field.key=='IdNumber'){

@@ -17,12 +17,17 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { ApproverPortfolioNewComponent } from './approver-portfolio-new/approver-portfolio-new.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpLoaderFactory } from 'src/app/app.module';
+import { HttpClient } from '@angular/common/http';
 
 //import { RejectedQuotesComponent } from './rejected-quotes.component';
 //import { RejectedQuotesRoutingModule } from './rejected-quotes-routing.module';
 @NgModule({
   declarations: [
     ApproverPortfolioComponent,
+    ApproverPortfolioNewComponent,
  
   ],
   imports: [
@@ -46,7 +51,13 @@ import { RadioButtonModule } from 'primeng/radiobutton';
     ButtonModule,
     BreadcrumbModule, 
     InputTextareaModule,
-  ],
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
+  })  ],
   bootstrap: [ApproverPortfolioComponent],
   providers: [
     CurrencyPipe,
