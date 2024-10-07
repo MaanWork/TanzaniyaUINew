@@ -313,16 +313,17 @@ export class CustomerKenya{
                   className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
                   key: 'isTaxExempted',
                   id: 'TaxExcempted',
-                  type: 'radioList',
+                  type: 'ngselect',
                   templateOptions: {
-                    type: 'radioList',
                     required: true,
                     disabled: this.checkDisable('isTaxExempted'),
                     name: 'isTaxExempted',
                   },
                   props: {
                     label: 'Tax Excempted',
-                    options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
+                    options: [
+                      
+                    ],
                   }
                 },
                 {
