@@ -211,7 +211,7 @@ this.enddate=this.datePipe.transform(this.EndDate, "dd/MM/yyyy");
           "StartDate":this.startDate,
          "EndDate":this.enddate,
          "LoginId":"",
-         "ProductId": ""//this.productId
+         "ProductId": ""
       }
       let urlLink = `${this.CommonApiUrl}api/admin/portfoliodashboard`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -277,7 +277,6 @@ this.enddate=this.datePipe.transform(this.EndDate, "dd/MM/yyyy");
           }
 
           onTotal(rowdata,ProductName,ProductId){
-            alert(rowdata?.BrokerName);
               let quoteObj = {
               "ProductId":ProductId,
               "ProductName":ProductName,
@@ -292,7 +291,7 @@ this.enddate=this.datePipe.transform(this.EndDate, "dd/MM/yyyy");
             }
             console.log('PPPPPPPP');
             sessionStorage.setItem('editdetails',JSON.stringify(quoteObj));
-            this.router.navigate(['/ApproverPortfolio/NewDetails']);
+            this.router.navigate(['/Home/ApproverPortfolio/NewDetails']);
             // this.show=true;
           
             // this.ProductName=ProductName;

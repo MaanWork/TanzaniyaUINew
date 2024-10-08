@@ -29,6 +29,7 @@ import { ReInsuranceComponent } from '../Admin/re-insurance/re-insurance.compone
 import { TiraStatusComponent } from '../tira-status/tira-status.component';
 import { YakeenSearchComponent } from '../yakeen-search/yakeen-search.component';
 import { ClaimIntimateComponent } from '../portfolio/claim-intimate/claim-intimate.component';
+import { CustomerAsInsurerComponent } from '../customer/customer-as-insurer/customer-as-insurer.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { ClaimIntimateComponent } from '../portfolio/claim-intimate/claim-intima
         { path: '', component: DashboardComponent },
         { path: 'customer', component: CustomerTableComponent },
         { path: 'customer/create', component: CustomerCreateFormComponent },
+        { path: 'customer/insurer', component: CustomerAsInsurerComponent },
         { path: 'customer/detail', component: CustomerDetailComponent },
         { path: 'vehicle', component: VehicleTableComponent },
         { path: 'vehicle/create', component: VehicleCreateFormComponent },
@@ -66,7 +68,7 @@ import { ClaimIntimateComponent } from '../portfolio/claim-intimate/claim-intima
         { path: 'Admin', loadChildren: () => import('../Admin/admin.module').then(m => m.AdminModule) },
         { path: 'Home/others/premiaintegration', loadChildren: () => import('../../components/othersmenu/premia.module').then(m => m.PremiaIntegrationViewModule) },
         {
-            path:'ApproverPortfolio',
+            path:'Home/ApproverPortfolio',
             component:ApproverPortfolioComponent,
             loadChildren: () => import('../approverportfolio/approverportfolio.module').then(m => m.ApproverPortfolioModule),
           },
@@ -82,7 +84,11 @@ import { ClaimIntimateComponent } from '../portfolio/claim-intimate/claim-intima
           },
           {
             path:'Home/Sms',loadChildren: () => import('../../components/Sms/Sms.module').then(m => m.SmsModule),
-          }
+          },
+          // {path:'crmHome',loadChildren: () => import('../../components/CRM/crm-home.module').then(m => m.CRMHomeModule)},
+          // {path:'renewal',loadChildren: () => import('../../components/Renewal/renewal.module').then(m => m.RenewalModule)},
+          // {path:'garage',loadChildren: () => import('../../components/garage/garage.module').then(m => m.GarageModule)},
+          
           
     ])],
     exports: [RouterModule]

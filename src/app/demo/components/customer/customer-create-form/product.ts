@@ -13,6 +13,7 @@ export class Product {
 }
 
 export class ProductData {
+	Insurer='N'
 	Address2:any=''
 	Address1:any
 	AppointmentDate: any
