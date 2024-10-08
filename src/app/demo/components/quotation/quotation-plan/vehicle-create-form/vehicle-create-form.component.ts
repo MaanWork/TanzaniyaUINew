@@ -70,6 +70,8 @@ export class VehicleCreateFormComponent implements OnInit {
   bodyType: any;
   grossWeightError: boolean=false;
   maxDate: any;
+  plateTypeList: any[]=[];
+  PlateType:any;
   constructor(private messageService: MessageService,private sharedService: SharedService,private appComp:AppComponent,
     private translate:TranslateService,private datePipe:DatePipe,private router:Router) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -93,7 +95,8 @@ export class VehicleCreateFormComponent implements OnInit {
       this.getBodyTypeList();
       this.getOwnerCategoryList();
       if(this.insuranceId=='100040'){
-        this.getMakeList()
+        this.getMakeList();
+        this.getPlateType();
       }
       this.appComp.getLanguage().subscribe((res:any)=>{  
         if(res) this.lang=res;
@@ -1015,6 +1018,7 @@ export class VehicleCreateFormComponent implements OnInit {
     this.displacement = vehDetails?.DisplacementInCM3;
     this.numberOfCylinders = vehDetails?.NumberOfCylinders;
     this.RegistrationDate = vehDetails?.RegistrationDate;
+    this.PlateType = vehDetails?.PlateType;
      if(this.insuranceId!='100020') this.onBodyTypeChange('direct');
      else{
       if(vehDetails?.Vehiclemake!=null && vehDetails?.Vehiclemake!='' && this.makeList.length!=0){
@@ -1215,6 +1219,7 @@ export class VehicleCreateFormComponent implements OnInit {
       "DisplacementInCM3": this.displacement,
        "NumberOfCylinders": this.numberOfCylinders,
        "RegistrationDate": registrationDate,
+       "PlateType": this.PlateType,
     }
     let urlLink = `${this.motorApiUrl}regulatory/savevehicleinfo`;
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
@@ -1525,5 +1530,22 @@ export class VehicleCreateFormComponent implements OnInit {
       // Remove non-numeric characters and limit length to 5
       input.value = input.value.replace(/[^0-9]/g, '').slice(0, 2);
       this.seatingCapacity = input.value;
+    }
+    getPlateType(){
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "ItemType": "PLATE_TYPE"
+      }
+      let urlLink = `${this.commonApiUrl}master/getbyitemvalue`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if (data.Result) {
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
+            this.plateTypeList = defaultObj.concat(data.Result);
+          }
+        },
+        (err) => { },
+      );
     }
 }

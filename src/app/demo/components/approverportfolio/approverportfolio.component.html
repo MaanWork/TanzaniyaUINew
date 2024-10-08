@@ -55,13 +55,14 @@
     <div class="grid justify-content-center mt-5" *ngIf="!show">
         <p-button label="Submit" size="small" icon="pi pi-search" (click)="getsearchlist(bussinesstype)" ></p-button>
     </div>
-<div class="grid">
-    <div class="col-12 lg:col-2 xl:col-2 md:col-2"></div>
-    <div class="col-12 lg:col-8 xl:col-8 md:col-8">
-        <ng-container *ngFor="let s of tableData">
+<div class="grid mt-3">
+    <!-- <div class="col-12 lg:col-2 xl:col-2 md:col-2"></div> -->
+    <ng-container *ngFor="let s of tableData">
+    <div class="col-12 lg:col-6 xl:col-6 md:col-6 ">
+        
             <h4>{{s.ProductName}}</h4>
         <p-table [value]="s.BrokerList" #dtEmployee [globalFilterFields]="['Broker','Channel',
-        'Count','Premium']" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+        'Count','Premium']" styleClass="w-full" [paginator]="true" [rows]="5">
     <ng-template pTemplate="caption">
         <div class="flex flex wrap justify-content-end">
           <div class="table-header">
@@ -99,11 +100,14 @@
                 </tr>
             </ng-template>
         </p-table>
+
         <ng-container *ngIf="s.BrokerList.length==0">
             No Data Available
         </ng-container>
-    </ng-container>
+    
     </div>
+</ng-container>
+    <!-- <div class="col-12 lg:col-1 xl:col-1 md:col-1"></div> -->
 </div>
    
 

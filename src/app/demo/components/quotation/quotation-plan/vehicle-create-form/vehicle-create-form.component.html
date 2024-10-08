@@ -213,6 +213,23 @@
                     </div>
                 </div>
             </div>
+            <div class="flex flex-column m-3" *ngIf="insuranceId=='100040'">
+                <label for="PlateType">{{'MOTORDETAILS.PlateType'  | translate}} *</label>
+                <p-dropdown inputId="PlateType" id="PlateType"
+                    class="w-full" 
+                    styleClass="w-full" 
+                    [options]="plateTypeList" [disabled]="editSection"
+                    [(ngModel)]="PlateType" 
+                    optionLabel="CodeDesc" 
+                    optionValue="Code" 
+                    [placeholder]="'MOTORDETAILS.SelectPlateType'   | translate">
+                </p-dropdown>
+                <!-- <div class="input-form-error" *ngIf="fuelTypeError">
+                    <div class="text-danger" style="font-size: 12px;">
+                        {{'MOTORDETAILS.SelectFuelType' | translate}}
+                    </div>
+                </div> -->
+            </div>
             <div class="flex flex-column m-3" *ngIf="insuranceId!='100004'">
                 <label for="tare-weight">{{'MOTORDETAILS.TareWeight' | translate}} *</label>
                 <input pInputText id="TareWeight" class="w-full" styleClass="w-full" [(ngModel)]="tareWeight" maxlength="5" [disabled]="editSection" type="text" inputId="tare-weight" (input)="onInputChange($event)" [placeholder]="'MOTORDETAILS.EnterTareWeight' | translate" />
