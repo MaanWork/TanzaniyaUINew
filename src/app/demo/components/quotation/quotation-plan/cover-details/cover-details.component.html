@@ -1672,7 +1672,9 @@
                         <td style="padding:12px 14px"><b>{{'PREMIUM.Total' | translate}}</b></td>
                         <td></td>
                         <td style="text-align: end;padding:12px 14px"><span class="spancommon span_font_size">
-                            <b id="afterDiscount">{{afterDiscount | commaseparator}}</b></span></td>
+                            <b id="afterDiscount" *ngIf="afterDiscount!=0 && afterDiscount!='0'">{{afterDiscount | commaseparator}}</b>
+                            <b id="afterDiscount" *ngIf="afterDiscount==0 || afterDiscount=='0'">{{afterDiscount}}</b>
+                        </span></td>
                     </tr>
                 </tfoot>
             </table>
