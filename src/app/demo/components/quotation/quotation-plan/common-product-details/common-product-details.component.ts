@@ -266,6 +266,9 @@ export class CommonProductDetailsComponent {
     this.productId = this.userDetails.Result.ProductId;
     this.currencyCode = this.userDetails.Result.CurrencyId;
     if(this.userType=='Broker' || this.userType=='User') this.Code=this.userDetails.Result.SubUserType;
+    if(sessionStorage.getItem('newQuote')){
+      this.router.navigate(['/quotation'])
+    }
     this.insuranceId = this.userDetails.Result.InsuranceId;
     let endorseObj = JSON.parse(sessionStorage.getItem('endorseTypeId'))
     if(endorseObj){
@@ -6069,7 +6072,7 @@ backPlan()
             obj['FirePlantSi'] = this.productItem.BusinessSI;
             obj['BusinessNameDesc'] = this.getBusinessNameDesc(this.productItem.BusinessName);
             obj['BuildingSumInsured'] = this.productItem.FireSumInsured;
-            entry['SumInsured'] = this.productItem.FireSumInsured;
+            obj['SumInsured'] = this.productItem.FireSumInsured;
             sectionList.push(obj);
             if(obj.BusinessInterruption!=0 && obj.BusinessInterruption!='0'){
               let subData = {
@@ -11071,10 +11074,10 @@ let requestNO=null;
   }
   getdropListAlt(){
     let ReqObj = {
-      "InsuranceId":this.insuranceId,
-      "BranchCode": this.branchCode
+      "InsuranceId": this.insuranceId,
+      "ItemType": "MACHINERY_BREAKDOWN"
     }
-    let urlLink = `${this.CommonApiUrl}dropdown/electronicitems`;
+    let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       (data: any) => {
         console.log(data);

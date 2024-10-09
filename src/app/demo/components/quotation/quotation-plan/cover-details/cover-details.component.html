@@ -1782,8 +1782,10 @@
                     <tr>
                         <td><b>{{'PREMIUM.Total' | translate}}</b></td>
                         <td></td>
-                        <td style="text-align: end;"><span class="spancommon span_font_size">
-                            <b>{{beforeDiscount | commaseparator}}</b></span></td>
+                        <td style="text-align: end;">
+                            <b class="spancommon span_font_size" *ngIf="beforeDiscount!=0 && beforeDiscount!='0'">{{beforeDiscount | commaseparator}}</b>
+                            <b class="spancommon span_font_size" *ngIf="beforeDiscount==0 || beforeDiscount=='0'">{{beforeDiscount}}</b>
+                        </td>
                     </tr>
                 </tfoot>
             </table>

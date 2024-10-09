@@ -34,8 +34,8 @@ export class MachineryBreakDown{
                   defaultValue: '',
                   className: 'col-12 ',
                   templateOptions: {
-                    label: `Electronic Item`,
-                    placeholder: 'Select Content Type',
+                    label: `Machinery`,
+                    placeholder: 'Select Machinery',
                    // disabled: true,
                     required: true,
                     options: [
