@@ -2173,7 +2173,6 @@ export class CommonProductDetailsComponent {
         }
        
      }
-       
     //  else if(this.productId=='60'){
     //   let fireData = new ProfessionalIndemnity();
     //   let entry = [];
@@ -2191,11 +2190,10 @@ export class CommonProductDetailsComponent {
     //         this.productItem = new ProductData();
     //         this.formSection = true; this.viewSection = false;
     //     }
-
     //  }
-     else if(this.productId == '59'){
-      this.formSection = true;
-     }
+    else if(this.productId == '59'){
+    this.formSection = true;
+    }
     else if(this.productId=='16' && this.insuranceId != '100004'){
       let fireData = new Money();
       let entry = [];
@@ -2295,14 +2293,12 @@ export class CommonProductDetailsComponent {
         this.requestReferenceNo = referenceNo;
         this.productItem = new ProductData();
         this.setCommonFormValues(null);
-       
       }
       else {
           this.productItem = new ProductData();
           this.formSection = true; this.viewSection = false;
       }
     }
-
     else if(this.productId=='60'){
       let referenceNo = sessionStorage.getItem('quoteReferenceNo');
       let fireData = new ProfessionalIndemnity();
@@ -2312,7 +2308,6 @@ export class CommonProductDetailsComponent {
         this.requestReferenceNo = referenceNo;
         this.productItem = new ProductData();
         this.setCommonFormValues(null);
-       
       }
       else {
           this.productItem = new ProductData();
@@ -2320,7 +2315,6 @@ export class CommonProductDetailsComponent {
       }
     }
     else if(this.productId=='26'){
-     
       let fireData = new BussinessAllRisk();
       let entry = [];
       this.fields[0] = fireData?.fields;
@@ -2371,7 +2365,6 @@ export class CommonProductDetailsComponent {
     //   }
     // }
     else if(this.productId=='25'){
-     
       let fireData = new ElectronicEquipments();
       let entry = [];
       this.fields[0] = fireData?.fields;
@@ -2381,14 +2374,12 @@ export class CommonProductDetailsComponent {
         this.requestReferenceNo = referenceNo;
         this.productItem = new ProductData();
         this.setCommonFormValues(null);
-       
       }
       else {
           this.productItem = new ProductData();
           this.formSection = true; this.viewSection = false;
       }
     }
-    
     else if(this.productId=='43'){
       let fireData = new MedicalInsurance();
       let entry = [];
@@ -2480,10 +2471,8 @@ export class CommonProductDetailsComponent {
           this.getOccupationList('direct');
         });
       } }
-     
       // this.fields[0].fieldGroup[0].fieldGroup[1].hooks = DistHooks;
       // this.fields[0].fieldGroup[0].fieldGroup[0].hooks = modelHooks;
-
       let referenceNo = sessionStorage.getItem('quoteReferenceNo');
       if (referenceNo) {
         this.requestReferenceNo = referenceNo;
@@ -2521,10 +2510,7 @@ export class CommonProductDetailsComponent {
           this.ongetDistrictList('direct',null);
         });
       } }
-     
       this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[1].hooks = DistHooks;
-      console.log('HHHHHHHHHHHHHH',this.fields);
-   
       // let modelHooks = { onInit: (field: FormlyFieldConfig) => {
       //   field.formControl.valueChanges.subscribe(() => {
       //     this.onoccChangepersonalInd('change');
@@ -3206,13 +3192,12 @@ savePlan(travelList, totalPassengers){
             "GroupMembers": this.superSenior,
             "GroupDesc": "Super Senior(76-80)"
         },
-
         {
           "GroupId": "5",
           "LocationId": "1",
           "GroupMembers": this.grandSenior,
           "GroupDesc": "Grand Senior(76-80)"
-      }
+        }
     ],
       "EndorsementYn": this.endorsementType,
         "EndorsementDate":this.endorsementDate,
@@ -3326,15 +3311,9 @@ getCoverList(coverListObj) {
           }
           vehicleList.push(entry);
           i += 1;
-          console.log("iiiiiiiii ", i)
           if (i == groupList.length) {
-            console.log("grouppppppppppppppppppp");
             sessionStorage.setItem('quoteReferenceNo', coverListObj.RequestReferenceNo)
-            //this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
             this.router.navigate(['/quotation/plan/premium-details']);
-            // this.vehicleDetailsList = vehicleList;
-            // console.log("Final Vehicle Details",vehicleList);
-            // this.checkSelectedCovers();
 
           }
         },
@@ -3427,22 +3406,22 @@ backPlan()
     this.showsectionnew=false;
     this.listSection = false;
     this.listn=true;
-   this.currentBuildingIndex = null;
+    this.currentBuildingIndex = null;
     this.productItem = new ProductData();
     this.productItem.LiabilityOccupationId='';
-  this.productItem.FidEmpCount='';
-  this.productItem.FidEmpSi=0;
-  this.productItem.otherFioption='';
-  let entry = {
-    "LiabilityOccupationId":null,
-    "FidEmpCount":null,
-    "FidEmpSi":'0',
-    "OtherOccupation":'',
-  }
-  if(entry.LiabilityOccupationId ==null && entry.LiabilityOccupationId =="") {
-    this.isFedilityForm = false;
-   }
-   else{
+    this.productItem.FidEmpCount='';
+    this.productItem.FidEmpSi=0;
+    this.productItem.otherFioption='';
+    let entry = {
+      "LiabilityOccupationId":null,
+      "FidEmpCount":null,
+      "FidEmpSi":'0',
+      "OtherOccupation":'',
+    }
+    if(entry.LiabilityOccupationId ==null && entry.LiabilityOccupationId =="") {
+      this.isFedilityForm = false;
+    }
+    else{
   
     this.currentFidelityIndex = this.FidelityListNew.length;
     
@@ -5948,12 +5927,12 @@ backPlan()
     //   this.PAErrorFun();
     // }
     if(valid){
-      if( this.productId=='43' || this.productId=='42' || this.productId=='15' 
+      if( this.productId=='43' || this.productId=='42'  
           || this.productId=='60' || this.productId=='57' || this.productId=='56' || this.productId=='26'
           || this.productId=='21' || this.productId=='27' || this.productId=='24'){ 
        this.saveCommonDetails('direct',null)
       }
-      else if(this.productId=='1' || this.productId=='14' || this.productId=='13' || this.productId=='32' || this.productId=='61' || this.productId=='39' ||  this.productId=='25' || this.productId=='16' || this.productId=='6'){
+      else if(this.productId=='1' || this.productId=='14' || this.productId=='15' || this.productId=='13' || this.productId=='32' || this.productId=='61' || this.productId=='39' ||  this.productId=='25' || this.productId=='16' || this.productId=='6'){
         let entry = this.LocationListAlt[this.tabIndex];
         if(entry && this.productId=='61'){
           entry.SectionList[0].BondSuminsured = this.productItem.BondSI
@@ -5995,11 +5974,9 @@ backPlan()
             else{entry.SectionList.push(subEntry);}
           }
         }
-        else if(entry && this.productId=='14'){
+        else if(entry && (this.productId=='14' || this.productId=='15')){
           if(this.productItem.LiabilityOccupationId!=null && this.productItem.LiabilityOccupationId!='' && this.productItem.EmpLiabilitySi!='0' && this.productItem.EmpLiabilitySi!=0 && this.productItem.EmpLiabilitySi!=null){
             let subEntry = {
-              "SectionId": "45",
-              "SectionName": "Employers Liability",
               "OccupationId": this.productItem.LiabilityOccupationId,
               "OccupationType": this.productItem.LiabilityOccupationId,
               "TotalNoOfEmployees": this.productItem.TotalNoOfEmployees,
@@ -6007,7 +5984,8 @@ backPlan()
               "OtherOccupation": this.productItem.OtherOccupation,
               RiskId: null
             }
-
+            if(this.productId=='14'){subEntry["SectionId"]= "45";subEntry["SectionName"]= "Employers Liability";}
+            else{subEntry["SectionId"]= "38";subEntry["SectionName"]= "Workmen Compensation";}
             if(this.currentSectionIndex!=null){entry.SectionList[this.currentSectionIndex] = subEntry;}
             else{entry.SectionList.push(subEntry);}
             entry.SectionList = entry.SectionList.filter(ele=>ele.OccupationId!=null && ele.OccupationId!='' && ele.TotalNoOfEmployees!=null && ele.TotalNoOfEmployees!='');
@@ -6390,7 +6368,7 @@ backPlan()
                   k+=1;if(k==entry.SectionList.length){i+=1;ReqObj.LocationList.push(obj); if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);}
                 }
               }
-              else if(this.productId=='14'){
+              else if(this.productId=='14' || this.productId=='15'){
                 if(entry.SectionList.length!=0){
                   console.log("On Received Emp List",entry.SectionList)
                   let k=0;
@@ -6400,8 +6378,6 @@ backPlan()
                       if(subEntry.OccupationId){occupationId=subEntry.OccupationId;}
                       else if(subEntry.OccupationType){occupationId=subEntry.OccupationType}
                       let subObj = {
-                        "SectionId": "45",
-                        "SectionName": "Employers Liability",
                         "RiskId": null,
                         "IndustryId": this.IndustryId,
                         "OccupationId": occupationId,
@@ -6410,6 +6386,8 @@ backPlan()
                         "SumInsured": subEntry.SumInsured,
                         "OtherOccupation":  subEntry.OtherOccupation,
                       }
+                      if(this.productId=='14'){subEntry["SectionId"]= "45";subEntry["SectionName"]= "Employers Liability";}
+                      else{subEntry["SectionId"]= "38";subEntry["SectionName"]= "Workmen Compensation";}
                       if(subEntry.OccupationId) subObj['OccupationType'] = subEntry.OccupationId;
                       else if(subEntry.OccupationType) subObj['OccupationType'] = subEntry.OccupationType;
                       obj.SectionList.push(subObj);
