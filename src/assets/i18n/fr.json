@@ -1,5 +1,6 @@
 {
   "HOME":{
+    "insurer":"Client en tant qu'assureur",
     "Corporate":"Personne Morale",
     "Individual":"Personne Physique",
     "logout":"Se déconnecter",

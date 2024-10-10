@@ -1,5 +1,6 @@
 {
   "HOME": {
+    "insurer":"Customer As Insurer",
     "Corporate":"Corporate",
     "Individual":"Individual",
     "logout":"Logout",
