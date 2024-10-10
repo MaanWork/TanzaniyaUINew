@@ -148,7 +148,7 @@ export class DriverInfoComponent {
                 this.totalPremium = this.quoteDetails?.DueAmount;
               }   
             }
-            this.quoteComponent.setRiskDetails(this.Riskdetails);
+            //this.quoteComponent.setRiskDetails(this.Riskdetails);
             this.quoteComponent.currencyCode = data?.Result?.QuoteDetails?.Currency;
           for (let cover of this.Riskdetails) {
             let j = 0;
@@ -191,6 +191,7 @@ export class DriverInfoComponent {
             this.getDriverDetails();
             
             this.localPremiumCost = quoteDetails?.OverallPremiumLc;
+            this.quoteComponent.setRiskDetails(data?.Result?.LocationDetails);
             let vehicles:any[] = data?.Result?.RiskDetails;
             if(vehicles.length!=0){
               let i=0;this.vehicleList=[];

@@ -1,7 +1,7 @@
 <div class="grid">
     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
         <label for="Company">Company *</label>
-        <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="insuranceId"  (onChange)="changebroker();getMobileCodeList()" [options]="companyList" optionLabel="CodeDesc" optionValue="Code">
+        <p-dropdown  class="w-full" styleClass="w-full" [(ngModel)]="insuranceId"  (onChange)="changebroker();getMobileCodeList();getCountryList()" [options]="companyList" optionLabel="CodeDesc" optionValue="Code">
         </p-dropdown> 
     </div>
     <div class="col-12 lg:col-4 md:col-4 lg:col-4">
