@@ -1502,6 +1502,7 @@ export class CommonProductDetailsComponent {
           "PolicyEndDate": endDate,
           "CoverModification": coverModificationYN
         }
+        alert(3)
         let urlLink = `${this.CommonApiUrl}calculator/calc`;
         this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
           (data: any) => {
@@ -3297,6 +3298,7 @@ getCoverList(coverListObj) {
         "RequestReferenceNo": coverListObj?.RequestReferenceNo,
         "CoverModification":'N'
       }
+      alert(2)
       let urlLink = `${this.CommonApiUrl}calculator/calc`;
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
@@ -8371,6 +8373,9 @@ finalSaveMoney(finalList,type,formType) {
           else endDate = date; 
         let locationId = '1';
         if(build.LocationId!=null && build.LocationId!=undefined) locationId=build.LocationId;
+        if(this.productId!='46' && this.productId!='4'){
+          if(build.RiskId==null || build.RiskId==undefined) build['RiskId'] = this.tabIndex+1;
+        }
         let ReqObj = {
           "LocationId" : locationId,
           "InsuranceId": this.insuranceId,

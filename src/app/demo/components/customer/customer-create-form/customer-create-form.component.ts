@@ -1779,7 +1779,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			field.hide=false;field.hideExpression=false;
 		}
 		
-		if(field.key=='ClientName' || field.key=='Gender' || field.key=='dobOrRegDate' || field.key=='Nationality'
+		if(field.key=='ClientName' || field.key=='LastName' || field.key=='Gender' || field.key=='dobOrRegDate' || field.key=='Nationality'
 			|| field.key=='SocioProfessionalcategory' || field.key=='Occupation' 
 		)
 			{
@@ -1797,12 +1797,12 @@ export class CustomerCreateFormComponent implements OnInit {
 			if(field.key=='BusinessType' || field.key=='CompanyName' ){
 				field.hide=true;field.hideExpression=true;
 			}
-			if(field.key=='ClientName'  || field.key=='Gender' || field.key=='dobOrRegDate' || field.key=='Nationality'
+			if(field.key=='ClientName' || field.key=='LastName'  || field.key=='Gender' || field.key=='dobOrRegDate' || field.key=='Nationality'
 				|| field.key=='SocioProfessionalcategory' || field.key=='Occupation' 
 			){
 					field.hide=false;field.hideExpression=false;
 				}
-			if(field.key=='ClientName'  || field.key=='Gender'){
+			if(field.key=='ClientName' || field.key=='LastName'  || field.key=='Gender'){
 					field.hide=false;field.hideExpression=false;
 				}
 				if(field.key=='EmailId' ){

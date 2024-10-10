@@ -2409,9 +2409,6 @@ emiyn="N";
                 if(this.statusValue!=null && sub?.UserOpt=='Y'){
                   this.onChangeSubCover(sub,cover,veh,true); 
                 }
-                else if(this.statusValue==null && (sub.isSelected=='D' || sub.isSelected=='O' || sub.isSelected=='Y' || sub?.UserOpt=='Y')){
-                      this.onChangeSubCover(sub,cover,veh,true);
-                }
                 else{sub['selected']=false}
                 k+=1;
                 if(k==cover.SubCovers){
@@ -2478,9 +2475,6 @@ emiyn="N";
                           for(let sub of cover.SubCovers){
                             if(this.statusValue!=null && sub?.UserOpt=='Y'){
                               this.onChangeSubCover(sub,cover,veh,true); 
-                            }
-                            else if(this.statusValue==null && (sub.isSelected=='D' || sub.isSelected=='O' || sub.isSelected=='Y' || sub?.UserOpt=='Y')){
-                                  this.onChangeSubCover(sub,cover,veh,true);
                             }
                             else{sub['selected']=false}
                             k+=1;

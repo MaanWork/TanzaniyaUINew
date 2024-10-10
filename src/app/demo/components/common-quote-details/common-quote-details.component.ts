@@ -1495,7 +1495,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                     }
                     if(this.insuranceId=='100042'){
                       if (field.key == 'Zone' || field.key == 'Class') {
-                        this.productItem.Zone =null;
+                        //this.productItem.Zone =null;
                         this.productItem.Class =null;
                           if(this.productItem.InsuranceType =='1' || this.productItem.InsuranceType ==1){
                             field.hide =false;
@@ -1510,7 +1510,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                     }
                     else if (this.insuranceId=='100040'){
                       if (field.key == 'Zone') {
-                        this.productItem.Zone =null;
+                        //this.productItem.Zone =null;
                           // if(this.productItem.InsuranceType =='1' || this.productItem.InsuranceType ==1){
                             field.hide =false;
                             field.hideExpression=false;
@@ -4001,12 +4001,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
           else LoanEndDate = this.datePipe.transform(this.productItem.LoanEndDate, 'dd/MM/yyyy');
         }
         let zone;
-if(this.insuranceId=='100042' || this.insuranceId=='100040'){
-      zone=this.productItem.Zone
-    }
-    else{
-      zone="1"
-    }
+        if(this.insuranceId=='100042' || this.insuranceId=='100040'){
+          zone=this.productItem.Zone
+        }
+        else{
+          zone="1"
+        }
 
               let ReqObj = {
                 "BrokerBranchCode": brokerbranchCode,
@@ -5903,7 +5903,7 @@ if(this.insuranceId=='100042' || this.insuranceId=='100040'){
       this.productItem.PurchaseDate = this.onDateFormatInEdit(this.vehicleDetails?.PurchaseDate);
       this.productItem.Deductibles = this.vehicleDetails?.Deductibles;
       this.productItem.VehicleValue = this.vehicleDetails?.VehicleValueType;
-
+      this.productItem.Zone = this.vehicleDetails?.Zone;
       this.productItem.Aggregatedvalue = String(this.vehicleDetails?.AggregatedValue);
       this.productItem.Marketvalue = this.vehicleDetails?.MarketValue;
       this.productItem.Inflation = this.vehicleDetails?.Inflation;
