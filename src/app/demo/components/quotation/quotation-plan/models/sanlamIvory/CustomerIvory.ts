@@ -501,18 +501,42 @@ export class CustomerIvory{
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
                   {
-                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
-                    type: 'input',
-                    id: 'Plot',
-                    key: 'Address2',
-                    templateOptions: {
-                      label: `Plot No`,
-                      //placeholder: 'Enter Street',
-                     // required: true,
-                      disabled: this.checkDisable('Address2'),
-                      maxLength: 50
+                    className: 'col-12 md:col-3  lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
+                    type: 'ngselect',
+                    id: 'Country',
+                    key: 'Country',
+                    props: {
+                      label: `Country`,
+                      id: 'Country',
+                      name:'Country',
+                      // placeholder: '-Select-',
+                      required: false,
+                      disabled: this.checkDisable('Country'),
+                      maxLength: 15,
+                      options:[]
                     },
-                    
+                  
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
+                    type: 'ngselect',
+                    id: 'City',
+                    key: 'CityName',
+                    props: {
+                      label: `City`,
+                      id: 'City',
+                      name:'City',
+                      required: false,
+                      disabled: this.checkDisable('CityName'),
+                      maxLength: 15,
+                      options:[]
+                    },
                     validators: {
                     },
                     hooks: {
@@ -540,23 +564,21 @@ export class CustomerIvory{
                     expressions: {
                     },
                   },
-                 
                   {
-                    className: 'col-12 md:col-3  lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
-                    type: 'ngselect',
-                    id: 'Country',
-                    key: 'Country',
-                    props: {
-                      label: `Country`,
-                      id: 'Country',
-                      name:'Country',
-                      // placeholder: '-Select-',
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
+                    type: 'input',
+                    id: 'PoBox',
+                    key: 'PinCode',
+                    name:'number',
+                    templateOptions: {
+                      type: 'number',
+                      label: `PoBox`,
+                      // placeholder: 'Enter PoBox',
                       required: false,
-                      disabled: this.checkDisable('Country'),
-                      maxLength: 15,
-                      options:[]
+                      disabled: this.checkDisable('PinCode'),
+                      maxLength: 10
                     },
-                  
+                    
                     validators: {
                     },
                     hooks: {
@@ -606,39 +628,15 @@ export class CustomerIvory{
                   },
                   {
                     className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
-                    type: 'ngselect',
-                    id: 'City',
-                    key: 'CityName',
-                    props: {
-                      label: `City`,
-                      id: 'City',
-                      name:'City',
-                      required: false,
-                      disabled: this.checkDisable('CityName'),
-                      maxLength: 15,
-                      options:[]
-                    },
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
-                  
-                  {
-                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'input',
-                    id: 'PoBox',
-                    key: 'PinCode',
-                    name:'number',
+                    id: 'Plot',
+                    key: 'Address2',
                     templateOptions: {
-                      type: 'number',
-                      label: `PoBox`,
-                      // placeholder: 'Enter PoBox',
-                      required: false,
-                      disabled: this.checkDisable('PinCode'),
-                      maxLength: 10
+                      label: `Plot No`,
+                      //placeholder: 'Enter Street',
+                     // required: true,
+                      disabled: this.checkDisable('Address2'),
+                      maxLength: 50
                     },
                     
                     validators: {
@@ -647,7 +645,8 @@ export class CustomerIvory{
                     },
                     expressions: {
                     },
-                  }
+                  },
+                 
                 ]
               }
             ]
