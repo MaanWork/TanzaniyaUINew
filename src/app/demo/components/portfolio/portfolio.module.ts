@@ -24,6 +24,7 @@ import { HttpLoaderFactory } from 'src/app/app.module';
 import { HttpClient } from '@angular/common/http';
 import { ClaimIntimateComponent } from './claim-intimate/claim-intimate.component';
 import { DialogModule } from 'primeng/dialog';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { DialogModule } from 'primeng/dialog';
     CalendarModule,
     SelectButtonModule,
     DialogModule,
+    CheckboxModule,
     TranslateModule.forRoot({
       loader: {
           provide: TranslateLoader,

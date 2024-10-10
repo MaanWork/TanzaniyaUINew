@@ -24,7 +24,6 @@ export class GoodsInTransitCorporate {
         }
         this.fields = [
           {
-            fieldArray: {
               fieldGroup: [
                 {
                   fieldGroupClassName: 'grid',
@@ -75,10 +74,32 @@ export class GoodsInTransitCorporate {
                       expressions: {
                       },
                     },
+                    {
+                      type: 'ngselect',
+                      key: 'ModeOfTransport',
+                      id: 'ModeOfTransport',
+                      defaultValue: '',
+                      className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                      props: {
+                        label: `Mode Of Transport`,
+                        disabled: this.checkDisable('ModeOfTransport'),
+                        required: true,
+                        options: [
+        
+                        ],
+        
+                      },
+                      validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      },
+                      hooks: {
+                      },
+                      expressions: {
+                      },
+                    }
                   ]
                 }
               ],
-            },
           },
         ];
     }

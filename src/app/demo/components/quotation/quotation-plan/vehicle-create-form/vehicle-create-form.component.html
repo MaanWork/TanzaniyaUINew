@@ -214,7 +214,7 @@
                 </div>
             </div>
             <div class="flex flex-column m-3" *ngIf="insuranceId=='100040'">
-                <label for="PlateType">{{'MOTORDETAILS.PlateType'  | translate}} *</label>
+                <label for="PlateType">{{'DRIVERINFO.PlateType'  | translate}} *</label>
                 <p-dropdown inputId="PlateType" id="PlateType"
                     class="w-full" 
                     styleClass="w-full" 
@@ -280,7 +280,7 @@
             </div> -->
             <div class="flex flex-column m-3" *ngIf="(insuranceId=='100040' || insuranceId=='100042') && (bodyTypeId=='50' || bodyTypeId=='51' || bodyTypeId=='5' || bodyTypeId=='58' || bodyTypeId=='18' || bodyTypeId=='25')">
                 <label for="engine-capacity">{{'MOTORQUOTE.DisplacementinCM3' | translate }} *</label>
-                <input pInputText id="engine-capacity" [(ngModel)]="displacement"  maxlength="2" (input)="onInputChangeDisplacement($event)" [disabled]="editSection" placeholder="Enter Displacement in CM3"/>
+                <input pInputText id="engine-capacity" [(ngModel)]="displacement"   (input)="onInputChangeDisplacement($event)" [disabled]="editSection" placeholder="Enter Displacement in CM3"/>
                 <div class="input-form-error" *ngIf="displacementError">
                     <div class="text-danger" style="font-size: 12px;">
                         {{'MOTORDETAILS.EnterDisplacement' | translate}}
@@ -289,7 +289,7 @@
             </div>
             <div class="flex flex-column m-3" *ngIf="(insuranceId=='100040' || insuranceId=='100042') && (bodyTypeId=='50' || bodyTypeId=='51' || bodyTypeId=='5' || bodyTypeId=='58' || bodyTypeId=='28')">
                 <label for="engine-capacity">{{'MOTORQUOTE.NumberOfCylinder' | translate }}  *</label>
-                <input pInputText id="engine-capacity" [(ngModel)]="numberOfCylinders" maxlength="2" (input)="onInputChangenumberOfCylinders($event)" [disabled]="editSection" placeholder="Enter Number Of Cylinders"/>
+                <input pInputText id="engine-capacity" [(ngModel)]="numberOfCylinders" (input)="onInputChangenumberOfCylinders($event)" [disabled]="editSection" placeholder="Enter Number Of Cylinders"/>
                 <div class="input-form-error" *ngIf="numberOfCylindersError">
                     <div class="text-danger" style="font-size: 12px;">
                         {{'MOTORDETAILS.EnterNumberOfCylinders' | translate}}

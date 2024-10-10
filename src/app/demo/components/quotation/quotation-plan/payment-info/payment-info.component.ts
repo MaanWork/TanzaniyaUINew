@@ -51,6 +51,7 @@ export class PaymentInfoComponent {
   mpaisaNumber: any=null;MobileCode: any=null;customerReferenceNo:any=null;
   customerName: any=null;mobileCodeList:any[]=[];lang:any=null;
   MobileNo: any=null;MobileCodeDesc:any=null;mobilePaymentPending: boolean=false;checkStatusSection: boolean=false;loadingCount: any=0;
+  paramSection: boolean=false;
   constructor(private messageService: MessageService,private quoteComponent:QuotationPlanComponent,
     private router:Router,private sharedService: SharedService,private route:ActivatedRoute,private appComp:AppComponent,
     private translate: TranslateService,
@@ -113,6 +114,7 @@ export class PaymentInfoComponent {
         let type = params?.params?.type;
         if(quoteNo){
           this.quoteNo = quoteNo;
+          this.paramSection=true;
           // if(type!='cancel') this.successSection = true;
         }
       })
@@ -228,7 +230,18 @@ export class PaymentInfoComponent {
             this.DueAmount=quoteDetails?.DueAmount;
             this.EmiYn = this.quoteDetails.EmiYn;
             this.emiPeriod = this.quoteDetails.InstallmentPeriod;
-            this.emiMonth = this.quoteDetails.InstallmentMonth;
+            this.emiMonth = this.quoteDetails.InstallmentMonth; 
+            if(this.endorsementSection){
+              this.totalPremium = this.quoteDetails?.TotalEndtPremium;
+            }
+            else {
+              if(this.EmiYn !='Y'){
+                this.totalPremium = this.quoteDetails?.OverallPremiumFc;
+              }
+              else{
+                this.totalPremium = this.quoteDetails?.DueAmount;
+              }   
+            }
             console.log("Total",this.totalPremium)
             if(this.quoteDetails?.policyNo!=null && this.quoteDetails?.policyNo!=''){
               this.paymentDetails = {
@@ -246,7 +259,7 @@ export class PaymentInfoComponent {
               this.router.navigate(['/quotation/plan/main/policy-info']);
             }
             else{
-              this.checkStatus();
+              if(this.paramSection || this.loadingSection )this.checkStatus();
               this.getBankList();
               let paymentId = sessionStorage.getItem('quotePaymentId');
               let makepayment= sessionStorage.getItem('Makepaymentid');
@@ -254,8 +267,6 @@ export class PaymentInfoComponent {
                 this.getPaymentTypeList();
               } 
             }
-            
-            
           }
       },
       (err) => { },
@@ -393,14 +404,14 @@ export class PaymentInfoComponent {
           }
         });
     }
-    else{this.checkStatusSection=true;}
+    else{this.checkStatusSection=true;this.policySection=false;this.successSection=false;this.loadingSection=false;}
   }
   getCurrentEmiDetails(){
     let ReqObj = {
-         "QuoteNo": this.quoteNo,
-         "InsuranceId": this.insuranceId,
-         "ProductId": this.productId
-         }
+      "QuoteNo": this.quoteNo,
+      "InsuranceId": this.insuranceId,
+      "ProductId": this.productId
+    }
     let urlLink = `${this.CommonApiUrl}api/getemidetailsbyquoteno`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
@@ -807,14 +818,14 @@ export class PaymentInfoComponent {
           // }
           if(this.Menu=='4' && data.Result.paymentUrl){
             this.redirectUrl = data.Result.paymentUrl;
-            console.log("Url",atob(this.redirectUrl))
-            
+            const absoluteURL = 
+            new URL(this.redirectUrl, window.location.href);
             // let newTab = window.open();
             // newTab.location.href = atob(this.redirectUrl);
-           window.location.href =  atob(this.redirectUrl);
-            setTimeout(() =>{
-                  this.checkStatus();
-            },(90 * 1000));
+           window.location.href =  absoluteURL.href;
+            // setTimeout(() =>{
+            //       this.checkStatus();
+            // },(90 * 1000));
           }
           else if(this.Menu=='5'){
             this.mobilePaymentPending = true;
@@ -823,12 +834,12 @@ export class PaymentInfoComponent {
           }
           else {
             if(!this.seven){
-              this.router.navigate(['/quotation/plan/main/policy-info']);
-              // this.paymentDetails = data.Result;
-              // this.policyNo = data?.Result?.PolicyNo;
-              // this.updateTiraDetails();
-              // this.policySection = true;
-              // this.draftSection=false;
+              //this.router.navigate(['/quotation/plan/main/policy-info']);
+              this.paymentDetails = data.Result;
+              this.policyNo = data?.Result?.PolicyNo;
+              this.updateTiraDetails();
+              this.policySection = true;
+              this.draftSection=false;
             }
             else{
               if(data.Result?.DepositResponse!='Y'){
@@ -846,12 +857,12 @@ export class PaymentInfoComponent {
                 })
               }
               else{
-                this.router.navigate(['/quotation/plan/main/policy-info']);
-                // this.paymentDetails = data.Result;
-                // this.policyNo = data?.Result?.PolicyNo;
-                // this.updateTiraDetails();
-                // this.policySection = true;
-                // this.draftSection=false;
+                //this.router.navigate(['/quotation/plan/main/policy-info']);
+                this.paymentDetails = data.Result;
+                this.policyNo = data?.Result?.PolicyNo;
+                this.updateTiraDetails();
+                this.policySection = true;
+                this.draftSection=false;
                 
               }
              

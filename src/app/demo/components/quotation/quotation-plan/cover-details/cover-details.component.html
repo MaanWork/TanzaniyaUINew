@@ -70,7 +70,7 @@
                                
                                 <ng-container *ngIf="verticalSection">
                                     <div class="flex flex-wrap">
-                                        <div class="col-12 md:col-6 lg:col-6 border-right-1 border-500">
+                                        <div class="col-12 md:col-6 lg:col-6 xl:col-6 border-right-1 border-500">
                                             <ng-container *ngIf="checkBenefitSection2(menu)">
                                                 <h3>{{'PREMIUM.DefaultCovers' | translate}}</h3><br>
                                             </ng-container>
@@ -1409,33 +1409,30 @@
     </div>
     <!-- <button type="button" pButton pRipple (click)="show()" label="Show" class="p-button-success"></button> -->
     <div class="flex flex-wrap justify-content-center mt-2">
-        <div></div>
-        <div></div>
         <div class="mb-4">
-           <p-button [label]="'MOTORDETAILS.Back' | translate" id="Back"  (click)="ongetBack()" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>
-            <p-button [label]="'PREMIUM.ModifyRateDetails' | translate" id="ModifyRateDetails" *ngIf="userType=='issuer' || userType=='Issuer'"   [routerLink]="['/quotation/plan/premium-info']" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+           <p-button [label]="'MOTORDETAILS.Back' | translate" id="Back"  (click)="ongetBack()" class="p-3 mr-2 text-l mr-0" styleClass="p-button-outlined mb-4" icon="pi pi-chevron-left"></p-button>&nbsp;
+            <p-button [label]="'PREMIUM.ModifyRateDetails' | translate" id="ModifyRateDetails" *ngIf="userType=='issuer' || userType=='Issuer'"   [routerLink]="['/quotation/plan/premium-info']" class="text-l mr-0" styleClass="mb-4"></p-button>&nbsp;
             <ng-container *ngIf="!checkCurrentSection()">
-                <p-button [label]="'PREMIUM.Proceed' | translate" id="Proceed"  (click)="onViewOverAllPremium()" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                <p-button [label]="'PREMIUM.Proceed' | translate" id="Proceed"  (click)="onViewOverAllPremium()" class="text-l mr-0" styleClass="mb-4"></p-button>&nbsp;
                 <!-- <p-button label="Buy Policy"   *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
                 (click)="onFormSubmit(null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                <p-button label="Buy Policy" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
                <p-button label="Buy Policy"   *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
                (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-4"></p-button> -->
                <p-button [label]="'PREMIUM.Proceed' | translate" id="Proceed" *ngIf="adminSection"
-               (click)="onUpdateFactor('',null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+               (click)="onUpdateFactor('',null)" class="text-l mr-0" styleClass="mb-4"></p-button>&nbsp;
             </ng-container>
             <ng-container *ngIf="selectedSectionId && checkCurrentSection()">
                 <p-button [label]="'PREMIUM.Proceed' | translate" id="Proceed"  *ngIf="!adminSection && (userType!='Issuer'  || (userType=='Issuer' && subuserType=='low' && endorsementSection)) && (statusValue == 'RA' || (userType=='Issuer' && subuserType=='low' && endorsementSection))" 
-                (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
-                <p-button [label]="'PREMIUM.Proceed' | translate" id="Proceed" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(i)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                (click)="onFormSubmit(i)" class="text-l mr-0" styleClass="mb-4"></p-button>&nbsp;
+                <p-button [label]="'PREMIUM.Proceed' | translate" id="Proceed" *ngIf="!adminSection && (userType!='Issuer') && statusValue != 'RA'"  (click)="onFormSubmit(i)" class="text-l mr-0" styleClass="mb-4"></p-button>&nbsp;
                 <p-button [label]="'PREMIUM.Proceed' | translate"  id="Proceed" *ngIf="userType=='Issuer' && subuserType=='low'  && statusValue != 'RA' && !endorsementSection"
-                (click)="updateFinalizeYN('proceed')" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                (click)="updateFinalizeYN('proceed')" class="text-l mr-0" styleClass="mb-4"></p-button>&nbsp;
                 <p-button [label]="'PREMIUM.Proceed' | translate" id="Proceed"  *ngIf="adminSection"
-                (click)="onUpdateFactor('',null)" class="p-3 text-l mr-0" styleClass="mb-4"></p-button>
+                (click)="onUpdateFactor('',null)" class="text-l mr-0" styleClass="mb-4"></p-button>
             </ng-container>
                 
         </div>
-        <div></div>
         
     </div>
 </div>
@@ -1675,7 +1672,9 @@
                         <td style="padding:12px 14px"><b>{{'PREMIUM.Total' | translate}}</b></td>
                         <td></td>
                         <td style="text-align: end;padding:12px 14px"><span class="spancommon span_font_size">
-                            <b id="afterDiscount">{{afterDiscount | commaseparator}}</b></span></td>
+                            <b id="afterDiscount" *ngIf="afterDiscount!=0 && afterDiscount!='0'">{{afterDiscount | commaseparator}}</b>
+                            <b id="afterDiscount" *ngIf="afterDiscount==0 || afterDiscount=='0'">{{afterDiscount}}</b>
+                        </span></td>
                     </tr>
                 </tfoot>
             </table>
@@ -1783,8 +1782,10 @@
                     <tr>
                         <td><b>{{'PREMIUM.Total' | translate}}</b></td>
                         <td></td>
-                        <td style="text-align: end;"><span class="spancommon span_font_size">
-                            <b>{{beforeDiscount | commaseparator}}</b></span></td>
+                        <td style="text-align: end;">
+                            <b class="spancommon span_font_size" *ngIf="beforeDiscount!=0 && beforeDiscount!='0'">{{beforeDiscount | commaseparator}}</b>
+                            <b class="spancommon span_font_size" *ngIf="beforeDiscount==0 || beforeDiscount=='0'">{{beforeDiscount}}</b>
+                        </td>
                     </tr>
                 </tfoot>
             </table>

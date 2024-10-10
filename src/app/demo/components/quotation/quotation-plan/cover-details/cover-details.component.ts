@@ -3753,32 +3753,33 @@ export class CoverDetailsComponent {
       // }
   }
   insertEMIDetails(){
-    if(this.emiPeriod){
-      let ReqObj = {
-        "QuoteNo":this.quoteNo,
-        "InsuranceId": this.insuranceId,
-        "ProductId":this.productId,
-        "PolicyType":this.emipolicytype,
-        "InstallmentPeriod":this.emiPeriod,
-        "PremiumWithTax":this.totalPremium,//this.localPremiumCost
-        "PaymentDetails":"",
-        "Status":this.emistatus,
-        "CreatedBy":this.loginId,
-        "Remarks":"None"
-      }
-      let urlLink = `${this.CommonApiUrl}api/insertemitransactiondetails`
-      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-        (data: any) => {
-            if(data.Result?.Response=='Saved Successful'){
-                this.finalRedirection();
-            }
-          },
-          (err) => { },
-        );
-    }
-    else{
-      this.finalRedirection();
-    }
+    this.finalRedirection();
+    // if(this.emiPeriod){
+    //   let ReqObj = {
+    //     "QuoteNo":this.quoteNo,
+    //     "InsuranceId": this.insuranceId,
+    //     "ProductId":this.productId,
+    //     "PolicyType":this.emipolicytype,
+    //     "InstallmentPeriod":this.emiPeriod,
+    //     "PremiumWithTax":this.totalPremium,//this.localPremiumCost
+    //     "PaymentDetails":"",
+    //     "Status":this.emistatus,
+    //     "CreatedBy":this.loginId,
+    //     "Remarks":"None"
+    //   }
+    //   let urlLink = `${this.CommonApiUrl}api/insertemitransactiondetails`
+    //   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    //     (data: any) => {
+    //         if(data.Result?.Response=='Saved Successful'){
+    //             this.finalRedirection();
+    //         }
+    //       },
+    //       (err) => { },
+    //     );
+    // }
+    // else{
+    //   this.finalRedirection();
+    // }
   }
   finalRedirection(){
     if(this.productId=='59'){

@@ -37,7 +37,7 @@ export class FidelityCorporate{
                       key: 'Count',
                       id: 'Count',
                       templateOptions: {
-                        label: 'Count',
+                        label: 'No.Of Employees',
                         disabled: this.checkDisable('Count'),
                         required: true,
                       },
@@ -46,7 +46,7 @@ export class FidelityCorporate{
                       },
                     },
                     {
-                      type: 'commaSeparator',
+                      type: 'ngselect',
                       className: 'col-12 md:col-6 lg:col-6',
                       key: 'FidEmpSi',
                       id:'FidEmpSi',

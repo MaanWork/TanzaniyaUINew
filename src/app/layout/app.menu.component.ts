@@ -213,7 +213,6 @@ export class AppMenuComponent implements OnInit {
                 userDetails.Result['MenuMasterList'] = data.Result[2].children;
                 sessionStorage.setItem('Userdetails', JSON.stringify(userDetails));
                 this.setMenuSection(data.Result);
-                
                // this.setMaster(data.Result[2].children)
               }
             }
@@ -241,7 +240,8 @@ export class AppMenuComponent implements OnInit {
             entry = {
               "label": menu.title,
               "icon": 'pi pi-car',
-              "routerLink": [menu.link]
+              "routerLink": [menu.link],
+              "CodeDesc": menu.CodeDesc
             }
             if (menu.children && menu.CodeDesc!='Quote Register' && menu.CodeDesc!='CRM' && menu.CodeDesc!='Surveyor' && menu.CodeDesc!='Credit Controller' && menu.CodeDesc!='Login Creation' && menu.CodeDesc!='Referral' && menu.CodeDesc!='Portfolio' && menu.CodeDesc!='Referal Management' && menu.CodeDesc!='Masters' && menu.CodeDesc!='Tira Status') {
               entry['items'] = [];
@@ -272,8 +272,6 @@ export class AppMenuComponent implements OnInit {
                     this.menuSection = true;
                     this.parentSection = true;
                     this.submenuList = [];
-                    console.log("Menusaaassss 3", this.menu)
-                    console.log("Menusaaassss 2", this.menu)
                   }
                 }
               }
@@ -284,8 +282,8 @@ export class AppMenuComponent implements OnInit {
               else if(menu.CodeDesc=='Login Creation') entry["routerLink"] =  ['/logincreation'];
               else if(menu.CodeDesc=='Customer') entry["routerLink"] =  ['/customer'];
               else if(menu.CodeDesc=='New Quote'){
-                if(this.productId=='5')  entry['routerLink'] = ['/policyDetails']
-                else entry['routerLink'] = ['/quotation/plan/quote-details']
+                 entry['routerLink'] = ['/policyDetails']
+                // else entry['routerLink'] = ['/quotation/plan/quote-details']
               }
               else if(menu.CodeDesc=='Referal Management') entry["routerLink"] =  ['/referralCases']
               else if(menu.CodeDesc=='Customer') entry["routerLink"] =  ['/customer']

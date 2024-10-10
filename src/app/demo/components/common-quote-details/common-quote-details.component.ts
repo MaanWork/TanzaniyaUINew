@@ -226,6 +226,9 @@ export class CommonQuoteDetailsComponent implements OnInit {
     this.loginType = this.userDetails.Result.LoginType;
     this.quoteRefNo = sessionStorage.getItem('quoteReferenceNo');
     this.quoteNo = sessionStorage.getItem('quoteNo');
+    if(sessionStorage.getItem('newQuote')){
+      this.router.navigate(['/quotation'])
+    }
     let loginType = this.userDetails.Result.LoginType;
     if (this.userType == 'Issuer') this.getSourceList();
     this.driverOptions = [

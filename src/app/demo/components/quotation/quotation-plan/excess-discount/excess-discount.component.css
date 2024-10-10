@@ -476,8 +476,13 @@ th.mat-header-cell {
   }
 
 @media screen and (min-width: 280px) and (max-width: 700px) {
-    .display1{
-       display:none;
+        .display1{
+            display:none;
+            overflow-x: scroll !important;
+        }
+        .display2{
+            display: block;
+            overflow-x: scroll !important;
         }
         .services
         {
@@ -497,11 +502,7 @@ th.mat-header-cell {
             display: inline-block;
                 font-weight: bold;
           }
-        th.mat-header-cell {
-            font-size: 13px!important;
-            font-weight: 500;
-            display: none !important;
-        }
+       
         .customCell{
             width: 100%!important;
             font-size: 16px;
@@ -515,10 +516,6 @@ th.mat-header-cell {
             /* padding: 0 24px 0 16px; */
         }
          
-          .mat-mdc-table .mdc-data-table__header-row {
-              display: none !important;
-          }
-        
           .mat-row .mat-mdc-row{
               height: unset;
               display: flex !important;
@@ -569,8 +566,13 @@ th.mat-header-cell {
     }
 
 @media screen and (min-width:700px) and (max-width: 20000px) {
-        .display2{
-           display:none;
+            .display2{
+                display:none;
+                overflow-x: scroll !important;
+            }
+            .display1{
+                display:block;
+                overflow-x: scroll !important;
             }
             .paddingbig{
                 padding:0!important;

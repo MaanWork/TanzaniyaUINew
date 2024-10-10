@@ -22,130 +22,130 @@ export class MoneyCorprate{
               this.enableFieldsList = endorseObj.FieldsAllowed;
             }
         }
-        this.fields = {
-          props: { label: 'Money' },
-          fieldGroup: [
+        this.fields =[
             {
-              fieldGroupClassName: 'grid',
-               
-                fieldGroup:[
-                {
-                  className: 'col-12 lg:col-6 md:col-6 xl:col-6',
-                  type: 'commaSeparator',
-                  key: 'MoneyinTransit',
-                  id: 'MoneyinTransit',
-                  props: { 
-                    label: `Money in Transit`,
-                    maxLength: 15
+                fieldGroup: [
+                  {
+                    fieldGroupClassName: 'grid',
+                    fieldGroup: [ 
+                  {
+                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    type: 'commaSeparator',
+                    key: 'MoneyinTransit',
+                    id: 'MoneyinTransit',
+                    props: { 
+                      label: `Money in Transit`,
+                      maxLength: 15
+                    },
+                    templateOptions: {
+                    // disabled: this.checkDisable('SumInsured')
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+    
+                    expressions: {
+                    
+                    },
                   },
-                  templateOptions: {
-                   // disabled: this.checkDisable('SumInsured')
-                  },
-                  validators: {
-                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                  },
-                  hooks: {
-                  },
-  
-                  expressions: {
+                  {
+                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                      type: 'commaSeparator',
+                      key: 'MoneyinPremises',
+                      id: 'MoneyinPremises',
+                      props: { 
+                        label: `Money in Premises`,
+                        maxLength: 15
+                      },
+                      templateOptions: {
+                      // disabled: this.checkDisable('SumInsured')
+                      },
+                      validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      },
+                      hooks: {
+                      },
+      
+                      expressions: {
+                      
+                      },
+                    },
+                    {
+                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                      type: 'commaSeparator',
+                      key: 'MoneyInSafe',
+                      id: 'MoneyInSafe',
+                      props: { 
+                        label: `Money In Safe`,
+                        maxLength: 15
+                      },
+                      templateOptions: {
+                        //disabled: this.checkDisable('SumInsured')
+                      },
+                      validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      },
+                      hooks: {
+                      },
+      
+                      expressions: {
+                      
+                      },
+                    },
+                    {
+                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                      type: 'commaSeparator',
+                      key: 'MoneyStrongroom',
+                      props: { 
+                        label: `Money in Strongroom`,
+                        maxLength: 15
+                      },
+                      templateOptions: {
+                      // disabled: this.checkDisable('SumInsured')
+                      },
+                      validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      },
+                      hooks: {
+                      },
+      
+                      expressions: {
+                      
+                      },
+                    },
                   
-                  },
+                    {
+                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                      type: 'commaSeparator',
+                      key: 'Estimatedannualcashcarryings',
+                      props: { 
+                        label: `Estimated Annual Cash Carryings`,
+                        maxLength: 15
+                      },
+                      templateOptions: {
+                      // disabled: this.checkDisable('SumInsured')
+                      },
+                      validators: {
+                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                      },
+                      hooks: {
+                      },
+      
+                      expressions: {
+                      
+                      },
+                    },
+                  ]
                 },
-                {
-                    className: 'col-12 lg:col-6 md:col-6 xl:col-6',
-                    type: 'commaSeparator',
-                    key: 'MoneyinPremises',
-                    id: 'MoneyinPremises',
-                    props: { 
-                      label: `Money in Premises`,
-                      maxLength: 15
-                    },
-                    templateOptions: {
-                     // disabled: this.checkDisable('SumInsured')
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-    
-                    expressions: {
-                    
-                    },
-                  },
-                  {
-                    className: 'col-12 lg:col-6 md:col-6 xl:col-6',
-                    type: 'commaSeparator',
-                    key: 'MoneyInSafe',
-                    id: 'MoneyInSafe',
-                    props: { 
-                      label: `Money In Safe`,
-                      maxLength: 15
-                    },
-                    templateOptions: {
-                      //disabled: this.checkDisable('SumInsured')
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-    
-                    expressions: {
-                    
-                    },
-                  },
-                  {
-                    className: 'col-12 lg:col-6 md:col-6 xl:col-6',
-                    type: 'commaSeparator',
-                    key: 'MoneyStrongroom',
-                    props: { 
-                      label: `Money in Strongroom`,
-                      maxLength: 15
-                    },
-                    templateOptions: {
-                     // disabled: this.checkDisable('SumInsured')
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-    
-                    expressions: {
-                    
-                    },
-                  },
-                 
-                  {
-                    className: 'col-12 lg:col-6 md:col-6 xl:col-6',
-                    type: 'commaSeparator',
-                    key: 'Estimatedannualcashcarryings',
-                    props: { 
-                      label: `Estimated Annual Cash Carryings`,
-                      maxLength: 15
-                    },
-                    templateOptions: {
-                     // disabled: this.checkDisable('SumInsured')
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-    
-                    expressions: {
-                    
-                    },
-                  },
-                ]
-              },
-             
               
-          ],
-        }
+                
+            ],
+          }
+        ]
     }
-    fields:FormlyFieldConfig;
+    fields:FormlyFieldConfig[]=[];
     checkDisable(fieldName) {
         if (this.endorsementSection) {
           let entry = this.enableFieldsList.some(ele => ele == fieldName);

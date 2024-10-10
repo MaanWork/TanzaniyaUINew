@@ -77,6 +77,29 @@ export class FireAlliedPerilsCorporate{
                         expressions: {
                         },
                       },
+                      {
+                        className: 'col-12 md:col-12 lg:col-12',
+                        type: 'commaSeparator',
+                        key: 'BuildingSumInsured',
+                        defaultValue: '0',
+                        props: {
+                          label: `Building SumInsured`,
+                          required: true,
+                          disabled: this.checkDisable('BuildingSumInsured'),
+                          maxLength: 15,
+                          options: [
+          
+                          ],
+          
+                        },
+                        validators: {
+                          validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                        },
+                        hooks: {
+                        },
+                        expressions: {
+                        },
+                      },
                       
                       {
                         className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
@@ -116,54 +139,7 @@ export class FireAlliedPerilsCorporate{
                         },
                         expressions: {
                         },
-                      },
-                      {
-                        type: 'input',
-                        key: 'firstLossPayee',
-                        id: 'Section',
-                        defaultValue: '',
-                        className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
-                        props: {
-                          label: `first Loss Payee`,
-                          disabled: this.checkDisable('Section'),
-                          required: true,
-                          options: [
-          
-                          ],
-          
-                        },
-                        validators: {
-                          validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                        },
-                        hooks: {
-                        },
-                        expressions: {
-                        },
-                      },
-                      {
-                        className: 'col-12 md:col-6 lg:col-6',
-                        type: 'commaSeparator',
-                        key: 'BuildingSumInsured',
-                        defaultValue: '0',
-                        props: {
-                          label: `Building SumInsured`,
-                          required: true,
-                          disabled: this.checkDisable('BuildingSumInsured'),
-                          maxLength: 15,
-                          options: [
-          
-                          ],
-          
-                        },
-                        validators: {
-                          validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                        },
-                        hooks: {
-                        },
-                        expressions: {
-                        },
-                      },
-                     
+                      }
                     ]
                 }
               ]
