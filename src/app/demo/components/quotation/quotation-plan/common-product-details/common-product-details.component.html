@@ -13,7 +13,7 @@
         <div class="flex flex-wrap">
             <div class="lg:col-4 md:col-6 col-12">
                 <b>Customer Name</b>
-                <p>{{customerDetails.TitleDesc}}&nbsp;{{customerDetails.ClientName}}</p>
+                <p>{{customerDetails.TitleDesc}}&nbsp;{{customerDetails.ClientName}}<ng-container *ngIf="customerDetails.LastName">&nbsp;{{customerDetails?.LastName}}</ng-container></p>
             </div>
             <div class="lg:col-4 md:col-6 col-12">
                 <b>Customer Type</b>

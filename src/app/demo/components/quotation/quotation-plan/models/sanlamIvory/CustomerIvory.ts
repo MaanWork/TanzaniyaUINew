@@ -63,14 +63,36 @@ export class CustomerIvory{
                     },
                   },
                   {
-                    className: 'col-12 md:col-9 lg:col-9 xl:col-9 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-5 lg:col-5 xl:col-5 pl-2 pr-2 pt-1',
                     type: 'input',
-                    id: 'CustomerName',
+                    id: 'FirstName',
                     key: 'ClientName',
                     hide: false,
                     hideExpression:false,
                     templateOptions: {
-                      label: `Client Name`,
+                      label: `First Name`,
+                      // placeholder: 'Enter Client Name',
+                      required: true,
+                      disabled: this.checkDisable('ClientName'),
+                      maxLength: 100
+                    },
+                    
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
+                    type: 'input',
+                    id: 'LastName',
+                    key: 'LastName',
+                    hide: false,
+                    hideExpression:false,
+                    templateOptions: {
+                      label: `Last Name`,
                       // placeholder: 'Enter Client Name',
                       required: true,
                       disabled: this.checkDisable('ClientName'),
