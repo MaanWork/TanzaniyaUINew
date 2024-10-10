@@ -15,15 +15,16 @@ export class Product {
 export class ProductData {
 	Insurer='N'
 	Address2:any=''
-	Address1:any
+	Address1:any=''
 	AppointmentDate: any
-	BusinessType:any
+	BusinessType:any=''
 	ClientName: string = ''
 	EmailId:string = ''
 	Clientstatus:any=''
-	CityName:any
+	CityName:any=''
+	CityCode:any=0
 	Country:any=''
-	Gender:any
+	Gender:any=''
 	IdNumber:any =''
 	IdType:any=''
 	isTaxExempted:any=''
