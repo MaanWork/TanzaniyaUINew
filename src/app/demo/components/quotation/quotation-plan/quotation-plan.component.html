@@ -8,7 +8,7 @@
                             <ng-container *ngFor="let sec of veh.SectionDetails;let i=index">
                                 <p-tabPanel [header]="getHeaderName(sec)" >
                                         <ng-container *ngIf="checkCovers(sec,'opted')">
-                                            <p *ngIf="i==0"><b>{{'PREMIUM.OptedCovers' | translate}}</b></p>
+                                            <p><b>{{'PREMIUM.OptedCovers' | translate}}</b></p>
                                             <div class="grid p-0">
                                                 <ng-container *ngFor="let cover of sec.Covers">
                                                     <ng-container *ngIf="checkCoverSelected(cover)">
@@ -31,7 +31,7 @@
                                             </div>
                                         </ng-container>
                                         <ng-container *ngIf="checkCovers(sec,'default')">
-                                            <p *ngIf="i==0"><b>{{'PREMIUM.DefaultCovers' | translate}}</b></p>
+                                            <p ><b>{{'PREMIUM.DefaultCovers' | translate}}</b></p>
                                             <div class="grid p-0">
                                                 <ng-container *ngFor="let cover of sec.Covers">
                                                     <ng-container *ngIf="cover.isSelected=='D' && cover.CoverageType!='A'">
@@ -56,7 +56,7 @@
                                             </div>
                                         </ng-container>
                                         <ng-container *ngIf="checkCovers(sec,'benefit')">
-                                            <p *ngIf="i==0"><b>{{'PREMIUM.BenefitCovers' | translate}}</b></p>
+                                            <p><b>{{'PREMIUM.BenefitCovers' | translate}}</b></p>
                                             <div class="grid">
                                                 <ng-container *ngFor="let cover of sec.Covers">
                                                     <ng-container *ngIf="(cover.isSelected=='Y') && cover.CoverageType=='A'">
@@ -133,7 +133,7 @@
                                     </ng-container>
                                     <ng-container *ngIf="checkCovers(sec,'benefit')">
                                         <p *ngIf="i==0"><b>{{'PREMIUM.BenefitCovers' | translate}}</b></p>
-                                        <div class="grid">
+                                        <div class="grid mt-2">
                                             <ng-container *ngFor="let cover of sec.Covers">
                                                 <ng-container *ngIf="(cover.isSelected=='Y') && cover.CoverageType=='A'">
                                                     <div class="col-12 md:col-6 lg:col-6 xl:col-6 p-1 ">

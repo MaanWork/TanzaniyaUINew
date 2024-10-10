@@ -211,38 +211,38 @@ export class DocumentInfoComponent {
             }
             this.quoteComponent.setRiskDetails(details.LocationDetails);
             this.quoteComponent.currencyCode = data?.Result?.QuoteDetails?.Currency;
-          for (let cover of this.Riskdetails) {
-            let j = 0;
-            if(cover?.SectionDetails){
-              for (let section of cover?.SectionDetails) {
-                let CoverData = section.Covers;
-                for (let subsectioncover of section?.Covers) {
-                  console.log("subsectioncover", subsectioncover);
-                  if (cover?.totalPremium) {
-                    cover['totalLcPremium'] = cover['totalLcPremium'] + subsectioncover?.PremiumIncludedTaxLC;
-                    cover['totalPremium'] = cover['totalPremium'] + subsectioncover?.PremiumIncludedTax;
-                  }
-                  else {
-                    cover['totalLcPremium'] = subsectioncover?.PremiumIncludedTaxLC;
-                    cover['totalPremium'] = subsectioncover?.PremiumIncludedTax;
-  
-                  }
-                  let baseCovers = [], otherCovers = [];
-                  baseCovers = CoverData.filter(ele => ele.CoverageType == 'B');
-                  otherCovers = CoverData.filter(ele => ele.CoverageType != 'B');
-                  section.Covers = baseCovers.concat(otherCovers);
-                  console.log("otherCovers", CoverData);
-                  this.CoverList.push(cover);
-                  console.log("CoverList", this.CoverList);
-                  if (j == cover?.SectionDetails) {
+            for (let cover of this.Riskdetails) {
+              let j = 0;
+              if(cover?.SectionDetails){
+                for (let section of cover?.SectionDetails) {
+                  let CoverData = section.Covers;
+                  for (let subsectioncover of section?.Covers) {
+                    console.log("subsectioncover", subsectioncover);
+                    if (cover?.totalPremium) {
+                      cover['totalLcPremium'] = cover['totalLcPremium'] + subsectioncover?.PremiumIncludedTaxLC;
+                      cover['totalPremium'] = cover['totalPremium'] + subsectioncover?.PremiumIncludedTax;
+                    }
+                    else {
+                      cover['totalLcPremium'] = subsectioncover?.PremiumIncludedTaxLC;
+                      cover['totalPremium'] = subsectioncover?.PremiumIncludedTax;
+    
+                    }
+                    let baseCovers = [], otherCovers = [];
+                    baseCovers = CoverData.filter(ele => ele.CoverageType == 'B');
+                    otherCovers = CoverData.filter(ele => ele.CoverageType != 'B');
+                    section.Covers = baseCovers.concat(otherCovers);
+                    console.log("otherCovers", CoverData);
                     this.CoverList.push(cover);
-                    console.log("vehicleList", this.CoverList);
+                    console.log("CoverList", this.CoverList);
+                    if (j == cover?.SectionDetails) {
+                      this.CoverList.push(cover);
+                      console.log("vehicleList", this.CoverList);
+                    }
+                    else j += 1;
                   }
-                  else j += 1;
                 }
               }
             }
-          }
             let quoteDetails = data?.Result?.QuoteDetails;
             if(quoteDetails){
               if(quoteDetails.Endorsementeffdate!=null){
