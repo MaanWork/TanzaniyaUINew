@@ -71,6 +71,8 @@ export class CustomerAsInsurerComponent implements OnInit {
 	departmentList: any[] = [];
 	taxList: any[] = [];
 	insurer: any='Y';
+	insurerReferenceNo: any='';
+	insurerEdit: any;
   constructor(private confirmationService: ConfirmationService, private sharedService: SharedService,private datePipe: DatePipe,
     private messageService: MessageService, private router: Router, private translate: TranslateService,private appComp:AppComponent,
     private primeNGConfig: PrimeNGConfig) {
@@ -135,6 +137,7 @@ export class CustomerAsInsurerComponent implements OnInit {
 			{ CodeDesc: 'No', Code: 'N','CodeDescLocal':'Não'  }
 		];
     let refNo = sessionStorage.getItem('customerReferenceNo');
+	this.insurerReferenceNo = sessionStorage.getItem('insurerReferenceNo');
 		if (refNo) {
 			 this.productItem = new ProductData()
 			this.customerReferenceNo = refNo;
@@ -159,10 +162,6 @@ export class CustomerAsInsurerComponent implements OnInit {
 	
 	if((this.insuranceId=='100002' || this.insuranceId=='100044')  && this.customerReferenceNo ){
 		this.getOccupationLists('direct');
-		if(this.customerReferenceNo){
-		
-			this.setValues()
-		}
 	}
 	this.getTaxExcepted();
     }
@@ -275,7 +274,9 @@ export class CustomerAsInsurerComponent implements OnInit {
 		this.personalInfoFields[0] = fireData?.fields?.fieldGroup[0];
 		this.additionalInfoFields[0] = fireData?.fields?.fieldGroup[1];
 		this.addressInfoFields[0] = fireData?.fields?.fieldGroup[2];
-		
+		// if(this.insuranceId=='100040'){
+		// 	sessionStorage.removeItem('customerReferenceNo')
+		// }
 		// if(this.customerReferenceNo=='' || this.customerReferenceNo==null || this.customerReferenceNo==undefined){
 			this.getCountryList()
 			this.getGenderList();
@@ -531,7 +532,7 @@ export class CustomerAsInsurerComponent implements OnInit {
 		if(entry=='yakeen'){
 		this.router.navigate(['/yakeenSearch'])
 		}
-		else{this.router.navigate(['/customer'])}
+		else{this.router.navigate(['/customer/create'])}
 	}
 	getSocioProfessional(){
 		let ReqObj=null,urlLink=null;
@@ -695,10 +696,13 @@ export class CustomerAsInsurerComponent implements OnInit {
 				data.Country=this.productItem.Nationality;
 			}
 		}
-		
+		data.IdType='1';
+		if(data?.CityName=='' || data?.CityName==null){
+			data.CityName=0
+		}
 		let ReqObj = {
 			"BrokerBranchCode": this.brokerbranchCode,
-			"CustomerReferenceNo": this.customerReferenceNo,
+			"CustomerReferenceNo": this.insurerReferenceNo,
 			"InsuranceId": this.insuranceId,
 			"BranchCode": this.branchCode,
 			"ProductId": "5",
@@ -755,7 +759,8 @@ export class CustomerAsInsurerComponent implements OnInit {
 			"Zone":"1",
 			"SocioProfessionalCategory":data?.SocioProfessionalcategory,
 			// "CompanyName":data?.CompanyName, 
-			"Activities":data?.BusinessType
+			"Activities":data?.BusinessType,
+			"InsuredReferenceNo":this.customerReferenceNo
 		}
 		let quoteNo = sessionStorage.getItem('quoteNo'),refNo = null;
 		if(this.loginType=='B2CFlow' || (this.loginType=='B2CFlow2')){
@@ -823,6 +828,9 @@ export class CustomerAsInsurerComponent implements OnInit {
 						  else this.router.navigate(['/quotation/plan/quote-details']);
 						}
 						else {
+							this.insurerReferenceNo=res.Result.SuccessId
+							//sessionStorage.setItem('insurerReferenceNo',this.insurerReferenceNo)
+							sessionStorage.removeItem('insurerEdit')
 								this.router.navigate(['/customer/'])
 						}
 					//}
@@ -1096,7 +1104,7 @@ export class CustomerAsInsurerComponent implements OnInit {
 												this.checkFieldNames()
 											}
 											else{
-												field.props.options = this.mobileCodeList;
+												field.props.options = defaultRow.concat(this.mobileCodeList);
 												field.form.controls['MobileCode'].setValue(this.mobileCodeList[0].Code);
 												this.checkFieldNames()
 											}
@@ -1105,11 +1113,11 @@ export class CustomerAsInsurerComponent implements OnInit {
 								}
 							
 						}
-						
-						if (this.customerReferenceNo) {
+						this.insurerEdit = sessionStorage.getItem('insurerEdit')
+						if (this.customerReferenceNo && this.insurerEdit=='insurerEdit') {
 							
 							this.setValues();
-							//this.getPolicyIdTypeList()
+							//this.getPolicyIdTypeList() 
 						}
 						else {
 							this.productItem = new ProductData();
@@ -1317,9 +1325,9 @@ export class CustomerAsInsurerComponent implements OnInit {
 	}
 	setValues() {
 		let ReqObj = {
-			"CustomerReferenceNo": this.customerReferenceNo
+			"InsuredReferenceNo": this.customerReferenceNo
 		}
-		let urlLink = `${this.CommonApiUrl}api/getcustomerdetails`;
+		let urlLink = `${this.CommonApiUrl}api/getinsureddetails`;
 		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
 			(data: any) => {
 				console.log(data);
@@ -1335,7 +1343,7 @@ export class CustomerAsInsurerComponent implements OnInit {
 					// 	var dateParts = customerDetails.AppointmentDate.split("/");
 					// 	 this.productItem.AppointmentDate = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
 					// }
-					
+					this.insurerReferenceNo = customerDetails.CustomerReferenceNo;
 					this.productItem.Address1 = customerDetails.Address1;
 					this.productItem.Address2 = customerDetails.Address2;
 					this.productItem.BusinessType = customerDetails.BusinessType;
@@ -1417,9 +1425,40 @@ export class CustomerAsInsurerComponent implements OnInit {
 							else this.productItem.Gender = 'F';
 						}
 					}
+					if(customerDetails.CustomerReferenceNo){this.insurerReferenceNo=customerDetails.CustomerReferenceNo}
+					else{this.insurerReferenceNo=null}
 					console.log("Final Edit Data", this.productItem)
 					console.log("Final Edit Data", this.personalInfoFields)
 				}
+				else {
+					this.productItem = new ProductData();
+					this.productItem.Clientstatus = 'Y';
+					this.productItem.isTaxExempted = 'N'; 
+					this.productItem.PreferredNotification = '';
+					this.productItem.Gender = '';
+					this.productItem.PolicyHolderTypeid = '';
+					this.productItem.IdType = '1';
+					this.setPolicyType();
+					if(this.mobileCodeList.length!=0 && this.mobileCodeList.length>1){
+						this.productItem.MobileCode = this.mobileCodeList[1].Code;
+					}
+					if(this.countryList.length!=0 && this.countryList.length>1){
+						this.productItem.Country = this.countryList[1].Code;
+							this.getRegionList('change');
+					}
+					this.productItem.state = '';
+					this.productItem.CityName = '';
+					this.productItem.Occupation = '';
+					this.productItem.BusinessType='';
+					this.productItem.Title='';
+					if(sessionStorage.getItem('VechileDetails')){
+						let motorDetails = JSON.parse(sessionStorage.getItem('VechileDetails'));
+						this.productItem.ClientName = motorDetails.ResOwnerName;
+						this.productItem.Title = '1';
+						this.onTitleChange('direct');
+					}
+				}
+
 			},
 			(err) => { },
 		);
@@ -1875,6 +1914,8 @@ export class CustomerAsInsurerComponent implements OnInit {
 			  if((field.templateOptions.required==true || field.props.required==true) && (field.hide!=true)){
 				if(this.productItem[field.key]==null || this.productItem[field.key]==undefined || this.productItem[field.key]==''){
 				  j+=1;
+				  alert(this.productItem[field.key])
+				  alert(field.key)
 				  this.form.controls[field.key].errors=true;
 				  this.form.controls[field.key].touched=true;
 				  field.templateOptions['errors'] = true;

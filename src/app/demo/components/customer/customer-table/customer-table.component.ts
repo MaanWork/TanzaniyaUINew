@@ -29,6 +29,7 @@ export class CustomerTableComponent implements OnInit{
   clearSearchSection: boolean=false;pendingCustomers:any[]=[];
   activeCustomers: any[]=[];lang:any=null;
   taxList:any[]=[];
+  insurerEdit: boolean=false;
   constructor(private router:Router,private sharedService: SharedService,private appComp:AppComponent,private translate:TranslateService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -79,7 +80,11 @@ export class CustomerTableComponent implements OnInit{
   }
   onAddCustomer(rowData){
     if(rowData){
-      sessionStorage.setItem('customerReferenceNo',rowData?.CustomerReferenceNo)
+      sessionStorage.setItem('customerReferenceNo',rowData?.CustomerReferenceNo);
+      if(this.insuranceId=='100040'){
+        //this.insurerEdit=true;
+        sessionStorage.setItem('insurerEdit','insurerEdit');
+      }
     }
     else{sessionStorage.removeItem('customerReferenceNo')}
     this.router.navigate(['customer/create']);

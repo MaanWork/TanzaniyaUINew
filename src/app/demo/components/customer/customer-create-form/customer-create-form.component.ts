@@ -825,6 +825,10 @@ export class CustomerCreateFormComponent implements OnInit {
 						}
 						else {
 							if(this.productItem.Insurer=='Y' && (this.productItem.IdType=='2' || this.productItem.IdType==2)){
+								// let insurerReferenceNo =sessionStorage.getItem('insurerReferenceNo');
+								// if(insurerReferenceNo=='' || insurerReferenceNo==null){
+									sessionStorage.setItem('customerReferenceNo',res.Result.SuccessId)
+								// }
 								this.router.navigate(['/customer/insurer'])
 							}
 							else{
@@ -1367,7 +1371,7 @@ export class CustomerCreateFormComponent implements OnInit {
 							
 					}
 					if(customerDetails.CustomerAsInsurer!=null || customerDetails.CustomerAsInsurer!=''){
-						this.productItem.insurer=customerDetails.CustomerAsInsurer;
+						this.productItem.Insurer=customerDetails.CustomerAsInsurer;
 					}
 					this.productItem.Nationality = customerDetails.Nationality;
 					if(this.productItem.Country==null) this.productItem.Country='';
