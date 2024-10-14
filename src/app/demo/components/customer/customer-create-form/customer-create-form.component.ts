@@ -70,8 +70,8 @@ export class CustomerCreateFormComponent implements OnInit {
 	nationalityList: any[]=[];
 	departmentList: any[] = [];
 	taxList: any[] = [];
-	insurer: any='Y';
-  constructor(private confirmationService: ConfirmationService, private sharedService: SharedService,private datePipe: DatePipe,
+	insurer: any='N';
+	constructor(private confirmationService: ConfirmationService, private sharedService: SharedService,private datePipe: DatePipe,
     private messageService: MessageService, private router: Router, private translate: TranslateService,private appComp:AppComponent,
     private primeNGConfig: PrimeNGConfig) {
       this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -824,7 +824,7 @@ export class CustomerCreateFormComponent implements OnInit {
 						  else this.router.navigate(['/quotation/plan/quote-details']);
 						}
 						else {
-							if(this.productItem.Insurer=='Y' && (this.productItem.IdType=='2' || this.productItem.IdType==2)){
+							if(this.productItem.Insurer=='Y'){
 								// let insurerReferenceNo =sessionStorage.getItem('insurerReferenceNo');
 								// if(insurerReferenceNo=='' || insurerReferenceNo==null){
 									sessionStorage.setItem('customerReferenceNo',res.Result.SuccessId)
@@ -1125,7 +1125,7 @@ export class CustomerCreateFormComponent implements OnInit {
 						else {
 							this.productItem = new ProductData();
 							this.productItem.Clientstatus = 'Y';
-							this.productItem.isTaxExempted = 'N'; 
+							// this.productItem.isTaxExempted = 'N'; 
 							this.productItem.PreferredNotification = '';
 							this.productItem.Gender = '';
 							this.productItem.PolicyHolderTypeid = '';
@@ -1816,7 +1816,7 @@ export class CustomerCreateFormComponent implements OnInit {
 	}
 		for(let field of fieldList){
 			if(this.productItem.IdType=='1' || this.productItem.IdType==1){
-				if(  (field.key=='dobOrRegDate' && this.insuranceId!='100044') || field.key=='GstNumber' || field.key=='Insurer'){
+				if(  (field.key=='dobOrRegDate' && this.insuranceId!='100044') || field.key=='GstNumber' ){
 					field.hide=true;field.hideExpression=true;
 				}
 				else if(field.key=='IdNumber' || field.key=='PolicyHolderTypeid'){
@@ -1824,7 +1824,7 @@ export class CustomerCreateFormComponent implements OnInit {
 				}
 			} 
 			else if(this.productItem.IdType=='2' || this.productItem.IdType==2 ){
-				if(  field.key=='dobOrRegDate' || field.key=='GstNumber' || field.key=='Insurer'){
+				if(  field.key=='dobOrRegDate' || field.key=='GstNumber' ){
 					field.hide=false;field.hideExpression=false;
 				}
 				else if(field.key=='PolicyHolderTypeid' || field.key=='IdNumber'){
@@ -2100,7 +2100,7 @@ getType3(type){
 	taxExcepted(){
 			let fieldList=this.additionalInfoFields[0].fieldGroup;
 			for(let field of fieldList){
-			if(this.productItem.isTaxExempted=='1'){
+			if(this.productItem.isTaxExempted=='Y'){
 				if(field.key=='TaxExemptedId'){
 					field.hide=false;field.hideExpression=false;
 				}
