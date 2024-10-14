@@ -57,10 +57,11 @@ export class ApproverPortfolioComponent implements OnInit,OnChanges, AfterViewIn
    @Output('Currency') Currency:any=sessionStorage.getItem('CurrencyidLogin');;
   constructor(private datePipe:DatePipe,public sharedService: SharedService,private router:Router){
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
- this.minDate=new Date();
- this.insuranceId = this.userDetails.Result.InsuranceId;
- this.productId = this.userDetails.Result.ProductId;
- this.loginId = this.userDetails.Result.LoginId;
+    this.minDate=new Date();
+    this.insuranceId = this.userDetails.Result.InsuranceId;
+    this.productId = this.userDetails.Result.ProductId;
+    this.loginId = this.userDetails.Result.LoginId;
+    this.branchValue = this.userDetails.Result.BranchCode
   }
     ngOnInit(): void {
       this.getBranchList('direct');
@@ -175,7 +176,8 @@ export class ApproverPortfolioComponent implements OnInit,OnChanges, AfterViewIn
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if(data?.Result){
-          this.TemplateList=data.Result
+          let obj = [{Code:null,CodeDesc:"--Select--"}];
+          this.TemplateList=obj.concat(data.Result);
         }
       },
       (err) => { },
