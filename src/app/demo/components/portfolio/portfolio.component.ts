@@ -560,7 +560,7 @@ if (rowData.DebitNoteNo==null && rowData.DebitNoteNo=='') {
           "BdmCode": bdmCode,
           "ProductId":this.productId,
           "Limit":this.limit,
-          "Offset": 60
+          "Offset": 10000
       }
       let urlLink = `${this.CommonApiUrl}api/portfolio/cancelled`;
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -743,7 +743,7 @@ if (rowData.DebitNoteNo==null && rowData.DebitNoteNo=='') {
    "InsuraceId":this.insuranceId,
    "ProductId":this.productId,
    "Limit":"0",
-   "Offset":"10"
+   "Offset": 10000
     }
     let urlLink = `${this.CommonApiUrl}api/searchbrokerpolicies`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
