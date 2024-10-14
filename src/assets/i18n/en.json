@@ -133,7 +133,7 @@
       "Content":"Content"
   },
   "QUOTEGRID":{
-      "NoOfDays":"Policy Term",
+      "NoOfDays":"Quote Valid Days",
       "Quotation": "Quotation",
       "Existing": "Existing",
       "Lapsed": "Lapsed",

@@ -139,7 +139,7 @@
   
   },
    "QUOTEGRID":{
-    "NoOfDays":"Durée de la police",
+    "NoOfDays":"Nombre de Jours de Validité du devis",
   "Quotation":"Citation",
   "Existing":"Existant",
   "Lapsed":"Echu",
