@@ -1104,7 +1104,7 @@ export class CustomerAsInsurerComponent implements OnInit {
 												this.checkFieldNames()
 											}
 											else{
-												field.props.options = defaultRow.concat(this.mobileCodeList);
+												field.props.options = this.mobileCodeList;
 												field.form.controls['MobileCode'].setValue(this.mobileCodeList[0].Code);
 												this.checkFieldNames()
 											}
@@ -1122,7 +1122,7 @@ export class CustomerAsInsurerComponent implements OnInit {
 						else {
 							this.productItem = new ProductData();
 							this.productItem.Clientstatus = 'Y';
-							this.productItem.isTaxExempted = 'N'; 
+							// this.productItem.isTaxExempted = 'N'; 
 							this.productItem.PreferredNotification = '';
 							this.productItem.Gender = '';
 							this.productItem.PolicyHolderTypeid = '';
@@ -1433,7 +1433,7 @@ export class CustomerAsInsurerComponent implements OnInit {
 				else {
 					this.productItem = new ProductData();
 					this.productItem.Clientstatus = 'Y';
-					this.productItem.isTaxExempted = 'N'; 
+					// this.productItem.isTaxExempted = 'N'; 
 					this.productItem.PreferredNotification = '';
 					this.productItem.Gender = '';
 					this.productItem.PolicyHolderTypeid = '';
@@ -1841,7 +1841,7 @@ export class CustomerAsInsurerComponent implements OnInit {
 	}
 		for(let field of fieldList){
 			if(this.productItem.IdType=='1' || this.productItem.IdType==1){
-				if(  (field.key=='dobOrRegDate' && this.insuranceId!='100044') || field.key=='GstNumber' ){
+				if(  (field.key=='dobOrRegDate' && this.insuranceId!='100044') || field.key=='GstNumber' || field.key=='Insurer'){
 					field.hide=true;field.hideExpression=true;
 				}
 				else if(field.key=='IdNumber' || field.key=='PolicyHolderTypeid'){
@@ -1852,7 +1852,7 @@ export class CustomerAsInsurerComponent implements OnInit {
 				if(  field.key=='dobOrRegDate' || field.key=='GstNumber'){
 					field.hide=false;field.hideExpression=false;
 				}
-				else if(field.key=='PolicyHolderTypeid' || field.key=='IdNumber'){
+				else if(field.key=='PolicyHolderTypeid' || field.key=='IdNumber' || field.key=='Insurer'){
 					field.templateOptions.required=true;
 				}
 			}
@@ -2125,7 +2125,7 @@ getType3(type){
 	taxExcepted(){
 			let fieldList=this.additionalInfoFields[0].fieldGroup;
 			for(let field of fieldList){
-			if(this.productItem.isTaxExempted=='1'){
+			if(this.productItem.isTaxExempted=='Y'){
 				if(field.key=='TaxExemptedId'){
 					field.hide=false;field.hideExpression=false;
 				}
