@@ -1104,7 +1104,7 @@ export class CustomerAsInsurerComponent implements OnInit {
 												this.checkFieldNames()
 											}
 											else{
-												field.props.options = this.mobileCodeList;
+												field.props.options = defaultRow.concat(this.mobileCodeList);
 												field.form.controls['MobileCode'].setValue(this.mobileCodeList[0].Code);
 												this.checkFieldNames()
 											}
@@ -1439,6 +1439,7 @@ export class CustomerAsInsurerComponent implements OnInit {
 					this.productItem.PolicyHolderTypeid = '';
 					this.productItem.IdType = '1';
 					this.setPolicyType();
+					this.productItem.MobileCode = this.mobileCodeList[0].Code;
 					if(this.mobileCodeList.length!=0 && this.mobileCodeList.length>1){
 						this.productItem.MobileCode = this.mobileCodeList[1].Code;
 					}
