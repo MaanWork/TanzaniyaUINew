@@ -1566,7 +1566,6 @@ emiyn="N";
             "SectionId": cover.SectionId
           }
           if((cover.PremiumIncludedTaxFC!=null && cover.PremiumIncludedTaxFC!='0' && cover.PremiumIncludedTaxFC!=undefined)){
-                
             vehicle['totalLcPremium'] = vehicle['totalLcPremium'] - cover.PremiumIncludedTaxFC;
             vehicle['totalPremium'] =  vehicle['totalPremium'] - cover.PremiumIncludedTax; 
             cover.PremiumIncludedTax = 0;
@@ -1575,9 +1574,9 @@ emiyn="N";
           cover.PremiumIncludedTaxFC = subCover.PremiumIncludedTaxLC;
           cover.PremiumIncludedTax = subCover.PremiumIncludedTax;
   
-          cover.selected = true;
+          
           cover.SubCoverId = subCover.SubCoverId;
-          subCover['selected'] = true;
+          
           this.selectedCoverList.push(element);
           if(vehicle?.totalPremium){
             if(cover.Endorsements!=null){
@@ -1601,8 +1600,14 @@ emiyn="N";
             }
             
           }
+            
           this.getTotalVehiclesCost();
         }
+        
+      }
+      for(let sub of cover.SubCovers){
+        if(sub.SubCoverId==subCover.SubCoverId){sub['UserOpt']='Y';cover.selected = true;sub['selected'] = true;}
+        else{ sub['UserOpt'] = 'N';sub['selected'] = false;}
       }
       console.log("Total Vehicle",this.selectedCoverList)
     }
@@ -2406,7 +2411,7 @@ emiyn="N";
             if(cover.SubCovers!=null){
               let k=0;
               for(let sub of cover.SubCovers){
-                if(this.statusValue!=null && sub?.UserOpt=='Y'){
+                if(this.statusValue!=null && sub?.UserOpt=='Y'  && sub?.isSelected!='N'){
                   this.onChangeSubCover(sub,cover,veh,true); 
                 }
                 else{sub['selected']=false}
@@ -2473,7 +2478,7 @@ emiyn="N";
                         if(cover.SubCovers!=null){
                           let k=0;
                           for(let sub of cover.SubCovers){
-                            if(this.statusValue!=null && sub?.UserOpt=='Y'){
+                            if(this.statusValue!=null && sub?.UserOpt=='Y' && sub?.isSelected!='N'){
                               this.onChangeSubCover(sub,cover,veh,true); 
                             }
                             else{sub['selected']=false}
@@ -2570,7 +2575,7 @@ emiyn="N";
       }
     }
     checkSubCoverSelection(rowData){
-      if(rowData.selected=='true' || rowData.selected==true) return true;
+      if(rowData.UserOpt=='Y' && rowData.isSelected!='N') return true;
       else return false;
     }
     checkSelectedSections(rowData){
