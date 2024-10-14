@@ -1914,8 +1914,6 @@ export class CustomerAsInsurerComponent implements OnInit {
 			  if((field.templateOptions.required==true || field.props.required==true) && (field.hide!=true)){
 				if(this.productItem[field.key]==null || this.productItem[field.key]==undefined || this.productItem[field.key]==''){
 				  j+=1;
-				  alert(this.productItem[field.key])
-				  alert(field.key)
 				  this.form.controls[field.key].errors=true;
 				  this.form.controls[field.key].touched=true;
 				  field.templateOptions['errors'] = true;

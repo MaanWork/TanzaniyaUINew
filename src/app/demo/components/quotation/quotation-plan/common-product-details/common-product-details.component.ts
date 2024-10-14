@@ -1502,6 +1502,7 @@ export class CommonProductDetailsComponent {
           "PolicyEndDate": endDate,
           "CoverModification": coverModificationYN
         }
+        alert(3)
         let urlLink = `${this.CommonApiUrl}calculator/calc`;
         this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
           (data: any) => {
@@ -2161,6 +2162,15 @@ export class CommonProductDetailsComponent {
       let entry = [];
       this.fields[0] = fireData?.fields;
       this.getdropListAlt();  
+      this.getBIList()
+      let modelHooks3 = { onInit: (field: FormlyFieldConfig) => {
+        field.formControl.valueChanges.subscribe(() => {
+      this.onChangeBusiness();});
+      } }
+      let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+      for(let field of fieldList){
+          if(field.key=='BusinessName') field.hooks = modelHooks3;
+      }
       let referenceNo = sessionStorage.getItem('quoteReferenceNo');
         if (referenceNo) {
           this.requestReferenceNo = referenceNo;
@@ -2171,6 +2181,7 @@ export class CommonProductDetailsComponent {
             this.productItem = new ProductData();
             this.formSection = true; this.viewSection = false;
         }
+        
        
      }
     //  else if(this.productId=='60'){
@@ -2384,22 +2395,22 @@ export class CommonProductDetailsComponent {
       let fireData = new MedicalInsurance();
       let entry = [];
       this.fields[0] = fireData?.fields;
-      this.fields[0].fieldGroup[0].fieldGroup[0].templateOptions.options = [
-        { value: 'A', 
-          label:["Nurses","Dietician","Lab/Path.Tech","Physiotherapist","X-Ray Tech","Scanning Tech.Pathologist",
-              "Clinical Pathologist","Forensic Pathologist"
-          ] 
-        }, 
-        { value: 'B', label:[
-          "Midwife","General Practitioner","Psychiatrist","Nephrologist","Radiologist", "Ophthalmologist (non-surgical)", "Dentist", "Acupuncture Specialist", "Pharmacist", "Emergency doctor", "Neurologist (Non-Surgical)", "Pulmonologist(non-surgical)", "Gastroenterologist(non-surgical)", "Internist (non-surgical)"
-        ] },
-        { value: 'C', label:[
-          "Surgeons including Vascular/cardiovascular", "maxillofacial", "thoracic", "ENT (ear/nose/throat)", "Neurologist", "Urologist", "Plastic", "Venereal Disease Specialist and Dermatologist", "Ophthalmologist", "Neurology", "Gastroenterologist", "Rheumatologist", "Pulmonologist"
-        ]},
-        { value: 'X', label:[
-          "Non-Surgical Specialist", "Gynaecologist", "Obstetrician & Gynaecologist", "Cardiologist", "Anaesthetist", "Paediatrician(non-surgical)", "Obstetrician", "Paediatrician(surgical)", "General surgeon", "orthopaedic surgery", "Doctor (including Surgery)", "Doctor (non-surgical)", "haematology"
-        ]}
-      ];
+      // this.fields[0].fieldGroup[0].fieldGroup[0].templateOptions.options = [
+      //   { value: 'A', 
+      //     label:["Nurses","Dietician","Lab/Path.Tech","Physiotherapist","X-Ray Tech","Scanning Tech.Pathologist",
+      //         "Clinical Pathologist","Forensic Pathologist"
+      //     ] 
+      //   }, 
+      //   { value: 'B', label:[
+      //     "Midwife","General Practitioner","Psychiatrist","Nephrologist","Radiologist", "Ophthalmologist (non-surgical)", "Dentist", "Acupuncture Specialist", "Pharmacist", "Emergency doctor", "Neurologist (Non-Surgical)", "Pulmonologist(non-surgical)", "Gastroenterologist(non-surgical)", "Internist (non-surgical)"
+      //   ] },
+      //   { value: 'C', label:[
+      //     "Surgeons including Vascular/cardiovascular", "maxillofacial", "thoracic", "ENT (ear/nose/throat)", "Neurologist", "Urologist", "Plastic", "Venereal Disease Specialist and Dermatologist", "Ophthalmologist", "Neurology", "Gastroenterologist", "Rheumatologist", "Pulmonologist"
+      //   ]},
+      //   { value: 'X', label:[
+      //     "Non-Surgical Specialist", "Gynaecologist", "Obstetrician & Gynaecologist", "Cardiologist", "Anaesthetist", "Paediatrician(non-surgical)", "Obstetrician", "Paediatrician(surgical)", "General surgeon", "orthopaedic surgery", "Doctor (including Surgery)", "Doctor (non-surgical)", "haematology"
+      //   ]}
+      // ];
       let aggHooks ={ onInit: (field: FormlyFieldConfig) => {
         field.formControl.valueChanges.subscribe(() => {
           this.ongetAggSIList('change')
@@ -2546,6 +2557,36 @@ export class CommonProductDetailsComponent {
       this.cyberinsutypes();
       this.productTypes();
     }
+  }
+  getBIList(){
+    let ReqObj ={
+      "CompanyId":this.insuranceId,
+      "ProductId": this.productId,
+      "IndustryType": "41",
+      "LoginId": this.loginId
+    }
+    let urlLink = `${this.CommonApiUrl}api/getByIndsutryType`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data.Result){
+          let defaultObj = [{ 'label': '-Select-', 'value': null }]
+          this.dropList = data.Result;
+          for (let i = 0; i < this.dropList.length; i++) {
+            this.dropList[i].label = this.dropList[i]['CodeDesc'];
+            this.dropList[i].value = this.dropList[i]['Code'];
+            if (i == this.dropList.length - 1) {
+              if(this.fields.length!=0){
+                console.log(this.fields)
+                let fieldList = this.fields[0]?.fieldGroup[0]?.fieldGroup;
+                for(let field of fieldList){
+                  if(field.key=='BusinessName'){console.log("Fields",field);  field.props['options'] = defaultObj.concat(this.dropList);}
+                }
+              }
+            }
+          }
+        }
+      });
   }
   getNOYears(){
     let ReqObj = {
@@ -3297,6 +3338,7 @@ getCoverList(coverListObj) {
         "RequestReferenceNo": coverListObj?.RequestReferenceNo,
         "CoverModification":'N'
       }
+      alert(2)
       let urlLink = `${this.CommonApiUrl}calculator/calc`;
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
@@ -4497,7 +4539,6 @@ backPlan()
       this.productItem.Serial = section.SerialNo;
     }
     else if(this.productId=='1'){
-      console.log(section)
       this.productItem.RegionCode = section.RegionCode;
       this.productItem.DistrictCode = section.DistrictCode;
       this.productItem.CoveringDetails = section.CoveringDetails;
@@ -4538,7 +4579,13 @@ backPlan()
       this.productItem.PowerPlantSi = section.SumInsured;
       this.productItem.ContentId = section.ContentId;
       this.productItem.Serial = section.SerialNo;
-      this.productItem.Description = section.DescriptionOfRisk
+      this.productItem.Description = section.DescriptionOfRisk;
+      this.productItem.CoveringDetails = section.CoveringDetails;
+      this.productItem.DescriptionOfRisk = section.DescriptionOfRisk;
+      this.productItem.BusinessSI = section.BuildingSumInsured;
+      if(section.BusinessInterruption) this.productItem.BusinessName = Number(section.BusinessInterruption);
+      if(section.IndustryType) this.productItem.IndustryId = String(section.IndustryType);
+      this.onChangeBusiness()
     }
   }
   addMoneyCommon(location){
@@ -4576,7 +4623,8 @@ backPlan()
           "DescriptionOfRisk": this.productItem.Description ? this.productItem.Description : null,
           "SerialNo": this.productItem.Serial ? this.productItem.Serial : null
         }
-        location.SectionList = location.SectionList.filter(ele=>ele.SerialNo!='' && ele.SerialNo!=null && entry.Description!=null && ele.Description!='');
+        console.log("Final List",location.SectionList);
+        location.SectionList = location.SectionList.filter(ele=>ele.SerialNo!='' && ele.SerialNo!=null && entry.DescriptionOfRisk!=null && ele.DescriptionOfRisk!='');
       }
       else if(this.productId=='1'){
         entry = {
@@ -4846,8 +4894,14 @@ backPlan()
       //   this.productItem.EmpLiabilitySi = entry[0]?.EmpLiabilitySi;
       // }
     }
-    else if(this.productId=='1' || this.productId=='39'){let entry = this.LocationListAlt[0].SectionList; this.currentSectionIndex=0; this.onEditCommonDetails(entry[0],this.LocationListAlt[0],0)}
-    
+    else if(this.productId=='1' || this.productId=='39'){let entry = this.LocationListAlt[0].SectionList; this.currentSectionIndex=0;
+      if(this.productId=='39'){
+        console.log("Entry",entry)
+        let section = entry.filter(ele=>ele.SectionId!=ele.BusinessInterruption);
+        if(section.length!=0){ this.onEditCommonDetails(section[0],this.LocationListAlt[0],0)}
+      }
+      else{this.onEditCommonDetails(entry[0],this.LocationListAlt[0],0)}
+    }
   }
   setCommonFormValues(type){
     if(this.productId!='14'){
@@ -6088,14 +6142,41 @@ backPlan()
               "SectionId": "41",
               "SectionName": "Machinery Breakdown",
               "SerialNo": this.productItem.SerialNo,
-              "Description" : this.productItem.Description,
+              "CoveringDetails": this.productItem.CoveringDetails,
+              "DescriptionOfRisk": this.productItem.DescriptionOfRisk,
+              "CategoryId": this.productItem.ContentId,
               "ContentId": this.productItem.ContentId,
               "ContentDesc": this.dropList.find(ele=>ele.value==this.productItem.ContentId)?.label,
               "MachinerySi": this.productItem.PowerPlantSi,
               "SumInsured": this.productItem.PowerPlantSi,
+              'BusinessInterruption': this.productItem.BusinessName,
+              "IndustryId": this.IndustryId,
+              'BusinessNameDesc': this.getBusinessNameDesc(this.productItem.BusinessName),
+              'BuildingSumInsured': this.productItem.BusinessSI,
               "RiskId": null
             }
             entry.SectionList = [subEntry]
+            if(subEntry.BusinessInterruption!=0 && subEntry.BusinessInterruption!='0'){
+              let subData = {
+                "SectionId": this.productItem.BusinessName,
+                "SectionName": this.getBusinessNameDesc(this.productItem.BusinessName),
+                "SerialNo": this.productItem.SerialNo,
+                "CoveringDetails": this.productItem.CoveringDetails,
+                "DescriptionOfRisk": this.productItem.DescriptionOfRisk,
+                "CategoryId": this.productItem.ContentId,
+                "ContentId": this.productItem.ContentId,
+                "ContentDesc": this.dropList.find(ele=>ele.value==this.productItem.ContentId)?.label,
+                "MachinerySi": this.productItem.PowerPlantSi,
+                "SumInsured": this.productItem.BusinessSI,
+                'BusinessInterruption': this.productItem.BusinessName,
+                'BusinessNameDesc': this.getBusinessNameDesc(this.productItem.BusinessName),
+                'BuildingSumInsured': this.productItem.BusinessSI,
+                "IndustryId": this.IndustryId,
+                "RiskId": null
+              }
+              entry.SectionList.push(subData)
+            }
+            
           }
         }
         else if(entry && this.productId=='13'){
@@ -8371,6 +8452,9 @@ finalSaveMoney(finalList,type,formType) {
           else endDate = date; 
         let locationId = '1';
         if(build.LocationId!=null && build.LocationId!=undefined) locationId=build.LocationId;
+        if(this.productId!='46' && this.productId!='4'){
+          if(build.RiskId==null || build.RiskId==undefined) build['RiskId'] = this.tabIndex+1;
+        }
         let ReqObj = {
           "LocationId" : locationId,
           "InsuranceId": this.insuranceId,
