@@ -112,7 +112,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   public customApiUrl1: any = this.AppConfig.CustomApiUrl1;
   vehicleDetails: any; customerData: any[] = []; licenseNo: any = null;
   havePromoCodeYN: any = null; typeList: any[] = [];
-  noOfDays: any = '90'; industryList: any[] = [];
+  noOfDays: any = null; industryList: any[] = [];
   sourceType: any = null; IndustryId: any = null;
   sourceTypeDesc: any = null; subuserType: any = null; subUrbanCode: any = null;
   brokerCode: any = null; brokerBranchCode: any = null; cityCode: any = null;
