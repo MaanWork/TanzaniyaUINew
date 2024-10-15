@@ -355,7 +355,7 @@ export class CustomerIvory{
                       id: 'IdentityType',
                       name:'IdentityType',
                       // placeholder: '-Select-',
-                      required: false,
+                      required: true,
                       disabled: this.checkDisable('PolicyHolderTypeid'),
                       maxLength: 15,
                       options:[]
@@ -573,7 +573,7 @@ export class CustomerIvory{
                     key: 'Address1',
                     templateOptions: {
                       label: `Street`,
-                      // placeholder: 'Enter Street',
+                      //placeholder: 'Enter Street',
                       required: true,
                       disabled: this.checkDisable('Address1'),
                       maxLength: 50
