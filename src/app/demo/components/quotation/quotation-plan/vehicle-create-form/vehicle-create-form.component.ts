@@ -994,6 +994,9 @@ export class VehicleCreateFormComponent implements OnInit {
     this.axelDistance = vehDetails?.AxelDistance;
     this.chassisNo = vehDetails?.Chassisnumber;
     this.colorValue = vehDetails?.Color;
+    if(vehDetails.EngineNumber=='' || vehDetails.EngineNumber==null || vehDetails.EngineNumber=="null" || vehDetails.EngineNumber==undefined){
+      vehDetails.EngineNumber="";
+    }
     this.engineNo = vehDetails?.EngineNumber;
     this.fuelType = vehDetails?.FuelType;
     this.grossWeight = vehDetails?.Grossweight;
