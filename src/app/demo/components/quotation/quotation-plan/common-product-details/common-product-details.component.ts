@@ -538,7 +538,6 @@ export class CommonProductDetailsComponent {
 //         //   }
 //         } //this.bankList = obj.concat(data.Result);
 //       })
-    
 //   } 
   getBondDetails(){
     let SectionId;
@@ -2123,6 +2122,7 @@ export class CommonProductDetailsComponent {
       } }
       let modelHooks2 = { onInit: (field: FormlyFieldConfig) => {
         field.formControl.valueChanges.subscribe(() => {
+          this.productItem.Section = field.formControl.value;
       this.onChangeSection();this.onChangeBusinessSection()});
       } }
       let modelHooks3 = { onInit: (field: FormlyFieldConfig) => {
