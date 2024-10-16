@@ -95,6 +95,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   form = new FormGroup({});
   tabIndex: any; claimsYN: any = 'N'; gpsYn: any = 'N';
   policyStartDate: any = null; policyEndDate: any = null;
+  expiryDays:any='90';
   promocode: any = null; currencyList: any[] = []; noOfDaysList: any[] = [];
   years: MenuItem[] = []; currencyCode: any = null;
   vehicles: MenuItem[] = []; agencyCode: any = null;
