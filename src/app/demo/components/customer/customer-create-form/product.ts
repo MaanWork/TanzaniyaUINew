@@ -57,6 +57,7 @@ export class ProductData {
 	id: string = '';PinCode:any=null;
   maxDate: "2022-09-25";
   Department:any=null
+  Nationality:any=''
   /*const currentYear = new Date().getFullYear();
   minDate= new Date(currentYear - 20, 0, 1);*/
 
