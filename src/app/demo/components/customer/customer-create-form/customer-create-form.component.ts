@@ -285,7 +285,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			//this.getPolicyIdTypeList()
 		// }
 		
-		if(this.insuranceId=='100002' || this.insuranceId=='100044' || this.insuranceId=='100028'){
+		if(this.insuranceId=='100002' || this.insuranceId=='100044' || this.insuranceId=='100028' || this.insuranceId=='100020'){
 			let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
 				field.form.controls['Country'].valueChanges.subscribe(() => {
 				  this.getRegionList('change')
@@ -691,9 +691,12 @@ export class CustomerCreateFormComponent implements OnInit {
 				}
 				else dobOrRegDate = this.datePipe.transform(this.productItem.dobOrRegDate,'dd/MM/yyyy')
 			}
-			// if(this.productItem.Nationality){
-			// 	data.Country=this.productItem.Nationality;
-			// }
+			if(this.productItem.Nationality){
+				data.NationalityDesc=this.nationalityList.find(ele => ele.Code == data.Nationality).CodeDesc
+			}
+			else{
+				data.NationalityDesc=''
+			}
 		}
 		
 		let ReqObj = {
@@ -703,7 +706,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			"BranchCode": this.branchCode,
 			"ProductId": "5",
 			"AppointmentDate": appointmentDate,
-			"Address1": data?.Address1,
+			"Address1": data?.Street,
 			"Address2": data?.Address2,
 			"BusinessType": businessType,
 			"CityCode": data?.CityName,
@@ -725,7 +728,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			"MobileNo2": null,
 			"MobileNo3": null,
 			"Nationality": data.Nationality,
-			"NationalityName":this.nationalityList.find(ele => ele.Code == data.Nationality).CodeDesc,
+			"NationalityName":data.NationalityDesc,
 			"Country":data.Country,
 			"CountryName":this.countryList.find(ele => ele.Code == data.Country).CodeDesc,
 			"Occupation": data?.Occupation,
@@ -743,7 +746,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			"StateCode": data?.state,
 			"StateName": stateName,
 			"Status": data?.Clientstatus,
-			"Street": data?.Street,
+			"Street": data?.Address1,
 			"Type":type,
 			"TaxExemptedId": taxExemptedId,
 			"TelephoneNo1": data?.TelephoneNo,
@@ -969,7 +972,7 @@ export class CustomerCreateFormComponent implements OnInit {
 									let fieldList=this.addressInfoFields[0].fieldGroup;
 									for(let field of fieldList){
 										if(field.key=='Country'){
-											field.props.options = this.countryList;
+											field.props.options = defaultRow.concat(this.countryList);
 											this.checkFieldNames()
 											if(this.insuranceId=='100028'){
 												this.productItem.Country ='MUS'
@@ -1141,6 +1144,7 @@ export class CustomerCreateFormComponent implements OnInit {
 								this.productItem.Country = this.countryList[1].Code;
 									this.getRegionList('change');
 							}
+							else if(this.countryList.length==1){this.productItem.Country = this.countryList[0].Code;this.getRegionList('change');}
 							this.productItem.state = '';
 							this.productItem.CityName = '';
 							this.productItem.Occupation = '';
@@ -1371,8 +1375,8 @@ export class CustomerCreateFormComponent implements OnInit {
 					}
 					else if(this.countryList.length!=0 && this.countryList.length>1){
 						this.productItem.Country = this.countryList[1].Code;
-							
 					}
+					if(this.productItem.Country) this.getRegionList('direct')
 					if(customerDetails.CustomerAsInsurer!=null || customerDetails.CustomerAsInsurer!=''){
 						this.productItem.Insurer=customerDetails.CustomerAsInsurer;
 					}
@@ -1380,6 +1384,8 @@ export class CustomerCreateFormComponent implements OnInit {
 					if(this.productItem.Country==null) this.productItem.Country='';
 					this.productItem.PinCode = customerDetails.PinCode;
 					this.productItem.Gender = customerDetails.Gender;
+					this.productItem.Region = customerDetails.StateCode;
+					this.getStateList('direct')
 					//this.productItem.IdNumber = customerDetails.IdNumber;
 					if(customerDetails.PolicyHolderType!=null && customerDetails.PolicyHolderType!=''){
 						this.productItem.IdType = customerDetails.PolicyHolderType;
@@ -1408,7 +1414,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					}
 					this.productItem.PreferredNotification = customerDetails.PreferredNotification;
 					if(this.productItem.PreferredNotification==null) this.productItem.PreferredNotification='';
-					this.productItem.Region = customerDetails.StateCode;
+					//this.productItem.Region = customerDetails.StateCode;
 					if(this.productItem.state==null){
 						this.productItem.state = '';
 						
