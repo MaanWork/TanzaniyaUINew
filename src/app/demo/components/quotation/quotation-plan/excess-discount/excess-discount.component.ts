@@ -2411,7 +2411,7 @@ emiyn="N";
             if(cover.SubCovers!=null){
               let k=0;
               for(let sub of cover.SubCovers){
-                if(this.statusValue!=null && sub?.UserOpt=='Y'  && sub?.isSelected!='N'){
+                if(this.statusValue!=null && sub?.UserOpt=='Y'){
                   this.onChangeSubCover(sub,cover,veh,true); 
                 }
                 else{sub['selected']=false}
@@ -2478,7 +2478,7 @@ emiyn="N";
                         if(cover.SubCovers!=null){
                           let k=0;
                           for(let sub of cover.SubCovers){
-                            if(this.statusValue!=null && sub?.UserOpt=='Y' && sub?.isSelected!='N'){
+                            if(this.statusValue!=null && sub?.UserOpt=='Y'){
                               this.onChangeSubCover(sub,cover,veh,true); 
                             }
                             else{sub['selected']=false}
@@ -2575,7 +2575,7 @@ emiyn="N";
       }
     }
     checkSubCoverSelection(rowData){
-      if(rowData.UserOpt=='Y' && rowData.isSelected!='N') return true;
+      if(rowData.UserOpt=='Y') return true;
       else return false;
     }
     checkSelectedSections(rowData){
@@ -4897,7 +4897,9 @@ emiyn="N";
         for(let vehicle of this.selectedVehicleList){
           let vehEntry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.Vehicleid);
           if(vehEntry.length!=0){
-            let entry = vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId);
+            let entry = [];
+            if(this.productId=='5') vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId);
+            else entry = vehEntry;
             if(entry.length!=0){
               let j=0; let covers = [];
               for(let veh of entry){
@@ -4916,7 +4918,7 @@ emiyn="N";
                           let ReqObj = {
                             "RequestReferenceNo": this.quoteRefNo,
                             "VehicleId": veh.Id,
-                            "SectionId": vehicle.SectionId,
+                            "SectionId": veh.SectionId,
                             "ProductId": this.productId,
                             "AdminLoginId": this.loginId,
                             "InsuranceId": this.insuranceId,
@@ -4955,10 +4957,13 @@ emiyn="N";
         if(this.statusValue=='RA' || type=='calculate' || this.userType=='Issuer' || type=='fleetSave'){
           if(this.selectedCoverList.length!=0){
             let i=0;
+            console.log("Selected Covers",this.selectedCoverList,this.vehicleDetailsList)
             for(let vehicle of this.vehicleDetailsList){
                 let vehEntry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.Vehicleid);
                 if(vehEntry.length!=0){
-                  let entry = vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId);
+                  let entry = [];
+                  if(this.productId=='5') vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId);
+                  else entry = vehEntry;
                   if(entry.length!=0){
                     let j=0; let covers = [];
                     for(let veh of entry){
@@ -4977,7 +4982,7 @@ emiyn="N";
                                 let ReqObj = {
                                   "RequestReferenceNo": this.quoteRefNo,
                                   "VehicleId": veh.Id,
-                                  "SectionId": vehicle.SectionId,
+                                  "SectionId": veh.SectionId,
                                   "ProductId": this.productId,
                                   "AdminLoginId": this.loginId,
                                   "LocationId": Location,
@@ -5017,7 +5022,7 @@ emiyn="N";
                       if(type=='calculate'){
                         //this.getcall();
                         //sessionStorage.removeItem('vehicleDetailsList');
-                          window.location.reload();
+                        window.location.reload();
                       }
                       else this.updateReferralStatus();
                     }
