@@ -615,7 +615,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			}
 			else this.productItem.MobileCodeDesc = '';
 		}
-		if(data.vrngst=='' || data.vrngst== undefined || data.vrngst==null){data.vrngst=null};
+		if(data.GstNumber=='' || data.GstNumber== undefined || data.GstNumber==null){data.GstNumber=null};
 		if(this.loginType=='B2CFlow') data.Clientstatus = 'Y';
 		let type = null;
 		if(this.productId=='46' && (this.productItem?.PolicyHolderTypeid==null || this.productItem?.PolicyHolderTypeid=='' || this.productItem?.PolicyHolderTypeid==undefined)){
@@ -754,7 +754,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			"TelephoneNo2": null,
 			"TelephoneNo3": null,
 			"Title": data.Title,
-			"VrTinNo": data.vrngst,
+			"VrTinNo": data.GstNumber,
 			"SaveOrSubmit": 'Submit',
 			"MiddleName":data?.MiddleName,
 			"LastName":data?.LastName,
@@ -1335,7 +1335,8 @@ export class CustomerCreateFormComponent implements OnInit {
 	}
 	setValues() {
 		let ReqObj = {
-			"CustomerReferenceNo": this.customerReferenceNo
+			"CustomerReferenceNo": this.customerReferenceNo,
+			"InsuranceId": this.insuranceId
 		}
 		let urlLink = `${this.CommonApiUrl}api/getcustomerdetails`;
 		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -1354,7 +1355,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					// 	 this.productItem.AppointmentDate = dateParts[2]+'-'+dateParts[1]+'-'+dateParts[0];
 					// }
 					
-					this.productItem.Address1 = customerDetails.Address1;
+					this.productItem.Address1 = customerDetails.Street;
 					this.productItem.Address2 = customerDetails.Address2;
 					this.productItem.BusinessType = customerDetails.BusinessType;
 					this.productItem.CityName = customerDetails.CityCode;
@@ -1370,8 +1371,10 @@ export class CustomerCreateFormComponent implements OnInit {
 					else this.productItem.Clientstatus = 'Y';
 					this.productItem.EmailId = customerDetails.Email1;
 					this.productItem.occupationdesc = customerDetails?.OtherOccupation;
+					this.productItem.Country = customerDetails.Country;
+					if(this.productItem.Country==null) this.productItem.Country='';
 					if(customerDetails.Nationality!=null){
-						this.productItem.Country = customerDetails.Nationality;
+						this.productItem.Nationality = customerDetails.Nationality;
 					}
 					else if(this.countryList.length!=0 && this.countryList.length>1){
 						this.productItem.Country = this.countryList[1].Code;
@@ -1381,7 +1384,7 @@ export class CustomerCreateFormComponent implements OnInit {
 						this.productItem.Insurer=customerDetails.CustomerAsInsurer;
 					}
 					this.productItem.Nationality = customerDetails.Nationality;
-					if(this.productItem.Country==null) this.productItem.Country='';
+					
 					this.productItem.PinCode = customerDetails.PinCode;
 					this.productItem.Gender = customerDetails.Gender;
 					this.productItem.Region = customerDetails.StateCode;
@@ -1427,7 +1430,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					this.productItem.Title = customerDetails.Title;
 					this.getTitleList()
 					this.productItem.Occupation = customerDetails.Occupation;
-					this.productItem.vrngst = customerDetails.VrTinNo;
+					this.productItem.GstNumber = customerDetails.VrTinNo;
 					this.productItem.PolicyHolderTypeid = customerDetails.PolicyHolderTypeid;
 					this.getPolicyIdTypeList();
 					if(this.insuranceId=='100040'){this.productItem.Region=customerDetails.RegionCode;
@@ -1651,7 +1654,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			//this.mobileCodeList.label = this.productItem.MobileCod['CodeDesc'];
 		}
 		let type = null;
-		if(datas.vrngst=='' || datas.vrngst== undefined || datas.vrngst==null){datas.vrngst=null};
+		if(datas.GstNumber=='' || datas.GstNumber== undefined || datas.GstNumber==null){datas.GstNumber=null};
 		if(this.loginType=='B2CFlow') datas.Clientstatus = 'Y';
 		if(this.productId=='46' && (this.productItem?.PolicyHolderTypeid==null || this.productItem?.PolicyHolderTypeid=='' || this.productItem?.PolicyHolderTypeid==undefined)){
 		  	if(this.productItem.IdType==1 || this.productItem.IdType=='1'){ this.productItem.PolicyHolderTypeid = '3';}
@@ -1720,7 +1723,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			"TelephoneNo2": null,
 			"TelephoneNo3": null,
 			"Title": datas.Title,
-			"VrTinNo": datas.vrngst,
+			"VrTinNo": datas.GstNumber,
 			"SaveOrSubmit": 'Submit',
 			"MiddleName":datas?.MiddleName,
     		"LastName":datas?.LastName,
@@ -1891,7 +1894,7 @@ export class CustomerCreateFormComponent implements OnInit {
 	}
 	else if(type=='direct' && !this.final){
 		//this.blankvalidationcheck(data);
-		if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+		if(this.insuranceId=='100040' || this.insuranceId=='100042' || this.insuranceId=='100002'){
 			let fieldList = this.personalInfoFields[0].fieldGroup
 			let i=0,j=0;
 			for(let field of fieldList){

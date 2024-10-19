@@ -50,7 +50,7 @@ export class CustomerTanzaniya{
                   {
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
                     type: 'input',
-                    id: 'FirstName',
+                    id: 'ClientName',
                     key: 'ClientName',
                     hide: false,
                     hideExpression:false,
@@ -203,7 +203,7 @@ export class CustomerTanzaniya{
                     templateOptions: {
                       label: `Mobile Number`,
                       placeholder: 'Enter MobileNo',
-                      required: false,
+                      required: true,
                       disabled: this.checkDisable('MobileNo'),
                       maxLength: 10
                     },
@@ -480,7 +480,7 @@ export class CustomerTanzaniya{
                     templateOptions: {
                       label: `PoBox`,
                       placeholder: 'Enter PoBox',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('PinCode'),
                       maxLength: 150
                     },
