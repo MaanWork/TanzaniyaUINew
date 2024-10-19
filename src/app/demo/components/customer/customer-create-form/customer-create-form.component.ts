@@ -1829,7 +1829,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					field.hide=true;field.hideExpression=true;
 				}
 				else if(field.key=='IdNumber' || field.key=='PolicyHolderTypeid' ){
-					field.templateOptions.required=true;
+					field.templateOptions.required=false;
 				}
 			} 
 			else if(this.productItem.IdType=='2' || this.productItem.IdType==2 ){
@@ -1843,7 +1843,7 @@ export class CustomerCreateFormComponent implements OnInit {
 		}
 		for(let field of fieldList2){
 			if(this.productItem.IdType=='1' || this.productItem.IdType==1){
-				if(field.key=='Country' || field.key=='CityName' ){
+				if(field.key=='Country' || field.key=='CityName' || field.key=='Address1' ){
 					field.templateOptions.required=false;
 				}
 			} 
