@@ -1,5 +1,8 @@
 {
   "HOME": {
+    "GstNumber":"VRN/ GST Number",
+    "ClientName":"Client Name",
+    "ExpiryDate":"ID Expiry Date",
     "insurer":"Customer As Insurer",
     "Corporate":"Corporate",
     "Individual":"Individual",
