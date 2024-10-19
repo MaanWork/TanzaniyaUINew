@@ -3024,7 +3024,7 @@ onFidelitySave(){
                   "RiskId": location.SectionDetails[0].RiskId,
                   "LocationId": location.LocationId,
                   "ContentRiskDesc": itemValue,
-                  "SerialNoDesc": null,
+                  "SerialNoDesc": "856757",
                   "SerialNo":"856757",
                   "SumInsured": this.productItem.ElqSI
                 }
@@ -3048,7 +3048,7 @@ onFidelitySave(){
                   "RiskId": location.SectionDetails[0].RiskId,
                   "LocationId": location.LocationId,
                   "ContentRiskDesc":itemValue,
-                  "SerialNoDesc": entry.SerialNoDesc,
+                  "SerialNoDesc": "856757",
                   "SerialNo":"856757",
                   "SumInsured":sumInsured
                 }
@@ -3092,12 +3092,12 @@ onFidelitySave(){
           "QuoteNo": this.quoteNo
         }
       }
-      else if(this.productId=='25'){ SectionId = '39';
+      else if(this.productId=='25'){ SectionId = '76';
         ReqObj = {
           "CreatedBy": this.loginId,
           "QuoteNo":sessionStorage.getItem('quoteNo'),
           "RequestReferenceNo":this.quoteRefNo,
-          "SectionId":'39',
+          "SectionId":SectionId,
           "Type":'C',
           "ProductId": this.productId,
           "Companyid": this.insuranceId,
@@ -4217,7 +4217,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
         "CreatedBy": this.loginId,
       "QuoteNo":sessionStorage.getItem('quoteNo'),
       "RequestReferenceNo":this.quoteRefNo,
-      "SectionId":'39',
+      "SectionId":'76',
        "Type":type,
        "ContentRiskDetails":reqList
       }
@@ -6213,7 +6213,7 @@ this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
     let urlLink = `${this.motorApiUrl}api/getallcontentrisk`;
     let sectionid:any;
     if(this.productId=='25'){
-    sectionid ='39'
+    sectionid ='76'
     }
     else if(this.productId=='59'){sectionid='76'}
     else{
@@ -7996,7 +7996,7 @@ return true;
         "ItemValue": "10000",
         "MakeAndModel":this.productItem.Elqmake,
         "ContentRiskDesc":this.ElectronicList.find(ele=>ele.Code==this.productItem.ElqList).label,
-        "SerialNoDesc": null,
+        "SerialNoDesc": "856757",
         "PurchaseMonth":this.productItem.ElqJoin,
         "PurchaseYear":this.productItem.ElqPeriod,
         "RiskId":this.productItem.ElqLocation,
@@ -8101,7 +8101,7 @@ return true;
               "PurchaseYear": this.productItem.ElqPeriod,
               "RiskId": null,
               "ContentRiskDesc":null,
-              "SerialNoDesc": null,
+              "SerialNoDesc": "856757",
               "SerialNo":"856757",
               "SumInsured":this.productItem.ElqSI
           }
@@ -8213,7 +8213,7 @@ return true;
     }
     addRowEE(){
       const newItem = {  id: this.ElectronicItem.length + 1,"ItemId":null,
-        "ItemValue": null,"MakeAndModel": null,"ContentRiskDesc": null,"SerialNoDesc": null,"PurchaseMonth": null,"PurchaseYear": null,"RiskId": null,"SerialNo": "1","SumInsured":0};
+        "ItemValue": null,"MakeAndModel": null,"ContentRiskDesc": null,"SerialNoDesc": "856757","PurchaseMonth": null,"PurchaseYear": null,"RiskId": null,"SerialNo": "1","SumInsured":0};
       this.ElectronicItem.push(newItem);
       this.currentElectronicIndex = this.ElectronicItem.length-1;
     }
