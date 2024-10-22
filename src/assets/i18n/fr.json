@@ -140,6 +140,7 @@
   },
    "QUOTEGRID":{
     "NoOfDays":"Nombre de Jours de Validité du devis",
+    "NoOfMonths":"Policy Period (Months)",
   "Quotation":"Citation",
   "Existing":"Existant",
   "Lapsed":"Echu",
@@ -181,11 +182,16 @@
   
   },
   "MOTORQUOTE":{
+    "PaCoverId":"Motor Passenger Injury",
+    "QuoteExpiryDate":"Quote Expiry Days",
     "BankingDelegation":"Délégation Bancaire",
     "LoanStartDate": "Date de début du prêt",
     "LoanEndDate":"Date de fin du prêt",
     "Zone":"Zone",
     "Class":"Classe",
+    "VehicleClass":"Vehicle Class",
+    "PreviousInsuranceYN":"Previous Insurance",
+    "PreviousLossRatio":"Previous Loss Ratio",
     "CollateralCompanyAddress":"Adresse de l'Entreprise",
     "CollateralCompanyName":"Nom de l'entreprise",
     "LoanAmount":"Montant du Prêt",
@@ -198,6 +204,7 @@
   "FileUpload":"Téléchargement de fichiers",
   "CategoryDateobtained":"Catégorie - Date d'obtention",
   "Categoryexpirationdate":"Catégorie - Date d'expiration de la catégorie",
+  "Licenseexpirationdate":"License expiration date",
   "Category":"Catégorie -Code",
   "Placeofissue":"Lieu de délivrance",
   "Dateofissue":"Date d'émission",

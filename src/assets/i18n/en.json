@@ -134,6 +134,7 @@
   },
   "QUOTEGRID":{
       "NoOfDays":"Quote Valid Days",
+      "NoOfMonths":"Policy Period (Months)",
       "Quotation": "Quotation",
       "Existing": "Existing",
       "Lapsed": "Lapsed",
@@ -175,9 +176,14 @@
       
   },
   "MOTORQUOTE":{
+    "PaCoverId":"Motor Passenger Injury",
+    "QuoteExpiryDate":"Quote Expiry Days",
     "BankingDelegation":"Banking Delegation",
     "LoanStartDate": "Loan Start Date",
     "LoanEndDate":"Loan End Date",
+    "VehicleClass":"Vehicle Class",
+    "PreviousInsuranceYN":"Previous Insurance",
+    "PreviousLossRatio":"Previous Loss Ratio",
     "Zone":"Zone",
     "Class":"Class",
     "CollateralCompanyAddress":"Company Address",
@@ -195,6 +201,7 @@
     "MovingRecords":"Moving Records",
     "CategoryDateobtained":"Category - Date obtained",
     "Categoryexpirationdate":"Category - Category expiration date",
+    "Licenseexpirationdate":"Driving License expiration date",
     "Category":"Category -Code",
     "Placeofissue":"Place of issue",
     "Dateofissue":"Dateofissue",
