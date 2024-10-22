@@ -174,6 +174,7 @@ export class UserComponent {
    }
    onChangeCompany(){
     this.getMobileCodeList();
+    this.getCountryList()
    }
    getChannelList(type){
       let ReqObj = {

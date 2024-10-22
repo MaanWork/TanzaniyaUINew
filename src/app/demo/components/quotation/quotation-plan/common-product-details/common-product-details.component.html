@@ -726,6 +726,36 @@
                                                     <span class="spancommon span_font_size">Please Enter sum Insured </span>
                                                 </div>
                                             </div> -->
+                                            <div *ngIf="firstLossSection">
+                                                <div class="flex flex-warp justify-content-end" >
+                                                    <p-button  label="Add New" size="small" (click)="addFirstLossPayee()"></p-button>
+                                                </div>
+                                                <p-table [value]="firstLossPayeeList" dataKey="LocationListAlt" editMode="row" [rows]="10" [paginator]="false" [tableStyle]="{'min-width': '40rem'}" >
+                                                    <ng-template pTemplate="header">
+                                                        <tr>
+                                                            <th [pSortableColumn]="column" *ngFor="let column of firstLossColumns">
+                                                                {{column}}
+                                                            </th>
+                                                        </tr>
+                                                    </ng-template>
+                                                    <ng-template pTemplate="body" let-payee let-ri="rowIndex">
+                                                        <tr>
+                                                            <td>
+                                                                <input class="w-full p-button-outlined" placeholder="Enter Payee Name" [(ngModel)]="payee.FirstLossPayeeDesc" styleClass="w-full"  pInputText type="text" />
+                                                            </td>
+                                                            <td>
+                                                                <ng-container  *ngIf="ri!=0">
+                                                                    <div class="flex align-items-center justify-content-center gap-2" >
+                                                                        <button  pButton type="button"  icon="pi pi-trash"  (click)="onDeleteFistLoss(ri)" 
+                                                                            styleClass="p-button-outlined" >
+                                                                        </button>
+                                                                    </div>
+                                                                </ng-container>
+                                                            </td>
+                                                        </tr>
+                                                    </ng-template>
+                                                </p-table>
+                                            </div>
                                             <div class="flex flex-warp justify-content-center" *ngIf="productId!='6' && productId!='39' && productId!='1'">
                                                 
                                                 <p-button  label="Save & Add New" size="small" (click)="addMoneyCommon(item)"></p-button>

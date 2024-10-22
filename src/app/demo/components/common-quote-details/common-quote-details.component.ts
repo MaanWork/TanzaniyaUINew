@@ -202,12 +202,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   CollateralCompanyAddress: any;
   LoanStartDate: string;
   LoanEndDate: string;
-  zoneCirculationList: any[]=[];
-  vehicleTypeListIVY: any[]=[];
-  vehicleUsageListIVY: any[]=[];
-  pACoverIdListIVY: any[]=[];
-  Zone: any[]=[];
-  ClassList: any[]=[];
+  zoneCirculationList: any[]=[];vehicleTypeListIVY: any[]=[];vehicleUsageListIVY: any[]=[];pACoverIdListIVY: any[]=[];Zone: any[]=[];ClassList: any[]=[];paCoverList: any[]=[];
   constructor(private router: Router, private sharedService: SharedService, private datePipe: DatePipe,
     private appComp: AppComponent,
     private translate: TranslateService, private messageService: MessageService) {
@@ -1692,7 +1687,35 @@ export class CommonQuoteDetailsComponent implements OnInit {
       },
       (err) => { },
     );
-
+  }
+  getPassengerInjuryList(){
+    let ReqObj = {
+      "InsuranceId": this.insuranceId,
+      "ItemType": "MOTOR_PASSENGER_INJURED"
+    }
+    let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if (data.Result) {
+          this.paCoverList = data.Result;
+          if (this.paCoverList.length != 0) {
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
+            for (let i = 0; i < this.paCoverList.length; i++) {
+              this.paCoverList[i].label = this.paCoverList[i]['CodeDesc'];
+              this.paCoverList[i].value = this.paCoverList[i]['Code'];
+              if (i == this.paCoverList.length - 1) {
+                let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
+                for (let field of fieldList) {
+                  if (field.key == 'PaCoverId') { field.props.options = defaultObj.concat(this.paCoverList); this.checkFieldNames(); }
+                }
+              }
+            }
+          }
+        }
+      },
+      (err) => { },
+    );
   }
   onChangeClassType() {
     this.vehicleSI = "0"; this.accessoriesSI = "0", this.windShieldSI = "0"; this.tppdSI = "0";
@@ -2760,6 +2783,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       "AxelDistance": this.vehicleDetails?.AxelDistance,
       "Chassisnumber": this.vehicleDetails?.Chassisnumber,
       "Color": this.vehicleDetails?.Color,
+      "PaCoverId": this.vehicleDetails?.PaCoverId,
       "CityLimit": null,
       "CoverNoteNo": null,
       "MobileCode": this.vehicleDetails?.MobileCode,
@@ -3453,6 +3477,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           "VehicleValueType": this.productItem.VehicleValue,
           "Inflation": this.productItem.Inflation,
           "Ncb": "0",
+          "PaCoverId": this.productItem?.PaCoverId,
           "DefenceValue": this.productItem.DefenceCost,
           "PurchaseDate": PurchaseDate,
           "RegistrationDate": this.vehicleDetails?.RegistrationDate,
@@ -3474,7 +3499,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
           "CollateralCompanyAddress": this.CollateralCompanyAddress,
           "CollateralCompanyName": this.CollateralCompanyName,
           "LoanAmount": this.LoanAmount,
-          "PaCoverId": this.productItem.PACoverId,
           "UsageId": this.productItem.VehicleUsage,
           "VehicleTypeIvr": this.productItem.VehicleType,
           "ZoneCirculation": this.productItem.ZoneCirculation,
@@ -3907,6 +3931,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 this.applicationId = "01";
               }
               this.subuserType = sessionStorage.getItem('typeValue');
+              
               console.log("AcExecutive", this.acExecutiveId);
               if (vehicleDetails?.FleetOwnerYn == null) vehicleDetails.FleetOwnerYn = 'N';
               let appId = "1", loginId = "", brokerbranchCode = "";
@@ -4032,6 +4057,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 "AdditionalCircumstances": "",
                 "AxelDistance": vehicleDetails?.AxelDistance,
                 "Chassisnumber": vehicleDetails?.Chassisnumber,
+                "PaCoverId": vehicleDetails?.PaCoverId,
                 "Color": vehicleDetails?.Color,
                 "CityLimit": vehicleDetails?.CityLimit,
                 "CoverNoteNo": null,
@@ -4132,7 +4158,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 "CollateralCompanyAddress": vehicleDetails?.CollateralCompanyAddress,
                 "CollateralCompanyName": vehicleDetails?.CollateralCompanyName,
                 "LoanAmount": vehicleDetails?.LoanAmount,
-                "PaCoverId": vehicleDetails?.PaCoverId,
                 "UsageId": vehicleDetails?.UsageId,
                 "VehicleTypeIvr": vehicleDetails?.VehicleTypeIvr,
                 "ZoneCirculation": vehicleDetails?.ZoneCirculation,
@@ -4799,6 +4824,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           "AxelDistance": this.vehicleDetails?.AxelDistance,
           "Chassisnumber": this.vehicleDetails?.Chassisnumber,
           "Color": this.vehicleDetails?.Color,
+          "PaCoverId": this.productItem?.PaCoverId,
           "CityLimit": this.cityValue,
           "CoverNoteNo": null,
           "MobileCode": this.vehicleDetails?.MobileCode,
@@ -4915,7 +4941,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
           "CollateralCompanyAddress": this.CollateralCompanyAddress,
           "CollateralCompanyName": this.CollateralCompanyName,
           "LoanAmount": this.LoanAmount,
-          "PaCoverId": this.productItem.PACoverId,
           "UsageId": this.productItem.VehicleUsage,
           "VehicleTypeIvr": this.productItem.VehicleType,
           "ZoneCirculation": this.productItem.ZoneCirculation,
@@ -5703,7 +5728,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       else if (this.insuranceId == '100040') { fireData = new MotorVehicleSanlamIvory(); }
       else if (this.insuranceId == '100042') { fireData = new MotorVehicleSanlamBurkina(); }
       else if (this.insuranceId == '100002') { fireData = new MotorVehicleTanzaniya(); this.getInsuranceClassList() }
-      else if (this.insuranceId == '100028') { fireData = new MotorVehicleEagle(); }
+      else if (this.insuranceId == '100028') { fireData = new MotorVehicleEagle();this.getPassengerInjuryList(); }
       else if (this.insuranceId == '100044') { fireData = new MotorVehicleSaudiarabia(); this.getInsuranceClassList() }
       else if (this.insuranceId == '100018') { fireData = new MotorVehicleOromia(); this.getInsuranceClassList() }
       else if (this.insuranceId == '100019') { fireData = new MotorVehicleUganda(); this.getInsuranceClassList() }
@@ -5780,8 +5805,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
             } else {
               console.warn('Marketvalue control is not available.');
             }
-
-
             // Additional setup if needed
             field.props.onKeydown = (event: KeyboardEvent) => {
               console.log('Key pressed:', field.props);
@@ -5884,8 +5907,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       //this.productItem.InsuranceType = this.vehicleDetails?.Insurancetype;
 
       if (this.vehicleDetails?.InsuranceClass != null && this.vehicleDetails?.InsuranceClass != '' && (this.insuranceId == '100040' || this.insuranceId == '100042')) {
-
-        this.productItem.InsuranceClass = Number(this.vehicleDetails.InsuranceClass);
+          this.productItem.InsuranceClass = Number(this.vehicleDetails.InsuranceClass);
       }
       else this.productItem.InsuranceClass = this.vehicleDetails?.InsuranceClass;
       this.getInsuranceTypeListIvory();
@@ -5901,6 +5923,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       }
       this.productItem.Newvalue = this.vehicleDetails?.NewValue;
       this.productItem.TiraCoverNoteNo = this.vehicleDetails?.TiraCoverNoteNo;
+      this.productItem.PaCoverId = this.vehicleDetails?.PaCoverId;
       this.productItem.PurchaseDate = this.onDateFormatInEdit(this.vehicleDetails?.PurchaseDate);
       this.productItem.Deductibles = this.vehicleDetails?.Deductibles;
       this.productItem.VehicleValue = this.vehicleDetails?.VehicleValueType;

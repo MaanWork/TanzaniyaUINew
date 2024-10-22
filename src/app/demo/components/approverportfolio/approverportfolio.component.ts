@@ -291,7 +291,6 @@ this.enddate=this.datePipe.transform(this.EndDate, "dd/MM/yyyy");
               "rowData":rowdata,
               "BrokerName":rowdata.BrokerName
             }
-            console.log('PPPPPPPP');
             sessionStorage.setItem('editdetails',JSON.stringify(quoteObj));
             this.router.navigate(['/Home/ApproverPortfolio/NewDetails']);
             // this.show=true;

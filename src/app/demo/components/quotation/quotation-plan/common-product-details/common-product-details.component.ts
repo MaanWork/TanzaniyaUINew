@@ -251,8 +251,9 @@ export class CommonProductDetailsComponent {
   LocationListAlt: any[]=[];
   nonMotorProductItem: any;
   tabIndex: any=0;
-  moneySIError: boolean;
+  moneySIError: boolean;firstLossColumns:any[]=[];
   ElecEquipSIError: boolean;ContentError: boolean;SerialNoError: boolean;firstSIError: boolean;currentVehicleIndex: number;sectionError: boolean=false;
+  firstLossSection: boolean=false;firstLossPayeeList: any[]=[];
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -367,6 +368,7 @@ export class CommonProductDetailsComponent {
      'No Of Persons','Occupation','Death Sum Insured','Temporary Disability','Permanant Disability','Medical','Funeral Expense','Action','Delete'
     ];
     this.customerColumn = [ 'Select','Reference No','Customer Name',  'Customer Type','ID Number'];
+    this.firstLossColumns = ['FirstLoss Payee Name','Action']
     if(this.productId=='6' || this.productId=='16' || this.productId=='39' || this.productId=='14' || this.productId=='15' || this.productId=='32' || this.productId=='1' || this.productId=='21'
     || this.productId=='26' || this.productId=='25' || this.productId=='13' || this.productId=='57' || this.productId=='61'){this.getIndustryList();}
     this.policyStartDate = new Date();
@@ -2129,6 +2131,11 @@ export class CommonProductDetailsComponent {
         field.formControl.valueChanges.subscribe(() => {
       this.onChangeBusiness();});
       } }
+      let modelHooks4 = { onInit: (field: FormlyFieldConfig) => {
+        field.formControl.valueChanges.subscribe(() => {
+          this.onFirstLossPayeeYNChange();
+        });
+      } }
       let districtHooks ={ onInit: (field: FormlyFieldConfig) => {
         field.formControl.valueChanges.subscribe(() => {
           this.ongetDistrictList('change',null);
@@ -2142,9 +2149,11 @@ export class CommonProductDetailsComponent {
           if(field.key=='RegionCode') field.hooks = districtHooks;
           if(field.key=='BusinessName') field.hooks = modelHooks3;
           if(field.key=='OccupationId') field.hooks = occupationHooks;
+          if(field.key=='FirstLossPayeeYN') field.hooks = modelHooks4;
       }
       this.productItem = new ProductData();
       this.productItem.InsuranceType = '56';
+      this.productItem.FirstLossPayeeYN = 'N';
       this.TableRowFire=[];
       this.formSection = true;
       this.getRegionList();
@@ -2557,6 +2566,17 @@ export class CommonProductDetailsComponent {
       this.cyberinsutypes();
       this.productTypes();
     }
+  }
+  addFirstLossPayee(){
+    let obj = {"FirstLossPayeeDesc":null};
+    this.firstLossPayeeList.push(obj);
+  }
+  onDeleteFistLoss(index){this.firstLossPayeeList.splice(index,1)}
+  onFirstLossPayeeYNChange(){
+      if(this.productItem.FirstLossPayeeYN=='Y'){
+        this.firstLossSection = true;this.firstLossPayeeList=[];this.addFirstLossPayee();
+      }
+      else this.firstLossSection = false;
   }
   getBIList(){
     let ReqObj ={
@@ -3338,7 +3358,6 @@ getCoverList(coverListObj) {
         "RequestReferenceNo": coverListObj?.RequestReferenceNo,
         "CoverModification":'N'
       }
-      alert(2)
       let urlLink = `${this.CommonApiUrl}calculator/calc`;
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
@@ -4406,7 +4425,7 @@ backPlan()
                          }
                       }
                     }
-                    this.setCommonValues()
+                    this.setCommonValues('direct')
                  }
                  this.updatedDetails = true;
                 //  if(this.productId=='59'){
@@ -4820,7 +4839,11 @@ backPlan()
     }
     else return j==0;
   }
-  setCommonValues(){
+  setCommonValues(type){
+    if(type=='Edit'){
+      this.tabIndex+=1;
+      this.productItem = new ProductData();
+    }
     let entry = this.LocationListAlt.find(ele=>ele.LocationId==this.tabIndex+1);
     if(this.LocationListAlt.length!=0){
       
@@ -4850,11 +4873,13 @@ backPlan()
          this.productItem.DistrictCode = section[0].DistrictCode;
          if(section[0].BusinessInterruption) this.productItem.BusinessName = Number(section[0].BusinessInterruption);
          else if(section[0].BusinessInterruption) this.productItem.BusinessName = Number(section[0].BusinessInterruption);
+        // alert(this.productItem.BusinessName)
          this.productItem.BusinessSI = section[0].FirePlantSi;
          this.onChangeBusiness();
          this.productItem.FireSumInsured = section[0].BuildingSumInsured;
          if(this.productItem.RegionCode) this.ongetDistrictList('direct',this.productItem.DistrictCode);
       }
+      //this.getFirstLossDetails()
     }
     else if(this.productId=='25'){
        this.currentSectionIndex=null;
@@ -4902,6 +4927,18 @@ backPlan()
       }
       else{this.onEditCommonDetails(entry[0],this.LocationListAlt[0],0)}
     }
+  }
+  getFirstLossDetails(){
+    let ReqObj={"RequestReferenceNo": this.requestReferenceNo}
+    let urlLink = `${this.motorApiUrl}api/getfirstlosspayee`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if (data.Result) {
+            if(data.Result.length!=0){let obj=data.Result.filter(ele=>ele.LocationId==String(this.tabIndex+1));
+              if(obj.length!=0){this.firstLossPayeeList=obj}
+            }
+        }
+      });
   }
   setCommonFormValues(type){
     if(this.productId!='14'){
@@ -6550,7 +6587,7 @@ backPlan()
                         "CategoryDesc": sectionData[0].CategoryDesc,
                         "CoveringDetails": sectionData[0].CoveringDetails,
                         "DescriptionOfRisk": sectionData[0].DescriptionOfRisk,
-                        'BusinessInterruption' : sectionData[0].Business_Interruption,
+                        'BusinessInterruption' : sectionData[0].BusinessInterruption,
                         'FirePlantSi': sectionData[0].FirePlantSi,
                         "SumInsured": sectionData[0].FirePlantSi,
                         'BusinessNameDesc' : sectionData[0].BusinessNameDesc,
@@ -6633,7 +6670,12 @@ backPlan()
                   if(i==this.uwQuestionList.length) this.onSaveUWQues(uwList,data.Result,type,'direct');
                 }
               }
-              else{ this.onCalculate(data.Result,type,null,null); }
+              else{
+                if(this.productId=='6' && this.productItem.FirstLossPayeeYN=='Y'){let list = this.firstLossPayeeList.filter(ele=>ele.FirstLossPayeeDesc!='' && ele.FirstLossPayeeDesc!=null);
+                  if(list.length!=0){this.onSaveFirstLossList(data.Result,type,null,null)}
+                  else this.onCalculate(data.Result,type,null,null); 
+                }
+                else this.onCalculate(data.Result,type,null,null); }
             }
             else{
                 if(this.tabIndex!=this.LocationListAlt.length-1){
@@ -6688,9 +6730,10 @@ backPlan()
                     }
                   }
                   else{
-                    this.tabIndex+=1;
-                    this.productItem = new ProductData();
-                    if(this.productId=='61') this.onEditCommonDetails(this.LocationListAlt[this.tabIndex].SectionList[0],this.LocationListAlt[this.tabIndex],0);
+                    
+                    if(this.productId=='61'){this.tabIndex+=1;
+                      this.productItem = new ProductData(); this.onEditCommonDetails(this.LocationListAlt[this.tabIndex].SectionList[0],this.LocationListAlt[this.tabIndex],0);}
+                    else if(this.productId=='6') this.setCommonValues('Edit');
                   }
                 }
                 else{
@@ -6753,6 +6796,40 @@ backPlan()
           }
         }
       });
+  }
+  onSaveFirstLossList(buildDetails,type,formType,saveType){
+    let list = this.firstLossPayeeList.filter(ele=>ele.FirstLossPayeeDesc!='' && ele.FirstLossPayeeDesc!=null);
+    if(list.length!=0){
+          let sectionId=null;
+          if(this.productId=='6') sectionId=this.productItem.Section;
+          let mainObj=this.LocationListAlt[this.tabIndex],finalList=[],i=0
+          for(let obj of list){
+            let entry = {
+              "RequestReferenceNo": this.requestReferenceNo,
+              "FirstLossPayeeId": null,
+              "FirstLossPayeeDesc": obj.FirstLossPayeeDesc,
+              "SectionId": sectionId,
+              "ProductId": this.productId,
+              "LocationId": String(this.tabIndex+1),
+              "LocationName": mainObj.LocationName,
+              "CompanyId": this.insuranceId,
+              "CreatedBy": this.loginId,
+              "Status": "Y",
+              "BranchCode": this.branchCode
+            }
+            finalList.push(entry);
+            i+=1;
+            if(i==list.length) this.onFinalLossSubmit(finalList,buildDetails,type,formType,saveType)
+          }
+    }
+    else this.onCalculate(buildDetails,type,formType,saveType)
+  }
+  onFinalLossSubmit(finalList,buildDetails,type,formType,saveType){
+    let urlLink = `${this.motorApiUrl}api/savefirstlosspayee`;
+      this.sharedService.onPostMethodSync(urlLink, finalList).subscribe(
+        (data: any) => {
+          if (data.Result) {this.onCalculate(buildDetails,type,formType,saveType)}
+        });
   }
   onSaveUWQues(uwList, entry,type,subType) {
     if (uwList.length != 0) {
