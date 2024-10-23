@@ -2527,7 +2527,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       }
       else {
         this.endMinDate = new Date(this.policyStartDate);
-        if(this.policyEndDate==null || this.policyEndDate==undefined || this.policyEndDate=='') this.policyEndDate = new Date(year + 1, month, day-1);
+         this.policyEndDate = new Date(year + 1, month, day-1);
         this.endMaxDate = new Date(year + 2, month, day-1);
         this.onChangeEndDate();
       }

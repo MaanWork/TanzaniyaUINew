@@ -387,9 +387,6 @@ export class CommonProductDetailsComponent {
       this.getIndustryList() ;
       
     }
-    // if(this.productId=='25' || this.productId=='6' || this.productId=='16' || this.productId=='27' || this.productId=='39'){
-    //   this.getFirstLossPayeeList();
-    // }
      if(this.productId=='6')
       {
         
@@ -497,50 +494,26 @@ export class CommonProductDetailsComponent {
   }
   index(data){
   }
-//  getFirstLossPayeeList(){
-//     let branchCode = '';
-//     if((this.userType!='Broker' && this.userType!='User')){
-//       branchCode = this.branchCode
-//     }
-//     else{
-//       branchCode = this.brokerbranchCode
-//     }
-//     let ReqObj = {
-//       "InsuranceId": this.insuranceId,
-//       "BranchCode": branchCode
-//     }
-//     let urlLink = `${this.CommonApiUrl}master/dropdown/bankmaster`;
-//     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-//       (data: any) => {
-//        // let obj=[{Code:"None",CodeDesc:"None"}]
-//         let defaultObj = [{ 'label': '-Select-', 'value': "None" }]
-//         this.bankList = data.Result;
-//         for (let i = 0; i < this.bankList.length; i++) {
-//           this.bankList[i].label = this.bankList[i]['CodeDesc'];
-//           this.bankList[i].value = this.bankList[i]['Code'];
-//         //   delete this.dropList[i].CodeDesc;
-//         //   if (i == this.dropList.length - 1) {
-//         if(this.productId=='25'){
-//           this.fields[0].fieldGroup[0].fieldGroup[3].templateOptions.options = defaultObj.concat(this.bankList);
-//         }
-//         else if(this.productId=='16'){
-//             //money
-//             this.fields[0].fieldGroup[0].fieldGroup[10].templateOptions.options = defaultObj.concat(this.bankList);
-//         }
-//         else if(this.productId=='27'){
-//             //pl
-//             this.fields[0].fieldGroup[0].fieldGroup[0].fieldGroup[3].templateOptions.options = defaultObj.concat(this.bankList);
-//         }
-//         else if(this.productId=='39'){
-//           this.fields[0].fieldGroup[0].fieldGroup[1].templateOptions.options = defaultObj.concat(this.bankList);
-//         }
-//         else if(this.productId=='6'){
-
-//         }
-//         //   }
-//         } //this.bankList = obj.concat(data.Result);
-//       })
-//   } 
+ getFirstLossPayeeList(){
+    let branchCode = '';
+    let sectionId=null;
+    if(this.productId=='6') sectionId = this.productItem.Section;
+    let ReqObj = {
+      "RequestReferenceNo": this.requestReferenceNo,
+      "SectionId": sectionId
+    }
+    let urlLink = `${this.motorApiUrl}api/getfirstlosspayee`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+            if(data.Result){
+              if(data.Result.length!=0){
+                    this.firstLossPayeeList = data.Result;
+                    this.productItem.FirstLossPayeeYN = 'Y';
+              }
+              else this.productItem.FirstLossPayeeYN = 'N';
+            }else this.productItem.FirstLossPayeeYN = 'N';
+      })
+  } 
   getBondDetails(){
     let SectionId;
     let referenceNo = sessionStorage.getItem('quoteReferenceNo');
@@ -1503,7 +1476,6 @@ export class CommonProductDetailsComponent {
           "PolicyEndDate": endDate,
           "CoverModification": coverModificationYN
         }
-        alert(3)
         let urlLink = `${this.CommonApiUrl}calculator/calc`;
         this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
           (data: any) => {
@@ -2574,7 +2546,8 @@ export class CommonProductDetailsComponent {
   onDeleteFistLoss(index){this.firstLossPayeeList.splice(index,1)}
   onFirstLossPayeeYNChange(){
       if(this.productItem.FirstLossPayeeYN=='Y'){
-        this.firstLossSection = true;this.firstLossPayeeList=[];this.addFirstLossPayee();
+        this.firstLossSection = true;
+        if(this.firstLossPayeeList.length==0)this.addFirstLossPayee();
       }
       else this.firstLossSection = false;
   }
@@ -4927,6 +4900,7 @@ backPlan()
       }
       else{this.onEditCommonDetails(entry[0],this.LocationListAlt[0],0)}
     }
+    this.getFirstLossPayeeList();
   }
   getFirstLossDetails(){
     let ReqObj={"RequestReferenceNo": this.requestReferenceNo}
@@ -6806,7 +6780,7 @@ backPlan()
           for(let obj of list){
             let entry = {
               "RequestReferenceNo": this.requestReferenceNo,
-              "FirstLossPayeeId": null,
+              "FirstLossPayeeId": i+1,
               "FirstLossPayeeDesc": obj.FirstLossPayeeDesc,
               "SectionId": sectionId,
               "ProductId": this.productId,

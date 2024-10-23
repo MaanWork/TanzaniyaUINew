@@ -656,7 +656,7 @@ emiyn="N";
     //menu.hide();
     this.IsmodelShow=true;
     this.myPopover=false;
-    $('#mymodalEdit').modal('hide');
+    // $('#mymodalEdit').modal('hide');
     //this.modalService.close(id);
   }
   getCoverList(coverListObj){
@@ -5386,24 +5386,28 @@ emiyn="N";
               this.Id = "6";
               this.jsonList = [
                 {
-                  "TermsId":null,
-                   "Id":this.Id,
+                  "TypeId":"D",
+                  "DocRefNo":null,
+                "DocumentId":null,
+                   "Id":"6",
                   "SubId":null,
                    "SubIdDesc":""
                 }
-              ]
+              ];
             }
             let warranty = this.viewDropDown.filter(ele => ele.Code == '4')
             if(warranty){
               this.Ids = "4";
               this.json = [
                 {
-                  "TermsId":null,
-                   "Id": this.Ids,
+                  "TypeId":"D",
+                   "Id":"4",
                   "SubId":null,
-                   "SubIdDesc":""
+                   "SubIdDesc":"",
+                   "DocRefNo":null,
+                   "DocumentId":null,
                 }
-              ]
+              ];
             }
             let Exclusion = this.viewDropDown.filter(ele => ele.Code == '7')
             if(Exclusion){ 
@@ -5411,10 +5415,12 @@ emiyn="N";
               this.id = "7";
               this.ExclusionList = [
                 {
-                  "TermsId":null,
-                   "Id": this.id,
+                  "TypeId":"D",
+                   "Id":"7",
                   "SubId":null,
-                   "SubIdDesc":""
+                   "SubIdDesc":"",
+                   "DocRefNo":null,
+                   "DocumentId":null,
                 }
               ]
           }
@@ -5800,8 +5806,8 @@ emiyn="N";
         ProductId: this.productId,
         QuoteNo:quote,
         //TermsId:null,
-        RiskId: this.tempData.VehicleId,
-        SectionId:this.tempData.SectionId,
+        RiskId: this.selectedRowData.VehicleId,
+        SectionId:this.termsSectionId,
         TermsAndConditionReq:clauses,
         RequestReferenceNo: this.quoteRefNo
       };
@@ -5832,29 +5838,30 @@ emiyn="N";
           console.log('TOOOOOOOOO');
           console.log('VechileLength',this.vehicleDetailsList.length);
           //this.closes=false;
-          $('#exampleModal').modal('hide');
   
           //exampleModel.hide()
           this.jsonList =[
             {
-              "TermsId":null,
-               "Id":this.Id,
+              "TypeId":"D",
+              "DocRefNo":null,
+            "DocumentId":null,
+              "SectionId":this.termsSectionId,
+               "Id":"6",
               "SubId":null,
                "SubIdDesc":""
             }
           ];
+          this.viewCondition('direct');
+          this.clauses = true;
+          this.showGrid=true;
+          this.newAddClauses = false;
           //this.jsonList.splice();
   
   
           //$('#ExclusionModal').modal('hide');
           //$('#WarrantyModel').modal('hide');
   
-          this.ClausesStatus(i,this.tempData);
-          this.onWarranty = false;
-          this.onClauses = true;
-          this.onWars = false;
-          this.onExclusion = false;
-          this.clauses=true;
+          
           //window.location.reload();
         }
       });
@@ -5881,9 +5888,10 @@ emiyn="N";
       ProductId: this.productId,
       QuoteNo:this.quoteNo,
       //TermsId:null,
-      RiskId: this.tempData.VehicleId,
-      SectionId:this.tempData.SectionId,
+      RiskId: this.selectedRowData.VehicleId,
+      SectionId:this.termsSectionId,
       TermsAndConditionReq:clauses,
+      RequestReferenceNo: this.quoteRefNo
     };
   
     let urlLink = `${this.CommonApiUrl}api/inserttermsandcondition`;
@@ -5895,18 +5903,21 @@ emiyn="N";
         console.log('VechileLength',this.vehicleDetailsList.length);
         //this.closes=false;
         //$('#exampleModal').modal('hide');
-        $('#ExclusionModal').modal('hide');
-        this.ExclusionList =[
+        // $('#ExclusionModal').modal('hide');
+        this.ExclusionList = [
           {
-            "TermsId":null,
-             "Id":this.id,
+            "TypeId":"D",
+             "Id":"7",
             "SubId":null,
-             "SubIdDesc":""
+             "SubIdDesc":"",
+             "DocRefNo":null,
+             "DocumentId":null,
           }
-        ];
-        //$('#WarrantyModel').modal('hide');
-  
-        this.ExclusioStatus(i,this.tempData)
+        ]
+        this.viewCondition('direct');
+        this.newAddExclusion = false;
+        this.Exclusion = true;
+        this.showGrid=true;
         //window.location.reload();
       }
     });
@@ -5932,8 +5943,8 @@ emiyn="N";
       ProductId: this.productId,
       QuoteNo:"",
       //TermsId:null,
-      RiskId: this.tempData.VehicleId,
-      SectionId:this.tempData.SectionId,
+      RiskId: this.selectedRowData.VehicleId,
+      SectionId:this.termsSectionId,
       TermsAndConditionReq:clauses,
       RequestReferenceNo: this.quoteRefNo
     };
@@ -5948,17 +5959,22 @@ emiyn="N";
         //this.closes=false;
         //$('#exampleModal').modal('hide');
         //$('#ExclusionModal').modal('hide');
-        $('#WarrantyModel').modal('hide');
+        // $('#WarrantyModel').modal('hide');
         this.json = [
           {
-            "TermsId":null,
-             "Id": this.Ids,
+            "TypeId":"D",
+             "Id":"4",
             "SubId":null,
-             "SubIdDesc":""
+             "SubIdDesc":"",
+             "DocRefNo":null,
+             "DocumentId":null,
           }
-        ]
+        ];
   
-        this.WarrantyStatus(i,this.tempData)
+        this.viewCondition('direct');
+        this.newAddWarranty = false;
+        this.warranty = true;
+        this.showGrid=true;
         //window.location.reload();
       }
     });
@@ -5966,37 +5982,42 @@ emiyn="N";
   
   addItem(){
     //this.jsonList.push(row);
-    let entry = [{
-     "TermsId":null,
-     "Id":this.Id,
-     "SubId":null,
-     "SubIdDesc":""
-   }]
-   this.jsonList = entry.concat(this.jsonList);
+      let entry = [{
+       "TypeId":"D",
+       "Id":'6',
+       "SubId":null,
+       "SectionId": this.termsSectionId,
+       "RiskId": this.selectedRowData.VehicleId,
+       "SubIdDesc":"",
+       "DocRefNo":null,
+        "DocumentId":null,
+       
+     }]
+      this.jsonList = entry.concat(this.jsonList);
      }
      addwarranty(row){
-       let entry = [{
-         "TermsId":null,
-         "Id":this.Ids,
-         "SubId":null,
-         "SubIdDesc":""
-       }]
+      let entry = [{
+        "TypeId":"D",
+        "Id":"4",
+        "SubId":null,
+        "SubIdDesc":"",
+        "DocRefNo":null,
+        "DocumentId":null,
+      }]
        this.json = entry.concat(this.json);
-       //this.json.push(row);
      }
      addExclusion(row:any){
-       let entry = [{
-         "TermsId":null,
-         "Id":this.id,
-         "SubId":null,
-         "SubIdDesc":""
-       }]
+      let entry = [{
+        "TypeId":"D",
+        "Id":"7",
+        "SubId":null,
+        "SubIdDesc":"",
+        "DocRefNo":null,
+        "DocumentId":null,
+      }]
        this.ExclusionList = entry.concat(this.ExclusionList);
-     //this.ExclusionList.push(row);
      }
-  
-     delete(row:any)
-     {
+     delete(row:any){
          const index = this.json.indexOf(row);
          this.json.splice(index, 1);
      }
