@@ -72,7 +72,7 @@ export class RiskDetailsComponent {
         employeeOccupationList:any[]=[];actualAccessoriesSI:any=null;SumInsured:any=null;enableAccessoriesEditSection:boolean=false;
         accessoriesList:any[]=[];currentAccessoriesIndex:any=null;editAccessoriesSection:boolean=false;ChassisList:any[]=[];
         totalAccSIError:any=null;AccLists:any[]=[];CoverList:any[]=[];sumInsuredDetails:any=null;item:any[]=[];
-        public AppConfig: any = (Mydatas as any).default;
+        public AppConfig: any = (Mydatas as any).default;firstLossOptions:any[]=[];
           public ApiUrl1: any = this.AppConfig.ApiUrl1;
           public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
           public motorApiUrl: any = this.AppConfig.MotorApiUrl;
@@ -126,10 +126,11 @@ export class RiskDetailsComponent {
   fields6: any[]=[];electronicEquipDialog: boolean=false;currentEERiskRowIndex:any=null;
   TableRowEE: any[]=[];DomesticServant: boolean=false;currentDSRowIndex: any=null;TableRowDS: any[]=[];
   fields7: any[]=[];locationIndex:any=0;domesticServantDialog: boolean;bankList: any[]=[];
-  servantTypeList: any[]=[];lang:any=null;
+  servantTypeList: any[]=[];lang:any=null;firstLossPayeeList:any[]=[];
   coversRequired:any='C';BuildingOwnerYn:any ='N'
   fields10: any[]=[];equipmentList:any[]=[]
   fields11: any[]=[];fields12: any[]=[];fields13: any[]=[];fields14: any[]=[];
+  firstLossSection: boolean;
         constructor(private router: Router,private datePipe:DatePipe,private translate: TranslateService,
           private appComp: AppComponent,private sharedService: SharedService,public http: HttpClient) {
          let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails') || '{}');
@@ -170,7 +171,9 @@ export class RiskDetailsComponent {
           this.buildingColumnHeader =['Location','Address','Delete']
           this.LocationHeader = ['LocationName','Delete']
           this.SIColumnHeader=['Location','Building SI','Content SI','All Risk SI','Personal Liability SI','Personal Accident SI','Domestic Servant SI']
-          
+          this.firstLossOptions=[
+            {"CodeDesc":"Yes","Code":"Y"},{"CodeDesc":"No","Code":"N"}
+          ]
         }
         ngOnInit() {
           
@@ -679,7 +682,7 @@ export class RiskDetailsComponent {
           if(entry.ElectronicEquipmentSI) this.productItem.ElectronicEquipmentSI = entry.ElectronicEquipmentSI;
           if(entry.EmpLiabilitySi){this.productItem.EmpLiabilitySi = entry.EmpLiabilitySi;this.productItem.ContentTypeId = entry.ContentTypeId}
           if(entry.SumInsured){this.productItem.PersonalAccidentSuminsured=entry.SumInsured;this.productItem.OccupationType=entry.OccupationType}
-          
+          this.getFirstLossPayeeListAlt();
         }
         checkLocationDetail(){
           if(this.LocationName.length!=0){
@@ -3717,11 +3720,60 @@ export class RiskDetailsComponent {
                         if(i==this.uwQuestionList.length) this.onSaveUWQues(uwList,data.Result,type);
                       }
                     }
-                    else{this.tabIndex+=1;this.productItem=new ProductData();if(this.productId=='59')this.onEditDomestic()}
+                    else{
+                      if(this.productId=='59'){
+                        if(this.productItem.FirstLossPayeeYN=='Y'){this.onSaveFirstLossList(data.Result,type)}
+                        else{this.tabIndex+=1;this.productItem=new ProductData();this.onEditDomestic()}
+                      }
+                      else{this.tabIndex+=1;this.productItem=new ProductData();}
+                    }
                   } 
                 }
               }
             });
+        }
+        onSaveFirstLossList(result,type){
+          let list = this.firstLossPayeeList.filter(ele=>ele.FirstLossPayeeDesc!='' && ele.FirstLossPayeeDesc!=null);
+          if(list.length!=0){
+                let sectionId=null;
+                if(this.productId=='6') sectionId=this.productItem.Section;
+                else if(this.productId=='59'){
+                  let entry = this.locationList[this.tabIndex];
+                  if(entry.CoversRequired=='BC' || entry.CoversRequired=='B') sectionId='1';
+                  else sectionId='47'
+                }
+                let mainObj=this.locationList[this.tabIndex],finalList=[],i=0
+                for(let obj of list){
+                  let entry = {
+                    "RequestReferenceNo": this.requestReferenceNo,
+                    "FirstLossPayeeId": i+1,
+                    "FirstLossPayeeDesc": obj.FirstLossPayeeDesc,
+                    "SectionId": sectionId,
+                    "ProductId": this.productId,
+                    "LocationId": String(this.tabIndex+1),
+                    "LocationName": mainObj.LocationName,
+                    "CompanyId": this.insuranceId,
+                    "CreatedBy": this.loginId,
+                    "Status": "Y",
+                    "BranchCode": this.branchCode
+                  }
+                  finalList.push(entry);
+                  i+=1;
+                  if(i==list.length) this.onFinalLossSubmit(finalList,result,type)
+                }
+          }
+          else if((type=='Save' && this.locationList.length==(this.tabIndex+1)) || type=='Submit' ) this.onCalculate(result,type);
+          else{this.tabIndex+=1;this.productItem=new ProductData();this.onEditDomestic()} 
+        }
+        onFinalLossSubmit(finalList,result,type){
+          let urlLink = `${this.motorApiUrl}api/savefirstlosspayee`;
+            this.sharedService.onPostMethodSync(urlLink, finalList).subscribe(
+              (data: any) => {
+                if (data.Result) {
+                  if((type=='Save' && this.LocationName.length==(this.tabIndex+1)) || type=='Submit' )this.onCalculate(result,type)
+                  else{this.tabIndex+=1;this.productItem=new ProductData();this.onEditDomestic()}
+                }
+              });
         }
         onOptionSelect(rowData,value){
           rowData.Value = value;
@@ -4399,11 +4451,50 @@ export class RiskDetailsComponent {
             let urlLink = `${this.CommonApiUrl}master/dropdown/bankmaster`;
             this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
               (data: any) => {
-                let obj=[{"Code":"None",CodeDesc:"None"}]
+                  let obj=[{"Code":"None",CodeDesc:"None"}]
                   this.bankList = obj.concat(data.Result);
               })
-            
+          } 
+          getFirstLossPayeeListAlt(){
+            this.firstLossPayeeList =[];
+            let branchCode = '';
+            let sectionId=null;
+            if(this.productId=='6') sectionId = this.productItem.Section;
+            else if(this.productId=='59'){
+              let entry = this.locationList[this.tabIndex];
+              if(entry.CoversRequired=='BC' || entry.CoversRequired=='B') sectionId='1';
+              else sectionId='47'
+            }
+            let ReqObj = {
+              "RequestReferenceNo": this.requestReferenceNo,
+              "SectionId": sectionId,
+              "RiskId": this.tabIndex+1
+            }
+            let urlLink = `${this.motorApiUrl}api/getfirstlosspayee`;
+            this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+              (data: any) => {
+                    if(data.Result){
+                      if(data.Result.length!=0){
+                            this.firstLossPayeeList = data.Result;
+                            this.productItem.FirstLossPayeeYN = 'Y';
+                      }
+                      else this.productItem.FirstLossPayeeYN = 'N';
+                    }else this.productItem.FirstLossPayeeYN = 'N';
+                    this.onFirstLossPayeeYNChange();
+              })
           }  
+          addFirstLossPayee(){
+            let obj = {"FirstLossPayeeDesc":null};
+            this.firstLossPayeeList.push(obj);
+          }
+          onDeleteFistLoss(index){this.firstLossPayeeList.splice(index,1)}
+          onFirstLossPayeeYNChange(){
+            if(this.productItem.FirstLossPayeeYN=='Y'){
+              this.firstLossSection = true;
+              if(this.firstLossPayeeList.length==0)this.addFirstLossPayee();
+            }
+            else this.firstLossSection = false;
+          }
           getRoofMaterialList() {
             let ReqObj = {
               "InsuranceId": this.insuranceId,
