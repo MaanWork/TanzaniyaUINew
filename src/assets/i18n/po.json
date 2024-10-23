@@ -185,10 +185,16 @@
         "Search": "Procurar"
     },
     "MOTORQUOTE":{
+      "PaCoverId":"Motor Passenger Injury",
+      "QuoteExpiryDate":"Quote Expiry Days",
       "Tonnage":"Tonelagem",
       "FileUpload":"Upload de arquivo",
       "CategoryDateobtained":"Categoria Data obtida",
+      "VehicleClass":"Vehicle Class",
+    "PreviousInsuranceYN":"Previous Insurance",
+    "PreviousLossRatio":"Previous Loss Ratio",
     "Categoryexpirationdate":"Data de expiração da categoria",
+    "Licenseexpirationdate":"License expiration date",
     "Category":"Categoria",
     "Placeofissue":"Local de emissão",
     "Dateofissue":"Dateofissue",

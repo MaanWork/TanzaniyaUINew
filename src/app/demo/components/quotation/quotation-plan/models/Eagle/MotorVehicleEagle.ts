@@ -93,6 +93,7 @@ export class MotorVehicleEagle{
                   //   expressions: {
                   //   },
                   // },
+                  
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     type: 'commaSeparator',
@@ -117,7 +118,29 @@ export class MotorVehicleEagle{
                     expressions: {
                     },
                   },
-                  
+                  {
+                    type: 'ngselect',
+                    key: 'PaCoverId',
+                    id: 'PaCoverId',
+                    defaultValue: '',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4',
+                    props: {
+                      label: `Motor Passenger Injury`,
+                      disabled: this.checkDisable('PaCoverId'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     key: 'RenewalYn',
@@ -125,11 +148,9 @@ export class MotorVehicleEagle{
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
-                      
                       required: true,
                       disabled: this.checkDisable('RenewalYn'),
                       name: 'RenewalYn',
-                     
                     },
                     props:{
                       label: 'Renewal',

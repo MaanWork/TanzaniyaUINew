@@ -146,13 +146,13 @@ export class MotorVehicleKenya{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     key: 'ClaimsYN',
-                    id: 'ClaimsYN',
+                    id: 'Claims',
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
                       required: true,
-                      disabled: this.checkDisable('ClaimsYN'),
-                      name: 'ClaimsYN'
+                      disabled: this.checkDisable('Claims'),
+                      name: 'Claims'
                     },
                     props: {
                       label: 'Claims',
@@ -162,14 +162,14 @@ export class MotorVehicleKenya{
                   {
                     className: 'col-12 md:col-4 lg:col-4 xl:col-4',
                     key: 'GpsYN',
-                    id: 'GpsYN',
+                    id: 'GPS',
                     type: 'radioList',
                     templateOptions: {
                       type: 'radio',
                       label: 'Gps YN ?',
                       required: true,
-                      disabled: this.checkDisable('ClaimsYN'),
-                      name: 'GpsYN',
+                      disabled: this.checkDisable('GPS'),
+                      name: 'GPS',
                       options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
                     }
                   },

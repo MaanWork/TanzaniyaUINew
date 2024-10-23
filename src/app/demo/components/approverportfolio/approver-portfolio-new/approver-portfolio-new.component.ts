@@ -87,12 +87,12 @@ export class ApproverPortfolioNewComponent {
        bussinesstype=CustomerObj?.BusinessType;
        this.newlogin=CustomerObj?.Login;
      }
-       if(bussinesstype!='NB2C'){
+       //if(bussinesstype!='NB2C'){
          this.onTotal();
-       } 
-       else{
-         this.onTotalb2c();
-       } 
+      //  } 
+      //  else{
+      //    this.onTotalb2c();
+      //  } 
   
   }
   setHeaders(){
