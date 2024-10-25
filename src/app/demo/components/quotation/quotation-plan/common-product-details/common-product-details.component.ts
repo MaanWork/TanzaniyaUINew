@@ -500,7 +500,8 @@ export class CommonProductDetailsComponent {
     if(this.productId=='6') sectionId = this.productItem.Section;
     let ReqObj = {
       "RequestReferenceNo": this.requestReferenceNo,
-      "SectionId": sectionId
+      "SectionId": sectionId,
+      "locationId": this.tabIndex+1
     }
     let urlLink = `${this.motorApiUrl}api/getfirstlosspayee`;
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
@@ -1623,6 +1624,7 @@ export class CommonProductDetailsComponent {
         "BranchCode": this.branchCode,
       "InsuranceId": this.insuranceId,
       "ProductId": this.productId,
+      "CountryId": value
     }
     let urlLink = `${this.ApiUrl1}master/dropdown/productsection`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -3173,7 +3175,7 @@ savePlan(travelList, totalPassengers){
       "SubUserType": this.subuserType,
       "CustomerReferenceNo": sessionStorage.getItem('customerReferenceNo'),
       "RequestReferenceNo": this.quoteRefNo,
-      "BranchCode": "01",
+      "BranchCode": this.branchCode,
       "ProductId": this.productId,
       "UserType": this.userType,
       "BrokerBranchCode": brokerbranchCode,
