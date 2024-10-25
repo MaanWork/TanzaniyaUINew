@@ -2323,7 +2323,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
     let ReqObj = {
       "RequestReferenceNo": this.quoteRefNo,
       "Idnumber": this.customerDetails?.IdNumber,
-      "Vehicleid": vehicleDetails?.Vehicleid
+      "Vehicleid": vehicleDetails?.Vehicleid,
+      "InsuranceId":this.insuranceId
     }
     let urlLink = `${this.motorApiUrl}api/getmotordetails`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -3841,7 +3842,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
         let ReqObj = {
           "RequestReferenceNo": veh.RequestReferenceNo,
           "Idnumber": this.customerDetails?.IdNumber,
-          "Vehicleid": veh.Vehicleid
+          "Vehicleid": veh.Vehicleid,
+          "InsuranceId":this.insuranceId
         }
         let urlLink = `${this.motorApiUrl}api/getmotordetails`;
         this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -5571,7 +5573,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
     let ReqObj = {
       "RequestReferenceNo": this.quoteRefNo,
       "Idnumber": this.customerDetails?.IdNumber,
-      "Vehicleid": vehicleId
+      "Vehicleid": vehicleId,
+      "InsuranceId":this.insuranceId
     }
     let urlLink = `${this.motorApiUrl}api/getmotordetails`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -6321,11 +6324,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
           field.hide = true;
         }
         else if(this.productItem.VehicleValue==1 || this.productItem.VehicleValue=='1'){
-          if(field.key == 'Aggregatedvalue'){
+          if(field.key == 'Aggregatedvalue' || field.key == 'WindShieldSI'){
             field.hideExpression = true;
             field.hide = true;
           }
-          
         }
         else if(this.productItem.VehicleValue==2 || this.productItem.VehicleValue=='2'){
           if(field.key == 'Marketvalue'){
@@ -6918,6 +6920,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     let entry = this.checMandatories()
     if (entry) {
       this.uploadTab = true;
+      this.tabIndex+1;
     }
   }
   onUploadDocuments(target: any, fileType: any, type: any) {
