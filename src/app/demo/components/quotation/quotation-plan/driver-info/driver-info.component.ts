@@ -665,6 +665,7 @@ addNewDriver(vehId){
     
     console.log("Before Date2",date)
     var entry = {
+      "InsuranceId": this.insuranceId,
         "CreatedBy": this.loginId,
         "DriverDob":date,
         "DriverName": driver.DriverName,
