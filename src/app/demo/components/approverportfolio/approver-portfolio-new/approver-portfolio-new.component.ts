@@ -264,7 +264,6 @@ export class ApproverPortfolioNewComponent {
       console.log('ooooooooo',this.page);
       this.rowdata=CustomerObj?.rowData
       }
-          
             console.log('PPPPPPPPPP',this.ProductName);
             // this.newproductId=ProductId;
             // if(this.bussinesstype == 'N' || this.bussinesstype == 'C' || this.bussinesstype == 'E'){

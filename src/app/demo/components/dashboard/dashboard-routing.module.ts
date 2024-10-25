@@ -69,7 +69,6 @@ import { CustomerAsInsurerComponent } from '../customer/customer-as-insurer/cust
         { path: 'Home/others/premiaintegration', loadChildren: () => import('../../components/othersmenu/premia.module').then(m => m.PremiaIntegrationViewModule) },
         {
             path:'Home/ApproverPortfolio',
-            component:ApproverPortfolioComponent,
             loadChildren: () => import('../approverportfolio/approverportfolio.module').then(m => m.ApproverPortfolioModule),
           },
           {
