@@ -19,7 +19,7 @@ export class ProductData {
 	Dob:any = '';
 	OccupationType:any='';
 	SalaryPerAnnum:any='';
-	BenefitCoverMonth:any='';
+	BenefitCoverMonth:any='';PaCoverId:any=null
 	SumInsured:any='';ContentTypeId:any=null;
     SectionId: string='';ProfessionalStaff:any=null;
     IdProofType:string = '';HighestQualificationHeld:any=null;
@@ -143,7 +143,6 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 	HorsePower: any=''
 	InsurancetypeDesc: any
 	InsuranceClassDesc: any
-	PaCoverId: any
 	BankingDelegation: any
 	LoanStartDate: any
 	LoanEndDate: any
@@ -158,7 +157,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 	MarketValue: any=''
     AggregatedValue: any=''
 	Zone:any=null
-	Class:any=null
+	Class:any=null;FirstLossPayeeYN:any='N';
 	constructor(data?) {
 		this.id = data?.id ?? ''
 		this.CustomerName = data?.CustomerName ?? '';
@@ -184,6 +183,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.AccountAuditentType = data?.AccountAuditentType ?? '';
 		this.IdProofType = data?.IdProofType ?? '';
 		this.IdNo = data?.IdNo ?? '';
+		this.FirstLossPayeeYN = data?.FirstLossPayeeYN ?? 'N';
 		this.CategoryDesc = data?.CategoryDesc ?? '';
 		this.JobJoiningMonth = data?.JobJoiningMonth ?? '';
 		this.BetweenDiscontinued = data?.BetweenDiscontinued ?? '';

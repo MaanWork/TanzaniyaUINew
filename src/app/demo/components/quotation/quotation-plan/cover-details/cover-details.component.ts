@@ -2267,8 +2267,9 @@ export class CoverDetailsComponent {
             }
             else{
               console.log('Endorsemet section Values4');
-             let sectionEntry = entry.find(ele=>ele.SectionId == rowData.SectionId);
-            
+             let sectionEntry:any;
+            if(this.productId=='4') sectionEntry = entry.find(ele=>ele.VehicleId == rowData.VehicleId);
+            else sectionEntry = entry.find(ele=>ele.SectionId == rowData.SectionId);
              if(sectionEntry == undefined){
               if(rowData.SubCovers==null){
                 let id=null;

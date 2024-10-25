@@ -1328,23 +1328,18 @@
                                                                                         *ngIf="subElement.MultiSelectYn!='Y'">
                                                                                         <mat-radio-button
                                                                                             [checked]="checkSubCoverSelection(subElement)"
-                                                                                            [id]="'customRadio'+subElement[col.key]"
-                                                                                            name="customRadio"
-                                                                                            (change)="onChangeSubCover(subElement,element,menu,$event.checked)">
+                                                                                            [id]="'customRadio'+subElement[col.key]" name="customRadio" (change)="onChangeSubCover(subElement,element,menu,$event.checked)">
                                                                                         </mat-radio-button> 
                                                                                     </ng-container>
                                                                                 </ng-container>
                                                                                 <ng-container *ngIf="col.config.isEdit">
-                                                                                    <button
-                                                                                        class="btn btn-primary btn-sm"
-                                                                                        (click)="onEdit.emit(subElement)">
+                                                                                    <button class="btn btn-primary btn-sm" (click)="onEdit.emit(subElement)">
                                                                                         <i class="fas fa-marker"></i>
                                                                                     </button>
                                                                                 </ng-container>
                                                                                 <ng-container
                                                                                     *ngIf="col.config.isConfigure">
-                                                                                    <button
-                                                                                        class="btn btn-primary btn-sm"
+                                                                                    <button class="btn btn-primary btn-sm"
                                                                                         (click)="onConfigure.emit(subElement)">
                                                                                         <i class="fas fa-cog"></i>
                                                                                     </button>
@@ -1361,25 +1356,17 @@
                                                                                     <button mat-icon-button
                                                                                         [matMenuTriggerFor]="menu"
                                                                                         aria-label="Example icon-button with a menu">
-                                                                                        <i
-                                                                                            class="fas fa-ellipsis-v"></i>
+                                                                                        <i class="fas fa-ellipsis-v"></i>
                                                                                     </button>
                                                                                     <mat-menu #menu="matMenu">
-                                                                                        <button mat-menu-item>
-                                                                                            <span>Lc Details</span>
-                                                                                        </button>
-                                                                                        <button mat-menu-item
-                                                                                            (click)="onOpenCoverAction.emit({data:subElement,name:'Certificate'})">
+                                                                                        <button mat-menu-item><span>Lc Details</span></button>
+                                                                                        <button mat-menu-item (click)="onOpenCoverAction.emit({data:subElement,name:'Certificate'})">
                                                                                             <span>Certificate</span>
                                                                                         </button>
-                                                                                        <button mat-menu-item
-                                                                                            (click)="onOpenCoverAction.emit({data:subElement,name:'Schedule'})">
+                                                                                        <button mat-menu-item (click)="onOpenCoverAction.emit({data:subElement,name:'Schedule'})">
                                                                                             <span>Schedule</span>
                                                                                         </button>
-                                                                                        <button mat-menu-item>
-                                                                                            <span>Policy
-                                                                                                Wording</span>
-                                                                                        </button>
+                                                                                        <button mat-menu-item><span>Policy Wording</span></button>
                                                                                     </mat-menu>
                                                                                 </ng-container>
                                                                             </ng-template>
@@ -4454,13 +4441,12 @@
                 <thead>
                     <tr>
                         <th class="p-2">Select</th>
-    
                         <th class="p-2">Description</th>
                     </tr>
                 </thead>
     
                 <tbody
-                    *ngFor="let clause of ClausesData|paginate:{itemsPerPage: 10, currentPage:p,id: 'p'}; let i=index;">
+                    *ngFor="let clause of ClausesData; let i=index;">
                     <tr>
                         <td class="flex flex-wrap justify-content-center" style="border-bottom: 0px solid grey !important;">
                             <div class="mt-2" >
@@ -4565,7 +4551,7 @@
                 </thead>
     
                 <tbody
-                    *ngFor="let clause of ExclusionData|paginate:{itemsPerPage: 10, currentPage:p,id: 'p'}; let i=index;">
+                    *ngFor="let clause of ExclusionData; let i=index;">
                     <tr>
                         <td class="flex flex-wrap justify-content-center" style="border-bottom: 0px solid grey !important;">
                             <div class="mt-2" >
@@ -4669,7 +4655,7 @@
                 </thead>
     
                 <tbody
-                    *ngFor="let clause of WarrantyData|paginate:{itemsPerPage: 10, currentPage:p,id: 'p'}; let i=index;">
+                    *ngFor="let clause of WarrantyData; let i=index;">
                     <tr>
                         <td class="flex flex-wrap justify-content-center" style="border-bottom: 0px solid grey !important;">
                             <div class="mt-2" >

@@ -257,6 +257,22 @@ export class FireAlliedPerils{
                           
                           },
                       },
+                      {
+                        className: 'col-12 md:col-7 lg:col-7 xl:col-7 pl-2 pr-2 pt-1',
+                        key: 'FirstLossPayeeYN',
+                        id: 'FirstLossPayeeYN',
+                        type: 'radioList',
+                        templateOptions: {
+                          type: 'radioList',
+                          required: true,
+                          disabled: this.checkDisable('InsuranceType'),
+                          name: 'First Loss Payee Available?',
+                        },
+                        props: {
+                          label: 'First Loss Payee Available?',
+                          options: [{"label":"Yes","value":"Y"},{"label":"No","value":"N"}],
+                        }
+                      },
                     ]
                 }
               ]

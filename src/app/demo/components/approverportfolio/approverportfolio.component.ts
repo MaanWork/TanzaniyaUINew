@@ -62,6 +62,9 @@ export class ApproverPortfolioComponent implements OnInit,OnChanges, AfterViewIn
     this.productId = this.userDetails.Result.ProductId;
     this.loginId = this.userDetails.Result.LoginId;
     this.branchValue = this.userDetails.Result.BranchCode
+    
+    
+    
   }
     ngOnInit(): void {
       this.getBranchList('direct');
@@ -87,27 +90,26 @@ export class ApproverPortfolioComponent implements OnInit,OnChanges, AfterViewIn
         // { key: 'TotalPremiumLc', display: 'Premium' },
       ];
 
-      let CustomerObj = JSON.parse(sessionStorage.getItem('datedetails'));
-      if(CustomerObj){
-     
-     this.StartDate=CustomerObj?.StartDate;
-     this.EndDate=CustomerObj?.EndDate;
-     this.branchValue=CustomerObj?.BranchCode;
-     this.bussinesstype=CustomerObj?.Businesstype;
-
-     if(this.StartDate){
-      this.StartDate=this.onDateFormatInEdit(this.StartDate);
-     }
-    else{
-      this.StartDate=''
-    }
-    if(this.EndDate){
-      this.EndDate=this.onDateFormatInEdit(this.EndDate);
-     }
-    else{
-      this.EndDate=''
-    }
-     console.log('PPPPPPPPPPPPPPP',this.StartDate);
+      let editObj:any = JSON.parse(sessionStorage.getItem('editdetails'));
+    if(editObj){
+      console.log("Final Obj",editObj)
+      this.productId = editObj?.ProductId;
+      this.bussinesstype = editObj?.BusinessType;
+      this.StartDate = editObj?.StartDate;
+      this.EndDate = editObj?.EndDate;
+      this.branchValue =  editObj?.BranchCode;
+      // if(this.StartDate){
+      //   this.StartDate=this.onDateFormatInEdit(this.StartDate);
+      // }
+      // else{
+      //   this.StartDate=''
+      // }
+      // if(this.EndDate){
+      // this.EndDate=this.onDateFormatInEdit(this.EndDate);
+      // }
+      // else{
+      //   this.EndDate=''
+      // }
       this.getsearchlist(this.bussinesstype);
       console.log( this.StartDate,this.EndDate);
       }
@@ -145,22 +147,22 @@ export class ApproverPortfolioComponent implements OnInit,OnChanges, AfterViewIn
     
       }
       let urlLink = `${this.CommonApiUrl}master/dropdown/branchmaster`;
-    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-      (data: any) => {
-        if(data.Result){
-          let obj = [{Code:"99999",CodeDesc:"ALL"}];
-          this.branchList = obj.concat(data?.Result);
-          this.getBussinessType('direct');
-          //if(!this.branchValue){ this.branchValue = "99999"; this.getVehicleUsage() }
-          // let docObj = JSON.parse(sessionStorage.getItem('addVehicle'))
-          // if(docObj){ this.branchValue = docObj?.branch;
-          //   console.log('LLLLLLLLLL',this.branchValue);
-          //      }
-          // else{ this.branchValue='99999';}
-        }
-      },
-      (err) => { },
-    );
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          if(data.Result){
+            let obj = [{Code:"99999",CodeDesc:"ALL"}];
+            this.branchList = obj.concat(data?.Result);
+            this.getBussinessType('direct');
+            //if(!this.branchValue){ this.branchValue = "99999"; this.getVehicleUsage() }
+            // let docObj = JSON.parse(sessionStorage.getItem('addVehicle'))
+            // if(docObj){ this.branchValue = docObj?.branch;
+            //   console.log('LLLLLLLLLL',this.branchValue);
+            //      }
+            // else{ this.branchValue='99999';}
+          }
+        },
+        (err) => { },
+      );
     }
 
 
@@ -202,9 +204,14 @@ export class ApproverPortfolioComponent implements OnInit,OnChanges, AfterViewIn
           sessionStorage.setItem('datedetials',JSON.stringify(quote));
     }
     geteditList(){
+      
       this.tableData=[];
-this.startDate = this.datePipe.transform(this.StartDate, "dd/MM/yyyy");
-this.enddate=this.datePipe.transform(this.EndDate, "dd/MM/yyyy");
+      console.log(this.StartDate,this.EndDate)
+
+      if(String(this.StartDate).split('/').length==1) this.startDate = this.datePipe.transform(this.StartDate, "dd/MM/yyyy");
+      else this.startDate = this.StartDate;
+      if(String(this.EndDate).split('/').length==1) this.enddate=this.datePipe.transform(this.EndDate, "dd/MM/yyyy");
+      else this.enddate = this.EndDate;
 
       let ReqObj = {
         "InsuranceId":this.insuranceId,
@@ -291,9 +298,8 @@ this.enddate=this.datePipe.transform(this.EndDate, "dd/MM/yyyy");
               "rowData":rowdata,
               "BrokerName":rowdata.BrokerName
             }
-            console.log('PPPPPPPP');
             sessionStorage.setItem('editdetails',JSON.stringify(quoteObj));
-            this.router.navigate(['/Home/ApproverPortfolio/NewDetails']);
+            this.router.navigate(['Home/ApproverPortfolio/NewDetails']);
             // this.show=true;
           
             // this.ProductName=ProductName;

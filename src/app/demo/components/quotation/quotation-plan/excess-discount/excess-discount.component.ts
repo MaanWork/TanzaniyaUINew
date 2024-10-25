@@ -656,7 +656,7 @@ emiyn="N";
     //menu.hide();
     this.IsmodelShow=true;
     this.myPopover=false;
-    $('#mymodalEdit').modal('hide');
+    // $('#mymodalEdit').modal('hide');
     //this.modalService.close(id);
   }
   getCoverList(coverListObj){
@@ -1119,6 +1119,7 @@ emiyn="N";
                       //"isReferal": rowData.isReferal
                     }
                   ],
+                  "LocationId": vehicle.VehicleId,
                   "Id": vehicle.VehicleId,
                   "SectionId": cover.SectionId
                 }
@@ -1257,6 +1258,7 @@ emiyn="N";
                     //"isReferal": rowData.isReferal
                   }
                 ],
+                "LocationId": vehicle.VehicleId,
                 "Id": vehicle.VehicleId,
                 "SectionId": cover.SectionId
               }
@@ -1332,6 +1334,7 @@ emiyn="N";
                     //"isReferal": rowData.isReferal
                   }
                 ],
+                "LocationId": vehicle.VehicleId,
                 "Id": vehicle.VehicleId,
                 "SectionId": cover.SectionId,
   
@@ -1405,6 +1408,7 @@ emiyn="N";
                   //"isReferal": rowData.isReferal
                 }
               ],
+              "LocationId": vehicle.VehicleId,
               "Id": vehicle.VehicleId,
               "SectionId": cover.SectionId
             }
@@ -1562,6 +1566,7 @@ emiyn="N";
                 //"isReferal": rowData.isReferal
               }
             ],
+            "LocationId": vehicle.VehicleId,
             "Id": vehicle.VehicleId,
             "SectionId": cover.SectionId
           }
@@ -2411,7 +2416,7 @@ emiyn="N";
             if(cover.SubCovers!=null){
               let k=0;
               for(let sub of cover.SubCovers){
-                if(this.statusValue!=null && sub?.UserOpt=='Y'  && sub?.isSelected!='N'){
+                if(this.statusValue!=null && sub?.UserOpt=='Y'){
                   this.onChangeSubCover(sub,cover,veh,true); 
                 }
                 else{sub['selected']=false}
@@ -2478,7 +2483,7 @@ emiyn="N";
                         if(cover.SubCovers!=null){
                           let k=0;
                           for(let sub of cover.SubCovers){
-                            if(this.statusValue!=null && sub?.UserOpt=='Y' && sub?.isSelected!='N'){
+                            if(this.statusValue!=null && sub?.UserOpt=='Y'){
                               this.onChangeSubCover(sub,cover,veh,true); 
                             }
                             else{sub['selected']=false}
@@ -2575,7 +2580,7 @@ emiyn="N";
       }
     }
     checkSubCoverSelection(rowData){
-      if(rowData.UserOpt=='Y' && rowData.isSelected!='N') return true;
+      if(rowData.UserOpt=='Y') return true;
       else return false;
     }
     checkSelectedSections(rowData){
@@ -2892,6 +2897,7 @@ emiyn="N";
                         //"isReferal": rowData.isReferal
                       }
                     ],
+                    "LocationId": vehicle.VehicleId,
                     "Id": vehicleId,
                     "SectionId": rowData.SectionId,
   
@@ -2989,6 +2995,7 @@ emiyn="N";
                         //"isReferal": rowData.isReferal
                       }
                     ],
+                    "LocationId": vehicle.VehicleId,
                     "Id": vehicleId,
                     "SectionId": rowData.SectionId,
   
@@ -3216,6 +3223,7 @@ emiyn="N";
                       //"isReferal": rowData.isReferal
                     }
                   ],
+                  "LocationId": vehicle.VehicleId,
                   "Id": vehicleId,
                   "SectionId": rowData.SectionId,
   
@@ -4884,7 +4892,7 @@ emiyn="N";
       else if(!this.adminSection && (this.userType!='Issuer') && this.statusValue != 'RA' && !this.otpSection){
         this.onFormSubmit();
       }
-      else if(this.userType=='Issuer' && this.subuserType=='low'  && this.statusValue != 'RA' && !this.endorsementSection){
+      else if(this.userType=='Issuer' && this.subuserType=='low' && this.statusValue!=null  && this.statusValue != 'RA' && !this.endorsementSection){
         this.updateFinalizeYN('proceed');
       }
       else if(this.adminSection){
@@ -4897,7 +4905,9 @@ emiyn="N";
         for(let vehicle of this.selectedVehicleList){
           let vehEntry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.Vehicleid);
           if(vehEntry.length!=0){
-            let entry = vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId);
+            let entry = [];
+            if(this.productId=='5') vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId);
+            else entry = vehEntry;
             if(entry.length!=0){
               let j=0; let covers = [];
               for(let veh of entry){
@@ -4916,7 +4926,7 @@ emiyn="N";
                           let ReqObj = {
                             "RequestReferenceNo": this.quoteRefNo,
                             "VehicleId": veh.Id,
-                            "SectionId": vehicle.SectionId,
+                            "SectionId": veh.SectionId,
                             "ProductId": this.productId,
                             "AdminLoginId": this.loginId,
                             "InsuranceId": this.insuranceId,
@@ -4952,39 +4962,41 @@ emiyn="N";
     onUpdateFactor(type,modal){
       
       if((this.statusValue!='' && this.statusValue!=null) || (this.endorsementSection && this.endorseCovers) || this.userType=='Issuer' || type=='fleetSave'){
-        if(this.statusValue=='RA' || type=='calculate' || this.userType=='Issuer' || type=='fleetSave'){
+        if(this.statusValue=='RA' || type=='calculate' || this.userType.toLowerCase()=='issuer' || type=='fleetSave'){
+          
           if(this.selectedCoverList.length!=0){
             let i=0;
-            for(let vehicle of this.vehicleDetailsList){
-                let vehEntry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.Vehicleid);
-                if(vehEntry.length!=0){
-                  let entry = vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId);
-                  if(entry.length!=0){
-                    let j=0; let covers = [];
-                    for(let veh of entry){
-                        let k=0;
-                        for(let selectedCover of veh.Covers){
-                          let coverList = vehicle.CoverList.filter(ele=>ele.CoverId == selectedCover.CoverId)
-                          covers = covers.concat(coverList);
-                          k+=1;
-                          if(k==veh.Covers.length){
-                            j+=1;
-                            if(j==entry.length){
-                                let Location = '1';
-                                if(veh.LocationId){
-                                  Location = veh.LocationId;
-                                }
-                                let ReqObj = {
-                                  "RequestReferenceNo": this.quoteRefNo,
-                                  "VehicleId": veh.Id,
-                                  "SectionId": vehicle.SectionId,
-                                  "ProductId": this.productId,
-                                  "AdminLoginId": this.loginId,
-                                  "LocationId": Location,
-                                  "InsuranceId": this.insuranceId,
-                                  "Covers":covers
-                                }
-                                console.log("Final Req",vehicle,veh,ReqObj)
+            console.log("Selected Covers",this.selectedCoverList,this.vehicleDetailsList)
+            for(let vehicle of this.vehicleData){
+              let vehEntry = this.selectedCoverList.filter(ele=>ele.RiskId==vehicle.RiskId);
+              if(vehEntry.length!=0){
+                let entry = vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId);
+                if(entry.length!=0){
+                  let j=0; let covers = [];
+                  for(let veh of entry){
+                      let k=0;
+                      for(let selectedCover of veh.Covers){
+                        let coverList = vehicle.CoverList.filter(ele=>ele.CoverId == selectedCover.CoverId && ele.SectionId==vehicle.SectionId && !(covers.some(entry=>entry.CoverId==ele.CoverId && ele.SectionId==entry.SectionId)))
+                        covers = covers.concat(coverList);
+                        k+=1;
+                        if(k==veh.Covers.length){
+                          j+=1;
+                          if(j==entry.length){
+                              let Location = '1';
+                              if(veh.LocationId){
+                                Location = veh.LocationId;
+                              }
+                              let ReqObj = {
+                                "RequestReferenceNo": this.quoteRefNo,
+                                "VehicleId": veh.Id,
+                                "LocationId": Location,
+                                "SectionId": vehicle.SectionId,
+                                "ProductId": this.productId,
+                                "AdminLoginId": this.loginId,
+                                "InsuranceId": this.insuranceId,
+                                "Covers":covers
+                              }
+                              if(covers.length!=0){
                                 let urlLink = `${this.CommonApiUrl}api/updatefactorrate`;
                                 this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
                                   (data: any) => {
@@ -4992,7 +5004,6 @@ emiyn="N";
                                         i+=1;
                                         if(i==this.vehicleDetailsList.length){
                                           if(type=='calculate'){
-                                            
                                             // this.getcall();
                                             //sessionStorage.removeItem('vehicleDetailsList');
                                             window.location.reload();
@@ -5006,35 +5017,47 @@ emiyn="N";
                                     },
                                     (err) => { },
                                   );
-                            }
+                              }
+                              else{
+                                i+=1;
+                                if(i==this.vehicleDetailsList.length){
+                                  if(type=='calculate'){
+                                    window.location.reload();
+                                  }
+                                  else if(type=='altSave'){ console.log("Finally Updated");}
+                                  else if(type=='fleetSave') this.getViewPremiumCalc(modal);
+                                  else if(this.subuserType=='low') this.onFormSubmit();
+                                  else this.updateReferralStatus();
+                                }}
                           }
                         }
-                    }
-                  }
-                  else{
-                    i+=1;
-                    if(i==this.vehicleDetailsList.length){
-                      if(type=='calculate'){
-                        //this.getcall();
-                        //sessionStorage.removeItem('vehicleDetailsList');
-                          window.location.reload();
                       }
-                      else this.updateReferralStatus();
-                    }
                   }
                 }
                 else{
                   i+=1;
-                    if(i==this.vehicleDetailsList.length){
-                      if(type=='calculate'){
-                        //this.getcall();
-                        //sessionStorage.removeItem('vehicleDetailsList');
-                          window.location.reload();
-                      }
-                      else this.updateReferralStatus();
+                  if(i==this.vehicleDetailsList.length){
+                    if(type=='calculate'){
+                      //this.getcall();
+                      //sessionStorage.removeItem('vehicleDetailsList');
+                        window.location.reload();
                     }
+                    else this.updateReferralStatus();
+                  }
                 }
-            }
+              }
+              else{
+                i+=1;
+                  if(i==this.vehicleDetailsList.length){
+                    if(type=='calculate'){
+                      //this.getcall();
+                      //sessionStorage.removeItem('vehicleDetailsList');
+                        window.location.reload();
+                    }
+                    else this.updateReferralStatus();
+                  }
+              }
+          }
             // for(let veh of this.selectedCoverList){
             //  let entry = this.vehicleDetailsList.find(ele=>ele.Vehicleid==veh.Id);
             //  let ReqObj = {
@@ -5144,41 +5167,41 @@ emiyn="N";
         }
     }
     updateReferralStatus(){
-      if(this.remarks == undefined) this.remarks = "";
-      if(this.rejectedReason == undefined) this.rejectedReason = "";
-        let ReqObj = {
-          "RequestReferenceNo": this.quoteRefNo,
-          "AdminLoginId": this.loginId,
-          "ProductId": this.productId,
-          "Status": this.statusValue,
-          "AdminRemarks": this.remarks,
-          "RejectReason": this.rejectedReason,
-          "CommissionModifyYn" : this.modifyCommissionYN,
-          "CommissionPercent" : this.commissionPercent
-        }
-        let urlLink = `${this.CommonApiUrl}quote/update/referalstatus`;
-        this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-          (data: any) => {
-              if(data.Result){
-                // let type: NbComponentStatus = 'success';
-                // const config = {
-                //   status: type,
-                //   destroyByClick: true,
-                //   duration: 4000,
-                //   hasIcon: true,
-                //   position: NbGlobalPhysicalPosition.TOP_RIGHT,
-                //   preventDuplicates: false,
-                // };
-                // this.toastrService.show(
-                //   'Referral Quote Status',
-                //   'Referral Status Updated Successfully',
-                //   config);
-                if(this.statusValue=='RP' || this.statusValue=='RR' || this.statusValue=='RA' || this.statusValue=='RE') this.router.navigate(['/referralCases'])
-                
-              }
-            },
-            (err) => { },
-          );
+        if(this.remarks == undefined) this.remarks = "";
+        if(this.rejectedReason == undefined) this.rejectedReason = "";
+          let ReqObj = {
+            "RequestReferenceNo": this.quoteRefNo,
+            "AdminLoginId": this.loginId,
+            "ProductId": this.productId,
+            "Status": this.statusValue,
+            "AdminRemarks": this.remarks,
+            "RejectReason": this.rejectedReason,
+            "CommissionModifyYn" : this.modifyCommissionYN,
+            "CommissionPercent" : this.commissionPercent
+          }
+          let urlLink = `${this.CommonApiUrl}quote/update/referalstatus`;
+          this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+            (data: any) => {
+                if(data.Result){
+                  // let type: NbComponentStatus = 'success';
+                  // const config = {
+                  //   status: type,
+                  //   destroyByClick: true,
+                  //   duration: 4000,
+                  //   hasIcon: true,
+                  //   position: NbGlobalPhysicalPosition.TOP_RIGHT,
+                  //   preventDuplicates: false,
+                  // };
+                  // this.toastrService.show(
+                  //   'Referral Quote Status',
+                  //   'Referral Status Updated Successfully',
+                  //   config);
+                  if(this.statusValue=='RP' || this.statusValue=='RR' || this.statusValue=='RA' || this.statusValue=='RE') this.router.navigate(['/referralCases'])
+                  
+                }
+              },
+              (err) => { },
+            );
     }
   
     proceed()
@@ -5381,24 +5404,28 @@ emiyn="N";
               this.Id = "6";
               this.jsonList = [
                 {
-                  "TermsId":null,
-                   "Id":this.Id,
+                  "TypeId":"D",
+                  "DocRefNo":null,
+                "DocumentId":null,
+                   "Id":"6",
                   "SubId":null,
                    "SubIdDesc":""
                 }
-              ]
+              ];
             }
             let warranty = this.viewDropDown.filter(ele => ele.Code == '4')
             if(warranty){
               this.Ids = "4";
               this.json = [
                 {
-                  "TermsId":null,
-                   "Id": this.Ids,
+                  "TypeId":"D",
+                   "Id":"4",
                   "SubId":null,
-                   "SubIdDesc":""
+                   "SubIdDesc":"",
+                   "DocRefNo":null,
+                   "DocumentId":null,
                 }
-              ]
+              ];
             }
             let Exclusion = this.viewDropDown.filter(ele => ele.Code == '7')
             if(Exclusion){ 
@@ -5406,10 +5433,12 @@ emiyn="N";
               this.id = "7";
               this.ExclusionList = [
                 {
-                  "TermsId":null,
-                   "Id": this.id,
+                  "TypeId":"D",
+                   "Id":"7",
                   "SubId":null,
-                   "SubIdDesc":""
+                   "SubIdDesc":"",
+                   "DocRefNo":null,
+                   "DocumentId":null,
                 }
               ]
           }
@@ -5795,8 +5824,8 @@ emiyn="N";
         ProductId: this.productId,
         QuoteNo:quote,
         //TermsId:null,
-        RiskId: this.tempData.VehicleId,
-        SectionId:this.tempData.SectionId,
+        RiskId: this.selectedRowData.VehicleId,
+        SectionId:this.termsSectionId,
         TermsAndConditionReq:clauses,
         RequestReferenceNo: this.quoteRefNo
       };
@@ -5827,29 +5856,30 @@ emiyn="N";
           console.log('TOOOOOOOOO');
           console.log('VechileLength',this.vehicleDetailsList.length);
           //this.closes=false;
-          $('#exampleModal').modal('hide');
   
           //exampleModel.hide()
           this.jsonList =[
             {
-              "TermsId":null,
-               "Id":this.Id,
+              "TypeId":"D",
+              "DocRefNo":null,
+            "DocumentId":null,
+              "SectionId":this.termsSectionId,
+               "Id":"6",
               "SubId":null,
                "SubIdDesc":""
             }
           ];
+          this.viewCondition('direct');
+          this.clauses = true;
+          this.showGrid=true;
+          this.newAddClauses = false;
           //this.jsonList.splice();
   
   
           //$('#ExclusionModal').modal('hide');
           //$('#WarrantyModel').modal('hide');
   
-          this.ClausesStatus(i,this.tempData);
-          this.onWarranty = false;
-          this.onClauses = true;
-          this.onWars = false;
-          this.onExclusion = false;
-          this.clauses=true;
+          
           //window.location.reload();
         }
       });
@@ -5876,9 +5906,10 @@ emiyn="N";
       ProductId: this.productId,
       QuoteNo:this.quoteNo,
       //TermsId:null,
-      RiskId: this.tempData.VehicleId,
-      SectionId:this.tempData.SectionId,
+      RiskId: this.selectedRowData.VehicleId,
+      SectionId:this.termsSectionId,
       TermsAndConditionReq:clauses,
+      RequestReferenceNo: this.quoteRefNo
     };
   
     let urlLink = `${this.CommonApiUrl}api/inserttermsandcondition`;
@@ -5890,18 +5921,21 @@ emiyn="N";
         console.log('VechileLength',this.vehicleDetailsList.length);
         //this.closes=false;
         //$('#exampleModal').modal('hide');
-        $('#ExclusionModal').modal('hide');
-        this.ExclusionList =[
+        // $('#ExclusionModal').modal('hide');
+        this.ExclusionList = [
           {
-            "TermsId":null,
-             "Id":this.id,
+            "TypeId":"D",
+             "Id":"7",
             "SubId":null,
-             "SubIdDesc":""
+             "SubIdDesc":"",
+             "DocRefNo":null,
+             "DocumentId":null,
           }
-        ];
-        //$('#WarrantyModel').modal('hide');
-  
-        this.ExclusioStatus(i,this.tempData)
+        ]
+        this.viewCondition('direct');
+        this.newAddExclusion = false;
+        this.Exclusion = true;
+        this.showGrid=true;
         //window.location.reload();
       }
     });
@@ -5927,8 +5961,8 @@ emiyn="N";
       ProductId: this.productId,
       QuoteNo:"",
       //TermsId:null,
-      RiskId: this.tempData.VehicleId,
-      SectionId:this.tempData.SectionId,
+      RiskId: this.selectedRowData.VehicleId,
+      SectionId:this.termsSectionId,
       TermsAndConditionReq:clauses,
       RequestReferenceNo: this.quoteRefNo
     };
@@ -5943,17 +5977,22 @@ emiyn="N";
         //this.closes=false;
         //$('#exampleModal').modal('hide');
         //$('#ExclusionModal').modal('hide');
-        $('#WarrantyModel').modal('hide');
+        // $('#WarrantyModel').modal('hide');
         this.json = [
           {
-            "TermsId":null,
-             "Id": this.Ids,
+            "TypeId":"D",
+             "Id":"4",
             "SubId":null,
-             "SubIdDesc":""
+             "SubIdDesc":"",
+             "DocRefNo":null,
+             "DocumentId":null,
           }
-        ]
+        ];
   
-        this.WarrantyStatus(i,this.tempData)
+        this.viewCondition('direct');
+        this.newAddWarranty = false;
+        this.warranty = true;
+        this.showGrid=true;
         //window.location.reload();
       }
     });
@@ -5961,37 +6000,42 @@ emiyn="N";
   
   addItem(){
     //this.jsonList.push(row);
-    let entry = [{
-     "TermsId":null,
-     "Id":this.Id,
-     "SubId":null,
-     "SubIdDesc":""
-   }]
-   this.jsonList = entry.concat(this.jsonList);
+      let entry = [{
+       "TypeId":"D",
+       "Id":'6',
+       "SubId":null,
+       "SectionId": this.termsSectionId,
+       "RiskId": this.selectedRowData.VehicleId,
+       "SubIdDesc":"",
+       "DocRefNo":null,
+        "DocumentId":null,
+       
+     }]
+      this.jsonList = entry.concat(this.jsonList);
      }
      addwarranty(row){
-       let entry = [{
-         "TermsId":null,
-         "Id":this.Ids,
-         "SubId":null,
-         "SubIdDesc":""
-       }]
+      let entry = [{
+        "TypeId":"D",
+        "Id":"4",
+        "SubId":null,
+        "SubIdDesc":"",
+        "DocRefNo":null,
+        "DocumentId":null,
+      }]
        this.json = entry.concat(this.json);
-       //this.json.push(row);
      }
      addExclusion(row:any){
-       let entry = [{
-         "TermsId":null,
-         "Id":this.id,
-         "SubId":null,
-         "SubIdDesc":""
-       }]
+      let entry = [{
+        "TypeId":"D",
+        "Id":"7",
+        "SubId":null,
+        "SubIdDesc":"",
+        "DocRefNo":null,
+        "DocumentId":null,
+      }]
        this.ExclusionList = entry.concat(this.ExclusionList);
-     //this.ExclusionList.push(row);
      }
-  
-     delete(row:any)
-     {
+     delete(row:any){
          const index = this.json.indexOf(row);
          this.json.splice(index, 1);
      }

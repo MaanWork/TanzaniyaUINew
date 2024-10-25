@@ -7,22 +7,20 @@ import { ApproverPortfolioNewComponent } from './approver-portfolio-new/approver
 
 
 
-const routes: Routes = [
-  {
-    path: '',
-    component: ApproverPortfolioComponent,
-  },
-  {
-    path: 'NewDetails',
-    component: ApproverPortfolioNewComponent,
-  },
-
-  
-
-];
-
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild( [
+    {
+      path: '',
+      component: ApproverPortfolioComponent,
+    },
+    {
+      path: 'NewDetails',
+      component: ApproverPortfolioNewComponent,
+    },
+  
+    
+  
+  ])],
   exports: [RouterModule],
 })
 export class ApproverRoutingModule {}
