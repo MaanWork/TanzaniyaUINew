@@ -98,8 +98,8 @@ export class CustomerProductsComponent {
               sessionStorage.setItem('UserToken',Token);
               if(data?.Result?.LoginBranchDetails){
                 if(data?.Result?.LoginBranchDetails.length!=0){
-                  data.Result['BranchCode'] = data?.Result?.LoginBranchDetails[0].BranchCode;
-                  data.Result['BrokerBranchCode'] = data?.Result?.LoginBranchDetails[0].BrokerBranchCode;
+                 if(data.Result?.BranchCode==null || data.Result?.BranchCode==undefined || data.Result?.BranchCode=='') data.Result['BranchCode'] = data?.Result?.LoginBranchDetails[0].BranchCode;
+                 if(data.Result?.BrokerBranchCode==null || data.Result?.BrokerBranchCode==undefined || data.Result?.BrokerBranchCode=='') data.Result['BrokerBranchCode'] = data?.Result?.LoginBranchDetails[0].BrokerBranchCode;
                   data.Result['CurrencyId'] = data?.Result?.LoginBranchDetails[0].CurrencyId;
                 }
               }

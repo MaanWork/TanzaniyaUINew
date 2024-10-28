@@ -355,8 +355,8 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.GeographicalCoverage = data?.GeographicalCoverage ?? '';
 		this.SingleRoadSiLc = data?.SingleRoadSiLc ?? '0';
 		this.EstAnnualCarriesSiLc = data?.EstAnnualCarriesSiLc ?? '0';
-		this.onAssetSumInsured = data?.OnAssetsSi?? '0';
-		this.onStockSumInsured = data?.OnStockSi ?? '0';
+		this.onAssetSumInsured = data?.onAssetSumInsured?? '0';
+		this.onStockSumInsured = data?.OnstockSumInsured ?? '0';
 		this.BurglarySi = data?.BurglarySi ?? '0';
 		this.StrongroomSi = data?.StrongroomSi ?? '0';
 		this.AnyAccidentSi = data?.AnyAccidentSi ?? '0';
