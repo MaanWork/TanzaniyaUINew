@@ -223,13 +223,14 @@ export class ApproverPortfolioNewComponent {
         "SearchValue":rowData.QuoteNo,
         "QuoteNo":rowData.QuoteNo,
         "RequestReferenceNo":rowData.RequestReferenceNo,
-        "ProductId":this.productId,
-        "pageFrom": 'policy',
+        "ProductId":rowData.ProductId,
+        "pageFrom": 'portfolio',
         "CustomerName": rowData.ClientName,
         "ProductName":rowData.ProductName,
         "PolicyNo":rowData.PolicyNo,
         "Currency":rowData.Currency,
-        "EmiYn":rowData?.EmiYn
+        "EmiYn":rowData?.EmiYn,
+        "BranchCode": this.branchValue
       }
       sessionStorage.setItem('editCustomer',JSON.stringify(ReqObj));
       this.router.navigate(['/portfolio/motorDocuments'])

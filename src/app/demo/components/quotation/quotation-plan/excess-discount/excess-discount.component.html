@@ -4451,7 +4451,7 @@
                         <td class="flex flex-wrap justify-content-center" style="border-bottom: 0px solid grey !important;">
                             <div class="mt-2" >
                                 <input type="checkbox" (change)="onCheckUser(i,$event,clause)" [disabled]="endorsementSection"
-                                [checked]="clause.TypeId == 'D' ? true : false">
+                                [checked]="clause.selected == true ? true : false">
                             </div>
                            
                         </td>
@@ -4555,8 +4555,8 @@
                     <tr>
                         <td class="flex flex-wrap justify-content-center" style="border-bottom: 0px solid grey !important;">
                             <div class="mt-2" >
-                                <input type="checkbox" (change)="onCheckUser(i,$event,clause)" [disabled]="endorsementSection"
-                                [checked]="clause.TypeId == 'D' ? true : false">
+                                <input type="checkbox" (change)="onCheckExclusion(i,$event,clause)" [disabled]="endorsementSection"
+                                [checked]="clause.selected == true ? true : false">
                             </div>
                            
                         </td>
@@ -4659,8 +4659,8 @@
                     <tr>
                         <td class="flex flex-wrap justify-content-center" style="border-bottom: 0px solid grey !important;">
                             <div class="mt-2" >
-                                <input type="checkbox" (change)="onCheckUser(i,$event,clause)" [disabled]="endorsementSection"
-                                [checked]="clause.TypeId == 'D' ? true : false">
+                                <input type="checkbox" (change)="onCheckWarranties(i,$event,clause)" [disabled]="endorsementSection"
+                                [checked]="clause.selected == true ? true : false">
                             </div>
                            
                         </td>
