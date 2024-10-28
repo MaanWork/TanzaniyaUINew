@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import * as Mydatas from '../../../../app-config.json';
 import { SharedService } from '../../../../shared/shared.service';
 import { DatePipe } from '@angular/common';
+import Swal from 'sweetalert2';
 //import { NbComponentStatus, NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 
 @Component({
@@ -34,7 +35,9 @@ export class PremiaIntegrationViewComponent implements OnInit {
   countryId: any;
   brokerbranchCode: any;
   branchList: any;
-  loginType: any;
+  loginType: any;issuerHeaderF:any[]=[];
+  issuerDataS: any[]=[];
+  issuerDataF: any[]=[];
   constructor(private router:Router,private sharedService:SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     console.log("UserDetails",this.userDetails);
@@ -72,6 +75,34 @@ export class PremiaIntegrationViewComponent implements OnInit {
       (err) => { },
     );
   }
+  onHit(rowData){
+    let ReqObj = {
+      "QuoteNo": rowData.QuoteNo
+    }
+    let urlLink = `${this.CommonApiUrl}push/integration/quote`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+    (data: any) => {
+      if(data.Result.Response=='Success'){
+        Swal.fire({
+          title: '<strong>Success</strong>',
+          icon: 'info',
+          html:
+            `<ul class="list-group errorlist">
+                Premia Integration Request Hitted Successfully
+            </ul>`,
+              //showCloseButton: true,
+              //focusConfirm: false,
+              showCancelButton:false,
+
+            //confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            //confirmButtonText: 'Proceed Login!',
+            cancelButtonText: 'Okay!',
+          })
+      }
+      this.onCustomerSearch();
+    });
+  }
   onCustomerSearch(){
     let startDate,enddate;
     if(String(this.startdate).includes('/')) startDate = this.startdate
@@ -97,9 +128,15 @@ export class PremiaIntegrationViewComponent implements OnInit {
           (data: any) => {
             if(data.Result?.PortfolioList){
               this.issuerHeader = [
-                'PolicyNo','QuoteNo','CustomerName','ReferenceNo','StartDate' ,'EndDate' ,'Premium' ,'view','Download'
+                'PolicyNo','QuoteNo','CustomerName','ReferenceNo','StartDate' ,'EndDate' ,'Premium' ,'view','Re-Hit','Download'
+              ];
+              this.issuerHeaderF = [
+                'PolicyNo','QuoteNo','CustomerName','ReferenceNo','StartDate' ,'EndDate' ,'Premium' ,'view','Re-Hit'
               ];
               this.issuerData = data.Result.PortfolioList;
+
+              this.issuerDataS = this.issuerData.filter(ele=>ele.CoreIntgStatus!="F");
+              this.issuerDataF = this.issuerData.filter(ele=>ele.CoreIntgStatus=="F");
               if(this.issuerData.length!=0){
                 this.startdate=startDate;this.enddate=enddate;
               }

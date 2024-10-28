@@ -17,9 +17,6 @@ import { ApproverPortfolioNewComponent } from './approver-portfolio-new/approver
       path: 'NewDetails',
       component: ApproverPortfolioNewComponent,
     },
-  
-    
-  
   ])],
   exports: [RouterModule],
 })

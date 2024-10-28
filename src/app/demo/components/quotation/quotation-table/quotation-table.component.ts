@@ -165,7 +165,6 @@ export class QuotationTableComponent implements OnInit {
     return 'QUOTEGRID.'+name
   }
   onTabClicked(event){
-    console.log("Event",event)
     let index = event.index;
     this.tabIndex = index;
    if(this.tabIndex==0) this.getBrokerList();
@@ -1097,12 +1096,13 @@ onInnerDataLapsed(rowData){
             sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
               sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
               sessionStorage.setItem('quoteNo',rowData.QuoteNo);
-              if(this.productId=='5'){
-                this.router.navigate(['/policyDetails']);
-              }
-              else{
-                this.router.navigate(['/quotation/plan/quote-details']);
-              }
+              this.router.navigate(['/quotation/plan/main/payment']);
+              // if(this.productId=='5'){
+              //   this.router.navigate(['/policyDetails']);
+              // }
+              // else{
+              //   this.router.navigate(['/quotation/plan/quote-details']);
+              // }
         }
       })
 
