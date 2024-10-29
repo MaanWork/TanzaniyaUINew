@@ -1190,6 +1190,10 @@ export class VehicleCreateFormComponent implements OnInit {
       else{
         grossweight =this.grossWeight;
       }
+      if(this.vehicleDetails?.QuoteExpiryDays==null || this.vehicleDetails?.QuoteExpiryDays==null){
+        let commonDetails = JSON.parse(sessionStorage.getItem('commonDetails'));
+        this.vehicleDetails['QuoteExpiryDays'] = commonDetails.QuoteExpiryDays
+      }
       this.axelDistance='1';
       this.noOfAxels='1';
       this.usageValue='Ambulance';
@@ -1372,6 +1376,7 @@ export class VehicleCreateFormComponent implements OnInit {
               let commonDetails = JSON.parse(sessionStorage.getItem('commonDetails'));
               if(commonDetails){
                 this.commonDetails = commonDetails;
+                this.vehicleDetails['QuoteExpiryDays'] = commonDetails.QuoteExpiryDays;
                 if(this.vehicleDetails==null || this.vehicleDetails==undefined) this.vehicleDetails={};
                 if(this.vehicleDetails.PolicyStartDate==null || this.vehicleDetails.PolicyStartDate==undefined){
                   let dateList = commonDetails.policyStartDate.split('/');
@@ -1430,6 +1435,7 @@ export class VehicleCreateFormComponent implements OnInit {
                 if(this.vehicleDetails==null || this.vehicleDetails==undefined) this.vehicleDetails={};
                 this.vehicleDetails.PolicyStartDate = this.datePipe.transform(commonDetails.policyStartDate, "dd/MM/yyyy");
                 this.vehicleDetails.PolicyEndDate = this.datePipe.transform(commonDetails.policyEndDate, "dd/MM/yyyy");
+                this.vehicleDetails['QuoteExpiryDays'] = commonDetails.QuoteExpiryDays;
                 this.currencyCode = commonDetails?.currencyCode;
                 this.exchangeRate = commonDetails?.exchangeRate;
                 if(commonDetails?.promoCode!=null && commonDetails?.promoCode!=undefined) this.promoCode = commonDetails?.promoCode;

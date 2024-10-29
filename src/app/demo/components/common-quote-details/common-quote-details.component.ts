@@ -594,6 +594,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               this.policyStartDate = details?.policyStartDate;
               this.policyEndDate = details?.policyEndDate;
               this.exchangeRate = this.exchangeRate;
+              this.quoteExpiryDate = details?.QuoteExpiryDays;
               this.onCurrencyChange('direct');
             }
           }
@@ -2067,6 +2068,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         "BrokerBranchCode": this.brokerBranchCode,
         "LoginId": this.brokerLoginId,
         "SourceCode": this.Code,
+        "QuoteExpiryDays": this.quoteExpiryDate
       }
       sessionStorage.setItem('commonDetails', JSON.stringify(entry));
       console.log("Row Data", rowData)
