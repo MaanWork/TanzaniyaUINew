@@ -148,7 +148,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 	LoanEndDate: any
 	CollateralCompanyAddress: any
 	CollateralCompanyName:any
-	LoanAmount:any=''
+	LoanAmount:any='';ExpiryDate:any=null;
 	UsageId: any=''
 	vehicleTypeIvr: any=''
 	ZoneCirculation: any=''
@@ -370,6 +370,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.InsuranceClassDesc = data?.InsuranceClassDesc ?? null;
 		this.PassengerFirstName = data?.PassengerFirstName ?? '';
 		this.PassengerLastName = data?.PassengerLastName ?? '';
+		this.ExpiryDate = data?.ExpiryDate ?? '';
 		this.GenderId = data?.GenderId ?? '';
 		this.RelationId = data?.RelationId ?? '';
 		this.Nationality = data?.Nationality ?? '';

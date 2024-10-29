@@ -428,6 +428,7 @@ export class VehicleCreateFormComponent implements OnInit {
         this.vehicleDetails.PolicyStartDate = commonDetails.policyStartDate;
         this.vehicleDetails.PolicyEndDate = commonDetails.policyEndDate;
         this.vehicleDetails.Currency = commonDetails.currencyCode;
+        this.vehicleDetails['QuoteExpiryDays'] = commonDetails?.QuoteExpiryDays;
         this.currencyCode = commonDetails.currencyCode;
         this.exchangeRate = commonDetails.exchangeRate;
 
@@ -686,6 +687,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "UsageId":this.vehicleDetails.UsageId ? this.vehicleDetails.UsageId : null,
         "VehicleTypeIvr": this.vehicleDetails.VehicleType ? this.vehicleDetails.VehicleType : null,
         "ZoneCirculation": this.vehicleDetails.ZoneCirculation ? this.vehicleDetails.ZoneCirculation : null,
+        "QuoteExpiryDays":  this.vehicleDetails?.QuoteExpiryDays ? this.vehicleDetails.QuoteExpiryDays : null,
         "Zone": this.vehicleDetails.Zone ? this.vehicleDetails.Zone : null,
         "Class": this.vehicleDetails.Class ? this.vehicleDetails.Class : null,
         "Scenarios": {

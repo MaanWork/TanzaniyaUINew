@@ -145,6 +145,7 @@
     },
     "QUOTEGRID":{
         "NoOfDays":"Duração da política",
+        "NoOfMonths":"Policy Period (Months)",
         "Quotation": "cotação",
         "Existing": "Existir",
         "Lapsed": "Caducada",
@@ -187,6 +188,8 @@
     "MOTORQUOTE":{
       "PaCoverId":"Motor Passenger Injury",
       "QuoteExpiryDate":"Quote Expiry Days",
+      "EnterQuoteExpiryDate": "Enter Expiry Days Count",
+      "quoteExpiryDateError":"Please Enter Quote Expiry Days",
       "Tonnage":"Tonelagem",
       "FileUpload":"Upload de arquivo",
       "CategoryDateobtained":"Categoria Data obtida",
