@@ -167,9 +167,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
   regNoError: boolean; driverOptions: any[] = []; genderOptions: any[] = []; searchValue: any = []; clearSearchSection: boolean = false;
   duplicateRegister: boolean = false; enableCollateralDetails: boolean = false; enableCustomerDetails: boolean = false;
   motorUsageType: any = null; VehicleSI: any = null; WindShieldSI: any = null; orgPolicyNo: any = null; endorseCategory: any = null; endorsementName: any = null; endorseShortCode: any = null; enableFieldsList: any[] = []; enablePolicyStart: boolean = false; enablePolicyEnd: boolean = false; enableCurrency: boolean = false;
-  hideSection: boolean = false;questionSection:boolean=false;
-  typeListAlt: any[] = [];
-  typeListIvory: any[] = [];
+  hideSection: boolean = false;questionSection:boolean=false;quoteExpiryDateError:boolean=false;
+  typeListAlt: any[] = [];quoteExpiryDate:any=null;typeListIvory: any[] = [];
   DrivingLicensingAge: any;
   CategoryExDate: any;
   CategoryDate: any;
@@ -335,7 +334,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if (data.Result) {
-          this.noOfDaysList = data.Result;
+          let defaultObj = [{ 'CodeDesc': '-Select-', 'Code': '', 'CodeDescLocal': '--Sélectionner--' }]
+          this.noOfDaysList = defaultObj.concat(data.Result);
         }
       },
       (err) => { },
@@ -354,8 +354,17 @@ export class CommonQuoteDetailsComponent implements OnInit {
         var month = d.getMonth();
         var day = d.getDate();
         this.endMinDate = new Date(startDate);
-        this.policyEndDate = new Date(year, month, day+Number(this.noOfDays)-1);
-        this.endMaxDate = new Date(year, month, day+Number(this.noOfDays));
+        if(this.insuranceId=='100040'){
+          let end_date= new Date(year, month, day);
+          end_date.setMonth(end_date.getMonth()+Number(this.noOfDays));
+          let formattedDate=end_date.toISOString().slice(0,10);
+          this.policyEndDate =  this.datePipe.transform(formattedDate,'dd/MM/yyyy');
+          this.endMaxDate = new Date(year, month, day);
+        } 
+        else{
+          this.policyEndDate = new Date(year, month, day+Number(this.noOfDays)-1);
+          this.endMaxDate = new Date(year, month, day+Number(this.noOfDays));
+        }
         this.onChangeEndDate();
       }
     }
@@ -807,7 +816,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         this.getExistingBuildingList();
       }
       else {
-        this.quoteRefNo = null;
+        this.quoteRefNo = null;this.quoteExpiryDate = '90';
         this.branchCode = this.userDetails.Result.BranchCode;
         //this.updateComponent.branchValue = this.branchValue;
         this.currencyCode = this.userDetails.Result.CurrencyId;
@@ -838,7 +847,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       }
       if (vehicleDetails != undefined) {
         if (vehicleDetails.length != 0 && (sessionStorage.getItem('quoteReferenceNo') == undefined)) {
-          this.quoteRefNo = null;
+          this.quoteRefNo = null;this.quoteExpiryDate = '90';
           this.setExistingValues(vehicleDetails);
         }
         else {
@@ -856,10 +865,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
               //this.setCommonValues(motorDetails);
             }
             else {
-              this.quoteRefNo = null;
+              this.quoteRefNo = null;this.quoteExpiryDate = '90';
               this.tabIndex = 0;
               this.currencyCode = this.userDetails.Result.CurrencyId;
-              this.noOfDaysVlaue = '90';
+              this.noOfDaysVlaue = '90';this.quoteExpiryDate = '90';
               this.tabIndex = 0;
               this.onCurrencyChange('direct');
               var d = new Date();
@@ -896,6 +905,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             //this.setCommonValues(motorDetails);
           }
           else {
+            this.quoteExpiryDate = '90';
             this.quoteRefNo = null;
             this.branchCode = this.userDetails.Result.BranchCode;
             //this.updateComponent.branchValue = this.branchValue;
@@ -928,7 +938,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         this.getExistingTravelDetails();
       }
       else {
-        this.quoteRefNo = null;
+        this.quoteRefNo = null;this.quoteExpiryDate = '90';
         this.branchCode = this.userDetails.Result.BranchCode;
         // this.updateComponent.branchValue = this.branchValue;
         // this.updateComponent.HavePromoCode = this.HavePromoCode;
@@ -2391,6 +2401,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
           this.vehicleDetails['ZoneCirculation'] = data?.Result.ZoneCirculation;
           this.vehicleDetails['Zone'] = data?.Result.Zone;
           this.vehicleDetails['Class'] = data?.Result.Class;
+          if(data?.Result.QuoteExpiryDays && this.quoteExpiryDate==null){
+            this.vehicleDetails['QuoteExpiryDays'] = data?.Result.QuoteExpiryDays;
+            this.quoteExpiryDate = data?.Result.QuoteExpiryDays;
+          }
           this.typeValue = this.vehicleDetails?.Insurancetype;
           this.classValue = this.vehicleDetails?.InsuranceClass;
           if (this.insuranceId != '100004') this.getMotorTypeList('direct', this.vehicleDetails?.VehicleType, this.vehicleDetails?.Motorusage)
@@ -2497,11 +2511,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
             let dateList  = String(this.policyEndDate).split('/')
             let endDate:any = dateList[2]+'-'+dateList[1]+'-'+dateList[0]; 
             const momentDate:any = new Date(String(endDate));
-            this.noOfDays = String(Math.round((momentDate - formattedDatecurrent) / (1000 * 60 * 60 * 24))+1);
+            //this.noOfDays = String(Math.round((momentDate - formattedDatecurrent) / (1000 * 60 * 60 * 24))+1);
           }
-          this.endMinDate = new Date(this.policyStartDate);
-          this.policyEndDate = new Date(year, month, day+Number(this.noOfDays)-1);
-          this.endMaxDate = new Date(year, month, day+Number(this.noOfDays));
+          // this.endMinDate = new Date(this.policyStartDate);
+          // this.policyEndDate = new Date(year, month, day+Number(this.noOfDays)-1);
+          // this.endMaxDate = new Date(year, month, day+Number(this.noOfDays));
           this.onChangeEndDate();
         }
         else{
@@ -2560,6 +2574,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
   }
   onChangeEndDate(){
     if(this.productId!='4'){
+      
       if(this.insuranceId=='100004' || this.insuranceId=='100040'){
         var d = null;
         if(String(this.policyStartDate).split('/').length>1){let dateList = String(this.policyStartDate).split('/');d=new Date(dateList[2]+'-'+dateList[1]+'-'+dateList[0])}
@@ -2578,11 +2593,26 @@ export class CommonQuoteDetailsComponent implements OnInit {
           let dateList  = String(this.policyEndDate).split('/')
           let endDate:any = dateList[2]+'-'+dateList[1]+'-'+dateList[0]; 
           const momentDate:any = new Date(String(endDate));
-          this.noOfDays = String(Math.round((momentDate - formattedDatecurrent) / (1000 * 60 * 60 * 24))+1);
+          let months = momentDate.getMonth() - formattedDatecurrent.getMonth() + 
+          (12 * (momentDate.getFullYear() - formattedDatecurrent.getFullYear()))
+         this.noOfDays = String(months)
+         // this.noOfDays = String(Math.round((momentDate - formattedDatecurrent) / (1000 * 60 * 60 * 24))+1);
         }
-        this.endMinDate = new Date(this.policyStartDate);
-        this.policyEndDate = new Date(year, month, day+Number(this.noOfDays)-1);
-        this.endMaxDate = new Date(year, month, day+Number(this.noOfDays));
+        else{const momentDate:any = new Date(String(this.policyEndDate));
+          let months = momentDate.getMonth() - formattedDatecurrent.getMonth() + 
+          (12 * (momentDate.getFullYear() - formattedDatecurrent.getFullYear()))
+         this.noOfDays = String(months)}
+        if(this.insuranceId=='100040'){
+          let end_date= new Date(year, month, day);
+          end_date.setMonth(end_date.getMonth()+Number(this.noOfDays));
+          let formattedDate=end_date.toISOString().slice(0,10);
+          this.policyEndDate =  this.datePipe.transform(formattedDate,'dd/MM/yyyy');
+          this.endMaxDate = new Date(year, month, day);
+        } 
+        else{
+          this.policyEndDate = new Date(year, month, day+Number(this.noOfDays)-1);
+          this.endMaxDate = new Date(year, month, day+Number(this.noOfDays));
+        }
       }
       else{
         const oneday = 24 * 60 * 60 * 1000;
@@ -2884,6 +2914,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       "NoOfClaimYears": null,
       "NoOfPassengers": null,
       "DateOfCirculation": DateOfcirculation,
+      "QuoteExpiryDays": this.quoteExpiryDate,
       "Scenarios": {
         "ExchangeRateScenario": {
           "OldAcccessoriesSumInsured": null,
@@ -2980,6 +3011,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             //this.updateComponent.CurrencyCode = this.vehicleDetailsList[0].Currency;
             this.currencyCode = this.vehicleDetailsList[0].Currency;
             this.exchangeRate = this.vehicleDetailsList[0].ExchangeRate;
+            //if(this.vehicleDetailsList[0].QuoteExpiryDays) this.quoteExpiryDate = this.vehicleDetailsList[0].QuoteExpiryDays;
             let entry = this.vehicleDetailsList.find(ele => ele.Status != 'D');
             if (entry) {
               if (entry.PolicyStartDate) {
@@ -3118,7 +3150,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
           console.log(formattedDatecurrent);
 
-          this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
+          //this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
         }
         else if (this.endorsementSection && this.vehicleDetails?.Status == 'D') {
           startDate = this.vehicleDetails?.PolicyStartDate;
@@ -3127,7 +3159,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           const formattedDate = moment(momentDate).format("YYYY-MM-DD");
           const formattedDatecurrent = new Date(this.vehicleDetails?.PolicyStartDate);
           console.log(formattedDate);
-          this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
+          //this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
         }
         else {
           if (typeof this.policyStartDate === 'string') {
@@ -3139,7 +3171,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           const momentDate = new Date(this.policyEndDate);
           const formattedDate = moment(momentDate).format("YYYY-MM-DD");
           const formattedDatecurrent = new Date(this.policyStartDate);
-          this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
+          //this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
         }
       }
       if (this.policyEndDate) {
@@ -3503,6 +3535,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           "UsageId": this.productItem.VehicleUsage,
           "VehicleTypeIvr": this.productItem.VehicleType,
           "ZoneCirculation": this.productItem.ZoneCirculation,
+          "QuoteExpiryDays": this.quoteExpiryDate,
           // "NumberOfCards":this.productItem.Nombredecartes,
           // "MunicipalityTraffic":this.productItem.MunicipalityofTraffic,
           // "TransportHydro":this.productItem.Transportationofhydrocarbons,
@@ -3876,6 +3909,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             if (data.Result) {
               let vehicleDetails: any = data.Result;
               let startDate = "", endDate = ""
+              if(vehicleDetails.QuoteExpiryDays && this.quoteExpiryDate==null) this.quoteExpiryDate = vehicleDetails.QuoteExpiryDays;
               //this.updateComponent.vehicleDetails = this.vehicleDetails;
               if (this.endorsementSection && this.enableAddVehicle && vehicleDetails.EndorsementYn == 'Y') {
                 startDate = this.endorseEffectiveDate;
@@ -3883,7 +3917,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 const momentDate = new Date(this.policyEndDate); // Replace event.value with your date value
                 const formattedDate = moment(momentDate).format("YYYY-MM-DD");
                 const formattedDatecurrent = new Date(startDate);
-                this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
+                //this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
               }
               else if (this.policyStartDate) {
                 if (this.endorsementSection && veh.Status == 'D') {
@@ -3893,7 +3927,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   const formattedDate = moment(momentDate).format("YYYY-MM-DD");
                   const formattedDatecurrent = new Date(veh.PolicyStartDate);
                   console.log(formattedDate);
-                  this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
+                  //this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
                 }
                 else {
                   let dateList = String(this.policyStartDate).split('/');
@@ -3904,7 +3938,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                   const formattedDate = moment(momentDate).format("YYYY-MM-DD");
                   const formattedDatecurrent = new Date(this.policyStartDate);
                   console.log(formattedDate);
-                  this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
+                  //this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
                 }
 
 
@@ -4163,6 +4197,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                 "UsageId": vehicleDetails?.UsageId,
                 "VehicleTypeIvr": vehicleDetails?.VehicleTypeIvr,
                 "ZoneCirculation": vehicleDetails?.ZoneCirculation,
+                "QuoteExpiryDays": this.quoteExpiryDate,
                 "Scenarios": {
                   "ExchangeRateScenario": {
                     "OldAcccessoriesSumInsured": vehicleDetails.AcccessoriesSumInsured,
@@ -4254,7 +4289,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
   }
   onCreateVehicle() {
-    this.policyStartError = false; this.policyEndError = false; this.currencyCodeError = false; this.policyPassDate = false;
+    this.policyStartError = false;this.quoteExpiryDateError=false; this.policyEndError = false; this.currencyCodeError = false; this.policyPassDate = false;
     let i = 0;
     if (!this.endorsementSection) {
       if (this.policyStartDate == null || this.policyStartDate == '' || this.policyStartDate == undefined) {
@@ -4280,6 +4315,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
       if (this.currencyCode == null || this.currencyCode == '' || this.currencyCode == undefined) {
         i += 1;
         this.currencyCodeError = true;
+      }
+      if (this.insuranceId=='100040' && (this.quoteExpiryDate == null || this.quoteExpiryDate == '' || this.quoteExpiryDate == undefined)) {
+        i += 1;
+        this.quoteExpiryDateError = true;
       }
       if (this.issuerSection) {
         if (this.Code == '' || this.Code == null || this.Code == undefined) {
@@ -4333,6 +4372,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         "BrokerBranchCode": this.brokerBranchCode,
         "LoginId": this.brokerLoginId,
         "SourceCode": this.Code,
+        "QuoteExpiryDays": this.quoteExpiryDate
       }
       sessionStorage.setItem('commonDetails', JSON.stringify(entry));
       sessionStorage.setItem('vehicleLength', String(this.vehicleDetailsList.length + 1))
@@ -4562,7 +4602,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
             console.log(formattedDatecurrent);
 
-            this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
+           // this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
           }
           else if (this.endorsementSection && this.vehicleDetails?.Status == 'D') {
             startDate = this.vehicleDetails?.PolicyStartDate;
@@ -4571,7 +4611,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             const formattedDate = moment(momentDate).format("YYYY-MM-DD");
             const formattedDatecurrent = new Date(this.vehicleDetails?.PolicyStartDate);
             console.log(formattedDate);
-            this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
+            //this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
           }
           else {
             let dateList = String(this.policyStartDate).split('/');
@@ -4587,7 +4627,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
             const formattedDatecurrent = new Date(this.policyStartDate);
 
             console.log(formattedDate);
-            this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
+            //this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
 
           }
         }
@@ -4946,6 +4986,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           "UsageId": this.productItem.VehicleUsage,
           "VehicleTypeIvr": this.productItem.VehicleType,
           "ZoneCirculation": this.productItem.ZoneCirculation,
+          "QuoteExpiryDays": this.quoteExpiryDate,
           "Scenarios": {
             "ExchangeRateScenario": {
               "OldAcccessoriesSumInsured": this.vehicleDetails.OldAcccessoriesSumInsured,
@@ -5406,7 +5447,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         const formattedDate = moment(momentDate).format("YYYY-MM-DD");
         const formattedDatecurrent = new Date(veh.PolicyStartDate);
         console.log(formattedDate);
-        this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
+        //this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
       }
       else {
         if (String(this.policyStartDate).includes('/')) startDate = this.policyStartDate;
@@ -5416,7 +5457,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         const formattedDate = moment(momentDate).format("YYYY-MM-DD");
         const formattedDatecurrent = new Date(this.policyStartDate);
         console.log(formattedDate);
-        this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
+        //this.noOfDays = Math.round(Math.abs((Number(momentDate) - Number(formattedDatecurrent)) / oneday) + 1);
       }
     }
     if (this.policyEndDate) {
@@ -5638,6 +5679,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
           this.vehicleDetails['ZoneCirculation'] = data?.Result.ZoneCirculation;
           this.vehicleDetails['Zone'] = data?.Result.Zone;
           this.vehicleDetails['Class'] = data?.Result.Class;
+          if(data?.Result.QuoteExpiryDays && this.quoteExpiryDate==null){
+            this.vehicleDetails['QuoteExpiryDays'] = data?.Result.QuoteExpiryDays;
+            this.quoteExpiryDate = data?.Result.QuoteExpiryDays;
+          }
           if (this.vehicleDetails.SourceTypeId != null && (this.Code == null || this.Code == '' || this.Code == undefined)) {
             this.Code = this.vehicleDetails?.SourceTypeId;
             this.customerCode = this.vehicleDetails?.CustomerCode;
@@ -6439,7 +6484,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
     }
     else if (location == 'quote-plan') {
-      this.policyStartError = false; this.policyEndError = false; this.currencyCodeError = false; this.policyPassDate = false;
+      this.policyStartError = false; this.policyEndError = false; this.currencyCodeError = false;this.quoteExpiryDateError = false; this.policyPassDate = false;
       let i = 0;
       if (!this.endorsementSection) {
         if (this.policyStartDate == null || this.policyStartDate == '' || this.policyStartDate == undefined) {
@@ -6465,6 +6510,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
         if (this.currencyCode == null || this.currencyCode == '' || this.currencyCode == undefined) {
           i += 1;
           this.currencyCodeError = false;
+        }
+        if (this.insuranceId=='100040' && (this.quoteExpiryDate == null || this.quoteExpiryDate == '' || this.quoteExpiryDate == undefined)) {
+          i += 1;
+          this.quoteExpiryDateError = true;
         }
         if (this.issuerSection) {
           if (this.Code == '' || this.Code == null || this.Code == undefined) {
@@ -6532,7 +6581,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           "BrokerBranchCode": this.brokerBranchCode,
           "IndustryId": this.IndustryId,
           "LoginId": this.brokerLoginId,
-
+          "QuoteExpiryDays": this.quoteExpiryDate
         }
         if (this.productId == '5') {
           sessionStorage.setItem('commonDetails', JSON.stringify(entry));
@@ -6765,7 +6814,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     if (referenceNo) {
       this.quoteRefNo = referenceNo;
     }
-    else this.quoteRefNo = null;
+    else{ this.quoteRefNo = null; this.quoteExpiryDate = '90';}
     if (quoteStatus == 'AdminRP' || quoteStatus == 'AdminRA' || quoteStatus == 'AdminRR') {
       //createdBy = this.vehicleDetailsList[0].CreatedBy;
     }
@@ -7136,7 +7185,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     if (referenceNo) {
       this.quoteRefNo = referenceNo;
     }
-    else this.quoteRefNo = null;
+    else{ this.quoteRefNo = null; this.quoteExpiryDate = '90';} 
     if (quoteStatus == 'AdminRP' || quoteStatus == 'AdminRA' || quoteStatus == 'AdminRR') {
       //createdBy = this.vehicleDetailsList[0].CreatedBy;
     }

@@ -567,7 +567,7 @@ export class CustomerCreateFormComponent implements OnInit {
   	public async onSubmit(data) {
 		console.log("Total Data", data);
 		this.messages=[];
-		let appointmentDate = "", dobOrRegDate = "", taxExemptedId = null,cityName=null, stateName=null,businessType = null;
+		let appointmentDate = "", dobOrRegDate = "",expiryDate=null, taxExemptedId = null,cityName=null, stateName=null,businessType = null;
 		//  if(data.AppointmentDate!= undefined && data.AppointmentDate!=null && data.AppointmentDate!=''){
 		// 	appointmentDate = this.datePipe.transform(data.AppointmentDate, "dd/MM/yyyy");
 		//  }
@@ -680,6 +680,12 @@ export class CustomerCreateFormComponent implements OnInit {
 			}
 			else dobOrRegDate = this.datePipe.transform(data.dobOrRegDate,'dd/MM/yyyy')
 		}
+		if (data.ExpiryDate != undefined && data.ExpiryDate != null && data.ExpiryDate != '' && this.insuranceId=='100040') {
+			if(String(data.ExpiryDate).includes('/')){
+				expiryDate = data.ExpiryDate;
+			}
+			else expiryDate = this.datePipe.transform(data.ExpiryDate,'dd/MM/yyyy')
+		}
 		if(data.SocioProfessionalcategory==undefined || data.SocioProfessionalcategory=='') data.SocioProfessionalcategory = null;
 		if(this.insuranceId=='100040' || this.insuranceId=='100042'){
 			if(data?.PolicyHolderTypeid==null || data?.PolicyHolderTypeid==''){
@@ -715,6 +721,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			"Clientstatus": data?.Clientstatus,
 			"CreatedBy": this.loginId,
 			"DobOrRegDate": dobOrRegDate,
+			"ExpiryDate": expiryDate,
 			"Email1": data?.EmailId,
 			"Email2": null,
 			"Email3": null,
@@ -1136,6 +1143,7 @@ export class CustomerCreateFormComponent implements OnInit {
 							this.productItem.Gender = '';
 							this.productItem.PolicyHolderTypeid = '';
 							this.productItem.IdType = '1';
+							this.productItem.ExpiryDate = null;
 							this.setPolicyType();
 							if(this.mobileCodeList.length!=0 && this.mobileCodeList.length>1){
 								this.productItem.MobileCode = this.mobileCodeList[1].Code;
@@ -1423,6 +1431,7 @@ export class CustomerCreateFormComponent implements OnInit {
 						
 					}
 					this.productItem.dobOrRegDate=customerDetails.DobOrRegDate;
+					this.productItem.ExpiryDate=customerDetails.ExpiryDate;
 					this.productItem.Street = customerDetails.Street;
 					this.productItem.TelephoneNo = customerDetails.TelephoneNo1;
 					if(this.shortQuoteYN && customerDetails.Occupation=='99999') this.productItem.Occupation = '';
@@ -1831,9 +1840,9 @@ export class CustomerCreateFormComponent implements OnInit {
 				if(  (field.key=='dobOrRegDate' && this.insuranceId!='100044') || field.key=='GstNumber' ){
 					field.hide=true;field.hideExpression=true;
 				}
-				else if(field.key=='IdNumber' || field.key=='PolicyHolderTypeid' ){
-					field.templateOptions.required=false;
-				}
+				// else if(field.key=='IdNumber' || field.key=='PolicyHolderTypeid' ){
+				// 	field.templateOptions.required=false;
+				// }
 			} 
 			else if(this.productItem.IdType=='2' || this.productItem.IdType==2 ){
 				if(  field.key=='dobOrRegDate' || field.key=='GstNumber' ){

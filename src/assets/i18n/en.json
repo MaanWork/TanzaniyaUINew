@@ -181,6 +181,8 @@
   "MOTORQUOTE":{
     "PaCoverId":"Motor Passenger Injury",
     "QuoteExpiryDate":"Quote Expiry Days",
+    "EnterQuoteExpiryDate": "Enter Expiry Days Count",
+    "quoteExpiryDateError":"Please Enter Quote Expiry Days",
     "BankingDelegation":"Banking Delegation",
     "LoanStartDate": "Loan Start Date",
     "LoanEndDate":"Loan End Date",
