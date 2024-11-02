@@ -370,6 +370,35 @@ export class CustomerIvory{
                   },
                   {
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    type: 'datepicker',
+                    id: 'ExpiryDate',
+                    key: 'ExpiryDate',
+                    hide: false,
+                    hideExpression:false,
+                    templateOptions: {
+                      type:'date',
+                      label: `ExpiryDate`,
+                      defaultValue: '',
+                      // placeholder: 'Select Registration Date',
+                      required: true,
+                      disabled: this.checkDisable('ExpiryDate'),
+                      maxLength: 15,
+                      datepickerOptions: {
+                       
+                        // Additional options for the datepicker if necessary
+                        min:this.currentDate,
+                      },
+                    },
+                    
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
                     type: 'input',
                     id: 'IDNumber',
                     key: 'IdNumber',

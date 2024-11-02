@@ -532,6 +532,7 @@ export class VehicleCreateFormComponent implements OnInit {
             // The year is the last part of the array
             
         }
+        if(this.vehicleDetails.SavedFrom==null) this.vehicleDetails.SavedFrom='API';
         if(this.insuranceId=='100040' || this.insuranceId=='100042'){
           this.vehicleDetails.MotorCategory  ="1";
           this.vehicleDetails.Motorusage ="Ambulance"
@@ -572,7 +573,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "AccessoriesInformation": this.vehicleDetails?.AccessoriesInformation ? this.vehicleDetails?.AccessoriesInformation : null, 
         "AdditionalCircumstances": this.vehicleDetails?.AdditionalCircumstances ? this.vehicleDetails?.AdditionalCircumstances : null,
         "AxelDistance": this.axelDistance ? this.axelDistance : "1",
-        "Chassisnumber": this.chassisNo.toUpperCase(),
+        "Chassisnumber": this.chassisNo ? this.chassisNo?.toUpperCase() : null,
         "Color": this.vehicleDetails?.Color  ? this.vehicleDetails?.Color : null,
         "CityLimit": this.vehicleDetails?.CityLimit  ? this.vehicleDetails?.CityLimit : null,
         "CoverNoteNo": this.vehicleDetails?.CoverNoteNo  ? this.vehicleDetails?.CoverNoteNo : null,
@@ -1190,6 +1191,7 @@ export class VehicleCreateFormComponent implements OnInit {
       else{
         grossweight =this.grossWeight;
       }
+      
       this.axelDistance='1';
       this.noOfAxels='1';
       this.usageValue='Ambulance';
@@ -1203,7 +1205,7 @@ export class VehicleCreateFormComponent implements OnInit {
       "Insuranceid": this.insuranceId,
       "BranchCode": this.branchCode,
       "AxelDistance": this.axelDistance,
-      "Chassisnumber": this.chassisNo?.toUpperCase(),
+      "Chassisnumber": this.chassisNo ? this.chassisNo?.toUpperCase() : null,
       "Color": this.colorValue,
       "CreatedBy": this.loginId,
       "EngineNumber": this.engineNo?.toUpperCase(),
@@ -1350,6 +1352,11 @@ export class VehicleCreateFormComponent implements OnInit {
         },
               }
             }
+            // if(this.vehicleDetails?.QuoteExpiryDays==null || this.vehicleDetails?.QuoteExpiryDays==undefined){
+            //   let commonDetails = JSON.parse(sessionStorage.getItem('commonDetails'));
+            //   alert(commonDetails.QuoteExpiryDays)
+            //   this.vehicleDetails['QuoteExpiryDays'] = commonDetails.QuoteExpiryDays
+            // }
             let id = sessionStorage.getItem('vehicleLength')
             if(id!=null && id!='' && id!= undefined){
               this.vehicleDetails['Vehicleid'] = sessionStorage.getItem('vehicleLength');
@@ -1372,6 +1379,7 @@ export class VehicleCreateFormComponent implements OnInit {
               let commonDetails = JSON.parse(sessionStorage.getItem('commonDetails'));
               if(commonDetails){
                 this.commonDetails = commonDetails;
+                this.vehicleDetails['QuoteExpiryDays'] = commonDetails.QuoteExpiryDays;
                 if(this.vehicleDetails==null || this.vehicleDetails==undefined) this.vehicleDetails={};
                 if(this.vehicleDetails.PolicyStartDate==null || this.vehicleDetails.PolicyStartDate==undefined){
                   let dateList = commonDetails.policyStartDate.split('/');
@@ -1430,6 +1438,7 @@ export class VehicleCreateFormComponent implements OnInit {
                 if(this.vehicleDetails==null || this.vehicleDetails==undefined) this.vehicleDetails={};
                 this.vehicleDetails.PolicyStartDate = this.datePipe.transform(commonDetails.policyStartDate, "dd/MM/yyyy");
                 this.vehicleDetails.PolicyEndDate = this.datePipe.transform(commonDetails.policyEndDate, "dd/MM/yyyy");
+                this.vehicleDetails['QuoteExpiryDays'] = commonDetails.QuoteExpiryDays;
                 this.currencyCode = commonDetails?.currencyCode;
                 this.exchangeRate = commonDetails?.exchangeRate;
                 if(commonDetails?.promoCode!=null && commonDetails?.promoCode!=undefined) this.promoCode = commonDetails?.promoCode;
