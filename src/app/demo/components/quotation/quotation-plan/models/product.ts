@@ -136,7 +136,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
   MiddleName:any='';LastName:any='';MobileCode:any=null;MobileNo:any=null;VehicleSI:any=null
 	PassengerFirstName: any='';BusinessName:any=null;BusinessSI:any='0';
 	PassengerLastName: any='';CoveringDetails:any=null;DescriptionOfRisk:any=null;
-	GenderId: any='';OccupationDesc=null;
+	GenderId: any='';OccupationDesc=null;CoveringDetailsBI:any=null;DescriptionOfRiskBI:any=null;
 	RelationId: any=''
 	Nationality: any=''
 	PassportNo: any=''
@@ -157,7 +157,23 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 	MarketValue: any=''
     AggregatedValue: any=''
 	Zone:any=null
-	Class:any=null;FirstLossPayeeYN:any='N';
+	Class:any=null;FirstLossPayeeYN:any='N';InflationConstructionType:any='';
+	BuildingConstructionType:any='';
+	BuildingSumInsured:any='0';
+	ContentConstructionType:any='';
+	ContentSumInsured:any='0';
+	GeyserSumInsured:any='0';
+	HailDamageSumInsured:any='0';
+	FirstLossBasis:any='';
+	FirstLossBasisSumInsured:any='0';
+	MiscellaneousConstructionType:any='';
+	MiscellaneousSumInsured:any='0';
+	PlantConstructionType:any='';
+	PlantSumInsured:any='0';
+	PowerSurgeSumInsured:any='0';
+	RentSumInsured:any='0';
+	TradeConstructionType:any='';
+	TradeSumInsured:any='0';
 	constructor(data?) {
 		this.id = data?.id ?? ''
 		this.CustomerName = data?.CustomerName ?? '';
@@ -210,6 +226,8 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.BusinessSI = data?.BusinessSI ?? '0';
 		this.CoveringDetails = data?.CoveringDetails ?? null;
 		this.DescriptionOfRisk = data?.DescriptionOfRisk ?? null;
+		this.CoveringDetailsBI = data?.CoveringDetailsBI ?? null;
+		this.DescriptionOfRiskBI = data?.DescriptionOfRiskBI ?? null;
 		this.OccupationDesc = data?.OccupationDesc ?? null;
 		this.AllriskSumInsured = data?.AllriskSumInsured ?? '';
 		this.ElecEquipSuminsured = data?.ElecEquipSuminsured ?? '';

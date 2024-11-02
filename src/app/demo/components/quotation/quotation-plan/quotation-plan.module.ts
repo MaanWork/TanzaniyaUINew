@@ -81,6 +81,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from 'src/app/app.module';
 import { HttpClient } from '@angular/common/http';
 import { HomePremiumComponent } from './home-premium/home-premium.component';
+import { DisplayLabelHeader } from './formlyTypes/displayCardheader';
 //import { textareaTypeField } from './formlyTypes/textareaTypeField';
 export function maxlengthValidationMessage(err, field) {
   return `This value should be less than ${field.templateOptions.maxLength} characters`;
@@ -176,6 +177,7 @@ export function maxlengthValidationMessage(err, field) {
         { name: 'repeat', component: RepeatTypeComponent },
         { name: 'display', component: DisplayLabel },
         { name: 'displays', component: DisplayLabels },
+        { name: 'display2', component: DisplayLabelHeader },
         { name: 'radioList', component: RadioList },
         {name: 'ngselect', component:NgSelect},
         {name: 'ngselectAlt', component:NgSelectAlt},

@@ -42,14 +42,14 @@ export class MotorDocumentsDetailComponent {
   tiradetails: any;
   DocumentInfo: any[]=[];
   CommonDoc: any[]=[];
-  tittlepay: any;
+  tittlepay: any[]=[];
   PremiumInfoList: any;
   sectionname: any;
   addInfoDetail: {};
   DriverInfo: any;
   accessoriesList: any;
   LocationList: any;
-  risk: any;
+  risk: any;branchCode:any=null;
   AllRiskSumInsured: any;
   ContentSumInsured: void;
   PersonalLiability: any[]=[];
@@ -61,6 +61,7 @@ export class MotorDocumentsDetailComponent {
     this.productId = this.userDetails.Result.ProductId;
     this.userType = this.userDetails?.Result?.UserType;
     this.insuranceId = this.userDetails.Result.InsuranceId;
+    this.branchCode = this.userDetails.Result.BranchCode
   }
   ngOnInit(): void {
     this.addInfoDetail= [
@@ -83,12 +84,8 @@ export class MotorDocumentsDetailComponent {
     this.ProductName=CustomerObj?.ProductName;
     this.curency=CustomerObj?.Currency;
     this.Emiyn=CustomerObj?.EmiYn;
-   // this.VechileTira();
-   
-    console.log('sssssssssss',this.ReferenceNo)
-    //this.onCustomerSearch();
+    if(CustomerObj?.BranchCode) this.branchCode = CustomerObj?.BranchCode;
         if(this.quoteNo || this.ReferenceNo){
-        //  alert(this.quoteNo+"             "+this.ReferenceNo)
         this.onCustomerSearch();
         this.quoterisk();
         this.onPremium();
@@ -402,7 +399,7 @@ export class MotorDocumentsDetailComponent {
           "QuoteNo":this.quoteNo,
           "ProductId":this.productId,
           "LoginId": this.loginId,
-          "BranchCode": null,
+          "BranchCode": this.branchCode,
           "CustomerCode": null,
           "InsuranceId": this.insuranceId,
           "MotorCategory": null,
@@ -424,7 +421,6 @@ export class MotorDocumentsDetailComponent {
                  console.log('kkkkkkkkk',this.customerInfo)
                  //this.quoteno=data.Result.QuoteNo
              }
-   
            },
            (err) => { },
          );

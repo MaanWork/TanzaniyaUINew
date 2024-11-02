@@ -33,6 +33,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { CardModule } from 'primeng/card';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { ButtonModule } from 'primeng/button';
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
@@ -50,6 +51,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 		BrowserAnimationsModule,
         ReactiveFormsModule,
         FormlyModule,
+        ButtonModule,
         SelectButtonModule,
         AppLayoutModule,
         PipesModule,

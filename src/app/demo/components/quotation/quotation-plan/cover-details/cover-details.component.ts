@@ -744,7 +744,7 @@ export class CoverDetailsComponent {
                   // if(veh.ReferalRemarks){
                   //   veh['ReferralList']= veh.ReferalRemarks.split('~');
                   // }
-                  if(this.productId=='63') veh.VehicleId = veh.LocationId;
+                  if(this.productId=='63' || this.productId=='66') veh.VehicleId = veh.LocationId;
                   if(veh.VehicleId) veh['Vehicleid'] = veh.VehicleId;
                     veh['Active'] = true;
                     let coverList = veh.CoverList;
@@ -868,7 +868,7 @@ export class CoverDetailsComponent {
           for(let vehicle of this.vehicleData){
             let entry =null;
             console.log("Filter Details",vehicleList,this.vehicleData)
-            if(this.productId=='1' || this.productId=='14' || this.productId=='32' || this.productId=='61' || this.productId=='39' ||  this.productId=='25' || this.productId=='16' || this.productId=='6' || this.productId=='59') entry = vehicleList.find(ele=>ele.LocationId==vehicle.LocationId);
+            if(this.productId=='1' || this.productId=='14' || this.productId=='32' || this.productId=='66' || this.productId=='61' || this.productId=='39' ||  this.productId=='25' || this.productId=='16' || this.productId=='6' || this.productId=='59') entry = vehicleList.find(ele=>ele.LocationId==vehicle.LocationId);
             else  entry = vehicleList.find(ele=>ele.VehicleId==vehicle.VehicleId || ele.RiskDetails.RiskId==vehicle.RiskDetails.RiskId);
             if(entry && vehicle.SectionId!='1'){
               //if(entry.SectionId==vehicle.SectionId){
@@ -3430,7 +3430,7 @@ export class CoverDetailsComponent {
     else{
       sessionStorage.setItem('BackType','Back');
       if(this.productId=='5') this.router.navigate(['/policyDetails']);
-      else if(this.productId=='59'){
+      else if(this.productId=='59' || this.productId=='66'){
         if(sessionStorage.getItem('coversRequired')) this.router.navigate(['/quotation/plan/risk-page']);
         else{
           let content = this.vehicleData.some(ele=>ele.SectionId=='47');

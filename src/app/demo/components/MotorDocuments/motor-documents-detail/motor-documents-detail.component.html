@@ -324,7 +324,7 @@
                         </div>
                         </div>
                     </p-card>
-                </div> 
+            </div> 
             </div>
        
     </p-accordionTab>
@@ -517,42 +517,45 @@
                     </ng-template>
                 </p-table>
             </p-tabPanel>
-            <p-tabPanel [header]="tittlepay[0]?.tittle + ' Details'">
-                <p-table [value]="PaymentInfo" [tableStyle]="{ 'min-width': '50rem' }">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th>Payment Id</th>
-                            <th>Payee name</th>
-                            <th>Amount</th>
-                            <div *ngIf="PaymentInfo.PaymentTypedesc=='Cheque'">
-                            <ng-container *ngIf="PaymentInfo.PaymentChequeRes.length!=0">
-                            <th>Payment Id</th>
-                            <th>Cheque Date</th>
-                            <th>Bank Name</th>
-                            <th>Cheque No</th>
-                            <th>Micr No</th>
-                            </ng-container>
-                            </div>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-PayInfoDetails>
-                        <tr>
-                            <td>{{ PayInfoDetails.PaymentId }}</td>
-                            <td>{{ PayInfoDetails.PayeeName }}</td>
-                            <td>{{ PayInfoDetails.PremiumLc|commaseparator }}</td>
-                            <div *ngIf="PaymentInfo.PaymentTypedesc=='Cheque'">
-                            <ng-container *ngIf="PaymentInfo.PaymentChequeRes.length!=0">
-                            <td>{{ PayInfoDetails.PaymentId }}</td>
-                            <td>{{ PayInfoDetails.PaymentChequeRes.ChequeDate }}</td>
-                            <td>{{ PayInfoDetails.PaymentChequeRes.BankName }}</td>
-                            <td>{{ PayInfoDetails.PaymentChequeRes.ChequeNo }}</td>
-                            <td>{{ PayInfoDetails.PaymentChequeRes.MicrNo }}</td>
-                            </ng-container>
-                            </div>
-                        </tr>
-                    </ng-template>
-                </p-table>
-            </p-tabPanel>
+            <ng-container *ngIf="tittlepay.length!=0">
+                <p-tabPanel [header]="tittlepay[0]?.tittle + ' Details'">
+                    <p-table [value]="PaymentInfo" [tableStyle]="{ 'min-width': '50rem' }">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Payment Id</th>
+                                <th>Payee name</th>
+                                <th>Amount</th>
+                                <div *ngIf="PaymentInfo.PaymentTypedesc=='Cheque'">
+                                <ng-container *ngIf="PaymentInfo.PaymentChequeRes.length!=0">
+                                <th>Payment Id</th>
+                                <th>Cheque Date</th>
+                                <th>Bank Name</th>
+                                <th>Cheque No</th>
+                                <th>Micr No</th>
+                                </ng-container>
+                                </div>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-PayInfoDetails>
+                            <tr>
+                                <td>{{ PayInfoDetails.PaymentId }}</td>
+                                <td>{{ PayInfoDetails.PayeeName }}</td>
+                                <td>{{ PayInfoDetails.PremiumLc|commaseparator }}</td>
+                                <div *ngIf="PaymentInfo.PaymentTypedesc=='Cheque'">
+                                <ng-container *ngIf="PaymentInfo.PaymentChequeRes.length!=0">
+                                <td>{{ PayInfoDetails.PaymentId }}</td>
+                                <td>{{ PayInfoDetails.PaymentChequeRes.ChequeDate }}</td>
+                                <td>{{ PayInfoDetails.PaymentChequeRes.BankName }}</td>
+                                <td>{{ PayInfoDetails.PaymentChequeRes.ChequeNo }}</td>
+                                <td>{{ PayInfoDetails.PaymentChequeRes.MicrNo }}</td>
+                                </ng-container>
+                                </div>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabPanel>
+            </ng-container>
+            
         </p-tabView>
     </p-accordionTab>
     <p-accordionTab header="Cover Details">
@@ -862,4 +865,8 @@
             </p-tabView>
     </p-accordionTab>
 </p-accordion>
+    <div class="flex flex-wrap justify-content-center" *ngIf="pageFrom=='portfolio'">
+        <p-button  styleClass="p-button-outlined" label="<<Back"
+        size="small" [routerLink]="['/Home/ApproverPortfolio/NewDetails']" routerLinkActive="router-link-active"  ></p-button>&nbsp;
+    </div>
 </div>
