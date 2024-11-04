@@ -4394,12 +4394,13 @@ backPlan()
             if(data.Result){
                 let entry:any;
                 //if(this.productId=='59') entry = this.customerData[0];
-                if(this.productId!='59' && this.productId!='63' && this.productId!='61' && this.productId!='25' && this.productId!='16' && this.productId!='1' && this.productId!='14' && this.productId!='15' && this.productId!='32' && this.productId!='6' && this.productId!='13' && this.productId!='39') entry = data.Result;
+                if(this.productId!='59' && this.productId!='63' && this.productId!='61' && this.productId!='25' && this.productId!='16' && this.productId!='1' && this.productId!='14' && this.productId!='15' && this.productId!='32' && this.productId!='6' && this.productId!='13' && this.productId!='39' && this.productId!='66') entry = data.Result;
                 else { 
                   entry = {...data.Result.PolicyInformation, ...data.Result.EndorsementDetails, ...data.Result.BrokerDetails}
                   if(data.Result.LocationList){entry['LocationList'] = data.Result.LocationList;if(this.productId!='14' && this.productId!='32')this.currentSectionIndex=0}
                   else entry['LocationList'] = [];
                 }
+                
                  this.colorSections=[];let j=0;
                  if(this.productId=='61' || this.productId=='25' || this.productId=='16' || this.productId=='1' || this.productId=='14' 
                   || this.productId=='32' || this.productId=='39' || this.productId=='13' || this.productId=='6'){
@@ -6143,6 +6144,8 @@ backPlan()
             obj['BusinessNameDesc'] = this.getBusinessNameDesc(this.productItem.BusinessName);
             obj['BuildingSumInsured'] = this.productItem.FireSumInsured;
             obj['SumInsured'] = this.productItem.FireSumInsured;
+            obj["CoveringDetailsBI"]= this.productItem.CoveringDetailsBI;
+              obj["DescriptionOfRiskBI"]= this.productItem.DescriptionOfRiskBI;
             sectionList.push(obj);
             if(obj.BusinessInterruption!=0 && obj.BusinessInterruption!='0'){
               let subData = {
@@ -6191,8 +6194,7 @@ backPlan()
               "IndustryId": this.IndustryId,
               'BusinessNameDesc': this.getBusinessNameDesc(this.productItem.BusinessName),
               'BuildingSumInsured': this.productItem.BusinessSI,
-              "CoveringDetailsBI": this.productItem.CoveringDetailsBI,
-              "DescriptionOfRiskBI": this.productItem.DescriptionOfRiskBI,
+              
               "RiskId": null
             }
             entry.SectionList = [subEntry]
@@ -6203,8 +6205,6 @@ backPlan()
                 "SerialNo": this.productItem.SerialNo,
                 "CoveringDetails": this.productItem.CoveringDetailsBI,
                 "DescriptionOfRisk": this.productItem.DescriptionOfRiskBI,
-                "CoveringDetailsBI": this.productItem.CoveringDetailsBI,
-                "DescriptionOfRiskBI": this.productItem.DescriptionOfRiskBI,
                 "CategoryId": this.productItem.ContentId,
                 "ContentId": this.productItem.ContentId,
                 "ContentDesc": this.dropList.find(ele=>ele.value==this.productItem.ContentId)?.label,
@@ -6573,7 +6573,8 @@ backPlan()
               else if(this.productId=='6'){
                
                 let sectionData = entry.SectionList.filter(ele=>ele.SectionId!=ele.Business_Interruption);
-                 let list = [];
+                let BIData = entry.SectionList.filter(ele=>ele.SectionId==ele.Business_Interruption);
+                let list = [];
                 if(sectionData.length!=0){
                     list.push(sectionData[0]);
                     if(sectionData[0].BusinessInterruption!=0 && sectionData[0].BusinessInterruption!='0'){
@@ -6592,8 +6593,6 @@ backPlan()
                         "CategoryDesc": sectionData[0].CategoryDesc,
                         "CoveringDetails": sectionData[0].CoveringDetailsBI,
                         "DescriptionOfRisk": sectionData[0].DescriptionOfRiskBI,
-                        "CoveringDetailsBI": this.productItem.CoveringDetailsBI,
-                        "DescriptionOfRiskBI": this.productItem.DescriptionOfRiskBI,
                         'BusinessInterruption' : sectionData[0].BusinessInterruption,
                         'FirePlantSi': sectionData[0].FirePlantSi,
                         "SumInsured": sectionData[0].FirePlantSi,

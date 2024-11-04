@@ -834,12 +834,12 @@ export class PaymentInfoComponent {
           }
           else {
             if(!this.seven){
-              //this.router.navigate(['/quotation/plan/main/policy-info']);
-              this.paymentDetails = data.Result;
-              this.policyNo = data?.Result?.PolicyNo;
-              this.updateTiraDetails();
-              this.policySection = true;
-              this.draftSection=false;
+              this.router.navigate(['/quotation/plan/main/policy-info']);
+              // this.paymentDetails = data.Result;
+              // this.policyNo = data?.Result?.PolicyNo;
+              // this.updateTiraDetails();
+              // this.policySection = true;
+              // this.draftSection=false;
             }
             else{
               if(data.Result?.DepositResponse!='Y'){
@@ -857,12 +857,12 @@ export class PaymentInfoComponent {
                 })
               }
               else{
-                //this.router.navigate(['/quotation/plan/main/policy-info']);
-                this.paymentDetails = data.Result;
-                this.policyNo = data?.Result?.PolicyNo;
-                this.updateTiraDetails();
-                this.policySection = true;
-                this.draftSection=false;
+                this.router.navigate(['/quotation/plan/main/policy-info']);
+                // this.paymentDetails = data.Result;
+                // this.policyNo = data?.Result?.PolicyNo;
+                // this.updateTiraDetails();
+                // this.policySection = true;
+                // this.draftSection=false;
                 
               }
              

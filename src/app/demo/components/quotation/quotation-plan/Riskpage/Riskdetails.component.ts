@@ -60,6 +60,7 @@ import { HailDamage } from '../models/phoneix/HailDamage';
 import { RentReceivable } from '../models/phoneix/RentReceivable';
 import { AdditonalInflationMargin } from '../models/phoneix/AdditonalInflationMargin';
 import { Geyser } from '../models/phoneix/Geyser';
+import { BuildingPhoenix } from '../models/phoneix/Building';
 
 @Component({
   selector: 'app-Riskdetails',
@@ -287,6 +288,12 @@ export class RiskDetailsComponent {
             else if(this.productId=='59'){
               let details = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
               if(details){
+                this.locationList = [{
+                  "LocationId":1,"LocationName":"","CoversRequired":"BC","BuildingOwnerYn":"Y",
+                  "BuildingList":[{"WallType":"","RoofType":"","FirstLossPayee":"","BuildingSumInsured":""}],"BuildingAddress":"",
+                  "PAList":[{'RelationType':null,'DeathSI':null}],  "ElecEquipList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}],
+                  "MachineryList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}],
+                }]
                 this.editsections('Content');this.editsections('Building');this.editsections('ElectronicEquipment');
                 this.editsections('AllRisk');this.editsections('PersonalLiability'); this.editsections('PersonalAccident');
                 this.editsections('DomesticServant');
@@ -761,7 +768,7 @@ export class RiskDetailsComponent {
           let entry = this.locationList[this.tabIndex];
           this.productItem=new ProductData();
           if(entry.ContentSuminsured) this.productItem.ContentSuminsured = entry.ContentSuminsured;
-          if(entry.BuildingSumInsured) this.productItem.BuildingSumInsured = entry.BuildingSumInsured;
+          if(entry.BuildingSumInsured) this.productItem.BuildingSuminsured = entry.BuildingSumInsured;
           if(entry.WallType) this.productItem.WallType = entry.WallType;
           if(entry.ContentConstructionType)this.productItem.ContentConstructionType = entry.ContentConstructionType;
           if(entry.PlantConstructionType)this.productItem.PlantConstructionType=entry.PlantConstructionType;
@@ -4508,7 +4515,7 @@ export class RiskDetailsComponent {
                 
                 let data; 
                 if(types=='Building'){
-                  data= new Building();
+                  data= new BuildingPhoenix();
                   this.field1Build[0] = data?.fields;
                   let modelHooks3 = { onInit: (field: FormlyFieldConfig) => {
                     field.formControl.valueChanges.subscribe(() => {
@@ -5457,7 +5464,7 @@ export class RiskDetailsComponent {
                   if(j==this.tabIndex){
                     entry["RoofType"]= this.productItem.WallType;
                     entry["WallType"]= this.productItem.WallType;
-                    entry["BuildingSumInsured"]=this.productItem.BuildingSumInsured;
+                    entry["BuildingSumInsured"]=this.productItem.BuildingSuminsured;
                     entry["SumInsured"]=this.productItem.SumInsured;
                     entry['ContentSuminsured'] = this.productItem.ContentSuminsured;
                     entry["ContentConstructionType"]= this.productItem.ContentConstructionType;
@@ -5478,7 +5485,7 @@ export class RiskDetailsComponent {
                   }
                   console.log("Iterate Entry",entry)
                   
-                  if(entry.BuildingSumInsured!=0 && entry.BuildingSumInsured!=null && entry.RoofType!=null && entry.WallType!=null){ 
+                  if(entry.BuildingSumInsured!=0 && entry.BuildingSumInsured!=null && entry.WallType!=null){ 
                     let subEntry= {
                       "SectionId": "1",
                       "Status": "Y",
@@ -5615,7 +5622,7 @@ export class RiskDetailsComponent {
           emptyValidation(){
             let i=0;
             if(this.productItem.WallType){
-              if(this.productItem.BuildingSumInsured=='0' || this.productItem.BuildingSumInsured==0 || this.productItem.BuildingSumInsured==''){
+              if(this.productItem.BuildingSuminsured=='0' || this.productItem.BuildingSuminsured==0 || this.productItem.BuildingSuminsured==''){
                 this.validationPopSI("Building");
                 return false;
               }else {

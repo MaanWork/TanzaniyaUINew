@@ -2023,6 +2023,7 @@ export class CustomerInfoComponent {
           motorUsage = this.motordetails.MotorUsageDesc;
         }
       }
+      //let InsuranceClassDesc = this.classList.find(ele)
       if(this.productItem.Make!='' && this.productItem.Make!=undefined && this.productItem.Make!=null){
         let entry = this.makeList.find(ele=>ele.Code==this.productItem.Make);
         if(entry){this.productItem.MakeDesc=entry.CodeDesc;}
@@ -2046,9 +2047,7 @@ export class CustomerInfoComponent {
         "MobileCode": this.productItem.MobileCode,
         "MobileNumber": this.productItem.MobileNo,
         "Chassisnumber": this.productItem.ChassisNo,
-        "Insurancetype": [
-            this.productItem.InsuranceType
-        ],
+        "Insurancetype": this.productItem.InsuranceType,
         "InsuranceClass": this.productItem.InsuranceClass,
         "Motorusage": motorUsage,
         "MotorusageId": this.productItem.MotorUsage,
@@ -2073,14 +2072,58 @@ export class CustomerInfoComponent {
         "BdmCode": this.customerCode,
         "SourceTypeId": this.sourceType,
         "SumInsured": this.productItem.VehicleSI,
-        "AcccessoriesSumInsured": this.productItem.AccessoriesSI,
+        "AcccessoriesSumInsured": null,
+        "AccessoriesInformation": "",
+        "accident": null,
+        "AcExecutiveId": null,
+        "AdditionalCircumstances": "",
+        "AggregatedValue": null,
+        "AxelDistance": 2,
+        "BankingDelegation": "",
+        "BorrowerType": null,
+        "CommissionType": this.commissionType,
+        "BrokerCode": this.brokerCode,
         "ExchangeRate": this.exchangeRate,
         "Currency": this.currencyCode,
         "HavePromoCode":"N",
         "SearchFromApi":false,
         "Registrationnumber": this.productItem.RegistrationNo,
         "HorsePower":null,
-        "Zone":'1'
+        "SectionId": [this.productItem.InsuranceType],
+        "Zone":'1',
+        "CityLimit": null,
+        "ClaimType": "0",
+        "CollateralCompanyAddress": "",
+        "CollateralCompanyName": "",
+        "CollateralName": null,
+        "CollateralYn": "N",
+        "Color": "4",
+        "CoverNoteNo": null,
+        "CubicCapacity": null,
+        "DateOfCirculation": null,
+        "DrivenByDesc": "D",
+        "DriverDetails": null,
+        "EndorsementDate": null,
+        "EndorsementEffectiveDate": null,
+        "EndorsementRemarks": null,
+        "EndorsementType": null,
+        "EndorsementTypeDesc": null,
+        "EndorsementYn": "N",
+        "EndtCategoryDesc": null,
+        "EndtCount": null,
+        "EndtPrevPolicyNo": null,
+        "EndtPrevQuoteNo": null,
+        "EndtStatus": null,
+        "EngineNumber": null,
+        "ExcessLimit": null,
+        "FirstLossPayee": null,
+        "FleetOwnerYn": "N",
+        "FuelType": null,
+        "Grossweight": null,
+        "HoldInsurancePolicy": "N",
+        "Idnumber": null,
+        "InflationSumInsured": "350000",
+        "InsuranceClassDesc": "Comprehensive",
       }
       ReqObj['DriverDetails'] = null;
             if(this.insuranceId=='100019') ReqObj['CarAlarmYn'] = this.productItem.CarAlarmYN;
