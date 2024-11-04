@@ -32,6 +32,16 @@ export class FireAlliedPerils{
                   fieldGroupClassName: 'grid mt-2',
                     fieldGroup: [
                       {
+                        className: 'col-12 md:col-12 lg:col-12 p-2',
+                        type: 'display2',
+                
+                        templateOptions: {
+                          label: `Fire & Allied Perils`,
+                          required: true,
+      
+                        },
+                      },
+                      {
                         className: 'col-12 md:col-7 lg:col-7 xl:col-7 pl-2 pr-2 pt-1',
                         key: 'InsuranceType',
                         id: 'InsuranceType',
@@ -117,6 +127,63 @@ export class FireAlliedPerils{
                         },
                       },
                       {
+                        className: 'col-12 md:col-6 lg:col-6',
+                        type: 'textarea',
+                          key: 'CoveringDetails',
+                          
+                          props: { 
+                            label: `Covering Details`,
+                            maxLength: 1000,
+                            
+                          },
+                          templateOptions: {
+                            //disabled: this.checkDisable('BuildingSuminsured')
+                            required: true,
+                          },
+                          validators: {
+                            validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
+                          },
+                          hooks: {
+                          },
+          
+                          expressions: {
+                          
+                          },
+                      },
+                      {
+                        className: 'col-12 md:col-6 lg:col-6',
+                        type: 'textarea',
+                          key: 'DescriptionOfRisk',
+                          
+                          props: { 
+                            maxLength: 1000,
+                            label: `Description Of Risk`,
+                          },
+                          templateOptions: {
+                            //disabled: this.checkDisable('BuildingSuminsured')
+                            required: true,
+                          },
+                          validators: {
+                            validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
+                          },
+                          hooks: {
+                          },
+          
+                          expressions: {
+                          
+                          },
+                      },
+                      {
+                        className: 'col-12 md:col-12 lg:col-12 p-2',
+                        type: 'display2',
+                
+                        templateOptions: {
+                          label: `Business Interruption Details`,
+                          required: true,
+      
+                        },
+                      },
+                      {
                         type: 'ngselect',
                         key: 'BusinessName',
                         id: 'BusinessName',
@@ -165,7 +232,7 @@ export class FireAlliedPerils{
                       {
                         className: 'col-12 md:col-6 lg:col-6',
                         type: 'textarea',
-                          key: 'CoveringDetails',
+                          key: 'CoveringDetailsBI',
                           
                           props: { 
                             label: `Covering Details`,
@@ -175,6 +242,7 @@ export class FireAlliedPerils{
                           templateOptions: {
                             //disabled: this.checkDisable('BuildingSuminsured')
                             required: true,
+                            disabled: true,
                           },
                           validators: {
                             validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
@@ -189,15 +257,15 @@ export class FireAlliedPerils{
                       {
                         className: 'col-12 md:col-6 lg:col-6',
                         type: 'textarea',
-                          key: 'DescriptionOfRisk',
+                          key: 'DescriptionOfRiskBI',
                           
                           props: { 
                             maxLength: 1000,
                             label: `Description Of Risk`,
                           },
                           templateOptions: {
-                            //disabled: this.checkDisable('BuildingSuminsured')
                             required: true,
+                            disabled: true,
                           },
                           validators: {
                             validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]

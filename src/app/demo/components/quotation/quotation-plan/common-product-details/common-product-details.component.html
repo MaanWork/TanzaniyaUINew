@@ -653,124 +653,156 @@
                                         </ng-template>
                                     </p-table>
                                 </ng-container>
-                               
-                                <div class="grid p-2 mt-3">
-                                    <div class="col-12 lg:col-3 xl:col-3"></div>
-                                    <div class="col-12 lg:col-5 xl:col-5">
-                                        <ng-container *ngIf="productId=='25' || productId=='16' || productId=='1' || productId=='14' || productId=='15' || productId=='13' || this.productId=='32' || this.productId=='6' || this.productId=='39'">                                            
-                                            <form [formGroup]="form" *ngIf="productId=='32'">
-                                                <formly-form [form]="form" [fields]="fieldsFidelity" [model]="productItem"></formly-form>
-                                            </form>
-                                            <form [formGroup]="form" *ngIf="productId=='14' || productId=='15'">
-                                                <formly-form [form]="form" [fields]="fieldsEmployee" [model]="productItem"></formly-form>
-                                            </form>
-                                            <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)" [appendTo]="body" *ngIf="productId!='14' && productId!='32' && productId!='15'">
-                                                <formly-form [form]="form" [fields]="fields" [model]="productItem" ></formly-form>
-                                            </form>
-                                            <div class="error-text text-danger mb-2" *ngIf="moneySIError">
-                                                <span class="spancommon span_font_size">Please Enter Atleast One SumInsured</span>
-                                            </div>
-                                            <div class="input-form-error" *ngIf="firstSIError || coveringDetailsError || descriptionRiskError || sumInsuredError || OccupationError || sectionError || fireSIError || businessNameError || businessSIError" style="position: relative;">
-                                                <div class="error-text text-danger">
-                                                    <span class="spancommon span_font_size" *ngIf="OccupationError">Please Select Valid Occupation<br></span>
-                                                    <span class="spancommon span_font_size" *ngIf="sectionError">Please Select Valid IndustryCover<br></span>
-                                                    <span class="spancommon span_font_size" *ngIf="fireSIError">Please Enter Valid SumInsured<br></span>
-                                                    <span class="spancommon span_font_size" *ngIf="businessNameError">Please Select Valid Business Interruption<br></span>
-                                                    <span class="spancommon span_font_size" *ngIf="businessSIError">Please Enter Valid Business SumInsured<br></span>
-                                                    <span class="spancommon span_font_size" *ngIf="firstSIError">Please Select Valid Fire SumInsured<br></span>
-                                                    <span class="spancommon span_font_size" *ngIf="coveringDetailsError">Please Enter Covering Details<br></span>
-                                                    <span class="spancommon span_font_size" *ngIf="descriptionRiskError"> Please Enter Description<br></span>
-                                                    <span class="spancommon span_font_size" *ngIf="sumInsuredError"> Please Enter Valid SumInsured<br></span>
-                                                    <span class="spancommon span_font_size" *ngIf="regionError">Please Select Valid Region<br></span>
-                                                    <span class="spancommon span_font_size" *ngIf="districtError">Please Select Valid District<br></span>
+                                <ng-container *ngIf="productId!='6'">
+                                    <div class="grid p-2 mt-3">
+                                        <div class="col-12 lg:col-3 xl:col-3"></div>
+                                        <div class="col-12 lg:col-5 xl:col-5">
+                                            <ng-container *ngIf="productId=='25' || productId=='16' || productId=='1' || productId=='14' || productId=='15' || productId=='13' || this.productId=='32' || this.productId=='6' || this.productId=='39'">                                            
+                                                <form [formGroup]="form" *ngIf="productId=='32'">
+                                                    <formly-form [form]="form" [fields]="fieldsFidelity" [model]="productItem"></formly-form>
+                                                </form>
+                                                <form [formGroup]="form" *ngIf="productId=='14' || productId=='15'">
+                                                    <formly-form [form]="form" [fields]="fieldsEmployee" [model]="productItem"></formly-form>
+                                                </form>
+                                                <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)" [appendTo]="body" *ngIf="productId!='14' && productId!='32' && productId!='15' && productId!='6'">
+                                                    <formly-form [form]="form" [fields]="fields" [model]="productItem" ></formly-form>
+                                                </form>
+                                                <div class="error-text text-danger mb-2" *ngIf="moneySIError">
+                                                    <span class="spancommon span_font_size">Please Enter Atleast One SumInsured</span>
                                                 </div>
-                                            </div>
-                                             <div class="input-form-error" *ngIf="ElecEquipSIError || ContentError || DescriptionError || SerialNoError" style="position: relative;">
-                                                <div class="error-text text-danger">
-                                                    <span class="spancommon span_font_size" *ngIf="ElecEquipSIError">Please Enter Valid SumInsured</span><br>
-                                                    <span class="spancommon span_font_size" *ngIf="ContentError">Please Select Valid Content</span><br>
-                                                    <span class="spancommon span_font_size" *ngIf="DescriptionError"> Please Enter Description</span><br>
-                                                    <span class="spancommon span_font_size" *ngIf="SerialNoError"> Please Enter Valid Serial Number</span><br>
+                                                <div class="input-form-error" *ngIf="firstSIError || coveringDetailsError || descriptionRiskError || sumInsuredError || OccupationError || sectionError || fireSIError || businessNameError || businessSIError" style="position: relative;">
+                                                    <div class="error-text text-danger">
+                                                        <span class="spancommon span_font_size" *ngIf="OccupationError">Please Select Valid Occupation<br></span>
+                                                        <span class="spancommon span_font_size" *ngIf="sectionError">Please Select Valid IndustryCover<br></span>
+                                                        <span class="spancommon span_font_size" *ngIf="fireSIError">Please Enter Valid SumInsured<br></span>
+                                                        <span class="spancommon span_font_size" *ngIf="businessNameError">Please Select Valid Business Interruption<br></span>
+                                                        <span class="spancommon span_font_size" *ngIf="businessSIError">Please Enter Valid Business SumInsured<br></span>
+                                                        <span class="spancommon span_font_size" *ngIf="firstSIError">Please Select Valid Fire SumInsured<br></span>
+                                                        <span class="spancommon span_font_size" *ngIf="coveringDetailsError">Please Enter Covering Details<br></span>
+                                                        <span class="spancommon span_font_size" *ngIf="descriptionRiskError"> Please Enter Description<br></span>
+                                                        <span class="spancommon span_font_size" *ngIf="sumInsuredError"> Please Enter Valid SumInsured<br></span>
+                                                        <span class="spancommon span_font_size" *ngIf="regionError">Please Select Valid Region<br></span>
+                                                        <span class="spancommon span_font_size" *ngIf="districtError">Please Select Valid District<br></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                                <!-- <div class="input-form-error bottomSpacing" *ngIf="contentTypeDuplicateError || contentTypeError || salaryError || DescriptionError || SerialError">
-                                                <div class="error-text text-danger" *ngIf="contentTypeDuplicateError">
-                                                    <span class="spancommon span_font_size"> Duplicate Entry</span>
+                                                 <div class="input-form-error" *ngIf="ElecEquipSIError || ContentError || DescriptionError || SerialNoError" style="position: relative;">
+                                                    <div class="error-text text-danger">
+                                                        <span class="spancommon span_font_size" *ngIf="ElecEquipSIError">Please Enter Valid SumInsured</span><br>
+                                                        <span class="spancommon span_font_size" *ngIf="ContentError">Please Select Valid Content</span><br>
+                                                        <span class="spancommon span_font_size" *ngIf="DescriptionError"> Please Enter Description</span><br>
+                                                        <span class="spancommon span_font_size" *ngIf="SerialNoError"> Please Enter Valid Serial Number</span><br>
+                                                    </div>
                                                 </div>
-                                                <div class="error-text text-danger" *ngIf="contentTypeError">
-                                                    <span class="spancommon span_font_size">Please Select Content Type</span>
+                                                    <!-- <div class="input-form-error bottomSpacing" *ngIf="contentTypeDuplicateError || contentTypeError || salaryError || DescriptionError || SerialError">
+                                                    <div class="error-text text-danger" *ngIf="contentTypeDuplicateError">
+                                                        <span class="spancommon span_font_size"> Duplicate Entry</span>
+                                                    </div>
+                                                    <div class="error-text text-danger" *ngIf="contentTypeError">
+                                                        <span class="spancommon span_font_size">Please Select Content Type</span>
+                                                    </div>
+                                                    <div class="error-text text-danger" *ngIf="salaryError">
+                                                        <span class="spancommon span_font_size">Please Enter Valid Sum Insured</span>
+                                                    </div>
+                                                    <div class="error-text text-danger" *ngIf="DescriptionError">
+                                                        <span class="spancommon span_font_size">Please Enter Description</span>
+                                                    </div>
+                                                    <div class="error-text text-danger" *ngIf="SerialError">
+                                                        <span class="spancommon span_font_size">Please Enter Serial NO</span>
+                                                    </div>
                                                 </div>
-                                                <div class="error-text text-danger" *ngIf="salaryError">
-                                                    <span class="spancommon span_font_size">Please Enter Valid Sum Insured</span>
+                                                <div class="input-form-error bottomSpacing" *ngIf=" OccupationError 
+                                                || PersonNameError || DobError|| sumInsuredError">
+                                                    
+                                                    <div class="error-text text-danger" *ngIf="OccupationError">
+                                                        <span class="spancommon span_font_size">Please Select Occupation </span>
+                                                    </div>
+                                                    <div class="error-text text-danger" *ngIf="PersonNameError">
+                                                        <span class="spancommon span_font_size">Please Enter Person Name </span>
+                                                    </div>
+                                                    <div class="error-text text-danger" *ngIf="DobError">
+                                                        <span class="spancommon span_font_size">Please Select DOB </span>
+                                                    </div>
+                                                    <div class="error-text text-danger" *ngIf="sumInsuredError">
+                                                        <span class="spancommon span_font_size">Please Enter sum Insured </span>
+                                                    </div>
+                                                </div> -->
+                                                <div *ngIf="firstLossSection">
+                                                    <div class="flex flex-warp justify-content-end" >
+                                                        <p-button  label="Add New" size="small" (click)="addFirstLossPayee()"></p-button>
+                                                    </div>
+                                                    <p-table [value]="firstLossPayeeList" dataKey="LocationListAlt" editMode="row" [rows]="10" [paginator]="false" [tableStyle]="{'min-width': '40rem'}" >
+                                                        <ng-template pTemplate="header">
+                                                            <tr>
+                                                                <th [pSortableColumn]="column" *ngFor="let column of firstLossColumns">
+                                                                    {{column}}
+                                                                </th>
+                                                            </tr>
+                                                        </ng-template>
+                                                        <ng-template pTemplate="body" let-payee let-ri="rowIndex">
+                                                            <tr>
+                                                                <td>
+                                                                    <input class="w-full p-button-outlined" placeholder="Enter Payee Name" [(ngModel)]="payee.FirstLossPayeeDesc" styleClass="w-full"  pInputText type="text" />
+                                                                </td>
+                                                                <td>
+                                                                    <ng-container  *ngIf="ri!=0">
+                                                                        <div class="flex align-items-center justify-content-center gap-2" >
+                                                                            <button  pButton type="button"  icon="pi pi-trash"  (click)="onDeleteFistLoss(ri)" 
+                                                                                styleClass="p-button-outlined" >
+                                                                            </button>
+                                                                        </div>
+                                                                    </ng-container>
+                                                                </td>
+                                                            </tr>
+                                                        </ng-template>
+                                                    </p-table>
                                                 </div>
-                                                <div class="error-text text-danger" *ngIf="DescriptionError">
-                                                    <span class="spancommon span_font_size">Please Enter Description</span>
+                                                <div class="flex flex-warp justify-content-center" *ngIf="productId!='6' && productId!='39' && productId!='1'">
+                                                    
+                                                    <p-button  label="Save & Add New" size="small" (click)="addMoneyCommon(item)"></p-button>
                                                 </div>
-                                                <div class="error-text text-danger" *ngIf="SerialError">
-                                                    <span class="spancommon span_font_size">Please Enter Serial NO</span>
-                                                </div>
-                                            </div>
-                                            <div class="input-form-error bottomSpacing" *ngIf=" OccupationError 
-                                            || PersonNameError || DobError|| sumInsuredError">
+                                            </ng-container>
+                                            <ng-container *ngIf="productId=='61'">
+                                                <form [formGroup]="form">
+                                                    <formly-form [form]="form" [fields]="fieldsBond" [model]="productItem"></formly-form>
+                                                </form>
+                                            </ng-container>
+                                           
+                                            <ng-container *ngFor="let subEntry of item.SectionList">
                                                 
-                                                <div class="error-text text-danger" *ngIf="OccupationError">
-                                                    <span class="spancommon span_font_size">Please Select Occupation </span>
-                                                </div>
-                                                <div class="error-text text-danger" *ngIf="PersonNameError">
-                                                    <span class="spancommon span_font_size">Please Enter Person Name </span>
-                                                </div>
-                                                <div class="error-text text-danger" *ngIf="DobError">
-                                                    <span class="spancommon span_font_size">Please Select DOB </span>
-                                                </div>
-                                                <div class="error-text text-danger" *ngIf="sumInsuredError">
-                                                    <span class="spancommon span_font_size">Please Enter sum Insured </span>
-                                                </div>
-                                            </div> -->
-                                            <div *ngIf="firstLossSection">
-                                                <div class="flex flex-warp justify-content-end" >
-                                                    <p-button  label="Add New" size="small" (click)="addFirstLossPayee()"></p-button>
-                                                </div>
-                                                <p-table [value]="firstLossPayeeList" dataKey="LocationListAlt" editMode="row" [rows]="10" [paginator]="false" [tableStyle]="{'min-width': '40rem'}" >
-                                                    <ng-template pTemplate="header">
-                                                        <tr>
-                                                            <th [pSortableColumn]="column" *ngFor="let column of firstLossColumns">
-                                                                {{column}}
-                                                            </th>
-                                                        </tr>
-                                                    </ng-template>
-                                                    <ng-template pTemplate="body" let-payee let-ri="rowIndex">
-                                                        <tr>
-                                                            <td>
-                                                                <input class="w-full p-button-outlined" placeholder="Enter Payee Name" [(ngModel)]="payee.FirstLossPayeeDesc" styleClass="w-full"  pInputText type="text" />
-                                                            </td>
-                                                            <td>
-                                                                <ng-container  *ngIf="ri!=0">
-                                                                    <div class="flex align-items-center justify-content-center gap-2" >
-                                                                        <button  pButton type="button"  icon="pi pi-trash"  (click)="onDeleteFistLoss(ri)" 
-                                                                            styleClass="p-button-outlined" >
-                                                                        </button>
-                                                                    </div>
-                                                                </ng-container>
-                                                            </td>
-                                                        </tr>
-                                                    </ng-template>
-                                                </p-table>
-                                            </div>
-                                            <div class="flex flex-warp justify-content-center" *ngIf="productId!='6' && productId!='39' && productId!='1'">
-                                                
-                                                <p-button  label="Save & Add New" size="small" (click)="addMoneyCommon(item)"></p-button>
-                                            </div>
-                                        </ng-container>
-                                        <ng-container *ngIf="productId=='61'">
-                                            <form [formGroup]="form">
-                                                <formly-form [form]="form" [fields]="fieldsBond" [model]="productItem"></formly-form>
-                                            </form>
-                                        </ng-container>
-                                        <ng-container *ngFor="let subEntry of item.SectionList">
-                                            
-                                        </ng-container>
+                                            </ng-container>
+                                        </div>
                                     </div>
-                                </div>
+                                </ng-container>
+                                <ng-container *ngIf="productId=='6'">
+                                    <div class="grid p-2 mt-3">
+                                        <div class="col-12 lg:col-3 xl:col-3"></div>
+                                        <div class="col-12 lg:col-5 xl:col-5">
+                                                    <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)" [appendTo]="body">
+                                                        <formly-form [form]="form" [fields]="fields" [model]="productItem" ></formly-form>
+                                                    </form>
+                                                    <div class="input-form-error" *ngIf="firstSIError || coveringDetailsError || descriptionRiskError || coveringDetailsBIError || DescriptionOfRiskBIError || sumInsuredError || OccupationError || sectionError || fireSIError || businessNameError || businessSIError" style="position: relative;">
+                                                        <div class="error-text text-danger">
+                                                            <span class="spancommon span_font_size" *ngIf="OccupationError">Please Select Valid Occupation<br></span>
+                                                            <span class="spancommon span_font_size" *ngIf="sectionError">Please Select Valid IndustryCover<br></span>
+                                                            <span class="spancommon span_font_size" *ngIf="fireSIError">Please Enter Valid SumInsured<br></span>
+                                                            <span class="spancommon span_font_size" *ngIf="businessNameError">Please Select Valid Business Interruption<br></span>
+                                                            <span class="spancommon span_font_size" *ngIf="businessSIError">Please Enter Valid Business SumInsured<br></span>
+                                                            <span class="spancommon span_font_size" *ngIf="firstSIError">Please Select Valid Fire SumInsured<br></span>
+                                                            <span class="spancommon span_font_size" *ngIf="coveringDetailsError">Please Enter Covering Details<br></span>
+                                                            <span class="spancommon span_font_size" *ngIf="descriptionRiskError"> Please Enter Description<br></span>
+                                                            <span class="spancommon span_font_size" *ngIf="coveringDetailsBIError">Please Enter Business Interruption Covering Details<br></span>
+                                                            <span class="spancommon span_font_size" *ngIf="DescriptionOfRiskBIError"> Please Enter Business Interruption Description<br></span>
+                                                            <span class="spancommon span_font_size" *ngIf="sumInsuredError"> Please Enter Valid SumInsured<br></span>
+                                                            <span class="spancommon span_font_size" *ngIf="regionError">Please Select Valid Region<br></span>
+                                                            <span class="spancommon span_font_size" *ngIf="districtError">Please Select Valid District<br></span>
+                                                        </div>
+                                                    </div>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </ng-container>
+                                
                                 <div class="grid" *ngIf="uwQuestionList.length!=0">
                                     <div class="grid justify-content-start">
                                         <div class="mb-1 "> 
@@ -1274,7 +1306,7 @@
     </div> -->
         
         <div>
-            <div class="form__wrapper" *ngIf="productId!='46' && productId!='14' && productId!='16' && productId!='57' && productId!='32' && productId!='19' && productId!='24' && productId!='59' && productId!='42' && productId!='15' && productId!='13' && productId!='21' && productId!='26' && productId!='6' && productId!='25' && productId!='56' && (productId!='1' || (productId=='1' && insuranceId=='100004'))  && (productId!='39' || (productId=='39' && insuranceId=='100004')) && (productId!='27' || (productId=='27' && insuranceId=='100004'))">
+            <div class="form__wrapper" *ngIf="productId!='46' && productId!='14' && productId!='16' && productId!='57' && productId!='32' && productId!='19' && productId!='24' && productId!='59' && productId!='66' && productId!='42' && productId!='15' && productId!='13' && productId!='21' && productId!='26' && productId!='6' && productId!='25' && productId!='56' && (productId!='1' || (productId=='1' && insuranceId=='100004'))  && (productId!='39' || (productId=='39' && insuranceId=='100004')) && (productId!='27' || (productId=='27' && insuranceId=='100004'))">
                 <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)">
                     <formly-form [form]="form" [fields]="fields" [model]="productItem"></formly-form>
                 </form>
@@ -1356,7 +1388,7 @@
         <p-button label="Next" size="small" *ngIf="productId=='46' && currentIndex!=totalIndex" (click)="onFormSubmit('Next')"></p-button>
     </div>
     <div class="flex justify-content-center mt-3" *ngIf="productId=='1' || productId=='6' || productId=='39' || productId=='43' || productId=='46' || productId=='16' 
-    || productId=='42' || productId=='21' || productId=='14' || productId=='15' || productId=='59' || productId=='60' 
+    || productId=='42' || productId=='21' || productId=='14' || productId=='15' || productId=='59' || productId=='60'  || productId=='66'
     || productId=='57' || productId=='56' || productId=='26' || productId=='25' || productId=='13' || this.productId=='27' 
     || productId=='24' || productId=='19' || productId=='32'|| productId=='61' || productId=='63'" >
         
@@ -1365,7 +1397,7 @@
         <p-button *ngIf="(productId=='61' || productId=='25' || productId=='16' || productId=='1' || productId=='14' || productId=='13' || productId=='32' || productId=='39' ||  this.productId=='6') && tabIndex!=0"  label="Previous" size="small" styleClass="p-button-outlined" (click)="tabBack()"></p-button>&nbsp;&nbsp;
             <p-button *ngIf="productId=='46' && (!endorsementSection || (endorsementSection && enableAddVehicle))" label="Save & Add New" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;
         <p-button label="Next" *ngIf="(productId!='46' && productId!='63' && LocationListAlt.length>1) && (tabIndex!=LocationListAlt.length-1)" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;
-        <p-button label="Proceed" *ngIf="(productId!='46' && LocationListAlt.length!=0 && checkLocationDetail()) || productId=='46' || productId=='63' || productId=='59' || productId=='19'" size="small" (click)="onSubmit(null)"></p-button>
+        <p-button label="Proceed" *ngIf="(productId!='46' && LocationListAlt.length!=0 && checkLocationDetail()) || productId=='46' || productId=='63' || productId=='59' || productId=='66' || productId=='19'" size="small" (click)="onSubmit(null)"></p-button>
     </div>
 </div>
     

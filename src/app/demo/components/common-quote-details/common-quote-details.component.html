@@ -256,10 +256,11 @@
                                     </div>
                                 </div>
                                 <div class="lg:col-2 md:col-2 col-3" *ngIf="insuranceId=='100004' || insuranceId=='100040'">
-                                    <label for="username">{{'QUOTEGRID.NoOfDays' | translate}}</label>
+                                    <label for="username" *ngIf="insuranceId=='100040'">{{'QUOTEGRID.NoOfMonths' | translate}}</label>
+                                    <label for="username" *ngIf="insuranceId=='100004'">{{'QUOTEGRID.NoOfDays' | translate}}</label>
                                     <p-dropdown inputId="noOfDays" class="w-full" styleClass="w-full" [options]="noOfDaysList"
                                         [(ngModel)]="noOfDays" (onChange)="onNoOfDaysChange('change')"
-                                        optionLabel="Code" optionValue="Code">
+                                        [optionLabel]="getDisplayName()" optionValue="Code">
                                     </p-dropdown>
                                 </div>
                                 <div class="lg:col-2 md:col-2 col-3" *ngIf="insuranceId!='100004'">
@@ -293,8 +294,18 @@
                                 </div>
                                 <div class="lg:col-2 md:col-2 col-3">
                                     <label for="username">{{'MOTORQUOTE.PromoCode' | translate}}&nbsp;({{'MOTORQUOTE.Optional' | translate}})</label>
-                                    <input pInputText id="username" maxlength="50" [(ngModel)]="promocode" [disabled]="(endorsementSection) || checkDisableField()"
+                                    <input pInputText id="username" class="w-full" styleClass="w-full" maxlength="50" [(ngModel)]="promocode" [disabled]="(endorsementSection) || checkDisableField()"
                                         (change)="onCommonDetailsChange()" [placeholder]="'MOTORQUOTE.EnterPromoCode' | translate" />
+                                </div>
+                                <div class="lg:col-2 md:col-2 col-3">
+                                    <label for="username">{{'MOTORQUOTE.QuoteExpiryDate' | translate}}</label>
+                                    <input pInputText id="username" class="w-full" styleClass="w-full" maxlength="50" [(ngModel)]="quoteExpiryDate" [disabled]="(endorsementSection) || checkDisableField()"
+                                        (change)="onCommonDetailsChange()" [placeholder]="'MOTORQUOTE.EnterQuoteExpiryDate' | translate" />
+                                    <div class="input-form-error" *ngIf="quoteExpiryDateError">
+                                        <div class="error-text">
+                                            {{'MOTORQUOTE.quoteExpiryDateError' | translate}}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

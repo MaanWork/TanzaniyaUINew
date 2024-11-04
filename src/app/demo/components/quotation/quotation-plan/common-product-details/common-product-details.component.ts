@@ -254,6 +254,8 @@ export class CommonProductDetailsComponent {
   moneySIError: boolean;firstLossColumns:any[]=[];
   ElecEquipSIError: boolean;ContentError: boolean;SerialNoError: boolean;firstSIError: boolean;currentVehicleIndex: number;sectionError: boolean=false;
   firstLossSection: boolean=false;firstLossPayeeList: any[]=[];
+  coveringDetailsBIError: boolean;
+  DescriptionOfRiskBIError: boolean;
   constructor(private router: Router,private sharedService: SharedService,private datePipe:DatePipe) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -480,10 +482,16 @@ export class CommonProductDetailsComponent {
   onChangeBusiness(){
     let entry = this.productItem.BusinessName;
     let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
-    for(let field of fieldList){if(field.key=='BusinessSI'){
+    for(let field of fieldList){
+      if(field.key=='BusinessSI'){
       if(entry!='' && entry!='0' && entry!=undefined && entry!=null){field.props.disabled=false;}
       else{this.productItem.BusinessSI='0';field.formControl.setValue('0'); field.props.disabled=true;}
-    }}
+      }
+      else if(field.key=='CoveringDetailsBI' || field.key=='DescriptionOfRiskBI'){
+        if(entry!='' && entry!='0' && entry!=undefined && entry!=null){field.props.disabled=false;}
+        else{this.productItem.CoveringDetailsBI='';this.productItem.DescriptionOfRiskBI='';field.formControl.setValue(''); field.props.disabled=true;}
+      }
+  }
     
   }
   checkDatesDisabled(){
@@ -985,10 +993,17 @@ export class CommonProductDetailsComponent {
     if(this.stateName==null || this.stateName=='' || this.stateName==undefined){i+=1;this.districtError=true;}
     else this.districtError=false;
     if((this.BusinessName==null || this.BusinessName=='' || this.BusinessName==undefined) && this.BusinessName!='0'){i+=1;this.businessNameError=true;}
-    else{ this.businessNameError=false;
+    else{ 
+      this.businessNameError=false;
       if(this.BusinessName!='0' && this.BusinessName!=0 && (this.BusinessSumInsured==null || this.BusinessSumInsured=='0' || this.BusinessSumInsured==0)){i+=1;this.businessSIError=true}
-      else if(this.BusinessName=='0' || this.BusinessName==0){ this.BusinessSumInsured='0';this.businessSIError=false;} 
-      else{this.businessSIError=false;}
+      else{
+        if(this.BusinessName=='0' || this.BusinessName==0){ this.BusinessSumInsured='0';this.businessSIError=false;} 
+        else{this.businessSIError=false;}
+        if(this.productItem.CoveringDetailsBI==null  || this.productItem.CoveringDetailsBI=='' || this.productItem.CoveringDetailsBI=='0'){i+=1;this.coveringDetailsBIError=true;}
+        else {this.coveringDetailsBIError=false;}
+        if(this.productItem.DescriptionOfRiskBI==null  || this.productItem.DescriptionOfRiskBI=='' || this.productItem.DescriptionOfRiskBI=='0'){i+=1;this.DescriptionOfRiskBIError=true;}
+        else {this.DescriptionOfRiskBIError=false;}
+      } 
     }
     return i==0;
   }
@@ -4370,7 +4385,7 @@ backPlan()
          || this.productId=='42'  || this.productId=='24' || this.productId=='43') 
          urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
       else if(this.productId=='63' || this.productId=='61' || this.productId=='25' || this.productId=='6' ||
-         this.productId=='16' || this.productId=='13' || this.productId=='59' || this.productId=='39'  || this.productId=='1' || this.productId=='14' || this.productId=='15' || this.productId=='32') { delete ReqObj['RiskId']; urlLink = `${this.motorApiUrl}api/slide/GetNonMotor`;}
+         this.productId=='16' || this.productId=='13' || this.productId=='59' || this.productId=='66' || this.productId=='39'  || this.productId=='1' || this.productId=='14' || this.productId=='15' || this.productId=='32') { delete ReqObj['RiskId']; urlLink = `${this.motorApiUrl}api/slide/GetNonMotor`;}
       else urlLink =  `${this.motorApiUrl}api/geteservicebyriskid`;
       
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -4800,7 +4815,12 @@ backPlan()
           if(this.productItem.BusinessName!='0'){
             if(this.productItem.BusinessSI==null  || this.productItem.BusinessSI=='' || this.productItem.BusinessSI=='0'){j+=1;this.businessSIError=true;}
             else {this.businessSIError=false;}
-          } else {this.businessSIError=false;}
+            if(this.productItem.CoveringDetailsBI==null  || this.productItem.CoveringDetailsBI=='' || this.productItem.CoveringDetailsBI=='0'){j+=1;this.coveringDetailsBIError=true;}
+            else {this.coveringDetailsBIError=false;}
+            if(this.productItem.DescriptionOfRiskBI==null  || this.productItem.DescriptionOfRiskBI=='' || this.productItem.DescriptionOfRiskBI=='0'){j+=1;this.DescriptionOfRiskBIError=true;}
+            else {this.DescriptionOfRiskBIError=false;}
+          } else {this.businessSIError=false;this.coveringDetailsBIError=false;this.DescriptionOfRiskBIError=false;}
+          
       } 
       if(this.productItem.RegionCode==null || this.productItem.RegionCode==''){j+=1;this.regionError=true;}
       else{this.regionError=false} 
@@ -4834,6 +4854,7 @@ backPlan()
     }
     else if(this.productId=='6'){
       let section = entry.SectionList.filter(ele=>ele.SectionId!=ele.BusinessInterruption);
+      let BISection = entry.SectionList.filter(ele=>ele.SectionId==ele.BusinessInterruption);
       if(section.length!=0){
          this.productItem.Section = section[0].SectionId;
          if(section[0].SectionDesc) this.productItem.SectionDesc =  section[0].SectionDesc;
@@ -4853,6 +4874,10 @@ backPlan()
          this.onChangeBusiness();
          this.productItem.FireSumInsured = section[0].BuildingSumInsured;
          if(this.productItem.RegionCode) this.ongetDistrictList('direct',this.productItem.DistrictCode);
+      }
+      if(BISection.length!=0){
+        this.productItem.CoveringDetailsBI = BISection[0].CoveringDetails;
+        this.productItem.DescriptionOfRiskBI = BISection[0].DescriptionOfRisk;
       }
       //this.getFirstLossDetails()
     }
@@ -5674,7 +5699,7 @@ backPlan()
         this.ongetDistrictList('edit',this.productItem.DistrictCode)
   
         //if (this.productId=='59') this.setDomesticForm('edit', type);
-        if (this.productId == '19' || this.productId=='59' || this.productId=='24') this.setSMEForm('edit', type)
+        if (this.productId == '19' || this.productId=='59' || this.productId=='66' || this.productId=='24') this.setSMEForm('edit', type)
         else {
           this.formSection = false; this.viewSection = true;
         }
@@ -6166,6 +6191,8 @@ backPlan()
               "IndustryId": this.IndustryId,
               'BusinessNameDesc': this.getBusinessNameDesc(this.productItem.BusinessName),
               'BuildingSumInsured': this.productItem.BusinessSI,
+              "CoveringDetailsBI": this.productItem.CoveringDetailsBI,
+              "DescriptionOfRiskBI": this.productItem.DescriptionOfRiskBI,
               "RiskId": null
             }
             entry.SectionList = [subEntry]
@@ -6174,8 +6201,10 @@ backPlan()
                 "SectionId": this.productItem.BusinessName,
                 "SectionName": this.getBusinessNameDesc(this.productItem.BusinessName),
                 "SerialNo": this.productItem.SerialNo,
-                "CoveringDetails": this.productItem.CoveringDetails,
-                "DescriptionOfRisk": this.productItem.DescriptionOfRisk,
+                "CoveringDetails": this.productItem.CoveringDetailsBI,
+                "DescriptionOfRisk": this.productItem.DescriptionOfRiskBI,
+                "CoveringDetailsBI": this.productItem.CoveringDetailsBI,
+                "DescriptionOfRiskBI": this.productItem.DescriptionOfRiskBI,
                 "CategoryId": this.productItem.ContentId,
                 "ContentId": this.productItem.ContentId,
                 "ContentDesc": this.dropList.find(ele=>ele.value==this.productItem.ContentId)?.label,
@@ -6561,8 +6590,10 @@ backPlan()
                         "OccupationDesc": sectionData[0].OccupationDesc,
                         "CategoryId": sectionData[0].CategoryId,
                         "CategoryDesc": sectionData[0].CategoryDesc,
-                        "CoveringDetails": sectionData[0].CoveringDetails,
-                        "DescriptionOfRisk": sectionData[0].DescriptionOfRisk,
+                        "CoveringDetails": sectionData[0].CoveringDetailsBI,
+                        "DescriptionOfRisk": sectionData[0].DescriptionOfRiskBI,
+                        "CoveringDetailsBI": this.productItem.CoveringDetailsBI,
+                        "DescriptionOfRiskBI": this.productItem.DescriptionOfRiskBI,
                         'BusinessInterruption' : sectionData[0].BusinessInterruption,
                         'FirePlantSi': sectionData[0].FirePlantSi,
                         "SumInsured": sectionData[0].FirePlantSi,
@@ -6947,7 +6978,11 @@ backPlan()
           if(this.productItem.BusinessName!='0' && this.productItem.BusinessName!=0){
             if(this.productItem.BusinessSI==null  || this.productItem.BusinessSI=='' || this.productItem.BusinessSI=='0'){i+=1;this.businessSIError=true;}
             else {this.businessSIError=false;}
-          } else {this.businessSIError=false;}
+            if(this.productItem.CoveringDetailsBI==null  || this.productItem.CoveringDetailsBI=='' || this.productItem.CoveringDetailsBI=='0'){i+=1;this.coveringDetailsBIError=true;}
+            else {this.coveringDetailsBIError=false;}
+            if(this.productItem.DescriptionOfRiskBI==null  || this.productItem.DescriptionOfRiskBI=='' || this.productItem.DescriptionOfRiskBI=='0'){i+=1;this.DescriptionOfRiskBIError=true;}
+            else {this.DescriptionOfRiskBIError=false;}
+          } else {this.businessSIError=false;this.coveringDetailsBIError=false;this.DescriptionOfRiskBIError=false;}
       } 
       if(this.productItem.RegionCode==null || this.productItem.RegionCode==''){i+=1;this.regionError=true;}
       else{this.regionError=false} 
@@ -7295,7 +7330,7 @@ console.log('Eventsss',event);
     else if(this.productId=='26'){this.onSaveBussinessrisk('proceed','individual');}
     else if(this.productId=='25'){this.onSaveElectronicEquipment('proceed','individual')}
     else if(this.productId=='32'){ this.onsubmitnewfed();}
-    else if(this.productId == '59' || this.productId == '56' || this.productId=='60' || this.productId=='24' || this.productId=='63'){
+    else if(this.productId == '59' || this.productId == '66' || this.productId == '56' || this.productId=='60' || this.productId=='24' || this.productId=='63'){
       this.onFinalProceed();
       // let i=0;
       // if(this.colorSections.length!=0){
@@ -8604,7 +8639,7 @@ finalSaveMoney(finalList,type,formType) {
     }
   }
   onFinalProceed() {
-    if(this.productId=='59' || this.productId=='63' || this.productId=='56' || this.productId=='60' || this.productId=='24'){
+    if(this.productId=='59' || this.productId == '66' || this.productId=='63' || this.productId=='56' || this.productId=='60' || this.productId=='24'){
       sessionStorage.setItem('Buildings',this.BuildingOwnerYn);
       sessionStorage.setItem('coversRequired',this.coversRequired)
       this.commonDetails = [
@@ -11138,7 +11173,7 @@ let requestNO=null;
                 }
                
                 else if (this.productId == '6') this.setCommonFormValues(null);
-                if (this.productId != '59' && this.productId != '59' && this.productId!='13' && this.productId != '6' && this.productId != '19' && this.productId!='24' && this.productId!='14' && this.productId!='15' && this.productId!='32' && this.productId!='57' && this.productId!='60') {
+                if (this.productId != '59' && this.productId != '66' && this.productId!='13' && this.productId != '6' && this.productId != '19' && this.productId!='24' && this.productId!='14' && this.productId!='15' && this.productId!='32' && this.productId!='57' && this.productId!='60') {
   
                   let referenceNo = sessionStorage.getItem('quoteReferenceNo');
                   if (referenceNo) {
@@ -11166,11 +11201,11 @@ let requestNO=null;
             }
           }
           else {
-            if(this.productId!='14' && this.productId!='15' && this.productId!='59' && this.productId!='59'){
+            if(this.productId!='14' && this.productId!='15' && this.productId!='59' && this.productId!='66'){
               let referenceNo = sessionStorage.getItem('quoteReferenceNo');
               if (referenceNo) {
                 this.requestReferenceNo = referenceNo;
-                if(this.productId=='59' ) this.checkDomesticForm('direct');
+                if(this.productId=='59' || this.productId=='66') this.checkDomesticForm('direct');
                 else if (this.productId == '6' || this.productId == '16' || this.productId == '39' || this.productId == '1') this.setCommonFormValues(null);
                 else if(this.productId!='24' && this.productId!='46' && this.productId!='4' && this.productId!='61' && this.productId!='63') this.setFormValues();
               }

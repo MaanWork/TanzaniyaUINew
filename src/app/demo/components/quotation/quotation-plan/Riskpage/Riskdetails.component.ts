@@ -50,6 +50,16 @@ import { FireAlliedPerilsBICorporate } from '../models/FireAlliedPerilsBICorpora
 import { MoneyCorprate } from '../models/MoneyCorprate';
 import { FidelityCorporate } from '../models/FidelityCorporate';
 import { GoodsInTransitCorporate } from '../models/GoodsInTransitCorporate';
+import { Content } from '../models/phoneix/Content';
+import { PlantAndMachinery } from '../models/phoneix/PlantAndMachinery';
+import { StockInTrade } from '../models/phoneix/StockInTrade';
+import { Miscellaneous } from '../models/phoneix/Miscellaneous';
+import { PowerSurge } from '../models/phoneix/PowerSurge';
+import { LeakageExtension } from '../models/phoneix/LeakageExtension';
+import { HailDamage } from '../models/phoneix/HailDamage';
+import { RentReceivable } from '../models/phoneix/RentReceivable';
+import { AdditonalInflationMargin } from '../models/phoneix/AdditonalInflationMargin';
+import { Geyser } from '../models/phoneix/Geyser';
 
 @Component({
   selector: 'app-Riskdetails',
@@ -73,8 +83,8 @@ export class RiskDetailsComponent {
         accessoriesList:any[]=[];currentAccessoriesIndex:any=null;editAccessoriesSection:boolean=false;ChassisList:any[]=[];
         totalAccSIError:any=null;AccLists:any[]=[];CoverList:any[]=[];sumInsuredDetails:any=null;item:any[]=[];
         public AppConfig: any = (Mydatas as any).default;firstLossOptions:any[]=[];
-          public ApiUrl1: any = this.AppConfig.ApiUrl1;
-          public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
+          public ApiUrl1: any = this.AppConfig.ApiUrl1;firstLossPayeeList:any[]=[];
+          public CommonApiUrl: any = this.AppConfig.CommonApiUrl;firstLossSection: boolean;
           public motorApiUrl: any = this.AppConfig.MotorApiUrl;
         contentId: null;buildingSection: boolean = false;fieldsEmployee:any[]=[];fields1:any[]=[];
         fields2:any[]=[]; fields3:any[]=[];fields4:any[]=[];orginalPolicyNo: any = null;exchangeRate:any=null;pAOccupationError:boolean=false;
@@ -126,11 +136,11 @@ export class RiskDetailsComponent {
   fields6: any[]=[];electronicEquipDialog: boolean=false;currentEERiskRowIndex:any=null;
   TableRowEE: any[]=[];DomesticServant: boolean=false;currentDSRowIndex: any=null;TableRowDS: any[]=[];
   fields7: any[]=[];locationIndex:any=0;domesticServantDialog: boolean;bankList: any[]=[];
-  servantTypeList: any[]=[];lang:any=null;firstLossPayeeList:any[]=[];
+  servantTypeList: any[]=[];lang:any=null;
   coversRequired:any='C';BuildingOwnerYn:any ='N'
-  fields10: any[]=[];equipmentList:any[]=[]
+  fields10: any[]=[];equipmentList:any[]=[];
+  field1Build: any[]=[];fieldContent: any[]=[];fieldPlant: any[]=[];fieldTrade: any[]=[];fieldMiscellaneous: any[]=[];fieldPowerSurge: any[]=[];fieldLeakage: any[]=[];fieldHailDamage: any[]=[];fieldRent: any[]=[];fieldInflation: any[]=[];fieldGeyser: any[]=[];phonixWallType: any[]=[];phonixInfalation: any[]=[];phonixLeakage: any[]=[];
   fields11: any[]=[];fields12: any[]=[];fields13: any[]=[];fields14: any[]=[];
-  firstLossSection: boolean;
         constructor(private router: Router,private datePipe:DatePipe,private translate: TranslateService,
           private appComp: AppComponent,private sharedService: SharedService,public http: HttpClient) {
          let homeObj = JSON.parse(sessionStorage.getItem('homeCommonDetails') || '{}');
@@ -271,7 +281,7 @@ export class RiskDetailsComponent {
             this.sumInsured =false;
 
             this.productItem = new ProductData();
-            if(this.requestReferenceNo!=null && (this.productId=='59' || this.productId=='19')){
+            if(this.requestReferenceNo!=null && (this.productId=='59' || this.productId=='19' || this.productId=='66')){
               this.getLocationDetails();
             }
             else if(this.productId=='59'){
@@ -405,6 +415,13 @@ export class RiskDetailsComponent {
            this.getdetails();
            this.getProfessional();
 
+            }
+            else if(this.productId=='66'){
+              this.editsections('Content');this.editsections('Building');this.editsections('Inflation');
+              this.editsections('Plant');this.editsections('Trade'); this.editsections('Miscellaneous');
+              this.editsections('Powersurge');this.editsections('Leakage'); this.editsections('HailDamage');
+              this.editsections('Rent');this.editsections('Geyser');
+              this.productItem.InflationSumInsured='0'
             }
            
             //this.editsections();
@@ -627,6 +644,93 @@ export class RiskDetailsComponent {
                           if(i==this.locationList.length){this.onEditDomestic();}
                         }
                       }
+                      else if(this.productId=='66'){
+                        this.editsections('Content');this.editsections('Building');this.editsections('Inflation');
+                        this.editsections('Plant');this.editsections('Trade'); this.editsections('Miscellaneous');
+                        this.editsections('Powersurge');this.editsections('Leakage'); this.editsections('HailDamage');
+                        this.editsections('Rent');this.editsections('Geyser');
+                        let i =0;this.locationList=[];
+                        for(let entry of locationList){
+                          console.log(entry,"entryentryentryentryentryentryentry");
+                          
+                          let obj = {
+                            "LocationId":entry.LocationId,"LocationName":entry.LocationName,"CoversRequired":entry?.CoversRequired,"BuildingOwnerYn":entry?.BuildingOwnerYn,
+                            "BuildingList":[],"BuildingAddress":entry.Address,
+                            "PAList":[{'RelationType':null,'DeathSI':null}],  "ElecEquipList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}],
+                            "MachineryList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}],
+                          }
+                          let subDetails = entry.SectionList;
+                          
+                          let contentDetails = subDetails.filter(ele=>ele['SectionId']=='47');
+                          if(contentDetails.length!=0){
+                            obj['ContentSuminsured']=contentDetails[0].SumInsured;
+                            obj['ContentConstructionType']=contentDetails[0].CategoryId;
+                          }
+                          let buildDetails = subDetails.filter(ele=>ele['SectionId']=='1');
+                          console.log(buildDetails,"buildDetails");
+                          if(buildDetails.length!=0){
+                            obj['BuildingSumInsured'] = buildDetails[0].SumInsured;
+                            obj['WallType'] = buildDetails[0].CategoryId;
+                          }
+                          let PlantType = subDetails.filter(ele=>ele['SectionId']=='185');
+                          if(PlantType.length!=0){
+                            obj['PlantConstructionType']=PlantType[0].CategoryId;
+                            obj['PlantSumInsured']=PlantType[0].SumInsured;
+                          }
+                          
+                          let Trade = subDetails.filter(ele=>ele['SectionId']=='186');
+                          if(Trade.length!=0){
+                            obj['TradeConstructionType']=Trade[0].CategoryId;
+                            obj['TradeSumInsured']=Trade[0].SumInsured;
+                          }
+
+                          let Miscellaneous = subDetails.filter(ele=>ele['SectionId']=='187');
+                          if(Miscellaneous.length!=0){
+                            obj['MiscellaneousConstructionType']=Miscellaneous[0].CategoryId;
+                            obj['MiscellaneousSumInsured']=Miscellaneous[0].SumInsured;
+                          }
+                          let Powersurge = subDetails.filter(ele=>ele['SectionId']=='188');
+                          if(Powersurge.length!=0){
+                           // obj['MiscellaneousConstructionType']=Powersurge[0].CategoryId;
+                            obj['PowerSurgeSumInsured']=Powersurge[0].SumInsured;
+                          }
+
+                          let Leakage = subDetails.filter(ele=>ele['SectionId']=='189');
+                          if(Leakage.length!=0){
+                            obj['FirstLossBasis']=Leakage[0].CategoryId;
+                            obj['FirstLossBasisSumInsured']=Leakage[0].SumInsured;
+                          }
+
+                          let HailDamage = subDetails.filter(ele=>ele['SectionId']=='190');
+                          if(HailDamage.length!=0){
+                           // obj['FirstLossBasis']=Leakage[0].HailDamage;
+                            obj['HailDamageSumInsured']=Leakage[0].SumInsured;
+                          }
+
+                          let Rent  = subDetails.filter(ele=>ele['SectionId']=='191');
+                          if(Rent.length!=0){
+                            // obj['FirstLossBasis']=Leakage[0].HailDamage;
+                            obj['RentSumInsured']=Rent[0].SumInsured;
+                          }
+
+                          let Inflation  = subDetails.filter(ele=>ele['SectionId']=='192');
+                          if(Rent.length!=0){
+                             obj['InflationConstructionType']=Inflation[0].CategoryId;
+                            obj['InflationSumInsured']=Inflation[0].SumInsured;
+                          }
+                          let Geyser  = subDetails.filter(ele=>ele['SectionId']=='196');
+                          if(Rent.length!=0){
+                            //  obj['InflationConstructionType']=Geyser[0].HailDamage;
+                            obj['GeyserSumInsured']=Geyser[0].SumInsured;
+                          }
+
+                          this.locationList.push(obj);
+                          console.log(this.locationList,"this.locationListthis.locationList");
+                          
+                          i+=1;
+                          if(i==this.locationList.length){this.onEditfirePhoneix();}
+                        }
+                      }
                   }
                   else{
                     if(this.productId=='63') this.LocationName = [
@@ -653,6 +757,32 @@ export class RiskDetailsComponent {
                 }
             })
         }
+        onEditfirePhoneix(){
+          let entry = this.locationList[this.tabIndex];
+          this.productItem=new ProductData();
+          if(entry.ContentSuminsured) this.productItem.ContentSuminsured = entry.ContentSuminsured;
+          if(entry.BuildingSumInsured) this.productItem.BuildingSumInsured = entry.BuildingSumInsured;
+          if(entry.WallType) this.productItem.WallType = entry.WallType;
+          if(entry.ContentConstructionType)this.productItem.ContentConstructionType = entry.ContentConstructionType;
+          if(entry.PlantConstructionType)this.productItem.PlantConstructionType=entry.PlantConstructionType;
+
+          if(entry.PlantSumInsured) this.productItem.PlantSumInsured = entry.PlantSumInsured;
+          if(entry.TradeConstructionType) this.productItem.TradeConstructionType = entry.TradeConstructionType;
+          if(entry.TradeSumInsured) this.productItem.TradeSumInsured = entry.TradeSumInsured;
+          if(entry.MiscellaneousSumInsured)this.productItem.MiscellaneousSumInsured = entry.MiscellaneousSumInsured;
+          if(entry.MiscellaneousConstructionType)this.productItem.MiscellaneousConstructionType=entry.MiscellaneousConstructionType;
+
+          if(entry.PowerSurgeSumInsured) this.productItem.PowerSurgeSumInsured = entry.PowerSurgeSumInsured;
+          if(entry.FirstLossBasis) this.productItem.FirstLossBasis = entry.FirstLossBasis;
+          if(entry.FirstLossBasisSumInsured) this.productItem.FirstLossBasisSumInsured = entry.FirstLossBasisSumInsured;
+          if(entry.HailDamageSumInsured)this.productItem.HailDamageSumInsured = entry.HailDamageSumInsured;
+          if(entry.RentSumInsured)this.productItem.RentSumInsured=entry.RentSumInsured;
+
+          if(entry.InflationConstructionType) this.productItem.InflationConstructionType = entry.InflationConstructionType;
+          if(entry.InflationSumInsured) this.productItem.InflationSumInsured = entry.InflationSumInsured;
+          if(entry.GeyserSumInsured) this.productItem.GeyserSumInsured = entry.GeyserSumInsured;
+          this.getFirstLossPayeeListAlt();
+        }
         onAddRow(type,location){
           if(type=='servant'){
               let entry = {"ServantType":null,'ServantCount':null,'ServantSI':null};
@@ -667,6 +797,7 @@ export class RiskDetailsComponent {
             if(type=='EE') location.ElecEquipList.push(entry);
             else if(type=='MB') location.MachineryList.push(entry);
           }
+          this.getFirstLossPayeeListAlt();
         }
         deleteRow(location,index,type){
           if(type=='servant'){location.ServantList.splice(index,1)}
@@ -682,7 +813,7 @@ export class RiskDetailsComponent {
           if(entry.ElectronicEquipmentSI) this.productItem.ElectronicEquipmentSI = entry.ElectronicEquipmentSI;
           if(entry.EmpLiabilitySi){this.productItem.EmpLiabilitySi = entry.EmpLiabilitySi;this.productItem.ContentTypeId = entry.ContentTypeId}
           if(entry.SumInsured){this.productItem.PersonalAccidentSuminsured=entry.SumInsured;this.productItem.OccupationType=entry.OccupationType}
-          this.getFirstLossPayeeListAlt();
+          
         }
         checkLocationDetail(){
           if(this.LocationName.length!=0){
@@ -919,8 +1050,21 @@ export class RiskDetailsComponent {
       else{this.buildingEditSection = true; if(this.locationList.length==0)this.onAddLocationDetails(); }
     }
     deleteLocation(index){this.locationList.splice(index,1);if(this.locationList.length==0)this.onAddLocationDetails()}
-    onAddLocationDetails(){this.locationList.push({"RiskId":String(this.locationList.length+1),"LocationName":null,"BuildingAddress":null,"CoversRequired":'C',"BuildingOwnerYn":'N',"BuildingList":[{"WallType":null,"RoofType":null,"FirstLossPayee":null,"BuildingSumInsured":0}],"PAList":[{'RelationType':null,'DeathSI':null}],"ElecEquipList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}],
-                            "MachineryList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}]});this.locationIndex= this.locationList.length-1}
+    onAddLocationDetails(){
+      if(this.productId=='59'){
+        this.locationList.push({"RiskId":String(this.locationList.length+1),"LocationName":null,"BuildingAddress":null,"CoversRequired":'B',"BuildingOwnerYn":'N',"WallType":null,"BuildingSumInsured":0,"SumInsured":0,"CategoryId":'',
+                            "MachineryList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}]});
+      }
+      // else if(this.productId=='66'){
+      //   this.locationList.push({"RiskId":String(this.locationList.length+1),"LocationName":null,"BuildingAddress":null,"CoversRequired":'B',"BuildingOwnerYn":'N',"WallType":null,"BuildingSumInsured":0,
+      //                       "MachineryList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}]});
+      // }
+      else{
+        this.locationList.push({"RiskId":String(this.locationList.length+1),"LocationName":null,"BuildingAddress":null,"CoversRequired":'B',"BuildingOwnerYn":'N',"BuildingList":[{"WallType":null,"RoofType":null,"FirstLossPayee":null,"BuildingSumInsured":0}],"PAList":[{'RelationType':null,'DeathSI':null}],"ElecEquipList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}],
+                            "MachineryList":[{'ItemId':null,'SumInsured':null,'SerialNo':null}]});
+      }
+      this.locationIndex= this.locationList.length-1
+    }
     onSaveLocationDetails(){
       if(this.locationList.length!=0){
         let i=0,j=0,reqList=[];
@@ -3366,9 +3510,6 @@ export class RiskDetailsComponent {
           this.enableAccessoriesEditSection=false;
         }
         onPreviousTab(){this.tabIndex-=1;}
-        onSaveCorporate(type){
-          
-        }
         onSubmit(type){
           console.log('Final Locations',this.LocationName)
           let commonDetals:any = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
@@ -3505,75 +3646,74 @@ export class RiskDetailsComponent {
                 "LocationName":entry.LocationName,
                 "SectionList": []
             }
-            if(this.productId!='19'){
-              if(entry.BuildingType!=null && entry.BuildingType!='' && entry.BuildingSI!=null && entry.BuildingSI!='' && entry.BuildingSI!='0'){
-                let subEntry = {
-                  "SectionId": "1",
+            if(entry.BuildingType!=null && entry.BuildingType!='' && entry.BuildingSI!=null && entry.BuildingSI!='' && entry.BuildingSI!='0'){
+              let subEntry = {
+                "SectionId": "1",
+                "RiskId": null,
+                //"BuildingSumInsured": String(entry.BuildingSI).replaceAll(',',''),
+                "SumInsured": String(entry.BuildingSI).replaceAll(',',''),
+                "OutbuildConstructType": entry.BuildingType
+              }
+              //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
+              obj.SectionList.push(subEntry);
+            }
+            if(entry.ContentSI!=null && entry.ContentSI!='' && entry.ContentSI!='0'){
+              let subEntry = {
+                "SectionId": "47",
+                "RiskId": null,
+                //"ContentSuminsured": String(entry.ContentSI).replaceAll(',',''),
+                "SumInsured": String(entry.ContentSI).replaceAll(',','')
+              }
+              //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
+              obj.SectionList.push(subEntry);
+            }
+            if(entry.AllRiskSI!=null && entry.AllRiskSI!='' && entry.AllRiskSI!='0'){
+              let subEntry = {
+                "SectionId": "3",
+                "RiskId": null,
+                //"AllriskSumInsured": String(entry.AllRiskSI).replaceAll(',',''),
+                "SumInsured": String(entry.AllRiskSI).replaceAll(',','')
+              }
+              //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
+              obj.SectionList.push(subEntry);
+            }
+            if(entry.PersonalLiabilitySI!=null && entry.PersonalLiabilitySI!='' && entry.PersonalLiabilitySI!='0'){
+              let subEntry = {
+                "SectionId": "139",
+                //"PersonalLiabilitySi": String(entry.PersonalLiabilitySI).replaceAll(',',''),
+                "SumInsured": String(entry.PersonalLiabilitySI).replaceAll(',','')
+              }
+              //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
+              obj.SectionList.push(subEntry);
+            }
+            
+            if(entry.ServantList.length!=0){
+              for(let ser of entry.ServantList){
+                let subEntry={
+                      "SectionId": "106",
+                      "RiskId": null,
+                      "DomesticServantType":ser.ServantType,
+                      "Count":ser.ServantCount,
+                      //"DomesticServentSi": String(ser.ServantSI).replaceAll(',',''),
+                      "SumInsured": String(ser.ServantSI).replaceAll(',','')
+                }
+                obj.SectionList.push(subEntry);
+              }
+            }
+            if(entry.PAList.length!=0){
+              for(let ser of entry.PAList){
+                 let subEntry = {
+                  "SectionId": "138",
                   "RiskId": null,
-                  //"BuildingSumInsured": String(entry.BuildingSI).replaceAll(',',''),
-                  "SumInsured": String(entry.BuildingSI).replaceAll(',',''),
-                  "OutbuildConstructType": entry.BuildingType
+                  "RelationType": ser.RelationType,
+                  //"PersonalAccidentSi":String(ser.DeathSI).replaceAll(',',''),
+                  "SumInsured": String(ser.DeathSI).replaceAll(',',''),
                 }
                 //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
                 obj.SectionList.push(subEntry);
               }
-              if(entry.ContentSI!=null && entry.ContentSI!='' && entry.ContentSI!='0'){
-                let subEntry = {
-                  "SectionId": "47",
-                  "RiskId": null,
-                  //"ContentSuminsured": String(entry.ContentSI).replaceAll(',',''),
-                  "SumInsured": String(entry.ContentSI).replaceAll(',','')
-                }
-                //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
-                obj.SectionList.push(subEntry);
-              }
-              if(entry.AllRiskSI!=null && entry.AllRiskSI!='' && entry.AllRiskSI!='0'){
-                let subEntry = {
-                  "SectionId": "3",
-                  "RiskId": null,
-                  //"AllriskSumInsured": String(entry.AllRiskSI).replaceAll(',',''),
-                  "SumInsured": String(entry.AllRiskSI).replaceAll(',','')
-                }
-                //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
-                obj.SectionList.push(subEntry);
-              }
-              if(entry.PersonalLiabilitySI!=null && entry.PersonalLiabilitySI!='' && entry.PersonalLiabilitySI!='0'){
-                let subEntry = {
-                  "SectionId": "139",
-                  //"PersonalLiabilitySi": String(entry.PersonalLiabilitySI).replaceAll(',',''),
-                  "SumInsured": String(entry.PersonalLiabilitySI).replaceAll(',','')
-                }
-                //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
-                obj.SectionList.push(subEntry);
-              }
-              
-              if(entry.ServantList.length!=0){
-                for(let ser of entry.ServantList){
-                  let subEntry={
-                        "SectionId": "106",
-                        "RiskId": null,
-                        "DomesticServantType":ser.ServantType,
-                        "Count":ser.ServantCount,
-                        //"DomesticServentSi": String(ser.ServantSI).replaceAll(',',''),
-                        "SumInsured": String(ser.ServantSI).replaceAll(',','')
-                  }
-                  obj.SectionList.push(subEntry);
-                }
-              }
-              if(entry.PAList.length!=0){
-                for(let ser of entry.PAList){
-                   let subEntry = {
-                    "SectionId": "138",
-                    "RiskId": null,
-                    "RelationType": ser.RelationType,
-                    //"PersonalAccidentSi":String(ser.DeathSI).replaceAll(',',''),
-                    "SumInsured": String(ser.DeathSI).replaceAll(',',''),
-                  }
-                  //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
-                  obj.SectionList.push(subEntry);
-                }
-              }
-               // if(entry.ServantType!=null && entry.ServantType!='' && entry.ServantCount!=null && entry.ServantCount!='' && entry.ServantSI!=null && entry.ServantSI!=''){
+            }
+            // if(entry.ServantType!=null && entry.ServantType!='' && entry.ServantCount!=null && entry.ServantCount!='' && entry.ServantSI!=null && entry.ServantSI!=''){
             //   let subEntry = {
             //     "SectionId": "106",
             //     "RiskId": null,
@@ -3596,13 +3736,6 @@ export class RiskDetailsComponent {
             //   //if(entry['OriginalRiskId']!=null && entry['OriginalRiskId']!=undefined) subEntry['RiskId']=entry['OriginalRiskId']
             //   obj.SectionList.push(subEntry);
             // }
-            }
-            else{
-              if(entry.ContentSI!=null && entry.ContentSI!='' && entry.ContentSI!='0'){
-                
-              }
-            }
-           
             
             if(obj.SectionList.length==0){
               obj['CommonError']=true
@@ -3678,11 +3811,7 @@ export class RiskDetailsComponent {
                         if(i==this.uwQuestionList.length) this.onSaveUWQues(uwList,data.Result,type);
                       }
                     }
-                    else{ 
-                      if(this.productId=='59' && this.productItem.FirstLossPayeeYN=='Y'){
-                        this.onSaveFirstLossList(data.Result,type)
-                      }
-                      else this.onCalculate(data.Result,type); }
+                    else{ this.onCalculate(data.Result,type); }
                   }
                   else{
                     if(this.uwQuestionList.length!=0){
@@ -3735,60 +3864,12 @@ export class RiskDetailsComponent {
                         if(i==this.uwQuestionList.length) this.onSaveUWQues(uwList,data.Result,type);
                       }
                     }
-                    else{
-                      if(this.productId=='59'){
-                        if(this.productItem.FirstLossPayeeYN=='Y'){this.onSaveFirstLossList(data.Result,type)}
-                        else{this.tabIndex+=1;this.productItem=new ProductData();this.onEditDomestic()}
-                      }
-                      else{this.tabIndex+=1;this.productItem=new ProductData();}
-                    }
+                    else if(this.productId=='66'){this.tabIndex+=1;this.productItem=new ProductData();this.onEditfirePhoneix()}
+                    else{this.tabIndex+=1;this.productItem=new ProductData();if(this.productId=='59')this.onEditDomestic()}
                   } 
                 }
               }
             });
-        }
-        onSaveFirstLossList(result,type){
-          let list = this.firstLossPayeeList.filter(ele=>ele.FirstLossPayeeDesc!='' && ele.FirstLossPayeeDesc!=null);
-          if(list.length!=0){
-                let sectionId=null;
-                if(this.productId=='6') sectionId=this.productItem.Section;
-                else if(this.productId=='59'){
-                  let entry = this.locationList[this.tabIndex];
-                  if(entry.CoversRequired=='BC' || entry.CoversRequired=='B') sectionId='1';
-                  else sectionId='47'
-                }
-                let mainObj=this.locationList[this.tabIndex],finalList=[],i=0
-                for(let obj of list){
-                  let entry = {
-                    "RequestReferenceNo": this.requestReferenceNo,
-                    "FirstLossPayeeId": i+1,
-                    "FirstLossPayeeDesc": obj.FirstLossPayeeDesc,
-                    "SectionId": sectionId,
-                    "ProductId": this.productId,
-                    "LocationId": String(this.tabIndex+1),
-                    "LocationName": mainObj.LocationName,
-                    "CompanyId": this.insuranceId,
-                    "CreatedBy": this.loginId,
-                    "Status": "Y",
-                    "BranchCode": this.branchCode
-                  }
-                  finalList.push(entry);
-                  i+=1;
-                  if(i==list.length) this.onFinalLossSubmit(finalList,result,type)
-                }
-          }
-          else if((type=='Save' && this.locationList.length==(this.tabIndex+1)) || type=='Submit' ) this.onCalculate(result,type);
-          else{this.tabIndex+=1;this.productItem=new ProductData();this.onEditDomestic()} 
-        }
-        onFinalLossSubmit(finalList,result,type){
-          let urlLink = `${this.motorApiUrl}api/savefirstlosspayee`;
-            this.sharedService.onPostMethodSync(urlLink, finalList).subscribe(
-              (data: any) => {
-                if (data.Result) {
-                  if((type=='Save' && this.LocationName.length==(this.tabIndex+1)) || type=='Submit' )this.onCalculate(result,type)
-                  else{this.tabIndex+=1;this.productItem=new ProductData();this.onEditDomestic()}
-                }
-              });
         }
         onOptionSelect(rowData,value){
           rowData.Value = value;
@@ -4423,65 +4504,281 @@ export class RiskDetailsComponent {
                 this.fields14 = contentData4?.fields;
                 console.log("Final Fields",this.fields14)
               }
+              if(this.insuranceId=="100046") {
+                
+                let data; 
+                if(types=='Building'){
+                  data= new Building();
+                  this.field1Build[0] = data?.fields;
+                  let modelHooks3 = { onInit: (field: FormlyFieldConfig) => {
+                    field.formControl.valueChanges.subscribe(() => {
+                  this.onChangeBusiness();});
+                  } }
+                let fields = this.field1Build[0].fieldGroup[0].fieldGroup;
+                  for(let field of fields){
+                    if(field.key=='WallType'){
+                      field.hooks =modelHooks3;
+                    }
+                  }
+                }
+                if(types=='Content'){
+                  data= new Content();
+                  this.fieldContent[0] = data?.fields;
+                  let modelHooks3 = { onInit: (field: FormlyFieldConfig) => {
+                    field.formControl.valueChanges.subscribe(() => {
+                  this.onKeyPressContent();});
+                  } }
+                let fields = this.fieldContent[0].fieldGroup[0].fieldGroup;
+                  for(let field of fields){
+                    if(field.key=='ContentConstructionType'){
+                      field.hooks =modelHooks3
+                    }
+                  }
+                }
+                if(types=='Plant'){
+                  data= new PlantAndMachinery();
+                  this.fieldPlant[0] = data?.fields;
+                  let modelHooks3 = { onInit: (field: FormlyFieldConfig) => {
+                    field.formControl.valueChanges.subscribe(() => {
+                  this.onKeyPressPlant();});
+                  } }
+                let fields = this.fieldPlant[0].fieldGroup[0].fieldGroup;
+                  for(let field of fields){
+                    if(field.key=='PlantConstructionType'){
+                      field.hooks =modelHooks3
+                    }
+                  }
+                }
+                if(types=='Trade') {
+                  data= new StockInTrade();
+                  this.fieldTrade[0] = data?.fields;
+                  let TradeSumInsured = { onInit: (field: FormlyFieldConfig) => {
+                    field.formControl.valueChanges.subscribe(() => {
+                  this.onKeyPressTrade();});
+                  } }
+                
+                let fields = this.fieldTrade[0].fieldGroup[0].fieldGroup;
+                  for(let field of fields){
+                    if(field.key=='TradeConstructionType'){
+                      field.hooks =TradeSumInsured
+                    }
+                  }
+                }
+                if(types=='Miscellaneous'){
+                  data= new Miscellaneous();
+                  this.fieldMiscellaneous[0] = data?.fields;
+                  let MiscellaneousSumInsured = { onInit: (field: FormlyFieldConfig) => {
+                    field.formControl.valueChanges.subscribe(() => {
+                  this.onKeyPressMiscellaneous();});
+                  } }
+                let fields = this.fieldMiscellaneous[0].fieldGroup[0].fieldGroup;
+                  for(let field of fields){
+                    if(field.key=='MiscellaneousConstructionType'){
+                      field.hooks =MiscellaneousSumInsured
+                    }
+                  }
+                }
+                if(types=='Powersurge'){
+                  data= new PowerSurge();
+                  this.fieldPowerSurge[0] = data?.fields;
+                }
+                if(types=='Leakage'){
+                  data= new LeakageExtension();
+                  this.fieldLeakage[0] = data?.fields;
+                  let FirstLossBasisSumInsured = { onInit: (field: FormlyFieldConfig) => {
+                    field.formControl.valueChanges.subscribe(() => {
+                  this.onKeyPressLeakage();});
+                  } }
+                  let fields = this.fieldLeakage[0].fieldGroup[0].fieldGroup;
+                  for(let field of fields){
+                    if(field.key=='FirstLossBasis'){
+                      field.hooks =FirstLossBasisSumInsured
+                    }
+                  }
+                }
+                if(types=='HailDamage'){
+                  data= new HailDamage();
+                  this.fieldHailDamage[0] = data?.fields;
+                }
+                if(types=='Rent'){
+                  data= new RentReceivable();
+                  this.fieldRent[0] = data?.fields;
+                }
+                if(types=='Inflation'){
+                  data= new AdditonalInflationMargin();
+                  this.fieldInflation[0] = data?.fields;
+                  let InflationSumInsured = { onInit: (field: FormlyFieldConfig) => {
+                    field.formControl.valueChanges.subscribe(() => {
+                  this.onKeyPressInflation();});
+                  } }
+                  let fields = this.fieldInflation[0].fieldGroup[0].fieldGroup;
+                  for(let field of fields){
+                    if(field.key=='InflationConstructionType'){
+                      field.hooks =InflationSumInsured
+                    }
+                  }
+                }
+                if(types=='Geyser'){
+                  data= new Geyser();
+                  this.fieldGeyser[0] = data?.fields;
+                }
+                
+               
+               // let fields = this.field1Build[0].fieldGroup[0].fieldGroup;
+                // for(let field of fields){
+                //   if(field.key=='WallType'){
+                //     // field.hooks =WallType
+                //   }
+                // }
+                 
+                console.log(this.fieldContent,"this.field1Buildthis.field1Build");
+               
+                this.getConstructionTypePhonix();
+                this.getLeakagePhonix();
+                this.getInfalationPhonix();
+              }
               //this.productItem = new ProductData();
               
               //this.getOccupationList();
+          }
+          getConstructionTypePhonix(){
+            let ReqObj = {
+              "InsuranceId": "100046",
+              "ItemType": "WALL_TYPE"
+            }
+            let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+            this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+              (data: any) => {
+                let defaultObj = [{ 'CodeDesc': '-Select-', 'Code': null }]
+                this.phonixWallType = defaultObj.concat(data.Result);
+                for (let i = 0; i < this.phonixWallType.length; i++) {
+                  this.phonixWallType[i].label = this.phonixWallType[i]['CodeDesc'];
+                  this.phonixWallType[i].value = this.phonixWallType[i]['Code'];
+                  // delete this.roofMaterialList[i].CodeDesc;
+                  if (i == this.phonixWallType.length - 1) {
+                    let fields = this.field1Build[0].fieldGroup[0].fieldGroup;
+                    let fieldContent = this.fieldContent[0].fieldGroup[0].fieldGroup;
+                    let fieldPlant = this.fieldPlant[0].fieldGroup[0].fieldGroup;
+                    let fieldTrade = this.fieldTrade[0].fieldGroup[0].fieldGroup;
+                    let fieldMiscellaneous = this.fieldMiscellaneous[0].fieldGroup[0].fieldGroup;
+                    // let fieldLeakage = this.fieldLeakage[0].fieldGroup[0].fieldGroup;
+                    // let fieldInflation = this.fieldInflation[0].fieldGroup[0].fieldGroup;
+                  
+                      for(let field of fields){
+                      if(field.key=='WallType'){
+                        field.props.options = this.phonixWallType;
+                      }
+                      }
+                      for(let field of fieldContent){
+                      if(field.key=='ContentConstructionType'){
+                        field.props.options = this.phonixWallType;
+                      }
+                      }
+                      for(let field of fieldPlant){
+                      if(field.key=='PlantConstructionType'){
+                        field.props.options = this.phonixWallType;
+                      }
+                      }
+                      for(let field of fieldTrade){
+                      if(field.key=='TradeConstructionType'){
+                        field.props.options = this.phonixWallType;
+                      }
+                      }
+                      for(let field of fieldMiscellaneous){
+                      if(field.key=='MiscellaneousConstructionType'){
+                        field.props.options = this.phonixWallType;
+                      }
+                      }
+                    //  for(let field of fieldLeakage){
+                    //   if(field.key=='FirstLossBasis'){
+                    //     field.props.options = this.roofMaterialList;
+                    //   }
+                    //  }
+                    //  for(let field of fieldInflation){
+                    //   if(field.key=='InflationConstructionType'){
+                    //     field.props.options = this.roofMaterialList;
+                    //   }
+                    //  }
+                    }
+                  }
+              })
+            
+          }
+          getInfalationPhonix(){
+            let ReqObj = {
+              "InsuranceId": "100046",
+              "ItemType": "ADDITIONAL_INFLATION"
+            }
+            let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+            this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+              (data: any) => {
+                let defaultObj = [{ 'CodeDesc': '-Select-', 'Code': null }]
+                this.phonixInfalation = defaultObj.concat(data.Result);
+                for (let i = 0; i < this.phonixInfalation.length; i++) {
+                  this.phonixInfalation[i].label = this.phonixInfalation[i]['CodeDesc'];
+                  this.phonixInfalation[i].value = this.phonixInfalation[i]['Code'];
+                  // delete this.roofMaterialList[i].CodeDesc;
+                  if (i == this.phonixInfalation.length - 1) {
+                      //let fieldLeakage = this.fieldLeakage[0].fieldGroup[0].fieldGroup;
+                    let fieldInflation = this.fieldInflation[0].fieldGroup[0].fieldGroup;
+                  
+                    //  for(let field of fieldLeakage){
+                    //   if(field.key=='FirstLossBasis'){
+                    //     field.props.options = this.roofMaterialList;
+                    //   }
+                    //  }
+                      for(let field of fieldInflation){
+                      if(field.key=='InflationConstructionType'){
+                        field.props.options = this.phonixInfalation;
+                      }
+                      }
+                    }
+                  }
+              })
+          }
+          getLeakagePhonix(){
+            let ReqObj = {
+              "InsuranceId": "100046",
+              "ItemType": "LEAKAGE_TYPE"
+            }
+            let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+            this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+              (data: any) => {
+                let defaultObj = [{ 'CodeDesc': '-Select-', 'Code': null }]
+                this.phonixLeakage = defaultObj.concat(data.Result);
+                for (let i = 0; i < this.phonixLeakage.length; i++) {
+                  this.phonixLeakage[i].label = this.phonixLeakage[i]['CodeDesc'];
+                  this.phonixLeakage[i].value = this.phonixLeakage[i]['Code'];
+                  // delete this.roofMaterialList[i].CodeDesc;
+                  if (i == this.phonixLeakage.length - 1) {
+                      let fieldLeakage = this.fieldLeakage[0].fieldGroup[0].fieldGroup;
+                      for(let field of fieldLeakage){
+                          if(field.key=='FirstLossBasis'){
+                            field.props.options = this.phonixLeakage;
+                          }
+                      }
+                    }
+                  }
+              })
           }
           checkMachineryYNChanges(){
             console.log("Form",this.productItem,this.fields)
             if(this.productId=='19' || this.productId=='24'){
               let fields = this.fields[0].fieldGroup;
             }
-          }
-          getWallMaterialList() {
-            let ReqObj = {
-              "InsuranceId": this.insuranceId,
-              "BranchCode": this.branchCode
-            }
-            let urlLink = `${this.CommonApiUrl}dropdown/walltypes`;
-            this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-              (data: any) => {
-                let res: any = data.Result;
-                if (res.length != 0) {
-                  let defaultObj = [{ 'CodeDesc': '-Select-', 'Code': '' }]
-                  this.wallMaterialList = defaultObj.concat(data.Result);
-                  console.log("Fields in Field",this.fields10)
-                  if(this.productId=='19'){
-                    for (let i = 0; i < this.wallMaterialList.length; i++) {
-                      this.wallMaterialList[i].label = this.wallMaterialList[i]['CodeDesc'];
-                      this.wallMaterialList[i].value = this.wallMaterialList[i]['Code'];
-                      if (i == this.wallMaterialList.length - 1) {
-                        let fieldList = this.fields10[0].fieldGroup[0].fieldGroup;
-                        console.log("Field List in Fire",fieldList)   
-                        for(let field of fieldList){if(field.key=='WallType'){field.props.options=this.wallMaterialList}}
-                      }
-                    }
-                  }
-                 
+            console.log("Fields in Field",this.fields10)
+            if(this.productId=='19'){
+              for (let i = 0; i < this.wallMaterialList.length; i++) {
+                this.wallMaterialList[i].label = this.wallMaterialList[i]['CodeDesc'];
+                this.wallMaterialList[i].value = this.wallMaterialList[i]['Code'];
+                if (i == this.wallMaterialList.length - 1) {
+                  let fieldList = this.fields10[0].fieldGroup[0].fieldGroup;
+                  console.log("Field List in Fire",fieldList)   
+                  for(let field of fieldList){if(field.key=='WallType'){field.props.options=this.wallMaterialList}}
                 }
-              },
-              (err) => { },
-            );
-          } 
-          getFirstLossPayeeList(){
-            let branchCode = '';
-            if((this.userType!='Broker' && this.userType!='User')){
-              branchCode = this.branchCode
+              }
             }
-            else{
-              branchCode = this.brokerbranchCode
-            }
-            let ReqObj = {
-              "InsuranceId": this.insuranceId,
-              "BranchCode": branchCode
-            }
-            let urlLink = `${this.CommonApiUrl}master/dropdown/bankmaster`;
-            this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
-              (data: any) => {
-                  let obj=[{"Code":"None",CodeDesc:"None"}]
-                  this.bankList = obj.concat(data.Result);
-              })
-          } 
+          }
           getFirstLossPayeeListAlt(){
             this.firstLossPayeeList =[];
             let branchCode = '';
@@ -4509,6 +4806,7 @@ export class RiskDetailsComponent {
                     }else this.productItem.FirstLossPayeeYN = 'N';
                     this.onFirstLossPayeeYNChange();
               })
+            
           }  
           addFirstLossPayee(){
             let obj = {"FirstLossPayeeDesc":null};
@@ -4522,6 +4820,44 @@ export class RiskDetailsComponent {
             }
             else this.firstLossSection = false;
           }
+          getWallMaterialList() {
+            let ReqObj = {
+              "InsuranceId": this.insuranceId,
+              "BranchCode": this.branchCode
+            }
+            let urlLink = `${this.CommonApiUrl}dropdown/walltypes`;
+            this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+              (data: any) => {
+                let res: any = data.Result;
+                if (res.length != 0) {
+                  let defaultObj = [{ 'CodeDesc': '-Select-', 'Code': '' }]
+                  this.wallMaterialList = defaultObj.concat(data.Result);
+                  
+                }
+              },
+              (err) => { },
+            );
+          } 
+          getFirstLossPayeeList(){
+            let branchCode = '';
+            if((this.userType!='Broker' && this.userType!='User')){
+              branchCode = this.branchCode
+            }
+            else{
+              branchCode = this.brokerbranchCode
+            }
+            let ReqObj = {
+              "InsuranceId": this.insuranceId,
+              "BranchCode": branchCode
+            }
+            let urlLink = `${this.CommonApiUrl}master/dropdown/bankmaster`;
+            this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+              (data: any) => {
+                let obj=[{"Code":"None",CodeDesc:"None"}]
+                  this.bankList = obj.concat(data.Result);
+              })
+            
+          }  
           getRoofMaterialList() {
             let ReqObj = {
               "InsuranceId": this.insuranceId,
@@ -5005,6 +5341,403 @@ export class RiskDetailsComponent {
               }
             }
           }
+          onSubmitAltDetails(type){
+            // || this.productItem.ContentSuminsured=='0' || this.productItem.PlantSumInsured=='0'
+            //   || this.productItem.TradeSumInsured=='0' || this.productItem.MiscellaneousSumInsured=='0' || this.productItem.PowerSurgeSumInsured=='0'
+            //   || this.productItem.FirstLossBasisSumInsured=='0' || this.productItem.HailDamageSumInsured=='0' || this.productItem.RentSumInsured=='0'
+            // || this.productItem.InflationSumInsured=='0' || this.productItem.GeyserSumInsured=='0'
+            // if(this.productItem.BuildingConstructionType){
+            //   if(this.productItem.BuildingSumInsured=='0' ){
+            //         this.validationPopSI();
+            //   }
+            // }
+            //else
+            //  if(this.productItem.BuildingConstructionType==null || this.productItem.BuildingConstructionType==""){
+            //  this.onKeyPress(event);
+            // }
+            let valid = this.emptyValidation();
+            if(valid){
+              let commonDetals:any = JSON.parse(sessionStorage.getItem('homeCommonDetails'));
+              if(commonDetals==null) commonDetals = this.commonDetails;
+              let appId = "1", loginId = "", brokerbranchCode = "";let createdBy = "";
+              let quoteStatus = sessionStorage.getItem('QuoteStatus');
+              let referenceNo =  sessionStorage.getItem('quoteReferenceNo');
+              if(referenceNo){
+                this.quoteRefNo = referenceNo;
+              }
+              else this.quoteRefNo = null;
+              if (quoteStatus == 'AdminRP' || quoteStatus == 'AdminRA' || quoteStatus == 'AdminRR') {
+                //createdBy = this.vehicleDetailsList[0].CreatedBy;
+              }
+              else {
+                createdBy = this.loginId;
+                if (this.userType != 'Issuer') {
+                  this.brokerCode = this.agencyCode;
+                  appId = "1"; loginId = this.loginId;
+                }
+                else {
+                  appId = this.loginId;
+                  loginId= this.loginId;
+                  this.brokerbranchCode = null;
+                }
+              }
+              this.applicationId = appId;
+              let havePromoYN = 'N'
+              if(commonDetals[0].PromoCode!=null && commonDetals[0].PromoCode!='' && commonDetals[0].PromoCode!=undefined) havePromoYN='Y' 
+              let startDate = null,endDate=null;
+              let startDateList = String(commonDetals[0].PolicyStartDate).split('/');
+              if(startDateList.length>1) startDate = commonDetals[0].PolicyStartDate
+              else startDate = this.datePipe.transform(commonDetals[0].PolicyStartDate,'dd/MM/yyyy');
+              let endDateList = String(commonDetals[0].PolicyEndDate).split('/');
+              if(endDateList.length>1) endDate = commonDetals[0].PolicyEndDate
+              else endDate = this.datePipe.transform(commonDetals[0].PolicyEndDate,'dd/MM/yyyy');
+              this.policyStartDate = startDate;this.policyEndDate=endDate;
+              let ReqObj = {
+                "PolicyDetails": {
+                    "SaveOrSubmit": type,
+                    "AcexecutiveId": "",
+                    "ProductType": null,
+                    "TiraCoverNoteNo": null,
+                    "CustomerReferenceNo": sessionStorage.getItem('customerReferenceNo'),
+                    "RequestReferenceNo": this.quoteRefNo,
+                    "BuildingOwnerYn": "N",
+                    "Createdby": this.loginId,
+                    "Currency": commonDetals[0].Currency,
+                    "ExchangeRate": commonDetals[0].ExchangeRate,
+                    "Havepromocode": havePromoYN,
+                    "PolicyEndDate": endDate,
+                  "PolicyStartDate": startDate,
+                    "IndustryId": "99999",
+                    "InsuranceId": this.insuranceId,
+                    "ProductId": this.productId,
+                    "BranchCode": this.branchCode,
+                },
+                "BrokerDetails": {
+                    "CustomerCode": commonDetals[0]?.CustomerCode,
+                    "CustomerName": commonDetals[0]?.CustomerName,
+                    "BdmCode": commonDetals[0]?.CustomerCode,
+                    "BrokerCode": commonDetals[0]?.BrokerCode,
+                  "LoginId": loginId,
+                  "ApplicationId": this.applicationId,
+                    "AgencyCode": this.agencyCode,
+                    "BrokerBranchCode": this.brokerbranchCode,
+                    "SourceTypeId": commonDetals[0].SourceType,
+                    "UserType": "Broker"
+                },
+                "EndorsementDetails": {
+                    "EndorsementDate": null,
+                    "EndorsementEffectiveDate": null,
+                    "EndorsementRemarks": null,
+                    "EndorsementType": null,
+                    "EndorsementTypeDesc": null,
+                    "EndtCategoryDesc": null,
+                    "EndtCount": null,
+                    "EndtPrevPolicyNo": null,
+                    "EndtPrevQuoteNo": null,
+                    "EndtStatus": null,
+                    "IsFinanceEndt": null,
+                    "OrginalPolicyNo": null, 
+                    "PolicyNo": null,
+                },
+                "LocationList": []
+              }
+              let j=0,locationList = [];
+              for(let entry of this.locationList){
+                let i=0;
+                if(entry.BuildingOwnerYn==null) entry.BuildingOwnerYn = 'Y';
+                if(entry.CoversRequired==null) entry.CoversRequired = 'BC';
+                  let obj = {
+                      "LocationId":j+1,
+                      "LocationName":entry.LocationName,
+                      "CoversRequired": entry.CoversRequired,
+                      "BuildingOwnerYn": entry.BuildingOwnerYn,
+                      "Address": entry.BuildingAddress,
+                      "SectionList": []
+                  }
+                  if(j==this.tabIndex){
+                    entry["RoofType"]= this.productItem.WallType;
+                    entry["WallType"]= this.productItem.WallType;
+                    entry["BuildingSumInsured"]=this.productItem.BuildingSumInsured;
+                    entry["SumInsured"]=this.productItem.SumInsured;
+                    entry['ContentSuminsured'] = this.productItem.ContentSuminsured;
+                    entry["ContentConstructionType"]= this.productItem.ContentConstructionType;
+                    entry["PlantConstructionType"]= this.productItem.PlantConstructionType;
+                    entry["PlantSumInsured"]= this.productItem.PlantSumInsured;
+                    entry["TradeConstructionType"]= this.productItem.TradeConstructionType;
+                    entry["TradeSumInsured"]= this.productItem.TradeSumInsured;
+                    entry["MiscellaneousConstructionType"]= this.productItem.MiscellaneousConstructionType;
+                    entry["MiscellaneousSumInsured"]= this.productItem.MiscellaneousSumInsured;
+                    entry["PowerSurgeSumInsured"]= this.productItem.PowerSurgeSumInsured;
+                    entry["HailDamageSumInsured"]= this.productItem.HailDamageSumInsured;
+                    entry["RentSumInsured"]= this.productItem.RentSumInsured;
+                    entry["GeyserSumInsured"]= this.productItem.GeyserSumInsured;
+                    entry["FirstLossBasis"]= this.productItem.FirstLossBasis;
+                    entry["FirstLossBasisSumInsured"]= this.productItem.FirstLossBasisSumInsured;
+                    entry["InflationConstructionType"]= this.productItem.InflationConstructionType;
+                    entry["InflationSumInsured"]= this.productItem.InflationSumInsured;
+                  }
+                  console.log("Iterate Entry",entry)
+                  
+                  if(entry.BuildingSumInsured!=0 && entry.BuildingSumInsured!=null && entry.RoofType!=null && entry.WallType!=null){ 
+                    let subEntry= {
+                      "SectionId": "1",
+                      "Status": "Y",
+                      "CategoryId": entry.WallType,
+                      "SumInsured": entry.BuildingSumInsured,
+                    }
+                    obj.SectionList.push(subEntry);
+                  }
+                  if(entry.ContentSuminsured!=null && entry.ContentSuminsured!=0 && entry.ContentSuminsured!='0'){
+                    let subEntry= {
+                      "SectionId": "47",
+                      "SumInsured": entry.ContentSuminsured,
+                      "Status": "Y",
+                      "CategoryId": entry.ContentConstructionType,
+                    }
+                    obj.SectionList.push(subEntry);
+                  }
+                  if(entry.PlantSumInsured!=null && entry.PlantSumInsured!=0 && entry.PlantSumInsured!='0'){
+                    let subEntry= {
+                      "SectionId": "185",
+                      "SumInsured": entry.PlantSumInsured,
+                      "Status": "Y",
+                      "CategoryId": entry.PlantConstructionType,
+                    }
+                    obj.SectionList.push(subEntry);
+                  }
+                  if(entry.TradeSumInsured!=null && entry.TradeSumInsured!=0 && entry.TradeSumInsured!='0'){
+                    let subEntry= {
+                      "SectionId": "186",
+                      "SumInsured": entry.TradeSumInsured,
+                      "Status": "Y",
+                      "CategoryId": entry.TradeConstructionType,
+                    }
+                    obj.SectionList.push(subEntry);
+                  }
+                  if(entry.MiscellaneousSumInsured!=null && entry.MiscellaneousSumInsured!=0 && entry.MiscellaneousSumInsured!='0'){
+                    let subEntry= {
+                      "SectionId": "187",
+                      "SumInsured": entry.MiscellaneousSumInsured,
+                      "Status": "Y",
+                      "CategoryId": entry.MiscellaneousConstructionType,
+                    }
+                    obj.SectionList.push(subEntry);
+                  }
+                  if(entry.PowerSurgeSumInsured!=null && entry.PowerSurgeSumInsured!=0 && entry.PowerSurgeSumInsured!='0'){
+                    let subEntry= {
+                      "SectionId": "188",
+                      "SumInsured": entry.PowerSurgeSumInsured,
+                      "Status": "Y",
+                    }
+                    obj.SectionList.push(subEntry);
+                  }
+                  if(entry.FirstLossBasisSumInsured!=null && entry.FirstLossBasisSumInsured!=0 && entry.FirstLossBasisSumInsured!='0'){
+                    let subEntry= {
+                      "SectionId": "189",
+                      "SumInsured": entry.FirstLossBasisSumInsured,
+                      "Status": "Y",
+                      "CategoryId": entry.FirstLossBasis,
+                    }
+                    obj.SectionList.push(subEntry);
+                  }
+                  if(entry.HailDamageSumInsured!=null && entry.HailDamageSumInsured!=0 && entry.HailDamageSumInsured!='0'){
+                    let subEntry= {
+                      "SectionId": "190",
+                      "SumInsured": entry.HailDamageSumInsured,
+                      "Status": "Y",
+                    }
+                    obj.SectionList.push(subEntry);
+                  }
+                  if(entry.RentSumInsured!=null && entry.RentSumInsured!=0 && entry.RentSumInsured!='0'){
+                    let subEntry= {
+                      "SectionId": "191",
+                      "SumInsured": entry.RentSumInsured,
+                      "Status": "Y",
+                    }
+                    obj.SectionList.push(subEntry);
+                  }
+                  if(entry.InflationSumInsured!=null && entry.InflationSumInsured!=0 && entry.InflationSumInsured!='0'){
+                    let subEntry= {
+                      "SectionId": "192",
+                      "SumInsured": entry.InflationSumInsured,
+                      "Status": "Y",
+                      "CategoryId": entry.InflationConstructionType,
+                    }
+                    obj.SectionList.push(subEntry);
+                  }
+                  if(entry.GeyserSumInsured!=null && entry.GeyserSumInsured!=0 && entry.GeyserSumInsured!='0'){
+                    let subEntry= {
+                      "SectionId": "196",
+                      "SumInsured": entry.GeyserSumInsured,
+                      "Status": "Y",
+                    }
+                    obj.SectionList.push(subEntry);
+                  }
+                  if(obj.SectionList.length!=0) locationList.push(obj);
+                  j+=1;
+                  if(j==this.locationList.length){
+                    ReqObj.LocationList=locationList;this.onFinalSubmit(ReqObj,type);
+
+                  }
+              }
+             }
+          }
+          validationPop(data){
+            Swal.fire({
+              title: '<strong>Form Validations</strong>',
+              icon: 'info',
+              html:
+                `<ul class="list-group errorlist">
+                 Please Select ${data}
+              </ul>`,
+              showCloseButton: true,
+              focusConfirm: false,
+              confirmButtonText:
+                '<i class="fa fa-thumbs-down"></i> Errors!',
+              confirmButtonAriaLabel: 'Thumbs down, Errors!',
+            })
+          }
+          validationPopSI(data){
+            Swal.fire({
+              title: '<strong>Form Validations</strong>',
+              icon: 'info',
+              html:
+                `<ul class="list-group errorlist">
+                 Please Enter SumInsured (${data})
+              </ul>`,
+              showCloseButton: true,
+              focusConfirm: false,
+              confirmButtonText:
+                '<i class="fa fa-thumbs-down"></i> Errors!',
+              confirmButtonAriaLabel: 'Thumbs down, Errors!',
+            })
+          }
+          emptyValidation(){
+            let i=0;
+            if(this.productItem.WallType){
+              if(this.productItem.BuildingSumInsured=='0' || this.productItem.BuildingSumInsured==0 || this.productItem.BuildingSumInsured==''){
+                this.validationPopSI("Building");
+                return false;
+              }else {
+                i+=1;
+              }
+            }
+            if(this.productItem.ContentConstructionType){
+              if(this.productItem.ContentSuminsured=='0' || this.productItem.ContentSuminsured==0 || this.productItem.ContentSuminsured==''){
+                this.validationPopSI("Content");
+                return false;
+              }
+              else {
+                i+=1;
+              }
+            }
+            if(this.productItem.PlantConstructionType){
+              if(this.productItem.PlantSumInsured=='0' || this.productItem.PlantSumInsured==0 || this.productItem.PlantSumInsured==''){
+                this.validationPopSI("Plant & Machinery");
+                return false;
+              }else {
+                i+=1;
+              }
+            }
+             if(this.productItem.MiscellaneousConstructionType){
+              if(this.productItem.MiscellaneousSumInsured=='0' || this.productItem.MiscellaneousSumInsured==0 || this.productItem.MiscellaneousSumInsured==''){
+                this.validationPopSI("Miscellaneous");
+                return false;
+              }else {
+                i+=1;
+              }
+            }
+             if(this.productItem.TradeConstructionType){
+              if(this.productItem.TradeSumInsured=='0' || this.productItem.TradeSumInsured==0 || this.productItem.TradeSumInsured==''){
+                this.validationPopSI("Stock In Trade");
+                return false;
+              }else {
+                i+=1;
+              }
+            }
+             if(this.productItem.FirstLossBasis){
+              if(this.productItem.FirstLossBasisSumInsured=='0' || this.productItem.FirstLossBasisSumInsured==0 || this.productItem.FirstLossBasisSumInsured==''){
+                this.validationPopSI("Leakage Extension");
+                return false;
+              }else {
+                i+=1;
+              }
+            }
+             if(this.productItem.InflationConstructionType){
+              if(this.productItem.InflationSumInsured=='0' || this.productItem.InflationSumInsured==0 || this.productItem.InflationSumInsured==''){
+                this.validationPopSI("Additonal Inflation Margin");
+                return false;
+              }else {
+                i+=1;
+              }
+            }
+            if(i==0){
+              return true;
+            }
+            else{
+              return true;
+            }
+          }
+          onChangeBusiness(){
+            let entry = this.productItem.WallType;
+            let fieldList = this.field1Build[0].fieldGroup[0].fieldGroup;
+            for(let field of fieldList){if(field.key=='BuildingSumInsured'){
+              if(entry!='' && entry!='0' && entry!=undefined && entry!=null){field.props.disabled=false;}
+              else{this.productItem.BuildingSumInsured='0';field.formControl.setValue('0'); field.props.disabled=true;}
+            }}
+          }
+          onKeyPressContent() {
+            let entry = this.productItem.ContentConstructionType;
+            let fieldList = this.fieldContent[0].fieldGroup[0].fieldGroup;
+            for(let field of fieldList){if(field.key=='ContentSuminsured'){
+              if(entry!='' && entry!='0' && entry!=undefined && entry!=null){field.props.disabled=false;}
+              else{this.productItem.ContentSuminsured='0';field.formControl.setValue('0'); field.props.disabled=true;}
+            }}
+          }
+          onKeyPressPlant() {
+            let entry = this.productItem.PlantConstructionType;
+            let fieldList = this.fieldPlant[0].fieldGroup[0].fieldGroup;
+            for(let field of fieldList){if(field.key=='PlantSumInsured'){
+              if(entry!='' && entry!='0' && entry!=undefined && entry!=null){field.props.disabled=false;}
+              else{this.productItem.PlantSumInsured='0';field.formControl.setValue('0'); field.props.disabled=true;}
+            }}
+            
+            }
+            onKeyPressMiscellaneous() {
+              let entry = this.productItem.MiscellaneousConstructionType;
+              let fieldList = this.fieldMiscellaneous[0].fieldGroup[0].fieldGroup;
+              for(let field of fieldList){if(field.key=='MiscellaneousSumInsured'){
+                if(entry!='' && entry!='0' && entry!=undefined && entry!=null){field.props.disabled=false;}
+                else{this.productItem.MiscellaneousSumInsured='0';field.formControl.setValue('0'); field.props.disabled=true;}
+              }}
+              
+              }
+              onKeyPressTrade() {
+                let entry = this.productItem.TradeConstructionType;
+                let fieldList = this.fieldTrade[0].fieldGroup[0].fieldGroup;
+                for(let field of fieldList){if(field.key=='TradeSumInsured'){
+                  if(entry!='' && entry!='0' && entry!=undefined && entry!=null){field.props.disabled=false;}
+                  else{this.productItem.TradeSumInsured='0';field.formControl.setValue('0'); field.props.disabled=true;}
+                }}
+                
+                }
+                onKeyPressLeakage() {
+                  let entry = this.productItem.FirstLossBasis;
+                  let fieldList = this.fieldLeakage[0].fieldGroup[0].fieldGroup;
+                  for(let field of fieldList){if(field.key=='FirstLossBasisSumInsured'){
+                    if(entry!='' && entry!='0' && entry!=undefined && entry!=null){field.props.disabled=false;}
+                    else{this.productItem.FirstLossBasisSumInsured='0';field.formControl.setValue('0'); field.props.disabled=true;}
+                  }}
+                  
+                }
+                onKeyPressInflation() {
+                  let entry = this.productItem.InflationConstructionType;
+                  let fieldList = this.fieldInflation[0].fieldGroup[0].fieldGroup;
+                  for(let field of fieldList){if(field.key=='InflationSumInsured'){
+                    if(entry!='' && entry!='0' && entry!=undefined && entry!=null){field.props.disabled=false;}
+                    else{this.productItem.InflationSumInsured='0';field.formControl.setValue('0'); field.props.disabled=true;}
+                  }}
+                }
           checkLocationValidation(){
             let i = 0,j=0;
             for(let entry of this.locationList){
