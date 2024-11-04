@@ -151,7 +151,32 @@ export class ReportComponent implements OnInit {
   newQuote(){
     this.router.navigate(['/policyDetails']);
   }
-  onCommonDocumentDownload(){
+  // onCommonDocumentDownload(){
+  //   let startdate=this.datePipe.transform(this.startdate, "dd/MM/yyyy");
+  //   let enddate=this.datePipe.transform(this.enddate, "dd/MM/yyyy");
+  //   let ReqObj = {
+  //     "BranchCode": this.branchValue,
+  //     "EndDate": enddate,
+  //     "LoginId": this.loginId,
+  //     "StartDate": startdate,
+  //     "ProductId": this.productId,
+  //   }
+  //   let urlLink = `${this.CommonApiUrl}pdf/premium/report`;
+  //   this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+  //     (data: any) => {
+  //       console.log(data);
+  //       const link = document.createElement('a');
+  //       link.setAttribute('target', '_blank');
+  //       link.setAttribute('href', data?.Result?.Base64);
+  //       link.setAttribute('download', data?.Result?.FileName);
+  //       document.body.appendChild(link);
+  //       link.click();
+  //       link.remove();
+  //     },
+  //     (err) => { },
+  //   );
+  // }
+  onCommonDocumentDownload(type){
     let startdate=this.datePipe.transform(this.startdate, "dd/MM/yyyy");
     let enddate=this.datePipe.transform(this.enddate, "dd/MM/yyyy");
     let ReqObj = {
@@ -161,6 +186,10 @@ export class ReportComponent implements OnInit {
       "StartDate": startdate,
       "ProductId": this.productId,
     }
+    if(type=='Excel'){
+      ReqObj['ExcelYn'] = 'Y';
+    }
+    else ReqObj['ExcelYn'] = null;
     let urlLink = `${this.CommonApiUrl}pdf/premium/report`;
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       (data: any) => {
@@ -172,11 +201,11 @@ export class ReportComponent implements OnInit {
         document.body.appendChild(link);
         link.click();
         link.remove();
-      },
+    },
       (err) => { },
     );
   }
-
+  
   getsearchs(){
     this.showgrid=false;
   }

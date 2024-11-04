@@ -641,6 +641,8 @@
   "BrokerName":"Nom du courtier",
   "Search":"Recherche",
   "DownloadAll":"Tout télécharger",
+  "DownloadPDF":"Télécharger le PDF",
+  "DownloadExcel":"Télécharger Excel",
   "PolicyNo":"Numéro de politique",
   "QuoteNo":"Numéro de devis",
   "CustomerName":"Nom du client",

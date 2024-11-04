@@ -630,6 +630,7 @@
     "RequestReferenceNo":"Request Reference No"
   },
   "Report":{
+
     "Report":"Report",
     "Branch":"Branch",
     "StartDate":"Start Date",
@@ -637,6 +638,8 @@
     "BrokerName":"Broker Name",
     "Search":"Search",
     "DownloadAll":"Download All",
+    "DownloadPDF":"Download PDF",
+    "DownloadExcel":"Download Excel",
     "PolicyNo":"Policy No",
     "QuoteNo":"Quote No",
     "CustomerName":"Customer Name",
