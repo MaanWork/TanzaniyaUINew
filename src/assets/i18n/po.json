@@ -626,6 +626,8 @@
       "BrokerName":"Nome do corretor",
       "Search":"Procurar",
       "DownloadAll":"Baixar tudo",
+      "DownloadPDF":"Baixar PDF",
+      "DownloadExcel":"Baixar Excel",
       "PolicyNo":"Política Não",
       "QuoteNo":"Citação Não",
       "CustomerName":"nome do cliente",
