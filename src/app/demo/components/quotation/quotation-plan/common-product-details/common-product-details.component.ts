@@ -4400,6 +4400,7 @@ backPlan()
                   if(data.Result.LocationList){entry['LocationList'] = data.Result.LocationList;if(this.productId!='14' && this.productId!='32')this.currentSectionIndex=0}
                   else entry['LocationList'] = [];
                 }
+                
                  this.colorSections=[];let j=0;
                  if(this.productId=='61' || this.productId=='25' || this.productId=='16' || this.productId=='1' || this.productId=='14' 
                   || this.productId=='32' || this.productId=='39' || this.productId=='13' || this.productId=='6'){

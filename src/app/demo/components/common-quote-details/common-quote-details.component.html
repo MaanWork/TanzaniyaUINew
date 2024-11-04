@@ -326,7 +326,8 @@
                                     <h3>{{'MOTORQUOTE.MotorDetails' | translate}}</h3> 
                                 </div>
                                 <div class="lg:col-6 md:col-6 col-12 flex flex-wrap justify-content-end">
-                                    <ng-container *ngIf="veh.SavedFrom!='API'">
+                                    <!-- *ngIf="veh.SavedFrom!='API'" -->
+                                    <ng-container >
                                         <p-button [label]="'MOTORQUOTE.Edit' | translate" *ngIf="!endorsementSection || (endorsementSection && enableAddVehicle && vehicleDetails?.EndorsementYn=='Y')" icon="pi pi-pencil" size="small"
                                             (click)="EditData(veh)"></p-button>&nbsp;
                                     </ng-container>
