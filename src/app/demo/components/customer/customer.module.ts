@@ -50,11 +50,12 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
 import { FormlyMatToggleModule } from '@ngx-formly/material/toggle';
+import { CustomerAsInsurerComponent } from './customer-as-insurer/customer-as-insurer.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
 @NgModule({
-  declarations: [CustomerCreateFormComponent, CustomerDetailComponent],
+  declarations: [CustomerCreateFormComponent, CustomerDetailComponent, CustomerAsInsurerComponent],
   imports: [
     CommonModule,
     TableModule,

@@ -91,6 +91,7 @@ export function maxlengthValidationMessage(err, field) {
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatInputModule,
     FormlyModule.forRoot({
       validationMessages: [{ name: 'required', message: 'This field is required' },
       { name: 'maxlength', message: maxlengthValidationMessage },],

@@ -58,8 +58,18 @@ export class AppTopBarComponent implements OnInit {
           this.loginId = this.userDetails.Result.LoginId;
           this.productId = this.userDetails.Result.ProductId;
           this.userType = this.userDetails.Result.UserType;
-          if(this.SharedService.ProductName) this.productname = this.SharedService.ProductName;
-          else this.productname = this.userDetails.Result.ProductName;
+          if(this.SharedService.ProductName) {this.productname = this.SharedService.ProductName;}
+          else {
+            if(this.lang=='en')  {
+              let entry = this.typeList.find(ele=>ele.CodeDesc  = this.typeValue) 
+              if(entry=='low'){
+                this.typeList['label']='Quotation';
+              }
+              this.productname=this.userDetails.Result.ProductName;}
+            else {
+              this.productname=this.userDetails.Result.BrokerCompanyProducts[0].ProductNameLocal;
+            }
+          }
           if(this.userDetails.Result.LoginType) this.loginType = this.userDetails.Result.LoginType;
           if(this.userType!='Issuer'){
             this.customerCode = this.userDetails.Result.CustomerCode;
@@ -67,6 +77,7 @@ export class AppTopBarComponent implements OnInit {
           }
           }
           else this.router.navigate(['/auth/login'])
+        
         
     }
 
@@ -85,9 +96,16 @@ export class AppTopBarComponent implements OnInit {
         ]
       }
         this.branches = [{label: 'Branch 1'}, {label: 'Branch 2'}];
-        this.userOptions = [
-            {label: 'Logout', value: 'logout', icon: 'pi pi-power-off', command: () => {this.setLogout();}},
+        if(this.lang=='en'){
+          this.userOptions = [
+              {label: 'Logout', value: 'logout', icon: 'pi pi-power-off', command: () => {this.setLogout();}},
+          ]
+        }
+        else if(this.lang=='fr'){
+          this.userOptions = [
+            {label: 'Se déconnecter', value: 'logout', icon: 'pi pi-power-off', command: () => {this.setLogout();}},
         ]
+        }
     }
     
     onProductRedirect(){
@@ -170,6 +188,8 @@ export class AppTopBarComponent implements OnInit {
       if(types==null) types = this.typeList.find(ele=>ele.CodeDesc  = this.typeValue)  
       else if(types.CodeDesc!='B2C Broker') this.typeValue = types.CodeDesc;
       this.typeName = types.DisplayName;
+      // if(this.lang=='en')  this.typeName=types.DisplayName;
+      // else this.typeName=types.CodeDescLocal;
       //$("#subUserTypes").hide();
       this.onTypeChange(changeType);
     }

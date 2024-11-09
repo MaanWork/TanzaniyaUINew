@@ -48,13 +48,18 @@
             <tr>
               <!-- <td><p-checkbox [binary]="true"></p-checkbox></td> -->
               <td>{{customer?.CustomerReferenceNo}}</td>
-              <td>{{customer?.ClientName}}</td>
-              <td>{{customer?.PolicyHolderTypeDesc }}</td>
+              <td>{{customer?.ClientName}}
+                <ng-container *ngIf="customer.LastName">&nbsp;{{customer?.LastName}}</ng-container>
+              </td>
+              <td >
+                <ng-container *ngIf="customer?.PolicyHolderType==1">{{ 'HOME.Individual' | translate}}</ng-container>
+                <ng-container *ngIf="customer?.PolicyHolderType==2">{{ 'HOME.Corporate' | translate}}</ng-container>
+              </td>
               <td>{{ customer?.IdNumber }}</td>
               <td>{{ customer.MobileCode1 }}&nbsp;{{customer?.MobileNo1}}</td>
               <td>
-                <ng-container *ngIf="customer?.IsTaxExempted=='N'">{{ 'PREMIUM.No' | translate}}</ng-container>
-                <ng-container *ngIf="customer?.IsTaxExempted!='N'">{{ 'PREMIUM.Yes' | translate}} ({{customer?.TaxExemptedId}})</ng-container>
+                <!-- <ng-container *ngIf="customer?.IsTaxExempted=='N'">{{ 'PREMIUM.No' | translate}}</ng-container> -->
+                <ng-container>{{getDesc(customer?.IsTaxExempted)}} <span *ngIf="customer?.TaxExemptedId">({{customer?.TaxExemptedId}})</span></ng-container>
               </td>
               <td>{{ customer.CreatedBy }}</td>
               <td>

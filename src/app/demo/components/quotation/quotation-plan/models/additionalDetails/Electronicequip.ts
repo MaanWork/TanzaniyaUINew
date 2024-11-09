@@ -40,27 +40,27 @@ export class ElectronicEquip{
                   {
                     fieldGroupClassName: 'row',
                     fieldGroup: [
-                      {
-                        type: 'ngselect',
-                        key: 'ElqLocation',
-                        defaultValue: '',
-                        className: 'col-sm-4',
-                        props: {
-                          label: `Location`,
-                          required: true,
-                          options: [
+                      // {
+                      //   type: 'ngselect',
+                      //   key: 'ElqLocation',
+                      //   defaultValue: '',
+                      //   className: 'col-sm-4',
+                      //   props: {
+                      //     label: `Location`,
+                      //     required: true,
+                      //     options: [
           
-                          ],
+                      //     ],
           
-                        },
-                        validators: {
-                          validation: [ForceLengthValidators.maxLength(50), ForceLengthValidators.min(1)]
-                        },
-                        hooks: {
-                        },
-                        expressions: {
-                        },
-                      },
+                      //   },
+                      //   validators: {
+                      //     validation: [ForceLengthValidators.maxLength(50), ForceLengthValidators.min(1)]
+                      //   },
+                      //   hooks: {
+                      //   },
+                      //   expressions: {
+                      //   },
+                      // },
                       {
                         type: 'ngselect',
                         key: 'ElqList',

@@ -28,6 +28,8 @@ export class CustomerTableComponent implements OnInit{
   searchValue: any=null;deActiveCustomers:any[]=[];
   clearSearchSection: boolean=false;pendingCustomers:any[]=[];
   activeCustomers: any[]=[];lang:any=null;
+  taxList:any[]=[];
+  insurerEdit: boolean=false;
   constructor(private router:Router,private sharedService: SharedService,private appComp:AppComponent,private translate:TranslateService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -52,6 +54,7 @@ export class CustomerTableComponent implements OnInit{
       this.setHeaders();
     }
     this.getCustomersList();
+    this.getTaxExcepted();
   }
   ngOnInit() {
    
@@ -77,7 +80,11 @@ export class CustomerTableComponent implements OnInit{
   }
   onAddCustomer(rowData){
     if(rowData){
-      sessionStorage.setItem('customerReferenceNo',rowData?.CustomerReferenceNo)
+      sessionStorage.setItem('customerReferenceNo',rowData?.CustomerReferenceNo);
+      if(this.insuranceId=='100040'){
+        //this.insurerEdit=true;
+        sessionStorage.setItem('insurerEdit','insurerEdit');
+      }
     }
     else{sessionStorage.removeItem('customerReferenceNo')}
     this.router.navigate(['customer/create']);
@@ -121,4 +128,25 @@ export class CustomerTableComponent implements OnInit{
       (err) => { },
     );
   }
+
+  getTaxExcepted(){
+    let ReqObj = {
+      "InsuranceId": this.insuranceId,
+      "ItemType": "CUSTOMER_VAT_TYPE",
+    }
+    let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+      console.log(data);
+      if(data.Result){
+        this.taxList = data.Result;
+      }
+      },
+      (err) => { },
+    );
+    }
+    getDesc(rowData){
+     let entry  = this.taxList.find(ele=>ele.Code==rowData)?.CodeDesc;
+      return entry
+    }
 }

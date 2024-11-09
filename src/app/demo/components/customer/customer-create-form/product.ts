@@ -13,16 +13,18 @@ export class Product {
 }
 
 export class ProductData {
-	Address2:any
-	Address1:any
+	Insurer='N'
+	Address2:any=''
+	Address1:any=''
 	AppointmentDate: any
-	BusinessType:any
+	BusinessType:any=''
 	ClientName: string = ''
 	EmailId:string = ''
 	Clientstatus:any=''
-	CityName:any
+	CityName:any=''
+	CityCode:any=0
 	Country:any=''
-	Gender:any
+	Gender:any=''
 	IdNumber:any =''
 	IdType:any=''
 	isTaxExempted:any=''
@@ -33,7 +35,7 @@ export class ProductData {
   WhatsappNo:any=''
   MobileCodeDesc:any=''
 	Occupation:any=''
-	PolicyHolderTypeid:any=null
+	PolicyHolderTypeid:any=''
 	PreferredNotification:any=''
 	state:any=''
 	dobOrRegDate:any=''
@@ -53,7 +55,9 @@ export class ProductData {
 	districtcode:any='';
 	SocioProfessionalCategory:'';
 	id: string = '';PinCode:any=null;
-  maxDate: "2022-09-25"
+  maxDate: "2022-09-25";
+  Department:any=null
+  Nationality:any=''
   /*const currentYear = new Date().getFullYear();
   minDate= new Date(currentYear - 20, 0, 1);*/
 

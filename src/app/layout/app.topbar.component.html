@@ -16,12 +16,12 @@
             </a>
         </ng-container>
         <ng-container *ngIf="insuranceid=='100040'">
-            <a class="layout-topbar-logo" (click)="onRedirect()">
-                <img src="./assets/images/sanlam_logo_alt.png" width="195" style="cursor: pointer !important;"  />
+            <a class="layout-topbar-logo" (click)="onRedirect()" style="height: 34px !important;padding: 10px;">
+                <img src="./assets/images/sanlam-logo1.png" width="195" style="height: 34px !important;cursor: pointer !important;"  />
             </a>
         </ng-container>
         <ng-container *ngIf="insuranceid=='100028'">
-            <a style="height: 56px !important;padding: 10px;" (click)="onRedirect()">
+            <a style="height: 34px !important;padding: 10px;" (click)="onRedirect()">
                 <img src="./assets/images/logo.PNG" width="170" height="45" style="cursor: pointer !important;"  />
             </a>
         </ng-container>
@@ -43,24 +43,15 @@
             <ng-container *ngIf="typeList.length!=0 && typeValue!='B2C Broker'">
                 <p-dropdown inputId="make" 
                     class="w-full min300" 
-                    styleClass="w-full" 
-                    (onChange)="finaliseTypeValue(null,'change')"
-                    [options]="typeList" 
-                    optionLabel="DisplayName" 
-                    optionValue="CodeDesc" 
-                    [(ngModel)]="typeValue"  >
+                    styleClass="w-full" (onChange)="finaliseTypeValue(null,'change')"  [options]="typeList" 
+                    optionLabel="label" optionValue="CodeDesc" [(ngModel)]="typeValue"  >
                 </p-dropdown>&nbsp;&nbsp;
             </ng-container>
             <ng-container *ngIf="branchList.length!=0 && typeValue!='B2C Broker'">
                 
                 <p-dropdown inputId="make" 
-                    class="w-full min300" 
-                    styleClass="w-full" 
-                    (onChange)="finaliseBranchValue(null,'change')"
-                    optionLabel="label" 
-                    optionValue="BranchName" 
-                    [options]="branchList" 
-                    [(ngModel)]="branchName"  >
+                    class="w-full min300" styleClass="w-full" (onChange)="finaliseBranchValue(null,'change')"
+                    optionLabel="label" optionValue="BranchName" [options]="branchList" [(ngModel)]="branchName"  >
                 </p-dropdown>&nbsp;&nbsp;
             </ng-container>
         </ng-container>

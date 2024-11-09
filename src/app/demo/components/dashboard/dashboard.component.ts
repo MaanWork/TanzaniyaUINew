@@ -49,10 +49,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 window.location.reload();
             }
             this.rangeList = [
-                {"Code":1,"CodeDesc":"Last 30 Days","CodeDescLocal":"Últimos 30 dias"},
-                {"Code":2,"CodeDesc":"Last 60 Days","CodeDescLocal":"Últimos 60 dias"},
-                {"Code":3,"CodeDesc":"Last 90 Days","CodeDescLocal":"Últimos 90 dias"},
-                {"Code":4,"CodeDesc":"Last 120 Days","CodeDescLocal":"Últimos 120 dias"},
+                {"Code":1,"CodeDesc":"Last 30 Days","CodeDescLocal":"Les 30 derniers jours"},
+                {"Code":2,"CodeDesc":"Last 60 Days","CodeDescLocal":"Les 60 derniers jours"},
+                {"Code":3,"CodeDesc":"Last 90 Days","CodeDescLocal":"Les 90 derniers jours"},
+                {"Code":4,"CodeDesc":"Last 120 Days","CodeDescLocal":"Les 120 derniers jours"},
             ];
             
     }
@@ -269,19 +269,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
             if(data.Result){
-                    this.endorsementList = data.Result;
+                this.endorsementList = data.Result;
+                for(let entry of this.endorsementList){
+                    if(this.lang=='en'){
+                        entry['Label'] = entry.EndorsementDesc
+                    }
+                    else if (this.lang=='fr'){
+                        entry['Label'] = entry.CodeDescLocal
+                    }
+                }
             }
         });
     }
     getLabelname(type){
         if(type=='Quotes'){
             if(this.lang=='en') return 'Quotes'
-            else if(this.lang=='fr') return 'Citations';
+            else if(this.lang=='fr') return 'Devis';
             else if(this.lang=='po') return 'Citações'
         }
         else if(type=='Policies'){
             if(this.lang=='en') return 'Policies'
-            else if(this.lang=='fr') return 'Politiques';
+            else if(this.lang=='fr') return 'Police';
             else if(this.lang=='po') return 'Políticas'
         }
     }

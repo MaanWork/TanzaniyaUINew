@@ -126,29 +126,29 @@ export class Money{
                 //   expressions: {
                 //   },
                 // },
-                {
-                  className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-                  type: 'input',
-                  key: 'LocationName',
-                  props: { 
-                    label: `Location Name`,
-                    maxLength: 15
-                  },
-                  templateOptions: {
-                   // disabled: this.checkDisable('SumInsured')
-                  },
-                  validators: {
-                    validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                  },
-                  hooks: {
-                  },
+                // {
+                //   className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                //   type: 'input',
+                //   key: 'LocationName',
+                //   props: { 
+                //     label: `Location Name`,
+                //     maxLength: 15
+                //   },
+                //   templateOptions: {
+                //    // disabled: this.checkDisable('SumInsured')
+                //   },
+                //   validators: {
+                //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                //   },
+                //   hooks: {
+                //   },
   
-                  expressions: {
+                //   expressions: {
                   
-                  },
-                },
+                //   },
+                // },
                 {
-                  className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                  className: 'col-12 lg:col-6 md:col-6 xl:col-6',
                   type: 'ngselect',
                   key: 'RegionCode',
                   props: { 
@@ -156,6 +156,7 @@ export class Money{
                     maxLength: 15
                   },
                   templateOptions: {
+                    required: true,
                    // disabled: this.checkDisable('SumInsured')
                    options:[
 
@@ -172,7 +173,7 @@ export class Money{
                   },
                 },
                 {
-                  className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                  className: 'col-12 lg:col-6 md:col-6 xl:col-6',
                   type: 'ngselect',
                   key: 'DistrictCode',
                   props: { 
@@ -180,6 +181,7 @@ export class Money{
                     maxLength: 15
                   },
                   templateOptions: {
+                    required: true,
                    // disabled: this.checkDisable('SumInsured')
                    options:[
 
@@ -195,9 +197,55 @@ export class Money{
                   
                   },
                 },
-
                 {
-                  className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                  className: 'col-12 lg:col-6 md:col-6 xl:col-6',
+                  type: 'textarea',
+                    key: 'CoveringDetails',
+                    
+                    props: { 
+                      label: `Covering Details`,
+                      maxLength: 1000,
+                      
+                    },
+                    templateOptions: {
+                      //disabled: this.checkDisable('BuildingSuminsured')
+                      required: true,
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+    
+                    expressions: {
+                    
+                    },
+                },
+                {
+                  className: 'col-12 lg:col-6 md:col-6 xl:col-6',
+                  type: 'textarea',
+                    key: 'DescriptionOfRisk',
+                    
+                    props: { 
+                      maxLength: 1000,
+                      label: `Description Of Risk`,
+                    },
+                    templateOptions: {
+                      //disabled: this.checkDisable('BuildingSuminsured')
+                      required: true,
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+    
+                    expressions: {
+                    
+                    },
+                },
+                {
+                  className: 'col-12 lg:col-6 md:col-6 xl:col-6',
                   type: 'commaSeparator',
                   key: 'MoneyAnnualEstimate',
                   props: { 
@@ -218,7 +266,7 @@ export class Money{
                   },
                 },
                 {
-                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    className: 'col-12 lg:col-6 md:col-6 xl:col-6',
                     type: 'commaSeparator',
                     key: 'MoneyInTransit',
                     props: { 
@@ -239,7 +287,7 @@ export class Money{
                     },
                   },
                   {
-                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    className: 'col-12 lg:col-6 md:col-6 xl:col-6',
                     type: 'commaSeparator',
                     key: 'MoneyCollector',
                     props: { 
@@ -260,7 +308,7 @@ export class Money{
                     },
                   },
                   {
-                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    className: 'col-12 lg:col-6 md:col-6 xl:col-6',
                     type: 'commaSeparator',
                     key: 'MoneySafeLimit',
                     props: { 
@@ -281,7 +329,7 @@ export class Money{
                     },
                   },
                   {
-                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    className: 'col-12 lg:col-6 md:col-6 xl:col-6',
                     type: 'commaSeparator',
                     key: 'MoneyOutofSafe',
                     props: { 
@@ -302,7 +350,7 @@ export class Money{
                     },
                   },
                   {
-                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    className: 'col-12 lg:col-6 md:col-6 xl:col-6',
                     type: 'commaSeparator',
                     key: 'MoneyDirectorResidence',
                     props: { 
@@ -343,7 +391,7 @@ export class Money{
                   //   },
                   // },
                   {
-                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    className: 'col-12 lg:col-6 md:col-6 xl:col-6',
                     type: 'commaSeparator',
                     key: 'MoneyInSafe',
                     props: { 

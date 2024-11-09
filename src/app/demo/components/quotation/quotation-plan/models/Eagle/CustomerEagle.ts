@@ -26,7 +26,7 @@ export class CustomerEagle{
               fieldGroupClassName: 'grid',
               fieldGroup: [
                 {
-                  className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                  className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                   type: 'ngselect',
                   id: 'CustomerTitle',
                   key: 'Title',
@@ -34,12 +34,14 @@ export class CustomerEagle{
                   hideExpression:false,
                   templateOptions: {
                     label: `Customer Title`,
-                    placeholder: '-Select-',
+                    id: 'CustomerTitle',
+                    name:'CustomerTitle',
+                    // placeholder: '-Select-',
                     required: true,
                     disabled: this.checkDisable('Title'),
-                    maxLength: 15
+                    maxLength: 15,
+                    options:[]
                   },
-                  
                   validators: {
                   },
                   hooks: {
@@ -48,7 +50,7 @@ export class CustomerEagle{
                   },
                 },
                 {
-                  className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                  className: 'col-12 md:col-9 lg:col-9 xl:col-9 pl-2 pr-2 pt-1',
                   type: 'input',
                   id: 'FirstName',
                   key: 'ClientName',
@@ -145,7 +147,8 @@ export class CustomerEagle{
                     placeholder: '-Select Occupation-',
                     required: true,
                     disabled: this.checkDisable('Occupation'),
-                    maxLength: 50
+                    maxLength: 50,
+                    options:[]
                   },
                   
                   validators: {
@@ -230,7 +233,8 @@ export class CustomerEagle{
                     placeholder: '-Select-',
                     required: true,
                     disabled: this.checkDisable('PolicyHolderTypeid'),
-                    maxLength: 15
+                    maxLength: 15,
+                    options:[]
                   },
                   
                   validators: {
@@ -295,10 +299,10 @@ export class CustomerEagle{
                     disabled: this.checkDisable('PreferredNotification'),
                     maxLength: 15,
                     options:[
-                      { label: 'Select', value: '','CodeDescLocal':'Selecione' },
-                      { label: 'SMS', value: 'Sms','CodeDescLocal':'Sms -P' },
-                      { label: 'Mail', value: 'Mail','CodeDescLocal':'E-mail -P' },
-                      { label: 'Whatsapp', value: 'Whatsapp','CodeDescLocal':'Whatsapp -P' }
+                      { label: '--Select--', value: '','CodeDesc': '--Select--','CodeDescLocal':'---Sélectionner---' },
+                      { label: 'SMS', value: 'Sms',CodeDesc: 'SMS','CodeDescLocal':'SMS' },
+                      { label: 'Mail', value: 'Mail', CodeDesc: 'Mail','CodeDescLocal':'Mail' },
+                      { label: 'Whatsapp', value: 'Whatsapp',CodeDesc: 'Whatsapp','CodeDescLocal':'Whatsapp' }
                     ]
                   },
                   
@@ -313,16 +317,17 @@ export class CustomerEagle{
                   className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
                   key: 'isTaxExempted',
                   id: 'TaxExcempted',
-                  type: 'radioList',
+                  type: 'ngselect',
                   templateOptions: {
-                    type: 'radioList',
                     required: true,
                     disabled: this.checkDisable('isTaxExempted'),
                     name: 'isTaxExempted',
                   },
                   props: {
                     label: 'Tax Excempted',
-                    options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
+                    options: [
+                      
+                    ],
                   }
                 },
                 {
@@ -441,7 +446,9 @@ export class CustomerEagle{
                     label: `Region`,
                     required: true,
                     disabled: this.checkDisable('Region'),
-                    maxLength: 15
+                    maxLength: 15,
+                    options:[]
+                
                   },
                   
                   validators: {
@@ -460,7 +467,8 @@ export class CustomerEagle{
                     label: `District`,
                     required: true,
                     disabled: this.checkDisable('District'),
-                    maxLength: 15
+                    maxLength: 15,
+                    options:[]
                   },
                   
                   validators: {

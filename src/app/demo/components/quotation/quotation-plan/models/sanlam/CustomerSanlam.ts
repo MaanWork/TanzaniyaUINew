@@ -214,16 +214,17 @@ export class CustomerSanlam{
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
                     key: 'isTaxExempted',
                     id: 'TaxExcempted',
-                    type: 'radioList',
+                    type: 'ngselect',
                     templateOptions: {
-                      type: 'radioList',
                       required: true,
                       disabled: this.checkDisable('isTaxExempted'),
                       name: 'isTaxExempted',
                     },
                     props: {
                       label: 'Tax Excempted',
-                      options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
+                      options: [
+                        
+                      ],
                     }
                   },
                   {
@@ -253,12 +254,11 @@ export class CustomerSanlam{
                     key: 'PreferredNotification',
                     templateOptions: {
                       label: `Preferred Notification`,
-                      placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('PreferredNotification'),
                       maxLength: 15,
                       options:[
-                        { label: 'Select', value: '','CodeDescLocal':'Selecione' },
+                        { label: 'Select', value: '','CodeDescLocal':'--Sélectionner--' },
                         { label: 'SMS', value: 'Sms','CodeDescLocal':'Sms -P' },
                         { label: 'Mail', value: 'Mail','CodeDescLocal':'E-mail -P' },
                         { label: 'Whatsapp', value: 'Whatsapp','CodeDescLocal':'Whatsapp -P' }

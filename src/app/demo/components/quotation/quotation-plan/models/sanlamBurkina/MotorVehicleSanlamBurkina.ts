@@ -512,6 +512,54 @@ export class MotorVehicleSanlamBurkina{
                 },
                 {
                   className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                  type: 'ngselect',
+                  key: 'Zone',
+                  id:'Zone',
+                  hide: true,
+                  hideExpression:true,
+                  props: {
+                    label: `Zone`,
+                    maxLength: 15,
+                    disabled: this.checkDisable('Transportationofhydrocarbons'),
+                    required: true,
+                    options: [
+
+                    ],
+
+                  },
+                  validators: {
+                  },
+                  hooks: {
+                  },
+                  expressions: {
+                  },
+                },
+                {
+                  className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
+                  type: 'ngselect',
+                  key: 'Class',
+                  id:'Class',
+                  hide: true,
+                  hideExpression:true,
+                  props: {
+                    label: `Class`,
+                    maxLength: 15,
+                    disabled: this.checkDisable('Class'),
+                    required: true,
+                    options: [
+
+                    ],
+
+                  },
+                  validators: {
+                  },
+                  hooks: {
+                  },
+                  expressions: {
+                  },
+                },
+                {
+                  className: 'col-12 md:col-4 lg:col-4 xl:col-4 p-2',
                   key: 'GpsYN',
                   id:'DoyouhaveGPS',
                   type: 'radioList',

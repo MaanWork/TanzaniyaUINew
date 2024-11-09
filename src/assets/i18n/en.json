@@ -1,5 +1,14 @@
 {
   "HOME": {
+    "GstNumber":"VRN/ GST Number",
+    "ClientName":"Client Name",
+    "ExpiryDate":"ID Expiry Date",
+    "insurer":"Customer As Insurer",
+    "Corporate":"Corporate",
+    "Individual":"Individual",
+    "logout":"Logout",
+    "Plot":"Plot",
+    "Department":"Department",
     "Activities":"Activities",
     "CompanyName":"Company Name",
     "SocioProfessionalcategory":"Socio-professional category",
@@ -80,7 +89,7 @@
     "DETAILLAST": "My main language was music, and my teacher was nature."
   },
   "LOGIN":{
-      "WelcometoXYZInsurance":"Welcome to Sanlam Allianz Insurance",
+      "WelcometoXYZInsurance":"Welcome to Alliance Insurance",
       "Signintocontinue": "Sign in to continue",
       "RetrieveQuoteUsingMobileNumber?": "Retrieve Quote Using MobileNumber?",
       "B2CQuote": "B2C Quote",
@@ -98,7 +107,8 @@
       "Cancel": "Cancel",
       "Submit": "Submit",
       "ProceedLogin": "Proceed Login!",
-      "Email": "Email"
+      "Email": "Email",
+      "SessionError": "Session Error!"
   },
   "PRODUCT":{
     "SelecttheBranch":"Select the Branch",
@@ -121,10 +131,13 @@
       "RecentEndorsements": "Recent Endorsements",
       "NoEndorsementAvailable": "No Endorsement Available",
       "Email":"Email'",
-      "PhoneNo":"PhoneNo","Date":"Date","Content":"Content"
+      "PhoneNo":"PhoneNo",
+      "Date":"Date",
+      "Content":"Content"
   },
   "QUOTEGRID":{
-      "NoOfDays":"No Of Days",
+      "NoOfDays":"Quote Valid Days",
+      "NoOfMonths":"Policy Period (Months)",
       "Quotation": "Quotation",
       "Existing": "Existing",
       "Lapsed": "Lapsed",
@@ -166,6 +179,24 @@
       
   },
   "MOTORQUOTE":{
+    "PaCoverId":"Motor Passenger Injury",
+    "QuoteExpiryDate":"Quote Expiry Days",
+    "EnterQuoteExpiryDate": "Enter Expiry Days Count",
+    "quoteExpiryDateError":"Please Enter Quote Expiry Days",
+    "BankingDelegation":"Banking Delegation",
+    "LoanStartDate": "Loan Start Date",
+    "LoanEndDate":"Loan End Date",
+    "VehicleClass":"Vehicle Class",
+    "PreviousInsuranceYN":"Previous Insurance",
+    "PreviousLossRatio":"Previous Loss Ratio",
+    "Zone":"Zone",
+    "Class":"Class",
+    "CollateralCompanyAddress":"Company Address",
+    "CollateralCompanyName":"Company Name",
+    "LoanAmount":"Loan Amount",
+    "PACoverId":"Personal Accident Cover",
+    "ZoneCirculation":"Zone Circulation",
+    "VehicleType":"Vehicle Type",
     "NumberOfCylinder":"Number of Cylinder(s)",
     "RegistrationDate":"RegistrationDate",
     "Tonnage":"Tonnage",
@@ -175,20 +206,20 @@
     "MovingRecords":"Moving Records",
     "CategoryDateobtained":"Category - Date obtained",
     "Categoryexpirationdate":"Category - Category expiration date",
+    "Licenseexpirationdate":"Driving License expiration date",
     "Category":"Category -Code",
     "Placeofissue":"Place of issue",
     "Dateofissue":"Dateofissue",
     "Drivinglicensenumber":"Driving license number",
     "Name":"Name",
-    "Civility":"Civility",
+    "Civility":"Nationality",
     "SameasSubscriber":"Same as Subscriber?",
     "Drivinglicenseage":"Driving license age",
-    "Newvalue":"New value",
+    "Newvalue":"Vehicle New value",
     "Marketvalue":"Marketvalue",
     "Aggregatedvalue":"Aggregated value",
     "DisplacementinCM3":"DisplacementinCM3",
     "Nombredecartes":"Number of cards (WW Garage)",
-    
     "MunicipalityofTraffic":"Municipality of Traffic",
     "DateOfcirculation": "Date of circulation",
     "Transportationofhydrocarbons":"Transportation of hydrocarbons",
@@ -287,7 +318,8 @@
     "ViewPremium":"View Premium",
     "Back":"Back",
      "Edit":"Edit",
-     "Delete":"Delete"
+     "Delete":"Delete",
+     "UWQuestion":"UnderWriter Questions"
   },
   "MOTORDETAILS":{
     "EnterTonnage":"Enter Tonnage",
@@ -334,7 +366,7 @@
     "Submit":"Submit",
     "selectRegistrationDate":"select Registration Date",
     "EnterNumberOfCylinders":"Enter Number Of Cylinders ",
-    "EnterDisplacement ":"Enter Displacement "
+    "EnterDisplacement":"Enter Displacement "
   },
   "PREMIUM":{
       "ReferenceNo":"Reference No",
@@ -414,6 +446,7 @@
       "Option": "Option",
       "ViewMoreCovers": "View More Covers",
       "ViewFactorDetails": "View Factor Details",
+      "FactorName": "Factor Name",
       "FactorDetails":"Factor Details",
       "OwnDamage":"Own Damage",
       "WindScreen":"Wind Screen",
@@ -558,7 +591,12 @@
     "Schedule":"Schedule",
     "DebitNote":"Debit Note",
     "CreditNote":"Credit Note",
-    "ViewQuoteDetails":"View Quote Details"
+    "ViewQuoteDetails":"View Quote Details",
+    "ClaimIntimate": "Claim Intimate",
+    "ClaimIntimation": "Claim Intimation",
+    "NotifiedClaim": "Notified Claim",
+    "IntimatedClaim": "Intimated Claim",
+    "AddNewClaim":"Create New Claim"
   },
   "Referral":{
     "Broker":"Broker",
@@ -594,6 +632,7 @@
     "RequestReferenceNo":"Request Reference No"
   },
   "Report":{
+
     "Report":"Report",
     "Branch":"Branch",
     "StartDate":"Start Date",
@@ -601,6 +640,8 @@
     "BrokerName":"Broker Name",
     "Search":"Search",
     "DownloadAll":"Download All",
+    "DownloadPDF":"Download PDF",
+    "DownloadExcel":"Download Excel",
     "PolicyNo":"Policy No",
     "QuoteNo":"Quote No",
     "CustomerName":"Customer Name",
@@ -677,6 +718,23 @@
         "Refferal":"Refferal",
         "ReferralRemarks": "Referral Remarks"
 
+  },
+  "CRM": {
+    "Lead":"Lead",
+    "AddNewLead":"Add New Lead",
+    "Branch":"Branch",
+    "Enquiry":"Enquiry",
+    "PendingForQuote":"Pending For Quote",
+    "AdditionalInformationRequired":"Additional Information Required",
+    "AdditionalInformationProvided":"Additional Information Provided",
+    "AcceptedEnquiries":"Accepted Enquiries",
+    "RejectedEnquiries":"Rejected Enquiries",
+    "Select":"Select",
+    "Qoute":"Quote",
+    "FreshQuotes":"FreshQuotes",
+    "Quotesent":"Quote sent",
+    "BusinessConverted":"Business Converted",
+    "BusinessLost":"Business Lost",
+    "PolicyGenratedQuote":"Policy Genrated Quote"
   }
-  
 }

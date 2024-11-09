@@ -17,8 +17,8 @@ import { LayoutService } from './service/app.layout.service';
 				<span class="layout-menuitem-text">{{item.label}}</span>
 				<i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="item.items"></i>
 			</a>-->
-			<a *ngIf="(item.routerLink && !item.items) && item.visible !== false" (click)="itemClick($event)" [ngClass]="item.class" 
-			   [routerLink]="item.routerLink" routerLinkActive="active-route" [routerLinkActiveOptions]="item.routerLinkActiveOptions||{ paths: 'exact', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' }"
+			<a *ngIf="(item.routerLink && !item.items) && item.visible !== false" (click)="itemClick($event,item)" [ngClass]="item.class" 
+			   [routerLink]="item.routerLink" routerLinkActive="active-route" [routerLinkActiveOptions]="checkActiveRouting(item) ||{ paths: 'exact', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' }"
                [fragment]="item.fragment" [queryParamsHandling]="item.queryParamsHandling" [preserveFragment]="item.preserveFragment" 
                [skipLocationChange]="item.skipLocationChange" [replaceUrl]="item.replaceUrl" [state]="item.state" [queryParams]="item.queryParams"
                [attr.target]="item.target" tabindex="0" pRipple
@@ -118,7 +118,15 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
             this.updateActiveStateFromRoute();
         }
     }
-
+    checkActiveRouting(rowData){
+        let path = this.router.url;
+        if(rowData.title=='New Quote'){
+            
+            if(path=='/quotation/plan/quote-details' || path=='/policyDetails'){return true}
+            else return false;
+        }
+        else return path==rowData.routerLinkActiveOptions;
+    }
     updateActiveStateFromRoute() {
         let activeRoute = this.router.isActive(this.item.routerLink[0], { paths: 'exact', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' });
 
@@ -127,7 +135,7 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
         }
     }
 
-    itemClick(event: Event) {
+    itemClick(event: Event,rowData) {
         // avoid processing disabled items
         sessionStorage.removeItem('vehicleDetailsList');
         sessionStorage.removeItem('customerReferenceNo')
@@ -145,7 +153,8 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
         sessionStorage.removeItem('reloadType');
         sessionStorage.removeItem('b2cType');
         sessionStorage.removeItem('FireObj');
-        sessionStorage.removeItem('PageFrom')
+        sessionStorage.removeItem('PageFrom');
+        if(rowData.CodeDesc=='New Quote'){sessionStorage.setItem('newQuote','newQuote')}
         if (this.item.disabled) {
             event.preventDefault();
             return;

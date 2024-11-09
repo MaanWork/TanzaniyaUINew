@@ -224,7 +224,7 @@ onViews(event){
         "EndDate":this.endDate,
         "BranchCode":this.branchCode
       }
-      let urlLink = `${this.CommonApiUrl}api/tirasuccess`;
+      let urlLink = `${this.CommonApiUrl}api/tirafailure`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if(data.Result){

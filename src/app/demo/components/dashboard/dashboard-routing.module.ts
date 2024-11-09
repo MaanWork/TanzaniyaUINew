@@ -28,6 +28,8 @@ import { CustomerProductsComponent } from '../auth/login/customer-products/custo
 import { ReInsuranceComponent } from '../Admin/re-insurance/re-insurance.component';
 import { TiraStatusComponent } from '../tira-status/tira-status.component';
 import { YakeenSearchComponent } from '../yakeen-search/yakeen-search.component';
+import { ClaimIntimateComponent } from '../portfolio/claim-intimate/claim-intimate.component';
+import { CustomerAsInsurerComponent } from '../customer/customer-as-insurer/customer-as-insurer.component';
 
 
 @NgModule({
@@ -35,6 +37,7 @@ import { YakeenSearchComponent } from '../yakeen-search/yakeen-search.component'
         { path: '', component: DashboardComponent },
         { path: 'customer', component: CustomerTableComponent },
         { path: 'customer/create', component: CustomerCreateFormComponent },
+        { path: 'customer/insurer', component: CustomerAsInsurerComponent },
         { path: 'customer/detail', component: CustomerDetailComponent },
         { path: 'vehicle', component: VehicleTableComponent },
         { path: 'vehicle/create', component: VehicleCreateFormComponent },
@@ -48,6 +51,7 @@ import { YakeenSearchComponent } from '../yakeen-search/yakeen-search.component'
         { path: 'logincreation', loadChildren: () => import('../Admin/login-creation/login-creation.module').then(m => m.LoginCreationModule) },
         { path: 'customerProducts', component: CustomerProductsComponent },
         { path: 'portfolio/endorsement', component: EndorsementComponent },
+        { path: 'portfolio/claimIntimate', component: ClaimIntimateComponent },
         { path: 'portfolio/endorsementtype', component: EndorsementTypeComponent},
         { path: 'portfolio/motorDocuments', component: MotorDocumentsDetailComponent},
         { path: 'report', component: ReportComponent },
@@ -64,8 +68,7 @@ import { YakeenSearchComponent } from '../yakeen-search/yakeen-search.component'
         { path: 'Admin', loadChildren: () => import('../Admin/admin.module').then(m => m.AdminModule) },
         { path: 'Home/others/premiaintegration', loadChildren: () => import('../../components/othersmenu/premia.module').then(m => m.PremiaIntegrationViewModule) },
         {
-            path:'ApproverPortfolio',
-            component:ApproverPortfolioComponent,
+            path:'Home/ApproverPortfolio',
             loadChildren: () => import('../approverportfolio/approverportfolio.module').then(m => m.ApproverPortfolioModule),
           },
           {
@@ -80,7 +83,11 @@ import { YakeenSearchComponent } from '../yakeen-search/yakeen-search.component'
           },
           {
             path:'Home/Sms',loadChildren: () => import('../../components/Sms/Sms.module').then(m => m.SmsModule),
-          }
+          },
+          // {path:'crmHome',loadChildren: () => import('../../components/CRM/crm-home.module').then(m => m.CRMHomeModule)},
+          // {path:'renewal',loadChildren: () => import('../../components/Renewal/renewal.module').then(m => m.RenewalModule)},
+          // {path:'garage',loadChildren: () => import('../../components/garage/garage.module').then(m => m.GarageModule)},
+          
           
     ])],
     exports: [RouterModule]

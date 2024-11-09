@@ -29,11 +29,20 @@
           <p-dropdown inputId="make" class="w-full" styleClass="w-full" [(ngModel)]="brokerCode"  [options]="brokerList" (onChange)="getExistingQuotes(null,'change')"  optionLabel="CodeDesc" optionValue="Code" placeholder="---Select---">
           </p-dropdown>
         </div>
-        <div class="mt-5 ml-5" *ngIf="userType == 'Issuer'">
+        <div class="col-12 md:col-4 lg:col-4 mt-5"></div>
+        <div class="col-12 md:col-4 lg:col-4 mt-5" *ngIf="userType == 'Issuer'">
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" placeholder="Search for Other Policies" [(ngModel)]="searchValue" />
+            </span>
+            &nbsp;<p-button *ngIf="searchValue.length > 2 ? '...' : '' || dob" (click)="eventothers(searchValue,'change')" label="Search" size="small"></p-button>
+            &nbsp;<p-button *ngIf="searchSection" (click)="clearSearch()" label="Clear Search" class="p-button-outlined" size="small"></p-button>
+        </div>
+          <!-- <p-checkbox (onChange)="onSelectCustomer($event.checked)" [binary]="true" inputId="binary"></p-checkbox>
+          <label>&nbsp;<b>Search for Other Policies</b></label> -->
           <!--[ngClass]="show ? 'col-md-3 col-lg-3 col-xl-3 offset-9' : 'col-md-3 col-lg-3 col-xl-3 offset-5'"-->
           <!--[ngClass]="show ? 'col-md-2 col-lg-2 col-xl-2 offset-6' : 'col-md-2 col-lg-2 col-xl-2 offset-6'"-->
-          <p-checkbox label="Other Policy Search" (onChange)="onSelectCustomer($event.checked)" [binary]="true" inputId="binary"></p-checkbox>
-      </div>
+          
       </div>
       <ng-container *ngIf="quoteData.length!=0 && !show">
         <p-table #dtEmployeeActive *ngIf="tableView == 'table' else cardTableView" [value]="quoteData" dataKey="PolicyNo" 
@@ -84,6 +93,9 @@
                       <button mat-menu-item (click)="onCreditdownload(customer)">
                           <span>{{'PolicyGrid.CreditNote' | translate}}</span>
                       </button>
+                      <!-- <button mat-menu-item (click)="onClaimIntimate(customer)">
+                        <span>{{'PolicyGrid.ClaimIntimate' | translate}}</span>
+                    </button> -->
                       <button mat-menu-item (click)="onEditEndorsement(customer)">
                           <span>{{'PolicyGrid.Endorsement' | translate}}</span>
                       </button>
@@ -122,7 +134,7 @@
                                 <td>{{ product.Vehcilemodel }}</td>
                                 <td>{{ product.PolicyTypeDesc }}</td>
                                 <td>{{ product.OverallPremiumFc }}</td>
-                                <td><button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="onGetVehicleSchedule(product)" class="p-button-outlined"></button></td>
+                                <td><button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="onGetVehicleSchedule(product,customer)" class="p-button-outlined"></button></td>
                             </tr>
                         </ng-template>
                     </p-table>
@@ -173,6 +185,7 @@
             <button pButton pRipple icon="pi pi-file-pdf" (click)="onGetSchedule(quote)" title="Schedule" class="p-button-outlined"></button>
       <button pButton pRipple icon="pi pi-file-pdf" (click)="onDebitdownload(quote)" title="Debit Note" class="p-button-outlined"></button>
       <button pButton pRipple icon="pi pi-file-pdf" title="Credit Note" (click)="onCreditdownload(quote)" class="p-button-outlined"></button>
+      <!-- <button pButton pRipple icon="pi pi-external-link" (click)="onEditEndorsement(quote)" title="Claim Intimate" class="p-button-outlined"></button> -->
       <button pButton pRipple icon="pi pi-external-link" (click)="onEditEndorsement(quote)" title="Endorsement" class="p-button-outlined"></button>
       <button pButton pRipple icon="pi pi-eye" title="View Quote Details" (click)="onViews(quote)" class="p-button-outlined"></button>
     </span></div></div>
@@ -244,8 +257,8 @@
       </div>
       </div>
       <div class="col-12 md:col-2 lg:col-2" *ngIf="searchValue.length > 2 ? '...' : '' || dob">
-        <p-button (click)="onCustomerSearch()" label="Search" size="small"></p-button>
-    </div>
+          <p-button (click)="eventothers(searchValue,'change')" label="Search" size="small"></p-button>
+      </div>
     </ng-container>
     </p-tabPanel>
     <p-tabPanel [header]="'PolicyGrid.Pending' | translate">
@@ -361,6 +374,7 @@
             <button pButton pRipple icon="pi pi-file-pdf" (click)="onGetSchedule(quote)" title="Schedule" class="p-button-outlined"></button>
             <button pButton pRipple icon="pi pi-file-pdf" (click)="onDebitdownload(quote)" title="Debit Note" class="p-button-outlined"></button>
             <button pButton pRipple icon="pi pi-file-pdf" title="Credit Note" (click)="onCreditdownload(quote)" class="p-button-outlined"></button>
+            <!-- <button pButton pRipple icon="pi pi-external-link" (click)="onEditEndorsement(quote)" title="Claim Intimate" class="p-button-outlined"></button> -->
             <button pButton pRipple icon="pi pi-external-link" (click)="onEditEndorsement(quote)" title="Endorsement" class="p-button-outlined"></button>
             <button pButton pRipple icon="pi pi-eye" title="View Quote Details" (click)="onViews(quote)" class="p-button-outlined"></button>
           </span></div></div>

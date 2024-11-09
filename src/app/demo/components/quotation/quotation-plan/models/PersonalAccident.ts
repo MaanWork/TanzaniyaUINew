@@ -33,75 +33,11 @@ export class PersonalAccident{
               {
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
-                //   {
-                //     type: 'input',
-                //     key: 'LocationName',
-                //     defaultValue: '',
-                //     className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-                //     templateOptions: {
-                //       label: `Location`,
-                //       required: true,
-                //       placeholder: 'Enter LocationName',
-                //     },
-                //     validators: {
-                //       validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
-                //     },
-                //     hooks: {
-                //     },
-                //     expressions: {
-                //     },
-                // },
-                // {
-                //   type: 'ngselect',
-                //   key: 'Region',
-                //   defaultValue: '',
-                //   className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-                //   templateOptions: {
-                //     label: `Region`,
-                //     placeholder: 'Select Region',
-                //    // disabled: true,
-                //     required: true,
-                //     options: [
-    
-                //     ],
-    
-                //   },
-                //   validators: {
-                //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                //   },
-                //   hooks: {
-                //   },
-                //   expressions: {
-                //   },
-                // },
-                // {
-                //   type: 'ngselect',
-                //   key: 'District',
-                //   defaultValue: '',
-                //   className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-                //   templateOptions: {
-                //     label: `District`,
-                //     placeholder: 'Select District',
-                //    // disabled: true,
-                //     required: true,
-                //     options: [
-    
-                //     ],
-    
-                //   },
-                //   validators: {
-                //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                //   },
-                //   hooks: {
-                //   },
-                //   expressions: {
-                //   },
-                // },
                   {
                     type: 'ngselect',
                     key: 'OccupationType',
                     defaultValue: '',
-                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    className: 'col-12 lg:col-5 md:col-5 xl:col-5',
                     templateOptions: {
                       label: `Occupation`,
                       placeholder: 'Select OccupationType',
@@ -121,53 +57,8 @@ export class PersonalAccident{
                     },
                   },
                   {
-                    type: 'input',
-                    key: 'Name',
-                    defaultValue: '',
-                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-                    templateOptions: {
-                      label: `Name`,
-                      placeholder: 'Enter Name',
-                      required: true,
-                      
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(30), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                },
-                {
-                  className: 'col-12 md:col-4 lg:col-4',
-                  type: 'datepicker',
-                  key: 'Dob',
-                  
-                  templateOptions: {
-                    label: `Date Of Birth`,
-                    required: true,
-                    placeholder: 'Select Date Of Birth',
-                    disabled: this.checkDisable('Dob'),
-                    defaultValue:  this.dobDate,
-                    datepickerOptions: {
-                      max: this.dobDate
-                    },
-                    customDatePickerOption: {
-                      appendTo: 'body' 
-                    }
-                  },
-                  validators: {
-                  },
-                  hooks: {
-                  },
-                  expressions: {
-                  },
-                 
-                },
-                  {
                     type: 'commaSeparator',
-                    className: ' col-12 md:col-4 lg:col-4',
+                    className: ' col-12 lg:col-5 md:col-5 xl:col-5',
                     key: 'SumInsured',
                     defaultValue: '0',
                     templateOptions: {

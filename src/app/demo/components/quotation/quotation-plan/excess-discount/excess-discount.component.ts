@@ -247,6 +247,10 @@ emiyn="N";
   termsSectionList: { SectionId: string; SectionName: string; }[];
   termsSectionId: string;
   showCoverList: boolean=false;newAddClauses: boolean=false;newAddExclusion: boolean=false;newAddWarranty: boolean=false;
+  actualRatePercent: any;
+  minRatePercent: any;
+  coverRateError: boolean;
+  minRateYN: any;
   constructor(public sharedService: SharedService,private authService: AuthService,private router:Router,private modalService: NgbModal,
     private appComp:AppComponent,private translate:TranslateService,
     private datePipe:DatePipe,public dialog: MatDialog) {
@@ -327,11 +331,11 @@ emiyn="N";
           select:true
         },
       },
-      { key: 'SubCoverName', display: 'SubCover Name' },
+      { key: 'SubCoverName', display: 'SubCoverName' },
       { key: 'Rate', display: 'Rate' },
       { key: 'MinimumPremium', display: 'Minimum' },
-      { key: 'PremiumAfterDiscount', display: 'After Discount' },
-      { key: 'PremiumIncludedTax', display: 'Included Tax' },
+      { key: 'PremiumAfterDiscount', display: 'AfterDiscount' },
+      { key: 'PremiumIncludedTax', display: 'IncludedTax' },
       // {
       //   key: 'actions',
       //   display: 'Action',
@@ -612,11 +616,11 @@ emiyn="N";
     }
 
 
-    $(function () {
-      $("#exampleModal").click(function () {
-          $("#exampleModal").modal("hide");
-      });
-  });
+  //   $(function () {
+  //     $("#exampleModal").click(function () {
+  //         $("#exampleModal").modal("hide");
+  //     });
+  // });
 
 
   }
@@ -652,7 +656,7 @@ emiyn="N";
     //menu.hide();
     this.IsmodelShow=true;
     this.myPopover=false;
-    $('#mymodalEdit').modal('hide');
+    // $('#mymodalEdit').modal('hide');
     //this.modalService.close(id);
   }
   getCoverList(coverListObj){
@@ -1115,6 +1119,7 @@ emiyn="N";
                       //"isReferal": rowData.isReferal
                     }
                   ],
+                  "LocationId": vehicle.VehicleId,
                   "Id": vehicle.VehicleId,
                   "SectionId": cover.SectionId
                 }
@@ -1253,6 +1258,7 @@ emiyn="N";
                     //"isReferal": rowData.isReferal
                   }
                 ],
+                "LocationId": vehicle.VehicleId,
                 "Id": vehicle.VehicleId,
                 "SectionId": cover.SectionId
               }
@@ -1328,6 +1334,7 @@ emiyn="N";
                     //"isReferal": rowData.isReferal
                   }
                 ],
+                "LocationId": vehicle.VehicleId,
                 "Id": vehicle.VehicleId,
                 "SectionId": cover.SectionId,
   
@@ -1401,6 +1408,7 @@ emiyn="N";
                   //"isReferal": rowData.isReferal
                 }
               ],
+              "LocationId": vehicle.VehicleId,
               "Id": vehicle.VehicleId,
               "SectionId": cover.SectionId
             }
@@ -1558,11 +1566,11 @@ emiyn="N";
                 //"isReferal": rowData.isReferal
               }
             ],
+            "LocationId": vehicle.VehicleId,
             "Id": vehicle.VehicleId,
             "SectionId": cover.SectionId
           }
           if((cover.PremiumIncludedTaxFC!=null && cover.PremiumIncludedTaxFC!='0' && cover.PremiumIncludedTaxFC!=undefined)){
-                
             vehicle['totalLcPremium'] = vehicle['totalLcPremium'] - cover.PremiumIncludedTaxFC;
             vehicle['totalPremium'] =  vehicle['totalPremium'] - cover.PremiumIncludedTax; 
             cover.PremiumIncludedTax = 0;
@@ -1571,9 +1579,9 @@ emiyn="N";
           cover.PremiumIncludedTaxFC = subCover.PremiumIncludedTaxLC;
           cover.PremiumIncludedTax = subCover.PremiumIncludedTax;
   
-          cover.selected = true;
+          
           cover.SubCoverId = subCover.SubCoverId;
-          subCover['selected'] = true;
+          
           this.selectedCoverList.push(element);
           if(vehicle?.totalPremium){
             if(cover.Endorsements!=null){
@@ -1597,8 +1605,14 @@ emiyn="N";
             }
             
           }
+            
           this.getTotalVehiclesCost();
         }
+        
+      }
+      for(let sub of cover.SubCovers){
+        if(sub.SubCoverId==subCover.SubCoverId){sub['UserOpt']='Y';cover.selected = true;sub['selected'] = true;}
+        else{ sub['UserOpt'] = 'N';sub['selected'] = false;}
       }
       console.log("Total Vehicle",this.selectedCoverList)
     }
@@ -2194,6 +2208,7 @@ emiyn="N";
   
     }
     saveClausesData(rawData,type){
+
       let clauses
        
   
@@ -2208,77 +2223,70 @@ emiyn="N";
       let i=0;
       let passData:any[]=[];
       let id:any;
-      // if(type){
-      //   if(type=='Clauses'){
-      //   id="6";
-      //   }
-      //   else if(type=='Exclusion'){
-      //  id="7";
-      //   }
-      //   else if(type=='Warranty'){
-      //     id="4";
-      //   }      
-      //   }
       for( let f of rawData){
          if(f.TypeId != 'D'){
           console.log('KKKKKKKKK',f.TypeId);
-          rawData[i].TypeId='O';
+          f['TypeId']='O';
          }
+         if(f['selected']==true) passData.push(f)
          i+=1;
+        if(i==rawData.length){
+          let Req = {
+            BranchCode: this.branchCode,
+            CreatedBy: this.loginId,
+            InsuranceId: this.insuranceId,
+            ProductId: this.productId,
+            QuoteNo:quote,
+            //TermsId:null,
+            RiskId:String(this.selectedRowData.RiskDetails.RiskId),
+            SectionId:this.termsSectionId,
+            TermsAndConditionReq:passData,
+            RequestReferenceNo: this.requestReferenceNo
+          };
+      
+          let urlLink = `${this.CommonApiUrl}api/inserttermsandcondition`;
+          this.sharedService.onPostMethodSync(urlLink, Req).subscribe((data: any) => {
+            if (data.Result) {
+              this.CoveList=true;
+              this.onExclusion = false;
+              this.onWarranty=false;
+              this.onWars = false;
+              this.onClauses = false;
+              this.warranty = false;
+              this.Exclusion = false;
+              this.clause = false;
+              this.clauses = false;
+              this.showGrid=true;
+              
+         if(type){
+          if(type=='Clauses'){
+            this.viewCondition('direct');
+            this.clauses = true;
+            this.showGrid=true;
+          }
+          else if(type=='Exclusion'){
+            this.viewCondition('direct');
+          this.Exclusion = true;
+          this.showGrid=true;
+          }
+          else if(type=='Warranty'){
+            this.viewCondition('direct');
+            this.warranty = true;
+            this.showGrid=true;
+            }
+            else{
+              this.showGrid=false;
+            }
+          }
+            }
+            
+          });
+        }
       }
-  
+    
       //console.log('SSSSSSSSSSSS',this.tempData)
       //console.log('aaaaaaaaaaaaaa',this.jsonList)
-      let Req = {
-        BranchCode: this.branchCode,
-        CreatedBy: this.loginId,
-        InsuranceId: this.insuranceId,
-        ProductId: this.productId,
-        QuoteNo:quote,
-        //TermsId:null,
-        RiskId:String(this.selectedRowData.RiskDetails.RiskId),
-        SectionId:this.termsSectionId,
-        TermsAndConditionReq:rawData,
-        RequestReferenceNo: this.requestReferenceNo
-      };
-  
-      let urlLink = `${this.CommonApiUrl}api/inserttermsandcondition`;
-      this.sharedService.onPostMethodSync(urlLink, Req).subscribe((data: any) => {
-        if (data.Result) {
-          this.CoveList=true;
-          this.onExclusion = false;
-          this.onWarranty=false;
-          this.onWars = false;
-          this.onClauses = false;
-          this.warranty = false;
-          this.Exclusion = false;
-          this.clause = false;
-          this.clauses = false;
-          this.showGrid=true;
-          
-     if(type){
-      if(type=='Clauses'){
-        this.viewCondition('direct');
-        this.clauses = true;
-        this.showGrid=true;
-      }
-      else if(type=='Exclusion'){
-        this.viewCondition('direct');
-      this.Exclusion = true;
-      this.showGrid=true;
-      }
-      else if(type=='Warranty'){
-        this.viewCondition('direct');
-        this.warranty = true;
-        this.showGrid=true;
-        }
-        else{
-          this.showGrid=false;
-        }
-      }
-        }
-        
-      });
+      
     }
     editClauses(id){
   
@@ -2399,7 +2407,26 @@ emiyn="N";
               }
               sessionStorage.setItem('endorseTypeId',JSON.stringify(obj));
             }
-            if(((cover.isSelected=='D' || cover.isSelected=='O' || cover.isSelected=='Y' || cover?.UserOpt=='Y') && !this.endorsementSection) || 
+            if(cover.SubCovers!=null){
+              let k=0;
+              for(let sub of cover.SubCovers){
+                if(this.statusValue!=null && sub?.UserOpt=='Y'){
+                  this.onChangeSubCover(sub,cover,veh,true); 
+                }
+                else{sub['selected']=false}
+                k+=1;
+                if(k==cover.SubCovers){
+                  i+=1;
+                  if(i==coverList.length){
+                    let defaultList = coverList.filter(ele=>ele.isSelected=='D' || ele.UserOpt == 'Y');
+                    let otherList = coverList.filter(ele=>ele.isSelected!='D' && ele.UserOpt != 'Y')
+                    veh.CoverList = defaultList.concat(otherList);
+                    if(this.adminSection) veh.CoverList = coverList.filter(ele=>ele.isSelected=='D' || ele?.UserOpt=='Y')
+                  }
+                }
+              }
+            }
+            else if(((cover.isSelected=='D' || cover.isSelected=='O' || cover.isSelected=='Y' || cover?.UserOpt=='Y') && !this.endorsementSection) || 
             (this.endorsementSection && (cover.UserOpt=='Y' || cover.isSelected=='D' || cover.isSelected=='O')) ){
               // if(this.endorsementId == 846 && veh.Status=='D'){
               //   cover['selected']= false;
@@ -2415,40 +2442,13 @@ emiyn="N";
               //}
               
             }
-            else if(cover.SubCovers!=null){
-                
-              if(cover.SubCovers.length!=0){
-                for(let sub of cover.SubCovers){
-                  if(sub.UserOpt=='Y' || sub.isSelected=='D' || sub.isSelected=='Y'){
-                    this.onChangeSubCover(sub,cover,veh,true)
-                  }
-                }
-                
-              }
-            }
+            
             else{
+              
               console.log("Not Selected 1",cover);
               cover['selected']= false;
             }
-            if(cover.SubCovers!=null){
-              let k=0;
-              for(let sub of cover.SubCovers){
-                if(sub.isSelected=='D' || sub.isSelected=='O' || sub.isSelected=='Y' || sub?.UserOpt=='Y'){
-                      this.onChangeSubCover(sub,cover,veh,true);
-                }
-                k+=1;
-                if(k==cover.SubCovers){
-                  i+=1;
-                  if(i==coverList.length){
-                    let defaultList = coverList.filter(ele=>ele.isSelected=='D' || ele.UserOpt == 'Y');
-                    let otherList = coverList.filter(ele=>ele.isSelected!='D' && ele.UserOpt != 'Y')
-                    veh.CoverList = defaultList.concat(otherList);
-                    if(this.adminSection) veh.CoverList = coverList.filter(ele=>ele.isSelected=='D' || ele?.UserOpt=='Y')
-                  }
-                }
-              }
-            }
-            else{
+            if(cover.SubCovers==null){
               i+=1;
               if(i==coverList.length){
                 let defaultList = coverList.filter(ele=>ele.isSelected=='D' || ele.UserOpt == 'Y');
@@ -2458,7 +2458,6 @@ emiyn="N";
                 
               }
             }
-            
           }
           j+=1;
           if(j==this.vehicleDetailsList.length){
@@ -2475,7 +2474,26 @@ emiyn="N";
                       let coverList:any[]=veh.CoverList;
                       let j = 0;
                       for(let cover of coverList){
-                        if(((cover.isSelected=='D' || cover.isSelected=='O' || cover.isSelected=='Y' || cover?.UserOpt=='Y') && !this.endorsementSection) || 
+                        if(cover.SubCovers!=null){
+                          let k=0;
+                          for(let sub of cover.SubCovers){
+                            if(this.statusValue!=null && sub?.UserOpt=='Y'){
+                              this.onChangeSubCover(sub,cover,veh,true); 
+                            }
+                            else{sub['selected']=false}
+                            k+=1;
+                            if(k==cover.SubCovers){
+                              i+=1;
+                              if(i==coverList.length){
+                                let defaultList = coverList.filter(ele=>ele.isSelected=='D' || ele.UserOpt == 'Y');
+                                let otherList = coverList.filter(ele=>ele.isSelected!='D' && ele.UserOpt != 'Y')
+                                veh.CoverList = defaultList.concat(otherList);
+                                if(this.adminSection) veh.CoverList = coverList.filter(ele=>ele.isSelected=='D' || ele?.UserOpt=='Y')
+                              }
+                            }
+                          }
+                        }
+                        else if(((cover.isSelected=='D' || cover.isSelected=='O' || cover.isSelected=='Y' || cover?.UserOpt=='Y') && !this.endorsementSection) || 
                           (this.endorsementSection && (cover.UserOpt=='Y' || cover.isSelected=='Y')) ){
                             cover['selected']= false;
                             this.onSelectCover(cover,false,veh.Vehicleid,veh,'coverList','change');
@@ -2554,6 +2572,10 @@ emiyn="N";
   
   
       }
+    }
+    checkSubCoverSelection(rowData){
+      if(rowData.UserOpt=='Y') return true;
+      else return false;
     }
     checkSelectedSections(rowData){
         let coverList = rowData.CoverList;
@@ -2869,6 +2891,7 @@ emiyn="N";
                         //"isReferal": rowData.isReferal
                       }
                     ],
+                    "LocationId": vehicle.VehicleId,
                     "Id": vehicleId,
                     "SectionId": rowData.SectionId,
   
@@ -2966,6 +2989,7 @@ emiyn="N";
                         //"isReferal": rowData.isReferal
                       }
                     ],
+                    "LocationId": vehicle.VehicleId,
                     "Id": vehicleId,
                     "SectionId": rowData.SectionId,
   
@@ -3193,6 +3217,7 @@ emiyn="N";
                       //"isReferal": rowData.isReferal
                     }
                   ],
+                  "LocationId": vehicle.VehicleId,
                   "Id": vehicleId,
                   "SectionId": rowData.SectionId,
   
@@ -3386,11 +3411,12 @@ emiyn="N";
     }
     setDiscountDetails(vehData,rowData,modal){
       this.discountList = [];this.loadingList=[];
-      this.selectedVehId = vehData.VehicleId;
+      this.selectedVehId = vehData.VehicleId;this.coverRateError=false;
       this.selectedCoverId = rowData.CoverId;
       this.ratePercent = rowData.Rate;
       this.CoverName = rowData.CoverName;
       this.minimumPremiumYN = rowData.MinimumPremiumYn;
+      this.minRateYN = rowData.MinimumRateYn;
       if(rowData.Discounts) this.discountList = rowData.Discounts;
       if(rowData.Loadings) this.loadingList = rowData.Loadings;
       if(rowData.Endorsements){
@@ -3412,6 +3438,10 @@ emiyn="N";
         this.calcType = rowData.CalcType;
         this.selectedSectionId = vehData.SectionId;
         this.ratePercent = rowData.Rate;
+        if(rowData.ActualRate) this.actualRatePercent = rowData.ActualRate;
+        else this.actualRatePercent = 0;
+        if(rowData.MinRate) this.minRatePercent = rowData.MinRate;
+        else this.minRatePercent = 0;
         this.excessPercent = rowData.ExcessPercent;
         this.excessAmount = rowData.ExcessAmount;
         this.beforeDiscount = rowData.PremiumBeforeDiscount;
@@ -3433,6 +3463,78 @@ emiyn="N";
         }
       }
       else this.finalSaveLoading(modal)
+    }
+    checkRangeCoverRate(){
+      if(this.minRateYN!=undefined){
+        if(this.minRateYN=='Y'){
+          if(this.minRatePercent!=null && this.actualRatePercent!=null){
+              if(this.ratePercent!='' && this.ratePercent!=null){
+                if(Number(this.ratePercent)<this.minRatePercent || Number(this.ratePercent)>this.actualRatePercent){
+                  this.coverRateError = true;
+                }
+                else this.coverRateError = false;
+              }
+          }
+          else this.coverRateError = false;
+        }
+        else this.coverRateError = false;
+      }
+      else this.coverRateError = false;
+    }
+    checkDiscountRate(rowData,type){
+      if(this.minRateYN!=undefined){
+        if(this.minRateYN=='Y'){
+          if((rowData.DiscountRate!=null && rowData.DiscountRate!='' && type=='P') || (rowData.DiscountAmount!=null && rowData.DiscountAmount!='' && type=='A')){
+            let actualRate = 0,minRate=0,rate=null;
+            if(type=='A') rate=Number(rowData.DiscountAmount.replaceAll(',',''));
+            else rate = Number(rowData.DiscountRate)
+            if(rowData.ActualRate!=null && rowData.ActualRate!=undefined){actualRate=rowData.ActualRate}
+            if(rowData.MinRate!=null && rowData.MinRate!=undefined){minRate=rowData.MinRate}
+            if(actualRate!=0 && minRate!=0){
+              if(rate<minRate || rate>actualRate) rowData['RateError']=true;
+              else rowData['RateError']=true;
+            }
+            else rowData['RateError']=false;
+          }
+          else rowData['RateError'] = false; 
+        }
+        else rowData['RateError']=false;
+      }
+      else  rowData['RateError']=false;
+    }
+    checkLoadingRate(rowData,type){
+      if(this.minRateYN!=undefined){
+        if(this.minRateYN=='Y'){
+          if((rowData.LoadingRate!=null && rowData.LoadingRate!='' && type=='P') || (rowData.LoadingAmount!=null && rowData.LoadingAmount!='' && type=='A')){
+            let actualRate = 0,minRate=0,rate=null;
+            if(type=='A') rate=Number(rowData.LoadingAmount.replaceAll(',',''));
+            else rate = Number(rowData.LoadingRate)
+            if(rowData.ActualRate!=null && rowData.ActualRate!=undefined){actualRate=rowData.ActualRate}
+            if(rowData.MinRate!=null && rowData.MinRate!=undefined){minRate=rowData.MinRate}
+            if(actualRate!=0 && minRate!=0){
+              if(rate<minRate || rate>actualRate) rowData['RateError']=true;
+              else rowData['RateError']=true;
+            }
+            else rowData['RateError']=false;
+          }
+          else rowData['RateError'] = false; 
+        }
+        else rowData['RateError'] = false; 
+      }
+      else rowData['RateError'] = false; 
+    }
+    checkSubmitValue(){
+      return (!this.coverRateError && !this.loadingList.some(ele=>ele.RateError==true) && !this.discountList.some(ele=>ele.RateError==true))
+    }
+    getLoadingHeader(row){
+      if(this.lang=='en') return `Rate Must be between ${row.MinRate} - ${row.ActualRate}`;
+      else if(this.lang=='fr') return `La valeur du taux doit être comprise entre ${row.MinRate} - ${row.ActualRate}`;
+      else if(this.lang=='po') return `O valor da taxa deve estar entre ${row.MinRate} - ${row.ActualRate}`;
+    }
+    getValidationHeader(){
+      if(this.lang=='en') return `Rate Must be between ${this.minRatePercent} - ${this.actualRatePercent}`;
+      else if(this.lang=='fr') return `La valeur du taux doit être comprise entre ${this.minRatePercent} - ${this.actualRatePercent}`;
+      else if(this.lang=='po') return `O valor da taxa deve estar entre ${this.minRatePercent} - ${this.actualRatePercent}`;
     }
     finalSaveLoading(modal){
       let vehData = this.vehicleDetailsList.filter(ele=>ele.VehicleId==this.selectedVehId);
@@ -4784,7 +4886,7 @@ emiyn="N";
       else if(!this.adminSection && (this.userType!='Issuer') && this.statusValue != 'RA' && !this.otpSection){
         this.onFormSubmit();
       }
-      else if(this.userType=='Issuer' && this.subuserType=='low'  && this.statusValue != 'RA' && !this.endorsementSection){
+      else if(this.userType=='Issuer' && this.subuserType=='low' && this.statusValue!=null  && this.statusValue != 'RA' && !this.endorsementSection){
         this.updateFinalizeYN('proceed');
       }
       else if(this.adminSection){
@@ -4797,7 +4899,9 @@ emiyn="N";
         for(let vehicle of this.selectedVehicleList){
           let vehEntry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.Vehicleid);
           if(vehEntry.length!=0){
-            let entry = vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId);
+            let entry = [];
+            if(this.productId=='5') vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId);
+            else entry = vehEntry;
             if(entry.length!=0){
               let j=0; let covers = [];
               for(let veh of entry){
@@ -4816,7 +4920,7 @@ emiyn="N";
                           let ReqObj = {
                             "RequestReferenceNo": this.quoteRefNo,
                             "VehicleId": veh.Id,
-                            "SectionId": vehicle.SectionId,
+                            "SectionId": veh.SectionId,
                             "ProductId": this.productId,
                             "AdminLoginId": this.loginId,
                             "InsuranceId": this.insuranceId,
@@ -4852,39 +4956,41 @@ emiyn="N";
     onUpdateFactor(type,modal){
       
       if((this.statusValue!='' && this.statusValue!=null) || (this.endorsementSection && this.endorseCovers) || this.userType=='Issuer' || type=='fleetSave'){
-        if(this.statusValue=='RA' || type=='calculate' || this.userType=='Issuer' || type=='fleetSave'){
+        if(this.statusValue=='RA' || type=='calculate' || this.userType.toLowerCase()=='issuer' || type=='fleetSave'){
+          
           if(this.selectedCoverList.length!=0){
             let i=0;
-            for(let vehicle of this.vehicleDetailsList){
-                let vehEntry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.Vehicleid);
-                if(vehEntry.length!=0){
-                  let entry = vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId);
-                  if(entry.length!=0){
-                    let j=0; let covers = [];
-                    for(let veh of entry){
-                        let k=0;
-                        for(let selectedCover of veh.Covers){
-                          let coverList = vehicle.CoverList.filter(ele=>ele.CoverId == selectedCover.CoverId)
-                          covers = covers.concat(coverList);
-                          k+=1;
-                          if(k==veh.Covers.length){
-                            j+=1;
-                            if(j==entry.length){
-                                let Location = '1';
-                                if(veh.LocationId){
-                                  Location = veh.LocationId;
-                                }
-                                let ReqObj = {
-                                  "RequestReferenceNo": this.quoteRefNo,
-                                  "VehicleId": veh.Id,
-                                  "SectionId": vehicle.SectionId,
-                                  "ProductId": this.productId,
-                                  "AdminLoginId": this.loginId,
-                                  "LocationId": Location,
-                                  "InsuranceId": this.insuranceId,
-                                  "Covers":covers
-                                }
-                                console.log("Final Req",vehicle,veh,ReqObj)
+            console.log("Selected Covers",this.selectedCoverList,this.vehicleDetailsList)
+            for(let vehicle of this.vehicleData){
+              let vehEntry = this.selectedCoverList.filter(ele=>ele.RiskId==vehicle.RiskId);
+              if(vehEntry.length!=0){
+                let entry = vehEntry.filter(ele=>ele.SectionId==vehicle.SectionId);
+                if(entry.length!=0){
+                  let j=0; let covers = [];
+                  for(let veh of entry){
+                      let k=0;
+                      for(let selectedCover of veh.Covers){
+                        let coverList = vehicle.CoverList.filter(ele=>ele.CoverId == selectedCover.CoverId && ele.SectionId==vehicle.SectionId && !(covers.some(entry=>entry.CoverId==ele.CoverId && ele.SectionId==entry.SectionId)))
+                        covers = covers.concat(coverList);
+                        k+=1;
+                        if(k==veh.Covers.length){
+                          j+=1;
+                          if(j==entry.length){
+                              let Location = '1';
+                              if(veh.LocationId){
+                                Location = veh.LocationId;
+                              }
+                              let ReqObj = {
+                                "RequestReferenceNo": this.quoteRefNo,
+                                "VehicleId": veh.Id,
+                                "LocationId": Location,
+                                "SectionId": vehicle.SectionId,
+                                "ProductId": this.productId,
+                                "AdminLoginId": this.loginId,
+                                "InsuranceId": this.insuranceId,
+                                "Covers":covers
+                              }
+                              if(covers.length!=0){
                                 let urlLink = `${this.CommonApiUrl}api/updatefactorrate`;
                                 this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
                                   (data: any) => {
@@ -4892,7 +4998,6 @@ emiyn="N";
                                         i+=1;
                                         if(i==this.vehicleDetailsList.length){
                                           if(type=='calculate'){
-                                            
                                             // this.getcall();
                                             //sessionStorage.removeItem('vehicleDetailsList');
                                             window.location.reload();
@@ -4906,35 +5011,47 @@ emiyn="N";
                                     },
                                     (err) => { },
                                   );
-                            }
+                              }
+                              else{
+                                i+=1;
+                                if(i==this.vehicleDetailsList.length){
+                                  if(type=='calculate'){
+                                    window.location.reload();
+                                  }
+                                  else if(type=='altSave'){ console.log("Finally Updated");}
+                                  else if(type=='fleetSave') this.getViewPremiumCalc(modal);
+                                  else if(this.subuserType=='low') this.onFormSubmit();
+                                  else this.updateReferralStatus();
+                                }}
                           }
                         }
-                    }
-                  }
-                  else{
-                    i+=1;
-                    if(i==this.vehicleDetailsList.length){
-                      if(type=='calculate'){
-                        //this.getcall();
-                        //sessionStorage.removeItem('vehicleDetailsList');
-                          window.location.reload();
                       }
-                      else this.updateReferralStatus();
-                    }
                   }
                 }
                 else{
                   i+=1;
-                    if(i==this.vehicleDetailsList.length){
-                      if(type=='calculate'){
-                        //this.getcall();
-                        //sessionStorage.removeItem('vehicleDetailsList');
-                          window.location.reload();
-                      }
-                      else this.updateReferralStatus();
+                  if(i==this.vehicleDetailsList.length){
+                    if(type=='calculate'){
+                      //this.getcall();
+                      //sessionStorage.removeItem('vehicleDetailsList');
+                        window.location.reload();
                     }
+                    else this.updateReferralStatus();
+                  }
                 }
-            }
+              }
+              else{
+                i+=1;
+                  if(i==this.vehicleDetailsList.length){
+                    if(type=='calculate'){
+                      //this.getcall();
+                      //sessionStorage.removeItem('vehicleDetailsList');
+                        window.location.reload();
+                    }
+                    else this.updateReferralStatus();
+                  }
+              }
+          }
             // for(let veh of this.selectedCoverList){
             //  let entry = this.vehicleDetailsList.find(ele=>ele.Vehicleid==veh.Id);
             //  let ReqObj = {
@@ -5044,41 +5161,41 @@ emiyn="N";
         }
     }
     updateReferralStatus(){
-      if(this.remarks == undefined) this.remarks = "";
-      if(this.rejectedReason == undefined) this.rejectedReason = "";
-        let ReqObj = {
-          "RequestReferenceNo": this.quoteRefNo,
-          "AdminLoginId": this.loginId,
-          "ProductId": this.productId,
-          "Status": this.statusValue,
-          "AdminRemarks": this.remarks,
-          "RejectReason": this.rejectedReason,
-          "CommissionModifyYn" : this.modifyCommissionYN,
-          "CommissionPercent" : this.commissionPercent
-        }
-        let urlLink = `${this.CommonApiUrl}quote/update/referalstatus`;
-        this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-          (data: any) => {
-              if(data.Result){
-                // let type: NbComponentStatus = 'success';
-                // const config = {
-                //   status: type,
-                //   destroyByClick: true,
-                //   duration: 4000,
-                //   hasIcon: true,
-                //   position: NbGlobalPhysicalPosition.TOP_RIGHT,
-                //   preventDuplicates: false,
-                // };
-                // this.toastrService.show(
-                //   'Referral Quote Status',
-                //   'Referral Status Updated Successfully',
-                //   config);
-                if(this.statusValue=='RP' || this.statusValue=='RR' || this.statusValue=='RA' || this.statusValue=='RE') this.router.navigate(['/referralCases'])
-                
-              }
-            },
-            (err) => { },
-          );
+        if(this.remarks == undefined) this.remarks = "";
+        if(this.rejectedReason == undefined) this.rejectedReason = "";
+          let ReqObj = {
+            "RequestReferenceNo": this.quoteRefNo,
+            "AdminLoginId": this.loginId,
+            "ProductId": this.productId,
+            "Status": this.statusValue,
+            "AdminRemarks": this.remarks,
+            "RejectReason": this.rejectedReason,
+            "CommissionModifyYn" : this.modifyCommissionYN,
+            "CommissionPercent" : this.commissionPercent
+          }
+          let urlLink = `${this.CommonApiUrl}quote/update/referalstatus`;
+          this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+            (data: any) => {
+                if(data.Result){
+                  // let type: NbComponentStatus = 'success';
+                  // const config = {
+                  //   status: type,
+                  //   destroyByClick: true,
+                  //   duration: 4000,
+                  //   hasIcon: true,
+                  //   position: NbGlobalPhysicalPosition.TOP_RIGHT,
+                  //   preventDuplicates: false,
+                  // };
+                  // this.toastrService.show(
+                  //   'Referral Quote Status',
+                  //   'Referral Status Updated Successfully',
+                  //   config);
+                  if(this.statusValue=='RP' || this.statusValue=='RR' || this.statusValue=='RA' || this.statusValue=='RE') this.router.navigate(['/referralCases'])
+                  
+                }
+              },
+              (err) => { },
+            );
     }
   
     proceed()
@@ -5126,15 +5243,29 @@ emiyn="N";
           if(data.Result){
             this.viewList = data.Result;
             if(this.viewList?.ClausesList){
-              this.ClausesData = this.viewList?.ClausesList;
+              let i=0;
+              for(let clause of this.viewList?.ClausesList){
+                  clause['selected'] = true;
+                  i+=1;
+                  if(i==this.viewList?.ClausesList.length) this.ClausesData = this.viewList?.ClausesList;
+              }
             }
             if(this.viewList?.ExclusionList){
-              this.ExclusionData = this.viewList?.ExclusionList;
+              let i=0;
+              for(let clause of this.viewList?.ExclusionList){
+                  clause['selected'] = true;
+                  i+=1;
+                  if(i==this.viewList?.ExclusionList.length) this.ExclusionData = this.viewList?.ExclusionList;
+              }
             }
             if(this.viewList?.WarrantyList){
-              this.WarrantyData = this.viewList?.WarrantyList;
+              let i=0;
+              for(let clause of this.viewList?.WarrantyList){
+                  clause['selected'] = true;
+                  i+=1;
+                  if(i==this.viewList?.WarrantyList.length) this.WarrantyData = this.viewList?.WarrantyList;
+              }
             }
-            this.WarrteData = this.viewList.WarrateList;
             if(this.userType=='Broker'){
               /*console.log('bbbbbbbbbbbbb',this.userType)
               this.ClauseColumnHeader;
@@ -5281,24 +5412,30 @@ emiyn="N";
               this.Id = "6";
               this.jsonList = [
                 {
-                  "TermsId":null,
-                   "Id":this.Id,
+                  "TypeId":"D",
+                  "DocRefNo":null,
+                "DocumentId":null,
+                   "Id":"6",
                   "SubId":null,
-                   "SubIdDesc":""
+                   "SubIdDesc":"",
+                   "selected": true
                 }
-              ]
+              ];
             }
             let warranty = this.viewDropDown.filter(ele => ele.Code == '4')
             if(warranty){
               this.Ids = "4";
               this.json = [
                 {
-                  "TermsId":null,
-                   "Id": this.Ids,
+                  "TypeId":"D",
+                   "Id":"4",
                   "SubId":null,
-                   "SubIdDesc":""
+                   "SubIdDesc":"",
+                   "DocRefNo":null,
+                   "DocumentId":null,
+                   "selected": true
                 }
-              ]
+              ];
             }
             let Exclusion = this.viewDropDown.filter(ele => ele.Code == '7')
             if(Exclusion){ 
@@ -5306,10 +5443,13 @@ emiyn="N";
               this.id = "7";
               this.ExclusionList = [
                 {
-                  "TermsId":null,
-                   "Id": this.id,
+                  "TypeId":"D",
+                   "Id":"7",
                   "SubId":null,
-                   "SubIdDesc":""
+                   "SubIdDesc":"",
+                   "DocRefNo":null,
+                   "DocumentId":null,
+                   "selected": true
                 }
               ]
           }
@@ -5526,53 +5666,21 @@ emiyn="N";
     }
     onCheckUser(i, event,clause) {
       const checked = event.target.checked; // stored checked value true or false
-      if (checked) {
-       //this.common1.push({ SubId: i });
-       let index = this.ClausesData.findIndex(ele => ele.SubIdDesc == clause.SubIdDesc && ele.SubId == clause.SubId);
-       console.log('BBBBBBBBBBBB',this.ClausesData);   
-       this.ClausesData[index].TypeId='D';
-       console.log('OOOOOOOOOOOOOO',index);
-         } 
-         else if(!checked) {
-           let index = this.ClausesData.findIndex(ele => ele.SubIdDesc == clause.SubIdDesc && ele.SubId == clause.SubId);
-           this.ClausesData[index].TypeId='O';
-           console.log('IIIIIIIIIII',index)
-       }
-    //   const checked = event.target.checked; // stored checked value true or false
-    //    if (checked) {
-    //     //this.common1.push({ SubId: i });
-    //     let index = this.ClausesData.find(ele => ele.SubId == clause.SubId);
-    //     console.log('BBBBBBBBBBBB',this.ClausesData);
-            
-    //     if(index){
-    //       this.common1.push(index);
-    //       console.log('OOOOOOOOOOOOOO',this.common1);
-    //     }
-    //      // push the Id in array if checked
-    //       } else if(!checked) {
-    //         /*let index = this.common1.findIndex(SubId =>SubId == Id);//Find the index of stored id
-    //         this.common1.splice(index,1);*/
-    //         //this.common1.splice(this.common1.findIndex(Id  => Id.SubId == i),1);
-    //        this.common1=this.ClausesData.splice(i,1);
-  
-    //        //this.commonMethod(this.common2)
-    //         console.log('IDDDDDDDDDDDS',i);
-    //         console.log('cccccc',this.common1)
-    // //this.viewCondition(this.common1[i])
-    //         /*let commonObj = {
-    //           "ClausesList": this.common1,
-    //             }*/
-  
-    //           //this.vehicleDetailsList[i].Common.ClausesList = this.common1;
-  
-  
-  
-  
-    //         //console.log('SDFGH',this.common1.findIndex(Id  => Id.SubId))
-    //         //console.log('INNNND',index)
-    //       // Then remove
-    //     }
+      if (checked) {clause['selected']=true;} 
+      else if(!checked) {clause['selected']=false;}
+    }
+     onCheckExclusion(i, event,clause) {
+      
+      const checked = event.target.checked; // stored checked value true or false
+      if (checked) {clause['selected']=true;} 
+      else if(!checked) {clause['selected']=false;}
+    
      }
+     onCheckWarranties(i, event,clause) {
+      const checked = event.target.checked; // stored checked value true or false
+      if (checked) {clause['selected']=true;} 
+      else if(!checked) {clause['selected']=false;}
+    }
      /*commonMethod(common){
       let commons = {
         "ClausesList": this.common2,
@@ -5587,15 +5695,12 @@ emiyn="N";
        //this.common1.push({ SubId: i });
        let index = this.WarrantyData.findIndex(ele => ele.SubIdDesc == clause.SubIdDesc && ele.SubId == clause.SubId);
        console.log('BBBBBBBBBBBB',this.WarrantyData);
-         this.WarrantyData[index].TypeId='D';
+         this.WarrantyData[index].selected=true;
          console.log('OOOOOOOOOOOOOO',index);
          } 
          else if(!checked) {
            let index = this.WarrantyData.findIndex(ele => ele.SubIdDesc == clause.SubIdDesc && ele.SubId == clause.SubId);
-           console.log('IIIIIIIIIII',index,this.WarrantyData);
-           console.log('Warranty Datas',this.WarrantyData);
-             this.WarrantyData[index].TypeId='O';
-             console.log('Warranty Datas 1',this.WarrantyData);
+           this.WarrantyData[index].selected=false;
           
        }
     }
@@ -5605,12 +5710,12 @@ emiyn="N";
        //this.common1.push({ SubId: i });
        let index = this.ExclusionData.findIndex(ele => ele.SubIdDesc == clause.SubIdDesc && ele.SubId == clause.SubId);
        console.log('BBBBBBBBBBBB',this.ExclusionData);
-       this.ExclusionData[index].TypeId='D';
+       this.ExclusionData[index].selected=true;
          } 
          else if(!checked) {
            let index = this.ExclusionData.findIndex(ele => ele.SubIdDesc == clause.SubIdDesc && ele.SubId == clause.SubId);
            console.log('IIIIIIIIIII',index)
-           this.ExclusionData[index].TypeId='O';
+           this.ExclusionData[index].selected=false;
        }
     }
     getSectionName(index){
@@ -5668,6 +5773,7 @@ emiyn="N";
         //var funcs = [];
           //this.ClausesData.forEach((i) => funcs.push( () => i  ))
         console.log("EEEEEEEE", this.ClausesData);
+        console.log("Final Added ROws",this.jsonList)
   
      let clauses
        if(this.ClausesData!=null || this.ClausesData !=undefined){
@@ -5676,8 +5782,8 @@ emiyn="N";
        else{
         clauses= this.jsonList
        }
-  
-      console.log('QQQQQ',this.quoteNo)
+       clauses = clauses.filter(ele=>ele.selected==true)
+      console.log('QQQQQ',clauses)
        let quote
    if(this.quoteNo){
     quote=this.quoteNo;
@@ -5695,8 +5801,8 @@ emiyn="N";
         ProductId: this.productId,
         QuoteNo:quote,
         //TermsId:null,
-        RiskId: this.tempData.VehicleId,
-        SectionId:this.tempData.SectionId,
+        RiskId: this.selectedRowData.VehicleId,
+        SectionId:this.termsSectionId,
         TermsAndConditionReq:clauses,
         RequestReferenceNo: this.quoteRefNo
       };
@@ -5727,29 +5833,31 @@ emiyn="N";
           console.log('TOOOOOOOOO');
           console.log('VechileLength',this.vehicleDetailsList.length);
           //this.closes=false;
-          $('#exampleModal').modal('hide');
   
           //exampleModel.hide()
           this.jsonList =[
             {
-              "TermsId":null,
-               "Id":this.Id,
+              "TypeId":"D",
+              "DocRefNo":null,
+            "DocumentId":null,
+              "SectionId":this.termsSectionId,
+               "Id":"6",
               "SubId":null,
-               "SubIdDesc":""
+               "SubIdDesc":"",
+               "selected": true
             }
           ];
+          this.viewCondition('direct');
+          this.clauses = true;
+          this.showGrid=true;
+          this.newAddClauses = false;
           //this.jsonList.splice();
   
   
           //$('#ExclusionModal').modal('hide');
           //$('#WarrantyModel').modal('hide');
   
-          this.ClausesStatus(i,this.tempData);
-          this.onWarranty = false;
-          this.onClauses = true;
-          this.onWars = false;
-          this.onExclusion = false;
-          this.clauses=true;
+          
           //window.location.reload();
         }
       });
@@ -5759,13 +5867,14 @@ emiyn="N";
   
     let i=0;
   
-    let clauses
+    let clauses:any[]=[]
     if(this.ExclusionData!=null || this.ExclusionData !=undefined){
       clauses= this.ExclusionData.concat(this.ExclusionList);
      }
      else{
       clauses= this.ExclusionList
      }
+     clauses = clauses.filter(ele=>ele.selected==true)
     //= this.ExclusionData.concat(this.ExclusionList);
     console.log('Exclusion',this.tempData)
     console.log('Exclsuion',this.ExclusionList)
@@ -5776,9 +5885,10 @@ emiyn="N";
       ProductId: this.productId,
       QuoteNo:this.quoteNo,
       //TermsId:null,
-      RiskId: this.tempData.VehicleId,
-      SectionId:this.tempData.SectionId,
+      RiskId: this.selectedRowData.VehicleId,
+      SectionId:this.termsSectionId,
       TermsAndConditionReq:clauses,
+      RequestReferenceNo: this.quoteRefNo
     };
   
     let urlLink = `${this.CommonApiUrl}api/inserttermsandcondition`;
@@ -5790,18 +5900,22 @@ emiyn="N";
         console.log('VechileLength',this.vehicleDetailsList.length);
         //this.closes=false;
         //$('#exampleModal').modal('hide');
-        $('#ExclusionModal').modal('hide');
-        this.ExclusionList =[
+        // $('#ExclusionModal').modal('hide');
+        this.ExclusionList = [
           {
-            "TermsId":null,
-             "Id":this.id,
+            "TypeId":"D",
+             "Id":"7",
             "SubId":null,
-             "SubIdDesc":""
+             "SubIdDesc":"",
+             "DocRefNo":null,
+             "DocumentId":null,
+             "selected": true
           }
-        ];
-        //$('#WarrantyModel').modal('hide');
-  
-        this.ExclusioStatus(i,this.tempData)
+        ]
+        this.viewCondition('direct');
+        this.newAddExclusion = false;
+        this.Exclusion = true;
+        this.showGrid=true;
         //window.location.reload();
       }
     });
@@ -5810,13 +5924,14 @@ emiyn="N";
   saveWarranty(tempData,json){
     let i=0;
   
-    let clauses
+    let clauses:any[]=[]
     if(this.WarrantyData !=null || this.WarrantyData !=undefined){
       clauses= this.WarrantyData.concat(this.json);
      }
      else{
       clauses= this.json
      }
+     clauses = clauses.filter(ele=>ele.selected==true)
     //let clauses = this.WarrantyData .concat(this.json);
     console.log('Warranty',this.tempData)
     console.log('Warranty',this.json)
@@ -5827,8 +5942,8 @@ emiyn="N";
       ProductId: this.productId,
       QuoteNo:"",
       //TermsId:null,
-      RiskId: this.tempData.VehicleId,
-      SectionId:this.tempData.SectionId,
+      RiskId: this.selectedRowData.VehicleId,
+      SectionId:this.termsSectionId,
       TermsAndConditionReq:clauses,
       RequestReferenceNo: this.quoteRefNo
     };
@@ -5843,17 +5958,23 @@ emiyn="N";
         //this.closes=false;
         //$('#exampleModal').modal('hide');
         //$('#ExclusionModal').modal('hide');
-        $('#WarrantyModel').modal('hide');
+        // $('#WarrantyModel').modal('hide');
         this.json = [
           {
-            "TermsId":null,
-             "Id": this.Ids,
+            "TypeId":"D",
+             "Id":"4",
             "SubId":null,
-             "SubIdDesc":""
+             "SubIdDesc":"",
+             "DocRefNo":null,
+             "DocumentId":null,
+             "selected": true
           }
-        ]
+        ];
   
-        this.WarrantyStatus(i,this.tempData)
+        this.viewCondition('direct');
+        this.newAddWarranty = false;
+        this.warranty = true;
+        this.showGrid=true;
         //window.location.reload();
       }
     });
@@ -5861,37 +5982,45 @@ emiyn="N";
   
   addItem(){
     //this.jsonList.push(row);
-    let entry = [{
-     "TermsId":null,
-     "Id":this.Id,
-     "SubId":null,
-     "SubIdDesc":""
-   }]
-   this.jsonList = entry.concat(this.jsonList);
+      let entry = [{
+       "TypeId":"O",
+       "Id":'6',
+       "SubId":null,
+       "SectionId": this.termsSectionId,
+       "RiskId": this.selectedRowData.VehicleId,
+       "SubIdDesc":"",
+       "DocRefNo":null,
+        "DocumentId":null,
+        "selected": true
+       
+     }]
+      this.jsonList = entry.concat(this.jsonList);
      }
      addwarranty(row){
-       let entry = [{
-         "TermsId":null,
-         "Id":this.Ids,
-         "SubId":null,
-         "SubIdDesc":""
-       }]
+      let entry = [{
+        "TypeId":"O",
+        "Id":"4",
+        "SubId":null,
+        "SubIdDesc":"",
+        "DocRefNo":null,
+        "DocumentId":null,
+        "selected": true
+      }]
        this.json = entry.concat(this.json);
-       //this.json.push(row);
      }
      addExclusion(row:any){
-       let entry = [{
-         "TermsId":null,
-         "Id":this.id,
-         "SubId":null,
-         "SubIdDesc":""
-       }]
+      let entry = [{
+        "TypeId":"O",
+        "Id":"7",
+        "SubId":null,
+        "SubIdDesc":"",
+        "DocRefNo":null,
+        "DocumentId":null,
+        "selected": true
+      }]
        this.ExclusionList = entry.concat(this.ExclusionList);
-     //this.ExclusionList.push(row);
      }
-  
-     delete(row:any)
-     {
+     delete(row:any){
          const index = this.json.indexOf(row);
          this.json.splice(index, 1);
      }

@@ -22,10 +22,13 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from 'src/app/app.module';
 import { HttpClient } from '@angular/common/http';
+import { ClaimIntimateComponent } from './claim-intimate/claim-intimate.component';
+import { DialogModule } from 'primeng/dialog';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
-    PortfolioComponent,EndorsementComponent, EndorsementTypeComponent
+    PortfolioComponent,EndorsementComponent, EndorsementTypeComponent, ClaimIntimateComponent
   ],
   imports: [
     CommonModule,
@@ -46,6 +49,8 @@ import { HttpClient } from '@angular/common/http';
     InputTextareaModule,
     CalendarModule,
     SelectButtonModule,
+    DialogModule,
+    CheckboxModule,
     TranslateModule.forRoot({
       loader: {
           provide: TranslateLoader,

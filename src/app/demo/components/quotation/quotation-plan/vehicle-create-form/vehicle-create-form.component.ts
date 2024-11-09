@@ -6,6 +6,7 @@ import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { TranslateService } from '@ngx-translate/core';
+import { unix } from 'moment';
 
 @Component({
   selector: 'app-vehicle-create-form',
@@ -39,9 +40,9 @@ export class VehicleCreateFormComponent implements OnInit {
   axelDistance: any;endorsementType:any=null;exchangeRate:any=null;
   chassisNo: any;endtPrevPolicyNo:any=null;
   colorValue: any;tareWeight:any=null;currencyCode:any=null;
-  engineNo: any;seatingCapacity:any=null;customerName:any=null;
+  engineNo: any='';seatingCapacity:any=null;customerName:any=null;
   fuelType: any;ownerName:any=null;endtStatus:any=null;
-  grossWeight: any;engineCapacity:any=null;vehicleDetailsList:any[]=[];
+  grossWeight: any=0;engineCapacity:any=null;vehicleDetailsList:any[]=[];
   motorCategory: any;ownerCategory:any=null;validSection:boolean=false;
   usageValue: any;noOfAxels:any=null;duplicateSection:boolean=false;
   customerCode: any;endorsementEffectiveDate:any=null;isFinanceEndt:any=null;
@@ -51,10 +52,10 @@ export class VehicleCreateFormComponent implements OnInit {
   endorsePolicyNo: any=null;years:any[]=[];modelHeader:any[]=[];
   referenceNo: string;mainBodyTypeList:any[]=[];makeError:boolean = false;
   commonDetails: any;editSectionAlt:boolean=false;modelSearchVisible:boolean = false;
-  modelColumns:any[]=[];selectedRowData:any=null;lang:any=null;horsePower:any=null;
+  modelColumns:any[]=[];selectedRowData:any=null;lang:any=null;horsePower:any=0;
   horsePowerError=false;
-  displacement: any;
-  numberOfCylinders: any;
+  displacement: any="0";
+  numberOfCylinders: any=0;
   RegistrationDate:any;
   bodyTypeError=false;
   modelError=false;
@@ -68,6 +69,9 @@ export class VehicleCreateFormComponent implements OnInit {
   modelError1: boolean=false;
   bodyType: any;
   grossWeightError: boolean=false;
+  maxDate: any;
+  plateTypeList: any[]=[];
+  PlateType:any;
   constructor(private messageService: MessageService,private sharedService: SharedService,private appComp:AppComponent,
     private translate:TranslateService,private datePipe:DatePipe,private router:Router) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -90,6 +94,10 @@ export class VehicleCreateFormComponent implements OnInit {
       if(this.insuranceId=='100020') this.getNewMakeList();
       this.getBodyTypeList();
       this.getOwnerCategoryList();
+      if(this.insuranceId=='100040'){
+        this.getMakeList();
+        this.getPlateType();
+      }
       this.appComp.getLanguage().subscribe((res:any)=>{  
         if(res) this.lang=res;
         else this.lang='en';
@@ -102,6 +110,7 @@ export class VehicleCreateFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.maxDate = new Date(); 
     this.ownerCategoryOptions = [{name: 'Category', code: 'category'}];
     this.customerTypes = [{label: 'Personal', value: 'personal'}, {label: 'Corporate', value: 'corporate'}];
     if(this.lang=='en'){this.items = [{ label: 'Home', routerLink:'/' }, {label:'Vehicle', routerLink: '/vehicle'},{label:'Create Vehicle'}];}
@@ -291,7 +300,7 @@ export class VehicleCreateFormComponent implements OnInit {
         this.editSection = true;
       }
       else if(this.regNo!=null && this.regNo!='' && this.regNo!=undefined){
-        if(this.insuranceId=='100002'){
+        if(this.insuranceId=='100002' || this.insuranceId=='100040'){
           this.regNo = this.regNo.toUpperCase();
           this.editSection = true;
           sessionStorage.setItem('loadingType','motorSearch');
@@ -370,18 +379,6 @@ export class VehicleCreateFormComponent implements OnInit {
           brokerbranchCode = null;
         }
       }
-      if(this.userType!='Broker' && this.userType!='User'){
-          this.sourceType = this.commonDetails?.SourceCode;
-          this.customerCode = this.commonDetails?.CustomerCode;
-          this.brokerCode = this.commonDetails?.BrokerCode;
-          brokerbranchCode =  this.commonDetails?.BrokerBranchCode;
-          this.customerName = this.commonDetails?.CustomerName;
-          loginId = this.commonDetails?.LoginId;
-      }
-      else {
-        this.sourceType = this.subuserType;
-        this.customerCode = this.userDetails?.Result.CustomerCode;
-      }
       let refNo = "99999",regYear="99999",IdType="99999",IdNo="99999";
       let id = sessionStorage.getItem('vehicleLength')
       if(id!=null && id!=undefined){
@@ -431,6 +428,7 @@ export class VehicleCreateFormComponent implements OnInit {
         this.vehicleDetails.PolicyStartDate = commonDetails.policyStartDate;
         this.vehicleDetails.PolicyEndDate = commonDetails.policyEndDate;
         this.vehicleDetails.Currency = commonDetails.currencyCode;
+        this.vehicleDetails['QuoteExpiryDays'] = commonDetails?.QuoteExpiryDays;
         this.currencyCode = commonDetails.currencyCode;
         this.exchangeRate = commonDetails.exchangeRate;
 
@@ -509,8 +507,20 @@ export class VehicleCreateFormComponent implements OnInit {
             if(this.customerName == null) this.customerName = customerDetails?.ClientName;
           }
         }
+        if(this.userType!='Broker' && this.userType!='User'){
+          this.sourceType = this.commonDetails?.SourceCode;
+          this.customerCode = this.commonDetails?.CustomerCode;
+          this.brokerCode = this.commonDetails?.BrokerCode;
+          brokerbranchCode =  this.commonDetails?.BrokerBranchCode;
+          this.customerName = this.commonDetails?.CustomerName;
+          loginId = this.commonDetails?.LoginId;
+      }
+      else {
+        this.sourceType = this.subuserType;
+        this.customerCode = this.userDetails?.Result.CustomerCode;
+      }
         if(this.vehicleDetails?.SavedFrom=='SQ') this.vehicleDetails.SavedFrom = 'WEB';
-        let registrationDate,parts;
+        let registrationDate:any=null,parts:any[]=[];
         if (this.RegistrationDate != undefined && this.RegistrationDate != null && this.RegistrationDate != '') {
           if(String(this.RegistrationDate).includes('/')){
             registrationDate = this.RegistrationDate;
@@ -522,18 +532,27 @@ export class VehicleCreateFormComponent implements OnInit {
             // The year is the last part of the array
             
         }
+        if(this.vehicleDetails.SavedFrom==null) this.vehicleDetails.SavedFrom='API';
         if(this.insuranceId=='100040' || this.insuranceId=='100042'){
           this.vehicleDetails.MotorCategory  ="1";
           this.vehicleDetails.Motorusage ="Ambulance"
           this.vehicleDetails.MotorusageId='1';
-          this.vehicleDetails.ManufactureYear = parts[2];
+          if(parts.length!=0)this.vehicleDetails.ManufactureYear = parts[2];
         }
+        let usageId = this.vehicleDetails?.MotorusageId;
+        let entry = this.usageList.find(ele=>ele.CodeDesc==this.vehicleDetails?.Motorusage || ele.Code==this.vehicleDetails?.Motorusage);
+        if(entry) usageId = entry.Code;
         if(this.engineNo!=null && this.engineNo!='') this.vehicleDetails['EngineNumber'] = this.engineNo;
-        console.log(this.vehicleDetails,"this.vehicleDetails.Newvalue")
+        if(this.vehicleDetails.Zone=="" || this.vehicleDetails.Zone==undefined){
+          this.vehicleDetails.Zone =null
+        }
+        if(this.vehicleDetails.Class=="" || this.vehicleDetails.Class==undefined){
+          this.vehicleDetails.Class=null
+        }
       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
-        "AcExecutiveId": this.vehicleDetails?.AcExecutiveId,
-        "CommissionType": this.vehicleDetails?.CommissionType,
+        "AcExecutiveId": null,
+        "CommissionType": this.vehicleDetails?.CommissionType ? this.vehicleDetails?.CommissionType : null,
         "CustomerCode": this.customerCode,
         "CustomerName": this.customerName,
         "BdmCode": this.customerCode,
@@ -543,52 +562,53 @@ export class VehicleCreateFormComponent implements OnInit {
         "ApplicationId": appId,
         "CustomerReferenceNo": refNo,
         "RequestReferenceNo": quoteReferenceNo,
+        "SourceType": this.subuserType,
         "Idnumber": IdNo,
         "VehicleId": this.vehicleDetails.Vehicleid,
-        "Deductibles": this.vehicleDetails.Deductibles,
-        "VehicleValueType": this.vehicleDetails.VehicleValueType,
-        "DefenceValue": this.vehicleDetails.DefenceValue,
-        "Inflation": this.vehicleDetails.Inflation,
-        "AcccessoriesSumInsured": this.vehicleDetails?.AcccessoriesSumInsured,
-        "AccessoriesInformation": this.vehicleDetails?.AccessoriesInformation,
-        "AdditionalCircumstances": this.vehicleDetails?.AdditionalCircumstances,
-        "AxelDistance": this.axelDistance,
-        "Chassisnumber": this.chassisNo,
-        "Color": this.vehicleDetails?.Color,
-        "CityLimit": this.vehicleDetails?.CityLimit,
-        "CoverNoteNo": this.vehicleDetails?.CoverNoteNo,
-        "OwnerCategory": this.vehicleDetails?.OwnerCategory,
+        "Deductibles": this.vehicleDetails.Deductibles ? this.vehicleDetails.Deductibles : null,
+        "VehicleValueType": this.vehicleDetails.VehicleValueType ? this.vehicleDetails.VehicleValueType : null,
+        "DefenceValue": this.vehicleDetails.DefenceValue ? this.vehicleDetails.DefenceValue : null,
+        "Inflation": this.vehicleDetails.Inflation ? this.vehicleDetails.Inflation : null,
+        "AcccessoriesSumInsured": this.vehicleDetails?.AcccessoriesSumInsured ? this.vehicleDetails?.AcccessoriesSumInsured : null,
+        "AccessoriesInformation": this.vehicleDetails?.AccessoriesInformation ? this.vehicleDetails?.AccessoriesInformation : null, 
+        "AdditionalCircumstances": this.vehicleDetails?.AdditionalCircumstances ? this.vehicleDetails?.AdditionalCircumstances : null,
+        "AxelDistance": this.axelDistance ? this.axelDistance : "1",
+        "Chassisnumber": this.chassisNo ? this.chassisNo?.toUpperCase() : null,
+        "Color": this.vehicleDetails?.Color  ? this.vehicleDetails?.Color : null,
+        "CityLimit": this.vehicleDetails?.CityLimit  ? this.vehicleDetails?.CityLimit : null,
+        "CoverNoteNo": this.vehicleDetails?.CoverNoteNo  ? this.vehicleDetails?.CoverNoteNo : null,
+        "OwnerCategory": this.vehicleDetails?.OwnerCategory  ? this.vehicleDetails?.OwnerCategory : null,
         "CubicCapacity": grossweight,
         "CreatedBy": createdBy,
         "DrivenByDesc": 'D',
-        "MobileCode": this.vehicleDetails?.MobileCode,
-        "InsurancetypeDesc": this.vehicleDetails?.InsurancetypeDesc,
-        "InsuranceClassDesc": this.vehicleDetails?.InsuranceClassDesc,
-        "MobileNumber": this.vehicleDetails?.MobileNumber,
-        "EngineNumber": this.vehicleDetails?.EngineNumber?.toUpperCase(),
-        "FuelType": this.vehicleDetails?.FuelType,
-        "Gpstrackinginstalled": this.vehicleDetails?.Gpstrackinginstalled,
+        "MobileCode": this.vehicleDetails?.MobileCode ?  this.vehicleDetails?.MobileCode : null,
+        "InsurancetypeDesc": this.vehicleDetails?.InsurancetypeDesc ?  this.vehicleDetails?.InsurancetypeDesc : null,
+        "InsuranceClassDesc": this.vehicleDetails?.InsuranceClassDesc  ?  this.vehicleDetails?.InsuranceClassDesc : null,
+        "MobileNumber": this.vehicleDetails?.MobileNumber ? this.vehicleDetails?.MobileNumber : null,
+        "EngineNumber": this.vehicleDetails?.EngineNumber?.toUpperCase() ? this.vehicleDetails?.EngineNumber?.toUpperCase() : null,
+        "FuelType": this.vehicleDetails?.FuelType ? this.vehicleDetails?.FuelType : null,
+        "Gpstrackinginstalled": this.vehicleDetails?.Gpstrackinginstalled ? this.vehicleDetails?.Gpstrackinginstalled : null,
         "Grossweight": grossweight,
         "HoldInsurancePolicy": "N",
-        "Insurancetype": this.vehicleDetails?.Insurancetype,
+        "Insurancetype": this.vehicleDetails?.Insurancetype ? this.vehicleDetails?.Insurancetype : null,
         "InsuranceId": this.insuranceId,
-        "InsuranceClass": this.vehicleDetails?.InsuranceClass,
+        "InsuranceClass": this.vehicleDetails?.InsuranceClass ? this.vehicleDetails?.InsuranceClass : null,
         "InsurerSettlement": "",
         "InterestedCompanyDetails": "",
-        "ManufactureYear": this.vehicleDetails?.ManufactureYear,
+        "ManufactureYear": this.vehicleDetails?.ManufactureYear ? this.vehicleDetails?.ManufactureYear : null,
         "ModelNumber": null,
-        "MotorCategory": this.vehicleDetails?.MotorCategory,
-        "Motorusage": this.vehicleDetails?.Motorusage,
-        "MotorusageId": this.vehicleDetails?.MotorusageId,
-        "NcdYn": this.vehicleDetails?.NcdYn,
-        "PolicyRenewalYn": this.vehicleDetails.PolicyRenewalYn,
-        "NoOfClaims": this.vehicleDetails?.NoOfClaims,
-        "NumberOfAxels": this.vehicleDetails?.NumberOfAxels,
+        "MotorCategory": this.vehicleDetails?.MotorCategory ? this.vehicleDetails?.MotorCategory : null,
+        "Motorusage": this.vehicleDetails?.Motorusage ? this.vehicleDetails?.Motorusage : null,
+        "MotorusageId": usageId,
+        "NcdYn": this.vehicleDetails?.NcdYn ? this.vehicleDetails?.NcdYn : null,
+        "PolicyRenewalYn": this.vehicleDetails.PolicyRenewalYn  ? this.vehicleDetails?.PolicyRenewalYn : null,
+        "NoOfClaims": this.vehicleDetails?.NoOfClaims ? this.vehicleDetails?.NoOfClaims : null,
+        "NumberOfAxels": this.vehicleDetails?.NumberOfAxels ? this.vehicleDetails?.NumberOfAxels : null,
         "BranchCode": this.branchCode,
         "AgencyCode": this.agencyCode,
         "ProductId": '5',
-        "SectionId": this.vehicleDetails?.SectionId,
-        "PolicyType": this.vehicleDetails?.PolicyType,
+        "SectionId": this.vehicleDetails?.SectionId ? this.vehicleDetails?.SectionId : null,
+        "PolicyType": this.vehicleDetails?.PolicyType ? this.vehicleDetails?.PolicyType : null,
         "RadioOrCasseteplayer": null,
         "RegistrationYear": regYear,
         "Registrationnumber": this.regNo.toUpperCase(),
@@ -597,38 +617,39 @@ export class VehicleCreateFormComponent implements OnInit {
         "SourceTypeId": this.sourceType,
         "SpotFogLamp": null,
         "Stickerno": null,
-        "SumInsured": this.vehicleDetails?.SumInsured,
+        "SumInsured": this.vehicleDetails?.SumInsured ? this.vehicleDetails?.SumInsured : null,
         "Tareweight": tareweight,
-        "TppdFreeLimit": this.vehicleDetails?.TppdFreeLimit,
-        "TppdIncreaeLimit": this.vehicleDetails?.TppdIncreaeLimit,
+        "TppdFreeLimit": this.vehicleDetails?.TppdFreeLimit ? this.vehicleDetails?.TppdFreeLimit : null,
+        "TppdIncreaeLimit": this.vehicleDetails?.TppdIncreaeLimit ? this.vehicleDetails?.TppdIncreaeLimit : null,
         "TrailerDetails": null,
-        "Vehcilemodel":  this.vehicleDetails?.Vehcilemodel,
-        "VehcilemodelId": this.vehicleDetails?.VehcilemodelId,
+        "Vehcilemodel":  this.vehicleDetails?.Vehcilemodel ? this.vehicleDetails?.Vehcilemodel : null,
+        "VehcilemodelId": this.vehicleDetails?.VehcilemodelId ? this.vehicleDetails?.VehcilemodelId : null,
         "VehicleType": this.bodyTypeId,
-        "VehicleTypeId": this.vehicleDetails?.VehicleTypeId,
+        "VehicleTypeId": this.vehicleDetails?.VehicleTypeId ? this.vehicleDetails?.VehicleTypeId : null,
         "Vehiclemake": this.vehicleDetails?.Vehiclemake,
         "VehiclemakeId": this.vehicleDetails?.VehiclemakeId,
-        "WindScreenSumInsured": this.vehicleDetails?.WindScreenSumInsured,
-        "Windscreencoverrequired": this.vehicleDetails?.Windscreencoverrequired,
+        "WindScreenSumInsured": this.vehicleDetails?.WindScreenSumInsured ? this.vehicleDetails?.WindScreenSumInsured : null,
+        "Windscreencoverrequired": this.vehicleDetails?.Windscreencoverrequired ? this.vehicleDetails?.Windscreencoverrequired : null,
         "accident": null,
-        "ClaimType": this.vehicleDetails?.ClaimType,
-        "periodOfInsurance": this.vehicleDetails?.periodOfInsurance,
-        "PolicyStartDate": this.vehicleDetails.PolicyStartDate,
-        "PolicyEndDate": this.vehicleDetails.PolicyEndDate,
+        "ClaimType": this.vehicleDetails?.ClaimType ? this.vehicleDetails?.ClaimType : null,
+        "periodOfInsurance": this.vehicleDetails?.periodOfInsurance ? this.vehicleDetails?.periodOfInsurance : null,
+        "PolicyStartDate": this.vehicleDetails.PolicyStartDate ? this.vehicleDetails?.PolicyStartDate : null,
+        "PolicyEndDate": this.vehicleDetails.PolicyEndDate ? this.vehicleDetails?.PolicyEndDate : null,
         "Currency": this.currencyCode,
         "ExchangeRate": this.exchangeRate,
         "HavePromoCode": this.havePromoCode,
+        "LocationId": this.vehicleDetails.Vehicleid,
         "PromoCode": this.promoCode,
-        "CollateralYn": this.vehicleDetails?.CollateralYn,
-        "CollateralName": this.vehicleDetails?.CollateralName,
-        "FirstLossPayee": this.vehicleDetails?.FirstLossPayee,
-        "FleetOwnerYn": this.vehicleDetails?.FleetOwnerYn,
-        "NoOfVehicles": this.vehicleDetails?.NoOfVehicles,
-        "NoOfComprehensives": this.vehicleDetails?.NoOfComprehensives,
+        "CollateralYn": this.vehicleDetails?.CollateralYn ? this.vehicleDetails?.CollateralYn : 'N',
+        "CollateralName": this.vehicleDetails?.CollateralName ? this.vehicleDetails?.CollateralName : null,
+        "FirstLossPayee": this.vehicleDetails?.FirstLossPayee ? this.vehicleDetails?.FirstLossPayee : null,
+        "FleetOwnerYn": this.vehicleDetails?.FleetOwnerYn ? this.vehicleDetails?.FleetOwnerYn : null,
+        "NoOfVehicles": this.vehicleDetails?.NoOfVehicles ? this.vehicleDetails?.NoOfVehicles : "1",
+        "NoOfComprehensives": this.vehicleDetails?.NoOfComprehensives ? this.vehicleDetails?.NoOfComprehensives : null,
         "ClaimRatio": null,
-        "SavedFrom": this.vehicleDetails?.SavedFrom,
+        "SavedFrom": this.vehicleDetails?.SavedFrom ? this.vehicleDetails?.SavedFrom : null,
         "UserType": this.userType,
-        "TiraCoverNoteNo": this.vehicleDetails?.TiraCoverNoteNo,
+        "TiraCoverNoteNo": this.vehicleDetails?.TiraCoverNoteNo ? this.vehicleDetails?.TiraCoverNoteNo : null,
         "EndorsementYn":  this.endorsementYN,
         "SaveOrSubmit": "Save",
         "EndorsementDate":this.endorsementDate,
@@ -645,18 +666,31 @@ export class VehicleCreateFormComponent implements OnInit {
         "OrginalPolicyNo": this.orginalPolicyNo,
         "HorsePower": this.horsePower,
         "RegistrationDate": registrationDate,
-        "Mileage":this.vehicleDetails.Mileage,
-        "NoOfClaimYears":this.vehicleDetails.NoOfClaimYears,
-        "NoOfPassengers":this.vehicleDetails.NoOfPassengers,
-        "PreviousInsuranceYN":this.vehicleDetails.PreviousInsuranceYN,
-        "PreviousLossRatio": this.vehicleDetails.PreviousLossRatio,
-        "NumberOfCards":this.vehicleDetails.NumberOfCards,
-        "MunicipalityTraffic":this.vehicleDetails.MunicipalityTraffic,
-        "TransportHydro":this.vehicleDetails.TransportHydro,
-        "DateOfCirculation":this.vehicleDetails.DateOfCirculation,
-        "NewValue":this.vehicleDetails.NewValue,
-        "MarketValue":this.vehicleDetails.MarketValue,
-        "AggregatedValue":this.vehicleDetails.AggregatedValue,
+        "Mileage":this.vehicleDetails.Mileage ? this.vehicleDetails.Mileage : null,
+        "NoOfClaimYears":this.vehicleDetails.NoOfClaimYears ? this.vehicleDetails.NoOfClaimYears : null,
+        "NoOfPassengers":this.vehicleDetails.NoOfPassengers ? this.vehicleDetails.NoOfPassengers : null,
+        "PreviousInsuranceYN":this.vehicleDetails.PreviousInsuranceYN ? this.vehicleDetails.PreviousInsuranceYN : null,
+        "PreviousLossRatio": this.vehicleDetails.PreviousLossRatio ? this.vehicleDetails.PreviousLossRatio : null,
+        "NumberOfCards":this.vehicleDetails.NumberOfCards ? this.vehicleDetails.NumberOfCards : null,
+        "MunicipalityTraffic":this.vehicleDetails.MunicipalityTraffic ? this.vehicleDetails.MunicipalityTraffic : null,
+        "TransportHydro":this.vehicleDetails.TransportHydro ? this.vehicleDetails.TransportHydro : null,
+        "DateOfCirculation":this.vehicleDetails.DateOfCirculation ? this.vehicleDetails.DateOfCirculation : null,
+        "NewValue":this.vehicleDetails.NewValue ? this.vehicleDetails.NewValue : null,
+        "MarketValue":this.vehicleDetails.MarketValue ? this.vehicleDetails.MarketValue : null,
+        "AggregatedValue":this.vehicleDetails.AggregatedValue ? this.vehicleDetails.AggregatedValue : null,
+        "BankingDelegation":this.vehicleDetails.BankingDelegation ? this.vehicleDetails.BankingDelegation : '',
+        "LoanStartDate": this.vehicleDetails.LoanStartDate ? this.vehicleDetails.LoanStartDate : null,
+        "LoanEndDate": this.vehicleDetails.LoanEndDate ? this.vehicleDetails.LoanEndDate : null,
+        "CollateralCompanyAddress": this.vehicleDetails.CollateralCompanyAddress ? this.vehicleDetails.CollateralCompanyAddress : null,
+        "CollateralCompanyName": this.vehicleDetails.CollateralCompanyName ? this.vehicleDetails.CollateralCompanyName : null,
+        "LoanAmount": this.vehicleDetails.LoanAmount ? this.vehicleDetails.LoanAmount : null,
+        "PaCoverId":this.vehicleDetails.PaCoverId ? this.vehicleDetails.PaCoverId : null,
+        "UsageId":this.vehicleDetails.UsageId ? this.vehicleDetails.UsageId : null,
+        "VehicleTypeIvr": this.vehicleDetails.VehicleType ? this.vehicleDetails.VehicleType : null,
+        "ZoneCirculation": this.vehicleDetails.ZoneCirculation ? this.vehicleDetails.ZoneCirculation : null,
+        "QuoteExpiryDays":  this.vehicleDetails?.QuoteExpiryDays ? this.vehicleDetails.QuoteExpiryDays : null,
+        "Zone": this.vehicleDetails.Zone ? this.vehicleDetails.Zone : null,
+        "Class": this.vehicleDetails.Class ? this.vehicleDetails.Class : null,
         "Scenarios": {
             "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": null,
@@ -668,6 +702,9 @@ export class VehicleCreateFormComponent implements OnInit {
             }
         },
         "Status": "Y"
+      }
+      if(this.insuranceId=='100042'){
+        ReqObj['Class']=this.vehicleDetails.Class
       }
       ReqObj['FleetOwnerYn'] = "N";
       if(this.endorsementSection){
@@ -778,7 +815,9 @@ export class VehicleCreateFormComponent implements OnInit {
       (data: any) => {
         console.log(data);
         if(data.Result){
-            this.bodyTypeList = data.Result;
+          let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Sélectionner--'}];
+
+            this.bodyTypeList = defaultRow.concat(data.Result);
             this.getUsageList();
             this.quoteRefNo = sessionStorage.getItem('quoteReferenceNo')
             if(this.getdetails== 'SavedFroms' && this.quoteRefNo){
@@ -811,7 +850,7 @@ export class VehicleCreateFormComponent implements OnInit {
     if(this.bodyTypeValue!=null && this.bodyTypeValue!=''){
       this.bodyTypeId = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeValue)?.Code;
       this.bodyType = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeValue)?.BodyType;
-      if(type=='change' && this.insuranceId!='100020'){this.makeValue=null;this.modelValue=null;}
+      if(type=='change' && this.insuranceId!='100020'){this.makeValue=null;this.modelValue=null;this.horsePower=0,this.grossWeight=0,this.numberOfCylinders=0}
       if(this.bodyTypeId && this.insuranceId!='100020'){ this.getMakeList(); } 
     }
   }
@@ -821,7 +860,7 @@ export class VehicleCreateFormComponent implements OnInit {
   }
   getMakeList(){
     let bodyType = null;
-    if(this.insuranceId!='100042') bodyType = this.bodyTypeId
+    if(this.insuranceId!='100042' && this.insuranceId!='100040') bodyType = this.bodyTypeId
     else bodyType = '99999'
     let ReqObj = {
       "InsuranceId": this.insuranceId,
@@ -832,6 +871,7 @@ export class VehicleCreateFormComponent implements OnInit {
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       (data: any) => {
         if(data.Result){
+          //let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Sélectionner--'}];
             this.makeList = data.Result;
             if(this.getdetails== 'SavedFroms'){
               if(this.editdata?.Vehiclemake!=null && this.editdata?.Vehiclemake!='' || this.editdata?.VehiclemakeDesc!=''){
@@ -861,12 +901,15 @@ export class VehicleCreateFormComponent implements OnInit {
         if(data.Result){
             this.modelList = data.Result;
             if(this.getdetails== 'SavedFroms'){
-              let entry = this.modelList.find(ele=>ele.CodeDesc==this.editdata?.Vehcilemodel || ele.Code==this.editdata?.Vehcilemodel);
-              if((entry==null || entry==undefined) && (this.editdata?.Vehcilemodel!=null && this.editdata?.Vehcilemodel!=undefined)){
+              console.log(this.editdata,"this.editdata");
+              
+              let entry = this.modelList.find(ele=>ele.CodeDesc==this.editdata?.VehicleModelDesc || ele.Code==this.editdata?.VehicleModelDesc);
+              console.log("Entry",entry);
+              if((entry==null || entry==undefined) && (this.editdata?.VehicleModelDesc!=null && this.editdata?.VehicleModelDesc!=undefined)){
                   this.modelValue = '99999';
-                  this.modelDesc = this.editdata?.Vehcilemodel;
+                  this.modelDesc = this.editdata?.VehicleModelDesc;
               }
-              else this.modelValue = this.modelValue = entry.Code;
+              else if(entry?.Code){ this.modelDesc = this.modelValue =entry.Code}
             }
         }
       },
@@ -907,6 +950,7 @@ export class VehicleCreateFormComponent implements OnInit {
   }
   getYearList(){
     var d = new Date();
+    
     var year = d.getFullYear();
     var month = d.getMonth();
     var day = d.getDate();
@@ -956,6 +1000,9 @@ export class VehicleCreateFormComponent implements OnInit {
     this.axelDistance = vehDetails?.AxelDistance;
     this.chassisNo = vehDetails?.Chassisnumber;
     this.colorValue = vehDetails?.Color;
+    if(vehDetails.EngineNumber=='' || vehDetails.EngineNumber==null || vehDetails.EngineNumber=="null" || vehDetails.EngineNumber==undefined){
+      vehDetails.EngineNumber="";
+    }
     this.engineNo = vehDetails?.EngineNumber;
     this.fuelType = vehDetails?.FuelType;
     this.grossWeight = vehDetails?.Grossweight;
@@ -968,11 +1015,11 @@ export class VehicleCreateFormComponent implements OnInit {
     this.engineCapacity = vehDetails?.EngineCapacity;
     this.ownerName = vehDetails?.ResOwnerName;
     this.seatingCapacity = vehDetails?.SeatingCapacity;
+    this.modelDesc = vehDetails?.VehicleModelDesc;
     this.tareWeight = vehDetails?.Tareweight;
     if(vehDetails?.VehicleType!=null && vehDetails?.VehicleType!=''){
     this.bodyTypeId = vehDetails?.VehicleType;
     this.bodyTypeValue = vehDetails?.VehicleTypeDesc;
-    this.modelDesc = vehDetails?.VehicleModelDesc;
     this.currencyCode = vehDetails?.Currency;
     this.exchangeRate = vehDetails?.ExchangeRate;
     this.horsePower = vehDetails?.HorsePower;
@@ -980,6 +1027,7 @@ export class VehicleCreateFormComponent implements OnInit {
     this.displacement = vehDetails?.DisplacementInCM3;
     this.numberOfCylinders = vehDetails?.NumberOfCylinders;
     this.RegistrationDate = vehDetails?.RegistrationDate;
+    this.PlateType = vehDetails?.PlateType;
      if(this.insuranceId!='100020') this.onBodyTypeChange('direct');
      else{
       if(vehDetails?.Vehiclemake!=null && vehDetails?.Vehiclemake!='' && this.makeList.length!=0){
@@ -992,6 +1040,7 @@ export class VehicleCreateFormComponent implements OnInit {
       
      }
     }
+   //alert(this.modelDesc)
     this.onChangeMotorUsage('direct')
   }
   onFormSubmit(){
@@ -1020,9 +1069,9 @@ export class VehicleCreateFormComponent implements OnInit {
       else if(this.makeValue==null || this.makeValue=='' || this.makeValue==undefined){
         this.makeError = true;
       } 
-      else if((this.modelValue==null || this.modelValue=='' || this.modelValue==undefined) && this.bodyType=='P'){
-          this.modelError1 = true;
-      } 
+      // else if((this.modelValue==null || this.modelValue=='' || this.modelValue==undefined) && this.bodyType=='P'){
+      //     this.modelError1 = true;
+      // } 
       else if((this.modelDesc==null || this.modelDesc=='' || this.modelDesc==undefined) && this.bodyType=='C'){
           this.modelError = true;
       } 
@@ -1041,10 +1090,11 @@ export class VehicleCreateFormComponent implements OnInit {
      
       // else if(this.horsePower){
       //   alert()
-      else if((this.horsePower==null || this.horsePower=='' || this.horsePower==undefined)&& this.bodyType=='P'){
-        this.horsePowerError = true;
+      else if((this.horsePower==null || this.horsePower=='' || this.horsePower==undefined ) && this.bodyType=='P' && this.bodyType=='P' && (this.bodyTypeId!='50' && this.bodyTypeId!='51' && this.bodyTypeId!='5' && this.bodyTypeId!='58' && this.bodyTypeId!='28')){
+      //  if(this.insuranceId=='100040')this.horsePowerError = true;
+          this.horsePowerError = true
       }
-      else if((this.displacement==null || this.displacement=='' || this.displacement==undefined)&& (this.bodyTypeId=='50' || this.bodyTypeId=='51' || this.bodyTypeId=='5' || this.bodyTypeId=='58' || this.bodyTypeId=='18' || this.bodyTypeId=='25')){
+      else if((this.displacement==null || this.displacement=='' || this.displacement==undefined) && (this.bodyTypeId=='50' || this.bodyTypeId=='51' || this.bodyTypeId=='5' || this.bodyTypeId=='58' || this.bodyTypeId=='28' )){
         this.displacementError = true;
       } 
       else if((this.grossWeight==null || this.grossWeight=='' || this.grossWeight==undefined) && this.bodyType=='C'){
@@ -1055,7 +1105,7 @@ export class VehicleCreateFormComponent implements OnInit {
       //    this.grossWeightError = true;
       //  }
       // }
-      else if((this.numberOfCylinders==null || this.numberOfCylinders=='' || this.numberOfCylinders==undefined)){
+      else if((this.numberOfCylinders==null || this.numberOfCylinders=='' || this.numberOfCylinders==undefined) && (this.bodyTypeId=='50' || this.bodyTypeId=='51' || this.bodyTypeId=='5' || this.bodyTypeId=='58' || this.bodyTypeId=='28')){
         this.numberOfCylindersError = true;
       } 
       else if((this.RegistrationDate==null || this.RegistrationDate=='' || this.RegistrationDate==undefined)){
@@ -1075,6 +1125,7 @@ export class VehicleCreateFormComponent implements OnInit {
         this.numberOfCylindersError=false;
         this.RegDateError=false;
         this.grossWeightError = false;
+        if(this.modelDesc!=null && this.modelDesc!='' && (this.modelValue==null || this.modelValue==='')) this.modelValue = '99999';
         this.onProceed()
       }
     }
@@ -1140,6 +1191,7 @@ export class VehicleCreateFormComponent implements OnInit {
       else{
         grossweight =this.grossWeight;
       }
+      
       this.axelDistance='1';
       this.noOfAxels='1';
       this.usageValue='Ambulance';
@@ -1149,12 +1201,11 @@ export class VehicleCreateFormComponent implements OnInit {
       // The year is the last part of the array
       this.manufactureYear = parts[2];
     }
-    alert(modelDesc)
     let ReqObj = {
       "Insuranceid": this.insuranceId,
       "BranchCode": this.branchCode,
       "AxelDistance": this.axelDistance,
-      "Chassisnumber": this.chassisNo?.toUpperCase(),
+      "Chassisnumber": this.chassisNo ? this.chassisNo?.toUpperCase() : null,
       "Color": this.colorValue,
       "CreatedBy": this.loginId,
       "EngineNumber": this.engineNo?.toUpperCase(),
@@ -1179,6 +1230,7 @@ export class VehicleCreateFormComponent implements OnInit {
       "DisplacementInCM3": this.displacement,
        "NumberOfCylinders": this.numberOfCylinders,
        "RegistrationDate": registrationDate,
+       "PlateType": this.PlateType,
     }
     let urlLink = `${this.motorApiUrl}regulatory/savevehicleinfo`;
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
@@ -1231,9 +1283,9 @@ export class VehicleCreateFormComponent implements OnInit {
     //   (data: any) => {
     //       if(data.Result){
     //         this.vehicleDetails = data?.Result;
-            if(this.vehicleDetails==undefined || this.vehicleDetails==null){
-              this.vehicleDetails = {
-                "AcccessoriesSumInsured": null,
+        if(this.vehicleDetails==undefined || this.vehicleDetails==null){
+          this.vehicleDetails = {
+          "AcccessoriesSumInsured": null,
         "AccessoriesInformation": null,
         "AdditionalCircumstances": null,
         "CityLimit": null,
@@ -1264,7 +1316,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "Windscreencoverrequired": null,
         "accident": null,
         "periodOfInsurance": null,
-        "CollateralYn": null,
+        "CollateralYn": 'N',
         "CollateralName": null,
         "FirstLossPayee": null,
         "FleetOwnerYn": null,
@@ -1300,6 +1352,11 @@ export class VehicleCreateFormComponent implements OnInit {
         },
               }
             }
+            // if(this.vehicleDetails?.QuoteExpiryDays==null || this.vehicleDetails?.QuoteExpiryDays==undefined){
+            //   let commonDetails = JSON.parse(sessionStorage.getItem('commonDetails'));
+            //   alert(commonDetails.QuoteExpiryDays)
+            //   this.vehicleDetails['QuoteExpiryDays'] = commonDetails.QuoteExpiryDays
+            // }
             let id = sessionStorage.getItem('vehicleLength')
             if(id!=null && id!='' && id!= undefined){
               this.vehicleDetails['Vehicleid'] = sessionStorage.getItem('vehicleLength');
@@ -1322,6 +1379,7 @@ export class VehicleCreateFormComponent implements OnInit {
               let commonDetails = JSON.parse(sessionStorage.getItem('commonDetails'));
               if(commonDetails){
                 this.commonDetails = commonDetails;
+                this.vehicleDetails['QuoteExpiryDays'] = commonDetails.QuoteExpiryDays;
                 if(this.vehicleDetails==null || this.vehicleDetails==undefined) this.vehicleDetails={};
                 if(this.vehicleDetails.PolicyStartDate==null || this.vehicleDetails.PolicyStartDate==undefined){
                   let dateList = commonDetails.policyStartDate.split('/');
@@ -1380,6 +1438,7 @@ export class VehicleCreateFormComponent implements OnInit {
                 if(this.vehicleDetails==null || this.vehicleDetails==undefined) this.vehicleDetails={};
                 this.vehicleDetails.PolicyStartDate = this.datePipe.transform(commonDetails.policyStartDate, "dd/MM/yyyy");
                 this.vehicleDetails.PolicyEndDate = this.datePipe.transform(commonDetails.policyEndDate, "dd/MM/yyyy");
+                this.vehicleDetails['QuoteExpiryDays'] = commonDetails.QuoteExpiryDays;
                 this.currencyCode = commonDetails?.currencyCode;
                 this.exchangeRate = commonDetails?.exchangeRate;
                 if(commonDetails?.promoCode!=null && commonDetails?.promoCode!=undefined) this.promoCode = commonDetails?.promoCode;
@@ -1441,5 +1500,70 @@ export class VehicleCreateFormComponent implements OnInit {
       //   },
       //   (err) => { },
       // );
+    }
+    onInputChange(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      // Remove non-numeric characters and limit length to 5
+      input.value = input.value.replace(/[^0-9]/g, '').slice(0, 5);
+      this.tareWeight = input.value;
+    }
+    onInputChangeTonnage(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      // Remove non-numeric characters and limit length to 5
+      input.value = input.value.replace(/[^0-9]/g, '').slice(0, 5);
+      this.grossWeight = input.value;
+    }
+    onInputChangeHorsePower(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      // Remove non-numeric characters and limit length to 5
+      input.value = input.value.replace(/[^0-9]/g, '').slice(0, 5);
+      this.horsePower = input.value;
+    }
+    onInputChangeDisplacement(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      // Remove non-numeric characters and limit length to 5
+      input.value = input.value.replace(/[^0-9]/g, '').slice(0, 3);
+      this.displacement = input.value;
+    }
+    onInputChangenumberOfCylinders(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      // Remove non-numeric characters and limit length to 5
+      input.value = input.value.replace(/[^0-9]/g, '').slice(0, 2);
+      this.numberOfCylinders = input.value;
+    }
+    onInputChangeEngineNumber(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      // Remove non-numeric characters and limit length to 5
+      input.value = input.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 25);
+      this.engineNo = input.value;
+    }
+    onInputChangechassisNo(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      // Remove non-numeric characters and limit length to 5
+      input.value = input.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 25);
+      this.chassisNo = input.value;
+    }
+    onInputChangeseatingCapacity(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      // Remove non-numeric characters and limit length to 5
+      input.value = input.value.replace(/[^0-9]/g, '').slice(0, 2);
+      this.seatingCapacity = input.value;
+    }
+    getPlateType(){
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "ItemType": "PLATE_TYPE"
+      }
+      let urlLink = `${this.commonApiUrl}master/getbyitemvalue`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if (data.Result) {
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
+            this.plateTypeList = defaultObj.concat(data.Result);
+          }
+        },
+        (err) => { },
+      );
     }
 }

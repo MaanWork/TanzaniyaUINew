@@ -99,7 +99,7 @@
       "EnterVRN/GSTNumber":"Insira o número VRN/GST"
     },
     "LOGIN":{
-        "WelcometoXYZInsurance":"Bem-vindo à Sanlam Allianz Seguros",
+        "WelcometoXYZInsurance":"Bem-vindo à Alliance Seguros",
         "Signintocontinue": "Faça login para continuar",
         "RetrieveQuoteUsingMobileNumber?": "Recuperar cotação usando Mobile Number?",
         "B2CQuote": "Cotação B2C",
@@ -117,7 +117,8 @@
         "Submit": "Enviar",
         "Login":"Conecte-se",
         "ProceedLogin": "Prosseguir Login!",
-        "Email": "E-mail"
+        "Email": "E-mail",
+        "SessionError": "Erro de sessão!"
     },
     "PRODUCT":{
       "SelecttheBranch":"Selecione a filial",
@@ -143,7 +144,8 @@
         "PhoneNo":"Telefone não","Date":"Data","Content":"Contente"
     },
     "QUOTEGRID":{
-        "NoOfDays":"Número de dias",
+        "NoOfDays":"Duração da política",
+        "NoOfMonths":"Policy Period (Months)",
         "Quotation": "cotação",
         "Existing": "Existir",
         "Lapsed": "Caducada",
@@ -184,10 +186,18 @@
         "Search": "Procurar"
     },
     "MOTORQUOTE":{
+      "PaCoverId":"Motor Passenger Injury",
+      "QuoteExpiryDate":"Quote Expiry Days",
+      "EnterQuoteExpiryDate": "Enter Expiry Days Count",
+      "quoteExpiryDateError":"Please Enter Quote Expiry Days",
       "Tonnage":"Tonelagem",
       "FileUpload":"Upload de arquivo",
       "CategoryDateobtained":"Categoria Data obtida",
+      "VehicleClass":"Vehicle Class",
+    "PreviousInsuranceYN":"Previous Insurance",
+    "PreviousLossRatio":"Previous Loss Ratio",
     "Categoryexpirationdate":"Data de expiração da categoria",
+    "Licenseexpirationdate":"License expiration date",
     "Category":"Categoria",
     "Placeofissue":"Local de emissão",
     "Dateofissue":"Dateofissue",
@@ -296,7 +306,8 @@
        "Next": "Próxima",
        "Back":"Voltar",
        "Edit":"Editar",
-       "Delete":"Excluir"
+       "Delete":"Excluir",
+      "UWQuestion":"Perguntas do subescritor"
     },
     "MOTORDETAILS":{
       "EnterTonnage":"Insira a tonelagem",
@@ -343,7 +354,7 @@
       "Submit":"Enviar",
       "selectRegistrationDate":"selecione a data de registro",
        "EnterNumberOfCylinders":"Insira o número de cilindros",
-       "EnterDisplacement ":"Insira o deslocamento"
+       "EnterDisplacement":"Insira o deslocamento"
     },
     "PREMIUM":{
         "ReferenceNo":"Número de referência",
@@ -421,6 +432,7 @@
         "Option": "Opção",
         "ViewMoreCovers": "Ver mais capas",
         "ViewFactorDetails": "Ver detalhes do fator",
+        "FactorName": "Nome do Fator",
         "FactorDetails":"Detalhes do fator",
         "OwnDamage":"Dano Próprio",
         "WindScreen":"Tela de vento",
@@ -566,7 +578,12 @@
       "Schedule":"Agendar",
       "DebitNote":"Nota de débito",
       "CreditNote":"Nota de crédito",
-      "ViewQuoteDetails":"Ver detalhes da cotação"
+      "ViewQuoteDetails":"Ver detalhes da cotação",
+       "ClaimIntimate": "Reivindicar Íntimo",
+      "ClaimIntimation": "Intimação de reivindicação",
+       "NotifiedClaim": "Reivindicação Notificada",
+       "IntimatedClaim": "Intimated Claim",
+       "AddNewClaim":"Criar nova reivindicação"
     },
     "Referral":{
       "Broker":"Corretor",
@@ -609,6 +626,8 @@
       "BrokerName":"Nome do corretor",
       "Search":"Procurar",
       "DownloadAll":"Baixar tudo",
+      "DownloadPDF":"Baixar PDF",
+      "DownloadExcel":"Baixar Excel",
       "PolicyNo":"Política Não",
       "QuoteNo":"Citação Não",
       "CustomerName":"nome do cliente",

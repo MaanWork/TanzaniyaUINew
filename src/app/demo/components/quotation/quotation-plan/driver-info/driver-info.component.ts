@@ -14,7 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class DriverInfoComponent {
   entryList:any=[];
-  currencyCode: any;quoteRefNo:any=null;quoteNo:any=null;minDate:any=null;
+  currencyCode: any;quoteRefNo:any=null;quoteNo:any=null;minDate:any=null;minAltDate:any=null;
   CoverList: any[]=[];subuserType:any=null;userDetails:any=null;currentDate:any=null;
   loginId:any=null;userType:any=null;agencyCode:any=null;branchCode:any=null;
   branchList:any=null;productId:any=null;insuranceId:any=null;loginType:any=null;RiskId:any=null;
@@ -75,6 +75,7 @@ export class DriverInfoComponent {
         {"label":'Owner',"value":'1','CodeDesc':'Owner','CodeDescLocal':'Propriétaire'},
       ];
      this.minDate = new Date(year - 18,month, day );
+     this.minAltDate = new Date(year,month, day );
      let referenceNo =  sessionStorage.getItem('customerReferenceNo');
     if(referenceNo){
       this.customerRefNo = referenceNo;
@@ -148,7 +149,7 @@ export class DriverInfoComponent {
                 this.totalPremium = this.quoteDetails?.DueAmount;
               }   
             }
-            this.quoteComponent.setRiskDetails(this.Riskdetails);
+            //this.quoteComponent.setRiskDetails(this.Riskdetails);
             this.quoteComponent.currencyCode = data?.Result?.QuoteDetails?.Currency;
           for (let cover of this.Riskdetails) {
             let j = 0;
@@ -191,6 +192,7 @@ export class DriverInfoComponent {
             this.getDriverDetails();
             
             this.localPremiumCost = quoteDetails?.OverallPremiumLc;
+            this.quoteComponent.setRiskDetails(data?.Result?.LocationDetails);
             let vehicles:any[] = data?.Result?.RiskDetails;
             if(vehicles.length!=0){
               let i=0;this.vehicleList=[];
@@ -406,6 +408,7 @@ export class DriverInfoComponent {
                   "SuburbId": null,
                   "AreaGroup": null,
                   "MaritalStatus": null,
+                  "DriverLicenseExpiryDate": null,
                   "LicenseIssueDt": null,
                   "Gender": null,
                   "DriverExperience": null,
@@ -621,7 +624,7 @@ addNewDriver(vehId){
     
     let i=0;this.entryList=[];
    for(let driver of this.driverDetailsList){
-    let date,CategoryExDate,CategoryDate,LicenseIssueDt=null;
+    let date,CategoryExDate,CategoryDate,LicenseIssueDt,expDate=null;
     if(driver.DriverDob!='' && driver.DriverDob!=null){
       console.log("Dob",driver)
       if(String(driver.DriverDob).includes('/')){
@@ -650,7 +653,15 @@ addNewDriver(vehId){
         CategoryDate = this.datePipe.transform(driver.CategoryDate, "dd/MM/yyyy");
        }
     }
-
+    if(driver.DriverLicenseExpiryDate!='' && driver.DriverLicenseExpiryDate!=null){
+      console.log("Dob",driver)
+      if(String(driver.DriverLicenseExpiryDate).includes('/')){
+        expDate = driver.DriverLicenseExpiryDate;
+      }
+       else{
+        expDate = this.datePipe.transform(driver.DriverLicenseExpiryDate, "dd/MM/yyyy");
+       }
+    }
     if(driver.LicenseIssueDt!='' && driver.LicenseIssueDt!=null){
       console.log("Dob",driver)
       if(String(driver.LicenseIssueDt).includes('/')){
@@ -664,8 +675,10 @@ addNewDriver(vehId){
     
     console.log("Before Date2",date)
     var entry = {
+      "InsuranceId": this.insuranceId,
         "CreatedBy": this.loginId,
         "DriverDob":date,
+        "DriverLicenseExpiryDate": expDate,
         "DriverName": driver.DriverName,
         "DriverType": driver.DriverType,
         "LicenseNo": driver.LicenseNo,
@@ -708,12 +721,16 @@ addNewDriver(vehId){
         else driver['driverNameError']=false;
         if(entry.LicenseNo==null || entry.LicenseNo=='' || entry.LicenseNo==undefined){j+=1;driver['licenseNoError']=true;}
         else driver['licenseNoError']=false;
+        if(entry.DriverLicenseExpiryDate==null || entry.DriverLicenseExpiryDate=='' || entry.DriverLicenseExpiryDate==undefined){j+=1;driver['licenseExpError']=true;}
+        else driver['licenseExpError']=false;
         if(entry.DriverDob==null || entry.DriverDob=='' || entry.DriverDob==undefined){j+=1;driver['driverDobError']=true;}
         else driver['driverDobError']=false;
         if(entry.DriverType==null || entry.DriverType=='' || entry.DriverType==undefined){j+=1;driver['driverTypeError']=true;}
         else driver['driverTypeError']=false;
        }
         if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+          if(entry.DriverLicenseExpiryDate==null || entry.DriverLicenseExpiryDate=='' || entry.DriverLicenseExpiryDate==undefined){j+=1;driver['licenseExpError']=true;}
+         else driver['licenseExpError']=false;
           if(entry['DrivingLicensingAge']==null || entry['DrivingLicensingAge']=='' || entry['DrivingLicensingAge']==undefined){j+=1;driver['drivinglicenseageError']=true;}
           else driver['drivinglicenseageError']=false;
           if(entry.LicenseNo==null || entry.LicenseNo=='' || entry.LicenseNo==undefined){j+=1;driver['licenseNoError']=true;}

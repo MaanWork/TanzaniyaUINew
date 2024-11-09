@@ -50,7 +50,7 @@ export class CustomerTanzaniya{
                   {
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
                     type: 'input',
-                    id: 'FirstName',
+                    id: 'ClientName',
                     key: 'ClientName',
                     hide: false,
                     hideExpression:false,
@@ -203,7 +203,7 @@ export class CustomerTanzaniya{
                     templateOptions: {
                       label: `Mobile Number`,
                       placeholder: 'Enter MobileNo',
-                      required: false,
+                      required: true,
                       disabled: this.checkDisable('MobileNo'),
                       maxLength: 10
                     },
@@ -313,16 +313,17 @@ export class CustomerTanzaniya{
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
                     key: 'isTaxExempted',
                     id: 'TaxExcempted',
-                    type: 'radioList',
+                    type: 'ngselect',
                     templateOptions: {
-                      type: 'radioList',
                       required: true,
                       disabled: this.checkDisable('isTaxExempted'),
                       name: 'isTaxExempted',
                     },
                     props: {
                       label: 'Tax Excempted',
-                      options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
+                      options: [
+                        
+                      ],
                     }
                   },
                   {
@@ -384,7 +385,7 @@ export class CustomerTanzaniya{
                     },
                     props: {
                       label: 'Status',
-                      options: [{ value: 'Y', label: 'Active', 'CodeDesc':'Active', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'DeActive','CodeDesc':'DeActive', 'CodeDescLocal':'DésActivé' },{ value: 'P', label: 'Pending','CodeDesc':'Pending', 'CodeDescLocal':'En attente' }],
+                      options: [{ value: 'Y', label: 'Active', 'CodeDesc':'Active', 'CodeDescLocal':'Active' }, { value: 'N', label: 'DeActive','CodeDesc':'DeActive', 'CodeDescLocal':'DésActivé' },{ value: 'P', label: 'Pending','CodeDesc':'Pending', 'CodeDescLocal':'En attente' }],
                     }
                   },
                 ]
@@ -441,7 +442,8 @@ export class CustomerTanzaniya{
                       label: `Region`,
                       required: true,
                       disabled: this.checkDisable('Region'),
-                      maxLength: 15
+                      maxLength: 15,
+                      options:[]
                     },
                     
                     validators: {
@@ -478,7 +480,7 @@ export class CustomerTanzaniya{
                     templateOptions: {
                       label: `PoBox`,
                       placeholder: 'Enter PoBox',
-                      required: true,
+                      required: false,
                       disabled: this.checkDisable('PinCode'),
                       maxLength: 150
                     },

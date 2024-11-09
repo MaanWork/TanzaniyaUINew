@@ -52,7 +52,7 @@ export class CustomerIvory{
                       // placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('Title'),
-                      maxLength: 15,
+                      maxLength: 6,
                       options:[]
                     },
                     validators: {
@@ -63,18 +63,18 @@ export class CustomerIvory{
                     },
                   },
                   {
-                    className: 'col-12 md:col-9 lg:col-9 xl:col-9 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-5 lg:col-5 xl:col-5 pl-2 pr-2 pt-1',
                     type: 'input',
-                    id: 'CustomerName',
+                    id: 'FirstName',
                     key: 'ClientName',
                     hide: false,
                     hideExpression:false,
                     templateOptions: {
-                      label: `Client Name`,
+                      label: `First Name`,
                       // placeholder: 'Enter Client Name',
                       required: true,
                       disabled: this.checkDisable('ClientName'),
-                      maxLength: 50
+                      maxLength: 100
                     },
                     
                     validators: {
@@ -85,7 +85,29 @@ export class CustomerIvory{
                     },
                   },
                   {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4 pl-2 pr-2 pt-1',
+                    type: 'input',
+                    id: 'LastName',
+                    key: 'LastName',
+                    hide: false,
+                    hideExpression:false,
+                    templateOptions: {
+                      label: `Last Name`,
+                      // placeholder: 'Enter Client Name',
+                      required: true,
+                      disabled: this.checkDisable('ClientName'),
+                      maxLength: 100
+                    },
+                    
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-9 lg:col-9 xl:col-9 pl-2 pr-2 pt-1',
                     type: 'input',
                     id: 'CompanyName',
                     key: 'CompanyName',
@@ -96,7 +118,7 @@ export class CustomerIvory{
                       // placeholder: 'Enter Company Name',
                       required: true,
                       disabled: this.checkDisable('CompanyName'),
-                      maxLength: 50
+                      maxLength: 100
                     },
                     
                     validators: {
@@ -120,7 +142,7 @@ export class CustomerIvory{
                       // placeholder: '-Select-',
                       required: false,
                       disabled: this.checkDisable('Gender'),
-                      maxLength: 15,
+                      maxLength: 2,
                       options:[]
                     },
                    
@@ -333,10 +355,39 @@ export class CustomerIvory{
                       id: 'IdentityType',
                       name:'IdentityType',
                       // placeholder: '-Select-',
-                      required: false,
+                      required: true,
                       disabled: this.checkDisable('PolicyHolderTypeid'),
                       maxLength: 15,
                       options:[]
+                    },
+                    
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    type: 'datepicker',
+                    id: 'ExpiryDate',
+                    key: 'ExpiryDate',
+                    hide: false,
+                    hideExpression:false,
+                    templateOptions: {
+                      type:'date',
+                      label: `ExpiryDate`,
+                      defaultValue: '',
+                      // placeholder: 'Select Registration Date',
+                      required: true,
+                      disabled: this.checkDisable('ExpiryDate'),
+                      maxLength: 15,
+                      datepickerOptions: {
+                       
+                        // Additional options for the datepicker if necessary
+                        min:this.currentDate,
+                      },
                     },
                     
                     validators: {
@@ -356,7 +407,7 @@ export class CustomerIvory{
                       // placeholder: 'Enter ID Number',
                       required: true,
                       disabled: this.checkDisable('IdNumber'),
-                      maxLength: 16
+                      maxLength: 15
                     },
                     
                     validators: {
@@ -379,7 +430,11 @@ export class CustomerIvory{
                       // placeholder: 'Select Registration Date',
                       required: true,
                       disabled: this.checkDisable('dobOrRegDate'),
-                      maxLength: 15
+                      maxLength: 15,
+                      datepickerOptions: {
+                        // Additional options for the datepicker if necessary
+                        max:this.currentDate,
+                      },
                     },
                     
                     validators: {
@@ -393,16 +448,17 @@ export class CustomerIvory{
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
                     key: 'isTaxExempted',
                     id: 'TaxExcempted',
-                    type: 'radioList',
+                    type: 'ngselect',
                     templateOptions: {
-                      type: 'radioList',
                       required: true,
                       disabled: this.checkDisable('isTaxExempted'),
                       name: 'isTaxExempted',
                     },
                     props: {
                       label: 'Tax Excempted',
-                      options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Oui' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Non' }],
+                      options: [
+                        
+                      ],
                     }
                   },
                   {
@@ -432,6 +488,7 @@ export class CustomerIvory{
                     type: 'ngselect',
                     id: 'PreferedNotification',
                     key: 'PreferredNotification',
+
                     templateOptions: {
                       label: `Preferred Notification`,
                       id: 'PreferedNotification',
@@ -441,7 +498,7 @@ export class CustomerIvory{
                       disabled: this.checkDisable('PreferredNotification'),
                       maxLength: 15,
                       options:[
-                        { label: 'Select', value: '','CodeDesc': 'Select','CodeDescLocal':'Sélectionner' },
+                        { label: '--Select--', value: '','CodeDesc': '--Select--','CodeDescLocal':'---Sélectionner---' },
                         { label: 'SMS', value: 'Sms',CodeDesc: 'SMS','CodeDescLocal':'SMS' },
                         { label: 'Mail', value: 'Mail', CodeDesc: 'Mail','CodeDescLocal':'Mail' },
                         { label: 'Whatsapp', value: 'Whatsapp',CodeDesc: 'Whatsapp','CodeDescLocal':'Whatsapp' }
@@ -471,12 +528,29 @@ export class CustomerIvory{
                       options: [{ value: 'Y', label: 'Active', 'CodeDesc':'Active', 'CodeDescLocal':'Active' }, { value: 'N', label: 'DeActive','CodeDesc':'DeActive', 'CodeDescLocal':'Désactivé' },{ value: 'P', label: 'Pending','CodeDesc':'Pending', 'CodeDescLocal':'En attente' }],
                     }
                   },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    key: 'Insurer',
+                    id: 'insurer',
+                    type: 'radioList',
+                    hide: false,
+                    hideExpression:false,
+                    templateOptions: {
+                      type: 'radioList',
+                     // required: true,
+                      disabled: this.checkDisable('Insurer'),
+                      name: 'Insurer',
+                    },
+                    props: {
+                      label: 'Customer As Insurer',
+                      options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Oui' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Non' }],
+                    }
+                  },
                 ]
               },
               {
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
-                 
                   {
                     className: 'col-12 md:col-3  lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'ngselect',
@@ -500,25 +574,6 @@ export class CustomerIvory{
                     expressions: {
                     },
                   },
-                  // {
-                  //   className: 'col-12 md:col-2 lg:col-2 xl:col-2 pl-2 pr-2 pt-1',
-                  //   type: 'ngselect',
-                  //   id: 'Region',
-                  //   key: 'Region',
-                  //   templateOptions: {
-                  //     label: `Region`,
-                  //     required: true,
-                  //     disabled: this.checkDisable('Region'),
-                  //     maxLength: 15
-                  //   },
-                    
-                  //   validators: {
-                  //   },
-                  //   hooks: {
-                  //   },
-                  //   expressions: {
-                  //   },
-                  // },
                   {
                     className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
                     type: 'ngselect',
@@ -547,10 +602,10 @@ export class CustomerIvory{
                     key: 'Address1',
                     templateOptions: {
                       label: `Street`,
-                      // placeholder: 'Enter Street',
+                      //placeholder: 'Enter Street',
                       required: true,
                       disabled: this.checkDisable('Address1'),
-                      maxLength: 150
+                      maxLength: 50
                     },
                     
                     validators: {
@@ -565,12 +620,14 @@ export class CustomerIvory{
                     type: 'input',
                     id: 'PoBox',
                     key: 'PinCode',
+                    name:'number',
                     templateOptions: {
+                      type: 'number',
                       label: `PoBox`,
                       // placeholder: 'Enter PoBox',
                       required: false,
                       disabled: this.checkDisable('PinCode'),
-                      maxLength: 150
+                      maxLength: 10
                     },
                     
                     validators: {
@@ -579,7 +636,68 @@ export class CustomerIvory{
                     },
                     expressions: {
                     },
-                  }
+                  },
+                  {
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
+                    type: 'ngselect',
+                    id: 'Region',
+                    key: 'Region',
+                    templateOptions: {
+                      label: `Region`,
+                      required: true,
+                      disabled: this.checkDisable('Region'),
+                      maxLength: 15,
+                      options:[]
+                    },
+                    
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
+                    type: 'ngselect',
+                    id: 'Department',
+                    key: 'Department',
+                    templateOptions: {
+                      label: `Department`,
+                      required: true,
+                      disabled: this.checkDisable('Department'),
+                      maxLength: 15,
+                      options:[]
+                    },
+                    
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-3 lg:col-3 xl:col-3 pl-2 pr-2 pt-1',
+                    type: 'input',
+                    id: 'Plot',
+                    key: 'Address2',
+                    templateOptions: {
+                      label: `Plot No`,
+                      //placeholder: 'Enter Street',
+                     // required: true,
+                      disabled: this.checkDisable('Address2'),
+                      maxLength: 50
+                    },
+                    
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                 
                 ]
               }
             ]
