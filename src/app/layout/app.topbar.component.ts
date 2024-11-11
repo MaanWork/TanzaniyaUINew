@@ -227,7 +227,7 @@ export class AppTopBarComponent implements OnInit {
       else{
         sessionStorage.clear();
         this.cookieService.delete('XSRF-TOKEN',"/","domain name",true,"None")
-        window.location.href='https://apps.alliance.co.tz/';
+        //window.location.href='https://apps.alliance.co.tz/';
       }
     }
     setLanguage(value){

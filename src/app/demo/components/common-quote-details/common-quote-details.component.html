@@ -297,7 +297,7 @@
                                     <input pInputText id="username" class="w-full" styleClass="w-full" maxlength="50" [(ngModel)]="promocode" [disabled]="(endorsementSection) || checkDisableField()"
                                         (change)="onCommonDetailsChange()" [placeholder]="'MOTORQUOTE.EnterPromoCode' | translate" />
                                 </div>
-                                <div class="lg:col-2 md:col-2 col-3">
+                                <div class="lg:col-2 md:col-2 col-3" *ngIf="100040">
                                     <label for="username">{{'MOTORQUOTE.QuoteExpiryDate' | translate}}</label>
                                     <input pInputText id="username" class="w-full" styleClass="w-full" maxlength="50" [(ngModel)]="quoteExpiryDate" [disabled]="(endorsementSection) || checkDisableField()"
                                         (change)="onCommonDetailsChange()" [placeholder]="'MOTORQUOTE.EnterQuoteExpiryDate' | translate" />
@@ -326,8 +326,7 @@
                                     <h3>{{'MOTORQUOTE.MotorDetails' | translate}}</h3> 
                                 </div>
                                 <div class="lg:col-6 md:col-6 col-12 flex flex-wrap justify-content-end">
-                                    <!-- *ngIf="veh.SavedFrom!='API'" -->
-                                    <ng-container >
+                                    <ng-container *ngIf="veh.SavedFrom!='API' || insuranceId!='100002'">
                                         <p-button [label]="'MOTORQUOTE.Edit' | translate" *ngIf="!endorsementSection || (endorsementSection && enableAddVehicle && vehicleDetails?.EndorsementYn=='Y')" icon="pi pi-pencil" size="small"
                                             (click)="EditData(veh)"></p-button>&nbsp;
                                     </ng-container>

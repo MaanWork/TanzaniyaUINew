@@ -267,14 +267,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
   ngOnInit() {
     this.getCurrencyList();
     // this.getUploadedDocList();
-
-
     if (this.productId == '5') {
       this.getInsuranceTypeList();
       this.getInsuranceClassList();
     }
     else if (this.productId == '6' || this.productId == '13' || this.productId == '16' || this.productId == '39' || this.productId == '14' || this.productId == '32' || this.productId == '1' || this.productId == '21' || this.productId == '26' || this.productId == '25' || this.productId == '57') { this.getIndustryList() }
-
     this.customerColumn = ['Select', 'Reference No', 'Customer Name', 'Customer Type', 'ID Number'];
     var d = new Date();
     var year = d.getFullYear();
@@ -1718,7 +1715,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
               if (i == this.paCoverList.length - 1) {
                 let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
                 for (let field of fieldList) {
-                  if (field.key == 'PACoverId') { field.props.options = defaultObj.concat(this.paCoverList); this.checkFieldNames(); }
+                  if (field.key == 'PaCoverId') { field.props.options = defaultObj.concat(this.paCoverList); this.checkFieldNames(); }
                 }
               }
             }
@@ -1781,10 +1778,10 @@ export class CommonQuoteDetailsComponent implements OnInit {
                     }
                     if (field.key == 'VehicleSI' || field.key == 'AccessoriesSI' || field.key == 'WindShieldSI' || field.key == 'ExtendedTPPDSI') {
                       if (this.insuranceId == '100027') {
-                        if (this.vehicleDetailsList.length == 1) {
-                          field.hideExpression = false; field.hide = false;
-                        }
-                        else if (this.productItem.InsuranceType == '102' || this.productItem.InsuranceType == '95') {
+                        // if (this.vehicleDetailsList.length == 1) {
+                        //   field.hideExpression = false; field.hide = false;
+                        // }
+                        if (this.productItem.InsuranceType == '102' || this.productItem.InsuranceType == '95') {
                           field.hideExpression = true; field.hide = true;
                         }
                         else { field.hideExpression = false; field.hide = false; }
@@ -2794,6 +2791,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
     }
     else DateOfcirculation = this.datePipe.transform(this.productItem.DateOfcirculation, 'dd/MM/yyyy');
     let zone="1";
+    
     let ReqObj = {
       "BrokerBranchCode": brokerbranchCode,
       "AcExecutiveId": null,
@@ -3243,7 +3241,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         let deductibles = null;
         if (this.productItem.Deductibles != '' && this.productItem.Deductibles != undefined) deductibles = this.productItem.Deductibles;
         let insuranceType = '', sectionId = [];
-        if (( this.insuranceId == '100027' || this.insuranceId == '100040' || this.insuranceId == '100040') && this.vehicleDetailsList.length == 1) {
+        if (( this.insuranceId == '100040' || this.insuranceId == '100040') && this.vehicleDetailsList.length == 1) {
           //if(this.typeValue==null || this.typeValue==undefined){
           for (let entry of this.typeList) {
             sectionId.push(entry.Code);
@@ -3253,7 +3251,8 @@ export class CommonQuoteDetailsComponent implements OnInit {
         }
         else {
           if (this.typeValue == null || this.typeValue == undefined) {
-
+            insuranceType = this.productItem.InsuranceType;
+            sectionId = [this.productItem.InsuranceType]
           }
           else {
             if (this.insuranceId == '100004') {
@@ -3511,7 +3510,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           "VehicleValueType": this.productItem.VehicleValue,
           "Inflation": this.productItem.Inflation,
           "Ncb": "0",
-          "PaCoverId": this.productItem?.PACoverId,
+          "PaCoverId": this.productItem?.PaCoverId,
           "DefenceValue": this.productItem.DefenceCost,
           "PurchaseDate": PurchaseDate,
           "RegistrationDate": this.vehicleDetails?.RegistrationDate,
@@ -3591,6 +3590,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           if(this.insuranceId=='100028' && this.productItem.InsuranceClass==null){}
           if (this.insuranceId == '100028') { this.stateValue = null; this.cityCode = null; this.subUrbanCode = null; areaGroup = null; }
+
           ReqObj['DriverDetails'] = {
             'DriverName': this.driverName,
             'DriverType': this.driverType,
@@ -3871,6 +3871,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
           else {
             if (this.endorsementSection) this.router.navigate(['/quotation/plan/premium-info']);
+            else  if ((this.insuranceId == '100002' && this.vehicleDetailsList.length > 1) || this.insuranceId=='100028') this.saveFleetDetails();
             else this.router.navigate(['/quotation/plan/premium-details']);
           }
 
@@ -4069,6 +4070,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
         else{
           zone="1"
         }
+
               let ReqObj = {
                 "BrokerBranchCode": brokerbranchCode,
                 "AcExecutiveId": this.acExecutiveId,
@@ -4740,7 +4742,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
         }
         let insuranceType = '', sectionId = [];
-        if ((this.insuranceId == '100027' || this.insuranceId == '100040' || this.insuranceId == '100040') && this.vehicleDetailsList.length == 1) {
+        if (( this.insuranceId == '100040' || this.insuranceId == '100040') && this.vehicleDetailsList.length == 1) {
           //if(this.typeValue==null || this.typeValue==undefined){
           for (let entry of this.typeList) {
             sectionId.push(entry.Code);
@@ -4865,7 +4867,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
           "AxelDistance": this.vehicleDetails?.AxelDistance,
           "Chassisnumber": this.vehicleDetails?.Chassisnumber,
           "Color": this.vehicleDetails?.Color,
-          "PaCoverId": this.productItem?.PACoverId,
+          "PaCoverId": this.productItem?.PaCoverId,
           "CityLimit": this.cityValue,
           "CoverNoteNo": null,
           "MobileCode": this.vehicleDetails?.MobileCode,
@@ -5226,7 +5228,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
                         }
                         else if (type == 'finalProceed') {
                           if (this.currentIndex - 1 == this.vehicleDetailsList.length) {
-                            if (this.insuranceId == '100002' && this.vehicleDetailsList.length > 1) this.saveFleetDetails();
+                            if ((this.insuranceId == '100002' && this.vehicleDetailsList.length > 1) || this.insuranceId=='100028') this.saveFleetDetails();
                             else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
                           }
                         }
@@ -5502,15 +5504,15 @@ export class CommonQuoteDetailsComponent implements OnInit {
       "PDRefNo": res?.PDRefNo
     }
     let urlLink = `${this.CommonApiUrl}calculator/policy/calc`;
-    if (this.insuranceId != '100028' && this.insuranceId != '100027' && this.insuranceId != '100040' && this.insuranceId != '100042' && this.insuranceId != '100019') {
+    if ( this.insuranceId != '100027' && this.insuranceId != '100040' && this.insuranceId != '100042' && this.insuranceId != '100019') {
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
         (data: any) => {
           if (data.CoverList) {
-            this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
+            this.router.navigate(['/quotation/plan/premium-details']);
           }
         });
     }
-    else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/excess-discount']);
+    else this.router.navigate(['/quotation/plan/premium-details']);
     // 
   }
   onCalculateVehDetails(vehicleDetails, type, entry, totalCount, sectionCount) {
@@ -5830,6 +5832,12 @@ export class CommonQuoteDetailsComponent implements OnInit {
             }
           }
         };
+
+        // let changeMarketValueHooks ={ onInit: (field: FormlyFieldConfig) => {
+        //   field.form.controls['Marketvalue'].valueChanges.subscribe(() => {
+        //      this.changeMarketValue();
+        //   });
+        // } }
         let changeMarketValueHooks = {
           // onInit: (field: FormlyFieldConfig) => {
           //   field.form.controls['Marketvalue'].valueChanges.subscribe(() => {
@@ -5964,7 +5972,7 @@ export class CommonQuoteDetailsComponent implements OnInit {
       }
       this.productItem.Newvalue = this.vehicleDetails?.NewValue;
       this.productItem.TiraCoverNoteNo = this.vehicleDetails?.TiraCoverNoteNo;
-      this.productItem.PACoverId = this.vehicleDetails?.PaCoverId;
+      this.productItem.PaCoverId = this.vehicleDetails?.PaCoverId;
       this.productItem.PurchaseDate = this.onDateFormatInEdit(this.vehicleDetails?.PurchaseDate);
       this.productItem.Deductibles = this.vehicleDetails?.Deductibles;
       this.productItem.VehicleValue = this.vehicleDetails?.VehicleValueType;
@@ -6221,13 +6229,11 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
         }
       }
+     
       else {
         if (this.productItem.VehicleValue) {
           if (this.productItem.VehicleValue == '1') {
             if (field.key == 'Marketvalue') {
-              field.hideExpression = false; field.hide = false;
-            }
-            else if(field.key=='WindShieldSI'){
               field.hideExpression = false; field.hide = false;
             }
           }
@@ -6235,12 +6241,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
             if (field.key == 'Aggregatedvalue' && (this.productItem.VehicleValue == '2' || this.productItem.VehicleValue == 2)) {
               //this.getAggregatedList();
               field.hideExpression = false; field.hide = false;
-            }
-            if(field.key=='WindShieldSI'){field.hideExpression = true; field.hide = true;} 
-            if(this.productItem.VehicleValue =='' || this.productItem.VehicleValue == null){
-                if (field.key == 'Aggregatedvalue' || field.key=='WindShieldSI' || field.key == 'Marketvalue'){
-                  field.hideExpression = true; field.hide = true;
-                }
             }
           }
         }
@@ -6261,7 +6261,6 @@ export class CommonQuoteDetailsComponent implements OnInit {
   }
   onChangeInsuranceClass(type) {
     let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
-    
     for (let field of fieldList) {
       
       if (this.insuranceId == '100004') {
@@ -6288,37 +6287,16 @@ export class CommonQuoteDetailsComponent implements OnInit {
           }
         }
       }
-      if (field.key == 'InsuranceType' && ( this.insuranceId == '100027') && this.vehicleDetailsList.length == 1) {
-        field.hideExpression = true; field.hide = true;
-      }
+      // if (field.key == 'InsuranceType' && ( this.insuranceId == '100027') && this.vehicleDetailsList.length == 1) {
+      //   field.hideExpression = true; field.hide = true;
+      // }
       if (this.insuranceId == '100040' || this.insuranceId == '100042') {
-        if (field.key == 'VehicleSI' || field.key == 'GpsYN' || field.key == 'Aggregatedvalue' || field.key == 'WindShieldSI' || field.key == 'Newvalue' || field.key == 'Marketvalue' || field.key == 'AccessoriesSI' || field.key == 'ExtendedTPPDSI' || field.key == 'Inflation' || field.key == 'VehicleValue' ||  (field.key == 'PurchaseDate' && this.insuranceId == '100042')) {
+        if (field.key == 'VehicleSI' || field.key == 'GpsYN' || field.key == 'Aggregatedvalue' || field.key == 'Newvalue' || field.key == 'Marketvalue' || field.key == 'AccessoriesSI' || field.key == 'ExtendedTPPDSI' || field.key == 'Inflation' || field.key == 'VehicleValue' ||  (field.key == 'PurchaseDate' && this.insuranceId == '100042')) {
           if ((this.insuranceId == '100040' && this.productItem.InsuranceClass != '121' && this.productItem.InsuranceClass != '122') && (this.insuranceId == '100040' && this.productItem.InsuranceClass != '129' && this.productItem.InsuranceClass != '131') && (this.insuranceId == '100040' && this.productItem.InsuranceClass != '143' && this.productItem.InsuranceClass != '144')
             || (this.insuranceId == '100042' && this.productItem.InsuranceClass != '135' && this.productItem.InsuranceClass != '136' )) {
-              if((this.productItem.VehicleValue==1 || this.productItem.VehicleValue=='1' || this.productItem.VehicleValue=='') && (field.key == 'Aggregatedvalue' || field.key == 'Marketvalue')){
-                if(field.key == 'Aggregatedvalue'){
-                  field.hideExpression = true;
-                  field.hide = true;
-                }
-                if(field.key == 'Marketvalue' || field.key == 'WindShieldSI'){
-                  field.hideExpression = false;
-                  field.hide = false;
-                }
-              }
-              else if((this.productItem.VehicleValue==2 || this.productItem.VehicleValue=='2') && (field.key == 'Aggregatedvalue' || field.key == 'Marketvalue' || field.key == 'WindShieldSI')){
-                if(field.key == 'Marketvalue' || field.key == 'WindShieldSI'){
-                  field.hideExpression = true;
-                  field.hide = true;
-                }
-                if(field.key == 'Aggregatedvalue'){
-                  field.hideExpression = false;
-                  field.hide = false;
-                }
-              }
-              else{
-                field.hideExpression = false;
-                field.hide = false;
-              }
+
+            field.hideExpression = false;
+            field.hide = false;
           }
           else {
             if (field.key == 'Deductibles' && this.productItem.InsuranceClass == '126') {
@@ -6330,9 +6308,19 @@ export class CommonQuoteDetailsComponent implements OnInit {
               this.productItem.Inflation = null; this.productItem.Deductibles = null; this.productItem.VehicleValue = null;
               if (this.insuranceId == '100040')this.productItem.VehicleSI = 0; this.productItem.AccessoriesSI = 0;
               if (field.key == 'VehicleValue' ||  field.key == 'Aggregatedvalue') {
+                // let changevehicleHooks = {
+                // onInit: (field: FormlyFieldConfig) => {
+                //   console.log("Field Details",field,this.productItem)
+                //   field.form.controls['VehicleValue'].valueChanges.subscribe(() => {
+                //if(this.tabIndex!=0 && field.form)this.productItem.VehicleValue=field.form.controls['VehicleValue'].value
+
                 this.onchangevehicleValue(null);
+                // });
+                // }
                 field.hide=true;
-                field.hideExpression=true;// field.hooks=changevehicleHooks;
+                field.hideExpression=true;
+                // };
+                // field.hooks=changevehicleHooks;
                 console.log("Final Fields", field)
               }
              
@@ -6367,27 +6355,15 @@ export class CommonQuoteDetailsComponent implements OnInit {
           
         }
         else if(field.key == 'WindShieldSI'){
-          if(this.insuranceId!='100040'){
-            if (this.productItem.InsuranceClass == '123' || this.productItem.InsuranceClass == '124' || this.productItem.InsuranceClass == '125' || this.productItem.InsuranceClass == '126' || this.productItem.InsuranceClass == '128'
-              || this.productItem.InsuranceClass == '130' || this.productItem.InsuranceClass == '132' || this.productItem.InsuranceClass == '133'
-              || this.productItem.InsuranceClass == '145' || this.productItem.InsuranceClass == '146' || this.productItem.InsuranceClass == '161' || this.productItem.InsuranceClass == '162') {
-              
-              field.hideExpression = false;
-              field.hide = false;
-            }
-            else{
-              field.hideExpression = true;
-              field.hide = true;
-            }
+          if (this.productItem.InsuranceClass == '123' || this.productItem.InsuranceClass == '124' || this.productItem.InsuranceClass == '125' || this.productItem.InsuranceClass == '126' || this.productItem.InsuranceClass == '128'
+            || this.productItem.InsuranceClass == '130' || this.productItem.InsuranceClass == '132' || this.productItem.InsuranceClass == '133'
+            || this.productItem.InsuranceClass == '145' || this.productItem.InsuranceClass == '146' || this.productItem.InsuranceClass == '161' || this.productItem.InsuranceClass == '162') {
+            field.hideExpression = false;
+            field.hide = false;
           }
-          else{
+          else {
             field.hideExpression = true;
             field.hide = true;
-          }
-        }
-        if(this.productItem.VehicleValue =='' || this.productItem.VehicleValue == null){
-          if (field.key == 'Aggregatedvalue' || field.key=='WindShieldSI' || field.key == 'Marketvalue'){
-            field.hideExpression = true; field.hide = true;
           }
         }
       }
@@ -6412,26 +6388,25 @@ export class CommonQuoteDetailsComponent implements OnInit {
 
         }
       }
-      if(this.productId=='100040' || this.productId=='100042'){
-        if(field.key == 'Aggregatedvalue' || field.key == 'Marketvalue' ){
-          this.productItem.windShieldSI='0';
-          if(this.productItem.VehicleValue ==null || this.productItem.VehicleValue =='' ){
-            field.hideExpression = true;
-            field.hide = true;
-          }
+      if(field.key == 'Aggregatedvalue' || field.key == 'Marketvalue'){
+        if(this.productItem.VehicleValue ==null || this.productItem.VehicleValue ==''){
+          field.hideExpression = true;
+          field.hide = true;
+        }
         else if(this.productItem.VehicleValue==1 || this.productItem.VehicleValue=='1'){
-          if(field.key == 'Aggregatedvalue'){
+          if(field.key == 'Aggregatedvalue' || field.key == 'WindShieldSI'){
             field.hideExpression = true;
             field.hide = true;
           }
         }
         else if(this.productItem.VehicleValue==2 || this.productItem.VehicleValue=='2'){
-          if(field.key == 'Marketvalue' ){
+          if(field.key == 'Marketvalue'){
             field.hideExpression = true;
             field.hide = true;
           }
+          
         }
-      }}
+      }
       console.log("Final Change Class Form", field)
     }
   }

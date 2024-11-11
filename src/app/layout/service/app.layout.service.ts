@@ -111,6 +111,7 @@ export class LayoutService {
     isMobile() {
         return !this.isDesktop();
     }
+    
 
     onConfigUpdate() {
         this.configUpdate.next(this.config);

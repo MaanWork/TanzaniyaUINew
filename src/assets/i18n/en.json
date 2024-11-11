@@ -181,6 +181,9 @@
   "MOTORQUOTE":{
     "PaCoverId":"Motor Passenger Injury",
     "QuoteExpiryDate":"Quote Expiry Days",
+    "LicenseNo": "License Number",
+    "FuelType":"Fuel Type",
+    "VehicleInformation":"Vehicle Information",
     "EnterQuoteExpiryDate": "Enter Expiry Days Count",
     "quoteExpiryDateError":"Please Enter Quote Expiry Days",
     "BankingDelegation":"Banking Delegation",
@@ -469,6 +472,7 @@
       "EMIPeriod":"EMI Period",
       "None":"None",
       "3Months":"3 Months",
+      "5Months":"5 Months",
       "6Months":"6 Months",
        "8Months":"8 Months",
       "9Months":"9 Months",
@@ -632,16 +636,15 @@
     "RequestReferenceNo":"Request Reference No"
   },
   "Report":{
-
     "Report":"Report",
     "Branch":"Branch",
+    "DownloadPDF":"Download PDF",
+    "DownloadExcel":"Download Excel",
     "StartDate":"Start Date",
     "EndDate":"End Date",
     "BrokerName":"Broker Name",
     "Search":"Search",
     "DownloadAll":"Download All",
-    "DownloadPDF":"Download PDF",
-    "DownloadExcel":"Download Excel",
     "PolicyNo":"Policy No",
     "QuoteNo":"Quote No",
     "CustomerName":"Customer Name",

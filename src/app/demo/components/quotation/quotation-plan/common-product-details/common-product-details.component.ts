@@ -231,7 +231,7 @@ export class CommonProductDetailsComponent {
   MoneyDirectorResidenceError:boolean=false;
   isEEForm: boolean=false;
   contentTypeDuplicateError: boolean=false;
-  currentEEIndex: any=0;
+  currentEEIndex: any=null;
   fireSectionList: any[]=[];
   sumInsuredError:boolean=false;
   PersonNameError: boolean=false;
@@ -4595,6 +4595,12 @@ backPlan()
       this.productItem.BusinessSI = section.BuildingSumInsured;
       if(section.BusinessInterruption) this.productItem.BusinessName = Number(section.BusinessInterruption);
       if(section.IndustryType) this.productItem.IndustryId = String(section.IndustryType);
+      let entry = this.LocationListAlt.find(ele=>ele.LocationId==this.tabIndex+1);
+      let BISection = entry.SectionList.filter(ele=>ele.SectionId==ele.BusinessInterruption);
+      if(BISection.length!=0){
+        this.productItem.CoveringDetailsBI = BISection[0].CoveringDetails;
+        this.productItem.DescriptionOfRiskBI = BISection[0].DescriptionOfRisk;
+      }
       this.onChangeBusiness()
     }
   }
@@ -4870,8 +4876,7 @@ backPlan()
          this.productItem.DistrictCode = section[0].DistrictCode;
          if(section[0].BusinessInterruption) this.productItem.BusinessName = Number(section[0].BusinessInterruption);
          else if(section[0].BusinessInterruption) this.productItem.BusinessName = Number(section[0].BusinessInterruption);
-        // alert(this.productItem.BusinessName)
-         this.productItem.BusinessSI = section[0].FirePlantSi;
+        this.productItem.BusinessSI = section[0].FirePlantSi;
          this.onChangeBusiness();
          this.productItem.FireSumInsured = section[0].BuildingSumInsured;
          if(this.productItem.RegionCode) this.ongetDistrictList('direct',this.productItem.DistrictCode);
@@ -6368,7 +6373,6 @@ backPlan()
     let locationList = [],i=0;
           for(let entry of this.LocationListAlt){
             if(entry.LocationName!=null && entry.LocationName!=''){
-              
               let obj = {
                 "LocationId":i+1,
                 "LocationName":entry.LocationName,
@@ -6409,37 +6413,54 @@ backPlan()
                   }
                 }
               }
-              else if(this.productId=='25'){ let j=0,k=0;
-                console.log("Final Sections",entry)
-                
-                  for(let subEntry of entry.SectionList){
-                    if(i==this.tabIndex){
-                      if(subEntry.ElecEquipSuminsured==0 || subEntry.ElecEquipSuminsured=='' || subEntry.ElecEquipSuminsured==null){j+=1;this.ElecEquipSIError=true;}
-                      else{this.ElecEquipSIError=false}
-                      if(subEntry.ContentId=='' || subEntry.ContentId==null){j+=1;this.ContentError=true;}
-                      else{this.ContentError=false;}
-                      if(subEntry.DescriptionOfRisk=='' || subEntry.DescriptionOfRisk==null){j+=1;this.DescriptionError=true;}
-                      else{this.DescriptionError=false;}
-                      if(subEntry.SerialNo=='' || subEntry.SerialNo==null){j+=1;this.SerialNoError=true;}
-                      else{this.SerialNoError=false}
-                    }
-                    // if(subEntry.BondYear=='' || subEntry.BondYear==null){j+=1;subEntry['BondYearError']=true;}
-                    // else{subEntry['BondYearError']=false;}
-                    if(j==0){
-                      subEntry['SectionId'] = '76';
-                      subEntry["SumInsured"]= subEntry.ElecEquipSuminsured;
-                      subEntry['SectionName']= 'Electronic Equipments';
-                      subEntry["ContentDesc"] = this.dropList.find(ele=>ele.Code==subEntry.ContentId)?.CodeDesc;
-                      obj.SectionList.push(subEntry);
-                      k+=1;
-                      if(k==entry.SectionList.length && obj.SectionList.length!=0){i+=1;ReqObj.LocationList.push(obj)
-                        if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
+              else if(this.productId=='25'){ 
+                  if(entry.SectionList.length!=0){
+                    let j=0,k=0;
+                    for(let subEntry of entry.SectionList){
+                      if(i==this.tabIndex && this.currentEEIndex==k){
+                        if(subEntry.ElecEquipSuminsured==0 || subEntry.ElecEquipSuminsured=='' || subEntry.ElecEquipSuminsured==null){j+=1;this.ElecEquipSIError=true;}
+                        else{this.ElecEquipSIError=false}
+                        if(subEntry.ContentId=='' || subEntry.ContentId==null){j+=1;this.ContentError=true;}
+                        else{this.ContentError=false;}
+                        if(subEntry.DescriptionOfRisk=='' || subEntry.DescriptionOfRisk==null){j+=1;this.DescriptionError=true;}
+                        else{this.DescriptionError=false;}
+                        if(subEntry.SerialNo=='' || subEntry.SerialNo==null){j+=1;this.SerialNoError=true;}
+                        else{this.SerialNoError=false}
+                      }
+                      // if(subEntry.BondYear=='' || subEntry.BondYear==null){j+=1;subEntry['BondYearError']=true;}
+                      // else{subEntry['BondYearError']=false;}
+                      if(j==0){
+                        if(subEntry.ElecEquipSuminsured!=0 && subEntry.ElecEquipSuminsured!=null && subEntry.ElecEquipSuminsured!='0'){
+                          subEntry['SectionId'] = '76';
+                          subEntry["SumInsured"]= subEntry.ElecEquipSuminsured;
+                          subEntry['SectionName']= 'Electronic Equipments';
+                          subEntry["ContentDesc"] = this.dropList.find(ele=>ele.Code==subEntry.ContentId)?.CodeDesc;
+                          obj.SectionList.push(subEntry);
+                        }
+                        
+                        k+=1;
+                        if(k==entry.SectionList.length && obj.SectionList.length!=0){i+=1;ReqObj.LocationList.push(obj)
+                          if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
+                        }
+                        else if(k==entry.SectionList.length){
+                          i+=1;if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
+                        }
+                      }
+                      else{
+                        k+=1;
+                        
+                        if(k==entry.SectionList.length && obj.SectionList.length!=0){
+                         i+=1;ReqObj.LocationList.push(obj)}
+                        else{
+                          i+=1;if(k==entry.SectionList.length && i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
+                        }
                       }
                     }
-                    else{k+=1;if(k==entry.SectionList.length && obj.SectionList.length!=0){i+=1;ReqObj.LocationList.push(obj)}
-                    if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
-                    }
                   }
+                  else{
+                    i+=1;if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
+                  }
+                  
                 // }
                 // else{
                 //     if(entry.SectionList.length!=0) ReqObj.LocationList.push(obj); k+=1;i+=1;
@@ -6739,7 +6760,7 @@ backPlan()
                     
                     if(this.productId=='61'){this.tabIndex+=1;
                       this.productItem = new ProductData(); this.onEditCommonDetails(this.LocationListAlt[this.tabIndex].SectionList[0],this.LocationListAlt[this.tabIndex],0);}
-                    else if(this.productId=='6') this.setCommonValues('Edit');
+                    else if(this.productId=='6' || this.productId=='25') this.setCommonValues('Edit');
                   }
                 }
                 else{

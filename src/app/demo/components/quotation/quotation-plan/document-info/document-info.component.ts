@@ -14,8 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class DocumentInfoComponent {
 
-  imageUrl:any=null;
-  uploadDocList:any[]=[];
+  imageUrl:any=null;uploadDocList:any[]=[];
   public AppConfig: any = (Mydatas as any).default;
 	public ApiUrl1: any = this.AppConfig.ApiUrl1;
 	public CommonApiUrl: any = this.AppConfig.CommonApiUrl;

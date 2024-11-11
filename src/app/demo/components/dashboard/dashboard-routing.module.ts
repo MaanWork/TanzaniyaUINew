@@ -30,6 +30,7 @@ import { TiraStatusComponent } from '../tira-status/tira-status.component';
 import { YakeenSearchComponent } from '../yakeen-search/yakeen-search.component';
 import { ClaimIntimateComponent } from '../portfolio/claim-intimate/claim-intimate.component';
 import { CustomerAsInsurerComponent } from '../customer/customer-as-insurer/customer-as-insurer.component';
+import { EmiDetailsNewComponent } from '../quotation/quotation-plan/Emi-Details/emi-details.component';
 
 
 @NgModule({
@@ -84,6 +85,7 @@ import { CustomerAsInsurerComponent } from '../customer/customer-as-insurer/cust
           {
             path:'Home/Sms',loadChildren: () => import('../../components/Sms/Sms.module').then(m => m.SmsModule),
           },
+          {path:"portfolio/emiDetails" , component:EmiDetailsNewComponent}
           // {path:'crmHome',loadChildren: () => import('../../components/CRM/crm-home.module').then(m => m.CRMHomeModule)},
           // {path:'renewal',loadChildren: () => import('../../components/Renewal/renewal.module').then(m => m.RenewalModule)},
           // {path:'garage',loadChildren: () => import('../../components/garage/garage.module').then(m => m.GarageModule)},

@@ -82,6 +82,8 @@ import { HttpLoaderFactory } from 'src/app/app.module';
 import { HttpClient } from '@angular/common/http';
 import { HomePremiumComponent } from './home-premium/home-premium.component';
 import { DisplayLabelHeader } from './formlyTypes/displayCardheader';
+import { EmiListComponent } from '../../Admin/Masters/EMI/emi-list/emi-list.component';
+import { EmiDetailsNewComponent } from './Emi-Details/emi-details.component';
 //import { textareaTypeField } from './formlyTypes/textareaTypeField';
 export function maxlengthValidationMessage(err, field) {
   return `This value should be less than ${field.templateOptions.maxLength} characters`;
@@ -120,7 +122,8 @@ export function maxlengthValidationMessage(err, field) {
     ShortQuoteComponent,
     TravelQuoteDetailsComponent,
     CustomerInfoComponent,
-    HomePremiumComponent
+    HomePremiumComponent,
+    EmiDetailsNewComponent
   ],
   imports: [
     CommonModule,

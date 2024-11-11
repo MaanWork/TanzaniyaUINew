@@ -55,7 +55,8 @@ const routes: Routes = [
     path: 'OtpSection', 
     component: OTPComponent,
   },
-  {path:"shortQuote" , component:ShortQuoteComponent}
+  {path:"shortQuote" , component:ShortQuoteComponent},
+  
 ];
 
 @NgModule({
