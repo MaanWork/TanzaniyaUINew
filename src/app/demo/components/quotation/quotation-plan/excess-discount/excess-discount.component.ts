@@ -5878,12 +5878,19 @@ emiyn="N";
     //= this.ExclusionData.concat(this.ExclusionList);
     console.log('Exclusion',this.tempData)
     console.log('Exclsuion',this.ExclusionList)
+    let quote
+   if(this.quoteNo){
+      quote=this.quoteNo;
+    }
+    else{
+      quote="";
+    }
     let Req = {
       BranchCode: this.branchCode,
       CreatedBy: this.loginId,
       InsuranceId: this.insuranceId,
       ProductId: this.productId,
-      QuoteNo:this.quoteNo,
+      QuoteNo:quote,
       //TermsId:null,
       RiskId: this.selectedRowData.VehicleId,
       SectionId:this.termsSectionId,

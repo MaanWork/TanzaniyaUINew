@@ -1271,6 +1271,21 @@
                     </div>
                 </div>
             </div> -->
+            <div class="lg:col-3 md:col-3 col-12" *ngIf="isMannualReferal != 'Y' && (coverSection && (((!statusValue || checkManualReferral()) && !adminSection) || (statusValue && adminSection ))) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))" >
+                <label class="input-form-label">{{ 'Modify.DoYouLiketoChooseEMIOption?' | translate}}</label>
+                <div class="flex justify-content-start gap-3 mt-1">
+                    <div class="flex align-items-center">
+                        <p-radioButton name="emiYN" value="Y" (click)="onEmiYNChange()" [(ngModel)]="emiYN"
+                            inputId="emi_Yes"></p-radioButton>
+                        <span for="emi_Yes" class="ml-2">{{ 'Modify.Yes' | translate}}</span>
+                    </div>
+                    <div class="flex align-items-center">
+                        <p-radioButton name="emiYN" value="N" (click)="onEmiYNChange()" [(ngModel)]="emiYN"
+                            inputId="emi_No"></p-radioButton>
+                        <span for="emi_No" class="ml-2">{{ 'Modify.No' | translate}}</span>
+                    </div>
+                </div>
+            </div>
             <div class="lg:col-3 md:col-3 col-12" *ngIf="((!statusValue || checkManualReferral()) && !adminSection) && ((!this.endorsementSection) || (this.endorsementSection && this.endorsementCategory=='Financial'))">
                 <label class="input-form-label">{{'PREMIUM.DoYouLiketoMovethisQuotetoReferralManually' | translate}}</label>
                 <div class="flex justify-content-start gap-3 mt-2">
@@ -1374,32 +1389,32 @@
                             inputId="emi_None"></p-radioButton>
                         <span for="emi_None" class="ml-2">{{'PREMIUM.None' | translate}}</span>
                     </div>
-                    <div class="flex align-items-center">
+                    <div class="flex align-items-center" *ngIf="threeMonthSection">
                         <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="3" [(ngModel)]="emiPeriod"
                             inputId="emi_three"></p-radioButton>
                         <span for="emi_three" class="ml-2">{{'PREMIUM.3Months' | translate}}</span>
                     </div>
-                    <div class="flex align-items-center">
+                    <div class="flex align-items-center" *ngIf="fiveMonthSection">
                         <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="5" [(ngModel)]="emiPeriod"
                             inputId="emi_five"></p-radioButton>
                         <span for="emi_five" class="ml-2">{{'PREMIUM.5Months' | translate}}</span>
                     </div>
-                    <div class="flex align-items-center">
+                    <div class="flex align-items-center" *ngIf="sixMonthSection">
                         <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="6" [(ngModel)]="emiPeriod"
                             inputId="emi_six"></p-radioButton>
                         <span for="emi_six" class="ml-2">{{'PREMIUM.6Months' | translate}}</span>
                     </div>
-                    <div class="flex align-items-center">
+                    <div class="flex align-items-center" *ngIf="eightMonthSection">
                         <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="8" [(ngModel)]="emiPeriod"
                             inputId="emi_eight"></p-radioButton>
                         <span for="emi_eight" class="ml-2">{{'PREMIUM.8Months' | translate}}</span>
                     </div>
-                    <div class="flex align-items-center">
+                    <div class="flex align-items-center" *ngIf="nineMonthSection">
                         <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="9" [(ngModel)]="emiPeriod"
                             inputId="emi_nine"></p-radioButton>
                         <span for="emi_nine" class="ml-2">{{'PREMIUM.9Months' | translate}}</span>
                     </div>
-                    <div class="flex align-items-center">
+                    <div class="flex align-items-center" *ngIf="yearlySection">
                         <p-radioButton name="emiPeriod" (change)="onEMIChange()" value="12" [(ngModel)]="emiPeriod"
                             inputId="emi_twelve"></p-radioButton>
                         <span for="emi_twelve" class="ml-2">{{'PREMIUM.12Months' | translate}}</span>

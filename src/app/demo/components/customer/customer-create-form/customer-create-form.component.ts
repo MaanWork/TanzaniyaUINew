@@ -285,7 +285,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			//this.getPolicyIdTypeList()
 		// }
 		
-		if(this.insuranceId=='100002' || this.insuranceId=='100044' || this.insuranceId=='100028' || this.insuranceId=='100020'){
+		if(this.insuranceId=='100002' || this.insuranceId=='100044' || this.insuranceId=='100028' || this.insuranceId=='100020' || this.insuranceId=='100027'){
 			let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
 				field.form.controls['Country'].valueChanges.subscribe(() => {
 				  this.getRegionList('change')
@@ -308,7 +308,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					}
 				}
 			}
-		if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+		if(this.insuranceId=='100040' || this.insuranceId=='100042' || this.insuranceId=='100027'){
 			let MobileNumberKeypress ={ onInit: (field: FormlyFieldConfig) => {
 				field.form.controls['MobileNo'].valueChanges.subscribe(() => {
 				  //this.taxExcepted();

@@ -72,6 +72,9 @@ export class VehicleCreateFormComponent implements OnInit {
   maxDate: any;
   plateTypeList: any[]=[];
   PlateType:any;
+  seatingCapacityList: any[]=[];
+  engineCapacityList: any[]=[];
+  grossWeightList: any[]=[];
   constructor(private messageService: MessageService,private sharedService: SharedService,private appComp:AppComponent,
     private translate:TranslateService,private datePipe:DatePipe,private router:Router) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -97,6 +100,11 @@ export class VehicleCreateFormComponent implements OnInit {
       if(this.insuranceId=='100040'){
         this.getMakeList();
         this.getPlateType();
+      }
+      if(this.insuranceId=='100027'){
+        this.getSeatingCapacity();
+        this.getEngineCapacity();
+        this.getGrossWeight();
       }
       this.appComp.getLanguage().subscribe((res:any)=>{  
         if(res) this.lang=res;
@@ -1561,6 +1569,57 @@ export class VehicleCreateFormComponent implements OnInit {
           if (data.Result) {
             let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
             this.plateTypeList = defaultObj.concat(data.Result);
+          }
+        },
+        (err) => { },
+      );
+    }
+    getSeatingCapacity(){
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "ItemType": "SEATING_CAPACITY"
+      }
+      let urlLink = `${this.commonApiUrl}master/getbyitemvalue`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if (data.Result) {
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
+            this.seatingCapacityList = defaultObj.concat(data.Result);
+          }
+        },
+        (err) => { },
+      );
+    }
+    getEngineCapacity(){
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "ItemType": "ENGINE_CAPACITY"
+      }
+      let urlLink = `${this.commonApiUrl}master/getbyitemvalue`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if (data.Result) {
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
+            this.engineCapacityList = defaultObj.concat(data.Result);
+          }
+        },
+        (err) => { },
+      );
+    }
+    getGrossWeight(){
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "ItemType": "GROSS_WEIGHT"
+      }
+      let urlLink = `${this.commonApiUrl}master/getbyitemvalue`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if (data.Result) {
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
+            this.grossWeightList = defaultObj.concat(data.Result);
           }
         },
         (err) => { },

@@ -88,7 +88,7 @@
                     <div class="col-12" >
                         <p-tabView [(activeIndex)]="tabIndex">
                             <ng-container *ngFor="let item of locationList;let k=index">
-                                <p-tabPanel [header]="item.LocationName"  >
+                                <p-tabPanel [header]="item.LocationName"  disabled="true" [scrollable]="true">
                                         <div class="col-12 pl-3 pr-2 pb-0" >
                                             <div>
                                                 <h4 class="m-0 p-0">Section Modification</h4>
@@ -729,14 +729,13 @@
                                                                     </div>
                                                                     <div>
                                                                         <form [formGroup]="form"
-                                                                        (ngSubmit)="onSubmit(productItem)">
-                                                                        <formly-form [form]="form"
-                                                                            [fields]="field1Build"
-                                                                            [model]="productItem"></formly-form>
-                                                                    </form>
+                                                                            (ngSubmit)="onSubmit(productItem)">
+                                                                            <formly-form [form]="form"
+                                                                                [fields]="field1Build"
+                                                                                [model]="productItem"></formly-form>
+                                                                        </form>
                                                                     </div>
                                                                 </div>
-    
                                                             </div>
                                                         <!-- </ng-container> -->
                                                     </div>
@@ -1249,7 +1248,7 @@
                     <p-tabView *ngIf="LocationName.length!=0 && checkLocationDetail()" [(activeIndex)]="tabIndex"
                         (onChange)='tabIndex = $event.index'>
                         <ng-container *ngFor="let item of LocationName">
-                            <p-tabPanel [header]="item.LocationName">
+                            <p-tabPanel [header]="item.LocationName" >
                                 <div class="grid ">
                                     <div class="col-12 lg:col-1 md:col-1"></div>
                                     <div class="col-12 lg:col-6 md:col-6">

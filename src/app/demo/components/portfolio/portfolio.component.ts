@@ -368,7 +368,14 @@ export class PortfolioComponent implements OnInit {
               command: () => {
                this.onViews(rowData);
           }
-          }
+          },
+          {
+            label: 'Pay EMI',
+            icon: 'pi pi-Credit',
+            command: () => {
+             this.onPay(rowData);
+        }
+        }
       ]}
     ];
    // const hideDebitNote = true; // Set your condition here
@@ -433,6 +440,23 @@ if (rowData.DebitNoteNo==null && rowData.DebitNoteNo=='') {
     }
     sessionStorage.setItem('editCustomer',JSON.stringify(ReqObj));
     this.router.navigate(['/portfolio/motorDocuments'])
+  }
+  onPay(rowData){
+    let ReqObj={
+      "Search":"",
+      "SearchValue":rowData.QuoteNo,
+      "QuoteNo":rowData.QuoteNo,
+      "RequestReferenceNo":rowData.RequestReferenceNo,
+      "ProductId":this.productId,
+      "pageFrom": 'policy',
+      "CustomerName": rowData.ClientName,
+      "ProductName":rowData.ProductName,
+      "PolicyNo":rowData.PolicyNo,
+      "Currency":rowData.Currency,
+      "EmiYn":rowData?.EmiYn
+    }
+    sessionStorage.setItem('editCustomer',JSON.stringify(ReqObj));
+    this.router.navigate(['/portfolio/emiDetails'])
   }
   getExistingQuotes(element,entryType){
     if(element==null) this.quoteData=[];

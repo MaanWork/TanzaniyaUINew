@@ -10,7 +10,7 @@
             <app-sidebar ></app-sidebar>
         </ng-container>
     </div>
-    <div class="layout-main-container">
+    <div class="layout-main-container" [style.margin-left]="isMenuExpanded ? '16rem':''">
         <div class="layout-main p-3">
             <router-outlet></router-outlet>
         </div>

@@ -93,15 +93,18 @@
                       <button mat-menu-item (click)="onCreditdownload(customer)">
                           <span>{{'PolicyGrid.CreditNote' | translate}}</span>
                       </button>
-                      <!-- <button mat-menu-item (click)="onClaimIntimate(customer)">
+                      <button mat-menu-item (click)="onClaimIntimate(customer)">
                         <span>{{'PolicyGrid.ClaimIntimate' | translate}}</span>
-                    </button> -->
+                    </button>
                       <button mat-menu-item (click)="onEditEndorsement(customer)">
                           <span>{{'PolicyGrid.Endorsement' | translate}}</span>
                       </button>
                       <button mat-menu-item (click)="onViews(customer)">
-                          <span>{{'PolicyGrid.ViewQuoteDetails' | translate}}</span>
-                      </button>
+                        <span>{{'PolicyGrid.ViewQuoteDetails' | translate}}</span>
+                    </button>
+                    <button mat-menu-item (click)="onPay(customer)">
+                      <span>{{'PolicyGrid.PayEmi' | translate}}</span>
+                  </button>
                   </mat-menu>
                 </span>
               </td>
@@ -188,6 +191,8 @@
       <!-- <button pButton pRipple icon="pi pi-external-link" (click)="onEditEndorsement(quote)" title="Claim Intimate" class="p-button-outlined"></button> -->
       <button pButton pRipple icon="pi pi-external-link" (click)="onEditEndorsement(quote)" title="Endorsement" class="p-button-outlined"></button>
       <button pButton pRipple icon="pi pi-eye" title="View Quote Details" (click)="onViews(quote)" class="p-button-outlined"></button>
+      <button pButton pRipple icon="pi pi-eye" title="Pay EMI" (click)="OnPay(quote)" class="p-button-outlined"></button>
+
     </span></div></div>
               <!-- <table>
                 <tr>
@@ -322,6 +327,9 @@
                       <button mat-menu-item (click)="onViews(customer)">
                           <span>View Quote Details</span>
                       </button>
+                      <button mat-menu-item (click)="onPay(customer)">
+                        <span>Pay EMI</span>
+                    </button>
                   </mat-menu>
                   <!-- <button pButton pRipple icon="pi pi-envelope" class="p-button-outlined"></button>
                   <button pButton pRipple icon="pi pi-inbox" class="p-button-outlined"></button> -->
@@ -377,6 +385,7 @@
             <!-- <button pButton pRipple icon="pi pi-external-link" (click)="onEditEndorsement(quote)" title="Claim Intimate" class="p-button-outlined"></button> -->
             <button pButton pRipple icon="pi pi-external-link" (click)="onEditEndorsement(quote)" title="Endorsement" class="p-button-outlined"></button>
             <button pButton pRipple icon="pi pi-eye" title="View Quote Details" (click)="onViews(quote)" class="p-button-outlined"></button>
+            <button pButton pRipple icon="pi pi-eye" title="Pay EMI" (click)="OnPay(quote)" class="p-button-outlined"></button>
           </span></div></div>
               <!-- <table>
                 <tr>

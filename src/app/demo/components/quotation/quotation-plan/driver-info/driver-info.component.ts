@@ -721,8 +721,8 @@ addNewDriver(vehId){
         else driver['driverNameError']=false;
         if(entry.LicenseNo==null || entry.LicenseNo=='' || entry.LicenseNo==undefined){j+=1;driver['licenseNoError']=true;}
         else driver['licenseNoError']=false;
-        if(entry.DriverLicenseExpiryDate==null || entry.DriverLicenseExpiryDate=='' || entry.DriverLicenseExpiryDate==undefined){j+=1;driver['licenseExpError']=true;}
-        else driver['licenseExpError']=false;
+        // if((entry.DriverLicenseExpiryDate==null || entry.DriverLicenseExpiryDate=='' || entry.DriverLicenseExpiryDate==undefined) && this.insuranceId!='100002'){j+=1;driver['licenseExpError']=true;}
+        // else driver['licenseExpError']=false;
         if(entry.DriverDob==null || entry.DriverDob=='' || entry.DriverDob==undefined){j+=1;driver['driverDobError']=true;}
         else driver['driverDobError']=false;
         if(entry.DriverType==null || entry.DriverType=='' || entry.DriverType==undefined){j+=1;driver['driverTypeError']=true;}

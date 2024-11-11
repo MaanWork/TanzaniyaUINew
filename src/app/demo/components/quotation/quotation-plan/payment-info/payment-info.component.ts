@@ -52,6 +52,7 @@ export class PaymentInfoComponent {
   customerName: any=null;mobileCodeList:any[]=[];lang:any=null;
   MobileNo: any=null;MobileCodeDesc:any=null;mobilePaymentPending: boolean=false;checkStatusSection: boolean=false;loadingCount: any=0;
   paramSection: boolean=false;
+  totallistselected: any[]=[];
   constructor(private messageService: MessageService,private quoteComponent:QuotationPlanComponent,
     private router:Router,private sharedService: SharedService,private route:ActivatedRoute,private appComp:AppComponent,
     private translate: TranslateService,
@@ -63,6 +64,10 @@ export class PaymentInfoComponent {
     let quoteRefNo = sessionStorage.getItem('quoteReferenceNo');
     if(quoteRefNo) this.requestReferenceNo = quoteRefNo;
     this.quoteNo = sessionStorage.getItem('quoteNo');
+    let paymentEmi = JSON.parse(sessionStorage.getItem('editCustomer'));
+    if(paymentEmi){
+      this.quoteNo =paymentEmi.QuoteNo;
+    }
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
     this.userType = this.userDetails?.Result?.UserType;
@@ -128,11 +133,13 @@ export class PaymentInfoComponent {
       if(this.customerDetails.PolicyHolderType=='1'){this.customerType="Individual";}
       else if(this.customerDetails.PolicyHolderType=='2'){this.customerType="Corporate";}
     }
-    this.getEditQuoteDetails();
     this.getMobileCodeList();
-      let referenceNo =  sessionStorage.getItem('customerReferenceNo');
+    this.getEditQuoteDetails();
+    let referenceNo =  sessionStorage.getItem('customerReferenceNo');
+    if(sessionStorage.getItem('customerReferenceNo')){
       this.customerReferenceNo = sessionStorage.getItem('customerReferenceNo');
-      this.getCustomerDetails(referenceNo);
+    }
+    this.getCustomerDetails(referenceNo);
   }
   getMobileCodeList() {
 		let ReqObj = { "InsuranceId": this.insuranceId }
@@ -165,6 +172,12 @@ export class PaymentInfoComponent {
     }
   }
   getCustomerDetails(refNo){
+    if(refNo!=null){
+      refNo =refNo;
+    }
+    else {
+      refNo =this.customerReferenceNo;
+    }
     let ReqObj = {
       "CustomerReferenceNo": refNo
     }
@@ -212,6 +225,8 @@ export class PaymentInfoComponent {
       (data: any) => {
           if(data?.Result){
             let details = data.Result;
+            let customerList = data?.Result?.CustomerDetails;
+            this.customerReferenceNo =customerList.CustomerReferenceNo;
             this.vehicleList = data?.Result?.ProductDetails;
             let quoteDetails = data?.Result?.QuoteDetails;
             this.quoteDetails = data?.Result?.QuoteDetails;
@@ -256,7 +271,7 @@ export class PaymentInfoComponent {
               this.successSection = false;
               this.loadingSection = false;
               this.draftSection=false;
-              this.router.navigate(['/quotation/plan/main/policy-info']);
+              if(this.EmiYn!="Y")this.router.navigate(['/quotation/plan/main/policy-info']);
             }
             else{
               if(this.paramSection || this.loadingSection )this.checkStatus();
@@ -611,7 +626,10 @@ export class PaymentInfoComponent {
               this.getUploadedDocList(null,-1);
             }
             else{
-              this.emiupload();
+              if(this.EmiYn=='Y'){
+                this.updateinstallemnet();
+              }
+               this.emiupload();
             }
            
           }
@@ -813,9 +831,7 @@ export class PaymentInfoComponent {
      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if(data.Result){
-          // if(this.EmiYn=='Y'){
-          //   this.updateinstallemnet();
-          // }
+         
           if(this.Menu=='4' && data.Result.paymentUrl){
             this.redirectUrl = data.Result.paymentUrl;
             const absoluteURL = 
@@ -834,7 +850,7 @@ export class PaymentInfoComponent {
           }
           else {
             if(!this.seven){
-              this.router.navigate(['/quotation/plan/main/policy-info']);
+                this.router.navigate(['/quotation/plan/main/policy-info']);
               // this.paymentDetails = data.Result;
               // this.policyNo = data?.Result?.PolicyNo;
               // this.updateTiraDetails();
@@ -857,7 +873,13 @@ export class PaymentInfoComponent {
                 })
               }
               else{
-                this.router.navigate(['/quotation/plan/main/policy-info']);
+                if(this.EmiYn!='Y'){
+
+                  this.router.navigate(['/quotation/plan/main/policy-info']);
+                }
+                else{
+                  this.router.navigate(['/quotation/plan/main/Paymet']);
+                }
                 // this.paymentDetails = data.Result;
                 // this.policyNo = data?.Result?.PolicyNo;
                 // this.updateTiraDetails();
@@ -1133,5 +1155,66 @@ onAmountChange (args) {
   onProceed(){
     
     this.router.navigate(['/quotation']);
+  }
+  updateinstallemnet(){
+    let i=0,totallist:any[]=[];let menu
+    let type=this.paymentTypeList.filter(ele => ele.Code == this.activeMenu)
+      if(type){
+        menu = type[0].CodeDesc
+       console.log('MMMMMMMMMMMM',menu);
+      }
+      if(this.totallistselected.length!=0){
+     for(let n of this.totallistselected){
+         totallist.push({
+           "QuoteNo":this.quoteNo,
+        "NoOfInstallment":this.emiMonth,
+      "InsuranceId":this.insuranceId,
+      "ProductId":this.productId,
+      "InstallmentPeriod":this.emiPeriod,
+      "CreatedBy":this.loginId,
+      "PaymentStatus":"Paid",
+      "Remarks":"",
+      "PaymentDetails":menu,
+      "SelectedYn":"Y"
+         })
+         i+=1; 
+         // var sorted = this.totallistselected.sort();
+         // console.log('NNNNNNNNNNNN',sorted)
+       if(i==this.totallistselected.length) {
+         let sorted = totallist.sort((a, b) => a.NoOfInstallment - b.NoOfInstallment); 
+         console.log('NNNNNNNNNNNN',sorted);
+         console.log('Paymentsss',this.totallistselected.length); this.makepayments(totallist);
+       }
+     }
+     }
+     else{
+       totallist.push({
+         "QuoteNo":this.quoteNo,
+         "NoOfInstallment":this.emiMonth,
+         "InsuranceId":this.insuranceId,
+         "ProductId":this.productId,
+         "InstallmentPeriod":this.emiPeriod,
+         "CreatedBy":this.loginId,
+         "PaymentStatus":"Paid",
+         "Remarks":"",
+         "PaymentDetails":menu,
+         "SelectedYn":"Y"
+       });
+       this.makepayments(totallist);
+     }
+   }
+   makepayments(totallist){
+    let urlLink = `${this.CommonApiUrl}api/updateemitransactiondetails`;
+    this.sharedService.onPostMethodSync(urlLink,totallist).subscribe(
+     (data: any) => {
+       console.log(data);
+       if(data.Result){
+      console.log('NNNNNNNNNNNNN',data.Result);
+      sessionStorage.removeItem('Makepaymentid')
+      //this.onCashPayment();
+       } 
+     },
+     (err) => { },
+     );
   }
 }

@@ -1896,6 +1896,7 @@ export class CoverDetailsComponent {
           this.totalPremium = totalCost;
           if(this.vehicleData[0].EmiYn!=null && this.vehicleData[0].EmiYn!=undefined && this.vehicleData[0].EmiYn!=''){
           this.emiYN = this.vehicleData[0].EmiYn;
+          if(this.emiYN == 'Y')this.EmiInstallment();
           this.emiPeriod = this.vehicleData[0].InstallmentPeriod;
         }
         else if(!this.endorsementSection) {
@@ -1906,6 +1907,7 @@ export class CoverDetailsComponent {
     }
   }
   EmiInstallment(){
+    this.yearlySection =false;this.nineMonthSection=false;this.sixMonthSection=false;this.threeMonthSection=false;this.fiveMonthSection=false;
     if(this.localCurrency==undefined) this.localCurrency = 'TZS'
     let ReqObj = {
      "PremiumWithTax":this.totalPremium,
@@ -1942,9 +1944,10 @@ export class CoverDetailsComponent {
                       sixList = entry.EmiPremium;
                       this.sixMonthSection = true;
                     }
-                    else if(emiDetails.length==4){
+                    else if(emiDetails.length==3){
                       threeList = entry.EmiPremium;
                       this.threeMonthSection = true;
+                      
                     }
                     else if(emiDetails.length==6){
                       fiveList = entry.EmiPremium;
@@ -1995,7 +1998,9 @@ export class CoverDetailsComponent {
     }
   }
   onEmiYNChange(){
-    if(this.emiYN == 'Y') this.EmiInstallment();
+    if(this.emiYN == 'Y'){
+      this.EmiInstallment();
+    }
   }
   setEmiTableValues(yearlyList,nineList,sixList,threeList,fiveList,eightList){
     if(this.yearlySection){
@@ -3672,6 +3677,7 @@ export class CoverDetailsComponent {
     //this.emiYN=='Y' && this.emiPeriod!='N'
     if(this.emiYN!=null){
       if(this.emiYN=='N'){
+        this.emiYN=='N';
         this.emistatus='N';
         this.emiPeriod='0';
         this.insertEMIDetails();
@@ -3754,33 +3760,33 @@ export class CoverDetailsComponent {
       // }
   }
   insertEMIDetails(){
-    this.finalRedirection();
-    // if(this.emiPeriod){
-    //   let ReqObj = {
-    //     "QuoteNo":this.quoteNo,
-    //     "InsuranceId": this.insuranceId,
-    //     "ProductId":this.productId,
-    //     "PolicyType":this.emipolicytype,
-    //     "InstallmentPeriod":this.emiPeriod,
-    //     "PremiumWithTax":this.totalPremium,//this.localPremiumCost
-    //     "PaymentDetails":"",
-    //     "Status":this.emistatus,
-    //     "CreatedBy":this.loginId,
-    //     "Remarks":"None"
-    //   }
-    //   let urlLink = `${this.CommonApiUrl}api/insertemitransactiondetails`
-    //   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
-    //     (data: any) => {
-    //         if(data.Result?.Response=='Saved Successful'){
-    //             this.finalRedirection();
-    //         }
-    //       },
-    //       (err) => { },
-    //     );
-    // }
-    // else{
-    //   this.finalRedirection();
-    // }
+    // this.finalRedirection();
+    if(this.emiPeriod!=0){
+      let ReqObj = {
+        "QuoteNo":this.quoteNo,
+        "InsuranceId": this.insuranceId,
+        "ProductId":this.productId,
+        "PolicyType":this.emipolicytype,
+        "InstallmentPeriod":this.emiPeriod,
+        "PremiumWithTax":this.totalPremium,//this.localPremiumCost
+        "PaymentDetails":"",
+        "Status":this.emistatus,
+        "CreatedBy":this.loginId,
+        "Remarks":"None"
+      }
+      let urlLink = `${this.CommonApiUrl}api/insertemitransactiondetails`
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+            if(data.Result?.Response=='Saved Successful'){
+                this.finalRedirection();
+            }
+          },
+          (err) => { },
+        );
+    }
+    else{
+      this.finalRedirection();
+    }
   }
   finalRedirection(){
     if(this.productId=='59'){

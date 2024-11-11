@@ -78,26 +78,7 @@ export class CRMEnquiry{
                     expressions: {
                     },
                   },
-                  {
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 ',
-                    type: 'ngselect',
-                    id: 'Product',
-                    key: 'Product',
-                    templateOptions: {
-                      label: `Product`,
-                      required: true,
-                      disabled: this.checkDisable('Product'),
-                      maxLength: 15,
-                      options:[]
-                    },
-                    
-                    validators: {
-                    },
-                    hooks: {
-                    },
-                    expressions: {
-                    },
-                  },
+                 
                   {
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     type: 'datepicker',

@@ -170,7 +170,7 @@ export class MotorVehicleSanlam{
                       label: `Inflation`,
                       maxLength: 15,
                       disabled: this.checkDisable('Inflation'),
-                      required: true,
+                      required: false,
                       options: [
   
                       ],

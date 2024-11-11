@@ -1,4 +1,4 @@
-<ng-container *ngIf="(!policySection && !endorsementSection && !successSection && !loadingSection && !draftSection) || (endorsementSection && IsChargeOrRefund=='CHARGE' && !policySection && !loadingSection)">
+<ng-container *ngIf="(!policySection && !endorsementSection && !successSection && !loadingSection && !draftSection) || (endorsementSection && IsChargeOrRefund=='CHARGE' && !policySection && !loadingSection) && EmiYn=='Y'">
     <div class="grid mb-2">
         <div class="lg:col-7 md:col-7 col-12">
             <h2>{{'PAYMENT.Justonemorestep' | translate}}</h2>

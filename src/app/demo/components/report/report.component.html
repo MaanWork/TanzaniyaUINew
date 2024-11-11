@@ -60,17 +60,7 @@
       </div>
       <div class="col-12 mx-auto flex flex-wrap justify-content-center">
         <p-button class="mr-4 mb-4" [label]="'Report.Search' | translate" (click)="getsearch()"></p-button>
-
-        <!-- <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Pdf Download" (click)="onCommonDocumentDownload('Pdf')">
-          <i class="fa fa-download"></i>
-          PDF
-      </button>&nbsp;
-      <button class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Excel Download" (click)="onCommonDocumentDownload('Excel')">
-          <i class="fa fa-download"></i>
-          Excel
-      </button> -->
-
-       
+        <p-button icon="pi pi-cloud-download" [label]="'Report.DownloadAll' | translate" styleClass="p-button-outlined" (click)="onCommonDocumentDownload()"></p-button>
       </div>
       <div class="grid">
         <ng-container *ngIf="customerData.length!=0">
@@ -80,9 +70,6 @@
           <ng-template pTemplate="caption">
             <!--[tableStyle]="{'min-width':'50rem'}" -->
             <div class="flex flex wrap justify-content-end">
-              <p-button icon="pi pi-cloud-download" [label]="'Report.DownloadPDF' | translate" styleClass="p-button-outlined" *ngIf="customerData.length!=0" (click)="onCommonDocumentDownload('Pdf')"></p-button>&nbsp;&nbsp;&nbsp;
-              <p-button icon="pi pi-cloud-download" [label]="'Report.DownloadExcel' | translate" styleClass="p-button-outlined" *ngIf="customerData.length!=0" (click)="onCommonDocumentDownload('Excel')"></p-button>&nbsp;&nbsp;&nbsp;
-      
               <div class="table-header">
                   <span class="p-input-icon-left">
                       <i class="pi pi-search"></i>

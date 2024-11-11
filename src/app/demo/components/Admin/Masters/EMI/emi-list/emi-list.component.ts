@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import * as Mydatas from '../../../../../app-config.json';
-import { SharedService } from '../../../../../shared/shared.service';
+import * as Mydatas from '../../../../../../app-config.json';
+import { SharedService } from '../../../../../../shared/shared.service';
 
 @Component({
   selector: 'app-emi-list',
