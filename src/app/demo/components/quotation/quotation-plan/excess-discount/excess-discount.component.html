@@ -47,7 +47,7 @@
                     <h3 class="ui-cu-header"><i class="fas fa-book mx-1"></i>&nbsp;{{'Modify.CoverageDetails' | translate}}</h3>
                 </div>
                 <div>
-                    <ng-container *ngIf="ClausesData.length!=0">
+                    <ng-container>
                         <p-button label="C" styleClass="mr-3 mb-3 p-button-outlined"
                             (click)="ClausesStatuss()"></p-button>&nbsp;
                         <!-- <button class="btn clausebutton btn-sm" data-toggle="tooltip" data-placement="top"
@@ -55,12 +55,12 @@
                             style="font-family: var(--our-font-family-new)!important;font-weight: 600;"
                             >C</button> -->
                     </ng-container>
-                    <ng-container *ngIf="ExclusionData.length!=0">
+                    <ng-container>
                         <p-button label="E" styleClass="mr-3 mb-3 p-button-outlined"
                             (click)="ExclusioStatuss()"></p-button>&nbsp;
                         &nbsp;
                     </ng-container>
-                    <ng-container *ngIf="WarrantyData.length!=0">
+                    <ng-container>
                         <p-button label="W" styleClass="mr-3 mb-3 p-button-outlined"
                             (click)="WarrantyStatuss()"></p-button>&nbsp;
                         <!-- <button class="btn clausebutton btn-sm" data-toggle="tooltip" data-placement="top"
@@ -2715,21 +2715,7 @@
                 </div> -->
             </div>
             <!-- <div class="flex flex-wrap" *ngIf="(subuserType=='low' && !endorsementSection) && !showGrid"> -->
-                <!-- <div class="lg:col-5 md:col-5 xl:col-5 col-12  mb-3" style="margin-left: 0px;">
-                    <label class="input-form-label">Finalize this Quote?</label>
-                    <div class="flex justify-content-start gap-3">
-                        <div class="flex align-items-center">
-                            <p-radioButton name="Yes" value="Y" [(ngModel)]="finalizeYN"
-                                inputId="finalize_Yes"></p-radioButton>
-                            <span for="finalize_Yes" class="ml-2">Yes</span>
-                        </div>
-                        <div class="flex align-items-center">
-                            <p-radioButton name="No" value="N" [(ngModel)]="finalizeYN"
-                                inputId="finalize_No"></p-radioButton>
-                            <span for="finalize_No" class="ml-2">No</span>
-                        </div>
-                    </div>
-                </div> -->
+                
             <ng-container *ngIf="(subuserType=='low' && !endorsementSection)">
                 <div class="flex flex-wrap justify-content-center mb-2"
                     *ngIf="finalizeYN=='N'">
@@ -2799,6 +2785,21 @@
                         </div>
                     </div>
                 </ng-container>
+                <div class="lg:col-5 md:col-5 xl:col-5 col-12  mb-3" style="margin-left: 0px;">
+                    <label class="input-form-label">Finalize this Quote?</label>
+                    <div class="flex justify-content-start gap-3">
+                        <div class="flex align-items-center">
+                            <p-radioButton name="Yes" value="Y" [(ngModel)]="finalizeYN"
+                                inputId="finalize_Yes"></p-radioButton>
+                            <span for="finalize_Yes" class="ml-2">Yes</span>
+                        </div>
+                        <div class="flex align-items-center">
+                            <p-radioButton name="No" value="N" [(ngModel)]="finalizeYN"
+                                inputId="finalize_No"></p-radioButton>
+                            <span for="finalize_No" class="ml-2">No</span>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             
@@ -4284,11 +4285,36 @@
         </button>
     </div>
     <div class="modal-body">
-        <app-grid-table [cols]="CoverHeader" [data]="CoverList">
-        </app-grid-table>
+        
     </div>
 
 </ng-template>
+<p-dialog class="p-su-header" header="Factor Details" [(visible)]="coverBenefitDisplay" [modal]="true" styleClass="w-10 md:w-10 lg:w-10" [draggable]="false" [resizable]="false">
+    <div class="grid">
+        <div class="col-12 lg:col-12 md:col-12 xl:col-12">
+            <p-table [value]="CoverList" [tableStyle]="{'min-width':'50rem'}" [paginator]="true" [rows]="5">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th *ngFor="let column of CoverHeader">{{column}}</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-cover>
+                    <tr>
+                        <td>{{cover?.BenefitId}}</td>
+                        <td>{{cover?.BenefitDescription}}</td>
+                        <td>{{cover?.CalcType}}</td>
+                        <td>{{cover?.SectionDesc}}</td>
+                        <td>{{cover?.Value}}</td>
+                        <td>{{cover?.LongDesc}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <div class="flex justify-content-center">
+        <p-button class=" text-l pi-button mr-0"  (click)="coverBenefitDisplay=!coverBenefitDisplay">Close</p-button>
+    </div>
+</p-dialog>
 <p-dialog class="p-su-header" header="Factor Details" [(visible)]="factorDetailModal" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
     <div class="grid">
         <div class="col-12 lg:col-12 md:col-12 xl:col-12">

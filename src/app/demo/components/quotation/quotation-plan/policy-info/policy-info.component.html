@@ -45,6 +45,7 @@
                 <div class="inline-flex align-items-center justify-content-center gap-2 w-full mt-2">
                     <p-button [label]="'PolicyInfo.DebitNotePDF' | translate" styleClass="p-button-outlined" (click)="onDebitdownload(paymentDetails)" *ngIf="paymentDetails?.DebitNoteNo"></p-button>
                     <p-button [label]="'PolicyInfo.CreditNotePDF' | translate" styleClass="p-button-outlined" (click)="onCreditdownload(paymentDetails)" *ngIf="paymentDetails?.CreditNoteNo"></p-button>
+                    <p-button label="Certificate PDF" styleClass="p-button-outlined" (click)="onGetDraft(paymentDetails)" *ngIf="paymentDetails?.PolicyNo && (insuranceId=='100046' || this.insuranceId=='100048')"></p-button>
                     <p-button [label]="'PolicyInfo.SchedulePDF' | translate" styleClass="p-button-outlined" (click)="onGetSchedule(paymentDetails)" *ngIf="paymentDetails?.PolicyNo"></p-button>
                 </div>
             </div>

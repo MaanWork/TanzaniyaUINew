@@ -170,7 +170,7 @@ export class MotorVehicleKenya{
                       required: true,
                       disabled: this.checkDisable('GPS'),
                       name: 'GPS',
-                      options: [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }],
+                      options: [{ value: 'Y', label: 'Yes', 'CodeDesc':'Yes', 'CodeDescLocal':'Sim' }, { value: 'N', label: 'No','CodeDesc':'No', 'CodeDescLocal':'Não' }],
                     }
                   },
                   {
@@ -292,13 +292,14 @@ export class MotorVehicleKenya{
   fields:FormlyFieldConfig;
     getFieldDetails(){return this.fields; }
     checkDisable(fieldName) {
+      let status = sessionStorage.getItem('QuoteStatus');
         if (this.endorsementSection) {
           let entry = this.enableFieldsList.some(ele => ele == fieldName);
           console.log("Entry ", fieldName, entry)
           return !entry;
         }
-        else if(this.subuserType=='low') return this.finalizeYN=='Y'; 
+        else if(this.subuserType=='low') return (this.finalizeYN=='Y' || status=='RA'); 
         else return false;
       
-      }
+    }
 }

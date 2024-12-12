@@ -157,23 +157,29 @@ onGetSchedule(rowData){
   this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
     (data: any) => {
       console.log(data);
-      if(data?.Result?.PdfOutFile){
-          this.downloadMyFile(data.Result.PdfOutFile,'Schedule');
+      if (data.ErrorMessage.length != 0) {
+        if (data.ErrorMessage) {
+        }
       }
-      else{
-        Swal.fire({
-          title: '<strong>Schedule Pdf</strong>',
-          icon: 'error',
-          html:
-            `No Pdf Generated For this Policy`,
-          //showCloseButton: true,
-          //focusConfirm: false,
-          showCancelButton: false,
+      else {
+        if(data?.Result?.PdfOutFile){
+            this.downloadMyFile(data.Result.PdfOutFile,'Schedule');
+        }
+        else{
+          Swal.fire({
+            title: '<strong>Schedule Pdf</strong>',
+            icon: 'error',
+            html:
+              `No Pdf Generated For this Policy`,
+            //showCloseButton: true,
+            //focusConfirm: false,
+            showCancelButton: false,
 
-          //confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          cancelButtonText: 'Cancel',
-        })
+            //confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancel',
+          })
+        }
       }
     },
     (err) => { },
@@ -186,10 +192,15 @@ onDebitdownload(rowData){
 
   this.sharedService.onGetMethodSync(urlLink).subscribe(
     (data: any) => {
-      console.log(data);
-      if(data?.Result?.PdfOutFile){
-        this.downloadMyFile(data.Result.PdfOutFile,'DebitPdf');
-    }
+      if (data.ErrorMessage.length != 0) {
+        if (data.ErrorMessage) {
+        }
+      }
+      else {
+        if(data?.Result?.PdfOutFile){
+          this.downloadMyFile(data.Result.PdfOutFile,'DebitPdf');
+        }
+      }
   },
     (err) => { },
   );
@@ -201,9 +212,15 @@ onCreditdownload(rowData){
   this.sharedService.onGetMethodSync(urlLink).subscribe(
     (data: any) => {
       console.log(data);
-      if(data?.Result?.PdfOutFile){
-        this.downloadMyFile(data.Result.PdfOutFile,'Creditpdf');
-    }
+      if (data.ErrorMessage.length != 0) {
+        if (data.ErrorMessage) {
+        }
+      }
+      else {
+        if(data?.Result?.PdfOutFile){
+          this.downloadMyFile(data.Result.PdfOutFile,'Creditpdf');
+        }
+      }
   },
     (err) => { },
   );

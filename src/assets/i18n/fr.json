@@ -87,7 +87,7 @@
   
   },
    "LOGIN":{
-          "WelcometoXYZInsurance":"Bienvenue chez Alliance Assurance",
+          "WelcometoXYZInsurance":"Bienvenue chez Broker Portal",
         "Signintocontinue":"Connectez-vous pour continuer",
         "RetrieveQuoteUsingMobileNumber?":"Récupérer un devis à l'aide de MobileNumber?",
         "B2CQuote":"Devis B2C",
@@ -141,6 +141,7 @@
    "QUOTEGRID":{
     "NoOfDays":"Nombre de Jours de Validité du devis",
     "NoOfMonths":"Policy Period (Months)",
+    "InsuredPeriod": "Insured Period",
   "Quotation":"Citation",
   "Existing":"Existant",
   "Lapsed":"Echu",
@@ -184,11 +185,16 @@
   "MOTORQUOTE":{
     "PaCoverId":"Motor Passenger Injury",
     "QuoteExpiryDate":"Quote Expiry Days",
+    "LicenseNo": "License Number",
+    "MaleCount": "No Of Male",
+    "FemaleCount": "No Of Female",
+    "ClaimExperience":"Claim Experience",
     "EnterQuoteExpiryDate": "Enter Expiry Days Count",
     "quoteExpiryDateError":"Please Enter Quote Expiry Days",
     "BankingDelegation":"Délégation Bancaire",
     "LoanStartDate": "Date de début du prêt",
     "LoanEndDate":"Date de fin du prêt",
+    "VehicleInformation":"Vehicle Information",
     "Zone":"Zone",
     "Class":"Classe",
     "VehicleClass":"Vehicle Class",
@@ -467,6 +473,7 @@
   "EMIPeriod":"Période EMI",
   "None":"Aucun",
   "3Months":"3 mois",
+  "5Months":"5 mois",
   "6Months":"6 mois",
   "8Months":"8 mois",
   "9Months":"9 mois",
@@ -566,6 +573,7 @@
   "Proceed":"Procéder"
   },
     "PolicyGrid":{
+  "PayEmi": "Pay Emi",
   "Broker":"Courtier",
   "Portfolio":"Portefeuille",
   "Home":"Maison",
@@ -638,13 +646,13 @@
     "Report":{
   "Report":"Rapport",
   "Branch":"Bifurquer",
+  "DownloadPDF":"Télécharger le PDF",
+  "DownloadExcel":"Télécharger Excel",
   "StartDate":"Date de début",
   "EndDate":"Date de fin",
   "BrokerName":"Nom du courtier",
   "Search":"Recherche",
   "DownloadAll":"Tout télécharger",
-  "DownloadPDF":"Télécharger le PDF",
-  "DownloadExcel":"Télécharger Excel",
   "PolicyNo":"Numéro de politique",
   "QuoteNo":"Numéro de devis",
   "CustomerName":"Nom du client",

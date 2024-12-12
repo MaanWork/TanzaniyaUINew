@@ -21,6 +21,11 @@ import { CustomerEagle } from '../../quotation/quotation-plan/models/Eagle/Custo
 import { CustomerMadison } from '../../quotation/quotation-plan/models/Madison/CustomerMadison';
 import { CustomerKenya } from '../../quotation/quotation-plan/models/Kenya/CustomerKenya';
 import { CustomerSaudiarabia } from '../../quotation/quotation-plan/models/Saudiarabia/CustomerSaudiarabia';
+import { CustomerPhoneix } from '../../quotation/quotation-plan/models/phoneix/CustomerPhoneix';
+import { CustomerPhoneixZambia } from '../../quotation/quotation-plan/models/phoneix/CustomerPhoneixZambia';
+import { CustomerPhoneixMocambique } from '../../quotation/quotation-plan/models/phoneix/CustomerPhoneixMocambique';
+import { CustomerPhoneixSwazilnd } from '../../quotation/quotation-plan/models/phoneix/CustomerPhoneixSwazilnd';
+import { CustomerPhoneixNamibia } from '../../quotation/quotation-plan/models/phoneix/CustomerPhoneixNamibia';
 @Component({
   selector: 'app-customer-create-form',
   templateUrl: './customer-create-form.component.html',
@@ -146,7 +151,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			this.productItem.IdType='1';
 		}
  
-	if(this.insuranceId=="100040" || this.insuranceId=="100042" || this.insuranceId=="100002" ){
+	if(this.insuranceId=="100040" || this.insuranceId=="100042" || this.insuranceId=="100002" || this.insuranceId == '100046' || this.insuranceId=='100047'|| this.insuranceId=='100048' || this.insuranceId=='100049' || this.insuranceId=='100050'){
 		
 		this.getSocioProfessional();
 		this.getStateList('direct');
@@ -157,7 +162,7 @@ export class CustomerCreateFormComponent implements OnInit {
 
 	}
 	
-	if((this.insuranceId=='100002' || this.insuranceId=='100044')  && this.customerReferenceNo ){
+	if((this.insuranceId=='100002' || this.insuranceId=='100044' || this.insuranceId == '100046' || this.insuranceId=='100047'|| this.insuranceId=='100048' || this.insuranceId=='100049' || this.insuranceId=='100050')  && this.customerReferenceNo ){
 		this.getOccupationLists('direct');
 		if(this.customerReferenceNo){
 		
@@ -179,11 +184,13 @@ export class CustomerCreateFormComponent implements OnInit {
 	}
 	
 	getTitleList(){
+		let urlLink;
 		let ReqObj = {
 				"InsuranceId": this.insuranceId,
 				"BranchCode": this.branchCode
 			}
-			let urlLink = `${this.CommonApiUrl}dropdown/title`;
+			if(this.insuranceId=='100028')urlLink = `${this.CommonApiUrl}dropdown/nametitle`;
+			else urlLink = `${this.CommonApiUrl}dropdown/title`;
 			this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
 				(data: any) => {
 					if (data.Result) {
@@ -244,6 +251,21 @@ export class CustomerCreateFormComponent implements OnInit {
 		if(this.insuranceId=='100002'){
 			fireData = new CustomerTanzaniya();
 		}
+		if(this.insuranceId== '100047'){
+			fireData = new CustomerPhoneix();
+		}
+		if(this.insuranceId== '100046'){
+			fireData = new CustomerPhoneixZambia();
+		}
+		if(this.insuranceId== '100048'){
+			fireData = new CustomerPhoneixMocambique();
+		}
+		if(this.insuranceId== '100049'){
+			fireData = new CustomerPhoneixSwazilnd();
+		}
+		if(this.insuranceId== '100050'){
+			fireData = new CustomerPhoneixNamibia();
+		}
 		if(this.insuranceId=='100040'){
 			fireData = new CustomerIvory();
 		}
@@ -285,7 +307,8 @@ export class CustomerCreateFormComponent implements OnInit {
 			//this.getPolicyIdTypeList()
 		// }
 		
-		if(this.insuranceId=='100002' || this.insuranceId=='100044' || this.insuranceId=='100028' || this.insuranceId=='100020'){
+		if(this.insuranceId=='100002' || this.insuranceId == '100046' || this.insuranceId=='100047'|| this.insuranceId=='100048' || this.insuranceId=='100049' || this.insuranceId=='100050'
+			|| this.insuranceId=='100044' || this.insuranceId=='100028' || this.insuranceId=='100020' || this.insuranceId=='100027'){
 			let regionHooks ={ onInit: (field: FormlyFieldConfig) => {
 				field.form.controls['Country'].valueChanges.subscribe(() => {
 				  this.getRegionList('change')
@@ -308,7 +331,7 @@ export class CustomerCreateFormComponent implements OnInit {
 					}
 				}
 			}
-		if(this.insuranceId=='100040' || this.insuranceId=='100042'){
+		if(this.insuranceId=='100040' || this.insuranceId=='100042' || this.insuranceId=='100027'){
 			let MobileNumberKeypress ={ onInit: (field: FormlyFieldConfig) => {
 				field.form.controls['MobileNo'].valueChanges.subscribe(() => {
 				  //this.taxExcepted();
@@ -655,7 +678,7 @@ export class CustomerCreateFormComponent implements OnInit {
 		else{
 			policyid = data?.IdNumber;
 		}
-		if(this.insuranceId=="100002")data.state=this.productItem.Region;data.RegionCode=this.productItem.Country
+		if(this.insuranceId=="100002" || this.insuranceId == '100046' || this.insuranceId=='100047'|| this.insuranceId=='100048' || this.insuranceId=='100049' || this.insuranceId=='100050')data.state=this.productItem.Region;data.RegionCode=this.productItem.Country
 		if (this.insuranceId == "100040") {
 			data.state = this.productItem.Department;
 			stateName = this.departmentList.find(ele => ele.Code == data.state).CodeDesc                                                                                                                                
@@ -710,7 +733,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			"CustomerReferenceNo": this.customerReferenceNo,
 			"InsuranceId": this.insuranceId,
 			"BranchCode": this.branchCode,
-			"ProductId": "5",
+			"ProductId": this.productId,
 			"AppointmentDate": appointmentDate,
 			"Address1": data?.Street,
 			"Address2": data?.Address2,
@@ -1202,7 +1225,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			}
 			urlLink = `${this.CommonApiUrl}master/dropdown/regionstate`
 		}
-		if (this.insuranceId == '100002' || this.insuranceId == '100044') this.productItem.state = this.productItem.Region;
+		if (this.insuranceId == '100002' || this.insuranceId == '100046' || this.insuranceId=='100047'|| this.insuranceId=='100048' || this.insuranceId=='100049' || this.insuranceId=='100050'	|| this.insuranceId == '100044') this.productItem.state = this.productItem.Region;
 		this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
 			(data: any) => {
 				console.log(data);
@@ -1685,7 +1708,7 @@ export class CustomerCreateFormComponent implements OnInit {
 			"CustomerReferenceNo": this.customerReferenceNo,
 			"InsuranceId": this.insuranceId,
 			"BranchCode": this.branchCode,
-			"ProductId": "5",
+			"ProductId": this.productId,
 			"AppointmentDate": appointmentDate,
 			"Address1": datas?.Address1,
 			"Address2": datas?.Address2,
@@ -1903,7 +1926,7 @@ export class CustomerCreateFormComponent implements OnInit {
 	}
 	else if(type=='direct' && !this.final){
 		//this.blankvalidationcheck(data);
-		if(this.insuranceId=='100040' || this.insuranceId=='100042' || this.insuranceId=='100002'){
+		if(this.insuranceId=='100040' || this.insuranceId=='100042' || this.insuranceId=='100002' || this.insuranceId == '100046' || this.insuranceId=='100047'|| this.insuranceId=='100048' || this.insuranceId=='100049' || this.insuranceId=='100050'){
 			let fieldList = this.personalInfoFields[0].fieldGroup
 			let i=0,j=0;
 			for(let field of fieldList){

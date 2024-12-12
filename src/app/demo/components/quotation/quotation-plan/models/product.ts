@@ -39,19 +39,20 @@ export class ProductData {
 	EmpliabilityExcessSuminsured:any='0';EmpliabilityAnnualSuminsured:any='0';MachineEquipSIYN:boolean=false
 	FidelityAnnualSuminsured:any='0';FidelityAnyoccuSuminsured:any='0';BoilerPlantsSIYN:boolean=false;
 	MoneyAnnualcarrySuminsured:any='0';MoneyInsafeSuminsured:any='0';ManuUnitsSIYN:boolean=false;
-	CashInHandDirectors:any='0';CashInTransit:any='0';CashInHandEmployees:any='0';
-	CashInSafe:any='0';CashInPremises:any='0';RevenueFromStamps:any='0';MoneyInSafeBusiness:any='0';
-	MoneyOutSafeBusiness:any='0';MoneyInPremises:any='0';MoneyInLocker:any='0';
-	TpliabilityAnyoccuSuminsured:any='0';PersonalIntermediarySuminsured:any='0';
+	CashInHandDirectors:any='0';CashInTransit:any='0';CashInHandEmployees:any='0';PlatinumSumInsured:any='0';
+	CashInSafe:any='0';CashInPremises:any='0';RevenueFromStamps:any='0';MoneyInSafeBusiness:any='0';OfficeContentsSumInsured:any='0';
+	MoneyOutSafeBusiness:any='0';MoneyInPremises:any='0';MoneyInLocker:any='0';AccidentalSumInsured:any='0';
+	TpliabilityAnyoccuSuminsured:any='0';PersonalIntermediarySuminsured:any='0';IndemnityPeriod:any=null;
 	BuildingUsageId: any='';Status:any='Y';TotalNoOfEmployees:any;TotalRejoinedEmployees:any;
 	PersonalAccidentSuminsured: any=null;LiabilityOccupationId:any='';AccountOutstandingEmployees:any;
 	AllriskSumInsured: any = '0';WallType:any='';RoofType:any='';TotalOutstandingAmount:any;
-	AccountAuditentType:any;ElectronicEquipmentSI:any='0';
+	AccountAuditentType:any;ElectronicEquipmentSI:any='0';AdditionalClaimsSumInsured:any='0';
+	StockSumInsured:any=0;
 	/*Product Burglary*/
-	NatureOfTradeId:any='';InternalWallType:any='';
-	CeilingType: any = '';WindowsMaterialId:any='';
-	RegionCode: any = '';NightLeftDoor:any='';
-	DistrictCode: any = '';InsuranceForId:any=[];
+	NatureOfTradeId:any='';InternalWallType:any='';PASumInsured:any=null;
+	CeilingType: any = '';WindowsMaterialId:any='';GroupSumInsured:any=null;
+	RegionCode: any = '';NightLeftDoor:any='';PAOccupationType:any=null;
+	DistrictCode: any = '';InsuranceForId:any=[];GroupOccupationType:any=null;
 	DoorsMaterialId: any = '';StockInTradeSi:any='';
 	GoodsSi:any='';FurnitureSi:any='';ApplianceSi:any='';
 	CashValueablesSi:any='';OccupiedYear:any='';
@@ -124,10 +125,10 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
   CarpetsSi:any='0';GroupOccupationId:any=null;
   EquipmentSis:any='0';MotorCategory:any='';Section:any=null;
   LegalLiabilityAnnualAggreagte:any='0';ProductTurnover:any='0';
-  GrossProfitSi: any='0';IndemnityPeriodSi:any='0';
-  TransportedBy: any='';ModeOfTransport:any='';
-  GeographicalCoverage: any='';otherGroupoption:any=null;
-  EstAnnualCarriesSiLc: any='0';SingleRoadSiLc:any='0';
+  GrossProfitSi: any='0';IndemnityPeriodSi:any='0';MoneyStrongroom:any='0';
+  TransportedBy: any='';ModeOfTransport:any='';MoneyinPremises:any='0';
+  GeographicalCoverage: any='';otherGroupoption:any=null;MoneyInSafe:any='0';
+  EstAnnualCarriesSiLc: any='0';SingleRoadSiLc:any='0';MoneyinTransit:any='0';
   otheroptionPer: any = '';patientList:any[]=[];FireSumInsured:any='0';
   TTDSumInsured: any=null;InsuranceType:any=null;PreviousInsuranceYN:any='N';
   MESumInsured: any=null;EmployeeCounts:any;PreviousLossRatio:any=null;
@@ -137,7 +138,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 	PassengerFirstName: any='';BusinessName:any=null;BusinessSI:any='0';
 	PassengerLastName: any='';CoveringDetails:any=null;DescriptionOfRisk:any=null;
 	GenderId: any='';OccupationDesc=null;CoveringDetailsBI:any=null;DescriptionOfRiskBI:any=null;
-	RelationId: any=''
+	RelationId: any='';Estimatedannualcashcarryings:any='0';
 	Nationality: any=''
 	PassportNo: any=''
 	HorsePower: any=''
@@ -149,7 +150,7 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 	CollateralCompanyAddress: any
 	CollateralCompanyName:any
 	LoanAmount:any='';ExpiryDate:any=null;
-	UsageId: any=''
+	UsageId: any='';ClaimExperience:any=null;
 	vehicleTypeIvr: any=''
 	ZoneCirculation: any=''
 	DateOfCirculation: any=''
@@ -174,6 +175,11 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 	RentSumInsured:any='0';
 	TradeConstructionType:any='';
 	TradeSumInsured:any='0';
+	WaterLeakageSumInsured: any
+	ThirdAspectSumInsured: any
+	LiabilityLossSumInsured: any
+  ClaimsPreparationSumInsured: any
+  LiabilitySumInsured: any
 	constructor(data?) {
 		this.id = data?.id ?? ''
 		this.CustomerName = data?.CustomerName ?? '';
@@ -275,6 +281,13 @@ otheroption:any='';otherFioption:any='';FidEmpCount:any='0';IndustryBussinessAll
 		this.BackDoors = data?.BackDoors ?? '';
 		this.TrapDoors = data?.TrapDoors ?? '';
 		this.Address = data?.Address ?? '';
+		this.AdditionalClaimsSumInsured = data?.AdditionalClaimsSumInsured ?? '0';
+		this.WaterLeakageSumInsured = data?.WaterLeakageSumInsured ?? '0';
+		this.ThirdAspectSumInsured = data?.ThirdAspectSumInsured ?? '0';
+		this.LiabilityLossSumInsured = data?.LiabilityLossSumInsured ?? '0';
+		this.OfficeContentsSumInsured = data?.OfficeContentsSumInsured ?? '0';
+		this.ClaimsPreparationSumInsured = data?.ClaimsPreparationSumInsured ?? '0';
+		this.LiabilitySumInsured = data?.LiabilitySumInsured ?? '0';
 		this.EmpLiabilitySi = data?.EmpLiabilitySi ?? '0';
 		this.FidEmpSi = data?.EmpLiabilitySi ?? '0';
 		this.CashInHandDirectors = data?.CashInHandDirectors ?? '0';

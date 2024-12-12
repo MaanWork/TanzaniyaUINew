@@ -28,7 +28,6 @@ const routes: Routes = [
       { path: 'vehicle', component: VehiclePlanComponent },
       { path: 'accessories', component: AccesoriesComponent },
       { path: 'quote-type', component: QuotationTypeInfoComponent },
-      
       { path: 'driver-info', component: DriverInfoComponent },
       { path: 'document-info', component: DocumentInfoComponent },
       { path: 'payment', component: PaymentInfoComponent },
@@ -55,7 +54,8 @@ const routes: Routes = [
     path: 'OtpSection', 
     component: OTPComponent,
   },
-  {path:"shortQuote" , component:ShortQuoteComponent}
+  {path:"shortQuote" , component:ShortQuoteComponent},
+  
 ];
 
 @NgModule({

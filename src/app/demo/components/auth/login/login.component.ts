@@ -265,15 +265,12 @@ export class LoginComponent {
             }
           }
           else if(data.ErrorMessage){
-              // if(data.ErrorMessage.length!=0){
-              //   this.errorSection = true;
-              //   this.errorList = data.ErrorMessage;
-              // }
+              
           }
         },
         (err: any) => {
           alert("Error")
-          // console.log(err);
+          
         },
       );
     }
@@ -749,4 +746,5 @@ export class LoginComponent {
         sessionStorage.setItem('resetLoginDetails','true');
        // this.onProceedBuyPolicy();
       }
+     
 }

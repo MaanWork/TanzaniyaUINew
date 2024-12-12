@@ -14,8 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class DocumentInfoComponent {
 
-  imageUrl:any=null;
-  uploadDocList:any[]=[];
+  imageUrl:any=null;uploadDocList:any[]=[];
   public AppConfig: any = (Mydatas as any).default;
 	public ApiUrl1: any = this.AppConfig.ApiUrl1;
 	public CommonApiUrl: any = this.AppConfig.CommonApiUrl;
@@ -37,11 +36,11 @@ export class DocumentInfoComponent {
   EmiYn: any=null;vehicleList:any[]=[];emiPeriod: any=null;RiskId:any=null;
   emiMonth: any=null;dueAmount: any=null;LicenseList:any[]=[];
   uploadListDoc:any[]=[];columns:any[]=[];tableView = 'table';
-  uploadedColumns:any[]=[];
-  viewImageUrl: any=null;
-  viewImageFileName: any=null;
-  viewImageSection: boolean;
-  driverDetailsList: any[]=[];
+  uploadedColumns:any[]=[];columnsHeader:any[]=[];columns2:any[]=[];
+  viewImageUrl: any=null;companyList:any[]=[];
+  viewImageFileName: any=null;coInsuranceData:any[]=[];
+  viewImageSection: boolean;leaderList:any[]=[];claimExperienceList:any[]=[];
+  driverDetailsList: any[]=[];yearList:any[]=[];
   coverlist: any[]=[];lang:any=null;
   BackSession: string;
   constructor(private sharedService: SharedService,private quoteComponent:QuotationPlanComponent,
@@ -107,8 +106,21 @@ export class DocumentInfoComponent {
       else this.lang='en';
       sessionStorage.setItem('language',this.lang)
       this.translate.setDefaultLang(sessionStorage.getItem('language'));}
+      this.claimExperienceList = [
+        {
+          "CLHDateOfLoss": null,
+          "CLHNatureOfLoss": null,
+          "CLHClaimedAmount": null,
+          "CLHClaimYear": null,
+          "CLHRemarks": null
+        }
+      ]
+      this.leaderList = [{"Code":"L","CodeDesc":"Leader"},{"Code":"P","CodeDesc":"Participant"}]
+      this.columnsHeader = ['Insurance Company Name','Shared (%)','Leader/Participant','Delete'];
+      this.columns2 = ['Year','Nature Of Loss','Date Of Loss','Amount Claimed','Remarks','Delete'];
    }
    ngOnInit(){
+    this.yearList = this.getYearList();
     if(this.productId=='5' || this.productId=='46'){
       this.columns = ['SNo','FileName','Section','RegistrationNumber','DocumentType','Actions'];
       this.uploadedColumns = ['SNo','FileName','Section','RegistrationNumber','DocumentType','Actions'];
@@ -135,7 +147,55 @@ export class DocumentInfoComponent {
         this.getEditQuoteDetails();
         this.getLocationWiseList();
       }
+      if(this.productId=='19'){
+        this.getCompanyList();
+        this.getAllCoInsuranceDetails();
+      }
    }
+   getYearList(){
+    var d = new Date();
+    
+    var year = d.getFullYear();
+    var month = d.getMonth();
+    var day = d.getDate();
+    const currentYear = new Date().getFullYear()-20, years = [];
+    while ( year >= currentYear ) {
+      let yearEntry = year--
+      years.push({"Code":String(yearEntry),"CodeDesc":String(yearEntry)});
+    }   
+    return years;
+  }
+   getCompanyList(){
+    let ReqObj = {
+      "InsuranceId": this.insuranceId,
+      "ItemType": "CO_INSURURANCE"
+    }
+    let urlLink = `${this.CommonApiUrl}master/getbyitemvalue`;
+    this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+      (data: any) => {
+        let defaultObj = [{"Code":null,"CodeDesc":"--Select--"}]
+          this.companyList = defaultObj.concat(data.Result);
+      })
+  }
+  getAllCoInsuranceDetails(){
+    let urlLink = `${this.CommonApiUrl}CoInsurance/getAllByByQuoteNo/${this.quoteNo}`;
+    this.sharedService.onGetMethodSync(urlLink).subscribe(
+      (data: any) => {
+          if(data.Result.length!=0){
+            let list = data.Result, i=0;
+            for(let entry of list){
+              if(entry.Insurancecompanyid!=null) entry.Insurancecompanyid = String(entry.Insurancecompanyid);
+              i+=1;if(i==list.length) this.coInsuranceData = list;
+            }
+            
+          }
+          else{
+            this.coInsuranceData =[
+              {"Insurancecompanyid":null,"Sharedpercentage":null,"Leaderparticipant":"L"}
+            ];
+          }
+      })
+  }
    getCommonDocTypeList(){
     let ReqObj = {
       "InsuranceId": this.insuranceId,
@@ -468,7 +528,7 @@ export class DocumentInfoComponent {
                 this.router.navigate(['quotation/plan/main/accessories']);
               }
               else{
-                if(this.productId=='5' && this.insuranceId!='100028' && this.insuranceId!='100020'){
+                if(this.productId=='5' && this.insuranceId!='100020'){
                   this.router.navigate(['/quotation/plan/main/driver-info'])
                 }
                 else this.router.navigate(['/quotation/plan/premium-details']);
@@ -476,11 +536,11 @@ export class DocumentInfoComponent {
     }
     else if(this.productId=='5' || this.productId=='59' || this.productId=='32' || this.productId=='39' || this.productId=='14' || this.productId=='15' || this.productId=='19' || this.productId=='1' || this.productId=='6' || this.productId=='16' || this.productId =='21' || this.productId =='26' || this.productId =='25' || this.productId =='24' || this.productId=='42' || this.productId=='43' || this.productId=='13' || this.productId=='27'){
       //this.router.navigate(['/quotation/plan/premium-details']);
-      if(this.productId=='6' || this.productId=='13' || this.productId=='16' || this.productId=='1') this.router.navigate(['/quotation/plan/premium-details']);
+      if(this.productId=='6' || this.productId=='13' || this.productId=='16' || this.productId=='1' || this.productId=='19') this.router.navigate(['/quotation/plan/premium-details']);
       else this.router.navigate(['/quotation/plan/main/accessories']);
     }
     else{
-        if(this.productId=='5' && this.insuranceId!='100028' && this.insuranceId!='100020'){
+        if(this.productId=='5' && this.insuranceId!='100020'){
           this.router.navigate(['/quotation/plan/main/driver-info'])
         }
         else if(this.productId=='14' || this.productId=='24' || this.productId=='59' || this.productId=='13'){
@@ -566,6 +626,9 @@ export class DocumentInfoComponent {
             sessionStorage.setItem('quotePaymentId',data.Result.PaymentId);
             if(this.loginType=='B2CFlow' || (this.loginType=='B2CFlow2')){
               this.router.navigate(['/quotation/plan/main/payment']);
+            }
+            else if(this.productId=='19'){
+              this.onSaveInsurance();
             }
             else this.router.navigate(['/quotation/plan/main/payment']);
           }
@@ -933,4 +996,98 @@ export class DocumentInfoComponent {
   onChangeIdType(rowData){
     
   }
+  onAddClaimExperience(){
+    let entry = {"CLHDateOfLoss": null,"CLHNatureOfLoss": null,"CLHClaimedAmount": null,"CLHClaimYear": null,"CLHRemarks": null};
+    this.claimExperienceList.push(entry);
+   }
+   deleteClaimExperience(index){this.claimExperienceList.splice(index,1);}
+   onAddCoInsurance(){
+    let entry = {"Insurancecompanyid":null,"Sharedpercentage":null,"Leaderparticipant":"P"};
+    this.coInsuranceData.push(entry);
+   }
+   deleteCoInsuranceRow(index){this.coInsuranceData.splice(index,1);}
+   onSaveInsurance(){
+    let coList = this.coInsuranceData.filter(ele=>ele.Insurancecompanyid!=null && ele.Sharedpercentage!=null && ele.Leaderparticipant!=null);
+    if(coList.length!=0){
+        let list=[],i=0;
+        for(let ins of coList){
+            let entry={
+              "Sno":i+1,
+              "Insurancecompanyid": ins.Insurancecompanyid,
+              "Insurancecompanyname": this.companyList.find(ele=>ele.Code==ins.Insurancecompanyid)?.CodeDesc,
+              "Sharedpercentage": ins.Sharedpercentage,
+              "Leaderparticipant": ins.Leaderparticipant
+            }
+            list.push(entry);
+            i+=1;
+            if(i==coList.length){
+              let ReqObj={
+                "Quoteno": this.quoteNo,
+                "Productid": this.productId,
+                "Requestreferenceno": this.quoteRefNo,
+                "CoInsurerList": list
+              }
+              let urlLink = `${this.CommonApiUrl}CoInsurance/save`;
+              this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+                (data: any) => {
+                  if (data.Result) {
+                      if(data.Message=='Success'){
+                        // let claimList = this.claimExperienceList.filter(ele=>ele.CLHClaimYear!=null && ele.CLHNatureOfLoss!=null && ele.CLHNatureOfLoss!='' && ele.CLHDateOfLoss!=null && ele.CLHDateOfLoss!='' && 
+                        //   ele.CLHClaimedAmount!='' && ele.CLHClaimedAmount!=null && ele.CLHRemarks!='' && ele.CLHRemarks!=null);
+                        // if(claimList.length!=0){
+                        //   this.onSaveClaimList(claimList)
+                        // }
+                        // else 
+                        this.router.navigate(['/quotation/plan/main/payment']);
+                      }
+                  }
+                });
+            }
+        }
+    }
+    else{
+      this.router.navigate(['/quotation/plan/main/payment']);
+      // let claimList = this.claimExperienceList.filter(ele=>ele.CLHClaimYear!=null && ele.CLHNatureOfLoss!=null && ele.CLHNatureOfLoss!='' && ele.CLHDateOfLoss!=null && ele.CLHDateOfLoss!='' && 
+      //   ele.CLHClaimedAmount!='' && ele.CLHClaimedAmount!=null && ele.CLHRemarks!='' && ele.CLHRemarks!=null);
+      // if(claimList.length!=0){
+      //   this.onSaveClaimList(claimList)
+      // }
+      // else this.router.navigate(['/quotation/plan/main/document-info']);
+    }
+   }
+   onSaveClaimList(claimList){
+    let list=[],i=0;
+    for(let ins of claimList){
+      let dateValue = null,dateList =[];
+      dateList =String(ins.CLHDateOfLoss).split('/');
+      if(dateList.length>1) dateValue = ins.CLHDateOfLoss
+      else dateValue = this.datePipe.transform(ins.CLHDateOfLoss,'dd/MM/yyyy');
+      let entry={
+         "CLHSlNo": i+1,
+          "CLHDateOfLoss": dateValue,
+          "CLHNatureOfLoss": ins.CLHNatureOfLoss,
+          "CLHClaimedAmount": ins.CLHClaimedAmount,
+          "CLHClaimYear": ins.CLHClaimYear,
+          "CLHRemarks": ins.CLHRemarks
+      }
+      list.push(entry);
+      i+=1;
+      if(i==claimList.length){
+        let ReqObj={
+          "CompanyId": this.insuranceId,
+          "ProductId": this.productId,
+          "RequestReferenceNo": this.quoteRefNo,
+          "QuoteNo": this.quoteNo,
+          "ClaimHistoryInfo": list
+        }
+        let urlLink = `${this.CommonApiUrl}api/saveclaimhistoryinfo`;
+          this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+            (data: any) => {
+              if (data.Result) {
+                this.router.navigate(['/quotation/plan/main/payment']);
+              }
+            });
+      }
+    }
+   }
 }

@@ -25,7 +25,7 @@ import { HttpLoaderFactory } from 'src/app/app.module';
 import { HttpClient } from '@angular/common/http';
 
 @NgModule({
-  declarations: [QuotationPlanComponent ],
+  declarations: [QuotationPlanComponent],
   imports: [
     CommonModule,
     BreadcrumbModule, 

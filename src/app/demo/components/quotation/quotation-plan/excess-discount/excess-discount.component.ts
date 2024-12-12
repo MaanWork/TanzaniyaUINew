@@ -251,6 +251,7 @@ emiyn="N";
   minRatePercent: any;
   coverRateError: boolean;
   minRateYN: any;
+  coverBenefitDisplay: boolean;
   constructor(public sharedService: SharedService,private authService: AuthService,private router:Router,private modalService: NgbModal,
     private appComp:AppComponent,private translate:TranslateService,
     private datePipe:DatePipe,public dialog: MatDialog) {
@@ -1048,6 +1049,7 @@ emiyn="N";
       });
     }
     onChangeSubCover(subCover,cover,vehicle,event){
+
       console.log("SubCover Data",subCover,event);
       if(subCover.MultiSelectYn=='Y'){
           if(event){
@@ -1322,6 +1324,8 @@ emiyn="N";
           }
       }
       else{
+        let list = cover.SubCovers;
+        for(let sub of list){if(sub.SubCoverId==subCover.SubCoverId){sub['UserOpt']='Y'}else sub['UserOpt']='N'}
         if(this.selectedCoverList.length!=0){
           let entry = this.selectedCoverList.filter(ele=>ele.Id==vehicle.VehicleId);
           if(entry.length==0){
@@ -2133,8 +2137,7 @@ emiyn="N";
     covernameinfo(modal,row){
       this.tooltip=true;
       console.log('UUUUUUUUUUUUUUUUUUU',row);
-      this.CoverName=row.CoverDesc
-      this.open(modal);
+      this.CoverName=row.CoverDesc;
       let ReqObj = {
         "InsuranceId":this.insuranceId,
         "ProductId":this.productId,
@@ -2145,18 +2148,9 @@ emiyn="N";
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         if(data.Result){
-  
-          this.CoverHeader=[
-            {key: 'BenefitId',display: 'BenefitId'},
-            {key: 'BenefitDescription',display: 'Benefit Description'},
-            //{key: 'CoverName',display: 'CoverName'},
-            {key: 'CalcType',display: 'Calc Type'},
-            {key: 'SectionDesc',display: 'Section Description'},
-            {key: 'Value',display: 'Value'},
-            {key: 'LongDesc',display: 'Long Description'},
-            
-  
-          ]
+          this.coverBenefitDisplay = true;
+
+          this.CoverHeader=['BenefitId', 'Benefit Description', 'Calc Type','Section Description','Value', 'Long Description']
   
               this.CoverList=data?.Result;
   
@@ -2631,7 +2625,7 @@ emiyn="N";
                 if(this.statusValue=='RA') this.router.navigate(['/referralCases']);
                 //else this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/customer-details']);
                 else if(this.statusValue=='RE') this.router.navigate(['/referralCases']);
-                else this.router.navigate(['/referralCases']);
+                else this.onSetBackPage();
             }
             else{
               if(this.statusValue=='RA') this.router.navigate(['/referral']);
@@ -5204,6 +5198,7 @@ emiyn="N";
     }
     getTermsSectionList(){
       console.log("Sele",this.selectedRowData)
+      if(this.insuranceId!='100028'  && this.insuranceId!='100002'){
       let riskId = String(this.selectedRowData.RiskDetails.RiskId);
       let urlLink = `${this.CommonApiUrl}api/sectionlistbasedonriskid?requestReferenceNo=${this.quoteRefNo}&riskId=${riskId}`;
       this.sharedService.onGetMethodSync(urlLink).subscribe(
@@ -5216,6 +5211,7 @@ emiyn="N";
             this.viewCondition('direct');
           }
         });
+      }
   }
     viewCondition(index){
       let QuoteNo:any;
@@ -5878,12 +5874,19 @@ emiyn="N";
     //= this.ExclusionData.concat(this.ExclusionList);
     console.log('Exclusion',this.tempData)
     console.log('Exclsuion',this.ExclusionList)
+    let quote
+   if(this.quoteNo){
+      quote=this.quoteNo;
+    }
+    else{
+      quote="";
+    }
     let Req = {
       BranchCode: this.branchCode,
       CreatedBy: this.loginId,
       InsuranceId: this.insuranceId,
       ProductId: this.productId,
-      QuoteNo:this.quoteNo,
+      QuoteNo:quote,
       //TermsId:null,
       RiskId: this.selectedRowData.VehicleId,
       SectionId:this.termsSectionId,

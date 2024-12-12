@@ -6,6 +6,7 @@ import * as Mydatas from '../../../../app-config.json';
 import { formatDate } from '@angular/common';
 import { AppComponent } from 'src/app/app.component';
 import { TranslateService } from '@ngx-translate/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-quotation-table',
@@ -564,7 +565,6 @@ onInnerDataLapsed(rowData){
     }
     let entry = this.brokerList.find(ele=>ele.Code==this.brokerCode);
     if(entry){
-      console.log("Entry Received",entry) 
       //if(entry.Type!='broker' && entry.Type!='Broker' && entry.Type!='Direct' && entry.Type!='direct' 
       //&& entry.Type!='Agent' && entry.Type!='agent' && entry.Type!='b2c' && entry.Type!='bank' && entry.Type!='whatsapp'){
       if(this.userType=='Issuer'){
@@ -591,7 +591,6 @@ onInnerDataLapsed(rowData){
     let urlLink = `${this.CommonApiUrl}api/sqexistingquotedetails`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
-        console.log(data);
         sessionStorage.removeItem('loadingType');
         if(data.Result){
           if (data.Result?.CustomerDetails) {
@@ -972,7 +971,6 @@ onInnerDataLapsed(rowData){
     let urlLink = `${this.CommonApiUrl}api/getactivecustomerdetails`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
-        console.log(data);
         if(data.Result){
             this.customers = data?.Result;
             this.clearSearchSection = false;
@@ -1042,6 +1040,51 @@ onInnerDataLapsed(rowData){
     // }
 
 
+  }
+  downloadMyFilebroker(data) {
+    const link = document.createElement('a');
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', data);
+    link.setAttribute('download', 'Broker Quotation');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+  onGetDraft(rowData){
+    let ReqObj = {
+      "QuoteNo": rowData.QuoteNo,
+      "BrokerQuoteYn": 'Y'
+    }
+    let urlLink = `${this.CommonApiUrl}pdf/policyform`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if (data.ErrorMessage.length != 0) {
+          if (data.ErrorMessage) {
+          }
+        }
+        else {
+          if(data?.Result?.PdfOutFile){
+              this.downloadMyFilebroker(data.Result.PdfOutFile);
+          }
+          else{
+            Swal.fire({
+              title: '<strong>Schedule Pdf</strong>',
+              icon: 'error',
+              html:
+                `No Pdf Generated For this Policy`,
+              //showCloseButton: true,
+              //focusConfirm: false,
+              showCancelButton: false,
+
+              //confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              cancelButtonText: 'Cancel',
+            })
+          }
+        }
+      },
+      (err) => { },
+    );
   }
   checkStatus(rowData){
     let ReqObj = {

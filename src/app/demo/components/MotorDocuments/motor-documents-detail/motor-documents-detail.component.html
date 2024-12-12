@@ -54,7 +54,7 @@
                             <h5>Date Of Birth</h5>
                             <b class="moto-text"> {{Cus.DobOrRegDate}}</b>
                         </div>
-                        <div class="col-12 sm:col-3 md:col-3 ">
+                        <div class="col-12 sm:col-3 md:col-3 " *ngIf="Cus.WhatsappcodeDesc">
                             <h5>WhatsApp Code</h5>
                             <b class="moto-text">  {{Cus.WhatsappcodeDesc}}</b>
                         </div>
@@ -62,9 +62,13 @@
                             <h5>WhatsApp No</h5>
                             <b class="moto-text">  {{Cus.WhatsappNo}}</b>
                         </div>
-                        <div class="col-12 sm:col-3 md:col-3 ">
-                            <h5>{{Cus.IdTypeDesc}}</h5>
-                            <b class="moto-text">   {{Cus.IdNumber}}</b>
+                        <div class="col-12 sm:col-3 md:col-3 " *ngIf="Cus.IdTypeDesc">
+                            <h5>Id Type</h5>
+                            <b class="moto-text">{{Cus.IdTypeDesc}}</b>
+                        </div>
+                        <div class="col-12 sm:col-3 md:col-3 " *ngIf="Cus.IdNumber">
+                            <h5>Id Number</h5>
+                            <b class="moto-text">{{Cus.IdNumber}}</b>
                         </div>
                         <div class="col-12 sm:col-3 md:col-3 ">
                             <h5>Prefered Notification</h5>
@@ -104,7 +108,7 @@
                     </div>
                     <div class="col-12 ">
                         <h5>Email</h5>
-                        <b class="moto-text"> {{Cus.Email}} </b> 
+                        <b class="moto-text"> {{Cus.Email1}} </b> 
                     </div>
                 </div>
             </p-tabPanel>
@@ -113,6 +117,55 @@
     </p-accordionTab>
     <p-accordionTab header="Quote Info">
         <p-tabView *ngIf="productId != '4'">
+            <p-tabPanel header="Policy Details">
+                <div class="grid">
+                     <div class="col-12 sm:col-3 md:col-3 ">
+                         <h5>Policy No</h5>
+                         <b class="moto-text">{{ViewRisk?.PolicyNo}}</b>
+                     </div>
+                     <div class="col-12 sm:col-3 md:col-3 ">
+                        <h5>Login Id</h5>
+                        <b class="moto-text">{{ViewRisk?.Loginid}}</b>
+                    </div>
+                    <div class="col-12 sm:col-3 md:col-3 ">
+                        <h5>Quote No </h5>
+                        <b class="moto-text">{{quoteNo}}</b>
+                    </div>
+                    <div class="col-12 sm:col-3 md:col-3 ">
+                       <h5>Reference No</h5>
+                       <b class="moto-text">{{ReferenceNo}}</b>
+                   </div>
+                  
+                     <div class="col-12 sm:col-3 md:col-3 ">
+                         <h5>Entry Date</h5>
+                         <b class="moto-text">{{ViewRisk?.InceptionDate}}</b>
+                     </div>
+                     <div class="col-12 sm:col-3 md:col-3 ">
+                        <h5>Expiry Date</h5>
+                        <b class="moto-text">{{ViewRisk?.ExpiryDate}}</b>
+                    </div>
+                    <div class="col-12 sm:col-3 md:col-3 ">
+                        <h5>Debit No</h5>
+                        <b class="moto-text">{{ViewRisk?.DebitNoteNo}}</b>
+                    </div>
+                    <div class="col-12 sm:col-3 md:col-3 ">
+                        <h5>Created Date</h5>
+                        <b class="moto-text">{{ViewRisk?.QuoteCreatedDate}}</b>
+                    </div>
+                    <div class="col-12 sm:col-3 md:col-3 ">
+                        <h5>Policy Period</h5>
+                        <b class="moto-text">{{ViewRisk?.PolicyPeriod}}</b>
+                    </div>
+                    <div class="col-12 sm:col-3 md:col-3 ">
+                        <h5>Exchange Rate  </h5>
+                        <b class="moto-text">{{ViewRisk?.ExchangeRate}}</b>
+                    </div>
+                    <div class="col-12 sm:col-3 md:col-3 ">
+                        <h5>Currency </h5>
+                        <b class="moto-text">{{ViewRisk?.Currency}}</b>
+                    </div>
+                </div>
+             </p-tabPanel>
             <p-tabPanel header="Customer Details">
                <div class="grid">
                     <div class="col-12 sm:col-3 md:col-3 ">
@@ -125,7 +178,7 @@
                     </div>
                </div>
             </p-tabPanel>
-            <p-tabPanel header="Broker Details">
+            <!-- <p-tabPanel header="Broker Details">
                 <div class="grid">
                      <div class="col-12 sm:col-3 md:col-3 ">
                          <h5>Login Id</h5>
@@ -144,7 +197,7 @@
                         <b class="moto-text">{{ViewRisk?.ExchangeRate}}</b>
                     </div>
                 </div>
-             </p-tabPanel>
+             </p-tabPanel> -->
              <p-tabPanel header="Integration">
                 <p-tabView>
                 <p-tabPanel *ngIf="productId=='5'" header="Tira Integration">
@@ -173,32 +226,27 @@
                  </p-tabPanel>
                 </p-tabView>
              </p-tabPanel>
-             <p-tabPanel header="Payment Details">
-                <div class="grid">
-                     <div class="col-12 sm:col-3 md:col-3 ">
-                         <h5>Payment Status</h5>
-                         <b class="moto-text">{{ViewRisk?.PaymentStatus}}</b>
-                     </div>
-                     <div class="col-12 sm:col-3 md:col-3 ">
-                         <h5>Payment Mode</h5>
-                         <b class="moto-text">{{ViewRisk?.PaymentMode}}</b>
-                     </div>
-                     <div class="col-12 sm:col-3 md:col-3 ">
-                        <h5>Credit No </h5>
-                        <b class="moto-text">{{ViewRisk?.CreditNo}}</b>
-                    </div>
-                    <div class="col-12 sm:col-3 md:col-3 ">
-                        <h5>Debit No </h5>
-                        <b class="moto-text">{{ViewRisk?.DebitNoteNo}}</b>
-                    </div>
-                </div>
-             </p-tabPanel>
-             <p-tabPanel header="Policy Details">
+            
+            
+             <!-- <p-tabPanel header="Policy Details">
                 <div class="grid">
                      <div class="col-12 sm:col-3 md:col-3 ">
                          <h5>Policy No</h5>
                          <b class="moto-text">{{ViewRisk?.PolicyNo}}</b>
                      </div>
+                     <div class="col-12 sm:col-3 md:col-3 ">
+                        <h5>Login Id</h5>
+                        <b class="moto-text">{{ViewRisk?.Loginid}}</b>
+                    </div>
+                    <div class="col-12 sm:col-3 md:col-3 ">
+                        <h5>Quote No </h5>
+                        <b class="moto-text">{{quoteNo}}</b>
+                    </div>
+                    <div class="col-12 sm:col-3 md:col-3 ">
+                       <h5>Reference No</h5>
+                       <b class="moto-text">{{ReferenceNo}}</b>
+                   </div>
+                  
                      <div class="col-12 sm:col-3 md:col-3 ">
                          <h5>Entry Date</h5>
                          <b class="moto-text">{{ViewRisk?.InceptionDate}}</b>
@@ -219,8 +267,16 @@
                         <h5>Policy Period</h5>
                         <b class="moto-text">{{ViewRisk?.PolicyPeriod}}</b>
                     </div>
+                    <div class="col-12 sm:col-3 md:col-3 ">
+                        <h5>Exchange Rate  </h5>
+                        <b class="moto-text">{{ViewRisk?.ExchangeRate}}</b>
+                    </div>
+                    <div class="col-12 sm:col-3 md:col-3 ">
+                        <h5>Currency </h5>
+                        <b class="moto-text">{{ViewRisk?.ExchangeRate}}</b>
+                    </div>
                 </div>
-             </p-tabPanel>
+             </p-tabPanel> -->
              <p-tabPanel header="Commission Details">
                 <div class="grid">
                      <div class="col-12 sm:col-3 md:col-3 ">
@@ -276,60 +332,82 @@
     </p-tabView>
     </p-accordionTab>
     <p-accordionTab  header="Risk Details">
-        <div class="grid">
-            <div class="col-12 lg:col-4 md:col-4" *ngIf="productId=='14'">
-                    <p-card header="Employee Liability">
-                        <div class="grid justify-content-between ">
-                            <div class="col-12 lg:col-2 md:col-2"></div>
-                            <div class="col-12 lg:col-4 md:col-4">
-                                <p>
-                                <b>Occupation</b>
-                                </p>
-                            </div>
-                            <div class="col-12 lg:col-4 md:col-4">
-                                <p>
-                                    {{riskDetails.OccupationTypeDesc}}
-                                </p>
-                            </div>
-                            </div>
-                            <div class="grid justify-content-between ">
-                            <div class="col-12 lg:col-2 md:col-2"></div>
-                            <div class="col-12 lg:col-4 md:col-4">
-                                <p>
-                                <b>Sum Insured</b>
-                                </p>
-                            </div>
-                            <div class="col-12 lg:col-4 md:col-4">
-                                <p>
-                                    {{riskDetails.EmpLiabilitySi}}
-                                </p>
-                            </div>
-                            </div>
+        <p-tabView *ngIf="productId != '4'">
+            <ng-container *ngFor="let Location of LocationName">
+            <p-tabPanel [header]="Location.LocationName">
+               
+                 <p-table #dtEmployeeActive [value]="SectionDetails" dataKey="SectionName" 
+                      [globalFilterFields]="['SectionName','QuoteNo','ClientName','PolicyStartDate','PolicyEndDate','OverallPremiumLc']" [tableStyle]="{'min-width':'90rem'}" [paginator]="true" [rows]="5">
+                      <ng-template pTemplate="caption">
+                        <div class="flex flex wrap justify-content-end">
+                          <div class="table-header">
+                              <span class="p-input-icon-left">
+                                  <i class="pi pi-search"></i>
+                                  <input pInputText type="text" (input)="dtEmployeeActive.filterGlobal($event.target.value, 'contains')"  [placeholder]="'DASHBOARD.GlobalSearch' | translate" />
+                              </span>
+                          </div>
+                        </div>
                         
-                    </p-card>
-            </div>
-            <div class="col-12 lg:col-4 md:col-4" *ngIf="productId=='1'">
-                <p-card header="Burglary">
-                    <div class="grid justify-content-between ">
-                        <div class="col-12 lg:col-2 md:col-2"></div>
-                        <div class="col-12 lg:col-4 md:col-4">
-                            <p>
-                            <b>SumInsured</b>
-                            </p>
-                        </div>
-                        <div class="col-12 lg:col-4 md:col-4">
-                            <p>
-                                {{riskDetails.BurglarySi}}
-                            </p>
-                        </div>
-                        </div>
-                    </p-card>
-            </div> 
-            </div>
-       
+                      </ng-template>
+                      <ng-template pTemplate="header">
+                          <tr>
+                            <th></th>
+                            <th>#</th>
+                            <th>Section Name</th>
+                            <th>Premium</th>
+                            <!-- <th>SumInsured</th> -->
+                          </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-customer let-i="rowIndex" let-expanded="expanded">
+                        <tr>
+                          <td>
+                              <a href="#" [pRowToggler]="customer" (click)="coverList(customer)">
+                              <i [ngClass]="expanded ? 'pi pi-minus' : 'pi pi-plus'" ></i>
+                            </a>
+                          </td>
+                          <td>{{ i+1 }}</td>
+                          <td>{{ customer.SectionName }}</td>
+                          <td>{{ customer.PremiumIncludedTax }}</td>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="rowexpansion"  >
+                        <tr>
+                          <td colspan="10">
+                              <div class="p-p-3">
+                                <p-table [value]="sectionCovers" >
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>Cover Name</th>
+                                            <th>Sum Insured</th>
+                                            <th>Rate</th>
+                                            <th>Premium</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-cover >
+                                        <tr>
+                                            <td>{{ cover.CoverName}}</td>
+                                            <td>{{ cover.SumInsured }}</td>
+                                            <td>{{ cover.Rate }}</td>
+                                            <td>{{ cover.PremiumIncludedTax }}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                              </div>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  <!-- <ng-container *ngIf="riskDetailsNonMotor.length==0">
+                    <div class="flex flex-wrap justify-content-center mt-2">
+                          No Quote Available
+                    </div>
+                </ng-container> -->
+            </p-tabPanel>
+        </ng-container>
+    </p-tabView>
     </p-accordionTab>
     <p-accordionTab *ngIf="productId=='5'" header="Vehicle Info">
-        <p-tabView>
+        <p-tabView >
             <p-tabPanel header="Vehicle Information">
                 <p-table [value]="RopVechileDetails" [tableStyle]="{ 'min-width': '50rem' }">
                     <ng-template pTemplate="header">
@@ -393,25 +471,9 @@
         </p-tabView>
     </p-accordionTab>
 
-    <p-accordionTab *ngIf="productId=='59'" header="Domestic Details">
+    <!-- <p-accordionTab *ngIf="productId=='59'" header="Domestic Details">
         <div class="grid">
-            <!-- <div class="col-12 lg:col-4 md:col-4">
-                    <p-card header="Building Details">
-                        <div class="grid justify-content-between ">
-                            <div class="col-12 lg:col-2 md:col-2"></div>
-                            <div class="col-12 lg:col-4 md:col-4">
-                            <p>
-                               <b>All Risk</b>
-                            </p>
-                            </div>
-                            <div class="col-12 lg:col-4 md:col-4">
-                            <p>
-                                {{AllRiskSumInsured}}
-                            </p>
-                        </div>
-                        </div>
-                    </p-card>
-            </div> -->
+            
             <div class="col-12 lg:col-4 md:col-4">
                     <p-card header="Contents Risk">
                         <div class="grid justify-content-between ">
@@ -477,22 +539,10 @@
                         
                     </p-card>
             </div>
-            <!-- <div class="col-12 lg:col-4 md:col-4">
-                    <p-card header="Electronic Equipment">
-                        <p class="m-0">
-                        </p>
-                        </p-card>
-              
-            </div>
-            <div class="col-12 lg:col-4 md:col-4">
-                    <p-card header="Personal Accident">
-                        <p class="m-0">
-                        </p>
-                    </p-card>
-            </div> -->
+          
         </div>
        
-    </p-accordionTab>
+    </p-accordionTab> -->
     <p-accordionTab header="Payment">
         <p-tabView>
             <p-tabPanel header="Payment Details">
@@ -554,11 +604,31 @@
                         </ng-template>
                     </p-table>
                 </p-tabPanel>
+
             </ng-container>
-            
+             <p-tabPanel header="Payment Information">
+                <div class="grid">
+                     <div class="col-12 sm:col-3 md:col-3 ">
+                         <h5>Payment Status</h5>
+                         <b class="moto-text">{{ViewRisk?.PaymentStatus}}</b>
+                     </div>
+                     <div class="col-12 sm:col-3 md:col-3 ">
+                         <h5>Payment Mode</h5>
+                         <b class="moto-text">{{ViewRisk?.PaymentMode}}</b>
+                     </div>
+                     <div class="col-12 sm:col-3 md:col-3 ">
+                        <h5>Credit No </h5>
+                        <b class="moto-text">{{ViewRisk?.CreditNo}}</b>
+                    </div>
+                    <div class="col-12 sm:col-3 md:col-3 ">
+                        <h5>Debit No </h5>
+                        <b class="moto-text">{{ViewRisk?.DebitNoteNo}}</b>
+                    </div>
+                </div>
+             </p-tabPanel>
         </p-tabView>
     </p-accordionTab>
-    <p-accordionTab header="Cover Details">
+    <p-accordionTab header="Cover Details" *ngIf="productId=='5'">
         <p-tabView>
             <p-tabPanel header="Opted Cover">
                 <ng-container *ngFor="let cuss of PremiumInfo">
@@ -575,7 +645,7 @@
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-CoverInfo >
-                        <tr *ngIf="CoverInfo.UserOpt=='N'">
+                        <tr *ngIf="CoverInfo.UserOpt=='Y'">
                             <td>{{CoverInfo.CoverName}}</td>
                             <td *ngIf="CoverInfo.SumInsured!=0">{{ CoverInfo.SumInsured |commaseparator }}</td>
                              <td *ngIf="CoverInfo.SumInsured==0">0</td>
@@ -705,6 +775,7 @@
                 <ng-container *ngIf="!CommonDoc || CommonDoc.length === 0">
                     No Data Found
                 </ng-container>
+               
             </p-tabPanel>
     
             <p-tabPanel [header]="vehicleDocuments()">
@@ -740,6 +811,18 @@
                     No Data Found DocumentInfo
                 </ng-container>
             </p-tabPanel>
+            <p-dialog header="View Document" [(visible)]="viewImageSection" [modal]="true" styleClass="w-10 md:w-8 lg:w-6" [draggable]="false" [resizable]="false">
+                <div class="grid">
+                    <div class="col-12 sm:col-12 md:col-12">
+                        <div class="text-center">
+                            {{viewImageFileName}}
+                        </div>
+                    </div>
+                    <div class="col-12 sm:col-12 md:col-12">
+                        <img [src]="viewImageUrl" width="600px">
+                    </div>
+                </div>
+              </p-dialog>
             <!-- <p-tabPanel header="Header III">
                 <p>
                     At vero eos et accusamus et iusto odio dignissimos...

@@ -231,7 +231,7 @@ export class CommonProductDetailsComponent {
   MoneyDirectorResidenceError:boolean=false;
   isEEForm: boolean=false;
   contentTypeDuplicateError: boolean=false;
-  currentEEIndex: any=0;
+  currentEEIndex: any=null;
   fireSectionList: any[]=[];
   sumInsuredError:boolean=false;
   PersonNameError: boolean=false;
@@ -4381,11 +4381,11 @@ backPlan()
     }
     //if(this.productId=='59') urlLink = `${this.motorApiUrl}home/getbuildingdetails`;
       if(this.productId=='57' || this.productId=='60' 
-          || this.productId=='19'   || this.productId=='26' || this.productId=='21'
+            || this.productId=='26' || this.productId=='21'
          || this.productId=='42'  || this.productId=='24' || this.productId=='43') 
          urlLink = `${this.motorApiUrl}api/slide/getcommondetails`;
       else if(this.productId=='63' || this.productId=='61' || this.productId=='25' || this.productId=='6' ||
-         this.productId=='16' || this.productId=='13' || this.productId=='59' || this.productId=='66' || this.productId=='39'  || this.productId=='1' || this.productId=='14' || this.productId=='15' || this.productId=='32') { delete ReqObj['RiskId']; urlLink = `${this.motorApiUrl}api/slide/GetNonMotor`;}
+         this.productId=='16' || this.productId=='13' || this.productId=='19'  || this.productId=='59' || this.productId=='66' || this.productId=='67' || this.productId=='68' || this.productId=='39'  || this.productId=='1' || this.productId=='14' || this.productId=='15' || this.productId=='32') { delete ReqObj['RiskId']; urlLink = `${this.motorApiUrl}api/slide/GetNonMotor`;}
       else urlLink =  `${this.motorApiUrl}api/geteservicebyriskid`;
       
       this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -4394,7 +4394,8 @@ backPlan()
             if(data.Result){
                 let entry:any;
                 //if(this.productId=='59') entry = this.customerData[0];
-                if(this.productId!='59' && this.productId!='63' && this.productId!='61' && this.productId!='25' && this.productId!='16' && this.productId!='1' && this.productId!='14' && this.productId!='15' && this.productId!='32' && this.productId!='6' && this.productId!='13' && this.productId!='39' && this.productId!='66') entry = data.Result;
+
+                if(this.productId!='59' && this.productId!='63' && this.productId!='61' && this.productId!='25' && this.productId!='16' && this.productId!='1' && this.productId!='14' && this.productId!='15' && this.productId!='32' && this.productId!='6' && this.productId!='13' && this.productId!='39' && this.productId!='66' && this.productId!='68') entry = data.Result;
                 else { 
                   entry = {...data.Result.PolicyInformation, ...data.Result.EndorsementDetails, ...data.Result.BrokerDetails}
                   if(data.Result.LocationList){entry['LocationList'] = data.Result.LocationList;if(this.productId!='14' && this.productId!='32')this.currentSectionIndex=0}
@@ -4491,7 +4492,7 @@ backPlan()
                   this.onChangeEndDate();
                 }
                 //this.executiveValue = entry?.AcExecutiveId;
-                this.currencyCode = entry?.Currency;
+                this.currencyCode = entry?.PolicyDetails?.Currency;
                 this.onCurrencyChange('direct');
                 this.exchangeRate = entry?.ExchangeRate;
                 if(this.exchangeRate==null) this.exchangeRate = "1.0";
@@ -4595,6 +4596,12 @@ backPlan()
       this.productItem.BusinessSI = section.BuildingSumInsured;
       if(section.BusinessInterruption) this.productItem.BusinessName = Number(section.BusinessInterruption);
       if(section.IndustryType) this.productItem.IndustryId = String(section.IndustryType);
+      let entry = this.LocationListAlt.find(ele=>ele.LocationId==this.tabIndex+1);
+      let BISection = entry.SectionList.filter(ele=>ele.SectionId==ele.BusinessInterruption);
+      if(BISection.length!=0){
+        this.productItem.CoveringDetailsBI = BISection[0].CoveringDetails;
+        this.productItem.DescriptionOfRiskBI = BISection[0].DescriptionOfRisk;
+      }
       this.onChangeBusiness()
     }
   }
@@ -4870,8 +4877,7 @@ backPlan()
          this.productItem.DistrictCode = section[0].DistrictCode;
          if(section[0].BusinessInterruption) this.productItem.BusinessName = Number(section[0].BusinessInterruption);
          else if(section[0].BusinessInterruption) this.productItem.BusinessName = Number(section[0].BusinessInterruption);
-        // alert(this.productItem.BusinessName)
-         this.productItem.BusinessSI = section[0].FirePlantSi;
+        this.productItem.BusinessSI = section[0].FirePlantSi;
          this.onChangeBusiness();
          this.productItem.FireSumInsured = section[0].BuildingSumInsured;
          if(this.productItem.RegionCode) this.ongetDistrictList('direct',this.productItem.DistrictCode);
@@ -5493,7 +5499,7 @@ backPlan()
           let referenceNo = sessionStorage.getItem('quoteReferenceNo');
           if (referenceNo) {
             this.requestReferenceNo = referenceNo;
-            if (this.productId != '19' && this.productId != '59' && this.productId!='24' && this.productId!='46' && this.productId!='4') this.setFormValues();
+            if (this.productId != '19' && this.productId != '59' && this.productId!='24' && this.productId!='46' && this.productId!='4' && this.productId!='67') this.setFormValues();
             else this.setSMEFormValues('edit')
           }
           else if (this.productId != '19' && this.productId!='24'){
@@ -5700,7 +5706,7 @@ backPlan()
         this.ongetDistrictList('edit',this.productItem.DistrictCode)
   
         //if (this.productId=='59') this.setDomesticForm('edit', type);
-        if (this.productId == '19' || this.productId=='59' || this.productId=='66' || this.productId=='24') this.setSMEForm('edit', type)
+        if (this.productId == '19' || this.productId=='59' || this.productId=='66' || this.productId=='67' || this.productId=='68' || this.productId=='24') this.setSMEForm('edit', type)
         else {
           this.formSection = false; this.viewSection = true;
         }
@@ -6368,7 +6374,6 @@ backPlan()
     let locationList = [],i=0;
           for(let entry of this.LocationListAlt){
             if(entry.LocationName!=null && entry.LocationName!=''){
-              
               let obj = {
                 "LocationId":i+1,
                 "LocationName":entry.LocationName,
@@ -6409,37 +6414,54 @@ backPlan()
                   }
                 }
               }
-              else if(this.productId=='25'){ let j=0,k=0;
-                console.log("Final Sections",entry)
-                
-                  for(let subEntry of entry.SectionList){
-                    if(i==this.tabIndex){
-                      if(subEntry.ElecEquipSuminsured==0 || subEntry.ElecEquipSuminsured=='' || subEntry.ElecEquipSuminsured==null){j+=1;this.ElecEquipSIError=true;}
-                      else{this.ElecEquipSIError=false}
-                      if(subEntry.ContentId=='' || subEntry.ContentId==null){j+=1;this.ContentError=true;}
-                      else{this.ContentError=false;}
-                      if(subEntry.DescriptionOfRisk=='' || subEntry.DescriptionOfRisk==null){j+=1;this.DescriptionError=true;}
-                      else{this.DescriptionError=false;}
-                      if(subEntry.SerialNo=='' || subEntry.SerialNo==null){j+=1;this.SerialNoError=true;}
-                      else{this.SerialNoError=false}
-                    }
-                    // if(subEntry.BondYear=='' || subEntry.BondYear==null){j+=1;subEntry['BondYearError']=true;}
-                    // else{subEntry['BondYearError']=false;}
-                    if(j==0){
-                      subEntry['SectionId'] = '76';
-                      subEntry["SumInsured"]= subEntry.ElecEquipSuminsured;
-                      subEntry['SectionName']= 'Electronic Equipments';
-                      subEntry["ContentDesc"] = this.dropList.find(ele=>ele.Code==subEntry.ContentId)?.CodeDesc;
-                      obj.SectionList.push(subEntry);
-                      k+=1;
-                      if(k==entry.SectionList.length && obj.SectionList.length!=0){i+=1;ReqObj.LocationList.push(obj)
-                        if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
+              else if(this.productId=='25'){ 
+                  if(entry.SectionList.length!=0){
+                    let j=0,k=0;
+                    for(let subEntry of entry.SectionList){
+                      if(i==this.tabIndex && this.currentEEIndex==k){
+                        if(subEntry.ElecEquipSuminsured==0 || subEntry.ElecEquipSuminsured=='' || subEntry.ElecEquipSuminsured==null){j+=1;this.ElecEquipSIError=true;}
+                        else{this.ElecEquipSIError=false}
+                        if(subEntry.ContentId=='' || subEntry.ContentId==null){j+=1;this.ContentError=true;}
+                        else{this.ContentError=false;}
+                        if(subEntry.DescriptionOfRisk=='' || subEntry.DescriptionOfRisk==null){j+=1;this.DescriptionError=true;}
+                        else{this.DescriptionError=false;}
+                        if(subEntry.SerialNo=='' || subEntry.SerialNo==null){j+=1;this.SerialNoError=true;}
+                        else{this.SerialNoError=false}
+                      }
+                      // if(subEntry.BondYear=='' || subEntry.BondYear==null){j+=1;subEntry['BondYearError']=true;}
+                      // else{subEntry['BondYearError']=false;}
+                      if(j==0){
+                        if(subEntry.ElecEquipSuminsured!=0 && subEntry.ElecEquipSuminsured!=null && subEntry.ElecEquipSuminsured!='0'){
+                          subEntry['SectionId'] = '76';
+                          subEntry["SumInsured"]= subEntry.ElecEquipSuminsured;
+                          subEntry['SectionName']= 'Electronic Equipments';
+                          subEntry["ContentDesc"] = this.dropList.find(ele=>ele.Code==subEntry.ContentId)?.CodeDesc;
+                          obj.SectionList.push(subEntry);
+                        }
+                        
+                        k+=1;
+                        if(k==entry.SectionList.length && obj.SectionList.length!=0){i+=1;ReqObj.LocationList.push(obj)
+                          if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
+                        }
+                        else if(k==entry.SectionList.length){
+                          i+=1;if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
+                        }
+                      }
+                      else{
+                        k+=1;
+                        
+                        if(k==entry.SectionList.length && obj.SectionList.length!=0){
+                         i+=1;ReqObj.LocationList.push(obj)}
+                        else{
+                          i+=1;if(k==entry.SectionList.length && i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
+                        }
                       }
                     }
-                    else{k+=1;if(k==entry.SectionList.length && obj.SectionList.length!=0){i+=1;ReqObj.LocationList.push(obj)}
-                    if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
-                    }
                   }
+                  else{
+                    i+=1;if(i==this.LocationListAlt.length) this.onFinalCommonSave(type,ReqObj);
+                  }
+                  
                 // }
                 // else{
                 //     if(entry.SectionList.length!=0) ReqObj.LocationList.push(obj); k+=1;i+=1;
@@ -6739,7 +6761,7 @@ backPlan()
                     
                     if(this.productId=='61'){this.tabIndex+=1;
                       this.productItem = new ProductData(); this.onEditCommonDetails(this.LocationListAlt[this.tabIndex].SectionList[0],this.LocationListAlt[this.tabIndex],0);}
-                    else if(this.productId=='6') this.setCommonValues('Edit');
+                    else if(this.productId=='6' || this.productId=='25') this.setCommonValues('Edit');
                   }
                 }
                 else{
@@ -7329,7 +7351,7 @@ console.log('Eventsss',event);
     else if(this.productId=='26'){this.onSaveBussinessrisk('proceed','individual');}
     else if(this.productId=='25'){this.onSaveElectronicEquipment('proceed','individual')}
     else if(this.productId=='32'){ this.onsubmitnewfed();}
-    else if(this.productId == '59' || this.productId == '66' || this.productId == '56' || this.productId=='60' || this.productId=='24' || this.productId=='63'){
+    else if(this.productId == '59' || this.productId == '66' || this.productId == '67' || this.productId=='68' || this.productId == '56' || this.productId=='60' || this.productId=='24' || this.productId=='63' || this.productId=='19'){
       this.onFinalProceed();
       // let i=0;
       // if(this.colorSections.length!=0){
@@ -8638,7 +8660,7 @@ finalSaveMoney(finalList,type,formType) {
     }
   }
   onFinalProceed() {
-    if(this.productId=='59' || this.productId == '66' || this.productId=='63' || this.productId=='56' || this.productId=='60' || this.productId=='24'){
+    if(this.productId=='59' || this.productId == '66' || this.productId == '67' || this.productId=='68' || this.productId=='63' || this.productId=='56' || this.productId=='60' || this.productId=='24' || this.productId=='19'){
       sessionStorage.setItem('Buildings',this.BuildingOwnerYn);
       sessionStorage.setItem('coversRequired',this.coversRequired)
       this.commonDetails = [
@@ -11172,12 +11194,12 @@ let requestNO=null;
                 }
                
                 else if (this.productId == '6') this.setCommonFormValues(null);
-                if (this.productId != '59' && this.productId != '66' && this.productId!='13' && this.productId != '6' && this.productId != '19' && this.productId!='24' && this.productId!='14' && this.productId!='15' && this.productId!='32' && this.productId!='57' && this.productId!='60') {
+                if (this.productId != '59' && this.productId != '66' && this.productId!='68' && this.productId!='13' && this.productId != '6' && this.productId != '19' && this.productId!='24' && this.productId!='14' && this.productId!='15' && this.productId!='32' && this.productId!='57' && this.productId!='60') {
   
                   let referenceNo = sessionStorage.getItem('quoteReferenceNo');
                   if (referenceNo) {
                     this.requestReferenceNo = referenceNo;
-                    if (this.productId != '19' && this.productId!='24' && this.productId!='46' && this.productId!='4' && this.productId!='63' && this.productId!='61') this.setFormValues();
+                    if (this.productId != '19' && this.productId!='24' && this.productId!='46' && this.productId!='4' && this.productId!='63' && this.productId!='61' && this.productId!='67') this.setFormValues();
                     else if(this.productId!='63') this.setSMEFormValues('edit')
                       this.formSection = true; this.viewSection = false;
                   }
@@ -11204,7 +11226,7 @@ let requestNO=null;
               let referenceNo = sessionStorage.getItem('quoteReferenceNo');
               if (referenceNo) {
                 this.requestReferenceNo = referenceNo;
-                if(this.productId=='59' || this.productId=='66') this.checkDomesticForm('direct');
+                if(this.productId=='59' || this.productId=='66' || this.productId=='67' || this.productId=='68') this.checkDomesticForm('direct');
                 else if (this.productId == '6' || this.productId == '16' || this.productId == '39' || this.productId == '1') this.setCommonFormValues(null);
                 else if(this.productId!='24' && this.productId!='46' && this.productId!='4' && this.productId!='61' && this.productId!='63') this.setFormValues();
               }
@@ -14317,6 +14339,7 @@ this.BuildingOwnerYn = type;
       "Offset": "100",
       "ProductId": this.productId,
       "LoginId": this.loginId,
+      "SectionId": "99999",
       "InsuranceId": this.insuranceId,
       "BranchCode": this.branchCode
     }
@@ -14339,7 +14362,6 @@ this.BuildingOwnerYn = type;
                     }
                     j+=1;
                     if(j==ques.Options.length){i+=1; if(i==this.uwQuestionList.length) this.getEditUwQuestions();}
-                  
                   }
                 }
                 else{i+=1;if(i==this.uwQuestionList.length) this.getEditUwQuestions();}
@@ -14358,6 +14380,7 @@ this.BuildingOwnerYn = type;
       "InsuranceId": this.insuranceId,
       "ProductId": this.productId,
       "LoginId": this.loginId,
+      "SectionId":"99999",
       "RequestReferenceNo": sessionStorage.getItem('quoteReferenceNo'),
        "LocationId": String(this.tabIndex+1),
       "VehicleId": String(this.tabIndex+1)
@@ -14376,8 +14399,6 @@ this.BuildingOwnerYn = type;
 
               this.uwQuestionList.forEach(x => {
                 if (x.QuestionType == '01') {
-                 
-                  console.log('gggggg', x.Value)
                   x.Value = x.Value ?  x.Value : x.Value
                   if(x.Options!=null) this.showUWQUestion(x.Options.find(ele=>ele.UwQuesOptionDesc==x.Value),x.Options,'direct');
                 }

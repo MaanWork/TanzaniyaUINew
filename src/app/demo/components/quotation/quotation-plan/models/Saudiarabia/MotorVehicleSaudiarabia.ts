@@ -264,5 +264,5 @@ export class MotorVehicleSaudiarabia{
         else if(this.subuserType=='low') return this.finalizeYN=='Y'; 
         else return false;
       
-      }
+    }
 }

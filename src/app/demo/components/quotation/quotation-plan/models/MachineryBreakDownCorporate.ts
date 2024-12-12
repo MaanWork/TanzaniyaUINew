@@ -40,14 +40,19 @@ export class MachineryBreakDownCorporate{
                     defaultValue: '',
                     className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                     templateOptions: {
-                      label: `Equipment`,
-                      placeholder: 'Select Equipment',
+                      label: `Machinery Name`,
+                      placeholder: 'Select Machinery',
                      // disabled: true,
                       required: true,
                       options: [
       
                       ],
       
+                    },
+                    props:{
+                      options: [
+    
+                      ],
                     },
                     validators: {
                       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]

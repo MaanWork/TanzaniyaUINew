@@ -265,13 +265,13 @@ export class MotorVehicleUganda{
   fields:FormlyFieldConfig;
     getFieldDetails(){return this.fields; }
     checkDisable(fieldName) {
-        if (this.endorsementSection) {
-          let entry = this.enableFieldsList.some(ele => ele == fieldName);
-          console.log("Entry ", fieldName, entry)
-          return !entry;
-        }
-        else if(this.subuserType=='low') return this.finalizeYN=='Y'; 
-        else return false;
-      
+      if (this.endorsementSection) {
+        let entry = this.enableFieldsList.some(ele => ele == fieldName);
+        console.log("Entry ", fieldName, entry)
+        return !entry;
       }
+      else if(this.subuserType=='low') return this.finalizeYN=='Y'; 
+      else return false;
+    
+    }
 }

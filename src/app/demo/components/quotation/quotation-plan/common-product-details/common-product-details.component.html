@@ -653,11 +653,11 @@
                                         </ng-template>
                                     </p-table>
                                 </ng-container>
-                                <ng-container *ngIf="productId!='6'">
+                                <ng-container *ngIf="productId!='6' && productId!='39'">
                                     <div class="grid p-2 mt-3">
                                         <div class="col-12 lg:col-3 xl:col-3"></div>
                                         <div class="col-12 lg:col-5 xl:col-5">
-                                            <ng-container *ngIf="productId=='25' || productId=='16' || productId=='1' || productId=='14' || productId=='15' || productId=='13' || this.productId=='32' || this.productId=='6' || this.productId=='39'">                                            
+                                            <ng-container *ngIf="productId=='25' || productId=='16' || productId=='1' || productId=='14' || productId=='15' || productId=='13' || this.productId=='32' || this.productId=='6'">                                            
                                                 <form [formGroup]="form" *ngIf="productId=='32'">
                                                     <formly-form [form]="form" [fields]="fieldsFidelity" [model]="productItem"></formly-form>
                                                 </form>
@@ -773,7 +773,7 @@
                                         </div>
                                     </div>
                                 </ng-container>
-                                <ng-container *ngIf="productId=='6'">
+                                <ng-container *ngIf="productId=='6' || this.productId=='39'">
                                     <div class="grid p-2 mt-3">
                                         <div class="col-12 lg:col-3 xl:col-3"></div>
                                         <div class="col-12 lg:col-5 xl:col-5">
@@ -1415,7 +1415,7 @@
         <p-button label="Next" size="small" *ngIf="productId=='46' && currentIndex!=totalIndex" (click)="onFormSubmit('Next')"></p-button>
     </div>
     <div class="flex justify-content-center mt-3" *ngIf="productId=='1' || productId=='6' || productId=='39' || productId=='43' || productId=='46' || productId=='16' 
-    || productId=='42' || productId=='21' || productId=='14' || productId=='15' || productId=='59' || productId=='60'  || productId=='66'
+    || productId=='42' || productId=='21' || productId=='14' || productId=='15' || productId=='59' || productId=='60'  || productId=='66' || productId=='67' || productId=='68'
     || productId=='57' || productId=='56' || productId=='26' || productId=='25' || productId=='13' || this.productId=='27' 
     || productId=='24' || productId=='19' || productId=='32'|| productId=='61' || productId=='63'" >
         <p-button  styleClass="p-button-outlined" label="Back"
@@ -1423,7 +1423,7 @@
         <p-button *ngIf="(productId=='61' || productId=='25' || productId=='16' || productId=='1' || productId=='14' || productId=='13' || productId=='32' || productId=='39' ||  this.productId=='6') && tabIndex!=0"  label="Previous" size="small" styleClass="p-button-outlined" (click)="tabBack()"></p-button>&nbsp;&nbsp;
             <p-button *ngIf="productId=='46' && (!endorsementSection || (endorsementSection && enableAddVehicle))" label="Save & Add New" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;
         <p-button label="Next" *ngIf="(productId!='46' && productId!='63' && LocationListAlt.length>1) && (tabIndex!=LocationListAlt.length-1)" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;
-        <p-button label="Proceed" *ngIf="(productId!='46' && LocationListAlt.length!=0 && checkLocationDetail()) || productId=='46' || productId=='63' || productId=='59' || productId=='66' || productId=='19'" size="small" (click)="onSubmit(null)"></p-button>
+        <p-button label="Proceed" *ngIf="(productId!='46' && LocationListAlt.length!=0 && checkLocationDetail()) || productId=='46' || productId=='63' || productId=='59' || productId=='66' || productId=='67' || productId=='68' || productId=='19'" size="small" (click)="onSubmit(null)"></p-button>
     </div>
 </div>
     

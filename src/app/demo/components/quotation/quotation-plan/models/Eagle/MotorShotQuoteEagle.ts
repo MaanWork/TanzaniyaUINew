@@ -27,8 +27,33 @@ export class MotorShotQuoteEagle{
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
                   {
+                    type: 'radioList',
+                    key: 'InsuranceType',
+                    id: 'InsuranceType',
+                    defaultValue: '',
+                    className: 'lg:col-offset-3 xl:col-offset-3 md:col-offset-3 col-9 md:col-9 lg:col-9 xl:col-9',
+                    props: {
+                      label: `Insurance Type`,
+                      disabled: this.checkDisable('InsuranceType'),
+                      required: true,
+                      options: [
+      
+                      ],
+      
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  
+                  {
                     type: 'ngselect',
                     key: 'MotorUsage',
+                    id: 'MotorUsage',
                     defaultValue: '',
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     props: {
@@ -51,6 +76,7 @@ export class MotorShotQuoteEagle{
                   {
                     type: 'ngselect',
                     key: 'BodyType',
+                    id: 'BodyType',
                     defaultValue: '',
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     props: {
@@ -73,6 +99,7 @@ export class MotorShotQuoteEagle{
                   {
                     type: 'ngselect',
                     key: 'Make',
+                    id: 'Make',
                     defaultValue: '',
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     props: {
@@ -95,6 +122,7 @@ export class MotorShotQuoteEagle{
                   {
                     type: 'ngselect',
                     key: 'Model',
+                    id: 'Model',
                     defaultValue: '',
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     props: {
@@ -117,6 +145,7 @@ export class MotorShotQuoteEagle{
                   {
                     type: 'input',
                     key: 'ModelDesc',
+                    id: 'ModelDesc',
                     defaultValue: '',
                     hide: true,
                     hideExpression:true,
@@ -141,6 +170,7 @@ export class MotorShotQuoteEagle{
                   {
                     type: 'ngselect',
                     key: 'ManufactureYear',
+                    id: 'ManufactureYear',
                     defaultValue: '',
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     props: {
@@ -154,6 +184,49 @@ export class MotorShotQuoteEagle{
                     },
                     validators: {
                       validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
+                    type: 'commaSeparator',
+                    id:'EngineCapacity',
+                    key: 'EngineCapacity',
+                    props: {
+                      label: `Engine Capacity`,
+                      maxLength: 6,
+                      disabled: this.checkDisable('EngineCapacity'),
+                      required: true,
+                      options: [
+  
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6  pl-2 pr-2 pt-1',
+                    type: 'ngselect',
+                    id: 'FuelType',
+                    key: 'FuelType',
+                    templateOptions: {
+                      label: `FuelType`,
+                      placeholder: '-Select FuelType-',
+                      required: true,
+                      disabled: this.checkDisable('FuelType'),
+                      maxLength: 50,
+                      options:[]
+                    },
+                    
+                    validators: {
                     },
                     hooks: {
                     },
@@ -181,22 +254,88 @@ export class MotorShotQuoteEagle{
                   //   expressions: {
                   //   },
                   // },
+                  // {
+                  //   type: 'ngselect',
+                  //   key: 'InsuranceClass',
+                  //   id: 'InsuranceClass',
+                  //   defaultValue: '',
+                  //   className: 'col-12 md:col-6 lg:col-6 xl:col-6',
+                  //   props: {
+                  //     label: `Insurance Class`,
+                  //     disabled: this.checkDisable('InsuranceClass'),
+                  //     required: true,
+                  //     options: [
+      
+                  //     ],
+      
+                  //   },
+                  //   validators: {
+                  //     validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                  //   },
+                  //   hooks: {
+                  //   },
+                  //   expressions: {
+                  //   },
+                  // },
                   {
-                    type: 'ngselect',
-                    key: 'InsuranceClass',
-                    defaultValue: '',
-                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6  pl-2 pr-2 pt-1',
+                    type: 'number',
+                    id:'LicenseNo',
+                    key: 'LicenseNo',
                     props: {
-                      label: `Insurance Class`,
-                      disabled: this.checkDisable('InsuranceClass'),
+                      label: `License No`,
+                      maxLength: 10,
+                      disabled: this.checkDisable('LicenseNo'),
                       required: true,
                       options: [
-      
+  
                       ],
-      
+  
                     },
                     validators: {
-                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6  pl-2 pr-2 pt-1',
+                    type: 'number',
+                    id:'DrivingExperience',
+                    key: 'DriverExperience',
+                    props: {
+                      label: `Driving Experience`,
+                      maxLength: 3,
+                      disabled: this.checkDisable('DriverExperience'),
+                      required: true,
+                      options: [
+  
+                      ],
+  
+                    },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6  pl-2 pr-2 pt-1',
+                    type: 'ngselect',
+                    id: 'ClaimType',
+                    key: 'ClaimType',
+                    templateOptions: {
+                      label: `ClaimType`,
+                      placeholder: '-Select ClaimType-',
+                      required: true,
+                      disabled: this.checkDisable('ClaimType'),
+                      maxLength: 50,
+                      options:[]
+                    },
+                    
+                    validators: {
                     },
                     hooks: {
                     },
@@ -207,8 +346,7 @@ export class MotorShotQuoteEagle{
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     type: 'commaSeparator',
                     key: 'VehicleSI',
-                    hide: true,
-                    hideExpression:true,
+                    id: 'VehicleSI',
                     props: {
                       label: `VehicleSI`,
                       maxLength: 15,

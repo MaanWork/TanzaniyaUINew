@@ -22,6 +22,7 @@ export class PremiaIntegrationViewComponent implements OnInit {
   quotePageNo: any;
   startIndex: number;
   endIndex: number;
+  PolicyNo:any;
   totalQuoteRecords: any;
   public AppConfig: any = (Mydatas as any).default;
   public ApiUrl1: any = this.AppConfig.ApiUrl1;
@@ -76,8 +77,15 @@ export class PremiaIntegrationViewComponent implements OnInit {
     );
   }
   onHit(rowData){
+    let policyNo;
+    if(rowData==null){
+      policyNo = this.PolicyNo;
+    }
+    else{
+      policyNo = rowData.OriginalPolicyNo;
+    }
     let ReqObj = {
-      "QuoteNo": rowData.QuoteNo
+      "PolicyNo":policyNo
     }
     let urlLink = `${this.CommonApiUrl}push/integration/quote`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
@@ -100,7 +108,7 @@ export class PremiaIntegrationViewComponent implements OnInit {
             cancelButtonText: 'Okay!',
           })
       }
-      this.onCustomerSearch();
+      if(rowData!=null)this.onCustomerSearch();
     });
   }
   onCustomerSearch(){

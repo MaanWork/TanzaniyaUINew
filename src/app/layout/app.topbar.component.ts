@@ -227,7 +227,7 @@ export class AppTopBarComponent implements OnInit {
       else{
         sessionStorage.clear();
         this.cookieService.delete('XSRF-TOKEN',"/","domain name",true,"None")
-        window.location.href='https://apps.alliance.co.tz/';
+        //window.location.href='https://apps.alliance.co.tz/';
       }
     }
     setLanguage(value){
@@ -257,7 +257,7 @@ export class AppTopBarComponent implements OnInit {
                 this.cookieService.delete('XSRF-TOKEN',"/","domain name",true,"None")
                   sessionStorage.clear();
                    this.authService.logout();
-                   this.router.navigate(['auth/login'])
+                   this.router.navigate(['/auth/login'])
                   // if(this.typeValue=='b2c' || this.typeValue=='B2C' || this.loginType=='B2CFlow'){
                   //   this.router.navigate(['/b2clogin']);
                   // }

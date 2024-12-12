@@ -89,7 +89,7 @@
     "DETAILLAST": "My main language was music, and my teacher was nature."
   },
   "LOGIN":{
-      "WelcometoXYZInsurance":"Welcome to Alliance Insurance",
+      "WelcometoXYZInsurance":"Welcome to Broker Portal",
       "Signintocontinue": "Sign in to continue",
       "RetrieveQuoteUsingMobileNumber?": "Retrieve Quote Using MobileNumber?",
       "B2CQuote": "B2C Quote",
@@ -138,6 +138,7 @@
   "QUOTEGRID":{
       "NoOfDays":"Quote Valid Days",
       "NoOfMonths":"Policy Period (Months)",
+      "InsuredPeriod": "Insured Period",
       "Quotation": "Quotation",
       "Existing": "Existing",
       "Lapsed": "Lapsed",
@@ -181,6 +182,12 @@
   "MOTORQUOTE":{
     "PaCoverId":"Motor Passenger Injury",
     "QuoteExpiryDate":"Quote Expiry Days",
+    "LicenseNo": "License Number",
+    "FuelType":"Fuel Type",
+    "MaleCount": "No Of Male",
+    "FemaleCount": "No Of Female",
+    "ClaimExperience":"Claim Experience",
+    "VehicleInformation":"Vehicle Information",
     "EnterQuoteExpiryDate": "Enter Expiry Days Count",
     "quoteExpiryDateError":"Please Enter Quote Expiry Days",
     "BankingDelegation":"Banking Delegation",
@@ -468,7 +475,8 @@
       "Buy":"Buy",
       "EMIPeriod":"EMI Period",
       "None":"None",
-      "3Months":"3 Months",
+      "3Months":"2 Months",
+      "5Months":"5 Months",
       "6Months":"6 Months",
        "8Months":"8 Months",
       "9Months":"9 Months",
@@ -564,6 +572,7 @@
     "Proceed":"Proceed"
   },
   "PolicyGrid":{
+    "PayEmi": "Pay Emi",
     "Broker":"Broker",
     "Portfolio":"Portfolio",
     "Home":"Home",
@@ -632,16 +641,15 @@
     "RequestReferenceNo":"Request Reference No"
   },
   "Report":{
-
     "Report":"Report",
     "Branch":"Branch",
+    "DownloadPDF":"Download PDF",
+    "DownloadExcel":"Download Excel",
     "StartDate":"Start Date",
     "EndDate":"End Date",
     "BrokerName":"Broker Name",
     "Search":"Search",
     "DownloadAll":"Download All",
-    "DownloadPDF":"Download PDF",
-    "DownloadExcel":"Download Excel",
     "PolicyNo":"Policy No",
     "QuoteNo":"Quote No",
     "CustomerName":"Customer Name",
@@ -694,10 +702,10 @@
         "DueDate": "Due Date",
         "(12Months)": "(12 Months)",
         "(6Months)": "(6 Months)",
-        "(3Months)": "(3 Months)",
+        "(3Months)": "(2 Months)",
         "EMIPeriod": "EMI Period",
         "None": "None",
-        "3Months": "3 Months",
+        "3Months": "2 Months",
         "5Months": "5 Months",
         "6Months": "6 Months",
         "8Months": "8 Months",
