@@ -4891,6 +4891,237 @@ export class CommonQuoteDetailsComponent implements OnInit {
           if (String(this.productItem.DateOfcirculation).includes('/')) {
             DateOfcirculation = this.productItem.DateOfcirculation;
           }
+        //}
+        // console.log(entry, "CodeDescCodeDesc");
+        // if (this.insuranceId == '100042' || this.insuranceId == '100040') {
+        //   sectionId = [String(this.productItem.InsuranceClass)];
+        //   insuranceType = this.productItem.InsuranceType;
+        //   motorUsage = this.productItem.InsuranceType;
+        //   motorUsageId = this.productItem.InsuranceClassDesc;
+        //   this.productItem.Mileage = "1"
+        //   if (this.productItem.Aggregatedvalue != null || this.productItem.Aggregatedvalue != undefined || this.productItem.Aggregatedvalue != '') this.commaSeparatedToNumber();
+        //   if (this.productItem.Marketvalue) this.productItem.VehicleSI = this.productItem.Marketvalue;
+        // }
+        // else {
+        //   if (sectionId) {
+        //     if (sectionId.length != 0) insuranceType = sectionId[0];
+        //     else insuranceType = null;
+        //   }
+        //   else insuranceType = null;
+        // }
+        // let LoanStartDate,LoanEndDate
+        // if(this.LoanStartDate!='' || this.LoanStartDate!=null || this.LoanStartDate!=undefined){
+        //   if (String(this.LoanStartDate).includes('/')) {
+        //     LoanStartDate = this.LoanStartDate;
+        //   }
+        //   else LoanStartDate = this.datePipe.transform(this.LoanStartDate, 'dd/MM/yyyy');
+        // }
+        // if(this.LoanEndDate!='' || this.LoanEndDate!=null || this.LoanEndDate!=undefined){
+        //   if (String(this.LoanEndDate).includes('/')) {
+        //     LoanEndDate = this.LoanEndDate;
+        //   }
+        //   else LoanEndDate = this.datePipe.transform(this.LoanEndDate, 'dd/MM/yyyy');
+        // }
+        // let zone;
+        // if(this.insuranceId=='100042' || this.insuranceId=='100040'){
+        //   zone=this.productItem.Zone
+        // }
+        // else{
+        //   zone="1"
+        // }
+        // let ReqObj = {
+        //   "ExcessLimit": null,
+        //   "Deductibles": deductibles,
+        //   "BrokerBranchCode": brokerbranchCode,
+        //   "AcExecutiveId": this.acExecutiveId,
+        //   "CommissionType": this.commissionType,
+        //   "CustomerCode": this.customerCode,
+        //   "CustomerName": this.customerName,
+        //   "BdmCode": this.customerCode,
+        //   "BrokerCode": this.brokerCode,
+        //   "LoginId": loginId,
+        //   "SubUserType": this.subuserType,
+        //   "ApplicationId": appId,
+        //   "CustomerReferenceNo": refNo,
+        //   "RequestReferenceNo": this.quoteRefNo,
+        //   "Idnumber": IdNo,
+        //   "VehicleId": this.vehicleId,
+        //   "AcccessoriesSumInsured": this.productItem.AccessoriesSI,
+        //   "AccessoriesInformation": "",
+        //   "AdditionalCircumstances": "",
+        //   "AxelDistance": this.vehicleDetails?.AxelDistance,
+        //   "Chassisnumber": this.vehicleDetails?.Chassisnumber,
+        //   "Color": this.vehicleDetails?.Color,
+        //   "PaCoverId": this.productItem?.PACoverId,
+        //   "CityLimit": this.cityValue,
+        //   "CoverNoteNo": null,
+        //   "MobileCode": this.vehicleDetails?.MobileCode,
+        //   "MobileNumber": this.vehicleDetails?.MobileNumber,
+        //   "OwnerCategory": this.vehicleDetails?.OwnerCategory,
+        //   "CubicCapacity": this.vehicleDetails?.Grossweight,
+        //   "CreatedBy": createdBy,
+        //   "DrivenByDesc": this.drivenBy,
+        //   "EngineNumber": this.vehicleDetails?.EngineNumber,
+        //   "FuelType": this.vehicleDetails?.FuelType,
+        //   "Gpstrackinginstalled": this.productItem.GpsYN,
+        //   "Grossweight": this.vehicleDetails?.Grossweight,
+        //   "HoldInsurancePolicy": "N",
+        //   "Insurancetype": insuranceType,
+        //   "InsurancetypeDesc": this.productItem.InsurancetypeDesc,
+        //   "InsuranceId": this.insuranceId,
+        //   "InsuranceClass": this.productItem.InsuranceClass,
+        //   "InsuranceClassDesc": this.productItem.InsuranceClassDesc,
+        //   "InsurerSettlement": "",
+        //   "InterestedCompanyDetails": "",
+        //   "ManufactureYear": this.vehicleDetails?.ManufactureYear,
+        //   "ModelNumber": null,
+        //   "MotorCategory": this.vehicleDetails?.MotorCategory,
+        //   "Motorusage": motorUsage,
+        //   "MotorusageId": motorUsageId,
+        //   "NcdYn": this.productItem.ClaimsYN,
+        //   "PolicyRenewalYn": this.productItem.RenewalYn,
+        //   "NoOfClaims": null,
+        //   "NumberOfAxels": this.vehicleDetails?.NumberOfAxels,
+        //   "BranchCode": this.branchCode,
+        //   "AgencyCode": this.agencyCode,
+        //   "ProductId": this.productId,
+        //   "SectionId": sectionId,
+        //   "PolicyType": IdType,
+        //   "RadioOrCasseteplayer": null,
+        //   "RegistrationYear": regYear,
+        //   "Registrationnumber": this.vehicleDetails?.Registrationnumber,
+        //   "RoofRack": null,
+        //   "SeatingCapacity": this.vehicleDetails?.SeatingCapacity,
+        //   "SourceTypeId": this.Code,
+        //   "SpotFogLamp": null,
+        //   "Stickerno": null,
+        //   "SumInsured": this.productItem.VehicleSI,
+        //   "InflationSumInsured": this.productItem.InflationSumInsured,
+        //   "Tareweight": this.vehicleDetails?.Tareweight,
+        //   "TppdFreeLimit": null,
+        //   "TppdIncreaeLimit": this.productItem.ExtendedTPPDSI,
+        //   "TrailerDetails": null,
+        //   "VehicleModel": this.vehicleDetails?.VehicleModelDesc,
+        //   "VehcilemodelId": this.vehicleDetails?.Vehcilemodel,
+        //   "VehicleType": this.vehicleDetails.VehicleType,
+        //   "VehicleTypeId": this.vehicleDetails?.VehicleTypeId,
+        //   "Vehiclemake": this.vehicleDetails?.VehiclemakeDesc,
+        //   "VehiclemakeId": this.vehicleDetails?.Vehiclemake,
+        //   "WindScreenSumInsured": this.productItem.WindShieldSI,
+        //   "Windscreencoverrequired": null,
+        //   "accident": null,
+        //   "periodOfInsurance": this.noOfDays,
+        //   "PolicyStartDate": startDate,
+        //   "PolicyEndDate": endDate,
+        //   "Currency": this.currencyCode,
+        //   "ExchangeRate": this.exchangeRate,
+        //   "HavePromoCode": this.havePromoCodeYN,
+        //   "PromoCode": this.promocode,
+        //   "CollateralYn": this.collateralYN,
+        //   "BorrowerType": this.borrowerValue,
+        //   "CollateralName": this.collateralName,
+        //   "FirstLossPayee": this.firstLossPayee,
+        //   "FleetOwnerYn": this.vehicleDetails?.FleetOwnerYn,
+        //   "NoOfVehicles": this.vehicleDetails?.NoOfVehicles,
+        //   "NoOfComprehensives": this.noOfCompPolicy,
+        //   "ClaimRatio": this.claimRatio,
+        //   "SavedFrom": this.motorDetails?.SavedFrom,
+        //   "UserType": this.userType,
+        //   "TiraCoverNoteNo": this.productItem.TiraCoverNoteNo,
+        //   "EndorsementYn": this.endorsementYn,
+        //   "EndorsementDate": this.endorsementDate,
+        //   "EndorsementEffectiveDate": this.endorsementEffectiveDate,
+        //   "EndorsementRemarks": this.endorsementRemarks,
+        //   "EndorsementType": this.endorsementType,
+        //   "EndorsementTypeDesc": this.endorsementTypeDesc,
+        //   "EndtCategoryDesc": this.endtCategoryDesc,
+        //   "EndtCount": this.endtCount,
+        //   "EndtPrevPolicyNo": this.endtPrevPolicyNo,
+        //   "EndtPrevQuoteNo": this.endtPrevQuoteNo,
+        //   "EndtStatus": this.endtStatus,
+        //   "IsFinanceEndt": this.isFinanceEndt,
+        //   "OrginalPolicyNo": this.orginalPolicyNo,
+        //   "ClaimType": this.claimTypeValue,
+        //   "VehicleValueType": this.productItem.VehicleValue,
+        //   "Inflation": this.productItem.Inflation,
+        //   "Ncb": "0",
+        //   "DefenceValue": this.productItem.DefenceCost,
+        //   "PurchaseDate": PurchaseDate,
+        //   "RegistrationDate": this.vehicleDetails?.RegistrationDate,
+        //   "Mileage": this.productItem?.Mileage,
+        //   "NoOfClaimYears": this.productItem.NoOfClaimYears,
+        //   "NoOfPassengers": this.productItem.NoOfPassengers,
+        //   "PreviousInsuranceYN": this.productItem.PreviousInsuranceYN,
+        //   "PreviousLossRatio": this.productItem.PreviousLossRatio,
+        //   "HorsePower": this.vehicleDetails.HorsePower,
+        //   "Zone": zone,
+          
+        //   "DateOfCirculation": DateOfcirculation,
+        //   "NewValue": this.productItem.Newvalue,
+        //   "MarketValue": this.productItem.Marketvalue,
+        //   "AggregatedValue": this.productItem.Aggregatedvalue,
+        //   "NumberOfCards": this.productItem.Nombredecartes,
+        //   "MunicipalityTraffic": this.productItem.MunicipalityofTraffic,
+        //   "TransportHydro": this.productItem.Transportationofhydrocarbons,
+        //   "BankingDelegation": this.BankingDelegation,
+        //   "LoanStartDate": LoanStartDate,
+        //   "LoanEndDate": LoanEndDate,
+        //   "CollateralCompanyAddress": this.CollateralCompanyAddress,
+        //   "CollateralCompanyName": this.CollateralCompanyName,
+        //   "LoanAmount": this.LoanAmount,
+        //   "UsageId": this.productItem.VehicleUsage,
+        //   "VehicleTypeIvr": this.productItem.VehicleType,
+        //   "ZoneCirculation": this.productItem.ZoneCirculation,
+        //   "QuoteExpiryDays": this.quoteExpiryDate,
+        //   "Scenarios": {
+        //     "ExchangeRateScenario": {
+        //       "OldAcccessoriesSumInsured": this.vehicleDetails.OldAcccessoriesSumInsured,
+        //       "OldCurrency": this.vehicleDetails.OldCurrency,
+        //       "OldExchangeRate": this.vehicleDetails.OldExchangeRate,
+        //       "OldSumInsured": this.vehicleDetails.OldSumInsured,
+        //       "OldTppdIncreaeLimit": this.vehicleDetails.OldTppdIncreaeLimit,
+        //       "OldWindScreenSumInsured": this.vehicleDetails.OldWindScreenSumInsured
+        //     }
+        //   }
+        // }
+        // if(this.insuranceId=='100042'){
+        //   ReqObj['Class']=this.productItem.Class
+        // }
+        
+        // ReqObj['FleetOwnerYn'] = "N";
+        // // if(this.PurchaseDate!=null){
+        // //   ReqObj['PurchaseDate'] = this.datePipe.transform(this.PurchaseDate, "dd/MM/yyyy");
+        // // }
+        // // else{
+        // //   ReqObj['PurchaseDate'] = '';
+        // // }
+        // if (this.endorsementSection) {
+        //   if (this.vehicleDetails?.Status == undefined || this.vehicleDetails?.Status == null || this.vehicleDetails?.Status == 'Y' || (this.vehicleDetails?.Status == 'RP' && !this.adminSection)) {
+        //     ReqObj['Status'] = 'E';
+        //   }
+        //   else {
+        //     ReqObj['Status'] = this.vehicleDetails?.Status;
+        //   }
+        //   ReqObj['PolicyNo'] = this.endorsePolicyNo
+        // }
+        // else {
+        //   ReqObj['Status'] = 'Y';
+        // }
+        // if (this.insuranceId == '100020' || this.insuranceId == '100028') {
+        //   let dob = null, licenseDate = null, quoteNo = null;
+        //   if (this.licenseIssuedDate != null && this.licenseIssuedDate != '' && this.licenseIssuedDate != undefined) {
+        //     licenseDate = this.datePipe.transform(this.licenseIssuedDate, "dd/MM/yyyy");
+        //   }
+        //   if (this.driverDob != null && this.driverDob != '' && this.driverDob != undefined) {
+        //     if ((String(this.driverDob)).includes('/')) dob = this.driverDob;
+        //     else dob = this.datePipe.transform(this.driverDob, 'dd/MM/yyyy');
+        //   }
+        //   if (sessionStorage.getItem('quoteNo')) quoteNo = sessionStorage.getItem('quoteNo');
+        //   let areaGroup = null;
+        //   if (this.subUrbanCode != null && this.subUrbanCode != '' && this.subUrbanCode != undefined) {
+        //     areaGroup = this.districtList.find(ele => ele.Code == this.subUrbanCode)?.AreaGroup;
+        //   }
+        //   if (this.insuranceId == '100028') { this.stateValue = null; this.cityCode = null; this.subUrbanCode = null; areaGroup = null; }
           else DateOfcirculation = this.datePipe.transform(this.productItem.DateOfcirculation, 'dd/MM/yyyy');
           if (this.productItem.InsurancetypeDesc == undefined) {
             let fieldList = this.fields[0].fieldGroup[0].fieldGroup;
