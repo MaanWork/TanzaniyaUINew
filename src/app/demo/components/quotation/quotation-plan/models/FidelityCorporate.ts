@@ -32,14 +32,30 @@ export class FidelityCorporate{
                   fieldGroupClassName: 'grid',
                   fieldGroup: [
                     {
-                      className: 'col-12 md:col-6 lg:col-6',
+                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                      type: 'ngselect',
+                      key: 'OccupationId',
+                      id: 'OccupationId',
+                      templateOptions: {
+                        label: 'Nature Of Loss',
+                        disabled: this.checkDisable('OccupationId'),
+                        required: true,
+                        options:[]
+                      },
+                      validators: {
+                        validation: [ForceLengthValidators.maxLength(3), ForceLengthValidators.min(1)]
+                      },
+                    },
+                    {
+                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                       type: 'input',
-                      key: 'Count',
-                      id: 'Count',
+                      key: 'FidEmpCount',
+                      id: 'FidEmpCount',
                       templateOptions: {
                         label: 'No.Of Employees',
-                        disabled: this.checkDisable('Count'),
+                        disabled: this.checkDisable('FidEmpCount'),
                         required: true,
+                        options:[]
                       },
                       validators: {
                         validation: [ForceLengthValidators.maxLength(3), ForceLengthValidators.min(1)]
@@ -47,7 +63,7 @@ export class FidelityCorporate{
                     },
                     {
                       type: 'ngselect',
-                      className: 'col-12 md:col-6 lg:col-6',
+                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
                       key: 'FidEmpSi',
                       id:'FidEmpSi',
                       defaultValue: '0',

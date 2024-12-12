@@ -243,7 +243,7 @@ export class AppMenuComponent implements OnInit {
               "routerLink": [menu.link],
               "CodeDesc": menu.CodeDesc
             }
-            if (menu.children && menu.CodeDesc!='Quote Register' && menu.CodeDesc!='CRM' && menu.CodeDesc!='Surveyor' && menu.CodeDesc!='Credit Controller' && menu.CodeDesc!='Login Creation' && menu.CodeDesc!='Referral' && menu.CodeDesc!='Portfolio' && menu.CodeDesc!='Referal Management' && menu.CodeDesc!='Masters' && menu.CodeDesc!='Tira Status') {
+            if (menu.children && menu.CodeDesc!='Quote Register' && menu.CodeDesc!='CRM'  && menu.CodeDesc!='Renewal' && menu.CodeDesc!='Surveyor' && menu.CodeDesc!='Credit Controller' && menu.CodeDesc!='Login Creation' && menu.CodeDesc!='Referral' && menu.CodeDesc!='Portfolio' && menu.CodeDesc!='Referal Management' && menu.CodeDesc!='Masters' && menu.CodeDesc!='Tira Status') {
               entry['items'] = [];
               let j = 0;
               for (let child of menu.children) {
@@ -293,6 +293,7 @@ export class AppMenuComponent implements OnInit {
               else if(menu.CodeDesc=='Short Quote') entry["routerLink"] =  ['/quotation/plan/shortQuote']
               else if(menu.CodeDesc=='Report') entry["routerLink"] =  ['/report']
               else if(menu.CodeDesc=='CRM') entry["routerLink"] =  ['/crmHome']
+              else if(menu.CodeDesc=='Renewal') entry["routerLink"] =  ['/renewal']
               else if(menu.CodeDesc=='Search') entry["routerLink"] =  ['/Search']
               else if(menu.CodeDesc=='Masters') entry["routerLink"] =  ['/Admin/bankMaster']
               else if(menu.CodeDesc=='Credit Controller' && this.insuranceid=='100004') entry["routerLink"] =  ['/Home/credit-controller']

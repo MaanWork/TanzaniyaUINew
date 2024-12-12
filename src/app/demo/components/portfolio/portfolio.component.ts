@@ -59,7 +59,7 @@ export class PortfolioComponent implements OnInit {
       sessionStorage.removeItem('loadingType');
       sessionStorage.removeItem('firstLoad');
       sessionStorage.removeItem('VechileDetails');
-    
+      sessionStorage.removeItem('emiPayment')
    }
   ngOnInit() {
     
@@ -368,7 +368,14 @@ export class PortfolioComponent implements OnInit {
               command: () => {
                this.onViews(rowData);
           }
-          }
+          },
+          {
+            label: 'Pay EMI',
+            icon: 'pi pi-Credit',
+            command: () => {
+             this.onPay(rowData);
+        }
+        }
       ]}
     ];
    // const hideDebitNote = true; // Set your condition here
@@ -433,6 +440,23 @@ if (rowData.DebitNoteNo==null && rowData.DebitNoteNo=='') {
     }
     sessionStorage.setItem('editCustomer',JSON.stringify(ReqObj));
     this.router.navigate(['/portfolio/motorDocuments'])
+  }
+  onPay(rowData){
+    let ReqObj={
+      "Search":"",
+      "SearchValue":rowData.QuoteNo,
+      "QuoteNo":rowData.QuoteNo,
+      "RequestReferenceNo":rowData.RequestReferenceNo,
+      "ProductId":this.productId,
+      "pageFrom": 'policy',
+      "CustomerName": rowData.ClientName,
+      "ProductName":rowData.ProductName,
+      "PolicyNo":rowData.PolicyNo,
+      "Currency":rowData.Currency,
+      "EmiYn":rowData?.EmiYn
+    }
+    sessionStorage.setItem('editCustomer',JSON.stringify(ReqObj));
+    this.router.navigate(['/portfolio/emiDetails'])
   }
   getExistingQuotes(element,entryType){
     if(element==null) this.quoteData=[];
@@ -649,6 +673,51 @@ if (rowData.DebitNoteNo==null && rowData.DebitNoteNo=='') {
       (err) => { },
     );
   }
+  onGetDraft(rowData){
+    let ReqObj = {
+      "QuoteNo": rowData.QuoteNo,
+      "CertificateYn": 'Y'
+    }
+    let urlLink = `${this.CommonApiUrl}pdf/policyform`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if (data.ErrorMessage.length != 0) {
+          if (data.ErrorMessage) {
+          }
+        }
+        else {
+          if(data?.Result?.PdfOutFile){
+              this.downloadMyFilebroker(data.Result.PdfOutFile);
+          }
+          else{
+            Swal.fire({
+              title: '<strong>Schedule Pdf</strong>',
+              icon: 'error',
+              html:
+                `No Pdf Generated For this Policy`,
+              //showCloseButton: true,
+              //focusConfirm: false,
+              showCancelButton: false,
+
+              //confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              cancelButtonText: 'Cancel',
+            })
+          }
+        }
+      },
+      (err) => { },
+    );
+  }
+  downloadMyFilebroker(data) {
+    const link = document.createElement('a');
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', data);
+    link.setAttribute('download', 'Certificate');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
   onGetVehicleSchedule(rowData){
     let event = {
         "QuoteData":this.selectedRowData,
@@ -691,11 +760,15 @@ if (rowData.DebitNoteNo==null && rowData.DebitNoteNo=='') {
     let urlLink = `${this.CommonApiUrl}pdf/policyform`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
-        console.log(data);
-        if(data?.Result?.PdfOutFile){
-            this.downloadMyFile(data.Result.PdfOutFile,'Schedule');
+        if (data.ErrorMessage.length != 0) {
+          if (data.ErrorMessage) {
+          }
         }
-        else{
+        else {
+          if(data?.Result?.PdfOutFile){
+              this.downloadMyFile(data.Result.PdfOutFile,'Schedule');
+          }
+          else{
           Swal.fire({
             title: '<strong>Schedule Pdf</strong>',
             icon: 'error',
@@ -709,6 +782,7 @@ if (rowData.DebitNoteNo==null && rowData.DebitNoteNo=='') {
             cancelButtonColor: '#d33',
             cancelButtonText: 'Cancel',
           })
+          }
         }
       },
       (err) => { },

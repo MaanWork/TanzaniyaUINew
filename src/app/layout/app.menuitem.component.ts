@@ -154,6 +154,7 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
         sessionStorage.removeItem('b2cType');
         sessionStorage.removeItem('FireObj');
         sessionStorage.removeItem('PageFrom');
+        sessionStorage.removeItem('emiPayment');
         if(rowData.CodeDesc=='New Quote'){sessionStorage.setItem('newQuote','newQuote')}
         if (this.item.disabled) {
             event.preventDefault();
@@ -171,6 +172,7 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
         }
 
         this.menuService.onMenuStateChange({ key: this.key });
+        
     }
 
     get submenuAnimation() {

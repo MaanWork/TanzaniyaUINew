@@ -24,7 +24,7 @@ export class BurglaryCorporate{
           props: { label: 'Burglary'},
           fieldGroup: [
             {
-              fieldGroupClassName: 'grid mt-2',
+              fieldGroupClassName: 'grid',
                 fieldGroup: [
                   {
                     className: 'col-12 md:col-6 lg:col-6',
@@ -34,9 +34,7 @@ export class BurglaryCorporate{
                       props: { 
                         maxLength: 15,
                         label: `Sum Insured`,
-                      },
-                      templateOptions: {
-                        //disabled: this.checkDisable('BuildingSuminsured')
+                        disabled: false,
                         required: true,
                       },
                       validators: {
@@ -50,7 +48,7 @@ export class BurglaryCorporate{
                       },
                   },
                   {
-                    className: 'col-12 md:col-6 lg:col-6',
+                    className: 'col-12 md:col-5 lg:col-5',
                     type: 'ngselect',
                       key: 'FireSumInsured',
                       id:'FireSumInsured',

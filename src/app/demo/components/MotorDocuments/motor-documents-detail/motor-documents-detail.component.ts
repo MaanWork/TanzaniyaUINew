@@ -55,6 +55,14 @@ export class MotorDocumentsDetailComponent {
   PersonalLiability: any[]=[];
   riskDetails: any[]=[];
   riskHeader: any;
+  LocationName:any[]=[];
+  riskDetailsNonMotor:any=[];
+  sectionName: any[]=[];
+  SectionDetails: any;
+  sectionCovers: any[]=[];
+  viewImageUrl: any;
+  viewImageFileName: any;
+  viewImageSection:boolean=false;
   constructor(private router:Router,private sharedService: SharedService) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
     this.loginId = this.userDetails.Result.LoginId;
@@ -64,6 +72,7 @@ export class MotorDocumentsDetailComponent {
     this.branchCode = this.userDetails.Result.BranchCode
   }
   ngOnInit(): void {
+
     this.addInfoDetail= [
       {tittle:'Driver Details'},
       {tittle:'Additional Information'},
@@ -94,6 +103,7 @@ export class MotorDocumentsDetailComponent {
         this.getDriverDetails();
         this.Documentview();
         this.domesticRisk();
+        this.getRiskDetails();
         //  this.getallriskDetails();
        this.getTiraDetails();
         }
@@ -121,6 +131,7 @@ export class MotorDocumentsDetailComponent {
          this.getContentDetails();
          this.getPersonalAccidentDetails();
          this.getPersonalIntermediaryDetails();
+         
         }
         if(this.productId =='16'){
          this.getMoneyDetails();
@@ -146,9 +157,10 @@ export class MotorDocumentsDetailComponent {
          if(this.productId=='42'){
            this.getCyberDetails();
          }
-         if(this.productId!='4' && this.productId!='5'){
+         if(this.productId!='5'){
           // this.ViewRiskss();
           //this.onDomesRisk()
+          // this.getRiskDetails();
          }
          this.getMachineryRisk();
 
@@ -383,7 +395,42 @@ export class MotorDocumentsDetailComponent {
       (err) => { },
     );
   }
-  
+
+  getRiskDetails(){
+    let ReqObj={
+      "QuoteNo":this.quoteNo,
+    }
+    let urlLink = `${this.CommonApiUrl}quote/viewquotedetails`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        console.log(data);
+        if(data?.Result){
+          let Risk=[],entry,i=0;
+          for( entry of data?.Result.RiskDetails){
+            this.LocationName = [entry];
+            this.SectionDetails=entry.SectionDetails;
+            console.log(entry.SectionDetails,"this.riskDetailsNonMotor");
+            console.log(entry.SectionDetails.Covers,"this.riskDetailsNonMotor");
+          }
+          // for(let entry2 of this.SectionDetails){
+          //   let CoverName = entry2.Covers[0].CoverName;
+          //   alert(CoverName)
+          //   this.sectionCovers = entry2.Covers;
+          //   // const filtered = entry2.Covers.filter(cover => cover.CoverName.includes(entry2.Covers.CoverName));
+          //   console.log(this.sectionCovers,"filteredfilteredfiltered");
+            
+          //   // this.riskDetailsNonMotor.push(filtered)
+          // }
+        }
+      },
+      (err) => { },
+    );
+  }
+  coverList(data){
+    this.sectionCovers = data.Covers;
+    console.log(this.sectionCovers,"sectionCoverssectionCoverssectionCoverssectionCovers");
+    
+  }
   onCustomerSearch(){
     let app
        if(this.userType == 'Issuer'){
@@ -501,8 +548,31 @@ export class MotorDocumentsDetailComponent {
         (err) => { },
       );
     } 
+    onViewCommonDocument(index){
+      alert()
+      let entry = this.CommonDoc[index];
+      //this.viewImageSection = true;
+      console.log("onCommonDocumentDownload",index);
+      
+      let ReqObj = {
+       "Id": index.Id,
+        "QuoteNo": this.quoteNo,
+        "UniqueId": index.UniqueId
+      }
+      let urlLink = `${this.CommonApiUrl}document/getoriginalimage`;
+      this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if(data.Result){
+            this.viewImageUrl = data.Result.ImgUrl;
+            this.viewImageFileName =  data.Result.FileName;
+            this.viewImageSection = true;
+          }
+      },
+        (err) => { },
+      );
+    } 
     VechileTira(){
-    
       let ReqObj={
         "QuoteNo":this.quoteNo,
          "ProductId":this.productId,
@@ -597,7 +667,7 @@ export class MotorDocumentsDetailComponent {
         (err) => { },
       );
      }
-
+ 
 }
 
 

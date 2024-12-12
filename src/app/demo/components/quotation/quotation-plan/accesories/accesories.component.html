@@ -77,8 +77,8 @@
     </div>
     <div class="flex flex-wrap justify-content-center mt-4">
         <div class="mb-4">
-            <p-button label="1Back" [routerLink]="['/quotation/plan/premium-details']" *ngIf="!endorsementSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
-            <p-button label="2Back" [routerLink]="['/quotation/plan/premium-info']" *ngIf="endorsementSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+            <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" *ngIf="!endorsementSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+            <p-button label="Back" [routerLink]="['/quotation/plan/premium-info']" *ngIf="endorsementSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
             <ng-container>
                 <p-button label="Proceed" (click)="onSaveAccessories()" class="text-l pi-button mr-0"></p-button>
             </ng-container>
@@ -101,7 +101,7 @@
         </div>
     </div>
 </ng-container>
-<ng-container *ngIf="productId!='5' && productId!='63' && productId!='59' && productId!='14' && productId!='32' && productId!='25'">
+<ng-container *ngIf="productId!='5' && productId!='63' && productId!='59' && productId!='19' && productId!='14' && productId!='32' && productId!='25'">
     <!--tabIndex-->
     <p-tabView #tabView [activeIndex]="selectedTab" (onChange)="onTabClicked($event,tabView)">
         <!-- <p-tabPanel header="Location" *ngIf="buildingDetailsSection">
@@ -277,7 +277,7 @@
             </div>
             <div class="flex flex-wrap justify-content-center mt-4">
                 <div class="mb-4">
-                    <p-button label="3Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                    <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
                     <ng-container>
                         <p-button label="Proceed" (click)="onSavePersonalAccident('proceed')" class="text-l pi-button mr-0"></p-button>
                     </ng-container>
@@ -415,7 +415,7 @@
             </div>
             <div class="flex flex-wrap justify-content-center mt-4">
                 <div class="mb-4">
-                    <p-button label="4Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                    <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
                     <ng-container>
                         <p-button label="Proceed" (click)="onSavePersonalIntermedity('proceed')" class="text-l pi-button mr-0"></p-button>
                     </ng-container>
@@ -531,7 +531,7 @@
                 </div>
                 <div class="flex flex-wrap justify-content-center mt-4">
                     <div class="mb-4">
-                        <p-button label="5Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                        <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
                         <ng-container>
                             <p-button label="Proceed" (click)="onSaveHealth()" class="text-l pi-button mr-0"></p-button>
                         </ng-container>
@@ -593,7 +593,7 @@
             </div>
           
             <div class="text-center mt-2">
-                <p-button label="6Back" class="mr-4 text-l mr-0" [routerLink]="['/quotation/plan/premium-details']" styleClass="p-button-outlined"></p-button>
+                <p-button label="Back" class="mr-4 text-l mr-0" [routerLink]="['/quotation/plan/premium-details']" styleClass="p-button-outlined"></p-button>
                 <!-- <p-button label="Save & Proceed" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('save')"></p-button> -->
                 <p-button label="Proceed" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" class="mr-4 text-l mr-0" styleClass="p-button-outlined" (click)="onSaveEmployeeDetails('proceed')" routerLinkActive="router-link-active" routerLinkActive="router-link-active"></p-button>
                 <!-- <button class="custom-btn btn-6 maan-button-data mx-2" *ngIf="employeeList.length!=0 && !enableEmployeeUploadSection" matRipple (click)="onSaveEmployeeDetails('direct')" routerLinkActive="router-link-active" routerLinkActive="router-link-active">Proceed</button> -->
@@ -623,14 +623,9 @@
                         <div><h5 class="text-white mb-1 mr-3">Actual SumInsured</h5></div>
                         <div><h6 class="text-white my-0">{{actualFidelitySI | commaseparator }}</h6></div>
                     </div>
-
-
                 </div>
             </div>
         </p-tabPanel>
-
-
-        
         <p-tabPanel header="ElectricalEquipment" [disabled]="!allfields" *ngIf="six">
             <div class="grid">
                 <div class="lg:col-4 md:col-4 col-12">
@@ -674,7 +669,7 @@
             </div>
             <div class="flex flex-wrap justify-content-center mt-4">
                 <div class="mb-4">
-                    <p-button label="7Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                    <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
                     <ng-container>
                         <p-button label="Proceed" (click)="onSaveElectronic()" class="text-l pi-button mr-0"></p-button>
                     </ng-container>
@@ -698,7 +693,6 @@
             </div>
             <!--onSaveAllRisk(-->
         </p-tabPanel>
-
         <p-tabPanel header="Medical Details" [disabled]="!allfields" *ngIf="newten">
             <div class="grid">
                 <div class="lg:col-12 md:col-12 col-12">
@@ -713,7 +707,7 @@
             </div>
             <div class="flex flex-wrap justify-content-center mt-4">
                 <div class="mb-4">
-                    <p-button label="8Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
+                    <p-button label="Back" [routerLink]="['/quotation/plan/premium-details']" class="mr-4 text-l mr-0" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>
                     <ng-container>
                         <p-button label="Proceed" (click)="onMedicalSave()" class="text-l pi-button mr-0"></p-button>
                     </ng-container>
@@ -855,7 +849,7 @@
         </div>
     </p-tabView>
 </ng-container>
-<ng-container *ngIf="productId=='63' || productId=='59'">
+<ng-container *ngIf="productId=='63' || productId=='59' || productId=='19'">
     <p-tabView *ngIf="LocationList.length!=0 && locationlist.length!=0" [(activeIndex)]="tabIndex" (onChange)='tabIndex = $event.index'>
         <ng-container *ngFor="let item of LocationList;let i=index">
             <p-tabPanel [header]="item.LocationName">
@@ -991,7 +985,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 lg:col-6 md:col-6" *ngIf="checkSectionVisible(i,'76') && productId=='59'">
+                    <div class="col-12 lg:col-6 md:col-6" *ngIf="checkSectionVisible(i,'76') && (productId=='59' || productId=='19')">
                         <div class="card ">
                             <div class="grid">
                                 <div class="col-12 lg:col-10 xl:col-10"> 
@@ -1005,7 +999,27 @@
                                 <div class="col-12 lg:col-8 md:col-8">
                                     <label for="SumInsured">SumInsured</label>
                                     <input class="w-full p-button-outlined" placeholder="Enter SumInsured"
-                                    disabled [(ngModel)]="item.ElectricalEquipmentSI" styleClass="w-full"  pInputText type="text" 
+                                    disabled [value]="getTotalElecSI()" styleClass="w-full"  pInputText type="text" 
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 lg:col-6 md:col-6" *ngIf="checkSectionVisible(i,'76') && (productId=='59' || productId=='19')">
+                        <div class="card ">
+                            <div class="grid">
+                                <div class="col-12 lg:col-10 xl:col-10"> 
+                                    <b>Machinery Breakdown</b>
+                                </div>
+                                <div class="col-12 lg:col-2 xl:col-2 "> 
+                                    <p-button icon="pi pi-credit-card" styleClass="p-button-outlined" (click)="onShowCommonDialog(item,'41')" />
+                                </div>
+                            </div>
+                            <div class="grid justify-content-center">
+                                <div class="col-12 lg:col-8 md:col-8">
+                                    <label for="SumInsured">SumInsured</label>
+                                    <input class="w-full p-button-outlined" placeholder="Enter SumInsured"
+                                    disabled [value]="getTotalMBSI()" styleClass="w-full"  pInputText type="text" 
                                     />
                                 </div>
                             </div>
@@ -1035,6 +1049,98 @@
                                 </div>
                             
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-12 lg:col-6 md:col-6" *ngIf="checkSectionVisible(i,'198')">
+                        <div class="card ">
+                            <div class="grid">
+                                <div class="col-12 lg:col-10 xl:col-10"> 
+                                    <b>Office Content Details</b>
+                                </div>
+                                <div class="col-12 lg:col-2 xl:col-2 "> 
+                                    <p-button icon="pi pi-credit-card" styleClass="p-button-outlined" (click)="onShowCommonDialog(item,'198')" />
+                                </div>
+                            </div>
+                            <div class="grid justify-content-center">
+                                <div class="col-12 lg:col-8 md:col-8">
+                                    <label for="SumInsured">SumInsured</label>
+                                    <input class="w-full p-button-outlined" placeholder="Enter SumInsured"
+                                    disabled [(ngModel)]="item.OfficeContentSi" styleClass="w-full"  pInputText type="text" />
+                                </div>
+                                <!-- <div class="col-12 lg:col-6 md:col-6">
+                                    <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Building Type"
+                                        appendTo="body" optionLabel="LocationName" optionValue="RiskId"  />
+                                </div> -->
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <div class="col-12 lg:col-6 md:col-6" *ngIf="checkSectionVisible(i,'182')">
+                        <div class="card ">
+                            <div class="grid">
+                                <div class="col-12 lg:col-10 xl:col-10"> 
+                                    <b>Group Personal Accident</b>
+                                </div>
+                                <div class="col-12 lg:col-2 xl:col-2 "> 
+                                    <p-button icon="pi pi-credit-card" styleClass="p-button-outlined" (click)="onShowCommonDialog(item,'182')" />
+                                </div>
+                            </div>
+                            <div class="grid justify-content-center">
+                                <!-- <div class="col-12 lg:col-6 md:col-6">
+                                    <label for="BuildingType">Relationship</label>
+                                    <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Relationship" [(ngModel)]="item.RelationType" [options]="relationList"
+                                        appendTo="body" optionLabel="CodeDesc" optionValue="Code"  />
+                                </div> -->
+                                <div class="col-12 lg:col-8 md:col-8">
+                                    <label for="SumInsured">Death SI</label>
+                                    <input class="w-full p-button-outlined" placeholder="Enter SumInsured" styleClass="w-full"
+                                    disabled [(ngModel)]="item.DeathSIGPA"  pInputText type="text" 
+                                    />
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 lg:col-6 md:col-6" *ngIf="checkSectionVisible(i,'43') &&  this.productId=='19'">
+                        <div class="card ">
+                            <div class="grid">
+                                <div class="col-12 lg:col-10 xl:col-10"> 
+                                    <b>Fidelity Details</b>
+                                </div>
+                                <div class="col-12 lg:col-2 xl:col-2 "> 
+                                    <p-button icon="pi pi-credit-card" styleClass="p-button-outlined" (click)="onShowCommonDialog(item,'43')" />
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="lg:col-1 md:col-1 col-12">
+                
+                                </div>
+                                <div class="col-12 lg:col-8 md:col-8">
+                                    <label for="SumInsured">Fidelity SumInsured</label>
+                                    <input class="w-full p-button-outlined" placeholder="Enter SumInsured" styleClass="w-full"
+                                    disabled [value]="gettotalFidelitySI()"  pInputText type="text" 
+                                    />
+                                </div>
+                            </div>
+                            <!-- <div class="lg:col-10 md:col-10 col-12">
+                                <div class="input-form-error" *ngIf="employeeNameError || employeeOccupationError || employeeSalaryError || sumInsuredExceedError || electonicItemError 
+                                || electronicJoinError || electronicYearError || electronicMakeModelError" style="position: relative;">
+                                    <div class="error-text text-danger">
+                                        <span class="spancommon span_font_size" *ngIf="employeeNameError">Please Enter Valid Employee Name<br></span>
+                                        <span class="spancommon span_font_size" *ngIf="employeeOccupationError">Please Select Valid Occupation<br></span>
+                                        <span class="spancommon span_font_size" *ngIf="employeeSalaryError">Please Enter Valid Salary<br></span>
+                                        <span class="spancommon span_font_size" *ngIf="sumInsuredExceedError">Amount Entered Exceeding Actual Limit<br></span>
+                                        <span class="spancommon span_font_size" *ngIf="electonicItemError">Please Select Valid Electronic Item<br></span>
+                                        <span class="spancommon span_font_size" *ngIf="electronicJoinError">Please Select Valid purchase Month <br></span>
+                                        <span class="spancommon span_font_size" *ngIf="electronicYearError">Please Enter Valid Purchase Year <br></span>
+                                        <span class="spancommon span_font_size" *ngIf="electronicMakeModelError">Please Enter Valid Make & Model <br></span>
+                                        <span class="spancommon span_font_size" *ngIf="electronicSalaryError">Please Enter Valid SumInsured <br></span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap justify-content-center mt-2" *ngIf="productId!='19'">
+                                    <p-button label="Save" (click)="onemployeeCommon()" class="text-l pi-button mr-0"></p-button>
+                                </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -1082,6 +1188,7 @@
         </div>
     </div>
 </ng-container>
+
 <p-dialog header="Building Details" [modal]="true" [(visible)]="visibleBuilding" [style]="{ width: '85rem','z-index': '1000 !important'  }">
     <ng-container  class="mt-5">
         <div class="grid justify-content-between">
@@ -1132,7 +1239,7 @@
                     </td> -->
                     <td>
                         <ng-container *ngIf="currentBuildingRowIndex==ri">
-                            <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Wall Type"  [options]="wallMaterialList" 
+                            <p-dropdown class="w-full" [filter]="true" filterBy="CodeDesc" styleClass="w-full" placeholder="Select Wall Type"  [options]="wallMaterialList" 
                                     appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="Building.WallType" />
                            
                         </ng-container>
@@ -1147,7 +1254,7 @@
                     </td>
                     <td>
                         <ng-container *ngIf="currentBuildingRowIndex==ri">
-                            <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Roof Type" 
+                            <p-dropdown class="w-full" [filter]="true" filterBy="CodeDesc"  styleClass="w-full" placeholder="Select Roof Type" 
                              [options]="roofMaterialList" 
                                     appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="Building.RoofType" />
                         </ng-container>
@@ -1162,7 +1269,7 @@
                     </td>
                     <td>
                         <ng-container *ngIf="currentBuildingRowIndex==ri">
-                            <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select FirstLossPayee"
+                            <p-dropdown class="w-full"   styleClass="w-full" [filter]="true" filterBy="CodeDesc" placeholder="Select FirstLossPayee"
                                 [options]="bankList" (onChange)="onChangeFirstLoss(Building)"
                                     appendTo="body" optionLabel="CodeDesc" optionValue="Code"  [(ngModel)]="Building.FirstLossPayee" />
                              
@@ -1260,7 +1367,133 @@
                 <tr>
                     <td>
                         <ng-container *ngIf="currentContentRowIndex==ri">
-                            <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Content Type"
+                            <p-dropdown class="w-full" [filter]="true" filterBy="CodeDesc"  styleClass="w-full" placeholder="Select Content Type"
+                                [options]="dropList" 
+                                    appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="product.ItemId" />
+                            
+                        </ng-container>
+                        <ng-container *ngIf="currentContentRowIndex!=ri">
+                            {{ getContentTypeDescription(product.ItemId) }}
+                        </ng-container>
+                        <div class="input-form-error" *ngIf="product.ContentTypeError">
+                            <div class="error-text text-danger">
+                               Select Content Type
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="currentContentRowIndex==ri">
+                            <input class="w-full p-button-outlined" placeholder="Enter Serial No" styleClass="w-full"  pInputText type="text" 
+                                [(ngModel)]="product.SerialNoDesc" />
+                                
+                        </ng-container>
+                        <ng-container *ngIf="currentContentRowIndex!=ri">
+                            {{product.SerialNoDesc}}
+                        </ng-container>   
+                        <div class="input-form-error" *ngIf="product.SerialNoDescError">
+                            <div class="error-text text-danger">
+                               Enter Valid Serial No
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="currentContentRowIndex==ri">
+                            <input  pInputText type="text" placeholder="Enter Description" [(ngModel)]="product.ContentRiskDesc"  required />
+                            
+                        </ng-container>
+                        <ng-container *ngIf="currentContentRowIndex!=ri">
+                            {{product.ContentRiskDesc}}
+                        </ng-container>   
+                        <div class="input-form-error" *ngIf="product.ContentRiskDescError">
+                            <div class="error-text text-danger">
+                               Enter Valid Description
+                            </div>
+                        </div>      
+                    </td>
+                    <td>
+                        <ng-container *ngIf="currentContentRowIndex==ri">
+                            <p-inputNumber  type="number"  [(ngModel)]="product.SumInsured" inputId="integeronly"/>
+                            
+                        </ng-container>
+                        <ng-container *ngIf="currentContentRowIndex!=ri">
+                            {{product.SumInsured }}
+                        </ng-container>
+                        <div class="input-form-error" *ngIf="product.SumInsuredError">
+                            <div class="error-text text-danger">
+                               Enter Valid SumInsured
+                            </div>
+                        </div>        
+                    </td>
+                   
+                    <td>
+                        <ng-container *ngIf="currentContentRowIndex!=ri">
+                            <div class="flex align-items-center justify-content-center gap-2">
+                                <button  pButton type="button"  icon="pi pi-pencil"   
+                                    (click)="currentContentRowIndex=ri" styleClass="p-button-outlined">
+                                </button>
+                            </div>
+                        </ng-container>
+                    </td>
+                    
+                    <td>
+                        <ng-container >
+                            <div class="flex align-items-center justify-content-center gap-2" >
+                                <button  pButton type="button"    icon="pi pi-trash"  (click)="deleteProduct(ri)" 
+                                    styleClass="p-button-outlined" >
+                                </button>
+                            </div>
+                        </ng-container>
+                    </td>
+                </tr>
+               
+            </ng-template>
+           
+        </p-table>
+        <!-- <div class="flex justify-content-end gap-2 mt-5">
+            <p-button label="Cancel" styleClass="p-button-outlined"  (click)="visible = false" />
+            <p-button label="Save" (click)="saveProduct()" />
+        </div> -->
+        <div class="grid justify-content-center gap-2 mt-5">
+            <!-- <p-button label="Cancel" styleClass="p-button-outlined"  (click)="visible = false" /> -->
+            <div >
+            <p-button label="Save" (click)="onSaveContentRisk('direct')" />
+        </div>
+        </div>
+</p-dialog>
+<p-dialog header="Content Details" [modal]="true" [(visible)]="visibleContent" [style]="{ width: '80rem','z-index': '1000 !important'  }">
+    <ng-container>
+        <div class="grid justify-content-between mt-2">
+            <!-- <div class="col-12 md:col-6 lg:col-6"> -->
+                <!--  -->
+                <!-- <p-button label="Add" (click)="Addnew(TableRow)" /> -->
+            <!-- </div> -->
+            <ng-container *ngFor="let item of LocationList">
+                <ng-container *ngIf="item.LocationId==locationId">
+                    <div class="col-12 md:col-2 lg:col-2"><b>Location : <span class="primaryTextColor">{{item.LocationName}}</span></b></div>
+                    <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{item.OfficeContentSi}} </span></b></div>
+                </ng-container>
+            </ng-container>
+            <div  class="col-12 md:col-3 lg:col-3"><b>Total : <span class="primaryTextColor">{{getTotal() | commaseparator}}</span></b></div>
+              <div ><p-button label="Add New" icon="pi pi-plus" (click)="addRow()" /></div>
+        </div>
+    </ng-container>
+   
+    <!-- <p-tabView>
+    <ng-container *ngFor="let item of TableRowBuilding">
+    <p-tabPanel [header]="item.LocationName"> -->
+        <p-table [value]="TableRow" dataKey="id" editMode="row" [rows]="5" [paginator]="false" [tableStyle]="{'min-width': '50rem' }" >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th [pSortableColumn]="column" *ngFor="let column of columnHeader">
+                        {{column}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product let-ri="rowIndex">
+                <tr>
+                    <td>
+                        <ng-container *ngIf="currentContentRowIndex==ri">
+                            <p-dropdown class="w-full" [filter]="true" filterBy="CodeDesc" styleClass="w-full" placeholder="Select Content Type"
                                 [options]="dropList" 
                                     appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="product.ItemId" />
                             
@@ -1397,7 +1630,7 @@
                     <td>
                         
                         <ng-container *ngIf="currentAllRiskRowIndex==ri">
-                            <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Content Type"    [options]="dropList" 
+                            <p-dropdown class="w-full" [filter]="true" filterBy="CodeDesc"  styleClass="w-full" placeholder="Select Content Type"    [options]="dropList" 
                                     appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="product.ItemId" />
                                     <div class="input-form-error" *ngIf="product.ContentRiskDescError">
                                         <div class="error-text text-danger">
@@ -1482,6 +1715,96 @@
         </div>
     </ng-container> 
 </p-dialog>
+<p-dialog header="Fidelity Details" [modal]="true" [visible]="fidelityDialog" [style]="{ width: '80rem','z-index': '1000 !important' }">
+    <ng-container  class="mt-5">
+        <div class="grid justify-content-between">
+            <ng-container *ngFor="let item of LocationList">
+                <ng-container *ngIf="item.LocationId==locationId">
+                    <div class="col-12 md:col-2 lg:col-2"><b>Location : <span class="primaryTextColor">{{item.LocationName}}</span></b></div>
+                    <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{getSumInsured('43',item)}} </span></b></div>
+                </ng-container>
+            </ng-container>
+            <div  class="col-12 md:col-3 lg:col-3"><b>Total : <span class="primaryTextColor">{{gettotalFidelitySI() | commaseparator}}</span></b></div>
+            <!-- <div class="col-12 md:col-2 lg:col-2" >Total : {{getTotalAllRisk() | commaseparator}}</div> -->
+            <div class="col-12 md:col-2 lg:col-2"><p-button label="Add New" icon="pi pi-plus" (click)="addRowFidelity()" /></div>
+        </div>
+    </ng-container>
+    <ng-container  class="mt-5" *ngIf="FidelityList">
+
+        <p-table [value]="FidelityList" dataKey="id" editMode="row" [rows]="5" [paginator]="false" [tableStyle]="{'min-width': '50rem'}" >
+            <ng-template pTemplate="header">
+                <tr>
+                    
+                    <th [pSortableColumn]="employeeColumn" *ngFor="let column of employeeColumn">
+                        {{column}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product let-ri="rowIndex">
+                
+                <tr>
+                    <td>
+                        <ng-container *ngIf="currentFidelityIndex==ri">
+                            <input pInputText type="text" [(ngModel)]="product.EmployeeName"/>
+                            
+                        </ng-container>
+                        <ng-container *ngIf="currentFidelityIndex!=ri">
+                            {{product.EmployeeName}}
+                        </ng-container>  
+                    </td>
+                    <td>
+                        <ng-container *ngIf="currentFidelityIndex==ri">
+                            <p-dropdown class="w-full" [filter]="true" filterBy="CodeDesc"  styleClass="w-full" placeholder="Select Occupation"  [options]="fidelityDropdownList" 
+                                    appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="product.OccupationId" />
+                           
+                        </ng-container>
+                        <ng-container *ngIf="currentFidelityIndex!=ri">
+                            {{getOccupationNameEmp(product)}}
+                        </ng-container>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="currentFidelityIndex==ri">
+                            <p-inputNumber  type="number" [(ngModel)]="product.Salary"/>
+                        </ng-container>
+                        <ng-container *ngIf="currentFidelityIndex!=ri">
+                            {{product.Salary | commaseparator}}
+                        </ng-container>  
+                        <!-- <div class="input-form-error" *ngIf="Building.SumInsuredError">
+                            <div class="error-text text-danger">
+                                Enter Valid Amount
+                            </div>
+                        </div>       -->
+                    </td>
+                    <td>
+                        <ng-container *ngIf="currentFidelityIndex!=ri">
+                            <div class="flex align-items-center justify-content-center gap-2">
+                                <button  pButton type="button"  icon="pi pi-pencil"   
+                                    (click)="currentFidelityIndex=ri" styleClass="p-button-outlined">
+                                </button>
+                            </div>
+                        </ng-container>
+                    </td>
+                    <td>
+                        <ng-container  >
+                            <!-- *ngIf="currentBuildingRowIndex==ri" -->
+                            <div class="flex align-items-center justify-content-center gap-2" >
+                                <button  pButton type="button"  icon="pi pi-trash"  (click)="onDeleteFidelity(ri,entry)" 
+                                    styleClass="p-button-outlined" >
+                                </button>
+                            </div>
+                        </ng-container>
+                    </td> 
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-container> 
+    <div class="grid justify-content-center gap-2 mt-5">
+        <p-button label="Cancel" styleClass="p-button-outlined"  (click)="fidelityDialog=!fidelityDialog" />
+        <div >
+        <p-button label="Save" (click)="onSaveFidelityCorporate()" />
+        </div>
+    </div>
+</p-dialog>
 <p-dialog header="Electronic Equipment Details" [modal]="true" [(visible)]="visibleElectronicEquip" [style]="{ width: '80rem','z-index': '1000 !important' }">
     <ng-container  class="mt-5">
         <div class="grid justify-content-between">
@@ -1526,7 +1849,7 @@
                     <td>
                         
                         <ng-container *ngIf="currentElectronicIndex==ri">
-                            <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Equipment Name"    [options]="employeeOccupationList" 
+                            <p-dropdown class="w-full" [filter]="true" filterBy="CodeDesc"  styleClass="w-full" placeholder="Select Equipment Name"    [options]="employeeOccupationList" 
                                     appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="product.ItemId" />
                                     <div class="input-form-error" *ngIf="product.ContentRiskDescError">
                                         <div class="error-text text-danger">
@@ -1537,8 +1860,8 @@
                         <ng-container *ngIf="currentElectronicIndex!=ri"> {{ getContentTypeDescriptionAlt(product.ItemId) }}</ng-container>
                     </td>
                     <td>
-                        <ng-container *ngIf="currentElectronicIndex==ri">
-                            <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Month"    [options]="monthList" 
+                        <ng-container *ngIf="currentElectronicIndex==ri"> 
+                            <p-dropdown class="w-full"  [filter]="true" filterBy="CodeDesc" styleClass="w-full" placeholder="Select Month"    [options]="monthList" 
                                     appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="product.PurchaseMonth" />
                                     <div class="input-form-error" *ngIf="product.MonthError">
                                         <div class="error-text text-danger">
@@ -1550,7 +1873,7 @@
                     </td>
                     <td>
                         <ng-container *ngIf="currentElectronicIndex==ri">
-                            <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Year"    [options]="yearList" 
+                            <p-dropdown class="w-full" [filter]="true" filterBy="CodeDesc"  styleClass="w-full" placeholder="Select Year"    [options]="yearList" 
                                     appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="product.PurchaseYear" />
                                     <div class="input-form-error" *ngIf="product.YearError">
                                         <div class="error-text text-danger">
@@ -1621,6 +1944,145 @@
         </div>
     </ng-container> 
 </p-dialog>
+<p-dialog header="Machinery Breakdown Details" [modal]="true" [(visible)]="machineryDialog" [style]="{ width: '80rem','z-index': '1000 !important' }">
+    <ng-container  class="mt-5">
+        <div class="grid justify-content-between">
+            <ng-container *ngFor="let item of LocationList">
+                <ng-container *ngIf="item.LocationId==locationId">
+                    <div class="col-12 md:col-2 lg:col-2"><b>Location : <span class="primaryTextColor">{{item.LocationName}}</span></b></div>
+                    <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{getActualMBSI(item) | commaseparator}} </span></b></div>
+                </ng-container>
+            </ng-container>
+            <div  class="col-12 md:col-3 lg:col-3"><b>Total : <span class="primaryTextColor">{{getTotalMBSI() | commaseparator}}</span></b></div>
+            <!-- <div class="col-12 md:col-2 lg:col-2" >Total : {{getTotalAllRisk() | commaseparator}}</div> -->
+            <div class="col-12 md:col-2 lg:col-2"><p-button label="Add New" icon="pi pi-plus" (click)="addRowMB()" /></div>
+        </div>
+    </ng-container>
+    <ng-container  class="mt-5">
+        <p-table [value]="MachineryItem" dataKey="id" editMode="row" [rows]="5" [paginator]="false" [tableStyle]="{'min-width': '50rem'}" >
+            <ng-template pTemplate="header">
+                <tr>
+                    
+                    <th [pSortableColumn]="column" *ngFor="let column of columnHeaderEE">
+                        {{column}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product let-ri="rowIndex">
+                <tr>
+                    <!-- <td>
+                        <ng-container *ngIf="currentAllRiskRowIndex==ri">
+                            <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Location"
+                            [options]="locationList" (onChange)="onChangeContentLocation(product)"
+                                    appendTo="body" optionLabel="LocationName" optionValue="RiskId"  [(ngModel)]="product.RiskId" />
+                             <div class="input-form-error" *ngIf="product.LocationNameError">
+                                <div class="error-text text-danger">
+                                   Select Location
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="currentAllRiskRowIndex!=ri">
+                           {{product.LocationName}}
+                        </ng-container>
+                    </td> -->
+                    <td>
+                        
+                        <ng-container *ngIf="currentElectronicIndex==ri">
+                            <p-dropdown class="w-full" [filter]="true" filterBy="CodeDesc"  styleClass="w-full" placeholder="Select Equipment Name"    [options]="machineryDropdownList" 
+                                    appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="product.ItemId" />
+                                    <div class="input-form-error" *ngIf="product.ContentRiskDescError">
+                                        <div class="error-text text-danger">
+                                            Select Valid Equipment Name
+                                        </div>
+                                    </div>
+                        </ng-container>
+                        <ng-container *ngIf="currentElectronicIndex!=ri"> {{ getMBDescription(product.ItemId) }}</ng-container>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="currentElectronicIndex==ri"> 
+                            <p-dropdown class="w-full" [filter]="true" filterBy="CodeDesc" styleClass="w-full" placeholder="Select Month"    [options]="monthList" 
+                                    appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="product.PurchaseMonth" />
+                                    <div class="input-form-error" *ngIf="product.MonthError">
+                                        <div class="error-text text-danger">
+                                            Select Valid Purchased Month
+                                        </div>
+                                    </div>
+                        </ng-container>
+                        <ng-container *ngIf="currentElectronicIndex!=ri"> {{ getMonthDescription(product.PurchaseMonth)  }}</ng-container>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="currentElectronicIndex==ri">
+                            <p-dropdown class="w-full" [filter]="true" filterBy="CodeDesc" styleClass="w-full" placeholder="Select Year"    [options]="yearList" 
+                                    appendTo="body" optionLabel="CodeDesc" optionValue="Code" [(ngModel)]="product.PurchaseYear" />
+                                    <div class="input-form-error" *ngIf="product.YearError">
+                                        <div class="error-text text-danger">
+                                            Select Valid PurchasedYear
+                                        </div>
+                                    </div>
+                        </ng-container>
+                        <ng-container *ngIf="currentElectronicIndex!=ri"> {{product.PurchaseYear }}</ng-container>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="currentElectronicIndex==ri">
+                            <input  pInputText type="text" placeholder="Enter Description" [(ngModel)]="product.MakeAndModel"  required />
+                            <div class="input-form-error" *ngIf="product.MakeModelError">
+                                <div class="error-text text-danger">
+                                    Enter Valid Make & Model
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="currentElectronicIndex!=ri">
+                            {{product.MakeAndModel}}
+                        </ng-container>         
+                    </td>
+                    <td>
+                        <ng-container *ngIf="currentElectronicIndex==ri">
+                            <p-inputNumber     [(ngModel)]="product.SumInsured" inputId="integeronly"  />
+                            <div class="input-form-error" *ngIf="product.SumInsuredError">
+                                <div class="error-text text-danger">
+                                    Enter Valid Sum Insured
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="currentElectronicIndex!=ri">
+                            {{product.SumInsured | commaseparator}}
+                        </ng-container>        
+                    </td>
+                    <td>
+                        <ng-container *ngIf="currentElectronicIndex!=ri">
+                            <div class="flex align-items-center justify-content-center gap-2">
+                                <button  pButton type="button"  icon="pi pi-pencil"   
+                                    (click)="currentElectronicIndex=ri" styleClass="p-button-outlined">
+                                </button>
+                            </div>
+                        </ng-container>
+                    </td>
+                    
+                    <td>
+                        <ng-container >
+                            <div class="flex align-items-center justify-content-center gap-2" >
+                                <button  pButton type="button"    icon="pi pi-trash"  (click)="deleteProductMB(ri)" 
+                                    styleClass="p-button-outlined" >
+                                </button>
+                            </div>
+                        </ng-container>
+                    </td>
+                </tr>
+               
+            </ng-template>
+           
+        </p-table>
+        <!-- <div class="flex justify-content-end gap-2 mt-5">
+            <p-button label="Cancel" styleClass="p-button-outlined"  (click)="visible = false" />
+            <p-button label="Save" (click)="saveProduct()" />
+        </div> -->
+        <div class="grid justify-content-center gap-2 mt-5">
+            <div >
+            <p-button label="Save" (click)="onSaveMachinery('direct')" />
+        </div>
+        </div>
+    </ng-container> 
+</p-dialog>
 <p-dialog header="Owner's Liability Details" [modal]="true" [(visible)]="personalLiabilityDialog" [style]="{ width: '80rem','z-index': '1000 !important' }">
     <ng-container  class="mt-5">
         <div class="grid justify-content-between">
@@ -1663,7 +2125,7 @@
                     </td> -->
                     <td>
                         <ng-container *ngIf="currentPLRowIndex==ri">
-                            <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Occupation"
+                            <p-dropdown class="w-full" [filter]="true" filterBy="CodeDesc" styleClass="w-full" placeholder="Select Occupation"
                             [options]="occupationList"
                                 appendTo="body" optionLabel="CodeDesc" optionValue="Code"  [(ngModel)]="product.OccupationId" />
                         </ng-container>
@@ -1755,13 +2217,13 @@
         </div>
     </ng-container> 
 </p-dialog>
-<p-dialog header="Personal Accident Details" [modal]="true" [(visible)]="personalAccidentDialog" [style]="{ width: '80rem','z-index': '1000 !important' }">
+<p-dialog header="Group Accident Details" [modal]="true" [(visible)]="personalAccidentDialog" [style]="{ width: '80rem' }">
     <ng-container  class="mt-5">
         <div class="grid justify-content-between">
             <ng-container *ngFor="let item of LocationList">
                 <ng-container *ngIf="item.LocationId==locationId">
                     <div class="col-12 md:col-2 lg:col-2"><b>Location : <span class="primaryTextColor">{{item.LocationName}}</span></b></div>
-                    <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{item.DeathSI}} </span></b></div>
+                    <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{getSumInsuredGPA('182',item)}} </span></b></div>
                 </ng-container>
             </ng-container>
             <div  class="col-12 md:col-3 lg:col-3"><b>Total : <span class="primaryTextColor">{{getPATotal() | commaseparator}}</span></b></div>
@@ -1798,7 +2260,7 @@
                     </td> -->
                     <td>
                         <ng-container *ngIf="currentPARowIndex==ri">
-                            <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Occupation"
+                            <p-dropdown class="w-full" [filter]="true" filterBy="CodeDesc" styleClass="w-full" placeholder="Select Occupation"
                             [options]="occupationList"
                                 appendTo="body" optionLabel="CodeDesc" optionValue="Code"  [(ngModel)]="product.OccupationId" />
                         </ng-container>
@@ -1891,13 +2353,124 @@
             </ng-template>
         </p-table>
         <div class="grid justify-content-center gap-2 mt-5">
-            <!-- <p-button label="Cancel" styleClass="p-button-outlined"  (click)="visible = false" /> -->
+            <p-button label="Cancel" styleClass="p-button-outlined"  (click)="personalAccidentDialog = false" />
+            <div >
+            <p-button label="Save" (click)=" onSavePA('direct','GPA')" />
+            </div>
+        </div>
+    </ng-container>
+</p-dialog>
+
+<!-- <p-dialog header="Accident Details" [modal]="true" visible="false" [style]="{ width: '80rem','z-index': '1000 !important' }">
+    <ng-container  class="mt-5">
+        <div class="grid justify-content-between">
+            <ng-container *ngFor="let item of LocationList">
+                <ng-container *ngIf="item.LocationId==locationId">
+                    <div class="col-12 md:col-2 lg:col-2"><b>Location : <span class="primaryTextColor">{{item.LocationName}}</span></b></div>
+                    <div class="col-12 md:col-3 lg:col-3"><b>Actual SumInsured : <span class="primaryTextColor">{{item.DeathSI}} </span></b></div>
+                </ng-container>
+            </ng-container>
+            <div  class="col-12 md:col-3 lg:col-3"><b>Total : <span class="primaryTextColor">{{getPATotal() | commaseparator}}</span></b></div>
+            <div class="col-12 md:col-2 lg:col-2"><p-button label="Add New" icon="pi pi-plus" (click)="addRowPA()" /></div>
+        </div>
+    </ng-container>
+    <ng-container  class="mt-5">
+        <p-table [value]="TableRowPA" dataKey="id" editMode="row" [rows]="5" [paginator]="false" [tableStyle]="{'min-width': '50rem'}" >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th [pSortableColumn]="column" *ngFor="let column of columnHeaderPersonalAccident">
+                        {{column}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product let-ri="rowIndex">
+                <tr>
+                    <td>
+                        <ng-container *ngIf="currentPARowIndex==ri">
+                            <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Occupation"
+                            [options]="occupationList"
+                                appendTo="body" optionLabel="CodeDesc" optionValue="Code"  [(ngModel)]="product.OccupationId" />
+                        </ng-container>
+                        <ng-container *ngIf="currentPARowIndex!=ri">
+                            {{getOccupationName(product)}}
+                        </ng-container>
+                        <div class="input-form-error" *ngIf="product.OccupationError">
+                            <div class="error-text text-danger">
+                                Please Select Occupation
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="currentPARowIndex==ri">
+                            <input class="w-full p-button-outlined customInput" placeholder="Enter Name" styleClass="w-full customInput"  pInputText type="text" 
+                            [(ngModel)]="product.Name" />
+                            
+                        </ng-container>
+                        <ng-container *ngIf="currentPARowIndex!=ri"> {{ product.Name }}</ng-container>
+                        <div class="input-form-error" *ngIf="product.NameError">
+                            <div class="error-text text-danger">
+                                Please Enter Name
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="currentPARowIndex==ri">
+                            <p-calendar class="w-full customZIndex customInput" styleClass="w-full customZIndex customInput" appendTo="body" 
+                            [maxDate]="minDate"  [(ngModel)]="product.Dob"  [defaultDate]="minDate"
+                            dateFormat="dd/mm/yy" placeholder="Select Date Of Birth" ></p-calendar>
+                        </ng-container>
+                        <ng-container *ngIf="currentPARowIndex!=ri">
+                            {{getProductDob(product)}}
+                        </ng-container>   
+                        <div class="input-form-error" *ngIf="product.DobError">
+                            <div class="error-text text-danger">
+                                Please Select Date of Birth
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="currentPARowIndex==ri">
+                            <p-inputNumber styleClass="customInput" class="customInput" [(ngModel)]="product.SumInsured" inputId="integeronly"  />
+                            
+                        </ng-container>
+                        <ng-container *ngIf="currentPARowIndex!=ri">
+                            {{product.SumInsured | commaseparator}}
+                        </ng-container>   
+                        <div class="input-form-error" *ngIf="product.SumInsuredError">
+                            <div class="error-text text-danger">
+                                Enter Valid Salary
+                            </div>
+                        </div> 
+                    </td>
+                    <td>
+                        <ng-container *ngIf="currentPARowIndex!=ri">
+                            <div class="flex align-items-center justify-content-center gap-2">
+                                <button  pButton type="button"  icon="pi pi-pencil"   
+                                    (click)="currentPARowIndex=ri" styleClass="p-button-outlined">
+                                </button>
+                            </div>
+                        </ng-container>
+                    </td>
+                    
+                    <td>
+                        <ng-container >
+                            <div class="flex align-items-center justify-content-center gap-2" >
+                                <button  pButton type="button"    icon="pi pi-trash"  (click)="deleteProductPA(ri)" 
+                                    styleClass="p-button-outlined" >
+                                </button>
+                            </div>
+                        </ng-container>
+                    </td>
+                </tr> 
+            </ng-template>
+        </p-table>
+        <div class="grid justify-content-center gap-2 mt-5">
             <div >
             <p-button label="Save" (click)=" onSavePA('direct')" />
             </div>
         </div>
     </ng-container>
-</p-dialog>
+</p-dialog> -->
 <p-dialog header="Domestic Servant Details" [modal]="true" [(visible)]="domesticServantDialog" [style]="{ width: '80rem','z-index': '1000 !important' }">
     <ng-container  class="mt-5">
         <div class="grid justify-content-end">
@@ -1948,7 +2521,7 @@
                     </td> -->
                     <td>
                         <ng-container *ngIf="currentDSRowIndex==ri">
-                            <p-dropdown class="w-full"  styleClass="w-full" placeholder="Select Occupation"
+                            <p-dropdown class="w-full" [filter]="true" filterBy="CodeDesc" styleClass="w-full" placeholder="Select Occupation"
                             [options]="occupationList"
                                 appendTo="body" optionLabel="CodeDesc" optionValue="Code"  [(ngModel)]="product.OccupationId" />
                         </ng-container>

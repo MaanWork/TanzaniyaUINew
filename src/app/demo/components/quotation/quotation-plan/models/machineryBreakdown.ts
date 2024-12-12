@@ -29,6 +29,16 @@ export class MachineryBreakDown{
               fieldGroupClassName: 'grid',
               fieldGroup: [ 
                 {
+                  className: 'col-12 md:col-12 lg:col-12 p-2',
+                  type: 'display2',
+          
+                  templateOptions: {
+                    label: `Machinery Details`,
+                    required: true,
+
+                  },
+                },
+                {
                   type: 'ngselect',
                   key: 'ContentId',
                   defaultValue: '',
@@ -97,6 +107,63 @@ export class MachineryBreakDown{
                   },
                 },
                 {
+                  className: 'col-12 md:col-6 lg:col-6',
+                  type: 'textarea',
+                    key: 'CoveringDetails',
+                    
+                    props: { 
+                      label: `Covering Details`,
+                      maxLength: 1000,
+                      
+                    },
+                    templateOptions: {
+                      //disabled: this.checkDisable('BuildingSuminsured')
+                      required: true,
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+    
+                    expressions: {
+                    
+                    },
+                },
+                {
+                className: 'col-12 md:col-6 lg:col-6',
+                type: 'textarea',
+                  key: 'DescriptionOfRisk',
+                  
+                  props: { 
+                    maxLength: 1000,
+                    label: `Description Of Risk`,
+                  },
+                  templateOptions: {
+                    //disabled: this.checkDisable('BuildingSuminsured')
+                    required: true,
+                  },
+                  validators: {
+                    validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
+                  },
+                  hooks: {
+                  },
+  
+                  expressions: {
+                  
+                  },
+                },
+                {
+                  className: 'col-12 md:col-12 lg:col-12 p-2',
+                  type: 'display2',
+          
+                  templateOptions: {
+                    label: `Business Interruption Details`,
+                    required: true,
+
+                  },
+                },
+                {
                   type: 'ngselect',
                   key: 'BusinessName',
                   id: 'BusinessName',
@@ -143,52 +210,53 @@ export class MachineryBreakDown{
                   },
                 },
                 {
-                  className: 'col-12 md:col-6 lg:col-6',
-                  type: 'textarea',
-                    key: 'CoveringDetails',
-                    
-                    props: { 
-                      label: `Covering Details`,
-                      maxLength: 1000,
-                      
-                    },
-                    templateOptions: {
-                      //disabled: this.checkDisable('BuildingSuminsured')
-                      required: true,
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-    
-                    expressions: {
-                    
-                    },
-                  },
-                  {
-                  className: 'col-12 md:col-6 lg:col-6',
-                  type: 'textarea',
-                    key: 'DescriptionOfRisk',
-                    
-                    props: { 
-                      maxLength: 1000,
-                      label: `Description Of Risk`,
-                    },
-                    templateOptions: {
-                      //disabled: this.checkDisable('BuildingSuminsured')
-                      required: true,
-                    },
-                    validators: {
-                      validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
-                    },
-                    hooks: {
-                    },
-    
-                    expressions: {
-                    
-                    },
-                  },
+                        className: 'col-12 md:col-6 lg:col-6',
+                        type: 'textarea',
+                          key: 'CoveringDetailsBI',
+                          
+                          props: { 
+                            label: `Covering Details`,
+                            maxLength: 1000,
+                            
+                          },
+                          templateOptions: {
+                            //disabled: this.checkDisable('BuildingSuminsured')
+                            required: true,
+                            disabled: true,
+                          },
+                          validators: {
+                            validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
+                          },
+                          hooks: {
+                          },
+          
+                          expressions: {
+                          
+                          },
+                      },
+                      {
+                        className: 'col-12 md:col-6 lg:col-6',
+                        type: 'textarea',
+                          key: 'DescriptionOfRiskBI',
+                          
+                          props: { 
+                            maxLength: 1000,
+                            label: `Description Of Risk`,
+                          },
+                          templateOptions: {
+                            required: true,
+                            disabled: true,
+                          },
+                          validators: {
+                            validation: [ForceLengthValidators.maxLength(1000), ForceLengthValidators.min(1)]
+                          },
+                          hooks: {
+                          },
+          
+                          expressions: {
+                          
+                          },
+                      },
                   
                   // {
                   //   type: 'ngselect',

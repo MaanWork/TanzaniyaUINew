@@ -33,12 +33,12 @@ export class GroupPersonalAccident{
                     fieldGroup: [
                       {
                         type: 'ngselect',
-                        key: 'OccupationType',
+                        key: 'GroupOccupationId',
                         defaultValue: '',
                         className: 'col-9',
                         props: {
                           label: `Occupation`,
-                          disabled: this.checkDisable('OccupationType'),
+                          disabled: this.checkDisable('GroupOccupationId'),
                           required: true,
                           options: [
           

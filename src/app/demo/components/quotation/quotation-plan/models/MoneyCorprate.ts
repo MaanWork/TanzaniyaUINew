@@ -29,12 +29,12 @@ export class MoneyCorprate{
                     fieldGroupClassName: 'grid',
                     fieldGroup: [ 
                   {
-                    className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    className: 'col-12 lg:col-6 md:col-6 xl:col-6',
                     type: 'commaSeparator',
                     key: 'MoneyinTransit',
                     id: 'MoneyinTransit',
                     props: { 
-                      label: `Money in Transit`,
+                      label: `Money Major Loss`,
                       maxLength: 15
                     },
                     templateOptions: {
@@ -51,12 +51,78 @@ export class MoneyCorprate{
                     },
                   },
                   {
-                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                    className: 'col-12 lg:col-6 md:col-6 xl:col-6',
+                    type: 'commaSeparator',
+                    key: 'MoneyCollector',
+                    id: 'MoneyCollector',
+                    props: { 
+                      label: `Custody of collectors`,
+                      maxLength: 15
+                    },
+                    templateOptions: {
+                    // disabled: this.checkDisable('SumInsured')
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+    
+                    expressions: {
+                    
+                    },
+                  },
+                  {
+                    className: 'col-12 lg:col-6 md:col-6 xl:col-6',
+                    type: 'commaSeparator',
+                    key: 'MoneySafeLimit',
+                    id: 'MoneySafeLimit',
+                    props: { 
+                      label: `Safe during working hours`,
+                      maxLength: 15
+                    },
+                    templateOptions: {
+                    // disabled: this.checkDisable('SumInsured')
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+    
+                    expressions: {
+                    
+                    },
+                  },
+                  {
+                    className: 'col-12 lg:col-6 md:col-6 xl:col-6',
+                    type: 'commaSeparator',
+                    key: 'MoneyOutofSafe',
+                    id: 'MoneyOutofSafe',
+                    props: { 
+                      label: `Safe outside working hours`,
+                      maxLength: 15
+                    },
+                    templateOptions: {
+                    // disabled: this.checkDisable('SumInsured')
+                    },
+                    validators: {
+                      validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
+                    },
+                    hooks: {
+                    },
+    
+                    expressions: {
+                    
+                    },
+                  },
+                  {
+                      className: 'col-12 lg:col-6 md:col-6 xl:col-6',
                       type: 'commaSeparator',
-                      key: 'MoneyinPremises',
-                      id: 'MoneyinPremises',
+                      key: 'MoneyDirectorResidence',
+                      id: 'MoneyDirectorResidence',
                       props: { 
-                        label: `Money in Premises`,
+                        label: `Residence of director or partner`,
                         maxLength: 15
                       },
                       templateOptions: {
@@ -73,7 +139,7 @@ export class MoneyCorprate{
                       },
                     },
                     {
-                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                      className: 'col-12 lg:col-6 md:col-6 xl:col-6',
                       type: 'commaSeparator',
                       key: 'MoneyInSafe',
                       id: 'MoneyInSafe',
@@ -94,30 +160,9 @@ export class MoneyCorprate{
                       
                       },
                     },
-                    {
-                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
-                      type: 'commaSeparator',
-                      key: 'MoneyStrongroom',
-                      props: { 
-                        label: `Money in Strongroom`,
-                        maxLength: 15
-                      },
-                      templateOptions: {
-                      // disabled: this.checkDisable('SumInsured')
-                      },
-                      validators: {
-                        validation: [ForceLengthValidators.maxLength(20), ForceLengthValidators.min(1)]
-                      },
-                      hooks: {
-                      },
-      
-                      expressions: {
-                      
-                      },
-                    },
                   
                     {
-                      className: 'col-12 lg:col-4 md:col-4 xl:col-4',
+                      className: 'col-12 lg:col-6 md:col-6 xl:col-6',
                       type: 'commaSeparator',
                       key: 'Estimatedannualcashcarryings',
                       props: { 

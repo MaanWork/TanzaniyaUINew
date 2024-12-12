@@ -170,7 +170,7 @@ export class MotorVehicleSanlam{
                       label: `Inflation`,
                       maxLength: 15,
                       disabled: this.checkDisable('Inflation'),
-                      required: true,
+                      required: false,
                       options: [
   
                       ],
@@ -405,13 +405,14 @@ export class MotorVehicleSanlam{
   fields:FormlyFieldConfig;
     getFieldDetails(){return this.fields; }
     checkDisable(fieldName) {
+      let status = sessionStorage.getItem('QuoteStatus');
         if (this.endorsementSection) {
           let entry = this.enableFieldsList.some(ele => ele == fieldName);
           console.log("Entry ", fieldName, entry)
           return !entry;
         }
-        else if(this.subuserType=='low') return this.finalizeYN=='Y'; 
+        else if(this.subuserType=='low') return (this.finalizeYN=='Y' || status=='RA'); 
         else return false;
       
-      }
+    }
 }

@@ -72,6 +72,10 @@ export class VehicleCreateFormComponent implements OnInit {
   maxDate: any;
   plateTypeList: any[]=[];
   PlateType:any;
+  seatingCapacityList: any[]=[];
+  engineCapacityList: any[]=[];
+  grossWeightList: any[]=[];
+  grossWeightAmountError: boolean=false;
   constructor(private messageService: MessageService,private sharedService: SharedService,private appComp:AppComponent,
     private translate:TranslateService,private datePipe:DatePipe,private router:Router) {
     this.userDetails = JSON.parse(sessionStorage.getItem('Userdetails'));
@@ -97,6 +101,11 @@ export class VehicleCreateFormComponent implements OnInit {
       if(this.insuranceId=='100040'){
         this.getMakeList();
         this.getPlateType();
+      }
+      if(this.insuranceId=='100027'){
+        this.getSeatingCapacity();
+        this.getEngineCapacity();
+        this.getGrossWeight();
       }
       this.appComp.getLanguage().subscribe((res:any)=>{  
         if(res) this.lang=res;
@@ -128,13 +137,26 @@ export class VehicleCreateFormComponent implements OnInit {
     }
   }
   onChangeMotorUsage(type){
-     if(this.bodyTypeList.length!=0 && this.usageValue!=null && this.usageValue!='' && this.usageValue!=undefined){
-      let entry = this.usageList.find(ele=>ele.CodeDesc==this.usageValue || ele.Code==this.usageValue);
-          if(entry){   
-            let bodyTypeStatus = entry?.BodyType;
-            this.mainBodyTypeList = this.bodyTypeList.filter(ele=>ele.BodyType==bodyTypeStatus);
-            if(type=='change') this.bodyTypeValue = null;
-          }
+    if(this.insuranceId!='100028'){
+      if(this.bodyTypeList.length!=0 && this.usageValue!=null && this.usageValue!='' && this.usageValue!=undefined){
+        let entry = this.usageList.find(ele=>ele.CodeDesc==this.usageValue || ele.Code==this.usageValue);
+            if(entry){   
+              let bodyTypeStatus = entry?.BodyType.trim();
+              this.mainBodyTypeList = this.bodyTypeList.filter(ele=>ele.BodyType==bodyTypeStatus);
+              if(type=='change') this.bodyTypeValue = null;
+            }
+      }
+    }
+    else{
+      if(this.bodyTypeList.length!=0 && this.bodyTypeValue!=null && this.bodyTypeValue!='' && this.bodyTypeValue!=undefined){
+        let entry = this.usageList.find(ele=>ele.CodeDesc==this.bodyTypeValue || ele.Code==this.bodyTypeValue);
+            if(entry){   
+              let bodyTypeStatus = entry?.BodyType.trim();
+              this.mainBodyTypeList = this.bodyTypeList.filter(ele=>ele.BodyType==bodyTypeStatus);
+              if(type=='change') this.usageValue = null;
+            }
+      }
+      
     }
   }
   getDisplayName(){
@@ -195,9 +217,9 @@ export class VehicleCreateFormComponent implements OnInit {
               { key: 'WeightKg', display: 'WeightKg' },
              ];
              if(type=='direct'){
-                let entry = this.modelList.find(ele=>ele.VehicleId==modelValue);
+                let entry = this.modelList.find(ele=>ele.ModelId==modelValue);
                 if(entry){
-                  let otherList = this.modelList.filter(ele=>ele.VehicleId!=modelValue);
+                  let otherList = this.modelList.filter(ele=>ele.ModelId!=modelValue);
                   this.modelList = [entry].concat(otherList);
                   this.modelDesc = entry?.Model;
                 }
@@ -447,21 +469,29 @@ export class VehicleCreateFormComponent implements OnInit {
       this.vehicleDetails['VehiclemodelId'] = null;
       let bodyTypeValue = null,motorUsage=null;
       if(this.bodyTypeId!=null && this.bodyTypeId!=''){
-        let usageId = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeId || ele.Code==this.bodyTypeId).Code;
+        let usageList:any[]=[],bodyTypeList:any[]=[],usageId=null,usageDesc=null;
+        if(this.insuranceId!='100028') usageId = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeId || ele.Code==this.bodyTypeId).Code;
+        else usageId = this.usageList.find(ele=>ele.CodeDesc==this.bodyTypeId || ele.Code==this.bodyTypeId).Code;
         if(usageId) this.vehicleDetails['VehicleTypeId'] = usageId;
-        let usageDesc = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeId || ele.Code==this.bodyTypeId).CodeDesc;
+        if(this.insuranceId!='100028') usageDesc = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeId || ele.Code==this.bodyTypeId).CodeDesc;
+        else usageDesc = this.usageList.find(ele=>ele.CodeDesc==this.bodyTypeId || ele.Code==this.bodyTypeId).CodeDesc;
         if(usageDesc) bodyTypeValue =  usageDesc;
       }
       motorUsage = this.vehicleDetails.Motorusage;
       if(this.vehicleDetails?.SavedFrom!='Api'){
-        let usageId = this.usageList.find(ele=>ele.CodeDesc==this.vehicleDetails.Motorusage || ele.Code==this.vehicleDetails.Motorusage)?.Code;
-          if(usageId) this.vehicleDetails['MotorusageId'] = usageId;
-          let usageDesc = this.usageList.find(ele=>ele.CodeDesc==this.vehicleDetails.Motorusage || ele.Code==this.vehicleDetails.Motorusage)?.CodeDesc;
-          if(usageDesc) this.vehicleDetails['Motorusage'] = usageDesc;
-          motorUsage = null;
+        let usageId=null,usageDesc = null,usageList:any[]=[],bodyTypeList:any[]=[]
+          if(this.insuranceId!='100028'){ usageList=this.usageList}else{usageList=this.bodyTypeList}
+            usageId = usageList.find(ele=>ele.CodeDesc==this.vehicleDetails.Motorusage || ele.Code==this.vehicleDetails.Motorusage)?.Code;
+            if(usageId) this.vehicleDetails['MotorusageId'] = usageId;
+            usageDesc = usageList.find(ele=>ele.CodeDesc==this.vehicleDetails.Motorusage || ele.Code==this.vehicleDetails.Motorusage)?.CodeDesc;
+            if(usageDesc) this.vehicleDetails['Motorusage'] = usageDesc;
+            motorUsage = null;
+         
       }
       else if(this.vehicleDetails.Motorusage!=null && this.vehicleDetails.Motorusage!=''){
-          let usageId = this.usageList.find(ele=>ele.CodeDesc==this.vehicleDetails.Motorusage)?.Code;
+        let usageList:any[]=[]
+        if(this.insuranceId!='100028'){ usageList=this.usageList}else{usageList=this.bodyTypeList}
+          let usageId = usageList.find(ele=>ele.CodeDesc==this.vehicleDetails.Motorusage)?.Code;
           if(usageId) this.vehicleDetails['MotorusageId'] = usageId;
       }
       let make = "";
@@ -475,7 +505,7 @@ export class VehicleCreateFormComponent implements OnInit {
             if(this.modelDesc!=null && this.modelDesc!=''){ 
               let entry = this.modelList.find(ele=>ele.Model==this.modelDesc);
               if(entry){
-                this.vehicleDetails['VehcilemodelId'] = entry?.VehicleId
+                this.vehicleDetails['VehcilemodelId'] = entry?.ModelId
                 this.vehicleDetails['Vehcilemodel'] = this.modelDesc
               } 
             }
@@ -493,10 +523,16 @@ export class VehicleCreateFormComponent implements OnInit {
               
               this.vehicleDetails['VehcilemodelId'] = this.modelValue
               this.vehicleDetails['Vehcilemodel'] = modelDesc;
-              
             }
           }
-          else modelDesc = this.modelDesc;
+          else{
+            if(this.modelValue!='99999'){
+              modelDesc = this.modelList.find(ele=>ele.Code==this.modelValue)?.CodeDesc
+            }
+            else modelDesc =this.modelDesc
+            this.vehicleDetails['VehcilemodelId'] = this.modelValue
+              this.vehicleDetails['Vehcilemodel'] = modelDesc;
+          }
         }
         if(this.vehicleDetails.MobileCode==null || this.vehicleDetails.MobileCode=='' || this.vehicleDetails.MobileCode==undefined){
           let customerDetails = JSON.parse(sessionStorage.getItem('customerDetails'));
@@ -540,7 +576,9 @@ export class VehicleCreateFormComponent implements OnInit {
           if(parts.length!=0)this.vehicleDetails.ManufactureYear = parts[2];
         }
         let usageId = this.vehicleDetails?.MotorusageId;
-        let entry = this.usageList.find(ele=>ele.CodeDesc==this.vehicleDetails?.Motorusage || ele.Code==this.vehicleDetails?.Motorusage);
+        let usageList:any[]=[]
+        if(this.insuranceId!='100028'){ usageList=this.usageList}else{usageList=this.bodyTypeList}
+        let entry = usageList.find(ele=>ele.CodeDesc==this.vehicleDetails?.Motorusage || ele.Code==this.vehicleDetails?.Motorusage);
         if(entry) usageId = entry.Code;
         if(this.engineNo!=null && this.engineNo!='') this.vehicleDetails['EngineNumber'] = this.engineNo;
         if(this.vehicleDetails.Zone=="" || this.vehicleDetails.Zone==undefined){
@@ -549,7 +587,10 @@ export class VehicleCreateFormComponent implements OnInit {
         if(this.vehicleDetails.Class=="" || this.vehicleDetails.Class==undefined){
           this.vehicleDetails.Class=null
         }
-      let ReqObj = {
+        let bodyTypeDesc = null;
+        if(this.insuranceId=='100028') bodyTypeDesc = this.bodyTypeValue;
+        else bodyTypeDesc = this.bodyTypeId
+       let ReqObj = {
         "BrokerBranchCode": brokerbranchCode,
         "AcExecutiveId": null,
         "CommissionType": this.vehicleDetails?.CommissionType ? this.vehicleDetails?.CommissionType : null,
@@ -574,7 +615,8 @@ export class VehicleCreateFormComponent implements OnInit {
         "AdditionalCircumstances": this.vehicleDetails?.AdditionalCircumstances ? this.vehicleDetails?.AdditionalCircumstances : null,
         "AxelDistance": this.axelDistance ? this.axelDistance : "1",
         "Chassisnumber": this.chassisNo ? this.chassisNo?.toUpperCase() : null,
-        "Color": this.vehicleDetails?.Color  ? this.vehicleDetails?.Color : null,
+        "Color": this.colorValue  ? this.colorValue : null,
+        "ColorDesc": this.colorList.find(ele=>ele.Code==this.colorValue)?.CodeDesc,
         "CityLimit": this.vehicleDetails?.CityLimit  ? this.vehicleDetails?.CityLimit : null,
         "CoverNoteNo": this.vehicleDetails?.CoverNoteNo  ? this.vehicleDetails?.CoverNoteNo : null,
         "OwnerCategory": this.vehicleDetails?.OwnerCategory  ? this.vehicleDetails?.OwnerCategory : null,
@@ -586,7 +628,8 @@ export class VehicleCreateFormComponent implements OnInit {
         "InsuranceClassDesc": this.vehicleDetails?.InsuranceClassDesc  ?  this.vehicleDetails?.InsuranceClassDesc : null,
         "MobileNumber": this.vehicleDetails?.MobileNumber ? this.vehicleDetails?.MobileNumber : null,
         "EngineNumber": this.vehicleDetails?.EngineNumber?.toUpperCase() ? this.vehicleDetails?.EngineNumber?.toUpperCase() : null,
-        "FuelType": this.vehicleDetails?.FuelType ? this.vehicleDetails?.FuelType : null,
+        "FuelType": this.fuelType ? this.fuelType : null,
+        "FuelTypeDesc": this.fuelTypeList.find(ele=>ele.Code==this.fuelType)?.CodeDesc,
         "Gpstrackinginstalled": this.vehicleDetails?.Gpstrackinginstalled ? this.vehicleDetails?.Gpstrackinginstalled : null,
         "Grossweight": grossweight,
         "HoldInsurancePolicy": "N",
@@ -595,7 +638,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "InsuranceClass": this.vehicleDetails?.InsuranceClass ? this.vehicleDetails?.InsuranceClass : null,
         "InsurerSettlement": "",
         "InterestedCompanyDetails": "",
-        "ManufactureYear": this.vehicleDetails?.ManufactureYear ? this.vehicleDetails?.ManufactureYear : null,
+        "ManufactureYear": this.manufactureYear ? this.manufactureYear : null,
         "ModelNumber": null,
         "MotorCategory": this.vehicleDetails?.MotorCategory ? this.vehicleDetails?.MotorCategory : null,
         "Motorusage": this.vehicleDetails?.Motorusage ? this.vehicleDetails?.Motorusage : null,
@@ -624,7 +667,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "TrailerDetails": null,
         "Vehcilemodel":  this.vehicleDetails?.Vehcilemodel ? this.vehicleDetails?.Vehcilemodel : null,
         "VehcilemodelId": this.vehicleDetails?.VehcilemodelId ? this.vehicleDetails?.VehcilemodelId : null,
-        "VehicleType": this.bodyTypeId,
+        "VehicleType": bodyTypeDesc,
         "VehicleTypeId": this.vehicleDetails?.VehicleTypeId ? this.vehicleDetails?.VehicleTypeId : null,
         "Vehiclemake": this.vehicleDetails?.Vehiclemake,
         "VehiclemakeId": this.vehicleDetails?.VehiclemakeId,
@@ -647,7 +690,8 @@ export class VehicleCreateFormComponent implements OnInit {
         "NoOfVehicles": this.vehicleDetails?.NoOfVehicles ? this.vehicleDetails?.NoOfVehicles : "1",
         "NoOfComprehensives": this.vehicleDetails?.NoOfComprehensives ? this.vehicleDetails?.NoOfComprehensives : null,
         "ClaimRatio": null,
-        "SavedFrom": this.vehicleDetails?.SavedFrom ? this.vehicleDetails?.SavedFrom : null,
+        "SavedFrom": 'WEB',
+        "SearchFromApi": false,
         "UserType": this.userType,
         "TiraCoverNoteNo": this.vehicleDetails?.TiraCoverNoteNo ? this.vehicleDetails?.TiraCoverNoteNo : null,
         "EndorsementYn":  this.endorsementYN,
@@ -666,6 +710,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "OrginalPolicyNo": this.orginalPolicyNo,
         "HorsePower": this.horsePower,
         "RegistrationDate": registrationDate,
+        "EngineCapacity": this.engineCapacity,
         "Mileage":this.vehicleDetails.Mileage ? this.vehicleDetails.Mileage : null,
         "NoOfClaimYears":this.vehicleDetails.NoOfClaimYears ? this.vehicleDetails.NoOfClaimYears : null,
         "NoOfPassengers":this.vehicleDetails.NoOfPassengers ? this.vehicleDetails.NoOfPassengers : null,
@@ -691,6 +736,8 @@ export class VehicleCreateFormComponent implements OnInit {
         "QuoteExpiryDays":  this.vehicleDetails?.QuoteExpiryDays ? this.vehicleDetails.QuoteExpiryDays : null,
         "Zone": this.vehicleDetails.Zone ? this.vehicleDetails.Zone : null,
         "Class": this.vehicleDetails.Class ? this.vehicleDetails.Class : null,
+        "NoOfMale": this.vehicleDetails.NoOfMale,
+         "NoOfFemale": this.vehicleDetails.NoOfFemale,
         "Scenarios": {
             "ExchangeRateScenario": {
                 "OldAcccessoriesSumInsured": null,
@@ -810,19 +857,20 @@ export class VehicleCreateFormComponent implements OnInit {
       "InsuranceId": this.insuranceId,
       "BranchCode": this.branchCode
     }
-    let urlLink = `${this.commonApiUrl}master/dropdown/induvidual/bodytype`;
+    let urlLink = null;
+    if(this.insuranceId=='100028') urlLink= `${this.commonApiUrl}dropdown/vehicleBodyType`;
+    else urlLink= `${this.commonApiUrl}master/dropdown/induvidual/bodytype`;
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       (data: any) => {
         console.log(data);
         if(data.Result){
           let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Sélectionner--'}];
-
-            this.bodyTypeList = defaultRow.concat(data.Result);
-            this.getUsageList();
-            this.quoteRefNo = sessionStorage.getItem('quoteReferenceNo')
-            if(this.getdetails== 'SavedFroms' && this.quoteRefNo){
-              this.getExistingVehiclesList();
-            }
+          this.bodyTypeList = defaultRow.concat(data.Result);
+          this.getUsageList();
+          this.quoteRefNo = sessionStorage.getItem('quoteReferenceNo')
+          if(this.getdetails== 'SavedFroms' && this.quoteRefNo){
+            this.getExistingVehiclesList();
+          }
         }
 
       },
@@ -834,12 +882,14 @@ export class VehicleCreateFormComponent implements OnInit {
       "InsuranceId": this.insuranceId,
       "BranchCode": this.branchCode
     }
-    let urlLink = `${this.commonApiUrl}api/dropdown/induvidual/vehicleusage`;
+    let urlLink = null;
+    if(this.insuranceId=='100028') urlLink= `${this.commonApiUrl}dropdown/vehicleusage`;
+    else urlLink= `${this.commonApiUrl}api/dropdown/induvidual/vehicleusage`;
     this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
       (data: any) => {
-        console.log(data);
         if(data.Result){
-            this.usageList = data.Result;
+          let defaultRow = [{'label':'---Select---','value':'','Code':'','CodeDesc':'---Select---','CodeDescLocal':'--Sélectionner--'}];
+          this.usageList = defaultRow.concat(data.Result);
             this.getMotorCategoryList();
         }
       },
@@ -847,11 +897,19 @@ export class VehicleCreateFormComponent implements OnInit {
     );
   }
   onBodyTypeChange(type){
+    this.grossWeightAmountError = false;
     if(this.bodyTypeValue!=null && this.bodyTypeValue!=''){
-      this.bodyTypeId = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeValue)?.Code;
-      this.bodyType = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeValue)?.BodyType;
+      if(this.insuranceId!='100028'){
+        this.bodyTypeId = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeValue)?.Code;
+        this.bodyType = this.bodyTypeList.find(ele=>ele.CodeDesc==this.bodyTypeValue)?.BodyType.trim();
+      }
+      else{
+        this.bodyTypeId = this.usageList.find(ele=>ele.CodeDesc==this.bodyTypeValue)?.Code;
+        this.bodyType = this.usageList.find(ele=>ele.CodeDesc==this.bodyTypeValue)?.BodyType.trim();
+      }
       if(type=='change' && this.insuranceId!='100020'){this.makeValue=null;this.modelValue=null;this.horsePower=0,this.grossWeight=0,this.numberOfCylinders=0}
-      if(this.bodyTypeId && this.insuranceId!='100020'){ this.getMakeList(); } 
+      if(this.bodyTypeId && this.insuranceId!='100020'){ this.getMakeList(); }
+
     }
   }
   getBack(){
@@ -980,6 +1038,7 @@ export class VehicleCreateFormComponent implements OnInit {
     let ReqObj = {
       "RequestReferenceNo": this.quoteRefNo,
       "Idnumber": sessioncar?.Idnumber,
+      "InsuranceId": this.insuranceId,
       "Vehicleid": sessioncar.Vehicleid
     }
     let urlLink = `${this.motorApiUrl}api/getmotordetails`;
@@ -1097,7 +1156,7 @@ export class VehicleCreateFormComponent implements OnInit {
       else if((this.displacement==null || this.displacement=='' || this.displacement==undefined) && (this.bodyTypeId=='50' || this.bodyTypeId=='51' || this.bodyTypeId=='5' || this.bodyTypeId=='58' || this.bodyTypeId=='28' )){
         this.displacementError = true;
       } 
-      else if((this.grossWeight==null || this.grossWeight=='' || this.grossWeight==undefined) && this.bodyType=='C'){
+      else if((this.grossWeight==null || this.grossWeight=='' || this.grossWeight==undefined || this.grossWeight=='0') && this.bodyType=='C'){
         this.grossWeightError = true;
       }
       // else if((this.grossWeight==null || this.grossWeight=='' || this.grossWeight==undefined) && this.bodyType=='P'){
@@ -1130,7 +1189,12 @@ export class VehicleCreateFormComponent implements OnInit {
       }
     }
     else{
-      this.onProceed()
+      this.grossWeightAmountError = false;
+      if((this.insuranceId == '100046' || this.insuranceId=='100047'|| this.insuranceId=='100048' || this.insuranceId=='100049' || this.insuranceId=='100050'
+      ) && this.bodyType=='C' && (this.grossWeight==null || this.grossWeight=='0' || this.grossWeight=='')){
+        this.grossWeightAmountError = true;
+      }
+      else this.onProceed()
     }
      
   }
@@ -1144,12 +1208,12 @@ export class VehicleCreateFormComponent implements OnInit {
     if(this.insuranceId=='100020'){
         if(this.modelDesc!=null && this.modelDesc!=''){ 
           let entry = this.modelList.find(ele=>ele.Model==this.modelDesc);
-          if(entry) modelDesc = entry?.VehicleId
+          if(entry) modelDesc = entry?.ModelId
         }
         else modelDesc = null;
     }
     else{
-      if(this.bodyType=='P'){
+      if(this.bodyType=='P' || this.bodyType=='100'){
         if(this.modelValue=='99999'){
             modelDesc = this.modelDesc;
         }
@@ -1225,8 +1289,10 @@ export class VehicleCreateFormComponent implements OnInit {
       "HorsePower": this.horsePower,
       "Tareweight": tareweight,
       "Vehcilemodel": modelDesc,
+      "VehcilemodelId": this.modelValue,
       "VehicleType": this.bodyTypeValue,
       "Vehiclemake": make,
+      "VehiclemakeId": this.makeValue,
       "DisplacementInCM3": this.displacement,
        "NumberOfCylinders": this.numberOfCylinders,
        "RegistrationDate": registrationDate,
@@ -1290,6 +1356,7 @@ export class VehicleCreateFormComponent implements OnInit {
         "AdditionalCircumstances": null,
         "CityLimit": null,
         "CoverNoteNo": null,
+        "Color": this.colorValue,
         "Gpstrackinginstalled": 'N',
         "Insurancetype": null,
         "InsuranceId": this.insuranceId,
@@ -1367,7 +1434,9 @@ export class VehicleCreateFormComponent implements OnInit {
             if(vehicles){
               let motorUsage=null;
               if(usageDesc!=null && usageDesc!=''){
-                  let entry = this.usageList.find(ele=>ele.Code==usageDesc || ele.CodeDesc==usageDesc);
+                let entry = null;
+                if(this.insuranceId!='100028')  entry = this.usageList.find(ele=>ele.Code==usageDesc || ele.CodeDesc==usageDesc);
+                if(this.insuranceId=='100028')  entry = this.bodyTypeList.find(ele=>ele.Code==usageDesc || ele.CodeDesc==usageDesc);
                   if(entry) motorUsage = entry.Code;
                   this.vehicleDetails['TiraMotorUsage'] = motorUsage;
                   this.vehicleDetails['TiraBodyType'] = modelDesc;
@@ -1561,6 +1630,57 @@ export class VehicleCreateFormComponent implements OnInit {
           if (data.Result) {
             let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
             this.plateTypeList = defaultObj.concat(data.Result);
+          }
+        },
+        (err) => { },
+      );
+    }
+    getSeatingCapacity(){
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "ItemType": "SEATING_CAPACITY"
+      }
+      let urlLink = `${this.commonApiUrl}master/getbyitemvalue`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if (data.Result) {
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
+            this.seatingCapacityList = defaultObj.concat(data.Result);
+          }
+        },
+        (err) => { },
+      );
+    }
+    getEngineCapacity(){
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "ItemType": "ENGINE_CAPACITY"
+      }
+      let urlLink = `${this.commonApiUrl}master/getbyitemvalue`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if (data.Result) {
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
+            this.engineCapacityList = defaultObj.concat(data.Result);
+          }
+        },
+        (err) => { },
+      );
+    }
+    getGrossWeight(){
+      let ReqObj = {
+        "InsuranceId": this.insuranceId,
+        "ItemType": "GROSS_WEIGHT"
+      }
+      let urlLink = `${this.commonApiUrl}master/getbyitemvalue`;
+      this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+        (data: any) => {
+          console.log(data);
+          if (data.Result) {
+            let defaultObj = [{ 'label': '---Select---', 'value': '', 'Code': '', 'CodeDesc': '---Select---', 'CodeDescLocal': '--Sélectionner--' }];
+            this.grossWeightList = defaultObj.concat(data.Result);
           }
         },
         (err) => { },

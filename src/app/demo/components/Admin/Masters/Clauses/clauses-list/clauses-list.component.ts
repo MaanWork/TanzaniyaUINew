@@ -134,7 +134,7 @@ export class ClausesListComponent implements OnInit {
          this.productValue = docObj?.ProductId;
          console.log('LLLLLLLLLL',this.sectionValue);
           this.getExistingClauses();  }
-       else{ this.productValue='5';  this.getExistingClauses()  }
+       else{ this.productValue=this.productList[0].ProductId;  this.getExistingClauses()  }
       //  if(!this;.productValue){ this.productValue = "5";
       //  this.getSectionList();
       //  this.getExistingClauses() }

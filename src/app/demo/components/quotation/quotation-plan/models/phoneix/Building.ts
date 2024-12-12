@@ -1,7 +1,7 @@
 import { ForceLengthValidators } from "../../personal-quote-details/personal-quote-details.component";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 
-export class Building{
+export class BuildingPhoenix{
     customerDetails: any;
     commonDetails: any[]=[];
     endorsementSection: boolean=false;
@@ -59,7 +59,7 @@ export class Building{
                   {
                     type: 'commaSeparator',
                     className: ' col-12 lg:col-5 md:col-5 xl:col-5',
-                    key: 'BuildingSumInsured',
+                    key: 'BuildingSuminsured',
                     defaultValue: '0',
                     templateOptions: {
                       label: `Sum Insured`,

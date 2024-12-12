@@ -20,6 +20,11 @@ export class MotorShotQuoteCustomerEagle{
               this.enableFieldsList = endorseObj.FieldsAllowed;
             }
         }
+        let date = new Date();
+        var d = new Date();
+        var year = d.getFullYear();
+        var month = d.getMonth();
+        var day = d.getDate();
         this.fields={
             props: { label: 'Policy Details' },
             fieldGroup: [
@@ -27,7 +32,7 @@ export class MotorShotQuoteCustomerEagle{
                 fieldGroupClassName: 'grid',
                 fieldGroup: [
                   {
-                    className: 'col-12 md:col-12 lg:col-12 xl:col-12',
+                    className: 'col-12 md:col-12 lg:col-12 xl:col-12  pl-2 pr-2 pt-1',
                     type: 'input',
                     key: 'CustomerName',
                     props: {
@@ -51,7 +56,7 @@ export class MotorShotQuoteCustomerEagle{
                     type: 'ngselect',
                     key: 'MobileCode',
                     defaultValue: '',
-                    className: 'col-12 md:col-4 lg:col-4 xl:col-4',
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4  pl-2 pr-2 pt-1',
                     props: {
                       label: `Mobile Code`,
                       maxLength: 10,
@@ -71,7 +76,7 @@ export class MotorShotQuoteCustomerEagle{
                     },
                   },
                   {
-                    className: 'col-12 md:col-8 lg:col-8 xl:col-8',
+                    className: 'col-12 md:col-8 lg:col-8 xl:col-8  pl-2 pr-2 pt-1',
                     type: 'number',
                     key: 'MobileNo',
                     props: {
@@ -84,6 +89,51 @@ export class MotorShotQuoteCustomerEagle{
                       ],
   
                     },
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
+                    type: 'datepicker',
+                    id: 'RegistrationDate',
+                    key: 'RegistrationDate',
+                    templateOptions: {
+                      datepickerOptions:{
+                       max: new Date(year - 18, month, day)
+                      },
+                      type: 'date',
+                      label: `Date Of Birth`,
+                      placeholder: 'Registration Date',
+                      required: true,
+                      disabled: this.checkDisable('RegistrationDate'),
+                      maxLength: 50
+                    },
+                    
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6  pl-2 pr-2 pt-1',
+                    type: 'ngselect',
+                    id: 'Occupation',
+                    key: 'Occupation',
+                    templateOptions: {
+                      label: `Occupation`,
+                      placeholder: '-Select Occupation-',
+                      required: true,
+                      disabled: this.checkDisable('Occupation'),
+                      maxLength: 50,
+                      options:[]
+                    },
+                    
                     validators: {
                     },
                     hooks: {

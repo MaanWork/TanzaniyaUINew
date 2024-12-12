@@ -295,10 +295,10 @@ export class CustomerOromia{
                     disabled: this.checkDisable('PreferredNotification'),
                     maxLength: 15,
                     options:[
-                      { label: 'Select', value: '','CodeDescLocal':'Selecione' },
-                      { label: 'SMS', value: 'Sms','CodeDescLocal':'Sms -P' },
-                      { label: 'Mail', value: 'Mail','CodeDescLocal':'E-mail -P' },
-                      { label: 'Whatsapp', value: 'Whatsapp','CodeDescLocal':'Whatsapp -P' }
+                      { label: 'Select', value: '','CodeDesc': 'Select','CodeDescLocal':'Selecione' },
+                      { label: 'SMS', value: 'Sms',CodeDesc: 'SMS','CodeDescLocal':'Sms' },
+                      { label: 'Mail', value: 'Mail', CodeDesc: 'Mail','CodeDescLocal':'E-mail' },
+                      { label: 'Whatsapp', value: 'Whatsapp',CodeDesc: 'Whatsapp','CodeDescLocal':'Whatsapp' }
                     ]
                   },
                   

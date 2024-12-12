@@ -99,7 +99,7 @@
       "EnterVRN/GSTNumber":"Insira o número VRN/GST"
     },
     "LOGIN":{
-        "WelcometoXYZInsurance":"Bem-vindo à Alliance Seguros",
+        "WelcometoXYZInsurance":"Bem-vindo à Broker Portal",
         "Signintocontinue": "Faça login para continuar",
         "RetrieveQuoteUsingMobileNumber?": "Recuperar cotação usando Mobile Number?",
         "B2CQuote": "Cotação B2C",
@@ -146,6 +146,7 @@
     "QUOTEGRID":{
         "NoOfDays":"Duração da política",
         "NoOfMonths":"Policy Period (Months)",
+        "InsuredPeriod": "Insured Period",
         "Quotation": "cotação",
         "Existing": "Existir",
         "Lapsed": "Caducada",
@@ -187,6 +188,12 @@
     },
     "MOTORQUOTE":{
       "PaCoverId":"Motor Passenger Injury",
+      "VehicleInformation":"Vehicle Information",
+      "LicenseNo": "License Number",
+      "MaleCount": "No Of Male",
+      "FemaleCount": "No Of Female",
+      "ClaimExperience":"Claim Experience",
+      "FuelType":"Tipo de combustível",
       "QuoteExpiryDate":"Quote Expiry Days",
       "EnterQuoteExpiryDate": "Enter Expiry Days Count",
       "quoteExpiryDateError":"Please Enter Quote Expiry Days",
@@ -456,6 +463,7 @@
          "EMIPeriod":"Período EMI",
          "None":"Nenhum",
         "3Months":"3 Meses",
+        "5Months":"5 Meses",
         "6Months":"6 Meses",
          "8Months":"8 Meses",
         "9Months":"9 Meses",
@@ -551,6 +559,7 @@
       "Proceed":"Continuar"
     },
     "PolicyGrid":{
+      "PayEmi": "Pay Emi",
       "Broker":"Corretor",
       "Portfolio":"Portfólio",
       "Home":"Lar",
@@ -621,13 +630,13 @@
     "Report":{
       "Report":"Relatório",
       "Branch":"Filial",
+      "DownloadPDF":"Baixar PDF",
+      "DownloadExcel":"Baixar Excel",
       "StartDate":"Data de início",
       "EndDate":"Data final",
       "BrokerName":"Nome do corretor",
       "Search":"Procurar",
       "DownloadAll":"Baixar tudo",
-      "DownloadPDF":"Baixar PDF",
-      "DownloadExcel":"Baixar Excel",
       "PolicyNo":"Política Não",
       "QuoteNo":"Citação Não",
       "CustomerName":"nome do cliente",

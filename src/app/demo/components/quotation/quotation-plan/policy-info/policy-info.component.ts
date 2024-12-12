@@ -64,6 +64,7 @@ export class PolicyInfoComponent {
       this.newten = true;
       
     }
+    sessionStorage.removeItem('emiPayment')
   }
   ngOnInit() {
     let referenceNo = sessionStorage.getItem('quoteReferenceNo');
@@ -218,6 +219,51 @@ export class PolicyInfoComponent {
     (err) => { },
     );
   }
+  onGetDraft(rowData){
+    let ReqObj = {
+      "QuoteNo": rowData.QuoteNo,
+      "CertificateYn": 'Y'
+    }
+    let urlLink = `${this.CommonApiUrl}pdf/policyform`;
+    this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
+      (data: any) => {
+        if (data.ErrorMessage.length != 0) {
+          if (data.ErrorMessage) {
+          }
+        }
+        else {
+          if(data?.Result?.PdfOutFile){
+              this.downloadMyFilebroker(data.Result.PdfOutFile);
+          }
+          else{
+            Swal.fire({
+              title: '<strong>Schedule Pdf</strong>',
+              icon: 'error',
+              html:
+                `No Pdf Generated For this Policy`,
+              //showCloseButton: true,
+              //focusConfirm: false,
+              showCancelButton: false,
+
+              //confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              cancelButtonText: 'Cancel',
+            })
+          }
+        }
+      },
+      (err) => { },
+    );
+  }
+  downloadMyFilebroker(data) {
+    const link = document.createElement('a');
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', data);
+    link.setAttribute('download', 'Certificate');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
   onGetSchedule(rowData){
     let ReqObj = {
       "QuoteNo":rowData.QuoteNo
@@ -232,19 +278,25 @@ export class PolicyInfoComponent {
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         console.log(data);
-        if(data?.Result?.PdfOutFile){
-            this.downloadMyFile(data.Result.PdfOutFile);
+        if (data.ErrorMessage.length != 0) {
+          if (data.ErrorMessage) {
+          }
         }
-        else{
-          Swal.fire({
-            title: '<strong>Schedule Pdf</strong>',
-            icon: 'error',
-            html:
-              `No Pdf Generated For this Policy`,
-            showCancelButton: false,
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Cancel',
-          })
+        else {
+          if(data?.Result?.PdfOutFile){
+              this.downloadMyFile(data.Result.PdfOutFile);
+          }
+          else{
+            Swal.fire({
+              title: '<strong>Schedule Pdf</strong>',
+              icon: 'error',
+              html:
+                `No Pdf Generated For this Policy`,
+              showCancelButton: false,
+              cancelButtonColor: '#d33',
+              cancelButtonText: 'Cancel',
+            })
+          }
         }
       },
       (err) => { },
@@ -294,23 +346,29 @@ export class PolicyInfoComponent {
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
         console.log(data);
-        if(data?.Result?.PdfOutFile){
-            this.downloadMyFile(data.Result.PdfOutFile);
+        if (data.ErrorMessage.length != 0) {
+          if (data.ErrorMessage) {
+          }
         }
-        else{
-          Swal.fire({
-            title: '<strong>Schedule Pdf</strong>',
-            icon: 'error',
-            html:
-              `No Pdf Generated For this Policy`,
-            //showCloseButton: true,
-            //focusConfirm: false,
-            showCancelButton: false,
+        else {
+          if(data?.Result?.PdfOutFile){
+              this.downloadMyFile(data.Result.PdfOutFile);
+          }
+          else{
+            Swal.fire({
+              title: '<strong>Schedule Pdf</strong>',
+              icon: 'error',
+              html:
+                `No Pdf Generated For this Policy`,
+              //showCloseButton: true,
+              //focusConfirm: false,
+              showCancelButton: false,
 
-            //confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Cancel',
-          })
+              //confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              cancelButtonText: 'Cancel',
+            })
+          }
         }
       },
       (err) => { },

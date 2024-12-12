@@ -406,7 +406,7 @@ export class CustomerEagle{
                     label: `Street`,
                     placeholder: 'Enter Street',
                     required: true,
-                    disabled: this.checkDisable('Address1'),
+                    disabled: this.checkDisable('Street'),
                     maxLength: 150
                   },
                   

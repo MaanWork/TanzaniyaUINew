@@ -75,7 +75,7 @@
               <td>
                 <span class="p-buttonset">
                   <button pButton pRipple icon="pi pi-pencil" (click)="onEditQuotes(customer)" title="Edit" class="p-button-outlined"></button>
-                  <button pButton pRipple *ngIf="customer.QuoteNo" icon="pi pi-cloud-download" title="Draft" (click)="onGetDraft(customer)" class="p-button-outlined"></button>
+                  <button pButton pRipple *ngIf="customer.QuoteNo" icon="pi pi-cloud-download" title="Broker Quotation" (click)="onGetDraft(customer)" class="p-button-outlined"></button>
                   <button pButton pRipple icon="pi pi-times" (click)="onRejects(customer)" title="Reject" class="p-button-outlined"></button>
                   <button pButton pRipple icon="pi pi-envelope" title="Mail" (click)="onMail(customer)" class="p-button-outlined"></button>
                   <button pButton pRipple icon="pi pi-inbox" title="SMS" (click)="onSms(customer)"  class="p-button-outlined"></button>
@@ -110,8 +110,8 @@
             <td>{{customers.Registrationnumber}}</td>
             <td>{{customers.Chassisnumber}}</td>
             <td>{{customers.PolicyTypeDesc}}</td>
-            <td>{{customers.Vehcilemodel}}</td>
             <td>{{customers.Vehiclemake}}</td>
+            <td>{{customers.Vehcilemodel}}</td>
             <td>{{customers.OverallPremiumFc
             }}</td>
                                 </tr>
@@ -424,7 +424,7 @@
           </div>
       </ng-container>
     </p-tabPanel>
-    <p-tabPanel [header]="'QUOTEGRID.ShortQuote' | translate" *ngIf="insuranceId=='100019' || insuranceId=='100027' || insuranceId=='100040' || insuranceId=='100042' || insuranceId=='100004'">
+    <p-tabPanel [header]="'QUOTEGRID.ShortQuote' | translate">
       <div class="flex justify-content-end mb-4">
         <p-button icon="pi pi-table"  class="mr-3" [styleClass]="tableView =='list' ? '':'p-button-outlined'" (click)="tableView='list'" severity="success "></p-button>
         <p-button icon="pi pi-list" [styleClass]="tableView =='table'? '':'p-button-outlined'" (click)="tableView='table'"  severity="success "></p-button>

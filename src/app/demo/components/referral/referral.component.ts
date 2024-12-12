@@ -496,12 +496,16 @@ export class ReferralComponent implements OnInit {
     else{
       sessionStorage.removeItem('endorsePolicyNo');
           sessionStorage.removeItem('endorseTypeId');
-          
           sessionStorage.setItem('QuoteStatus',type);
           sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
           sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
           sessionStorage.setItem('quoteNo',rowData.QuoteNo);
-          this.router.navigate(['/quotation/plan/premium-details']);
+          //this.router.navigate(['/quotation/plan/premium-details']);
+          if(this.productId=='5'){
+            if(rowData.SavedFrom=='SQ'){this.router.navigate(['/quotation/plan/shortQuote']);}
+            else this.router.navigate(['/policyDetails']);
+          }
+          else{this.router.navigate(['/quotation/plan/quote-details']);}
     }
   }
   onEditApprovedQuotes(rowData,type){
@@ -517,7 +521,11 @@ export class ReferralComponent implements OnInit {
           sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
           sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
           sessionStorage.setItem('quoteNo',rowData.QuoteNo);
-          this.router.navigate(['/quotation/plan/premium-details']);
+          if(this.productId=='5'){
+            if(rowData.SavedFrom=='SQ'){this.router.navigate(['/quotation/plan/shortQuote']);}
+            else this.router.navigate(['/policyDetails']);
+          }
+          else{this.router.navigate(['/quotation/plan/quote-details']);}
     }
   }
   checkStatus(rowData,type){
@@ -536,7 +544,11 @@ export class ReferralComponent implements OnInit {
           sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);
           sessionStorage.setItem('quoteReferenceNo',rowData.RequestReferenceNo);
           sessionStorage.setItem('quoteNo',rowData.QuoteNo);
-          this.router.navigate(['/quotation/plan/premium-details']);
+          if(this.productId=='5'){
+            if(rowData.SavedFrom=='SQ'){this.router.navigate(['/quotation/plan/shortQuote']);}
+            else this.router.navigate(['/policyDetails']);
+          }
+          else{this.router.navigate(['/quotation/plan/quote-details']);}
         }
         else{
           sessionStorage.setItem('customerReferenceNo',rowData.CustomerReferenceNo);

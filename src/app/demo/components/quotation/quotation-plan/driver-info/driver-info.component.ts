@@ -42,6 +42,13 @@ export class DriverInfoComponent {
   mobileCodeList: any[]=[];
   nationalityList: any[]=[];
   minDobDate: any;
+  CertificateType:any;
+  BookId:any;
+  CertificateNumber:any;
+  CertificateTypeList: any[]=[];
+  BookIdList: any[]=[];
+  CertificateNumberList: any[]=[];
+  MotorUsage: any;
   constructor(private sharedService: SharedService,private quoteComponent:QuotationPlanComponent,
     private router:Router,private appComp:AppComponent,private translate:TranslateService,
     private datePipe:DatePipe) {
@@ -119,6 +126,7 @@ export class DriverInfoComponent {
 		this.translate.setDefaultLang(sessionStorage.getItem('language'));
    }
     this.getMobileCodeList();
+    
   }
  
  
@@ -189,11 +197,13 @@ export class DriverInfoComponent {
             this.quoteDetails = data?.Result?.QuoteDetails;
             this.currencyCode = quoteDetails?.Currency;
            
-            this.getDriverDetails();
-            
+            if(this.insuranceId!='100028') this.getDriverDetails();
+            else this.getOtherVehicleInfo();
             this.localPremiumCost = quoteDetails?.OverallPremiumLc;
             this.quoteComponent.setRiskDetails(data?.Result?.LocationDetails);
             let vehicles:any[] = data?.Result?.RiskDetails;
+            this.MotorUsage =vehicles[0].Motorusage;
+            if(this.MotorUsage)this.getCertificateTypeList();this.getBookIdList();
             if(vehicles.length!=0){
               let i=0;this.vehicleList=[];
               for(let vehicle of vehicles){
@@ -487,7 +497,6 @@ export class DriverInfoComponent {
     let urlLink = `${this.motorApiUrl}api/getothervehicledel`;
     this.sharedService.onPostMethodSync(urlLink, ReqObj).subscribe(
       (data: any) => {
-        console.log("datadatadatadatadata"+data);
         if(data.Result){
           if(data.Result.VehicleDetails){
             this.vehicleDetailsList = data.Result.VehicleDetails;
@@ -496,20 +505,36 @@ export class DriverInfoComponent {
                 if(veh.NoCylinder!=null && veh.NoCylinder!='') veh.NoCylinder = String(veh.NoCylinder);
                 if(veh.NoDoors!=null && veh.NoDoors!='') veh.NoDoors = String(veh.NoDoors);
                 if(veh.PlateColorId!=null && veh.PlateColorId!='') veh.PlateColorId = String(veh.PlateColorId);
+                if(veh.CertificateType!=null && veh.CertificateType!='') {
+                  veh.CertificateType = String(veh.CertificateType);
+                  this.CertificateType = String(veh.CertificateType);
+                }
+                if(veh.BookId!=null && veh.BookId!='') {
+                  veh.BookId = String(veh.BookId);
+                  this.BookId = String(veh.BookId);
+                  this.getCertificateNumList(this.BookId)
+                }
+                if(veh.CertificateNo!=null && veh.CertificateNo!='') {
+                  veh.CertificateNo = String(veh.CertificateNo);
+                  this.CertificateNumber = String(veh.CertificateNo);
+                }
               }
             }
           }
           else{
             if(this.vehicleList.length!=0){
               for(let veh of this.vehicleList){
-                let i=0;
-                let entry = {
+                let i=0;let entry =null;
+                 entry = {
                   "SeriesNo":"",
                   "NoCylinder":"",
                   "PlateType":"",
                   "PlateColorId":"",
                   "NoDoors":"",
-                  "VehicleId": veh.RiskId
+                  "VehicleId": veh.RiskId,
+                  "CertificateType":null,
+                  "BookId" : null,
+                  "CertificateNo":null
                 }
                 this.vehicleDetailsList.push(entry);
               }
@@ -522,6 +547,9 @@ export class DriverInfoComponent {
   (err) => { },
 );
 }
+
+
+
 addNewDriver(vehId){
   console.log(this.driverDetailsList,"this.driverDetailsList");
   this.driverDetailsList.push( {
@@ -621,7 +649,6 @@ addNewDriver(vehId){
     this.driverDetailsList.splice(index,1);
   }
   onsave(){
-    
     let i=0;this.entryList=[];
    for(let driver of this.driverDetailsList){
     let date,CategoryExDate,CategoryDate,LicenseIssueDt,expDate=null;
@@ -721,8 +748,8 @@ addNewDriver(vehId){
         else driver['driverNameError']=false;
         if(entry.LicenseNo==null || entry.LicenseNo=='' || entry.LicenseNo==undefined){j+=1;driver['licenseNoError']=true;}
         else driver['licenseNoError']=false;
-        if(entry.DriverLicenseExpiryDate==null || entry.DriverLicenseExpiryDate=='' || entry.DriverLicenseExpiryDate==undefined){j+=1;driver['licenseExpError']=true;}
-        else driver['licenseExpError']=false;
+        // if((entry.DriverLicenseExpiryDate==null || entry.DriverLicenseExpiryDate=='' || entry.DriverLicenseExpiryDate==undefined) && this.insuranceId!='100002'){j+=1;driver['licenseExpError']=true;}
+        // else driver['licenseExpError']=false;
         if(entry.DriverDob==null || entry.DriverDob=='' || entry.DriverDob==undefined){j+=1;driver['driverDobError']=true;}
         else driver['driverDobError']=false;
         if(entry.DriverType==null || entry.DriverType=='' || entry.DriverType==undefined){j+=1;driver['driverTypeError']=true;}
@@ -741,53 +768,61 @@ addNewDriver(vehId){
      
       i++;
       if(i==this.driverDetailsList.length){
-        console.log("Final List Driver",this.entryList)
        // this.saveDriverDetails(entryList);
        if(this.driverDetailsList.length==this.entryList.length){
-          if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042') this.saveVehicleInfo();
+          if(this.insuranceId=='100027' || this.insuranceId=='100040' || this.insuranceId=='100042' ) this.saveVehicleInfo();
           else this.saveDriverDetails(this.entryList);
        }
       }
+      
    }
-
+   if(this.insuranceId=='100028')this.saveDriverDetails(this.entryList);
  }
  saveDriverDetails(entryList){
   console.log("DriverDetails",entryList)
   
-   
-  let urlLink = `${this.motorApiUrl}api/savemotordrivers`;
-  this.sharedService.onPostMethodSync(urlLink,entryList).subscribe(
-    (data: any) => {
-      console.log("Save motor Res",data)
-      if(data.Result){
-        // if(this.endorsementSection && this.enableCustomerDetails){
-        //       this.saveCustomerDetails();
-        // }
-        // else{
-          if(this.loginType=='B2CFlow' || (this.loginType=='B2CFlow2')){
-            this.router.navigate(['/Home/customer/ClientDetails']);
-          }
-          else {
-            if(this.EmiYn!='Y'){
-              this.router.navigate(['/quotation/plan/main/document-info']);
+  if(this.insuranceId!='100028'){
+    let urlLink = `${this.motorApiUrl}api/savemotordrivers`;
+    this.sharedService.onPostMethodSync(urlLink,entryList).subscribe(
+      (data: any) => {
+        console.log("Save motor Res",data)
+        if(data.Result){
+          // if(this.endorsementSection && this.enableCustomerDetails){
+          //       this.saveCustomerDetails();
+          // }
+          // else{
+            if(this.loginType=='B2CFlow' || (this.loginType=='B2CFlow2')){
+              this.router.navigate(['/Home/customer/ClientDetails']);
             }
-            else{
-              sessionStorage.removeItem('Makepaymentid');
-              this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/Emi-Details']);
+            else {
+              if(this.EmiYn!='Y'){
+                this.router.navigate(['/quotation/plan/main/document-info']);
+              }
+              else{
+                sessionStorage.removeItem('Makepaymentid');
+                this.router.navigate(['/Home/existingQuotes/customerSelection/customerDetails/Emi-Details']);
+              }
+              
             }
-            
-          }
+          
+        }
         
       }
-      
-    }
-  )
-   
-
+    )
+  }
+  else this.saveVehicleInfo();
  }
 saveVehicleInfo() {
   let entry = this.vehicleDetailsList.find(ele=>ele.VehicleId==this.vehicleId);
-
+  if(entry.CertificateType==null || entry.CertificateType =="" || entry.CertificateType==undefined){
+    entry.CertificateType=this.CertificateType
+  }
+  if(entry.BookId==null || entry.BookId =="" || entry.BookId==undefined){
+    entry.BookId=this.BookId
+  }
+  if(entry.CertificateNo==null || entry.CertificateNo =="" || entry.CertificateNo==undefined){
+    entry.CertificateNo=this.CertificateNumber
+  }
   let regOp = {
     "CompanyId": this.insuranceId,
     "ProductId": this.productId,
@@ -810,7 +845,10 @@ saveVehicleInfo() {
       "PlateColor": null,
       "PlateColorId": entry.PlateColorId,
       "NoDoors": entry.NoDoors,
-      "NoDoorsDes":null
+      "NoDoorsDes":null,
+      "CertificateType":entry.CertificateType,
+      "BookId" : entry.BookId,
+      "CertificateNo":entry.CertificateNo
     }
   // );
   // });
@@ -820,8 +858,8 @@ saveVehicleInfo() {
     (data: any) => {
       console.log("Save1", data);
       if (data.Result) {
-        console.log("Save motor Res1", data.Result);
-        this.saveDriverDetails(this.entryList);
+        if(this.insuranceId!='100028') this.saveDriverDetails(this.entryList);
+        else this.router.navigate(['/quotation/plan/main/document-info']);
       }
 //  
 },
@@ -928,5 +966,49 @@ getNationalityList() {
     (err) => { },
   );
 }
+getCertificateTypeList(){
+  let ReqObj = {
+    "CertificateNo" : null,
+    "UsageId":this.MotorUsage,
+    "CompanyId":this.insuranceId
+  }
+  let urlLink = `${this.CommonApiUrl}dropdown/getCertificateType`;
+  this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+    (data: any) => {
+      if(data.data){
+          this.CertificateTypeList = data.data;
+      }
+    },
+    (err) => { },
+  );
+}
 
+getBookIdList(){
+  let ReqObj
+  let urlLink = `${this.CommonApiUrl}dropdown/getBookId`;
+  this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+    (data: any) => {
+      if(data.data){
+          this.BookIdList = data.data;
+          
+      }
+    },
+    (err) => { },
+  );
+}
+
+getCertificateNumList(rowdata){
+  let ReqObj = {
+    "CertificateNo" : rowdata,
+  }
+  let urlLink = `${this.CommonApiUrl}dropdown/getCertificateNo`;
+  this.sharedService.onPostMethodSync(urlLink,ReqObj).subscribe(
+    (data: any) => {
+      if(data.data){
+          this.CertificateNumberList = data.data;
+      }
+    },
+    (err) => { },
+  );
+}
 }

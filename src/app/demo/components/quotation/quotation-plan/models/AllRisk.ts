@@ -23,10 +23,10 @@ export class AllRisk{
             props: { label: 'All Risk' },
             fieldGroup: [
               {
-                fieldGroupClassName: 'newclassname',
+                fieldGroupClassName: 'grid',
                 fieldGroup: [
                   {
-                    className: 'col-12 lg:col-6 xl:col-6 md:col-6',
+                    className: 'col-12 md:col-6 lg:col-6 xl:col-6',
                     type: 'commaSeparator',
                     key: 'AllriskSumInsured',
                     templateOptions: {

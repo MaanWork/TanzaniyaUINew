@@ -149,13 +149,74 @@ export class MotorVehicleEagle{
                     templateOptions: {
                       type: 'radioList',
                       required: true,
-                      disabled: this.checkDisable('RenewalYn'),
+                      
                       name: 'RenewalYn',
                     },
                     props:{
                       label: 'Renewal',
+                      disabled: this.checkDisable('RenewalYn'),
                       options: [{ value: 'Y', label: 'Yes',CodeDesc:'Yes','CodeDescLocal':'Sim' }, { value: 'N', label: 'No',CodeDesc:'No','CodeDescLocal':'Não' }],
                     }
+                  },
+                  {
+                    className: 'col-12 md:col-4 lg:col-4 xl:col-4',
+                    type: 'input',
+                    id: 'NoOfPassengers',
+                    key: 'NoOfPassengers',
+                    templateOptions: {
+                      label: `Number Of Passengers`,
+                      placeholder: 'Number Of Passengers',
+                      required: true,
+                      disabled: this.checkDisable('NoOfPassengers'),
+                      maxLength: 3
+                    },
+                    
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-2 lg:col-2 xl:col-2',
+                    type: 'input',
+                    id: 'MaleCount',
+                    key: 'MaleCount',
+                    templateOptions: {
+                      label: `MaleCount`,
+                      placeholder: '',
+                      required: true,
+                      disabled: this.checkDisable('MaleCount'),
+                      maxLength: 3
+                    },
+                    
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
+                  },
+                  {
+                    className: 'col-12 md:col-2 lg:col-2 xl:col-2',
+                    type: 'input',
+                    id: 'FemaleCount',
+                    key: 'FemaleCount',
+                    templateOptions: {
+                      label: `FemaleCount`,
+                      placeholder: '',
+                      required: true,
+                      disabled: this.checkDisable('FemaleCount'),
+                      maxLength: 3
+                    },
+                    
+                    validators: {
+                    },
+                    hooks: {
+                    },
+                    expressions: {
+                    },
                   },
                 ]
               }
@@ -165,13 +226,14 @@ export class MotorVehicleEagle{
   fields:FormlyFieldConfig;
     getFieldDetails(){return this.fields; }
     checkDisable(fieldName) {
+      let status = sessionStorage.getItem('QuoteStatus');
         if (this.endorsementSection) {
           let entry = this.enableFieldsList.some(ele => ele == fieldName);
           console.log("Entry ", fieldName, entry)
           return !entry;
         }
-        else if(this.subuserType=='low') return this.finalizeYN=='Y'; 
+        else if(this.subuserType=='low') return (this.finalizeYN=='Y' || status=='RA'); 
         else return false;
       
-      }
+    }
 }

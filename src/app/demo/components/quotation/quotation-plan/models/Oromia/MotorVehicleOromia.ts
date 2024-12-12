@@ -29,6 +29,7 @@ export class MotorVehicleOromia{
                   {
                     type: 'ngselect',
                     key: 'InsuranceType',
+                    id: 'InsuranceType',
                     defaultValue: '',
                     className: 'col-12 col-md-4 col-lg-4 col-xl-4',
                     props: {
@@ -51,6 +52,7 @@ export class MotorVehicleOromia{
                   {
                     type: 'ngselect',
                     key: 'InsuranceClass',
+                    id: 'InsuranceClass',
                     defaultValue: '',
                     className: 'col-12 col-md-4 col-lg-4 col-xl-4',
                     props: {
@@ -73,6 +75,7 @@ export class MotorVehicleOromia{
                   {
                     type: 'ngselect',
                     key: 'BodyType',
+                    id: 'BodyType',
                     defaultValue: '',
                     className: 'col-12 col-md-4 col-lg-4 col-xl-4',
                     props: {
@@ -95,6 +98,7 @@ export class MotorVehicleOromia{
                   {
                     type: 'ngselect',
                     key: 'MotorUsage',
+                    id: 'MotorUsage',
                     defaultValue: '',
                     className: 'col-12 col-md-4 col-lg-4 col-xl-4',
                     props: {
@@ -117,6 +121,7 @@ export class MotorVehicleOromia{
                   {
                     className: 'col-12 col-md-4 col-lg-4 col-xl-4',
                     key: 'ClaimsYN',
+                    id: 'ClaimsYN',
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
@@ -133,12 +138,13 @@ export class MotorVehicleOromia{
                   {
                     className: 'col-12 col-md-4 col-lg-4 col-xl-4',
                     key: 'GpsYN',
+                    id: 'GpsYN',
                     type: 'radioList',
                     templateOptions: {
                       type: 'radioList',
                       
                       required: true,
-                      disabled: this.checkDisable('ClaimsYN'),
+                      disabled: this.checkDisable('GpsYN'),
                       name: 'GpsYN'
                     },
                     props: {
@@ -149,6 +155,7 @@ export class MotorVehicleOromia{
                   {
                     className: 'col-12 col-md-4 col-lg-4 col-xl-4',
                     type: 'commaSeparator',
+                    id: 'VehicleSI',
                     key: 'VehicleSI',
                     hide: true,
                     hideExpression:true,
@@ -172,6 +179,7 @@ export class MotorVehicleOromia{
                   {
                     className: 'col-12 col-md-4 col-lg-4 col-xl-4',
                     type: 'commaSeparator',
+                    id: 'AccessoriesSI',
                     key: 'AccessoriesSI',
                     hide: true,
                     hideExpression:true,
@@ -196,6 +204,7 @@ export class MotorVehicleOromia{
                     className: 'col-12 col-md-4 col-lg-4 col-xl-4',
                     type: 'commaSeparator',
                     key: 'WindShieldSI',
+                    id: 'WindShieldSI',
                     hide: true,
                     hideExpression:true,
                     props: {
@@ -218,6 +227,7 @@ export class MotorVehicleOromia{
                   {
                     type: 'commaSeparator',
                     key: 'ExtendedTPPDSI',
+                    id: 'ExtendedTPPDSI',
                     defaultValue: '',
                     className: 'col-12 col-md-4 col-lg-4 col-xl-4',
                     hide: true,
@@ -247,13 +257,14 @@ export class MotorVehicleOromia{
   fields:FormlyFieldConfig;
     getFieldDetails(){return this.fields; }
     checkDisable(fieldName) {
+      let status = sessionStorage.getItem('QuoteStatus');
         if (this.endorsementSection) {
           let entry = this.enableFieldsList.some(ele => ele == fieldName);
           console.log("Entry ", fieldName, entry)
           return !entry;
         }
-        else if(this.subuserType=='low') return this.finalizeYN=='Y'; 
+        else if(this.subuserType=='low') return (this.finalizeYN=='Y' || status=='RA'); 
         else return false;
       
-      }
+    }
 }

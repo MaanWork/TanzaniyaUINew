@@ -53,7 +53,7 @@ export class PersonalLiability{
                   // },
                   {
                     type: 'commaSeparator',
-                    className: 'w-full md:mt-0 mt-3 md\:w-1\/4',
+                    className: 'col-12 lg:col-6 xl:col-6 md:col-6',
                     key: 'EmpLiabilitySi',
                     defaultValue: '0',
                     templateOptions: {

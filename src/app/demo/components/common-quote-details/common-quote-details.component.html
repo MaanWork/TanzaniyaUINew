@@ -78,13 +78,21 @@
                         <div class="flex flex-wrap">
                             <div class="lg:col-4 md:col-6 col-12">
                                 <b>{{'MOTORQUOTE.Address' | translate}}</b>
-                                <p>{{customerDetails.Address1}}</p>
+                                <p>{{customerDetails.Street}}</p>
                             </div>
-                            <div class="lg:col-4 md:col-6 col-12">
+                            <div class="lg:col-4 md:col-6 col-12" *ngIf="insuranceId=='100028'">
+                                <b>{{'MOTORQUOTE.Country' | translate}}</b>
+                                <p>{{customerDetails.CountryName}}</p>
+                            </div>
+                            <div class="lg:col-4 md:col-6 col-12" *ngIf="insuranceId=='100028'">
+                                <b>{{'MOTORQUOTE.District' | translate}}</b>
+                                <p>{{customerDetails.CityName}}</p>
+                            </div>
+                            <div class="lg:col-4 md:col-6 col-12" *ngIf="insuranceId!='100028'">
                                 <b>{{'MOTORQUOTE.Country' | translate}}</b>
                                 <p>{{customerDetails.Nationality}}</p>
                             </div>
-                            <div class="lg:col-4 md:col-6 col-12">
+                            <div class="lg:col-4 md:col-6 col-12" *ngIf="insuranceId!='100028'">
                                 <b>{{'MOTORQUOTE.District' | translate}}</b>
                                 <p>{{customerDetails.StateName}}</p>
                             </div>
@@ -255,15 +263,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="lg:col-2 md:col-2 col-3" *ngIf="insuranceId=='100004' || insuranceId=='100040'">
+                                <div class="lg:col-2 md:col-2 col-3" *ngIf="insuranceId=='100004' || insuranceId=='100040' || insuranceId=='100046' || insuranceId=='100047'|| insuranceId=='100048' || insuranceId=='100049' || insuranceId=='100050'">
                                     <label for="username" *ngIf="insuranceId=='100040'">{{'QUOTEGRID.NoOfMonths' | translate}}</label>
                                     <label for="username" *ngIf="insuranceId=='100004'">{{'QUOTEGRID.NoOfDays' | translate}}</label>
+                                    <label for="username" *ngIf="insuranceId == '100046' || insuranceId=='100047'|| insuranceId=='100048' || insuranceId=='100049' || insuranceId=='100050'">{{'QUOTEGRID.InsuredPeriod' | translate}}</label>
                                     <p-dropdown inputId="noOfDays" class="w-full" styleClass="w-full" [options]="noOfDaysList"
                                         [(ngModel)]="noOfDays" (onChange)="onNoOfDaysChange('change')"
                                         [optionLabel]="getDisplayName()" optionValue="Code">
                                     </p-dropdown>
                                 </div>
-                                <div class="lg:col-2 md:col-2 col-3" *ngIf="insuranceId!='100004'">
+                                <div class="lg:col-2 md:col-2 col-3" *ngIf="insuranceId!='100004' && insuranceId!='100046' && insuranceId!='100047' && insuranceId!='100048' && insuranceId!='100049' && insuranceId!='100050'">
                                     <label for="username">{{'QUOTEGRID.PolicyEndDate' | translate}}</label>
                                     <p-calendar class="w-full" styleClass="w-full" [(ngModel)]="policyEndDate"
                                         (onSelect)="onChangeEndDate()" dateFormat="dd/mm/yy" [disabled]="(endorsementSection && !enablePolicyStart) || (checkDisableField() && !checkDatesDisabled()) || (insuranceId=='100004' || insuranceId=='100040')"
@@ -297,7 +306,7 @@
                                     <input pInputText id="username" class="w-full" styleClass="w-full" maxlength="50" [(ngModel)]="promocode" [disabled]="(endorsementSection) || checkDisableField()"
                                         (change)="onCommonDetailsChange()" [placeholder]="'MOTORQUOTE.EnterPromoCode' | translate" />
                                 </div>
-                                <div class="lg:col-2 md:col-2 col-3">
+                                <div class="lg:col-2 md:col-2 col-3" *ngIf="insuranceId=='100040'">
                                     <label for="username">{{'MOTORQUOTE.QuoteExpiryDate' | translate}}</label>
                                     <input pInputText id="username" class="w-full" styleClass="w-full" maxlength="50" [(ngModel)]="quoteExpiryDate" [disabled]="(endorsementSection) || checkDisableField()"
                                         (change)="onCommonDetailsChange()" [placeholder]="'MOTORQUOTE.EnterQuoteExpiryDate' | translate" />
@@ -326,11 +335,11 @@
                                     <h3>{{'MOTORQUOTE.MotorDetails' | translate}}</h3> 
                                 </div>
                                 <div class="lg:col-6 md:col-6 col-12 flex flex-wrap justify-content-end">
-                                    <ng-container *ngIf="veh.SavedFrom!='API'">
-                                        <p-button [label]="'MOTORQUOTE.Edit' | translate" *ngIf="!endorsementSection || (endorsementSection && enableAddVehicle && vehicleDetails?.EndorsementYn=='Y')" icon="pi pi-pencil" size="small"
+                                    <ng-container *ngIf="veh.SavedFrom!='API' || insuranceId!='100002'">
+                                        <p-button [label]="'MOTORQUOTE.Edit' | translate" *ngIf="(!endorsementSection || (endorsementSection && enableAddVehicle && vehicleDetails?.EndorsementYn=='Y')) && veh.SavedFrom!='API'" icon="pi pi-pencil" size="small"
                                             (click)="EditData(veh)"></p-button>&nbsp;
                                     </ng-container>
-                                    <p-button *ngIf="!endorsementSection || (endorsementSection && enableRemoveVehicle)" styleClass="p-button-outlined" [label]="'MOTORQUOTE.Delete' | translate" icon="pi pi-trash"
+                                    <p-button *ngIf="(!endorsementSection || (endorsementSection && enableRemoveVehicle)) && finalizeYN != 'Y'" styleClass="p-button-outlined" [label]="'MOTORQUOTE.Delete' | translate" icon="pi pi-trash"
                                         (click)="onDelete(veh)" size="small"></p-button>
                                 </div>
                             </div>
@@ -426,13 +435,21 @@
                         <div class="lg:col-6 md:col-6 col-12">
                             <h3 *ngIf="insuranceId=='100040' || this.insuranceId=='100042'">{{'MOTORQUOTE.QuoteDetails' | translate}}</h3>
                             <h3 *ngIf="insuranceId!='100040' && this.insuranceId!='100042'">{{'MOTORQUOTE.InsuredDetails' | translate}}</h3>
-                            <ng-container *ngIf="insuranceId=='100027' || insuranceId=='100040' || insuranceId=='100044' || this.insuranceId=='100042' || insuranceId=='100002' || insuranceId=='100028' || insuranceId=='100018' || insuranceId=='100019' || insuranceId=='100020' || insuranceId=='100004'">
+                            <ng-container *ngIf="insuranceId=='100027' || insuranceId=='100040' || insuranceId=='100044' || this.insuranceId=='100042' || insuranceId=='100002' || insuranceId=='100028' || insuranceId=='100018' || insuranceId=='100019' || insuranceId=='100020' || insuranceId=='100004' || insuranceId == '100046' || insuranceId=='100047'|| insuranceId=='100048' || insuranceId=='100049' || insuranceId=='100050'">
                                 <ng-container *ngIf="!hideSection">
                                     <ng-container *ngFor="let step of fields">
                                         <form [formGroup]="form">
                                             <formly-form [form]="form" [fields]="step.fieldGroup" [model]="productItem"></formly-form>
                                         </form>
                                     </ng-container>
+                                    <div class="input-form-error" >
+                                        <div class="error-text text-danger" *ngIf="insuranceTypeError">Please Select Insurance Type<br></div>
+                                        <div class="error-text text-danger" *ngIf="paCoverIdError">Please Select Motor Passenger Injury<br></div>
+                                        <div class="error-text text-danger" *ngIf="NoOfPassengerError">Please Enter Valid No Of Passenger<br></div>
+                                        <div class="error-text text-danger" *ngIf="maleCountError">Please Enter Valid No Of Male<br></div>
+                                        <div class="error-text text-danger" *ngIf="femaleCountError">Please Enter Valid No Of Female<br></div>
+                                        <div class="error-text text-danger" *ngIf="countError">Mismatch between No Of Passenger & Male,Female Count<br></div>
+                                    </div>
                                 </ng-container>
                             </ng-container>
                             <h3 class="mt-0">{{'MOTORQUOTE.CollateralDetails' | translate}}</h3>
@@ -467,32 +484,32 @@
                                     <label for="payeeName">{{'MOTORQUOTE.FirstLossPayeeName' | translate}}&nbsp;<span class="">*</span></label>
                                     <input pInputText id="payeeName" maxlength="50" [disabled]="(endorsementSection && !enableCollateralDetails) || checkDisableField()" [(ngModel)]="firstLossPayee" />
                                 </div>
-                                <div class="col-12 lg:col-4 md:col-4 xl:col-4">
+                                <div class="col-12 lg:col-4 md:col-4 xl:col-4" *ngIf="insuranceId!='100028'">
                                     <label for="LoanStartDate">{{'MOTORQUOTE.LoanStartDate' | translate}}</label>
                                     <p-calendar class="w-full" id="LoanStartDate" styleClass="w-full" 
                                         [(ngModel)]="LoanStartDate" dateFormat="dd/mm/yy">
                                     </p-calendar>
                                 </div>
-                                <div class="col-12 lg:col-4 md:col-4 xl:col-4">
+                                <div class="col-12 lg:col-4 md:col-4 xl:col-4" *ngIf="insuranceId!='100028'">
                                     <label for="LoanEndDate">{{'MOTORQUOTE.LoanEndDate' | translate}}</label>
                                     <p-calendar class="w-full" id="LoanEndDate" styleClass="w-full" 
                                         [(ngModel)]="LoanEndDate" dateFormat="dd/mm/yy">
                                     </p-calendar>
                                 </div>
-                                <div class="col-12 lg:col-4 md:col-4 xl:col-4">
+                                <div class="col-12 lg:col-4 md:col-4 xl:col-4" *ngIf="insuranceId!='100028'">
                                     <label for="LoanAmount">{{'MOTORQUOTE.LoanAmount' | translate}}&nbsp;<span class=""></span></label>
                                     <input pInputText id="LoanAmount" maxlength="50" [disabled]="(endorsementSection && !enableCollateralDetails) || checkDisableField()" [(ngModel)]="LoanAmount" />
                                 </div>
                                 
-                                <div class="col-12 lg:col-4 md:col-4 xl:col-4">
+                                <div class="col-12 lg:col-4 md:col-4 xl:col-4" *ngIf="insuranceId!='100028'">
                                     <label for="CollateralCompanyName">{{'MOTORQUOTE.CollateralCompanyName' | translate}}&nbsp;<span class=""></span></label>
                                     <input pInputText id="CollateralCompanyName" maxlength="50" [disabled]="(endorsementSection && !enableCollateralDetails) || checkDisableField()" [(ngModel)]="CollateralCompanyName" />
                                 </div>
-                                <div class="col-12 lg:col-4 md:col-4 xl:col-4">
+                                <div class="col-12 lg:col-4 md:col-4 xl:col-4" *ngIf="insuranceId!='100028'">
                                     <label for="CollateralCompanyAddress">{{'MOTORQUOTE.CollateralCompanyAddress' | translate}}&nbsp;<span class=""></span></label>
                                     <input pInputText id="CollateralCompanyAddress" maxlength="50" [disabled]="(endorsementSection && !enableCollateralDetails) || checkDisableField()" [(ngModel)]="CollateralCompanyAddress" />
                                 </div>
-                                <div class="col-12 lg:col-4 md:col-4 xl:col-4">
+                                <div class="col-12 lg:col-4 md:col-4 xl:col-4" *ngIf="insuranceId!='100028'">
                                     <label for="BankingDelegation">{{'MOTORQUOTE.BankingDelegation' | translate}}&nbsp;<span class=""></span></label>
                                     <input pInputText id="BankingDelegation" maxlength="50" [disabled]="(endorsementSection && !enableCollateralDetails) || checkDisableField()" [(ngModel)]="BankingDelegation" />
                                 </div>
@@ -503,36 +520,37 @@
                                     <div class="grid">
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="driverName2">{{'MOTORQUOTE.DriverName' | translate}}&nbsp;<span class="text-danger">*</span></label><br>
-                                            <input pInputText id="driverName2" class="w-full" styleClass="w-full" maxlength="50" [(ngModel)]="driverName" />
+                                            <input pInputText id="driverName2" class="w-full" styleClass="w-full" maxlength="50" [disabled]="(endorsementSection) || checkDisableField()" [(ngModel)]="driverName" />
                                         </div>
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="licenseNo2">{{'MOTORQUOTE.LicenseNumber' | translate}}&nbsp;<span class="text-danger">*</span></label><br>
-                                            <input pInputText id="licenseNo2" class="w-full" styleClass="w-full" maxlength="50" [(ngModel)]="licenseNo" />
+                                            <input pInputText id="licenseNo2" class="w-full" styleClass="w-full" maxlength="50" [disabled]="(endorsementSection) || checkDisableField()" [(ngModel)]="licenseNo" />
                                         </div>
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="DrivingExperience2">{{'MOTORQUOTE.DrivingExperience' | translate}}&nbsp;<span class="text-danger">*</span></label><br>
-                                            <input pInputText id="DrivingExperience2" class="w-full" styleClass="w-full" maxlength="3" [(ngModel)]="driveExperience" />
+                                            <input pInputText id="DrivingExperience2" class="w-full" styleClass="w-full" maxlength="3" [disabled]="(endorsementSection) || checkDisableField()" [(ngModel)]="driveExperience" />
                                         </div>
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
-                                            <label for="Dob2">{{'MOTORQUOTE.DateOfBirth' | translate}}</label>
-                                            <p-calendar class="w-full" id="Dob2" styleClass="w-full" [maxDate]="minDobDate"
+                                            <label for="Dob2">{{'MOTORQUOTE.DateOfBirth' | translate}} </label>
+                                            <p-calendar class="w-full" id="Dob2" styleClass="w-full" [maxDate]="minDobDate" [disabled]="(endorsementSection) || checkDisableField()"
                                                 [(ngModel)]="driverDob" dateFormat="dd/mm/yy">
                                             </p-calendar>
                                         </div>
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="martialStatus2">{{'MOTORQUOTE.MartialStatus' | translate}}</label><span class="text-danger">*</span>
-                                            <p-dropdown inputId="martialStatus2" class="w-full" styleClass="w-full" [options]="martialList" [(ngModel)]="martialStatus"  optionLabel="CodeDesc" optionValue="Code" [placeholder]="'MOTORQUOTE.Selectt' | translate">
+                                            <p-dropdown inputId="martialStatus2" class="w-full" styleClass="w-full" [options]="martialList" [(ngModel)]="martialStatus" [disabled]="(endorsementSection) || checkDisableField()"  optionLabel="CodeDesc" optionValue="Code" [placeholder]="'MOTORQUOTE.Selectt' | translate">
                                             </p-dropdown>
                                         </div>
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4" *ngIf="insuranceId=='100028'">
                                             <label for="claimType2">{{'MOTORQUOTE.ClaimType' | translate}}</label><span class="text-danger">*</span>
-                                            <p-dropdown inputId="claimType2" class="w-full" styleClass="w-full" [options]="claimTypeList" [(ngModel)]="claimTypeValue" optionLabel="CodeDesc" optionValue="Code" [placeholder]="'MOTORQUOTE.Selectt' | translate">
+                                            <p-dropdown inputId="claimType2" class="w-full" styleClass="w-full" [options]="claimTypeList" [(ngModel)]="claimTypeValue" [disabled]="(endorsementSection) || checkDisableField()" optionLabel="CodeDesc" optionValue="Code" [placeholder]="'MOTORQUOTE.Selectt' | translate">
                                             </p-dropdown>
                                         </div>
+                                       
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="driverType2">{{'MOTORQUOTE.DriverType' | translate}}</label>
                                             <div class="flex justify-content-start gap-3">
-                                                <p-selectButton [options]="driverOptions" [(ngModel)]="driverType" id="driverType2"
+                                                <p-selectButton [options]="driverOptions" [disabled]="(endorsementSection) || checkDisableField()" [(ngModel)]="driverType" id="driverType2"
                                                 optionLabel="label" optionValue="value"></p-selectButton>
                                                 <!-- <div class="flex align-items-center">
                                                    
@@ -550,7 +568,7 @@
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="gender2">{{'MOTORQUOTE.Gender' | translate}}</label>
                                             <div class="flex justify-content-start gap-3">
-                                                <p-selectButton [options]="genderOptions" [(ngModel)]="gender" id="gender2"
+                                                <p-selectButton [options]="genderOptions" [disabled]="(endorsementSection) || checkDisableField()" [(ngModel)]="gender" id="gender2"
                                                 optionLabel="label" optionValue="value"></p-selectButton>
                                                 <!-- <div class="flex align-items-center">
                                                     <p-radioButton name="gender" value="M" [(ngModel)]="gender"
@@ -574,7 +592,7 @@
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="username">{{'MOTORQUOTE.DriverType' | translate}}</label>
                                             <div class="flex justify-content-start gap-3">
-                                                <p-selectButton [options]="driverOptions" [(ngModel)]="driverType" id="DriverType1"
+                                                <p-selectButton [options]="driverOptions" [disabled]="(endorsementSection) || checkDisableField()" [(ngModel)]="driverType" id="DriverType1"
                                                 optionLabel="label" optionValue="value"></p-selectButton>
                                                 <!-- <div class="flex align-items-center">
                                                     <p-radioButton name="Yes" value="2" [(ngModel)]="driverType"
@@ -595,7 +613,7 @@
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="gender1">{{'MOTORQUOTE.Gender' | translate}}</label>
                                             <div class="flex justify-content-start gap-3">
-                                                <p-selectButton [options]="genderOptions" [(ngModel)]="gender" id="gender1"
+                                                <p-selectButton [options]="genderOptions" [disabled]="(endorsementSection) || checkDisableField()" [(ngModel)]="gender" id="gender1"
                                                 optionLabel="label" optionValue="value"></p-selectButton>
                                                 <!-- <div class="flex align-items-center">
                                                     <p-radioButton name="gender" value="M" [(ngModel)]="gender"
@@ -611,11 +629,14 @@
                                         </div>
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="Dob1">{{'MOTORQUOTE.DateOfBirth' | translate}}</label>
-                                              <mat-form-field class="example-full-width">
-                                                    <input matInput [matDatepicker]="picker" [(ngModel)]="driverDob" [max]="minDobDate" id="Dob1">
-                                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                                    <mat-datepicker #picker></mat-datepicker>
-                                              </mat-form-field>
+                                                <fieldset [disabled]="(endorsementSection) || checkDisableField()">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput [matDatepicker]="picker" [disabled]="(endorsementSection) || checkDisableField()" [(ngModel)]="driverDob" [max]="minDobDate" id="Dob1">
+                                                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                                        <mat-datepicker #picker [disabled]="(endorsementSection) || checkDisableField()"></mat-datepicker>
+                                                    </mat-form-field>
+                                                </fieldset>
+                                             
                                             <!-- <p-calendar class="w-full" styleClass="w-full" [maxDate]="minDobDate"
                                                 [(ngModel)]="driverDob"
                                                 dateFormat="dd/mm/yy" placeholder="Select Date Of Birth">
@@ -623,21 +644,22 @@
                                         </div>
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="licenseNo1">{{'MOTORQUOTE.LicenseNumber' | translate}}&nbsp;<span class="text-danger">*</span></label><br>
-                                            <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" maxlength="14" [(ngModel)]="licenseNo"  />
+                                            <input pInputText id="licenseNo1" class="w-full" styleClass="w-full" [disabled]="(endorsementSection) || checkDisableField()" maxlength="14" [(ngModel)]="licenseNo"  />
                                         </div>
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="DrivingExperience1">{{'MOTORQUOTE.DrivingExperience' | translate}}&nbsp;<span class="text-danger">*</span></label><br>
-                                            <input pInputText id="DrivingExperience1" class="w-full" styleClass="w-full" maxlength="3" [(ngModel)]="driveExperience"  />
+                                            <input pInputText id="DrivingExperience1" class="w-full" styleClass="w-full" [disabled]="(endorsementSection) || checkDisableField()" maxlength="3" [(ngModel)]="driveExperience"  />
                                         </div>
+                                        
                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="State1">State</label><span class="text-danger">*</span>
-                                            <p-dropdown inputId="State1" class="w-full" styleClass="w-full" [options]="stateList" [(ngModel)]="stateValue" (onChange)="getDistrictList('change',null,null)"  optionLabel="CodeDesc" optionValue="Code" [placeholder]="'MOTORQUOTE.Selectt' | translate">
+                                            <p-dropdown inputId="State1" class="w-full" styleClass="w-full" [disabled]="(endorsementSection) || checkDisableField()" [options]="stateList" [(ngModel)]="stateValue" (onChange)="getDistrictList('change',null,null)"  optionLabel="CodeDesc" optionValue="Code" [placeholder]="'MOTORQUOTE.Selectt' | translate">
                                             </p-dropdown>
                                             
                                         </div>
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="City1">{{'MOTORQUOTE.City' | translate}}</label><span class="text-danger">*</span>
-                                            <p-dropdown inputId="City1" class="w-full" styleClass="w-full" [options]="districtList" [(ngModel)]="cityCode" (onChange)="getSubUrbanList('change')" optionLabel="CodeDesc" optionValue="Code" [placeholder]="'MOTORQUOTE.Selectt' | translate">
+                                            <p-dropdown inputId="City1" class="w-full" styleClass="w-full" [disabled]="(endorsementSection) || checkDisableField()" [options]="districtList" [(ngModel)]="cityCode" (onChange)="getSubUrbanList('change')" optionLabel="CodeDesc" optionValue="Code" [placeholder]="'MOTORQUOTE.Selectt' | translate">
                                             </p-dropdown>
                                         </div>
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
@@ -648,12 +670,17 @@
                                        
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4" *ngIf="insuranceId=='100028'">
                                             <label for="ClaimType1">{{'MOTORQUOTE.ClaimType' | translate}}</label><span class="text-danger">*</span>
-                                            <p-dropdown inputId="ClaimType1" class="w-full" styleClass="w-full" [options]="claimTypeList" [(ngModel)]="claimTypeValue" optionLabel="CodeDesc" optionValue="Code" [placeholder]="'MOTORQUOTE.Selectt' | translate">
+                                            <p-dropdown inputId="ClaimType1" class="w-full" styleClass="w-full" [disabled]="(endorsementSection) || checkDisableField()" [options]="claimTypeList" [(ngModel)]="claimTypeValue" optionLabel="CodeDesc" optionValue="Code" [placeholder]="'MOTORQUOTE.Selectt' | translate">
+                                            </p-dropdown>
+                                        </div>
+                                        <div class="col-12 lg:col-4 md:col-4 xl:col-4">
+                                            <label for="claimType2">{{'MOTORQUOTE.ClaimExperience' | translate}}</label><span class="text-danger">*</span>
+                                            <p-dropdown inputId="claimType2" class="w-full" styleClass="w-full" [disabled]="(endorsementSection) || checkDisableField()" [options]="claimExperienceList" [(ngModel)]="productItem.ClaimExperience" optionLabel="CodeDesc" optionValue="Code" [placeholder]="'MOTORQUOTE.Selectt' | translate">
                                             </p-dropdown>
                                         </div>
                                         <div class="col-12 lg:col-4 md:col-4 xl:col-4">
                                             <label for="MartialStatus1">{{'MOTORQUOTE.MartialStatus' | translate}}</label><span class="text-danger">*</span>
-                                            <p-dropdown inputId="MartialStatus1" class="w-full" styleClass="w-full" [options]="martialList" [(ngModel)]="martialStatus"  optionLabel="CodeDesc" optionValue="Code" [placeholder]="'MOTORQUOTE.Selectt' | translate">
+                                            <p-dropdown inputId="MartialStatus1" class="w-full" styleClass="w-full" [disabled]="(endorsementSection) || checkDisableField()" [options]="martialList" [(ngModel)]="martialStatus"  optionLabel="CodeDesc" optionValue="Code" [placeholder]="'MOTORQUOTE.Selectt' | translate">
                                             </p-dropdown>
                                         </div>
                                     </div>

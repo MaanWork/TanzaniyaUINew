@@ -181,6 +181,106 @@
         <b>No Document Available</b>
     </div>
 </ng-container>
+<ng-container *ngIf="productId=='19'">
+    <div class="flex flex-wrap justify-content-between">
+        <div><h2>Co Insurance Details</h2></div>
+        <div>
+            <p-button styleClass="p-button-outlined" label="Add New" size="small" (click)="onAddCoInsurance()"></p-button>&nbsp;
+        </div>
+    </div>
+    <div class="grid">
+        <div class="col-12 md:col-12 lg:col-12 xl:col-12">
+            <p-table #dtEmployeeExist [value]="coInsuranceData" 
+                [tableStyle]="{'min-width':'50rem'}" rows="5" [totalRecords]="totalQuoteRecords" dataKey="RequestReferenceNo">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th [pSortableColumn]="column" *ngFor="let column of columnsHeader">{{column}} <p-sortIcon [field]="column"></p-sortIcon></th>
+                    </tr>
+                </ng-template>
+                <tr> 
+                    <th *ngFor="let col of cols"> 
+                        <input pInputText type="text" (input)= 
+                        "tableref.filter($event.target.value, col.field, col.filterMatchMode)" /> 
+                    </th> 
+                </tr>
+                <ng-template pTemplate="body" let-entry let-i="rowIndex">
+                    <tr>
+                        <td>
+                            <p-dropdown class="w-full" styleClass="w-full" placeholder="Select Company Name"
+                            [(ngModel)]="entry.Insurancecompanyid" [options]="companyList" appendTo="body" optionLabel="CodeDesc" optionValue="Code" />
+                        </td>
+                        <td>
+                            <input pInputText id="sharedPercent" class="w-full" [(ngModel)]="entry.Sharedpercentage" maxlength="3" type="text"
+                                    placeholder="Enter Your Shared Percent" />
+                        </td>
+                        <td>
+                            <p-selectButton [options]="leaderList" [(ngModel)]="entry.Leaderparticipant" id="Leaderparticipant"
+                                                optionLabel="CodeDesc" optionValue="Code"></p-selectButton>
+                        </td>
+                        <td>
+                            <button pButton type="button" icon="pi pi-trash" *ngIf="i!=0" (click)="deleteCoInsuranceRow(i)"
+                            styleClass="p-button-outlined">
+                        </button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table> 
+        </div>
+    </div>
+    <!-- <div class="flex flex-wrap justify-content-between">
+        <div><h2>Claim Experience Details</h2></div>
+        <div>
+            <p-button styleClass="p-button-outlined" label="Add New" size="small" (click)="onAddClaimExperience()"></p-button>&nbsp;
+        </div>
+    </div>
+    <div class="grid">
+        <div class="col-12 md:col-12 lg:col-12 xl:col-12">
+            <p-table #dtEmployeeExist [value]="claimExperienceList" 
+                [tableStyle]="{'min-width':'50rem'}" rows="5" [totalRecords]="totalQuoteRecords" dataKey="RequestReferenceNo">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th [pSortableColumn]="column" *ngFor="let column of columns2">{{column}}</th>
+                    </tr>
+                </ng-template>
+                <tr> 
+                    <th *ngFor="let col of cols"> 
+                        <input pInputText type="text" (input)= 
+                        "tableref.filter($event.target.value, col.field, col.filterMatchMode)" /> 
+                    </th> 
+                </tr>
+                <ng-template pTemplate="body" let-entry let-i="rowIndex">
+                    <tr>
+                        <td>
+                            <p-dropdown class="w-full" styleClass="w-full" placeholder="Select Year"
+                            [(ngModel)]="entry.CLHClaimYear" [options]="yearList" appendTo="body" optionLabel="CodeDesc" optionValue="Code" />
+                        </td>
+                        <td>
+                            <input pInputText id="natureOfLoss" class="w-full" [(ngModel)]="entry.CLHNatureOfLoss" maxlength="500" type="text"
+                                    placeholder="Enter Nature Of Loss" />
+                        </td>
+                        <td>
+                            <p-calendar class="w-full customZIndex customInput" styleClass="w-full customZIndex customInput" appendTo="body" 
+                            [maxDate]="maxDate" [(ngModel)]="entry.CLHDateOfLoss" dateFormat="dd/mm/yy" placeholder="Select Loss Date" ></p-calendar>
+                        </td>
+                        <td>
+                            <input pInputText id="sharedPercent" class="w-full" [(ngModel)]="entry.CLHClaimedAmount" maxlength="15" type="text"
+                                    placeholder="Enter Claimed Amount" />
+                        </td>
+                        <td>
+                            <input pInputText id="sharedPercent" class="w-full" [(ngModel)]="entry.CLHRemarks" maxlength="500" type="text"
+                                    placeholder="Enter Remarks" />
+                        </td>
+                        <td>
+                            <button pButton type="button" icon="pi pi-trash" *ngIf="i!=0" (click)="deleteClaimExperience(i)"
+                            styleClass="p-button-outlined">
+                        </button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table> 
+        </div>
+    </div> -->
+</ng-container>
 <div class="flex flex-wrap justify-content-center">
     <div>
         <p-button [label]="'MOTORQUOTE.Back' | translate" (click)="getBacks()" class="mr-6" styleClass="p-button-outlined" icon="pi pi-chevron-left"></p-button>

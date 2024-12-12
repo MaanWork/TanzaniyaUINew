@@ -653,11 +653,11 @@
                                         </ng-template>
                                     </p-table>
                                 </ng-container>
-                                <ng-container *ngIf="productId!='6'">
+                                <ng-container *ngIf="productId!='6' && productId!='39'">
                                     <div class="grid p-2 mt-3">
                                         <div class="col-12 lg:col-3 xl:col-3"></div>
                                         <div class="col-12 lg:col-5 xl:col-5">
-                                            <ng-container *ngIf="productId=='25' || productId=='16' || productId=='1' || productId=='14' || productId=='15' || productId=='13' || this.productId=='32' || this.productId=='6' || this.productId=='39'">                                            
+                                            <ng-container *ngIf="productId=='25' || productId=='16' || productId=='1' || productId=='14' || productId=='15' || productId=='13' || this.productId=='32' || this.productId=='6'">                                            
                                                 <form [formGroup]="form" *ngIf="productId=='32'">
                                                     <formly-form [form]="form" [fields]="fieldsFidelity" [model]="productItem"></formly-form>
                                                 </form>
@@ -773,36 +773,63 @@
                                         </div>
                                     </div>
                                 </ng-container>
-                                <ng-container *ngIf="productId=='6'">
+                                <ng-container *ngIf="productId=='6' || this.productId=='39'">
                                     <div class="grid p-2 mt-3">
                                         <div class="col-12 lg:col-3 xl:col-3"></div>
                                         <div class="col-12 lg:col-5 xl:col-5">
-                                                    <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)" [appendTo]="body">
-                                                        <formly-form [form]="form" [fields]="fields" [model]="productItem" ></formly-form>
-                                                    </form>
-                                                    <div class="input-form-error" *ngIf="firstSIError || coveringDetailsError || descriptionRiskError || coveringDetailsBIError || DescriptionOfRiskBIError || sumInsuredError || OccupationError || sectionError || fireSIError || businessNameError || businessSIError" style="position: relative;">
-                                                        <div class="error-text text-danger">
-                                                            <span class="spancommon span_font_size" *ngIf="OccupationError">Please Select Valid Occupation<br></span>
-                                                            <span class="spancommon span_font_size" *ngIf="sectionError">Please Select Valid IndustryCover<br></span>
-                                                            <span class="spancommon span_font_size" *ngIf="fireSIError">Please Enter Valid SumInsured<br></span>
-                                                            <span class="spancommon span_font_size" *ngIf="businessNameError">Please Select Valid Business Interruption<br></span>
-                                                            <span class="spancommon span_font_size" *ngIf="businessSIError">Please Enter Valid Business SumInsured<br></span>
-                                                            <span class="spancommon span_font_size" *ngIf="firstSIError">Please Select Valid Fire SumInsured<br></span>
-                                                            <span class="spancommon span_font_size" *ngIf="coveringDetailsError">Please Enter Covering Details<br></span>
-                                                            <span class="spancommon span_font_size" *ngIf="descriptionRiskError"> Please Enter Description<br></span>
-                                                            <span class="spancommon span_font_size" *ngIf="coveringDetailsBIError">Please Enter Business Interruption Covering Details<br></span>
-                                                            <span class="spancommon span_font_size" *ngIf="DescriptionOfRiskBIError"> Please Enter Business Interruption Description<br></span>
-                                                            <span class="spancommon span_font_size" *ngIf="sumInsuredError"> Please Enter Valid SumInsured<br></span>
-                                                            <span class="spancommon span_font_size" *ngIf="regionError">Please Select Valid Region<br></span>
-                                                            <span class="spancommon span_font_size" *ngIf="districtError">Please Select Valid District<br></span>
-                                                        </div>
-                                                    </div>
+                                            <form [formGroup]="form" (ngSubmit)="onSubmit(productItem)" [appendTo]="body">
+                                                <formly-form [form]="form" [fields]="fields" [model]="productItem" ></formly-form>
+                                            </form>
+                                            <div class="input-form-error" *ngIf="firstSIError || coveringDetailsError || descriptionRiskError || coveringDetailsBIError || DescriptionOfRiskBIError || sumInsuredError || OccupationError || sectionError || fireSIError || businessNameError || businessSIError" style="position: relative;">
+                                                <div class="error-text text-danger">
+                                                    <span class="spancommon span_font_size" *ngIf="OccupationError">Please Select Valid Occupation<br></span>
+                                                    <span class="spancommon span_font_size" *ngIf="sectionError">Please Select Valid IndustryCover<br></span>
+                                                    <span class="spancommon span_font_size" *ngIf="fireSIError">Please Enter Valid SumInsured<br></span>
+                                                    <span class="spancommon span_font_size" *ngIf="businessNameError">Please Select Valid Business Interruption<br></span>
+                                                    <span class="spancommon span_font_size" *ngIf="businessSIError">Please Enter Valid Business SumInsured<br></span>
+                                                    <span class="spancommon span_font_size" *ngIf="firstSIError">Please Select Valid Fire SumInsured<br></span>
+                                                    <span class="spancommon span_font_size" *ngIf="coveringDetailsError">Please Enter Covering Details<br></span>
+                                                    <span class="spancommon span_font_size" *ngIf="descriptionRiskError"> Please Enter Description<br></span>
+                                                    <span class="spancommon span_font_size" *ngIf="coveringDetailsBIError">Please Enter Business Interruption Covering Details<br></span>
+                                                    <span class="spancommon span_font_size" *ngIf="DescriptionOfRiskBIError"> Please Enter Business Interruption Description<br></span>
+                                                    <span class="spancommon span_font_size" *ngIf="sumInsuredError"> Please Enter Valid SumInsured<br></span>
+                                                    <span class="spancommon span_font_size" *ngIf="regionError">Please Select Valid Region<br></span>
+                                                    <span class="spancommon span_font_size" *ngIf="districtError">Please Select Valid District<br></span>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="firstLossSection">
+                                                <div class="flex flex-warp justify-content-end" >
+                                                    <p-button  label="Add New" size="small" (click)="addFirstLossPayee()"></p-button>
+                                                </div>
+                                                <p-table [value]="firstLossPayeeList" dataKey="LocationListAlt" editMode="row" [rows]="10" [paginator]="false" [tableStyle]="{'min-width': '40rem'}" >
+                                                    <ng-template pTemplate="header">
+                                                        <tr>
+                                                            <th [pSortableColumn]="column" *ngFor="let column of firstLossColumns">
+                                                                {{column}}
+                                                            </th>
+                                                        </tr>
+                                                    </ng-template>
+                                                    <ng-template pTemplate="body" let-payee let-ri="rowIndex">
+                                                        <tr>
+                                                            <td>
+                                                                <input class="w-full p-button-outlined" placeholder="Enter Payee Name" [(ngModel)]="payee.FirstLossPayeeDesc" styleClass="w-full"  pInputText type="text" />
+                                                            </td>
+                                                            <td>
+                                                                <ng-container  *ngIf="ri!=0">
+                                                                    <div class="flex align-items-center justify-content-center gap-2" >
+                                                                        <button  pButton type="button"  icon="pi pi-trash"  (click)="onDeleteFistLoss(ri)" 
+                                                                            styleClass="p-button-outlined" >
+                                                                        </button>
+                                                                    </div>
+                                                                </ng-container>
+                                                            </td>
+                                                        </tr>
+                                                    </ng-template>
+                                                </p-table>
+                                            </div>
                                         </div>
-                                        
                                     </div>
-                                    
                                 </ng-container>
-                                
                                 <div class="grid" *ngIf="uwQuestionList.length!=0">
                                     <div class="grid justify-content-start">
                                         <div class="mb-1 "> 
@@ -1388,16 +1415,15 @@
         <p-button label="Next" size="small" *ngIf="productId=='46' && currentIndex!=totalIndex" (click)="onFormSubmit('Next')"></p-button>
     </div>
     <div class="flex justify-content-center mt-3" *ngIf="productId=='1' || productId=='6' || productId=='39' || productId=='43' || productId=='46' || productId=='16' 
-    || productId=='42' || productId=='21' || productId=='14' || productId=='15' || productId=='59' || productId=='60'  || productId=='66'
+    || productId=='42' || productId=='21' || productId=='14' || productId=='15' || productId=='59' || productId=='60'  || productId=='66' || productId=='67' || productId=='68'
     || productId=='57' || productId=='56' || productId=='26' || productId=='25' || productId=='13' || this.productId=='27' 
     || productId=='24' || productId=='19' || productId=='32'|| productId=='61' || productId=='63'" >
-        
         <p-button  styleClass="p-button-outlined" label="Back"
             size="small" (click)="getBackRoute()" routerLinkActive="router-link-active" ></p-button>&nbsp;
         <p-button *ngIf="(productId=='61' || productId=='25' || productId=='16' || productId=='1' || productId=='14' || productId=='13' || productId=='32' || productId=='39' ||  this.productId=='6') && tabIndex!=0"  label="Previous" size="small" styleClass="p-button-outlined" (click)="tabBack()"></p-button>&nbsp;&nbsp;
             <p-button *ngIf="productId=='46' && (!endorsementSection || (endorsementSection && enableAddVehicle))" label="Save & Add New" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;
         <p-button label="Next" *ngIf="(productId!='46' && productId!='63' && LocationListAlt.length>1) && (tabIndex!=LocationListAlt.length-1)" size="small" (click)="onSubmit('proceedNext')"></p-button>&nbsp;
-        <p-button label="Proceed" *ngIf="(productId!='46' && LocationListAlt.length!=0 && checkLocationDetail()) || productId=='46' || productId=='63' || productId=='59' || productId=='66' || productId=='19'" size="small" (click)="onSubmit(null)"></p-button>
+        <p-button label="Proceed" *ngIf="(productId!='46' && LocationListAlt.length!=0 && checkLocationDetail()) || productId=='46' || productId=='63' || productId=='59' || productId=='66' || productId=='67' || productId=='68' || productId=='19'" size="small" (click)="onSubmit(null)"></p-button>
     </div>
 </div>
     

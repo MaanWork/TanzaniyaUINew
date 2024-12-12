@@ -30,12 +30,15 @@ export class CustomerSanlam{
                     type: 'ngselect',
                     id: 'CustomerTitle',
                     key: 'Title',
-                    templateOptions: {
+                    props: {
                       label: `Customer Title`,
                       placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('Title'),
-                      maxLength: 15
+                      maxLength: 15,
+                      options: [
+                        
+                      ],
                     },
                     
                     validators: {
@@ -70,12 +73,15 @@ export class CustomerSanlam{
                     type: 'ngselect',
                     id: 'Gender',
                     key: 'Gender',
-                    templateOptions: {
+                    props: {
                       label: `Gender`,
                       placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('Gender'),
-                      maxLength: 15
+                      maxLength: 15,
+                      options: [
+                        
+                      ],
                     },
                     
                     validators: {
@@ -175,12 +181,15 @@ export class CustomerSanlam{
                     type: 'ngselect',
                     id: 'IdentityType',
                     key: 'PolicyHolderTypeid',
-                    templateOptions: {
+                    props: {
                       label: `Identity Type`,
                       placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('PolicyHolderTypeid'),
-                      maxLength: 15
+                      maxLength: 15,
+                      options: [
+                        
+                      ],
                     },
                     
                     validators: {
@@ -200,7 +209,7 @@ export class CustomerSanlam{
                       placeholder: 'Enter ID Number',
                       required: true,
                       disabled: this.checkDisable('IdNumber'),
-                      maxLength: 50
+                      maxLength: 15 
                     },
                     
                     validators: {
@@ -230,14 +239,14 @@ export class CustomerSanlam{
                   {
                     className: 'col-12 md:col-6 lg:col-6 xl:col-6 pl-2 pr-2 pt-1',
                     type: 'input',
-                    id: 'TaxExcemptedNo',
+                    id: 'NIF',
                     key: 'TaxExemptedId',
                     templateOptions: {
-                      label: `Tax Excempted No`,
-                      placeholder: 'Enter Tax Excempted Number',
+                      label: `NIF`,
+                      placeholder: 'Enter NIF',
                       required: true,
                       disabled: this.checkDisable('TaxExcemptedNo'),
-                      maxLength: 50
+                      maxLength: 15
                     },
                     
                     validators: {
@@ -258,10 +267,10 @@ export class CustomerSanlam{
                       disabled: this.checkDisable('PreferredNotification'),
                       maxLength: 15,
                       options:[
-                        { label: 'Select', value: '','CodeDescLocal':'--Sélectionner--' },
-                        { label: 'SMS', value: 'Sms','CodeDescLocal':'Sms -P' },
-                        { label: 'Mail', value: 'Mail','CodeDescLocal':'E-mail -P' },
-                        { label: 'Whatsapp', value: 'Whatsapp','CodeDescLocal':'Whatsapp -P' }
+                        { label: '--Select--', value: '','CodeDesc': '--Select--','CodeDescLocal':'---Sélectionner---' },
+                        { label: 'SMS', value: 'Sms',CodeDesc: 'SMS','CodeDescLocal':'SMS' },
+                        { label: 'Mail', value: 'Mail', CodeDesc: 'Mail','CodeDescLocal':'Mail' },
+                        { label: 'Whatsapp', value: 'Whatsapp',CodeDesc: 'Whatsapp','CodeDescLocal':'Whatsapp' }
                       ]
                     },
                     
@@ -318,12 +327,15 @@ export class CustomerSanlam{
                     type: 'ngselect',
                     id: 'Country',
                     key: 'Country',
-                    templateOptions: {
+                    props: {
                       label: `Country`,
                       placeholder: '-Select-',
                       required: true,
                       disabled: this.checkDisable('Country'),
-                      maxLength: 15
+                      maxLength: 15,
+                      options: [
+                        
+                      ],
                     },
                     
                     validators: {
@@ -338,11 +350,14 @@ export class CustomerSanlam{
                     type: 'ngselect',
                     id: 'Region',
                     key: 'Region',
-                    templateOptions: {
+                    props: {
                       label: `Region`,
                       required: true,
                       disabled: this.checkDisable('Region'),
-                      maxLength: 15
+                      maxLength: 15,
+                      options: [
+                        
+                      ],
                     },
                     
                     validators: {
@@ -357,11 +372,14 @@ export class CustomerSanlam{
                     type: 'ngselect',
                     id: 'District',
                     key: 'CityName',
-                    templateOptions: {
+                    props: {
                       label: `District`,
                       required: true,
                       disabled: this.checkDisable('District'),
-                      maxLength: 15
+                      maxLength: 15,
+                      options: [
+                        
+                      ],
                     },
                     
                     validators: {
